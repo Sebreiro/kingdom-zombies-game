@@ -63,7 +63,65 @@ Every feature includes its stable identities, host-authoritative validation and 
 3. Running the documented checks accepts compliant examples and rejects deliberate code, architecture, and exemption violations with actionable diagnostics.
 4. A developer or agent can navigate a short root `AGENTS.md` and focused indexes with valid, consistently cased links, and locate enforced gameplay/Godot/service boundaries plus rules for time, randomness, identities, and saveable authoritative state.
 
-**Plans:** TBD
+**Plans:** 18 plans; independently checked, ready for execution.
+**Wave 1**
+- [ ] 01-01-PLAN.md — Pinned native-host toolchain proof
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 01-02-PLAN.md — Trustworthy required-case results
+
+**Wave 3** *(blocked on Wave 2 completion)*
+- [ ] 01-03-PLAN.md — Complete donor capture and rule register
+
+**Wave 4** *(blocked on Wave 3 completion)*
+- [ ] 01-04-PLAN.md — Minimal projects and strict configuration
+
+**Wave 5** *(blocked on Wave 4 completion)*
+- [ ] 01-18-PLAN.md — Compiler verifier and evaluated configuration proofs
+
+**Wave 6** *(blocked on Wave 5 completion)*
+- [ ] 01-05-PLAN.md — Construction and call-site analyzers
+
+**Wave 7** *(blocked on Wave 6 completion)*
+- [ ] 01-06-PLAN.md — Null, size, length, and member-order analyzers
+
+**Wave 8** *(blocked on Wave 7 completion)*
+- [ ] 01-07-PLAN.md — Continuation and declaration analyzers
+
+**Wave 9** *(blocked on Wave 8 completion)*
+- [ ] 01-08-PLAN.md — Actual build and exemption proofs
+
+**Wave 10** *(blocked on Wave 9 completion)*
+- [ ] 01-09-PLAN.md — Evaluated dependency and type boundaries
+
+**Wave 11** *(blocked on Wave 10 completion)*
+- [ ] 01-10-PLAN.md — Controlled time, randomness, and identity
+
+**Wave 12** *(blocked on Wave 11 completion)*
+- [ ] 01-11-PLAN.md — Strict snapshots and atomic restoration
+
+**Wave 13** *(blocked on Wave 12 completion)*
+- [ ] 01-12-PLAN.md — Real engine lifecycle and thread boundary
+
+**Wave 14** *(blocked on Wave 13 completion)*
+- [ ] 01-13-PLAN.md — Canonical guide and documentation checking
+
+**Wave 15** *(blocked on Wave 14 completion)*
+- [ ] 01-14-PLAN.md — Project references and rule bindings
+
+**Wave 16** *(blocked on Wave 15 completion)*
+- [ ] 01-15-PLAN.md — Actual coverage collection and gates
+
+**Wave 17** *(blocked on Wave 16 completion)*
+- [ ] 01-16-PLAN.md — Clean Windows proof and Linux preparation
+
+**Wave 18** *(blocked on Wave 17 completion)*
+- [ ] 01-17-PLAN.md — Genuine Linux proof and reconciliation
+
+**Cross-cutting constraints:** <!-- gsd:generated -->
+- A developer receives actionable inherited analyzer failures while compliant code is accepted (AC-07).
+- Applicable numeric and syntax boundaries preserve the donor's exact semantics (AC-09).
+
 **UI hint:** no
 
 **Delivery boundary:** Adapt the relevant conventions, analyzer/proof patterns, and documentation index from `D:/Work/SaaS/LangProj_monorepo`; do not import its HTTP/database architecture. Resolve the existing `Agents.md` casing consistently on Windows/Linux. The research's engine/.NET, renderer, xUnit/MTP, and Godot-test/VSTest pairings remain candidates until actual compatibility proofs select the baseline; comprehensive game-runner integration is Phase 5. This phase's own rule proofs are required now.
@@ -273,4 +331,3 @@ Execution order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10. Plans
 
 ---
 *Detailed roadmap created and approved: 2026-11-13 (Europe/Paris). Phase 1 is ready for discussion and planning.*
-
