@@ -34,7 +34,8 @@ public sealed class BodyCommentAnalyzerTests
     [Fact, Trait("Case", "rules.bodycomment.Method_TrailingComment_Reports")]
     public Task MethodTrailingCommentReports()
     {
-        return VerifyAsync(caseId: "rules.bodycomment.Method_TrailingComment_Reports", diagnostic: "SCR0002", source: """
+        return VerifyAsync(caseId: "rules.bodycomment.Method_TrailingComment_Reports", diagnostic: "SCR0002",
+                source: """
                 class C
                 {
                     int M()
@@ -51,7 +52,8 @@ public sealed class BodyCommentAnalyzerTests
     [Fact, Trait("Case", "rules.bodycomment.ConstructorAndDestructor_Comments_Report")]
     public Task ConstructorAndDestructorCommentsReport()
     {
-        return VerifyAsync(caseId: "rules.bodycomment.ConstructorAndDestructor_Comments_Report", diagnostic: "SCR0002", source: """
+        return VerifyAsync(caseId: "rules.bodycomment.ConstructorAndDestructor_Comments_Report", diagnostic:
+                "SCR0002", source: """
                 class C
                 {
                     C()
@@ -134,7 +136,8 @@ public sealed class BodyCommentAnalyzerTests
     [Fact, Trait("Case", "rules.bodycomment.LocalFunctionAndLambda_Comments_Report")]
     public Task LocalFunctionAndLambdaCommentsReport()
     {
-        return VerifyAsync(caseId: "rules.bodycomment.LocalFunctionAndLambda_Comments_Report", diagnostic: "SCR0002", source: """
+        return VerifyAsync(caseId: "rules.bodycomment.LocalFunctionAndLambda_Comments_Report", diagnostic:
+                "SCR0002", source: """
                 using System;
 
                 class C
@@ -163,20 +166,12 @@ public sealed class BodyCommentAnalyzerTests
     [Fact, Trait("Case", "rules.bodycomment.FieldInitializerLambda_Comment_Reports")]
     public Task FieldInitializerLambdaCommentReports()
     {
-        return VerifyAsync(caseId: "rules.bodycomment.FieldInitializerLambda_Comment_Reports", diagnostic: "SCR0002", source: """
-                using System;
-
-                class C
-                {
-                    private static readonly Func<int, int> _block = x =>
-                    {
-                        {|SCR0002:// block|}
-                        return x;
-                    };
-
-                    private static readonly Func<int, int> _expression = x => x {|SCR0002:/* expression */|} + 1;
-                }
-                """);
+        return VerifyAsync(caseId: "rules.bodycomment.FieldInitializerLambda_Comment_Reports", diagnostic:
+                "SCR0002", source: ("using System;\n\nclass C\n{\n    private static readonly Fu" +
+                "nc<int, int> _block = x =>\n    {\n        {|SCR0002:// b" +
+                "lock|}\n        return x;\n    };\n\n    private static rea" +
+                "donly Func<int, int> _expression = x => x {|SCR0002:/* " +
+                "expression */|} + 1;\n}"));
     }
 
     /// <summary>A <c>///</c> comment inside a method body is a body comment.</summary>
@@ -184,7 +179,8 @@ public sealed class BodyCommentAnalyzerTests
     [Fact, Trait("Case", "rules.bodycomment.Method_DocumentationComment_Reports")]
     public Task MethodDocumentationCommentReports()
     {
-        return VerifyAsync(caseId: "rules.bodycomment.Method_DocumentationComment_Reports", diagnostic: "SCR0002", source: """
+        return VerifyAsync(caseId: "rules.bodycomment.Method_DocumentationComment_Reports", diagnostic:
+                "SCR0002", source: """
                 class C
                 {
                     int M()
@@ -236,7 +232,8 @@ public sealed class BodyCommentAnalyzerTests
     [Fact, Trait("Case", "rules.bodycomment.PreprocessorDirectives_InBody_Pass")]
     public Task PreprocessorDirectivesInBodyPass()
     {
-        return VerifyAsync(caseId: "rules.bodycomment.PreprocessorDirectives_InBody_Pass", diagnostic: "ANALYZER_ACCEPTED", source: """
+        return VerifyAsync(caseId: "rules.bodycomment.PreprocessorDirectives_InBody_Pass", diagnostic:
+                "ANALYZER_ACCEPTED", source: """
                 class C
                 {
                     int M()
@@ -262,7 +259,7 @@ public sealed class BodyCommentAnalyzerTests
     [Fact, Trait("Case", "rules.bodycomment.GlobalStatements_Comments_Report")]
     public Task GlobalStatementsCommentsReport()
     {
-        return VerifyAsync(caseId: "rules.bodycomment.GlobalStatements_Comments_Report", diagnostic: "SCR0002", 
+        return VerifyAsync(caseId: "rules.bodycomment.GlobalStatements_Comments_Report", diagnostic: "SCR0002",
                 source: """
                         using System;
 
@@ -281,7 +278,8 @@ public sealed class BodyCommentAnalyzerTests
     [Fact, Trait("Case", "rules.bodycomment.GlobalStatements_CommentBeforeType_Passes")]
     public Task GlobalStatementsCommentBeforeTypePasses()
     {
-        return VerifyAsync(caseId: "rules.bodycomment.GlobalStatements_CommentBeforeType_Passes", diagnostic: "ANALYZER_ACCEPTED", 
+        return VerifyAsync(caseId: "rules.bodycomment.GlobalStatements_CommentBeforeType_Passes", diagnostic:
+                "ANALYZER_ACCEPTED",
                 source: """
                         _ = 1;
 
@@ -293,12 +291,14 @@ public sealed class BodyCommentAnalyzerTests
                 outputKind: OutputKind.ConsoleApplication);
     }
 
-    /// <summary>Code marked <c>generated_code = true</c> in an <c>.editorconfig</c> cannot exempt a handwritten subject.</summary>
+    /// <summary>Code marked <c>generated_code = true</c> in an <c>.editorconfig</c> cannot exempt a
+    /// handwritten subject.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.bodycomment.GeneratedConfigurationCannotExemptHandwrittenCode")]
     public Task GeneratedConfigurationCannotExemptHandwrittenCode()
     {
-        return VerifyAsync(caseId: "rules.bodycomment.GeneratedConfigurationCannotExemptHandwrittenCode", diagnostic: "SCR0002", 
+        return VerifyAsync(caseId: "rules.bodycomment.GeneratedConfigurationCannotExemptHandwrittenCode",
+                diagnostic: "SCR0002",
                 source: """
                         class C
                         {
@@ -316,23 +316,18 @@ public sealed class BodyCommentAnalyzerTests
                         """);
     }
 
-    /// <summary>Block XML docs and anonymous-method comments are checked once, including CRLF and first-line spans.</summary>
+    /// <summary>Block XML docs and anonymous-method comments are checked once, including CRLF and first-line
+    /// spans.</summary>
     [Fact, Trait("Case", "rules.bodycomment.block-doc-anonymous")]
     public Task BlockDocumentationAndAnonymousMethodsAreChecked()
     {
-        return VerifyAsync(caseId: "rules.bodycomment.block-doc-anonymous", diagnostic: "SCR0002", source: """
-                class C
-                {
-                    static int Run()
-                    {
-                        {|SCR0002:/** <summary>Local.</summary>|}
-                         */
-                        int Local() { return 1; }
-                        System.Func<int> f = delegate { {|SCR0002:/* body */|} return Local(); };
-                        return f();
-                    }
-                }
-                """.Replace(oldValue: "\n", newValue: "\r\n", comparisonType: System.StringComparison.Ordinal));
+        return VerifyAsync(caseId: "rules.bodycomment.block-doc-anonymous", diagnostic: "SCR0002", source: (
+                "class C\n{\n    static int Run()\n    {\n        {|SCR0002:" +
+                "/** <summary>Local.</summary>|}\n         */\n        int" +
+                " Local() { return 1; }\n        System.Func<int> f = del" +
+                "egate { {|SCR0002:/* body */|} return Local(); };\n     " +
+                "   return f();\n    }\n}").Replace(oldValue: "\n", newValue: "\r\n", comparisonType: System.
+                        StringComparison.Ordinal));
     }
 
     private static Task VerifyAsync(
@@ -340,7 +335,8 @@ public sealed class BodyCommentAnalyzerTests
             string? editorConfig = null,
             OutputKind outputKind = OutputKind.DynamicallyLinkedLibrary)
     {
-        return InheritedAnalyzerVerifier.VerifyAsync(caseId: caseId, diagnostic: diagnostic, analyzerType: "BodyCommentAnalyzer",
+        return InheritedAnalyzerVerifier.VerifyAsync(caseId: caseId, diagnostic: diagnostic, analyzerType:
+                "BodyCommentAnalyzer",
                 source: source,
                 editorConfig: editorConfig,
                 outputKind: outputKind);

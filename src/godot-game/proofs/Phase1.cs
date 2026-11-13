@@ -7,7 +7,6 @@ namespace KingdomZombies.Proofs;
 /// <summary>Provides the minimal actual-engine construction, ready and teardown bootstrap evidence.</summary>
 public partial class Phase1 : Node
 {
-    private readonly string _nonce;
 
     /// <summary>Requires the invocation nonce and emits construction evidence for this engine instance.</summary>
     public Phase1()
@@ -38,6 +37,7 @@ public partial class Phase1 : Node
     {
         WriteEvidence(assertion: "exit");
     }
+    private readonly string _nonce;
 
     private void WriteEvidence(string assertion)
     {

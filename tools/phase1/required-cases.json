@@ -8070,6 +8070,312 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.GeneratedConfigurationCannotExemptHandwrittenCode",
       "expectedDiagnostic": "SCR0008"
+    },
+    {
+      "id": "rules.line.ascii.119",
+      "group": "rules",
+      "rule": "R-10",
+      "owner": "01-06",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Ascii119Utf16Units",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.line.ascii.120",
+      "group": "rules",
+      "rule": "R-10",
+      "owner": "01-06",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Ascii120Utf16Units",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.line.ascii.121",
+      "group": "rules",
+      "rule": "R-10",
+      "owner": "01-06",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Ascii121Utf16Units",
+      "expectedDiagnostic": "SCR0007"
+    },
+    {
+      "id": "rules.line.cyrillic.119",
+      "group": "rules",
+      "rule": "R-10",
+      "owner": "01-06",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Cyrillic119Utf16Units",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.line.cyrillic.120",
+      "group": "rules",
+      "rule": "R-10",
+      "owner": "01-06",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Cyrillic120Utf16Units",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.line.cyrillic.121",
+      "group": "rules",
+      "rule": "R-10",
+      "owner": "01-06",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Cyrillic121Utf16Units",
+      "expectedDiagnostic": "SCR0007"
+    },
+    {
+      "id": "rules.line.surrogate.119",
+      "group": "rules",
+      "rule": "R-10",
+      "owner": "01-06",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Surrogate119Utf16Units",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.line.surrogate.120",
+      "group": "rules",
+      "rule": "R-10",
+      "owner": "01-06",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Surrogate120Utf16Units",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.line.surrogate.121",
+      "group": "rules",
+      "rule": "R-10",
+      "owner": "01-06",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Surrogate121Utf16Units",
+      "expectedDiagnostic": "SCR0007"
+    },
+    {
+      "id": "rules.line.combining.119",
+      "group": "rules",
+      "rule": "R-10",
+      "owner": "01-06",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Combining119Utf16Units",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.line.combining.120",
+      "group": "rules",
+      "rule": "R-10",
+      "owner": "01-06",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Combining120Utf16Units",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.line.combining.121",
+      "group": "rules",
+      "rule": "R-10",
+      "owner": "01-06",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Combining121Utf16Units",
+      "expectedDiagnostic": "SCR0007"
+    },
+    {
+      "id": "rules.null.generated",
+      "group": "rules",
+      "rule": "R-26",
+      "owner": "01-06",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.NullForgivingAnalyzerTests.GeneratedNullSuppressionIsRejected",
+      "expectedDiagnostic": "SCR0005"
+    },
+    {
+      "id": "rules.generated-layout-origin",
+      "group": "rules",
+      "owner": "01-06",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GeneratedLayoutAdapterTests.GeneratedLayoutHasPinnedOrigin",
+      "expectedDiagnostic": "GENERATED_LAYOUT_ORIGIN_EXACT",
+      "rule": "RULE-03"
+    },
+    {
+      "id": "rules.generated-layout-boundary",
+      "group": "rules",
+      "owner": "01-06",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GeneratedLayoutAdapterTests.GeneratedLayoutPermissionsAreBounded",
+      "expectedDiagnostic": "GENERATED_LAYOUT_BOUNDARY_REJECTED",
+      "rule": "RULE-03"
+    },
+    {
+      "id": "rules.line.invalid-utf8",
+      "group": "rules",
+      "owner": "01-06",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GeneratedLayoutAdapterTests.InvalidUtf8CannotBecomeACompliantSubject",
+      "expectedDiagnostic": "SOURCE_ENCODING_INVALID",
+      "rule": "R-10"
+    },
+    {
+      "id": "rules.analyzer-source-consumer",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-06",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.AnalyzerSourceConsumerTests.AnalyzerSourcesPassTheirOwnRules",
+      "expectedDiagnostic": "ANALYZER_SOURCE_CONSUMER_BUILT"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."

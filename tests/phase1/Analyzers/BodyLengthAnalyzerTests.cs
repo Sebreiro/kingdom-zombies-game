@@ -90,7 +90,8 @@ public sealed class BodyLengthAnalyzerTests
     [Fact, Trait("Case", "rules.bodylength.ExpressionBody_60Lines_Passes")]
     public Task ExpressionBody60LinesPasses()
     {
-        return VerifyAsync(caseId: "rules.bodylength.ExpressionBody_60Lines_Passes", diagnostic: "ANALYZER_ACCEPTED", source: $$"""
+        return VerifyAsync(caseId: "rules.bodylength.ExpressionBody_60Lines_Passes", diagnostic:
+                "ANALYZER_ACCEPTED", source: $$"""
                 class C
                 {
                     int P => 0
@@ -121,7 +122,8 @@ public sealed class BodyLengthAnalyzerTests
     [Fact, Trait("Case", "rules.bodylength.ExpressionBodyAfterArrow_60Lines_Passes")]
     public Task ExpressionBodyAfterArrow60LinesPasses()
     {
-        return VerifyAsync(caseId: "rules.bodylength.ExpressionBodyAfterArrow_60Lines_Passes", diagnostic: "ANALYZER_ACCEPTED", source: $$"""
+        return VerifyAsync(caseId: "rules.bodylength.ExpressionBodyAfterArrow_60Lines_Passes", diagnostic:
+                "ANALYZER_ACCEPTED", source: $$"""
                 class C
                 {
                     int P =>
@@ -139,7 +141,8 @@ public sealed class BodyLengthAnalyzerTests
     [Fact, Trait("Case", "rules.bodylength.LambdaAfterArrow_60Lines_Passes")]
     public Task LambdaAfterArrow60LinesPasses()
     {
-        return VerifyAsync(caseId: "rules.bodylength.LambdaAfterArrow_60Lines_Passes", diagnostic: "ANALYZER_ACCEPTED", source: $$"""
+        return VerifyAsync(caseId: "rules.bodylength.LambdaAfterArrow_60Lines_Passes", diagnostic:
+                "ANALYZER_ACCEPTED", source: $$"""
                 using System;
 
                 class C
@@ -159,7 +162,8 @@ public sealed class BodyLengthAnalyzerTests
     [Fact, Trait("Case", "rules.bodylength.LambdaAfterArrow_61Lines_Fails")]
     public Task LambdaAfterArrow61LinesFails()
     {
-        return VerifyAsync(caseId: "rules.bodylength.LambdaAfterArrow_61Lines_Fails", diagnostic: "SCR0006", source: $$"""
+        return VerifyAsync(caseId: "rules.bodylength.LambdaAfterArrow_61Lines_Fails", diagnostic: "SCR0006",
+                source: $$"""
                 using System;
 
                 class C
@@ -263,7 +267,8 @@ public sealed class BodyLengthAnalyzerTests
     [Fact, Trait("Case", "rules.bodylength.Analyze_LocalFunction_CountsTowardEnclosingMember")]
     public Task AnalyzeLocalFunctionCountsTowardEnclosingMember()
     {
-        return VerifyAsync(caseId: "rules.bodylength.Analyze_LocalFunction_CountsTowardEnclosingMember", diagnostic: "SCR0006", source: $$"""
+        return VerifyAsync(caseId: "rules.bodylength.Analyze_LocalFunction_CountsTowardEnclosingMember",
+                diagnostic: "SCR0006", source: $$"""
                 class C
                 {
                     private int _x;
@@ -287,7 +292,7 @@ public sealed class BodyLengthAnalyzerTests
     [Fact, Trait("Case", "rules.bodylength.GlobalStatements_60Lines_Passes")]
     public Task GlobalStatements60LinesPasses()
     {
-        return VerifyAsync(caseId: "rules.bodylength.GlobalStatements_60Lines_Passes", diagnostic: "ANALYZER_ACCEPTED", 
+        return VerifyAsync(caseId: "rules.bodylength.GlobalStatements_60Lines_Passes", diagnostic: "ANALYZER_ACCEPTED",
                 source: $$"""
                         int x = 0;
                         {{Repeat(line: "x++;", count: 59)}}
@@ -302,7 +307,7 @@ public sealed class BodyLengthAnalyzerTests
     [Fact, Trait("Case", "rules.bodylength.GlobalStatements_61Lines_Fails")]
     public Task GlobalStatements61LinesFails()
     {
-        return VerifyAsync(caseId: "rules.bodylength.GlobalStatements_61Lines_Fails", diagnostic: "SCR0006", 
+        return VerifyAsync(caseId: "rules.bodylength.GlobalStatements_61Lines_Fails", diagnostic: "SCR0006",
                 source: $$"""
                         {|SCR0006:int|} x = 0;
                         {{Repeat(line: "x++;", count: 60)}}
@@ -315,7 +320,7 @@ public sealed class BodyLengthAnalyzerTests
     [Fact, Trait("Case", "rules.bodylength.Analyze_GeneratedCode_IsSkipped")]
     public Task GeneratedConfigurationCannotExemptHandwrittenCode()
     {
-        return VerifyAsync(caseId: "rules.bodylength.Analyze_GeneratedCode_IsSkipped", diagnostic: "SCR0006", 
+        return VerifyAsync(caseId: "rules.bodylength.Analyze_GeneratedCode_IsSkipped", diagnostic: "SCR0006",
                 source: $$"""
                         class C
                         {
@@ -339,14 +344,16 @@ public sealed class BodyLengthAnalyzerTests
     [Fact, Trait("Case", "rules.body.59")]
     public Task Method59LinesPasses()
     {
-        return VerifyAsync(caseId: "rules.body.59", diagnostic: "ANALYZER_ACCEPTED", source: "class C { private int _x; void M()\n{\n" + Repeat(line: Statement, count: 59) + "\n} }");
+        return VerifyAsync(caseId: "rules.body.59", diagnostic: "ANALYZER_ACCEPTED", source:
+                "class C { private int _x; void M()\n{\n" + Repeat(line: Statement, count: 59) + "\n} }");
     }
 
     /// <summary>Forty lines is advice, not an additional hard limit.</summary>
     [Fact, Trait("Case", "rules.body.40")]
     public Task Method40LinesPasses()
     {
-        return VerifyAsync(caseId: "rules.body.40", diagnostic: "ANALYZER_ACCEPTED", source: "class C { private int _x; void M()\n{\n" + Repeat(line: Statement, count: 40) + "\n} }");
+        return VerifyAsync(caseId: "rules.body.40", diagnostic: "ANALYZER_ACCEPTED", source:
+                "class C { private int _x; void M()\n{\n" + Repeat(line: Statement, count: 40) + "\n} }");
     }
 
     private const string Statement = "        _x++;";
@@ -356,8 +363,10 @@ public sealed class BodyLengthAnalyzerTests
         return string.Join(separator: "\n", values: Enumerable.Repeat(element: line, count: count));
     }
 
-    private static Task VerifyAsync(string caseId, string diagnostic, string source, string? editorConfig = null, OutputKind outputKind = OutputKind.DynamicallyLinkedLibrary)
+    private static Task VerifyAsync(string caseId, string diagnostic, string source, string? editorConfig = null
+            , OutputKind outputKind = OutputKind.DynamicallyLinkedLibrary)
     {
-        return InheritedAnalyzerVerifier.VerifyAsync(caseId: caseId, diagnostic: diagnostic, analyzerType: "BodyLengthAnalyzer", source: source, editorConfig: editorConfig, outputKind: outputKind);
+        return InheritedAnalyzerVerifier.VerifyAsync(caseId: caseId, diagnostic: diagnostic, analyzerType:
+                "BodyLengthAnalyzer", source: source, editorConfig: editorConfig, outputKind: outputKind);
     }
 }

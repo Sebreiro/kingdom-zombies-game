@@ -19,7 +19,8 @@ public sealed class PrimaryConstructorAnalyzer : DiagnosticAnalyzer
     public static readonly DiagnosticDescriptor Rule = new(
             id: DiagnosticId,
             title: "No primary constructors",
-            messageFormat: "Replace the primary constructor with an ordinary constructor that assigns fields",
+            messageFormat: ("Replace the primary constructor with an ordinary constr" +
+                "uctor that assigns fields"),
             category: "Sebreiro.CodeRules",
             defaultSeverity: DiagnosticSeverity.Error,
             isEnabledByDefault: true);
@@ -30,7 +31,8 @@ public sealed class PrimaryConstructorAnalyzer : DiagnosticAnalyzer
     /// <inheritdoc />
     public override void Initialize(AnalysisContext context)
     {
-        context.ConfigureGeneratedCodeAnalysis(analysisMode: GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
+        context.ConfigureGeneratedCodeAnalysis(analysisMode: GeneratedCodeAnalysisFlags.Analyze |
+                GeneratedCodeAnalysisFlags.ReportDiagnostics);
         context.EnableConcurrentExecution();
         context.RegisterSyntaxNodeAction(
                 action: AnalyzeType,
