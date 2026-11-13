@@ -333,7 +333,7 @@ last_updated: 2026-11-13T21:25:19.535Z
     "phase": "01",
     "file": "tests/phase1/EnforcementTests.cs",
     "line": null,
-    "description": "01-08 wider enforcement and exemptions remain unimplemented after three bounded prerequisite repair attempts; full suite not rerun under failed activation; safe tracer remains committed.",
+    "description": "01-08 wider enforcement and exemptions remain unimplemented; approved fresh continuation retained active policy and 27 source edits, reducing 170 prerequisites to eight diagnostics after three bounded strict builds. Full suite remains unrun; exact diagnostics and preserved diff are recorded in 01-08-CHECKPOINT.md.",
     "status": "open",
     "reason": "",
     "recorded_at": "2026-11-13T21:25:19.535Z",
