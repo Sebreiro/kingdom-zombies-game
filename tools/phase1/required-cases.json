@@ -5929,6 +5929,24 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.RegisterTests.Capture_R37_ConnectsBothHeadingsAndPlannedBoundaryProofs",
       "expectedDiagnostic": "R37_TRACE_EXACT"
+    },
+    {
+      "id": "register.schema",
+      "group": "register",
+      "rule": "RULE-02",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_MissingMechanism_IsRejected",
+      "expectedDiagnostic": "R-01: MECHANISM_REQUIRED"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."

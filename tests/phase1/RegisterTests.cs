@@ -55,4 +55,7 @@ public sealed class RegisterTests
         row["negativeProof"]!["id"]!.GetValue<string>().ShouldBe("R-37.negative");
         ProofProtocol.Record("register.r37-trace", "R37_TRACE_EXACT", "R-37 source identity → SCR0006 pending implementation → declared 59/60/61 boundaries; no enforcement pass claimed");
     }
+
+    [Fact, Trait("Case", "register.schema")]
+    public void Schema_MissingMechanism_IsRejected() => RejectCapture("register.schema", (m, r, e) => r["rules"]![0]!["mechanism"] = null, "R-01: MECHANISM_REQUIRED");
 }
