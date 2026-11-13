@@ -2,9 +2,9 @@
 schema_version: 1
 open_count: 1
 waived_count: 0
-fixed_count: 2
-total_count: 3
-last_updated: 2026-11-13T17:39:06.328Z
+fixed_count: 3
+total_count: 4
+last_updated: 2026-11-13T17:58:29.380Z
 ---
 
 # Broken Windows Ledger
@@ -18,6 +18,7 @@ last_updated: 2026-11-13T17:39:06.328Z
 | 1 | 01 | deviation | .planning/phases/01-code-rules-and-documentation/01-01-PLAN.md |  | Task 1 bootstrap TDD annotation has no valid RED commit; actual engine integration and failure controls pass, C# runner proofs belong to 01-02. | open |  | 2026-11-13T17:09:33.726Z |  |
 | 2 | 01 | deviation | tools/phase1/bootstrap.cjs |  | Duplicate pin candidate initially returned PINS_MISSING before duplicate detection; fixed ordering and verified intended PINS_CONFLICT in 01-02. | fixed |  | 2026-11-13T17:38:49.703Z | 2026-11-13T17:39:05.630Z |
 | 3 | 01 | deviation | tests/phase1/packages.lock.json |  | Added the omitted test dependency lock required for exact locked restore; committed and verified in 01-02. | fixed |  | 2026-11-13T17:39:05.981Z | 2026-11-13T17:39:06.328Z |
+| 4 | 01 | deviation | tools/phase1/required-cases.json |  | Plan 01-03 supplied case names were absent from the required inventory; bound actual C# methods and added explicit pending R-37 boundary cases without crediting later enforcement. | fixed |  | 2026-11-13T17:58:02.412Z | 2026-11-13T17:58:29.380Z |
 
 ````json
 [
@@ -58,6 +59,19 @@ last_updated: 2026-11-13T17:39:06.328Z
     "reason": "",
     "recorded_at": "2026-11-13T17:39:05.981Z",
     "resolved_at": "2026-11-13T17:39:06.328Z",
+    "milestone": "v0.1"
+  },
+  {
+    "id": 4,
+    "kind": "deviation",
+    "phase": "01",
+    "file": "tools/phase1/required-cases.json",
+    "line": null,
+    "description": "Plan 01-03 supplied case names were absent from the required inventory; bound actual C# methods and added explicit pending R-37 boundary cases without crediting later enforcement.",
+    "status": "fixed",
+    "reason": "",
+    "recorded_at": "2026-11-13T17:58:02.412Z",
+    "resolved_at": "2026-11-13T17:58:29.380Z",
     "milestone": "v0.1"
   }
 ]
