@@ -722,6 +722,89 @@ public sealed class EnforcementTests
                 location: ".editorconfig tab_width");
     }
 
+    /// <summary>An actual public Task method without Async passes the retained permission.</summary>
+    [Fact, Trait("Case", "R-30.positive")]
+    public void Compile_AwaitableWithoutSuffix_Accepted()
+    {
+        VerifyConsumer(id: "R-30.positive", diagnostic: "", line: 0, column: 0, source: AsyncPermissionSource);
+    }
+
+    /// <summary>Changing only the isolated naming requirement emits the exact intended MA0137.</summary>
+    [Fact, Trait("Case", "R-30.negative")]
+    public void Configure_AsyncSuffixRequirement_RejectsPermissionDrift()
+    {
+        var fixture = new BuildFixture();
+        fixture.Restore();
+        fixture.Write(source: AsyncPermissionSource);
+        (int Exit, string Output) clean = fixture.Build();
+        clean.Exit.ShouldBe(expected: 0, customMessage: clean.Output);
+        string config = Path.Combine(path1: fixture.DirectoryPath, path2: ".editorconfig");
+        string original = File.ReadAllText(path: config);
+        original.ShouldContain(expected: "dotnet_diagnostic.MA0137.severity = none");
+        File.WriteAllText(path: config, contents: original.Replace(
+                oldValue: "dotnet_diagnostic.MA0137.severity = none",
+                newValue: "dotnet_diagnostic.MA0137.severity = error", comparisonType: StringComparison.Ordinal));
+        (int Exit, string Output) changed = fixture.Build();
+        BuildFixture.HasDiagnostic(result: changed, id: "MA0137", line: 7, column: 47).ShouldBeTrue(
+                customMessage: changed.Output);
+        ProofProtocol.Record(id: "R-30.negative", diagnostic: "ASYNC_PERMISSION_DRIFT",
+                location: fixture.DirectoryPath + "/src/core/Subject.cs(7,47)");
+    }
+
+    /// <summary>The actual copied test project accepts the compliant custom-rule source.</summary>
+    [Fact, Trait("Case", "R-46.positive")]
+    public void Compile_CompliantTestConsumer_Accepted()
+    {
+        VerifyConsumer(id: "R-46.positive", diagnostic: "", line: 0, column: 0, source: TestCallSource, tests: true);
+    }
+
+    /// <summary>The test project cannot bypass the handwritten positional-argument rule.</summary>
+    [Fact, Trait("Case", "R-46.negative")]
+    public void Compile_PositionalTestArgument_Rejected()
+    {
+        VerifyConsumer(id: "R-46.negative", diagnostic: "SCR0001", line: 8, column: 21,
+                source: TestCallSource.Replace(oldValue: "Echo(value: 1)", newValue: "Echo(1)",
+                        comparisonType: StringComparison.Ordinal), tests: true);
+    }
+
+    /// <summary>The actual copied test project permits its declared Shouldly assertion API.</summary>
+    [Fact, Trait("Case", "R-47.positive")]
+    public void Compile_ShouldlyTestAssertion_Accepted()
+    {
+        VerifyConsumer(id: "R-47.positive", diagnostic: "", line: 0, column: 0,
+                source: TestAssertionSource, tests: true);
+    }
+
+    /// <summary>The same actual test-project wiring rejects the banned Xunit.Assert type.</summary>
+    [Fact, Trait("Case", "R-47.negative")]
+    public void Compile_XunitAssertInTests_Rejected()
+    {
+        VerifyConsumer(id: "R-47.negative", diagnostic: "RS0030", line: 8, column: 9,
+                source: BannedTestAssertionSource, tests: true);
+    }
+
+    private const string AsyncPermissionSource = "namespace KingdomZombies.Core;\n\n/// <summary>Awaitable p"
+            + "ermission control.</summary>\npublic static class Subject"
+            + "\n{\n    /// <summary>Permitted suffix omission.</summary>"
+            + "\n    public static System.Threading.Tasks.Task Read()\n  "
+            + "  {\n        return System.Threading.Tasks.Task.CompletedT"
+            + "ask;\n    }\n}\n";
+    private const string TestCallSource = "namespace KingdomZombies.Phase1.Tests;\n\n/// <summary>Rea"
+            + "l test-project rule control.</summary>\ninternal static cl"
+            + "ass Subject\n{\n    internal static int Read()\n    {\n   "
+            + "     return Echo(value: 1);\n    }\n\n    private static i"
+            + "nt Echo(int value)\n    {\n        return value;\n    }\n}"
+            + "\n";
+    private const string TestAssertionSource = "using Shouldly;\n\nnamespace KingdomZombies.Phase1.Tests;"
+            + "\n\n/// <summary>Real test-project assertion control.</sum"
+            + "mary>\ninternal static class Subject\n{\n    internal stat"
+            + "ic void Read()\n    {\n        1.ShouldBe(expected: 1);\n "
+            + "   }\n}\n";
+    private const string BannedTestAssertionSource = "namespace KingdomZombies.Phase1.Tests;\n\n/// <summary>Rea"
+            + "l test-project assertion control.</summary>\ninternal stat"
+            + "ic class Subject\n{\n    internal static void Read()\n    "
+            + "{\n        Xunit.Assert.True(condition: true);\n    }\n}\n";
+
     private static void RequireTabWidthFailure(string source)
     {
         InvalidDataException rejected = Should.Throw<InvalidDataException>(actual: () => SourceFileFormat
@@ -736,9 +819,10 @@ public sealed class EnforcementTests
         diagnostics[0].ShouldBe(expected: expected);
     }
 
-    private static void VerifyConsumer(string id, string diagnostic, int line, int column, string source)
+    private static void VerifyConsumer(string id, string diagnostic, int line, int column, string source,
+            bool tests = false)
     {
-        var fixture = new BuildFixture();
+        var fixture = new BuildFixture(tests: tests);
         fixture.Restore();
         (int Exit, string Output) clean = fixture.Build();
         clean.Exit.ShouldBe(expected: 0, customMessage: clean.Output);
@@ -754,7 +838,8 @@ public sealed class EnforcementTests
                     customMessage: result.Output);
         }
 
-        string location = fixture.DirectoryPath + "/src/core/Subject.cs(" + line.ToString(
+        string subject = tests ? "/tests/phase1/Subject.cs(" : "/src/core/Subject.cs(";
+        string location = fixture.DirectoryPath + subject + line.ToString(
                 provider: System.Globalization.CultureInfo.InvariantCulture) + "," + column.ToString(
                         provider: System.Globalization.CultureInfo.InvariantCulture) + ")";
         ProofProtocol.Record(id: id, diagnostic: line == 0 ? "REAL_BUILD_CLEAN" : diagnostic, location: location);

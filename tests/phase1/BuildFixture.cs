@@ -16,7 +16,7 @@ internal sealed class BuildFixture
             + ("/// <summary>Isolated real consumer.</summary>\ninternal" + " static class Subject\n{\n")
             + "    internal static int Read()\n    {\n        return 1;\n    }\n}\n";
     /// <summary>Creates a scratch consumer with the real project, policy and canonical dependency locks.</summary>
-    internal BuildFixture()
+    internal BuildFixture(bool tests = false)
     {
         _directory = Path.Combine(path1: ProofProtocol.Root, path2: ".phase1/temp/build-" + Guid.NewGuid()
                 .ToString(format: "N"));
@@ -29,7 +29,15 @@ internal sealed class BuildFixture
 
         CopyTree(relative: "src/core");
         CopyTree(relative: "tools/code-rules");
-        _project = Path.Combine(path1: _directory, path2: "src/core/KingdomZombies.Core.csproj");
+        if (tests)
+        {
+            CopyTree(relative: "tests/phase1");
+        }
+
+        string relativeProject = tests ? "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
+                : "src/core/KingdomZombies.Core.csproj";
+        _project = Path.Combine(path1: _directory, path2: relativeProject);
+        _subject = Path.Combine(path1: _directory, path2: tests ? "tests/phase1/Subject.cs" : "src/core/Subject.cs");
         Write(source: CleanSource);
     }
 
@@ -39,7 +47,7 @@ internal sealed class BuildFixture
     /// <summary>Writes the exact subject bytes without normalizing away a violating source control.</summary>
     internal void Write(string source)
     {
-        File.WriteAllText(path: Path.Combine(path1: _directory, path2: "src/core/Subject.cs"),
+        File.WriteAllText(path: _subject,
                 contents: source, encoding: new UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
     }
 
@@ -79,6 +87,7 @@ internal sealed class BuildFixture
 
     private readonly string _directory;
     private readonly string _project;
+    private readonly string _subject;
     private static readonly string[] _sharedFiles = ["Directory.Build.props", "Directory.Build.targets",
         "Directory.Packages.props", ".editorconfig", "global.json", "NuGet.config", "BannedSymbols.txt",
         "BannedSymbols.Tests.txt", "BannedSymbols.Pure.txt"];

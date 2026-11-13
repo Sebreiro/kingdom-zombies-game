@@ -3718,7 +3718,7 @@
       "id": "R-30.positive",
       "group": "rules",
       "rule": "R-30",
-      "owner": "01-05..01-09",
+      "owner": "01-08",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -3728,14 +3728,16 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Compile_AwaitableWithoutSuffix_Accepted",
+      "expectedDiagnostic": "REAL_BUILD_CLEAN"
     },
     {
       "id": "R-30.negative",
       "group": "rules",
       "rule": "R-30",
-      "owner": "01-05..01-09",
+      "owner": "01-08",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -3745,8 +3747,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Configure_AsyncSuffixRequirement_RejectsPermissionDrift",
+      "expectedDiagnostic": "ASYNC_PERMISSION_DRIFT"
     },
     {
       "id": "R-31.positive",
@@ -4295,7 +4299,7 @@
       "id": "R-46.positive",
       "group": "rules",
       "rule": "R-46",
-      "owner": "01-05..01-09",
+      "owner": "01-08",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -4305,14 +4309,16 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Compile_CompliantTestConsumer_Accepted",
+      "expectedDiagnostic": "REAL_BUILD_CLEAN"
     },
     {
       "id": "R-46.negative",
       "group": "rules",
       "rule": "R-46",
-      "owner": "01-05..01-09",
+      "owner": "01-08",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -4322,14 +4328,16 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Compile_PositionalTestArgument_Rejected",
+      "expectedDiagnostic": "SCR0001"
     },
     {
       "id": "R-47.positive",
       "group": "rules",
       "rule": "R-47",
-      "owner": "01-05..01-09",
+      "owner": "01-08",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -4339,14 +4347,16 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Compile_ShouldlyTestAssertion_Accepted",
+      "expectedDiagnostic": "REAL_BUILD_CLEAN"
     },
     {
       "id": "R-47.negative",
       "group": "rules",
       "rule": "R-47",
-      "owner": "01-05..01-09",
+      "owner": "01-08",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -4356,8 +4366,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Compile_XunitAssertInTests_Rejected",
+      "expectedDiagnostic": "RS0030"
     },
     {
       "id": "R-48.positive",
