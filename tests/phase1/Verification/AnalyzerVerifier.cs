@@ -31,11 +31,11 @@ internal static class AnalyzerVerifier
         return paths.Select(p => (MetadataReference)MetadataReference.CreateFromFile(p)).ToImmutableArray();
     }
 
-    internal static async Task VerifyAsync(string source, Expected[] expected, IEnumerable<MetadataReference>? additionalReferences = null, DiagnosticAnalyzer? analyzer = null)
+    internal static async Task VerifyAsync(string source, Expected[] expected, IEnumerable<MetadataReference>? additionalReferences = null, DiagnosticAnalyzer? analyzer = null, OutputKind outputKind = OutputKind.DynamicallyLinkedLibrary, bool generated = false)
     {
         var references = References().AddRange(additionalReferences ?? []);
         var tree = CSharpSyntaxTree.ParseText(source, new CSharpParseOptions(LanguageVersion.CSharp14), path: "Subject.cs", cancellationToken: TestContext.Current.CancellationToken);
-        var compilation = CSharpCompilation.Create("CompilerProof", [tree], references, new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, nullableContextOptions: NullableContextOptions.Enable));
+        var compilation = CSharpCompilation.Create("CompilerProof", [tree], references, new CSharpCompilationOptions(outputKind, nullableContextOptions: NullableContextOptions.Enable, allowUnsafe: true).WithSyntaxTreeOptionsProvider(new SubjectTreeOptions(generated)));
         var diagnostics = compilation.GetDiagnostics(TestContext.Current.CancellationToken);
         if (analyzer is not null)
             diagnostics = diagnostics.AddRange(await compilation.WithAnalyzers([analyzer]).GetAnalyzerDiagnosticsAsync(TestContext.Current.CancellationToken).ConfigureAwait(false));
@@ -46,6 +46,13 @@ internal static class AnalyzerVerifier
             var emitted = compilation.Emit(output, cancellationToken: TestContext.Current.CancellationToken);
             if (!emitted.Success) throw new InvalidOperationException("Emit failed: " + string.Join("; ", emitted.Diagnostics));
         }
+    }
+
+    private sealed class SubjectTreeOptions(bool generated) : SyntaxTreeOptionsProvider
+    {
+        public override GeneratedKind IsGenerated(SyntaxTree tree, System.Threading.CancellationToken cancellationToken) { return generated ? GeneratedKind.MarkedGenerated : GeneratedKind.NotGenerated; }
+        public override bool TryGetDiagnosticValue(SyntaxTree tree, string diagnosticId, System.Threading.CancellationToken cancellationToken, out ReportDiagnostic severity) { severity = ReportDiagnostic.Default; return false; }
+        public override bool TryGetGlobalDiagnosticValue(string diagnosticId, System.Threading.CancellationToken cancellationToken, out ReportDiagnostic severity) { severity = ReportDiagnostic.Default; return false; }
     }
 
     internal static void Match(IEnumerable<Diagnostic> diagnostics, Expected[] expected)
