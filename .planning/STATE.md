@@ -4,16 +4,17 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 1
 current_phase_name: Code rules and documentation
-current_plan: 7
+current_plan: 8
 status: executing
-stopped_at: Completed 01-06-PLAN.md; 209 implemented proofs pass, 192 future obligations blocked; 01-07 next
-last_updated: "2026-11-13T20:18:36.837Z"
-last_activity: "2026-11-13 (Europe/Paris) — Completed plan 01-06; 209 implemented proofs pass, with 192 future obligations blocked. Next: 01-07."
+stopped_at: Completed 01-07-PLAN.md; 374 implemented proofs pass, 184 future obligations blocked; 01-08 next
+last_updated: "2026-11-13T21:13:06.087Z"
+last_activity: "2026-11-13 (Europe/Paris) — Completed plan 01-07; 374 implemented proofs pass, with 184 future obligations blocked. Next: 01-08."
+state_head: 6663ed60fbeb032734a5d7c8c9e9e7dd93f48a45
 progress:
   total_phases: 10
   completed_phases: 0
   total_plans: 18
-  completed_plans: 7
+  completed_plans: 8
   percent: 0
 ---
 
@@ -25,36 +26,36 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-13).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase 1 — Code rules and documentation; seven plans complete, including eight real inherited analyzers with exact Roslyn proofs, numeric boundaries, generated-member/source boundaries and analyzer input identity. Four remaining analyzer families belong to 01-07.
+**Current focus:** Phase 1 — Code rules and documentation; eight plans complete, all twelve real inherited analyzers with exact Roslyn proofs, numeric/syntax boundaries and independent source identity. Two observed Godot syntax spans have exact content/path/diagnostic/location permissions and origin/boundary proofs. Wider enforcement and exemptions belong to 01-08.
 
 ## Current Position
 
 Phase: 1 (Code rules and documentation) — EXECUTING
-Current Plan: 7
+Current Plan: 8
 Total Plans in Phase: 18
 Status: Ready to execute
-Last activity: 2026-11-13 (Europe/Paris) — Completed plan 01-06; 209 implemented proofs pass, with 192 future obligations blocked. Next: 01-07.
+Last activity: 2026-11-13 (Europe/Paris) — Completed plan 01-07; 374 implemented proofs pass, with 184 future obligations blocked. Next: 01-08.
 
 Progress: [░░░░░░░░░░] 0%
 
-Phase 1 plan progress: 7/18 completed (39%); milestone phase completion remains 0/10.
+Phase 1 plan progress: 8/18 completed (44%); milestone phase completion remains 0/10.
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 7
-- Average duration: 22min observed implementation windows (rounded)
-- Total execution time: 154min observed implementation windows
+- Total plans completed: 8
+- Average duration: 25min observed implementation windows (rounded)
+- Total execution time: 201min observed implementation windows
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 | --- | --- | --- | --- |
-| 01 | 7 | 154min | 22min |
+| 01 | 8 | 201min | 25min |
 
 **Recent Trend:**
-- Last 5 plans: 01-03 (17min), 01-04 (17min), 01-18 (21min), 01-05 (25min), 01-06 (44min)
-- Trend: Seven observed implementation windows
+- Last 5 plans: 01-04 (17min), 01-18 (21min), 01-05 (25min), 01-06 (44min), 01-07 (47min)
+- Trend: Eight observed implementation windows
 
 **Per-Plan Metrics:**
 
@@ -67,6 +68,7 @@ Phase 1 plan progress: 7/18 completed (39%); milestone phase completion remains 
 | Phase 01 P18 | 21min | 2 tasks | 16 files |
 | Phase 01 P05 | 25min | 2 tasks | 30 files |
 | Phase 01 P06 | 44min | 2 tasks | 41 files |
+| Phase 01 P07 | 47min | 2 tasks | 38 files |
 
 ## Accumulated Context
 
@@ -87,16 +89,17 @@ Full decisions are in PROJECT.md.
 - [Phase 01]: Four real inherited analyzers enforce exact SCR0001-SCR0004 error spans; generated markers remain checked and ten exact observed generated members have pinned origin and collision boundaries.
 - [Phase 01]: Owned analyzer source participates in the independent input fingerprint; isolated real-source mutation rejects stale evidence with INPUT_MISMATCH.
 - [Phase 01]: SCR0005-SCR0008 retain exact donor numeric/order semantics; generated layout permissions require immutable source/path/line or exact-member provenance and actual boundary proofs.
+- [Phase 01]: All twelve inherited analyzers require exact Error spans; two observed Godot syntax permissions require exact diagnostic, path, complete text identity and location with actual origin and boundary proofs.
 
 ### Pending Todos
 
-Continue Phase 1 with plan 01-07; 01-14 must close the five distinct runner-edge bindings recorded in WINDOWS entry 9.
+Continue Phase 1 with plan 01-08; 01-14 must close the five distinct runner-edge bindings recorded in WINDOWS entry 9.
 
 ### Blockers/Concerns
 
-- Plans 01-01 through 01-06 and 01-18 prove the Windows Godot/compiler slice, trusted runner, donor/register identity, permitted composition, strict evaluated policy, five canonical locks and eight real inherited analyzers. Final run 8cfc852a-4508-4d19-a179-cf98c219aa1c has 209 implemented passes, zero failed controls and 192 explicit pending obligations. Full register activation, four remaining analyzer families, graph, state, lifecycle, docs, coverage and Linux proofs remain pending.
+- Plans 01-01 through 01-07 and 01-18 prove the Windows Godot/compiler slice, trusted runner, donor/register identity, permitted composition, strict evaluated policy, five canonical locks and twelve inherited analyzers. Final run 5a29a8aa-54df-4a2b-9add-a7e5cfc3978e has 374 implemented passes, zero failed controls and 184 explicit pending obligations. Wider register activation/enforcement/exemptions, graph, state, lifecycle, docs, coverage and Linux proofs remain pending.
 - Five pins runner-edge identities retain declared owner 01-02 and remain pending; 01-14 owns their distinct actual-case closure (WINDOWS entry 9). The observed exact Godot report-method adaptation in docs/code/engine-adaptations.json must feed 01-08's broader origin/exemption validation.
-- Eight real custom analyzers now enforce SCR0001-SCR0008. WINDOWS entry 8 remains open for the four source families owned by 01-07. Original ten generated SCR0001 scopes retain their values; four immutable source/path/line entries and seven diagnostic/member layout permissions have actual origin and boundary proofs in docs/code/generated-layout-adaptations.json. The original Godot RS0030 scope retains its value. All RULE requirements remain Pending.
+- All twelve custom analyzers enforce SCR0001-SCR0012. WINDOWS entry 8 is fixed. Existing ten SCR0001 member permissions, four immutable layout-source records, seven layout-member permissions and the original Godot RS0030 scope retain their values. Two new exact Godot syntax spans additionally require complete text identity, exact path/diagnostic/location and origin/boundary proofs. All RULE requirements remain Pending.
 - Plan 01-01's historical missing-RED deviation remains open in WINDOWS.md; Plan 01-02 supplies genuine RED/GREEN proofs without fabricating earlier evidence.
 - A workspace-contained Ubuntu 24.04 x86_64 VM shell is prepared as recorded in 01-ENVIRONMENT.md. Actual Linux toolchain and acceptance execution remain required; environment preparation supplies no platform pass.
 - Reference-PC hardware and required real mixed-OS LAN/endurance environments need recording before release proofs; no measurements are available.
@@ -109,8 +112,8 @@ Continue Phase 1 with plan 01-07; 01-14 must close the five distinct runner-edge
 
 ## Session Continuity
 
-Last session: 2026-11-13T20:18:36.799Z
-Stopped at: Completed 01-06-PLAN.md; 209 implemented proofs pass, 192 future obligations blocked; 01-07 next
+Last session: 2026-11-13T21:13:06.049Z
+Stopped at: Completed 01-07-PLAN.md; 374 implemented proofs pass, 184 future obligations blocked; 01-08 next
 Resume file: None
 
-Next action: Execute 01-07-PLAN.md for the final four inherited analyzer families. Plan 18 executed before 05 by dependency order. Remain in Phase 1; all RULE requirements are Pending.
+Next action: Execute 01-08-PLAN.md for wider enforcement, real-build, exemption and threshold validation. Plan 18 executed before 05 by dependency order. Remain in Phase 1; all RULE requirements are Pending.
