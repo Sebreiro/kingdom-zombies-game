@@ -14,7 +14,7 @@ namespace KingdomZombies.Phase1.Tests.Verification;
 /// <summary>Runs captured markup subjects against the built analyzer assembly with exact diagnostic spans.</summary>
 internal static class InheritedAnalyzerVerifier
 {
-    internal static async Task VerifyAsync(string caseId, string diagnostic, string analyzerType, string source, string? editorConfig = null, OutputKind outputKind = OutputKind.DynamicallyLinkedLibrary)
+    internal static async Task VerifyAsync(string caseId, string diagnostic, string analyzerType, string source, string? editorConfig = null, OutputKind outputKind = OutputKind.DynamicallyLinkedLibrary, string? message = null)
     {
         var clean = new StringBuilder();
         var marks = new List<(string Id, int Start, int End)>();
@@ -43,7 +43,7 @@ internal static class InheritedAnalyzerVerifier
         var type = assembly.GetType(name: "Sebreiro.CodeRules.Analyzers." + analyzerType);
         var analyzer = type is null ? null : (DiagnosticAnalyzer?)Activator.CreateInstance(type: type);
         if (analyzer is null && expected.Count == 0) throw new InvalidOperationException(message: "Analyzer registration missing: " + analyzerType);
-        await AnalyzerVerifier.VerifyAsync(source: text, expected: [.. expected], analyzer: analyzer, outputKind: outputKind, generated: editorConfig is not null).ConfigureAwait(continueOnCapturedContext: false);
+        await AnalyzerVerifier.VerifyAsync(source: text, expected: [.. expected], analyzer: analyzer, outputKind: outputKind, generated: editorConfig is not null, message: message).ConfigureAwait(continueOnCapturedContext: false);
         ProofProtocol.Record(id: caseId, diagnostic: diagnostic, location: "Subject.cs: " + string.Join(separator: "; ", values: expected));
     }
 }

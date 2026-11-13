@@ -51,7 +51,7 @@ internal static class AnalyzerVerifier
         return paths.Select(selector: p => (MetadataReference)MetadataReference.CreateFromFile(path: p)).ToImmutableArray();
     }
 
-    internal static async Task VerifyAsync(string source, Expected[] expected, IEnumerable<MetadataReference>? additionalReferences = null, DiagnosticAnalyzer? analyzer = null, OutputKind outputKind = OutputKind.DynamicallyLinkedLibrary, bool generated = false)
+    internal static async Task VerifyAsync(string source, Expected[] expected, IEnumerable<MetadataReference>? additionalReferences = null, DiagnosticAnalyzer? analyzer = null, OutputKind outputKind = OutputKind.DynamicallyLinkedLibrary, bool generated = false, string? message = null)
     {
         var references = References().AddRange(items: additionalReferences ?? []);
         var tree = CSharpSyntaxTree.ParseText(text: source, options: new CSharpParseOptions(languageVersion: LanguageVersion.CSharp14), path: "Subject.cs", cancellationToken: TestContext.Current.CancellationToken);
@@ -60,6 +60,7 @@ internal static class AnalyzerVerifier
         if (analyzer is not null)
             diagnostics = diagnostics.AddRange(items: await compilation.WithAnalyzers(analyzers: [analyzer]).GetAnalyzerDiagnosticsAsync(cancellationToken: TestContext.Current.CancellationToken).ConfigureAwait(continueOnCapturedContext: false));
         Match(diagnostics: diagnostics, expected: expected);
+        if (message is not null && !diagnostics.Any(predicate: d => string.Equals(a: d.GetMessage(formatProvider: System.Globalization.CultureInfo.InvariantCulture), b: message, comparisonType: StringComparison.Ordinal))) throw new InvalidOperationException(message: "Expected diagnostic message missing: " + message);
         if (!expected.Any(predicate: d => d.Severity == DiagnosticSeverity.Error))
         {
             using var output = new MemoryStream();
