@@ -127,6 +127,8 @@ All currently implemented positive bootstrap probes pass. The boundaries command
 - The inherited broken shell proxy was bypassed by task-local direct HTTPS, without global changes. Exact official SHA-512 confirmed the provided archive before extraction.
 - The SDK's Git guard respected the orchestrator's explicit main-branch override when executed in the context that can query repository metadata.
 
+**3. [Rule 3 - Blocking] Repair initialized STATE.md labels for SDK plan advancement.** The first `state.advance-plan` returned `plan_position_unreadable` because initialization used `Plan: None`. Added explicit current/total plan labels, separated the resume-file and next-action fields, then reran the SDK handlers. No phase or requirement was marked complete.
+
 ## TDD Gate Compliance
 
 Task 1 carries `tdd="true"`, but owns bootstrap glue, configuration and the initial engine scene before 01-02 provides the C# proof runner. No valid assertion-based RED report or RED commit exists. Missing-tool/compile errors were not misrepresented as RED. The executor reported this conflict to the orchestrator, which confirmed documenting the deviation rather than inventing RED evidence or importing later-plan tests. Actual engine integration and diagnostic controls pass. This deviation is recorded in `.planning/WINDOWS.md`; 01-02 owns the C# mutation proofs.

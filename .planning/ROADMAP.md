@@ -63,9 +63,9 @@ Every feature includes its stable identities, host-authoritative validation and 
 3. Running the documented checks accepts compliant examples and rejects deliberate code, architecture, and exemption violations with actionable diagnostics.
 4. A developer or agent can navigate a short root `AGENTS.md` and focused indexes with valid, consistently cased links, and locate enforced gameplay/Godot/service boundaries plus rules for time, randomness, identities, and saveable authoritative state.
 
-**Plans:** 18 plans; independently checked, ready for execution.
+**Plans:** 1/18 plans executed; independently checked, ready for execution.
 **Wave 1**
-- [ ] 01-01-PLAN.md — Pinned native-host toolchain proof
+- [x] 01-01-PLAN.md — Pinned native-host toolchain proof
 
 **Wave 2** *(blocked on Wave 1 completion)*
 - [ ] 01-02-PLAN.md — Trustworthy required-case results
@@ -318,7 +318,7 @@ Execution order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10. Plans
 
 | Phase | Plans Complete | Status | Completed |
 | --- | --- | --- | --- |
-| 1. Code rules and documentation | 0/TBD | Not started | - |
+| 1. Code rules and documentation | 1/18 | In Progress | - |
 | 2. Playable foundation | 0/TBD | Not started | - |
 | 3. Four-player LAN foundation | 0/TBD | Not started | - |
 | 4. Asset production | 0/TBD | Not started | - |
