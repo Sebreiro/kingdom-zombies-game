@@ -2,7 +2,26 @@
 
 Status: incomplete; Task 1 tracer proven, Task 1 expansion and Task 2 pending. No SUMMARY.md exists and no plan/requirement progress was advanced.
 
-## Latest continuation: inherited policy activation verified
+## Latest continuation: 21 real-build rule pairs verified
+
+| Increment | Commit | Verified result |
+| --- | --- | --- |
+| Active inherited policy and compliant proof sources | `dd59a77` | Complete run: 375 passed, zero failed controls, 184 pending |
+| 42 unique actual-build proofs for 21 rules | `f4d4d79` | Complete run: 417 passed, zero failed controls, 142 pending |
+
+The new separately bound compliant/negative cases cover R-01, R-11, R-12, R-13, R-15, R-16, R-17, R-19, R-20, R-21, R-22, R-27, R-29, R-31, R-32, R-35, R-39, R-40, R-41, R-42 and R-45. Each restores the actual copied Core consumer with its canonical lock, requires a clean build, then checks its own source. Negatives require the intended compiler/analyzer ID, `Subject.cs`, and exact line/column. Case IDs remain stable; all 42 new bindings are distinct C# methods. Raw child compiler logs and source remain under their unique ignored `.phase1/temp/build-*` directories.
+
+Focused class feedback genuinely executed 43 cases: 41 passed and two failed. R-22 expected IDE0022 at the wrong column; actual arrow location is `(6,32)`. R-19's non-apparent return expression produced no IDE0090, so its paired fixtures now use an explicitly typed field initialized with `new()` versus `new object()`; actual negative is IDE0090 at `(11,45)`. Canonical focused corrected reports: `.phase1/runs/3235c7b4-9d68-4e62-91cc-a16c5a0a9e67/summary.json`, `.phase1/runs/5111130c-5d0c-444d-bf53-2b71a2b611d5/summary.json`, and `.phase1/runs/da83118e-1762-4c7d-ab67-9af6ff349a99/summary.json`. Earlier unsupported reporter and missing-root launcher attempts were infrastructure failures, never RED evidence or passing rule proofs.
+
+Final strict solution build has zero warnings/errors: `.phase1/temp/08-expand-final-build.log`. Complete immutable-source `node tools/phase1/check.cjs --all` finished with **417 passed, zero failed controls, 142 explicitly pending, 559 declared**, actual exit **1** solely for pending obligations. Canonical report: `.phase1/runs/0d359120-54ec-4e77-a1d1-c5e3587c7f1a/summary.json`; raw console: `.phase1/temp/08-expand-all.log`; tested revision `dd59a7746808af2a83f89b8766bc5ad96c260682`; input identity `7a6089c8b8fd11cb22603acd8dd92e61754449aea33fe2ec33fb153fbdb4ee24`. `git diff --check` passes. Do not redundantly rerun this passing increment without a new change or concern.
+
+The original ignored `08-expand.cjs` remains unrun. Its inspected copy `08-expand-stage.cjs` ran exactly once to create these cases and was then corrected through actual compiler feedback; do not rerun it over the existing methods.
+
+Task 1 still requires source-format/formatting and permission/test-project/configuration controls, including retained R-48 syntax scanning plus meaningful test-method and manifest/proof-reference renames without changing stable case IDs. Task 2's global suppression/exemption/generated provenance and numeric contracts remain incomplete. Graph 01-09 and actual coverage 01-15 stay pending. No SUMMARY, task completion, requirement completion or advancement beyond 8/18 is claimed.
+
+A read-only preliminary format scan found CRLF in exactly the five canonical lock files. The remaining source-format work must enforce LF and restrict the final-newline exception to observed registered exact paths. It must prove clean locked restore preserves normalized canonical bytes rather than silently extending the exception to CRLF. Captured donor `SourceFileFormat.cs`, `TestSourceIndex.cs`, and `TestMethodNameTests.cs` were read from the immutable ZIP; they are reference inputs, not new implemented proofs.
+
+## Previous continuation: inherited policy activation verified
 
 The complete preserved 27-file policy/source increment is now verified under the active inherited policy. All three earlier activation regressions are fixed without changing rule severities, generated permissions, or captured sample content:
 

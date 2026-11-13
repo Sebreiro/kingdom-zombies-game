@@ -6,9 +6,10 @@ current_phase: 1
 current_phase_name: Code rules and documentation
 current_plan: 8
 status: executing
-stopped_at: 01-08 policy activation verified; full suite 375 pass/0 fail/184 pending; real-build expansion and exemptions remain incomplete
-last_updated: "2026-11-13T21:54:59.209Z"
+stopped_at: 01-08 21 real-build rule pairs verified; source-format/naming/exemptions remain incomplete
+last_updated: "2026-11-13T22:49:27.577Z"
 last_activity: "2026-11-13 (Europe/Paris) — Completed plan 01-07; 374 implemented proofs pass, with 184 future obligations blocked. Next: 01-08."
+state_head: f4d4d79246160713e7133ce41919c0ff213fe952
 progress:
   total_phases: 10
   completed_phases: 0
@@ -102,7 +103,7 @@ Continue Phase 1 with plan 01-08; 01-14 must close the five distinct runner-edge
 - Plan 01-01's historical missing-RED deviation remains open in WINDOWS.md; Plan 01-02 supplies genuine RED/GREEN proofs without fabricating earlier evidence.
 - A workspace-contained Ubuntu 24.04 x86_64 VM shell is prepared as recorded in 01-ENVIRONMENT.md. Actual Linux toolchain and acceptance execution remain required; environment preparation supplies no platform pass.
 - Reference-PC hardware and required real mixed-OS LAN/endurance environments need recording before release proofs; no measurements are available.
-- 01-08 policy activation is verified: strict five-project build has zero warnings/errors; exact async-permission, twelve-analyzer self-consumer and captured formatter controls pass. Complete immutable-source run 9ab3b049-7ae7-4ef5-9e84-9e4587ad491b finished with 375 passed, zero failed controls, 184 explicitly pending, 559 declared (actual exit 1 solely for pending obligations). Native Godot bootstrap and exact generated syntax origin/boundary controls pass. Wider Task 1 real-build/source-format/configuration proofs and all Task 2 exemption/numeric work remain incomplete. The ignored 08-expand.cjs is an UNRUN draft. No SUMMARY, task/plan advancement or RULE completion is claimed.
+- 01-08 policy activation (`dd59a77`) and 42 new actual-build cases for 21 inherited rules (`f4d4d79`) are verified. Strict five-project solution has zero warnings/errors. Complete immutable-source run 0d359120-54ec-4e77-a1d1-c5e3587c7f1a finished with 417 passed, zero failed controls, 142 explicitly pending, 559 declared (actual exit 1 solely for pending obligations). Earlier native bootstrap and exact generated syntax origin/boundary controls pass. Task 1 source-format/permission/test-project/configuration/naming and all Task 2 exemption/numeric work remain incomplete. Five canonical locks still contain CRLF and need the LF/locked-restore proof. The original 08-expand.cjs is unrun; its inspected stage copy ran once and must not be reapplied. No SUMMARY, task/plan advancement or RULE completion is claimed.
 
 ## Deferred Items
 
@@ -112,8 +113,8 @@ Continue Phase 1 with plan 01-08; 01-14 must close the five distinct runner-edge
 
 ## Session Continuity
 
-Last session: 2026-11-13T21:54:59.172Z
-Stopped at: 01-08 policy activation verified; full suite 375 pass/0 fail/184 pending; real-build expansion and exemptions remain incomplete
+Last session: 2026-11-13T22:49:27.540Z
+Stopped at: 01-08 21 real-build rule pairs verified; source-format/naming/exemptions remain incomplete
 Resume file: .planning/phases/01-code-rules-and-documentation/01-08-CHECKPOINT.md
 
 Next action: Execute 01-08-PLAN.md for wider enforcement, real-build, exemption and threshold validation. Plan 18 executed before 05 by dependency order. Remain in Phase 1; all RULE requirements are Pending.

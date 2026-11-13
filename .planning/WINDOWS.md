@@ -333,7 +333,7 @@ last_updated: 2026-11-13T21:25:19.535Z
     "phase": "01",
     "file": "tests/phase1/EnforcementTests.cs",
     "line": null,
-    "description": "01-08 wider enforcement and exemptions remain incomplete. The preserved inherited policy/source activation is verified: strict five-project solution has zero warnings/errors; all three earlier activation regressions pass. Full immutable-source run 9ab3b049-7ae7-4ef5-9e84-9e4587ad491b finished with 375 passed, zero failed controls, 184 pending, 559 declared, exit 1 solely for pending obligations. Native bootstrap and exact generated syntax origin/boundary controls pass. Task 1 expansion and Task 2 remain incomplete; 08-expand.cjs is an UNRUN draft. Exact evidence is recorded in 01-08-CHECKPOINT.md.",
+    "description": "01-08 remains incomplete. Verified activation dd59a77 and 42 actual-build cases for 21 inherited rules f4d4d79 pass; strict solution has zero warnings/errors. Full immutable-source run 0d359120-54ec-4e77-a1d1-c5e3587c7f1a finished with 417 passed, zero failed controls, 142 pending, 559 declared, exit 1 solely for pending obligations. Task 1 source-format/permission/test-project/configuration/naming and all Task 2 exemption/numeric work remain incomplete. Five canonical locks still contain CRLF; LF normalization needs an actual unchanged locked-restore proof. Original 08-expand.cjs is unrun; stage copy ran once. Exact evidence is recorded in 01-08-CHECKPOINT.md.",
     "status": "open",
     "reason": "",
     "recorded_at": "2026-11-13T21:25:19.535Z",
