@@ -11218,6 +11218,24 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.GeneratedSyntaxAdapterTests.GeneratedSyntaxPermissionsAreBounded",
       "expectedDiagnostic": "GENERATED_SYNTAX_BOUNDARY_REJECTED"
+    },
+    {
+      "id": "rules.build-wiring",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-08",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.RealConsumerRejectsSixtyFirstBodyLine",
+      "expectedDiagnostic": "REAL_BUILD_SCR0006"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."

@@ -60,7 +60,13 @@ internal sealed class BuildFixture
     /// <summary>Checks identity, subject, severity and exact start coordinates after infrastructure succeeds.</summary>
     internal static bool HasDiagnostic((int Exit, string Output) result, string id, int line, int column)
     {
-        return false;
+        string subject = "Subject.cs(" + line.ToString(provider: System.Globalization.CultureInfo.InvariantCulture)
+                + "," + column.ToString(provider: System.Globalization.CultureInfo.InvariantCulture) + "): error "
+                + id + ":";
+        return result.Exit != 0 && result.Output.Contains(value: subject, comparisonType: StringComparison.Ordinal)
+                && !Regex.IsMatch(input: result.Output, pattern: @"error (NU\d+|MSB\d+|CS8032|AD0001):",
+                        options: RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture,
+                        matchTimeout: TimeSpan.FromSeconds(value: 1));
     }
 
     private readonly string _directory;
