@@ -6,10 +6,10 @@ current_phase: 1
 current_phase_name: Code rules and documentation
 current_plan: 8
 status: executing
-stopped_at: Completed 01-07-PLAN.md; 374 implemented proofs pass, 184 future obligations blocked; 01-08 next
-last_updated: "2026-11-13T21:13:06.087Z"
+stopped_at: 01-08 Task 1 tracer committed; inherited-policy expansion checkpoint after three bounded prerequisite repairs
+last_updated: "2026-11-13T21:26:39.535Z"
 last_activity: "2026-11-13 (Europe/Paris) — Completed plan 01-07; 374 implemented proofs pass, with 184 future obligations blocked. Next: 01-08."
-state_head: 6663ed60fbeb032734a5d7c8c9e9e7dd93f48a45
+state_head: 3b4531849672b07a4226da8fac8f3843cd9ef93f
 progress:
   total_phases: 10
   completed_phases: 0
@@ -103,6 +103,7 @@ Continue Phase 1 with plan 01-08; 01-14 must close the five distinct runner-edge
 - Plan 01-01's historical missing-RED deviation remains open in WINDOWS.md; Plan 01-02 supplies genuine RED/GREEN proofs without fabricating earlier evidence.
 - A workspace-contained Ubuntu 24.04 x86_64 VM shell is prepared as recorded in 01-ENVIRONMENT.md. Actual Linux toolchain and acceptance execution remain required; environment preparation supplies no platform pass.
 - Reference-PC hardware and required real mixed-OS LAN/endurance environments need recording before release proofs; no measurements are available.
+- 01-08 task 1 expansion blocked after three bounded inherited-policy prerequisite repairs: saved activation patch .phase1/temp/08-policy-activation.patch; 170 exact diagnostics in 08-remaining.json. Safe real-build tracer committed; no task or phase completion claimed.
 
 ## Deferred Items
 
@@ -112,8 +113,8 @@ Continue Phase 1 with plan 01-08; 01-14 must close the five distinct runner-edge
 
 ## Session Continuity
 
-Last session: 2026-11-13T21:13:06.049Z
-Stopped at: Completed 01-07-PLAN.md; 374 implemented proofs pass, 184 future obligations blocked; 01-08 next
-Resume file: None
+Last session: 2026-11-13T21:26:39.498Z
+Stopped at: 01-08 Task 1 tracer committed; inherited-policy expansion checkpoint after three bounded prerequisite repairs
+Resume file: .planning/phases/01-code-rules-and-documentation/01-08-CHECKPOINT.md
 
 Next action: Execute 01-08-PLAN.md for wider enforcement, real-build, exemption and threshold validation. Plan 18 executed before 05 by dependency order. Remain in Phase 1; all RULE requirements are Pending.

@@ -1,10 +1,10 @@
 ---
 schema_version: 1
-open_count: 2
+open_count: 3
 waived_count: 0
 fixed_count: 20
-total_count: 22
-last_updated: 2026-11-13T21:12:33.814Z
+total_count: 23
+last_updated: 2026-11-13T21:25:19.535Z
 ---
 
 # Broken Windows Ledger
@@ -37,6 +37,7 @@ last_updated: 2026-11-13T21:12:33.814Z
 | 20 | 01 | deviation | tests/phase1/ConfigurationTests.cs |  | SCR0009/SCR0010 enforcement exposes handwritten continuation and import prerequisites; corrected source layout, nullable fixture contracts and unused fixture variables while preserving literal values and diagnostic scopes. | fixed |  | 2026-11-13T20:36:42.897Z | 2026-11-13T21:12:33.089Z |
 | 21 | 01 | deviation | tests/phase1/Analyzers/ContinuationIndentAnalyzerTests.cs |  | Captured formatter compatibility proof uses the SDK-bundled dotnet format whitespace folder verifier instead of adding a Workspaces package; original agreed sample remains unchanged by formatting. | fixed |  | 2026-11-13T20:36:43.087Z | 2026-11-13T21:12:33.448Z |
 | 22 | 01 | deviation | docs/code/generated-syntax-adaptations.json |  | Whole-solution build requires one Core qualification fix, handwritten Godot continuation layout fixes, and two exact Godot syntax permissions bounded by diagnostic, full content hash, path and span with actual origin, mutation, adjacency and impostor proofs. | fixed |  | 2026-11-13T20:56:19.761Z | 2026-11-13T21:12:33.814Z |
+| 23 | 01 | unrun-verify | tests/phase1/EnforcementTests.cs |  | 01-08 wider enforcement and exemptions remain unimplemented after three bounded prerequisite repair attempts; full suite not rerun under failed activation; safe tracer remains committed. | open |  | 2026-11-13T21:25:19.535Z |  |
 
 ````json
 [
@@ -324,6 +325,19 @@ last_updated: 2026-11-13T21:12:33.814Z
     "reason": "",
     "recorded_at": "2026-11-13T20:56:19.761Z",
     "resolved_at": "2026-11-13T21:12:33.814Z",
+    "milestone": "v0.1"
+  },
+  {
+    "id": 23,
+    "kind": "unrun-verify",
+    "phase": "01",
+    "file": "tests/phase1/EnforcementTests.cs",
+    "line": null,
+    "description": "01-08 wider enforcement and exemptions remain unimplemented after three bounded prerequisite repair attempts; full suite not rerun under failed activation; safe tracer remains committed.",
+    "status": "open",
+    "reason": "",
+    "recorded_at": "2026-11-13T21:25:19.535Z",
+    "resolved_at": null,
     "milestone": "v0.1"
   }
 ]
