@@ -1,6 +1,6 @@
-using Microsoft.CodeAnalysis;
 using System.Threading.Tasks;
 using KingdomZombies.Phase1.Tests.Verification;
+using Microsoft.CodeAnalysis;
 using Xunit;
 
 namespace KingdomZombies.Phase1.Tests.Analyzers;

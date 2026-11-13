@@ -17,8 +17,8 @@ public sealed class GodotCallSiteAdapterTests
     {
         var adjacent = ConfigurationTests.BuildGameWithSource(source: (
                 "namespace KingdomZombies.Proofs; public partial class P" +
-                "hase1 { private static int AdjacentCallSite() => System" +
-                ".Math.Abs(-1); }"));
+                        "hase1 { private static int AdjacentCallSite() => System" +
+                        ".Math.Abs(-1); }"));
         adjacent.ShouldContain(expected: "error SCR0001:");
         adjacent.ShouldContain(expected: "Main.cs(");
         using var registry = JsonDocument.Parse(json: File.ReadAllText(path: Path.Combine(path1: ProofProtocol.
@@ -43,6 +43,6 @@ public sealed class GodotCallSiteAdapterTests
         clean.Exit.ShouldBe(expected: 0, customMessage: clean.Output);
         ProofProtocol.Record(id: "rules.godot-callsite-boundary", diagnostic: "GODOT_CALLSITE_BOUNDARY_REJECTED"
                 , location: ("SCR0001 adjacent; CS0111 for all eight exact generated " +
-                "member collisions; clean restored"));
+                        "member collisions; clean restored"));
     }
 }

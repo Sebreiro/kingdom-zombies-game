@@ -54,6 +54,6 @@ public sealed class AnalyzerInputIdentityTests
         File.ReadAllBytes(path: source).ShouldBe(expected: original);
         ProofProtocol.Record(id: "rules.analyzer-input-identity", diagnostic: "ANALYZER_INPUT_CHANGED", location
                 : ("isolated copied NamedArgumentAnalyzer.cs; approved sour" +
-                "ce unchanged; obj excluded"));
+                        "ce unchanged; obj excluded"));
     }
 }

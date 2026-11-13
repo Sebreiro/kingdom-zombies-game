@@ -129,12 +129,12 @@ public static class RegisterValidator
         var sources = Unique(rows: Rows(node: manifest, name: "matrix"), key: n => Text(node: n["sourceId"]),
                 diagnostic: "MATRIX_ID", errors: errors);
         var reviewRules = new HashSet<string>(collection: ["R-24", "R-34", "R-62", "R-63", "R-65", "R-77",
-                "R-83", "R-84"], comparer: StringComparer.Ordinal);
+            "R-83", "R-84"], comparer: StringComparer.Ordinal);
         var inapplicable = new HashSet<string>(collection: ["R-43", "R-57", "R-76", "R-79", "R-80", "R-85"],
                 comparer: StringComparer.Ordinal);
         var adopted = new HashSet<string>(collection: ["R-02", "R-03", "R-04", "R-05", "R-06", "R-24", "R-34",
-                "R-40", "R-44", "R-45", "R-49", "R-50", "R-51", "R-52", "R-54", "R-55", "R-56", "R-58", "R-59",
-                "R-61", "R-63", "R-64", "R-68", "R-69", "R-70", "R-71", "R-72", "R-73", "R-78", "R-81", "R-82"]
+            "R-40", "R-44", "R-45", "R-49", "R-50", "R-51", "R-52", "R-54", "R-55", "R-56", "R-58", "R-59",
+            "R-61", "R-63", "R-64", "R-68", "R-69", "R-70", "R-71", "R-72", "R-73", "R-78", "R-81", "R-82"]
                 , comparer: StringComparer.Ordinal);
         foreach (var rule in Rows(node: register, name: "rules"))
         {
@@ -153,7 +153,7 @@ public static class RegisterValidator
             if (doc is null || !string.Equals(a: Text(node: doc["path"]), b: "docs/code/register.json",
                     comparisonType: StringComparison.Ordinal) || !string.Equals(a: Text(node: doc["symbol"]), b
                     : id, comparisonType: StringComparison.Ordinal) || !ExactPath(relative: Text(node: doc[
-                    "path"]))) errors.Add(item: id + ": DOCUMENTATION_REFERENCE");
+                            "path"]))) errors.Add(item: id + ": DOCUMENTATION_REFERENCE");
             ValidateReview(rule: rule, id: id, required: reviewRules.Contains(item: id) || Text(node: source[
                     "level"]).Contains(value: "PR review", comparisonType: StringComparison.Ordinal),
                     implemented: implemented, errors: errors);
@@ -163,7 +163,7 @@ public static class RegisterValidator
                         is not null) errors.Add(item: id + ": INAPPLICABLE_MAPPING");
                 if (!declarations.TryGetValue(key: id + ".register-resolution", value: out var resolution) || !
                         string.Equals(a: Text(node: resolution["rule"]), b: id, comparisonType: StringComparison
-                        .Ordinal)) errors.Add(item: id + ": RESOLUTION_REQUIRED");
+                                .Ordinal)) errors.Add(item: id + ": RESOLUTION_REQUIRED");
                 continue;
             }
             ValidateMechanism(rule: rule, source: source, id: id, implemented: implemented, errors: errors);
@@ -181,7 +181,7 @@ public static class RegisterValidator
                 ": REVIEW_REQUIRED");
         else if (required && (!string.Equals(a: Text(node: qualitative["status"]), b: "pending", comparisonType
                 : StringComparison.Ordinal) || string.IsNullOrWhiteSpace(value: Text(node: qualitative[
-                "obligation"])))) errors.Add(item: id + ": HUMAN_REVIEW_PENDING");
+                        "obligation"])))) errors.Add(item: id + ": HUMAN_REVIEW_PENDING");
         else if (!required && !string.Equals(a: Text(node: qualitative["status"]), b: "not-required",
                 comparisonType: StringComparison.Ordinal)) errors.Add(item: id + ": REVIEW_STATUS");
         if (implemented && required) errors.Add(item: id + ": HUMAN_REVIEW_PENDING");
@@ -198,12 +198,12 @@ public static class RegisterValidator
                         + "Analyzer" : id;
                 if (!string.Equals(a: Text(node: mechanism["path"]), b: ExpectedMechanism(id: id),
                         comparisonType: StringComparison.Ordinal) || !string.Equals(a: Text(node: mechanism[
-                        "symbol"]), b: expectedSymbol, comparisonType: StringComparison.Ordinal)) errors.Add(
-                        item: id + ": MECHANISM_REFERENCE");
+                                "symbol"]), b: expectedSymbol, comparisonType: StringComparison.Ordinal)) errors.Add(
+                                        item: id + ": MECHANISM_REFERENCE");
                 var diagnostics = Regex.Matches(input: Text(node: source["mechanism"]), pattern:
                         @"\b(?:SCR|IDE|CA|MA|RCS|RS|CS)\d{4}\b", options: RegexOptions.CultureInvariant |
-                        RegexOptions.NonBacktracking, matchTimeout: TimeSpan.FromSeconds(seconds: 1)).Select(
-                        selector: m => m.Value).Distinct(comparer: StringComparer.Ordinal);
+                                RegexOptions.NonBacktracking, matchTimeout: TimeSpan.FromSeconds(seconds: 1)).Select(
+                                        selector: m => m.Value).Distinct(comparer: StringComparer.Ordinal);
                 SameStrings(expected: diagnostics, actual: (mechanism["diagnostics"] ?? throw new System.
                         InvalidOperationException(message: "Required proof value is null")).AsArray(),
                         diagnostic: id + ": DIAGNOSTIC_IDENTITY", errors: errors);
@@ -230,7 +230,7 @@ public static class RegisterValidator
                         declaration) || !string.Equals(a: Text(node: declaration["rule"]), b: id, comparisonType
                         : StringComparison.Ordinal) || !string.Equals(a: Text(node: declaration["polarity"]), b
                         : polarity, comparisonType: StringComparison.Ordinal)) errors.Add(item: id +
-                        ": PROOF_REVERSE_ID");
+                                ": PROOF_REVERSE_ID");
                 if (!string.Equals(a: Text(node: proof["status"]), b: "pending", comparisonType:
                         StringComparison.Ordinal)) errors.Add(item: id + ": UNVERIFIED_PROOF");
                 var number = int.Parse(s: id[2..], provider: System.Globalization.CultureInfo.InvariantCulture);
@@ -276,7 +276,7 @@ public static class RegisterValidator
             ["R-07"] = "spaces", ["R-08"] = "spaces", ["R-09"] = "spaces past continued line",
             ["R-10"] = "UTF-16 code units excluding line terminator",
             ["R-37"] = ("lines between body braces including blank lines; local " +
-                "functions also count in parent"),
+                    "functions also count in parent"),
             ["R-49"] = "covered/total lines and branches", ["R-82"] = "covered/total lines and branches",
             ["R-74"] = "enum numeric sentinel",
         };
@@ -288,7 +288,7 @@ public static class RegisterValidator
         if (!string.Equals(a: Text(node: numeric["unit"]), b: units[id], comparisonType: StringComparison.
                 Ordinal) || !string.Equals(a: Text(node: numeric["comparison"]), b: comparison, comparisonType:
                 StringComparison.Ordinal) || !string.Equals(a: Text(node: numeric["rounding"]), b: rounding,
-                comparisonType: StringComparison.Ordinal)) errors.Add(item: id + ": NUMERIC_SEMANTICS");
+                        comparisonType: StringComparison.Ordinal)) errors.Add(item: id + ": NUMERIC_SEMANTICS");
         if (string.Equals(a: id, b: "R-37", comparisonType: StringComparison.Ordinal))
         {
             var proofs = numeric["boundaryProofs"]?.AsArray();
@@ -327,7 +327,7 @@ public static class RegisterValidator
                     StringComparison.Ordinal)) errors.Add(item: id + ": EXEMPTION_DISPOSITION");
             SameStrings(expected: local.Where(predicate: pair => string.Equals(a: Text(node: pair.Value[
                     "sourceId"]), b: id, comparisonType: StringComparison.Ordinal)).Select(selector: pair =>
-                    pair.Key), actual: (entry["localIds"] ?? throw new System.InvalidOperationException(message
+                            pair.Key), actual: (entry["localIds"] ?? throw new System.InvalidOperationException(message
                     : "Required proof value is null")).AsArray(), diagnostic: id + ": LOCAL_EXEMPTION_REFERENCE"
                     , errors: errors);
         }
@@ -349,11 +349,11 @@ public static class RegisterValidator
                     StringComparison.Ordinal) || !string.Equals(a: Text(node: entry["diagnostic"]), b:
                     "FORMAT_FINAL_NEWLINE", comparisonType: StringComparison.Ordinal) || !string.Equals(a: path
                     , b: "tests/phase1/packages.lock.json", comparisonType: StringComparison.Ordinal) || !string
-                    .Equals(a: Text(node: entry["subject"]), b: "no final newline", comparisonType:
+                            .Equals(a: Text(node: entry["subject"]), b: "no final newline", comparisonType:
                     StringComparison.Ordinal)) errors.Add(item: id + ": EXEMPTION_UNOBSERVED");
             if (!string.Equals(a: Text(node: entry["positiveProof"]), b: Text(node: entry["rule"]) + ".positive"
                     , comparisonType: StringComparison.Ordinal) || !string.Equals(a: Text(node: entry[
-                    "negativeProof"]), b: Text(node: entry["rule"]) + ".negative", comparisonType:
+                            "negativeProof"]), b: Text(node: entry["rule"]) + ".negative", comparisonType:
                     StringComparison.Ordinal)) errors.Add(item: id + ": EXEMPTION_PROOF");
             if (!string.Equals(a: Text(node: entry["status"]), b: "pending", comparisonType: StringComparison.
                     Ordinal) || implemented) errors.Add(item: id + ": EXEMPTION_BOUNDARY_PENDING");
@@ -433,7 +433,7 @@ public static class RegisterValidator
         if (!string.Equals(a: Text(node: manifest["revision"]), b: Revision, comparisonType: StringComparison.
                 Ordinal) || !string.Equals(a: Text(node: register["revision"]), b: Revision, comparisonType:
                 StringComparison.Ordinal) || manifest["cleanAtCapture"]?.GetValue<bool>() != true) errors.Add(
-                item: "CAPTURE: REVISION");
+                        item: "CAPTURE: REVISION");
         if (!string.Equals(a: Text(node: manifest["archiveSha256"]), b: ArchiveHash, comparisonType:
                 StringComparison.Ordinal) || !string.Equals(a: Text(node: register["archiveSha256"]), b:
                 ArchiveHash, comparisonType: StringComparison.Ordinal)) errors.Add(item: "CAPTURE: ARCHIVE_IDENTITY");
@@ -447,8 +447,8 @@ public static class RegisterValidator
                     Text(node: row["sha256"]), comparisonType: StringComparison.Ordinal) || bytes.Length != (row
                     ["size"] ?? throw new System.InvalidOperationException(message:
                     "Required proof value is null")).GetValue<long>() || !string.Equals(a: Text(node: row[
-                    "modification"]), b: "unmodified", comparisonType: StringComparison.Ordinal)) errors.Add(
-                    item: "CAPTURE: FILE_HASH: " + path);
+                            "modification"]), b: "unmodified", comparisonType: StringComparison.Ordinal)) errors.Add(
+                                    item: "CAPTURE: FILE_HASH: " + path);
         var expectedHeadings = CaptureHeadings(files: files);
         ValidateHeadings(manifest: manifest, expectedHeadings: expectedHeadings, errors: errors);
         ValidateSourceRows(manifest: manifest, register: register, exemptions: exemptions, files: files,
@@ -475,7 +475,7 @@ public static class RegisterValidator
                 if (enforcement is null) continue;
                 var ids = Regex.Matches(input: enforcement, pattern: @"\[(?<id>R-\d+)\]", options: RegexOptions.
                         CultureInvariant | RegexOptions.NonBacktracking, matchTimeout: TimeSpan.FromSeconds(
-                        seconds: 1)).Select(selector: m => m.Groups["id"].Value).ToArray();
+                                seconds: 1)).Select(selector: m => m.Groups["id"].Value).ToArray();
                 expectedHeadings.Add(item: new JsonObject { ["path"] = path, ["line"] = i + 1, ["title"] = lines
                         [i][4..].Trim(), ["sourceIds"] = new JsonArray(items: ids.Select(selector: x => (
                         JsonNode?)JsonValue.Create(value: x)).ToArray()) });
@@ -488,7 +488,7 @@ public static class RegisterValidator
     {
         if (expectedHeadings.Count != 84 || expectedHeadings.Count(predicate: n => Text(node: n["path"]).
                 EndsWith(value: "/code-style.md", comparisonType: StringComparison.Ordinal)) != 49) errors.Add(
-                item: "CAPTURE: HEADING_COUNT");
+                        item: "CAPTURE: HEADING_COUNT");
         var headings = Unique(rows: Rows(node: manifest, name: "headings"), key: HeadingKey, diagnostic:
                 "HEADING", errors: errors);
         if (!headings.Keys.ToHashSet(comparer: StringComparer.Ordinal).SetEquals(other: expectedHeadings.Select(
@@ -500,9 +500,9 @@ public static class RegisterValidator
                     : StringComparison.Ordinal)) errors.Add(item: HeadingKey(node: expected) + ": HEADING_TITLE");
             SameStrings(expected: (expected["sourceIds"] ?? throw new System.InvalidOperationException(message:
                     "Required proof value is null")).AsArray().Select(selector: Text), actual: (actual[
-                    "sourceIds"] ?? throw new System.InvalidOperationException(message:
+                            "sourceIds"] ?? throw new System.InvalidOperationException(message:
                     "Required proof value is null")).AsArray(), diagnostic: HeadingKey(node: expected) +
-                    ": HEADING_IDS", errors: errors);
+                            ": HEADING_IDS", errors: errors);
         }
     }
 
@@ -529,7 +529,7 @@ public static class RegisterValidator
             if (!rows.TryGetValue(key: id, value: out var row) || !string.Equals(a: Text(node: row["raw"]), b:
                     matrixLines[i], comparisonType: StringComparison.Ordinal) || (row["line"] ?? throw new
                     System.InvalidOperationException(message: "Required proof value is null")).GetValue<int>()
-                    != i + 1) errors.Add(item: id + ": SOURCE_ROW");
+                            != i + 1) errors.Add(item: id + ": SOURCE_ROW");
             if (row is not null) ValidateSourceFields(row: row, line: matrixLines[i], id: id, isRule: isRule,
                     errors: errors);
         }
@@ -547,12 +547,12 @@ public static class RegisterValidator
             if (!matrix.ContainsKey(key: id)) { errors.Add(item: id + ": UNKNOWN_RULE"); continue; }
             SameStrings(expected: expectedHeadings.Where(predicate: h => (h["sourceIds"] ?? throw new System.
                     InvalidOperationException(message: "Required proof value is null")).AsArray().Select(
-                    selector: Text).Contains(value: id, comparer: StringComparer.Ordinal)).Select(selector:
+                            selector: Text).Contains(value: id, comparer: StringComparer.Ordinal)).Select(selector:
                     HeadingKey), actual: rule["headingRefs"] as JsonArray, diagnostic: id + ": HEADING_RELATION"
                     , errors: errors);
             if (!new[] { "retained", "adapted", "inapplicable" }.Contains(value: Text(node: rule["disposition"])
                     , comparer: StringComparer.Ordinal) || string.IsNullOrWhiteSpace(value: Text(node: rule[
-                    "reason"]))) errors.Add(item: id + ": DISPOSITION");
+                            "reason"]))) errors.Add(item: id + ": DISPOSITION");
         }
         var dispositions = Unique(rows: Rows(node: exemptions, name: "donorExemptions"), key: n => Text(node: n[
                 "sourceId"]), diagnostic: "EXEMPTION_ID", errors: errors);
@@ -561,7 +561,7 @@ public static class RegisterValidator
         foreach (var (id, entry) in dispositions)
             if (!new[] { "retained", "adapted", "inapplicable" }.Contains(value: Text(node: entry["disposition"]
                     ), comparer: StringComparer.Ordinal) || string.IsNullOrWhiteSpace(value: Text(node: entry[
-                    "reason"]))) errors.Add(item: id + ": DISPOSITION");
+                            "reason"]))) errors.Add(item: id + ": DISPOSITION");
     }
 
     private static void ValidateSourceFields(JsonNode row, string line, string id, bool isRule, List<string> errors)

@@ -22,11 +22,11 @@ public sealed class AnalyzerSourceConsumerTests
                 oldChar: '\\', newChar: '/');
         string xml = "<Project Sdk=\"Microsoft.NET.Sdk\"><PropertyGroup>"
                 + ("<TargetFramework>netstandard2.0</TargetFramework><EnforceExten" +
-                "dedAnalyzerRules>true</EnforceExtendedAnalyzerRules>")
+                        "dedAnalyzerRules>true</EnforceExtendedAnalyzerRules>")
                 + ("<IsRoslynComponent>true</IsRoslynComponent><EnableDefau" +
-                "ltCompileItems>false</EnableDefaultCompileItems>")
+                        "ltCompileItems>false</EnableDefaultCompileItems>")
                 + ("</PropertyGroup><ItemGroup><PackageReference Include=\"M" +
-                "icrosoft.CodeAnalysis.CSharp\"/>")
+                        "icrosoft.CodeAnalysis.CSharp\"/>")
                 + "<PackageReference Include=\"Microsoft.CodeAnalysis.Analyzers\"/>"
                 + "<Compile Include=\"" + sources + "/*.cs\"/>"
                 + "<AdditionalFiles Include=\"" + sources + "/AnalyzerReleases.*.md\"/></ItemGroup></Project>";
@@ -37,6 +37,6 @@ public sealed class AnalyzerSourceConsumerTests
         build.Exit.ShouldBe(expected: 0, customMessage: build.Output);
         ProofProtocol.Record(id: "rules.analyzer-source-consumer", diagnostic: "ANALYZER_SOURCE_CONSUMER_BUILT",
                 location: ("actual throwaway consumer includes every tools/code-rul" +
-                "es source and built custom analyzer"));
+                        "es source and built custom analyzer"));
     }
 }

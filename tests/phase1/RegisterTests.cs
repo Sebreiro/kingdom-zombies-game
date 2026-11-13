@@ -1,7 +1,7 @@
-using System.Text.Json.Nodes;
 using System;
 using System.IO;
 using System.Linq;
+using System.Text.Json.Nodes;
 using Shouldly;
 using Xunit;
 
@@ -22,10 +22,10 @@ public sealed class RegisterTests
         (((input.Register["rules"] ?? throw new System.InvalidOperationException(message:
                 "Required proof value is null"))[0] ?? throw new System.InvalidOperationException(message:
                 "Required proof value is null"))["headingRefs"] ?? throw new System.InvalidOperationException(
-                message: "Required proof value is null")).AsArray().RemoveAt(index: 0);
+                        message: "Required proof value is null")).AsArray().RemoveAt(index: 0);
         RegisterValidator.Validate(manifest: input.Manifest, register: input.Register, exemptions: input.
                 Exemptions).ShouldContain(elementPredicate: x => x.Contains(value: "R-01: HEADING_RELATION",
-                comparisonType: StringComparison.Ordinal));
+                        comparisonType: StringComparison.Ordinal));
         ProofProtocol.Record(id: "register.capture", diagnostic: "CAPTURE_EXACT", location:
                 "85 IDs, 84 heading occurrences, 24 donor exemptions and missing R-01 relation");
     }
@@ -69,7 +69,7 @@ public sealed class RegisterTests
         var row = ((input.Register["rules"] ?? throw new System.InvalidOperationException(message:
                 "Required proof value is null")).AsArray().Single(predicate: x => string.Equals(a: ((x ?? throw
                 new System.InvalidOperationException(message: "Required proof value is null"))["sourceId"] ??
-                throw new System.InvalidOperationException(message: "Required proof value is null")).GetValue<
+                        throw new System.InvalidOperationException(message: "Required proof value is null")).GetValue<
                 string>(), b: "R-37", comparisonType: StringComparison.Ordinal)) ?? throw new System.
                 InvalidOperationException(message: "Required proof value is null"));
         (row["headingRefs"] ?? throw new System.InvalidOperationException(message:
@@ -89,7 +89,7 @@ public sealed class RegisterTests
                 ["boundaries"] ?? throw new System.InvalidOperationException(message:
                 "Required proof value is null")).AsArray().Select(selector: x => (x ?? throw new System.
                 InvalidOperationException(message: "Required proof value is null")).GetValue<int>()).ShouldBe(
-                expected: BodyBoundaries);
+                        expected: BodyBoundaries);
         ((row["positiveProof"] ?? throw new System.InvalidOperationException(message:
                 "Required proof value is null"))["id"] ?? throw new System.InvalidOperationException(message:
                 "Required proof value is null")).GetValue<string>().ShouldBe(expected: "R-37.positive");
@@ -98,8 +98,8 @@ public sealed class RegisterTests
                 "Required proof value is null")).GetValue<string>().ShouldBe(expected: "R-37.negative");
         ProofProtocol.Record(id: "register.r37-trace", diagnostic: "R37_TRACE_EXACT", location: (
                 "R-37 source identity → SCR0006 pending implementation →" +
-                " declared 59/60/61 boundaries; no enforcement pass clai" +
-                "med"));
+                        " declared 59/60/61 boundaries; no enforcement pass clai" +
+                        "med"));
     }
 
     /// <summary>Requires an enforcement mechanism for an applicable rule.</summary>
@@ -107,7 +107,7 @@ public sealed class RegisterTests
     public void SchemaMissingMechanismIsRejected() => RejectCapture(id: "register.schema", mutate: (m, r, e) =>
             ((r["rules"] ?? throw new System.InvalidOperationException(message: "Required proof value is null"))
             [0] ?? throw new System.InvalidOperationException(message: "Required proof value is null"))[
-            "mechanism"] = null, expected: "R-01: MECHANISM_REQUIRED");
+                    "mechanism"] = null, expected: "R-01: MECHANISM_REQUIRED");
 
     /// <summary>Reports the rule ID when its heading relation field is absent.</summary>
     [Fact, Trait("Case", "register.missing-relation-field")]
@@ -133,24 +133,24 @@ public sealed class RegisterTests
         (input.Exemptions["donorExemptions"] ?? throw new System.InvalidOperationException(message:
                 "Required proof value is null")).AsArray().Any(predicate: x => string.Equals(a: ((x ?? throw
                 new System.InvalidOperationException(message: "Required proof value is null"))["sourceId"] ??
-                throw new System.InvalidOperationException(message: "Required proof value is null")).GetValue<
+                        throw new System.InvalidOperationException(message: "Required proof value is null")).GetValue<
                 string>(), b: "EX-22", comparisonType: StringComparison.Ordinal)).ShouldBeFalse();
         ProofProtocol.Record(id: "ac-05.complete", diagnostic: "INVENTORY_EXACT", location: (
                 "complete local immutable source inventory and all dispo" +
-                "sitions; enforcement separately pending"));
+                        "sitions; enforcement separately pending"));
     }
 
     /// <summary>Rejects a second R-01 declaration with a conflicting disposition.</summary>
     [Fact, Trait("Case", "edge.rule-02.adjacency")]
     public void SchemaConflictingDuplicateCannotMaskOriginal() => RejectCapture(id: "edge.rule-02.adjacency",
             mutate: (m, r, e) =>
-    {
+            {
         var copy = ((r["rules"] ?? throw new System.InvalidOperationException(message:
                 "Required proof value is null"))[0] ?? throw new System.InvalidOperationException(message:
                 "Required proof value is null")).DeepClone(); copy["disposition"] = "inapplicable"; (r["rules"]
-                ?? throw new System.InvalidOperationException(message: "Required proof value is null")).AsArray(
+                        ?? throw new System.InvalidOperationException(message: "Required proof value is null")).AsArray(
                 ).Add(item: copy);
-    }, expected: "R-01: RULE_ID: DUPLICATE_OR_EMPTY");
+            }, expected: "R-01: RULE_ID: DUPLICATE_OR_EMPTY");
 
     /// <summary>Rejects nine detached mutations that empty inventories or remove required mapping fields.</summary>
     [Fact, Trait("Case", "edge.rule-02.empty")]
@@ -188,7 +188,7 @@ public sealed class RegisterTests
             var input = Inputs(); mutation.Apply(input.Manifest, input.Register, input.Exemptions);
             RegisterValidator.Validate(manifest: input.Manifest, register: input.Register, exemptions: input.
                     Exemptions).ShouldContain(elementPredicate: x => x.Contains(value: mutation.Diagnostic,
-                    comparisonType: StringComparison.Ordinal));
+                            comparisonType: StringComparison.Ordinal));
         }
         ProofProtocol.Record(id: "edge.rule-02.empty", diagnostic: "REQUIRED_FIELDS_REJECTED", location:
                 "nine detached empty/missing inventory and required mapping mutations");
@@ -202,7 +202,7 @@ public sealed class RegisterTests
         {
             var input = Inputs(); ((input.Register["rules"] ?? throw new System.InvalidOperationException(
                     message: "Required proof value is null"))[0] ?? throw new System.InvalidOperationException(
-                    message: "Required proof value is null"))["sourceId"] = value;
+                            message: "Required proof value is null"))["sourceId"] = value;
             RegisterValidator.Validate(manifest: input.Manifest, register: input.Register, exemptions: input.
                     Exemptions).ShouldContain(expected: "REGISTER: RULE_INVENTORY", comparer: StringComparer.Ordinal);
         }
@@ -212,7 +212,7 @@ public sealed class RegisterTests
                 UTF8.GetBytes(s: "{\"rules\":[],\"rules\":[]}"))).Message.ShouldContain(expected: "JSON_DUPLICATE");
         ProofProtocol.Record(id: "edge.rule-02.encoding", diagnostic: "IDENTITY_EXACT", location: (
                 "case, width, leading zero, combining and dotless charac" +
-                "ters; malformed UTF-8 and duplicate JSON keys"));
+                        "ters; malformed UTF-8 and duplicate JSON keys"));
     }
 
     /// <summary>Checks that row and relation permutations preserve coverage while unknown rule IDs still
@@ -243,7 +243,7 @@ public sealed class RegisterTests
                 Exemptions).ShouldContain(expected: "REGISTER: RULE_INVENTORY", comparer: StringComparer.Ordinal);
         ProofProtocol.Record(id: "edge.rule-02.ordering", diagnostic: "PERMUTATION_EQUAL", location: (
                 "row/file/heading/relation permutations preserve full co" +
-                "verage; unknown ID remains rejected"));
+                        "verage; unknown ID remains rejected"));
     }
 
     /// <summary>Rejects a mechanism path whose filename casing differs from the declared symbol.</summary>
@@ -276,8 +276,8 @@ public sealed class RegisterTests
             => (((r["rules"] ?? throw new System.InvalidOperationException(message:
             "Required proof value is null"))[36] ?? throw new System.InvalidOperationException(message:
             "Required proof value is null"))["positiveProof"] ?? throw new System.InvalidOperationException(
-            message: "Required proof value is null"))["path"] =
-            "tests/phase1/Analyzers/bodyLengthAnalyzerTests.cs", expected: "R-37: PROOF_PATH");
+                    message: "Required proof value is null"))["path"] =
+                            "tests/phase1/Analyzers/bodyLengthAnalyzerTests.cs", expected: "R-37: PROOF_PATH");
 
     /// <summary>Keeps composed and decomposed Unicode paths distinct from the required ASCII path.</summary>
     [Fact, Trait("Case", "register.reference-unicode")]
@@ -287,9 +287,9 @@ public sealed class RegisterTests
         {
             var input = Inputs(); (((input.Register["rules"] ?? throw new System.InvalidOperationException(
                     message: "Required proof value is null"))[36] ?? throw new System.InvalidOperationException(
-                    message: "Required proof value is null"))["mechanism"] ?? throw new System.
+                            message: "Required proof value is null"))["mechanism"] ?? throw new System.
                     InvalidOperationException(message: "Required proof value is null"))["path"] =
-                    "tools/code-rules/" + spelling;
+                            "tools/code-rules/" + spelling;
             RegisterValidator.Validate(manifest: input.Manifest, register: input.Register, exemptions: input.
                     Exemptions).ShouldContain(expected: "R-37: MECHANISM_REFERENCE", comparer: StringComparer.Ordinal);
         }
@@ -331,7 +331,8 @@ public sealed class RegisterTests
             : (m, r, e) => (((r["rules"] ?? throw new System.InvalidOperationException(message:
             "Required proof value is null"))[0] ?? throw new System.InvalidOperationException(message:
             "Required proof value is null"))["documentation"] ?? throw new System.InvalidOperationException(
-            message: "Required proof value is null"))["symbol"] = "r-01", expected: "R-01: DOCUMENTATION_REFERENCE");
+                    message: "Required proof value is null"))["symbol"] = "r-01", expected:
+                            "R-01: DOCUMENTATION_REFERENCE");
 
     /// <summary>Rejects a body-length limit changed from the captured numeric policy.</summary>
     [Fact, Trait("Case", "register.numeric")]
@@ -356,7 +357,7 @@ public sealed class RegisterTests
             "Required proof value is null"))[36] ?? throw new System.InvalidOperationException(message:
             "Required proof value is null"))["numeric"] ?? throw new System.InvalidOperationException(message:
             "Required proof value is null"))["boundaryProofs"] ?? throw new System.InvalidOperationException(
-            message: "Required proof value is null"))[1] ?? throw new System.InvalidOperationException(message:
+                    message: "Required proof value is null"))[1] ?? throw new System.InvalidOperationException(message:
             "Required proof value is null"))["id"] = "rules.body.59", expected:
             "rules.body.59: BOUNDARY_PROOF: DUPLICATE_OR_EMPTY");
 
@@ -366,7 +367,8 @@ public sealed class RegisterTests
             e) => (((r["rules"] ?? throw new System.InvalidOperationException(message:
             "Required proof value is null"))[23] ?? throw new System.InvalidOperationException(message:
             "Required proof value is null"))["qualitativeReview"] ?? throw new System.InvalidOperationException(
-            message: "Required proof value is null"))["status"] = "pass", expected: "R-24: HUMAN_REVIEW_PENDING");
+                    message: "Required proof value is null"))["status"] = "pass", expected:
+                            "R-24: HUMAN_REVIEW_PENDING");
 
     /// <summary>Rejects duplicate local exemption IDs before scopes can be combined.</summary>
     [Fact, Trait("Case", "register.exemption-duplicate")]
@@ -381,13 +383,13 @@ public sealed class RegisterTests
     [Fact, Trait("Case", "register.exemption-overlap")]
     public void SchemaOverlappingExemptionsAreRejected() => RejectCapture(id: "register.exemption-overlap",
             mutate: (m, r, e) =>
-    {
+            {
         var clone = ((e["local"] ?? throw new System.InvalidOperationException(message:
                 "Required proof value is null"))[0] ?? throw new System.InvalidOperationException(message:
                 "Required proof value is null")).DeepClone(); clone["id"] = "KZ-EX-LOCK-02"; (e["local"] ??
-                throw new System.InvalidOperationException(message: "Required proof value is null")).AsArray().
+                        throw new System.InvalidOperationException(message: "Required proof value is null")).AsArray().
                 Add(item: clone);
-    }, expected: "KZ-EX-LOCK-02: EXEMPTION_OVERLAP");
+            }, expected: "KZ-EX-LOCK-02: EXEMPTION_OVERLAP");
 
     /// <summary>Rejects replacing an exact lock-file exemption with a directory glob.</summary>
     [Fact, Trait("Case", "register.exemption-broad")]
@@ -408,11 +410,11 @@ public sealed class RegisterTests
                 input.Exemptions, requireImplemented: true);
         strict.ShouldContain(expected: "R-37: IMPLEMENTATION_PENDING", comparer: StringComparer.Ordinal);
         strict.ShouldNotContain(expected: "R-37: PROOF_UNIMPLEMENTED", comparer: StringComparer.Ordinal);
-        strict.ShouldContain(expected: "R-09: PROOF_UNIMPLEMENTED", comparer: StringComparer.Ordinal);
+        strict.ShouldNotContain(expected: "R-09: PROOF_UNIMPLEMENTED", comparer: StringComparer.Ordinal);
         strict.ShouldContain(expected: "R-24: HUMAN_REVIEW_PENDING", comparer: StringComparer.Ordinal);
         ProofProtocol.Record(id: "register.pending", diagnostic: "IMPLEMENTATION_PENDING", location: (
                 "structural capture passes; unbound enforcement and qual" +
-                "itative judgment cannot satisfy full AC-06"));
+                        "itative judgment cannot satisfy full AC-06"));
     }
 
     /// <summary>Checks R43 has an explicit inapplicable disposition and reason without enforcement mappings.</summary>
@@ -466,7 +468,7 @@ public sealed class RegisterTests
         var row = ((input.Register["rules"] ?? throw new System.InvalidOperationException(message:
                 "Required proof value is null")).AsArray().Single(predicate: x => string.Equals(a: ((x ?? throw
                 new System.InvalidOperationException(message: "Required proof value is null"))["sourceId"] ??
-                throw new System.InvalidOperationException(message: "Required proof value is null")).GetValue<
+                        throw new System.InvalidOperationException(message: "Required proof value is null")).GetValue<
                 string>(), b: id, comparisonType: StringComparison.Ordinal)) ?? throw new System.
                 InvalidOperationException(message: "Required proof value is null"));
         (row["disposition"] ?? throw new System.InvalidOperationException(message:

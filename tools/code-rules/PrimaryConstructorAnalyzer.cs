@@ -20,7 +20,7 @@ public sealed class PrimaryConstructorAnalyzer : DiagnosticAnalyzer
             id: DiagnosticId,
             title: "No primary constructors",
             messageFormat: ("Replace the primary constructor with an ordinary constr" +
-                "uctor that assigns fields"),
+                    "uctor that assigns fields"),
             category: "Sebreiro.CodeRules",
             defaultSeverity: DiagnosticSeverity.Error,
             isEnabledByDefault: true);

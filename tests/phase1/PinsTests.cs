@@ -28,27 +28,27 @@ public sealed class PinsTests
     [Fact, Trait("Case", "pins.generator")]
     public void IncompatibleGeneratorIsRejected() => Reject(id: "pins.generator", mutation: (
             "m.godotPackages.find(x=>x.id==='Godot.SourceGenerators'" +
-                ").version='4.7.1';b.validateManifest(m)"), diagnostic: "PINS_MISMATCH");
+                    ").version='4.7.1';b.validateManifest(m)"), diagnostic: "PINS_MISMATCH");
     /// <summary>Compares an actual foreign executable identity against the pinned engine.</summary>
     [Fact, Trait("Case", "pins.observed-engine")]
     public void WrongActualEngineToolIsRejected() => Reject(id: "pins.observed-engine", mutation: (
             "const r=cp.spawnSync(process.execPath,['--version'],{en" +
-                "coding:'utf8'});if(r.status!==0)throw Error('prerequisi" +
-                "te');b.observedIdentity('engine',r.stdout.trim(),m.engi" +
-                "neFullVersion)"), diagnostic: "PINS_MISMATCH");
+                    "coding:'utf8'});if(r.status!==0)throw Error('prerequisi" +
+                    "te');b.observedIdentity('engine',r.stdout.trim(),m.engi" +
+                    "neFullVersion)"), diagnostic: "PINS_MISMATCH");
     /// <summary>Rejects the SDK identity when presented as the required compiler identity.</summary>
     [Fact, Trait("Case", "pins.observed-compiler")]
     public void WrongActualCompilerIdentityIsRejected() => Reject(id: "pins.observed-compiler", mutation: (
             "const r=cp.spawnSync('dotnet',['--version'],{encoding:'" +
-                "utf8'});if(r.status!==0)throw Error('prerequisite');b.o" +
-                "bservedIdentity('compiler',r.stdout.trim(),m.compiler)"), diagnostic: "PINS_MISMATCH");
+                    "utf8'});if(r.status!==0)throw Error('prerequisite');b.o" +
+                    "bservedIdentity('compiler',r.stdout.trim(),m.compiler)"), diagnostic: "PINS_MISMATCH");
     /// <summary>Hashes the acquired generator package and rejects an intentionally different hash.</summary>
     [Fact, Trait("Case", "pins.observed-generator")]
     public void WrongGeneratorPayloadIdentityIsRejected() => Reject(id: "pins.observed-generator", mutation: (
             "const r=fs.readFileSync('.phase1/feed/Godot.SourceGener" +
-                "ators.4.7.2.nupkg');const h=require('node:crypto').crea" +
-                "teHash('sha256').update(r).digest('hex');b.observedIden" +
-                "tity('generator-payload',h,'0'.repeat(64))"), diagnostic: "PINS_MISMATCH");
+                    "ators.4.7.2.nupkg');const h=require('node:crypto').crea" +
+                    "teHash('sha256').update(r).digest('hex');b.observedIden" +
+                    "tity('generator-payload',h,'0'.repeat(64))"), diagnostic: "PINS_MISMATCH");
 
     /// <summary>Proves equivalent declaration and candidate permutations select the same toolchain.</summary>
     [Fact, Trait("Case", "pins.permutation")]
@@ -100,9 +100,9 @@ public sealed class PinsTests
         var script = ("const b=require('./tools/phase1/bootstrap.cjs'),fs=requ" +
                 "ire('node:fs'),cp=require('node:child_process'),p=requi" +
                 "re('node:path'); ") +
-            "const m=JSON.parse(fs.readFileSync('tools/phase1/toolchain.json')); " +
-            "try { " + mutation + ("; console.log('ACCEPTED'); } catch(e) { console.log(e.d" +
-                "iagnostic); process.exitCode=1; }");
+                "const m=JSON.parse(fs.readFileSync('tools/phase1/toolchain.json')); " +
+                "try { " + mutation + ("; console.log('ACCEPTED'); } catch(e) { console.log(e.d" +
+                        "iagnostic); process.exitCode=1; }");
         var result = ProofProtocol.Node(script: script);
         result.Exit.ShouldBe(expected: 1);
         result.Output.Trim().ShouldBe(expected: diagnostic);

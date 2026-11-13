@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
-using Microsoft.CodeAnalysis;
 using KingdomZombies.Phase1.Tests.Verification;
+using Microsoft.CodeAnalysis;
 using Xunit;
 
 namespace KingdomZombies.Phase1.Tests.Analyzers;
@@ -168,10 +168,10 @@ public sealed class BodyCommentAnalyzerTests
     {
         return VerifyAsync(caseId: "rules.bodycomment.FieldInitializerLambda_Comment_Reports", diagnostic:
                 "SCR0002", source: ("using System;\n\nclass C\n{\n    private static readonly Fu" +
-                "nc<int, int> _block = x =>\n    {\n        {|SCR0002:// b" +
-                "lock|}\n        return x;\n    };\n\n    private static rea" +
-                "donly Func<int, int> _expression = x => x {|SCR0002:/* " +
-                "expression */|} + 1;\n}"));
+                        "nc<int, int> _block = x =>\n    {\n        {|SCR0002:// b" +
+                        "lock|}\n        return x;\n    };\n\n    private static rea" +
+                        "donly Func<int, int> _expression = x => x {|SCR0002:/* " +
+                        "expression */|} + 1;\n}"));
     }
 
     /// <summary>A <c>///</c> comment inside a method body is a body comment.</summary>
@@ -323,10 +323,10 @@ public sealed class BodyCommentAnalyzerTests
     {
         return VerifyAsync(caseId: "rules.bodycomment.block-doc-anonymous", diagnostic: "SCR0002", source: (
                 "class C\n{\n    static int Run()\n    {\n        {|SCR0002:" +
-                "/** <summary>Local.</summary>|}\n         */\n        int" +
-                " Local() { return 1; }\n        System.Func<int> f = del" +
-                "egate { {|SCR0002:/* body */|} return Local(); };\n     " +
-                "   return f();\n    }\n}").Replace(oldValue: "\n", newValue: "\r\n", comparisonType: System.
+                        "/** <summary>Local.</summary>|}\n         */\n        int" +
+                        " Local() { return 1; }\n        System.Func<int> f = del" +
+                        "egate { {|SCR0002:/* body */|} return Local(); };\n     " +
+                        "   return f();\n    }\n}").Replace(oldValue: "\n", newValue: "\r\n", comparisonType: System.
                         StringComparison.Ordinal));
     }
 

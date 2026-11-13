@@ -49,7 +49,7 @@ public sealed class GeneratedLayoutAdapterTests
         }
         ProofProtocol.Record(id: "rules.generated-layout-origin", diagnostic: "GENERATED_LAYOUT_ORIGIN_EXACT",
                 location: ("four immutable source files, seven diagnostic/member p" +
-                "ermissions, SDK/package origin"));
+                        "ermissions, SDK/package origin"));
     }
 
     /// <summary>Exact original source passes; identical paths with changed bytes and wrong paths fail exact
@@ -81,7 +81,7 @@ public sealed class GeneratedLayoutAdapterTests
         RejectAdjacentMembers();
         ProofProtocol.Record(id: "rules.generated-layout-boundary", diagnostic: "GENERATED_LAYOUT_BOUNDARY_REJECTED",
                 location: ("actual Roslyn original/mutated/wrong-path diagnostics p" +
-                "lus adjacent SCR0007/SCR0008 builds"));
+                        "lus adjacent SCR0007/SCR0008 builds"));
     }
 
     /// <summary>Invalid UTF-8 is rejected before it can become a replacement-character source subject.</summary>
@@ -91,21 +91,21 @@ public sealed class GeneratedLayoutAdapterTests
 
         foreach (byte[] bytes in new byte[][] { [0xc0, 0xaf], [0xed, 0xa0, 0x80], [0xf0, 0x9f, 0x98] })
             {
-                string path = Local(path: ".phase1/temp/invalid-source-" + Guid.NewGuid().ToString(format: "N") 
+                string path = Local(path: ".phase1/temp/invalid-source-" + Guid.NewGuid().ToString(format: "N")
                         + ".cs");
                 File.WriteAllBytes(path: path, bytes: bytes);
                 Should.Throw<DecoderFallbackException>(actual: () => InheritedAnalyzerVerifier.ReadUtf8(path: path));
             }
         ProofProtocol.Record(id: "rules.line.invalid-utf8", diagnostic: "SOURCE_ENCODING_INVALID",
                 location: ("strict subject decoding: overlong UTF-8, encoded surrog" +
-                "ate and truncated scalar"));
+                        "ate and truncated scalar"));
     }
 
     private static async Task RejectLinesAsync(string source, string path, DiagnosticAnalyzer analyzer,
             MetadataReference[] references)
     {
         var expected = SourceText.From(text: source).Lines.Where(predicate: line => line.Span.Length > 120)
-                .Select(selector: line => new AnalyzerVerifier.Expected(id: "SCR0007", severity: 
+                .Select(selector: line => new AnalyzerVerifier.Expected(id: "SCR0007", severity:
                         DiagnosticSeverity.Error,
                         file: path, line: line.LineNumber + 1, column: 121, endLine: line.LineNumber + 1,
                         endColumn: line.Span.Length + 1)).ToArray();

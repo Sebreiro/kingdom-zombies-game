@@ -28,7 +28,7 @@ internal static class AnalyzerVerifier
         using var json = System.Text.Json.JsonDocument.Parse(json: result.Output);
         var paths = json.RootElement.GetProperty(propertyName: "Items").GetProperty(propertyName:
                 "ReferencePath").EnumerateArray().Select(selector: r => (r.GetProperty(propertyName: "FullPath")
-                .GetString() ?? throw new System.InvalidOperationException(message:
+                        .GetString() ?? throw new System.InvalidOperationException(message:
                 "Required proof value is null"))).ToArray();
         if (paths.Length < 100 || !paths.All(predicate: p => p.Replace(oldChar: '\\', newChar: '/').Contains(
                 value: "/ref/net10.0/", comparisonType: StringComparison.Ordinal))) throw new
@@ -39,7 +39,8 @@ internal static class AnalyzerVerifier
 
     internal static async Task VerifyAsync(string source, Expected[] expected, IEnumerable<MetadataReference>?
             additionalReferences = null, DiagnosticAnalyzer? analyzer = null, OutputKind outputKind = OutputKind
-            .DynamicallyLinkedLibrary, bool generated = false, string? message = null, string sourcePath = "Subject.cs")
+                    .DynamicallyLinkedLibrary, bool generated = false, string? message = null, string
+                            sourcePath = "Subject.cs")
     {
         var references = References().AddRange(items: additionalReferences ?? []);
         var tree = CSharpSyntaxTree.ParseText(text: source, options: new CSharpParseOptions(languageVersion:
@@ -47,7 +48,7 @@ internal static class AnalyzerVerifier
                 CancellationToken);
         var compilation = CSharpCompilation.Create(assemblyName: "CompilerProof", syntaxTrees: [tree],
                 references: references, options: new CSharpCompilationOptions(outputKind: outputKind,
-                nullableContextOptions: NullableContextOptions.Enable, allowUnsafe: true).
+                        nullableContextOptions: NullableContextOptions.Enable, allowUnsafe: true).
                 WithSyntaxTreeOptionsProvider(provider: new SubjectTreeOptions(generated: generated)));
         var diagnostics = compilation.GetDiagnostics(cancellationToken: TestContext.Current.CancellationToken);
         if (analyzer is not null)
@@ -72,12 +73,12 @@ internal static class AnalyzerVerifier
     {
         var actual = diagnostics.Where(predicate: d => d.Severity is DiagnosticSeverity.Warning or
                 DiagnosticSeverity.Error).Select(selector: d =>
-        {
+                {
             var span = d.Location.GetLineSpan();
             return new Expected(id: d.Id, severity: d.Severity, file: span.Path ?? "", line: span.
                     StartLinePosition.Line + 1, column: span.StartLinePosition.Character + 1, endLine: span.
                     EndLinePosition.Line + 1, endColumn: span.EndLinePosition.Character + 1);
-        }).OrderBy(keySelector: d => d.ToString(), comparer: StringComparer.Ordinal).ToArray();
+                }).OrderBy(keySelector: d => d.ToString(), comparer: StringComparer.Ordinal).ToArray();
         var wanted = expected.OrderBy(keySelector: d => d.ToString(), comparer: StringComparer.Ordinal).ToArray();
         if (!actual.SequenceEqual(other: wanted)) throw new InvalidOperationException(message:
                 "DIAGNOSTIC_MISMATCH expected=" + string.Join(separator: "; ", values: wanted.Select(selector:
@@ -114,10 +115,10 @@ internal static class AnalyzerVerifier
                 cancellationToken) { return _generated ? GeneratedKind.MarkedGenerated : GeneratedKind.NotGenerated; }
         public override bool TryGetDiagnosticValue(SyntaxTree tree, string diagnosticId, System.Threading.
                 CancellationToken cancellationToken, out ReportDiagnostic severity) { severity =
-                ReportDiagnostic.Default; return false; }
+                        ReportDiagnostic.Default; return false; }
         public override bool TryGetGlobalDiagnosticValue(string diagnosticId, System.Threading.
                 CancellationToken cancellationToken, out ReportDiagnostic severity) { severity =
-                ReportDiagnostic.Default; return false; }
+                        ReportDiagnostic.Default; return false; }
         internal SubjectTreeOptions(bool generated) { _generated = generated; }
         private readonly bool _generated;
     }

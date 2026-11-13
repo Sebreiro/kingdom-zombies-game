@@ -1,11 +1,11 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.Json.Nodes;
 using System.Threading;
 using System.Threading.Tasks;
 using Shouldly;
-using System.Diagnostics;
-using System.Text.Json.Nodes;
 using Xunit;
 
 namespace KingdomZombies.Phase1.Tests;
@@ -83,11 +83,11 @@ public sealed class RunnerContractTests
                 foreach (var row in (first[key] ?? throw new System.InvalidOperationException(message:
                         "Required proof value is null")).AsArray()) (row ?? throw new System.
                         InvalidOperationException(message: "Required proof value is null")).AsObject().Remove(
-                        propertyName: "report");
+                                propertyName: "report");
                 foreach (var row in (second[key] ?? throw new System.InvalidOperationException(message:
                         "Required proof value is null")).AsArray()) (row ?? throw new System.
                         InvalidOperationException(message: "Required proof value is null")).AsObject().Remove(
-                        propertyName: "report");
+                                propertyName: "report");
             }
             (first[key] ?? throw new System.InvalidOperationException(message: "Required proof value is null")).
                     ToJsonString().ShouldBe(expected: (second[key] ?? throw new System.InvalidOperationException
@@ -342,20 +342,20 @@ public sealed class RunnerContractTests
         var script = ("const c=require('./tools/phase1/check.cjs'); const fs=r" +
                 "equire('node:fs'); const os=require('node:os'); const p" +
                 "ath=require('node:path'); ") +
-            ("const directory=fs.mkdtempSync(path.join(process.env.TE" +
-                "MP||os.tmpdir(),'reconcile-')); fs.writeFileSync(path.j" +
-                "oin(directory,'subject.log'),'subject diagnostic'); ") +
-            ("const selected=[{id:'required',expectedDiagnostic:'EXPE" +
-                "CTED'}]; const context={nonce:'fresh',input:'input',too" +
-                "l:'tool',platform:'platform',directory}; ") +
-            ("let results=[{id:'required',nonce:'fresh',input:'input'" +
-                ",tool:'tool',platform:'platform',status:'pass',diagnost" +
-                "ic:'EXPECTED',location:'subject.cs:3',prerequisites:['b" +
-                "uild','discovery','execution'],evidence:['subject.log']" +
-                "}]; ") +
-            mutation + ("; try { c.reconcile(selected,results,context); console." +
-                "log('ACCEPTED'); } catch(e) { console.log(e.diagnostic)" +
-                "; process.exitCode=1; }");
+                ("const directory=fs.mkdtempSync(path.join(process.env.TE" +
+                        "MP||os.tmpdir(),'reconcile-')); fs.writeFileSync(path.j" +
+                        "oin(directory,'subject.log'),'subject diagnostic'); ") +
+                ("const selected=[{id:'required',expectedDiagnostic:'EXPE" +
+                        "CTED'}]; const context={nonce:'fresh',input:'input',too" +
+                        "l:'tool',platform:'platform',directory}; ") +
+                ("let results=[{id:'required',nonce:'fresh',input:'input'" +
+                        ",tool:'tool',platform:'platform',status:'pass',diagnost" +
+                        "ic:'EXPECTED',location:'subject.cs:3',prerequisites:['b" +
+                        "uild','discovery','execution'],evidence:['subject.log']" +
+                        "}]; ") +
+                mutation + ("; try { c.reconcile(selected,results,context); console." +
+                        "log('ACCEPTED'); } catch(e) { console.log(e.diagnostic)" +
+                        "; process.exitCode=1; }");
         var result = ProofProtocol.Node(script: script);
         result.Exit.ShouldBe(expected: 1);
         result.Output.Trim().ShouldBe(expected: expected);

@@ -1,6 +1,6 @@
-using Microsoft.CodeAnalysis;
 using System.Threading.Tasks;
 using KingdomZombies.Phase1.Tests.Verification;
+using Microsoft.CodeAnalysis;
 using Xunit;
 
 namespace KingdomZombies.Phase1.Tests.Analyzers;
@@ -45,7 +45,7 @@ public sealed class UsingOrderAnalyzerTests
     [Fact, Trait("Case", "rules.usingorder.Analyze_MicrosoftBeforeSystem_Reports")]
     public Task AnalyzeMicrosoftBeforeSystemReports()
     {
-        return VerifyAsync(caseId: "rules.usingorder.Analyze_MicrosoftBeforeSystem_Reports", diagnostic: 
+        return VerifyAsync(caseId: "rules.usingorder.Analyze_MicrosoftBeforeSystem_Reports", diagnostic:
                 "SCR0010", source: """
                 using Microsoft.Tools;
                 {|SCR0010:using System.Text;|}
@@ -85,7 +85,7 @@ public sealed class UsingOrderAnalyzerTests
     [Fact, Trait("Case", "rules.usingorder.Analyze_CaseIgnored_Passes")]
     public Task AnalyzeCaseIgnoredPasses()
     {
-        return VerifyAsync(caseId: "rules.usingorder.Analyze_CaseIgnored_Passes", diagnostic: 
+        return VerifyAsync(caseId: "rules.usingorder.Analyze_CaseIgnored_Passes", diagnostic:
                 "ANALYZER_ACCEPTED", source: """
                 using alpha;
                 using Beta;
@@ -110,7 +110,7 @@ public sealed class UsingOrderAnalyzerTests
     [Fact, Trait("Case", "rules.usingorder.StaticAfterPlain_AliasesLast_Passes")]
     public Task StaticAfterPlainAliasesLastPasses()
     {
-        return VerifyAsync(caseId: "rules.usingorder.StaticAfterPlain_AliasesLast_Passes", diagnostic: 
+        return VerifyAsync(caseId: "rules.usingorder.StaticAfterPlain_AliasesLast_Passes", diagnostic:
                 "ANALYZER_ACCEPTED", source: """
                 using System;
                 using Alpha.Beta;
@@ -126,7 +126,7 @@ public sealed class UsingOrderAnalyzerTests
     [Fact, Trait("Case", "rules.usingorder.Analyze_StaticBeforePlain_Reports")]
     public Task AnalyzeStaticBeforePlainReports()
     {
-        return VerifyAsync(caseId: "rules.usingorder.Analyze_StaticBeforePlain_Reports", diagnostic: "SCR0010", 
+        return VerifyAsync(caseId: "rules.usingorder.Analyze_StaticBeforePlain_Reports", diagnostic: "SCR0010",
                 source: """
                 using static System.Math;
                 {|SCR0010:using System;|}
@@ -138,7 +138,7 @@ public sealed class UsingOrderAnalyzerTests
     [Fact, Trait("Case", "rules.usingorder.Analyze_AliasBeforeStatic_Reports")]
     public Task AnalyzeAliasBeforeStaticReports()
     {
-        return VerifyAsync(caseId: "rules.usingorder.Analyze_AliasBeforeStatic_Reports", diagnostic: "SCR0010", 
+        return VerifyAsync(caseId: "rules.usingorder.Analyze_AliasBeforeStatic_Reports", diagnostic: "SCR0010",
                 source: """
                 using System;
                 using Builder = System.Text.StringBuilder;
@@ -151,7 +151,7 @@ public sealed class UsingOrderAnalyzerTests
     [Fact, Trait("Case", "rules.usingorder.Analyze_StaticGroupOutOfOrder_Reports")]
     public Task AnalyzeStaticGroupOutOfOrderReports()
     {
-        return VerifyAsync(caseId: "rules.usingorder.Analyze_StaticGroupOutOfOrder_Reports", diagnostic: 
+        return VerifyAsync(caseId: "rules.usingorder.Analyze_StaticGroupOutOfOrder_Reports", diagnostic:
                 "SCR0010", source: """
                 using static Alpha.Beta.Helpers;
                 {|SCR0010:using static System.Math;|}
@@ -163,7 +163,7 @@ public sealed class UsingOrderAnalyzerTests
     [Fact, Trait("Case", "rules.usingorder.Analyze_AliasesOutOfOrder_Reports")]
     public Task AnalyzeAliasesOutOfOrderReports()
     {
-        return VerifyAsync(caseId: "rules.usingorder.Analyze_AliasesOutOfOrder_Reports", diagnostic: "SCR0010", 
+        return VerifyAsync(caseId: "rules.usingorder.Analyze_AliasesOutOfOrder_Reports", diagnostic: "SCR0010",
                 source: """
                 using Helpers = Alpha.Gamma.Helpers;
                 {|SCR0010:using Builder = System.Text.StringBuilder;|}
@@ -175,7 +175,7 @@ public sealed class UsingOrderAnalyzerTests
     [Fact, Trait("Case", "rules.usingorder.Analyze_GlobalUsingsFirst_Pass")]
     public Task AnalyzeGlobalUsingsFirstPass()
     {
-        return VerifyAsync(caseId: "rules.usingorder.Analyze_GlobalUsingsFirst_Pass", diagnostic: 
+        return VerifyAsync(caseId: "rules.usingorder.Analyze_GlobalUsingsFirst_Pass", diagnostic:
                 "ANALYZER_ACCEPTED", source: """
                 global using System.Text;
                 global using Alpha.Beta;
@@ -189,7 +189,7 @@ public sealed class UsingOrderAnalyzerTests
     [Fact, Trait("Case", "rules.usingorder.Analyze_GlobalUsingsOutOfOrder_Report")]
     public Task AnalyzeGlobalUsingsOutOfOrderReport()
     {
-        return VerifyAsync(caseId: "rules.usingorder.Analyze_GlobalUsingsOutOfOrder_Report", diagnostic: 
+        return VerifyAsync(caseId: "rules.usingorder.Analyze_GlobalUsingsOutOfOrder_Report", diagnostic:
                 "SCR0010", source: """
                 global using Alpha.Beta;
                 {|SCR0010:global using System.Text;|}
@@ -218,7 +218,7 @@ public sealed class UsingOrderAnalyzerTests
     [Fact, Trait("Case", "rules.usingorder.NamespaceBlock_CheckedOnItsOwn_Passes")]
     public Task NamespaceBlockCheckedOnItsOwnPasses()
     {
-        return VerifyAsync(caseId: "rules.usingorder.NamespaceBlock_CheckedOnItsOwn_Passes", diagnostic: 
+        return VerifyAsync(caseId: "rules.usingorder.NamespaceBlock_CheckedOnItsOwn_Passes", diagnostic:
                 "ANALYZER_ACCEPTED", source: """
                 using Alpha.Beta;
 
@@ -239,7 +239,7 @@ public sealed class UsingOrderAnalyzerTests
     [Fact, Trait("Case", "rules.usingorder.Analyze_NamespaceBlockOutOfOrder_Reports")]
     public Task AnalyzeNamespaceBlockOutOfOrderReports()
     {
-        return VerifyAsync(caseId: "rules.usingorder.Analyze_NamespaceBlockOutOfOrder_Reports", diagnostic: 
+        return VerifyAsync(caseId: "rules.usingorder.Analyze_NamespaceBlockOutOfOrder_Reports", diagnostic:
                 "SCR0010", source: """
                 namespace Outer
                 {
@@ -276,7 +276,7 @@ public sealed class UsingOrderAnalyzerTests
     [Fact, Trait("Case", "rules.usingorder.Analyze_Message_NamesBothDirectives")]
     public Task AnalyzeMessageNamesBothDirectives()
     {
-        return VerifyAsync(caseId: "rules.usingorder.Analyze_Message_NamesBothDirectives", diagnostic: "SCR0010", 
+        return VerifyAsync(caseId: "rules.usingorder.Analyze_Message_NamesBothDirectives", diagnostic: "SCR0010",
                 source: """
                         using System.Text;
                         {|SCR0010:using System;|}
@@ -289,7 +289,7 @@ public sealed class UsingOrderAnalyzerTests
     [Fact, Trait("Case", "rules.usingorder.Analyze_GeneratedCode_IsSkipped")]
     public Task AnalyzeGeneratedCodeIsSkipped()
     {
-        return VerifyAsync(caseId: "rules.usingorder.Analyze_GeneratedCode_IsSkipped", diagnostic: "SCR0010", 
+        return VerifyAsync(caseId: "rules.usingorder.Analyze_GeneratedCode_IsSkipped", diagnostic: "SCR0010",
                 source: """
                         using System.Text;
                         {|SCR0010:using System;|}
@@ -355,8 +355,8 @@ public sealed class UsingOrderAnalyzerTests
     private static Task VerifyAsync(string caseId, string diagnostic, string source, string? editorConfig = null
             , string? message = null, OutputKind outputKind = OutputKind.DynamicallyLinkedLibrary)
     {
-        return InheritedAnalyzerVerifier.VerifyAsync(caseId: caseId, diagnostic: diagnostic, analyzerType: 
-                "UsingOrderAnalyzer", source: source, editorConfig: editorConfig, message: message, outputKind: 
+        return InheritedAnalyzerVerifier.VerifyAsync(caseId: caseId, diagnostic: diagnostic, analyzerType:
+                "UsingOrderAnalyzer", source: source, editorConfig: editorConfig, message: message, outputKind:
                 outputKind);
     }
 }

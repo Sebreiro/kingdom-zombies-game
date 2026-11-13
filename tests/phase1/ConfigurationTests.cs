@@ -1,15 +1,15 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text.Json;
+using System.Threading.Tasks;
+using KingdomZombies.Phase1.Tests.Verification;
+using Microsoft.CodeAnalysis;
 using Shouldly;
 using Xunit;
-using System.Threading.Tasks;
-using Microsoft.CodeAnalysis;
-using KingdomZombies.Phase1.Tests.Verification;
-using System.Collections.Generic;
-using System.Security.Cryptography;
 
 namespace KingdomZombies.Phase1.Tests;
 
@@ -50,7 +50,7 @@ public sealed class ConfigurationTests
         build.Exit.ShouldBe(expected: 0, customMessage: build.Output);
         var paths = new[] { "src/core/bin/Debug/net10.0/KingdomZombies.Core.dll", (
                 "src/multiplayer-abstractions/bin/Debug/net10.0/KingdomZ" +
-                "ombies.Multiplayer.Abstractions.dll"),
+                        "ombies.Multiplayer.Abstractions.dll"),
                         "src/godot-game/.godot/mono/temp/bin/Debug/KingdomZombies.dll",
                         ".phase1/packages/godotsharp/4.7.2/lib/net8.0/GodotSharp.dll" };
 
@@ -59,7 +59,7 @@ public sealed class ConfigurationTests
                 Warning, file: "", line: 1, column: 1, endLine: 1, endColumn: 1);
         await AnalyzerVerifier.VerifyAsync(source:
                 "public sealed class Consumer { public Godot.Node? Engine { get; init; } }", expected: [
-                frameworkUnification], additionalReferences: paths.Select(selector: p => MetadataReference.
+                    frameworkUnification], additionalReferences: paths.Select(selector: p => MetadataReference.
                 CreateFromFile(path: Path.Combine(path1: ProofProtocol.Root, path2: p))));
         ProofProtocol.Record(id: "pins.consumer", diagnostic: "CONSUMER_EMITTED", location:
                 "Subject.cs with actual Godot/game/Core/ports references");
@@ -188,10 +188,10 @@ public sealed class ConfigurationTests
         File.WriteAllText(path: Path.Combine((Path.GetDirectoryName(path: project) ?? throw new System.
                 InvalidOperationException(message: "Required proof value is null")), path2: "Subject.cs"),
                 contents: ("namespace CompilerFixture; /// <summary>Forbidden asser" +
-                "tion library.</summary>\npublic static class Subject { /" +
-                "// <summary>Rejects the inherited assertion ban.</summa" +
-                "ry>\npublic static void Read() { Xunit.Assert.True(condi" +
-                "tion: true); } }"));
+                        "tion library.</summary>\npublic static class Subject { /" +
+                        "// <summary>Rejects the inherited assertion ban.</summa" +
+                        "ry>\npublic static void Read() { Xunit.Assert.True(condi" +
+                        "tion: true); } }"));
         BuildFixture(project: project, succeeds: false, diagnostic: "RS0030").ShouldContain(expected: "Assert");
         ProofProtocol.Record(id: "pins.banned-tests", diagnostic: "TEST_POLICY_EXACT", location:
                 "Subject.cs: Shouldly/permission pass; Xunit.Assert RS0030");
@@ -312,14 +312,14 @@ public sealed class ConfigurationTests
         using var analyzers = JsonDocument.Parse(json: resolve.Output);
         analyzers.RootElement.GetProperty(propertyName: "Items").GetProperty(propertyName: "Analyzer").
                 EnumerateArray().Any(predicate: a => (a.GetProperty(propertyName: "FullPath").GetString() ??
-                throw new System.InvalidOperationException(message: "Required proof value is null")).Replace(
-                oldChar: '\\', newChar: '/').EndsWith(value:
+                        throw new System.InvalidOperationException(message: "Required proof value is null")).Replace(
+                                oldChar: '\\', newChar: '/').EndsWith(value:
                 "godot.sourcegenerators/4.7.2/analyzers/dotnet/cs/Godot.SourceGenerators.dll", comparisonType:
                 StringComparison.Ordinal)).ShouldBeTrue();
         var generated = Path.Combine(path1: ProofProtocol.Root, path2: (
                 "src/godot-game/.godot/mono/temp/obj/Debug/generated/God" +
-                "ot.SourceGenerators/Godot.SourceGenerators.GodotPlugins" +
-                "InitializerGenerator/GodotPlugins.Game.generated.cs"));
+                        "ot.SourceGenerators/Godot.SourceGenerators.GodotPlugins" +
+                        "InitializerGenerator/GodotPlugins.Game.generated.cs"));
         var source = File.ReadAllText(path: generated);
         source.ShouldContain(expected: ("private static godot_bool InitializeFromGameProject(Int" +
                 "Ptr godotDllHandle, IntPtr outManagedCallbacks,"));
@@ -333,8 +333,8 @@ public sealed class ConfigurationTests
         AdapterTargets.Read(source: File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root, path2:
                 "src/godot-game/GeneratedReportAdapter.cs"))).ShouldContain(expected:
                 entry.GetProperty(propertyName: "target").GetString()
-                ?? throw new InvalidOperationException(message: "Required target is missing"),
-                comparer: StringComparer.Ordinal);
+                        ?? throw new InvalidOperationException(message: "Required target is missing"),
+                        comparer: StringComparer.Ordinal);
         ProofProtocol.Record(id: "pins.generated-report", diagnostic: "GENERATOR_ORIGIN_EXACT", location: generated);
     }
 
@@ -360,9 +360,9 @@ public sealed class ConfigurationTests
                 location: "Subject.cs RS0030 adjacent / CS0111 impostor");
     }
     internal static readonly string[] Projects = ["src/core/KingdomZombies.Core.csproj",
-            "src/multiplayer-abstractions/KingdomZombies.Multiplayer.Abstractions.csproj",
-            "src/godot-game/KingdomZombies.csproj", "tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj",
-            "tests/phase1/KingdomZombies.Phase1.Tests.csproj"];
+        "src/multiplayer-abstractions/KingdomZombies.Multiplayer.Abstractions.csproj",
+        "src/godot-game/KingdomZombies.csproj", "tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj",
+        "tests/phase1/KingdomZombies.Phase1.Tests.csproj"];
 
     internal static (int Exit, string Output) Dotnet(params string[] arguments)
     {
@@ -390,7 +390,7 @@ public sealed class ConfigurationTests
         File.WriteAllText(path: targets, contents: "<Project><Import Project=\"" + Path.Combine(path1:
                 ProofProtocol.Root, path2: "Directory.Build.targets") + (
                 "\"/><ItemGroup Condition=\"'$(MSBuildProjectName)' == 'Ki" +
-                "ngdomZombies'\"><Compile Include=\"") + subject + "\"/></ItemGroup></Project>");
+                        "ngdomZombies'\"><Compile Include=\"") + subject + "\"/></ItemGroup></Project>");
         var result = Dotnet("build", Projects[2], "--no-restore", "-p:NuGetAudit=false",
                 "-p:DirectoryBuildTargetsPath=" + targets);
         result.Exit.ShouldNotBe(expected: 0, customMessage:
@@ -398,19 +398,19 @@ public sealed class ConfigurationTests
         return result.Output;
     }
     private static readonly string[] ProductNames = ["KingdomZombies.Core.csproj",
-            "KingdomZombies.Multiplayer.Abstractions.csproj"];
+        "KingdomZombies.Multiplayer.Abstractions.csproj"];
 
     private static JsonDocument Evaluate(string project, params string[] overrides)
     {
         var result = Dotnet(arguments: ["msbuild", project, "-nologo", (
                 "-getProperty:Nullable,ImplicitUsings,LangVersion,TreatW" +
-                "arningsAsErrors,MSBuildTreatWarningsAsErrors,EnforceCod" +
-                "eStyleInBuild,GenerateDocumentationFile,AnalysisLevel,D" +
-                "isableTransitiveProjectReferences,ManagePackageVersions" +
-                "Centrally,CentralPackageTransitivePinningEnabled,Restor" +
-                "ePackagesWithLockFile,DirectoryBuildPropsPath,Directory" +
-                "BuildTargetsPath,DirectoryPackagesPropsPath"),
-                        "-getItem:ProjectReference,GlobalPackageReference,AdditionalFiles", .. overrides]);
+                        "arningsAsErrors,MSBuildTreatWarningsAsErrors,EnforceCod" +
+                        "eStyleInBuild,GenerateDocumentationFile,AnalysisLevel,D" +
+                        "isableTransitiveProjectReferences,ManagePackageVersions" +
+                        "Centrally,CentralPackageTransitivePinningEnabled,Restor" +
+                        "ePackagesWithLockFile,DirectoryBuildPropsPath,Directory" +
+                        "BuildTargetsPath,DirectoryPackagesPropsPath"),
+            "-getItem:ProjectReference,GlobalPackageReference,AdditionalFiles", .. overrides]);
         if (result.Exit != 0) throw new InvalidOperationException(message: "EVALUATION_FAILED: " + result.Output);
         return JsonDocument.Parse(json: result.Output);
     }
@@ -418,12 +418,21 @@ public sealed class ConfigurationTests
     private static void ValidateConfiguration(JsonDocument document, bool analyzerProject)
     {
         var properties = document.RootElement.GetProperty(propertyName: "Properties");
-        var required = new Dictionary<string, string>(comparer: StringComparer.Ordinal) { ["Nullable"] =
-                "enable", ["ImplicitUsings"] = "disable", ["LangVersion"] = "14.0", ["TreatWarningsAsErrors"] =
-                "true", ["MSBuildTreatWarningsAsErrors"] = "true", ["EnforceCodeStyleInBuild"] = "true", [
-                "GenerateDocumentationFile"] = "true", ["AnalysisLevel"] = "10.0-recommended", [
-                "DisableTransitiveProjectReferences"] = "true", ["ManagePackageVersionsCentrally"] = "true", [
-                "CentralPackageTransitivePinningEnabled"] = "true", ["RestorePackagesWithLockFile"] = "true" };
+        var required = new Dictionary<string, string>(comparer: StringComparer.Ordinal)
+        {
+            ["Nullable"] = "enable",
+            ["ImplicitUsings"] = "disable",
+            ["LangVersion"] = "14.0",
+            ["TreatWarningsAsErrors"] = "true",
+            ["MSBuildTreatWarningsAsErrors"] = "true",
+            ["EnforceCodeStyleInBuild"] = "true",
+            ["GenerateDocumentationFile"] = "true",
+            ["AnalysisLevel"] = "10.0-recommended",
+            ["DisableTransitiveProjectReferences"] = "true",
+            ["ManagePackageVersionsCentrally"] = "true",
+            ["CentralPackageTransitivePinningEnabled"] = "true",
+            ["RestorePackagesWithLockFile"] = "true"
+        };
         foreach (var (key, value) in required)
             if (!string.Equals(a: properties.GetProperty(propertyName: key).GetString(), b: value,
                     comparisonType: StringComparison.Ordinal)) throw new InvalidOperationException(message:
@@ -436,7 +445,7 @@ public sealed class ConfigurationTests
                 "GlobalPackageReference").EnumerateArray().ToArray();
         var expected = new Dictionary<string, string>(comparer: StringComparer.Ordinal) { ["Meziantou.Analyzer"
                 ] = "[3.0.312]", ["Roslynator.Analyzers"] = "[5.0.1]", [
-                "Microsoft.CodeAnalysis.BannedApiAnalyzers"] = "[5.6.0]" };
+                        "Microsoft.CodeAnalysis.BannedApiAnalyzers"] = "[5.6.0]" };
         if (packages.Length != expected.Count) throw new InvalidOperationException(message:
                 "POLICY_DRIFT: global analyzer count");
         foreach (var package in packages)
@@ -444,17 +453,17 @@ public sealed class ConfigurationTests
                     System.InvalidOperationException(message: "Required proof value is null")), value: out var
                     version) || !string.Equals(a: package.GetProperty(propertyName: "Version").GetString(), b:
                     version, comparisonType: StringComparison.Ordinal)) throw new InvalidOperationException(
-                    message: "POLICY_DRIFT: analyzer version");
+                            message: "POLICY_DRIFT: analyzer version");
         if (analyzerProject) return;
         var custom = document.RootElement.GetProperty(propertyName: "Items").GetProperty(propertyName:
                 "ProjectReference").EnumerateArray().Where(predicate: r => (r.GetProperty(propertyName:
                 "FullPath").GetString() ?? throw new System.InvalidOperationException(message:
                 "Required proof value is null")).EndsWith(value: "Sebreiro.CodeRules.Analyzers.csproj",
-                comparisonType: StringComparison.Ordinal)).ToArray();
+                        comparisonType: StringComparison.Ordinal)).ToArray();
         if (custom.Length != 1 || !string.Equals(a: custom[0].GetProperty(propertyName: "OutputItemType").
                 GetString(), b: "Analyzer", comparisonType: StringComparison.Ordinal) || !string.Equals(a:
                 custom[0].GetProperty(propertyName: "ReferenceOutputAssembly").GetString(), b: "false",
-                comparisonType: StringComparison.OrdinalIgnoreCase)) throw new InvalidOperationException(message
+                        comparisonType: StringComparison.OrdinalIgnoreCase)) throw new InvalidOperationException(message
                 : "POLICY_DRIFT: analyzer metadata");
     }
 
@@ -465,16 +474,16 @@ public sealed class ConfigurationTests
         Directory.CreateDirectory(path: directory);
         File.WriteAllText(path: Path.Combine(path1: directory, path2: "CompilerFixture.csproj"), contents: (
                 "<Project Sdk=\"Microsoft.NET.Sdk\"><PropertyGroup><Target" +
-                "Framework>net10.0</TargetFramework><IsTestProject>") + (tests ? "true" : "false") +
-                        "</IsTestProject>" + (tests ? ("<OutputType>Exe</OutputType><XunitAutoGeneratedEntryPoi" +
-                "nt>false</XunitAutoGeneratedEntryPoint><GenerateSelfReg" +
-                "isteredExtensions>false</GenerateSelfRegisteredExtensio" +
-                "ns>") : "") + "</PropertyGroup>" + (tests ? (
+                        "Framework>net10.0</TargetFramework><IsTestProject>") + (tests ? "true" : "false") +
+                "</IsTestProject>" + (tests ? ("<OutputType>Exe</OutputType><XunitAutoGeneratedEntryPoi" +
+                        "nt>false</XunitAutoGeneratedEntryPoint><GenerateSelfReg" +
+                        "isteredExtensions>false</GenerateSelfRegisteredExtensio" +
+                        "ns>") : "") + "</PropertyGroup>" + (tests ? (
                         "<ItemGroup><PackageReference Include=\"xunit.v3\"/><Packa" +
-                "geReference Include=\"Shouldly\"/></ItemGroup>") : "") + "</Project>");
+                                "geReference Include=\"Shouldly\"/></ItemGroup>") : "") + "</Project>");
         if (tests) File.WriteAllText(path: Path.Combine(path1: directory, path2: "EntryPoint.cs"), contents: (
                 "namespace CompilerFixture; internal static class EntryP" +
-                "oint { private static void Main() { } }"));
+                        "oint { private static void Main() { } }"));
         File.WriteAllText(path: Path.Combine(path1: directory, path2: "Subject.cs"), contents:
                 Microsoft.CodeAnalysis.CSharp.CSharpSyntaxTree.ParseText(text: source).GetRoot()
                         .NormalizeWhitespace().ToFullString().Replace(oldValue: " => ", newValue: " =>\n        "));

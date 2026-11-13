@@ -58,7 +58,7 @@ internal static class InheritedAnalyzerVerifier
                 "Analyzer registration missing: " + analyzerType);
         await AnalyzerVerifier.VerifyAsync(source: text, expected: [.. expected], analyzer: analyzer, outputKind
                 : outputKind, generated: editorConfig is not null, message: message).ConfigureAwait(
-                continueOnCapturedContext: false);
+                        continueOnCapturedContext: false);
         ProofProtocol.Record(id: caseId, diagnostic: diagnostic, location: "Subject.cs: " + string.Join(
                 separator: "; ", values: expected));
     }
