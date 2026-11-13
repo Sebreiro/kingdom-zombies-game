@@ -1,0 +1,91 @@
+using System.Threading.Tasks;
+using KingdomZombies.Phase1.Tests.Verification;
+using Xunit;
+
+namespace KingdomZombies.Phase1.Tests.Analyzers;
+
+/// <summary>
+/// In-memory proofs of SCR0004: a <c>#region</c> directive fails wherever it appears, while other preprocessor
+/// directives pass.
+/// </summary>
+public sealed class RegionDirectiveAnalyzerTests
+{
+    /// <summary>A region inside a type is reported on its <c>#region</c> line.</summary>
+    /// <returns>A task that completes when the verification has run.</returns>
+    [Fact, Trait("Case", "R-25.negative")]
+    public Task AnalyzeInsideTypeReports()
+    {
+        return VerifyAsync(caseId: "R-25.negative", diagnostic: "SCR0004", source: """
+                class C
+                {
+                    {|SCR0004:#region Fields|}
+                    private int _x = 0;
+                    #endregion
+
+                    int X => _x;
+                }
+                """);
+    }
+
+    /// <summary>A region inside a member body is reported.</summary>
+    /// <returns>A task that completes when the verification has run.</returns>
+    [Fact, Trait("Case", "rules.regiondirective.Analyze_InsideBody_Reports")]
+    public Task AnalyzeInsideBodyReports()
+    {
+        return VerifyAsync(caseId: "rules.regiondirective.Analyze_InsideBody_Reports", diagnostic: "SCR0004", source: """
+                class C
+                {
+                    int M()
+                    {
+                        {|SCR0004:#region|}
+                        int x = 1;
+                        #endregion
+                        return x;
+                    }
+                }
+                """);
+    }
+
+    /// <summary>A region around a type at file level is reported, and so is a nested region.</summary>
+    /// <returns>A task that completes when the verification has run.</returns>
+    [Fact, Trait("Case", "rules.regiondirective.Analyze_FileLevelAndNested_Report")]
+    public Task AnalyzeFileLevelAndNestedReport()
+    {
+        return VerifyAsync(caseId: "rules.regiondirective.Analyze_FileLevelAndNested_Report", diagnostic: "SCR0004", source: """
+                {|SCR0004:#region Types|}
+                class C
+                {
+                    {|SCR0004:#region Inner|}
+                    private int _x = 0;
+                    #endregion
+                    int X => _x;
+                }
+                #endregion
+                """);
+    }
+
+    /// <summary><c>#if</c>, <c>#else</c> and <c>#endif</c> are not regions and pass.</summary>
+    /// <returns>A task that completes when the verification has run.</returns>
+    [Fact, Trait("Case", "R-25.positive")]
+    public Task AnalyzeOtherDirectivesPass()
+    {
+        return VerifyAsync(caseId: "R-25.positive", diagnostic: "ANALYZER_ACCEPTED", source: """
+                class C
+                {
+                    int M()
+                    {
+                #if DEBUG
+                        return 1;
+                #else
+                        return 2;
+                #endif
+                    }
+                }
+                """);
+    }
+
+    private static Task VerifyAsync(string caseId, string diagnostic, string source)
+    {
+        return InheritedAnalyzerVerifier.VerifyAsync(caseId: caseId, diagnostic: diagnostic, analyzerType: "RegionDirectiveAnalyzer",source: source);
+    }
+}

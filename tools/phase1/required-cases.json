@@ -3373,8 +3373,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.AnalyzeOrdinaryConstructorPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
       "id": "R-23.negative",
@@ -3390,8 +3392,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.ClassPrimaryConstructorReports",
+      "expectedDiagnostic": "SCR0003"
     },
     {
       "id": "R-24.positive",
@@ -3407,8 +3411,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.AnalyzeNonPositionalRecordPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
       "id": "R-24.negative",
@@ -3424,8 +3430,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.AnalyzePositionalRecordReports",
+      "expectedDiagnostic": "SCR0003"
     },
     {
       "id": "R-25.positive",
@@ -3441,8 +3449,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.RegionDirectiveAnalyzerTests.AnalyzeOtherDirectivesPass",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
       "id": "R-25.negative",
@@ -3458,8 +3468,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.RegionDirectiveAnalyzerTests.AnalyzeInsideTypeReports",
+      "expectedDiagnostic": "SCR0004"
     },
     {
       "id": "R-26.positive",
@@ -7081,6 +7093,114 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.GeneratedCallSiteAdapterTests.GeneratedCallSitePermissionCannotEscapeItsMembers",
       "expectedDiagnostic": "GENERATED_CALLSITE_BOUNDARY_REJECTED"
+    },
+    {
+      "id": "rules.primaryconstructor.Class_EmptyPrimaryConstructor_Reports",
+      "group": "rules",
+      "rule": "R-23",
+      "owner": "01-05",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.ClassEmptyPrimaryConstructorReports",
+      "expectedDiagnostic": "SCR0003"
+    },
+    {
+      "id": "rules.primaryconstructor.Struct_PrimaryConstructor_Reports",
+      "group": "rules",
+      "rule": "R-23",
+      "owner": "01-05",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.StructPrimaryConstructorReports",
+      "expectedDiagnostic": "SCR0003"
+    },
+    {
+      "id": "rules.primaryconstructor.Analyze_PositionalRecordStruct_Reports",
+      "group": "rules",
+      "rule": "R-23",
+      "owner": "01-05",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.AnalyzePositionalRecordStructReports",
+      "expectedDiagnostic": "SCR0003"
+    },
+    {
+      "id": "rules.primaryconstructor.ExtensionBlock_ReceiverParameter_Passes",
+      "group": "rules",
+      "rule": "R-23",
+      "owner": "01-05",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.ExtensionBlockReceiverParameterPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.regiondirective.Analyze_InsideBody_Reports",
+      "group": "rules",
+      "rule": "R-25",
+      "owner": "01-05",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.RegionDirectiveAnalyzerTests.AnalyzeInsideBodyReports",
+      "expectedDiagnostic": "SCR0004"
+    },
+    {
+      "id": "rules.regiondirective.Analyze_FileLevelAndNested_Report",
+      "group": "rules",
+      "rule": "R-25",
+      "owner": "01-05",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.RegionDirectiveAnalyzerTests.AnalyzeFileLevelAndNestedReport",
+      "expectedDiagnostic": "SCR0004"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."
