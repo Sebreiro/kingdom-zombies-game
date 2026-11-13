@@ -2898,8 +2898,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedArgument8SpacesPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
       "id": "R-09.negative",
@@ -2915,8 +2917,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedArgument4Or12SpacesFails4",
+      "expectedDiagnostic": "SCR0009"
     },
     {
       "id": "R-10.positive",
@@ -3072,8 +3076,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeSystemFirstThenAlphabeticalPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
       "id": "R-14.negative",
@@ -3089,8 +3095,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeSystemTextBeforeSystemReports",
+      "expectedDiagnostic": "SCR0010"
     },
     {
       "id": "R-15.positive",
@@ -8376,6 +8384,2436 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.AnalyzerSourceConsumerTests.AnalyzerSourcesPassTheirOwnRules",
       "expectedDiagnostic": "ANALYZER_SOURCE_CONSUMER_BUILT"
+    },
+    {
+      "id": "rules.continuationindent.WrappedAttributeArgument_8Spaces_Passes",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedAttributeArgument8SpacesPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.continuationindent.WrappedAttributeArgument_4Or12Spaces_Fails4",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedAttributeArgument4Or12SpacesFails4",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.WrappedParameter_8Spaces_Passes",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedParameter8SpacesPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.continuationindent.WrappedParameter_4Or12Spaces_Fails4",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedParameter4Or12SpacesFails4",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.FluentChain_8Spaces_Passes",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.FluentChain8SpacesPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.continuationindent.FluentChain_4Or12Spaces_Fails4",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.FluentChain4Or12SpacesFails4",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ConditionalAccessChain_8Spaces_Passes",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalAccessChain8SpacesPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.continuationindent.ConditionalAccessChain_4Or12Spaces_Fails4",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalAccessChain4Or12SpacesFails4",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ConditionalAccessSteps_8Spaces_Passes",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalAccessSteps8SpacesPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.continuationindent.ConditionalAccessSteps_4Or12Spaces_Fails4",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalAccessSteps4Or12SpacesFails4",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.MixedChain_8Spaces_Passes",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.MixedChain8SpacesPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.continuationindent.MixedChain_4Or12Spaces_Fails4",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.MixedChain4Or12SpacesFails4",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.LeadingBinaryOperator_8Spaces_Passes",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.LeadingBinaryOperator8SpacesPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.continuationindent.LeadingBinaryOperator_4Or12Spaces_Fails4",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.LeadingBinaryOperator4Or12SpacesFails4",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.TrailingBinaryOperator_8Spaces_Passes",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.TrailingBinaryOperator8SpacesPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.continuationindent.TrailingBinaryOperator_4Or12Spaces_Fails4",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.TrailingBinaryOperator4Or12SpacesFails4",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.WrappedIfCondition_8Spaces_Passes",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedIfCondition8SpacesPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.continuationindent.WrappedIfCondition_4Or12Spaces_Fails4",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedIfCondition4Or12SpacesFails4",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ConditionalOperator_8Spaces_Passes",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalOperator8SpacesPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.continuationindent.ConditionalOperator_4Or12Spaces_Fails4",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalOperator4Or12SpacesFails4",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ConstructorInitializer_8Spaces_Passes",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConstructorInitializer8SpacesPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.continuationindent.ConstructorInitializer_4Or12Spaces_Fails4",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConstructorInitializer4Or12SpacesFails4",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.WhereClause_8Spaces_Passes",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WhereClause8SpacesPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.continuationindent.WhereClause_4Or12Spaces_Fails4",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WhereClause4Or12SpacesFails4",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ValueAfterEquals_8Spaces_Passes",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterEquals8SpacesPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.continuationindent.ValueAfterEquals_4Or12Spaces_Fails4",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterEquals4Or12SpacesFails4",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ValueAfterAssignment_8Spaces_Passes",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterAssignment8SpacesPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.continuationindent.ValueAfterAssignment_4Or12Spaces_Fails4",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterAssignment4Or12SpacesFails4",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ValueAfterReturn_8Spaces_Passes",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterReturn8SpacesPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.continuationindent.ValueAfterReturn_4Or12Spaces_Fails4",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterReturn4Or12SpacesFails4",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ExpressionBodyArrow_8Spaces_Passes",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ExpressionBodyArrow8SpacesPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.continuationindent.ExpressionBodyArrow_4Or12Spaces_Fails4",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ExpressionBodyArrow4Or12SpacesFails4",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.BaseList_8Spaces_Passes",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.BaseList8SpacesPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.continuationindent.BaseList_4Or12Spaces_Fails4",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.BaseList4Or12SpacesFails4",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.LambdaExpressionBody_8Spaces_Passes",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.LambdaExpressionBody8SpacesPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.continuationindent.LambdaExpressionBody_4Or12Spaces_Fails4",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.LambdaExpressionBody4Or12SpacesFails4",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.BlockLambdaBraces_AtLambdaLineIndent_Passes",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.BlockLambdaBracesAtLambdaLineIndentPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.continuationindent.BlockLambdaBraces_4Or8Spaces_Fails4",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.BlockLambdaBraces4Or8SpacesFails4",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.CollectionOpenBracket_AtEqualsLineIndent_Passes",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.CollectionOpenBracketAtEqualsLineIndentPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.continuationindent.CollectionOpenBracket_4Or8Spaces_Fails4",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.CollectionOpenBracket4Or8SpacesFails4",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.OneLineCollectionAfterEquals_8Spaces_Passes",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.OneLineCollectionAfterEquals8SpacesPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.continuationindent.OneLineCollectionAfterEquals_0Or12Spaces_Fails0",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.OneLineCollectionAfterEquals0Or12SpacesFails0",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.CollectionElement_4Spaces_Passes",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.CollectionElement4SpacesPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.continuationindent.CollectionElement_0Or8Spaces_Fails0",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.CollectionElement0Or8SpacesFails0",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.CollectionCloseBracket_AtOpenLineIndent_Passes",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.CollectionCloseBracketAtOpenLineIndentPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.continuationindent.CollectionCloseBracket_4Spaces_Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.CollectionCloseBracket4SpacesFails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.NestedContinuations_8SpacesPastTheirOwnLine_Pass",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.NestedContinuations8SpacesPastTheirOwnLinePass",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.continuationindent.NestedArgument_AtOuterIndent_Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.NestedArgumentAtOuterIndentFails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.Initializers_AnyIndent_NotReported",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.InitializersAnyIndentNotReported",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.continuationindent.SwitchExpressionAndQuery_AnyIndent_NotReported",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.SwitchExpressionAndQueryAnyIndentNotReported",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.continuationindent.StringLiteralLines_AnyIndent_NotReported",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.StringLiteralLinesAnyIndentNotReported",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.continuationindent.OtherKinds_AnyIndent_NotReported",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.OtherKindsAnyIndentNotReported",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.continuationindent.AgreedSamples_FormatterLeavesUnchanged_AndNotReported",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.AgreedSamplesFormatterLeavesUnchangedAndNotReported",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.continuationindent.Analyze_GeneratedCode_IsSkipped",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.AnalyzeGeneratedCodeIsSkipped",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.WrappedArgumentOffset7Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedArgumentOffset7Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.WrappedArgumentOffset9Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedArgumentOffset9Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.WrappedAttributeArgumentOffset7Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedAttributeArgumentOffset7Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.WrappedAttributeArgumentOffset9Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedAttributeArgumentOffset9Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.WrappedParameterOffset7Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedParameterOffset7Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.WrappedParameterOffset9Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedParameterOffset9Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.FluentChainOffset7Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.FluentChainOffset7Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.FluentChainOffset9Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.FluentChainOffset9Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ConditionalAccessChainOffset7Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalAccessChainOffset7Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ConditionalAccessChainOffset9Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalAccessChainOffset9Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ConditionalAccessStepsOffset7Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalAccessStepsOffset7Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ConditionalAccessStepsOffset9Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalAccessStepsOffset9Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.MixedChainOffset7Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.MixedChainOffset7Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.MixedChainOffset9Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.MixedChainOffset9Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.LeadingBinaryOperatorOffset7Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.LeadingBinaryOperatorOffset7Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.LeadingBinaryOperatorOffset9Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.LeadingBinaryOperatorOffset9Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.TrailingBinaryOperatorOffset7Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.TrailingBinaryOperatorOffset7Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.TrailingBinaryOperatorOffset9Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.TrailingBinaryOperatorOffset9Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.WrappedIfConditionOffset7Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedIfConditionOffset7Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.WrappedIfConditionOffset9Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedIfConditionOffset9Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ConditionalOperatorOffset7Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalOperatorOffset7Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ConditionalOperatorOffset9Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalOperatorOffset9Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ConstructorInitializerOffset7Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConstructorInitializerOffset7Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ConstructorInitializerOffset9Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConstructorInitializerOffset9Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.WhereClauseOffset7Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WhereClauseOffset7Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.WhereClauseOffset9Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WhereClauseOffset9Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ValueAfterEqualsOffset7Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterEqualsOffset7Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ValueAfterEqualsOffset9Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterEqualsOffset9Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ValueAfterAssignmentOffset7Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterAssignmentOffset7Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ValueAfterAssignmentOffset9Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterAssignmentOffset9Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ValueAfterReturnOffset7Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterReturnOffset7Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ValueAfterReturnOffset9Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterReturnOffset9Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ExpressionBodyArrowOffset7Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ExpressionBodyArrowOffset7Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ExpressionBodyArrowOffset9Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ExpressionBodyArrowOffset9Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.BaseListOffset7Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.BaseListOffset7Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.BaseListOffset9Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.BaseListOffset9Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.LambdaExpressionBodyOffset7Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.LambdaExpressionBodyOffset7Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.LambdaExpressionBodyOffset9Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.LambdaExpressionBodyOffset9Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.OneLineCollectionOffset7Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.OneLineCollectionOffset7Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.OneLineCollectionOffset9Fails",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.OneLineCollectionOffset9Fails",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.usingorder.Analyze_MicrosoftBeforeSystem_Reports",
+      "group": "rules",
+      "rule": "R-14",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeMicrosoftBeforeSystemReports",
+      "expectedDiagnostic": "SCR0010"
+    },
+    {
+      "id": "rules.usingorder.Analyze_NonSystemOutOfOrder_Reports",
+      "group": "rules",
+      "rule": "R-14",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeNonSystemOutOfOrderReports",
+      "expectedDiagnostic": "SCR0010"
+    },
+    {
+      "id": "rules.usingorder.SystemPrefixWithoutDot_SortsWithOthers_Passes",
+      "group": "rules",
+      "rule": "R-14",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.SystemPrefixWithoutDotSortsWithOthersPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.usingorder.Analyze_CaseIgnored_Passes",
+      "group": "rules",
+      "rule": "R-14",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeCaseIgnoredPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.usingorder.Analyze_CaseIgnored_Reports",
+      "group": "rules",
+      "rule": "R-14",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeCaseIgnoredReports",
+      "expectedDiagnostic": "SCR0010"
+    },
+    {
+      "id": "rules.usingorder.StaticAfterPlain_AliasesLast_Passes",
+      "group": "rules",
+      "rule": "R-14",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.StaticAfterPlainAliasesLastPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.usingorder.Analyze_StaticBeforePlain_Reports",
+      "group": "rules",
+      "rule": "R-14",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeStaticBeforePlainReports",
+      "expectedDiagnostic": "SCR0010"
+    },
+    {
+      "id": "rules.usingorder.Analyze_AliasBeforeStatic_Reports",
+      "group": "rules",
+      "rule": "R-14",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeAliasBeforeStaticReports",
+      "expectedDiagnostic": "SCR0010"
+    },
+    {
+      "id": "rules.usingorder.Analyze_StaticGroupOutOfOrder_Reports",
+      "group": "rules",
+      "rule": "R-14",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeStaticGroupOutOfOrderReports",
+      "expectedDiagnostic": "SCR0010"
+    },
+    {
+      "id": "rules.usingorder.Analyze_AliasesOutOfOrder_Reports",
+      "group": "rules",
+      "rule": "R-14",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeAliasesOutOfOrderReports",
+      "expectedDiagnostic": "SCR0010"
+    },
+    {
+      "id": "rules.usingorder.Analyze_GlobalUsingsFirst_Pass",
+      "group": "rules",
+      "rule": "R-14",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeGlobalUsingsFirstPass",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.usingorder.Analyze_GlobalUsingsOutOfOrder_Report",
+      "group": "rules",
+      "rule": "R-14",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeGlobalUsingsOutOfOrderReport",
+      "expectedDiagnostic": "SCR0010"
+    },
+    {
+      "id": "rules.usingorder.Analyze_OnlyFirstViolation_Reports",
+      "group": "rules",
+      "rule": "R-14",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeOnlyFirstViolationReports",
+      "expectedDiagnostic": "SCR0010"
+    },
+    {
+      "id": "rules.usingorder.NamespaceBlock_CheckedOnItsOwn_Passes",
+      "group": "rules",
+      "rule": "R-14",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.NamespaceBlockCheckedOnItsOwnPasses",
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
+    },
+    {
+      "id": "rules.usingorder.Analyze_NamespaceBlockOutOfOrder_Reports",
+      "group": "rules",
+      "rule": "R-14",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeNamespaceBlockOutOfOrderReports",
+      "expectedDiagnostic": "SCR0010"
+    },
+    {
+      "id": "rules.usingorder.Analyze_FileScopedNamespaceOutOfOrder_Reports",
+      "group": "rules",
+      "rule": "R-14",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeFileScopedNamespaceOutOfOrderReports",
+      "expectedDiagnostic": "SCR0010"
+    },
+    {
+      "id": "rules.usingorder.Analyze_Message_NamesBothDirectives",
+      "group": "rules",
+      "rule": "R-14",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeMessageNamesBothDirectives",
+      "expectedDiagnostic": "SCR0010"
+    },
+    {
+      "id": "rules.usingorder.Analyze_GeneratedCode_IsSkipped",
+      "group": "rules",
+      "rule": "R-14",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeGeneratedCodeIsSkipped",
+      "expectedDiagnostic": "SCR0010"
+    },
+    {
+      "id": "rules.continuationindent.WrappedArgument_4Or12Spaces_Fails12",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedArgument4Or12SpacesFails12",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.WrappedAttributeArgument_4Or12Spaces_Fails12",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedAttributeArgument4Or12SpacesFails12",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.WrappedParameter_4Or12Spaces_Fails12",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedParameter4Or12SpacesFails12",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.FluentChain_4Or12Spaces_Fails12",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.FluentChain4Or12SpacesFails12",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ConditionalAccessChain_4Or12Spaces_Fails12",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalAccessChain4Or12SpacesFails12",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ConditionalAccessSteps_4Or12Spaces_Fails12",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalAccessSteps4Or12SpacesFails12",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.MixedChain_4Or12Spaces_Fails12",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.MixedChain4Or12SpacesFails12",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.LeadingBinaryOperator_4Or12Spaces_Fails12",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.LeadingBinaryOperator4Or12SpacesFails12",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.TrailingBinaryOperator_4Or12Spaces_Fails12",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.TrailingBinaryOperator4Or12SpacesFails12",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.WrappedIfCondition_4Or12Spaces_Fails12",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedIfCondition4Or12SpacesFails12",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ConditionalOperator_4Or12Spaces_Fails12",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalOperator4Or12SpacesFails12",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ConstructorInitializer_4Or12Spaces_Fails12",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConstructorInitializer4Or12SpacesFails12",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.WhereClause_4Or12Spaces_Fails12",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WhereClause4Or12SpacesFails12",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ValueAfterEquals_4Or12Spaces_Fails12",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterEquals4Or12SpacesFails12",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ValueAfterAssignment_4Or12Spaces_Fails12",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterAssignment4Or12SpacesFails12",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ValueAfterReturn_4Or12Spaces_Fails12",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterReturn4Or12SpacesFails12",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.ExpressionBodyArrow_4Or12Spaces_Fails12",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ExpressionBodyArrow4Or12SpacesFails12",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.BaseList_4Or12Spaces_Fails12",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.BaseList4Or12SpacesFails12",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.LambdaExpressionBody_4Or12Spaces_Fails12",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.LambdaExpressionBody4Or12SpacesFails12",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.BlockLambdaBraces_4Or8Spaces_Fails8",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.BlockLambdaBraces4Or8SpacesFails8",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.CollectionOpenBracket_4Or8Spaces_Fails8",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.CollectionOpenBracket4Or8SpacesFails8",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.OneLineCollectionAfterEquals_0Or12Spaces_Fails12",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.OneLineCollectionAfterEquals0Or12SpacesFails12",
+      "expectedDiagnostic": "SCR0009"
+    },
+    {
+      "id": "rules.continuationindent.CollectionElement_0Or8Spaces_Fails8",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.CollectionElement0Or8SpacesFails8",
+      "expectedDiagnostic": "SCR0009"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."
