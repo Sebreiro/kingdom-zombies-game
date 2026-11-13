@@ -2,7 +2,15 @@
 
 Status: incomplete; Task 1 tracer proven, Task 1 expansion and Task 2 pending. No SUMMARY.md exists and no plan/requirement progress was advanced.
 
-## Latest continuation: source-format RED/GREEN and exact lock scopes
+## Latest continuation: real formatter and tab-width boundaries verified
+
+Commit **`4c608a5`** adds four distinct R-07/R-08 proof bindings. Corrected real formatter positive: `.phase1/runs/0765120f-1632-4dde-ae4f-479bba56ea85/summary.json`. It requires exit 0 **and a nonzero selected file count**. Exact negative: `.phase1/runs/d32cf73f-c766-4bb7-a6d8-7da861be748e/summary.json`; both three-space and five-space subjects require actual `WHITESPACE` at `Subject.cs(6,4)` and `(6,5)` after successful locked restore and clean build. R-08 four-column permission and 3/5/missing-setting drift pass `.phase1/runs/d44b8c73-7d4a-4956-ac00-d417980e7c49/summary.json` and `.phase1/runs/9fc02651-8415-4d73-980d-62a6e258e774/summary.json`. The configuration guard reads actual root policy and matches property names case-insensitively; forbidden tab bytes remain the independent R-06 rule.
+
+**[Rule 1 - Bug] Formatter selection control:** the first absolute-path project/include invocation silently selected zero files and returned 0. The intended-negative assertion correctly failed, so that invocation provides no formatter acceptance. Raw diagnostic probes on the preserved unchanged three-space fixture prove relative project/include paths select `Subject.cs` and emit the intended location, while absolute paths report `Formatted 0 of 0 files`. Logs: `.phase1/temp/build-7da256c73aed46dfa709241dd56bb86d/formatter-diagnostic.log` and `formatter-absolute.log`. The fixture now uses controlled relative paths and diagnostic verbosity; the positive explicitly rejects zero selection. No formatter/analyzer severity or source rule changed.
+
+Final five-project strict build has zero warnings/errors (`.phase1/temp/08-indent-final-build.log`); diff check passes. These are focused verified increments; complete-suite closure remains pending until remaining 01-08 work is ready. Current manifest declarations are 436 implemented and 128 pending of 564, not a fresh full-suite verdict. Continue async-suffix permission, test-project/custom/banned-assertion controls, retained test-name scanning with meaningful binding renames, and broader suppression/generated-surface/numeric validation. Plan progress remains 8/18 with all RULE requirements Pending.
+
+## Previous continuation: source-format RED/GREEN and exact lock scopes
 
 Source-format RED **`6241e33`** compiled strictly, then the exact invalid UTF-8 target failed its planned Shouldly count assertion (1 expected, 0 actual). Fresh unchanged JUnit `.phase1/temp/08-source-red.xml` and record `.phase1/temp/08-source-red.json` received `RED_EVIDENCE_OK`. Earlier MA0002 setup feedback was not RED. GREEN **`d95e99e`** implements the byte checker, actual tracked-source scan, and 15 distinct fresh proof bindings; the original target passes `.phase1/temp/08-source-green.xml`.
 
