@@ -1,10 +1,155 @@
 using Shouldly;
+using System.Diagnostics;
+using System.Text.Json.Nodes;
 using Xunit;
 
 namespace KingdomZombies.Phase1.Tests;
 
 public sealed class RunnerContractTests
 {
+    private static void ProcessRejects(string id, string mode, string diagnostic)
+    {
+        using var fixture = RunnerProcessFixture.Create(mode);
+        var source = Path.Combine(fixture.Root, "approved.cs");
+        var document = Path.Combine(fixture.Root, "approved.md");
+        var sourceHash = RunnerProcessFixture.Hash(source);
+        var documentHash = RunnerProcessFixture.Hash(document);
+        var result = fixture.Run();
+        result.Exit.ShouldBe(1);
+        result.Output.ShouldContain(diagnostic);
+        if (mode == "timeout")
+        {
+            File.ReadAllText(Path.Combine(fixture.Root, "descendant.ready")).ShouldBe(File.ReadAllText(Path.Combine(fixture.Root, "descendant.pid")));
+        }
+        fixture.Summary()["status"]!.GetValue<string>().ShouldBe("fail");
+        if (mode != "source") RunnerProcessFixture.Hash(source).ShouldBe(sourceHash);
+        if (mode != "document") RunnerProcessFixture.Hash(document).ShouldBe(documentHash);
+        if (mode == "source") File.WriteAllText(source, "// Approved isolated fixture source\n");
+        if (mode == "document") File.WriteAllText(document, "Approved isolated fixture document.\n");
+        RunnerProcessFixture.Hash(source).ShouldBe(sourceHash);
+        RunnerProcessFixture.Hash(document).ShouldBe(documentHash);
+        AssertPidsExited(fixture);
+        ProofProtocol.Record(id, diagnostic, "isolated normal entry point");
+    }
+
+    private static void AssertPidsExited(RunnerProcessFixture fixture)
+    {
+        foreach (var file in Directory.GetFiles(fixture.Root, "*.pid"))
+        {
+            var pid = int.Parse(File.ReadAllText(file));
+            var exited = false;
+            try { using var process = Process.GetProcessById(pid); exited = process.WaitForExit(1000); }
+            catch (ArgumentException) { exited = true; }
+            exited.ShouldBeTrue("child PID " + pid + " must exit");
+        }
+    }
+
+    [Fact, Trait("Case", "runner.process.missing-executable")]
+    public void RealMissingExecutableIsRejected() => ProcessRejects("runner.process.missing-executable", "missing-executable", "TOOL_MISSING");
+    [Fact, Trait("Case", "runner.process.zero-discovery")]
+    public void RealZeroDiscoveryIsRejected() => ProcessRejects("runner.process.zero-discovery", "zero", "DISCOVERY_EMPTY");
+    [Fact, Trait("Case", "runner.process.wrong-filter")]
+    public void RealWrongFilterIsRejected() => ProcessRejects("runner.process.wrong-filter", "filter", "DISCOVERY_WRONG");
+    [Fact, Trait("Case", "runner.process.skip")]
+    public void RealSkipIsRejected() => ProcessRejects("runner.process.skip", "skip", "TEST_SKIPPED");
+    [Fact, Trait("Case", "runner.process.crash")]
+    public void RealCrashIsRejected() => ProcessRejects("runner.process.crash", "crash", "REPORT_MISSING");
+    [Fact, Trait("Case", "runner.process.timeout")]
+    public void RealTimeoutKillsDescendants() => ProcessRejects("runner.process.timeout", "timeout", "CHILD_TIMEOUT");
+    [Fact, Trait("Case", "runner.process.deleted-log")]
+    public void RealDeletedLogIsRejected() => ProcessRejects("runner.process.deleted-log", "deleted-log", "EVIDENCE_MISSING");
+    [Fact, Trait("Case", "runner.process.deleted-result")]
+    public void RealDeletedResultIsRejected() => ProcessRejects("runner.process.deleted-result", "deleted-result", "RESULT_MISSING");
+    [Fact, Trait("Case", "runner.process.duplicate")]
+    public void RealDuplicateResultIsRejected() => ProcessRejects("runner.process.duplicate", "duplicate", "RESULT_DUPLICATE");
+    [Fact, Trait("Case", "runner.process.nonce")]
+    public void RealWrongNonceIsRejected() => ProcessRejects("runner.process.nonce", "nonce", "NONCE_MISMATCH");
+    [Fact, Trait("Case", "runner.process.source")]
+    public void RealSourceMutationInvalidatesPublication() => ProcessRejects("runner.process.source", "source", "SOURCE_CHANGED");
+    [Fact, Trait("Case", "runner.process.document")]
+    public void RealDocumentMutationInvalidatesPublication() => ProcessRejects("runner.process.document", "document", "SOURCE_CHANGED");
+
+    [Fact, Trait("Case", "runner.process.repeat")]
+    public void UnchangedRunsHaveIdenticalNormalizedVerdicts()
+    {
+        using var fixture = RunnerProcessFixture.Create("pass");
+        fixture.Run().Exit.ShouldBe(0);
+        var first = fixture.Summary();
+        fixture.Run().Exit.ShouldBe(0);
+        var second = fixture.Summary();
+        first["nonce"]!.GetValue<string>().ShouldNotBe(second["nonce"]!.GetValue<string>());
+        foreach (var key in new[] { "status", "input", "tool", "platform", "selected", "results", "failures" })
+        {
+            if (key == "results")
+            {
+                foreach (var row in first[key]!.AsArray()) row!.AsObject().Remove("report");
+                foreach (var row in second[key]!.AsArray()) row!.AsObject().Remove("report");
+            }
+            first[key]!.ToJsonString().ShouldBe(second[key]!.ToJsonString(), key);
+        }
+        AssertPidsExited(fixture);
+        ProofProtocol.Record("runner.process.repeat", "NORMALIZED_EQUAL", "two complete real C# runs");
+    }
+
+    [Fact, Trait("Case", "runner.process.stale")]
+    public void NewRunCannotBorrowPriorCompleteArtifacts()
+    {
+        using var fixture = RunnerProcessFixture.Create("pass");
+        fixture.Run().Exit.ShouldBe(0);
+        var prior = Directory.GetFiles(Path.Combine(fixture.Root, ".phase1", "runs"), "fixture.pass.proof.json", SearchOption.AllDirectories).Single();
+        File.Copy(prior, Path.Combine(fixture.Root, "prior.proof.json"));
+        using var child = fixture.StartMode("stale");
+        var result = RunnerProcessFixture.Finish(child);
+        result.Exit.ShouldBe(1);
+        result.Output.ShouldContain("NONCE_MISMATCH");
+        AssertPidsExited(fixture);
+        ProofProtocol.Record("runner.process.stale", "NONCE_MISMATCH", "fresh run with prior proof file");
+    }
+
+    private static void AwaitReady(RunnerProcessFixture fixture)
+    {
+        var ready = Path.Combine(fixture.Root, "child.pid");
+        var watch = Stopwatch.StartNew();
+        while (!File.Exists(ready) && watch.ElapsedMilliseconds < 2500) Thread.Sleep(10);
+        File.Exists(ready).ShouldBeTrue("real child must start before concurrency/interruption mutation");
+    }
+
+    [Fact, Trait("Case", "runner.process.concurrent")]
+    public void ConcurrentFullInvocationIsExplicitlyRejected()
+    {
+        using var fixture = RunnerProcessFixture.Create("concurrent");
+        using var first = fixture.Start();
+        AwaitReady(fixture);
+        var second = fixture.Run();
+        second.Exit.ShouldBe(1);
+        second.Output.ShouldContain("CHECK_LOCKED");
+        var firstResult = RunnerProcessFixture.Finish(first);
+        firstResult.Exit.ShouldBe(0);
+        fixture.Summary()["status"]!.GetValue<string>().ShouldBe("pass");
+        fixture.Summary()["selected"]!.AsArray().Count.ShouldBe(1);
+        AssertPidsExited(fixture);
+        ProofProtocol.Record("runner.process.concurrent", "CHECK_LOCKED", "competing --all invocation");
+    }
+
+    [Fact, Trait("Case", "runner.process.interrupted")]
+    public void InterruptionCannotPublishOrLendSuccess()
+    {
+        using var fixture = RunnerProcessFixture.Create("hold");
+        using var first = fixture.Start();
+        AwaitReady(fixture);
+        first.Kill(entireProcessTree: true);
+        first.WaitForExit(1000).ShouldBeTrue();
+        Directory.GetFiles(Path.Combine(fixture.Root, ".phase1", "runs"), "summary.json", SearchOption.AllDirectories).ShouldBeEmpty();
+        AssertPidsExited(fixture);
+        fixture.Run().Output.ShouldContain("CHECK_LOCKED");
+        // Recovery is local to the fixture, after the owner and descendants are proved dead.
+        File.Delete(Path.Combine(fixture.Root, ".phase1", "check.lock"));
+        using var next = fixture.StartMode("pass");
+        RunnerProcessFixture.Finish(next).Exit.ShouldBe(0);
+        Directory.GetFiles(Path.Combine(fixture.Root, ".phase1", "runs"), "summary.json", SearchOption.AllDirectories).Length.ShouldBe(1);
+        ProofProtocol.Record("runner.process.interrupted", "NO_PARTIAL_PUBLICATION", "killed real coordinator and fresh rerun");
+    }
+
     [Fact, Trait("Case", "runner.process.assertion")]
     public void RealAssertionFailureIsActionable()
     {
@@ -18,7 +163,7 @@ public sealed class RunnerContractTests
     }
 
     // Only selected inside isolated negative-control workspaces, never as a passing obligation.
-    [Fact, Trait("Case", "fixture.assertion")]
+    [Fact(Explicit = true), Trait("Case", "fixture.assertion")]
     public void DeliberateAssertionFailure()
     {
         (2 + 2).ShouldBe(5, "INTENDED_ASSERTION_FAILURE at RunnerContractTests.cs");

@@ -11,7 +11,12 @@ const groups = ['pins', 'runner', 'register', 'rules', 'graph', 'state', 'engine
 const digest = data => crypto.createHash('sha256').update(data).digest('hex');
 const fileHash = file => digest(fs.readFileSync(file));
 function reject(diagnostic, message) { throw Object.assign(new Error(message), { diagnostic }); }
-function read(file) { return parseJson(fs.readFileSync(file, 'utf8')); }
+function read(file) {
+  let text;
+  try { text = new TextDecoder('utf-8', { fatal: true }).decode(fs.readFileSync(file)); }
+  catch (error) { reject('JSON_INVALID', `${file}: ${error.message}`); }
+  return parseJson(text);
+}
 function inside(root, relative) {
   if (typeof relative !== 'string' || !relative || path.isAbsolute(relative)) reject('PATH_ESCAPE', String(relative));
   const target = path.resolve(root, relative);
@@ -195,14 +200,16 @@ async function main(root, args) {
           if (build.code !== 0) reject('BUILD_FAILED', 'C# proof project');
         }
         const assembly = inside(root, manifest.assembly);
+        if (!fs.existsSync(assembly)) reject('TOOL_MISSING', manifest.assembly);
+        const executable = manifest.executable ? inside(root, manifest.executable) : 'dotnet';
         context.tool = digest(JSON.stringify({ node: process.versions.node, nodeHash: fileHash(process.execPath), sdk: sdk.output.trim(), compiler: csc.output.trim(), compilerHash: fileHash(compiler), assembly: fileHash(assembly), lock: manifest.project ? fileHash(path.join(root, 'tests/phase1/packages.lock.json')) : null }));
         for (const item of executableCases) {
           const caseDir = path.join(directory, item.id); fs.mkdirSync(caseDir);
           try {
             console.log(`Checking ${item.id}`);
             const childContext = { ...context, directory: caseDir };
-            const result = await command('dotnet', [assembly, '--filter-method', item.test, '--report-xunit-ctrf', '--report-xunit-ctrf-filename', 'tests.json', '--results-directory', caseDir,
-              '--no-ansi', '--progress', 'off', '--parallel', 'none', '--timeout', '45s'], childContext, 'test', manifest.childTimeoutMs ?? 45_000,
+            const result = await command(executable, [assembly, '--filter-method', item.test, '--report-xunit-ctrf', '--report-xunit-ctrf-filename', 'tests.json', '--results-directory', caseDir,
+              '--no-ansi', '--progress', 'off', '--parallel', 'none', '--explicit', 'on', '--timeout', '45s'], childContext, 'test', manifest.childTimeoutMs ?? 45_000,
             { PHASE1_NONCE: nonce, PHASE1_INPUT: context.input, PHASE1_TOOL: context.tool, PHASE1_PLATFORM: context.platform, PHASE1_RESULT_DIRECTORY: caseDir });
             const reportFile = path.join(caseDir, 'tests.json');
             if (!fs.existsSync(reportFile)) reject('REPORT_MISSING', item.id + ': child exit ' + result.code);
@@ -221,7 +228,7 @@ async function main(root, args) {
   finally {
     for (const child of context.children) killTree(child);
     process.removeListener('SIGINT', interrupted); process.removeListener('SIGTERM', interrupted);
-    fs.closeSync(lockFd); fs.unlinkSync(lock);
+    // Keep the lock through atomic publication; a competing invocation cannot race it.
   }
   const status = failures.length || accepted.length !== selection.selected.length ? 'fail' : 'pass';
   const summary = { schemaVersion: 1, nonce, status, selected: selection.selected.map(row => row.id), input: context.input, tool: context.tool, platform: context.platform,
@@ -230,7 +237,8 @@ async function main(root, args) {
   const temporary = path.join(directory, 'summary.json.tmp');
   fs.writeFileSync(temporary, JSON.stringify(summary, null, 2));
   fs.renameSync(temporary, path.join(directory, 'summary.json'));
-  for (const failure of failures) console.error(`${failure.status.toUpperCase()} ${failure.id}: ${failure.diagnostic}${failure.message ? ' — ' + failure.message : ''}`);
+  fs.closeSync(lockFd); fs.unlinkSync(lock);
+  for (const failure of failures) console.error(`${failure.status.toUpperCase()} ${failure.id}: ${failure.diagnostic}${failure.message ? ' — ' + failure.message : ''}${failure.log ? ' [log](' + path.relative(root, path.join(directory, failure.log)).replaceAll('\\', '/') + ')' : ''}`);
   console.log(`${status.toUpperCase()} ${accepted.length}/${selection.selected.length} selected obligations; [summary](${path.relative(root, path.join(directory, 'summary.json')).replaceAll('\\', '/')})`);
   if (status !== 'pass') process.exitCode = 1;
 }

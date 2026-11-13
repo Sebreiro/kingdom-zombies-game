@@ -132,7 +132,7 @@ function validateManifest(manifest) {
   for (const key of ['engine', 'engineFullVersion', 'sdk', 'compiler', 'language', 'framework', 'node', 'runtime', 'editorRuntime', 'coverageTool']) {
     if (typeof manifest[key] !== 'string' || manifest[key].length === 0) fail('PINS_MISSING', key);
   }
-  if (!Array.isArray(manifest.godotPackages) || manifest.godotPackages.length !== 4) fail('PINS_MISSING', 'four Godot packages required');
+  if (!Array.isArray(manifest.godotPackages)) fail('PINS_MISSING', 'four Godot packages required');
   const seen = new Set();
   for (const item of manifest.godotPackages) {
     if (seen.has(item.id)) fail('PINS_CONFLICT', `duplicate package ${item.id}`);
@@ -141,6 +141,7 @@ function validateManifest(manifest) {
     if (!/^[a-f0-9]{64}$/.test(item.sha256)) fail('PINS_MISSING', `${item.id} SHA-256`);
   }
   const required = ['Godot.NET.Sdk', 'Godot.SourceGenerators', 'GodotSharp', 'GodotSharpEditor'];
+  if (manifest.godotPackages.length !== 4) fail('PINS_MISSING', 'four Godot packages required');
   if (required.some(id => !seen.has(id))) fail('PINS_MISSING', 'matching SDK/bindings/generator');
   const supported = ['engine=4.7.2', 'engineFullVersion=4.7.2.stable.mono.official.ed1daf0bf', 'sdk=10.0.404', 'compiler=5.9.0-1.26529.119 (2ab2854867733112c84ac12c4273d7970ac3afdf)', 'language=14.0', 'framework=net10.0', 'node=24.22.1', 'runtime=10.0.15', 'editorRuntime=8.0.16', 'coverageTool=18.12.0'];
   for (const pair of supported) {
@@ -269,10 +270,14 @@ async function acquire(manifest) {
   return executable;
 }
 
+function observedIdentity(name, actual, expected) {
+  if (actual !== expected) fail('PINS_MISMATCH', `${name} ${actual}; expected ${expected}`);
+}
+
 async function tools(manifest, engine) {
   if (process.versions.node !== manifest.node) fail('PINS_MISMATCH', `Node ${process.versions.node}; expected ${manifest.node}`);
   const sdk = await command('sdk-version', 'dotnet', ['--version']);
-  if (sdk !== manifest.sdk) fail('PINS_MISMATCH', `SDK ${sdk}; expected ${manifest.sdk}`);
+  observedIdentity('SDK', sdk, manifest.sdk);
   const runtimes = await command('runtimes', 'dotnet', ['--list-runtimes']);
   for (const version of [manifest.runtime, manifest.editorRuntime]) {
     if (!runtimes.includes(`Microsoft.NETCore.App ${version} [`)) fail('RUNTIME_INCOMPATIBLE', `Missing Microsoft.NETCore.App ${version}`);
@@ -283,9 +288,9 @@ async function tools(manifest, engine) {
   const sdkRoot = sdkLine.slice(sdkLine.indexOf('[') + 1, -1);
   const compiler = path.join(sdkRoot, manifest.sdk, 'Roslyn/bincore/csc.dll');
   const compilerVersion = await command('compiler-version', 'dotnet', [compiler, '-version']);
-  if (compilerVersion !== manifest.compiler) fail('PINS_MISMATCH', `Compiler ${compilerVersion}; expected ${manifest.compiler}`);
+  observedIdentity('Compiler', compilerVersion, manifest.compiler);
   const engineVersion = await command('engine-version', engine, ['--version']);
-  if (engineVersion !== manifest.engineFullVersion) fail('PINS_MISMATCH', `Engine ${engineVersion}; expected ${manifest.engineFullVersion}`);
+  observedIdentity('Engine', engineVersion, manifest.engineFullVersion);
   return { sdk, dotnet: path.join(path.dirname(sdkRoot), process.platform === 'win32' ? 'dotnet.exe' : 'dotnet'), compiler, compilerSha256: hash(compiler), compilerVersion, engine, engineVersion, node: process.execPath, nodeSha256: hash(process.execPath), platform: process.platform, architecture: process.arch, release: os.release() };
 }
 
@@ -356,7 +361,7 @@ async function main() {
   console.log(JSON.stringify({ nonce, probe: args[1], status: 'pass', evidenceKind: 'raw-compatibility-only', logs: path.relative(root, runDirectory) }));
 }
 
-module.exports = { parseJson, validateManifest, declarations };
+module.exports = { parseJson, validateManifest, declarations, observedIdentity };
 if (require.main === module) main().catch(error => {
   const result = { nonce, status: 'fail', diagnostic: error.diagnostic ?? 'BOOTSTRAP_FAILED', message: error.message, logs: path.relative(root, runDirectory) };
   if (fs.existsSync(runDirectory)) fs.writeFileSync(path.join(runDirectory, 'failure.json'), JSON.stringify(result, null, 2));

@@ -40,7 +40,8 @@ public sealed class RunnerProcessFixture : IDisposable
         var manifest = new
         {
             schemaVersion = 1, project = (string?)null,
-            assembly = mode == "missing-executable" ? "fixture/missing.dll" : "fixture/KingdomZombies.Phase1.Tests.dll",
+            assembly = "fixture/KingdomZombies.Phase1.Tests.dll",
+            executable = mode == "missing-executable" ? "fixture/missing.exe" : (string?)null,
             childTimeoutMs = 1800,
             inputs = new[] { "tools/phase1", "fixture", "global.json", "approved.cs", "approved.md" },
             cases = new[] { new { id = "fixture.pass", group = "runner", rule = "RULE-03", owner = "01-02", implementation = "csharp",
@@ -52,6 +53,11 @@ public sealed class RunnerProcessFixture : IDisposable
 
     public Process Start(params string[] args)
     {
+        return StartMode(Mode, args);
+    }
+
+    public Process StartMode(string mode, params string[] args)
+    {
         var start = new ProcessStartInfo(Environment.GetEnvironmentVariable("PHASE1_NODE") ?? "node")
         {
             WorkingDirectory = Root, RedirectStandardOutput = true, RedirectStandardError = true,
@@ -59,7 +65,7 @@ public sealed class RunnerProcessFixture : IDisposable
         };
         start.ArgumentList.Add(Path.Combine(Root, "tools", "phase1", "check.cjs"));
         foreach (var arg in args.Length == 0 ? new[] { "--all" } : args) start.ArgumentList.Add(arg);
-        start.Environment["PHASE1_MUTATION"] = Mode;
+        start.Environment["PHASE1_MUTATION"] = mode;
         return Process.Start(start) ?? throw new InvalidOperationException("Fixture coordinator did not start");
     }
 
@@ -94,11 +100,12 @@ public sealed class RunnerProcessFixture : IDisposable
         // Preserve isolated logs/results for inspection; all outputs live under the ignored run directory.
     }
 
-    [Fact, Trait("Case", "fixture.pass")]
+    [Fact(Explicit = true), Trait("Case", "fixture.pass")]
     public void Child()
     {
         var mode = Environment.GetEnvironmentVariable("PHASE1_MUTATION") ?? "pass";
         File.WriteAllText(Path.Combine(ProofProtocol.Root, "child.pid"), Environment.ProcessId.ToString());
+        if (mode == "concurrent") Thread.Sleep(1000);
         if (mode == "assertion") (2 + 2).ShouldBe(5, "INTENDED_ASSERTION_FAILURE at RunnerProcessFixture.Child");
         if (mode == "crash") Environment.Exit(71);
         if (mode is "hold" or "timeout")
@@ -111,8 +118,13 @@ public sealed class RunnerProcessFixture : IDisposable
                 descendant.ArgumentList.Add("KingdomZombies.Phase1.Tests.RunnerProcessFixture.Descendant");
                 descendant.ArgumentList.Add("--no-ansi");
                 descendant.ArgumentList.Add("--progress"); descendant.ArgumentList.Add("off");
+                descendant.ArgumentList.Add("--explicit"); descendant.ArgumentList.Add("on");
                 using var process = Process.Start(descendant)!;
                 File.WriteAllText(Path.Combine(ProofProtocol.Root, "descendant.pid"), process.Id.ToString());
+                var ready = Path.Combine(ProofProtocol.Root, "descendant.ready");
+                var watch = Stopwatch.StartNew();
+                while (!File.Exists(ready) && watch.ElapsedMilliseconds < 1000) Thread.Sleep(10);
+                File.Exists(ready).ShouldBeTrue("descendant must actually execute before timeout");
             }
             Thread.Sleep(Timeout.Infinite);
         }
@@ -125,16 +137,21 @@ public sealed class RunnerProcessFixture : IDisposable
         if (mode == "deleted-log") File.Delete(Path.Combine(directory, "fixture.pass.subject.log"));
         if (mode == "duplicate") File.Copy(file, Path.Combine(directory, "duplicate.proof.json"));
         if (mode == "nonce") { result["nonce"] = "prior-run"; File.WriteAllText(file, result.ToJsonString()); }
+        if (mode == "stale") File.WriteAllText(file, File.ReadAllText(Path.Combine(ProofProtocol.Root, "prior.proof.json")));
         if (mode == "source") File.AppendAllText(Path.Combine(ProofProtocol.Root, "approved.cs"), "// unauthorized change\n");
         if (mode == "document") File.AppendAllText(Path.Combine(ProofProtocol.Root, "approved.md"), "Unauthorized change.\n");
     }
 
-    [Fact(Skip = "Intentional isolated skip control"), Trait("Case", "fixture.pass")]
+    [Fact(Explicit = true, Skip = "Intentional isolated skip control"), Trait("Case", "fixture.pass")]
     public void Skipped() { }
 
-    [Fact, Trait("Case", "fixture.wrong")]
+    [Fact(Explicit = true), Trait("Case", "fixture.wrong")]
     public void WrongSelection() { (2 + 2).ShouldBe(4); }
 
-    [Fact, Trait("Case", "fixture.descendant")]
-    public void Descendant() { Thread.Sleep(Timeout.Infinite); }
+    [Fact(Explicit = true), Trait("Case", "fixture.descendant")]
+    public void Descendant()
+    {
+        File.WriteAllText(Path.Combine(ProofProtocol.Root, "descendant.ready"), Environment.ProcessId.ToString());
+        Thread.Sleep(Timeout.Infinite);
+    }
 }

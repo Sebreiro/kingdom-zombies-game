@@ -52,7 +52,24 @@
         "runner.escaping-evidence",
         "runner.unrelated-diagnostic",
         "runner.missing-prerequisite",
-        "runner.selection"
+        "runner.selection",
+        "runner.process.missing-executable",
+        "runner.process.zero-discovery",
+        "runner.process.wrong-filter",
+        "runner.process.skip",
+        "runner.process.crash",
+        "runner.process.timeout",
+        "runner.process.deleted-log",
+        "runner.process.deleted-result",
+        "runner.process.duplicate",
+        "runner.process.nonce",
+        "runner.process.source",
+        "runner.process.document",
+        "runner.process.repeat",
+        "runner.process.stale",
+        "runner.process.concurrent",
+        "runner.process.interrupted",
+        "runner.process.assertion"
       ]
     },
     {
@@ -74,7 +91,24 @@
         "runner.escaping-evidence",
         "runner.unrelated-diagnostic",
         "runner.missing-prerequisite",
-        "runner.selection"
+        "runner.selection",
+        "runner.process.missing-executable",
+        "runner.process.zero-discovery",
+        "runner.process.wrong-filter",
+        "runner.process.skip",
+        "runner.process.crash",
+        "runner.process.timeout",
+        "runner.process.deleted-log",
+        "runner.process.deleted-result",
+        "runner.process.duplicate",
+        "runner.process.nonce",
+        "runner.process.source",
+        "runner.process.document",
+        "runner.process.repeat",
+        "runner.process.stale",
+        "runner.process.concurrent",
+        "runner.process.interrupted",
+        "runner.process.assertion"
       ]
     },
     {
@@ -5345,6 +5379,449 @@
       ],
       "implementation": "pending",
       "polarity": "register-resolution"
+    },
+    {
+      "id": "runner.process.missing-executable",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.RealMissingExecutableIsRejected"
+    },
+    {
+      "id": "runner.process.zero-discovery",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.RealZeroDiscoveryIsRejected"
+    },
+    {
+      "id": "runner.process.wrong-filter",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.RealWrongFilterIsRejected"
+    },
+    {
+      "id": "runner.process.skip",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.RealSkipIsRejected"
+    },
+    {
+      "id": "runner.process.crash",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.RealCrashIsRejected"
+    },
+    {
+      "id": "runner.process.timeout",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.RealTimeoutKillsDescendants"
+    },
+    {
+      "id": "runner.process.deleted-log",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.RealDeletedLogIsRejected"
+    },
+    {
+      "id": "runner.process.deleted-result",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.RealDeletedResultIsRejected"
+    },
+    {
+      "id": "runner.process.duplicate",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.RealDuplicateResultIsRejected"
+    },
+    {
+      "id": "runner.process.nonce",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.RealWrongNonceIsRejected"
+    },
+    {
+      "id": "runner.process.source",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.RealSourceMutationInvalidatesPublication"
+    },
+    {
+      "id": "runner.process.document",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.RealDocumentMutationInvalidatesPublication"
+    },
+    {
+      "id": "runner.process.repeat",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.UnchangedRunsHaveIdenticalNormalizedVerdicts"
+    },
+    {
+      "id": "runner.process.stale",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.NewRunCannotBorrowPriorCompleteArtifacts"
+    },
+    {
+      "id": "runner.process.concurrent",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.ConcurrentFullInvocationIsExplicitlyRejected"
+    },
+    {
+      "id": "runner.process.interrupted",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.InterruptionCannotPublishOrLendSuccess"
+    },
+    {
+      "id": "runner.process.assertion",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.RealAssertionFailureIsActionable"
+    },
+    {
+      "id": "pins.missing",
+      "group": "pins",
+      "rule": "RULE-01",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.PinsTests.MissingPinIsRejected"
+    },
+    {
+      "id": "pins.duplicate-identical",
+      "group": "pins",
+      "rule": "RULE-01",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.PinsTests.DuplicateIdenticalDeclarationRequiresUniqueness"
+    },
+    {
+      "id": "pins.duplicate-conflicting",
+      "group": "pins",
+      "rule": "RULE-01",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.PinsTests.ConflictingDuplicateDeclarationIsRejected"
+    },
+    {
+      "id": "pins.duplicate-candidate",
+      "group": "pins",
+      "rule": "RULE-01",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.PinsTests.AmbiguousCandidatesCannotSelectAccidentally"
+    },
+    {
+      "id": "pins.generator",
+      "group": "pins",
+      "rule": "RULE-01",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.PinsTests.IncompatibleGeneratorIsRejected"
+    },
+    {
+      "id": "pins.observed-engine",
+      "group": "pins",
+      "rule": "RULE-01",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.PinsTests.WrongActualEngineToolIsRejected"
+    },
+    {
+      "id": "pins.observed-compiler",
+      "group": "pins",
+      "rule": "RULE-01",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.PinsTests.WrongActualCompilerIdentityIsRejected"
+    },
+    {
+      "id": "pins.observed-generator",
+      "group": "pins",
+      "rule": "RULE-01",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.PinsTests.WrongGeneratorPayloadIdentityIsRejected"
+    },
+    {
+      "id": "pins.permutation",
+      "group": "pins",
+      "rule": "RULE-01",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.PinsTests.CandidateAndDeclarationOrderingPreservesSelection"
     }
-  ]
+  ],
+  "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."
 }
