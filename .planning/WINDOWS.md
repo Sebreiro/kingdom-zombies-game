@@ -2,9 +2,9 @@
 schema_version: 1
 open_count: 3
 waived_count: 0
-fixed_count: 11
-total_count: 14
-last_updated: 2026-11-13T19:23:02.760Z
+fixed_count: 15
+total_count: 18
+last_updated: 2026-11-13T20:06:31.089Z
 ---
 
 # Broken Windows Ledger
@@ -29,6 +29,10 @@ last_updated: 2026-11-13T19:23:02.760Z
 | 12 | 01 | deviation | tests/phase1/ConfigurationTests.cs |  | Active inherited analyzers exposed handwritten call/comment and verifier construction prerequisites; sources and throwaway fixture subjects now comply, and the compile-only test owns a minimal explicit entry point. | fixed |  | 2026-11-13T19:22:19.538Z | 2026-11-13T19:23:02.368Z |
 | 13 | 01 | deviation | docs/code/generated-callsite-adaptations.json |  | Observed pinned xUnit/Microsoft Testing Platform and Godot generated members require exact SCR0001 symbol permissions; all ten are registered with source/package origin and adjacent/collision controls, with no blanket generated exemption. | fixed |  | 2026-11-13T19:22:19.745Z | 2026-11-13T19:23:02.564Z |
 | 14 | 01 | deviation | tools/phase1/required-cases.json |  | Independent input identity omitted the previously empty analyzer project; owned analyzer sources are now included and isolated copied-source mutation rejects old evidence with INPUT_MISMATCH while cache output remains excluded. | fixed |  | 2026-11-13T19:22:19.942Z | 2026-11-13T19:23:02.760Z |
+| 15 | 01 | deviation | tools/phase1/required-cases.json |  | Plan01-06 authored family6 selectors are absent; exact independently bound rule and captured-case IDs supply real verification, with no fabricated selector pass. | fixed |  | 2026-11-13T20:02:17.681Z | 2026-11-13T20:03:53.296Z |
+| 16 | 01 | deviation | tests/phase1/ConfigurationTests.cs |  | New null and layout enforcement required explicit handwritten null checks, compliant wrapped source and member ordering, and formatting of compile-only fixture subjects; severities and approved requirements remain unchanged. | fixed |  | 2026-11-13T20:02:17.873Z | 2026-11-13T20:04:20.561Z |
+| 17 | 01 | deviation | docs/code/generated-layout-adaptations.json |  | Observed pinned generated layout requires four exact immutable source/path/line entries and seven exact diagnostic/member permissions; actual origin, modified-content, wrong-path, adjacent and existing collision proofs bound these permissions. | fixed |  | 2026-11-13T20:02:18.059Z | 2026-11-13T20:06:31.089Z |
+| 18 | 01 | deviation | tests/phase1/Verification/InheritedAnalyzerVerifier.cs |  | Actual same-process consumer builds exposed Windows DLL locks; loading analyzer bytes preserves actual diagnostic behavior without holding the output file open. | fixed |  | 2026-11-13T20:02:18.253Z | 2026-11-13T20:04:20.744Z |
 
 ````json
 [
@@ -212,6 +216,58 @@ last_updated: 2026-11-13T19:23:02.760Z
     "reason": "",
     "recorded_at": "2026-11-13T19:22:19.942Z",
     "resolved_at": "2026-11-13T19:23:02.760Z",
+    "milestone": "v0.1"
+  },
+  {
+    "id": 15,
+    "kind": "deviation",
+    "phase": "01",
+    "file": "tools/phase1/required-cases.json",
+    "line": null,
+    "description": "Plan01-06 authored family6 selectors are absent; exact independently bound rule and captured-case IDs supply real verification, with no fabricated selector pass.",
+    "status": "fixed",
+    "reason": "",
+    "recorded_at": "2026-11-13T20:02:17.681Z",
+    "resolved_at": "2026-11-13T20:03:53.296Z",
+    "milestone": "v0.1"
+  },
+  {
+    "id": 16,
+    "kind": "deviation",
+    "phase": "01",
+    "file": "tests/phase1/ConfigurationTests.cs",
+    "line": null,
+    "description": "New null and layout enforcement required explicit handwritten null checks, compliant wrapped source and member ordering, and formatting of compile-only fixture subjects; severities and approved requirements remain unchanged.",
+    "status": "fixed",
+    "reason": "",
+    "recorded_at": "2026-11-13T20:02:17.873Z",
+    "resolved_at": "2026-11-13T20:04:20.561Z",
+    "milestone": "v0.1"
+  },
+  {
+    "id": 17,
+    "kind": "deviation",
+    "phase": "01",
+    "file": "docs/code/generated-layout-adaptations.json",
+    "line": null,
+    "description": "Observed pinned generated layout requires four exact immutable source/path/line entries and seven exact diagnostic/member permissions; actual origin, modified-content, wrong-path, adjacent and existing collision proofs bound these permissions.",
+    "status": "fixed",
+    "reason": "",
+    "recorded_at": "2026-11-13T20:02:18.059Z",
+    "resolved_at": "2026-11-13T20:06:31.089Z",
+    "milestone": "v0.1"
+  },
+  {
+    "id": 18,
+    "kind": "deviation",
+    "phase": "01",
+    "file": "tests/phase1/Verification/InheritedAnalyzerVerifier.cs",
+    "line": null,
+    "description": "Actual same-process consumer builds exposed Windows DLL locks; loading analyzer bytes preserves actual diagnostic behavior without holding the output file open.",
+    "status": "fixed",
+    "reason": "",
+    "recorded_at": "2026-11-13T20:02:18.253Z",
+    "resolved_at": "2026-11-13T20:04:20.744Z",
     "milestone": "v0.1"
   }
 ]
