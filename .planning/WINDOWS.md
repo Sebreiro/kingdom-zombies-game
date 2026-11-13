@@ -1,10 +1,10 @@
 ---
 schema_version: 1
-open_count: 2
+open_count: 3
 waived_count: 0
 fixed_count: 6
-total_count: 8
-last_updated: 2026-11-13T18:21:54.853Z
+total_count: 9
+last_updated: 2026-11-13T18:47:31.762Z
 ---
 
 # Broken Windows Ledger
@@ -23,6 +23,7 @@ last_updated: 2026-11-13T18:21:54.853Z
 | 6 | 01 | deviation | tools/code-rules/packages.lock.json |  | Committed canonical generated dependency locks required by shared analyzer restore ahead of plan 01-18 final lock verification, as explicitly authorized. | fixed |  | 2026-11-13T18:20:42.350Z | 2026-11-13T18:21:54.509Z |
 | 7 | 01 | deviation | tools/phase1/bootstrap.cjs |  | Updated the exact engine package closure and mapped feed copy for three new pinned global analyzers; missing, unexpected and wrong-version closures remain rejected. | fixed |  | 2026-11-13T18:20:42.720Z | 2026-11-13T18:21:54.853Z |
 | 8 | 01 | stub | tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj |  | Intentional empty custom analyzer assembly establishes tooling-only build wiring; rule source families belong to plans 01-05 through 01-07 and are not credited as enforcement. | open |  | 2026-11-13T18:20:43.090Z |  |
+| 9 | 01 | unmet-truth | tools/phase1/required-cases.json |  | Five pins runner-edge identities declared to 01-02 remain pending; 01-14 must bind distinct actual cases before full phase acceptance. | open |  | 2026-11-13T18:47:31.762Z |  |
 
 ````json
 [
@@ -127,6 +128,19 @@ last_updated: 2026-11-13T18:21:54.853Z
     "status": "open",
     "reason": "",
     "recorded_at": "2026-11-13T18:20:43.090Z",
+    "resolved_at": null,
+    "milestone": "v0.1"
+  },
+  {
+    "id": 9,
+    "kind": "unmet-truth",
+    "phase": "01",
+    "file": "tools/phase1/required-cases.json",
+    "line": null,
+    "description": "Five pins runner-edge identities declared to 01-02 remain pending; 01-14 must bind distinct actual cases before full phase acceptance.",
+    "status": "open",
+    "reason": "",
+    "recorded_at": "2026-11-13T18:47:31.762Z",
     "resolved_at": null,
     "milestone": "v0.1"
   }
