@@ -5,7 +5,6 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace Sebreiro.CodeRules.Analyzers;
-
 /// <summary>
 /// SCR0008: members are ordered by access first, then by kind. Access runs public, internal, protected internal,
 /// protected, private protected, private; an explicit interface implementation ranks as public, and a member with
@@ -20,63 +19,32 @@ public sealed class MemberOrderAnalyzer : DiagnosticAnalyzer
 {
     /// <summary>The diagnostic ID of the rule.</summary>
     public const string DiagnosticId = "SCR0008";
-
     /// <summary>The descriptor of the rule.</summary>
-    public static readonly DiagnosticDescriptor Rule = new(
-            id: DiagnosticId,
+    public static readonly DiagnosticDescriptor Rule = new(id: DiagnosticId,
             title: "Member order: access first, then kind",
-            messageFormat: "'{0}' ({1}) must come before '{2}' ({3})",
-            category: "Sebreiro.CodeRules",
-            defaultSeverity: DiagnosticSeverity.Error,
-            isEnabledByDefault: true);
-
-    /// <inheritdoc />
+            messageFormat: "'{0}' ({1}) must come before '{2}' ({3})", category: "Sebreiro.CodeRules",
+            defaultSeverity: DiagnosticSeverity.Error, isEnabledByDefault: true);
+    /// <inheritdoc/>
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
-    /// <inheritdoc />
+    /// <inheritdoc/>
     public override void Initialize(AnalysisContext context)
     {
-        context.ConfigureGeneratedCodeAnalysis(analysisMode: GeneratedCodeAnalysisFlags.Analyze | 
-                GeneratedCodeAnalysisFlags.ReportDiagnostics);
+        context.ConfigureGeneratedCodeAnalysis(analysisMode: GeneratedCodeAnalysisFlags.Analyze
+                | GeneratedCodeAnalysisFlags.ReportDiagnostics);
         context.EnableConcurrentExecution();
-        context.RegisterSyntaxNodeAction(
-                action: AnalyzeType,
-                SyntaxKind.ClassDeclaration,
-                SyntaxKind.StructDeclaration,
-                SyntaxKind.RecordDeclaration,
-                SyntaxKind.RecordStructDeclaration,
-                SyntaxKind.InterfaceDeclaration,
-                SyntaxKind.ExtensionBlockDeclaration);
+        context.RegisterSyntaxNodeAction(action: AnalyzeType, SyntaxKind.ClassDeclaration, SyntaxKind
+                .StructDeclaration, SyntaxKind.RecordDeclaration, SyntaxKind.RecordStructDeclaration, SyntaxKind
+                        .InterfaceDeclaration, SyntaxKind.ExtensionBlockDeclaration);
     }
 
     private const int KindCount = 8;
-
     private const int NestedTypeKind = KindCount;
-
     private const int NestedTypeRank = 100;
-
-    private static readonly string[] _accessNames =
-    [
-        "public",
-        "internal",
-        "protected internal",
-        "protected",
-        "private protected",
-        "private",
-    ];
-
-    private static readonly string[] _kindNames =
-    [
-        "constant",
-        "field",
-        "constructor",
-        "property",
-        "indexer",
-        "event",
-        "method",
-        "operator",
-    ];
-
+    private static readonly string[] _accessNames = ["public", "internal", "protected internal", "protected",
+        "private protected", "private", ];
+    private static readonly string[] _kindNames = ["constant", "field", "constructor", "property", "indexer",
+        "event", "method", "operator", ];
     private static void AnalyzeType(SyntaxNodeAnalysisContext context)
     {
         var type = (TypeDeclarationSyntax)context.Node;
@@ -92,13 +60,10 @@ public sealed class MemberOrderAnalyzer : DiagnosticAnalyzer
 
             if (previous is not null && rank < previousRank)
             {
-                context.ReportDiagnostic(diagnostic: Diagnostic.Create(
-                        descriptor: Rule,
-                        location: NameToken(member: member).GetLocation(),
-                        Name(member: member),
-                        Describe(member: member, inInterface: inInterface),
-                        Name(member: previous),
-                        Describe(member: previous, inInterface: inInterface)));
+                context.ReportDiagnostic(diagnostic: Diagnostic.Create(descriptor: Rule, location: NameToken(
+                        member: member).GetLocation(), Name(member: member), Describe(member: member,
+                                inInterface: inInterface), Name(member: previous), Describe(member: previous,
+                                        inInterface: inInterface)));
                 return;
             }
 
@@ -114,9 +79,8 @@ public sealed class MemberOrderAnalyzer : DiagnosticAnalyzer
             return null;
         }
 
-        return kind == NestedTypeKind
-                ? NestedTypeRank
-                : (AccessRank(member: member, inInterface: inInterface) * KindCount) + kind;
+        return kind == NestedTypeKind ? NestedTypeRank : (AccessRank(member: member, inInterface: inInterface)
+                * KindCount) + kind;
     }
 
     private static int? KindRank(MemberDeclarationSyntax member)
@@ -178,9 +142,8 @@ public sealed class MemberOrderAnalyzer : DiagnosticAnalyzer
     private static string Describe(MemberDeclarationSyntax member, bool inInterface)
     {
         int kind = KindRank(member: member) ?? NestedTypeKind;
-        return kind == NestedTypeKind
-                ? "nested type"
-                : _accessNames[AccessRank(member: member, inInterface: inInterface)] + " " + _kindNames[kind];
+        return kind == NestedTypeKind ? "nested type" : _accessNames[AccessRank(member: member,
+                inInterface: inInterface)] + " " + _kindNames[kind];
     }
 
     private static string Name(MemberDeclarationSyntax member)

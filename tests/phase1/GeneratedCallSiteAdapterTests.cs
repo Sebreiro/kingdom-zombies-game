@@ -1,13 +1,11 @@
 using System;
 using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text.Json;
 using Shouldly;
 using Xunit;
 
 namespace KingdomZombies.Phase1.Tests;
-
 /// <summary>Proves the exact generated call-site permissions and their immediately adjacent handwritten
 /// boundaries.</summary>
 public sealed class GeneratedCallSiteAdapterTests
@@ -16,33 +14,33 @@ public sealed class GeneratedCallSiteAdapterTests
     [Fact, Trait("Case", "rules.generated-callsite-origin")]
     public void GeneratedCallSitesHavePinnedOrigin()
     {
-        using var register = JsonDocument.Parse(json: File.ReadAllText(path: Path.Combine(path1: ProofProtocol.
-                Root, path2: "docs/code/generated-callsite-adaptations.json")));
-        var rows = register.RootElement.GetProperty(propertyName: "local").EnumerateArray().ToArray();
+        using var register = JsonDocument.Parse(json: File.ReadAllText(path: Path.Combine(path1: ProofProtocol
+                .Root, path2: "docs/code/generated-callsite-adaptations.json")));
+        JsonElement[] rows = [.. register.RootElement.GetProperty(propertyName: "local").EnumerateArray()];
         rows.Length.ShouldBe(expected: 10);
-        foreach (var row in rows)
+        foreach (JsonElement row in rows)
         {
-            var adapters = File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: (row.
-                    GetProperty(propertyName: "path").GetString() ?? throw new System.InvalidOperationException(
-                            message: "Required proof value is null"))));
-            var path = Path.Combine(path1: ProofProtocol.Root, path2: (row.GetProperty(propertyName: "surface").
-                    GetString() ?? throw new System.InvalidOperationException(message:
-                    "Required proof value is null")));
+            string adapters = File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: (row
+                    .GetProperty(propertyName: "path").GetString()
+                    ?? throw new System.InvalidOperationException(message: "Required proof value is null"))));
+            string path = Path.Combine(path1: ProofProtocol.Root, path2: (row.GetProperty(
+                    propertyName: "surface").GetString() ?? throw new System.InvalidOperationException(
+                            message: "Required proof value is null")));
             Convert.ToHexStringLower(inArray: SHA256.HashData(source: File.ReadAllBytes(path: path))).ShouldBe(
                     expected: row.GetProperty(propertyName: "sha256").GetString());
             Verification.AdapterTargets.Read(source: adapters).ShouldContain(expected: (row.GetProperty(
-                    propertyName: "target").GetString() ?? throw new
-                    System.InvalidOperationException(message: "Required proof value is null")),
-                    comparer: StringComparer.Ordinal);
-            var package = Path.Combine(path1: ProofProtocol.Root, path2: (row.GetProperty(propertyName:
-                    "package").GetString() ?? throw new System.InvalidOperationException(message:
-                    "Required proof value is null")));
-            Convert.ToHexStringLower(inArray: SHA256.HashData(source: File.ReadAllBytes(path: package))).
-                    ShouldBe(expected: row.GetProperty(propertyName: "packageSha256").GetString());
+                    propertyName: "target").GetString() ?? throw new System.InvalidOperationException(
+                            message: "Required proof value is null")), comparer: StringComparer.Ordinal);
+            string package = Path.Combine(path1: ProofProtocol.Root, path2: (row.GetProperty(
+                    propertyName: "package").GetString() ?? throw new System.InvalidOperationException(
+                            message: "Required proof value is null")));
+            Convert.ToHexStringLower(inArray: SHA256.HashData(source: File.ReadAllBytes(path: package)))
+                    .ShouldBe(expected: row.GetProperty(propertyName: "packageSha256").GetString());
         }
-        ProofProtocol.Record(id: "rules.generated-callsite-origin", diagnostic:
-                "GENERATED_CALLSITE_ORIGIN_EXACT", location:
-                "ten exact generated members, source/package hashes and targets");
+
+        ProofProtocol.Record(id: "rules.generated-callsite-origin",
+                diagnostic: "GENERATED_CALLSITE_ORIGIN_EXACT",
+                location: "ten exact generated members, source/package hashes and targets");
     }
 
     /// <summary>Rejects adjacent positional calls and duplicate handwritten declarations at both exact
@@ -50,44 +48,48 @@ public sealed class GeneratedCallSiteAdapterTests
     [Fact, Trait("Case", "rules.generated-callsite-boundary")]
     public void GeneratedCallSitePermissionCannotEscapeItsMembers()
     {
-        var adjacent = RebuildWithSource(source: ("namespace KingdomZombies.Phase1.Tests; internal static " +
-                "class Adjacent { internal static int Run() => System.Ma" +
-                "th.Abs(-1); }"));
+        string adjacent = RebuildWithSource(source: ("namespace KingdomZombies.Phase1.Tests; internal static "
+                + "class Adjacent { internal static int Run() => System.Ma" + "th.Abs(-1); }"));
         adjacent.ShouldContain(expected: "Subject.cs(");
         adjacent.ShouldContain(expected: "error SCR0001:");
-        foreach (var source in new[] { ("namespace KingdomZombies.Phase1.Tests; internal static " +
-                "class SelfRegisteredExtensions { public static void Add" +
-                "SelfRegisteredExtensions(Microsoft.Testing.Platform.Bui" +
-                "lder.ITestApplicationBuilder builder, string[] args) { " +
-                "} }"), ("namespace Xunit.AutoGenerated._q7uNBHEkB; internal clas" +
-                        "s XunitAutoGeneratedEntryPoint { public static int Main" +
-                        "(string[] args) { return 0; } }") })
+        foreach (string? source in new[]
         {
-            var collision = RebuildWithSource(source: source);
-            collision.ShouldContain(expected: "error CS0101:");
-            collision.ShouldContain(expected: source.Contains(value: "SelfRegisteredExtensions", comparisonType
-                    : StringComparison.Ordinal) ? "SelfRegisteredExtensions.cs(11,27)" :
-                    "XunitAutoGeneratedEntryPoint.cs(10,17)");
+            ("namespace KingdomZombies.Phase1.Tests; internal static "
+                    + "class SelfRegisteredExtensions { public static void Add"
+                    + "SelfRegisteredExtensions(Microsoft.Testing.Platform.Bui"
+                    + "lder.ITestApplicationBuilder builder, string[] args) { " + "} }"),
+            ("namespace Xunit.AutoGenerated._q7uNBHEkB; internal clas"
+                    + "s XunitAutoGeneratedEntryPoint { public static int Main" + "(string[] args) { return 0; } }")
         }
-        ProofProtocol.Record(id: "rules.generated-callsite-boundary", diagnostic:
-                "GENERATED_CALLSITE_BOUNDARY_REJECTED", location:
-                "SCR0001 adjacent + CS0101 both exact-symbol impostors");
+
+        )
+        {
+            string collision = RebuildWithSource(source: source);
+            collision.ShouldContain(expected: "error CS0101:");
+            collision.ShouldContain(expected: source.Contains(value: "SelfRegisteredExtensions",
+                    comparisonType: StringComparison.Ordinal) ? "SelfRegisteredExtensions.cs(11,27)"
+                    : "XunitAutoGeneratedEntryPoint.cs(10,17)");
+        }
+
+        ProofProtocol.Record(id: "rules.generated-callsite-boundary",
+                diagnostic: "GENERATED_CALLSITE_BOUNDARY_REJECTED",
+                location: "SCR0001 adjacent + CS0101 both exact-symbol impostors");
     }
 
     private static string RebuildWithSource(string source)
     {
-        var directory = Path.Combine(path1: ProofProtocol.Root, path2: ".phase1/temp/generated-callsite-" + Guid
-                .NewGuid().ToString(format: "N"));
+        string directory = Path.Combine(path1: ProofProtocol.Root, path2: ".phase1/temp/generated-callsite-"
+                + Guid.NewGuid().ToString(format: "N"));
         Directory.CreateDirectory(path: directory);
-        var file = Path.Combine(path1: directory, path2: "Subject.cs");
+        string file = Path.Combine(path1: directory, path2: "Subject.cs");
         File.WriteAllText(path: file, contents: source);
-        var targets = Path.Combine(path1: directory, path2: "Boundary.targets");
-        File.WriteAllText(path: targets, contents: "<Project><Import Project=\"" + Path.Combine(path1:
-                ProofProtocol.Root, path2: "Directory.Build.targets") + (
-                "\"/><ItemGroup Condition=\"'$(MSBuildProjectName)' == 'Ki" +
-                        "ngdomZombies.Phase1.Tests'\"><Compile Include=\"") + file + "\"/></ItemGroup></Project>");
-        var result = ConfigurationTests.Dotnet("build", ConfigurationTests.Projects[4], "--no-restore",
-                "-p:NuGetAudit=false", "-p:DirectoryBuildTargetsPath=" + targets);
+        string targets = Path.Combine(path1: directory, path2: "Boundary.targets");
+        File.WriteAllText(path: targets, contents: "<Project><Import Project=\"" + Path.Combine(
+                path1: ProofProtocol.Root, path2: "Directory.Build.targets")
+                + ("\"/><ItemGroup Condition=\"'$(MSBuildProjectName)' == 'Ki"
+                        + "ngdomZombies.Phase1.Tests'\"><Compile Include=\"") + file + "\"/></ItemGroup></Project>");
+        (int Exit, string Output) result = ConfigurationTests.Dotnet("build", ConfigurationTests.Projects[4],
+                "--no-restore", "-p:NuGetAudit=false", "-p:DirectoryBuildTargetsPath=" + targets);
         result.Exit.ShouldNotBe(expected: 0, customMessage: result.Output);
         return result.Output;
     }

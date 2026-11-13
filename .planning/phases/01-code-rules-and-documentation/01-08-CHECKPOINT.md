@@ -2,7 +2,23 @@
 
 Status: incomplete; Task 1 tracer proven, Task 1 expansion and Task 2 pending. No SUMMARY.md exists and no plan/requirement progress was advanced.
 
-## Latest continuation: strict solution green; three activation regressions
+## Latest continuation: inherited policy activation verified
+
+The complete preserved 27-file policy/source increment is now verified under the active inherited policy. All three earlier activation regressions are fixed without changing rule severities, generated permissions, or captured sample content:
+
+- `pins.async-permission`: the clean `Read()` fixture now uses a block body; its intended MA0137 configuration mutation still fails. Fresh focused report: `.phase1/runs/c56e69a3-3aaf-412c-bb16-0f02bc6f9a15/summary.json`.
+- `rules.analyzer-source-consumer`: a tuple alias shortens the generated-syntax table declaration so ordinary collection layout satisfies both formatting and SCR0009. Every exact path/hash/line/column/length value remains intact. Focused report: `.phase1/runs/c0a093c2-fe03-497e-80ff-4229d48c9be8/summary.json`.
+- `rules.continuationindent.AgreedSamples_FormatterLeavesUnchanged_AndNotReported`: standalone emission appends an absent LF and compares the complete emitted file exactly. The captured `AgreedSamples` constant is unchanged. Focused report: `.phase1/runs/9d6b18ff-85b4-473a-aed4-444dcab8ef52/summary.json`.
+
+Final strict five-project solution build: `dotnet build KingdomZombies.slnx --no-restore -p:NuGetAudit=false -p:UseSharedCompilation=false -nodeReuse:false`, **zero warnings and zero errors**, `.phase1/temp/08-reconcile-final-baseline.log`. Actual twelve-analyzer source consumer passes. Native `node tools/phase1/bootstrap.cjs --probe engine` passes with fresh construction/ready/exit assertions; compatibility-only evidence is `.phase1/runs/c8fb6afc-9219-4a9b-8fa4-53debc8dd993/compatibility.json`. This is bootstrap evidence, not the later lifecycle/exports/thread acceptance.
+
+Exact generated syntax origin and boundary controls pass separately: `.phase1/runs/86d4acf5-14d3-45fd-8a00-dd523b7f2003/summary.json` and `.phase1/runs/cf4d56bd-0abb-48e2-897e-8b3ddddb53c3/summary.json`.
+
+The complete `node tools/phase1/check.cjs --all` run finished with **375 passed, zero failed controls, 184 explicitly pending, 559 declared**, actual exit **1** solely for pending obligations. Canonical report: `.phase1/runs/9ab3b049-7ae7-4ef5-9e84-9e4587ad491b/summary.json`; raw console: `.phase1/temp/08-reconcile-all.log`. Tested revision: `559b0c0e4951a01b0799b60929111bfae120796e`. All source inputs stayed unchanged throughout the run. `git diff --check` passes.
+
+This is an accepted activation increment, not Task 1 or Task 2 completion. Continue the required real-build/source-format/configuration expansion and exact exemption/generated-surface/numeric controls below. The ignored `08-expand.cjs` remains an unrun, unverified draft and must not be assumed valid. Do not rerun the one-shot `Continue08.cs`. No SUMMARY, requirement completion, or advancement beyond 8/18 is authorized by these results.
+
+## Previous continuation: strict solution green; three activation regressions
 
 All eight inherited prerequisite diagnostics are corrected. The complete five-project solution now builds with **zero warnings and zero errors** under the fully active inherited policy. Actual command: `dotnet build KingdomZombies.slnx --no-restore -p:NuGetAudit=false -p:UseSharedCompilation=false -nodeReuse:false`; raw output: `.phase1/temp/08-finish-baseline3.log`. Three bounded feedback passes produced eight → three → two → zero errors. No severity, analyzer edge, generated identity or exemption scope was weakened.
 

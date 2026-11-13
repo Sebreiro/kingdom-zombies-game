@@ -333,7 +333,7 @@ last_updated: 2026-11-13T21:25:19.535Z
     "phase": "01",
     "file": "tests/phase1/EnforcementTests.cs",
     "line": null,
-    "description": "01-08 wider enforcement and exemptions remain incomplete. All eight inherited diagnostics are fixed and the strict five-project solution is green. Full run 66b8b9b1-e366-4dd3-a7ad-ebbe96025e23 finished: 372 passed, 3 failed, 184 pending, 559 declared, exit 1. The build tracer passes. Remaining activation regressions: async-permission IDE0022 before MA0137, GeneratedSyntax.cs(37,5) SCR0009, and formatter Sample.cs(103,2) FINALNEWLINE. Policy/source WIP remain preserved; 08-expand.cjs is UNRUN. Exact evidence and bounded continuation are recorded in 01-08-CHECKPOINT.md.",
+    "description": "01-08 wider enforcement and exemptions remain incomplete. The preserved inherited policy/source activation is verified: strict five-project solution has zero warnings/errors; all three earlier activation regressions pass. Full immutable-source run 9ab3b049-7ae7-4ef5-9e84-9e4587ad491b finished with 375 passed, zero failed controls, 184 pending, 559 declared, exit 1 solely for pending obligations. Native bootstrap and exact generated syntax origin/boundary controls pass. Task 1 expansion and Task 2 remain incomplete; 08-expand.cjs is an UNRUN draft. Exact evidence is recorded in 01-08-CHECKPOINT.md.",
     "status": "open",
     "reason": "",
     "recorded_at": "2026-11-13T21:25:19.535Z",

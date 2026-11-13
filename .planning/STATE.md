@@ -6,7 +6,7 @@ current_phase: 1
 current_phase_name: Code rules and documentation
 current_plan: 8
 status: executing
-stopped_at: 01-08 strict solution green; full suite 372 pass/3 fail/184 pending; activation regressions preserved for fresh continuation
+stopped_at: 01-08 policy activation verified; full suite 375 pass/0 fail/184 pending; real-build expansion and exemptions remain incomplete
 last_updated: "2026-11-13T21:54:59.209Z"
 last_activity: "2026-11-13 (Europe/Paris) — Completed plan 01-07; 374 implemented proofs pass, with 184 future obligations blocked. Next: 01-08."
 progress:
@@ -102,7 +102,7 @@ Continue Phase 1 with plan 01-08; 01-14 must close the five distinct runner-edge
 - Plan 01-01's historical missing-RED deviation remains open in WINDOWS.md; Plan 01-02 supplies genuine RED/GREEN proofs without fabricating earlier evidence.
 - A workspace-contained Ubuntu 24.04 x86_64 VM shell is prepared as recorded in 01-ENVIRONMENT.md. Actual Linux toolchain and acceptance execution remain required; environment preparation supplies no platform pass.
 - Reference-PC hardware and required real mixed-OS LAN/endurance environments need recording before release proofs; no measurements are available.
-- 01-08 task 1 expansion remains incomplete. All eight remaining prerequisite diagnostics are fixed; the whole five-project solution builds with zero warnings/errors under the active inherited policy (.phase1/temp/08-finish-baseline3.log). Full --all run 66b8b9b1-e366-4dd3-a7ad-ebbe96025e23 finished with 372 passed, 3 failed, 184 pending, 559 declared (actual exit 1). The SCR0006 real-build tracer passes. Three activation regressions remain: pins.async-permission clean fixture IDE0022 before MA0137; analyzer-source-consumer GeneratedSyntax.cs(37,5) SCR0009; and agreed formatter scratch Sample.cs(103,2) FINALNEWLINE. Source WIP remains uncommitted and preserved in 08-finish-preserved.patch; staged 08-expand.cjs is UNRUN. The three-repair limit requires fresh continuation. No SUMMARY, task/plan advancement or RULE completion is claimed.
+- 01-08 policy activation is verified: strict five-project build has zero warnings/errors; exact async-permission, twelve-analyzer self-consumer and captured formatter controls pass. Complete immutable-source run 9ab3b049-7ae7-4ef5-9e84-9e4587ad491b finished with 375 passed, zero failed controls, 184 explicitly pending, 559 declared (actual exit 1 solely for pending obligations). Native Godot bootstrap and exact generated syntax origin/boundary controls pass. Wider Task 1 real-build/source-format/configuration proofs and all Task 2 exemption/numeric work remain incomplete. The ignored 08-expand.cjs is an UNRUN draft. No SUMMARY, task/plan advancement or RULE completion is claimed.
 
 ## Deferred Items
 
@@ -113,7 +113,7 @@ Continue Phase 1 with plan 01-08; 01-14 must close the five distinct runner-edge
 ## Session Continuity
 
 Last session: 2026-11-13T21:54:59.172Z
-Stopped at: 01-08 strict solution green; full suite 372 pass/3 fail/184 pending; activation regressions preserved for fresh continuation
+Stopped at: 01-08 policy activation verified; full suite 375 pass/0 fail/184 pending; real-build expansion and exemptions remain incomplete
 Resume file: .planning/phases/01-code-rules-and-documentation/01-08-CHECKPOINT.md
 
 Next action: Execute 01-08-PLAN.md for wider enforcement, real-build, exemption and threshold validation. Plan 18 executed before 05 by dependency order. Remain in Phase 1; all RULE requirements are Pending.

@@ -7,29 +7,32 @@ using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading;
+using System.Threading.Tasks;
 using Shouldly;
 using Xunit;
 
 namespace KingdomZombies.Phase1.Tests;
-
 /// <summary>Creates isolated runner inputs and explicit child controls without mutating approved repository
 /// inputs.</summary>
 public sealed class RunnerProcessFixture : IDisposable
 {
-
     /// <summary>Binds the child fixture to the current proof root and requested mutation mode.</summary>
     public RunnerProcessFixture()
     {
         Root = ProofProtocol.Root;
         Mode = Environment.GetEnvironmentVariable(variable: "PHASE1_MUTATION") ?? "pass";
     }
+
     /// <summary>Gets the checkout or isolated fixture directory used as the child working directory.</summary>
     public string Root { get; }
     /// <summary>Gets the deliberate child mutation selected for this fixture.</summary>
     public string Mode { get; }
 
     /// <summary>Copies an isolated runner and prebuilt test assembly for the requested mutation.</summary>
-    public static RunnerProcessFixture Create(string mode) => new(mode: mode);
+    public static RunnerProcessFixture Create(string mode)
+    {
+        return new(mode: mode);
+    }
 
     /// <summary>Starts the fixture coordinator with this fixture mutation and the supplied selection
     /// arguments.</summary>
@@ -44,55 +47,65 @@ public sealed class RunnerProcessFixture : IDisposable
         var start = new ProcessStartInfo(fileName: Environment.GetEnvironmentVariable(variable: "PHASE1_NODE")
                 ?? "node")
         {
-            WorkingDirectory = Root, RedirectStandardOutput = true, RedirectStandardError = true,
-            UseShellExecute = false, CreateNoWindow = true,
+            WorkingDirectory = Root,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            UseShellExecute = false,
+            CreateNoWindow = true,
         };
         start.ArgumentList.Add(item: Path.Combine(path1: Root, path2: "tools", path3: "phase1", path4: "check.cjs"));
-        foreach (var arg in args.Length == 0 ? new[] { "--all" } : args) start.ArgumentList.Add(item: arg);
+        foreach (string arg in args.Length == 0 ? ["--all"] : args)
+        {
+            start.ArgumentList.Add(item: arg);
+        }
+
         start.Environment["PHASE1_MUTATION"] = mode;
-        return Process.Start(startInfo: start) ?? throw new InvalidOperationException(message:
-                "Fixture coordinator did not start");
+        return Process.Start(startInfo: start) ?? throw new InvalidOperationException(
+                message: "Fixture coordinator did not start");
     }
 
     /// <summary>Runs the fixture coordinator and returns its exit status and combined captured output.</summary>
     public (int Exit, string Output) Run(params string[] args)
     {
-        using var child = Start(args: args);
+        using Process child = Start(args: args);
         return Finish(child: child);
     }
 
     /// <summary>Collects coordinator output within five seconds, killing its entire process tree on timeout.</summary>
     public static (int Exit, string Output) Finish(Process child)
     {
-        var output = child.StandardOutput.ReadToEndAsync();
-        var error = child.StandardError.ReadToEndAsync();
+        Task<string> output = child.StandardOutput.ReadToEndAsync();
+        Task<string> error = child.StandardError.ReadToEndAsync();
         if (!child.WaitForExit(milliseconds: 5000))
         {
-            child.Kill(entireProcessTree: true); child.WaitForExit();
+            child.Kill(entireProcessTree: true);
+            child.WaitForExit();
             throw new TimeoutException(message: "Controlled coordinator exceeded 5 seconds");
         }
+
         return (child.ExitCode, output.GetAwaiter().GetResult() + error.GetAwaiter().GetResult());
     }
 
     /// <summary>Reads the newest summary published by this isolated fixture.</summary>
     public JsonNode Summary()
     {
-        var reports = Directory.GetFiles(path: Path.Combine(path1: Root, path2: ".phase1", path3: "runs"),
+        string[] reports = Directory.GetFiles(path: Path.Combine(path1: Root, path2: ".phase1", path3: "runs"),
                 searchPattern: "summary.json", searchOption: SearchOption.AllDirectories);
-        return (JsonNode.Parse(json: File.ReadAllText(path: reports.OrderBy(keySelector: File.
-                GetLastWriteTimeUtc).Last())) ?? throw new System.InvalidOperationException(message:
-                "Required proof value is null"));
+        return (JsonNode.Parse(json: File.ReadAllText(path: reports.OrderBy(keySelector: File
+                .GetLastWriteTimeUtc).Last())) ?? throw new System.InvalidOperationException(
+                        message: "Required proof value is null"));
     }
 
     /// <summary>Computes an uppercase SHA-256 fingerprint of the specified file bytes.</summary>
-    public static string Hash(string file) => Convert.ToHexString(inArray: SHA256.HashData(source: File.
-            ReadAllBytes(path: file)));
+    public static string Hash(string file)
+    {
+        return Convert.ToHexString(inArray: SHA256.HashData(source: File.ReadAllBytes(path: file)));
+    }
 
     /// <summary>Preserves isolated diagnostic artifacts for inspection; child cleanup is owned by bounded
     /// execution.</summary>
     public void Dispose()
     {
-
     }
 
     /// <summary>Executes the selected explicit process-failure control and mutates evidence only in the
@@ -100,7 +113,7 @@ public sealed class RunnerProcessFixture : IDisposable
     [Fact(Explicit = true), Trait("Case", "fixture.pass")]
     public void Child()
     {
-        var mode = Environment.GetEnvironmentVariable(variable: "PHASE1_MUTATION") ?? "pass";
+        string mode = Environment.GetEnvironmentVariable(variable: "PHASE1_MUTATION") ?? "pass";
         ExerciseProcessFailure(mode: mode);
         (2 + 2).ShouldBe(expected: 4);
         ProofProtocol.Record(id: "fixture.pass");
@@ -109,121 +122,218 @@ public sealed class RunnerProcessFixture : IDisposable
 
     /// <summary>Provides the intentional explicit skip that proves the parent rejects skipped required cases.</summary>
     [Fact(Explicit = true, Skip = "Intentional isolated skip control"), Trait("Case", "fixture.pass")]
-    public void Skipped() { }
+    public void Skipped()
+    {
+    }
 
     /// <summary>Provides a passing explicit case with the wrong identity to prove discovery reconciliation.</summary>
     [Fact(Explicit = true), Trait("Case", "fixture.wrong")]
-    public void WrongSelection() { (2 + 2).ShouldBe(expected: 4); }
+    public void WrongSelection()
+    {
+        (2 + 2).ShouldBe(expected: 4);
+    }
 
     /// <summary>Signals actual descendant startup, then waits for the parent timeout cleanup control.</summary>
     [Fact(Explicit = true), Trait("Case", "fixture.descendant")]
     public void Descendant()
     {
-        File.WriteAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: "descendant.ready"), contents:
-                Environment.ProcessId.ToString(provider: System.Globalization.CultureInfo.InvariantCulture));
+        File.WriteAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: "descendant.ready"),
+                contents: Environment.ProcessId.ToString(provider: System.Globalization.CultureInfo.InvariantCulture));
         Thread.Sleep(millisecondsTimeout: Timeout.Infinite);
     }
 
     private RunnerProcessFixture(string mode)
     {
         Mode = mode;
-        var parent = Environment.GetEnvironmentVariable(variable: "PHASE1_RESULT_DIRECTORY") ?? Path.Combine(
+        string parent = Environment.GetEnvironmentVariable(variable: "PHASE1_RESULT_DIRECTORY") ?? Path.Combine(
                 path1: ProofProtocol.Root, path2: ".phase1", path3: "temp");
         Root = Path.GetFullPath(path: Path.Combine(path1: parent, path2: "fixture-" + Guid.NewGuid()));
+        CopyFixtureInputs();
+        WriteFixtureManifest(mode: mode);
+    }
+
+    private void CopyFixtureInputs()
+    {
         Directory.CreateDirectory(path: Path.Combine(path1: Root, path2: "tools", path3: "phase1"));
-        foreach (var file in new[] { "check.cjs", "bootstrap.cjs", "toolchain.json" })
+        foreach (string? file in new[]
+        {
+            "check.cjs",
+            "bootstrap.cjs",
+            "toolchain.json"
+        }
+
+        )
+        {
             File.Copy(sourceFileName: Path.Combine(path1: ProofProtocol.Root, path2: "tools", path3: "phase1",
-                    path4: file), destFileName: Path.Combine(path1: Root, path2: "tools", path3: "phase1", path4
-                    : file));
-        File.Copy(sourceFileName: Path.Combine(path1: ProofProtocol.Root, path2: "global.json"), destFileName:
-                Path.Combine(path1: Root, path2: "global.json"));
+                    path4: file), destFileName: Path.Combine(path1: Root, path2: "tools", path3: "phase1",
+                            path4: file));
+        }
+
+        File.Copy(sourceFileName: Path.Combine(path1: ProofProtocol.Root, path2: "global.json"),
+                destFileName: Path.Combine(path1: Root, path2: "global.json"));
         Directory.CreateDirectory(path: Path.Combine(path1: Root, path2: "fixture"));
-        foreach (var file in Directory.GetFiles(path: AppContext.BaseDirectory))
-            File.Copy(sourceFileName: file, destFileName: Path.Combine(path1: Root, path2: "fixture", path3:
-                    Path.GetFileName(path: file)));
-        File.WriteAllText(path: Path.Combine(path1: Root, path2: "approved.cs"), contents:
-                "// Approved isolated fixture source\n");
-        File.WriteAllText(path: Path.Combine(path1: Root, path2: "approved.md"), contents:
-                "Approved isolated fixture document.\n");
-        var method = string.Equals(a: mode, b: "skip", comparisonType: StringComparison.Ordinal) ? "Skipped" :
-                string.Equals(a: mode, b: "zero", comparisonType: StringComparison.Ordinal) ? "NoSuchTest" : "Child";
-        if (string.Equals(a: mode, b: "filter", comparisonType: StringComparison.Ordinal)) method = "WrongSelection";
+        foreach (string file in Directory.GetFiles(path: AppContext.BaseDirectory))
+        {
+            File.Copy(sourceFileName: file, destFileName: Path.Combine(path1: Root, path2: "fixture",
+                    path3: Path.GetFileName(path: file)));
+        }
+
+        File.WriteAllText(path: Path.Combine(path1: Root, path2: "approved.cs"),
+                contents: "// Approved isolated fixture source\n");
+        File.WriteAllText(path: Path.Combine(path1: Root, path2: "approved.md"),
+                contents: "Approved isolated fixture document.\n");
+    }
+
+    private void WriteFixtureManifest(string mode)
+    {
+        string method = StringComparer.Ordinal.Equals(x: mode, y: "skip") ? "Skipped" : StringComparer.Ordinal
+                .Equals(x: mode, y: "zero") ? "NoSuchTest" : "Child";
+        if (StringComparer.Ordinal.Equals(x: mode, y: "filter"))
+        {
+            method = "WrongSelection";
+        }
+
         var manifest = new
         {
-            schemaVersion = 1, project = (string?)null,
+            schemaVersion = 1,
+            project = (string?)null,
             assembly = "fixture/KingdomZombies.Phase1.Tests.dll",
-            executable = string.Equals(a: mode, b: "missing-executable", comparisonType: StringComparison.
-                    Ordinal) ? "fixture/missing.exe" : (string?)null,
+            executable = StringComparer.Ordinal.Equals(x: mode, y: "missing-executable")
+                    ? "fixture/missing.exe" : (string?)null,
             childTimeoutMs = 1800,
-            inputs = new[] { "tools/phase1", "fixture", "global.json", "approved.cs", "approved.md" },
-            cases = new[] { new { id = "fixture.pass", group = "runner", rule = "RULE-03", owner = "01-02",
+            inputs = new[]
+            {
+                "tools/phase1",
+                "fixture",
+                "global.json",
+                "approved.cs",
+                "approved.md"
+            },
+            cases = new[]
+            {
+                new
+                {
+                    id = "fixture.pass",
+                    group = "runner",
+                    rule = "RULE-03",
+                    owner = "01-02",
                     implementation = "csharp",
-                prerequisites = new[] { "prebuilt-csharp" }, evidence = new[] { "report", "log" },
-                test = "KingdomZombies.Phase1.Tests.RunnerProcessFixture." + method } },
+                    prerequisites = new[]
+                    {
+                        "prebuilt-csharp"
+                    },
+                    evidence = new[]
+                    {
+                        "report",
+                        "log"
+                    },
+                    test = "KingdomZombies.Phase1.Tests.RunnerProcessFixture." + method
+                }
+            },
         };
-        File.WriteAllText(path: Path.Combine(path1: Root, path2: "tools", path3: "phase1", path4:
-                "required-cases.json"), contents: JsonSerializer.Serialize(value: manifest));
+        File.WriteAllText(path: Path.Combine(path1: Root, path2: "tools", path3: "phase1",
+                path4: "required-cases.json"), contents: JsonSerializer.Serialize(value: manifest));
     }
 
     private static void ExerciseProcessFailure(string mode)
     {
-        File.WriteAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: "child.pid"), contents:
-                Environment.ProcessId.ToString(provider: System.Globalization.CultureInfo.InvariantCulture));
-        if (string.Equals(a: mode, b: "concurrent", comparisonType: StringComparison.Ordinal)) Thread.Sleep(
-                millisecondsTimeout: 1000);
-        if (string.Equals(a: mode, b: "assertion", comparisonType: StringComparison.Ordinal)) (2 + 2).ShouldBe(
-                expected: 5, customMessage: "INTENDED_ASSERTION_FAILURE at RunnerProcessFixture.Child");
-        if (string.Equals(a: mode, b: "crash", comparisonType: StringComparison.Ordinal)) Environment.Exit(
-                exitCode: 71);
+        File.WriteAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: "child.pid"),
+                contents: Environment.ProcessId.ToString(provider: System.Globalization.CultureInfo.InvariantCulture));
+        if (StringComparer.Ordinal.Equals(x: mode, y: "concurrent"))
+        {
+            Thread.Sleep(millisecondsTimeout: 1000);
+        }
+
+        if (StringComparer.Ordinal.Equals(x: mode, y: "assertion"))
+        {
+            (2 + 2).ShouldBe(expected: 5, customMessage: "INTENDED_ASSERTION_FAILURE at RunnerProcessFixture.Child");
+        }
+
+        if (StringComparer.Ordinal.Equals(x: mode, y: "crash"))
+        {
+            Environment.Exit(exitCode: 71);
+        }
+
         if (mode is "hold" or "timeout")
         {
-            if (string.Equals(a: mode, b: "timeout", comparisonType: StringComparison.Ordinal))
+            if (StringComparer.Ordinal.Equals(x: mode, y: "timeout"))
             {
-                var descendant = new ProcessStartInfo(fileName: "dotnet") { UseShellExecute = false,
-                        CreateNoWindow = true };
+                var descendant = new ProcessStartInfo(fileName: "dotnet")
+                {
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                };
                 descendant.ArgumentList.Add(item: Assembly.GetExecutingAssembly().Location);
                 descendant.ArgumentList.Add(item: "--filter-method");
                 descendant.ArgumentList.Add(item: "KingdomZombies.Phase1.Tests.RunnerProcessFixture.Descendant");
                 descendant.ArgumentList.Add(item: "--no-ansi");
-                descendant.ArgumentList.Add(item: "--progress"); descendant.ArgumentList.Add(item: "off");
-                descendant.ArgumentList.Add(item: "--explicit"); descendant.ArgumentList.Add(item: "on");
-                using var process = (Process.Start(startInfo: descendant) ?? throw new System.
-                        InvalidOperationException(message: "Required proof value is null"));
+                descendant.ArgumentList.Add(item: "--progress");
+                descendant.ArgumentList.Add(item: "off");
+                descendant.ArgumentList.Add(item: "--explicit");
+                descendant.ArgumentList.Add(item: "on");
+                using Process process = (Process.Start(startInfo: descendant)
+                        ?? throw new System.InvalidOperationException(message: "Required proof value is null"));
                 File.WriteAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: "descendant.pid"),
                         contents: process.Id.ToString(provider: System.Globalization.CultureInfo.InvariantCulture));
-                var ready = Path.Combine(path1: ProofProtocol.Root, path2: "descendant.ready");
+                string ready = Path.Combine(path1: ProofProtocol.Root, path2: "descendant.ready");
                 var watch = Stopwatch.StartNew();
-                while (!File.Exists(path: ready) && watch.ElapsedMilliseconds < 1000) Thread.Sleep(
-                        millisecondsTimeout: 10);
+                while (!File.Exists(path: ready) && watch.ElapsedMilliseconds < 1000)
+                {
+                    Thread.Sleep(millisecondsTimeout: 10);
+                }
+
                 File.Exists(path: ready).ShouldBeTrue(customMessage: "descendant must actually execute before timeout");
             }
+
             Thread.Sleep(millisecondsTimeout: Timeout.Infinite);
         }
     }
 
     private static void MutateEvidence(string mode)
     {
-        var directory = (Environment.GetEnvironmentVariable(variable: "PHASE1_RESULT_DIRECTORY") ?? throw new
-                System.InvalidOperationException(message: "Required proof value is null"));
-        var file = Path.Combine(path1: directory, path2: "fixture.pass.proof.json");
-        var result = (JsonNode.Parse(json: File.ReadAllText(path: file)) ?? throw new System.
-                InvalidOperationException(message: "Required proof value is null"));
-        if (string.Equals(a: mode, b: "deleted-result", comparisonType: StringComparison.Ordinal)) File.Delete(
-                path: file);
-        if (string.Equals(a: mode, b: "deleted-log", comparisonType: StringComparison.Ordinal)) File.Delete(path
-                : Path.Combine(path1: directory, path2: "fixture.pass.subject.log"));
-        if (string.Equals(a: mode, b: "duplicate", comparisonType: StringComparison.Ordinal)) File.Copy(
-                sourceFileName: file, destFileName: Path.Combine(path1: directory, path2: "duplicate.proof.json"));
-        if (string.Equals(a: mode, b: "nonce", comparisonType: StringComparison.Ordinal)) { result["nonce"] =
-                "prior-run"; File.WriteAllText(path: file, contents: result.ToJsonString()); }
-        if (string.Equals(a: mode, b: "stale", comparisonType: StringComparison.Ordinal)) File.WriteAllText(path
-                : file, contents: File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root, path2:
-                "prior.proof.json")));
-        if (string.Equals(a: mode, b: "source", comparisonType: StringComparison.Ordinal)) File.AppendAllText(
-                path: Path.Combine(path1: ProofProtocol.Root, path2: "approved.cs"), contents:
-                "// unauthorized change\n");
-        if (string.Equals(a: mode, b: "document", comparisonType: StringComparison.Ordinal)) File.AppendAllText(
-                path: Path.Combine(path1: ProofProtocol.Root, path2: "approved.md"), contents:
-                "Unauthorized change.\n");
+        string directory = (Environment.GetEnvironmentVariable(variable: "PHASE1_RESULT_DIRECTORY")
+                ?? throw new System.InvalidOperationException(message: "Required proof value is null"));
+        string file = Path.Combine(path1: directory, path2: "fixture.pass.proof.json");
+        JsonNode result = (JsonNode.Parse(json: File.ReadAllText(path: file))
+                ?? throw new System.InvalidOperationException(message: "Required proof value is null"));
+        if (StringComparer.Ordinal.Equals(x: mode, y: "deleted-result"))
+        {
+            File.Delete(path: file);
+        }
+
+        if (StringComparer.Ordinal.Equals(x: mode, y: "deleted-log"))
+        {
+            File.Delete(path: Path.Combine(path1: directory, path2: "fixture.pass.subject.log"));
+        }
+
+        if (StringComparer.Ordinal.Equals(x: mode, y: "duplicate"))
+        {
+            File.Copy(sourceFileName: file, destFileName: Path.Combine(path1: directory,
+                    path2: "duplicate.proof.json"));
+        }
+
+        if (StringComparer.Ordinal.Equals(x: mode, y: "nonce"))
+        {
+            result["nonce"] = "prior-run";
+            File.WriteAllText(path: file, contents: result.ToJsonString());
+        }
+
+        if (StringComparer.Ordinal.Equals(x: mode, y: "stale"))
+        {
+            File.WriteAllText(path: file, contents: File.ReadAllText(path: Path.Combine(path1: ProofProtocol
+                    .Root, path2: "prior.proof.json")));
+        }
+
+        if (StringComparer.Ordinal.Equals(x: mode, y: "source"))
+        {
+            File.AppendAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: "approved.cs"),
+                    contents: "// unauthorized change\n");
+        }
+
+        if (StringComparer.Ordinal.Equals(x: mode, y: "document"))
+        {
+            File.AppendAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: "approved.md"),
+                    contents: "Unauthorized change.\n");
+        }
     }
 }
