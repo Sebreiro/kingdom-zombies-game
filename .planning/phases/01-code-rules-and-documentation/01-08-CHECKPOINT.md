@@ -2,7 +2,21 @@
 
 Status: incomplete; Task 1 tracer proven, Task 1 expansion and Task 2 pending. No SUMMARY.md exists and no plan/requirement progress was advanced.
 
-## Latest continuation: 21 real-build rule pairs verified
+## Latest continuation: source-format RED/GREEN and exact lock scopes
+
+Source-format RED **`6241e33`** compiled strictly, then the exact invalid UTF-8 target failed its planned Shouldly count assertion (1 expected, 0 actual). Fresh unchanged JUnit `.phase1/temp/08-source-red.xml` and record `.phase1/temp/08-source-red.json` received `RED_EVIDENCE_OK`. Earlier MA0002 setup feedback was not RED. GREEN **`d95e99e`** implements the byte checker, actual tracked-source scan, and 15 distinct fresh proof bindings; the original target passes `.phase1/temp/08-source-green.xml`.
+
+All **15 new format cases pass canonical fresh 1/1 reconciliation**: separate R-02–R-06 compliant/negative cases plus BOM, the exact 8000-byte Git NUL boundary, missing/unknown tracked text, actual tracked project text and actual five-project locked restore. Logs: `.phase1/temp/08-format-*.log`, `.phase1/temp/08-source-tracked.log`, `.phase1/temp/08-source-lock-restore.log`. Invalid representations are diagnosed by rule/path/raw-byte location without trimming or normalizing checker inputs.
+
+Actual five-lock restore preserves canonical LF bytes **byte-for-byte unchanged**: `.phase1/runs/0bb3725e-cf23-44f2-bd00-ebf3489f4342/summary.json`. Actual tracked project text passes `.phase1/runs/20828027-0953-4739-9962-ed0c2256fb28/summary.json`. The existing register mutation class passes **36/36**, zero skipped (`.phase1/temp/08-source-register.xml`). Whole five-project strict build has zero warnings/errors (`.phase1/temp/08-source-expanded-build3.log`); native bootstrap passes (`.phase1/runs/5e8b3acc-742b-4466-9057-163939053bb0/compatibility.json`). `git diff --check` passes.
+
+EX-11 and R-04 now reverse-map exactly `KZ-EX-LOCK-01` (tests), `KZ-EX-LOCK-CORE-01`, `KZ-EX-LOCK-GODOT-01`, `KZ-EX-LOCK-SERVICES-01`, and `KZ-EX-LOCK-ANALYZERS-01`. Each names one observed canonical path and permits only absent final LF. CRLF, tabs, BOM, invalid UTF-8 and trailing whitespace remain checked. The existing overlap fixture's `KZ-EX-LOCK-02` stays reserved. All 24 donor rows, gap 22, 85 IDs and 84 headings are preserved.
+
+Only the five working-tree canonical locks were normalized CRLF → LF. `.phase1/temp/08-source-lock-bytes.json` records real before/after SHA-256, CR counts and absent final LF. Git blobs already used LF, so `d95e99e` needed no dependency-lock content change; root `.gitattributes` already enforces `text=auto eol=lf`. Donor/archive bytes and versions are untouched. Ignored `08-source-bind.cjs` ran exactly once; never reapply it.
+
+**Complete-suite closure remains pending for this later code.** The last full run remains the earlier 417-pass/142-pending report below. Current declarations are 432 implemented and 132 pending of 564; those are declaration counts, not a new full-suite pass. Continue formatter/permission/test-project/configuration/R-48 and broader suppression/generated-surface/numeric work, then run the complete immutable-source suite before finishing 01-08. No SUMMARY, task/requirement completion or advancement beyond 8/18 is claimed.
+
+## Previous continuation: 21 real-build rule pairs verified
 
 | Increment | Commit | Verified result |
 | --- | --- | --- |

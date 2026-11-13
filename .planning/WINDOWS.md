@@ -333,7 +333,7 @@ last_updated: 2026-11-13T21:25:19.535Z
     "phase": "01",
     "file": "tests/phase1/EnforcementTests.cs",
     "line": null,
-    "description": "01-08 remains incomplete. Verified activation dd59a77 and 42 actual-build cases for 21 inherited rules f4d4d79 pass; strict solution has zero warnings/errors. Full immutable-source run 0d359120-54ec-4e77-a1d1-c5e3587c7f1a finished with 417 passed, zero failed controls, 142 pending, 559 declared, exit 1 solely for pending obligations. Task 1 source-format/permission/test-project/configuration/naming and all Task 2 exemption/numeric work remain incomplete. Five canonical locks still contain CRLF; LF normalization needs an actual unchanged locked-restore proof. Original 08-expand.cjs is unrun; stage copy ran once. Exact evidence is recorded in 01-08-CHECKPOINT.md.",
+    "description": "01-08 remains incomplete. Last full run 0d359120 has 417 passed, zero failed controls, 142 pending of 559. Later source-format RED6241e33/GREENd95e99e has 15 canonical focused passes, 36/36 register controls, strict solution and native bootstrap passes. Five exact registered LF locks survive actual locked restore byte-for-byte unchanged; CRLF is not exempt. Current declarations are 432 implemented/132 pending of 564; later-code complete-suite closure remains unrun. Remaining formatter/permission/test-project/configuration/naming and broader suppression/generated-surface/numeric work must finish before 01-08 completion. Exact evidence and one-shot script cautions are in 01-08-CHECKPOINT.md.",
     "status": "open",
     "reason": "",
     "recorded_at": "2026-11-13T21:25:19.535Z",
