@@ -1,0 +1,11 @@
+<Project Sdk="Godot.NET.Sdk/4.7.2">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>14.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <NuGetLockFilePath>$(MSBuildThisFileDirectory)../../.phase1/cache/game.packages.lock.json</NuGetLockFilePath>
+  </PropertyGroup>
+</Project>
