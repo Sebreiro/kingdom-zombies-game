@@ -109,7 +109,7 @@ public sealed class NamedArgumentAnalyzerTests
     [Fact, Trait("Case", "rules.namedargument.Analyze_ExtensionMemberReceiver_IsExempt")]
     public Task AnalyzeExtensionMemberReceiverIsExempt()
     {
-        return VerifyAsync(caseId: "rules.namedargument.Analyze_ExtensionMemberReceiver_IsExempt", diagnostic: "SCR0001", source: """
+        return VerifyAsync(caseId: "rules.namedargument.Analyze_ExtensionMemberReceiver_IsExempt", diagnostic: "ANALYZER_ACCEPTED", source: """
                 static class Ext
                 {
                     extension(string s)
@@ -151,7 +151,7 @@ public sealed class NamedArgumentAnalyzerTests
     [Fact, Trait("Case", "rules.namedargument.Analyze_IndexerArguments_AreExempt")]
     public Task AnalyzeIndexerArgumentsAreExempt()
     {
-        return VerifyAsync(caseId: "rules.namedargument.Analyze_IndexerArguments_AreExempt", diagnostic: "SCR0001", source: """
+        return VerifyAsync(caseId: "rules.namedargument.Analyze_IndexerArguments_AreExempt", diagnostic: "ANALYZER_ACCEPTED", source: """
                 using System.Collections.Generic;
 
                 class C
@@ -216,7 +216,7 @@ public sealed class NamedArgumentAnalyzerTests
     [Fact, Trait("Case", "rules.namedargument.Analyze_NameofTupleTypeofDefault_AreExempt")]
     public Task AnalyzeNameofTupleTypeofDefaultAreExempt()
     {
-        return VerifyAsync(caseId: "rules.namedargument.Analyze_NameofTupleTypeofDefault_AreExempt", diagnostic: "SCR0001", source: """
+        return VerifyAsync(caseId: "rules.namedargument.Analyze_NameofTupleTypeofDefault_AreExempt", diagnostic: "ANALYZER_ACCEPTED", source: """
                 using System;
 
                 class C
@@ -284,9 +284,12 @@ public sealed class NamedArgumentAnalyzerTests
                 class C
                 {
                     static void M(int a, int b = 2) { }
+                    static int[] Echo(int[] values) { return values; }
                     static string N(int x)
                     {
                         M(a: 1);
+                        _ = Echo(values: [1]);
+                        _ = Echo({|SCR0001:[2]|});
                         var builder = new StringBuilder();
                         builder.Append(provider: CultureInfo.InvariantCulture, handler: $"value {x} and {x:D2}");
                         return builder.ToString();

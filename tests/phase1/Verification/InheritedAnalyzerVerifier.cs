@@ -20,29 +20,30 @@ internal static class InheritedAnalyzerVerifier
         var marks = new List<(string Id, int Start, int End)>();
         for (int i = 0; i < source.Length;)
         {
-            if (!source.AsSpan(i).StartsWith("{|", StringComparison.Ordinal)) { clean.Append(source[i++]); continue; }
-            int colon = source.IndexOf(':', i);
-            int close = source.IndexOf("|}", colon, StringComparison.Ordinal);
-            if (colon < 0 || close < 0) throw new InvalidOperationException("Invalid expected diagnostic markup");
+            if (!source.AsSpan(start: i).StartsWith(value: "{|", comparisonType: StringComparison.Ordinal)) { clean.Append(value: source[i++]); continue; }
+            int colon = source.IndexOf(value: ':', startIndex: i);
+            int close = source.IndexOf(value: "|}", startIndex: colon, comparisonType: StringComparison.Ordinal);
+            if (colon < 0 || close < 0) throw new InvalidOperationException(message: "Invalid expected diagnostic markup");
             string id = source[(i + 2)..colon];
             int start = clean.Length;
-            clean.Append(source.AsSpan(colon + 1, close - colon - 1));
-            marks.Add((id, start, clean.Length));
+            clean.Append(value: source.AsSpan(start: colon + 1, length: close - colon - 1));
+            marks.Add(item: (id, start, clean.Length));
             i = close + 2;
         }
         string text = clean.ToString();
-        var lines = SourceText.From(text).Lines;
+        var lines = SourceText.From(text: text).Lines;
         var expected = new List<AnalyzerVerifier.Expected>();
         foreach (var mark in marks)
         {
-            var start = lines.GetLinePosition(mark.Start);
-            var end = lines.GetLinePosition(mark.End);
-            expected.Add(new AnalyzerVerifier.Expected(mark.Id, DiagnosticSeverity.Error, "Subject.cs", start.Line + 1, start.Character + 1, end.Line + 1, end.Character + 1));
+            var start = lines.GetLinePosition(position: mark.Start);
+            var end = lines.GetLinePosition(position: mark.End);
+            expected.Add(item: new AnalyzerVerifier.Expected(Id: mark.Id, Severity: DiagnosticSeverity.Error, File: "Subject.cs", Line: start.Line + 1, Column: start.Character + 1, EndLine: end.Line + 1, EndColumn: end.Character + 1));
         }
-        var assembly = Assembly.LoadFrom(Path.Combine(ProofProtocol.Root, "tools/code-rules/bin/Debug/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll"));
-        var type = assembly.GetType("Sebreiro.CodeRules.Analyzers." + analyzerType);
-        var analyzer = type is null ? null : (DiagnosticAnalyzer?)Activator.CreateInstance(type);
-        await AnalyzerVerifier.VerifyAsync(source: text, expected: [.. expected], analyzer: analyzer, outputKind: outputKind, generated: editorConfig is not null).ConfigureAwait(false);
-        ProofProtocol.Record(id: caseId, diagnostic: diagnostic, location: "Subject.cs: " + string.Join("; ", expected));
+        var assembly = Assembly.LoadFrom(assemblyFile: Path.Combine(path1: ProofProtocol.Root, path2: "tools/code-rules/bin/Debug/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll"));
+        var type = assembly.GetType(name: "Sebreiro.CodeRules.Analyzers." + analyzerType);
+        var analyzer = type is null ? null : (DiagnosticAnalyzer?)Activator.CreateInstance(type: type);
+        if (analyzer is null && expected.Count == 0) throw new InvalidOperationException(message: "Analyzer registration missing: " + analyzerType);
+        await AnalyzerVerifier.VerifyAsync(source: text, expected: [.. expected], analyzer: analyzer, outputKind: outputKind, generated: editorConfig is not null).ConfigureAwait(continueOnCapturedContext: false);
+        ProofProtocol.Record(id: caseId, diagnostic: diagnostic, location: "Subject.cs: " + string.Join(separator: "; ", values: expected));
     }
 }

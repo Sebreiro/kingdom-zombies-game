@@ -24,27 +24,27 @@ internal static class AnalyzerVerifier
     internal static ImmutableArray<MetadataReference> References()
     {
         var result = ConfigurationTests.Dotnet("msbuild", ConfigurationTests.Projects[0], "-nologo", "-target:ResolveReferences", "-getItem:ReferencePath");
-        if (result.Exit != 0) throw new InvalidOperationException("Reference resolution failed: " + result.Output);
-        using var json = System.Text.Json.JsonDocument.Parse(result.Output);
-        var paths = json.RootElement.GetProperty("Items").GetProperty("ReferencePath").EnumerateArray().Select(r => r.GetProperty("FullPath").GetString()!).ToArray();
-        if (paths.Length < 100 || !paths.All(p => p.Replace('\\', '/').Contains("/ref/net10.0/", StringComparison.Ordinal))) throw new InvalidOperationException("Expected evaluated .NET 10 reference pack");
-        return paths.Select(p => (MetadataReference)MetadataReference.CreateFromFile(p)).ToImmutableArray();
+        if (result.Exit != 0) throw new InvalidOperationException(message: "Reference resolution failed: " + result.Output);
+        using var json = System.Text.Json.JsonDocument.Parse(json: result.Output);
+        var paths = json.RootElement.GetProperty(propertyName: "Items").GetProperty(propertyName: "ReferencePath").EnumerateArray().Select(selector: r => r.GetProperty(propertyName: "FullPath").GetString()!).ToArray();
+        if (paths.Length < 100 || !paths.All(predicate: p => p.Replace(oldChar: '\\', newChar: '/').Contains(value: "/ref/net10.0/", comparisonType: StringComparison.Ordinal))) throw new InvalidOperationException(message: "Expected evaluated .NET 10 reference pack");
+        return paths.Select(selector: p => (MetadataReference)MetadataReference.CreateFromFile(path: p)).ToImmutableArray();
     }
 
     internal static async Task VerifyAsync(string source, Expected[] expected, IEnumerable<MetadataReference>? additionalReferences = null, DiagnosticAnalyzer? analyzer = null, OutputKind outputKind = OutputKind.DynamicallyLinkedLibrary, bool generated = false)
     {
-        var references = References().AddRange(additionalReferences ?? []);
-        var tree = CSharpSyntaxTree.ParseText(source, new CSharpParseOptions(LanguageVersion.CSharp14), path: "Subject.cs", cancellationToken: TestContext.Current.CancellationToken);
-        var compilation = CSharpCompilation.Create("CompilerProof", [tree], references, new CSharpCompilationOptions(outputKind, nullableContextOptions: NullableContextOptions.Enable, allowUnsafe: true).WithSyntaxTreeOptionsProvider(new SubjectTreeOptions(generated)));
-        var diagnostics = compilation.GetDiagnostics(TestContext.Current.CancellationToken);
+        var references = References().AddRange(items: additionalReferences ?? []);
+        var tree = CSharpSyntaxTree.ParseText(text: source, options: new CSharpParseOptions(languageVersion: LanguageVersion.CSharp14), path: "Subject.cs", cancellationToken: TestContext.Current.CancellationToken);
+        var compilation = CSharpCompilation.Create(assemblyName: "CompilerProof", syntaxTrees: [tree], references: references, options: new CSharpCompilationOptions(outputKind: outputKind, nullableContextOptions: NullableContextOptions.Enable, allowUnsafe: true).WithSyntaxTreeOptionsProvider(provider: new SubjectTreeOptions(generated: generated)));
+        var diagnostics = compilation.GetDiagnostics(cancellationToken: TestContext.Current.CancellationToken);
         if (analyzer is not null)
-            diagnostics = diagnostics.AddRange(await compilation.WithAnalyzers([analyzer]).GetAnalyzerDiagnosticsAsync(TestContext.Current.CancellationToken).ConfigureAwait(false));
-        Match(diagnostics, expected);
-        if (!expected.Any(d => d.Severity == DiagnosticSeverity.Error))
+            diagnostics = diagnostics.AddRange(items: await compilation.WithAnalyzers(analyzers: [analyzer]).GetAnalyzerDiagnosticsAsync(cancellationToken: TestContext.Current.CancellationToken).ConfigureAwait(continueOnCapturedContext: false));
+        Match(diagnostics: diagnostics, expected: expected);
+        if (!expected.Any(predicate: d => d.Severity == DiagnosticSeverity.Error))
         {
             using var output = new MemoryStream();
-            var emitted = compilation.Emit(output, cancellationToken: TestContext.Current.CancellationToken);
-            if (!emitted.Success) throw new InvalidOperationException("Emit failed: " + string.Join("; ", emitted.Diagnostics));
+            var emitted = compilation.Emit(peStream: output, cancellationToken: TestContext.Current.CancellationToken);
+            if (!emitted.Success) throw new InvalidOperationException(message: "Emit failed: " + string.Join(separator: "; ", values: emitted.Diagnostics));
         }
     }
 
@@ -57,12 +57,12 @@ internal static class AnalyzerVerifier
 
     internal static void Match(IEnumerable<Diagnostic> diagnostics, Expected[] expected)
     {
-        var actual = diagnostics.Where(d => d.Severity is DiagnosticSeverity.Warning or DiagnosticSeverity.Error).Select(d =>
+        var actual = diagnostics.Where(predicate: d => d.Severity is DiagnosticSeverity.Warning or DiagnosticSeverity.Error).Select(selector: d =>
         {
             var span = d.Location.GetLineSpan();
-            return new Expected(d.Id, d.Severity, span.Path ?? "", span.StartLinePosition.Line + 1, span.StartLinePosition.Character + 1, span.EndLinePosition.Line + 1, span.EndLinePosition.Character + 1);
-        }).OrderBy(d => d.ToString(), StringComparer.Ordinal).ToArray();
-        var wanted = expected.OrderBy(d => d.ToString(), StringComparer.Ordinal).ToArray();
-        if (!actual.SequenceEqual(wanted)) throw new InvalidOperationException("DIAGNOSTIC_MISMATCH expected=" + string.Join("; ", wanted.Select(d => d.ToString())) + " actual=" + string.Join("; ", actual.Select(d => d.ToString())));
+            return new Expected(Id: d.Id, Severity: d.Severity, File: span.Path ?? "", Line: span.StartLinePosition.Line + 1, Column: span.StartLinePosition.Character + 1, EndLine: span.EndLinePosition.Line + 1, EndColumn: span.EndLinePosition.Character + 1);
+        }).OrderBy(keySelector: d => d.ToString(), comparer: StringComparer.Ordinal).ToArray();
+        var wanted = expected.OrderBy(keySelector: d => d.ToString(), comparer: StringComparer.Ordinal).ToArray();
+        if (!actual.SequenceEqual(other: wanted)) throw new InvalidOperationException(message: "DIAGNOSTIC_MISMATCH expected=" + string.Join(separator: "; ", values: wanted.Select(selector: d => d.ToString())) + " actual=" + string.Join(separator: "; ", values: actual.Select(selector: d => d.ToString())));
     }
 }

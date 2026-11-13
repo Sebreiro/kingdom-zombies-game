@@ -6648,7 +6648,7 @@
       ],
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.AnalyzeExtensionMemberReceiverIsExempt",
-      "expectedDiagnostic": "SCR0001"
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
       "id": "rules.namedargument.Analyze_AttributeArguments_AreExempt",
@@ -6684,7 +6684,7 @@
       ],
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.AnalyzeIndexerArgumentsAreExempt",
-      "expectedDiagnostic": "SCR0001"
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
       "id": "rules.namedargument.Analyze_DelegateInvocation_IsExempt",
@@ -6738,7 +6738,7 @@
       ],
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.AnalyzeNameofTupleTypeofDefaultAreExempt",
-      "expectedDiagnostic": "SCR0001"
+      "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
       "id": "rules.namedargument.Analyze_NameofAsArgumentValue_Reports",
@@ -7045,6 +7045,42 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.GeneratedConfigurationCannotExemptHandwrittenCode",
       "expectedDiagnostic": "SCR0002"
+    },
+    {
+      "id": "rules.generated-callsite-origin",
+      "group": "rules",
+      "rule": "R-38",
+      "owner": "01-05",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GeneratedCallSiteAdapterTests.GeneratedCallSitesHavePinnedOrigin",
+      "expectedDiagnostic": "GENERATED_CALLSITE_ORIGIN_EXACT"
+    },
+    {
+      "id": "rules.generated-callsite-boundary",
+      "group": "rules",
+      "rule": "R-38",
+      "owner": "01-05",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GeneratedCallSiteAdapterTests.GeneratedCallSitePermissionCannotEscapeItsMembers",
+      "expectedDiagnostic": "GENERATED_CALLSITE_BOUNDARY_REJECTED"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."
