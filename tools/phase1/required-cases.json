@@ -5839,6 +5839,96 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.RegisterTests.Capture_MissingHeadingRelation_IsRejected",
       "expectedDiagnostic": "CAPTURE_EXACT"
+    },
+    {
+      "id": "register.omit-heading",
+      "group": "register",
+      "rule": "RULE-02",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Capture_MissingHeading_IsRejected",
+      "expectedDiagnostic": "CAPTURE: HEADING_INVENTORY"
+    },
+    {
+      "id": "register.omit-matrix",
+      "group": "register",
+      "rule": "RULE-02",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Capture_MissingMatrixRow_IsRejected",
+      "expectedDiagnostic": "R-01: SOURCE_ROW"
+    },
+    {
+      "id": "register.omit-exemption",
+      "group": "register",
+      "rule": "RULE-02",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Capture_MissingSourceExemption_IsRejected",
+      "expectedDiagnostic": "REGISTER: DONOR_EXEMPTION_INVENTORY"
+    },
+    {
+      "id": "register.duplicate",
+      "group": "register",
+      "rule": "RULE-02",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Capture_DuplicateId_IsRejectedBeforeSetConversion",
+      "expectedDiagnostic": "R-01: RULE_ID: DUPLICATE_OR_EMPTY"
+    },
+    {
+      "id": "register.r37-trace",
+      "group": "register",
+      "rule": "RULE-02",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Capture_R37_ConnectsBothHeadingsAndPlannedBoundaryProofs",
+      "expectedDiagnostic": "R37_TRACE_EXACT"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."

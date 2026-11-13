@@ -1,0 +1,3232 @@
+{
+  "schemaVersion": 1,
+  "revision": "6836a9718ff5c939e89abf2b97763760607de192",
+  "archiveSha256": "19c3766fddf638b02a2b78d969e222448ecd98a22b79f70e8b28effd858dfcca",
+  "rules": [
+    {
+      "sourceId": "R-01",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:13"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-01"
+      },
+      "mechanism": {
+        "path": "tests/phase1/EnforcementTests.cs",
+        "symbol": "R-01",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-01.positive",
+        "rule": "R-01",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-01.negative",
+        "rule": "R-01",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-02",
+      "disposition": "adapted",
+      "reason": "Scope project text; installed GSD/vendor files are not game source.",
+      "adaptationReason": "Scope project text; installed GSD/vendor files are not game source.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:52"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-02"
+      },
+      "mechanism": {
+        "path": "tests/phase1/EnforcementTests.cs",
+        "symbol": "R-02",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-02.positive",
+        "rule": "R-02",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-02.negative",
+        "rule": "R-02",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-03",
+      "disposition": "adapted",
+      "reason": "Project text scope; preserve vendor boundary.",
+      "adaptationReason": "Project text scope; preserve vendor boundary.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:58"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-03"
+      },
+      "mechanism": {
+        "path": "tests/phase1/EnforcementTests.cs",
+        "symbol": "R-03",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-03.positive",
+        "rule": "R-03",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-03.negative",
+        "rule": "R-03",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-04",
+      "disposition": "adapted",
+      "reason": "NuGet lock-file exception remains exact.",
+      "adaptationReason": "NuGet lock-file exception remains exact.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:64"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-04"
+      },
+      "mechanism": {
+        "path": "tests/phase1/EnforcementTests.cs",
+        "symbol": "R-04",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-04.positive",
+        "rule": "R-04",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-04.negative",
+        "rule": "R-04",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-05",
+      "disposition": "adapted",
+      "reason": "Project text scope; strict UTF-8 decode precedes formatting.",
+      "adaptationReason": "Project text scope; strict UTF-8 decode precedes formatting.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:70"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-05"
+      },
+      "mechanism": {
+        "path": "tests/phase1/EnforcementTests.cs",
+        "symbol": "R-05",
+        "diagnostics": [
+          "IDE0055"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-05.positive",
+        "rule": "R-05",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-05.negative",
+        "rule": "R-05",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-06",
+      "disposition": "adapted",
+      "reason": "Prove Godot text scene/resource serialization before applying no-tabs globally.",
+      "adaptationReason": "Prove Godot text scene/resource serialization before applying no-tabs globally.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:76"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-06"
+      },
+      "mechanism": {
+        "path": "tests/phase1/EnforcementTests.cs",
+        "symbol": "R-06",
+        "diagnostics": [
+          "IDE0055"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-06.positive",
+        "rule": "R-06",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-06.negative",
+        "rule": "R-06",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-07",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:82"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-07"
+      },
+      "mechanism": {
+        "path": "tests/phase1/EnforcementTests.cs",
+        "symbol": "R-07",
+        "diagnostics": [
+          "IDE0055"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-07.positive",
+        "rule": "R-07",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-07.negative",
+        "rule": "R-07",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": {
+        "unit": "spaces",
+        "limit": 4,
+        "comparison": "exact",
+        "rounding": "none"
+      }
+    },
+    {
+      "sourceId": "R-08",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:88"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-08"
+      },
+      "mechanism": {
+        "path": "tests/phase1/EnforcementTests.cs",
+        "symbol": "R-08",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-08.positive",
+        "rule": "R-08",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-08.negative",
+        "rule": "R-08",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": {
+        "unit": "spaces",
+        "limit": 4,
+        "comparison": "exact",
+        "rounding": "none"
+      }
+    },
+    {
+      "sourceId": "R-09",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:94"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-09"
+      },
+      "mechanism": {
+        "path": "tools/code-rules/ContinuationIndentAnalyzer.cs",
+        "symbol": "ContinuationIndentAnalyzer",
+        "diagnostics": [
+          "SCR0009"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-09.positive",
+        "rule": "R-09",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-09.negative",
+        "rule": "R-09",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": {
+        "unit": "spaces past continued line",
+        "limit": 8,
+        "comparison": "exact",
+        "rounding": "none"
+      }
+    },
+    {
+      "sourceId": "R-10",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:222"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-10"
+      },
+      "mechanism": {
+        "path": "tools/code-rules/LineLengthAnalyzer.cs",
+        "symbol": "LineLengthAnalyzer",
+        "diagnostics": [
+          "SCR0007"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-10.positive",
+        "rule": "R-10",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-10.negative",
+        "rule": "R-10",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": {
+        "unit": "UTF-16 code units excluding line terminator",
+        "limit": 120,
+        "comparison": "inclusive maximum",
+        "rounding": "none"
+      }
+    },
+    {
+      "sourceId": "R-11",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:231"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-11"
+      },
+      "mechanism": {
+        "path": ".editorconfig",
+        "symbol": "R-11",
+        "diagnostics": [
+          "IDE0161"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-11.positive",
+        "rule": "R-11",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-11.negative",
+        "rule": "R-11",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-12",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:237"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-12"
+      },
+      "mechanism": {
+        "path": ".editorconfig",
+        "symbol": "R-12",
+        "diagnostics": [
+          "IDE0011"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-12.positive",
+        "rule": "R-12",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-12.negative",
+        "rule": "R-12",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-13",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:244"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-13"
+      },
+      "mechanism": {
+        "path": ".editorconfig",
+        "symbol": "R-13",
+        "diagnostics": [
+          "IDE0065"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-13.positive",
+        "rule": "R-13",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-13.negative",
+        "rule": "R-13",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-14",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:250"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-14"
+      },
+      "mechanism": {
+        "path": "tools/code-rules/UsingOrderAnalyzer.cs",
+        "symbol": "UsingOrderAnalyzer",
+        "diagnostics": [
+          "SCR0010"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-14.positive",
+        "rule": "R-14",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-14.negative",
+        "rule": "R-14",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-15",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:262"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-15"
+      },
+      "mechanism": {
+        "path": ".editorconfig",
+        "symbol": "R-15",
+        "diagnostics": [
+          "IDE0005"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-15.positive",
+        "rule": "R-15",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-15.negative",
+        "rule": "R-15",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-16",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:268"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-16"
+      },
+      "mechanism": {
+        "path": ".editorconfig",
+        "symbol": "R-16",
+        "diagnostics": [
+          "CS0246"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-16.positive",
+        "rule": "R-16",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-16.negative",
+        "rule": "R-16",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-17",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:274"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-17"
+      },
+      "mechanism": {
+        "path": ".editorconfig",
+        "symbol": "R-17",
+        "diagnostics": [
+          "IDE0008",
+          "IDE0007"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-17.positive",
+        "rule": "R-17",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-17.negative",
+        "rule": "R-17",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-18",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:281"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-18"
+      },
+      "mechanism": {
+        "path": "tools/code-rules/LocalNewDeclarationAnalyzer.cs",
+        "symbol": "LocalNewDeclarationAnalyzer",
+        "diagnostics": [
+          "IDE0007",
+          "SCR0012"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-18.positive",
+        "rule": "R-18",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-18.negative",
+        "rule": "R-18",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-19",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:298"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-19"
+      },
+      "mechanism": {
+        "path": ".editorconfig",
+        "symbol": "R-19",
+        "diagnostics": [
+          "IDE0090"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-19.positive",
+        "rule": "R-19",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-19.negative",
+        "rule": "R-19",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-20",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:305"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-20"
+      },
+      "mechanism": {
+        "path": ".editorconfig",
+        "symbol": "R-20",
+        "diagnostics": [
+          "IDE0028",
+          "IDE0300",
+          "IDE0301",
+          "IDE0302",
+          "IDE0303",
+          "IDE0304",
+          "IDE0305"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-20.positive",
+        "rule": "R-20",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-20.negative",
+        "rule": "R-20",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-21",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:312"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-21"
+      },
+      "mechanism": {
+        "path": ".editorconfig",
+        "symbol": "R-21",
+        "diagnostics": [
+          "IDE0041",
+          "RCS1248"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-21.positive",
+        "rule": "R-21",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-21.negative",
+        "rule": "R-21",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-22",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:318"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-22"
+      },
+      "mechanism": {
+        "path": ".editorconfig",
+        "symbol": "R-22",
+        "diagnostics": [
+          "IDE0021",
+          "IDE0022",
+          "IDE0023",
+          "IDE0024",
+          "IDE0061"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-22.positive",
+        "rule": "R-22",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-22.negative",
+        "rule": "R-22",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-23",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:325"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-23"
+      },
+      "mechanism": {
+        "path": "tools/code-rules/PrimaryConstructorAnalyzer.cs",
+        "symbol": "PrimaryConstructorAnalyzer",
+        "diagnostics": [
+          "SCR0003"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-23.positive",
+        "rule": "R-23",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-23.negative",
+        "rule": "R-23",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-24",
+      "disposition": "adapted",
+      "reason": "Keep non-positional records; entity/DTO restrictions have explicit subject sets.",
+      "adaptationReason": "Keep non-positional records; entity/DTO restrictions have explicit subject sets.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:353"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-24"
+      },
+      "mechanism": {
+        "path": "tools/code-rules/PrimaryConstructorAnalyzer.cs",
+        "symbol": "PrimaryConstructorAnalyzer",
+        "diagnostics": [
+          "SCR0003"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-24.positive",
+        "rule": "R-24",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-24.negative",
+        "rule": "R-24",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": true,
+        "status": "pending",
+        "obligation": "Review semantic intent/invariants/API need/evolution and accuracy against the actual implementation; automated structure is insufficient."
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-25",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:360"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-25"
+      },
+      "mechanism": {
+        "path": "tools/code-rules/RegionDirectiveAnalyzer.cs",
+        "symbol": "RegionDirectiveAnalyzer",
+        "diagnostics": [
+          "SCR0004"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-25.positive",
+        "rule": "R-25",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-25.negative",
+        "rule": "R-25",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-26",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:366"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-26"
+      },
+      "mechanism": {
+        "path": "tools/code-rules/NullForgivingAnalyzer.cs",
+        "symbol": "NullForgivingAnalyzer",
+        "diagnostics": [
+          "SCR0005"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-26.positive",
+        "rule": "R-26",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-26.negative",
+        "rule": "R-26",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-27",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:374"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-27"
+      },
+      "mechanism": {
+        "path": ".editorconfig",
+        "symbol": "R-27",
+        "diagnostics": [
+          "IDE1006"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-27.positive",
+        "rule": "R-27",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-27.negative",
+        "rule": "R-27",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-28",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:380"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-28"
+      },
+      "mechanism": {
+        "path": "tools/code-rules/ThisQualificationAnalyzer.cs",
+        "symbol": "ThisQualificationAnalyzer",
+        "diagnostics": [
+          "SCR0011",
+          "IDE0003",
+          "IDE0009"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-28.positive",
+        "rule": "R-28",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-28.negative",
+        "rule": "R-28",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-29",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:388"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-29"
+      },
+      "mechanism": {
+        "path": ".editorconfig",
+        "symbol": "R-29",
+        "diagnostics": [
+          "IDE1006"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-29.positive",
+        "rule": "R-29",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-29.negative",
+        "rule": "R-29",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-30",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:394"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-30"
+      },
+      "mechanism": {
+        "path": ".editorconfig",
+        "symbol": "R-30",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-30.positive",
+        "rule": "R-30",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-30.negative",
+        "rule": "R-30",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-31",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:402"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-31"
+      },
+      "mechanism": {
+        "path": ".editorconfig",
+        "symbol": "R-31",
+        "diagnostics": [
+          "CA1852",
+          "MA0053"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-31.positive",
+        "rule": "R-31",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-31.negative",
+        "rule": "R-31",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-32",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:409"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-32"
+      },
+      "mechanism": {
+        "path": ".editorconfig",
+        "symbol": "R-32",
+        "diagnostics": [
+          "MA0048"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-32.positive",
+        "rule": "R-32",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-32.negative",
+        "rule": "R-32",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-33",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:415"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-33"
+      },
+      "mechanism": {
+        "path": "tools/code-rules/MemberOrderAnalyzer.cs",
+        "symbol": "MemberOrderAnalyzer",
+        "diagnostics": [
+          "SCR0008"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-33.positive",
+        "rule": "R-33",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-33.negative",
+        "rule": "R-33",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-34",
+      "disposition": "adapted",
+      "reason": "Engine-facing script/signal/export visibility differs from web registration visibility.",
+      "adaptationReason": "Engine-facing script/signal/export visibility differs from web registration visibility.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:437"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-34"
+      },
+      "mechanism": {
+        "path": ".editorconfig",
+        "symbol": "R-34",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-34.positive",
+        "rule": "R-34",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-34.negative",
+        "rule": "R-34",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": true,
+        "status": "pending",
+        "obligation": "Review semantic intent/invariants/API need/evolution and accuracy against the actual implementation; automated structure is insufficient."
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-35",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:446",
+        "src/backend/docs/CodeRules/code-architecture.md:230"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-35"
+      },
+      "mechanism": {
+        "path": ".editorconfig",
+        "symbol": "R-35",
+        "diagnostics": [
+          "CS1591"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-35.positive",
+        "rule": "R-35",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-35.negative",
+        "rule": "R-35",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-36",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:453",
+        "src/backend/docs/CodeRules/code-architecture.md:230"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-36"
+      },
+      "mechanism": {
+        "path": "tools/code-rules/BodyCommentAnalyzer.cs",
+        "symbol": "BodyCommentAnalyzer",
+        "diagnostics": [
+          "SCR0002"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-36.positive",
+        "rule": "R-36",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-36.negative",
+        "rule": "R-36",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-37",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:469",
+        "src/backend/docs/CodeRules/code-architecture.md:221"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-37"
+      },
+      "mechanism": {
+        "path": "tools/code-rules/BodyLengthAnalyzer.cs",
+        "symbol": "BodyLengthAnalyzer",
+        "diagnostics": [
+          "SCR0006",
+          "MA0051"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-37.positive",
+        "rule": "R-37",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-37.negative",
+        "rule": "R-37",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": {
+        "unit": "lines between body braces including blank lines; local functions also count in parent",
+        "limit": 60,
+        "comparison": "inclusive maximum",
+        "rounding": "none; expression/global bodies follow MemberBodies; 40 advised only",
+        "boundaries": [
+          59,
+          60,
+          61
+        ]
+      }
+    },
+    {
+      "sourceId": "R-38",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:483",
+        "src/backend/docs/CodeRules/code-architecture.md:265"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-38"
+      },
+      "mechanism": {
+        "path": "tools/code-rules/NamedArgumentAnalyzer.cs",
+        "symbol": "NamedArgumentAnalyzer",
+        "diagnostics": [
+          "SCR0001"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-38.positive",
+        "rule": "R-38",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-38.negative",
+        "rule": "R-38",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-39",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:506"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-39"
+      },
+      "mechanism": {
+        "path": ".editorconfig",
+        "symbol": "R-39",
+        "diagnostics": [
+          "RS0030"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-39.positive",
+        "rule": "R-39",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-39.negative",
+        "rule": "R-39",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-40",
+      "disposition": "adapted",
+      "reason": "Use an engine log adapter; narrowly account for proof/report output.",
+      "adaptationReason": "Use an engine log adapter; narrowly account for proof/report output.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:506"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-40"
+      },
+      "mechanism": {
+        "path": ".editorconfig",
+        "symbol": "R-40",
+        "diagnostics": [
+          "RS0030"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-40.positive",
+        "rule": "R-40",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-40.negative",
+        "rule": "R-40",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-41",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:506"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-41"
+      },
+      "mechanism": {
+        "path": ".editorconfig",
+        "symbol": "R-41",
+        "diagnostics": [
+          "RS0030"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-41.positive",
+        "rule": "R-41",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-41.negative",
+        "rule": "R-41",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-42",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:506"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-42"
+      },
+      "mechanism": {
+        "path": ".editorconfig",
+        "symbol": "R-42",
+        "diagnostics": [
+          "RS0030"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-42.positive",
+        "rule": "R-42",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-42.negative",
+        "rule": "R-42",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-43",
+      "disposition": "inapplicable",
+      "reason": "HTTP/database-only mechanism; no corresponding Phase 1 capability.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:506"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-43"
+      },
+      "mechanism": null,
+      "scope": "No HTTP/EF/database host exists in the five-project Godot foundation",
+      "exemptions": [],
+      "positiveProof": null,
+      "negativeProof": null,
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-44",
+      "disposition": "adapted",
+      "reason": "Engine logging boundary; keep generated ILogger rules where ILogger is used.",
+      "adaptationReason": "Engine logging boundary; keep generated ILogger rules where ILogger is used.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:521"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-44"
+      },
+      "mechanism": {
+        "path": ".editorconfig",
+        "symbol": "R-44",
+        "diagnostics": [
+          "CA1848",
+          "CA1873"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-44.positive",
+        "rule": "R-44",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-44.negative",
+        "rule": "R-44",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-45",
+      "disposition": "adapted",
+      "reason": "Pure library continuations differ from main-thread engine continuations.",
+      "adaptationReason": "Pure library continuations differ from main-thread engine continuations.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:528"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-45"
+      },
+      "mechanism": {
+        "path": ".editorconfig",
+        "symbol": "R-45",
+        "diagnostics": [
+          "MA0004"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-45.positive",
+        "rule": "R-45",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-45.negative",
+        "rule": "R-45",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-46",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:537"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-46"
+      },
+      "mechanism": {
+        "path": ".editorconfig",
+        "symbol": "R-46",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-46.positive",
+        "rule": "R-46",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-46.negative",
+        "rule": "R-46",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-47",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:544"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-47"
+      },
+      "mechanism": {
+        "path": ".editorconfig",
+        "symbol": "R-47",
+        "diagnostics": [
+          "RS0030"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-47.positive",
+        "rule": "R-47",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-47.negative",
+        "rule": "R-47",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-48",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:550"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-48"
+      },
+      "mechanism": {
+        "path": ".editorconfig",
+        "symbol": "R-48",
+        "diagnostics": [
+          "CA1707"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-48.positive",
+        "rule": "R-48",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-48.negative",
+        "rule": "R-48",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-49",
+      "disposition": "adapted",
+      "reason": "Keep 90%/80% local analyzer coverage; CI integration belongs to Phase 5.",
+      "adaptationReason": "Keep 90%/80% local analyzer coverage; CI integration belongs to Phase 5.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:558"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-49"
+      },
+      "mechanism": {
+        "path": "tools/phase1/coverage-policy.json",
+        "symbol": "R-49",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-49.positive",
+        "rule": "R-49",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-49.negative",
+        "rule": "R-49",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": {
+        "unit": "covered/total lines and branches",
+        "limits": [
+          90,
+          80
+        ],
+        "comparison": "inclusive minimum percent via integer cross multiplication",
+        "rounding": "none"
+      }
+    },
+    {
+      "sourceId": "R-50",
+      "disposition": "adapted",
+      "reason": "Replace migration exemption with genuine SDK-generated outputs only.",
+      "adaptationReason": "Replace migration exemption with genuine SDK-generated outputs only.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:586"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-50"
+      },
+      "mechanism": {
+        "path": ".editorconfig",
+        "symbol": "R-50",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-50.positive",
+        "rule": "R-50",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-50.negative",
+        "rule": "R-50",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-51",
+      "disposition": "adapted",
+      "reason": "Exact local five-project graph replaces fifteen web projects.",
+      "adaptationReason": "Exact local five-project graph replaces fifteen web projects.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:42"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-51"
+      },
+      "mechanism": {
+        "path": "tests/phase1/ArchitectureRuleTests.cs",
+        "symbol": "R-51",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-51.positive",
+        "rule": "R-51",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-51.negative",
+        "rule": "R-51",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-52",
+      "disposition": "adapted",
+      "reason": "Godot is engine host; C# game assembly may be a library; proof executable is declared.",
+      "adaptationReason": "Godot is engine host; C# game assembly may be a library; proof executable is declared.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:52"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-52"
+      },
+      "mechanism": {
+        "path": "tests/phase1/ArchitectureRuleTests.cs",
+        "symbol": "R-52",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-52.positive",
+        "rule": "R-52",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-52.negative",
+        "rule": "R-52",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-53",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:59"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-53"
+      },
+      "mechanism": {
+        "path": "tests/phase1/ArchitectureRuleTests.cs",
+        "symbol": "R-53",
+        "diagnostics": [
+          "CS0246",
+          "CS0012"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-53.positive",
+        "rule": "R-53",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-53.negative",
+        "rule": "R-53",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-54",
+      "disposition": "adapted",
+      "reason": "Use the minimal game graph plus analyzer-only tooling edge.",
+      "adaptationReason": "Use the minimal game graph plus analyzer-only tooling edge.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:68"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-54"
+      },
+      "mechanism": {
+        "path": "tests/phase1/ArchitectureRuleTests.cs",
+        "symbol": "R-54",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-54.positive",
+        "rule": "R-54",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-54.negative",
+        "rule": "R-54",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-55",
+      "disposition": "adapted",
+      "reason": "Independent multiplayer port assembly; no per-web-layer sibling proliferation.",
+      "adaptationReason": "Independent multiplayer port assembly; no per-web-layer sibling proliferation.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:105"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-55"
+      },
+      "mechanism": {
+        "path": "tests/phase1/ArchitectureRuleTests.cs",
+        "symbol": "R-55",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-55.positive",
+        "rule": "R-55",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-55.negative",
+        "rule": "R-55",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-56",
+      "disposition": "adapted",
+      "reason": "Service contracts stay engine/domain-free; no HTTP contract assemblies.",
+      "adaptationReason": "Service contracts stay engine/domain-free; no HTTP contract assemblies.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:119"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-56"
+      },
+      "mechanism": {
+        "path": "tests/phase1/ArchitectureRuleTests.cs",
+        "symbol": "R-56",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-56.positive",
+        "rule": "R-56",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-56.negative",
+        "rule": "R-56",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-57",
+      "disposition": "inapplicable",
+      "reason": "HTTP/database-only mechanism; no corresponding Phase 1 capability.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:126"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-57"
+      },
+      "mechanism": null,
+      "scope": "No HTTP/EF/database host exists in the five-project Godot foundation",
+      "exemptions": [],
+      "positiveProof": null,
+      "negativeProof": null,
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-58",
+      "disposition": "adapted",
+      "reason": "Core depends only on System and its own types.",
+      "adaptationReason": "Core depends only on System and its own types.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:135"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-58"
+      },
+      "mechanism": {
+        "path": "tests/phase1/ArchitectureRuleTests.cs",
+        "symbol": "R-58",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-58.positive",
+        "rule": "R-58",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-58.negative",
+        "rule": "R-58",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-59",
+      "disposition": "adapted",
+      "reason": "Gameplay avoids engine and concrete service infrastructure.",
+      "adaptationReason": "Gameplay avoids engine and concrete service infrastructure.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:141"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-59"
+      },
+      "mechanism": {
+        "path": "tests/phase1/ArchitectureRuleTests.cs",
+        "symbol": "R-59",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-59.positive",
+        "rule": "R-59",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-59.negative",
+        "rule": "R-59",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-60",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:147"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-60"
+      },
+      "mechanism": {
+        "path": "tests/phase1/ArchitectureRuleTests.cs",
+        "symbol": "R-60",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-60.positive",
+        "rule": "R-60",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-60.negative",
+        "rule": "R-60",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-61",
+      "disposition": "adapted",
+      "reason": "Future providers must use only service ports; fixture proves isolation now.",
+      "adaptationReason": "Future providers must use only service ports; fixture proves isolation now.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:156"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-61"
+      },
+      "mechanism": {
+        "path": "tests/phase1/ArchitectureRuleTests.cs",
+        "symbol": "R-61",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-61.positive",
+        "rule": "R-61",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-61.negative",
+        "rule": "R-61",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-62",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:163"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-62"
+      },
+      "mechanism": {
+        "path": "tests/phase1/ArchitectureRuleTests.cs",
+        "symbol": "R-62",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-62.positive",
+        "rule": "R-62",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-62.negative",
+        "rule": "R-62",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": true,
+        "status": "pending",
+        "obligation": "Review semantic intent/invariants/API need/evolution and accuracy against the actual implementation; automated structure is insufficient."
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-63",
+      "disposition": "adapted",
+      "reason": "Private mutation/validated construction retained; ORM constructor is inapplicable.",
+      "adaptationReason": "Private mutation/validated construction retained; ORM constructor is inapplicable.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:172"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-63"
+      },
+      "mechanism": {
+        "path": "tests/phase1/ArchitectureRuleTests.cs",
+        "symbol": "R-63",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-63.positive",
+        "rule": "R-63",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-63.negative",
+        "rule": "R-63",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": true,
+        "status": "pending",
+        "obligation": "Review semantic intent/invariants/API need/evolution and accuracy against the actual implementation; automated structure is insufficient."
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-64",
+      "disposition": "adapted",
+      "reason": "Snapshot DTOs use explicit constructors; HTTP-specific suffix rules inapplicable.",
+      "adaptationReason": "Snapshot DTOs use explicit constructors; HTTP-specific suffix rules inapplicable.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:181"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-64"
+      },
+      "mechanism": {
+        "path": "tests/phase1/ArchitectureRuleTests.cs",
+        "symbol": "R-64",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-64.positive",
+        "rule": "R-64",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-64.negative",
+        "rule": "R-64",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-65",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:204"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-65"
+      },
+      "mechanism": {
+        "path": "tests/phase1/ArchitectureRuleTests.cs",
+        "symbol": "R-65",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-65.positive",
+        "rule": "R-65",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-65.negative",
+        "rule": "R-65",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": true,
+        "status": "pending",
+        "obligation": "Review semantic intent/invariants/API need/evolution and accuracy against the actual implementation; automated structure is insufficient."
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-66",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:211"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-66"
+      },
+      "mechanism": {
+        "path": "tests/phase1/ArchitectureRuleTests.cs",
+        "symbol": "R-66",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-66.positive",
+        "rule": "R-66",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-66.negative",
+        "rule": "R-66",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-67",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:21"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-67"
+      },
+      "mechanism": {
+        "path": "tests/phase1/ArchitectureRuleTests.cs",
+        "symbol": "R-67",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-67.positive",
+        "rule": "R-67",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-67.negative",
+        "rule": "R-67",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-68",
+      "disposition": "adapted",
+      "reason": "One snapshot serialization contract; no HTTP options.",
+      "adaptationReason": "One snapshot serialization contract; no HTTP options.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:298"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-68"
+      },
+      "mechanism": {
+        "path": "src/core/SnapshotCodec.cs",
+        "symbol": "R-68",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Detached authoritative state/snapshot examples; no HTTP or database settings",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-68.positive",
+        "rule": "R-68",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-68.negative",
+        "rule": "R-68",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-69",
+      "disposition": "adapted",
+      "reason": "Exact pinned enum parsing when enums are present in example.",
+      "adaptationReason": "Exact pinned enum parsing when enums are present in example.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:306"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-69"
+      },
+      "mechanism": {
+        "path": "src/core/SnapshotCodec.cs",
+        "symbol": "R-69",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Detached authoritative state/snapshot examples; no HTTP or database settings",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-69.positive",
+        "rule": "R-69",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-69.negative",
+        "rule": "R-69",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-70",
+      "disposition": "adapted",
+      "reason": "Declare snapshot unknown/null policy; document any divergence from permissive HTTP defaults.",
+      "adaptationReason": "Declare snapshot unknown/null policy; document any divergence from permissive HTTP defaults.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:315"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-70"
+      },
+      "mechanism": {
+        "path": "src/core/SnapshotCodec.cs",
+        "symbol": "R-70",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Detached authoritative state/snapshot examples; no HTTP or database settings",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-70.positive",
+        "rule": "R-70",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-70.negative",
+        "rule": "R-70",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-71",
+      "disposition": "adapted",
+      "reason": "Validate required snapshot values/collections before commit.",
+      "adaptationReason": "Validate required snapshot values/collections before commit.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:322"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-71"
+      },
+      "mechanism": {
+        "path": "src/core/SnapshotCodec.cs",
+        "symbol": "R-71",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Detached authoritative state/snapshot examples; no HTTP or database settings",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-71.positive",
+        "rule": "R-71",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-71.negative",
+        "rule": "R-71",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-72",
+      "disposition": "adapted",
+      "reason": "One snapshot codec replaces host HTTP options.",
+      "adaptationReason": "One snapshot codec replaces host HTTP options.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:330"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-72"
+      },
+      "mechanism": {
+        "path": "src/core/SnapshotCodec.cs",
+        "symbol": "R-72",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Detached authoritative state/snapshot examples; no HTTP or database settings",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-72.positive",
+        "rule": "R-72",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-72.negative",
+        "rule": "R-72",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-73",
+      "disposition": "adapted",
+      "reason": "Controlled elapsed integer units replace persisted wall-clock/database times.",
+      "adaptationReason": "Controlled elapsed integer units replace persisted wall-clock/database times.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:337"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-73"
+      },
+      "mechanism": {
+        "path": "src/core/SnapshotCodec.cs",
+        "symbol": "R-73",
+        "diagnostics": [
+          "RS0030"
+        ],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Detached authoritative state/snapshot examples; no HTTP or database settings",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-73.positive",
+        "rule": "R-73",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-73.negative",
+        "rule": "R-73",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-74",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:350"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-74"
+      },
+      "mechanism": {
+        "path": "src/core/SnapshotCodec.cs",
+        "symbol": "R-74",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Detached authoritative state/snapshot examples; no HTTP or database settings",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-74.positive",
+        "rule": "R-74",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-74.negative",
+        "rule": "R-74",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": {
+        "unit": "enum numeric sentinel",
+        "limit": 0,
+        "comparison": "Unknown = 0 is never valid saved state",
+        "rounding": "none"
+      }
+    },
+    {
+      "sourceId": "R-75",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:358"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-75"
+      },
+      "mechanism": {
+        "path": "src/core/SnapshotCodec.cs",
+        "symbol": "R-75",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Detached authoritative state/snapshot examples; no HTTP or database settings",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-75.positive",
+        "rule": "R-75",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-75.negative",
+        "rule": "R-75",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-76",
+      "disposition": "inapplicable",
+      "reason": "HTTP/database-only mechanism; no corresponding Phase 1 capability.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:366"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-76"
+      },
+      "mechanism": null,
+      "scope": "No HTTP/EF/database host exists in the five-project Godot foundation",
+      "exemptions": [],
+      "positiveProof": null,
+      "negativeProof": null,
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-77",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:375"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-77"
+      },
+      "mechanism": {
+        "path": "src/core/SnapshotCodec.cs",
+        "symbol": "R-77",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Detached authoritative state/snapshot examples; no HTTP or database settings",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-77.positive",
+        "rule": "R-77",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-77.negative",
+        "rule": "R-77",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": true,
+        "status": "pending",
+        "obligation": "Review semantic intent/invariants/API need/evolution and accuracy against the actual implementation; automated structure is insufficient."
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-78",
+      "disposition": "adapted",
+      "reason": "Keep service contracts free of core enum/entity dependencies.",
+      "adaptationReason": "Keep service contracts free of core enum/entity dependencies.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:383"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-78"
+      },
+      "mechanism": {
+        "path": "src/core/SnapshotCodec.cs",
+        "symbol": "R-78",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Detached authoritative state/snapshot examples; no HTTP or database settings",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-78.positive",
+        "rule": "R-78",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-78.negative",
+        "rule": "R-78",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-79",
+      "disposition": "inapplicable",
+      "reason": "HTTP/database-only mechanism; no corresponding Phase 1 capability.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:396"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-79"
+      },
+      "mechanism": null,
+      "scope": "No HTTP/EF/database host exists in the five-project Godot foundation",
+      "exemptions": [],
+      "positiveProof": null,
+      "negativeProof": null,
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-80",
+      "disposition": "inapplicable",
+      "reason": "HTTP/database-only mechanism; no corresponding Phase 1 capability.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:408"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-80"
+      },
+      "mechanism": null,
+      "scope": "No HTTP/EF/database host exists in the five-project Godot foundation",
+      "exemptions": [],
+      "positiveProof": null,
+      "negativeProof": null,
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-81",
+      "disposition": "adapted",
+      "reason": "Configuration DTO discipline retained as applicable; Microsoft binder is not introduced.",
+      "adaptationReason": "Configuration DTO discipline retained as applicable; Microsoft binder is not introduced.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:193"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-81"
+      },
+      "mechanism": {
+        "path": "tests/phase1/ArchitectureRuleTests.cs",
+        "symbol": "R-81",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-81.positive",
+        "rule": "R-81",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-81.negative",
+        "rule": "R-81",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-82",
+      "disposition": "adapted",
+      "reason": "Keep 90%/80% local production coverage; instrument engine assembly meaningfully.",
+      "adaptationReason": "Keep 90%/80% local production coverage; instrument engine assembly meaningfully.",
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:566"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-82"
+      },
+      "mechanism": {
+        "path": "tools/phase1/coverage-policy.json",
+        "symbol": "R-82",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-82.positive",
+        "rule": "R-82",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-82.negative",
+        "rule": "R-82",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": {
+        "unit": "covered/total lines and branches",
+        "limits": [
+          90,
+          80
+        ],
+        "comparison": "inclusive minimum percent via integer cross multiplication",
+        "rounding": "none"
+      }
+    },
+    {
+      "sourceId": "R-83",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:237"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-83"
+      },
+      "mechanism": {
+        "path": "tests/phase1/DocumentationValidator.cs",
+        "symbol": "R-83",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-83.positive",
+        "rule": "R-83",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-83.negative",
+        "rule": "R-83",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": true,
+        "status": "pending",
+        "obligation": "Review semantic intent/invariants/API need/evolution and accuracy against the actual implementation; automated structure is insufficient."
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-84",
+      "disposition": "retained",
+      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-architecture.md:253"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-84"
+      },
+      "mechanism": {
+        "path": "tests/phase1/DocumentationValidator.cs",
+        "symbol": "R-84",
+        "diagnostics": [],
+        "severity": "error",
+        "status": "pending"
+      },
+      "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+      "exemptions": [],
+      "positiveProof": {
+        "id": "R-84.positive",
+        "rule": "R-84",
+        "status": "pending"
+      },
+      "negativeProof": {
+        "id": "R-84.negative",
+        "rule": "R-84",
+        "status": "pending"
+      },
+      "qualitativeReview": {
+        "required": true,
+        "status": "pending",
+        "obligation": "Review semantic intent/invariants/API need/evolution and accuracy against the actual implementation; automated structure is insufficient."
+      },
+      "numeric": null
+    },
+    {
+      "sourceId": "R-85",
+      "disposition": "inapplicable",
+      "reason": "HTTP/database-only mechanism; no corresponding Phase 1 capability.",
+      "adaptationReason": null,
+      "headingRefs": [
+        "src/backend/docs/CodeRules/code-style.md:575"
+      ],
+      "documentation": {
+        "path": "docs/code/register.json",
+        "symbol": "R-85"
+      },
+      "mechanism": null,
+      "scope": "No HTTP/EF/database host exists in the five-project Godot foundation",
+      "exemptions": [],
+      "positiveProof": null,
+      "negativeProof": null,
+      "qualitativeReview": {
+        "required": false,
+        "status": "not-required"
+      },
+      "numeric": null
+    }
+  ]
+}
