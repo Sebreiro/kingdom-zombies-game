@@ -6,7 +6,6 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-    <NuGetLockFilePath>$(MSBuildThisFileDirectory)../../.phase1/cache/game.packages.lock.json</NuGetLockFilePath>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../core/KingdomZombies.Core.csproj" />

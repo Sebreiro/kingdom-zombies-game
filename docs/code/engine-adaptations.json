@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "scope": "Observed local engine adaptations; donor bytes and donor exemption identities remain unchanged",
+  "local": [
+    {
+      "id": "KZ-EX-GODOT-REPORT-01",
+      "rule": "R-50",
+      "relatedRule": "R-42",
+      "diagnostic": "RS0030",
+      "path": "src/godot-game/GeneratedReportAdapter.cs",
+      "surface": "Godot.SourceGenerators/Godot.SourceGenerators.GodotPluginsInitializerGenerator/GodotPlugins.Game.generated.cs",
+      "target": "~M:GodotPlugins.Game.Main.InitializeFromGameProject(System.IntPtr,System.IntPtr,System.IntPtr,System.Int32)",
+      "generatorPackage": "Godot.SourceGenerators",
+      "generatorVersion": "4.7.2",
+      "generatedSourceSha256": "7870166b33f91817432f480e7b2707b22005838c67dfd6cec2256efa7b88975f",
+      "packageSha256": "ce2beb0b75bfb81b94982bdaf7234fc681edd4cf024606c6baf6e40625e0ca4e",
+      "reason": "Authentic generated native-load failure handler writes Console.Error; only the exact compiler symbol is exempt",
+      "positiveProof": "pins.generated-report",
+      "negativeProof": "pins.generated-report-boundary",
+      "status": "observed"
+    }
+  ]
+}

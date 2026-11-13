@@ -17,7 +17,11 @@
     "NuGet.config",
     ".config/dotnet-tools.json",
     ".planning/phases/01-code-rules-and-documentation/01-SPEC.md",
-    ".planning/phases/01-code-rules-and-documentation/01-CONTEXT.md"
+    ".planning/phases/01-code-rules-and-documentation/01-CONTEXT.md",
+    "BannedSymbols.txt",
+    "BannedSymbols.Tests.txt",
+    "BannedSymbols.Pure.txt",
+    ".editorconfig"
   ],
   "acceptanceCriteria": [
     {
@@ -1681,7 +1685,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.FiveCanonicalLocksRejectDependencyDrift",
+      "expectedDiagnostic": "LOCKED_GRAPH_EXACT"
     },
     {
       "id": "ac-02.complete",
@@ -6401,6 +6407,168 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.VerifierRequiresExactCompilerDiagnostic",
       "expectedDiagnostic": "DIAGNOSTIC_EXACT"
+    },
+    {
+      "id": "pins.banned-inputs",
+      "group": "pins",
+      "rule": "RULE-03",
+      "owner": "01-18",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.ConsumersSelectScopedBannedInputs",
+      "expectedDiagnostic": "BANNED_INPUTS_SCOPED"
+    },
+    {
+      "id": "pins.evaluated",
+      "group": "pins",
+      "rule": "RULE-03",
+      "owner": "01-18",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.AllFiveProjectsInheritExactPolicy",
+      "expectedDiagnostic": "EVALUATED_POLICY_EXACT"
+    },
+    {
+      "id": "pins.configuration-drift",
+      "group": "pins",
+      "rule": "RULE-03",
+      "owner": "01-18",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.EvaluatedPolicyRejectsWeakening",
+      "expectedDiagnostic": "POLICY_DRIFT_REJECTED"
+    },
+    {
+      "id": "pins.banned-production",
+      "group": "pins",
+      "rule": "RULE-03",
+      "owner": "01-18",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.ProductionBannedApisFailRealCompilation",
+      "expectedDiagnostic": "RS0030"
+    },
+    {
+      "id": "pins.banned-tests",
+      "group": "pins",
+      "rule": "RULE-03",
+      "owner": "01-18",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.TestsRetainShouldlyAndRejectAssert",
+      "expectedDiagnostic": "TEST_POLICY_EXACT"
+    },
+    {
+      "id": "pins.banned-severity",
+      "group": "pins",
+      "rule": "RULE-03",
+      "owner": "01-18",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.BannedSeverityWeakeningCannotSatisfyTheContract",
+      "expectedDiagnostic": "POLICY_BYPASS_REJECTED"
+    },
+    {
+      "id": "pins.async-permission",
+      "group": "pins",
+      "rule": "RULE-03",
+      "owner": "01-18",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.AsyncSuffixPermissionRejectsConfigurationDrift",
+      "expectedDiagnostic": "ASYNC_PERMISSION_EXACT"
+    },
+    {
+      "id": "pins.generated-report",
+      "group": "pins",
+      "rule": "RULE-03",
+      "owner": "01-18",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.GeneratedReportAdapterHasPinnedOrigin",
+      "expectedDiagnostic": "GENERATOR_ORIGIN_EXACT"
+    },
+    {
+      "id": "pins.generated-report-boundary",
+      "group": "pins",
+      "rule": "RULE-03",
+      "owner": "01-18",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.GeneratedReportPermissionCannotEscapeItsMethod",
+      "expectedDiagnostic": "GENERATED_PERMISSION_BOUNDED"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."

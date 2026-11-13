@@ -322,7 +322,10 @@ function validateEnginePackages(manifest, locked) {
     { id: 'Roslynator.Analyzers', version: '5.0.1' },
     { id: 'Microsoft.CodeAnalysis.BannedApiAnalyzers', version: '5.6.0' },
   ];
-  if (!locked || Object.keys(locked).length !== expected.length || expected.some(item => locked[item.id]?.resolved !== item.version)) fail('RESTORE_FAILED', 'Unexpected package closure');
+  const projects = ['kingdomzombies.core', 'kingdomzombies.multiplayer.abstractions'];
+  if (!locked || Object.keys(locked).length !== expected.length + projects.length
+      || expected.some(item => locked[item.id]?.resolved !== item.version)
+      || projects.some(id => locked[id]?.type !== 'Project' || Object.keys(locked[id]).length !== 1)) fail('RESTORE_FAILED', 'Unexpected package/project closure');
 }
 
 async function engineProbe(manifest, engine) {
@@ -335,7 +338,7 @@ async function engineProbe(manifest, engine) {
   fs.writeFileSync(config, fs.readFileSync(config, 'utf8').replace('value=".phase1/feed"', `value="${path.join(home, 'feed')}"`));
   const args = ['src/godot-game/KingdomZombies.csproj', '--configfile', config, '--disable-parallel', '-p:NuGetAudit=false'];
   await command('restore', 'dotnet', ['restore', ...args], { diagnostic: 'RESTORE_FAILED' });
-  const locked = readJson(path.join(home, 'cache/game.packages.lock.json')).dependencies[manifest.framework];
+  const locked = readJson(path.join(project, 'packages.lock.json')).dependencies[manifest.framework];
   validateEnginePackages(manifest, locked);
   await command('restore-locked', 'dotnet', ['restore', ...args, '--locked-mode'], { diagnostic: 'RESTORE_FAILED' });
   await command('build', 'dotnet', ['build', 'src/godot-game/KingdomZombies.csproj', '--no-restore', '--configuration', 'Debug', '-p:NuGetAudit=false'], { diagnostic: 'COMPILER_FAILED' });

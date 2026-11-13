@@ -1,0 +1,3 @@
+// Core and service interfaces only. Godot integration remains permitted in the game.
+// Direct/transitive/type graph bypass proofs belong to plan 01-09.
+T:Godot.GodotObject;Keep pure state and service interfaces engine-free

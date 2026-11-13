@@ -1,0 +1,41 @@
+// Adapted from captured LangProj 6836a9718ff5c939e89abf2b97763760607de192.
+// All production code: use explicit time/random inputs and bounded output adapters.
+P:System.DateTime.Now;Use an injected clock
+P:System.DateTime.UtcNow;Use an injected clock
+P:System.DateTime.Today;Use an injected clock
+P:System.DateTimeOffset.Now;Use an injected clock
+P:System.DateTimeOffset.UtcNow;Use an injected clock
+P:System.Random.Shared;Use an explicitly owned seeded random stream
+M:System.Random.#ctor;Use an explicitly supplied seed
+T:System.IServiceProvider;Pass explicit service ports instead of a service locator
+T:System.Console;Use an explicit log/report adapter
+M:System.Threading.Thread.Sleep(System.Int32);Use cancellable asynchronous coordination
+M:System.Threading.Thread.Sleep(System.TimeSpan);Use cancellable asynchronous coordination
+M:System.Threading.Tasks.Task.Wait;Use await
+M:System.Threading.Tasks.Task.Wait(System.Int32);Use await
+M:System.Threading.Tasks.Task.Wait(System.TimeSpan);Use await
+M:System.Threading.Tasks.Task.Wait(System.Threading.CancellationToken);Use await
+M:System.Threading.Tasks.Task.Wait(System.Int32,System.Threading.CancellationToken);Use await
+M:System.Threading.Tasks.Task.Wait(System.TimeSpan,System.Threading.CancellationToken);Use await
+M:System.Threading.Tasks.Task.WaitAll(System.Threading.Tasks.Task[]);Use await Task.WhenAll
+M:System.Threading.Tasks.Task.WaitAll(System.Threading.Tasks.Task[],System.Int32);Use await Task.WhenAll
+M:System.Threading.Tasks.Task.WaitAll(System.Threading.Tasks.Task[],System.TimeSpan);Use await Task.WhenAll
+M:System.Threading.Tasks.Task.WaitAll(System.Threading.Tasks.Task[],System.Threading.CancellationToken);Use await Task.WhenAll
+M:System.Threading.Tasks.Task.WaitAll(System.Threading.Tasks.Task[],System.Int32,System.Threading.CancellationToken);Use await Task.WhenAll
+M:System.Threading.Tasks.Task.WaitAll(System.Collections.Generic.IEnumerable{System.Threading.Tasks.Task},System.Threading.CancellationToken);Use await Task.WhenAll
+M:System.Threading.Tasks.Task.WaitAll(System.ReadOnlySpan{System.Threading.Tasks.Task});Use await Task.WhenAll
+M:System.Threading.Tasks.Task.WaitAny(System.Threading.Tasks.Task[]);Use await Task.WhenAny
+M:System.Threading.Tasks.Task.WaitAny(System.Threading.Tasks.Task[],System.Int32);Use await Task.WhenAny
+M:System.Threading.Tasks.Task.WaitAny(System.Threading.Tasks.Task[],System.TimeSpan);Use await Task.WhenAny
+M:System.Threading.Tasks.Task.WaitAny(System.Threading.Tasks.Task[],System.Threading.CancellationToken);Use await Task.WhenAny
+M:System.Threading.Tasks.Task.WaitAny(System.Threading.Tasks.Task[],System.Int32,System.Threading.CancellationToken);Use await Task.WhenAny
+P:System.Threading.Tasks.Task`1.Result;Use await
+P:System.Threading.Tasks.ValueTask`1.Result;Use await
+M:System.Runtime.CompilerServices.TaskAwaiter.GetResult;Use await
+M:System.Runtime.CompilerServices.TaskAwaiter`1.GetResult;Use await
+M:System.Runtime.CompilerServices.ConfiguredTaskAwaitable.ConfiguredTaskAwaiter.GetResult;Use await
+M:System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult;Use await
+M:System.Runtime.CompilerServices.ValueTaskAwaiter.GetResult;Use await
+M:System.Runtime.CompilerServices.ValueTaskAwaiter`1.GetResult;Use await
+M:System.Runtime.CompilerServices.ConfiguredValueTaskAwaitable.ConfiguredValueTaskAwaiter.GetResult;Use await
+M:System.Runtime.CompilerServices.ConfiguredValueTaskAwaitable`1.ConfiguredValueTaskAwaiter.GetResult;Use await
