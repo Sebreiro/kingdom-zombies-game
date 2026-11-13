@@ -2,7 +2,7 @@
 
 **Defined:** 2026-11-13
 **Release:** Complete version 0.1
-**Status:** All 133 version 0.1 requirements approved by the creator on 2026-11-13; detailed phase mapping is next.
+**Status:** All 133 version 0.1 requirements and their ten-phase roadmap approved by the creator on 2026-11-13. Every requirement has one primary phase; implementation remains Pending.
 **Core Value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
 
 ## Authority and Interpretation
@@ -11,7 +11,7 @@ The [game specification](../specs/0.1/initial-spec.md), [asset/resource plan](..
 
 All required details in the source sections remain binding. The concise requirement statements below do not replace numerical tables, edge cases, configuration rules, or exclusions in the specification. Proposed values/supporting rules remain the working implementation baseline to validate through playtesting, not proven balance. No required game feature is deferred to a later release.
 
-The GSD template heading `v1 Requirements` below means this project's first release, **version 0.1**, not a separate version 1.0. Each ID will have exactly one primary roadmap phase; later integration and release reruns can exercise it again. All requirements are unimplemented/unverified at initialization.
+The GSD template heading `v1 Requirements` below means this project's first release, **version 0.1**, not a separate version 1.0. Each ID has exactly one primary roadmap phase; later integration and release reruns can exercise it again. All requirements are unimplemented/unverified at initialization.
 
 ## v1 Requirements
 
@@ -350,152 +350,155 @@ The reference-PC stress procedure uses 1920x1080, four participants, approximate
 
 ## Traceability
 
-Detailed phase allocation is pending the roadmapper. The creator approved these requirements and working-increment phase planning on 2026-11-13. The fixed first-five-phase order and accepted ten-phase direction are recorded in [PROJECT.md](PROJECT.md#agreed-delivery-direction). Mapping a requirement must not mark implementation complete.
+All 133 version 0.1 requirements have exactly one primary owning phase in [ROADMAP.md](ROADMAP.md). The creator approved these requirements, working-increment phase planning, and the detailed roadmap on 2026-11-13. The fixed first-five-phase order and accepted ten-phase direction are recorded in [PROJECT.md](PROJECT.md#agreed-delivery-direction). Earlier prerequisites and later integration/regression checks do not duplicate ownership: the assigned phase must deliver complete requirement acceptance. All implementation statuses remain Pending.
 
 | Requirement | Phase | Status |
 | --- | --- | --- |
-| RULE-01 | Unmapped | Pending |
-| RULE-02 | Unmapped | Pending |
-| RULE-03 | Unmapped | Pending |
-| RULE-04 | Unmapped | Pending |
-| RULE-05 | Unmapped | Pending |
-| RULE-06 | Unmapped | Pending |
-| RULE-07 | Unmapped | Pending |
-| BASE-01 | Unmapped | Pending |
-| BASE-02 | Unmapped | Pending |
-| BASE-03 | Unmapped | Pending |
-| LAN-01 | Unmapped | Pending |
-| LAN-02 | Unmapped | Pending |
-| LAN-03 | Unmapped | Pending |
-| LAN-04 | Unmapped | Pending |
-| ASSET-01 | Unmapped | Pending |
-| ASSET-02 | Unmapped | Pending |
-| ASSET-03 | Unmapped | Pending |
-| ASSET-04 | Unmapped | Pending |
-| ASSET-05 | Unmapped | Pending |
-| TEST-01 | Unmapped | Pending |
-| TEST-02 | Unmapped | Pending |
-| TEST-03 | Unmapped | Pending |
-| TEST-04 | Unmapped | Pending |
-| TEST-05 | Unmapped | Pending |
-| TEST-06 | Unmapped | Pending |
-| TEST-07 | Unmapped | Pending |
-| TEST-08 | Unmapped | Pending |
-| TEST-09 | Unmapped | Pending |
-| TEST-10 | Unmapped | Pending |
-| CHAR-01 | Unmapped | Pending |
-| CHAR-02 | Unmapped | Pending |
-| CHAR-03 | Unmapped | Pending |
-| CHAR-04 | Unmapped | Pending |
-| CHAR-05 | Unmapped | Pending |
-| CHAR-06 | Unmapped | Pending |
-| INV-01 | Unmapped | Pending |
-| INV-02 | Unmapped | Pending |
-| INV-03 | Unmapped | Pending |
-| INV-04 | Unmapped | Pending |
-| INV-05 | Unmapped | Pending |
-| INV-06 | Unmapped | Pending |
-| INV-07 | Unmapped | Pending |
-| INV-08 | Unmapped | Pending |
-| INV-09 | Unmapped | Pending |
-| INV-10 | Unmapped | Pending |
-| INV-11 | Unmapped | Pending |
-| INV-12 | Unmapped | Pending |
-| INV-13 | Unmapped | Pending |
-| COMBAT-01 | Unmapped | Pending |
-| COMBAT-02 | Unmapped | Pending |
-| COMBAT-03 | Unmapped | Pending |
-| COMBAT-04 | Unmapped | Pending |
-| COMBAT-05 | Unmapped | Pending |
-| COMBAT-06 | Unmapped | Pending |
-| COMBAT-07 | Unmapped | Pending |
-| COMBAT-08 | Unmapped | Pending |
-| RUN-01 | Unmapped | Pending |
-| RUN-02 | Unmapped | Pending |
-| RUN-03 | Unmapped | Pending |
-| RUN-04 | Unmapped | Pending |
-| RUN-05 | Unmapped | Pending |
-| RUN-06 | Unmapped | Pending |
-| RUN-07 | Unmapped | Pending |
-| WORLD-01 | Unmapped | Pending |
-| WORLD-02 | Unmapped | Pending |
-| WORLD-03 | Unmapped | Pending |
-| WORLD-04 | Unmapped | Pending |
-| WORLD-05 | Unmapped | Pending |
-| WORLD-06 | Unmapped | Pending |
-| WORLD-07 | Unmapped | Pending |
-| ECON-01 | Unmapped | Pending |
-| ECON-02 | Unmapped | Pending |
-| ECON-03 | Unmapped | Pending |
-| ECON-04 | Unmapped | Pending |
-| ECON-05 | Unmapped | Pending |
-| NPC-01 | Unmapped | Pending |
-| NPC-02 | Unmapped | Pending |
-| NPC-03 | Unmapped | Pending |
-| NPC-04 | Unmapped | Pending |
-| NPC-05 | Unmapped | Pending |
-| NPC-06 | Unmapped | Pending |
-| NPC-07 | Unmapped | Pending |
-| NPC-08 | Unmapped | Pending |
-| BUILD-01 | Unmapped | Pending |
-| BUILD-02 | Unmapped | Pending |
-| BUILD-03 | Unmapped | Pending |
-| BUILD-04 | Unmapped | Pending |
-| BUILD-05 | Unmapped | Pending |
-| BUILD-06 | Unmapped | Pending |
-| BUILD-07 | Unmapped | Pending |
-| BUILD-08 | Unmapped | Pending |
-| ZOMB-01 | Unmapped | Pending |
-| ZOMB-02 | Unmapped | Pending |
-| ZOMB-03 | Unmapped | Pending |
-| ZOMB-04 | Unmapped | Pending |
-| ZOMB-05 | Unmapped | Pending |
-| ZOMB-06 | Unmapped | Pending |
-| ZOMB-07 | Unmapped | Pending |
-| ZOMB-08 | Unmapped | Pending |
-| ARMY-01 | Unmapped | Pending |
-| ARMY-02 | Unmapped | Pending |
-| ARMY-03 | Unmapped | Pending |
-| SESSION-01 | Unmapped | Pending |
-| SESSION-02 | Unmapped | Pending |
-| SESSION-03 | Unmapped | Pending |
-| SESSION-04 | Unmapped | Pending |
-| SESSION-05 | Unmapped | Pending |
-| SESSION-06 | Unmapped | Pending |
-| SAVE-01 | Unmapped | Pending |
-| SAVE-02 | Unmapped | Pending |
-| SAVE-03 | Unmapped | Pending |
-| SAVE-04 | Unmapped | Pending |
-| SAVE-05 | Unmapped | Pending |
-| SAVE-06 | Unmapped | Pending |
-| SAVE-07 | Unmapped | Pending |
-| SAVE-08 | Unmapped | Pending |
-| DATA-01 | Unmapped | Pending |
-| DATA-02 | Unmapped | Pending |
-| DATA-03 | Unmapped | Pending |
-| DATA-04 | Unmapped | Pending |
-| UX-01 | Unmapped | Pending |
-| UX-02 | Unmapped | Pending |
-| UX-03 | Unmapped | Pending |
-| UX-04 | Unmapped | Pending |
-| UX-05 | Unmapped | Pending |
-| UX-06 | Unmapped | Pending |
-| UX-07 | Unmapped | Pending |
-| REL-01 | Unmapped | Pending |
-| REL-02 | Unmapped | Pending |
-| REL-03 | Unmapped | Pending |
-| REL-04 | Unmapped | Pending |
-| REL-05 | Unmapped | Pending |
-| REL-06 | Unmapped | Pending |
+| RULE-01 | Phase 1 | Pending |
+| RULE-02 | Phase 1 | Pending |
+| RULE-03 | Phase 1 | Pending |
+| RULE-04 | Phase 1 | Pending |
+| RULE-05 | Phase 1 | Pending |
+| RULE-06 | Phase 1 | Pending |
+| RULE-07 | Phase 1 | Pending |
+| BASE-01 | Phase 2 | Pending |
+| BASE-02 | Phase 2 | Pending |
+| BASE-03 | Phase 2 | Pending |
+| LAN-01 | Phase 3 | Pending |
+| LAN-02 | Phase 3 | Pending |
+| LAN-03 | Phase 3 | Pending |
+| LAN-04 | Phase 3 | Pending |
+| ASSET-01 | Phase 4 | Pending |
+| ASSET-02 | Phase 4 | Pending |
+| ASSET-03 | Phase 4 | Pending |
+| ASSET-04 | Phase 4 | Pending |
+| ASSET-05 | Phase 4 | Pending |
+| TEST-01 | Phase 5 | Pending |
+| TEST-02 | Phase 5 | Pending |
+| TEST-03 | Phase 5 | Pending |
+| TEST-04 | Phase 5 | Pending |
+| TEST-05 | Phase 5 | Pending |
+| TEST-06 | Phase 5 | Pending |
+| TEST-07 | Phase 5 | Pending |
+| TEST-08 | Phase 5 | Pending |
+| TEST-09 | Phase 5 | Pending |
+| TEST-10 | Phase 5 | Pending |
+| CHAR-01 | Phase 6 | Pending |
+| CHAR-02 | Phase 6 | Pending |
+| CHAR-03 | Phase 6 | Pending |
+| CHAR-04 | Phase 6 | Pending |
+| CHAR-05 | Phase 6 | Pending |
+| CHAR-06 | Phase 6 | Pending |
+| INV-01 | Phase 6 | Pending |
+| INV-02 | Phase 6 | Pending |
+| INV-03 | Phase 6 | Pending |
+| INV-04 | Phase 6 | Pending |
+| INV-05 | Phase 6 | Pending |
+| INV-06 | Phase 6 | Pending |
+| INV-07 | Phase 6 | Pending |
+| INV-08 | Phase 6 | Pending |
+| INV-09 | Phase 6 | Pending |
+| INV-10 | Phase 6 | Pending |
+| INV-11 | Phase 6 | Pending |
+| INV-12 | Phase 6 | Pending |
+| INV-13 | Phase 6 | Pending |
+| COMBAT-01 | Phase 6 | Pending |
+| COMBAT-02 | Phase 6 | Pending |
+| COMBAT-03 | Phase 6 | Pending |
+| COMBAT-04 | Phase 8 | Pending |
+| COMBAT-05 | Phase 6 | Pending |
+| COMBAT-06 | Phase 6 | Pending |
+| COMBAT-07 | Phase 8 | Pending |
+| COMBAT-08 | Phase 6 | Pending |
+| RUN-01 | Phase 6 | Pending |
+| RUN-02 | Phase 6 | Pending |
+| RUN-03 | Phase 6 | Pending |
+| RUN-04 | Phase 6 | Pending |
+| RUN-05 | Phase 8 | Pending |
+| RUN-06 | Phase 8 | Pending |
+| RUN-07 | Phase 8 | Pending |
+| WORLD-01 | Phase 8 | Pending |
+| WORLD-02 | Phase 8 | Pending |
+| WORLD-03 | Phase 8 | Pending |
+| WORLD-04 | Phase 9 | Pending |
+| WORLD-05 | Phase 7 | Pending |
+| WORLD-06 | Phase 9 | Pending |
+| WORLD-07 | Phase 9 | Pending |
+| ECON-01 | Phase 7 | Pending |
+| ECON-02 | Phase 7 | Pending |
+| ECON-03 | Phase 7 | Pending |
+| ECON-04 | Phase 7 | Pending |
+| ECON-05 | Phase 7 | Pending |
+| NPC-01 | Phase 7 | Pending |
+| NPC-02 | Phase 7 | Pending |
+| NPC-03 | Phase 7 | Pending |
+| NPC-04 | Phase 7 | Pending |
+| NPC-05 | Phase 7 | Pending |
+| NPC-06 | Phase 7 | Pending |
+| NPC-07 | Phase 7 | Pending |
+| NPC-08 | Phase 7 | Pending |
+| BUILD-01 | Phase 7 | Pending |
+| BUILD-02 | Phase 7 | Pending |
+| BUILD-03 | Phase 7 | Pending |
+| BUILD-04 | Phase 7 | Pending |
+| BUILD-05 | Phase 7 | Pending |
+| BUILD-06 | Phase 7 | Pending |
+| BUILD-07 | Phase 7 | Pending |
+| BUILD-08 | Phase 7 | Pending |
+| ZOMB-01 | Phase 8 | Pending |
+| ZOMB-02 | Phase 8 | Pending |
+| ZOMB-03 | Phase 8 | Pending |
+| ZOMB-04 | Phase 8 | Pending |
+| ZOMB-05 | Phase 8 | Pending |
+| ZOMB-06 | Phase 8 | Pending |
+| ZOMB-07 | Phase 8 | Pending |
+| ZOMB-08 | Phase 8 | Pending |
+| ARMY-01 | Phase 8 | Pending |
+| ARMY-02 | Phase 8 | Pending |
+| ARMY-03 | Phase 8 | Pending |
+| SESSION-01 | Phase 9 | Pending |
+| SESSION-02 | Phase 9 | Pending |
+| SESSION-03 | Phase 9 | Pending |
+| SESSION-04 | Phase 9 | Pending |
+| SESSION-05 | Phase 9 | Pending |
+| SESSION-06 | Phase 9 | Pending |
+| SAVE-01 | Phase 9 | Pending |
+| SAVE-02 | Phase 9 | Pending |
+| SAVE-03 | Phase 9 | Pending |
+| SAVE-04 | Phase 9 | Pending |
+| SAVE-05 | Phase 9 | Pending |
+| SAVE-06 | Phase 9 | Pending |
+| SAVE-07 | Phase 9 | Pending |
+| SAVE-08 | Phase 9 | Pending |
+| DATA-01 | Phase 9 | Pending |
+| DATA-02 | Phase 9 | Pending |
+| DATA-03 | Phase 9 | Pending |
+| DATA-04 | Phase 9 | Pending |
+| UX-01 | Phase 9 | Pending |
+| UX-02 | Phase 9 | Pending |
+| UX-03 | Phase 9 | Pending |
+| UX-04 | Phase 9 | Pending |
+| UX-05 | Phase 9 | Pending |
+| UX-06 | Phase 9 | Pending |
+| UX-07 | Phase 9 | Pending |
+| REL-01 | Phase 10 | Pending |
+| REL-02 | Phase 10 | Pending |
+| REL-03 | Phase 10 | Pending |
+| REL-04 | Phase 10 | Pending |
+| REL-05 | Phase 10 | Pending |
+| REL-06 | Phase 10 | Pending |
 
 **Coverage:**
 - Version 0.1 requirements: 133 total
-- Mapped to phases: 0 (roadmap step pending)
-- Unmapped: 133 (expected at this review step)
+- Mapped to phases: 133 (exactly one primary owner each)
+- Unmapped: 0
+- Duplicate primary owners: 0
+- Unknown version 0.1 IDs in roadmap: 0
+- Implementation statuses: 133 Pending; 0 complete
 - Source acceptance scenarios linked: 47 of 47
 - Future platform requirements: 2 (outside the current roadmap)
 
 ---
 *Requirements defined: 2026-11-13*
-*Last updated: 2026-11-13 after creator approval of all requirements and working-increment phase planning*
+*Last updated: 2026-11-13 after creator approval of the complete ten-phase roadmap and requirement mapping*
 

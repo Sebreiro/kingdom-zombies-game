@@ -13,7 +13,7 @@ Players can build, equip, and defend a shared survivor camp through a complete s
 - [Version 0.1 game specification](../specs/0.1/initial-spec.md) defines mandatory behavior, exclusions, proposed balance, release gates, and acceptance scenarios A-01 through A-47.
 - [Asset and resource production plan](../specs/0.1/assets-and-resources.md) defines required content, reusable donors, evidence levels, and production checks. It supplements the game specification; it does not override it.
 - The creator confirmed on 2026-11-13 that the project must deliver the full specified version 0.1, use Godot and C#, and follow the first five phases recorded below. The creator then approved the proposed ten-phase direction and creation of this project definition.
-- The creator subsequently approved all 133 version 0.1 requirements and working-increment phase planning: each phase ends with a verifiable result. The detailed roadmap still has its own final review.
+- The creator subsequently approved all 133 version 0.1 requirements, working-increment phase planning, and the detailed ten-phase roadmap on 2026-11-13. Each phase ends with a verifiable result; initialization is complete and Phase 1 is ready for discussion and planning.
 - Confirmed behavior and exclusions are binding. Values and supporting rules labeled proposed in the specifications remain the working baseline to implement and evaluate; approval of this project does not turn untested balance into proven balance.
 - GSD's initial-release requirements will describe version 0.1. A template heading such as `v1 Requirements` must not be interpreted as a separate version 1.0 release or a reduced game scope.
 
@@ -67,8 +67,8 @@ Players can build, equip, and defend a shared survivor camp through a complete s
 - Game project: `src/godot-game/project.godot`; inspected starter settings declare `KingdomZombies`, the `4.7`/`Forward Plus` feature tags, and a .NET assembly name. Those settings do not prove an installed or validated engine/compiler combination.
 - The inspected game source consists of the Godot project settings and icon, with no C# gameplay, scenes, solution, or test runner yet.
 - Visual examples are under `examples/`, including three base references and zombie artwork. References guide style; written specifications control silhouettes and behavior.
-- The root `Agents.md` was empty at initialization. Phase 1 must establish the concise index and consistent filename casing without creating case-colliding files on Windows/Linux.
-- No existing GSD plan or completed gameplay capability is being migrated. The asset register describes production work still to do; it is not evidence that the pack has already been exported or integrated.
+- The root `Agents.md` now provides a concise bootstrap description and documentation index. Phase 1 must establish the full focused rule documentation and consistent filename casing without creating case-colliding files on Windows/Linux.
+- GSD initialization now includes approved context, workflow settings, research, 133 requirements, a ten-phase roadmap, and current state. No completed gameplay capability is being migrated. The asset register describes production work still to do; it is not evidence that the pack has already been exported or integrated.
 
 ### LangProj inheritance
 
@@ -95,7 +95,7 @@ Preserve original recovered files. Track source identity, transformations, gener
 
 ### Agreed delivery direction
 
-The first five phases and their order are creator requirements. Five further phases were accepted as the working direction; detailed requirements mapping and roadmap approval follow this project definition.
+The first five phases and their order are creator requirements. The creator approved five further phases, the detailed ten-phase roadmap, and complete requirement mapping on 2026-11-13. See [ROADMAP.md](ROADMAP.md) for completion criteria and [REQUIREMENTS.md](REQUIREMENTS.md#traceability) for primary ownership.
 
 | Phase | Working title | Intended outcome |
 | --- | --- | --- |
@@ -148,8 +148,8 @@ Repeatable testing after changes is a primary development requirement, not an op
 | --- | --- | --- |
 | Deliver the full specified version 0.1 | The creator explicitly selected the complete game; early movement/network scenes are foundations. | — Pending implementation |
 | Use Godot and C# | The chosen project and requested inheritance of C# rules establish the technical direction. | — Pending toolchain validation |
-| Preserve Phases 1–5 in the requested order | Rules, a visible foundation, LAN, assets, then comprehensive CI/testing precede the main gameplay build. | — Pending roadmap mapping |
-| Use five further phases, for ten total | The accepted direction separates survivors/combat, camp, campaign, persistence/experience, and release proof. | — Pending detailed roadmap approval |
+| Preserve Phases 1–5 in the requested order | Rules, a visible foundation, LAN, assets, then comprehensive CI/testing precede the main gameplay build. | — Approved and mapped; pending delivery |
+| Use five further phases, for ten total | The accepted direction separates survivors/combat, camp, campaign, persistence/experience, and release proof. | — Detailed roadmap approved; pending delivery |
 | Plan phases as working increments | The creator selected a verifiable result per phase; the GSD mode is `mvp`, without reducing the complete version 0.1 release scope. | — Approved direction; pending delivery |
 | Inherit applicable LangProj rules with documented Godot adaptations | Strong consistency and enforcement must coexist with the engine lifecycle and generated code. | — Pending compatibility proofs |
 | Keep root `AGENTS.md` short and use a documentation index tree | Agents and developers should find focused rules without loading every document. | — Pending Phase 1 |
@@ -180,4 +180,4 @@ This document evolves at phase transitions and milestone boundaries.
 5. Record balance changes and explicitly distinguish confirmed scope changes from tuning.
 
 ---
-*Last updated: 2026-11-13 after creator approval of the complete requirements and working-increment direction*
+*Last updated: 2026-11-13 after final roadmap approval and completed project initialization*
