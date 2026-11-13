@@ -4,10 +4,12 @@ using Godot;
 
 namespace KingdomZombies.Proofs;
 
+/// <summary>Provides the minimal actual-engine construction, ready and teardown bootstrap evidence.</summary>
 public partial class Phase1 : Node
 {
     private readonly string _nonce;
 
+    /// <summary>Requires the invocation nonce and emits construction evidence for this engine instance.</summary>
     public Phase1()
     {
         _nonce = System.Environment.GetEnvironmentVariable(variable: "PHASE1_NONCE")
@@ -15,6 +17,7 @@ public partial class Phase1 : Node
         WriteEvidence(assertion: "construction");
     }
 
+    /// <summary>Emits ready and observed engine/runtime identities, then requests a clean tree shutdown.</summary>
     public override void _Ready()
     {
         WriteEvidence(assertion: "ready");
@@ -30,6 +33,7 @@ public partial class Phase1 : Node
         GetTree().Quit();
     }
 
+    /// <summary>Emits teardown evidence carrying the same invocation nonce as construction and ready.</summary>
     public override void _ExitTree()
     {
         WriteEvidence(assertion: "exit");

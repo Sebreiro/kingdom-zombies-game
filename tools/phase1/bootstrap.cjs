@@ -315,17 +315,28 @@ async function infrastructureControls(manifest) {
   fs.writeFileSync(path.join(runDirectory, 'infrastructure-controls.json'), JSON.stringify({ nonce, controls }, null, 2));
 }
 
+function validateEnginePackages(manifest, locked) {
+  const expected = [
+    ...manifest.godotPackages.filter(item => item.id !== 'Godot.NET.Sdk'),
+    { id: 'Meziantou.Analyzer', version: '3.0.312' },
+    { id: 'Roslynator.Analyzers', version: '5.0.1' },
+    { id: 'Microsoft.CodeAnalysis.BannedApiAnalyzers', version: '5.6.0' },
+  ];
+  if (!locked || Object.keys(locked).length !== expected.length || expected.some(item => locked[item.id]?.resolved !== item.version)) fail('RESTORE_FAILED', 'Unexpected package closure');
+}
+
 async function engineProbe(manifest, engine) {
   const identity = await tools(manifest, engine);
   await infrastructureControls(manifest);
   const config = path.join(runDirectory, 'NuGet.config');
-  // The archive supplies the complete four-package closure for this initial scene.
-  fs.writeFileSync(config, `<configuration><packageSources><clear/><add key="verified-godot" value="${path.join(home, 'feed')}"/></packageSources></configuration>`);
+  // Godot payloads come from the verified archive; shared analyzers use the mapped official feed.
+  fs.copyFileSync(path.join(root, 'NuGet.config'), config);
+  // The copied configuration is run-local, so preserve the repository-relative feed identity explicitly.
+  fs.writeFileSync(config, fs.readFileSync(config, 'utf8').replace('value=".phase1/feed"', `value="${path.join(home, 'feed')}"`));
   const args = ['src/godot-game/KingdomZombies.csproj', '--configfile', config, '--disable-parallel', '-p:NuGetAudit=false'];
   await command('restore', 'dotnet', ['restore', ...args], { diagnostic: 'RESTORE_FAILED' });
   const locked = readJson(path.join(home, 'cache/game.packages.lock.json')).dependencies[manifest.framework];
-  const expectedPackages = manifest.godotPackages.filter(item => item.id !== 'Godot.NET.Sdk');
-  if (!locked || Object.keys(locked).length !== expectedPackages.length || expectedPackages.some(item => locked[item.id]?.resolved !== item.version)) fail('RESTORE_FAILED', 'Unexpected package closure');
+  validateEnginePackages(manifest, locked);
   await command('restore-locked', 'dotnet', ['restore', ...args, '--locked-mode'], { diagnostic: 'RESTORE_FAILED' });
   await command('build', 'dotnet', ['build', 'src/godot-game/KingdomZombies.csproj', '--no-restore', '--configuration', 'Debug', '-p:NuGetAudit=false'], { diagnostic: 'COMPILER_FAILED' });
   const output = await command('engine', engine, ['--headless', '--path', project, '--rendering-method', 'gl_compatibility', '--scene', 'res://proofs/Phase1.tscn'], { diagnostic: 'ENGINE_FAILED' });
@@ -361,7 +372,7 @@ async function main() {
   console.log(JSON.stringify({ nonce, probe: args[1], status: 'pass', evidenceKind: 'raw-compatibility-only', logs: path.relative(root, runDirectory) }));
 }
 
-module.exports = { parseJson, validateManifest, declarations, observedIdentity };
+module.exports = { parseJson, validateManifest, declarations, observedIdentity, validateEnginePackages };
 if (require.main === module) main().catch(error => {
   const result = { nonce, status: 'fail', diagnostic: error.diagnostic ?? 'BOOTSTRAP_FAILED', message: error.message, logs: path.relative(root, runDirectory) };
   if (fs.existsSync(runDirectory)) fs.writeFileSync(path.join(runDirectory, 'failure.json'), JSON.stringify(result, null, 2));

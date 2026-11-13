@@ -1,12 +1,18 @@
+using System;
+using System.IO;
+using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Text.Json;
 
 namespace KingdomZombies.Phase1.Tests;
 
+/// <summary>Writes per-case evidence carrying the current invocation identities and runs bounded Node controls.</summary>
 public static class ProofProtocol
 {
+    /// <summary>Gets the explicit proof checkout root, falling back to the current working directory.</summary>
     public static string Root => Environment.GetEnvironmentVariable("PHASE1_ROOT") ?? Directory.GetCurrentDirectory();
 
+    /// <summary>Writes the case log and nonce-bound proof result when a result directory is configured.</summary>
     public static void Record(string id, string diagnostic = "ASSERTION_PASSED", string location = "C# assertion")
     {
         var directory = Environment.GetEnvironmentVariable("PHASE1_RESULT_DIRECTORY");
@@ -26,6 +32,7 @@ public static class ProofProtocol
         File.WriteAllText(Path.Combine(directory, id + ".proof.json"), JsonSerializer.Serialize(result));
     }
 
+    /// <summary>Runs a Node script with captured output and a five-second deadline, killing its process tree on timeout.</summary>
     public static (int Exit, string Output) Node(string script, string? workingDirectory = null)
     {
         var start = new ProcessStartInfo(Environment.GetEnvironmentVariable("PHASE1_NODE") ?? "node")

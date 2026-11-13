@@ -1711,7 +1711,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Inventory_CompleteBaseline_HasEveryExactDisposition",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.InventoryCompleteBaselineHasEveryExactDisposition",
       "expectedDiagnostic": "INVENTORY_EXACT"
     },
     {
@@ -2081,7 +2081,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_ConflictingDuplicate_CannotMaskOriginal",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaConflictingDuplicateCannotMaskOriginal",
       "expectedDiagnostic": "R-01: RULE_ID: DUPLICATE_OR_EMPTY"
     },
     {
@@ -2099,7 +2099,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_EmptyRequiredFields_AlwaysFail",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaEmptyRequiredFieldsAlwaysFail",
       "expectedDiagnostic": "REQUIRED_FIELDS_REJECTED"
     },
     {
@@ -2117,7 +2117,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_ExactEncoding_NeverNormalizesIdentity",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaExactEncodingNeverNormalizesIdentity",
       "expectedDiagnostic": "IDENTITY_EXACT"
     },
     {
@@ -2135,7 +2135,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_Permutations_PreserveVerdictAndExactCoverage",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaPermutationsPreserveVerdictAndExactCoverage",
       "expectedDiagnostic": "PERMUTATION_EQUAL"
     },
     {
@@ -4046,7 +4046,7 @@
       ],
       "implementation": "csharp",
       "polarity": "register-resolution",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Resolution_R43_IsExplicit",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ResolutionR43IsExplicit",
       "expectedDiagnostic": "INAPPLICABLE_ACCOUNTED"
     },
     {
@@ -4507,7 +4507,7 @@
       ],
       "implementation": "csharp",
       "polarity": "register-resolution",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Resolution_R57_IsExplicit",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ResolutionR57IsExplicit",
       "expectedDiagnostic": "INAPPLICABLE_ACCOUNTED"
     },
     {
@@ -5138,7 +5138,7 @@
       ],
       "implementation": "csharp",
       "polarity": "register-resolution",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Resolution_R76_IsExplicit",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ResolutionR76IsExplicit",
       "expectedDiagnostic": "INAPPLICABLE_ACCOUNTED"
     },
     {
@@ -5225,7 +5225,7 @@
       ],
       "implementation": "csharp",
       "polarity": "register-resolution",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Resolution_R79_IsExplicit",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ResolutionR79IsExplicit",
       "expectedDiagnostic": "INAPPLICABLE_ACCOUNTED"
     },
     {
@@ -5244,7 +5244,7 @@
       ],
       "implementation": "csharp",
       "polarity": "register-resolution",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Resolution_R80_IsExplicit",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ResolutionR80IsExplicit",
       "expectedDiagnostic": "INAPPLICABLE_ACCOUNTED"
     },
     {
@@ -5399,7 +5399,7 @@
       ],
       "implementation": "csharp",
       "polarity": "register-resolution",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Resolution_R85_IsExplicit",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ResolutionR85IsExplicit",
       "expectedDiagnostic": "INAPPLICABLE_ACCOUNTED"
     },
     {
@@ -5859,7 +5859,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Capture_MissingHeadingRelation_IsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.CaptureMissingHeadingRelationIsRejected",
       "expectedDiagnostic": "CAPTURE_EXACT"
     },
     {
@@ -5877,7 +5877,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Capture_MissingHeading_IsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.CaptureMissingHeadingIsRejected",
       "expectedDiagnostic": "CAPTURE: HEADING_INVENTORY"
     },
     {
@@ -5895,7 +5895,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Capture_MissingMatrixRow_IsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.CaptureMissingMatrixRowIsRejected",
       "expectedDiagnostic": "R-01: SOURCE_ROW"
     },
     {
@@ -5913,7 +5913,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Capture_MissingSourceExemption_IsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.CaptureMissingSourceExemptionIsRejected",
       "expectedDiagnostic": "REGISTER: DONOR_EXEMPTION_INVENTORY"
     },
     {
@@ -5931,7 +5931,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Capture_DuplicateId_IsRejectedBeforeSetConversion",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.CaptureDuplicateIdIsRejectedBeforeSetConversion",
       "expectedDiagnostic": "R-01: RULE_ID: DUPLICATE_OR_EMPTY"
     },
     {
@@ -5949,7 +5949,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Capture_R37_ConnectsBothHeadingsAndPlannedBoundaryProofs",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.CaptureR37ConnectsBothHeadingsAndPlannedBoundaryProofs",
       "expectedDiagnostic": "R37_TRACE_EXACT"
     },
     {
@@ -5967,7 +5967,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_MissingMechanism_IsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaMissingMechanismIsRejected",
       "expectedDiagnostic": "R-01: MECHANISM_REQUIRED"
     },
     {
@@ -5985,7 +5985,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_CaseChangedReference_IsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaCaseChangedReferenceIsRejected",
       "expectedDiagnostic": "R-37: MECHANISM_REFERENCE"
     },
     {
@@ -6003,7 +6003,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_UnicodeReference_IsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaUnicodeReferenceIsRejected",
       "expectedDiagnostic": "R-37: MECHANISM_REFERENCE"
     },
     {
@@ -6021,7 +6021,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_ProofForDifferentRule_IsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaProofForDifferentRuleIsRejected",
       "expectedDiagnostic": "R-01: PROOF_REVERSE_ID"
     },
     {
@@ -6039,7 +6039,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_SeverityWeakening_IsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaSeverityWeakeningIsRejected",
       "expectedDiagnostic": "R-37: SEVERITY_WEAKENED"
     },
     {
@@ -6057,7 +6057,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_DiagnosticSubstitution_IsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaDiagnosticSubstitutionIsRejected",
       "expectedDiagnostic": "R-37: DIAGNOSTIC_IDENTITY"
     },
     {
@@ -6075,7 +6075,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_WrongDocumentationAnchor_IsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaWrongDocumentationAnchorIsRejected",
       "expectedDiagnostic": "R-01: DOCUMENTATION_REFERENCE"
     },
     {
@@ -6093,7 +6093,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_NumericLimitDrift_IsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaNumericLimitDriftIsRejected",
       "expectedDiagnostic": "R-37: NUMERIC_LIMIT"
     },
     {
@@ -6111,7 +6111,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_AutomatedHumanJudgment_IsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaAutomatedHumanJudgmentIsRejected",
       "expectedDiagnostic": "R-24: HUMAN_REVIEW_PENDING"
     },
     {
@@ -6129,7 +6129,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_DuplicateExemption_IsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaDuplicateExemptionIsRejected",
       "expectedDiagnostic": "KZ-EX-LOCK-01: LOCAL_EXEMPTION_ID: DUPLICATE_OR_EMPTY"
     },
     {
@@ -6147,7 +6147,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_OverlappingExemptions_AreRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaOverlappingExemptionsAreRejected",
       "expectedDiagnostic": "KZ-EX-LOCK-02: EXEMPTION_OVERLAP"
     },
     {
@@ -6165,7 +6165,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_BroadenedExemptionScope_IsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaBroadenedExemptionScopeIsRejected",
       "expectedDiagnostic": "KZ-EX-LOCK-01: EXEMPTION_SCOPE"
     },
     {
@@ -6183,7 +6183,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_FutureMappings_CannotCountAsCompletedEvidence",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaFutureMappingsCannotCountAsCompletedEvidence",
       "expectedDiagnostic": "IMPLEMENTATION_PENDING"
     },
     {
@@ -6252,7 +6252,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_WrongMechanismSymbol_IsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaWrongMechanismSymbolIsRejected",
       "expectedDiagnostic": "R-37: MECHANISM_REFERENCE"
     },
     {
@@ -6270,7 +6270,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_AlteredCapturedMechanism_IsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaAlteredCapturedMechanismIsRejected",
       "expectedDiagnostic": "R-37: SOURCE_FIELD: mechanism"
     },
     {
@@ -6288,7 +6288,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_WrongProofPath_IsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaWrongProofPathIsRejected",
       "expectedDiagnostic": "R-37: PROOF_PATH"
     },
     {
@@ -6306,7 +6306,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_NumericCountingChange_IsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaNumericCountingChangeIsRejected",
       "expectedDiagnostic": "R-10: NUMERIC_SEMANTICS"
     },
     {
@@ -6324,7 +6324,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_ReusedBoundaryEvidence_IsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaReusedBoundaryEvidenceIsRejected",
       "expectedDiagnostic": "rules.body.59: BOUNDARY_PROOF: DUPLICATE_OR_EMPTY"
     },
     {
@@ -6342,7 +6342,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_AbsentRelationField_IsActionable",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaAbsentRelationFieldIsActionable",
       "expectedDiagnostic": "R-01: HEADING_RELATION"
     }
   ],
