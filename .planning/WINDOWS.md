@@ -2,9 +2,9 @@
 schema_version: 1
 open_count: 3
 waived_count: 0
-fixed_count: 6
-total_count: 9
-last_updated: 2026-11-13T18:47:31.762Z
+fixed_count: 11
+total_count: 14
+last_updated: 2026-11-13T19:23:02.760Z
 ---
 
 # Broken Windows Ledger
@@ -22,8 +22,13 @@ last_updated: 2026-11-13T18:47:31.762Z
 | 5 | 01 | deviation | tests/phase1/RegisterValidator.cs |  | Strict configuration exposed existing proof-source prerequisites; added explicit imports, ordinal identity/culture handling, bounded named-capture regexes, smaller helpers and useful XML contracts; renamed methods/selectors without changing case IDs. | fixed |  | 2026-11-13T18:20:41.987Z | 2026-11-13T18:21:54.163Z |
 | 6 | 01 | deviation | tools/code-rules/packages.lock.json |  | Committed canonical generated dependency locks required by shared analyzer restore ahead of plan 01-18 final lock verification, as explicitly authorized. | fixed |  | 2026-11-13T18:20:42.350Z | 2026-11-13T18:21:54.509Z |
 | 7 | 01 | deviation | tools/phase1/bootstrap.cjs |  | Updated the exact engine package closure and mapped feed copy for three new pinned global analyzers; missing, unexpected and wrong-version closures remain rejected. | fixed |  | 2026-11-13T18:20:42.720Z | 2026-11-13T18:21:54.853Z |
-| 8 | 01 | stub | tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj |  | Intentional empty custom analyzer assembly establishes tooling-only build wiring; rule source families belong to plans 01-05 through 01-07 and are not credited as enforcement. | open |  | 2026-11-13T18:20:43.090Z |  |
+| 8 | 01 | stub | tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj |  | Four real custom analyzers are implemented and proven in 01-05; eight remaining source families belong to 01-06 and 01-07 and are not credited as enforcement. | open |  | 2026-11-13T18:20:43.090Z |  |
 | 9 | 01 | unmet-truth | tools/phase1/required-cases.json |  | Five pins runner-edge identities declared to 01-02 remain pending; 01-14 must bind distinct actual cases before full phase acceptance. | open |  | 2026-11-13T18:47:31.762Z |  |
+| 10 | 01 | deviation | tools/phase1/required-cases.json |  | Plan 01-05 authored family selectors are absent from the independent inventory; exact required rule IDs and distinct captured edge IDs supply the proof selections. | fixed |  | 2026-11-13T19:21:03.747Z | 2026-11-13T19:21:22.539Z |
+| 11 | 01 | deviation | tools/code-rules/NamedArgumentAnalyzer.cs |  | Inherited named-argument analyzer reported compiler-synthesized collection construction arguments; ignore implicit operations while explicit collection arguments remain checked by the real Roslyn regression. | fixed |  | 2026-11-13T19:22:07.026Z | 2026-11-13T19:22:19.339Z |
+| 12 | 01 | deviation | tests/phase1/ConfigurationTests.cs |  | Active inherited analyzers exposed handwritten call/comment and verifier construction prerequisites; sources and throwaway fixture subjects now comply, and the compile-only test owns a minimal explicit entry point. | fixed |  | 2026-11-13T19:22:19.538Z | 2026-11-13T19:23:02.368Z |
+| 13 | 01 | deviation | docs/code/generated-callsite-adaptations.json |  | Observed pinned xUnit/Microsoft Testing Platform and Godot generated members require exact SCR0001 symbol permissions; all ten are registered with source/package origin and adjacent/collision controls, with no blanket generated exemption. | fixed |  | 2026-11-13T19:22:19.745Z | 2026-11-13T19:23:02.564Z |
+| 14 | 01 | deviation | tools/phase1/required-cases.json |  | Independent input identity omitted the previously empty analyzer project; owned analyzer sources are now included and isolated copied-source mutation rejects old evidence with INPUT_MISMATCH while cache output remains excluded. | fixed |  | 2026-11-13T19:22:19.942Z | 2026-11-13T19:23:02.760Z |
 
 ````json
 [
@@ -124,7 +129,7 @@ last_updated: 2026-11-13T18:47:31.762Z
     "phase": "01",
     "file": "tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj",
     "line": null,
-    "description": "Intentional empty custom analyzer assembly establishes tooling-only build wiring; rule source families belong to plans 01-05 through 01-07 and are not credited as enforcement.",
+    "description": "Four real custom analyzers are implemented and proven in 01-05; eight remaining source families belong to 01-06 and 01-07 and are not credited as enforcement.",
     "status": "open",
     "reason": "",
     "recorded_at": "2026-11-13T18:20:43.090Z",
@@ -142,6 +147,71 @@ last_updated: 2026-11-13T18:47:31.762Z
     "reason": "",
     "recorded_at": "2026-11-13T18:47:31.762Z",
     "resolved_at": null,
+    "milestone": "v0.1"
+  },
+  {
+    "id": 10,
+    "kind": "deviation",
+    "phase": "01",
+    "file": "tools/phase1/required-cases.json",
+    "line": null,
+    "description": "Plan 01-05 authored family selectors are absent from the independent inventory; exact required rule IDs and distinct captured edge IDs supply the proof selections.",
+    "status": "fixed",
+    "reason": "",
+    "recorded_at": "2026-11-13T19:21:03.747Z",
+    "resolved_at": "2026-11-13T19:21:22.539Z",
+    "milestone": "v0.1"
+  },
+  {
+    "id": 11,
+    "kind": "deviation",
+    "phase": "01",
+    "file": "tools/code-rules/NamedArgumentAnalyzer.cs",
+    "line": null,
+    "description": "Inherited named-argument analyzer reported compiler-synthesized collection construction arguments; ignore implicit operations while explicit collection arguments remain checked by the real Roslyn regression.",
+    "status": "fixed",
+    "reason": "",
+    "recorded_at": "2026-11-13T19:22:07.026Z",
+    "resolved_at": "2026-11-13T19:22:19.339Z",
+    "milestone": "v0.1"
+  },
+  {
+    "id": 12,
+    "kind": "deviation",
+    "phase": "01",
+    "file": "tests/phase1/ConfigurationTests.cs",
+    "line": null,
+    "description": "Active inherited analyzers exposed handwritten call/comment and verifier construction prerequisites; sources and throwaway fixture subjects now comply, and the compile-only test owns a minimal explicit entry point.",
+    "status": "fixed",
+    "reason": "",
+    "recorded_at": "2026-11-13T19:22:19.538Z",
+    "resolved_at": "2026-11-13T19:23:02.368Z",
+    "milestone": "v0.1"
+  },
+  {
+    "id": 13,
+    "kind": "deviation",
+    "phase": "01",
+    "file": "docs/code/generated-callsite-adaptations.json",
+    "line": null,
+    "description": "Observed pinned xUnit/Microsoft Testing Platform and Godot generated members require exact SCR0001 symbol permissions; all ten are registered with source/package origin and adjacent/collision controls, with no blanket generated exemption.",
+    "status": "fixed",
+    "reason": "",
+    "recorded_at": "2026-11-13T19:22:19.745Z",
+    "resolved_at": "2026-11-13T19:23:02.564Z",
+    "milestone": "v0.1"
+  },
+  {
+    "id": 14,
+    "kind": "deviation",
+    "phase": "01",
+    "file": "tools/phase1/required-cases.json",
+    "line": null,
+    "description": "Independent input identity omitted the previously empty analyzer project; owned analyzer sources are now included and isolated copied-source mutation rejects old evidence with INPUT_MISMATCH while cache output remains excluded.",
+    "status": "fixed",
+    "reason": "",
+    "recorded_at": "2026-11-13T19:22:19.942Z",
+    "resolved_at": "2026-11-13T19:23:02.760Z",
     "milestone": "v0.1"
   }
 ]
