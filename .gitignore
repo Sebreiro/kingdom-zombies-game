@@ -7,3 +7,7 @@
 **/bin/
 **/obj/
 **/.godot/
+
+# Derived GSD state and local workflow probes.
+/.planning/state.json
+/.planning/tmp/
