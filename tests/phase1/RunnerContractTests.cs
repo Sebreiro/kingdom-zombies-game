@@ -5,6 +5,18 @@ namespace KingdomZombies.Phase1.Tests;
 
 public sealed class RunnerContractTests
 {
+    [Fact, Trait("Case", "runner.process.assertion")]
+    public void RealAssertionFailureIsActionable()
+    {
+        using var fixture = RunnerProcessFixture.Create("assertion");
+        var result = fixture.Run();
+        result.Exit.ShouldBe(1);
+        result.Output.ShouldContain("TEST_FAILED");
+        result.Output.ShouldContain("INTENDED_ASSERTION_FAILURE");
+        result.Output.ShouldContain("[log](");
+        ProofProtocol.Record("runner.process.assertion", "TEST_FAILED", "RunnerProcessFixture.Child");
+    }
+
     // Only selected inside isolated negative-control workspaces, never as a passing obligation.
     [Fact, Trait("Case", "fixture.assertion")]
     public void DeliberateAssertionFailure()
