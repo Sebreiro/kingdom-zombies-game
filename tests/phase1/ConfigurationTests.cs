@@ -5,6 +5,9 @@ using System.Linq;
 using System.Text.Json;
 using Shouldly;
 using Xunit;
+using System.Threading.Tasks;
+using Microsoft.CodeAnalysis;
+using KingdomZombies.Phase1.Tests.Verification;
 
 namespace KingdomZombies.Phase1.Tests;
 
@@ -40,5 +43,33 @@ public sealed class ConfigurationTests
         analyzer.GetProperty("OutputItemType").GetString().ShouldBe("Analyzer");
         analyzer.GetProperty("ReferenceOutputAssembly").GetString().ShouldBe("false");
         ProofProtocol.Record("pins.composition", "COMPOSITION_EXACT", Projects[2]);
+    }
+
+    /// <summary>Emits an actual Godot consumer against the built game, Core and service-port assemblies.</summary>
+    [Fact, Trait("Case", "pins.consumer")]
+    public async Task RealGodotConsumerCompiles()
+    {
+        var build = Dotnet("build", Projects[2], "--no-restore", "-p:NuGetAudit=false");
+        build.Exit.ShouldBe(0, build.Output);
+        var paths = new[] { "src/core/bin/Debug/net10.0/KingdomZombies.Core.dll", "src/multiplayer-abstractions/bin/Debug/net10.0/KingdomZombies.Multiplayer.Abstractions.dll", "src/godot-game/.godot/mono/temp/bin/Debug/KingdomZombies.dll", ".phase1/packages/godotsharp/4.7.2/lib/net8.0/GodotSharp.dll" };
+        // Godot's actual package targets net8.0; Roslyn reports the precise framework-unification
+        // warning that SDK builds already handle. Assert it explicitly instead of hiding diagnostics.
+        var frameworkUnification = new AnalyzerVerifier.Expected("CS1701", DiagnosticSeverity.Warning, "", 1, 1, 1, 1);
+        await AnalyzerVerifier.VerifyAsync("public sealed class Consumer { public Godot.Node? Engine { get; init; } }", [frameworkUnification], paths.Select(p => MetadataReference.CreateFromFile(Path.Combine(ProofProtocol.Root, p))));
+        ProofProtocol.Record("pins.consumer", "CONSUMER_EMITTED", "Subject.cs with actual Godot/game/Core/ports references");
+    }
+
+    /// <summary>Accepts the exact compiler diagnostic, then rejects wrong identity, severity, location and additional errors.</summary>
+    [Fact, Trait("Case", "pins.verifier")]
+    public async Task VerifierRequiresExactCompilerDiagnostic()
+    {
+        var exact = new AnalyzerVerifier.Expected("CS0246", DiagnosticSeverity.Error, "Subject.cs", 1, 24, 1, 31);
+        const string source = "public class Subject : Missing { }";
+        await AnalyzerVerifier.VerifyAsync(source, [exact]);
+        foreach (var changed in new[] { exact with { Id = "RS0030" }, exact with { Severity = DiagnosticSeverity.Warning }, exact with { Column = 25 }, exact with { File = "Other.cs" }, exact with { EndColumn = 32 } })
+            (await Should.ThrowAsync<InvalidOperationException>(() => AnalyzerVerifier.VerifyAsync(source, [changed]))).Message.ShouldContain("DIAGNOSTIC_MISMATCH");
+        (await Should.ThrowAsync<InvalidOperationException>(() => AnalyzerVerifier.VerifyAsync(source + " public class Other : Absent { }", [exact]))).Message.ShouldContain("CS0246");
+        await Should.ThrowAsync<InvalidOperationException>(() => AnalyzerVerifier.VerifyAsync("public class Clean { }", [exact]));
+        ProofProtocol.Record("pins.verifier", "DIAGNOSTIC_EXACT", "Subject.cs(1,24)-(1,31): CS0246");
     }
 }

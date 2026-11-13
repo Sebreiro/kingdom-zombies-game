@@ -8,4 +8,8 @@
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <NuGetLockFilePath>$(MSBuildThisFileDirectory)../../.phase1/cache/game.packages.lock.json</NuGetLockFilePath>
   </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../core/KingdomZombies.Core.csproj" />
+    <ProjectReference Include="../multiplayer-abstractions/KingdomZombies.Multiplayer.Abstractions.csproj" />
+  </ItemGroup>
 </Project>

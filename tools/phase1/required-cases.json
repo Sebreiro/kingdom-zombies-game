@@ -10,6 +10,9 @@
     "docs",
     "specs",
     "Agents.md",
+    "Directory.Build.props",
+    "Directory.Build.targets",
+    "Directory.Packages.props",
     "global.json",
     "NuGet.config",
     ".config/dotnet-tools.json",
@@ -6344,6 +6347,60 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaAbsentRelationFieldIsActionable",
       "expectedDiagnostic": "R-01: HEADING_RELATION"
+    },
+    {
+      "id": "pins.composition",
+      "group": "pins",
+      "rule": "RULE-01",
+      "owner": "01-18",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.GameHasPermittedEvaluatedComposition",
+      "expectedDiagnostic": "COMPOSITION_EXACT"
+    },
+    {
+      "id": "pins.consumer",
+      "group": "pins",
+      "rule": "RULE-01",
+      "owner": "01-18",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.RealGodotConsumerCompiles",
+      "expectedDiagnostic": "CONSUMER_EMITTED"
+    },
+    {
+      "id": "pins.verifier",
+      "group": "pins",
+      "rule": "RULE-01",
+      "owner": "01-18",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.VerifierRequiresExactCompilerDiagnostic",
+      "expectedDiagnostic": "DIAGNOSTIC_EXACT"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."
