@@ -1,3 +1,9 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
+
+# Workspace-local pinned tools, verified feeds, CLI state, runs and mutation outputs.
+/.phase1/
+**/bin/
+**/obj/
+**/.godot/
