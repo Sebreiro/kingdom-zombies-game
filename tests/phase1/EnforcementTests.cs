@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
 using Shouldly;
 using Xunit;
 
@@ -472,6 +475,185 @@ public sealed class EnforcementTests
         diagnostics.Count.ShouldBe(expected: 1);
         diagnostics[0].ShouldBe(expected: "R-02 FORMAT_UTF8 Subject.txt(byte 1)");
         ProofProtocol.Record(id: "R-02.negative", diagnostic: "FORMAT_UTF8", location: "Subject.txt(byte 1)");
+    }
+
+    /// <summary>Strict UTF-8 preserves combining, supplementary, Cyrillic and CJK representations.</summary>
+    [Fact, Trait("Case", "R-02.positive")]
+    public void Check_ValidUnicode_AcceptsUtf8()
+    {
+        SourceFileFormat.Check(path: "Subject.txt", content: Encoding.UTF8.GetBytes(s: "é中e\u0301😀Ж\n"))
+                .ShouldBeEmpty();
+        ProofProtocol.Record(id: "R-02.positive", diagnostic: "FORMAT_UTF8_ACCEPTED", location: "Subject.txt");
+    }
+
+    /// <summary>A UTF-8 BOM remains a violation even when all following bytes are valid.</summary>
+    [Fact, Trait("Case", "rules.source-format.bom")]
+    public void Check_Utf8Bom_ReportsExactByte()
+    {
+        RequireFormat(path: "Subject.txt", content: [0xEF, 0xBB, 0xBF, 0x78, 0x0A],
+                expected: "R-02 FORMAT_BOM Subject.txt(byte 1)");
+        ProofProtocol.Record(id: "rules.source-format.bom", diagnostic: "FORMAT_BOM", location: "Subject.txt(byte 1)");
+    }
+
+    /// <summary>LF-only text passes without any final-newline exemption.</summary>
+    [Fact, Trait("Case", "R-03.positive")]
+    public void Check_LfText_AcceptsLineEndings()
+    {
+        SourceFileFormat.Check(path: "Subject.txt", content: [0x78, 0x0A]).ShouldBeEmpty();
+        ProofProtocol.Record(id: "R-03.positive", diagnostic: "FORMAT_LF_ACCEPTED", location: "Subject.txt");
+    }
+
+    /// <summary>The first CR is diagnosed without normalizing the input bytes.</summary>
+    [Fact, Trait("Case", "R-03.negative")]
+    public void Check_CrlfText_RejectsCarriageReturn()
+    {
+        RequireFormat(path: "Subject.txt", content: [0x78, 0x0D, 0x0A], expected: "R-03 FORMAT_LF Subject.txt(byte 2)");
+        ProofProtocol.Record(id: "R-03.negative", diagnostic: "FORMAT_LF", location: "Subject.txt(byte 2)");
+    }
+
+    /// <summary>Only registered observed lock paths may omit their final LF; every other format rule applies.</summary>
+    [Fact, Trait("Case", "R-04.positive")]
+    public void Check_RegisteredLocks_AcceptsOnlyFinalNewlinePermission()
+    {
+        IReadOnlySet<string> paths = SourceFileFormat.ReadFinalNewlineExemptions();
+        paths.Count.ShouldBe(expected: 5);
+        foreach (string path in paths)
+        {
+            SourceFileFormat.Check(path: path, content: [0x7B, 0x7D], finalNewlineExemptions: paths).ShouldBeEmpty();
+            IReadOnlyList<string> crlf = SourceFileFormat.Check(path: path, content: [0x7B, 0x7D, 0x0D, 0x0A],
+                    finalNewlineExemptions: paths);
+            crlf.Count.ShouldBe(expected: 1);
+            crlf[0].ShouldBe(expected: "R-03 FORMAT_LF " + path + "(byte 3)");
+        }
+
+        ProofProtocol.Record(id: "R-04.positive", diagnostic: "FORMAT_LOCK_SCOPE_EXACT", location: "five exact locks");
+    }
+
+    /// <summary>Missing final LF immediately outside every exact lock scope still fails.</summary>
+    [Fact, Trait("Case", "R-04.negative")]
+    public void Check_AdjacentLockPaths_RejectsMissingNewline()
+    {
+        IReadOnlySet<string> paths = SourceFileFormat.ReadFinalNewlineExemptions();
+        foreach (string path in paths)
+        {
+            string adjacent = path + ".adjacent";
+            IReadOnlyList<string> diagnostics = SourceFileFormat.Check(path: adjacent, content: [0x7B, 0x7D],
+                    finalNewlineExemptions: paths);
+            diagnostics.Count.ShouldBe(expected: 1);
+            diagnostics[0].ShouldBe(expected: "R-04 FORMAT_FINAL_NEWLINE " + adjacent + "(byte 3)");
+        }
+
+        RequireFormat(path: "elsewhere/packages.lock.json", content: [0x7B, 0x7D],
+                expected: "R-04 FORMAT_FINAL_NEWLINE elsewhere/packages.lock.json(byte 3)");
+        ProofProtocol.Record(id: "R-04.negative", diagnostic: "FORMAT_FINAL_NEWLINE", location: "adjacent lock paths");
+    }
+
+    /// <summary>Leading spaces are preserved and valid when no line ends with whitespace.</summary>
+    [Fact, Trait("Case", "R-05.positive")]
+    public void Check_LeadingSpaces_AcceptsCleanLineEnds()
+    {
+        SourceFileFormat.Check(path: "Subject.txt", content: Encoding.UTF8.GetBytes(s: "  x\n")).ShouldBeEmpty();
+        ProofProtocol.Record(id: "R-05.positive", diagnostic: "FORMAT_WHITESPACE_ACCEPTED", location: "Subject.txt");
+    }
+
+    /// <summary>Trailing spaces are rejected at the exact raw byte without trimming the source.</summary>
+    [Fact, Trait("Case", "R-05.negative")]
+    public void Check_TrailingSpace_ReportsExactByte()
+    {
+        RequireFormat(path: "Subject.txt", content: Encoding.UTF8.GetBytes(s: "x \n"),
+                expected: "R-05 FORMAT_TRAILING_WHITESPACE Subject.txt(byte 2)");
+        ProofProtocol.Record(id: "R-05.negative", diagnostic: "FORMAT_TRAILING_WHITESPACE",
+                location: "Subject.txt(byte 2)");
+    }
+
+    /// <summary>Four ordinary spaces do not create a tab permission or a format violation.</summary>
+    [Fact, Trait("Case", "R-06.positive")]
+    public void Check_SpacesOnly_AcceptsText()
+    {
+        SourceFileFormat.Check(path: "Subject.txt", content: Encoding.UTF8.GetBytes(s: "x    y\n")).ShouldBeEmpty();
+        ProofProtocol.Record(id: "R-06.positive", diagnostic: "FORMAT_SPACES_ACCEPTED", location: "Subject.txt");
+    }
+
+    /// <summary>A tab inside a line fails even though it is not trailing whitespace.</summary>
+    [Fact, Trait("Case", "R-06.negative")]
+    public void Check_InteriorTab_ReportsExactByte()
+    {
+        RequireFormat(path: "Subject.txt", content: Encoding.UTF8.GetBytes(s: "x\ty\n"),
+                expected: "R-06 FORMAT_TAB Subject.txt(byte 2)");
+        ProofProtocol.Record(id: "R-06.negative", diagnostic: "FORMAT_TAB", location: "Subject.txt(byte 2)");
+    }
+
+    /// <summary>Git's NUL probe uses raw bytes and an exclusive 8000-byte boundary.</summary>
+    [Fact, Trait("Case", "rules.source-format.binary-boundary")]
+    public void Classify_NulProbeBoundary_PreservesExactScope()
+    {
+        int length = SourceFileFormat.TextProbeLength + 1;
+        byte[] bytes = [.. Enumerable.Repeat(element: (byte)'x', count: length)];
+        bytes[SourceFileFormat.TextProbeLength - 1] = 0;
+        SourceFileFormat.IsText(content: bytes).ShouldBeFalse();
+        bytes[SourceFileFormat.TextProbeLength - 1] = (byte)'x';
+        bytes[SourceFileFormat.TextProbeLength] = 0;
+        SourceFileFormat.IsText(content: bytes).ShouldBeTrue();
+        SourceFileFormat.IsText(content: []).ShouldBeTrue();
+        SourceFileFormat.IsChecked(path: "assets/new.unknown").ShouldBeTrue();
+        SourceFileFormat.IsChecked(path: "assets/font.woff2").ShouldBeFalse();
+        SourceFileFormat.IsChecked(path: ".codex/vendor/bad.cs").ShouldBeFalse();
+        SourceFileFormat.IsChecked(path: "src/.codex/Subject.cs").ShouldBeTrue();
+        ProofProtocol.Record(id: "rules.source-format.binary-boundary", diagnostic: "FORMAT_BINARY_SCOPE_EXACT",
+                location: "NUL indices 7999/8000; empty input; exact installed-root and binary-extension scopes");
+    }
+
+    /// <summary>Missing tracked files and invalid text in unfamiliar extensions remain visible failures.</summary>
+    [Fact, Trait("Case", "rules.source-format.tracked-missing")]
+    public void Check_MissingOrUnknownTrackedText_ReportsFailure()
+    {
+        IReadOnlyList<string> missing = SourceFileFormat.CheckTracked(path: "Subject.unknown", content: null);
+        missing.Count.ShouldBe(expected: 1);
+        missing[0].ShouldBe(expected: "R-02 FORMAT_TRACKED_FILE Subject.unknown");
+        IReadOnlyList<string> invalid = SourceFileFormat.CheckTracked(path: "Subject.unknown", content: [0xFF, 0x0A]);
+        invalid.Count.ShouldBe(expected: 1);
+        invalid[0].ShouldBe(expected: "R-02 FORMAT_UTF8 Subject.unknown(byte 1)");
+        ProofProtocol.Record(id: "rules.source-format.tracked-missing", diagnostic: "FORMAT_TRACKED_FILE_REJECTED",
+                location: "Subject.unknown");
+    }
+
+    /// <summary>All tracked project text is checked without modifying any approved input.</summary>
+    [Fact, Trait("Case", "rules.source-format")]
+    public void Check_TrackedProjectText_AcceptsCurrentCheckout()
+    {
+        IReadOnlyList<string> errors = SourceFileFormat.CheckRepository();
+        errors.ShouldBeEmpty(customMessage: string.Join(separator: "\n", values: errors));
+        ProofProtocol.Record(id: "rules.source-format", diagnostic: "FORMAT_TRACKED_TEXT_EXACT",
+                location: "actual Git tracked project text outside installed tooling");
+    }
+
+    /// <summary>Actual locked restores preserve the canonical LF bytes and exact final-newline scopes.</summary>
+    [Fact, Trait("Case", "rules.source-format.lock-restore")]
+    public void Restore_CanonicalLfLocks_PreservesExactBytes()
+    {
+        IReadOnlySet<string> exemptions = SourceFileFormat.ReadFinalNewlineExemptions();
+        foreach (string project in ConfigurationTests.Projects)
+        {
+            string relative = Path.GetDirectoryName(path: project)?.Replace(oldChar: '\\', newChar: '/')
+                    + "/packages.lock.json";
+            string file = Path.Combine(path1: ProofProtocol.Root, path2: relative);
+            byte[] before = File.ReadAllBytes(path: file);
+            SourceFileFormat.Check(path: relative, content: before, finalNewlineExemptions: exemptions).ShouldBeEmpty();
+            (int Exit, string Output) restore = ConfigurationTests.Dotnet("restore", project, "--locked-mode",
+                    "--disable-parallel", "-p:NuGetAudit=false");
+            restore.Exit.ShouldBe(expected: 0, customMessage: restore.Output);
+            File.ReadAllBytes(path: file).ShouldBe(expected: before);
+        }
+
+        ProofProtocol.Record(id: "rules.source-format.lock-restore", diagnostic: "FORMAT_LOCKED_RESTORE_UNCHANGED",
+                location: "all five actual canonical projects/locks");
+    }
+
+    private static void RequireFormat(string path, byte[] content, string expected)
+    {
+        IReadOnlyList<string> diagnostics = SourceFileFormat.Check(path: path, content: content);
+        diagnostics.Count.ShouldBe(expected: 1);
+        diagnostics[0].ShouldBe(expected: expected);
     }
 
     private static void VerifyConsumer(string id, string diagnostic, int line, int column, string source)

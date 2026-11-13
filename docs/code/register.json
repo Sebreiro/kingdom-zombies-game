@@ -141,7 +141,11 @@
       },
       "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
       "exemptions": [
-        "KZ-EX-LOCK-01"
+        "KZ-EX-LOCK-01",
+        "KZ-EX-LOCK-CORE-01",
+        "KZ-EX-LOCK-GODOT-01",
+        "KZ-EX-LOCK-SERVICES-01",
+        "KZ-EX-LOCK-ANALYZERS-01"
       ],
       "positiveProof": {
         "id": "R-04.positive",

@@ -2654,7 +2654,7 @@
       "id": "R-02.positive",
       "group": "rules",
       "rule": "R-02",
-      "owner": "01-05..01-09",
+      "owner": "01-08",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -2664,14 +2664,16 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Check_ValidUnicode_AcceptsUtf8",
+      "expectedDiagnostic": "FORMAT_UTF8_ACCEPTED"
     },
     {
       "id": "R-02.negative",
       "group": "rules",
       "rule": "R-02",
-      "owner": "01-05..01-09",
+      "owner": "01-08",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -2681,14 +2683,16 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Check_InvalidUtf8_ReportsRuleAndLocation",
+      "expectedDiagnostic": "FORMAT_UTF8"
     },
     {
       "id": "R-03.positive",
       "group": "rules",
       "rule": "R-03",
-      "owner": "01-05..01-09",
+      "owner": "01-08",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -2698,14 +2702,16 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Check_LfText_AcceptsLineEndings",
+      "expectedDiagnostic": "FORMAT_LF_ACCEPTED"
     },
     {
       "id": "R-03.negative",
       "group": "rules",
       "rule": "R-03",
-      "owner": "01-05..01-09",
+      "owner": "01-08",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -2715,14 +2721,16 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Check_CrlfText_RejectsCarriageReturn",
+      "expectedDiagnostic": "FORMAT_LF"
     },
     {
       "id": "R-04.positive",
       "group": "rules",
       "rule": "R-04",
-      "owner": "01-05..01-09",
+      "owner": "01-08",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -2732,14 +2740,16 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Check_RegisteredLocks_AcceptsOnlyFinalNewlinePermission",
+      "expectedDiagnostic": "FORMAT_LOCK_SCOPE_EXACT"
     },
     {
       "id": "R-04.negative",
       "group": "rules",
       "rule": "R-04",
-      "owner": "01-05..01-09",
+      "owner": "01-08",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -2749,14 +2759,16 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Check_AdjacentLockPaths_RejectsMissingNewline",
+      "expectedDiagnostic": "FORMAT_FINAL_NEWLINE"
     },
     {
       "id": "R-05.positive",
       "group": "rules",
       "rule": "R-05",
-      "owner": "01-05..01-09",
+      "owner": "01-08",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -2766,14 +2778,16 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Check_LeadingSpaces_AcceptsCleanLineEnds",
+      "expectedDiagnostic": "FORMAT_WHITESPACE_ACCEPTED"
     },
     {
       "id": "R-05.negative",
       "group": "rules",
       "rule": "R-05",
-      "owner": "01-05..01-09",
+      "owner": "01-08",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -2783,14 +2797,16 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Check_TrailingSpace_ReportsExactByte",
+      "expectedDiagnostic": "FORMAT_TRAILING_WHITESPACE"
     },
     {
       "id": "R-06.positive",
       "group": "rules",
       "rule": "R-06",
-      "owner": "01-05..01-09",
+      "owner": "01-08",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -2800,14 +2816,16 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Check_SpacesOnly_AcceptsText",
+      "expectedDiagnostic": "FORMAT_SPACES_ACCEPTED"
     },
     {
       "id": "R-06.negative",
       "group": "rules",
       "rule": "R-06",
-      "owner": "01-05..01-09",
+      "owner": "01-08",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -2817,8 +2835,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Check_InteriorTab_ReportsExactByte",
+      "expectedDiagnostic": "FORMAT_TAB"
     },
     {
       "id": "R-07.positive",
@@ -11320,6 +11340,96 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.EnforcementTests.RealConsumerRejectsSixtyFirstBodyLine",
       "expectedDiagnostic": "REAL_BUILD_SCR0006"
+    },
+    {
+      "id": "rules.source-format.bom",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-08",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Check_Utf8Bom_ReportsExactByte",
+      "expectedDiagnostic": "FORMAT_BOM"
+    },
+    {
+      "id": "rules.source-format.binary-boundary",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-08",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Classify_NulProbeBoundary_PreservesExactScope",
+      "expectedDiagnostic": "FORMAT_BINARY_SCOPE_EXACT"
+    },
+    {
+      "id": "rules.source-format.tracked-missing",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-08",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Check_MissingOrUnknownTrackedText_ReportsFailure",
+      "expectedDiagnostic": "FORMAT_TRACKED_FILE_REJECTED"
+    },
+    {
+      "id": "rules.source-format",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-08",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Check_TrackedProjectText_AcceptsCurrentCheckout",
+      "expectedDiagnostic": "FORMAT_TRACKED_TEXT_EXACT"
+    },
+    {
+      "id": "rules.source-format.lock-restore",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-08",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Restore_CanonicalLfLocks_PreservesExactBytes",
+      "expectedDiagnostic": "FORMAT_LOCKED_RESTORE_UNCHANGED"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."

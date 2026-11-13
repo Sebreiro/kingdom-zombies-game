@@ -77,7 +77,11 @@
       "disposition": "adapted",
       "reason": "Observed local NuGet-generated lock file; exact file only.",
       "localIds": [
-        "KZ-EX-LOCK-01"
+        "KZ-EX-LOCK-01",
+        "KZ-EX-LOCK-CORE-01",
+        "KZ-EX-LOCK-GODOT-01",
+        "KZ-EX-LOCK-SERVICES-01",
+        "KZ-EX-LOCK-ANALYZERS-01"
       ]
     },
     {
@@ -182,6 +186,58 @@
       "surface": "NuGet-generated lock file",
       "subject": "no final newline",
       "reason": "Observed existing NuGet lock output has no final newline; only this exact lock path is exempt.",
+      "positiveProof": "R-04.positive",
+      "negativeProof": "R-04.negative",
+      "status": "pending"
+    },
+    {
+      "id": "KZ-EX-LOCK-CORE-01",
+      "sourceId": "EX-11",
+      "rule": "R-04",
+      "diagnostic": "FORMAT_FINAL_NEWLINE",
+      "path": "src/core/packages.lock.json",
+      "surface": "NuGet-generated lock file",
+      "subject": "no final newline",
+      "reason": "Observed canonical NuGet lock output omits final LF; only this exact path receives that single permission.",
+      "positiveProof": "R-04.positive",
+      "negativeProof": "R-04.negative",
+      "status": "pending"
+    },
+    {
+      "id": "KZ-EX-LOCK-GODOT-01",
+      "sourceId": "EX-11",
+      "rule": "R-04",
+      "diagnostic": "FORMAT_FINAL_NEWLINE",
+      "path": "src/godot-game/packages.lock.json",
+      "surface": "NuGet-generated lock file",
+      "subject": "no final newline",
+      "reason": "Observed canonical NuGet lock output omits final LF; only this exact path receives that single permission.",
+      "positiveProof": "R-04.positive",
+      "negativeProof": "R-04.negative",
+      "status": "pending"
+    },
+    {
+      "id": "KZ-EX-LOCK-SERVICES-01",
+      "sourceId": "EX-11",
+      "rule": "R-04",
+      "diagnostic": "FORMAT_FINAL_NEWLINE",
+      "path": "src/multiplayer-abstractions/packages.lock.json",
+      "surface": "NuGet-generated lock file",
+      "subject": "no final newline",
+      "reason": "Observed canonical NuGet lock output omits final LF; only this exact path receives that single permission.",
+      "positiveProof": "R-04.positive",
+      "negativeProof": "R-04.negative",
+      "status": "pending"
+    },
+    {
+      "id": "KZ-EX-LOCK-ANALYZERS-01",
+      "sourceId": "EX-11",
+      "rule": "R-04",
+      "diagnostic": "FORMAT_FINAL_NEWLINE",
+      "path": "tools/code-rules/packages.lock.json",
+      "surface": "NuGet-generated lock file",
+      "subject": "no final newline",
+      "reason": "Observed canonical NuGet lock output omits final LF; only this exact path receives that single permission.",
       "positiveProof": "R-04.positive",
       "negativeProof": "R-04.negative",
       "status": "pending"

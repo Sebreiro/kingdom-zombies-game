@@ -929,12 +929,7 @@ public static class RegisterValidator
                 errors.Add(item: id + ": EXEMPTION_SCOPE");
             }
 
-            if (!StringComparer.Ordinal.Equals(x: id, y: "KZ-EX-LOCK-01") || !StringComparer.Ordinal.Equals(
-                    x: Text(node: entry["sourceId"]), y: "EX-11") || !StringComparer.Ordinal.Equals(x: Text(
-                            node: entry["rule"]), y: "R-04") || !StringComparer.Ordinal.Equals(x: Text(
-                                    node: entry["diagnostic"]), y: "FORMAT_FINAL_NEWLINE") || !StringComparer
-                                            .Ordinal.Equals(x: path, y: "tests/phase1/packages.lock.json")
-                    || !StringComparer.Ordinal.Equals(x: Text(node: entry["subject"]), y: "no final newline"))
+            if (!IsObservedLock(entry: entry, id: id, path: path))
             {
                 errors.Add(item: id + ": EXEMPTION_UNOBSERVED");
             }
@@ -951,6 +946,17 @@ public static class RegisterValidator
                 errors.Add(item: id + ": EXEMPTION_BOUNDARY_PENDING");
             }
         }
+    }
+
+    private static bool IsObservedLock(JsonNode entry, string id, string path)
+    {
+        return SourceFileFormat.LockExemptions.TryGetValue(key: id, value: out string? observedPath)
+                && StringComparer.Ordinal.Equals(x: path, y: observedPath)
+                && StringComparer.Ordinal.Equals(x: Text(node: entry["sourceId"]), y: "EX-11")
+                && StringComparer.Ordinal.Equals(x: Text(node: entry["rule"]), y: "R-04")
+                && StringComparer.Ordinal.Equals(x: Text(node: entry["diagnostic"]), y: "FORMAT_FINAL_NEWLINE")
+                && StringComparer.Ordinal.Equals(x: Text(node: entry["surface"]), y: "NuGet-generated lock file")
+                && StringComparer.Ordinal.Equals(x: Text(node: entry["subject"]), y: "no final newline");
     }
 
     private static void ValidateRuleDisposition(JsonNode rule, string id, HashSet<string> inapplicable,
