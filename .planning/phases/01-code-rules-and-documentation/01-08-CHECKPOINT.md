@@ -2,7 +2,36 @@
 
 Status: incomplete; Task 1 tracer proven, Task 1 expansion and Task 2 pending. No SUMMARY.md exists and no plan/requirement progress was advanced.
 
-## Latest continuation: active policy retained, eight diagnostics
+## Latest continuation: strict solution green; three activation regressions
+
+All eight inherited prerequisite diagnostics are corrected. The complete five-project solution now builds with **zero warnings and zero errors** under the fully active inherited policy. Actual command: `dotnet build KingdomZombies.slnx --no-restore -p:NuGetAudit=false -p:UseSharedCompilation=false -nodeReuse:false`; raw output: `.phase1/temp/08-finish-baseline3.log`. Three bounded feedback passes produced eight → three → two → zero errors. No severity, analyzer edge, generated identity or exemption scope was weakened.
+
+The corrections preserve `source:` named-argument spelling and the PascalCase `Source` constant; extract the generator suffix without changing it; split `RunnerProcessFixture` setup into `CopyFixtureInputs` and `WriteFixtureManifest`, leaving constructor-only get-property assignment intact; and construct the register heading/source-ID array with compatible formatting. All 85 IDs, 84 headings and 24 source exemptions remain unchanged.
+
+The complete existing suite **finished**, actual command `node tools/phase1/check.cjs --all`, exit **1**. Final totals: **372 passed, 3 failed, 184 pending, 559 declared**. Canonical report: `.phase1/runs/66b8b9b1-e366-4dd3-a7ad-ebbe96025e23/summary.json`; console output: `.phase1/temp/08-finish-prerequisite-all.log`. Revision `7f58ecb38b106598b567329ca88c5ed89de926fc`; input fingerprint `ce613dda91f95ad5c715793166a98060c9ba867b28077ee5866a533497c940a1`. No source-changed failure occurred; the run is intact. The new real-build tracer adds one declared/implemented case to the historical 558-case baseline: `rules.build-wiring` **passes**, diagnostic `REAL_BUILD_SCR0006`, exact scratch `src/core/Subject.cs(6,25)`. Its successful locked restore and clean build precede the intended rejection.
+
+`pins.async-permission` / `ConfigurationTests.AsyncSuffixPermissionRejectsConfigurationDrift` fails its **clean control** because its expression-bodied `Read()` now triggers `Subject.cs(6,54): error IDE0022`. This is not the intended MA0137 negative and cannot count as a pass. The exact fresh child report/log are under that run's `pins.async-permission/` directory.
+
+The next executor must change this isolated clean fixture to a block-bodied method returning `System.Threading.Tasks.Task.CompletedTask`, preserving the no-Async-suffix behavior, then rerun that exact case. Do not change the rule or globally reformat fixtures. The current executor reached its three-repair limit while fixing the inherited prerequisites and cannot perform a fourth repair in Task 1.
+
+Two further independent failures were collected in the same complete run:
+
+| Case | Actual failure | Bounded continuation work |
+| --- | --- | --- |
+| `rules.analyzer-source-consumer` | `tools/code-rules/GeneratedSyntax.cs(37,5): error SCR0009`: collection bracket indented 4 spaces, expected 12 | Reconcile the `_spans` collection expression layout with the active formatter and custom continuation rule. Preserve every exact suffix, hash, line, column and length value. The ordinary analyzer project excludes its own analyzer edge, so the green whole-solution build does not replace this proof. |
+| `rules.continuationindent.AgreedSamples_FormatterLeavesUnchanged_AndNotReported` | formatter exit 2; scratch `Sample.cs(103,2): error FINALNEWLINE`: insert LF | Preserve the captured `AgreedSamples` constant. Adapt only emission/comparison of a standalone scratch source file to its now-active final-newline contract, then prove formatter leaves that complete file unchanged and the analyzer accepts it. |
+
+These are clean-control prerequisites, not valid intended-negative rule evidence. No further repair was attempted after the three-pass limit.
+
+`git diff --check` passes. No native Godot/lifecycle or Linux acceptance is claimed by this continuation. No package installation, generated permission change or donor-file mutation occurred.
+
+The GeneratedSyntax bracket is ordinary formatter-compatible layout in the current green solution, but its actual self-consumer proves the inherited continuation check rejects that C# collection-expression shape. A general language incompatibility is **not established** by this single failure. Prefer a source structure accepted by both rules. If investigation proves a real formatter/language conflict, any narrow adaptation needs its own corpus and regression proofs; no blanket skip or severity change is authorized.
+
+All source WIP remains uncommitted and preserved. `.phase1/temp/08-finish-preserved.patch` contains the exact current binary diff; do **not** apply it over the already edited checkout. The ignored `.phase1/temp/08-expand.cjs` is an **UNRUN draft** generator for 21 separate positive/negative actual-compiler rule pairs. It writes tracked sources/manifest if run, and is not verified or accepted work. Inspect it before use; some diagnostic/line expectations may need real-build feedback. It does not address all Task 1/Task 2 obligations. Never rerun the older one-shot `Continue08.cs` utility.
+
+The captured donor R-48 also requires `Method_State_Expected` syntax scanning; many existing authored methods currently lack that shape. Its retained disposition must be honored through deliberate source/manifest binding changes and proofs, not weakened. Broader compiler/configuration/exemption/generated-origin/threshold work remains required below. No SUMMARY, task completion, plan advancement or requirement completion is claimed.
+
+## Previous continuation: active policy retained, eight diagnostics
 
 The approved fresh continuation restored `08-policy-activation.patch` exactly once after `git apply --check`. The inherited policy is **currently active in the working tree**. Do not reapply that original patch, restore these sources, or mistake the earlier restored-baseline build for current acceptance.
 
