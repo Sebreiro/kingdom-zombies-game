@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Shouldly;
 using Xunit;
 
@@ -647,6 +648,85 @@ public sealed class EnforcementTests
 
         ProofProtocol.Record(id: "rules.source-format.lock-restore", diagnostic: "FORMAT_LOCKED_RESTORE_UNCHANGED",
                 location: "all five actual canonical projects/locks");
+    }
+
+    /// <summary>The real formatter accepts the four-space handwritten control under actual inherited
+    /// settings.</summary>
+    [Fact, Trait("Case", "R-07.positive")]
+    public void Format_FourSpaceIndent_AcceptsSubject()
+    {
+        var fixture = new BuildFixture();
+        fixture.Restore();
+        (int Exit, string Output) clean = fixture.Build();
+        clean.Exit.ShouldBe(expected: 0, customMessage: clean.Output);
+        (int Exit, string Output) formatted = fixture.Format();
+        formatted.Exit.ShouldBe(expected: 0, customMessage: formatted.Output);
+        Regex.IsMatch(input: formatted.Output, pattern: @"Formatted 0 of [1-9][0-9]* files\.",
+                options: RegexOptions.CultureInvariant | RegexOptions.ExplicitCapture | RegexOptions.NonBacktracking,
+                matchTimeout: TimeSpan.FromSeconds(value: 1)).ShouldBeTrue(customMessage: formatted.Output);
+        ProofProtocol.Record(id: "R-07.positive", diagnostic: "FORMAT_INDENT_FOUR",
+                location: fixture.DirectoryPath + "/src/core/Subject.cs");
+    }
+
+    /// <summary>The real formatter rejects both immediate indentation neighbors at their precise subject
+    /// positions.</summary>
+    [Fact, Trait("Case", "R-07.negative")]
+    public void Format_ThreeAndFiveSpaceIndent_RejectsExactSubject()
+    {
+        var fixture = new BuildFixture();
+        fixture.Restore();
+        (int Exit, string Output) clean = fixture.Build();
+        clean.Exit.ShouldBe(expected: 0, customMessage: clean.Output);
+        foreach (int indent in new[] { 3, 5 })
+        {
+            string prefix = new string(c: ' ', count: indent) + "internal";
+            fixture.Write(source: BuildFixture.CleanSource.Replace(oldValue: "    internal", newValue: prefix,
+                    comparisonType: StringComparison.Ordinal));
+            (int Exit, string Output) changed = fixture.Format();
+            int column = indent == 3 ? 4 : 5;
+            BuildFixture.HasDiagnostic(result: changed, id: "WHITESPACE", line: 6, column: column).ShouldBeTrue(
+                    customMessage: changed.Output);
+        }
+
+        ProofProtocol.Record(id: "R-07.negative", diagnostic: "FORMAT_INDENT_NEIGHBORS",
+                location: fixture.DirectoryPath + "/src/core/Subject.cs(6,4)/(6,5)");
+    }
+
+    /// <summary>Tab rendering retains four columns while tab bytes remain independently prohibited.</summary>
+    [Fact, Trait("Case", "R-08.positive")]
+    public void Configure_FourColumnTabWidth_AcceptsPolicy()
+    {
+        string source = File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: ".editorconfig"));
+        SourceFileFormat.RequireEditorSetting(source: source, name: "tab_width", expected: "4");
+        ProofProtocol.Record(id: "R-08.positive", diagnostic: "FORMAT_TAB_WIDTH_FOUR",
+                location: ".editorconfig tab_width");
+    }
+
+    /// <summary>Permission drift to three/five columns or missing width is rejected as configuration rather
+    /// than invented syntax.</summary>
+    [Fact, Trait("Case", "R-08.negative")]
+    public void Configure_TabWidthDrift_RejectsPolicy()
+    {
+        string source = File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: ".editorconfig"));
+        foreach (string width in new[] { "3", "5" })
+        {
+            string changed = source.Replace(oldValue: "tab_width = 4", newValue: "tab_width = " + width,
+                    comparisonType: StringComparison.Ordinal);
+            RequireTabWidthFailure(source: changed);
+        }
+
+        string missing = source.Replace(oldValue: "tab_width = 4", newValue: "",
+                comparisonType: StringComparison.Ordinal);
+        RequireTabWidthFailure(source: missing);
+        ProofProtocol.Record(id: "R-08.negative", diagnostic: "FORMAT_TAB_WIDTH_DRIFT",
+                location: ".editorconfig tab_width");
+    }
+
+    private static void RequireTabWidthFailure(string source)
+    {
+        InvalidDataException rejected = Should.Throw<InvalidDataException>(actual: () => SourceFileFormat
+                .RequireEditorSetting(source: source, name: "tab_width", expected: "4"));
+        rejected.Message.ShouldContain(expected: "FORMAT_SETTING .editorconfig tab_width");
     }
 
     private static void RequireFormat(string path, byte[] content, string expected)

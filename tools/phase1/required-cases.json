@@ -2844,7 +2844,7 @@
       "id": "R-07.positive",
       "group": "rules",
       "rule": "R-07",
-      "owner": "01-05..01-09",
+      "owner": "01-08",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -2854,14 +2854,16 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Format_FourSpaceIndent_AcceptsSubject",
+      "expectedDiagnostic": "FORMAT_INDENT_FOUR"
     },
     {
       "id": "R-07.negative",
       "group": "rules",
       "rule": "R-07",
-      "owner": "01-05..01-09",
+      "owner": "01-08",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -2871,14 +2873,16 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Format_ThreeAndFiveSpaceIndent_RejectsExactSubject",
+      "expectedDiagnostic": "FORMAT_INDENT_NEIGHBORS"
     },
     {
       "id": "R-08.positive",
       "group": "rules",
       "rule": "R-08",
-      "owner": "01-05..01-09",
+      "owner": "01-08",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -2888,14 +2892,16 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Configure_FourColumnTabWidth_AcceptsPolicy",
+      "expectedDiagnostic": "FORMAT_TAB_WIDTH_FOUR"
     },
     {
       "id": "R-08.negative",
       "group": "rules",
       "rule": "R-08",
-      "owner": "01-05..01-09",
+      "owner": "01-08",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -2905,8 +2911,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Configure_TabWidthDrift_RejectsPolicy",
+      "expectedDiagnostic": "FORMAT_TAB_WIDTH_DRIFT"
     },
     {
       "id": "R-09.positive",

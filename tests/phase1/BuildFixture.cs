@@ -58,6 +58,13 @@ internal sealed class BuildFixture
             "-nodeReuse:false", "-p:UseSharedCompilation=false", "-p:NuGetAudit=false", "-v:minimal", ..overrides]);
     }
 
+    /// <summary>Runs the pinned real formatter against only this exact isolated subject.</summary>
+    internal (int Exit, string Output) Format()
+    {
+        return Run("format", "whitespace", "src/core/KingdomZombies.Core.csproj", "--no-restore",
+                "--verify-no-changes", "--include", "src/core/Subject.cs", "--verbosity", "diagnostic");
+    }
+
     /// <summary>Checks identity, subject, severity and exact start coordinates after infrastructure succeeds.</summary>
     internal static bool HasDiagnostic((int Exit, string Output) result, string id, int line, int column)
     {

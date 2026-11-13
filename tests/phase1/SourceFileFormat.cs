@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Nodes;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace KingdomZombies.Phase1.Tests;
@@ -136,6 +137,21 @@ internal static class SourceFileFormat
         return !_skippedFolders.Any(predicate: folder => path.StartsWith(value: folder,
                 comparisonType: StringComparison.Ordinal)) && !_binaryExtensions.Contains(item: Path.GetExtension(
                         path: path));
+    }
+
+    /// <summary>Requires every declared setting occurrence to retain its exact approved value.</summary>
+    internal static void RequireEditorSetting(string source, string name, string expected)
+    {
+        Match[] declarations = [..Regex.Matches(input: source,
+                pattern: @"^[ \t]*" + Regex.Escape(str: name) + @"[ \t]*=[ \t]*(?<value>[^\r\n]*)$",
+                options: RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.CultureInvariant
+                        | RegexOptions.ExplicitCapture | RegexOptions.NonBacktracking,
+                matchTimeout: TimeSpan.FromSeconds(value: 1)).Cast<Match>()];
+        if (declarations.Length == 0 || declarations.Any(predicate: match => !StringComparer.OrdinalIgnoreCase
+                .Equals(x: match.Groups[groupname: "value"].Value.Trim(), y: expected)))
+        {
+            throw new InvalidDataException(message: "FORMAT_SETTING .editorconfig " + name);
+        }
     }
 
     private static readonly IReadOnlyDictionary<string, string> _lockExemptions = new Dictionary<string, string>(
