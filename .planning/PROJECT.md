@@ -13,6 +13,7 @@ Players can build, equip, and defend a shared survivor camp through a complete s
 - [Version 0.1 game specification](../specs/0.1/initial-spec.md) defines mandatory behavior, exclusions, proposed balance, release gates, and acceptance scenarios A-01 through A-47.
 - [Asset and resource production plan](../specs/0.1/assets-and-resources.md) defines required content, reusable donors, evidence levels, and production checks. It supplements the game specification; it does not override it.
 - The creator confirmed on 2026-11-13 that the project must deliver the full specified version 0.1, use Godot and C#, and follow the first five phases recorded below. The creator then approved the proposed ten-phase direction and creation of this project definition.
+- The creator subsequently approved all 133 version 0.1 requirements and working-increment phase planning: each phase ends with a verifiable result. The detailed roadmap still has its own final review.
 - Confirmed behavior and exclusions are binding. Values and supporting rules labeled proposed in the specifications remain the working baseline to implement and evaluate; approval of this project does not turn untested balance into proven balance.
 - GSD's initial-release requirements will describe version 0.1. A template heading such as `v1 Requirements` must not be interpreted as a separate version 1.0 release or a reduced game scope.
 
@@ -149,6 +150,7 @@ Repeatable testing after changes is a primary development requirement, not an op
 | Use Godot and C# | The chosen project and requested inheritance of C# rules establish the technical direction. | — Pending toolchain validation |
 | Preserve Phases 1–5 in the requested order | Rules, a visible foundation, LAN, assets, then comprehensive CI/testing precede the main gameplay build. | — Pending roadmap mapping |
 | Use five further phases, for ten total | The accepted direction separates survivors/combat, camp, campaign, persistence/experience, and release proof. | — Pending detailed roadmap approval |
+| Plan phases as working increments | The creator selected a verifiable result per phase; the GSD mode is `mvp`, without reducing the complete version 0.1 release scope. | — Approved direction; pending delivery |
 | Inherit applicable LangProj rules with documented Godot adaptations | Strong consistency and enforcement must coexist with the engine lifecycle and generated code. | — Pending compatibility proofs |
 | Keep root `AGENTS.md` short and use a documentation index tree | Agents and developers should find focused rules without loading every document. | — Pending Phase 1 |
 | Reuse recovered assets and suitable logic first | The creator authorizes reuse; the asset plan identifies concrete donors and known gaps. | — Pending export/adaptation verification |
@@ -178,4 +180,4 @@ This document evolves at phase transitions and milestone boundaries.
 5. Record balance changes and explicitly distinguish confirmed scope changes from tuning.
 
 ---
-*Last updated: 2026-11-13 after initialization and creator approval of the project direction*
+*Last updated: 2026-11-13 after creator approval of the complete requirements and working-increment direction*
