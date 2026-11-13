@@ -15,5 +15,5 @@ SCR0007 | Sebreiro.CodeRules | Error | LineLengthAnalyzer
 SCR0008 | Sebreiro.CodeRules | Error | MemberOrderAnalyzer
 SCR0009 | Sebreiro.CodeRules | Error | ContinuationIndentAnalyzer
 SCR0010 | Sebreiro.CodeRules | Error | UsingOrderAnalyzer
-; Pending donor adoption in 01-05 through 01-07: SCR0011 | Sebreiro.CodeRules | Error | ThisQualificationAnalyzer
-; Pending donor adoption in 01-05 through 01-07: SCR0012 | Sebreiro.CodeRules | Error | LocalNewDeclarationAnalyzer
+SCR0011 | Sebreiro.CodeRules | Error | ThisQualificationAnalyzer
+SCR0012 | Sebreiro.CodeRules | Error | LocalNewDeclarationAnalyzer

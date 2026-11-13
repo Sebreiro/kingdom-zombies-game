@@ -1,5 +1,9 @@
 using System;
 using System.IO;
+using System.Linq;
+using System.Reflection;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Diagnostics;
 using Shouldly;
 using Xunit;
 
@@ -14,6 +18,15 @@ public sealed class AnalyzerSourceConsumerTests
     [Fact, Trait("Case", "rules.analyzer-source-consumer")]
     public void AnalyzerSourcesPassTheirOwnRules()
     {
+        var assembly = Assembly.Load(rawAssembly: File.ReadAllBytes(path: Path.Combine(path1: ProofProtocol.Root,
+                path2: "tools/code-rules/bin/Debug/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll")));
+        var types = assembly.GetTypes().Where(predicate: type =>
+                type.GetCustomAttribute<DiagnosticAnalyzerAttribute>() is not null);
+        var descriptors = types.SelectMany(selector: type => LoadAnalyzer(type: type).SupportedDiagnostics)
+                .OrderBy(keySelector: rule => rule.Id, comparer: StringComparer.Ordinal).ToArray();
+        descriptors.Select(selector: rule => rule.Id).ShouldBe(expected: DiagnosticIds);
+        descriptors.All(predicate: rule => rule.DefaultSeverity == DiagnosticSeverity.Error
+                && rule.IsEnabledByDefault).ShouldBeTrue();
         string directory = Path.Combine(path1: ProofProtocol.Root,
                 path2: ".phase1/temp/analyzer-source-" + Guid.NewGuid().ToString(format: "N"));
         Directory.CreateDirectory(path: directory);
@@ -38,5 +51,17 @@ public sealed class AnalyzerSourceConsumerTests
         ProofProtocol.Record(id: "rules.analyzer-source-consumer", diagnostic: "ANALYZER_SOURCE_CONSUMER_BUILT",
                 location: ("actual throwaway consumer includes every tools/code-rul" +
                         "es source and built custom analyzer"));
+    }
+
+    private static readonly string[] DiagnosticIds =
+    [
+        "SCR0001", "SCR0002", "SCR0003", "SCR0004", "SCR0005", "SCR0006",
+        "SCR0007", "SCR0008", "SCR0009", "SCR0010", "SCR0011", "SCR0012"
+    ];
+
+    private static DiagnosticAnalyzer LoadAnalyzer(Type type)
+    {
+        return Activator.CreateInstance(type: type) as DiagnosticAnalyzer
+                ?? throw new InvalidOperationException(message: "Registered analyzer cannot be loaded");
     }
 }

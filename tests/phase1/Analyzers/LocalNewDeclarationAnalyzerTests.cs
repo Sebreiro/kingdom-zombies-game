@@ -75,7 +75,7 @@ public sealed class LocalNewDeclarationAnalyzerTests
     [Fact, Trait("Case", "rules.localnewdeclaration.Analyze_TypedLocalWithExplicitNew_IsNotReported")]
     public Task AnalyzeTypedLocalWithExplicitNewIsNotReported()
     {
-        return VerifyAsync(caseId: "rules.localnewdeclaration.Analyze_TypedLocalWithExplicitNew_IsNotReported", 
+        return VerifyAsync(caseId: "rules.localnewdeclaration.Analyze_TypedLocalWithExplicitNew_IsNotReported",
                 diagnostic: "ANALYZER_ACCEPTED", source: """
                 class Foo
                 {
@@ -92,7 +92,7 @@ public sealed class LocalNewDeclarationAnalyzerTests
     [Fact, Trait("Case", "rules.localnewdeclaration.Analyze_FieldAndProperty_Pass")]
     public Task AnalyzeFieldAndPropertyPass()
     {
-        return VerifyAsync(caseId: "rules.localnewdeclaration.Analyze_FieldAndProperty_Pass", diagnostic: 
+        return VerifyAsync(caseId: "rules.localnewdeclaration.Analyze_FieldAndProperty_Pass", diagnostic:
                 "ANALYZER_ACCEPTED", source: """
                 class Foo
                 {
@@ -108,7 +108,7 @@ public sealed class LocalNewDeclarationAnalyzerTests
     [Fact, Trait("Case", "rules.localnewdeclaration.Analyze_ArgumentAndReturnValue_Pass")]
     public Task AnalyzeArgumentAndReturnValuePass()
     {
-        return VerifyAsync(caseId: "rules.localnewdeclaration.Analyze_ArgumentAndReturnValue_Pass", diagnostic: 
+        return VerifyAsync(caseId: "rules.localnewdeclaration.Analyze_ArgumentAndReturnValue_Pass", diagnostic:
                 "ANALYZER_ACCEPTED", source: """
                 class Foo
                 {
@@ -130,7 +130,7 @@ public sealed class LocalNewDeclarationAnalyzerTests
     [Fact, Trait("Case", "rules.localnewdeclaration.Analyze_UsingAndAwaitUsingDeclarations_Report")]
     public Task AnalyzeUsingAndAwaitUsingDeclarationsReport()
     {
-        return VerifyAsync(caseId: "rules.localnewdeclaration.Analyze_UsingAndAwaitUsingDeclarations_Report", 
+        return VerifyAsync(caseId: "rules.localnewdeclaration.Analyze_UsingAndAwaitUsingDeclarations_Report",
                 diagnostic: "SCR0012", source: """
                 using System;
                 using System.Threading.Tasks;
@@ -161,7 +161,7 @@ public sealed class LocalNewDeclarationAnalyzerTests
     [Fact, Trait("Case", "rules.localnewdeclaration.Analyze_ForInitializerAndUsingStatement_Report")]
     public Task AnalyzeForInitializerAndUsingStatementReport()
     {
-        return VerifyAsync(caseId: "rules.localnewdeclaration.Analyze_ForInitializerAndUsingStatement_Report", 
+        return VerifyAsync(caseId: "rules.localnewdeclaration.Analyze_ForInitializerAndUsingStatement_Report",
                 diagnostic: "SCR0012", source: ("using System;\n\nclass Counter : IDisposable\n{\n    public" +
                         " int Value { get; set; }\n\n    public void Dispose()\n   " +
                         " {\n    }\n\n    public static void M()\n    {\n        for " +
@@ -176,7 +176,7 @@ public sealed class LocalNewDeclarationAnalyzerTests
     [Fact, Trait("Case", "rules.localnewdeclaration.Analyze_SeveralDeclarators_Pass")]
     public Task AnalyzeSeveralDeclaratorsPass()
     {
-        return VerifyAsync(caseId: "rules.localnewdeclaration.Analyze_SeveralDeclarators_Pass", diagnostic: 
+        return VerifyAsync(caseId: "rules.localnewdeclaration.Analyze_SeveralDeclarators_Pass", diagnostic:
                 "ANALYZER_ACCEPTED", source: """
                 class Foo
                 {
@@ -199,7 +199,7 @@ public sealed class LocalNewDeclarationAnalyzerTests
     [Fact, Trait("Case", "rules.localnewdeclaration.Analyze_OtherInitializers_Pass")]
     public Task AnalyzeOtherInitializersPass()
     {
-        return VerifyAsync(caseId: "rules.localnewdeclaration.Analyze_OtherInitializers_Pass", diagnostic: 
+        return VerifyAsync(caseId: "rules.localnewdeclaration.Analyze_OtherInitializers_Pass", diagnostic:
                 "ANALYZER_ACCEPTED", source: """
                 using System.Collections.Generic;
 
@@ -210,6 +210,8 @@ public sealed class LocalNewDeclarationAnalyzerTests
                         List<int> items = [];
                         Foo created = Create();
                         Foo later;
+                        later = created;
+                        _ = later;
                         ref int first = ref values[0];
                         for (int index = 0; index < values.Length; index++)
                         {
@@ -229,8 +231,8 @@ public sealed class LocalNewDeclarationAnalyzerTests
     [Fact, Trait("Case", "rules.localnewdeclaration.Analyze_TopLevelStatement_Reports")]
     public Task AnalyzeTopLevelStatementReports()
     {
-        return VerifyAsync(caseId: "rules.localnewdeclaration.Analyze_TopLevelStatement_Reports", diagnostic: 
-                "SCR0012", 
+        return VerifyAsync(caseId: "rules.localnewdeclaration.Analyze_TopLevelStatement_Reports", diagnostic:
+                "SCR0012",
                 source: """
                         using System.Text;
 
@@ -245,8 +247,8 @@ public sealed class LocalNewDeclarationAnalyzerTests
     [Fact, Trait("Case", "rules.localnewdeclaration.Analyze_Message_NamesLocalAndType")]
     public Task AnalyzeMessageNamesLocalAndType()
     {
-        return VerifyAsync(caseId: "rules.localnewdeclaration.Analyze_Message_NamesLocalAndType", diagnostic: 
-                "SCR0012", 
+        return VerifyAsync(caseId: "rules.localnewdeclaration.Analyze_Message_NamesLocalAndType", diagnostic:
+                "SCR0012",
                 source: """
                         class Foo
                         {
@@ -264,7 +266,7 @@ public sealed class LocalNewDeclarationAnalyzerTests
     [Fact, Trait("Case", "rules.localnewdeclaration.Analyze_GeneratedCode_IsSkipped")]
     public Task AnalyzeGeneratedCodeIsSkipped()
     {
-        return VerifyAsync(caseId: "rules.localnewdeclaration.Analyze_GeneratedCode_IsSkipped", diagnostic: "SCR0012", 
+        return VerifyAsync(caseId: "rules.localnewdeclaration.Analyze_GeneratedCode_IsSkipped", diagnostic: "SCR0012",
                 source: """
                         class Foo
                         {
@@ -285,8 +287,8 @@ public sealed class LocalNewDeclarationAnalyzerTests
     private static Task VerifyAsync(string caseId, string diagnostic, string source, string? editorConfig = null
             , string? message = null, OutputKind outputKind = OutputKind.DynamicallyLinkedLibrary)
     {
-        return InheritedAnalyzerVerifier.VerifyAsync(caseId: caseId, diagnostic: diagnostic, analyzerType: 
-                "LocalNewDeclarationAnalyzer", source: source, editorConfig: editorConfig, message: message, 
+        return InheritedAnalyzerVerifier.VerifyAsync(caseId: caseId, diagnostic: diagnostic, analyzerType:
+                "LocalNewDeclarationAnalyzer", source: source, editorConfig: editorConfig, message: message,
                 outputKind: outputKind);
     }
 }
