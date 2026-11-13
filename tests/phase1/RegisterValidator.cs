@@ -111,7 +111,7 @@ public static class RegisterValidator
 
     private static void ValidateMappings(JsonObject manifest, JsonObject register, JsonObject exemptions, bool implemented, List<string> errors)
     {
-        var cases = Read(relative: "tools/phase1/required-cases.json")["cases"]!.AsArray();
+        var cases = (Read(relative: "tools/phase1/required-cases.json")["cases"] ?? throw new System.InvalidOperationException(message: "Required proof value is null")).AsArray();
         var declarations = Unique(rows: cases, key: n => Text(node: n["id"]), diagnostic: "PROOF_DECLARATION", errors: errors);
         var sources = Unique(rows: Rows(node: manifest, name: "matrix"), key: n => Text(node: n["sourceId"]), diagnostic: "MATRIX_ID", errors: errors);
         var reviewRules = new HashSet<string>(collection: ["R-24", "R-34", "R-62", "R-63", "R-65", "R-77", "R-83", "R-84"], comparer: StringComparer.Ordinal);
@@ -160,7 +160,7 @@ public static class RegisterValidator
                 var expectedSymbol = Analyzers.TryGetValue(key: id, value: out var analyzerName) ? analyzerName + "Analyzer" : id;
                 if (!string.Equals(a: Text(node: mechanism["path"]), b: ExpectedMechanism(id: id), comparisonType: StringComparison.Ordinal) || !string.Equals(a: Text(node: mechanism["symbol"]), b: expectedSymbol, comparisonType: StringComparison.Ordinal)) errors.Add(item: id + ": MECHANISM_REFERENCE");
                 var diagnostics = Regex.Matches(input: Text(node: source["mechanism"]), pattern: @"\b(?:SCR|IDE|CA|MA|RCS|RS|CS)\d{4}\b", options: RegexOptions.CultureInvariant | RegexOptions.NonBacktracking, matchTimeout: TimeSpan.FromSeconds(seconds: 1)).Select(selector: m => m.Value).Distinct(comparer: StringComparer.Ordinal);
-                SameStrings(expected: diagnostics, actual: mechanism["diagnostics"]!.AsArray(), diagnostic: id + ": DIAGNOSTIC_IDENTITY", errors: errors);
+                SameStrings(expected: diagnostics, actual: (mechanism["diagnostics"] ?? throw new System.InvalidOperationException(message: "Required proof value is null")).AsArray(), diagnostic: id + ": DIAGNOSTIC_IDENTITY", errors: errors);
                 if (!string.Equals(a: Text(node: mechanism["severity"]), b: "error", comparisonType: StringComparison.Ordinal)) errors.Add(item: id + ": SEVERITY_WEAKENED");
                 if (!string.Equals(a: Text(node: mechanism["status"]), b: "pending", comparisonType: StringComparison.Ordinal)) errors.Add(item: id + ": UNVERIFIED_IMPLEMENTATION");
                 if (implemented) errors.Add(item: id + ": IMPLEMENTATION_PENDING");
@@ -196,8 +196,8 @@ public static class RegisterValidator
         if (!limits.ContainsKey(key: id) && id is not "R-49" and not "R-82") return;
         if (numeric is null || string.IsNullOrWhiteSpace(value: Text(node: numeric["unit"])) || string.IsNullOrWhiteSpace(value: Text(node: numeric["comparison"])) || string.IsNullOrWhiteSpace(value: Text(node: numeric["rounding"]))) { errors.Add(item: id + ": NUMERIC_SEMANTICS"); return; }
         if (limits.TryGetValue(key: id, value: out var limit) && numeric["limit"]?.GetValue<int>() != limit) errors.Add(item: id + ": NUMERIC_LIMIT");
-        if (id is "R-49" or "R-82" && !numeric["limits"]!.AsArray().Select(selector: n => n!.GetValue<int>()).SequenceEqual(second: CoverageLimits)) errors.Add(item: id + ": NUMERIC_LIMIT");
-        if (string.Equals(a: id, b: "R-37", comparisonType: StringComparison.Ordinal) && !numeric["boundaries"]!.AsArray().Select(selector: n => n!.GetValue<int>()).SequenceEqual(second: BodyBoundaries)) errors.Add(item: id + ": NUMERIC_BOUNDARIES");
+        if (id is "R-49" or "R-82" && !(numeric["limits"] ?? throw new System.InvalidOperationException(message: "Required proof value is null")).AsArray().Select(selector: n => (n ?? throw new System.InvalidOperationException(message: "Required proof value is null")).GetValue<int>()).SequenceEqual(second: CoverageLimits)) errors.Add(item: id + ": NUMERIC_LIMIT");
+        if (string.Equals(a: id, b: "R-37", comparisonType: StringComparison.Ordinal) && !(numeric["boundaries"] ?? throw new System.InvalidOperationException(message: "Required proof value is null")).AsArray().Select(selector: n => (n ?? throw new System.InvalidOperationException(message: "Required proof value is null")).GetValue<int>()).SequenceEqual(second: BodyBoundaries)) errors.Add(item: id + ": NUMERIC_BOUNDARIES");
         var units = new Dictionary<string, string>(comparer: StringComparer.Ordinal)
         {
             ["R-07"] = "spaces", ["R-08"] = "spaces", ["R-09"] = "spaces past continued line",
@@ -231,7 +231,7 @@ public static class RegisterValidator
             if (!sources.TryGetValue(key: id, value: out var source) || !string.Equals(a: Text(node: entry["rule"]), b: Text(node: source["sourceId"]), comparisonType: StringComparison.Ordinal)) errors.Add(item: id + ": EXEMPTION_REVERSE_ID");
             var expectedDisposition = new[] { "EX-01", "EX-02", "EX-03", "EX-11", "EX-13", "EX-19", "EX-20", "EX-21", "EX-23" }.Contains(value: id, comparer: StringComparer.Ordinal) ? "adapted" : "inapplicable";
             if (!string.Equals(a: Text(node: entry["disposition"]), b: expectedDisposition, comparisonType: StringComparison.Ordinal)) errors.Add(item: id + ": EXEMPTION_DISPOSITION");
-            SameStrings(expected: local.Where(predicate: pair => string.Equals(a: Text(node: pair.Value["sourceId"]), b: id, comparisonType: StringComparison.Ordinal)).Select(selector: pair => pair.Key), actual: entry["localIds"]!.AsArray(), diagnostic: id + ": LOCAL_EXEMPTION_REFERENCE", errors: errors);
+            SameStrings(expected: local.Where(predicate: pair => string.Equals(a: Text(node: pair.Value["sourceId"]), b: id, comparisonType: StringComparison.Ordinal)).Select(selector: pair => pair.Key), actual: (entry["localIds"] ?? throw new System.InvalidOperationException(message: "Required proof value is null")).AsArray(), diagnostic: id + ": LOCAL_EXEMPTION_REFERENCE", errors: errors);
         }
         var scopes = new HashSet<string>(comparer: StringComparer.Ordinal);
         foreach (var (id, entry) in local)
@@ -246,13 +246,13 @@ public static class RegisterValidator
             if (!string.Equals(a: Text(node: entry["status"]), b: "pending", comparisonType: StringComparison.Ordinal) || implemented) errors.Add(item: id + ": EXEMPTION_BOUNDARY_PENDING");
         }
         foreach (var rule in Rows(node: register, name: "rules"))
-            SameStrings(expected: local.Where(predicate: pair => string.Equals(a: Text(node: pair.Value["rule"]), b: Text(node: rule!["sourceId"]), comparisonType: StringComparison.Ordinal)).Select(selector: pair => pair.Key), actual: rule!["exemptions"]!.AsArray(), diagnostic: Text(node: rule["sourceId"]) + ": EXEMPTION_REFERENCE", errors: errors);
+            SameStrings(expected: local.Where(predicate: pair => string.Equals(a: Text(node: pair.Value["rule"]), b: Text(node: (rule ?? throw new System.InvalidOperationException(message: "Required proof value is null"))["sourceId"]), comparisonType: StringComparison.Ordinal)).Select(selector: pair => pair.Key), actual: ((rule ?? throw new System.InvalidOperationException(message: "Required proof value is null"))["exemptions"] ?? throw new System.InvalidOperationException(message: "Required proof value is null")).AsArray(), diagnostic: Text(node: rule["sourceId"]) + ": EXEMPTION_REFERENCE", errors: errors);
     }
 
     private static string Text(JsonNode? node) => node?.GetValue<string>() ?? "";
     private static JsonArray Rows(JsonObject node, string name) => node[name] as JsonArray ?? throw new InvalidDataException(message: "ARRAY_REQUIRED: " + name);
     private static string Hash(byte[] bytes) => Convert.ToHexStringLower(inArray: SHA256.HashData(source: bytes));
-    private static string HeadingKey(JsonNode node) => Text(node: node["path"]) + ":" + node["line"]!.GetValue<int>();
+    private static string HeadingKey(JsonNode node) => Text(node: node["path"]) + ":" + (node["line"] ?? throw new System.InvalidOperationException(message: "Required proof value is null")).GetValue<int>();
 
     private static Dictionary<string, JsonNode> Unique(JsonArray rows, Func<JsonNode, string> key, string diagnostic, List<string> errors)
     {
@@ -304,7 +304,7 @@ public static class RegisterValidator
         var capturedFiles = Unique(rows: Rows(node: manifest, name: "files"), key: n => Text(node: n["path"]), diagnostic: "CAPTURE_FILE", errors: errors);
         if (!files.Keys.ToHashSet(comparer: StringComparer.Ordinal).SetEquals(other: capturedFiles.Keys)) errors.Add(item: "CAPTURE: FILE_INVENTORY");
         foreach (var (path, row) in capturedFiles)
-            if (!files.TryGetValue(key: path, value: out var bytes) || !string.Equals(a: Hash(bytes: bytes), b: Text(node: row["sha256"]), comparisonType: StringComparison.Ordinal) || bytes.Length != row["size"]!.GetValue<long>() || !string.Equals(a: Text(node: row["modification"]), b: "unmodified", comparisonType: StringComparison.Ordinal)) errors.Add(item: "CAPTURE: FILE_HASH: " + path);
+            if (!files.TryGetValue(key: path, value: out var bytes) || !string.Equals(a: Hash(bytes: bytes), b: Text(node: row["sha256"]), comparisonType: StringComparison.Ordinal) || bytes.Length != (row["size"] ?? throw new System.InvalidOperationException(message: "Required proof value is null")).GetValue<long>() || !string.Equals(a: Text(node: row["modification"]), b: "unmodified", comparisonType: StringComparison.Ordinal)) errors.Add(item: "CAPTURE: FILE_HASH: " + path);
         var expectedHeadings = CaptureHeadings(files: files);
         ValidateHeadings(manifest: manifest, expectedHeadings: expectedHeadings, errors: errors);
         ValidateSourceRows(manifest: manifest, register: register, exemptions: exemptions, files: files, expectedHeadings: expectedHeadings, errors: errors);
@@ -341,7 +341,7 @@ public static class RegisterValidator
         {
             if (!headings.TryGetValue(key: HeadingKey(node: expected), value: out var actual)) continue;
             if (!string.Equals(a: Text(node: expected["title"]), b: Text(node: actual["title"]), comparisonType: StringComparison.Ordinal)) errors.Add(item: HeadingKey(node: expected) + ": HEADING_TITLE");
-            SameStrings(expected: expected["sourceIds"]!.AsArray().Select(selector: Text), actual: actual["sourceIds"]!.AsArray(), diagnostic: HeadingKey(node: expected) + ": HEADING_IDS", errors: errors);
+            SameStrings(expected: (expected["sourceIds"] ?? throw new System.InvalidOperationException(message: "Required proof value is null")).AsArray().Select(selector: Text), actual: (actual["sourceIds"] ?? throw new System.InvalidOperationException(message: "Required proof value is null")).AsArray(), diagnostic: HeadingKey(node: expected) + ": HEADING_IDS", errors: errors);
         }
     }
 
@@ -360,7 +360,7 @@ public static class RegisterValidator
             var isRule = id.StartsWith(value: "R-", comparisonType: StringComparison.Ordinal);
             (isRule ? expectedIds : expectedExemptions).Add(item: id);
             var rows = isRule ? matrix : sourceExemptions;
-            if (!rows.TryGetValue(key: id, value: out var row) || !string.Equals(a: Text(node: row["raw"]), b: matrixLines[i], comparisonType: StringComparison.Ordinal) || row["line"]!.GetValue<int>() != i + 1) errors.Add(item: id + ": SOURCE_ROW");
+            if (!rows.TryGetValue(key: id, value: out var row) || !string.Equals(a: Text(node: row["raw"]), b: matrixLines[i], comparisonType: StringComparison.Ordinal) || (row["line"] ?? throw new System.InvalidOperationException(message: "Required proof value is null")).GetValue<int>() != i + 1) errors.Add(item: id + ": SOURCE_ROW");
             if (row is not null) ValidateSourceFields(row: row, line: matrixLines[i], id: id, isRule: isRule, errors: errors);
         }
         if (expectedIds.Count != 85 || !matrix.Keys.ToHashSet(comparer: StringComparer.Ordinal).SetEquals(other: expectedIds)) errors.Add(item: "CAPTURE: MATRIX_INVENTORY");
@@ -370,7 +370,7 @@ public static class RegisterValidator
         foreach (var (id, rule) in rules)
         {
             if (!matrix.ContainsKey(key: id)) { errors.Add(item: id + ": UNKNOWN_RULE"); continue; }
-            SameStrings(expected: expectedHeadings.Where(predicate: h => h["sourceIds"]!.AsArray().Select(selector: Text).Contains(value: id, comparer: StringComparer.Ordinal)).Select(selector: HeadingKey), actual: rule["headingRefs"] as JsonArray, diagnostic: id + ": HEADING_RELATION", errors: errors);
+            SameStrings(expected: expectedHeadings.Where(predicate: h => (h["sourceIds"] ?? throw new System.InvalidOperationException(message: "Required proof value is null")).AsArray().Select(selector: Text).Contains(value: id, comparer: StringComparer.Ordinal)).Select(selector: HeadingKey), actual: rule["headingRefs"] as JsonArray, diagnostic: id + ": HEADING_RELATION", errors: errors);
             if (!new[] { "retained", "adapted", "inapplicable" }.Contains(value: Text(node: rule["disposition"]), comparer: StringComparer.Ordinal) || string.IsNullOrWhiteSpace(value: Text(node: rule["reason"]))) errors.Add(item: id + ": DISPOSITION");
         }
         var dispositions = Unique(rows: Rows(node: exemptions, name: "donorExemptions"), key: n => Text(node: n["sourceId"]), diagnostic: "EXEMPTION_ID", errors: errors);

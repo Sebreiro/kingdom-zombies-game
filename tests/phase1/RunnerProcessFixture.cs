@@ -104,7 +104,7 @@ public sealed class RunnerProcessFixture : IDisposable
     public JsonNode Summary()
     {
         var reports = Directory.GetFiles(path: Path.Combine(path1: Root, path2: ".phase1", path3: "runs"), searchPattern: "summary.json", searchOption: SearchOption.AllDirectories);
-        return JsonNode.Parse(json: File.ReadAllText(path: reports.OrderBy(keySelector: File.GetLastWriteTimeUtc).Last()))!;
+        return (JsonNode.Parse(json: File.ReadAllText(path: reports.OrderBy(keySelector: File.GetLastWriteTimeUtc).Last())) ?? throw new System.InvalidOperationException(message: "Required proof value is null"));
     }
 
     /// <summary>Computes an uppercase SHA-256 fingerprint of the specified file bytes.</summary>
@@ -144,7 +144,7 @@ public sealed class RunnerProcessFixture : IDisposable
                 descendant.ArgumentList.Add(item: "--no-ansi");
                 descendant.ArgumentList.Add(item: "--progress"); descendant.ArgumentList.Add(item: "off");
                 descendant.ArgumentList.Add(item: "--explicit"); descendant.ArgumentList.Add(item: "on");
-                using var process = Process.Start(startInfo: descendant)!;
+                using var process = (Process.Start(startInfo: descendant) ?? throw new System.InvalidOperationException(message: "Required proof value is null"));
                 File.WriteAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: "descendant.pid"), contents: process.Id.ToString(provider: System.Globalization.CultureInfo.InvariantCulture));
                 var ready = Path.Combine(path1: ProofProtocol.Root, path2: "descendant.ready");
                 var watch = Stopwatch.StartNew();
@@ -157,9 +157,9 @@ public sealed class RunnerProcessFixture : IDisposable
 
     private static void MutateEvidence(string mode)
     {
-        var directory = Environment.GetEnvironmentVariable(variable: "PHASE1_RESULT_DIRECTORY")!;
+        var directory = (Environment.GetEnvironmentVariable(variable: "PHASE1_RESULT_DIRECTORY") ?? throw new System.InvalidOperationException(message: "Required proof value is null"));
         var file = Path.Combine(path1: directory, path2: "fixture.pass.proof.json");
-        var result = JsonNode.Parse(json: File.ReadAllText(path: file))!;
+        var result = (JsonNode.Parse(json: File.ReadAllText(path: file)) ?? throw new System.InvalidOperationException(message: "Required proof value is null"));
         if (string.Equals(a: mode, b: "deleted-result", comparisonType: StringComparison.Ordinal)) File.Delete(path: file);
         if (string.Equals(a: mode, b: "deleted-log", comparisonType: StringComparison.Ordinal)) File.Delete(path: Path.Combine(path1: directory, path2: "fixture.pass.subject.log"));
         if (string.Equals(a: mode, b: "duplicate", comparisonType: StringComparison.Ordinal)) File.Copy(sourceFileName: file, destFileName: Path.Combine(path1: directory, path2: "duplicate.proof.json"));

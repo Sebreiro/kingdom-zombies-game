@@ -9,8 +9,8 @@ SCR0001 | Sebreiro.CodeRules | Error | NamedArgumentAnalyzer
 SCR0002 | Sebreiro.CodeRules | Error | BodyCommentAnalyzer
 SCR0003 | Sebreiro.CodeRules | Error | PrimaryConstructorAnalyzer
 SCR0004 | Sebreiro.CodeRules | Error | RegionDirectiveAnalyzer
-; Pending donor adoption in 01-05 through 01-07: SCR0005 | Sebreiro.CodeRules | Error | NullForgivingAnalyzer
-; Pending donor adoption in 01-05 through 01-07: SCR0006 | Sebreiro.CodeRules | Error | BodyLengthAnalyzer
+SCR0005 | Sebreiro.CodeRules | Error | NullForgivingAnalyzer
+SCR0006 | Sebreiro.CodeRules | Error | BodyLengthAnalyzer
 ; Pending donor adoption in 01-05 through 01-07: SCR0007 | Sebreiro.CodeRules | Error | LineLengthAnalyzer
 ; Pending donor adoption in 01-05 through 01-07: SCR0008 | Sebreiro.CodeRules | Error | MemberOrderAnalyzer
 ; Pending donor adoption in 01-05 through 01-07: SCR0009 | Sebreiro.CodeRules | Error | ContinuationIndentAnalyzer

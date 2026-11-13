@@ -27,7 +27,7 @@ public sealed class RunnerContractTests
         {
             File.ReadAllText(path: Path.Combine(path1: fixture.Root, path2: "descendant.ready")).ShouldBe(expected: File.ReadAllText(path: Path.Combine(path1: fixture.Root, path2: "descendant.pid")));
         }
-        fixture.Summary()["status"]!.GetValue<string>().ShouldBe(expected: "fail");
+        (fixture.Summary()["status"] ?? throw new System.InvalidOperationException(message: "Required proof value is null")).GetValue<string>().ShouldBe(expected: "fail");
         if (!string.Equals(a: mode, b: "source", comparisonType: StringComparison.Ordinal)) RunnerProcessFixture.Hash(file: source).ShouldBe(expected: sourceHash);
         if (!string.Equals(a: mode, b: "document", comparisonType: StringComparison.Ordinal)) RunnerProcessFixture.Hash(file: document).ShouldBe(expected: documentHash);
         if (string.Equals(a: mode, b: "source", comparisonType: StringComparison.Ordinal)) File.WriteAllText(path: source, contents: "// Approved isolated fixture source\n");
@@ -96,15 +96,15 @@ public sealed class RunnerContractTests
         var first = fixture.Summary();
         fixture.Run().Exit.ShouldBe(expected: 0);
         var second = fixture.Summary();
-        first["nonce"]!.GetValue<string>().ShouldNotBe(expected: second["nonce"]!.GetValue<string>(), comparer: StringComparer.Ordinal);
+        (first["nonce"] ?? throw new System.InvalidOperationException(message: "Required proof value is null")).GetValue<string>().ShouldNotBe(expected: (second["nonce"] ?? throw new System.InvalidOperationException(message: "Required proof value is null")).GetValue<string>(), comparer: StringComparer.Ordinal);
         foreach (var key in new[] { "status", "input", "tool", "platform", "selected", "results", "failures" })
         {
             if (string.Equals(a: key, b: "results", comparisonType: StringComparison.Ordinal))
             {
-                foreach (var row in first[key]!.AsArray()) row!.AsObject().Remove(propertyName: "report");
-                foreach (var row in second[key]!.AsArray()) row!.AsObject().Remove(propertyName: "report");
+                foreach (var row in (first[key] ?? throw new System.InvalidOperationException(message: "Required proof value is null")).AsArray()) (row ?? throw new System.InvalidOperationException(message: "Required proof value is null")).AsObject().Remove(propertyName: "report");
+                foreach (var row in (second[key] ?? throw new System.InvalidOperationException(message: "Required proof value is null")).AsArray()) (row ?? throw new System.InvalidOperationException(message: "Required proof value is null")).AsObject().Remove(propertyName: "report");
             }
-            first[key]!.ToJsonString().ShouldBe(expected: second[key]!.ToJsonString(), customMessage: key);
+            (first[key] ?? throw new System.InvalidOperationException(message: "Required proof value is null")).ToJsonString().ShouldBe(expected: (second[key] ?? throw new System.InvalidOperationException(message: "Required proof value is null")).ToJsonString(), customMessage: key);
         }
         AssertPidsExited(fixture: fixture);
         ProofProtocol.Record(id: "runner.process.repeat", diagnostic: "NORMALIZED_EQUAL", location: "two complete real C# runs");
@@ -146,8 +146,8 @@ public sealed class RunnerContractTests
         second.Output.ShouldContain(expected: "CHECK_LOCKED");
         var firstResult = RunnerProcessFixture.Finish(child: first);
         firstResult.Exit.ShouldBe(expected: 0);
-        fixture.Summary()["status"]!.GetValue<string>().ShouldBe(expected: "pass");
-        fixture.Summary()["selected"]!.AsArray().Count.ShouldBe(expected: 1);
+        (fixture.Summary()["status"] ?? throw new System.InvalidOperationException(message: "Required proof value is null")).GetValue<string>().ShouldBe(expected: "pass");
+        (fixture.Summary()["selected"] ?? throw new System.InvalidOperationException(message: "Required proof value is null")).AsArray().Count.ShouldBe(expected: 1);
         AssertPidsExited(fixture: fixture);
         ProofProtocol.Record(id: "runner.process.concurrent", diagnostic: "CHECK_LOCKED", location: "competing --all invocation");
     }

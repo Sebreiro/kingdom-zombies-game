@@ -46,7 +46,7 @@ internal static class AnalyzerVerifier
         var result = ConfigurationTests.Dotnet("msbuild", ConfigurationTests.Projects[0], "-nologo", "-target:ResolveReferences", "-getItem:ReferencePath");
         if (result.Exit != 0) throw new InvalidOperationException(message: "Reference resolution failed: " + result.Output);
         using var json = System.Text.Json.JsonDocument.Parse(json: result.Output);
-        var paths = json.RootElement.GetProperty(propertyName: "Items").GetProperty(propertyName: "ReferencePath").EnumerateArray().Select(selector: r => r.GetProperty(propertyName: "FullPath").GetString()!).ToArray();
+        var paths = json.RootElement.GetProperty(propertyName: "Items").GetProperty(propertyName: "ReferencePath").EnumerateArray().Select(selector: r => (r.GetProperty(propertyName: "FullPath").GetString() ?? throw new System.InvalidOperationException(message: "Required proof value is null"))).ToArray();
         if (paths.Length < 100 || !paths.All(predicate: p => p.Replace(oldChar: '\\', newChar: '/').Contains(value: "/ref/net10.0/", comparisonType: StringComparison.Ordinal))) throw new InvalidOperationException(message: "Expected evaluated .NET 10 reference pack");
         return paths.Select(selector: p => (MetadataReference)MetadataReference.CreateFromFile(path: p)).ToImmutableArray();
     }

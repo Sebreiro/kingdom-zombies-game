@@ -41,7 +41,7 @@ public sealed class ConfigurationTests
         var runtime = references.Where(predicate: r => !r.TryGetProperty(propertyName: "ReferenceOutputAssembly", value: out var value) || !string.Equals(a: value.GetString(), b: "false", comparisonType: StringComparison.OrdinalIgnoreCase)).ToArray();
         runtime.Length.ShouldBe(expected: 2, customMessage: "Godot must compile with both permitted product references");
         runtime.Select(selector: r => Path.GetFileName(path: r.GetProperty(propertyName: "FullPath").GetString())).Order(comparer: StringComparer.Ordinal).ShouldBe(expected: ProductNames);
-        var analyzer = references.Single(predicate: r => r.GetProperty(propertyName: "FullPath").GetString()!.EndsWith(value: "Sebreiro.CodeRules.Analyzers.csproj", comparisonType: StringComparison.Ordinal));
+        var analyzer = references.Single(predicate: r => (r.GetProperty(propertyName: "FullPath").GetString() ?? throw new System.InvalidOperationException(message: "Required proof value is null")).EndsWith(value: "Sebreiro.CodeRules.Analyzers.csproj", comparisonType: StringComparison.Ordinal));
         analyzer.GetProperty(propertyName: "OutputItemType").GetString().ShouldBe(expected: "Analyzer");
         analyzer.GetProperty(propertyName: "ReferenceOutputAssembly").GetString().ShouldBe(expected: "false");
         ProofProtocol.Record(id: "pins.composition", diagnostic: "COMPOSITION_EXACT", location: Projects[2]);
@@ -111,9 +111,9 @@ public sealed class ConfigurationTests
         var expected = new Dictionary<string, string>(comparer: StringComparer.Ordinal) { ["Meziantou.Analyzer"] = "[3.0.312]", ["Roslynator.Analyzers"] = "[5.0.1]", ["Microsoft.CodeAnalysis.BannedApiAnalyzers"] = "[5.6.0]" };
         if (packages.Length != expected.Count) throw new InvalidOperationException(message: "POLICY_DRIFT: global analyzer count");
         foreach (var package in packages)
-            if (!expected.TryGetValue(package.GetProperty(propertyName: "Identity").GetString()!, value: out var version) || !string.Equals(a: package.GetProperty(propertyName: "Version").GetString(), b: version, comparisonType: StringComparison.Ordinal)) throw new InvalidOperationException(message: "POLICY_DRIFT: analyzer version");
+            if (!expected.TryGetValue((package.GetProperty(propertyName: "Identity").GetString() ?? throw new System.InvalidOperationException(message: "Required proof value is null")), value: out var version) || !string.Equals(a: package.GetProperty(propertyName: "Version").GetString(), b: version, comparisonType: StringComparison.Ordinal)) throw new InvalidOperationException(message: "POLICY_DRIFT: analyzer version");
         if (analyzerProject) return;
-        var custom = document.RootElement.GetProperty(propertyName: "Items").GetProperty(propertyName: "ProjectReference").EnumerateArray().Where(predicate: r => r.GetProperty(propertyName: "FullPath").GetString()!.EndsWith(value: "Sebreiro.CodeRules.Analyzers.csproj", comparisonType: StringComparison.Ordinal)).ToArray();
+        var custom = document.RootElement.GetProperty(propertyName: "Items").GetProperty(propertyName: "ProjectReference").EnumerateArray().Where(predicate: r => (r.GetProperty(propertyName: "FullPath").GetString() ?? throw new System.InvalidOperationException(message: "Required proof value is null")).EndsWith(value: "Sebreiro.CodeRules.Analyzers.csproj", comparisonType: StringComparison.Ordinal)).ToArray();
         if (custom.Length != 1 || !string.Equals(a: custom[0].GetProperty(propertyName: "OutputItemType").GetString(), b: "Analyzer", comparisonType: StringComparison.Ordinal) || !string.Equals(a: custom[0].GetProperty(propertyName: "ReferenceOutputAssembly").GetString(), b: "false", comparisonType: StringComparison.OrdinalIgnoreCase)) throw new InvalidOperationException(message: "POLICY_DRIFT: analyzer metadata");
     }
 
@@ -166,7 +166,7 @@ public sealed class ConfigurationTests
         restore.Exit.ShouldBe(expected: 0, customMessage: "Infrastructure restore must succeed: " + restore.Output);
         var build = Dotnet("build", project, "--no-restore", "-p:NuGetAudit=false");
         if (succeeds) build.Exit.ShouldBe(expected: 0, customMessage: build.Output);
-        else { RequireDiagnostic(result: build, diagnostic!); build.Output.ShouldContain(expected: "Subject.cs("); }
+        else { RequireDiagnostic(result: build, (diagnostic ?? throw new System.InvalidOperationException(message: "Required proof value is null"))); build.Output.ShouldContain(expected: "Subject.cs("); }
         return build.Output;
     }
 
@@ -186,7 +186,7 @@ public sealed class ConfigurationTests
     {
         var project = Fixture(source: "using Shouldly; namespace CompilerFixture; /// <summary>Permitted test APIs.</summary>\npublic static class Subject { /// <summary>No Async suffix is required.</summary>\npublic static System.Threading.Tasks.Task Read() { 1.ShouldBe(expected: 1); return System.Threading.Tasks.Task.CompletedTask; } }", tests: true);
         BuildFixture(project: project, succeeds: true);
-        File.WriteAllText(path: Path.Combine(Path.GetDirectoryName(path: project)!, path2: "Subject.cs"), contents: "namespace CompilerFixture; /// <summary>Forbidden assertion library.</summary>\npublic static class Subject { /// <summary>Rejects the inherited assertion ban.</summary>\npublic static void Read() { Xunit.Assert.True(condition: true); } }");
+        File.WriteAllText(path: Path.Combine((Path.GetDirectoryName(path: project) ?? throw new System.InvalidOperationException(message: "Required proof value is null")), path2: "Subject.cs"), contents: "namespace CompilerFixture; /// <summary>Forbidden assertion library.</summary>\npublic static class Subject { /// <summary>Rejects the inherited assertion ban.</summary>\npublic static void Read() { Xunit.Assert.True(condition: true); } }");
         BuildFixture(project: project, succeeds: false, diagnostic: "RS0030").ShouldContain(expected: "Assert");
         ProofProtocol.Record(id: "pins.banned-tests", diagnostic: "TEST_POLICY_EXACT", location: "Subject.cs: Shouldly/permission pass; Xunit.Assert RS0030");
     }
@@ -197,7 +197,7 @@ public sealed class ConfigurationTests
     {
         var project = Fixture(source: "namespace CompilerFixture; /// <summary>Diagnostic severity control.</summary>\npublic static class Subject { /// <summary>Forbidden output.</summary>\npublic static void Read() => System.Console.WriteLine(value: \"forbidden\"); }");
         BuildFixture(project: project, succeeds: false, diagnostic: "RS0030");
-        File.WriteAllText(path: Path.Combine(Path.GetDirectoryName(path: project)!, path2: ".editorconfig"), contents: "root = true\n[*.cs]\ndotnet_diagnostic.RS0030.severity = none\n");
+        File.WriteAllText(path: Path.Combine((Path.GetDirectoryName(path: project) ?? throw new System.InvalidOperationException(message: "Required proof value is null")), path2: ".editorconfig"), contents: "root = true\n[*.cs]\ndotnet_diagnostic.RS0030.severity = none\n");
         var changed = Dotnet("build", project, "--no-restore", "-p:NuGetAudit=false");
         changed.Exit.ShouldBe(expected: 0, customMessage: changed.Output);
         var rejected = Should.Throw<InvalidOperationException>(actual: () => RequireDiagnostic(result: changed, diagnostic: "RS0030"));
@@ -216,7 +216,7 @@ public sealed class ConfigurationTests
     {
         var project = Fixture(source: "namespace CompilerFixture; /// <summary>Awaitable naming permission.</summary>\npublic static class Subject { /// <summary>Permitted suffix omission.</summary>\npublic static System.Threading.Tasks.Task Read() => System.Threading.Tasks.Task.CompletedTask; }");
         BuildFixture(project: project, succeeds: true);
-        File.WriteAllText(path: Path.Combine(Path.GetDirectoryName(path: project)!, path2: ".editorconfig"), contents: "root = true\n[*.cs]\ndotnet_diagnostic.MA0137.severity = error\n");
+        File.WriteAllText(path: Path.Combine((Path.GetDirectoryName(path: project) ?? throw new System.InvalidOperationException(message: "Required proof value is null")), path2: ".editorconfig"), contents: "root = true\n[*.cs]\ndotnet_diagnostic.MA0137.severity = error\n");
         BuildFixture(project: project, succeeds: false, diagnostic: "MA0137");
         ProofProtocol.Record(id: "pins.async-permission", diagnostic: "ASYNC_PERMISSION_EXACT", location: "permitted Read passes; wrong naming requirement emits MA0137");
     }
@@ -228,17 +228,17 @@ public sealed class ConfigurationTests
         var hashes = new Dictionary<string, string>(comparer: StringComparer.Ordinal);
         foreach (var project in Projects)
         {
-            var path = Path.Combine(path1: ProofProtocol.Root, Path.GetDirectoryName(path: project)!, path3: "packages.lock.json");
+            var path = Path.Combine(path1: ProofProtocol.Root, (Path.GetDirectoryName(path: project) ?? throw new System.InvalidOperationException(message: "Required proof value is null")), path3: "packages.lock.json");
             File.Exists(path: path).ShouldBeTrue(customMessage: path);
             hashes.Add(key: path, value: Convert.ToHexString(inArray: SHA256.HashData(source: File.ReadAllBytes(path: path))));
         }
         var cleanRoot = Path.Combine(path1: ProofProtocol.Root, path2: ".phase1/temp/clean-restore-" + Guid.NewGuid().ToString(format: "N"));
         var copyFiles = new List<string> { "KingdomZombies.slnx", "Directory.Build.props", "Directory.Build.targets", "Directory.Packages.props", "NuGet.config", "global.json" };
-        foreach (var project in Projects) { copyFiles.Add(item: project); copyFiles.Add(item: Path.Combine(Path.GetDirectoryName(path: project)!, path2: "packages.lock.json")); }
+        foreach (var project in Projects) { copyFiles.Add(item: project); copyFiles.Add(item: Path.Combine((Path.GetDirectoryName(path: project) ?? throw new System.InvalidOperationException(message: "Required proof value is null")), path2: "packages.lock.json")); }
         foreach (var relative in copyFiles)
         {
             var destination = Path.Combine(path1: cleanRoot, path2: relative);
-            Directory.CreateDirectory(Path.GetDirectoryName(path: destination)!);
+            Directory.CreateDirectory((Path.GetDirectoryName(path: destination) ?? throw new System.InvalidOperationException(message: "Required proof value is null")));
             File.Copy(sourceFileName: Path.Combine(path1: ProofProtocol.Root, path2: relative), destFileName: destination);
         }
         var config = Path.Combine(path1: cleanRoot, path2: "NuGet.config");
@@ -249,7 +249,7 @@ public sealed class ConfigurationTests
         Directory.EnumerateFiles(path: cleanRoot, searchPattern: "project.assets.json", searchOption: SearchOption.AllDirectories).Count().ShouldBe(expected: 5);
         foreach (var (path, hash) in hashes) Convert.ToHexString(inArray: SHA256.HashData(source: File.ReadAllBytes(path: path))).ShouldBe(expected: hash);
         var fixture = Fixture(source: "namespace CompilerFixture; /// <summary>Restore-only control.</summary>\npublic static class Subject { }");
-        File.Copy(sourceFileName: Path.Combine(path1: ProofProtocol.Root, path2: "src/core/packages.lock.json"), destFileName: Path.Combine(Path.GetDirectoryName(path: fixture)!, path2: "packages.lock.json"));
+        File.Copy(sourceFileName: Path.Combine(path1: ProofProtocol.Root, path2: "src/core/packages.lock.json"), destFileName: Path.Combine((Path.GetDirectoryName(path: fixture) ?? throw new System.InvalidOperationException(message: "Required proof value is null")), path2: "packages.lock.json"));
         File.WriteAllText(path: fixture, contents: File.ReadAllText(path: fixture).Replace(oldValue: "</Project>", newValue: "<ItemGroup><PackageReference Include=\"Shouldly\"/></ItemGroup></Project>", comparisonType: StringComparison.Ordinal));
         var changed = Dotnet("restore", fixture, "--locked-mode", "-p:NuGetAudit=false");
         changed.Exit.ShouldNotBe(expected: 0);
@@ -268,7 +268,7 @@ public sealed class ConfigurationTests
         var resolve = Dotnet("msbuild", Projects[2], "-nologo", "-target:ResolveReferences", "-getItem:Analyzer");
         resolve.Exit.ShouldBe(expected: 0, customMessage: resolve.Output);
         using var analyzers = JsonDocument.Parse(json: resolve.Output);
-        analyzers.RootElement.GetProperty(propertyName: "Items").GetProperty(propertyName: "Analyzer").EnumerateArray().Any(predicate: a => a.GetProperty(propertyName: "FullPath").GetString()!.Replace(oldChar: '\\', newChar: '/').EndsWith(value: "godot.sourcegenerators/4.7.2/analyzers/dotnet/cs/Godot.SourceGenerators.dll", comparisonType: StringComparison.Ordinal)).ShouldBeTrue();
+        analyzers.RootElement.GetProperty(propertyName: "Items").GetProperty(propertyName: "Analyzer").EnumerateArray().Any(predicate: a => (a.GetProperty(propertyName: "FullPath").GetString() ?? throw new System.InvalidOperationException(message: "Required proof value is null")).Replace(oldChar: '\\', newChar: '/').EndsWith(value: "godot.sourcegenerators/4.7.2/analyzers/dotnet/cs/Godot.SourceGenerators.dll", comparisonType: StringComparison.Ordinal)).ShouldBeTrue();
         var generated = Path.Combine(path1: ProofProtocol.Root, path2: "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.GodotPluginsInitializerGenerator/GodotPlugins.Game.generated.cs");
         var source = File.ReadAllText(path: generated);
         source.ShouldContain(expected: "private static godot_bool InitializeFromGameProject(IntPtr godotDllHandle, IntPtr outManagedCallbacks,");
@@ -277,7 +277,7 @@ public sealed class ConfigurationTests
         var entry = registry.RootElement.GetProperty(propertyName: "local").EnumerateArray().Single();
         Convert.ToHexStringLower(inArray: SHA256.HashData(source: File.ReadAllBytes(path: generated))).ShouldBe(expected: entry.GetProperty(propertyName: "generatedSourceSha256").GetString());
         entry.GetProperty(propertyName: "diagnostic").GetString().ShouldBe(expected: "RS0030");
-        File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: "src/godot-game/GeneratedReportAdapter.cs")).ShouldContain(entry.GetProperty(propertyName: "target").GetString()!);
+        File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: "src/godot-game/GeneratedReportAdapter.cs")).ShouldContain((entry.GetProperty(propertyName: "target").GetString() ?? throw new System.InvalidOperationException(message: "Required proof value is null")));
         ProofProtocol.Record(id: "pins.generated-report", diagnostic: "GENERATOR_ORIGIN_EXACT", location: generated);
     }
 
