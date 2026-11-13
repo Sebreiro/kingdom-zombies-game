@@ -1,0 +1,5350 @@
+{
+  "schemaVersion": 1,
+  "scope": "Phase 1 only. Pending subjects block --all. Proposed dispositions require register validation. Qualitative review is never a runtime pass.",
+  "project": "tests/phase1/KingdomZombies.Phase1.Tests.csproj",
+  "assembly": "tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll",
+  "inputs": [
+    "tools/phase1",
+    "tests/phase1",
+    "src",
+    "docs",
+    "specs",
+    "Agents.md",
+    "global.json",
+    "NuGet.config",
+    ".config/dotnet-tools.json",
+    ".planning/phases/01-code-rules-and-documentation/01-SPEC.md",
+    ".planning/phases/01-code-rules-and-documentation/01-CONTEXT.md"
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-01",
+      "group": "pins",
+      "owner": "01-18",
+      "obligations": [
+        "ac-01.complete"
+      ]
+    },
+    {
+      "id": "AC-02",
+      "group": "platform",
+      "owner": "01-17",
+      "obligations": [
+        "ac-02.complete"
+      ]
+    },
+    {
+      "id": "AC-03",
+      "group": "runner",
+      "owner": "01-02",
+      "obligations": [
+        "runner.missing-result",
+        "runner.assertion-pass",
+        "runner.duplicate-result",
+        "runner.unknown-result",
+        "runner.wrong-nonce",
+        "runner.changed-input",
+        "runner.wrong-tool",
+        "runner.wrong-platform",
+        "runner.skipped-result",
+        "runner.blocked-result",
+        "runner.empty-evidence",
+        "runner.escaping-evidence",
+        "runner.unrelated-diagnostic",
+        "runner.missing-prerequisite",
+        "runner.selection"
+      ]
+    },
+    {
+      "id": "AC-04",
+      "group": "runner",
+      "owner": "01-02",
+      "obligations": [
+        "runner.missing-result",
+        "runner.assertion-pass",
+        "runner.duplicate-result",
+        "runner.unknown-result",
+        "runner.wrong-nonce",
+        "runner.changed-input",
+        "runner.wrong-tool",
+        "runner.wrong-platform",
+        "runner.skipped-result",
+        "runner.blocked-result",
+        "runner.empty-evidence",
+        "runner.escaping-evidence",
+        "runner.unrelated-diagnostic",
+        "runner.missing-prerequisite",
+        "runner.selection"
+      ]
+    },
+    {
+      "id": "AC-05",
+      "group": "register",
+      "owner": "01-03",
+      "obligations": [
+        "ac-05.complete"
+      ]
+    },
+    {
+      "id": "AC-06",
+      "group": "register",
+      "owner": "01-14",
+      "obligations": [
+        "ac-06.complete"
+      ]
+    },
+    {
+      "id": "AC-07",
+      "group": "rules",
+      "owner": "01-09",
+      "obligations": [
+        "ac-07.complete"
+      ]
+    },
+    {
+      "id": "AC-08",
+      "group": "rules",
+      "owner": "01-08",
+      "obligations": [
+        "ac-08.complete"
+      ]
+    },
+    {
+      "id": "AC-09",
+      "group": "rules",
+      "owner": "01-07",
+      "obligations": [
+        "ac-09.complete"
+      ]
+    },
+    {
+      "id": "AC-10",
+      "group": "docs",
+      "owner": "01-13",
+      "obligations": [
+        "ac-10.complete"
+      ]
+    },
+    {
+      "id": "AC-11",
+      "group": "docs",
+      "owner": "01-13",
+      "obligations": [
+        "ac-11.complete"
+      ]
+    },
+    {
+      "id": "AC-12",
+      "group": "graph",
+      "owner": "01-04",
+      "obligations": [
+        "ac-12.complete"
+      ]
+    },
+    {
+      "id": "AC-13",
+      "group": "graph",
+      "owner": "01-04",
+      "obligations": [
+        "ac-13.complete"
+      ]
+    },
+    {
+      "id": "AC-14",
+      "group": "engine",
+      "owner": "01-11",
+      "obligations": [
+        "ac-14.complete"
+      ]
+    },
+    {
+      "id": "AC-15",
+      "group": "engine",
+      "owner": "01-12",
+      "obligations": [
+        "ac-15.complete"
+      ]
+    },
+    {
+      "id": "AC-16",
+      "group": "engine",
+      "owner": "01-12",
+      "obligations": [
+        "ac-16.complete"
+      ]
+    },
+    {
+      "id": "AC-17",
+      "group": "engine",
+      "owner": "01-12",
+      "obligations": [
+        "ac-17.complete"
+      ]
+    },
+    {
+      "id": "AC-18",
+      "group": "state",
+      "owner": "01-10",
+      "obligations": [
+        "ac-18.complete"
+      ]
+    },
+    {
+      "id": "AC-19",
+      "group": "state",
+      "owner": "01-10",
+      "obligations": [
+        "ac-19.complete"
+      ]
+    },
+    {
+      "id": "AC-20",
+      "group": "state",
+      "owner": "01-10",
+      "obligations": [
+        "ac-20.complete"
+      ]
+    },
+    {
+      "id": "AC-21",
+      "group": "state",
+      "owner": "01-10",
+      "obligations": [
+        "ac-21.complete"
+      ]
+    },
+    {
+      "id": "AC-22",
+      "group": "state",
+      "owner": "01-10",
+      "obligations": [
+        "ac-22.complete"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge.rule-01.adjacency",
+      "requirement": "RULE-01",
+      "category": "adjacency",
+      "obligations": [
+        "edge.rule-01.adjacency"
+      ]
+    },
+    {
+      "id": "edge.rule-01.empty",
+      "requirement": "RULE-01",
+      "category": "empty",
+      "obligations": [
+        "edge.rule-01.empty"
+      ]
+    },
+    {
+      "id": "edge.rule-01.ordering",
+      "requirement": "RULE-01",
+      "category": "ordering",
+      "obligations": [
+        "edge.rule-01.ordering"
+      ]
+    },
+    {
+      "id": "edge.rule-01.idempotency",
+      "requirement": "RULE-01",
+      "category": "idempotency",
+      "obligations": [
+        "edge.rule-01.idempotency"
+      ]
+    },
+    {
+      "id": "edge.rule-01.concurrency",
+      "requirement": "RULE-01",
+      "category": "concurrency",
+      "obligations": [
+        "edge.rule-01.concurrency"
+      ]
+    },
+    {
+      "id": "edge.rule-02.adjacency",
+      "requirement": "RULE-02",
+      "category": "adjacency",
+      "obligations": [
+        "edge.rule-02.adjacency"
+      ]
+    },
+    {
+      "id": "edge.rule-02.empty",
+      "requirement": "RULE-02",
+      "category": "empty",
+      "obligations": [
+        "edge.rule-02.empty"
+      ]
+    },
+    {
+      "id": "edge.rule-02.encoding",
+      "requirement": "RULE-02",
+      "category": "encoding",
+      "obligations": [
+        "edge.rule-02.encoding"
+      ]
+    },
+    {
+      "id": "edge.rule-02.ordering",
+      "requirement": "RULE-02",
+      "category": "ordering",
+      "obligations": [
+        "edge.rule-02.ordering"
+      ]
+    },
+    {
+      "id": "edge.rule-03.boundary",
+      "requirement": "RULE-03",
+      "category": "boundary",
+      "obligations": [
+        "edge.rule-03.boundary"
+      ]
+    },
+    {
+      "id": "edge.rule-03.adjacency",
+      "requirement": "RULE-03",
+      "category": "adjacency",
+      "obligations": [
+        "edge.rule-03.adjacency"
+      ]
+    },
+    {
+      "id": "edge.rule-03.empty",
+      "requirement": "RULE-03",
+      "category": "empty",
+      "obligations": [
+        "edge.rule-03.empty"
+      ]
+    },
+    {
+      "id": "edge.rule-03.encoding",
+      "requirement": "RULE-03",
+      "category": "encoding",
+      "obligations": [
+        "edge.rule-03.encoding"
+      ]
+    },
+    {
+      "id": "edge.rule-03.ordering",
+      "requirement": "RULE-03",
+      "category": "ordering",
+      "obligations": [
+        "edge.rule-03.ordering"
+      ]
+    },
+    {
+      "id": "edge.rule-03.precision",
+      "requirement": "RULE-03",
+      "category": "precision",
+      "obligations": [
+        "edge.rule-03.precision"
+      ]
+    },
+    {
+      "id": "edge.rule-03.idempotency",
+      "requirement": "RULE-03",
+      "category": "idempotency",
+      "obligations": [
+        "edge.rule-03.idempotency"
+      ]
+    },
+    {
+      "id": "edge.rule-03.concurrency",
+      "requirement": "RULE-03",
+      "category": "concurrency",
+      "obligations": [
+        "edge.rule-03.concurrency"
+      ]
+    },
+    {
+      "id": "edge.rule-04.adjacency",
+      "requirement": "RULE-04",
+      "category": "adjacency",
+      "obligations": [
+        "edge.rule-04.adjacency"
+      ]
+    },
+    {
+      "id": "edge.rule-04.empty",
+      "requirement": "RULE-04",
+      "category": "empty",
+      "obligations": [
+        "edge.rule-04.empty"
+      ]
+    },
+    {
+      "id": "edge.rule-04.encoding",
+      "requirement": "RULE-04",
+      "category": "encoding",
+      "obligations": [
+        "edge.rule-04.encoding"
+      ]
+    },
+    {
+      "id": "edge.rule-04.ordering",
+      "requirement": "RULE-04",
+      "category": "ordering",
+      "obligations": [
+        "edge.rule-04.ordering"
+      ]
+    },
+    {
+      "id": "edge.rule-04.concurrency",
+      "requirement": "RULE-04",
+      "category": "concurrency",
+      "obligations": [
+        "edge.rule-04.concurrency"
+      ]
+    },
+    {
+      "id": "edge.rule-05.adjacency",
+      "requirement": "RULE-05",
+      "category": "adjacency",
+      "obligations": [
+        "edge.rule-05.adjacency"
+      ]
+    },
+    {
+      "id": "edge.rule-05.empty",
+      "requirement": "RULE-05",
+      "category": "empty",
+      "obligations": [
+        "edge.rule-05.empty"
+      ]
+    },
+    {
+      "id": "edge.rule-05.ordering",
+      "requirement": "RULE-05",
+      "category": "ordering",
+      "obligations": [
+        "edge.rule-05.ordering"
+      ]
+    },
+    {
+      "id": "edge.rule-06.adjacency",
+      "requirement": "RULE-06",
+      "category": "adjacency",
+      "obligations": [
+        "edge.rule-06.adjacency"
+      ]
+    },
+    {
+      "id": "edge.rule-06.empty",
+      "requirement": "RULE-06",
+      "category": "empty",
+      "obligations": [
+        "edge.rule-06.empty"
+      ]
+    },
+    {
+      "id": "edge.rule-06.ordering",
+      "requirement": "RULE-06",
+      "category": "ordering",
+      "obligations": [
+        "edge.rule-06.ordering"
+      ]
+    },
+    {
+      "id": "edge.rule-06.idempotency",
+      "requirement": "RULE-06",
+      "category": "idempotency",
+      "obligations": [
+        "edge.rule-06.idempotency"
+      ]
+    },
+    {
+      "id": "edge.rule-06.concurrency",
+      "requirement": "RULE-06",
+      "category": "concurrency",
+      "obligations": [
+        "edge.rule-06.concurrency"
+      ]
+    },
+    {
+      "id": "edge.rule-07.boundary",
+      "requirement": "RULE-07",
+      "category": "boundary",
+      "obligations": [
+        "edge.rule-07.boundary"
+      ]
+    },
+    {
+      "id": "edge.rule-07.adjacency",
+      "requirement": "RULE-07",
+      "category": "adjacency",
+      "obligations": [
+        "edge.rule-07.adjacency"
+      ]
+    },
+    {
+      "id": "edge.rule-07.empty",
+      "requirement": "RULE-07",
+      "category": "empty",
+      "obligations": [
+        "edge.rule-07.empty"
+      ]
+    },
+    {
+      "id": "edge.rule-07.encoding",
+      "requirement": "RULE-07",
+      "category": "encoding",
+      "obligations": [
+        "edge.rule-07.encoding"
+      ]
+    },
+    {
+      "id": "edge.rule-07.ordering",
+      "requirement": "RULE-07",
+      "category": "ordering",
+      "obligations": [
+        "edge.rule-07.ordering"
+      ]
+    },
+    {
+      "id": "edge.rule-07.precision",
+      "requirement": "RULE-07",
+      "category": "precision",
+      "obligations": [
+        "edge.rule-07.precision"
+      ]
+    },
+    {
+      "id": "edge.rule-07.idempotency",
+      "requirement": "RULE-07",
+      "category": "idempotency",
+      "obligations": [
+        "edge.rule-07.idempotency"
+      ]
+    },
+    {
+      "id": "edge.rule-07.concurrency",
+      "requirement": "RULE-07",
+      "category": "concurrency",
+      "obligations": [
+        "edge.rule-07.concurrency"
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "R-01",
+      "title": "\"Warnings are errors\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-01.positive",
+        "R-01.negative"
+      ]
+    },
+    {
+      "id": "R-02",
+      "title": "\"UTF-8 encoding\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-02.positive",
+        "R-02.negative"
+      ]
+    },
+    {
+      "id": "R-03",
+      "title": "\"LF line endings\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-03.positive",
+        "R-03.negative"
+      ]
+    },
+    {
+      "id": "R-04",
+      "title": "\"Final newline\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-04.positive",
+        "R-04.negative"
+      ]
+    },
+    {
+      "id": "R-05",
+      "title": "\"No trailing whitespace\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-05.positive",
+        "R-05.negative"
+      ]
+    },
+    {
+      "id": "R-06",
+      "title": "\"Spaces only, no tab characters\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-06.positive",
+        "R-06.negative"
+      ]
+    },
+    {
+      "id": "R-07",
+      "title": "\"Indentation of 4 spaces\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-07.positive",
+        "R-07.negative"
+      ]
+    },
+    {
+      "id": "R-08",
+      "title": "\"Tab width of 4\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-08.positive",
+        "R-08.negative"
+      ]
+    },
+    {
+      "id": "R-09",
+      "title": "\"Continuation indent of 8 spaces\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-09.positive",
+        "R-09.negative"
+      ]
+    },
+    {
+      "id": "R-10",
+      "title": "\"Line length of 120 characters\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-10.positive",
+        "R-10.negative"
+      ]
+    },
+    {
+      "id": "R-11",
+      "title": "\"File-scoped namespaces\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-11.positive",
+        "R-11.negative"
+      ]
+    },
+    {
+      "id": "R-12",
+      "title": "\"Braces always\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-12.positive",
+        "R-12.negative"
+      ]
+    },
+    {
+      "id": "R-13",
+      "title": "\"Usings outside the namespace\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-13.positive",
+        "R-13.negative"
+      ]
+    },
+    {
+      "id": "R-14",
+      "title": "\"Using order\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-14.positive",
+        "R-14.negative"
+      ]
+    },
+    {
+      "id": "R-15",
+      "title": "\"No unused usings\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-15.positive",
+        "R-15.negative"
+      ]
+    },
+    {
+      "id": "R-16",
+      "title": "\"Implicit usings disabled\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-16.positive",
+        "R-16.negative"
+      ]
+    },
+    {
+      "id": "R-17",
+      "title": "\"Var only when the type is apparent\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-17.positive",
+        "R-17.negative"
+      ]
+    },
+    {
+      "id": "R-18",
+      "title": "\"Locals created with new use var\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-18.positive",
+        "R-18.negative"
+      ]
+    },
+    {
+      "id": "R-19",
+      "title": "\"Target-typed new only where var cannot be used\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-19.positive",
+        "R-19.negative"
+      ]
+    },
+    {
+      "id": "R-20",
+      "title": "\"Collection expressions preferred\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-20.positive",
+        "R-20.negative"
+      ]
+    },
+    {
+      "id": "R-21",
+      "title": "\"Null checks use is null\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-21.positive",
+        "R-21.negative"
+      ]
+    },
+    {
+      "id": "R-22",
+      "title": "\"Expression bodies only for properties and accessors\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-22.positive",
+        "R-22.negative"
+      ]
+    },
+    {
+      "id": "R-23",
+      "title": "\"No primary constructors\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-23.positive",
+        "R-23.negative"
+      ]
+    },
+    {
+      "id": "R-24",
+      "title": "\"Records only in non-positional form\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-24.positive",
+        "R-24.negative"
+      ]
+    },
+    {
+      "id": "R-25",
+      "title": "\"No region directives\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-25.positive",
+        "R-25.negative"
+      ]
+    },
+    {
+      "id": "R-26",
+      "title": "\"No null-forgiving operator\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-26.positive",
+        "R-26.negative"
+      ]
+    },
+    {
+      "id": "R-27",
+      "title": "\"Private fields use _camelCase\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-27.positive",
+        "R-27.negative"
+      ]
+    },
+    {
+      "id": "R-28",
+      "title": "\"No this qualification\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-28.positive",
+        "R-28.negative"
+      ]
+    },
+    {
+      "id": "R-29",
+      "title": "\"Constants use PascalCase\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-29.positive",
+        "R-29.negative"
+      ]
+    },
+    {
+      "id": "R-30",
+      "title": "\"No Async suffix required\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-30.positive",
+        "R-30.negative"
+      ]
+    },
+    {
+      "id": "R-31",
+      "title": "\"Classes sealed by default\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-31.positive",
+        "R-31.negative"
+      ]
+    },
+    {
+      "id": "R-32",
+      "title": "\"One type per file\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-32.positive",
+        "R-32.negative"
+      ]
+    },
+    {
+      "id": "R-33",
+      "title": "\"Member order\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-33.positive",
+        "R-33.negative"
+      ]
+    },
+    {
+      "id": "R-34",
+      "title": "\"Default visibility internal\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-34.positive",
+        "R-34.negative"
+      ]
+    },
+    {
+      "id": "R-35",
+      "title": "\"XML docs on public types and members\"; \"XML docs and comments\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-35.positive",
+        "R-35.negative"
+      ]
+    },
+    {
+      "id": "R-36",
+      "title": "\"No comments inside member bodies\"; \"XML docs and comments\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-36.positive",
+        "R-36.negative"
+      ]
+    },
+    {
+      "id": "R-37",
+      "title": "\"Member body of 60 lines or fewer\"; \"Member body length\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-37.positive",
+        "R-37.negative"
+      ]
+    },
+    {
+      "id": "R-38",
+      "title": "\"Named arguments\"; \"Named arguments at call sites\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-38.positive",
+        "R-38.negative"
+      ]
+    },
+    {
+      "id": "R-39",
+      "title": "\"Banned APIs\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-39.positive",
+        "R-39.negative"
+      ]
+    },
+    {
+      "id": "R-40",
+      "title": "\"Banned APIs\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-40.positive",
+        "R-40.negative"
+      ]
+    },
+    {
+      "id": "R-41",
+      "title": "\"Banned APIs\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-41.positive",
+        "R-41.negative"
+      ]
+    },
+    {
+      "id": "R-42",
+      "title": "\"Banned APIs\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-42.positive",
+        "R-42.negative"
+      ]
+    },
+    {
+      "id": "R-43",
+      "title": "\"Banned APIs\"",
+      "proposedDisposition": "inapplicable",
+      "resolution": "register-validation-required",
+      "obligations": [
+        "R-43.register-resolution"
+      ]
+    },
+    {
+      "id": "R-44",
+      "title": "\"Logging through LoggerMessage\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-44.positive",
+        "R-44.negative"
+      ]
+    },
+    {
+      "id": "R-45",
+      "title": "\"ConfigureAwait in Sebreiro packages\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-45.positive",
+        "R-45.negative"
+      ]
+    },
+    {
+      "id": "R-46",
+      "title": "\"Tests follow every rule\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-46.positive",
+        "R-46.negative"
+      ]
+    },
+    {
+      "id": "R-47",
+      "title": "\"Shouldly assertions\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-47.positive",
+        "R-47.negative"
+      ]
+    },
+    {
+      "id": "R-48",
+      "title": "\"Test method names use Method_State_Expected\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-48.positive",
+        "R-48.negative"
+      ]
+    },
+    {
+      "id": "R-49",
+      "title": "\"Analyzer coverage of 90% lines and 80% branches\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-49.positive",
+        "R-49.negative"
+      ]
+    },
+    {
+      "id": "R-50",
+      "title": "\"Generated code exempt only under Migrations\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-50.positive",
+        "R-50.negative"
+      ]
+    },
+    {
+      "id": "R-51",
+      "title": "\"Exactly the listed projects\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-51.positive",
+        "R-51.negative"
+      ]
+    },
+    {
+      "id": "R-52",
+      "title": "\"CompositionRoot is the only host\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-52.positive",
+        "R-52.negative"
+      ]
+    },
+    {
+      "id": "R-53",
+      "title": "\"Transitive project references disabled\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-53.positive",
+        "R-53.negative"
+      ]
+    },
+    {
+      "id": "R-54",
+      "title": "\"Allowed project references\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-54.positive",
+        "R-54.negative"
+      ]
+    },
+    {
+      "id": "R-55",
+      "title": "\"Interface-only abstractions\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-55.positive",
+        "R-55.negative"
+      ]
+    },
+    {
+      "id": "R-56",
+      "title": "\"No entities in outward contracts\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-56.positive",
+        "R-56.negative"
+      ]
+    },
+    {
+      "id": "R-57",
+      "title": "\"Per-layer registration\"",
+      "proposedDisposition": "inapplicable",
+      "resolution": "register-validation-required",
+      "obligations": [
+        "R-57.register-resolution"
+      ]
+    },
+    {
+      "id": "R-58",
+      "title": "\"Domain depends only on System\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-58.positive",
+        "R-58.negative"
+      ]
+    },
+    {
+      "id": "R-59",
+      "title": "\"Application has no infrastructure types\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-59.positive",
+        "R-59.negative"
+      ]
+    },
+    {
+      "id": "R-60",
+      "title": "\"No IServiceProvider outside CompositionRoot\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-60.positive",
+        "R-60.negative"
+      ]
+    },
+    {
+      "id": "R-61",
+      "title": "\"Integration projects are isolated\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-61.positive",
+        "R-61.negative"
+      ]
+    },
+    {
+      "id": "R-62",
+      "title": "\"Reusable packages are product-agnostic\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-62.positive",
+        "R-62.negative"
+      ]
+    },
+    {
+      "id": "R-63",
+      "title": "\"Domain entities\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-63.positive",
+        "R-63.negative"
+      ]
+    },
+    {
+      "id": "R-64",
+      "title": "\"DTOs\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-64.positive",
+        "R-64.negative"
+      ]
+    },
+    {
+      "id": "R-65",
+      "title": "\"Hand-written mapping\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-65.positive",
+        "R-65.negative"
+      ]
+    },
+    {
+      "id": "R-66",
+      "title": "\"Single version value\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-66.positive",
+        "R-66.negative"
+      ]
+    },
+    {
+      "id": "R-67",
+      "title": "\"No suppressions outside the rule matrix\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-67.positive",
+        "R-67.negative"
+      ]
+    },
+    {
+      "id": "R-68",
+      "title": "\"Property names in camelCase and enums as their pinned names\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-68.positive",
+        "R-68.negative"
+      ]
+    },
+    {
+      "id": "R-69",
+      "title": "\"Exact-match enum input\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-69.positive",
+        "R-69.negative"
+      ]
+    },
+    {
+      "id": "R-70",
+      "title": "\"Nulls omitted and unknown properties ignored\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-70.positive",
+        "R-70.negative"
+      ]
+    },
+    {
+      "id": "R-71",
+      "title": "\"Missing and null required values rejected\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-71.positive",
+        "R-71.negative"
+      ]
+    },
+    {
+      "id": "R-72",
+      "title": "\"Shared JSON settings configured once\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-72.positive",
+        "R-72.negative"
+      ]
+    },
+    {
+      "id": "R-73",
+      "title": "\"Times and durations\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-73.positive",
+        "R-73.negative"
+      ]
+    },
+    {
+      "id": "R-74",
+      "title": "\"Unknown is the zero value and never valid\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-74.positive",
+        "R-74.negative"
+      ]
+    },
+    {
+      "id": "R-75",
+      "title": "\"Every enum member is pinned\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-75.positive",
+        "R-75.negative"
+      ]
+    },
+    {
+      "id": "R-76",
+      "title": "\"Enums stored as their pinned names\"",
+      "proposedDisposition": "inapplicable",
+      "resolution": "register-validation-required",
+      "obligations": [
+        "R-76.register-resolution"
+      ]
+    },
+    {
+      "id": "R-77",
+      "title": "\"Enum values only added\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-77.positive",
+        "R-77.negative"
+      ]
+    },
+    {
+      "id": "R-78",
+      "title": "\"Domain enums never leave the backend\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-78.positive",
+        "R-78.negative"
+      ]
+    },
+    {
+      "id": "R-79",
+      "title": "\"Every external dependency has a health check\"",
+      "proposedDisposition": "inapplicable",
+      "resolution": "register-validation-required",
+      "obligations": [
+        "R-79.register-resolution"
+      ]
+    },
+    {
+      "id": "R-80",
+      "title": "\"One tag per health check, matching its failure status\"",
+      "proposedDisposition": "inapplicable",
+      "resolution": "register-validation-required",
+      "obligations": [
+        "R-80.register-resolution"
+      ]
+    },
+    {
+      "id": "R-81",
+      "title": "\"Options classes\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-81.positive",
+        "R-81.negative"
+      ]
+    },
+    {
+      "id": "R-82",
+      "title": "\"Production coverage of 90% lines and 80% branches\"",
+      "proposedDisposition": "adapted",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-82.positive",
+        "R-82.negative"
+      ]
+    },
+    {
+      "id": "R-83",
+      "title": "\"Every project has its own docs\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-83.positive",
+        "R-83.negative"
+      ]
+    },
+    {
+      "id": "R-84",
+      "title": "\"Decision records\"",
+      "proposedDisposition": "retained",
+      "resolution": "positive-and-negative-required-or-explicit-review-disposition",
+      "obligations": [
+        "R-84.positive",
+        "R-84.negative"
+      ]
+    },
+    {
+      "id": "R-85",
+      "title": "\"In-process hosts only through LangApiFactory\"",
+      "proposedDisposition": "inapplicable",
+      "resolution": "register-validation-required",
+      "obligations": [
+        "R-85.register-resolution"
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "id": "runner.missing-result",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.MissingRequiredResultCannotPass"
+    },
+    {
+      "id": "runner.assertion-pass",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.RealAssertionPasses"
+    },
+    {
+      "id": "runner.duplicate-result",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.DuplicateResultIsRejectedBeforeSetConversion"
+    },
+    {
+      "id": "runner.unknown-result",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.UnknownResultCannotSatisfyAnotherObligation"
+    },
+    {
+      "id": "runner.wrong-nonce",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.WrongNonceCannotReusePriorEvidence"
+    },
+    {
+      "id": "runner.changed-input",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.ChangedInputCannotBorrowEvidence"
+    },
+    {
+      "id": "runner.wrong-tool",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.WrongToolCannotBorrowEvidence"
+    },
+    {
+      "id": "runner.wrong-platform",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.WrongPlatformCannotBorrowEvidence"
+    },
+    {
+      "id": "runner.skipped-result",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.SkippedResultCannotPass"
+    },
+    {
+      "id": "runner.blocked-result",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.BlockedResultCannotPass"
+    },
+    {
+      "id": "runner.empty-evidence",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.EmptyEvidenceCannotPass"
+    },
+    {
+      "id": "runner.escaping-evidence",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.EvidenceCannotEscapeRunDirectory"
+    },
+    {
+      "id": "runner.unrelated-diagnostic",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.InfrastructureFailureCannotStandForSubjectViolation"
+    },
+    {
+      "id": "runner.missing-prerequisite",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.NegativeEvidenceRequiresSuccessfulInfrastructure"
+    },
+    {
+      "id": "runner.selection",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.WrongAndEmptySelectionsAreRejected"
+    },
+    {
+      "id": "ac-01.complete",
+      "group": "pins",
+      "rule": "RULE-01",
+      "owner": "01-18",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "ac-02.complete",
+      "group": "platform",
+      "rule": "RULE-01",
+      "owner": "01-17",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "ac-05.complete",
+      "group": "register",
+      "rule": "RULE-02",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "ac-06.complete",
+      "group": "register",
+      "rule": "RULE-02",
+      "owner": "01-14",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "ac-07.complete",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "ac-08.complete",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-08",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "ac-09.complete",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "ac-10.complete",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-13",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "ac-11.complete",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-13",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "ac-12.complete",
+      "group": "graph",
+      "rule": "RULE-05",
+      "owner": "01-04",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "ac-13.complete",
+      "group": "graph",
+      "rule": "RULE-05",
+      "owner": "01-04",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "ac-14.complete",
+      "group": "engine",
+      "rule": "RULE-06",
+      "owner": "01-11",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "ac-15.complete",
+      "group": "engine",
+      "rule": "RULE-06",
+      "owner": "01-12",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "ac-16.complete",
+      "group": "engine",
+      "rule": "RULE-06",
+      "owner": "01-12",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "ac-17.complete",
+      "group": "engine",
+      "rule": "RULE-06",
+      "owner": "01-12",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "ac-18.complete",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-10",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "ac-19.complete",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-10",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "ac-20.complete",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-10",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "ac-21.complete",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-10",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "ac-22.complete",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-10",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-01.adjacency",
+      "group": "pins",
+      "rule": "RULE-01",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-01.empty",
+      "group": "pins",
+      "rule": "RULE-01",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-01.ordering",
+      "group": "pins",
+      "rule": "RULE-01",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-01.idempotency",
+      "group": "pins",
+      "rule": "RULE-01",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-01.concurrency",
+      "group": "pins",
+      "rule": "RULE-01",
+      "owner": "01-02",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-02.adjacency",
+      "group": "register",
+      "rule": "RULE-02",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-02.empty",
+      "group": "register",
+      "rule": "RULE-02",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-02.encoding",
+      "group": "register",
+      "rule": "RULE-02",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-02.ordering",
+      "group": "register",
+      "rule": "RULE-02",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-03.boundary",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-08",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-03.adjacency",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-08",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-03.empty",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-08",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-03.encoding",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-08",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-03.ordering",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-08",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-03.precision",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-08",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-03.idempotency",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-08",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-03.concurrency",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-08",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-04.adjacency",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-13",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-04.empty",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-13",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-04.encoding",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-13",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-04.ordering",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-13",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-04.concurrency",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-13",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-05.adjacency",
+      "group": "graph",
+      "rule": "RULE-05",
+      "owner": "01-04",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-05.empty",
+      "group": "graph",
+      "rule": "RULE-05",
+      "owner": "01-04",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-05.ordering",
+      "group": "graph",
+      "rule": "RULE-05",
+      "owner": "01-04",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-06.adjacency",
+      "group": "engine",
+      "rule": "RULE-06",
+      "owner": "01-12",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-06.empty",
+      "group": "engine",
+      "rule": "RULE-06",
+      "owner": "01-12",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-06.ordering",
+      "group": "engine",
+      "rule": "RULE-06",
+      "owner": "01-12",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-06.idempotency",
+      "group": "engine",
+      "rule": "RULE-06",
+      "owner": "01-12",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-06.concurrency",
+      "group": "engine",
+      "rule": "RULE-06",
+      "owner": "01-12",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-07.boundary",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-10",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-07.adjacency",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-10",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-07.empty",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-10",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-07.encoding",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-10",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-07.ordering",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-10",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-07.precision",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-10",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-07.idempotency",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-10",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "edge.rule-07.concurrency",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-10",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending"
+    },
+    {
+      "id": "R-01.positive",
+      "group": "rules",
+      "rule": "R-01",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-01.negative",
+      "group": "rules",
+      "rule": "R-01",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-02.positive",
+      "group": "rules",
+      "rule": "R-02",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-02.negative",
+      "group": "rules",
+      "rule": "R-02",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-03.positive",
+      "group": "rules",
+      "rule": "R-03",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-03.negative",
+      "group": "rules",
+      "rule": "R-03",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-04.positive",
+      "group": "rules",
+      "rule": "R-04",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-04.negative",
+      "group": "rules",
+      "rule": "R-04",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-05.positive",
+      "group": "rules",
+      "rule": "R-05",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-05.negative",
+      "group": "rules",
+      "rule": "R-05",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-06.positive",
+      "group": "rules",
+      "rule": "R-06",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-06.negative",
+      "group": "rules",
+      "rule": "R-06",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-07.positive",
+      "group": "rules",
+      "rule": "R-07",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-07.negative",
+      "group": "rules",
+      "rule": "R-07",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-08.positive",
+      "group": "rules",
+      "rule": "R-08",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-08.negative",
+      "group": "rules",
+      "rule": "R-08",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-09.positive",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-09.negative",
+      "group": "rules",
+      "rule": "R-09",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-10.positive",
+      "group": "rules",
+      "rule": "R-10",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-10.negative",
+      "group": "rules",
+      "rule": "R-10",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-11.positive",
+      "group": "rules",
+      "rule": "R-11",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-11.negative",
+      "group": "rules",
+      "rule": "R-11",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-12.positive",
+      "group": "rules",
+      "rule": "R-12",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-12.negative",
+      "group": "rules",
+      "rule": "R-12",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-13.positive",
+      "group": "rules",
+      "rule": "R-13",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-13.negative",
+      "group": "rules",
+      "rule": "R-13",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-14.positive",
+      "group": "rules",
+      "rule": "R-14",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-14.negative",
+      "group": "rules",
+      "rule": "R-14",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-15.positive",
+      "group": "rules",
+      "rule": "R-15",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-15.negative",
+      "group": "rules",
+      "rule": "R-15",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-16.positive",
+      "group": "rules",
+      "rule": "R-16",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-16.negative",
+      "group": "rules",
+      "rule": "R-16",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-17.positive",
+      "group": "rules",
+      "rule": "R-17",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-17.negative",
+      "group": "rules",
+      "rule": "R-17",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-18.positive",
+      "group": "rules",
+      "rule": "R-18",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-18.negative",
+      "group": "rules",
+      "rule": "R-18",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-19.positive",
+      "group": "rules",
+      "rule": "R-19",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-19.negative",
+      "group": "rules",
+      "rule": "R-19",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-20.positive",
+      "group": "rules",
+      "rule": "R-20",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-20.negative",
+      "group": "rules",
+      "rule": "R-20",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-21.positive",
+      "group": "rules",
+      "rule": "R-21",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-21.negative",
+      "group": "rules",
+      "rule": "R-21",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-22.positive",
+      "group": "rules",
+      "rule": "R-22",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-22.negative",
+      "group": "rules",
+      "rule": "R-22",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-23.positive",
+      "group": "rules",
+      "rule": "R-23",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-23.negative",
+      "group": "rules",
+      "rule": "R-23",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-24.positive",
+      "group": "rules",
+      "rule": "R-24",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-24.negative",
+      "group": "rules",
+      "rule": "R-24",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-25.positive",
+      "group": "rules",
+      "rule": "R-25",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-25.negative",
+      "group": "rules",
+      "rule": "R-25",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-26.positive",
+      "group": "rules",
+      "rule": "R-26",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-26.negative",
+      "group": "rules",
+      "rule": "R-26",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-27.positive",
+      "group": "rules",
+      "rule": "R-27",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-27.negative",
+      "group": "rules",
+      "rule": "R-27",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-28.positive",
+      "group": "rules",
+      "rule": "R-28",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-28.negative",
+      "group": "rules",
+      "rule": "R-28",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-29.positive",
+      "group": "rules",
+      "rule": "R-29",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-29.negative",
+      "group": "rules",
+      "rule": "R-29",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-30.positive",
+      "group": "rules",
+      "rule": "R-30",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-30.negative",
+      "group": "rules",
+      "rule": "R-30",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-31.positive",
+      "group": "rules",
+      "rule": "R-31",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-31.negative",
+      "group": "rules",
+      "rule": "R-31",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-32.positive",
+      "group": "rules",
+      "rule": "R-32",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-32.negative",
+      "group": "rules",
+      "rule": "R-32",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-33.positive",
+      "group": "rules",
+      "rule": "R-33",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-33.negative",
+      "group": "rules",
+      "rule": "R-33",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-34.positive",
+      "group": "rules",
+      "rule": "R-34",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-34.negative",
+      "group": "rules",
+      "rule": "R-34",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-35.positive",
+      "group": "rules",
+      "rule": "R-35",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-35.negative",
+      "group": "rules",
+      "rule": "R-35",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-36.positive",
+      "group": "rules",
+      "rule": "R-36",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-36.negative",
+      "group": "rules",
+      "rule": "R-36",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-37.positive",
+      "group": "rules",
+      "rule": "R-37",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-37.negative",
+      "group": "rules",
+      "rule": "R-37",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-38.positive",
+      "group": "rules",
+      "rule": "R-38",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-38.negative",
+      "group": "rules",
+      "rule": "R-38",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-39.positive",
+      "group": "rules",
+      "rule": "R-39",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-39.negative",
+      "group": "rules",
+      "rule": "R-39",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-40.positive",
+      "group": "rules",
+      "rule": "R-40",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-40.negative",
+      "group": "rules",
+      "rule": "R-40",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-41.positive",
+      "group": "rules",
+      "rule": "R-41",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-41.negative",
+      "group": "rules",
+      "rule": "R-41",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-42.positive",
+      "group": "rules",
+      "rule": "R-42",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-42.negative",
+      "group": "rules",
+      "rule": "R-42",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-43.register-resolution",
+      "group": "register",
+      "rule": "R-43",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "register-resolution"
+    },
+    {
+      "id": "R-44.positive",
+      "group": "rules",
+      "rule": "R-44",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-44.negative",
+      "group": "rules",
+      "rule": "R-44",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-45.positive",
+      "group": "rules",
+      "rule": "R-45",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-45.negative",
+      "group": "rules",
+      "rule": "R-45",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-46.positive",
+      "group": "rules",
+      "rule": "R-46",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-46.negative",
+      "group": "rules",
+      "rule": "R-46",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-47.positive",
+      "group": "rules",
+      "rule": "R-47",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-47.negative",
+      "group": "rules",
+      "rule": "R-47",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-48.positive",
+      "group": "rules",
+      "rule": "R-48",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-48.negative",
+      "group": "rules",
+      "rule": "R-48",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-49.positive",
+      "group": "rules",
+      "rule": "R-49",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-49.negative",
+      "group": "rules",
+      "rule": "R-49",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-50.positive",
+      "group": "rules",
+      "rule": "R-50",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-50.negative",
+      "group": "rules",
+      "rule": "R-50",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-51.positive",
+      "group": "rules",
+      "rule": "R-51",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-51.negative",
+      "group": "rules",
+      "rule": "R-51",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-52.positive",
+      "group": "rules",
+      "rule": "R-52",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-52.negative",
+      "group": "rules",
+      "rule": "R-52",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-53.positive",
+      "group": "rules",
+      "rule": "R-53",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-53.negative",
+      "group": "rules",
+      "rule": "R-53",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-54.positive",
+      "group": "rules",
+      "rule": "R-54",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-54.negative",
+      "group": "rules",
+      "rule": "R-54",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-55.positive",
+      "group": "rules",
+      "rule": "R-55",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-55.negative",
+      "group": "rules",
+      "rule": "R-55",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-56.positive",
+      "group": "rules",
+      "rule": "R-56",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-56.negative",
+      "group": "rules",
+      "rule": "R-56",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-57.register-resolution",
+      "group": "register",
+      "rule": "R-57",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "register-resolution"
+    },
+    {
+      "id": "R-58.positive",
+      "group": "rules",
+      "rule": "R-58",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-58.negative",
+      "group": "rules",
+      "rule": "R-58",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-59.positive",
+      "group": "rules",
+      "rule": "R-59",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-59.negative",
+      "group": "rules",
+      "rule": "R-59",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-60.positive",
+      "group": "rules",
+      "rule": "R-60",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-60.negative",
+      "group": "rules",
+      "rule": "R-60",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-61.positive",
+      "group": "rules",
+      "rule": "R-61",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-61.negative",
+      "group": "rules",
+      "rule": "R-61",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-62.positive",
+      "group": "rules",
+      "rule": "R-62",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-62.negative",
+      "group": "rules",
+      "rule": "R-62",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-63.positive",
+      "group": "rules",
+      "rule": "R-63",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-63.negative",
+      "group": "rules",
+      "rule": "R-63",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-64.positive",
+      "group": "rules",
+      "rule": "R-64",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-64.negative",
+      "group": "rules",
+      "rule": "R-64",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-65.positive",
+      "group": "rules",
+      "rule": "R-65",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-65.negative",
+      "group": "rules",
+      "rule": "R-65",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-66.positive",
+      "group": "rules",
+      "rule": "R-66",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-66.negative",
+      "group": "rules",
+      "rule": "R-66",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-67.positive",
+      "group": "rules",
+      "rule": "R-67",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-67.negative",
+      "group": "rules",
+      "rule": "R-67",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-68.positive",
+      "group": "rules",
+      "rule": "R-68",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-68.negative",
+      "group": "rules",
+      "rule": "R-68",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-69.positive",
+      "group": "rules",
+      "rule": "R-69",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-69.negative",
+      "group": "rules",
+      "rule": "R-69",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-70.positive",
+      "group": "rules",
+      "rule": "R-70",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-70.negative",
+      "group": "rules",
+      "rule": "R-70",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-71.positive",
+      "group": "rules",
+      "rule": "R-71",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-71.negative",
+      "group": "rules",
+      "rule": "R-71",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-72.positive",
+      "group": "rules",
+      "rule": "R-72",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-72.negative",
+      "group": "rules",
+      "rule": "R-72",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-73.positive",
+      "group": "rules",
+      "rule": "R-73",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-73.negative",
+      "group": "rules",
+      "rule": "R-73",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-74.positive",
+      "group": "rules",
+      "rule": "R-74",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-74.negative",
+      "group": "rules",
+      "rule": "R-74",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-75.positive",
+      "group": "rules",
+      "rule": "R-75",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-75.negative",
+      "group": "rules",
+      "rule": "R-75",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-76.register-resolution",
+      "group": "register",
+      "rule": "R-76",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "register-resolution"
+    },
+    {
+      "id": "R-77.positive",
+      "group": "rules",
+      "rule": "R-77",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-77.negative",
+      "group": "rules",
+      "rule": "R-77",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-78.positive",
+      "group": "rules",
+      "rule": "R-78",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-78.negative",
+      "group": "rules",
+      "rule": "R-78",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-79.register-resolution",
+      "group": "register",
+      "rule": "R-79",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "register-resolution"
+    },
+    {
+      "id": "R-80.register-resolution",
+      "group": "register",
+      "rule": "R-80",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "register-resolution"
+    },
+    {
+      "id": "R-81.positive",
+      "group": "rules",
+      "rule": "R-81",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-81.negative",
+      "group": "rules",
+      "rule": "R-81",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-82.positive",
+      "group": "rules",
+      "rule": "R-82",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-82.negative",
+      "group": "rules",
+      "rule": "R-82",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-83.positive",
+      "group": "rules",
+      "rule": "R-83",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-83.negative",
+      "group": "rules",
+      "rule": "R-83",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-84.positive",
+      "group": "rules",
+      "rule": "R-84",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "R-84.negative",
+      "group": "rules",
+      "rule": "R-84",
+      "owner": "01-05..01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "R-85.register-resolution",
+      "group": "register",
+      "rule": "R-85",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "register-resolution"
+    }
+  ]
+}

@@ -356,7 +356,8 @@ async function main() {
   console.log(JSON.stringify({ nonce, probe: args[1], status: 'pass', evidenceKind: 'raw-compatibility-only', logs: path.relative(root, runDirectory) }));
 }
 
-main().catch(error => {
+module.exports = { parseJson, validateManifest, declarations };
+if (require.main === module) main().catch(error => {
   const result = { nonce, status: 'fail', diagnostic: error.diagnostic ?? 'BOOTSTRAP_FAILED', message: error.message, logs: path.relative(root, runDirectory) };
   if (fs.existsSync(runDirectory)) fs.writeFileSync(path.join(runDirectory, 'failure.json'), JSON.stringify(result, null, 2));
   console.error(JSON.stringify(result));
