@@ -21,7 +21,7 @@ public partial class Phase1 : Node
     public override void _Ready()
     {
         WriteEvidence(assertion: "ready");
-        GD.Print("PHASE1_IDENTITY " + JsonSerializer.Serialize(value: new
+        GD.Print(what: ["PHASE1_IDENTITY " + JsonSerializer.Serialize(value: new
         {
             nonce = _nonce,
             runtime = System.Environment.Version.ToString(),
@@ -29,7 +29,7 @@ public partial class Phase1 : Node
             display = DisplayServer.GetName(),
             renderer = RenderingServer.GetCurrentRenderingMethod(),
             engine = Engine.GetVersionInfo()["string"].AsString(),
-        }));
+        })]);
         GetTree().Quit();
     }
 
@@ -41,10 +41,10 @@ public partial class Phase1 : Node
 
     private void WriteEvidence(string assertion)
     {
-        GD.Print("PHASE1_ASSERT " + JsonSerializer.Serialize(value: new
+        GD.Print(what: ["PHASE1_ASSERT " + JsonSerializer.Serialize(value: new
         {
             nonce = _nonce,
             assertion,
-        }));
+        })]);
     }
 }

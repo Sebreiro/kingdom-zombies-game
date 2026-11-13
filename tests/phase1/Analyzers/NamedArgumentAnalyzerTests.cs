@@ -349,6 +349,27 @@ public sealed class NamedArgumentAnalyzerTests
                 """);
     }
 
+    /// <summary>Explicit params arrays and ref arguments are ordinary arguments immediately outside element exemptions.</summary>
+    [Fact, Trait("Case", "rules.namedargument.explicit-params-ref")]
+    public Task ExplicitParamsArraysAndRefArgumentsRequireNames()
+    {
+        return VerifyAsync(caseId: "rules.namedargument.explicit-params-ref", diagnostic: "SCR0001", source: """
+                class C
+                {
+                    static void Take(params int[] values) { }
+                    static void Ref(ref int value) { value++; }
+                    static void Run()
+                    {
+                        int value = 0;
+                        Take({|SCR0001:new[] { 1, 2 }|});
+                        Take(values: new[] { 1, 2 });
+                        Ref({|SCR0001:ref value|});
+                        Ref(value: ref value);
+                    }
+                }
+                """);
+    }
+
     private static Task VerifyAsync(string caseId, string diagnostic, string source, string? editorConfig = null)
     {
         return InheritedAnalyzerVerifier.VerifyAsync(caseId: caseId, diagnostic: diagnostic, analyzerType: "NamedArgumentAnalyzer",

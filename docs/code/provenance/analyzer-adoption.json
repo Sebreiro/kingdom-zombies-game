@@ -6,12 +6,22 @@
   "sourceTestsDirectory": "src/backend/lang-proj-core/packages/Sebreiro.CodeRules.Analyzers.Tests",
   "license": "No donor license/notice file exists; original bytes remain captured, with creator-authorized reuse.",
   "plan": "01-05",
-  "adopted": ["NamedArgumentAnalyzer.cs", "BodyCommentAnalyzer.cs", "MemberBodies.cs", "AnalyzerReleases.Shipped.md", "AnalyzerReleases.Unshipped.md"],
+  "adopted": [
+    "NamedArgumentAnalyzer.cs",
+    "BodyCommentAnalyzer.cs",
+    "MemberBodies.cs",
+    "AnalyzerReleases.Shipped.md",
+    "AnalyzerReleases.Unshipped.md",
+    "PrimaryConstructorAnalyzer.cs",
+    "RegionDirectiveAnalyzer.cs"
+  ],
   "modifications": [
     "NamedArgument and BodyComment analyze generated-marked subjects; handwritten generated markers/settings cannot bypass rules. Only exact proven tool symbols receive registered permissions.",
     "NamedArgument ignores compiler-synthesized IArgumentOperation nodes, preserving implicit-argument semantics for collection-expression construction; an explicit collection-expression call remains checked.",
     "Captured tests retain every applicable original subject and markup, adapt namespaces/verifier and public method names to local policy, initialize/read unused fixture fields, and replace broad generated-code exemption tests with handwritten impostor rejection.",
-    "Release table lists only implemented descriptors. All twelve exact donor IDs/names remain enumerated; pending families are comments until their owning plans implement them."
+    "Release table lists only implemented descriptors. All twelve exact donor IDs/names remain enumerated; pending families are comments until their owning plans implement them.",
+    "PrimaryConstructor and RegionDirective also analyze generated-marked subjects; empty/nested positional declarations and inactive regions are proven. Eight exact observed Godot call-site members are separately registered with package/source hashes and collision proofs.",
+    "Independent result input identity now includes owned analyzer source; isolated real-source mutation changes identity while obj/cache output does not."
   ],
   "numericFamilyOwnership": "Body length/line length/continuation thresholds are implemented and proven by 01-06/01-07, not descriptors or stand-ins in 01-05."
 }

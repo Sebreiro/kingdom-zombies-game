@@ -5,6 +5,7 @@
   "assembly": "tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll",
   "inputs": [
     "tools/phase1",
+    "tools/code-rules",
     "tests/phase1",
     "src",
     "docs",
@@ -7201,6 +7202,114 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.Analyzers.RegionDirectiveAnalyzerTests.AnalyzeFileLevelAndNestedReport",
       "expectedDiagnostic": "SCR0004"
+    },
+    {
+      "id": "rules.namedargument.explicit-params-ref",
+      "rule": "R-38",
+      "group": "rules",
+      "owner": "01-05",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.ExplicitParamsArraysAndRefArgumentsRequireNames",
+      "expectedDiagnostic": "SCR0001"
+    },
+    {
+      "id": "rules.bodycomment.block-doc-anonymous",
+      "rule": "R-36",
+      "group": "rules",
+      "owner": "01-05",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.BlockDocumentationAndAnonymousMethodsAreChecked",
+      "expectedDiagnostic": "SCR0002"
+    },
+    {
+      "id": "rules.primaryconstructor.generated-nested",
+      "rule": "R-23",
+      "group": "rules",
+      "owner": "01-05",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.GeneratedNestedPrimaryConstructorsRemainChecked",
+      "expectedDiagnostic": "SCR0003"
+    },
+    {
+      "id": "rules.regiondirective.generated-inactive",
+      "rule": "R-25",
+      "group": "rules",
+      "owner": "01-05",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.RegionDirectiveAnalyzerTests.GeneratedAndInactiveRegionsRemainChecked",
+      "expectedDiagnostic": "SCR0004"
+    },
+    {
+      "id": "rules.analyzer-input-identity",
+      "group": "rules",
+      "rule": "AC-04",
+      "owner": "01-05",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.AnalyzerInputIdentityTests.AnalyzerSourceMutationInvalidatesInputIdentity",
+      "expectedDiagnostic": "ANALYZER_INPUT_CHANGED"
+    },
+    {
+      "id": "rules.godot-callsite-boundary",
+      "rule": "R-38",
+      "group": "rules",
+      "owner": "01-05",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GodotCallSiteAdapterTests.GodotCallSitePermissionsCannotEscapeTheirMembers",
+      "expectedDiagnostic": "GODOT_CALLSITE_BOUNDARY_REJECTED"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."

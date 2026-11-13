@@ -19,7 +19,27 @@ namespace KingdomZombies.Phase1.Tests.Verification;
 internal static class AnalyzerVerifier
 {
     /// <summary>One complete expected source diagnostic; coordinates are one-based.</summary>
-    internal sealed record Expected(string Id, DiagnosticSeverity Severity, string File, int Line, int Column, int EndLine, int EndColumn);
+    internal sealed record Expected
+    {
+        internal Expected(string id, DiagnosticSeverity severity, string file, int line, int column, int endLine, int endColumn)
+        {
+            Id = id;
+            Severity = severity;
+            File = file;
+            Line = line;
+            Column = column;
+            EndLine = endLine;
+            EndColumn = endColumn;
+        }
+
+        public string Id { get; init; }
+        public DiagnosticSeverity Severity { get; init; }
+        public string File { get; init; }
+        public int Line { get; init; }
+        public int Column { get; init; }
+        public int EndLine { get; init; }
+        public int EndColumn { get; init; }
+    }
 
     internal static ImmutableArray<MetadataReference> References()
     {
@@ -48,9 +68,11 @@ internal static class AnalyzerVerifier
         }
     }
 
-    private sealed class SubjectTreeOptions(bool generated) : SyntaxTreeOptionsProvider
+    private sealed class SubjectTreeOptions : SyntaxTreeOptionsProvider
     {
-        public override GeneratedKind IsGenerated(SyntaxTree tree, System.Threading.CancellationToken cancellationToken) { return generated ? GeneratedKind.MarkedGenerated : GeneratedKind.NotGenerated; }
+        private readonly bool _generated;
+        internal SubjectTreeOptions(bool generated) { _generated = generated; }
+        public override GeneratedKind IsGenerated(SyntaxTree tree, System.Threading.CancellationToken cancellationToken) { return _generated ? GeneratedKind.MarkedGenerated : GeneratedKind.NotGenerated; }
         public override bool TryGetDiagnosticValue(SyntaxTree tree, string diagnosticId, System.Threading.CancellationToken cancellationToken, out ReportDiagnostic severity) { severity = ReportDiagnostic.Default; return false; }
         public override bool TryGetGlobalDiagnosticValue(string diagnosticId, System.Threading.CancellationToken cancellationToken, out ReportDiagnostic severity) { severity = ReportDiagnostic.Default; return false; }
     }
@@ -60,7 +82,7 @@ internal static class AnalyzerVerifier
         var actual = diagnostics.Where(predicate: d => d.Severity is DiagnosticSeverity.Warning or DiagnosticSeverity.Error).Select(selector: d =>
         {
             var span = d.Location.GetLineSpan();
-            return new Expected(Id: d.Id, Severity: d.Severity, File: span.Path ?? "", Line: span.StartLinePosition.Line + 1, Column: span.StartLinePosition.Character + 1, EndLine: span.EndLinePosition.Line + 1, EndColumn: span.EndLinePosition.Character + 1);
+            return new Expected(id: d.Id, severity: d.Severity, file: span.Path ?? "", line: span.StartLinePosition.Line + 1, column: span.StartLinePosition.Character + 1, endLine: span.EndLinePosition.Line + 1, endColumn: span.EndLinePosition.Character + 1);
         }).OrderBy(keySelector: d => d.ToString(), comparer: StringComparer.Ordinal).ToArray();
         var wanted = expected.OrderBy(keySelector: d => d.ToString(), comparer: StringComparer.Ordinal).ToArray();
         if (!actual.SequenceEqual(other: wanted)) throw new InvalidOperationException(message: "DIAGNOSTIC_MISMATCH expected=" + string.Join(separator: "; ", values: wanted.Select(selector: d => d.ToString())) + " actual=" + string.Join(separator: "; ", values: actual.Select(selector: d => d.ToString())));

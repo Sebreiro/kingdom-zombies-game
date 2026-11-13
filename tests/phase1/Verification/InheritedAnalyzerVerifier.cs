@@ -37,7 +37,7 @@ internal static class InheritedAnalyzerVerifier
         {
             var start = lines.GetLinePosition(position: mark.Start);
             var end = lines.GetLinePosition(position: mark.End);
-            expected.Add(item: new AnalyzerVerifier.Expected(Id: mark.Id, Severity: DiagnosticSeverity.Error, File: "Subject.cs", Line: start.Line + 1, Column: start.Character + 1, EndLine: end.Line + 1, EndColumn: end.Character + 1));
+            expected.Add(item: new AnalyzerVerifier.Expected(id: mark.Id, severity: DiagnosticSeverity.Error, file: "Subject.cs", line: start.Line + 1, column: start.Character + 1, endLine: end.Line + 1, endColumn: end.Character + 1));
         }
         var assembly = Assembly.LoadFrom(assemblyFile: Path.Combine(path1: ProofProtocol.Root, path2: "tools/code-rules/bin/Debug/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll"));
         var type = assembly.GetType(name: "Sebreiro.CodeRules.Analyzers." + analyzerType);

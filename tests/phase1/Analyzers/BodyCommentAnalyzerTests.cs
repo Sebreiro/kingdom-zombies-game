@@ -316,6 +316,25 @@ public sealed class BodyCommentAnalyzerTests
                         """);
     }
 
+    /// <summary>Block XML docs and anonymous-method comments are checked once, including CRLF and first-line spans.</summary>
+    [Fact, Trait("Case", "rules.bodycomment.block-doc-anonymous")]
+    public Task BlockDocumentationAndAnonymousMethodsAreChecked()
+    {
+        return VerifyAsync(caseId: "rules.bodycomment.block-doc-anonymous", diagnostic: "SCR0002", source: """
+                class C
+                {
+                    static int Run()
+                    {
+                        {|SCR0002:/** <summary>Local.</summary>|}
+                         */
+                        int Local() { return 1; }
+                        System.Func<int> f = delegate { {|SCR0002:/* body */|} return Local(); };
+                        return f();
+                    }
+                }
+                """.Replace(oldValue: "\n", newValue: "\r\n", comparisonType: System.StringComparison.Ordinal));
+    }
+
     private static Task VerifyAsync(
             string caseId, string diagnostic, string source,
             string? editorConfig = null,

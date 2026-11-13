@@ -17,17 +17,17 @@ public sealed class GeneratedCallSiteAdapterTests
     {
         using var register = JsonDocument.Parse(json: File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: "docs/code/generated-callsite-adaptations.json")));
         var rows = register.RootElement.GetProperty(propertyName: "local").EnumerateArray().ToArray();
-        rows.Length.ShouldBe(expected: 2);
-        var adapters = File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: "tests/phase1/GeneratedCallSiteAdapters.cs"));
+        rows.Length.ShouldBe(expected: 10);
         foreach (var row in rows)
         {
+            var adapters = File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: row.GetProperty(propertyName: "path").GetString()!));
             var path = Path.Combine(path1: ProofProtocol.Root, path2: row.GetProperty(propertyName: "surface").GetString()!);
             Convert.ToHexStringLower(inArray: SHA256.HashData(source: File.ReadAllBytes(path: path))).ShouldBe(expected: row.GetProperty(propertyName: "sha256").GetString());
             adapters.ShouldContain(expected: row.GetProperty(propertyName: "target").GetString()!);
             var package = Path.Combine(path1: ProofProtocol.Root, path2: row.GetProperty(propertyName: "package").GetString()!);
             Convert.ToHexStringLower(inArray: SHA256.HashData(source: File.ReadAllBytes(path: package))).ShouldBe(expected: row.GetProperty(propertyName: "packageSha256").GetString());
         }
-        ProofProtocol.Record(id: "rules.generated-callsite-origin", diagnostic: "GENERATED_CALLSITE_ORIGIN_EXACT", location: "two exact generated sources, package hashes and member targets");
+        ProofProtocol.Record(id: "rules.generated-callsite-origin", diagnostic: "GENERATED_CALLSITE_ORIGIN_EXACT", location: "ten exact generated members, source/package hashes and targets");
     }
 
     private static string RebuildWithSource(string source)
