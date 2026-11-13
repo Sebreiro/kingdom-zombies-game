@@ -2,6 +2,8 @@
 
 GSD manages project context, scoped requirements, phase planning, execution, and verification. Its planning artifacts live in `.planning/`.
 
+Follow the [AI collaboration instructions](ai-collaboration.md) when asking questions or presenting decisions. Use interactive question controls; the project keeps `workflow.text_mode` disabled.
+
 ## Find the Current Position
 
 Use `$gsd-progress` to inspect the project state and identify the next workflow action. [STATE.md](../../.planning/STATE.md) records current progress and session continuity; [ROADMAP.md](../../.planning/ROADMAP.md) records phase goals and completion criteria.
@@ -15,7 +17,7 @@ Use `$gsd-progress` to inspect the project state and identify the next workflow 
 | `$gsd-execute-phase N` | Execute the phase's plans and record implementation results. |
 | `$gsd-verify-work N` | Check delivered behavior against the phase and user acceptance expectations. |
 
-For the first phase, the next discussion command is `$gsd-discuss-phase 1`. Initialization alone creates no completed implementation phase.
+Phase 1's requirements and context are captured; its next step is `$gsd-plan-phase 1`. Planning documents alone do not complete an implementation phase.
 
 ## Planning Artifacts
 

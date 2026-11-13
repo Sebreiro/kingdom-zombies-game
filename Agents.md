@@ -6,6 +6,7 @@ This is the documentation entry point. Open the documents relevant to the curren
 
 | Need | Read |
 | --- | --- |
+| AI collaboration, questions, and decision prompts | [AI collaboration](docs/workflow/ai-collaboration.md) |
 | Required game behavior, balance baseline, exclusions, and acceptance scenarios | [Version 0.1 specification](specs/0.1/initial-spec.md) |
 | Required assets, recovered donors, and production checks | [Asset and resource plan](specs/0.1/assets-and-resources.md) |
 | Project context and decisions | [PROJECT.md](.planning/PROJECT.md) |
