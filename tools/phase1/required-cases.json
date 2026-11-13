@@ -11182,6 +11182,42 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.Analyzers.LocalNewDeclarationAnalyzerTests.AnalyzeGeneratedCodeIsSkipped",
       "expectedDiagnostic": "SCR0012"
+    },
+    {
+      "id": "rules.generated-syntax-origin",
+      "group": "rules",
+      "rule": "AC-08",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GeneratedSyntaxAdapterTests.GeneratedSyntaxHasPinnedOrigin",
+      "expectedDiagnostic": "GENERATED_SYNTAX_ORIGIN_EXACT"
+    },
+    {
+      "id": "rules.generated-syntax-boundary",
+      "group": "rules",
+      "rule": "AC-08",
+      "owner": "01-07",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GeneratedSyntaxAdapterTests.GeneratedSyntaxPermissionsAreBounded",
+      "expectedDiagnostic": "GENERATED_SYNTAX_BOUNDARY_REJECTED"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."

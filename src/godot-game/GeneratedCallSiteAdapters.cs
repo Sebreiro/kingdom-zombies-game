@@ -4,8 +4,8 @@ using System.Diagnostics.CodeAnalysis;
         "~M:GodotPlugins.Game.Main.InitializeFromGameProject(Sys" +
                 "tem.IntPtr,System.IntPtr,System.IntPtr,System.Int32)"), Justification = (
                         "Pinned Godot 4.7.2 generated member; KZ-EX-GODOT-CALLS-" +
-                "1 source/package origin and collision boundary register" +
-                "ed"))]
+                                "1 source/package origin and collision boundary register" +
+                                "ed"))]
 [assembly: SuppressMessage("Sebreiro.CodeRules", "SCR0001", Scope = "member", Target =
         "~M:KingdomZombies.Proofs.Phase1.GetGodotMethodList", Justification = (
         "Pinned Godot 4.7.2 generated member; KZ-EX-GODOT-CALLS-" +
@@ -16,20 +16,20 @@ using System.Diagnostics.CodeAnalysis;
                 "Godot.NativeInterop.godot_string_name@,Godot.NativeInte" +
                 "rop.NativeVariantPtrArgs,Godot.NativeInterop.godot_vari" +
                 "ant@)"), Justification = ("Pinned Godot 4.7.2 generated member; KZ-EX-GODOT-CALLS-" +
-                "3 source/package origin and collision boundary register" +
-                "ed"))]
+                        "3 source/package origin and collision boundary register" +
+                        "ed"))]
 [assembly: SuppressMessage("Sebreiro.CodeRules", "SCR0001", Scope = "member", Target = (
         "~M:KingdomZombies.Proofs.Phase1.HasGodotClassMethod(God" +
                 "ot.NativeInterop.godot_string_name@)"), Justification = (
                         "Pinned Godot 4.7.2 generated member; KZ-EX-GODOT-CALLS-" +
-                "4 source/package origin and collision boundary register" +
-                "ed"))]
+                                "4 source/package origin and collision boundary register" +
+                                "ed"))]
 [assembly: SuppressMessage("Sebreiro.CodeRules", "SCR0001", Scope = "member", Target = (
         "~M:KingdomZombies.Proofs.Phase1.GetGodotClassPropertyVa" +
                 "lue(Godot.NativeInterop.godot_string_name@,Godot.Native" +
                 "Interop.godot_variant@)"), Justification = ("Pinned Godot 4.7.2 generated member; KZ-EX-GODOT-CALLS-" +
-                "5 source/package origin and collision boundary register" +
-                "ed"))]
+                        "5 source/package origin and collision boundary register" +
+                        "ed"))]
 [assembly: SuppressMessage("Sebreiro.CodeRules", "SCR0001", Scope = "member", Target =
         "~M:KingdomZombies.Proofs.Phase1.GetGodotPropertyList", Justification = (
         "Pinned Godot 4.7.2 generated member; KZ-EX-GODOT-CALLS-" +
@@ -39,14 +39,14 @@ using System.Diagnostics.CodeAnalysis;
         "~M:KingdomZombies.Proofs.Phase1.SaveGodotObjectData(God" +
                 "ot.Bridge.GodotSerializationInfo)"), Justification = (
                         "Pinned Godot 4.7.2 generated member; KZ-EX-GODOT-CALLS-" +
-                "7 source/package origin and collision boundary register" +
-                "ed"))]
+                                "7 source/package origin and collision boundary register" +
+                                "ed"))]
 [assembly: SuppressMessage("Sebreiro.CodeRules", "SCR0001", Scope = "member", Target = (
         "~M:KingdomZombies.Proofs.Phase1.RestoreGodotObjectData(" +
                 "Godot.Bridge.GodotSerializationInfo)"), Justification = (
                         "Pinned Godot 4.7.2 generated member; KZ-EX-GODOT-CALLS-" +
-                "8 source/package origin and collision boundary register" +
-                "ed"))]
+                                "8 source/package origin and collision boundary register" +
+                                "ed"))]
 
 [assembly: SuppressMessage("Sebreiro.CodeRules", "SCR0007", Scope = "member",
         Target = "~M:KingdomZombies.Proofs.Phase1.GetGodotMethodList",

@@ -34,7 +34,7 @@ public sealed class ThisQualificationAnalyzerTests
     [Fact, Trait("Case", "rules.thisqualification.Analyze_MethodCall_Reports")]
     public Task AnalyzeMethodCallReports()
     {
-        return VerifyAsync(caseId: "rules.thisqualification.Analyze_MethodCall_Reports", diagnostic: "SCR0011", 
+        return VerifyAsync(caseId: "rules.thisqualification.Analyze_MethodCall_Reports", diagnostic: "SCR0011",
                 source: """
                 class C
                 {
@@ -55,7 +55,7 @@ public sealed class ThisQualificationAnalyzerTests
     [Fact, Trait("Case", "rules.thisqualification.Analyze_PropertyAndEvent_Report")]
     public Task AnalyzePropertyAndEventReport()
     {
-        return VerifyAsync(caseId: "rules.thisqualification.Analyze_PropertyAndEvent_Report", diagnostic: 
+        return VerifyAsync(caseId: "rules.thisqualification.Analyze_PropertyAndEvent_Report", diagnostic:
                 "SCR0011", source: """
                 using System;
 
@@ -102,7 +102,7 @@ public sealed class ThisQualificationAnalyzerTests
     [Fact, Trait("Case", "rules.thisqualification.Analyze_ConstructorChaining_Passes")]
     public Task AnalyzeConstructorChainingPasses()
     {
-        return VerifyAsync(caseId: "rules.thisqualification.Analyze_ConstructorChaining_Passes", diagnostic: 
+        return VerifyAsync(caseId: "rules.thisqualification.Analyze_ConstructorChaining_Passes", diagnostic:
                 "ANALYZER_ACCEPTED", source: """
                 class C
                 {
@@ -123,7 +123,7 @@ public sealed class ThisQualificationAnalyzerTests
     [Fact, Trait("Case", "rules.thisqualification.Analyze_ThisAsValue_Passes")]
     public Task AnalyzeThisAsValuePasses()
     {
-        return VerifyAsync(caseId: "rules.thisqualification.Analyze_ThisAsValue_Passes", diagnostic: 
+        return VerifyAsync(caseId: "rules.thisqualification.Analyze_ThisAsValue_Passes", diagnostic:
                 "ANALYZER_ACCEPTED", source: """
                 class C
                 {
@@ -145,7 +145,7 @@ public sealed class ThisQualificationAnalyzerTests
     [Fact, Trait("Case", "rules.thisqualification.Analyze_Indexer_Passes")]
     public Task AnalyzeIndexerPasses()
     {
-        return VerifyAsync(caseId: "rules.thisqualification.Analyze_Indexer_Passes", diagnostic: 
+        return VerifyAsync(caseId: "rules.thisqualification.Analyze_Indexer_Passes", diagnostic:
                 "ANALYZER_ACCEPTED", source: """
                 class C
                 {
@@ -184,7 +184,7 @@ public sealed class ThisQualificationAnalyzerTests
     [Fact, Trait("Case", "rules.thisqualification.ExtensionMethodCall_OnThis_Passes")]
     public Task ExtensionMethodCallOnThisPasses()
     {
-        return VerifyAsync(caseId: "rules.thisqualification.ExtensionMethodCall_OnThis_Passes", diagnostic: 
+        return VerifyAsync(caseId: "rules.thisqualification.ExtensionMethodCall_OnThis_Passes", diagnostic:
                 "ANALYZER_ACCEPTED", source: """
                 static class E
                 {
@@ -212,7 +212,7 @@ public sealed class ThisQualificationAnalyzerTests
     [Fact, Trait("Case", "rules.thisqualification.ExtensionMember_OnThis_Passes")]
     public Task ExtensionMemberOnThisPasses()
     {
-        return VerifyAsync(caseId: "rules.thisqualification.ExtensionMember_OnThis_Passes", diagnostic: 
+        return VerifyAsync(caseId: "rules.thisqualification.ExtensionMember_OnThis_Passes", diagnostic:
                 "SCR0011", source: ("static class E\n{\n    extension(C c)\n    {\n        publi" +
                         "c int Doubled => 2;\n\n        public int Tripled()\n     " +
                         "   {\n            return 3;\n        }\n    }\n}\n\nclass C\n{" +
@@ -226,7 +226,7 @@ public sealed class ThisQualificationAnalyzerTests
     [Fact, Trait("Case", "rules.thisqualification.Analyze_GeneratedCode_IsSkipped")]
     public Task AnalyzeGeneratedCodeIsSkipped()
     {
-        return VerifyAsync(caseId: "rules.thisqualification.Analyze_GeneratedCode_IsSkipped", diagnostic: "SCR0011", 
+        return VerifyAsync(caseId: "rules.thisqualification.Analyze_GeneratedCode_IsSkipped", diagnostic: "SCR0011",
                 source: """
                         class C
                         {
@@ -249,8 +249,8 @@ public sealed class ThisQualificationAnalyzerTests
     private static Task VerifyAsync(string caseId, string diagnostic, string source, string? editorConfig = null
             , string? message = null, OutputKind outputKind = OutputKind.DynamicallyLinkedLibrary)
     {
-        return InheritedAnalyzerVerifier.VerifyAsync(caseId: caseId, diagnostic: diagnostic, analyzerType: 
-                "ThisQualificationAnalyzer", source: source, editorConfig: editorConfig, message: message, 
+        return InheritedAnalyzerVerifier.VerifyAsync(caseId: caseId, diagnostic: diagnostic, analyzerType:
+                "ThisQualificationAnalyzer", source: source, editorConfig: editorConfig, message: message,
                 outputKind: outputKind);
     }
 }

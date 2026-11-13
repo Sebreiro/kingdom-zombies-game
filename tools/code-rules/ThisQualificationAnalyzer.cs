@@ -43,7 +43,9 @@ public sealed class ThisQualificationAnalyzer : DiagnosticAnalyzer
     private static void AnalyzeThis(SyntaxNodeAnalysisContext context)
     {
         if (context.Node.Parent is MemberAccessExpressionSyntax access
-                && !BindsToExtension(context: context, access: access))
+                && !BindsToExtension(context: context, access: access)
+                && !GeneratedSyntax.IsPermitted(diagnostic: DiagnosticId,
+                        tree: context.Node.SyntaxTree, span: access.Span))
         {
             context.ReportDiagnostic(diagnostic: Diagnostic.Create(
                     descriptor: Rule,

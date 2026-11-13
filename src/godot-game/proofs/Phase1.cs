@@ -12,7 +12,7 @@ public partial class Phase1 : Node
     public Phase1()
     {
         _nonce = System.Environment.GetEnvironmentVariable(variable: "PHASE1_NONCE")
-            ?? throw new InvalidOperationException(message: "ENGINE_NONCE_MISSING");
+                ?? throw new InvalidOperationException(message: "ENGINE_NONCE_MISSING");
         WriteEvidence(assertion: "construction");
     }
 

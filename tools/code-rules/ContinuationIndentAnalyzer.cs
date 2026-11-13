@@ -50,7 +50,7 @@ public sealed class ContinuationIndentAnalyzer : DiagnosticAnalyzer
     /// <inheritdoc />
     public override void Initialize(AnalysisContext context)
     {
-        context.ConfigureGeneratedCodeAnalysis(analysisMode: GeneratedCodeAnalysisFlags.Analyze | 
+        context.ConfigureGeneratedCodeAnalysis(analysisMode: GeneratedCodeAnalysisFlags.Analyze |
                 GeneratedCodeAnalysisFlags.ReportDiagnostics);
         context.EnableConcurrentExecution();
         context.RegisterSyntaxTreeAction(action: AnalyzeTree);
@@ -77,7 +77,8 @@ public sealed class ContinuationIndentAnalyzer : DiagnosticAnalyzer
 
             int actual = Indent(text: text, position: token.SpanStart);
             int expected = Indent(text: text, position: expectation.Anchor.SpanStart) + expectation.Offset;
-            if (actual != expected)
+            if (actual != expected && !GeneratedSyntax.IsPermitted(diagnostic: DiagnosticId,
+                    tree: context.Tree, span: token.Span))
             {
                 context.ReportDiagnostic(diagnostic: Diagnostic.Create(
                         descriptor: Rule,

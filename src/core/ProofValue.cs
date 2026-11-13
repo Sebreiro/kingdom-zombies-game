@@ -8,7 +8,7 @@ public readonly struct ProofValue
     /// <param name="value">The value to preserve across the boundary.</param>
     public ProofValue(int value)
     {
-        this.Value = value;
+        Value = value;
     }
     /// <summary>Gets the proof's integer value.</summary>
     public int Value { get; }

@@ -6,4 +6,4 @@ using System.Diagnostics.CodeAnalysis;
         "~M:GodotPlugins.Game.Main.InitializeFromGameProject(Sys" +
                 "tem.IntPtr,System.IntPtr,System.IntPtr,System.Int32)"), Justification = (
                         "Godot 4.7.2 generated native-load failure report; KZ-EX" +
-                "-GODOT-REPORT-01 in docs/code/engine-adaptations.json"))]
+                                "-GODOT-REPORT-01 in docs/code/engine-adaptations.json"))]
