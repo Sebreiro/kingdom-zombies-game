@@ -122,6 +122,8 @@ The final full report reruns all 32 runner cases and all nine implemented pin ca
 
 The existing task-local workspace CLI/cache conventions and scoped authorized execution context were retained for child processes, network restore and Git metadata. No package install failed, no alternative package was substituted, no automatic approval review rejection occurred, and no authentication gate occurred.
 
+Both current-plan deviations are recorded as fixed ledger entries 2 and 3 in `WINDOWS.md`. Historical entry 1 remains open and unchanged.
+
 ## Known Stubs and Threat Review
 
 No TODO/FIXME/placeholder implementation or skipped required proof remains. Explicit crash/skip/hang fixture methods are intentional negative subjects selected only inside isolated controls; the registered enclosing controls execute and pass. The 222 pending manifest obligations are honest later-plan declarations, not acceptance passes or hidden runtime stubs.
