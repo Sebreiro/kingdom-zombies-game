@@ -72,4 +72,21 @@ public sealed class ConfigurationTests
         await Should.ThrowAsync<InvalidOperationException>(() => AnalyzerVerifier.VerifyAsync("public class Clean { }", [exact]));
         ProofProtocol.Record("pins.verifier", "DIAGNOSTIC_EXACT", "Subject.cs(1,24)-(1,31): CS0246");
     }
+
+    /// <summary>Requires production and tests to consume different checked banned-symbol inputs.</summary>
+    [Fact, Trait("Case", "pins.banned-inputs")]
+    public void ConsumersSelectScopedBannedInputs()
+    {
+        foreach (var project in new[] { Projects[0], Projects[2], Projects[4] })
+        {
+            var result = Dotnet("msbuild", project, "-nologo", "-getItem:AdditionalFiles");
+            result.Exit.ShouldBe(0, result.Output);
+            using var json = JsonDocument.Parse(result.Output);
+            var files = json.RootElement.GetProperty("Items").GetProperty("AdditionalFiles").EnumerateArray().Select(r => Path.GetFileName(r.GetProperty("FullPath").GetString())).ToArray();
+            var isTest = string.Equals(project, Projects[4], StringComparison.Ordinal);
+            files.Any(f => string.Equals(f, isTest ? "BannedSymbols.Tests.txt" : "BannedSymbols.txt", StringComparison.Ordinal)).ShouldBeTrue();
+            files.Any(f => string.Equals(f, isTest ? "BannedSymbols.txt" : "BannedSymbols.Tests.txt", StringComparison.Ordinal)).ShouldBeFalse();
+        }
+        ProofProtocol.Record("pins.banned-inputs", "BANNED_INPUTS_SCOPED", "evaluated AdditionalFiles");
+    }
 }
