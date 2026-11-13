@@ -1710,7 +1710,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Inventory_CompleteBaseline_HasEveryExactDisposition",
+      "expectedDiagnostic": "INVENTORY_EXACT"
     },
     {
       "id": "ac-06.complete",
@@ -2078,7 +2080,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_ConflictingDuplicate_CannotMaskOriginal",
+      "expectedDiagnostic": "R-01: RULE_ID: DUPLICATE_OR_EMPTY"
     },
     {
       "id": "edge.rule-02.empty",
@@ -2094,7 +2098,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_EmptyRequiredFields_AlwaysFail",
+      "expectedDiagnostic": "REQUIRED_FIELDS_REJECTED"
     },
     {
       "id": "edge.rule-02.encoding",
@@ -2110,7 +2116,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_ExactEncoding_NeverNormalizesIdentity",
+      "expectedDiagnostic": "IDENTITY_EXACT"
     },
     {
       "id": "edge.rule-02.ordering",
@@ -2126,7 +2134,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_Permutations_PreserveVerdictAndExactCoverage",
+      "expectedDiagnostic": "PERMUTATION_EQUAL"
     },
     {
       "id": "edge.rule-03.boundary",
@@ -4034,8 +4044,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "register-resolution"
+      "implementation": "csharp",
+      "polarity": "register-resolution",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Resolution_R43_IsExplicit",
+      "expectedDiagnostic": "INAPPLICABLE_ACCOUNTED"
     },
     {
       "id": "R-44.positive",
@@ -4493,8 +4505,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "register-resolution"
+      "implementation": "csharp",
+      "polarity": "register-resolution",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Resolution_R57_IsExplicit",
+      "expectedDiagnostic": "INAPPLICABLE_ACCOUNTED"
     },
     {
       "id": "R-58.positive",
@@ -5122,8 +5136,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "register-resolution"
+      "implementation": "csharp",
+      "polarity": "register-resolution",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Resolution_R76_IsExplicit",
+      "expectedDiagnostic": "INAPPLICABLE_ACCOUNTED"
     },
     {
       "id": "R-77.positive",
@@ -5207,8 +5223,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "register-resolution"
+      "implementation": "csharp",
+      "polarity": "register-resolution",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Resolution_R79_IsExplicit",
+      "expectedDiagnostic": "INAPPLICABLE_ACCOUNTED"
     },
     {
       "id": "R-80.register-resolution",
@@ -5224,8 +5242,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "register-resolution"
+      "implementation": "csharp",
+      "polarity": "register-resolution",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Resolution_R80_IsExplicit",
+      "expectedDiagnostic": "INAPPLICABLE_ACCOUNTED"
     },
     {
       "id": "R-81.positive",
@@ -5377,8 +5397,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "register-resolution"
+      "implementation": "csharp",
+      "polarity": "register-resolution",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Resolution_R85_IsExplicit",
+      "expectedDiagnostic": "INAPPLICABLE_ACCOUNTED"
     },
     {
       "id": "runner.process.missing-executable",
@@ -5947,6 +5969,381 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_MissingMechanism_IsRejected",
       "expectedDiagnostic": "R-01: MECHANISM_REQUIRED"
+    },
+    {
+      "id": "register.reference-case",
+      "group": "register",
+      "rule": "RULE-02",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_CaseChangedReference_IsRejected",
+      "expectedDiagnostic": "R-37: MECHANISM_REFERENCE"
+    },
+    {
+      "id": "register.reference-unicode",
+      "group": "register",
+      "rule": "RULE-02",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_UnicodeReference_IsRejected",
+      "expectedDiagnostic": "R-37: MECHANISM_REFERENCE"
+    },
+    {
+      "id": "register.proof-reverse",
+      "group": "register",
+      "rule": "RULE-02",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_ProofForDifferentRule_IsRejected",
+      "expectedDiagnostic": "R-01: PROOF_REVERSE_ID"
+    },
+    {
+      "id": "register.severity",
+      "group": "register",
+      "rule": "RULE-02",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_SeverityWeakening_IsRejected",
+      "expectedDiagnostic": "R-37: SEVERITY_WEAKENED"
+    },
+    {
+      "id": "register.diagnostic",
+      "group": "register",
+      "rule": "RULE-02",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_DiagnosticSubstitution_IsRejected",
+      "expectedDiagnostic": "R-37: DIAGNOSTIC_IDENTITY"
+    },
+    {
+      "id": "register.documentation",
+      "group": "register",
+      "rule": "RULE-02",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_WrongDocumentationAnchor_IsRejected",
+      "expectedDiagnostic": "R-01: DOCUMENTATION_REFERENCE"
+    },
+    {
+      "id": "register.numeric",
+      "group": "register",
+      "rule": "RULE-02",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_NumericLimitDrift_IsRejected",
+      "expectedDiagnostic": "R-37: NUMERIC_LIMIT"
+    },
+    {
+      "id": "register.review",
+      "group": "register",
+      "rule": "RULE-02",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_AutomatedHumanJudgment_IsRejected",
+      "expectedDiagnostic": "R-24: HUMAN_REVIEW_PENDING"
+    },
+    {
+      "id": "register.exemption-duplicate",
+      "group": "register",
+      "rule": "RULE-02",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_DuplicateExemption_IsRejected",
+      "expectedDiagnostic": "KZ-EX-LOCK-01: LOCAL_EXEMPTION_ID: DUPLICATE_OR_EMPTY"
+    },
+    {
+      "id": "register.exemption-overlap",
+      "group": "register",
+      "rule": "RULE-02",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_OverlappingExemptions_AreRejected",
+      "expectedDiagnostic": "KZ-EX-LOCK-02: EXEMPTION_OVERLAP"
+    },
+    {
+      "id": "register.exemption-broad",
+      "group": "register",
+      "rule": "RULE-02",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_BroadenedExemptionScope_IsRejected",
+      "expectedDiagnostic": "KZ-EX-LOCK-01: EXEMPTION_SCOPE"
+    },
+    {
+      "id": "register.pending",
+      "group": "register",
+      "rule": "RULE-02",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_FutureMappings_CannotCountAsCompletedEvidence",
+      "expectedDiagnostic": "IMPLEMENTATION_PENDING"
+    },
+    {
+      "id": "rules.body.59",
+      "group": "rules",
+      "rule": "R-37",
+      "owner": "01-06",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "rules.body.60",
+      "group": "rules",
+      "rule": "R-37",
+      "owner": "01-06",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "positive"
+    },
+    {
+      "id": "rules.body.61",
+      "group": "rules",
+      "rule": "R-37",
+      "owner": "01-06",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "pending",
+      "polarity": "negative"
+    },
+    {
+      "id": "register.symbol",
+      "group": "register",
+      "rule": "RULE-02",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_WrongMechanismSymbol_IsRejected",
+      "expectedDiagnostic": "R-37: MECHANISM_REFERENCE"
+    },
+    {
+      "id": "register.source-field",
+      "group": "register",
+      "rule": "RULE-02",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_AlteredCapturedMechanism_IsRejected",
+      "expectedDiagnostic": "R-37: SOURCE_FIELD: mechanism"
+    },
+    {
+      "id": "register.proof-path",
+      "group": "register",
+      "rule": "RULE-02",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_WrongProofPath_IsRejected",
+      "expectedDiagnostic": "R-37: PROOF_PATH"
+    },
+    {
+      "id": "register.numeric-semantics",
+      "group": "register",
+      "rule": "RULE-02",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_NumericCountingChange_IsRejected",
+      "expectedDiagnostic": "R-10: NUMERIC_SEMANTICS"
+    },
+    {
+      "id": "register.boundary-proof",
+      "group": "register",
+      "rule": "RULE-02",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_ReusedBoundaryEvidence_IsRejected",
+      "expectedDiagnostic": "rules.body.59: BOUNDARY_PROOF: DUPLICATE_OR_EMPTY"
+    },
+    {
+      "id": "register.missing-relation-field",
+      "group": "register",
+      "rule": "RULE-02",
+      "owner": "01-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.Schema_AbsentRelationField_IsActionable",
+      "expectedDiagnostic": "R-01: HEADING_RELATION"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."

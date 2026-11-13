@@ -27,12 +27,14 @@
       "positiveProof": {
         "id": "R-01.positive",
         "rule": "R-01",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-01.negative",
         "rule": "R-01",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -64,12 +66,14 @@
       "positiveProof": {
         "id": "R-02.positive",
         "rule": "R-02",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-02.negative",
         "rule": "R-02",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -101,12 +105,14 @@
       "positiveProof": {
         "id": "R-03.positive",
         "rule": "R-03",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-03.negative",
         "rule": "R-03",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -134,16 +140,20 @@
         "status": "pending"
       },
       "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
-      "exemptions": [],
+      "exemptions": [
+        "KZ-EX-LOCK-01"
+      ],
       "positiveProof": {
         "id": "R-04.positive",
         "rule": "R-04",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-04.negative",
         "rule": "R-04",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -177,12 +187,14 @@
       "positiveProof": {
         "id": "R-05.positive",
         "rule": "R-05",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-05.negative",
         "rule": "R-05",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -216,12 +228,14 @@
       "positiveProof": {
         "id": "R-06.positive",
         "rule": "R-06",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-06.negative",
         "rule": "R-06",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -255,12 +269,14 @@
       "positiveProof": {
         "id": "R-07.positive",
         "rule": "R-07",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-07.negative",
         "rule": "R-07",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -297,12 +313,14 @@
       "positiveProof": {
         "id": "R-08.positive",
         "rule": "R-08",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-08.negative",
         "rule": "R-08",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -341,12 +359,14 @@
       "positiveProof": {
         "id": "R-09.positive",
         "rule": "R-09",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/Analyzers/ContinuationIndentAnalyzerTests.cs"
       },
       "negativeProof": {
         "id": "R-09.negative",
         "rule": "R-09",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/Analyzers/ContinuationIndentAnalyzerTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -385,12 +405,14 @@
       "positiveProof": {
         "id": "R-10.positive",
         "rule": "R-10",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/Analyzers/LineLengthAnalyzerTests.cs"
       },
       "negativeProof": {
         "id": "R-10.negative",
         "rule": "R-10",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/Analyzers/LineLengthAnalyzerTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -429,12 +451,14 @@
       "positiveProof": {
         "id": "R-11.positive",
         "rule": "R-11",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-11.negative",
         "rule": "R-11",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -468,12 +492,14 @@
       "positiveProof": {
         "id": "R-12.positive",
         "rule": "R-12",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-12.negative",
         "rule": "R-12",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -507,12 +533,14 @@
       "positiveProof": {
         "id": "R-13.positive",
         "rule": "R-13",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-13.negative",
         "rule": "R-13",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -546,12 +574,14 @@
       "positiveProof": {
         "id": "R-14.positive",
         "rule": "R-14",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/Analyzers/UsingOrderAnalyzerTests.cs"
       },
       "negativeProof": {
         "id": "R-14.negative",
         "rule": "R-14",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/Analyzers/UsingOrderAnalyzerTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -585,12 +615,14 @@
       "positiveProof": {
         "id": "R-15.positive",
         "rule": "R-15",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-15.negative",
         "rule": "R-15",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -624,12 +656,14 @@
       "positiveProof": {
         "id": "R-16.positive",
         "rule": "R-16",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-16.negative",
         "rule": "R-16",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -664,12 +698,14 @@
       "positiveProof": {
         "id": "R-17.positive",
         "rule": "R-17",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-17.negative",
         "rule": "R-17",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -704,12 +740,14 @@
       "positiveProof": {
         "id": "R-18.positive",
         "rule": "R-18",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/Analyzers/LocalNewDeclarationAnalyzerTests.cs"
       },
       "negativeProof": {
         "id": "R-18.negative",
         "rule": "R-18",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/Analyzers/LocalNewDeclarationAnalyzerTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -743,12 +781,14 @@
       "positiveProof": {
         "id": "R-19.positive",
         "rule": "R-19",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-19.negative",
         "rule": "R-19",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -788,12 +828,14 @@
       "positiveProof": {
         "id": "R-20.positive",
         "rule": "R-20",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-20.negative",
         "rule": "R-20",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -828,12 +870,14 @@
       "positiveProof": {
         "id": "R-21.positive",
         "rule": "R-21",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-21.negative",
         "rule": "R-21",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -871,12 +915,14 @@
       "positiveProof": {
         "id": "R-22.positive",
         "rule": "R-22",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-22.negative",
         "rule": "R-22",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -910,12 +956,14 @@
       "positiveProof": {
         "id": "R-23.positive",
         "rule": "R-23",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/Analyzers/PrimaryConstructorAnalyzerTests.cs"
       },
       "negativeProof": {
         "id": "R-23.negative",
         "rule": "R-23",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/Analyzers/PrimaryConstructorAnalyzerTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -949,17 +997,19 @@
       "positiveProof": {
         "id": "R-24.positive",
         "rule": "R-24",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/Analyzers/PrimaryConstructorAnalyzerTests.cs"
       },
       "negativeProof": {
         "id": "R-24.negative",
         "rule": "R-24",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/Analyzers/PrimaryConstructorAnalyzerTests.cs"
       },
       "qualitativeReview": {
         "required": true,
         "status": "pending",
-        "obligation": "Review semantic intent/invariants/API need/evolution and accuracy against the actual implementation; automated structure is insufficient."
+        "obligation": "Human review of semantic intent, scope, API need, invariants or decision accuracy is required separately from machine structure."
       },
       "numeric": null
     },
@@ -989,12 +1039,14 @@
       "positiveProof": {
         "id": "R-25.positive",
         "rule": "R-25",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/Analyzers/RegionDirectiveAnalyzerTests.cs"
       },
       "negativeProof": {
         "id": "R-25.negative",
         "rule": "R-25",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/Analyzers/RegionDirectiveAnalyzerTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1028,12 +1080,14 @@
       "positiveProof": {
         "id": "R-26.positive",
         "rule": "R-26",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/Analyzers/NullForgivingAnalyzerTests.cs"
       },
       "negativeProof": {
         "id": "R-26.negative",
         "rule": "R-26",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/Analyzers/NullForgivingAnalyzerTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1067,12 +1121,14 @@
       "positiveProof": {
         "id": "R-27.positive",
         "rule": "R-27",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-27.negative",
         "rule": "R-27",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1108,12 +1164,14 @@
       "positiveProof": {
         "id": "R-28.positive",
         "rule": "R-28",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/Analyzers/ThisQualificationAnalyzerTests.cs"
       },
       "negativeProof": {
         "id": "R-28.negative",
         "rule": "R-28",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/Analyzers/ThisQualificationAnalyzerTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1147,12 +1205,14 @@
       "positiveProof": {
         "id": "R-29.positive",
         "rule": "R-29",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-29.negative",
         "rule": "R-29",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1184,12 +1244,14 @@
       "positiveProof": {
         "id": "R-30.positive",
         "rule": "R-30",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-30.negative",
         "rule": "R-30",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1224,12 +1286,14 @@
       "positiveProof": {
         "id": "R-31.positive",
         "rule": "R-31",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-31.negative",
         "rule": "R-31",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1263,12 +1327,14 @@
       "positiveProof": {
         "id": "R-32.positive",
         "rule": "R-32",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-32.negative",
         "rule": "R-32",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1302,12 +1368,14 @@
       "positiveProof": {
         "id": "R-33.positive",
         "rule": "R-33",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/Analyzers/MemberOrderAnalyzerTests.cs"
       },
       "negativeProof": {
         "id": "R-33.negative",
         "rule": "R-33",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/Analyzers/MemberOrderAnalyzerTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1339,17 +1407,19 @@
       "positiveProof": {
         "id": "R-34.positive",
         "rule": "R-34",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-34.negative",
         "rule": "R-34",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": true,
         "status": "pending",
-        "obligation": "Review semantic intent/invariants/API need/evolution and accuracy against the actual implementation; automated structure is insufficient."
+        "obligation": "Human review of semantic intent, scope, API need, invariants or decision accuracy is required separately from machine structure."
       },
       "numeric": null
     },
@@ -1380,12 +1450,14 @@
       "positiveProof": {
         "id": "R-35.positive",
         "rule": "R-35",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-35.negative",
         "rule": "R-35",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1420,12 +1492,14 @@
       "positiveProof": {
         "id": "R-36.positive",
         "rule": "R-36",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/Analyzers/BodyCommentAnalyzerTests.cs"
       },
       "negativeProof": {
         "id": "R-36.negative",
         "rule": "R-36",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/Analyzers/BodyCommentAnalyzerTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1461,12 +1535,14 @@
       "positiveProof": {
         "id": "R-37.positive",
         "rule": "R-37",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/Analyzers/BodyLengthAnalyzerTests.cs"
       },
       "negativeProof": {
         "id": "R-37.negative",
         "rule": "R-37",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/Analyzers/BodyLengthAnalyzerTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1481,6 +1557,26 @@
           59,
           60,
           61
+        ],
+        "boundaryProofs": [
+          {
+            "id": "rules.body.59",
+            "path": "tests/phase1/Analyzers/BodyLengthAnalyzerTests.cs",
+            "rule": "R-37",
+            "status": "pending"
+          },
+          {
+            "id": "rules.body.60",
+            "path": "tests/phase1/Analyzers/BodyLengthAnalyzerTests.cs",
+            "rule": "R-37",
+            "status": "pending"
+          },
+          {
+            "id": "rules.body.61",
+            "path": "tests/phase1/Analyzers/BodyLengthAnalyzerTests.cs",
+            "rule": "R-37",
+            "status": "pending"
+          }
         ]
       }
     },
@@ -1511,12 +1607,14 @@
       "positiveProof": {
         "id": "R-38.positive",
         "rule": "R-38",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/Analyzers/NamedArgumentAnalyzerTests.cs"
       },
       "negativeProof": {
         "id": "R-38.negative",
         "rule": "R-38",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/Analyzers/NamedArgumentAnalyzerTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1550,12 +1648,14 @@
       "positiveProof": {
         "id": "R-39.positive",
         "rule": "R-39",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-39.negative",
         "rule": "R-39",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1589,12 +1689,14 @@
       "positiveProof": {
         "id": "R-40.positive",
         "rule": "R-40",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-40.negative",
         "rule": "R-40",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1628,12 +1730,14 @@
       "positiveProof": {
         "id": "R-41.positive",
         "rule": "R-41",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-41.negative",
         "rule": "R-41",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1667,12 +1771,14 @@
       "positiveProof": {
         "id": "R-42.positive",
         "rule": "R-42",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-42.negative",
         "rule": "R-42",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1730,12 +1836,14 @@
       "positiveProof": {
         "id": "R-44.positive",
         "rule": "R-44",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-44.negative",
         "rule": "R-44",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1769,12 +1877,14 @@
       "positiveProof": {
         "id": "R-45.positive",
         "rule": "R-45",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-45.negative",
         "rule": "R-45",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1806,12 +1916,14 @@
       "positiveProof": {
         "id": "R-46.positive",
         "rule": "R-46",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-46.negative",
         "rule": "R-46",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1845,12 +1957,14 @@
       "positiveProof": {
         "id": "R-47.positive",
         "rule": "R-47",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-47.negative",
         "rule": "R-47",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1884,12 +1998,14 @@
       "positiveProof": {
         "id": "R-48.positive",
         "rule": "R-48",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-48.negative",
         "rule": "R-48",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1921,12 +2037,14 @@
       "positiveProof": {
         "id": "R-49.positive",
         "rule": "R-49",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/CoverageTests.cs"
       },
       "negativeProof": {
         "id": "R-49.negative",
         "rule": "R-49",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/CoverageTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1966,12 +2084,14 @@
       "positiveProof": {
         "id": "R-50.positive",
         "rule": "R-50",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-50.negative",
         "rule": "R-50",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2003,12 +2123,14 @@
       "positiveProof": {
         "id": "R-51.positive",
         "rule": "R-51",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "negativeProof": {
         "id": "R-51.negative",
         "rule": "R-51",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2040,12 +2162,14 @@
       "positiveProof": {
         "id": "R-52.positive",
         "rule": "R-52",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "negativeProof": {
         "id": "R-52.negative",
         "rule": "R-52",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2080,12 +2204,14 @@
       "positiveProof": {
         "id": "R-53.positive",
         "rule": "R-53",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "negativeProof": {
         "id": "R-53.negative",
         "rule": "R-53",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2117,12 +2243,14 @@
       "positiveProof": {
         "id": "R-54.positive",
         "rule": "R-54",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "negativeProof": {
         "id": "R-54.negative",
         "rule": "R-54",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2154,12 +2282,14 @@
       "positiveProof": {
         "id": "R-55.positive",
         "rule": "R-55",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "negativeProof": {
         "id": "R-55.negative",
         "rule": "R-55",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2191,12 +2321,14 @@
       "positiveProof": {
         "id": "R-56.positive",
         "rule": "R-56",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "negativeProof": {
         "id": "R-56.negative",
         "rule": "R-56",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2251,12 +2383,14 @@
       "positiveProof": {
         "id": "R-58.positive",
         "rule": "R-58",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "negativeProof": {
         "id": "R-58.negative",
         "rule": "R-58",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2288,12 +2422,14 @@
       "positiveProof": {
         "id": "R-59.positive",
         "rule": "R-59",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "negativeProof": {
         "id": "R-59.negative",
         "rule": "R-59",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2325,12 +2461,14 @@
       "positiveProof": {
         "id": "R-60.positive",
         "rule": "R-60",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "negativeProof": {
         "id": "R-60.negative",
         "rule": "R-60",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2362,12 +2500,14 @@
       "positiveProof": {
         "id": "R-61.positive",
         "rule": "R-61",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "negativeProof": {
         "id": "R-61.negative",
         "rule": "R-61",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2399,12 +2539,14 @@
       "positiveProof": {
         "id": "R-62.positive",
         "rule": "R-62",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "negativeProof": {
         "id": "R-62.negative",
         "rule": "R-62",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "qualitativeReview": {
         "required": true,
@@ -2437,17 +2579,19 @@
       "positiveProof": {
         "id": "R-63.positive",
         "rule": "R-63",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "negativeProof": {
         "id": "R-63.negative",
         "rule": "R-63",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "qualitativeReview": {
         "required": true,
         "status": "pending",
-        "obligation": "Review semantic intent/invariants/API need/evolution and accuracy against the actual implementation; automated structure is insufficient."
+        "obligation": "Human review of semantic intent, scope, API need, invariants or decision accuracy is required separately from machine structure."
       },
       "numeric": null
     },
@@ -2475,12 +2619,14 @@
       "positiveProof": {
         "id": "R-64.positive",
         "rule": "R-64",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "negativeProof": {
         "id": "R-64.negative",
         "rule": "R-64",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2512,17 +2658,19 @@
       "positiveProof": {
         "id": "R-65.positive",
         "rule": "R-65",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "negativeProof": {
         "id": "R-65.negative",
         "rule": "R-65",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "qualitativeReview": {
         "required": true,
         "status": "pending",
-        "obligation": "Review semantic intent/invariants/API need/evolution and accuracy against the actual implementation; automated structure is insufficient."
+        "obligation": "Human review of semantic intent, scope, API need, invariants or decision accuracy is required separately from machine structure."
       },
       "numeric": null
     },
@@ -2550,12 +2698,14 @@
       "positiveProof": {
         "id": "R-66.positive",
         "rule": "R-66",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "negativeProof": {
         "id": "R-66.negative",
         "rule": "R-66",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2587,12 +2737,14 @@
       "positiveProof": {
         "id": "R-67.positive",
         "rule": "R-67",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "negativeProof": {
         "id": "R-67.negative",
         "rule": "R-67",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2624,12 +2776,14 @@
       "positiveProof": {
         "id": "R-68.positive",
         "rule": "R-68",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/SnapshotTests.cs"
       },
       "negativeProof": {
         "id": "R-68.negative",
         "rule": "R-68",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/SnapshotTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2661,12 +2815,14 @@
       "positiveProof": {
         "id": "R-69.positive",
         "rule": "R-69",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/SnapshotTests.cs"
       },
       "negativeProof": {
         "id": "R-69.negative",
         "rule": "R-69",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/SnapshotTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2698,12 +2854,14 @@
       "positiveProof": {
         "id": "R-70.positive",
         "rule": "R-70",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/SnapshotTests.cs"
       },
       "negativeProof": {
         "id": "R-70.negative",
         "rule": "R-70",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/SnapshotTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2735,12 +2893,14 @@
       "positiveProof": {
         "id": "R-71.positive",
         "rule": "R-71",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/SnapshotTests.cs"
       },
       "negativeProof": {
         "id": "R-71.negative",
         "rule": "R-71",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/SnapshotTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2772,16 +2932,19 @@
       "positiveProof": {
         "id": "R-72.positive",
         "rule": "R-72",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/SnapshotTests.cs"
       },
       "negativeProof": {
         "id": "R-72.negative",
         "rule": "R-72",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/SnapshotTests.cs"
       },
       "qualitativeReview": {
-        "required": false,
-        "status": "not-required"
+        "required": true,
+        "status": "pending",
+        "obligation": "Human review of semantic intent, scope, API need, invariants or decision accuracy is required separately from machine structure."
       },
       "numeric": null
     },
@@ -2811,16 +2974,19 @@
       "positiveProof": {
         "id": "R-73.positive",
         "rule": "R-73",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/SnapshotTests.cs"
       },
       "negativeProof": {
         "id": "R-73.negative",
         "rule": "R-73",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/SnapshotTests.cs"
       },
       "qualitativeReview": {
-        "required": false,
-        "status": "not-required"
+        "required": true,
+        "status": "pending",
+        "obligation": "Human review of semantic intent, scope, API need, invariants or decision accuracy is required separately from machine structure."
       },
       "numeric": null
     },
@@ -2848,16 +3014,19 @@
       "positiveProof": {
         "id": "R-74.positive",
         "rule": "R-74",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/SnapshotTests.cs"
       },
       "negativeProof": {
         "id": "R-74.negative",
         "rule": "R-74",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/SnapshotTests.cs"
       },
       "qualitativeReview": {
-        "required": false,
-        "status": "not-required"
+        "required": true,
+        "status": "pending",
+        "obligation": "Human review of semantic intent, scope, API need, invariants or decision accuracy is required separately from machine structure."
       },
       "numeric": {
         "unit": "enum numeric sentinel",
@@ -2890,12 +3059,14 @@
       "positiveProof": {
         "id": "R-75.positive",
         "rule": "R-75",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/SnapshotTests.cs"
       },
       "negativeProof": {
         "id": "R-75.negative",
         "rule": "R-75",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/SnapshotTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2950,17 +3121,19 @@
       "positiveProof": {
         "id": "R-77.positive",
         "rule": "R-77",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/SnapshotTests.cs"
       },
       "negativeProof": {
         "id": "R-77.negative",
         "rule": "R-77",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/SnapshotTests.cs"
       },
       "qualitativeReview": {
         "required": true,
         "status": "pending",
-        "obligation": "Review semantic intent/invariants/API need/evolution and accuracy against the actual implementation; automated structure is insufficient."
+        "obligation": "Human review of semantic intent, scope, API need, invariants or decision accuracy is required separately from machine structure."
       },
       "numeric": null
     },
@@ -2988,16 +3161,19 @@
       "positiveProof": {
         "id": "R-78.positive",
         "rule": "R-78",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/SnapshotTests.cs"
       },
       "negativeProof": {
         "id": "R-78.negative",
         "rule": "R-78",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/SnapshotTests.cs"
       },
       "qualitativeReview": {
-        "required": false,
-        "status": "not-required"
+        "required": true,
+        "status": "pending",
+        "obligation": "Human review of semantic intent, scope, API need, invariants or decision accuracy is required separately from machine structure."
       },
       "numeric": null
     },
@@ -3019,8 +3195,9 @@
       "positiveProof": null,
       "negativeProof": null,
       "qualitativeReview": {
-        "required": false,
-        "status": "not-required"
+        "required": true,
+        "status": "pending",
+        "obligation": "Review the inapplicable external dependency health-check disposition; no remote health-check mechanism is introduced in Phase 1."
       },
       "numeric": null
     },
@@ -3071,16 +3248,19 @@
       "positiveProof": {
         "id": "R-81.positive",
         "rule": "R-81",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "negativeProof": {
         "id": "R-81.negative",
         "rule": "R-81",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/ArchitectureRuleTests.cs"
       },
       "qualitativeReview": {
-        "required": false,
-        "status": "not-required"
+        "required": true,
+        "status": "pending",
+        "obligation": "Human review of semantic intent, scope, API need, invariants or decision accuracy is required separately from machine structure."
       },
       "numeric": null
     },
@@ -3108,12 +3288,14 @@
       "positiveProof": {
         "id": "R-82.positive",
         "rule": "R-82",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/CoverageTests.cs"
       },
       "negativeProof": {
         "id": "R-82.negative",
         "rule": "R-82",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/CoverageTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -3153,17 +3335,19 @@
       "positiveProof": {
         "id": "R-83.positive",
         "rule": "R-83",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/DocumentationTests.cs"
       },
       "negativeProof": {
         "id": "R-83.negative",
         "rule": "R-83",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/DocumentationTests.cs"
       },
       "qualitativeReview": {
         "required": true,
         "status": "pending",
-        "obligation": "Review semantic intent/invariants/API need/evolution and accuracy against the actual implementation; automated structure is insufficient."
+        "obligation": "Human review of semantic intent, scope, API need, invariants or decision accuracy is required separately from machine structure."
       },
       "numeric": null
     },
@@ -3191,17 +3375,19 @@
       "positiveProof": {
         "id": "R-84.positive",
         "rule": "R-84",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/DocumentationTests.cs"
       },
       "negativeProof": {
         "id": "R-84.negative",
         "rule": "R-84",
-        "status": "pending"
+        "status": "pending",
+        "path": "tests/phase1/DocumentationTests.cs"
       },
       "qualitativeReview": {
         "required": true,
         "status": "pending",
-        "obligation": "Review semantic intent/invariants/API need/evolution and accuracy against the actual implementation; automated structure is insufficient."
+        "obligation": "Human review of semantic intent, scope, API need, invariants or decision accuracy is required separately from machine structure."
       },
       "numeric": null
     },

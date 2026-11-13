@@ -1,6 +1,7 @@
 using System.IO.Compression;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
 
@@ -13,7 +14,35 @@ public static class RegisterValidator
     private const string DonorDocs = "src/backend/docs/";
     private static readonly UTF8Encoding StrictUtf8 = new(false, true);
 
-    public static JsonObject Read(string relative) => JsonNode.Parse(File.ReadAllText(Path.Combine(ProofProtocol.Root, relative)))!.AsObject();
+    public static JsonObject Read(string relative)
+    {
+        var file = Path.Combine(ProofProtocol.Root, relative);
+        if (new FileInfo(file).Length > 4_000_000) throw new InvalidDataException("JSON_SIZE_LIMIT");
+        return Parse(File.ReadAllBytes(file));
+    }
+
+    public static JsonObject Parse(byte[] bytes)
+    {
+        var text = StrictUtf8.GetString(bytes);
+        using var document = JsonDocument.Parse(text, new JsonDocumentOptions { MaxDepth = 64 });
+        CheckProperties(document.RootElement);
+        return JsonNode.Parse(text) as JsonObject ?? throw new InvalidDataException("JSON_OBJECT_REQUIRED");
+    }
+
+    private static void CheckProperties(JsonElement element)
+    {
+        if (element.ValueKind == JsonValueKind.Object)
+        {
+            var names = new HashSet<string>(StringComparer.Ordinal);
+            foreach (var property in element.EnumerateObject())
+            {
+                if (!names.Add(property.Name)) throw new InvalidDataException("JSON_DUPLICATE: " + property.Name);
+                CheckProperties(property.Value);
+            }
+        }
+        else if (element.ValueKind == JsonValueKind.Array)
+            foreach (var item in element.EnumerateArray()) CheckProperties(item);
+    }
 
     public static IReadOnlyList<string> Validate(JsonObject manifest, JsonObject register, JsonObject exemptions, bool requireImplemented = false)
     {
@@ -21,6 +50,7 @@ public static class RegisterValidator
         try
         {
             ValidateCapture(manifest, register, exemptions, errors);
+            ValidateMappings(manifest, register, exemptions, requireImplemented, errors);
         }
         catch (Exception error) when (error is InvalidOperationException or ArgumentException or KeyNotFoundException or InvalidDataException or DecoderFallbackException)
         {
@@ -29,8 +59,171 @@ public static class RegisterValidator
         return errors;
     }
 
+    private static readonly Dictionary<string, string> Analyzers = new(StringComparer.Ordinal)
+    {
+        ["R-09"] = "ContinuationIndent", ["R-10"] = "LineLength", ["R-14"] = "UsingOrder",
+        ["R-18"] = "LocalNewDeclaration", ["R-23"] = "PrimaryConstructor", ["R-24"] = "PrimaryConstructor",
+        ["R-25"] = "RegionDirective", ["R-26"] = "NullForgiving", ["R-28"] = "ThisQualification",
+        ["R-33"] = "MemberOrder", ["R-36"] = "BodyComment", ["R-37"] = "BodyLength", ["R-38"] = "NamedArgument",
+    };
+
+    private static string ExpectedMechanism(string id)
+    {
+        if (Analyzers.TryGetValue(id, out var name)) return "tools/code-rules/" + name + "Analyzer.cs";
+        var number = int.Parse(id[2..], System.Globalization.CultureInfo.InvariantCulture);
+        return number switch
+        {
+            >= 68 and <= 78 => "src/core/SnapshotCodec.cs",
+            49 or 82 => "tools/phase1/coverage-policy.json",
+            >= 83 => "tests/phase1/DocumentationValidator.cs",
+            >= 51 => "tests/phase1/ArchitectureRuleTests.cs",
+            <= 8 => "tests/phase1/EnforcementTests.cs",
+            _ => ".editorconfig",
+        };
+    }
+
+    private static bool ExactPath(string relative)
+    {
+        if (string.IsNullOrWhiteSpace(relative) || relative.Contains('\\') || relative.Contains(':') || relative.StartsWith('/')) return false;
+        var current = ProofProtocol.Root;
+        foreach (var part in relative.Split('/'))
+        {
+            if (part is "" or "." or ".." || !Directory.Exists(current)) return false;
+            var matches = Directory.EnumerateFileSystemEntries(current).Where(p => Path.GetFileName(p).Equals(part, StringComparison.Ordinal)).ToArray();
+            if (matches.Length != 1 || (File.GetAttributes(matches[0]) & FileAttributes.ReparsePoint) != 0) return false;
+            current = matches[0];
+        }
+        return File.Exists(current) && new FileInfo(current).Length > 0;
+    }
+
+    private static void ValidateMappings(JsonObject manifest, JsonObject register, JsonObject exemptions, bool implemented, List<string> errors)
+    {
+        var cases = Read("tools/phase1/required-cases.json")["cases"]!.AsArray();
+        var declarations = Unique(cases, n => Text(n["id"]), "PROOF_DECLARATION", errors);
+        var sources = Unique(Rows(manifest, "matrix"), n => Text(n["sourceId"]), "MATRIX_ID", errors);
+        var reviewRules = new HashSet<string>(["R-24", "R-34", "R-62", "R-63", "R-65", "R-77", "R-83", "R-84"], StringComparer.Ordinal);
+        var inapplicable = new HashSet<string>(["R-43", "R-57", "R-76", "R-79", "R-80", "R-85"], StringComparer.Ordinal);
+        var adopted = new HashSet<string>(["R-02", "R-03", "R-04", "R-05", "R-06", "R-24", "R-34", "R-40", "R-44", "R-45", "R-49", "R-50", "R-51", "R-52", "R-54", "R-55", "R-56", "R-58", "R-59", "R-61", "R-63", "R-64", "R-68", "R-69", "R-70", "R-71", "R-72", "R-73", "R-78", "R-81", "R-82"], StringComparer.Ordinal);
+        foreach (var rule in Rows(register, "rules"))
+        {
+            if (rule is null) continue;
+            var id = Text(rule["sourceId"]);
+            if (!sources.TryGetValue(id, out var source)) continue;
+            var expectedDisposition = inapplicable.Contains(id) ? "inapplicable" : adopted.Contains(id) ? "adapted" : "retained";
+            if (Text(rule["disposition"]) != expectedDisposition) errors.Add(id + ": DISPOSITION_DRIFT");
+            if (string.IsNullOrWhiteSpace(Text(rule["scope"]))) errors.Add(id + ": SCOPE_REQUIRED");
+            if (expectedDisposition == "adapted" && string.IsNullOrWhiteSpace(Text(rule["adaptationReason"]))) errors.Add(id + ": ADAPTATION_REASON");
+            var doc = rule["documentation"];
+            if (doc is null || Text(doc["path"]) != "docs/code/register.json" || Text(doc["symbol"]) != id || !ExactPath(Text(doc["path"]))) errors.Add(id + ": DOCUMENTATION_REFERENCE");
+            var reviewRequired = reviewRules.Contains(id) || Text(source["level"]).Contains("PR review", StringComparison.Ordinal);
+            var qualitative = rule["qualitativeReview"];
+            if (qualitative is null || qualitative["required"]?.GetValue<bool>() != reviewRequired) errors.Add(id + ": REVIEW_REQUIRED");
+            else if (reviewRequired && (Text(qualitative["status"]) != "pending" || string.IsNullOrWhiteSpace(Text(qualitative["obligation"])))) errors.Add(id + ": HUMAN_REVIEW_PENDING");
+            else if (!reviewRequired && Text(qualitative["status"]) != "not-required") errors.Add(id + ": REVIEW_STATUS");
+            if (implemented && reviewRequired) errors.Add(id + ": HUMAN_REVIEW_PENDING");
+            if (inapplicable.Contains(id))
+            {
+                if (rule["mechanism"] is not null || rule["positiveProof"] is not null || rule["negativeProof"] is not null) errors.Add(id + ": INAPPLICABLE_MAPPING");
+                if (!declarations.TryGetValue(id + ".register-resolution", out var resolution) || Text(resolution["rule"]) != id) errors.Add(id + ": RESOLUTION_REQUIRED");
+                continue;
+            }
+            var mechanism = rule["mechanism"];
+            if (mechanism is null) errors.Add(id + ": MECHANISM_REQUIRED");
+            else
+            {
+                var expectedSymbol = Analyzers.TryGetValue(id, out var analyzerName) ? analyzerName + "Analyzer" : id;
+                if (Text(mechanism["path"]) != ExpectedMechanism(id) || Text(mechanism["symbol"]) != expectedSymbol) errors.Add(id + ": MECHANISM_REFERENCE");
+                var diagnostics = Regex.Matches(Text(source["mechanism"]), @"\b(?:SCR|IDE|CA|MA|RCS|RS|CS)\d{4}\b").Select(m => m.Value).Distinct(StringComparer.Ordinal);
+                SameStrings(diagnostics, mechanism["diagnostics"]!.AsArray(), id + ": DIAGNOSTIC_IDENTITY", errors);
+                if (Text(mechanism["severity"]) != "error") errors.Add(id + ": SEVERITY_WEAKENED");
+                if (Text(mechanism["status"]) != "pending") errors.Add(id + ": UNVERIFIED_IMPLEMENTATION");
+                if (implemented) errors.Add(id + ": IMPLEMENTATION_PENDING");
+            }
+            foreach (var polarity in new[] { "positive", "negative" })
+            {
+                var proof = rule[polarity + "Proof"];
+                if (proof is null) { errors.Add(id + ": " + polarity.ToUpperInvariant() + "_PROOF_REQUIRED"); continue; }
+                var proofId = Text(proof["id"]);
+                if (proofId != id + "." + polarity || Text(proof["rule"]) != id || !declarations.TryGetValue(proofId, out var declaration) || Text(declaration["rule"]) != id || Text(declaration["polarity"]) != polarity) errors.Add(id + ": PROOF_REVERSE_ID");
+                if (Text(proof["status"]) != "pending") errors.Add(id + ": UNVERIFIED_PROOF");
+                var number = int.Parse(id[2..], System.Globalization.CultureInfo.InvariantCulture);
+                var expectedProof = Analyzers.TryGetValue(id, out var analyzer) ? "tests/phase1/Analyzers/" + analyzer + "AnalyzerTests.cs" : number switch
+                {
+                    >= 68 and <= 78 => "tests/phase1/SnapshotTests.cs",
+                    49 or 82 => "tests/phase1/CoverageTests.cs",
+                    >= 83 => "tests/phase1/DocumentationTests.cs",
+                    >= 51 => "tests/phase1/ArchitectureRuleTests.cs",
+                    _ => "tests/phase1/EnforcementTests.cs",
+                };
+                if (Text(proof["path"]) != expectedProof) errors.Add(id + ": PROOF_PATH");
+                if (implemented && (!declarations.TryGetValue(proofId, out var actual) || Text(actual["implementation"]) != "csharp" || !ExactPath(Text(proof["path"])))) errors.Add(id + ": PROOF_UNIMPLEMENTED");
+            }
+            ValidateNumeric(id, rule["numeric"], errors);
+        }
+        ValidateExemptions(manifest, register, exemptions, implemented, errors);
+    }
+
+    private static void ValidateNumeric(string id, JsonNode? numeric, List<string> errors)
+    {
+        var limits = new Dictionary<string, int>(StringComparer.Ordinal) { ["R-07"] = 4, ["R-08"] = 4, ["R-09"] = 8, ["R-10"] = 120, ["R-37"] = 60, ["R-74"] = 0 };
+        if (!limits.ContainsKey(id) && id is not "R-49" and not "R-82") return;
+        if (numeric is null || string.IsNullOrWhiteSpace(Text(numeric["unit"])) || string.IsNullOrWhiteSpace(Text(numeric["comparison"])) || string.IsNullOrWhiteSpace(Text(numeric["rounding"]))) { errors.Add(id + ": NUMERIC_SEMANTICS"); return; }
+        if (limits.TryGetValue(id, out var limit) && numeric["limit"]?.GetValue<int>() != limit) errors.Add(id + ": NUMERIC_LIMIT");
+        if (id is "R-49" or "R-82" && !numeric["limits"]!.AsArray().Select(n => n!.GetValue<int>()).SequenceEqual(new[] { 90, 80 })) errors.Add(id + ": NUMERIC_LIMIT");
+        if (id == "R-37" && !numeric["boundaries"]!.AsArray().Select(n => n!.GetValue<int>()).SequenceEqual(new[] { 59, 60, 61 })) errors.Add(id + ": NUMERIC_BOUNDARIES");
+        var units = new Dictionary<string, string>(StringComparer.Ordinal)
+        {
+            ["R-07"] = "spaces", ["R-08"] = "spaces", ["R-09"] = "spaces past continued line",
+            ["R-10"] = "UTF-16 code units excluding line terminator",
+            ["R-37"] = "lines between body braces including blank lines; local functions also count in parent",
+            ["R-49"] = "covered/total lines and branches", ["R-82"] = "covered/total lines and branches",
+            ["R-74"] = "enum numeric sentinel",
+        };
+        var comparison = id switch { "R-07" or "R-08" or "R-09" => "exact", "R-49" or "R-82" => "inclusive minimum percent via integer cross multiplication", "R-74" => "Unknown = 0 is never valid saved state", _ => "inclusive maximum" };
+        var rounding = id == "R-37" ? "none; expression/global bodies follow MemberBodies; 40 advised only" : "none";
+        if (Text(numeric["unit"]) != units[id] || Text(numeric["comparison"]) != comparison || Text(numeric["rounding"]) != rounding) errors.Add(id + ": NUMERIC_SEMANTICS");
+        if (id == "R-37")
+        {
+            var proofs = numeric["boundaryProofs"]?.AsArray();
+            if (proofs is null) { errors.Add(id + ": NUMERIC_BOUNDARY_PROOFS"); return; }
+            var unique = Unique(proofs, n => Text(n["id"]), "BOUNDARY_PROOF", errors);
+            if (!unique.Keys.ToHashSet(StringComparer.Ordinal).SetEquals(new[] { "rules.body.59", "rules.body.60", "rules.body.61" })) errors.Add(id + ": NUMERIC_BOUNDARY_PROOFS");
+            foreach (var row in proofs)
+                if (Text(row?["rule"]) != id || Text(row?["path"]) != "tests/phase1/Analyzers/BodyLengthAnalyzerTests.cs" || Text(row?["status"]) != "pending") errors.Add(id + ": NUMERIC_BOUNDARY_PROOFS");
+        }
+    }
+
+    private static void ValidateExemptions(JsonObject manifest, JsonObject register, JsonObject exemptions, bool implemented, List<string> errors)
+    {
+        var sources = Unique(Rows(manifest, "exemptions"), n => Text(n["id"]), "SOURCE_EXEMPTION", errors);
+        var local = Unique(Rows(exemptions, "local"), n => Text(n["id"]), "LOCAL_EXEMPTION_ID", errors);
+        foreach (var entry in Rows(exemptions, "donorExemptions"))
+        {
+            if (entry is null) continue;
+            var id = Text(entry["sourceId"]);
+            if (!sources.TryGetValue(id, out var source) || Text(entry["rule"]) != Text(source["sourceId"])) errors.Add(id + ": EXEMPTION_REVERSE_ID");
+            var expectedDisposition = new[] { "EX-01", "EX-02", "EX-03", "EX-11", "EX-13", "EX-19", "EX-20", "EX-21", "EX-23" }.Contains(id, StringComparer.Ordinal) ? "adapted" : "inapplicable";
+            if (Text(entry["disposition"]) != expectedDisposition) errors.Add(id + ": EXEMPTION_DISPOSITION");
+            SameStrings(local.Where(pair => Text(pair.Value["sourceId"]) == id).Select(pair => pair.Key), entry["localIds"]!.AsArray(), id + ": LOCAL_EXEMPTION_REFERENCE", errors);
+        }
+        var scopes = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var (id, entry) in local)
+        {
+            foreach (var field in new[] { "sourceId", "rule", "diagnostic", "path", "surface", "subject", "reason", "positiveProof", "negativeProof" })
+                if (string.IsNullOrWhiteSpace(Text(entry[field]))) errors.Add(id + ": EXEMPTION_FIELD: " + field);
+            var path = Text(entry["path"]);
+            if (!scopes.Add(Text(entry["diagnostic"]) + ":" + path)) errors.Add(id + ": EXEMPTION_OVERLAP");
+            if (!ExactPath(path) || path.IndexOfAny(['*', '?', '{', '}']) >= 0) errors.Add(id + ": EXEMPTION_SCOPE");
+            if (id != "KZ-EX-LOCK-01" || Text(entry["sourceId"]) != "EX-11" || Text(entry["rule"]) != "R-04" || Text(entry["diagnostic"]) != "FORMAT_FINAL_NEWLINE" || path != "tests/phase1/packages.lock.json" || Text(entry["subject"]) != "no final newline") errors.Add(id + ": EXEMPTION_UNOBSERVED");
+            if (Text(entry["positiveProof"]) != Text(entry["rule"]) + ".positive" || Text(entry["negativeProof"]) != Text(entry["rule"]) + ".negative") errors.Add(id + ": EXEMPTION_PROOF");
+            if (Text(entry["status"]) != "pending" || implemented) errors.Add(id + ": EXEMPTION_BOUNDARY_PENDING");
+        }
+        foreach (var rule in Rows(register, "rules"))
+            SameStrings(local.Where(pair => Text(pair.Value["rule"]) == Text(rule!["sourceId"])).Select(pair => pair.Key), rule!["exemptions"]!.AsArray(), Text(rule["sourceId"]) + ": EXEMPTION_REFERENCE", errors);
+    }
+
     private static string Text(JsonNode? node) => node?.GetValue<string>() ?? "";
-    private static JsonArray Rows(JsonObject node, string name) => node[name]!.AsArray();
+    private static JsonArray Rows(JsonObject node, string name) => node[name] as JsonArray ?? throw new InvalidDataException("ARRAY_REQUIRED: " + name);
     private static string Hash(byte[] bytes) => Convert.ToHexStringLower(SHA256.HashData(bytes));
     private static string HeadingKey(JsonNode node) => Text(node["path"]) + ":" + node["line"]!.GetValue<int>();
 
@@ -46,17 +239,19 @@ public static class RegisterValidator
         return result;
     }
 
-    private static void SameStrings(IEnumerable<string> expected, JsonArray actual, string diagnostic, List<string> errors)
+    private static void SameStrings(IEnumerable<string> expected, JsonArray? actual, string diagnostic, List<string> errors)
     {
+        if (actual is null) { errors.Add(diagnostic); return; }
         var values = actual.Select(Text).ToArray();
         if (values.Distinct(StringComparer.Ordinal).Count() != values.Length || !expected.ToHashSet(StringComparer.Ordinal).SetEquals(values)) errors.Add(diagnostic);
     }
 
     private static Dictionary<string, byte[]> Archive(List<string> errors)
     {
-        var bytes = File.ReadAllBytes(Path.Combine(ProofProtocol.Root, "docs/code/provenance/langproj-baseline.zip"));
-        if (Hash(bytes) != ArchiveHash) errors.Add("CAPTURE: ARCHIVE_HASH");
-        if (bytes.Length > 20_000_000) throw new InvalidDataException("Archive size limit");
+        var file = Path.Combine(ProofProtocol.Root, "docs/code/provenance/langproj-baseline.zip");
+        if (new FileInfo(file).Length > 20_000_000) throw new InvalidDataException("Archive size limit");
+        var bytes = File.ReadAllBytes(file);
+        if (Hash(bytes) != ArchiveHash) throw new InvalidDataException("CAPTURE: ARCHIVE_HASH");
         using var stream = new MemoryStream(bytes);
         using var zip = new ZipArchive(stream, ZipArchiveMode.Read);
         var files = new Dictionary<string, byte[]>(StringComparer.Ordinal);
@@ -122,6 +317,14 @@ public static class RegisterValidator
             (isRule ? expectedIds : expectedExemptions).Add(id);
             var rows = isRule ? matrix : sourceExemptions;
             if (!rows.TryGetValue(id, out var row) || Text(row["raw"]) != matrixLines[i] || row["line"]!.GetValue<int>() != i + 1) errors.Add(id + ": SOURCE_ROW");
+            if (row is not null)
+            {
+                var columns = matrixLines[i].Split('|')[1..^1].Select(x => x.Trim()).ToArray();
+                var names = isRule ? new[] { "title", "mechanism", "scope", "proofs", "level" } : new[] { "path", "subject", "reason" };
+                for (var column = 0; column < names.Length; column++)
+                    if (Text(row[names[column]]) != columns[column + 1]) errors.Add(id + ": SOURCE_FIELD: " + names[column]);
+                if (!isRule && Text(row["sourceId"]) != Regex.Match(columns[4], "R-[0-9]+").Value) errors.Add(id + ": SOURCE_RULE_ID");
+            }
         }
         if (expectedIds.Count != 85 || !matrix.Keys.ToHashSet(StringComparer.Ordinal).SetEquals(expectedIds)) errors.Add("CAPTURE: MATRIX_INVENTORY");
         if (expectedExemptions.Count != 24 || expectedExemptions.Contains("EX-22") || !sourceExemptions.Keys.ToHashSet(StringComparer.Ordinal).SetEquals(expectedExemptions)) errors.Add("CAPTURE: EXEMPTION_INVENTORY");
@@ -130,7 +333,7 @@ public static class RegisterValidator
         foreach (var (id, rule) in rules)
         {
             if (!matrix.ContainsKey(id)) { errors.Add(id + ": UNKNOWN_RULE"); continue; }
-            SameStrings(expectedHeadings.Where(h => h["sourceIds"]!.AsArray().Select(Text).Contains(id, StringComparer.Ordinal)).Select(HeadingKey), rule["headingRefs"]!.AsArray(), id + ": HEADING_RELATION", errors);
+            SameStrings(expectedHeadings.Where(h => h["sourceIds"]!.AsArray().Select(Text).Contains(id, StringComparer.Ordinal)).Select(HeadingKey), rule["headingRefs"] as JsonArray, id + ": HEADING_RELATION", errors);
             if (!new[] { "retained", "adapted", "inapplicable" }.Contains(Text(rule["disposition"]), StringComparer.Ordinal) || string.IsNullOrWhiteSpace(Text(rule["reason"]))) errors.Add(id + ": DISPOSITION");
         }
         var dispositions = Unique(Rows(exemptions, "donorExemptions"), n => Text(n["sourceId"]), "EXEMPTION_ID", errors);
