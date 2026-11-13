@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Shouldly;
 using Xunit;
 
@@ -461,6 +462,16 @@ public sealed class EnforcementTests
                         + "</summary>\ninternal static class Subject\n{\n    internal static asyn"
                         + "c System.Threading.Tasks.Task Read(System.Threading.Tasks.Task value)"
                         + "\n    {\n        await value;\n    }\n}\n");
+    }
+
+    /// <summary>Invalid UTF-8 must name the intended rule and precise raw source byte.</summary>
+    [Fact, Trait("Case", "R-02.negative")]
+    public void Check_InvalidUtf8_ReportsRuleAndLocation()
+    {
+        IReadOnlyList<string> diagnostics = SourceFileFormat.Check(path: "Subject.txt", content: [0xFF, 0x0A]);
+        diagnostics.Count.ShouldBe(expected: 1);
+        diagnostics[0].ShouldBe(expected: "R-02 FORMAT_UTF8 Subject.txt(byte 1)");
+        ProofProtocol.Record(id: "R-02.negative", diagnostic: "FORMAT_UTF8", location: "Subject.txt(byte 1)");
     }
 
     private static void VerifyConsumer(string id, string diagnostic, int line, int column, string source)
