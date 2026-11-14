@@ -38,7 +38,9 @@ public sealed class GeneratedLayoutAdapterTests
 
         foreach (JsonElement row in registry.RootElement.GetProperty(propertyName: "members").EnumerateArray())
         {
-            Hash(path: Text(row: row, name: "surface")).ShouldBe(expected: Text(row: row, name: "sha256"));
+            string hashName = OperatingSystem.IsLinux() && row.TryGetProperty(propertyName: "linuxSha256",
+                    value: out _) ? "linuxSha256" : "sha256";
+            Hash(path: Text(row: row, name: "surface")).ShouldBe(expected: Text(row: row, name: hashName));
             Hash(path: Text(row: row, name: "package")).ShouldBe(expected: Text(row: row, name: "packageSha256"));
             string source = File.ReadAllText(path: Local(path: Text(row: row, name: "path")));
             AdapterTargets.Read(source: source).ShouldContain(expected: Text(row: row, name: "target"),

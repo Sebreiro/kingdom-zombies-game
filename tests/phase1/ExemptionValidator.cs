@@ -365,7 +365,9 @@ internal static class ExemptionValidator
                 surface = "src/godot-game/.godot/mono/temp/obj/Debug/generated/" + surface;
             }
 
-            CheckHash(relative: surface, expected: Text(row: row, name: engine ? "generatedSourceSha256" : "sha256"));
+            string hashName = OperatingSystem.IsLinux() && row?["linuxSha256"] is not null ? "linuxSha256"
+                    : engine ? "generatedSourceSha256" : "sha256";
+            CheckHash(relative: surface, expected: Text(row: row, name: hashName));
             string package = engine ? ".phase1/feed/Godot.SourceGenerators.4.7.2.nupkg"
                     : Text(row: row, name: "package");
             CheckHash(relative: package, expected: Text(row: row, name: "packageSha256"));

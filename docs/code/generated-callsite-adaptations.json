@@ -9,6 +9,7 @@
       "surface": "tests/phase1/obj/Debug/net10.0/SelfRegisteredExtensions.cs",
       "target": "~M:KingdomZombies.Phase1.Tests.SelfRegisteredExtensions.AddSelfRegisteredExtensions(Microsoft.Testing.Platform.Builder.ITestApplicationBuilder,System.String[])",
       "sha256": "e076067d5288932df9dd49714222151b9209d952053047cba3eaca7b6b2ebf05",
+      "linuxSha256": "4e0ebb8f0acc3074a07b86d417bfffe8168857353c4c2eec668c3f24f0c0bb2e",
       "package": ".phase1/packages/microsoft.testing.platform.msbuild/2.5.1/microsoft.testing.platform.msbuild.2.5.1.nupkg",
       "packageSha256": "335136824e7f9bc8bc77f6700ddf536a264f2b27a307c32143bdfbac12a98f69",
       "reason": "Pinned tool emits positional calls; only the exact generated member is exempt. Adjacent calls fail and symbol collisions fail compilation.",

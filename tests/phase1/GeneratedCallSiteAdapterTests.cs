@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json;
 using Shouldly;
 using Xunit;
@@ -26,8 +27,19 @@ public sealed class GeneratedCallSiteAdapterTests
             string path = Path.Combine(path1: ProofProtocol.Root, path2: (row.GetProperty(
                     propertyName: "surface").GetString() ?? throw new System.InvalidOperationException(
                             message: "Required proof value is null")));
+            bool variant = row.TryGetProperty(propertyName: "linuxSha256", value: out JsonElement linux);
+            string hashName = OperatingSystem.IsLinux() && variant ? "linuxSha256" : "sha256";
             Convert.ToHexStringLower(inArray: SHA256.HashData(source: File.ReadAllBytes(path: path))).ShouldBe(
-                    expected: row.GetProperty(propertyName: "sha256").GetString());
+                    expected: row.GetProperty(propertyName: hashName).GetString());
+            if (variant)
+            {
+                string source = File.ReadAllText(path: path).Replace(
+                        oldValue: "MSBuild.TestingPlatformBuilderHook.AddExtensions(builder, args);\r\n",
+                        newValue: "MSBuild.TestingPlatformBuilderHook.AddExtensions(builder, args);\n",
+                        comparisonType: StringComparison.Ordinal);
+                Convert.ToHexStringLower(inArray: SHA256.HashData(source: Encoding.UTF8.GetBytes(s: source)))
+                        .ShouldBe(expected: linux.GetString());
+            }
             Verification.AdapterTargets.Read(source: adapters).ShouldContain(expected: (row.GetProperty(
                     propertyName: "target").GetString() ?? throw new System.InvalidOperationException(
                             message: "Required proof value is null")), comparer: StringComparer.Ordinal);
