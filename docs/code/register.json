@@ -1227,7 +1227,7 @@
     {
       "sourceId": "R-30",
       "disposition": "retained",
-      "reason": "Preserve rule and equivalent local positive/negative proofs.",
+      "reason": "Retain the optional Async suffix for both awaitable and IAsyncEnumerable return types. Exact MA0137/MA0156 settings are none; independent actual consumer controls reject severity drift rather than inventing forbidden method syntax.",
       "adaptationReason": null,
       "headingRefs": [
         "src/backend/docs/CodeRules/code-style.md:394"

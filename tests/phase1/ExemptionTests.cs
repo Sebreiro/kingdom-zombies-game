@@ -219,6 +219,45 @@ public sealed class ExemptionTests
                 location: "independent actual OutputType and IsTestProject evaluation mutations");
     }
 
+    /// <summary>Fresh actual Godot generation and the copied compliant handwritten companion build together.</summary>
+    [Fact, Trait("Case", "rules.godot-companion-positive")]
+    public void Build_GenuineGodotAndHandwrittenCompanion_AcceptsExactOutput()
+    {
+        var fixture = new BuildFixture(game: true);
+        fixture.Restore();
+        (int Exit, string Output) clean = fixture.Build();
+        clean.Exit.ShouldBe(expected: 0, customMessage: clean.Output);
+        RequireGameOrigins(fixture: fixture);
+        ProofProtocol.Record(id: "rules.godot-companion-positive", diagnostic: "GODOT_COMPANION_COMPILED",
+                location: fixture.DirectoryPath + "/src/godot-game/Proofs/Phase1.cs and fresh exact generator output");
+    }
+
+    /// <summary>A handwritten body change preserves genuine output and retains the exact call diagnostic.</summary>
+    [Fact, Trait("Case", "rules.godot-companion-negative")]
+    public void Build_HandwrittenGodotBody_RetainsExactDiagnostic()
+    {
+        var fixture = new BuildFixture(game: true);
+        fixture.Restore();
+        (int Exit, string Output) clean = fixture.Build();
+        clean.Exit.ShouldBe(expected: 0, customMessage: clean.Output);
+        RequireGameOrigins(fixture: fixture);
+        string file = Path.Combine(path1: fixture.DirectoryPath, path2: "src/godot-game/Proofs/Phase1.cs");
+        string source = File.ReadAllText(path: file).Replace(oldValue: "        GetTree().Quit();",
+                newValue: "        _ = System.Math.Abs(-1);\n        GetTree().Quit();",
+                comparisonType: StringComparison.Ordinal);
+        source.ShouldContain(expected: "System.Math.Abs(-1)");
+        int line = source[..source.IndexOf(value: "        _ = System.Math.Abs(-1);",
+                comparisonType: StringComparison.Ordinal)].Count(predicate: value => value == '\n') + 1;
+        File.WriteAllText(path: file, contents: source);
+        (int Exit, string Output) changed = fixture.Build();
+        BuildFixture.HasDiagnostic(result: changed, id: "SCR0001", line: line, column: 29, file: "Phase1.cs")
+                .ShouldBeTrue(customMessage: changed.Output);
+        RequireGameOrigins(fixture: fixture);
+        ProofProtocol.Record(id: "rules.godot-companion-negative", diagnostic: "GODOT_HANDWRITTEN_SCR0001",
+                location: file + "(" + line.ToString(provider: System.Globalization.CultureInfo.InvariantCulture)
+                        + ",29), unchanged exact generated output");
+    }
+
     /// <summary>The normal checkout uses the last owned target, exact original task and observed raw source.</summary>
     [Fact, Trait("Case", "rules.xunit-producer-root")]
     public void Generate_NormalCheckout_VerifiesExactProducer()
@@ -355,6 +394,29 @@ public sealed class ExemptionTests
         result.Exit.ShouldBe(expected: 0, customMessage: result.Output);
         return RegisterValidator.Parse(bytes: System.Text.Encoding.UTF8.GetBytes(s: result.Output))
                 ["Properties"]?.AsObject() ?? throw new InvalidDataException(message: "EXECUTABLE_PROPERTIES_REQUIRED");
+    }
+
+    private static void RequireGameOrigins(BuildFixture fixture)
+    {
+        JsonArray rows = RegisterValidator.Read(relative: "docs/code/generated-callsite-adaptations.json")
+                ["local"]?.AsArray() ?? throw new InvalidDataException(message: "GAME_ORIGIN_RECORDS_REQUIRED");
+        int count = 0;
+        foreach (JsonNode? row in rows)
+        {
+            string surface = row?["surface"]?.GetValue<string>() ?? "";
+            if (!surface.StartsWith(value: "src/godot-game/", comparisonType: StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            string file = Path.Combine(path1: fixture.DirectoryPath, path2: surface);
+            string hash = Convert.ToHexStringLower(inArray: System.Security.Cryptography.SHA256.HashData(
+                    source: File.ReadAllBytes(path: file)));
+            hash.ShouldBe(expected: row?["sha256"]?.GetValue<string>());
+            count++;
+        }
+
+        count.ShouldBe(expected: 8);
     }
     private static BuildFixture CleanTestConsumer()
     {

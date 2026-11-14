@@ -810,6 +810,41 @@ public sealed class EnforcementTests
                 location: fixture.DirectoryPath + "/src/core/Subject.cs(10,9)");
     }
 
+    /// <summary>The actual async-stream consumer permits an omitted suffix under the captured policy.</summary>
+    [Fact, Trait("Case", "rules.async-enumerable-positive")]
+    public void Compile_AsyncEnumerableWithoutSuffix_AcceptsDeclaredPermission()
+    {
+        VerifyConsumer(id: "rules.async-enumerable-positive", diagnostic: "", line: 0, column: 0,
+                source: AsyncEnumerablePermissionSource);
+    }
+
+    /// <summary>Changing only MA0156 severity rejects the intended async-stream method at its exact location.</summary>
+    [Fact, Trait("Case", "rules.async-enumerable-negative")]
+    public void Configure_AsyncEnumerableSuffix_RejectsPermissionDrift()
+    {
+        var fixture = new BuildFixture();
+        fixture.Restore();
+        (int Exit, string Output) clean = fixture.Build();
+        clean.Exit.ShouldBe(expected: 0, customMessage: clean.Output);
+        fixture.Write(source: AsyncEnumerablePermissionSource);
+        (int Exit, string Output) allowed = fixture.Build();
+        allowed.Exit.ShouldBe(expected: 0, customMessage: allowed.Output);
+        string file = Path.Combine(path1: fixture.DirectoryPath, path2: ".editorconfig");
+        File.WriteAllText(path: file, contents: File.ReadAllText(path: file).Replace(
+                oldValue: "dotnet_diagnostic.MA0156.severity = none",
+                newValue: "dotnet_diagnostic.MA0156.severity = error", comparisonType: StringComparison.Ordinal));
+        (int Exit, string Output) changed = fixture.Build();
+        BuildFixture.HasDiagnostic(result: changed, id: "MA0156", line: 8, column: 43).ShouldBeTrue(
+                customMessage: changed.Output);
+        ProofProtocol.Record(id: "rules.async-enumerable-negative", diagnostic: "MA0156",
+                location: fixture.DirectoryPath + "/src/core/Subject.cs(8,43)");
+    }
+
+    private const string AsyncEnumerablePermissionSource = "using System.Collections.Generic;\n\n"
+            + "namespace KingdomZombies.Core;\n\n/// <summary>Async stream permission control.</summary>\n"
+            + "internal static class Subject\n{\n"
+            + "    internal static IAsyncEnumerable<int> Read(IAsyncEnumerable<int> source)\n"
+            + "    {\n        return source;\n    }\n}\n";
     private const string LoggerMessageSource = "using System;\nusing Microsoft.Extensions.Logging;\n\nname"
             + "space KingdomZombies.Core;\n\n/// <summary>Actual logging "
             + "compiler control.</summary>\ninternal static class Subject"

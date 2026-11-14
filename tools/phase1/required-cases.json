@@ -11735,6 +11735,78 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.AnalyzerSourceConsumerTests.Analyze_AnalyzerConsumerViolation_RetainsScr0006",
       "expectedDiagnostic": "ANALYZER_SOURCE_BOUNDARY_SCR0006"
+    },
+    {
+      "id": "rules.godot-companion-positive",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-08",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ExemptionTests.Build_GenuineGodotAndHandwrittenCompanion_AcceptsExactOutput",
+      "expectedDiagnostic": "GODOT_COMPANION_COMPILED"
+    },
+    {
+      "id": "rules.godot-companion-negative",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-08",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ExemptionTests.Build_HandwrittenGodotBody_RetainsExactDiagnostic",
+      "expectedDiagnostic": "GODOT_HANDWRITTEN_SCR0001"
+    },
+    {
+      "id": "rules.async-enumerable-positive",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-08",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Compile_AsyncEnumerableWithoutSuffix_AcceptsDeclaredPermission",
+      "expectedDiagnostic": "REAL_BUILD_CLEAN"
+    },
+    {
+      "id": "rules.async-enumerable-negative",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-08",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Configure_AsyncEnumerableSuffix_RejectsPermissionDrift",
+      "expectedDiagnostic": "MA0156"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."

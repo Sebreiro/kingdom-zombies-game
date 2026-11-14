@@ -16,8 +16,13 @@ internal sealed class BuildFixture
             + ("/// <summary>Isolated real consumer.</summary>\ninternal" + " static class Subject\n{\n")
             + "    internal static int Read()\n    {\n        return 1;\n    }\n}\n";
     /// <summary>Creates a scratch consumer with the real project, policy and canonical dependency locks.</summary>
-    internal BuildFixture(bool tests = false)
+    internal BuildFixture(bool tests = false, bool game = false)
     {
+        if (tests && game)
+        {
+            throw new ArgumentException(message: "Select one actual consumer project", paramName: nameof(game));
+        }
+
         _directory = Path.Combine(path1: ProofProtocol.Root, path2: ".phase1/temp/build-" + Guid.NewGuid()
                 .ToString(format: "N"));
         Directory.CreateDirectory(path: _directory);
@@ -34,10 +39,19 @@ internal sealed class BuildFixture
             CopyTree(relative: "tests/phase1");
         }
 
-        string relativeProject = tests ? "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
-                : "src/core/KingdomZombies.Core.csproj";
+        if (game)
+        {
+            CopyTree(relative: "src/godot-game");
+            CopyTree(relative: "src/multiplayer-abstractions");
+        }
+
+        string relativeProject = game ? "src/godot-game/KingdomZombies.csproj"
+                : tests ? "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
+                        : "src/core/KingdomZombies.Core.csproj";
         _project = Path.Combine(path1: _directory, path2: relativeProject);
-        _subject = Path.Combine(path1: _directory, path2: tests ? "tests/phase1/Subject.cs" : "src/core/Subject.cs");
+        string subject = game ? "src/godot-game/Subject.cs"
+                : tests ? "tests/phase1/Subject.cs" : "src/core/Subject.cs";
+        _subject = Path.Combine(path1: _directory, path2: subject);
         Write(source: CleanSource);
     }
 
@@ -118,7 +132,8 @@ internal sealed class BuildFixture
                 searchOption: SearchOption.AllDirectories))
         {
             string local = Path.GetRelativePath(relativeTo: source, path: file);
-            if (local.Split(separator: Path.DirectorySeparatorChar).Any(predicate: part => part is "bin" or "obj"))
+            if (local.Split(separator: Path.DirectorySeparatorChar).Any(predicate: part => part is "bin" or "obj"
+                    or ".godot"))
             {
                 continue;
             }
