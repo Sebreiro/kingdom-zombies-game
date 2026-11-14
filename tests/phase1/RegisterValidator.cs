@@ -146,6 +146,7 @@ public static class RegisterValidator
         int number = int.Parse(s: id[2..], provider: System.Globalization.CultureInfo.InvariantCulture);
         return number switch
         {
+            67 => "tests/phase1/SuppressionPolicy.cs",
             73 => "BannedSymbols.txt",
             >= 68 and <= 78 => "src/core/SnapshotCodec.cs",
             48 => "tests/phase1/TestSourceIndex.cs",
@@ -283,7 +284,7 @@ public static class RegisterValidator
         else
         {
             string expectedSymbol = _analyzers.TryGetValue(key: id, value: out string? analyzerName)
-                    ? analyzerName + "Analyzer" : _architecture.TryGetValue(key: id,
+                    ? analyzerName + "Analyzer" : id is "R-67" ? "CheckRepository" : _architecture.TryGetValue(key: id,
                             value: out (string File, string Symbol) actual) ? actual.Symbol : id;
             if (!StringComparer.Ordinal.Equals(x: Text(node: mechanism["path"]), y: ExpectedMechanism(id: id))
                     || !StringComparer.Ordinal.Equals(x: Text(node: mechanism["symbol"]), y: expectedSymbol))
@@ -308,7 +309,8 @@ public static class RegisterValidator
                 errors.Add(item: id + ": UNVERIFIED_IMPLEMENTATION");
             }
 
-            if (implemented)
+            if (implemented && !StringComparer.Ordinal.Equals(x: Text(node: rule["binding"]?["status"]),
+                    y: "implemented"))
             {
                 errors.Add(item: id + ": IMPLEMENTATION_PENDING");
             }
@@ -354,6 +356,7 @@ public static class RegisterValidator
                     {
                         34 or 63 or 64 or 65 or 66 or 74 or 75 or 77 or 81 => "tests/phase1/ArchitectureRuleTests.cs",
                         >= 51 and <= 62 or 78 => "tests/phase1/GraphTests.cs",
+                        67 => "tests/phase1/SuppressionTests.cs",
                         73 => "tests/phase1/RandomContractTests.cs",
                         >= 68 and <= 78 => "tests/phase1/SnapshotTests.cs",
                         48 => "tests/phase1/TestMethodNameTests.cs",
@@ -1001,7 +1004,7 @@ public static class RegisterValidator
                 errors.Add(item: id + ": EXEMPTION_PROOF");
             }
 
-            if (!StringComparer.Ordinal.Equals(x: Text(node: entry["status"]), y: "pending") || implemented)
+            if (!StringComparer.Ordinal.Equals(x: Text(node: entry["status"]), y: "pending"))
             {
                 errors.Add(item: id + ": EXEMPTION_BOUNDARY_PENDING");
             }

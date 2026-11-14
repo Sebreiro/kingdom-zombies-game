@@ -43,8 +43,7 @@ public sealed class DocumentationProjectTests
     public void Check_UnlinkedCorePage_RejectsUnreachableDeclaration()
     {
         Dictionary<string, byte[]> files = Current();
-        Change(files: files, path: "docs/architecture/README.md", before: "[Core](../../src/core/docs/README.md)",
-                after: "Core");
+        files["AGENTS.md"] = Encoding.UTF8.GetBytes(s: "# Guide\nCanonical navigation removed for this subject.\n");
         Reject(files: files, id: "docs.projects.unreachable", diagnostic: "DOC_PROJECT_UNREACHABLE");
     }
 

@@ -10,4 +10,4 @@ Status: Pending. Machine passes establish the linked structural contracts; human
 | State, identity, time and randomness preserve intended game compatibility without implementing later features | [State and engine decision](../architecture/decisions/0003-state-and-engine.md), Core source and native assertions |
 | Focused indexes are concise and lead to the appropriate authority | [Agent guide](../../AGENTS.md), [code index](README.md), [verification reference](../workflow/verification.md) |
 
-Record reviewer, changed revision, evidence and explicit outcome when review occurs. Plan 01-14 owns the complete per-rule/project review mapping and refinement. This page provides the required live navigation prerequisite; no qualitative component is marked passed by its existence.
+The [exact per-rule checklist](review.md) identifies all fourteen qualitative components. Record reviewer, date, changed revision, evidence and explicit outcome in the linked phase-end human-check artifact when review occurs. No qualitative component is marked passed by its existence or by an automated/AI result.

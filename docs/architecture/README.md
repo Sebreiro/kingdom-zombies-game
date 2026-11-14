@@ -3,6 +3,7 @@
 | Need | Definition or decision |
 | --- | --- |
 | Exact five-project inventory and allowed references | [Project graph](../../tools/phase1/projects.json), [evaluated graph policy](../../tests/phase1/ArchitecturePolicy.cs) |
+| Boundary rationale and proven baseline | [Boundaries](boundaries.md), [development baseline](decisions/0001-development-baseline.md) |
 | Each project's purpose and checked reference declaration | [Core](../../src/core/docs/README.md), [service ports](../../src/multiplayer-abstractions/docs/README.md), [Godot](../../src/godot-game/docs/README.md), [analyzer](../../tools/code-rules/docs/README.md), [proofs](../../tests/phase1/docs/README.md) |
 | Compiled public/type boundaries and engine access | [Type scanner](../../tests/phase1/TypeBoundaryScanner.cs), [engine access policy](../../tests/phase1/EngineAccessPolicy.cs) |
 | Composition and independent pure state | [Godot project](../../src/godot-game/KingdomZombies.csproj), [Core project](../../src/core/KingdomZombies.Core.csproj), [service ports](../../src/multiplayer-abstractions/KingdomZombies.Multiplayer.Abstractions.csproj) |

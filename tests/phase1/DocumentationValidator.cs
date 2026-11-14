@@ -16,7 +16,9 @@ internal static class DocumentationValidator
         "docs/architecture/decisions/0003-state-and-engine.md", "docs/workflow/setup.md",
         "docs/workflow/ai-collaboration.md", "docs/workflow/gsd.md", "docs/workflow/verification.md",
         "src/core/docs/README.md", "src/multiplayer-abstractions/docs/README.md",
-        "src/godot-game/docs/README.md", "tools/code-rules/docs/README.md", "tests/phase1/docs/README.md"
+        "src/godot-game/docs/README.md", "tools/code-rules/docs/README.md", "tests/phase1/docs/README.md",
+        "docs/code/rule-matrix.md", "docs/code/review.md", "docs/architecture/boundaries.md",
+        "docs/architecture/decisions/0001-development-baseline.md"
     ];
 
     /// <summary>Returns subject diagnostics without modifying documentation or the Git index.</summary>
@@ -111,7 +113,9 @@ internal static class DocumentationValidator
         string[] helpers =
         [
             "tests/phase1/DocumentationLinks.cs", "tests/phase1/DocumentationPath.cs",
-            "tests/phase1/DocumentationAnchors.cs"
+            "tests/phase1/DocumentationAnchors.cs", "tests/phase1/RuleBindingValidator.cs",
+            "tests/phase1/RuleMatrix.cs", "tests/phase1/SuppressionPolicy.cs", "tests/phase1/SuppressionTests.cs",
+            ".planning/phases/01-code-rules-and-documentation/01-HUMAN-CHECK.md"
         ];
         IEnumerable<string> authored = Authored.Concat(second: helpers);
         string[] paths = [..SourceFileFormat.ReadTrackedPaths().Concat(second: authored).Distinct(

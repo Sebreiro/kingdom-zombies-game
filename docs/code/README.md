@@ -8,10 +8,11 @@ The [agent guide](../../AGENTS.md) selects focused references. Executable defini
 | Compiler policy and analyzer integration | [Shared properties](../../Directory.Build.props), [shared targets](../../Directory.Build.targets), [central pins](../../Directory.Packages.props), [banned symbols](../../BannedSymbols.txt) |
 | Twelve inherited syntax analyzers | [Analyzer project](../../tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj), [named arguments](../../tools/code-rules/NamedArgumentAnalyzer.cs), [body length](../../tools/code-rules/BodyLengthAnalyzer.cs) |
 | All 85 source rule dispositions and exact positive/negative bindings | [Rule register](register.json) |
+| Current source symbols/settings, scopes and distinct proof methods | [Rule mechanism index](rule-matrix.md) |
 | Exact compatibility permissions | [Exemptions](exemptions.json), [permission checker](../../tests/phase1/ExemptionValidator.cs), [engine spans](engine-generated-spans.json) |
 | Evaluated and compiled dependency boundaries | [Architecture index](../architecture/README.md), [graph checker](../../tests/phase1/ArchitecturePolicy.cs), [type checker](../../tests/phase1/TypeBoundaryScanner.cs) |
 | Portable path, encoding, heading and reference convention | [Documentation checker](../../tests/phase1/DocumentationValidator.cs), [URL resolver](../../tests/phase1/DocumentationPath.cs), [anchor resolver](../../tests/phase1/DocumentationAnchors.cs) |
-| Qualitative obligations, separately Pending | [Review checklist](review-checklist.md) |
+| Qualitative obligations, separately Pending | [Review checklist](review-checklist.md), [exact human components](review.md) |
 | Why these mechanisms were selected | [Enforcement decision](../architecture/decisions/0001-enforcement.md) |
 | Selecting proofs and interpreting results | [Verification](../workflow/verification.md) |
 

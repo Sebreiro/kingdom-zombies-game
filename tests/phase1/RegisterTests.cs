@@ -531,7 +531,8 @@ public sealed class RegisterTests
                 .Exemptions).ShouldBeEmpty();
         IReadOnlyList<string> strict = RegisterValidator.Validate(manifest: input.Manifest, register: input
                 .Register, exemptions: input.Exemptions, requireImplemented: true);
-        strict.ShouldContain(expected: "R-37: IMPLEMENTATION_PENDING", comparer: StringComparer.Ordinal);
+        strict.ShouldNotContain(expected: "R-37: IMPLEMENTATION_PENDING", comparer: StringComparer.Ordinal);
+        strict.ShouldContain(expected: "R-49: IMPLEMENTATION_PENDING", comparer: StringComparer.Ordinal);
         strict.ShouldNotContain(expected: "R-37: PROOF_UNIMPLEMENTED", comparer: StringComparer.Ordinal);
         strict.ShouldNotContain(expected: "R-09: PROOF_UNIMPLEMENTED", comparer: StringComparer.Ordinal);
         strict.ShouldContain(expected: "R-24: HUMAN_REVIEW_PENDING", comparer: StringComparer.Ordinal);

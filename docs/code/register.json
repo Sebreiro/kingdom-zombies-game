@@ -22,7 +22,7 @@
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "scope": "Owned tracked text/build settings; binary, installed/vendor/generated and planning inputs follow SourceFileFormat.IsChecked.",
       "exemptions": [],
       "positiveProof": {
         "id": "R-01.positive",
@@ -40,7 +40,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "Directory.Build.props",
+        "symbol": "<TreatWarningsAsErrors>true</TreatWarningsAsErrors>",
+        "scope": "Owned tracked text/build settings; binary, installed/vendor/generated and planning inputs follow SourceFileFormat.IsChecked.",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule01_CompliantConsumer_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule01_ViolatingConsumer_Rejected"
+      }
     },
     {
       "sourceId": "R-02",
@@ -61,7 +70,7 @@
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "scope": "Owned tracked text/build settings; binary, installed/vendor/generated and planning inputs follow SourceFileFormat.IsChecked.",
       "exemptions": [],
       "positiveProof": {
         "id": "R-02.positive",
@@ -79,7 +88,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/SourceFileFormat.cs",
+        "symbol": "SourceFileFormat.Check",
+        "scope": "Owned tracked text/build settings; binary, installed/vendor/generated and planning inputs follow SourceFileFormat.IsChecked.",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Check_ValidUnicode_AcceptsUtf8",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Check_InvalidUtf8_ReportsRuleAndLocation"
+      }
     },
     {
       "sourceId": "R-03",
@@ -100,7 +118,7 @@
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "scope": "Owned tracked text/build settings; binary, installed/vendor/generated and planning inputs follow SourceFileFormat.IsChecked.",
       "exemptions": [],
       "positiveProof": {
         "id": "R-03.positive",
@@ -118,7 +136,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/SourceFileFormat.cs",
+        "symbol": "SourceFileFormat.Check",
+        "scope": "Owned tracked text/build settings; binary, installed/vendor/generated and planning inputs follow SourceFileFormat.IsChecked.",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Check_LfText_AcceptsLineEndings",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Check_CrlfText_RejectsCarriageReturn"
+      }
     },
     {
       "sourceId": "R-04",
@@ -139,7 +166,7 @@
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "scope": "Owned tracked text/build settings; binary, installed/vendor/generated and planning inputs follow SourceFileFormat.IsChecked.",
       "exemptions": [
         "KZ-EX-LOCK-01",
         "KZ-EX-LOCK-CORE-01",
@@ -163,7 +190,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/SourceFileFormat.cs",
+        "symbol": "SourceFileFormat.Check",
+        "scope": "Owned tracked text/build settings; binary, installed/vendor/generated and planning inputs follow SourceFileFormat.IsChecked.",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Check_RegisteredLocks_AcceptsOnlyFinalNewlinePermission",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Check_AdjacentLockPaths_RejectsMissingNewline"
+      }
     },
     {
       "sourceId": "R-05",
@@ -186,7 +222,7 @@
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "scope": "Owned tracked text/build settings; binary, installed/vendor/generated and planning inputs follow SourceFileFormat.IsChecked.",
       "exemptions": [],
       "positiveProof": {
         "id": "R-05.positive",
@@ -204,7 +240,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/SourceFileFormat.cs",
+        "symbol": "SourceFileFormat.Check",
+        "scope": "Owned tracked text/build settings; binary, installed/vendor/generated and planning inputs follow SourceFileFormat.IsChecked.",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Check_LeadingSpaces_AcceptsCleanLineEnds",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Check_TrailingSpace_ReportsExactByte"
+      }
     },
     {
       "sourceId": "R-06",
@@ -227,7 +272,7 @@
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "scope": "Owned tracked text/build settings; binary, installed/vendor/generated and planning inputs follow SourceFileFormat.IsChecked.",
       "exemptions": [],
       "positiveProof": {
         "id": "R-06.positive",
@@ -245,7 +290,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/SourceFileFormat.cs",
+        "symbol": "SourceFileFormat.Check",
+        "scope": "Owned tracked text/build settings; binary, installed/vendor/generated and planning inputs follow SourceFileFormat.IsChecked.",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Check_SpacesOnly_AcceptsText",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Check_InteriorTab_ReportsExactByte"
+      }
     },
     {
       "sourceId": "R-07",
@@ -268,7 +322,7 @@
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "scope": "Owned tracked text/build settings; binary, installed/vendor/generated and planning inputs follow SourceFileFormat.IsChecked.",
       "exemptions": [],
       "positiveProof": {
         "id": "R-07.positive",
@@ -291,6 +345,15 @@
         "limit": 4,
         "comparison": "exact",
         "rounding": "none"
+      },
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/SourceFileFormat.cs",
+        "symbol": "SourceFileFormat.RequireEditorSetting",
+        "scope": "Owned tracked text/build settings; binary, installed/vendor/generated and planning inputs follow SourceFileFormat.IsChecked.",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Format_FourSpaceIndent_AcceptsSubject",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Format_ThreeAndFiveSpaceIndent_RejectsExactSubject"
       }
     },
     {
@@ -312,7 +375,7 @@
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "scope": "Owned tracked text/build settings; binary, installed/vendor/generated and planning inputs follow SourceFileFormat.IsChecked.",
       "exemptions": [],
       "positiveProof": {
         "id": "R-08.positive",
@@ -335,6 +398,15 @@
         "limit": 4,
         "comparison": "exact",
         "rounding": "none"
+      },
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/SourceFileFormat.cs",
+        "symbol": "SourceFileFormat.RequireEditorSetting",
+        "scope": "Owned tracked text/build settings; binary, installed/vendor/generated and planning inputs follow SourceFileFormat.IsChecked.",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Configure_FourColumnTabWidth_AcceptsPolicy",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Configure_TabWidthDrift_RejectsPolicy"
       }
     },
     {
@@ -381,6 +453,15 @@
         "limit": 8,
         "comparison": "exact",
         "rounding": "none"
+      },
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tools/code-rules/ContinuationIndentAnalyzer.cs",
+        "symbol": "ContinuationIndentAnalyzer.Initialize",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedArgument_8Spaces_Passes",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_WrappedArgument4Spaces_ReportsDiagnostic"
       }
     },
     {
@@ -427,6 +508,15 @@
         "limit": 120,
         "comparison": "inclusive maximum",
         "rounding": "none"
+      },
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tools/code-rules/LineLengthAnalyzer.cs",
+        "symbol": "LineLengthAnalyzer.Initialize",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Line_120Characters_Passes",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Line_121Characters_Fails"
       }
     },
     {
@@ -468,7 +558,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": ".editorconfig",
+        "symbol": "dotnet_diagnostic.IDE0161.severity = error",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule11_CompliantConsumer_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule11_ViolatingConsumer_Rejected"
+      }
     },
     {
       "sourceId": "R-12",
@@ -509,7 +608,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": ".editorconfig",
+        "symbol": "dotnet_diagnostic.IDE0011.severity = error",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule12_CompliantConsumer_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule12_ViolatingConsumer_Rejected"
+      }
     },
     {
       "sourceId": "R-13",
@@ -550,7 +658,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": ".editorconfig",
+        "symbol": "dotnet_diagnostic.IDE0065.severity = error",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule13_CompliantConsumer_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule13_ViolatingConsumer_Rejected"
+      }
     },
     {
       "sourceId": "R-14",
@@ -591,7 +708,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tools/code-rules/UsingOrderAnalyzer.cs",
+        "symbol": "UsingOrderAnalyzer.Initialize",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.Analyze_SystemFirstThenAlphabetical_Passes",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.Analyze_SystemTextBeforeSystem_Reports"
+      }
     },
     {
       "sourceId": "R-15",
@@ -632,7 +758,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": ".editorconfig",
+        "symbol": "dotnet_diagnostic.IDE0005.severity = error",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule15_CompliantConsumer_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule15_ViolatingConsumer_Rejected"
+      }
     },
     {
       "sourceId": "R-16",
@@ -673,7 +808,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "Directory.Build.props",
+        "symbol": "<ImplicitUsings>disable</ImplicitUsings>",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule16_CompliantConsumer_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule16_ViolatingConsumer_Rejected"
+      }
     },
     {
       "sourceId": "R-17",
@@ -715,7 +859,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": ".editorconfig",
+        "symbol": "dotnet_diagnostic.IDE0008.severity = error",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule17_CompliantConsumer_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule17_ViolatingConsumer_Rejected"
+      }
     },
     {
       "sourceId": "R-18",
@@ -757,7 +910,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tools/code-rules/LocalNewDeclarationAnalyzer.cs",
+        "symbol": "LocalNewDeclarationAnalyzer.Initialize",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.Analyzers.LocalNewDeclarationAnalyzerTests.Analyze_VarWithNew_Passes",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.Analyzers.LocalNewDeclarationAnalyzerTests.Analyze_TypedLocalWithTargetTypedNew_Reports"
+      }
     },
     {
       "sourceId": "R-19",
@@ -798,7 +960,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": ".editorconfig",
+        "symbol": "dotnet_diagnostic.IDE0090.severity = error",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule19_CompliantConsumer_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule19_ViolatingConsumer_Rejected"
+      }
     },
     {
       "sourceId": "R-20",
@@ -845,7 +1016,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": ".editorconfig",
+        "symbol": "dotnet_diagnostic.IDE0300.severity = error",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule20_CompliantConsumer_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule20_ViolatingConsumer_Rejected"
+      }
     },
     {
       "sourceId": "R-21",
@@ -887,7 +1067,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": ".editorconfig",
+        "symbol": "dotnet_diagnostic.RCS1248.severity = error",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule21_CompliantConsumer_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule21_ViolatingConsumer_Rejected"
+      }
     },
     {
       "sourceId": "R-22",
@@ -932,7 +1121,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": ".editorconfig",
+        "symbol": "dotnet_diagnostic.IDE0022.severity = error",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule22_CompliantConsumer_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule22_ViolatingConsumer_Rejected"
+      }
     },
     {
       "sourceId": "R-23",
@@ -973,7 +1171,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tools/code-rules/PrimaryConstructorAnalyzer.cs",
+        "symbol": "PrimaryConstructorAnalyzer.Initialize",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.Analyze_OrdinaryConstructor_Passes",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.Class_PrimaryConstructor_Reports"
+      }
     },
     {
       "sourceId": "R-24",
@@ -1013,9 +1220,18 @@
       "qualitativeReview": {
         "required": true,
         "status": "pending",
-        "obligation": "Human review of semantic intent, scope, API need, invariants or decision accuracy is required separately from machine structure."
+        "obligation": "Confirm class-based DTO/engine staging choices express required initialization; syntax checks do not establish semantic suitability."
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tools/code-rules/PrimaryConstructorAnalyzer.cs",
+        "symbol": "PrimaryConstructorAnalyzer.Initialize",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.Analyze_NonPositionalRecord_Passes",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.Analyze_PositionalRecord_Reports"
+      }
     },
     {
       "sourceId": "R-25",
@@ -1056,7 +1272,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tools/code-rules/RegionDirectiveAnalyzer.cs",
+        "symbol": "RegionDirectiveAnalyzer.Initialize",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.Analyzers.RegionDirectiveAnalyzerTests.Analyze_OtherDirectives_Pass",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.Analyzers.RegionDirectiveAnalyzerTests.Analyze_InsideType_Reports"
+      }
     },
     {
       "sourceId": "R-26",
@@ -1097,7 +1322,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tools/code-rules/NullForgivingAnalyzer.cs",
+        "symbol": "NullForgivingAnalyzer.Initialize",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.Analyzers.NullForgivingAnalyzerTests.Analyze_LogicalNotAndNotEquals_Pass",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.Analyzers.NullForgivingAnalyzerTests.Analyze_Variable_Reports"
+      }
     },
     {
       "sourceId": "R-27",
@@ -1138,7 +1372,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": ".editorconfig",
+        "symbol": "dotnet_naming_rule.private_fields_are_underscore_camel_case.style = underscore_camel_case_style",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule27_CompliantConsumer_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule27_ViolatingConsumer_Rejected"
+      }
     },
     {
       "sourceId": "R-28",
@@ -1181,7 +1424,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tools/code-rules/ThisQualificationAnalyzer.cs",
+        "symbol": "ThisQualificationAnalyzer.Initialize",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.Analyzers.ThisQualificationAnalyzerTests.Analyze_Unqualified_Passes",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.Analyzers.ThisQualificationAnalyzerTests.Analyze_FieldAssignment_Reports"
+      }
     },
     {
       "sourceId": "R-29",
@@ -1222,7 +1474,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": ".editorconfig",
+        "symbol": "dotnet_naming_rule.constants_are_pascal_case.style = pascal_case_style",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule29_CompliantConsumer_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule29_ViolatingConsumer_Rejected"
+      }
     },
     {
       "sourceId": "R-30",
@@ -1261,7 +1522,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": ".editorconfig",
+        "symbol": "dotnet_diagnostic.MA0137.severity = none",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Compile_AwaitableWithoutSuffix_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Configure_AsyncSuffixRequirement_RejectsPermissionDrift"
+      }
     },
     {
       "sourceId": "R-31",
@@ -1303,7 +1573,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": ".editorconfig",
+        "symbol": "dotnet_diagnostic.CA1852.severity = error",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule31_CompliantConsumer_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule31_ViolatingConsumer_Rejected"
+      }
     },
     {
       "sourceId": "R-32",
@@ -1344,7 +1623,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": ".editorconfig",
+        "symbol": "dotnet_diagnostic.MA0048.severity = error",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule32_CompliantConsumer_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule32_ViolatingConsumer_Rejected"
+      }
     },
     {
       "sourceId": "R-33",
@@ -1385,7 +1673,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tools/code-rules/MemberOrderAnalyzer.cs",
+        "symbol": "MemberOrderAnalyzer.Initialize",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.AllSixAccessLevels_InOrder_Pass",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.Analyze_PrivateFieldBeforePublicMethod_Reports"
+      }
     },
     {
       "sourceId": "R-34",
@@ -1423,9 +1720,18 @@
       "qualitativeReview": {
         "required": true,
         "status": "pending",
-        "obligation": "Human review of semantic intent, scope, API need, invariants or decision accuracy is required separately from machine structure."
+        "obligation": "Confirm each declared public API is necessary and minimal; exact visibility permissions do not establish API need."
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/ArchitecturePolicy.cs",
+        "symbol": "ArchitecturePolicy.Visibility",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule34_DeclaredVisibility_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule34_AdjacentPublicModel_Rejected"
+      }
     },
     {
       "sourceId": "R-35",
@@ -1467,7 +1773,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "Directory.Build.props",
+        "symbol": "<GenerateDocumentationFile>true</GenerateDocumentationFile>",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule35_CompliantConsumer_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule35_ViolatingConsumer_Rejected"
+      }
     },
     {
       "sourceId": "R-36",
@@ -1509,7 +1824,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tools/code-rules/BodyCommentAnalyzer.cs",
+        "symbol": "BodyCommentAnalyzer.Initialize",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.Analyze_CommentsOutsideBodies_Pass",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.Method_LineAndBlockComments_Report"
+      }
     },
     {
       "sourceId": "R-37",
@@ -1584,6 +1908,15 @@
             "status": "pending"
           }
         ]
+      },
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tools/code-rules/BodyLengthAnalyzer.cs",
+        "symbol": "BodyLengthAnalyzer.Initialize",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.Analyze_EmptyBody_Passes",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.Method_BlankLinesCount_61LinesFails"
       }
     },
     {
@@ -1626,7 +1959,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tools/code-rules/NamedArgumentAnalyzer.cs",
+        "symbol": "NamedArgumentAnalyzer.Initialize",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.Invocation_NamedArgument_Passes",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.Invocation_PositionalArgument_Reports"
+      }
     },
     {
       "sourceId": "R-39",
@@ -1667,7 +2009,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "BannedSymbols.txt",
+        "symbol": "P:System.DateTime.UtcNow;Use an injected clock",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule39_CompliantConsumer_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule39_ViolatingConsumer_Rejected"
+      }
     },
     {
       "sourceId": "R-40",
@@ -1708,7 +2059,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "BannedSymbols.txt",
+        "symbol": "T:System.Console;Use an explicit log/report adapter",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule40_CompliantConsumer_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule40_ViolatingConsumer_Rejected"
+      }
     },
     {
       "sourceId": "R-41",
@@ -1749,7 +2109,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "BannedSymbols.txt",
+        "symbol": "M:System.Threading.Thread.Sleep(System.Int32);Use cancellable asynchronous coordination",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule41_CompliantConsumer_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule41_ViolatingConsumer_Rejected"
+      }
     },
     {
       "sourceId": "R-42",
@@ -1790,12 +2159,21 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "BannedSymbols.txt",
+        "symbol": "M:System.Threading.Tasks.Task.Wait;Use await",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule42_CompliantConsumer_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule42_ViolatingConsumer_Rejected"
+      }
     },
     {
       "sourceId": "R-43",
       "disposition": "inapplicable",
-      "reason": "HTTP/database-only mechanism; no corresponding Phase 1 capability.",
+      "reason": "No HTTP client capability or IHttpClientFactory host exists in Phase 1. Development package acquisition is pinned tooling, not a production HttpClient constructor policy.",
       "adaptationReason": null,
       "headingRefs": [
         "src/backend/docs/CodeRules/code-style.md:506"
@@ -1813,7 +2191,8 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": null
     },
     {
       "sourceId": "R-44",
@@ -1855,7 +2234,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": ".editorconfig",
+        "symbol": "dotnet_diagnostic.CA1848.severity = error",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Compile_CachedLoggerMessage_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Compile_DirectLoggerExtension_Rejected"
+      }
     },
     {
       "sourceId": "R-45",
@@ -1878,7 +2266,7 @@
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "scope": "Core and multiplayer-port awaits require MA0004; engine continuations preserve the captured main thread; exact registered adaptation only.",
       "exemptions": [
         "KZ-EX-ENGINE-AWAIT-01"
       ],
@@ -1898,7 +2286,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": ".editorconfig",
+        "symbol": "dotnet_diagnostic.MA0004.severity = error",
+        "scope": "Core and multiplayer-port awaits require MA0004; engine continuations preserve the captured main thread; exact registered adaptation only.",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule45_CompliantConsumer_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule45_ViolatingConsumer_Rejected"
+      }
     },
     {
       "sourceId": "R-46",
@@ -1937,7 +2334,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "Directory.Build.targets",
+        "symbol": "<ProjectReference",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Compile_CompliantTestConsumer_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Compile_PositionalTestArgument_Rejected"
+      }
     },
     {
       "sourceId": "R-47",
@@ -1978,7 +2384,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "BannedSymbols.Tests.txt",
+        "symbol": "T:Xunit.Assert;Use Shouldly",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Compile_ShouldlyTestAssertion_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Compile_XunitAssertInTests_Rejected"
+      }
     },
     {
       "sourceId": "R-48",
@@ -2001,7 +2416,7 @@
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "scope": "Every owned C# Fact/Theory method; CA1707 exception only tests/phase1/**.cs; production naming remains enforced.",
       "exemptions": [
         "KZ-EX-TEST-NAMES-01"
       ],
@@ -2021,7 +2436,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/TestSourceIndex.cs",
+        "symbol": "TestSourceIndex.FollowsMethodStateExpected",
+        "scope": "Every owned C# Fact/Theory method; CA1707 exception only tests/phase1/**.cs; production naming remains enforced.",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.TestMethodNameTests.Names_AllOwnedTests_FollowRequiredShape",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.TestMethodNameTests.Names_InvalidShape_Rejected"
+      }
     },
     {
       "sourceId": "R-49",
@@ -2042,7 +2466,7 @@
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+      "scope": "Real repository-owned analyzer managed modules; fresh measured line/branch evidence required from 01-15.",
       "exemptions": [],
       "positiveProof": {
         "id": "R-49.positive",
@@ -2068,6 +2492,15 @@
         ],
         "comparison": "inclusive minimum percent via integer cross multiplication",
         "rounding": "none"
+      },
+      "binding": {
+        "status": "pending",
+        "owner": "01-15",
+        "path": "tools/phase1/coverage-policy.json",
+        "symbol": "R-49",
+        "scope": "Real repository-owned analyzer managed modules; fresh measured line/branch evidence required from 01-15.",
+        "positiveMethod": "",
+        "negativeMethod": ""
       }
     },
     {
@@ -2115,6 +2548,15 @@
         "positiveProof": "engine.generated-origin",
         "negativeProof": "engine.generated-boundary",
         "scope": "Exact diagnostic, member, authentic producer/package, full source identity, path and span; all handwritten companions remain analyzed"
+      },
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/ExemptionValidator.cs",
+        "symbol": "ExemptionValidator.CheckRepository",
+        "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.ExemptionTests.Generate_ExactObservedPermissions_AcceptsOwnedSources",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.ExemptionTests.Generate_FakeSuffixOrMarker_RetainsExactDiagnostic"
       }
     },
     {
@@ -2154,7 +2596,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/ProjectEvaluator.cs",
+        "symbol": "ProjectEvaluator.Validate",
+        "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule51_GraphControl_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule51_GraphViolation_Rejected"
+      }
     },
     {
       "sourceId": "R-52",
@@ -2195,7 +2646,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/ProjectEvaluator.cs",
+        "symbol": "ProjectEvaluator.Validate",
+        "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule52_OutputControl_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.GraphTests.Evaluate_CoreExecutable_ReportsOutputKind"
+      }
     },
     {
       "sourceId": "R-53",
@@ -2237,7 +2697,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "Directory.Build.props",
+        "symbol": "<DisableTransitiveProjectReferences>true</DisableTransitiveProjectReferences>",
+        "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule53_CompilerControl_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule53_CompilerViolation_Rejected"
+      }
     },
     {
       "sourceId": "R-54",
@@ -2278,7 +2747,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/ProjectEvaluator.cs",
+        "symbol": "ProjectEvaluator.Validate",
+        "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule54_AnalyzerControl_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule54_AnalyzerViolation_Rejected"
+      }
     },
     {
       "sourceId": "R-55",
@@ -2317,7 +2795,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/TypeBoundaryScanner.cs",
+        "symbol": "TypeBoundaryScanner.Validate(assembly,expectedTypes,boundary)",
+        "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule55_PortsControl_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule55_PortsViolation_Rejected"
+      }
     },
     {
       "sourceId": "R-56",
@@ -2356,12 +2843,21 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/TypeBoundaryScanner.cs",
+        "symbol": "TypeBoundaryScanner.Validate(assembly,expectedTypes,boundary)",
+        "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule56_ContractControl_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule56_ContractViolation_Rejected"
+      }
     },
     {
       "sourceId": "R-57",
       "disposition": "inapplicable",
-      "reason": "HTTP/database-only mechanism; no corresponding Phase 1 capability.",
+      "reason": "The pure Core/ports and explicit Godot composition have no implementation-layer DI container or AddRegistration surface. Importing the donor web registration topology would create an unrelated subsystem.",
       "adaptationReason": null,
       "headingRefs": [
         "src/backend/docs/CodeRules/code-architecture.md:126"
@@ -2379,7 +2875,8 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": null
     },
     {
       "sourceId": "R-58",
@@ -2418,7 +2915,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/TypeBoundaryScanner.cs",
+        "symbol": "TypeBoundaryScanner.Validate(assembly,expectedTypes,boundary)",
+        "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule58_PurityControl_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule58_PurityViolation_Rejected"
+      }
     },
     {
       "sourceId": "R-59",
@@ -2457,7 +2963,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/TypeBoundaryScanner.cs",
+        "symbol": "TypeBoundaryScanner.Validate(assembly,expectedTypes,boundary)",
+        "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule59_InfrastructureControl_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule59_InfrastructureViolation_Rejected"
+      }
     },
     {
       "sourceId": "R-60",
@@ -2496,7 +3011,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/ArchitecturePolicy.cs",
+        "symbol": "ArchitecturePolicy.ServiceLocator",
+        "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule60_LocatorControl_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule60_LocatorViolation_Rejected"
+      }
     },
     {
       "sourceId": "R-61",
@@ -2535,7 +3059,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/TypeBoundaryScanner.cs",
+        "symbol": "TypeBoundaryScanner.Validate(assembly,expectedTypes,boundary)",
+        "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule61_ProviderControl_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule61_ProviderViolation_Rejected"
+      }
     },
     {
       "sourceId": "R-62",
@@ -2573,9 +3106,18 @@
       "qualitativeReview": {
         "required": true,
         "status": "pending",
-        "obligation": "Review semantic intent/invariants/API need/evolution and accuracy against the actual implementation; automated structure is insufficient."
+        "obligation": "Confirm reusable analyzer/package contents are product-independent in intent as well as evaluated references."
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/TypeBoundaryScanner.cs",
+        "symbol": "TypeBoundaryScanner.Validate(assembly,expectedTypes,boundary)",
+        "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule62_ReusableControl_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule62_ReusableViolation_Rejected"
+      }
     },
     {
       "sourceId": "R-63",
@@ -2613,9 +3155,18 @@
       "qualitativeReview": {
         "required": true,
         "status": "pending",
-        "obligation": "Human review of semantic intent, scope, API need, invariants or decision accuracy is required separately from machine structure."
+        "obligation": "Review invariant meaning and state-changing methods for coherent domain intent; private mutation alone is insufficient."
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/ArchitecturePolicy.cs",
+        "symbol": "ArchitecturePolicy.Model",
+        "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule63_CompliantModel_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule63_ViolatingModel_Rejected"
+      }
     },
     {
       "sourceId": "R-64",
@@ -2654,7 +3205,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/ArchitecturePolicy.cs",
+        "symbol": "ArchitecturePolicy.Model",
+        "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule64_CompliantModel_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule64_ViolatingModel_Rejected"
+      }
     },
     {
       "sourceId": "R-65",
@@ -2692,9 +3252,18 @@
       "qualitativeReview": {
         "required": true,
         "status": "pending",
-        "obligation": "Human review of semantic intent, scope, API need, invariants or decision accuracy is required separately from machine structure."
+        "obligation": "Review hand-written mapping intent and preservation of meaning; banned mapping libraries do not prove correctness."
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/ArchitecturePolicy.cs",
+        "symbol": "ArchitecturePolicy.Mapping",
+        "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule65_CompliantModel_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule65_ViolatingModel_Rejected"
+      }
     },
     {
       "sourceId": "R-66",
@@ -2733,7 +3302,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/ArchitecturePolicy.cs",
+        "symbol": "ArchitecturePolicy.Version",
+        "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule66_CompliantModel_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule66_ViolatingModel_Rejected"
+      }
     },
     {
       "sourceId": "R-67",
@@ -2748,31 +3326,40 @@
         "symbol": "R-67"
       },
       "mechanism": {
-        "path": "tests/phase1/ArchitectureRuleTests.cs",
-        "symbol": "R-67",
+        "path": "tests/phase1/SuppressionPolicy.cs",
+        "symbol": "CheckRepository",
         "diagnostics": [],
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+      "scope": "Owned tracked C#, MSBuild, editor/global configuration, response and workflow commands; only exact observed registered permissions.",
       "exemptions": [],
       "positiveProof": {
         "id": "R-67.positive",
         "rule": "R-67",
         "status": "pending",
-        "path": "tests/phase1/ArchitectureRuleTests.cs"
+        "path": "tests/phase1/SuppressionTests.cs"
       },
       "negativeProof": {
         "id": "R-67.negative",
         "rule": "R-67",
         "status": "pending",
-        "path": "tests/phase1/ArchitectureRuleTests.cs"
+        "path": "tests/phase1/SuppressionTests.cs"
       },
       "qualitativeReview": {
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/SuppressionPolicy.cs",
+        "symbol": "SuppressionPolicy.CheckRepository",
+        "scope": "Owned tracked C#, MSBuild, editor/global configuration, response and workflow commands; only exact observed registered permissions.",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.SuppressionTests.Scan_ActualRepository_AcceptsExactPermissions",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.SuppressionTests.Scan_UndeclaredSuppressions_RejectsEachEntryPoint"
+      }
     },
     {
       "sourceId": "R-68",
@@ -2793,7 +3380,7 @@
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Detached authoritative state/snapshot examples; no HTTP or database settings",
+      "scope": "Actual Core ExampleState/SnapshotDto/ProofKind strict independent snapshot contract; no HTTP endpoint or production save UX.",
       "exemptions": [],
       "positiveProof": {
         "id": "R-68.positive",
@@ -2811,7 +3398,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "src/core/SnapshotCodec.cs",
+        "symbol": "SnapshotCodec.Encode",
+        "scope": "Actual Core ExampleState/SnapshotDto/ProofKind strict independent snapshot contract; no HTTP endpoint or production save UX.",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.SnapshotTests.CamelCase_AcceptedSchema_ContainsExactNames",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.SnapshotTests.CamelCase_WrongCase_RejectsSchema"
+      }
     },
     {
       "sourceId": "R-69",
@@ -2832,7 +3428,7 @@
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Detached authoritative state/snapshot examples; no HTTP or database settings",
+      "scope": "Actual Core ExampleState/SnapshotDto/ProofKind strict independent snapshot contract; no HTTP endpoint or production save UX.",
       "exemptions": [],
       "positiveProof": {
         "id": "R-69.positive",
@@ -2850,7 +3446,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "src/core/SnapshotCodec.cs",
+        "symbol": "SnapshotCodec.Decode",
+        "scope": "Actual Core ExampleState/SnapshotDto/ProofKind strict independent snapshot contract; no HTTP endpoint or production save UX.",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.SnapshotTests.Enum_ExactName_AcceptsPinnedValue",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.SnapshotTests.Enum_UnpinnedNames_RejectsEveryVariant"
+      }
     },
     {
       "sourceId": "R-70",
@@ -2871,7 +3476,7 @@
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Schema-1 Phase1 internal detached state only; SnapshotJson.Fields/Text/Collection plus R-70 positive/negative proofs; no HTTP settings or production save system",
+      "scope": "Actual Core ExampleState/SnapshotDto/ProofKind strict independent snapshot contract; no HTTP endpoint or production save UX.",
       "exemptions": [],
       "positiveProof": {
         "id": "R-70.positive",
@@ -2889,7 +3494,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "src/core/SnapshotCodec.cs",
+        "symbol": "SnapshotCodec.Decode",
+        "scope": "Actual Core ExampleState/SnapshotDto/ProofKind strict independent snapshot contract; no HTTP endpoint or production save UX.",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.SnapshotTests.NullPolicy_EmptyCollections_WritesRequiredValues",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.SnapshotTests.NullPolicy_UnknownFields_RejectsAtEveryLevel"
+      }
     },
     {
       "sourceId": "R-71",
@@ -2910,7 +3524,7 @@
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Detached authoritative state/snapshot examples; no HTTP or database settings",
+      "scope": "Actual Core ExampleState/SnapshotDto/ProofKind strict independent snapshot contract; no HTTP endpoint or production save UX.",
       "exemptions": [],
       "positiveProof": {
         "id": "R-71.positive",
@@ -2928,7 +3542,16 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "src/core/SnapshotCodec.cs",
+        "symbol": "SnapshotCodec.Decode",
+        "scope": "Actual Core ExampleState/SnapshotDto/ProofKind strict independent snapshot contract; no HTTP endpoint or production save UX.",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.SnapshotTests.RequiredValues_CompleteCollections_AcceptsAll",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.SnapshotTests.RequiredValues_MissingRecordFields_RejectsAll"
+      }
     },
     {
       "sourceId": "R-72",
@@ -2949,7 +3572,7 @@
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Detached authoritative state/snapshot examples; no HTTP or database settings",
+      "scope": "Actual Core ExampleState/SnapshotDto/ProofKind strict independent snapshot contract; no HTTP endpoint or production save UX.",
       "exemptions": [],
       "positiveProof": {
         "id": "R-72.positive",
@@ -2966,9 +3589,18 @@
       "qualitativeReview": {
         "required": true,
         "status": "pending",
-        "obligation": "Human review of semantic intent, scope, API need, invariants or decision accuracy is required separately from machine structure."
+        "obligation": "Confirm the one strict internal snapshot contract matches every real call site and document its HTTP adaptation."
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "src/core/SnapshotCodec.cs",
+        "symbol": "SnapshotCodec.Decode",
+        "scope": "Actual Core ExampleState/SnapshotDto/ProofKind strict independent snapshot contract; no HTTP endpoint or production save UX.",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.SnapshotTests.SharedCodec_IndependentRuns_UsesExactContract",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.SnapshotTests.SharedCodec_DuplicateProperties_RejectsBeforeConversion"
+      }
     },
     {
       "sourceId": "R-73",
@@ -2991,7 +3623,7 @@
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Detached authoritative state/snapshot examples; no HTTP or database settings",
+      "scope": "Production ambient time/random bans and actual controlled Core inputs; exact seeded-random permission and pure-library policy.",
       "exemptions": [],
       "positiveProof": {
         "id": "R-73.positive",
@@ -3008,9 +3640,18 @@
       "qualitativeReview": {
         "required": true,
         "status": "pending",
-        "obligation": "Human review of semantic intent, scope, API need, invariants or decision accuracy is required separately from machine structure."
+        "obligation": "Review controlled clock/random choices and replay compatibility against intended game semantics."
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "BannedSymbols.txt",
+        "symbol": "P:System.DateTime.UtcNow;Use an injected clock",
+        "scope": "Production ambient time/random bans and actual controlled Core inputs; exact seeded-random permission and pure-library policy.",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.RandomContractTests.Rule73_ElapsedIntegers_PreservesExactTime",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.RandomContractTests.Rule73_UncontrolledTime_ReportsBannedApi"
+      }
     },
     {
       "sourceId": "R-74",
@@ -3031,7 +3672,7 @@
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Detached authoritative state/snapshot examples; no HTTP or database settings",
+      "scope": "Actual Core ProofKind and independent test enum subjects; exact pinned ordinal wire names and additive numeric identities.",
       "exemptions": [],
       "positiveProof": {
         "id": "R-74.positive",
@@ -3048,13 +3689,22 @@
       "qualitativeReview": {
         "required": true,
         "status": "pending",
-        "obligation": "Human review of semantic intent, scope, API need, invariants or decision accuracy is required separately from machine structure."
+        "obligation": "Confirm Unknown sentinel rejection expresses the intended valid state, beyond numeric zero checks."
       },
       "numeric": {
         "unit": "enum numeric sentinel",
         "limit": 0,
         "comparison": "Unknown = 0 is never valid saved state",
         "rounding": "none"
+      },
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/ArchitecturePolicy.cs",
+        "symbol": "ArchitecturePolicy.Enum",
+        "scope": "Actual Core ProofKind and independent test enum subjects; exact pinned ordinal wire names and additive numeric identities.",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule74_CompliantModel_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule74_ViolatingModel_Rejected"
       }
     },
     {
@@ -3076,7 +3726,7 @@
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Detached authoritative state/snapshot examples; no HTTP or database settings",
+      "scope": "Actual Core ProofKind and independent test enum subjects; exact pinned ordinal wire names and additive numeric identities.",
       "exemptions": [],
       "positiveProof": {
         "id": "R-75.positive",
@@ -3094,12 +3744,21 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/ArchitecturePolicy.cs",
+        "symbol": "ArchitecturePolicy.Enum",
+        "scope": "Actual Core ProofKind and independent test enum subjects; exact pinned ordinal wire names and additive numeric identities.",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule75_CompliantModel_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule75_ViolatingModel_Rejected"
+      }
     },
     {
       "sourceId": "R-76",
       "disposition": "inapplicable",
-      "reason": "HTTP/database-only mechanism; no corresponding Phase 1 capability.",
+      "reason": "No EF DbContext, database model or enum value converter exists. Local strict snapshot wire names are separately enforced by R-68/R-69/R-74/R-75/R-77 without importing database storage.",
       "adaptationReason": null,
       "headingRefs": [
         "src/backend/docs/CodeRules/code-architecture.md:366"
@@ -3117,7 +3776,8 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": null
     },
     {
       "sourceId": "R-77",
@@ -3138,7 +3798,7 @@
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Detached authoritative state/snapshot examples; no HTTP or database settings",
+      "scope": "Actual Core ProofKind and independent test enum subjects; exact pinned ordinal wire names and additive numeric identities.",
       "exemptions": [],
       "positiveProof": {
         "id": "R-77.positive",
@@ -3155,9 +3815,18 @@
       "qualitativeReview": {
         "required": true,
         "status": "pending",
-        "obligation": "Human review of semantic intent, scope, API need, invariants or decision accuracy is required separately from machine structure."
+        "obligation": "Review enum evolution compatibility and additive meaning, beyond pinned names and numeric identities."
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/ArchitecturePolicy.cs",
+        "symbol": "ArchitecturePolicy.Enum",
+        "scope": "Actual Core ProofKind and independent test enum subjects; exact pinned ordinal wire names and additive numeric identities.",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule77_CompliantModel_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule77_ViolatingModel_Rejected"
+      }
     },
     {
       "sourceId": "R-78",
@@ -3178,7 +3847,7 @@
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Detached authoritative state/snapshot examples; no HTTP or database settings",
+      "scope": "Actual Core ExampleState/SnapshotDto/ProofKind strict independent snapshot contract; no HTTP endpoint or production save UX.",
       "exemptions": [],
       "positiveProof": {
         "id": "R-78.positive",
@@ -3195,14 +3864,23 @@
       "qualitativeReview": {
         "required": true,
         "status": "pending",
-        "obligation": "Human review of semantic intent, scope, API need, invariants or decision accuracy is required separately from machine structure."
+        "obligation": "Review DTO/value independence and ensure no transient engine/process/service identity is persisted."
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/TypeBoundaryScanner.cs",
+        "symbol": "TypeBoundaryScanner.Validate(assembly,expectedTypes,boundary)",
+        "scope": "Actual Core ExampleState/SnapshotDto/ProofKind strict independent snapshot contract; no HTTP endpoint or production save UX.",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule78_EnumBoundaryControl_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule78_EnumBoundaryViolation_Rejected"
+      }
     },
     {
       "sourceId": "R-79",
       "disposition": "inapplicable",
-      "reason": "HTTP/database-only mechanism; no corresponding Phase 1 capability.",
+      "reason": "No production remote/database dependency or health-check host exists in Phase 1. Native/tool bootstrap failures are explicitly checked; they do not create remote health endpoints.",
       "adaptationReason": null,
       "headingRefs": [
         "src/backend/docs/CodeRules/code-architecture.md:396"
@@ -3219,14 +3897,15 @@
       "qualitativeReview": {
         "required": true,
         "status": "pending",
-        "obligation": "Review the inapplicable external dependency health-check disposition; no remote health-check mechanism is introduced in Phase 1."
+        "obligation": "Review why remote dependency health checks are inapplicable to this phase; no remote service is delivered."
       },
-      "numeric": null
+      "numeric": null,
+      "binding": null
     },
     {
       "sourceId": "R-80",
       "disposition": "inapplicable",
-      "reason": "HTTP/database-only mechanism; no corresponding Phase 1 capability.",
+      "reason": "There is no HealthCheckServiceOptions registration collection to tag. The critical/Unhealthy versus non-critical/Degraded web-host convention has no local subject; native failure evidence remains required.",
       "adaptationReason": null,
       "headingRefs": [
         "src/backend/docs/CodeRules/code-architecture.md:408"
@@ -3244,7 +3923,8 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": null
     },
     {
       "sourceId": "R-81",
@@ -3282,9 +3962,18 @@
       "qualitativeReview": {
         "required": true,
         "status": "pending",
-        "obligation": "Human review of semantic intent, scope, API need, invariants or decision accuracy is required separately from machine structure."
+        "obligation": "Review model/options naming, cohesion and initialization intent against responsibilities."
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/ArchitecturePolicy.cs",
+        "symbol": "ArchitecturePolicy.Model",
+        "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule81_CompliantModel_Accepted",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule81_ViolatingModel_Rejected"
+      }
     },
     {
       "sourceId": "R-82",
@@ -3305,7 +3994,7 @@
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
+      "scope": "Real Core, ports and native-hosted Godot managed production modules; fresh measured line/branch evidence required from 01-15.",
       "exemptions": [],
       "positiveProof": {
         "id": "R-82.positive",
@@ -3331,6 +4020,15 @@
         ],
         "comparison": "inclusive minimum percent via integer cross multiplication",
         "rounding": "none"
+      },
+      "binding": {
+        "status": "pending",
+        "owner": "01-15",
+        "path": "tools/phase1/coverage-policy.json",
+        "symbol": "R-82",
+        "scope": "Real Core, ports and native-hosted Godot managed production modules; fresh measured line/branch evidence required from 01-15.",
+        "positiveMethod": "",
+        "negativeMethod": ""
       }
     },
     {
@@ -3352,7 +4050,7 @@
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Exact canonical AGENTS.md, focused indexes, ordinal owned navigation and executable links; five project pages and qualitative closure retain plan 01-14",
+      "scope": "Canonical AGENTS, owned docs/specs/core planning authorities and five module pages; installed/vendor/generated/provenance archives excluded.",
       "exemptions": [],
       "positiveProof": {
         "id": "R-83.positive",
@@ -3369,9 +4067,18 @@
       "qualitativeReview": {
         "required": true,
         "status": "pending",
-        "obligation": "Human review of semantic intent, scope, API need, invariants or decision accuracy is required separately from machine structure."
+        "obligation": "Review focused documentation accuracy, useful names and concise navigation against actual mechanisms."
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/DocumentationValidator.cs",
+        "symbol": "DocumentationValidator.Check",
+        "scope": "Canonical AGENTS, owned docs/specs/core planning authorities and five module pages; installed/vendor/generated/provenance archives excluded.",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_RealRuleIndexes_AcceptsOperationalLinks",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_RemovedRuleIndex_RejectsRequiredAuthority"
+      }
     },
     {
       "sourceId": "R-84",
@@ -3392,7 +4099,7 @@
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Three required focused decisions and every owned decision page: unique Status/Context/Decision/Consequences structure and exact architecture-index link; qualitative accuracy remains separately Pending",
+      "scope": "Canonical AGENTS, owned docs/specs/core planning authorities and five module pages; installed/vendor/generated/provenance archives excluded.",
       "exemptions": [],
       "positiveProof": {
         "id": "R-84.positive",
@@ -3409,14 +4116,23 @@
       "qualitativeReview": {
         "required": true,
         "status": "pending",
-        "obligation": "Human review of semantic intent, scope, API need, invariants or decision accuracy is required separately from machine structure."
+        "obligation": "Review decision accuracy, scoped adaptation reasons, consequences and evidence against actual implementation."
       },
-      "numeric": null
+      "numeric": null,
+      "binding": {
+        "status": "implemented",
+        "owner": "01-14",
+        "path": "tests/phase1/DocumentationDecisions.cs",
+        "symbol": "DocumentationDecisions.Check",
+        "scope": "Canonical AGENTS, owned docs/specs/core planning authorities and five module pages; installed/vendor/generated/provenance archives excluded.",
+        "positiveMethod": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_RealDecisions_AcceptsCompleteStructure",
+        "negativeMethod": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_IncompleteDecision_ReportsMissingSection"
+      }
     },
     {
       "sourceId": "R-85",
       "disposition": "inapplicable",
-      "reason": "HTTP/database-only mechanism; no corresponding Phase 1 capability.",
+      "reason": "There is no ASP.NET in-process HTTP test host, WebApplicationFactory or TestServer. The actual Godot fixture uses bounded native processes and trusted fresh evidence rather than LangApiFactory.",
       "adaptationReason": null,
       "headingRefs": [
         "src/backend/docs/CodeRules/code-style.md:575"
@@ -3434,7 +4150,9 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "binding": null
     }
-  ]
+  ],
+  "bindingContract": "binding is the current exact source/proof linkage; original mechanism/proof status fields remain final phase acceptance pending. Human review and coverage are separate."
 }

@@ -12,4 +12,4 @@ Use the [shared build](../../../Directory.Build.targets), twelve real Roslyn ana
 
 ## Consequences
 
-Rule, command and contract changes require the full currently implemented suite. A build or raw test pass is insufficient without fresh exact result reconciliation. New engine output may need observed bounded permissions and adjacent negative proofs. Plan 01-14 completes the remaining bidirectional register and review mappings; this decision records existing implementation and supplies a resolvable index target now.
+Rule, command and contract changes require the full currently implemented suite. A build or raw test pass is insufficient without fresh exact result reconciliation. New engine output may need observed bounded permissions and adjacent negative proofs. The [current rule index](../../code/rule-matrix.md) reconciles real source/proof bindings; [human review](../../code/review.md), measured coverage and actual Linux acceptance remain required separate gates.

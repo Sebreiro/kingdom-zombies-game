@@ -12,4 +12,4 @@ Keep exactly the [five declared projects](../../../tools/phase1/projects.json). 
 
 ## Consequences
 
-No LAN provider, account, HTTP host or gameplay is delivered here. Future adapters must respect the same directions and remain outside Core. Plan 01-14 adds each project's complete reference page and reviews the decision against the finished register; qualitative review remains Pending.
+No LAN provider, account, HTTP host or gameplay is delivered here. Future adapters must respect the same directions and remain outside Core. [Checked project pages](../boundaries.md) reconcile actual references and both analyzer-only metadata fields; qualitative review remains Pending.

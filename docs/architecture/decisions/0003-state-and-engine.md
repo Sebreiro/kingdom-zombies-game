@@ -12,4 +12,4 @@ Core uses explicit integer elapsed time, bounded replayable randomness and ordin
 
 ## Consequences
 
-These examples establish contracts rather than production save UX or gameplay. Nullable pre-injection staging is checked before use. Genuine generated source receives exact authenticated span permissions; handwritten partials stay fully checked. Linux and measured coverage remain separate required gates. Plan 01-14 refines the final project/rule/decision mapping and retains qualitative review as Pending.
+These examples establish contracts rather than production save UX or gameplay. Nullable pre-injection staging is checked before use. Genuine generated source receives exact authenticated span permissions; handwritten partials stay fully checked. [Current bindings](../../code/rule-matrix.md) index the actual definitions. Linux, measured coverage and [human judgment](../../code/review.md) remain separate required gates.
