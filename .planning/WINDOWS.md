@@ -1,10 +1,10 @@
 ---
 schema_version: 1
-open_count: 2
+open_count: 1
 waived_count: 0
-fixed_count: 22
+fixed_count: 23
 total_count: 24
-last_updated: 2026-11-14T06:07:08.101Z
+last_updated: 2026-11-14T13:24:24.221Z
 ---
 
 # Broken Windows Ledger
@@ -23,7 +23,7 @@ last_updated: 2026-11-14T06:07:08.101Z
 | 6 | 01 | deviation | tools/code-rules/packages.lock.json |  | Committed canonical generated dependency locks required by shared analyzer restore ahead of plan 01-18 final lock verification, as explicitly authorized. | fixed |  | 2026-11-13T18:20:42.350Z | 2026-11-13T18:21:54.509Z |
 | 7 | 01 | deviation | tools/phase1/bootstrap.cjs |  | Updated the exact engine package closure and mapped feed copy for three new pinned global analyzers; missing, unexpected and wrong-version closures remain rejected. | fixed |  | 2026-11-13T18:20:42.720Z | 2026-11-13T18:21:54.853Z |
 | 8 | 01 | stub | tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj |  | Four real custom analyzers are implemented and proven in 01-05; eight remaining source families belong to 01-06 and 01-07 and are not credited as enforcement. | fixed |  | 2026-11-13T18:20:43.090Z | 2026-11-13T21:12:32.380Z |
-| 9 | 01 | unmet-truth | tools/phase1/required-cases.json |  | Five pins runner-edge identities declared to 01-02 remain pending; 01-14 must bind distinct actual cases before full phase acceptance. | open |  | 2026-11-13T18:47:31.762Z |  |
+| 9 | 01 | unmet-truth | tools/phase1/required-cases.json |  | Five pins runner-edge identities declared to 01-02 remain pending; 01-14 must bind distinct actual cases before full phase acceptance. | fixed |  | 2026-11-13T18:47:31.762Z | 2026-11-14T13:24:24.221Z |
 | 10 | 01 | deviation | tools/phase1/required-cases.json |  | Plan 01-05 authored family selectors are absent from the independent inventory; exact required rule IDs and distinct captured edge IDs supply the proof selections. | fixed |  | 2026-11-13T19:21:03.747Z | 2026-11-13T19:21:22.539Z |
 | 11 | 01 | deviation | tools/code-rules/NamedArgumentAnalyzer.cs |  | Inherited named-argument analyzer reported compiler-synthesized collection construction arguments; ignore implicit operations while explicit collection arguments remain checked by the real Roslyn regression. | fixed |  | 2026-11-13T19:22:07.026Z | 2026-11-13T19:22:19.339Z |
 | 12 | 01 | deviation | tests/phase1/ConfigurationTests.cs |  | Active inherited analyzers exposed handwritten call/comment and verifier construction prerequisites; sources and throwaway fixture subjects now comply, and the compile-only test owns a minimal explicit entry point. | fixed |  | 2026-11-13T19:22:19.538Z | 2026-11-13T19:23:02.368Z |
@@ -153,10 +153,10 @@ last_updated: 2026-11-14T06:07:08.101Z
     "file": "tools/phase1/required-cases.json",
     "line": null,
     "description": "Five pins runner-edge identities declared to 01-02 remain pending; 01-14 must bind distinct actual cases before full phase acceptance.",
-    "status": "open",
+    "status": "fixed",
     "reason": "",
     "recorded_at": "2026-11-13T18:47:31.762Z",
-    "resolved_at": null,
+    "resolved_at": "2026-11-14T13:24:24.221Z",
     "milestone": "v0.1"
   },
   {
