@@ -2975,7 +2975,7 @@
         "symbol": "R-73"
       },
       "mechanism": {
-        "path": "src/core/SnapshotCodec.cs",
+        "path": "BannedSymbols.txt",
         "symbol": "R-73",
         "diagnostics": [
           "RS0030"
@@ -2989,13 +2989,13 @@
         "id": "R-73.positive",
         "rule": "R-73",
         "status": "pending",
-        "path": "tests/phase1/SnapshotTests.cs"
+        "path": "tests/phase1/RandomContractTests.cs"
       },
       "negativeProof": {
         "id": "R-73.negative",
         "rule": "R-73",
         "status": "pending",
-        "path": "tests/phase1/SnapshotTests.cs"
+        "path": "tests/phase1/RandomContractTests.cs"
       },
       "qualitativeReview": {
         "required": true,

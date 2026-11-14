@@ -11,17 +11,23 @@ internal sealed class ExampleState
 {
     /// <summary>Initializes explicit time, sequence and keyed values.</summary>
     internal ExampleState(long elapsedMilliseconds, IReadOnlyList<StableIdentity> ordered,
-            IEnumerable<KeyValuePair<StableIdentity, long>> records)
+            IEnumerable<KeyValuePair<StableIdentity, long>> records, ProofKind kind = ProofKind.Sample)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(value: elapsedMilliseconds);
         ArgumentNullException.ThrowIfNull(argument: ordered);
         ArgumentNullException.ThrowIfNull(argument: records);
+        if (kind is not ProofKind.Sample)
+        {
+            throw new ArgumentOutOfRangeException(paramName: nameof(kind), message: "STATE_KIND: Sample required");
+        }
+
         StableIdentity[] sequence = [.. ordered];
         Dictionary<StableIdentity, long> values = ValidateRecords(records: records);
         ValidateOrder(ordered: sequence, records: values);
         ElapsedMilliseconds = elapsedMilliseconds;
         Ordered = Array.AsReadOnly(array: sequence);
         Records = new ReadOnlyDictionary<StableIdentity, long>(dictionary: values);
+        Kind = kind;
     }
 
     /// <summary>Gets the exact integer elapsed total.</summary>
@@ -30,6 +36,8 @@ internal sealed class ExampleState
     internal IReadOnlyList<StableIdentity> Ordered { get; }
     /// <summary>Gets unordered identity/value records.</summary>
     internal IReadOnlyDictionary<StableIdentity, long> Records { get; }
+    /// <summary>Gets the explicit supported proof-state kind.</summary>
+    internal ProofKind Kind { get; }
 
     /// <summary>Advances through explicit controlled inputs.</summary>
     internal ExampleState Advance(IElapsedInput elapsed, IRandomInput random)
@@ -57,7 +65,7 @@ internal sealed class ExampleState
             values[Ordered[0]] = draw;
         }
 
-        return new ExampleState(elapsedMilliseconds: total, ordered: Ordered, records: values);
+        return new ExampleState(elapsedMilliseconds: total, ordered: Ordered, records: values, kind: Kind);
     }
 
     /// <summary>Parses the integer-only input boundary without floating point or culture-dependent rounding.</summary>

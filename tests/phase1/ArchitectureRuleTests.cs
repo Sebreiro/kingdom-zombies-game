@@ -203,8 +203,56 @@ public sealed class ArchitectureRuleTests
                     kind: BoundaryKind.Unknown));
         }
 
+        VerifyProduction(rule: rule, negative: negative);
+        string production = rule is "R-63" ? "src/core/ExampleState.cs" : rule is "R-74" or "R-75" or "R-77"
+                ? "src/core/ProofKind.cs" : "";
         ProofProtocol.Record(id: id, diagnostic: negative ? rule : "STRUCTURE_ALLOWED", location: ModelPath(
-                model: modelName) + "\n" + string.Join(separator: "\n", values: errors));
+                model: modelName) + "\n" + production + "\n" + string.Join(separator: "\n", values: errors));
+    }
+
+    private static void VerifyProduction(string rule, bool negative)
+    {
+        if (rule is not ("R-63" or "R-74" or "R-75" or "R-77"))
+        {
+            return;
+        }
+
+        string type = rule is "R-63" ? "ExampleState" : "ProofKind";
+        string path = "src/core/" + type + ".cs";
+        string source = File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: path));
+        if (negative)
+        {
+            source = rule switch
+            {
+                "R-63" => source.Replace(oldValue: "{ get; }", newValue: "{ get; set; }",
+                        comparisonType: StringComparison.Ordinal),
+                "R-74" => source.Replace(oldValue: "Unknown = 0", newValue: "Unknown = -1",
+                        comparisonType: StringComparison.Ordinal),
+                "R-75" => source.Replace(oldValue: "name: \"sample\"", newValue: "name: \"unknown\"",
+                        comparisonType: StringComparison.Ordinal),
+                _ => source.Replace(oldValue: "Sample = 1", newValue: "Sample = 2",
+                        comparisonType: StringComparison.Ordinal)
+            };
+            var fixture = new BuildFixture();
+            File.WriteAllText(path: Path.Combine(path1: fixture.DirectoryPath, path2: path), contents: source);
+            fixture.Restore();
+            (int Exit, string Output) built = fixture.Build();
+            built.Exit.ShouldBe(expected: 0, customMessage: "INFRASTRUCTURE_PRODUCTION_MUTATION: " + built.Output);
+        }
+
+        string selector = "KingdomZombies.Core." + type;
+        IReadOnlyList<string> errors = rule is "R-63" ? ArchitecturePolicy.Model(source: source,
+                selector: selector, rule: rule) : ArchitecturePolicy.Enum(source: source,
+                        selector: selector, rule: rule);
+        if (negative)
+        {
+            errors.ShouldContain(elementPredicate: error => error.StartsWith(value: rule + ":",
+                    comparisonType: StringComparison.Ordinal));
+        }
+        else
+        {
+            errors.ShouldBeEmpty();
+        }
     }
 
     private static string ModelPath(string model)

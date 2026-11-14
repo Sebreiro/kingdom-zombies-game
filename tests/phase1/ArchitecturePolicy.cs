@@ -217,9 +217,8 @@ internal static class ArchitecturePolicy
             errors.Add(item: "R-74: Unknown = 0 required " + selector);
         }
 
-        if (StringComparer.Ordinal.Equals(x: rule, y: "R-77") && (!pinned.TryGetValue(key: "unknown", value:
-                out string? unknown) || !StringComparer.Ordinal.Equals(x: unknown, y: "0") || !pinned.TryGetValue(
-                        key: "ready", value: out string? ready) || !StringComparer.Ordinal.Equals(x: ready, y: "1")))
+        if (StringComparer.Ordinal.Equals(x: rule, y: "R-77")
+                && !ValidEvolution(definition: enums[0], selector: selector, pinned: pinned))
         {
             errors.Add(item: "R-77: removed, renamed or renumbered pinned value " + selector);
         }
@@ -228,6 +227,22 @@ internal static class ArchitecturePolicy
     }
 
     private static readonly string[] _patterns = ["*.csproj", "*.props", "*.targets"];
+    private static bool ValidEvolution(EnumDeclarationSyntax definition, string selector,
+            Dictionary<string, string> pinned)
+    {
+        bool production = StringComparer.Ordinal.Equals(x: selector, y: "KingdomZombies.Core.ProofKind");
+        string member = production ? "Sample" : "Ready";
+        string name = production ? "sample" : "ready";
+        return definition.Members.Count >= 2
+                && StringComparer.Ordinal.Equals(x: definition.Members[0].Identifier.ValueText, y: "Unknown")
+                && StringComparer.Ordinal.Equals(x: definition.Members[1].Identifier.ValueText, y: member)
+                && pinned.TryGetValue(key: "unknown", value: out string? unknown)
+                && StringComparer.Ordinal.Equals(x: unknown, y: "0")
+                && pinned.TryGetValue(key: name, value: out string? value)
+                && StringComparer.Ordinal.Equals(x: value, y: "1")
+                && pinned.Values.Distinct(comparer: StringComparer.Ordinal).Count() == pinned.Count;
+    }
+
     private static string FullName(BaseTypeDeclarationSyntax type)
     {
         IEnumerable<string> owners = type.Ancestors().Reverse().Select(selector: node => node switch

@@ -146,6 +146,7 @@ public static class RegisterValidator
         int number = int.Parse(s: id[2..], provider: System.Globalization.CultureInfo.InvariantCulture);
         return number switch
         {
+            73 => "BannedSymbols.txt",
             >= 68 and <= 78 => "src/core/SnapshotCodec.cs",
             48 => "tests/phase1/TestSourceIndex.cs",
             50 => "tests/phase1/ExemptionValidator.cs",
@@ -353,6 +354,7 @@ public static class RegisterValidator
                     {
                         34 or 63 or 64 or 65 or 66 or 74 or 75 or 77 or 81 => "tests/phase1/ArchitectureRuleTests.cs",
                         >= 51 and <= 62 or 78 => "tests/phase1/GraphTests.cs",
+                        73 => "tests/phase1/RandomContractTests.cs",
                         >= 68 and <= 78 => "tests/phase1/SnapshotTests.cs",
                         48 => "tests/phase1/TestMethodNameTests.cs",
                         50 => "tests/phase1/ExemptionTests.cs",

@@ -1937,7 +1937,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RandomContractTests.Acceptance_ControlledReplay_PreservesExactContinuation",
+      "expectedDiagnostic": "CONTROLLED_CONTINUATION"
     },
     {
       "id": "ac-19.complete",
@@ -1953,13 +1955,15 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RandomContractTests.Acceptance_IntegerTime_RejectsInvalidNeighbors",
+      "expectedDiagnostic": "INTEGER_TIME_ACCEPTANCE"
     },
     {
       "id": "ac-20.complete",
       "group": "state",
       "rule": "RULE-07",
-      "owner": "01-10",
+      "owner": "01-11",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -1975,7 +1979,7 @@
       "id": "ac-21.complete",
       "group": "state",
       "rule": "RULE-07",
-      "owner": "01-10",
+      "owner": "01-11",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -1991,7 +1995,7 @@
       "id": "ac-22.complete",
       "group": "state",
       "rule": "RULE-07",
-      "owner": "01-10",
+      "owner": "01-11",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -2527,13 +2531,15 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RandomContractTests.Boundary_TimeAndPosition_RejectsNearestInvalid",
+      "expectedDiagnostic": "STATE_INTEGER_BOUNDARIES"
     },
     {
       "id": "edge.rule-07.adjacency",
       "group": "state",
       "rule": "RULE-07",
-      "owner": "01-10",
+      "owner": "01-11",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -2549,7 +2555,7 @@
       "id": "edge.rule-07.empty",
       "group": "state",
       "rule": "RULE-07",
-      "owner": "01-10",
+      "owner": "01-11",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -2565,7 +2571,7 @@
       "id": "edge.rule-07.encoding",
       "group": "state",
       "rule": "RULE-07",
-      "owner": "01-10",
+      "owner": "01-11",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -2581,7 +2587,7 @@
       "id": "edge.rule-07.ordering",
       "group": "state",
       "rule": "RULE-07",
-      "owner": "01-10",
+      "owner": "01-11",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -2597,7 +2603,7 @@
       "id": "edge.rule-07.precision",
       "group": "state",
       "rule": "RULE-07",
-      "owner": "01-10",
+      "owner": "01-11",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -2613,7 +2619,7 @@
       "id": "edge.rule-07.idempotency",
       "group": "state",
       "rule": "RULE-07",
-      "owner": "01-10",
+      "owner": "01-11",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -2629,7 +2635,7 @@
       "id": "edge.rule-07.concurrency",
       "group": "state",
       "rule": "RULE-07",
-      "owner": "01-10",
+      "owner": "01-11",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -5325,8 +5331,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.RandomContractTests.Rule73_ElapsedIntegers_PreservesExactTime",
+      "expectedDiagnostic": "CONTROLLED_INTEGER_TIME"
     },
     {
       "id": "R-73.negative",
@@ -5342,8 +5350,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.RandomContractTests.Rule73_UncontrolledTime_ReportsBannedApi",
+      "expectedDiagnostic": "RS0030"
     },
     {
       "id": "R-74.positive",
@@ -12403,6 +12413,150 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.StateInputTests.Advance_IndependentRuns_ProducesExactState",
       "expectedDiagnostic": "IDENTICAL_EXPLICIT_INPUTS"
+    },
+    {
+      "id": "state.numeric-and-random",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-10",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RandomContractTests.Replay_RestoredPosition_ContinuesExactStream",
+      "expectedDiagnostic": "BOUNDED_REPLAY"
+    },
+    {
+      "id": "state.golden-vectors",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-10",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RandomContractTests.Runtime_CommonSeeds_MatchesIndependentVectors",
+      "expectedDiagnostic": "PINNED_GOLDEN_VECTORS"
+    },
+    {
+      "id": "state.random-limits",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-10",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RandomContractTests.Replay_PositionNeighbors_RejectsBeforeReplacement",
+      "expectedDiagnostic": "REPLAY_RANGE_REJECTED"
+    },
+    {
+      "id": "state.numeric-text",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-10",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RandomContractTests.Parse_IntegerNeighbors_PreservesExactPrecision",
+      "expectedDiagnostic": "INTEGER_TEXT_BOUNDARY"
+    },
+    {
+      "id": "state.kind",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-10",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RandomContractTests.Construct_UnknownKind_RejectsSavedSentinel",
+      "expectedDiagnostic": "EXPLICIT_KIND_SENTINEL"
+    },
+    {
+      "id": "state.random-scope",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-10",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RandomContractTests.Symbols_ExactAdapterBoundary_RejectsAdjacentUses",
+      "expectedDiagnostic": "RANDOM_SCOPE"
+    },
+    {
+      "id": "state.uncontrolled",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-10",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RandomContractTests.Build_UncontrolledSources_ReportsBannedApi",
+      "expectedDiagnostic": "RS0030"
+    },
+    {
+      "id": "state.enum-evolution",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-10",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RandomContractTests.Enum_StableMap_RejectsIncompatibleEvolution",
+      "expectedDiagnostic": "PINNED_ENUM_EVOLUTION"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."

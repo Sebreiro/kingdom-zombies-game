@@ -1,5 +1,10 @@
 // Adapted from captured LangProj 6836a9718ff5c939e89abf2b97763760607de192.
 // All production code: use explicit time/random inputs and bounded output adapters.
+T:System.DateTime;Use explicit integer elapsed input
+T:System.DateTimeOffset;Use explicit integer elapsed input
+T:System.Diagnostics.Stopwatch;Use explicit integer elapsed input
+P:System.Environment.TickCount;Use explicit integer elapsed input
+P:System.Environment.TickCount64;Use explicit integer elapsed input
 P:System.DateTime.Now;Use an injected clock
 P:System.DateTime.UtcNow;Use an injected clock
 P:System.DateTime.Today;Use an injected clock
