@@ -67,7 +67,8 @@ internal static class RuleBindingValidator
         }
 
         if (!StringComparer.Ordinal.Equals(x: Text(row: binding, key: "status"), y: pending ? "pending" : "implemented")
-                || !StringComparer.Ordinal.Equals(x: Text(row: binding, key: "owner"), y: pending ? "01-15" : "01-14"))
+                || !StringComparer.Ordinal.Equals(x: Text(row: binding, key: "owner"),
+                        y: pending ? "Phase 5" : "01-14"))
         {
             errors.Add(item: id + ": BINDING_STATUS");
         }
@@ -102,7 +103,8 @@ internal static class RuleBindingValidator
         if (pending)
         {
             if (method.Length != 0 || Text(row: declaration, key: "implementation") is not "pending"
-                    || Text(row: declaration, key: "owner") is not "01-15")
+                    || Text(row: declaration, key: "owner") is not "Phase 5"
+                    || declaration["acceptancePhase"]?.ToJsonString() is not "5")
             {
                 errors.Add(item: id + ": BINDING_COVERAGE_PENDING");
             }

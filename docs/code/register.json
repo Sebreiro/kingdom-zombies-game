@@ -2466,7 +2466,7 @@
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Real repository-owned analyzer managed modules; fresh measured line/branch evidence required from 01-15.",
+      "scope": "Real repository-owned analyzer managed modules; fresh measured line/branch evidence required from Phase 5.",
       "exemptions": [],
       "positiveProof": {
         "id": "R-49.positive",
@@ -2495,10 +2495,10 @@
       },
       "binding": {
         "status": "pending",
-        "owner": "01-15",
+        "owner": "Phase 5",
         "path": "tools/phase1/coverage-policy.json",
         "symbol": "R-49",
-        "scope": "Real repository-owned analyzer managed modules; fresh measured line/branch evidence required from 01-15.",
+        "scope": "Real repository-owned analyzer managed modules; fresh measured line/branch evidence required from Phase 5.",
         "positiveMethod": "",
         "negativeMethod": ""
       }
@@ -3994,7 +3994,7 @@
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Real Core, ports and native-hosted Godot managed production modules; fresh measured line/branch evidence required from 01-15.",
+      "scope": "Real Core, ports and native-hosted Godot managed production modules; fresh measured line/branch evidence required from Phase 5.",
       "exemptions": [],
       "positiveProof": {
         "id": "R-82.positive",
@@ -4023,10 +4023,10 @@
       },
       "binding": {
         "status": "pending",
-        "owner": "01-15",
+        "owner": "Phase 5",
         "path": "tools/phase1/coverage-policy.json",
         "symbol": "R-82",
-        "scope": "Real Core, ports and native-hosted Godot managed production modules; fresh measured line/branch evidence required from 01-15.",
+        "scope": "Real Core, ports and native-hosted Godot managed production modules; fresh measured line/branch evidence required from Phase 5.",
         "positiveMethod": "",
         "negativeMethod": ""
       }

@@ -28,7 +28,7 @@ Complete clean runs must be donor-independent and identify actual OS/kernel/arch
 
 ## Transferred case identities
 
-At amendment time, the independently declared manifest contains 674 cases: 666 implemented cases and the eight pending identities below. Preserve their IDs and original exhaustive meaning. Plan 01-15 assigns them an explicit Phase 5 acceptance stage; it does not manufacture test results for them.
+At amendment time, the independently declared manifest contained 674 cases: 666 implemented cases and the eight pending identities below. Plan 01-15 retains those 666 and adds four focused selector controls, for 678 declarations and 670 Phase 1 obligations. Each of the eight pending declarations has `acceptancePhase: 5` and owner `Phase 5`. Preserve their IDs and original exhaustive meaning; this assignment supplies no passing result.
 
 | Existing ID | Phase 5 closure |
 | --- | --- |
@@ -43,7 +43,7 @@ At amendment time, the independently declared manifest contains 674 cases: 666 i
 
 The five `edge.rule-01.*` identities were implemented during 01-14 and stay required; their older pending handoff is historical. Do not move implemented tests out of Phase 1 merely because they cover advanced runner behavior. Further cases discovered during Phase 5 must be declared and owned before acceptance; the list above is not permission to omit actual failures.
 
-The planned Phase 1 selector uses explicit declared phase ownership, never an `implementation == csharp` filter. Preserve `--all` as exhaustive, including pending Phase 5 cases. A Phase 1 summary lists deferred Phase 5 IDs/owners separately without passing, skipping or silently dropping them. Missing or failed Phase 1 cases remain failures. Phase 5 activates all transferred cases and requires fresh actual evidence.
+The implemented `--phase 1` selector uses explicit declared phase ownership, never an `implementation == csharp` filter. An absent phase means 1; `--phase N` requires every declaration whose acceptance phase is at most N. `--all` remains exhaustive, including pending Phase 5 cases; `--phase 5` also activates all currently declared cases. The existing summary lists deferred Phase 5 IDs/phases/owners separately, outside the selected denominator without pass or skip results. Missing or failed Phase 1 cases remain failures. Phase 5 requires fresh actual evidence for every activated case. Current precoverage binding and paired functional proofs remain Phase 1 obligations; the original aggregate wrappers still require real coverage/exhaustive certification.
 
 ## Planning and completion instructions
 

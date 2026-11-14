@@ -21,7 +21,7 @@ public sealed class RuleBindingTests
         RuleBindingValidator.Check(register: register, cases: Cases()).ShouldBeEmpty();
         RuleMatrix.Matches(register: register, source: Matrix()).ShouldBeTrue();
         ProofProtocol.Record(id: "register.binding-precoverage", diagnostic: "BINDING_PRECOVERAGE",
-                location: "docs/code/register.json: 77 implemented, 2 owner-15 pending, 6 inapplicable; human Pending");
+                location: "docs/code/register.json: 77 implemented, 2 Phase 5 pending, 6 inapplicable; human Pending");
     }
 
     /// <summary>A missing binding cannot be replaced by a historical pending planned locator.</summary>
@@ -96,6 +96,25 @@ public sealed class RuleBindingTests
     [Fact, Trait("Case", "register.binding-pending")]
     public void Bind_UnimplementedCoverage_RejectsCompletionCredit()
     {
+        foreach (string id in new[] { "R-49", "R-82" })
+        {
+            JsonObject register = Register();
+            Binding(register: register, id: id)["owner"] = "01-15";
+            RuleBindingValidator.Check(register: register, cases: Cases()).ShouldContain(
+                    expected: id + ": BINDING_STATUS", comparer: StringComparer.Ordinal);
+            JsonObject cases = Cases();
+            JsonNode declaration = cases["cases"]?.AsArray().Single(predicate: row => StringComparer.Ordinal.Equals(
+                    x: row?["id"]?.GetValue<string>(), y: id + ".positive"))
+                    ?? throw new InvalidDataException(message: "CASE_REQUIRED");
+            declaration["acceptancePhase"] = 1;
+            RuleBindingValidator.Check(register: Register(), cases: cases).ShouldContain(
+                    expected: id + ": BINDING_COVERAGE_PENDING", comparer: StringComparer.Ordinal);
+            declaration["acceptancePhase"] = 5;
+            declaration["owner"] = "01-15";
+            RuleBindingValidator.Check(register: Register(), cases: cases).ShouldContain(
+                    expected: id + ": BINDING_COVERAGE_PENDING", comparer: StringComparer.Ordinal);
+        }
+
         Reject(id: "register.binding-pending", expected: "BINDING_COVERAGE_PENDING", mutate: (register, cases) =>
                 Binding(register: register, id: "R-49")["positiveMethod"] =
                         Binding(register: register, id: "R-01")["positiveMethod"]?.GetValue<string>());

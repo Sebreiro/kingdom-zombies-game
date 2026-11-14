@@ -33,7 +33,7 @@ internal static class RuleMatrix
         JsonNode? binding = row["binding"];
         string mechanism = binding is null ? "Inapplicable; see register reason"
                 : Text(row: binding, key: "status") is "pending"
-                        ? "Pending 01-15: `" + Text(row: binding, key: "path") + "`"
+                        ? "Pending Phase 5: `" + Text(row: binding, key: "path") + "`"
                         : "[" + Text(row: binding, key: "symbol") + "](../../"
                                 + Text(row: binding, key: "path") + ")";
         string scopes = Text(row: row, key: "scope");
@@ -82,7 +82,7 @@ internal static class RuleMatrix
 
         string id = Text(row: proof, key: "id");
         string method = Text(row: row["binding"], key: polarity + "Method");
-        return method.Length == 0 ? id + " (Pending 01-15)" : "[" + id + " · "
+        return method.Length == 0 ? id + " (Pending Phase 5)" : "[" + id + " · "
                 + method[(method.LastIndexOf(value: '.') + 1)..] + "](../../" + Text(row: proof, key: "path") + ")";
     }
 
