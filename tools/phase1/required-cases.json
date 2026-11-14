@@ -2243,7 +2243,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ThresholdTests.Validate_NumericLimitOverflow_ReportsExactRule",
+      "expectedDiagnostic": "NUMERIC_VALUE_REJECTED"
     },
     {
       "id": "edge.rule-03.idempotency",
@@ -11661,6 +11663,24 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.ExemptionTests.Evaluate_SuppressionPropertyOverrides_RejectsExactBypass",
       "expectedDiagnostic": "SUPPRESSION_MSBUILD"
+    },
+    {
+      "id": "rules.generated-claims",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-08",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ExemptionTests.Generate_AdditionalSourceClaims_RejectsUnprovenOrigin",
+      "expectedDiagnostic": "GENERATION_UNPROVEN"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."

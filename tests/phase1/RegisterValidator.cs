@@ -344,6 +344,18 @@ public static class RegisterValidator
 
     private static void ValidateNumeric(string id, JsonNode? numeric, List<string> errors)
     {
+        try
+        {
+            ValidateNumericValue(id: id, numeric: numeric, errors: errors);
+        }
+        catch (Exception error) when (error is FormatException or OverflowException or InvalidOperationException)
+        {
+            errors.Add(item: id + ": NUMERIC_VALUE");
+        }
+    }
+
+    private static void ValidateNumericValue(string id, JsonNode? numeric, List<string> errors)
+    {
         var limits = new Dictionary<string, int>(comparer: StringComparer.Ordinal)
         {
             ["R-07"] = 4,
