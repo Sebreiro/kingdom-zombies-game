@@ -27,12 +27,35 @@ internal static class ProjectEvaluator
         return errors.Order(comparer: StringComparer.Ordinal).ToArray();
     }
 
+    /// <summary>Checks an isolated provider's declared ports-only inspection boundary.</summary>
+    internal static IReadOnlyList<string> ValidateProvider(string root, string project)
+    {
+        var errors = new List<string>();
+        var policy = new Dictionary<string, string[]>(comparer: StringComparer.Ordinal)
+        {
+            [project] = [_expected[1]],
+            [_expected[1]] = [],
+            [Analyzer] = []
+        };
+        Visit(root: root, project: project, policy: policy,
+                visited: new HashSet<string>(comparer: StringComparer.Ordinal), errors: errors);
+        return errors.Order(comparer: StringComparer.Ordinal).ToArray();
+    }
+
+    /// <summary>Unions tracked and newly authored files, with a scoped isolated-fixture fallback.</summary>
+    internal static IEnumerable<string> DiscoverFiles(string root, string pattern)
+    {
+        return Discover(root: root, pattern: pattern);
+    }
+
     private const string Analyzer = "tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj";
     private static readonly string[] _expected = ["src/core/KingdomZombies.Core.csproj",
         "src/multiplayer-abstractions/KingdomZombies.Multiplayer.Abstractions.csproj",
         "src/godot-game/KingdomZombies.csproj", "tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj",
         "tests/phase1/KingdomZombies.Phase1.Tests.csproj"];
-    private static readonly string[] _directories = ["src", "tests", "tools"];
+    private static readonly string[] _types = ["KingdomZombies.Core.ProofValue",
+        "KingdomZombies.Multiplayer.Abstractions.IProofService", "KingdomZombies.Proofs.Phase1",
+        "Sebreiro.CodeRules.Analyzers.NamedArgumentAnalyzer", "KingdomZombies.Phase1.Tests.GraphTests"];
     private static Dictionary<string, string[]> ReadPolicy(string root, List<string> errors)
     {
         string path = Path.Combine(path1: root, path2: "tools/phase1/projects.json");
@@ -48,8 +71,18 @@ internal static class ProjectEvaluator
                 ?? throw new InvalidDataException(message: "GRAPH_POLICY: projects absent"))
         {
             string project = item?["path"]?.GetValue<string>() ?? "";
-            string[] edges = item?["allowed"]?.AsArray().Select(selector: edge => edge?.GetValue<string>() ?? "")
-                    .ToArray() ?? [];
+            if (item?["allowed"] is not JsonArray allowed || !ValidPath(path: project))
+            {
+                errors.Add(item: "GRAPH_SELECTOR: missing path/allowed selector " + project);
+                continue;
+            }
+
+            string[] edges = [.. allowed.Select(selector: edge => edge?.GetValue<string>() ?? "")];
+            if (edges.Any(predicate: edge => !ValidPath(path: edge)))
+            {
+                errors.Add(item: "GRAPH_SELECTOR: empty or invalid edge " + project);
+                continue;
+            }
             if (!result.TryAdd(key: project, value: edges) || edges.Distinct(comparer: StringComparer.Ordinal)
                     .Count() != edges.Length)
             {
@@ -58,12 +91,14 @@ internal static class ProjectEvaluator
 
             string[] expected = StringComparer.Ordinal.Equals(x: project, y: _expected[2])
                     ? [_expected[0], _expected[1]] : [];
-            if (item?.AsObject().Count != 2 || !edges.Order(comparer: StringComparer.Ordinal).SequenceEqual(
+            if (item?.AsObject().Count != 3 || !edges.Order(comparer: StringComparer.Ordinal).SequenceEqual(
                     second: expected.Order(comparer: StringComparer.Ordinal), comparer: StringComparer.Ordinal))
             {
                 errors.Add(item: "GRAPH_POLICY: forbidden permission " + project);
             }
         }
+
+        CheckTypeSelectors(document: document, errors: errors);
 
         if (!result.Keys.Order(comparer: StringComparer.Ordinal).SequenceEqual(second: _expected.Order(
                 comparer: StringComparer.Ordinal), comparer: StringComparer.Ordinal))
@@ -72,6 +107,20 @@ internal static class ProjectEvaluator
         }
 
         return result;
+    }
+
+    private static void CheckTypeSelectors(JsonObject document, List<string> errors)
+    {
+        foreach (JsonNode? item in document["projects"]?.AsArray() ?? [])
+        {
+            string path = item?["path"]?.GetValue<string>() ?? "";
+            int index = Array.IndexOf(array: _expected, value: path);
+            if (index < 0 || item?["expectedTypes"] is not JsonArray types || types.Count != 1
+                    || !StringComparer.Ordinal.Equals(x: types[0]?.GetValue<string>(), y: _types[index]))
+            {
+                errors.Add(item: "TYPE_SELECTOR: exact independent expected type required " + path);
+            }
+        }
     }
 
     private static void CheckInventory(string root, IReadOnlyDictionary<string, string[]> policy, List<string> errors)
@@ -93,18 +142,49 @@ internal static class ProjectEvaluator
             }
         }
 
-        IEnumerable<string> authored = _directories.SelectMany(selector: directory =>
-                Directory.EnumerateFiles(path: Path.Combine(path1: root, path2: directory), searchPattern: "*.csproj",
-                        searchOption: SearchOption.AllDirectories)).Where(predicate: path => !path.Split(separator:
-                                Path.DirectorySeparatorChar).Any(predicate: part => part is "obj" or "bin"));
-        foreach (string project in paths.Concat(second: authored.Select(selector: path => Relative(root: root,
-                path: path))).Distinct(comparer: StringComparer.Ordinal))
+        foreach (string project in paths.Concat(second: DiscoverProjects(root: root))
+                .Distinct(comparer: StringComparer.Ordinal))
         {
             if (!policy.ContainsKey(key: project))
             {
                 errors.Add(item: "GRAPH_UNDECLARED: " + project);
             }
         }
+    }
+
+    private static IEnumerable<string> Discover(string root, string pattern)
+    {
+        if (Directory.Exists(path: Path.Combine(path1: root, path2: ".git"))
+                || File.Exists(path: Path.Combine(path1: root, path2: ".git")))
+        {
+            (int Exit, string Output) tracked = GraphFixture.RunAt(root: root, executable: "git",
+                    arguments: ["ls-files", "--cached", "--others", "--exclude-standard", "--", pattern]);
+            if (tracked.Exit != 0)
+            {
+                throw new InvalidDataException(message: "GRAPH_INFRASTRUCTURE: inventory " + tracked.Output);
+            }
+
+            return tracked.Output.Split(separator: '\n', options: StringSplitOptions.RemoveEmptyEntries)
+                    .Select(selector: path => path.TrimEnd(trimChar: '\r'));
+        }
+
+        return Directory.EnumerateFiles(path: root, searchPattern: pattern,
+                searchOption: SearchOption.AllDirectories)
+                .Select(selector: path => Relative(root: root, path: path)).Where(predicate: path => !path.Split(
+                        separator: '/').Any(predicate: part => part is "obj" or "bin" or ".godot" or ".phase1"
+                                or ".codex" or ".agents" or ".git"));
+    }
+
+    private static IEnumerable<string> DiscoverProjects(string root)
+    {
+        return DiscoverFiles(root: root, pattern: "*.csproj");
+    }
+
+    private static bool ValidPath(string path)
+    {
+        return !string.IsNullOrWhiteSpace(value: path) && !Path.IsPathRooted(path: path)
+                && !path.Contains(value: '\\') && !path.Split(separator: '/').Any(predicate: part =>
+                        part is "" or "." or "..");
     }
 
     private static void Visit(string root, string project, IReadOnlyDictionary<string, string[]> policy,
@@ -123,7 +203,8 @@ internal static class ProjectEvaluator
         }
 
         (int Exit, string Output) query = GraphFixture.RunAt(root: root, arguments: ["msbuild", path, "-nologo",
-            "-getItem:ProjectReference,PackageReference", "-getProperty:TargetFramework,AssemblyName,TargetPath"]);
+            "-getItem:ProjectReference,PackageReference",
+            "-getProperty:TargetFramework,AssemblyName,TargetPath,OutputType"]);
         if (query.Exit != 0)
         {
             throw new InvalidDataException(message: "GRAPH_INFRASTRUCTURE: " + project + " " + query.Output);
@@ -131,6 +212,13 @@ internal static class ProjectEvaluator
 
         JsonObject evaluation = JsonNode.Parse(json: query.Output)?.AsObject()
                 ?? throw new InvalidDataException(message: "GRAPH_INFRASTRUCTURE: missing evaluation");
+        string expectedOutput = StringComparer.Ordinal.Equals(x: project, y: _expected[4]) ? "Exe" : "Library";
+        if (!StringComparer.Ordinal.Equals(x: evaluation["Properties"]?["OutputType"]?.GetValue<string>(),
+                y: expectedOutput))
+        {
+            errors.Add(item: "GRAPH_OUTPUT_KIND: " + project + " requires " + expectedOutput);
+        }
+
         var seen = new HashSet<string>(comparer: StringComparer.Ordinal);
         foreach (JsonNode? reference in evaluation["Items"]?["ProjectReference"]?.AsArray() ?? [])
         {

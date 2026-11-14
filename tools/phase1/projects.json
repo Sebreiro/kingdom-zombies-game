@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "projects": [
-    { "path": "src/core/KingdomZombies.Core.csproj", "allowed": [] },
-    { "path": "src/multiplayer-abstractions/KingdomZombies.Multiplayer.Abstractions.csproj", "allowed": [] },
-    { "path": "src/godot-game/KingdomZombies.csproj", "allowed": ["src/core/KingdomZombies.Core.csproj", "src/multiplayer-abstractions/KingdomZombies.Multiplayer.Abstractions.csproj"] },
-    { "path": "tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj", "allowed": [] },
-    { "path": "tests/phase1/KingdomZombies.Phase1.Tests.csproj", "allowed": [] }
+    { "path": "src/core/KingdomZombies.Core.csproj", "allowed": [], "expectedTypes": ["KingdomZombies.Core.ProofValue"] },
+    { "path": "src/multiplayer-abstractions/KingdomZombies.Multiplayer.Abstractions.csproj", "allowed": [], "expectedTypes": ["KingdomZombies.Multiplayer.Abstractions.IProofService"] },
+    { "path": "src/godot-game/KingdomZombies.csproj", "allowed": ["src/core/KingdomZombies.Core.csproj", "src/multiplayer-abstractions/KingdomZombies.Multiplayer.Abstractions.csproj"], "expectedTypes": ["KingdomZombies.Proofs.Phase1"] },
+    { "path": "tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj", "allowed": [], "expectedTypes": ["Sebreiro.CodeRules.Analyzers.NamedArgumentAnalyzer"] },
+    { "path": "tests/phase1/KingdomZombies.Phase1.Tests.csproj", "allowed": [], "expectedTypes": ["KingdomZombies.Phase1.Tests.GraphTests"] }
   ]
 }
