@@ -73,10 +73,20 @@ internal sealed class BuildFixture
                 "--verify-no-changes", "--include", "src/core/Subject.cs", "--verbosity", "diagnostic");
     }
 
-    /// <summary>Checks identity, subject, severity and exact start coordinates after infrastructure succeeds.</summary>
-    internal static bool HasDiagnostic((int Exit, string Output) result, string id, int line, int column)
+    /// <summary>Returns actual evaluated import/target order without compiling a running proof assembly.</summary>
+    internal string Preprocess()
     {
-        string subject = "Subject.cs(" + line.ToString(provider: System.Globalization.CultureInfo
+        string file = Path.Combine(path1: _directory, path2: "effective.xml");
+        (int Exit, string Output) result = Run("msbuild", _project, "-nologo", "-preprocess:" + file);
+        result.Exit.ShouldBe(expected: 0, customMessage: result.Output);
+        return File.ReadAllText(path: file);
+    }
+
+    /// <summary>Checks identity, subject, severity and exact start coordinates after infrastructure succeeds.</summary>
+    internal static bool HasDiagnostic((int Exit, string Output) result, string id, int line, int column,
+            string file = "Subject.cs")
+    {
+        string subject = file + "(" + line.ToString(provider: System.Globalization.CultureInfo
                 .InvariantCulture) + "," + column.ToString(provider: System.Globalization.CultureInfo
                         .InvariantCulture) + "): error " + id + ":";
         return result.Exit != 0 && result.Output.Contains(value: subject, comparisonType: StringComparison
@@ -89,6 +99,7 @@ internal sealed class BuildFixture
     private readonly string _project;
     private readonly string _subject;
     private static readonly string[] _sharedFiles = ["Directory.Build.props", "Directory.Build.targets",
+        "Directory.Xunit.targets",
         "Directory.Packages.props", ".editorconfig", "global.json", "NuGet.config", "BannedSymbols.txt",
         "BannedSymbols.Tests.txt", "BannedSymbols.Pure.txt"];
     private void CopyTree(string relative)

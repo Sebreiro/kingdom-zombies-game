@@ -13,6 +13,7 @@
     "Agents.md",
     "Directory.Build.props",
     "Directory.Build.targets",
+    "Directory.Xunit.targets",
     "Directory.Packages.props",
     "global.json",
     "NuGet.config",
@@ -11450,6 +11451,114 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Restore_CanonicalLfLocks_PreservesExactBytes",
       "expectedDiagnostic": "FORMAT_LOCKED_RESTORE_UNCHANGED"
+    },
+    {
+      "id": "rules.xunit-producer-root",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-08",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ExemptionTests.Generate_NormalCheckout_VerifiesExactProducer",
+      "expectedDiagnostic": "XUNIT_ROOT_PRODUCER_EXACT"
+    },
+    {
+      "id": "rules.xunit-producer-relocation",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-08",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ExemptionTests.Generate_TwoFreshProjectPaths_PreservesExactSource",
+      "expectedDiagnostic": "XUNIT_RELOCATION_EXACT"
+    },
+    {
+      "id": "rules.xunit-producer-seed",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-08",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ExemptionTests.Configure_SeedOrDisabledGeneration_RejectsDrift",
+      "expectedDiagnostic": "XUNIT_POLICY_DRIFT_REJECTED"
+    },
+    {
+      "id": "rules.xunit-producer-bypass",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-08",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ExemptionTests.Configure_OwnedTargetBypass_RejectsGeneratedViolation",
+      "expectedDiagnostic": "XUNIT_TARGET_BYPASS_REJECTED"
+    },
+    {
+      "id": "rules.xunit-producer-shape",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-08",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ExemptionTests.Configure_TargetArgumentMutation_RejectsShape",
+      "expectedDiagnostic": "XUNIT_TARGET_SHAPE_REJECTED"
+    },
+    {
+      "id": "rules.xunit-producer-hash",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-08",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ExemptionTests.Generate_ChangedProducerPayload_RejectsHash",
+      "expectedDiagnostic": "XUNIT_PRODUCER_HASH_REJECTED"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."
