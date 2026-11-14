@@ -11,13 +11,14 @@
   "perplexity": false,
   "jina": false,
   "git": {
-    "branching_strategy": "none",
+    "branching_strategy": "phase",
+    "base_branch": "dev",
     "create_tag": true,
     "repo_tagging": "single",
-    "phase_branch_template": "codex/phase-{phase}-{slug}",
+    "phase_branch_template": "feature/{phase}-{slug}",
     "milestone_branch_template": "codex/milestone-{milestone}-{slug}",
     "quick_branch_template": null,
-    "allow_default_branch_commits": true
+    "allow_default_branch_commits": false
   },
   "workflow": {
     "research": true,
