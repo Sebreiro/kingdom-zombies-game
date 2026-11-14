@@ -1,4 +1,45 @@
-# Plan 01-09 execution checkpoint
+# Plan 01-09 execution checkpoint — current continuation
+
+**0/2 complete tasks.** The direct-edge tracer increment has genuine RED/GREEN commits; full Task 1 and all Task 2 remain incomplete. Do not create a complete SUMMARY or advance STATE/ROADMAP. Phase 1 stays 9/18, all RULE requirements Pending, with independent Phase 2 annotation/artifacts preserved.
+
+## Newly verified committed increment
+
+- `266d495`: real direct-edge RED. Exact `GraphTests.Evaluate_CoreEngineReference_ReportsForbiddenEdge` failed planned ShouldContain after clean and changed real subjects built successfully; strict harness had zero warnings/errors. Actual exit 2, unchanged supported JUnit `.phase1/temp/09-red.xml`, console `.phase1/temp/09-red.console.log`, record `.phase1/temp/09-red.json`. Classifier returned **RED_EVIDENCE_OK** using fully qualified emitted method `KingdomZombies.Phase1.Tests.GraphTests.Evaluate_CoreEngineReference_ReportsForbiddenEdge`. Initial short-name record was rejected; report bytes unchanged.
+- `92fca69`: actual evaluated five-project graph GREEN. Own policy `tools/phase1/projects.json`, `ProjectEvaluator.cs`, GraphFixture inventory copy and exact manifest binding. Canonical `node tools/phase1/check.cjs --case graph.allowed-and-direct` passed **1/1**, exit0, run `.phase1/runs/79c0915a-63da-428b-8280-2ae6e7178bb7/summary.json`. Intended `GRAPH_FORBIDDEN` identifies Core-to-game and defining Core project.
+- Canonical run revision `266d495cbd6b65d27d7eb29b924e48ca2ed24c1e` plus precommit evaluated-graph changes, input `231046a122cd6ee3109a18779433fef523bdb004b55364cac8da070849ca4410`, tool `d256c2aefa92b65af9032296448fba3c01a2894eab3e7c73a7c4c0712b36cda8`, actual `win32-x64-10.0.19044`. This does not verify subsequent compiled-type WIP. Raw focused tracer also passed1/1 (~22.5s). No full09suite run.
+
+Evaluator queries actual MSBuild ProjectReference/PackageReference plus TargetFramework/AssemblyName/TargetPath, recursively evaluates closure and defining origins, checks both analyzer metadata, exact five-project permissions, duplicate refs/packages and solution plus src/tests/tools authored inventory. This verified tracer does not yet satisfy complete graph/type/architecture actions.
+
+## Preserved WIP and immediate next action
+
+Modified `tests/phase1/GraphTests.cs` adds `Inspect_CoreEngineType_ReportsCompiledLeak`: creates real clean fixture, builds Core-to-game edge, writes compiled Core `typeof(KingdomZombies.Proofs.Phase1)` source, requires another successful build then TYPE_FORBIDDEN. Untracked `tests/phase1/TypeBoundaryScanner.cs` is an intentional accepting `Validate(assembly, expectedType, boundary)` scaffold pending genuine runtime RED. Neither file is included in the GREEN increment.
+
+Current strict build has exactly two new scaffold errors, no runtime type RED credit:
+
+```text
+GraphTests.cs(40,72): SCR0001: Argument for parameter 'value' must be named
+TypeBoundaryScanner.cs(7,121): SCR0007: Line is 123 characters long; limit120
+```
+
+Next: use named `value:` and explicit `comparisonType: System.StringComparison.Ordinal` in the new Contains assertion with compliant continuation; wrap XML doc below120. Strict compile, run exact new target with fresh JUnit, require successful clean and changed subject builds plus intended assertion failure, persist/classify semantic RED, commit RED before scanner implementation. The changed type subject has not run and might still have a build issue; that would never supply RED credit.
+
+This window reached the bounded task repair limit: evaluator convention fixes (null-forgiving/member order/array/style/return type), final constant-order fix, then runner binding fix from unsupported `implementation: implemented` to actual `csharp`. All fixed/verified. The subsequent compiled-type scaffold failure is preserved for a fresh continuation instead of fixing beyond the limit.
+
+## Remaining exact plan scope
+
+Both entire actions in01-09-PLAN.md remain required. Strengthen inventory to tracked/new authored union across intended repository scope (current discovered directories alone insufficient); missing/null/empty/duplicate selectors must fail before set conversion. Add independent expected compiled types; both analyzer metadata mutations; real imported props/targets/wildcard/semicolon/transitive/undeclared/duplicate/reversed matrices; compiled bases/interfaces/generics/attributes/signatures/fields/IL and lambda/async/iterator leaks; isolated provider only ports; product-agnostic analyzer; service locator boundaries; concrete entity/snapshot/private mutation/hand mapping/config DTO selectors; single version and pinned enum/evolution baselines. No sixth repo project. Actual proof project has zero product edges; inspection edges explicit. Bind unique R51–56/R58–66/R74/75/77/78/81 polarities and graph AC12/13/edges/ac07. Preserve R57 inapplicability and qualitative judgments. Current exact tracer is already `csharp`/GRAPH_FORBIDDEN.
+
+No Context7 tool or ctx7 executable available. Official fallback docs were read this continuation before metadata implementation choice:
+
+- https://learn.microsoft.com/en-us/visualstudio/msbuild/evaluate-items-and-properties
+- https://learn.microsoft.com/en-us/dotnet/api/system.reflection.metadata.metadatareader?view=net-10.0
+- https://learn.microsoft.com/en-us/dotnet/api/system.reflection.portableexecutable.pereader?view=net-10.0
+
+Built-in PEReader/MetadataReader may avoid new packages; inspect only trusted freshly compiled assemblies, never instantiate Nodes. Exact donor architecture rules were read directly from immutable ZIP; originals unchanged. Strict inherited severity and authentic Directory.Xunit.targets preserved. Explicit cwd/root pin and protected query before commits; normal hooks. Ledger `.git/gsd-plan-head-before-01-09` persists `286fb68`; original initial baseline3a5c66a, previous checkpoint286fb68. Current manifest585 (one added tracer), no full count claim. Prior08suite477pass/0failedcontrols/107pendingof584. Finish prerequisites then one immutable full suite perD10, exact SUMMARY/selfcheck, latest shared state preservingPhase2. Live LinuxVM untouched; no Linux/coverage claim.
+
+---
+
+# Historical prior checkpoint (superseded by current continuation above)
 
 Task 1 RED harness is in progress. **0/2 tasks complete; no task commits and no valid runtime RED evidence.** Baseline HEAD is `3a5c66a`. Do not advance STATE/ROADMAP or mark any RULE requirement complete. The exact Phase 2 session annotation remains untouched.
 
