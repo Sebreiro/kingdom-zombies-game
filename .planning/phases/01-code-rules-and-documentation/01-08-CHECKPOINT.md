@@ -2,7 +2,28 @@
 
 Status: incomplete; Task 1 tracer proven, Task 1 expansion and Task 2 pending. No SUMMARY.md exists and no plan/requirement progress was advanced.
 
-## Latest continuation: source and effective suppression enforcement
+## Latest continuation: exact local dispositions and real engine companions
+
+| Verified increment | Commit | Result |
+| --- | --- | --- |
+| Numeric/generated-claim RED | `b971d01` | Compiled planned exact-rule/count assertions fail on actual missing boundaries |
+| Numeric/generated-claim GREEN | `673a0fc` | Canonical precision `df55f185`, generated claims `748e1026`, global baseline `4705ec09` pass |
+| Exact active donor/local scope alignment | `8afd176` | Five new exact local records, all 24 original donor IDs once each, gap 22 preserved |
+| Fresh Godot companions and async-stream permission | `16b12e5` | Four independent real consumer controls pass with intended exact locations |
+
+**Numeric RED correction:** raw JUnit showed generic `REGISTER: INVALID_STRUCTURE` without numeric rule identity, not an escaped FormatException. The original planned assertion required `R-07: NUMERIC_VALUE`; that actual missing rule identity is the valid RED. The corrected evidence record was reclassified `RED_EVIDENCE_OK`. Numeric conversion failures now preserve the exact rule. Additional generated-claim vectors cover `.g.cs`, `.g.i.cs`, `.Designer.cs`, `.generated.cs`, temporary generated names, both marker spellings, aliased attributes and nullable-disable directives. Genuine records and package bytes remain unchanged.
+
+`docs/code/exemptions.json` now has ten exact active records: five existing lock paths plus MA0051/SCR0006 replacement, engine/pure-library continuation policy, single proof-project test naming, exact xUnit executable identity, and analyzer bootstrap edge. Every source EX row has a specific reason. No donor EF migration, web-host, NU190x downgrade, blanket generated-Main severity or CI coverage filter is imported. Original coverage rules and measured 90/80 gates remain required and explicitly pending plan 15. The exact executable permission does not complete graph rules in plan 09. All local statuses remain pending final phase closure.
+
+Actual focused passes: executable five-project positive `256949f8`, three independent evaluated scope mutations `d543280a`; all twelve analyzer sources in the genuine separate consumer `c25c37d2`, plus its clean-before-violation SCR0006 `Subject.cs(6,25)` boundary `e7015eda`; updated register capture `6acf9ff1`; global source/origin validation `eb537a9b`. Final strict whole solution zero warnings/errors (`08-dispositions-final-build.log`), register **36/36**, zero skipped (`08-dispositions-register.xml`), and current unique naming bindings `d093be73` pass.
+
+Real async-stream permission: positive `6900c76c`, negative `cacbdb90` changes only MA0156 none → error and requires `Subject.cs(8,43)` after successful restore and valid clean/permission controls. Together with earlier MA0137 controls this proves both inherited suffix permissions. No forbidden suffix syntax was invented.
+
+Actual fresh copied Godot generation and compliant handwritten companion pass `dc14f76b`. Independent negative `bf97f30e` changes only the existing `_Ready` body and requires handwritten SCR0001 at `Phase1.cs` column 29. All eight actual generated-source hashes remain exactly equal before and after that body mutation. The fixture copies the real game/Core/ports/analyzer projects and canonical locks, excludes only runtime build caches from copying, and performs locked restore. Original project/cache/VM state is untouched. Final strict whole solution zero warnings/errors (`08-companion-final-build.log`), all current unique naming bindings `3538f903`, and diff check pass.
+
+The one-shot `08-boundary-bind.cjs`, `08-dispositions.cjs` and `08-companion-bind.cjs` have run once; do not reapply. Current declarations are 583 total, 468 implemented and 115 pending. These are declaration counts, not a fresh full-suite verdict. Remaining before 01-08 completion: seven numeric/edge aggregates (precision is implemented), AC-08 closure and an immutable-source full suite after all cheap prerequisites. A new empty-inventory control must reject removed active local records even when their backreferences are cleared. No SUMMARY/task/requirement completion or state advancement has occurred. Shared STATE/ROADMAP and independent Phase 2 annotations remain untouched.
+
+## Previous continuation: source and effective suppression enforcement
 
 **RED `2a066f1` → GREEN `3b6b683`.** Strictly compiled `Suppress_UnregisteredPragma_ReportsExactLocation` failed its planned Count assertion against the accepting stub (1 expected / 0 observed). `.phase1/temp/08-suppression-red.json` and `08-suppression-red.xml` received `RED_EVIDENCE_OK`; the original target is GREEN in `08-suppression-green.xml`.
 
