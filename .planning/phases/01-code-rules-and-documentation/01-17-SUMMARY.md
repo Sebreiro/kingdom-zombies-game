@@ -35,12 +35,12 @@ key-decisions:
   - Keep individual human outcomes unreviewed/Pending; independent material review does not supply component-human approval.
 requirements-completed: []
 actuals:
-  tokens: 16849
+  tokens: 25194
   tasks: 1
-  commits: 17
+  commits: 27
 plan_head_before: 21597fdeaed675c89bab5e0dd7aabf29c0266597
-plan_head_after: d1a752f8ca717210f76174897d84b26cfa14eebc
-duration: 56min recorded execution window
+plan_head_after: 239912587fa984a43264c311a3adcbe667ae2a46
+duration: 155min across three recorded execution windows
 completed: 2026-11-14
 status: halted
 ---
@@ -292,3 +292,12 @@ Task 1's creator-amended technical boundary is now satisfied by the retained Win
 ## Self-Check: PASSED — focused Linux continuation
 
 All owned source/authority/proof-record paths, original and amendment archives, original canonical Windows reports and actual new Linux receipts exist. Fix commit `70918fd` is an ancestor of HEAD and has no tracked deletion. Original first-attempt **5 passed / 2 failed / 0 skipped** reports remain immutable and independently verified. The one changed case has an exact canonical Windows pass and a fresh Linux pass with matching actual input; graph direct proof has zero allowed errors, exact forbidden-edge rejection, verified actual compiled subjects and **no original-case pass credit**. Every new command's actual exit and log hash, original source/input/tool identities, controlled mutations and native lifecycle/thread assertions were inspected. Guest source/pins/locks remain unchanged outside the committed one-line test correction. Owned shutdown is positively verified and its disk is free; no host restart occurred. No functional stub, disabled assertion, skipped required smoke, blanket exemption or new production trust surface was introduced. Formal closure and current proof-prose D-11 validation remain explicitly assigned to the parent; unreviewed human components are not passed here.
+
+### Latest owned commits and measured partial actuals
+
+- **`70918fd`** — `fix(01-17): recognize observed Godot LinuxBSD consumer symbol` (one C# literal, predeclared amendment authority and original actual smoke records).
+- **`2399125`** — `docs(01-17): record composed Linux assurance and verified owned shutdown` (platform/environment/summary evidence, original failure preservation and precise assurance limits).
+
+Frontmatter now measures persisted plan ledger base `21597fdeaed675c89bab5e0dd7aabf29c0266597` through `239912587fa984a43264c311a3adcbe667ae2a46`: actual `git rev-list --count` is **27**, including preserved concurrent/orchestrator commits in that real range. It does not attribute all 27 to this continuation. The eight owned non-summary paths listed in `.phase1/temp/17-linux-smoke/partial-actuals.json` yield **100,776 realized diff characters**, exactly **25,194 chars/4 tokens**; unrelated source/specification files and harness token counts are excluded. One creator-amended technical task is fulfilled. The focused continuation from `ad6abaa` through `2399125` measures three commits, comprising the two owned commits above and concurrent `266a6d8` Phase 5 specification work, which was preserved and did not execute Phase 5. This final summary-only metrics commit follows the measured range.
+
+Recorded execution windows are the original `15:54:44Z`–`16:50:02.551Z`, final Windows pipeline `18:40:00.7644824Z`–`19:31:55.8710755Z`, and focused Linux/amendment/shutdown `20:21:29.529Z`–`21:09:10.1604557Z`, totaling approximately **154m54s**, rounded up to **155min**, excluding unrecorded context/metadata time. Earlier partial measurements remain historical, not rewritten reports. Final narrow self-check confirms both owned commits are ancestors, all owned files/receipts exist, both evidence-archive hashes and original full-Windows summary hash still match, the ignored VM record is stopped with live PIDs cleared, and all fourteen detailed human rows remain Pending. Current proof-prose focused D-11 validation and formal Task 2/plan/phase/RULE closure remain the parent's next authorized work.
