@@ -10,7 +10,7 @@
     "src",
     "docs",
     "specs",
-    "Agents.md",
+    "AGENTS.md",
     "Directory.Build.props",
     "Directory.Build.targets",
     "Directory.Xunit.targets",
@@ -1805,7 +1805,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_RepositoryIndex_ResolvesAuthority",
+      "expectedDiagnostic": "DOC_NAVIGATION"
     },
     {
       "id": "ac-11.complete",
@@ -12921,6 +12923,24 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.EngineGeneratedTests.Build_FakeEngineGeneration_RetainsExactDiagnostic",
       "expectedDiagnostic": "SCR0001"
+    },
+    {
+      "id": "docs.navigation",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-13",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_WrongCaseLink_ReportsExactTarget",
+      "expectedDiagnostic": "DOC_CASE"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."

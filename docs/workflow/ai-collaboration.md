@@ -1,6 +1,6 @@
 # AI Collaboration
 
-This document records the creator's preferences for AI agents working on KingdomZombies. The root [agent guide](../../Agents.md) indexes these instructions.
+This document records the creator's preferences for AI agents working on KingdomZombies. The root [agent guide](../../AGENTS.md) indexes these instructions.
 
 ## Interactive Questions
 
