@@ -3,7 +3,7 @@
 **Gathered:** 2026-11-13 (Europe/Paris)
 **Status:** Ready for planning
 
-**Creator-approved amendment, 2026-11-14:** The remaining plans use the simplified completion boundary in [01-SPEC.md](01-SPEC.md). Preserve all working rules, fixtures and tests. Measured coverage, exhaustive platform suites/evidence reconciliation and unfinished aggregate runner certification move to [Phase 5](../05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md). Actual representative Windows/Linux checks and separate qualitative review remain Phase 1 requirements. This amendment supersedes the original completion timing below and in historical research/plans.
+**Creator-approved amendments, 2026-11-14:** Preserve all working rules, fixtures and tests. Measured coverage, advanced platform/report reconciliation and unfinished aggregate certification remain [Phase 5](../05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md) work. The creator's later platform instruction supersedes the earlier representative-only Linux boundary: use the development OS for implementation feedback, then execute the complete current phase scope on that OS and a local VM running the other OS before phase completion. For Phase 1 this requires complete Windows and Linux-VM `--phase 1` runs for the final implementation, plus separate qualitative review. Use local hardware acceleration when available. See [01-SPEC.md](01-SPEC.md) and [AI collaboration](../../../docs/workflow/ai-collaboration.md).
 
 <domain>
 ## Phase Boundary
@@ -60,7 +60,7 @@ Downstream agents MUST read `.planning/phases/01-code-rules-and-documentation/01
 
 ### Everyday verification workflow
 
-- **D-10 (amended 2026-11-14):** Use focused checks while batching related Phase 1 closure changes. After implementation stabilizes, obtain one complete Phase 1 Windows run and the representative clean Linux evidence defined by the revised specification. Re-run affected checks after a defect; repeat the full run only when a subsequent source/contract change invalidates it. Exhaustive platform/report certification is Phase 5 work. Existing required checks still fail on real failures, skips, missing results or stale evidence.
+- **D-10 (amended twice, 2026-11-14):** Use focused checks on the development OS while batching related closure changes. After implementation stabilizes, execute the complete current Phase 1 scope on Windows and in the local Linux VM for the same final implementation. Use hardware acceleration when available. Re-run affected checks after a defect; repeat a complete run when a subsequent source/contract change invalidates it. The eight declared Phase 5 coverage/aggregate cases remain pending; advanced certification stays there. Existing required checks still fail on real failures, skips, missing results or stale evidence.
 - **D-11 (amended 2026-11-14):** Planning-only and prose-only documentation edits use documentation and planning-consistency checks. They do not execute planned commands or claim new implementation evidence. Changes to executable rules, runner selection or code receive focused behavioral checks plus the final D-10 Phase 1 run. Retain every working enforcement rule and test.
 - **D-12:** Show concise progress and a final summary, with clear failure explanations and links to detailed logs.
 - **D-13:** Collect all independent failures in one run. Stop checks whose prerequisites failed and report those blocked obligations explicitly; they do not count as passes. Retain the specification's fresh-result, non-skipping, and trustworthy-failure requirements.

@@ -1,5 +1,7 @@
 # Phase 1 platform baseline
 
+**Current final-acceptance requirement (creator instruction, 2026-11-14):** Complete the current 676-case Phase 1 selection on Windows and the local Linux VM for the same repaired source. Earlier f4658bb runs below are retained historical evidence, including nine genuine TCG timeouts; they are not final acceptance for the four repairs through 5c52a20. Hardware acceleration setup is requested. Current complete platform reports and separate human judgment remain Pending. See the [repair report](../../.planning/phases/01-code-rules-and-documentation/01-REVIEW-FIX.md) and [verification reference](verification.md).
+
 The [setup](setup.md) and [verification](verification.md) pages define the ordinary commands. This record distinguishes the complete functional Windows baseline owned by 01-16 from actual representative Linux execution owned by 01-17. The Linux baseline remains blocked by real canonical case timeouts on the emulated machine. Preparation, exploratory feedback and separate longer diagnostics carry no acceptance credit. Coverage and exhaustive certification remain pending in the [Phase 5 handoff](../../.planning/phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md).
 
 ## Same managed payloads and native platforms

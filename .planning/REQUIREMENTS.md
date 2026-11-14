@@ -1,5 +1,7 @@
 # Requirements: KingdomZombies
 
+**Platform verification policy, 2026-11-14:** During implementation, test on the development OS. At phase completion, run the complete required phase scope on that OS and a local VM using the other supported OS. Phase 1 therefore requires the complete current Windows/Linux-VM selection, rather than representative Linux cases. All 133 requirement IDs and primary owners are unchanged; the eight explicitly deferred Phase 5 certification cases remain pending.
+
 **Defined:** 2026-11-13
 **Release:** Complete version 0.1
 **Status:** All 133 version 0.1 requirements and their ten-phase roadmap approved by the creator on 2026-11-13. Every requirement has one primary phase; implementation remains Pending.

@@ -1,5 +1,7 @@
 # KingdomZombies
 
+**Current platform policy (creator instruction, 2026-11-14):** Agents use the development OS for implementation checks. Before phase completion, its complete required scope must also pass in a local VM running the other supported OS. Use hardware acceleration when available. This supersedes earlier representative-only Phase 1 Linux timing; coverage and the eight explicit Phase 5 declarations retain their ownership. See [AI collaboration](../docs/workflow/ai-collaboration.md).
+
 ## What This Is
 
 KingdomZombies is a side-view, pixel-art survival and camp-management game inspired by Kingdom Two Crowns, built with Godot and C#. It is for solo players and groups of up to four cooperative LAN players on Windows and Linux: recruit and equip survivors, develop one shared camp, survive zombie attacks, and destroy six portals. Version 0.1 is the complete playable, saveable game defined by the existing specifications, delivered through a sequence of working foundations and game features.

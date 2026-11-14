@@ -1,5 +1,7 @@
 # Phase 5 — Certification transferred from Phase 1
 
+**Later platform-policy amendment, 2026-11-14:** The complete current scope of every phase must run on its development OS and a local VM using the other OS at phase end. Phase 1 now requires the complete 676-case selection on Windows and Linux, including all implemented failure variants. This does not complete the eight pending declarations below, measure coverage or deliver Phase 5 advanced reconciliation. The pre-review manifest counts below remain historical; six added review regressions make the current totals 684 declarations / 676 Phase 1 obligations.
+
 **Approved:** Creator instruction, 2026-11-14 (Europe/Paris).
 **Status:** Required Phase 5 planning input; implementation and acceptance pending. This handoff is not an executed plan or a passing report.
 **Owners:** TEST-02, TEST-07, TEST-08 and TEST-09. RULE-01–RULE-07 retain their primary Phase 1 ownership for the usable development baseline.
@@ -17,7 +19,7 @@ The revised [Phase 1 specification](../01-code-rules-and-documentation/01-SPEC.m
 | Measured analyzer coverage | Real covered/total line and branch counts for the analyzer scope; at least 90% lines and 80% branches | R-49; TEST-02/07/09; former 01-15 coverage task |
 | Measured production coverage | The same unchanged targets for applicable handwritten Core, ports and native-hosted managed Godot code; prove an actual engine callback is measured | R-82; TEST-02/07/09; former 01-15 coverage task |
 | Coverage failure/report controls | Reject below-limit, absent, empty, malformed, duplicate, stale and wrong-source reports; exact denominators, legitimate generated exclusions and order-independent totals | AC-06/07/09 aggregate certification; TEST-07/08/09 |
-| Exhaustive platform execution | Complete clean Windows and Linux functional suites, all required failure variants, native lifecycle checks, common state vectors and coverage on the same final source | Original exhaustive AC-02; TEST-02 |
+| Complete Phase 5 certification execution | Complete clean Windows/Linux Phase 5 scope, including pending aggregate and coverage cases, added certification variants and native/state evidence on the same final source | Original exhaustive AC-02; TEST-02 |
 | Platform/runner certification | Reconcile discovery, actual exits, case counts, source/tool/platform/run identities and required evidence; exercise remaining advanced failure, interruption and concurrent-run scenarios | TEST-07/08/09 |
 
 Coverage targets are inclusive and unchanged. Compare exact counts using overflow-safe integer arithmetic, not rounded percentages. Report the analyzer and production scopes separately. Classify modules with no executable sequence points explicitly; absent expected handwritten modules are failures, not exclusions. Do not omit unmeasured engine code to meet the targets.

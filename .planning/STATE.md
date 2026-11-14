@@ -6,10 +6,10 @@ current_phase: 1
 current_phase_name: Code rules and documentation
 current_plan: 17
 status: executing
-stopped_at: Completed 01-16 clean Windows 670/670 baseline and same-source Linux preparation; next 01-17 representative actual Linux checks and qualitative review; Phase 2 context captured (02-CONTEXT.md); Phase 3 context gathered (03-CONTEXT.md)
-last_updated: "2026-11-14T15:45:00.329Z"
-last_activity: 2026-11-14 (Europe/Paris) — Completed 01-16 clean Windows baseline with 670/670 accepted and same-source Linux preparation. Seventeen plans complete; next 01-17 actual representative Linux checks and qualitative review. Historical reports retain their original identities.
-state_head: 18ff221ff4526dfede5ae9491da038671f8ea758
+stopped_at: Four review findings repaired; independent re-review and complete Windows/Linux-VM acceptance pending; Phase 2 context captured (02-CONTEXT.md); Phase 3 context gathered (03-CONTEXT.md)
+last_updated: "2026-11-14T18:15:27.856Z"
+last_activity: 2026-11-14 (Europe/Paris) — Four code-review findings repaired; six regression cases added, 676 Phase 1 obligations. Latest creator policy requires complete Windows and local Linux-VM phase-scope acceptance. Hardware acceleration setup requested; final runs and human review remain Pending.
+state_head: 5c52a20c9fdabe9fad085e97333ca65d1ec8b219
 progress:
   total_phases: 10
   completed_phases: 0
@@ -26,15 +26,15 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-13).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase 1 — Code rules and documentation; seventeen plans complete. Plan 01-16's clean Windows source f4658bb passes native bootstrap, locked five-project restore, strict zero-warning/error build and all 670 declared Phase 1 cases (nonce 030dd8f9-c5e7-4d52-9b03-505948e8755c). The eight Phase 5 identities remain separately deferred without pass/skip credit. The same clean source, pinned tools and verified caches are prepared in genuine Linux, with sixteen exact representative IDs predeclared. Next: 01-17 actual clean Linux checks and qualitative review. Preserve all working rules/tests and historical evidence. Coverage and exhaustive certification remain Phase 5 obligations. Phase 1, all shared RULE requirements and all fourteen human-review components remain Pending.
+**Current focus:** Phase 1, Plan 17 remains incomplete at 17/18 plans. Review repairs 330a427, 8ebbc1d, 3da7114 and 5c52a20 address active-branch parsing, native operation escapes, actual visibility inventory and implicit-usings proof sensitivity. Focused checks and strict builds pass; independent review and fresh complete Windows/Linux-VM runs for all 676 Phase 1 obligations are next. The old f4658bb platform records are historical. Eight Phase 5 declarations and fourteen human outcomes remain Pending. Preserve all captured Phase 2/3 context and concurrent Phase 4 specification work.
 
 ## Current Position
 
 Phase: 1 (Code rules and documentation) — EXECUTING
 Current Plan: 17
 Total Plans in Phase: 18
-Status: Ready to execute
-Last activity: 2026-11-14 (Europe/Paris) — Completed 01-16 clean Windows baseline with 670/670 accepted and same-source Linux preparation. Seventeen plans complete; next 01-17 actual representative Linux checks and qualitative review. Historical reports retain their original identities.
+Status: Executing final review and complete platform acceptance
+Last activity: 2026-11-14 (Europe/Paris) — Four code-review findings repaired; six regression cases added, 676 Phase 1 obligations. Latest creator policy requires complete Windows and local Linux-VM phase-scope acceptance. Hardware acceleration setup requested; final runs and human review remain Pending.
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -120,7 +120,7 @@ Full decisions are in PROJECT.md.
 
 ### Pending Todos
 
-Execute 01-17 against the retained same-source f4658bb clean Linux checkout: actual locked restore/build/native bootstrap and all sixteen predeclared exact representative selectors, then separate qualitative review. Plan 01-16's final clean Windows report accepts 670/670 with zero failures/skips; preserve its frozen source/report and all historical evidence. Completion prose receives separate D-11 documentation checks. Reuse the existing tools and prepared VM; do not implement coverage or exhaustive certification in Phase 1.
+Complete independent repair/security re-verification, finish the local hardware-acceleration prerequisite, then obtain clean same-source Windows and Linux-VM setup and complete `--phase 1` runs (676 required). Record actual human judgment separately. Preserve all original reports, deadlines, pins, locks and deferred ownership.
 
 ### Roadmap Evolution
 
@@ -142,19 +142,19 @@ Execute 01-17 against the retained same-source f4658bb clean Linux checkout: act
 
 ## Deferred Items
 
-The approved [Phase 5 handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md) owns real analyzer/production 90%/80% coverage, exhaustive platform suites/reconciliation and unfinished aggregate certification. The current declaration contains 678 cases: all 666 prior implemented cases, four new selector controls and eight pending aggregate/coverage IDs: ac-02/06/07/09.complete and R-49/R-82 positive/negative. The eight pending declarations have acceptancePhase 5 and owner Phase 5. `--phase 1` selects 670 obligations independently from implementation status and lists those eight separately; `--all` retains exhaustive non-success while any selected work is pending. Plan 01-16 now records a complete clean Windows pass for all 670, with zero failed/blocked/missing/skipped selected results; no deferred identity receives pass/skip credit. No working case, exemption boundary or operational rule is removed. Actual representative Linux execution and qualitative review still block Phase 1 until performed.
+The approved [Phase 5 handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md) retains measured analyzer/production 90%/80% coverage, advanced reconciliation and eight aggregate/coverage cases. The current manifest has 684 declarations: all original 678 unchanged plus six review regressions; `--phase 1` requires 676 and lists the eight Phase 5 cases separately without pass/skip credit. The latest platform rule requires that complete current selection on Windows and the local Linux VM. Earlier 670-case/representative results remain historical, not current-source acceptance.
 
-Preserve immutable reports and freeze tested inputs during every final run. Under the amendment, 01-16 records the completed clean functional Windows run and 01-17 owns representative actual Linux evidence for that same intended implementation; exhaustive same-source cross-platform certification is Phase 5 work. Planning/prose updates receive separate docs and consistency validation and never reuse an earlier full fingerprint as if unchanged.
+Preserve immutable reports and freeze tested inputs during complete runs. After repairs stabilize, Plan 01-17 owns fresh complete Windows/Linux-VM scope for the same final implementation. Planning/prose edits use focused docs and consistency validation, retaining distinct input identities. Final human review is separate and remains Pending.
 
 | Category | Item | Status | Deferred At | Milestone |
 | --- | --- | --- | --- | --- |
-| Phase 5 certification | Measured 90%/80% coverage, exhaustive platforms and eight pending aggregate/coverage cases | Required; implementation/acceptance pending | Creator-approved 2026-11-14 amendment | v0.1 Phase 5 |
+| Phase 5 certification | Measured 90%/80% coverage, advanced platform reconciliation and eight pending aggregate/coverage cases | Required; implementation/acceptance pending | Creator-approved 2026-11-14 amendments | v0.1 Phase 5 |
 | Future platform work | PLAT-01 and PLAT-02 Steam/Epic implementations | Outside v0.1; no next-release commitment | Initial scope | v0.1 |
 
 ## Session Continuity
 
-Last session: 2026-11-14T15:45:00.284Z
-Stopped at: Completed 01-16 clean Windows 670/670 baseline and same-source Linux preparation; next 01-17 representative actual Linux checks and qualitative review; Phase 2 context captured (02-CONTEXT.md); Phase 3 context gathered (03-CONTEXT.md)
+Last session: 2026-11-14T18:15:27.857Z
+Stopped at: Four review findings repaired; independent re-review and complete Windows/Linux-VM acceptance pending; Phase 2 context captured (02-CONTEXT.md); Phase 3 context gathered (03-CONTEXT.md)
 Resume file: None
 
-Next action: Execute 01-17 for actual representative clean Linux checks and qualitative review using the preserved f4658bb source/caches and sixteen predeclared selectors. Plan 01-16's clean Windows baseline accepts 670/670; Phase 5 ownership and all historical identities remain explicit. Plan 18's completed dependency order and captured Phase 2/3 context are preserved. Phase 1, all RULE requirements and all fourteen human-review outcomes remain Pending.
+Next action: Complete independent review and hardware-acceleration setup, then clean same-source full Windows/Linux-VM Phase 1 runs (676 obligations) and actual qualitative review. Preserve Plan 18 ordering, all historical evidence and captured Phase 2/3 context. No Phase 2 execution is authorized by this --only 1 run.

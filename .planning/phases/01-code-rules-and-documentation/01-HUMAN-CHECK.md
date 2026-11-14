@@ -1,5 +1,7 @@
 # Phase 1 qualitative human check
 
+**Current evidence status:** The four code-review findings were repaired through 5c52a20 and six regression cases added. The f4658bb references below are historical preparation, not final-source approval. Refresh them after complete 676-case Windows/Linux-VM acceptance and independent re-review. Every human reviewer/date/outcome remains Pending.
+
 Status: Pending. Prepared by 01-14 and consolidated by 01-17 for one end-of-phase human review. The creator's 2026-11-14 amendment moves measured coverage and exhaustive certification to Phase 5; they are not prerequisites for this review. This record remains separate from automated and AI review results. All shared RULE requirements remain Pending until the revised Phase 1 acceptance and review are actually complete.
 
 Review the exact components in [review.md](../../../docs/code/review.md), the [current bindings](../../../docs/code/rule-matrix.md), scoped adaptation reasons and architecture decisions against the final frozen source and actual proof reports. Necessary public APIs, invariant meaning, mapping intent, enum evolution and decision accuracy require human judgment.
