@@ -11,6 +11,50 @@ namespace KingdomZombies.Phase1.Tests;
 /// <summary>Exercises real child-process failures and evidence reconciliation before accepting proof results.</summary>
 public sealed class RunnerContractTests
 {
+    /// <summary>Required check reruns use fresh identities and preserve actual input bytes.</summary>
+    [Fact, Trait("Case", "edge.rule-03.idempotency")]
+    public void Reconcile_RequiredCheckReruns_PreservesInputsAndFreshness()
+    {
+        using var fixture = RunnerProcessFixture.Create(mode: "pass");
+        string file = Path.Combine(path1: fixture.Root, path2: "approved.cs");
+        string before = RunnerProcessFixture.Hash(file: file);
+        fixture.Run().Exit.ShouldBe(expected: 0);
+        JsonNode first = fixture.Summary();
+        fixture.Run().Exit.ShouldBe(expected: 0);
+        JsonNode second = fixture.Summary();
+        RequiredText(row: first, name: "nonce").ShouldNotBe(expected: RequiredText(row: second, name: "nonce"),
+                comparer: StringComparer.Ordinal);
+        RequiredText(row: first, name: "input").ShouldBe(expected: RequiredText(row: second, name: "input"));
+        RequiredText(row: first, name: "status").ShouldBe(expected: "pass");
+        RequiredText(row: second, name: "status").ShouldBe(expected: "pass");
+        RunnerProcessFixture.Hash(file: file).ShouldBe(expected: before);
+        AssertPidsExited(fixture: fixture);
+        ProofProtocol.Record(id: "edge.rule-03.idempotency", diagnostic: "REPEATED_CHECK_INPUTS_IMMUTABLE",
+                location: "two actual independent runner invocations with distinct nonces and unchanged source bytes");
+    }
+
+    /// <summary>Concurrent required checks reject mixed evidence and retain one actual completed result set.</summary>
+    [Fact, Trait("Case", "edge.rule-03.concurrency")]
+    public void Reconcile_ConcurrentRequiredChecks_RejectsMixedEvidence()
+    {
+        using var fixture = RunnerProcessFixture.Create(mode: "concurrent");
+        using Process first = fixture.Start();
+        AwaitReady(fixture: fixture);
+        (int Exit, string Output) competing = fixture.Run();
+        competing.Exit.ShouldBe(expected: 1);
+        competing.Output.ShouldContain(expected: "CHECK_LOCKED");
+        RunnerProcessFixture.Finish(child: first).Exit.ShouldBe(expected: 0);
+        JsonNode summary = fixture.Summary();
+        RequiredText(row: summary, name: "status").ShouldBe(expected: "pass");
+        (summary["results"] ?? throw new InvalidDataException(message: "RESULTS_REQUIRED"))
+                .AsArray().Count.ShouldBe(expected: 1);
+        Directory.GetFiles(path: Path.Combine(path1: fixture.Root, path2: ".phase1/runs"),
+                searchPattern: "summary.json", searchOption: SearchOption.AllDirectories).Length.ShouldBe(expected: 1);
+        AssertPidsExited(fixture: fixture);
+        ProofProtocol.Record(id: "edge.rule-03.concurrency", diagnostic: "CONCURRENT_CHECK_EVIDENCE_ISOLATED",
+                location: "actual competitor rejected; one completed subject/result set and no live children");
+    }
+
     /// <summary>Requires TOOL_MISSING when the isolated runner executable does not exist.</summary>
     [Fact, Trait("Case", "runner.process.missing-executable")]
     public void Reconcile_RealMissingExecutable_Rejected()
@@ -362,6 +406,12 @@ public sealed class RunnerContractTests
         result.Exit.ShouldBe(expected: 0);
         result.Output.ShouldContain(expected: "SELECTION_REJECTED");
         ProofProtocol.Record(id: "runner.selection", diagnostic: "SELECTION_REJECTED", location: "CLI selection");
+    }
+
+    private static string RequiredText(JsonNode row, string name)
+    {
+        return row[name]?.GetValue<string>()
+                ?? throw new InvalidDataException(message: "RESULT_FIELD_REQUIRED " + name);
     }
 
     private static void ProcessRejects(string id, string mode, string diagnostic)

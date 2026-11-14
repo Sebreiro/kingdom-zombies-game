@@ -223,39 +223,87 @@ public sealed class ExemptionTests
     [Fact, Trait("Case", "rules.godot-companion-positive")]
     public void Build_GenuineGodotAndHandwrittenCompanion_AcceptsExactOutput()
     {
-        var fixture = new BuildFixture(game: true);
-        fixture.Restore();
-        (int Exit, string Output) clean = fixture.Build();
-        clean.Exit.ShouldBe(expected: 0, customMessage: clean.Output);
-        RequireGameOrigins(fixture: fixture);
+        string file = VerifyGameCompanion(violate: false).File;
         ProofProtocol.Record(id: "rules.godot-companion-positive", diagnostic: "GODOT_COMPANION_COMPILED",
-                location: fixture.DirectoryPath + "/src/godot-game/Proofs/Phase1.cs and fresh exact generator output");
+                location: file + " and fresh exact generator output");
     }
 
     /// <summary>A handwritten body change preserves genuine output and retains the exact call diagnostic.</summary>
     [Fact, Trait("Case", "rules.godot-companion-negative")]
     public void Build_HandwrittenGodotBody_RetainsExactDiagnostic()
     {
-        var fixture = new BuildFixture(game: true);
+        (string File, int Line) result = VerifyGameCompanion(violate: true);
+        ProofProtocol.Record(id: "rules.godot-companion-negative", diagnostic: "GODOT_HANDWRITTEN_SCR0001",
+                location: result.File + "(" + result.Line.ToString(provider: System.Globalization.CultureInfo
+                        .InvariantCulture)
+                        + ",29), unchanged exact generated output");
+    }
+
+    /// <summary>Checks exact scopes and an independent actual handwritten/genuine engine boundary.</summary>
+    [Fact, Trait("Case", "ac-08.complete")]
+    public void Validate_BoundedExemptions_RequiresActualEngineBoundary()
+    {
+        ExemptionValidator.CheckRepository().ShouldBeEmpty();
+        ExemptionValidator.ReadPermissions().Count.ShouldBe(expected: 18);
+        SourceFileFormat.ReadFinalNewlineExemptions().Count.ShouldBe(expected: 5);
+        (string File, int Line) result = VerifyGameCompanion(violate: true);
+        ProofProtocol.Record(id: "ac-08.complete", diagnostic: "EXEMPTIONS_BOUNDED_VALIDATED",
+                location: result.File + "(" + result.Line.ToString(provider: System.Globalization.CultureInfo
+                        .InvariantCulture)
+                        + ",29), exact generated hashes; actual source/configuration/scope validation");
+    }
+
+    /// <summary>A compiler-accepted real pragma bypass must still fail the required source guard.</summary>
+    [Fact, Trait("Case", "rules.exemptions")]
+    public void Validate_RealSuppressionBypass_RequiresSourceGuard()
+    {
+        ExemptionValidator.CheckRepository().ShouldBeEmpty();
+        var fixture = new BuildFixture();
         fixture.Restore();
         (int Exit, string Output) clean = fixture.Build();
         clean.Exit.ShouldBe(expected: 0, customMessage: clean.Output);
-        RequireGameOrigins(fixture: fixture);
-        string file = Path.Combine(path1: fixture.DirectoryPath, path2: "src/godot-game/Proofs/Phase1.cs");
-        string source = File.ReadAllText(path: file).Replace(oldValue: "        GetTree().Quit();",
-                newValue: "        _ = System.Math.Abs(-1);\n        GetTree().Quit();",
+        string source = "#pragma warning disable SCR0006\n" + BuildFixture.CleanSource.Replace(
+                oldValue: "        return 1;", newValue: new string(c: '\n', count: 60) + "        return 1;",
                 comparisonType: StringComparison.Ordinal);
-        source.ShouldContain(expected: "System.Math.Abs(-1)");
-        int line = source[..source.IndexOf(value: "        _ = System.Math.Abs(-1);",
-                comparisonType: StringComparison.Ordinal)].Count(predicate: value => value == '\n') + 1;
-        File.WriteAllText(path: file, contents: source);
-        (int Exit, string Output) changed = fixture.Build();
-        BuildFixture.HasDiagnostic(result: changed, id: "SCR0001", line: line, column: 29, file: "Phase1.cs")
-                .ShouldBeTrue(customMessage: changed.Output);
-        RequireGameOrigins(fixture: fixture);
-        ProofProtocol.Record(id: "rules.godot-companion-negative", diagnostic: "GODOT_HANDWRITTEN_SCR0001",
-                location: file + "(" + line.ToString(provider: System.Globalization.CultureInfo.InvariantCulture)
-                        + ",29), unchanged exact generated output");
+        fixture.Write(source: source);
+        (int Exit, string Output) bypass = fixture.Build();
+        bypass.Exit.ShouldBe(expected: 0, customMessage: bypass.Output);
+        IReadOnlyList<string> errors = ExemptionValidator.CheckSource(path: "Subject.cs", content: source,
+                permissions: ExemptionValidator.ReadPermissions());
+        errors.Count.ShouldBe(expected: 1);
+        errors[0].ShouldBe(expected: "SUPPRESSION_UNREGISTERED Subject.cs(1,1) pragma SCR0006");
+        ProofProtocol.Record(id: "rules.exemptions", diagnostic: "UNREGISTERED_REAL_BUILD_SUPPRESSION",
+                location: fixture.DirectoryPath + "/src/core/Subject.cs(1,1), compiler bypass rejected by guard");
+    }
+
+    /// <summary>Duplicate and overlapping same-diagnostic scopes cannot borrow valid adjacent permissions.</summary>
+    [Fact, Trait("Case", "edge.rule-03.adjacency")]
+    public void Validate_OverlappingOrAdjacentScopes_RetainsExactBoundaries()
+    {
+        JsonObject manifest = RegisterValidator.Read(relative: "docs/code/provenance/manifest.json");
+        JsonObject register = RegisterValidator.Read(relative: "docs/code/register.json");
+        JsonObject exemptions = RegisterValidator.Read(relative: "docs/code/exemptions.json");
+        RegisterValidator.Validate(manifest: manifest, register: register, exemptions: exemptions).ShouldBeEmpty();
+        JsonArray local = exemptions["local"]?.AsArray()
+                ?? throw new InvalidDataException(message: "LOCAL_SCOPES_REQUIRED");
+        JsonObject overlap = local[0]?.DeepClone().AsObject()
+                ?? throw new InvalidDataException(message: "OBSERVED_SCOPE_REQUIRED");
+        overlap["id"] = "KZ-EX-LOCK-02";
+        local.Add(item: overlap);
+        RegisterValidator.Validate(manifest: manifest, register: register, exemptions: exemptions)
+                .ShouldContain(expected: "KZ-EX-LOCK-02: EXEMPTION_OVERLAP", comparer: StringComparer.Ordinal);
+        const string Path = "tests/phase1/GeneratedCallSiteAdapters.cs";
+        string source = File.ReadAllText(path: System.IO.Path.Combine(path1: ProofProtocol.Root, path2: Path));
+        int line = source.Count(predicate: value => value == '\n') + 1;
+        string changed = source + "[assembly: SuppressMessage(\"Sebreiro.CodeRules\",\"SCR0001\","
+                + "Scope=\"namespace\",Target=\"~N:KingdomZombies.Phase1.Tests\",Justification=\"fake\")]\n";
+        IReadOnlyList<string> errors = ExemptionValidator.CheckSource(path: Path, content: changed,
+                permissions: ExemptionValidator.ReadPermissions());
+        errors.Count.ShouldBe(expected: 1);
+        errors[0].ShouldBe(expected: "SUPPRESSION_UNREGISTERED " + Path + "("
+                + line.ToString(provider: System.Globalization.CultureInfo.InvariantCulture) + ",12) SCR0001");
+        ProofProtocol.Record(id: "edge.rule-03.adjacency", diagnostic: "EXEMPTION_OVERLAP_AND_ADJACENCY",
+                location: "exact duplicated lock diagnostic/path and adjacent undeclared namespace suppression");
     }
 
     /// <summary>Clearing backreferences cannot disguise the removal of all active local permissions.</summary>
@@ -444,6 +492,33 @@ public sealed class ExemptionTests
         }
 
         count.ShouldBe(expected: 8);
+    }
+
+    private static (string File, int Line) VerifyGameCompanion(bool violate)
+    {
+        var fixture = new BuildFixture(game: true);
+        fixture.Restore();
+        (int Exit, string Output) clean = fixture.Build();
+        clean.Exit.ShouldBe(expected: 0, customMessage: clean.Output);
+        RequireGameOrigins(fixture: fixture);
+        string file = Path.Combine(path1: fixture.DirectoryPath, path2: "src/godot-game/Proofs/Phase1.cs");
+        if (!violate)
+        {
+            return (file, 0);
+        }
+
+        string source = File.ReadAllText(path: file).Replace(oldValue: "        GetTree().Quit();",
+                newValue: "        _ = System.Math.Abs(-1);\n        GetTree().Quit();",
+                comparisonType: StringComparison.Ordinal);
+        source.ShouldContain(expected: "System.Math.Abs(-1)");
+        int line = source[..source.IndexOf(value: "        _ = System.Math.Abs(-1);",
+                comparisonType: StringComparison.Ordinal)].Count(predicate: value => value == '\n') + 1;
+        File.WriteAllText(path: file, contents: source);
+        (int Exit, string Output) changed = fixture.Build();
+        BuildFixture.HasDiagnostic(result: changed, id: "SCR0001", line: line, column: 29, file: "Phase1.cs")
+                .ShouldBeTrue(customMessage: changed.Output);
+        RequireGameOrigins(fixture: fixture);
+        return (file, line);
     }
     private static BuildFixture CleanTestConsumer()
     {

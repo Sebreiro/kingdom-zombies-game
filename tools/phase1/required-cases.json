@@ -1771,7 +1771,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ExemptionTests.Validate_BoundedExemptions_RequiresActualEngineBoundary",
+      "expectedDiagnostic": "EXEMPTIONS_BOUNDED_VALIDATED"
     },
     {
       "id": "ac-09.complete",
@@ -2163,7 +2165,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ThresholdTests.Analyze_NumericSourceNeighbors_EnforcesDeclaredUnits",
+      "expectedDiagnostic": "NUMERIC_SOURCE_NEIGHBORS_EXACT"
     },
     {
       "id": "edge.rule-03.adjacency",
@@ -2179,7 +2183,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ExemptionTests.Validate_OverlappingOrAdjacentScopes_RetainsExactBoundaries",
+      "expectedDiagnostic": "EXEMPTION_OVERLAP_AND_ADJACENCY"
     },
     {
       "id": "edge.rule-03.empty",
@@ -2195,7 +2201,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ExemptionTests.Validate_EmptyLocalScopeInventory_RejectsMissingSubjects",
+      "expectedDiagnostic": "LOCAL_EXEMPTION_INVENTORY"
     },
     {
       "id": "edge.rule-03.encoding",
@@ -2211,7 +2219,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ThresholdTests.Decode_InvalidUtf8AndProbeNeighbors_PreservesExactUnits",
+      "expectedDiagnostic": "NUMERIC_ENCODING_EXACT"
     },
     {
       "id": "edge.rule-03.ordering",
@@ -2227,7 +2237,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ThresholdTests.Validate_PermutedNumericAndScopeInputs_PreservesVerdicts",
+      "expectedDiagnostic": "NUMERIC_SCOPE_ORDER_INVARIANT"
     },
     {
       "id": "edge.rule-03.precision",
@@ -2261,7 +2273,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Reconcile_RequiredCheckReruns_PreservesInputsAndFreshness",
+      "expectedDiagnostic": "REPEATED_CHECK_INPUTS_IMMUTABLE"
     },
     {
       "id": "edge.rule-03.concurrency",
@@ -2277,7 +2291,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Reconcile_ConcurrentRequiredChecks_RejectsMixedEvidence",
+      "expectedDiagnostic": "CONCURRENT_CHECK_EVIDENCE_ISOLATED"
     },
     {
       "id": "edge.rule-04.adjacency",
@@ -11807,6 +11823,24 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Configure_AsyncEnumerableSuffix_RejectsPermissionDrift",
       "expectedDiagnostic": "MA0156"
+    },
+    {
+      "id": "rules.exemptions",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-08",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ExemptionTests.Validate_RealSuppressionBypass_RequiresSourceGuard",
+      "expectedDiagnostic": "UNREGISTERED_REAL_BUILD_SUPPRESSION"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."

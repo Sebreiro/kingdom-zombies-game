@@ -410,6 +410,7 @@ public static class RegisterValidator
                 n => Text(node: n["id"]), diagnostic: "SOURCE_EXEMPTION", errors: errors);
         Dictionary<string, JsonNode> local = Unique(rows: Rows(node: exemptions, name: "local"), key: n => Text(
                 node: n["id"]), diagnostic: "LOCAL_EXEMPTION_ID", errors: errors);
+        ValidateLocalInventory(local: local, errors: errors);
         foreach (JsonNode? entry in Rows(node: exemptions, name: "donorExemptions"))
         {
             if (entry is null)
@@ -460,6 +461,15 @@ public static class RegisterValidator
                                                             message: "Required proof value is null"))
                                                     .AsArray(), diagnostic: Text(node: rule["sourceId"])
                                                             + ": EXEMPTION_REFERENCE", errors: errors);
+        }
+    }
+
+    private static void ValidateLocalInventory(Dictionary<string, JsonNode> local, List<string> errors)
+    {
+        if (!local.Keys.ToHashSet(comparer: StringComparer.Ordinal).SetEquals(
+                other: ExemptionValidator.ExpectedLocalIds()))
+        {
+            errors.Add(item: "REGISTER: LOCAL_EXEMPTION_INVENTORY");
         }
     }
 

@@ -80,6 +80,12 @@ internal static class ExemptionValidator
                         comparer: StringComparer.Ordinal);
     }
 
+    /// <summary>Lists every exact active local scope, including the five observed lock paths.</summary>
+    internal static IEnumerable<string> ExpectedLocalIds()
+    {
+        return _localPermissions.Keys.Concat(second: SourceFileFormat.LockExemptions.Keys);
+    }
+
     /// <summary>Names independent actual controls for non-rule project bootstrap permissions.</summary>
     internal static (string Positive, string Negative) LocalProofs(string id, string rule)
     {
