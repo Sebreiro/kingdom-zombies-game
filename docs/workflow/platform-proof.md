@@ -21,7 +21,7 @@ On 2026-11-14, the donor-independent clean checkout `D:/Work/Games/KingdomZombie
 | `dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q` | Exit 0; zero warnings and errors |
 | `node tools/phase1/check.cjs --phase 1` | Exit 0; **670/670 ACCEPTED**, zero failed, blocked, missing or skipped selected obligations |
 
-The [unaltered canonical summary](../../.phase1/temp/16-windows-f4658bb/.phase1/runs/030dd8f9-c5e7-4d52-9b03-505948e8755c/summary.json) retains every case's fresh test report, subject evidence, actual command, exit and identity. Completed groups: runner 36, pins 27, register 46, rules 447, docs 36, graph 26, engine 19 and state 33. All 670 case processes exited zero; no test was skipped. The runner verified unchanged frozen inputs through publication.
+The [plan summary](../../.planning/phases/01-code-rules-and-documentation/01-16-SUMMARY.md) records the unaltered canonical report at `.phase1/temp/16-windows-f4658bb/.phase1/runs/030dd8f9-c5e7-4d52-9b03-505948e8755c/summary.json`. That report retains every case's fresh test report, subject evidence, actual command, exit and identity. Completed groups: runner 36, pins 27, register 46, rules 447, docs 36, graph 26, engine 19 and state 33. All 670 case processes exited zero; no test was skipped. The runner verified unchanged frozen inputs through publication.
 
 | Identity | Actual value |
 | --- | --- |
