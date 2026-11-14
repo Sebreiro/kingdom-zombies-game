@@ -2077,7 +2077,7 @@
         "symbol": "R-50"
       },
       "mechanism": {
-        "path": ".editorconfig",
+        "path": "tests/phase1/ExemptionValidator.cs",
         "symbol": "R-50",
         "diagnostics": [],
         "severity": "error",
@@ -2089,13 +2089,13 @@
         "id": "R-50.positive",
         "rule": "R-50",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "tests/phase1/ExemptionTests.cs"
       },
       "negativeProof": {
         "id": "R-50.negative",
         "rule": "R-50",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "tests/phase1/ExemptionTests.cs"
       },
       "qualitativeReview": {
         "required": false,

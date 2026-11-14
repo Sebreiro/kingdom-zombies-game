@@ -154,6 +154,12 @@ internal static class SourceFileFormat
         }
     }
 
+    /// <summary>Returns the exact tracked project inventory for required source-policy checks.</summary>
+    internal static string[] ReadTrackedPaths()
+    {
+        return TrackedPaths();
+    }
+
     private static readonly IReadOnlyDictionary<string, string> _lockExemptions = new Dictionary<string, string>(
             comparer: StringComparer.Ordinal)
     {

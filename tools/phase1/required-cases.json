@@ -4452,7 +4452,7 @@
       "id": "R-50.positive",
       "group": "rules",
       "rule": "R-50",
-      "owner": "01-05..01-09",
+      "owner": "01-08",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -4462,14 +4462,16 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.ExemptionTests.Generate_ExactObservedPermissions_AcceptsOwnedSources",
+      "expectedDiagnostic": "EXEMPTIONS_EXACT"
     },
     {
       "id": "R-50.negative",
       "group": "rules",
       "rule": "R-50",
-      "owner": "01-05..01-09",
+      "owner": "01-08",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -4479,8 +4481,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.ExemptionTests.Generate_FakeSuffixOrMarker_RetainsExactDiagnostic",
+      "expectedDiagnostic": "FAKE_GENERATION_REJECTED"
     },
     {
       "id": "R-51.positive",
@@ -11567,6 +11571,96 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.ExemptionTests.Generate_ChangedProducerPayload_RejectsHash",
       "expectedDiagnostic": "XUNIT_PRODUCER_HASH_REJECTED"
+    },
+    {
+      "id": "rules.suppression-pragma",
+      "group": "rules",
+      "rule": "RULE-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "owner": "01-08",
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ExemptionTests.Suppress_UnregisteredPragma_ReportsExactLocation",
+      "expectedDiagnostic": "SUPPRESSION_UNREGISTERED"
+    },
+    {
+      "id": "rules.suppression-semantic",
+      "group": "rules",
+      "rule": "RULE-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "owner": "01-08",
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ExemptionTests.Suppress_AliasedOrUnconditionalAttribute_RejectsUndeclaredScope",
+      "expectedDiagnostic": "SUPPRESSION_SEMANTIC_EXACT"
+    },
+    {
+      "id": "rules.suppression-duplicate",
+      "group": "rules",
+      "rule": "RULE-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "owner": "01-08",
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ExemptionTests.Suppress_DuplicateObservedAttribute_RejectsOverlap",
+      "expectedDiagnostic": "SUPPRESSION_DUPLICATE"
+    },
+    {
+      "id": "rules.suppression-configuration",
+      "group": "rules",
+      "rule": "RULE-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "owner": "01-08",
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ExemptionTests.Configure_UndeclaredWeakening_RejectsExactSetting",
+      "expectedDiagnostic": "SUPPRESSION_CONFIG"
+    },
+    {
+      "id": "rules.suppression-effective",
+      "group": "rules",
+      "rule": "RULE-03",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "owner": "01-08",
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ExemptionTests.Evaluate_SuppressionPropertyOverrides_RejectsExactBypass",
+      "expectedDiagnostic": "SUPPRESSION_MSBUILD"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."
