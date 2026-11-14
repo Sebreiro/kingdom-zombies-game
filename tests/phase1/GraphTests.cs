@@ -191,6 +191,21 @@ public sealed class GraphTests
         ProofProtocol.Record(id: "ac-12.complete", diagnostic: "GRAPH_ALLOWED");
     }
 
+    /// <summary>Compiles real game composition through independent Core and service-port contracts.</summary>
+    [Fact, Trait("Case", "graph.allowed-composition")]
+    public void Build_ExplicitCoreAndPortComposition_Accepted()
+    {
+        var fixture = new GraphFixture();
+        fixture.Write(relative: "src/godot-game/CompositionProbe.cs", content: "using KingdomZombies.Core;\n"
+                + "using KingdomZombies.Multiplayer.Abstractions;\n\nnamespace Boundary;\n\n"
+                + "internal static class CompositionProbe\n{\n"
+                + "    internal static ProofValue Read(IProofService service, int value)\n    {\n"
+                + "        return new ProofValue(value: service.Echo(value: value));\n    }\n}\n");
+        fixture.Compile(project: ProjectEvaluator.Expected[2]);
+        ProjectEvaluator.Validate(root: fixture.Root).ShouldBeEmpty();
+        ProofProtocol.Record(id: "graph.allowed-composition", diagnostic: "GRAPH_ALLOWED", location: fixture.Root);
+    }
+
     /// <summary>Rejects absent and duplicated type selectors before any set conversion.</summary>
     [Fact, Trait("Case", "edge.rule-05.empty")]
     public void Inspect_AbsentAndDuplicateSelectors_ReportsMissingSubject()
@@ -249,6 +264,33 @@ public sealed class GraphTests
     public void Rule53_CompilerViolation_Rejected()
     {
         VerifyCompiler(id: "R-53.negative", negative: true);
+    }
+
+    /// <summary>Proves a real game reference cannot supply its undeclared engine dependency to Core.</summary>
+    [Fact, Trait("Case", "graph.transitive-compiler")]
+    public void Build_UndeclaredTransitiveEngineType_ReportsCs0012()
+    {
+        var fixture = new GraphFixture();
+        fixture.AddDirectEngineEdge();
+        string core = Path.Combine(path1: fixture.Root, path2: ProjectEvaluator.Expected[0]);
+        fixture.Write(relative: ProjectEvaluator.Expected[0], content: File.ReadAllText(path: core).Replace(
+                oldValue: "<ProjectReference Include=\"../godot-game/KingdomZombies.csproj\"/>",
+                newValue: "<Reference Include=\"KingdomZombies\"><HintPath>../godot-game/.godot/mono/temp/bin/Debug/"
+                        + "KingdomZombies.dll</HintPath></Reference>",
+                comparisonType: System.StringComparison.Ordinal));
+        fixture.Compile(project: ProjectEvaluator.Expected[0], restore: true);
+        fixture.Write(relative: "src/core/Subject.cs", content: "namespace KingdomZombies.Core;\n\n"
+                + "internal static class Subject\n{\n"
+                + "    internal static int Read(KingdomZombies.Proofs.Phase1 value)\n    {\n"
+                + "        return value.Name.ToString().Length;\n    }\n}\n");
+        (int Exit, string Output) built = fixture.Run("build", ProjectEvaluator.Expected[0], "--no-restore",
+                "--disable-build-servers", "-p:UseSharedCompilation=false", "-nodeReuse:false", "-p:NuGetAudit=false");
+        built.Exit.ShouldNotBe(expected: 0);
+        built.Output.ShouldContain(expected: "Subject.cs(7,22): error CS0012", customMessage: built.Output);
+        built.Output.ShouldContain(expected: "'GodotSharp, Version=4.7.2.0");
+        built.Output.ShouldNotContain(expected: "error MSB");
+        built.Output.ShouldNotContain(expected: "error NU");
+        ProofProtocol.Record(id: "graph.transitive-compiler", diagnostic: "CS0012", location: built.Output);
     }
 
     /// <summary>Exercises the real R-54 compliant boundary.</summary>
@@ -318,7 +360,7 @@ public sealed class GraphTests
     [Fact, Trait("Case", "R-59.negative")]
     public void Rule59_InfrastructureViolation_Rejected()
     {
-        BoundaryFixture.Provider(id: "R-59.negative", negative: true);
+        BoundaryFixture.CoreProvider(id: "R-59.negative");
     }
 
     /// <summary>Exercises the real R-60 compliant boundary.</summary>
@@ -420,6 +462,12 @@ public sealed class GraphTests
             ProjectEvaluator.Validate(root: fixture.Root).ShouldNotBeEmpty();
         }
 
+        File.WriteAllText(path: path, contents: original);
+        string core = Path.Combine(path1: fixture.Root, path2: ProjectEvaluator.Expected[0]);
+        File.Move(sourceFileName: core, destFileName: core + ".missing");
+        ProjectEvaluator.Validate(root: fixture.Root).ShouldContain(elementPredicate: error => error.StartsWith(
+                value: "GRAPH_MISSING", comparisonType: System.StringComparison.Ordinal));
+
         ProofProtocol.Record(id: "graph.policy-selectors", diagnostic: "SUBJECT_REQUIRED", location: path);
     }
 
@@ -435,6 +483,20 @@ public sealed class GraphTests
         string ports = "../multiplayer-abstractions/KingdomZombies.Multiplayer.Abstractions.csproj";
         File.WriteAllText(path: core, contents: File.ReadAllText(path: core).Replace(oldValue: game + ";" + ports,
                 newValue: ports + ";" + game, comparisonType: System.StringComparison.Ordinal));
+        string path = Path.Combine(path1: fixture.Root, path2: "tools/phase1/projects.json");
+        System.Text.Json.Nodes.JsonObject policy = System.Text.Json.Nodes.JsonNode.Parse(json:
+                File.ReadAllText(path: path))?.AsObject()
+                ?? throw new InvalidDataException(message: "Missing policy");
+        System.Text.Json.Nodes.JsonArray projects = policy["projects"]?.AsArray()
+                ?? throw new InvalidDataException(message: "Missing projects");
+        var reversed = new System.Text.Json.Nodes.JsonArray();
+        foreach (System.Text.Json.Nodes.JsonNode? project in System.Linq.Enumerable.Reverse(source: projects))
+        {
+            reversed.Add(item: project?.DeepClone());
+        }
+
+        policy["projects"] = reversed;
+        File.WriteAllText(path: path, contents: policy.ToJsonString());
         fixture.Compile(project: ProjectEvaluator.Expected[0]);
         ProjectEvaluator.Validate(root: fixture.Root).ShouldBe(expected: before);
         string assembly = Path.Combine(path1: ProofProtocol.Root,
@@ -548,9 +610,8 @@ public sealed class GraphTests
                     newValue: "return typeof(Godot.Vector2).Name.Length;",
                     comparisonType: System.StringComparison.Ordinal));
             (int Exit, string Output) changed = fixture.Build();
-            changed.Exit.ShouldNotBe(expected: 0);
-            changed.Output.ShouldContain(expected: "error CS0246", customMessage: changed.Output);
-            changed.Output.ShouldContain(expected: "Subject.cs");
+            BuildFixture.HasDiagnostic(result: changed, id: "CS0246", line: 8, column: 23)
+                    .ShouldBeTrue(customMessage: changed.Output);
         }
 
         ProofProtocol.Record(id: id, diagnostic: negative ? "CS0246" : "COMPILER_ALLOWED",

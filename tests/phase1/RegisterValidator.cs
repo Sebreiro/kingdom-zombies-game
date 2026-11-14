@@ -82,6 +82,31 @@ public static class RegisterValidator
         ["R-37"] = "BodyLength",
         ["R-38"] = "NamedArgument",
     };
+    private static readonly Dictionary<string, (string File, string Symbol)> _architecture = new(
+            comparer: StringComparer.Ordinal)
+    {
+        ["R-34"] = ("ArchitecturePolicy", "Visibility"),
+        ["R-51"] = ("ProjectEvaluator", "Validate"),
+        ["R-52"] = ("ProjectEvaluator", "Validate"),
+        ["R-53"] = ("GraphTests", "VerifyCompiler"),
+        ["R-54"] = ("ProjectEvaluator", "Validate"),
+        ["R-55"] = ("TypeBoundaryScanner", "Validate"),
+        ["R-56"] = ("TypeBoundaryScanner", "Validate"),
+        ["R-58"] = ("TypeBoundaryScanner", "Validate"),
+        ["R-59"] = ("TypeBoundaryScanner", "Validate"),
+        ["R-60"] = ("ArchitecturePolicy", "ServiceLocator"),
+        ["R-61"] = ("TypeBoundaryScanner", "Validate"),
+        ["R-62"] = ("TypeBoundaryScanner", "Validate"),
+        ["R-63"] = ("ArchitecturePolicy", "Model"),
+        ["R-64"] = ("ArchitecturePolicy", "Model"),
+        ["R-65"] = ("ArchitecturePolicy", "Mapping"),
+        ["R-66"] = ("ArchitecturePolicy", "Version"),
+        ["R-74"] = ("ArchitecturePolicy", "Enum"),
+        ["R-75"] = ("ArchitecturePolicy", "Enum"),
+        ["R-77"] = ("ArchitecturePolicy", "Enum"),
+        ["R-78"] = ("TypeBoundaryScanner", "Validate"),
+        ["R-81"] = ("ArchitecturePolicy", "Model"),
+    };
     private static void CheckProperties(JsonElement element)
     {
         if (element.ValueKind == JsonValueKind.Object)
@@ -111,6 +136,11 @@ public static class RegisterValidator
         if (_analyzers.TryGetValue(key: id, value: out string? name))
         {
             return "tools/code-rules/" + name + "Analyzer.cs";
+        }
+
+        if (_architecture.TryGetValue(key: id, value: out (string File, string Symbol) actual))
+        {
+            return "tests/phase1/" + actual.File + ".cs";
         }
 
         int number = int.Parse(s: id[2..], provider: System.Globalization.CultureInfo.InvariantCulture);
@@ -252,7 +282,8 @@ public static class RegisterValidator
         else
         {
             string expectedSymbol = _analyzers.TryGetValue(key: id, value: out string? analyzerName)
-                    ? analyzerName + "Analyzer" : id;
+                    ? analyzerName + "Analyzer" : _architecture.TryGetValue(key: id,
+                            value: out (string File, string Symbol) actual) ? actual.Symbol : id;
             if (!StringComparer.Ordinal.Equals(x: Text(node: mechanism["path"]), y: ExpectedMechanism(id: id))
                     || !StringComparer.Ordinal.Equals(x: Text(node: mechanism["symbol"]), y: expectedSymbol))
             {
@@ -320,6 +351,8 @@ public static class RegisterValidator
             string expectedProof = _analyzers.TryGetValue(key: id, value: out string? analyzer)
                     ? "tests/phase1/Analyzers/" + analyzer + "AnalyzerTests.cs" : number switch
                     {
+                        34 or 63 or 64 or 65 or 66 or 74 or 75 or 77 or 81 => "tests/phase1/ArchitectureRuleTests.cs",
+                        >= 51 and <= 62 or 78 => "tests/phase1/GraphTests.cs",
                         >= 68 and <= 78 => "tests/phase1/SnapshotTests.cs",
                         48 => "tests/phase1/TestMethodNameTests.cs",
                         50 => "tests/phase1/ExemptionTests.cs",

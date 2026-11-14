@@ -9,6 +9,32 @@ namespace KingdomZombies.Phase1.Tests;
 /// <summary>Builds isolated port, provider and service-locator subjects under the real inherited policy.</summary>
 internal static class BoundaryFixture
 {
+    /// <summary>Rejects a real concrete provider type referenced from compiled Core.</summary>
+    internal static void CoreProvider(string id)
+    {
+        var fixture = new GraphFixture();
+        const string Provider = "src/provider/Provider.csproj";
+        fixture.Write(relative: Provider, content: "<Project Sdk=\"Microsoft.NET.Sdk\"><PropertyGroup>"
+                + "<TargetFramework>net10.0</TargetFramework><AssemblyName>KingdomZombies.Provider</AssemblyName>"
+                + "</PropertyGroup></Project>\n");
+        fixture.Write(relative: "src/provider/Provider.cs", content: "namespace Boundary;\n\n"
+                + "/// <summary>Concrete isolated provider probe.</summary>\npublic sealed class Provider\n{\n}\n");
+        fixture.Compile(project: Provider, restore: true);
+        fixture.Append(project: ProjectEvaluator.Expected[0], xml: "<ItemGroup><ProjectReference Include=\""
+                + "../provider/Provider.csproj\"/></ItemGroup>");
+        fixture.Write(relative: "src/core/Subject.cs", content: BuildFixture.CleanSource.Replace(oldValue:
+                "return 1;", newValue: "return typeof(Boundary.Provider).Name.Length;",
+                comparisonType: StringComparison.Ordinal));
+        fixture.Compile(project: ProjectEvaluator.Expected[0], restore: true);
+        string[] errors = [..TypeBoundaryScanner.Validate(assembly: Path.Combine(path1: fixture.Root,
+                path2: "src/core/bin/Debug/net10.0/KingdomZombies.Core.dll"),
+                expectedType: "KingdomZombies.Core.ProofValue", boundary: "core")];
+        errors.ShouldContain(elementPredicate: error => error.Contains(value: "KingdomZombies.Provider",
+                comparisonType: StringComparison.Ordinal));
+        ProofProtocol.Record(id: id, diagnostic: "TYPE_FORBIDDEN",
+                location: string.Join(separator: "\n", values: errors));
+    }
+
     /// <summary>Compiles an isolated provider and checks its explicitly limited edges.</summary>
     internal static void Provider(string id, bool negative, bool reusable = false)
     {
@@ -45,18 +71,19 @@ internal static class BoundaryFixture
         string[] errors = [..TypeBoundaryScanner.Validate(assembly: Path.Combine(path1: fixture.Root,
                 path2: "src/provider/bin/Debug/net10.0/" + name + ".dll"), expectedType: "Boundary.Provider",
                 boundary: reusable ? "analyzer" : "provider")];
+        string[] graph = [.. ProjectEvaluator.ValidateProvider(root: fixture.Root, project: project,
+                reusable: reusable)];
         if (negative)
         {
             errors.ShouldContain(elementPredicate: error => error.StartsWith(value: "TYPE_FORBIDDEN",
+                    comparisonType: StringComparison.Ordinal));
+            graph.ShouldContain(elementPredicate: error => error.StartsWith(value: "GRAPH_FORBIDDEN",
                     comparisonType: StringComparison.Ordinal));
         }
         else
         {
             errors.ShouldBeEmpty();
-            if (!reusable)
-            {
-                ProjectEvaluator.ValidateProvider(root: fixture.Root, project: project).ShouldBeEmpty();
-            }
+            graph.ShouldBeEmpty();
         }
 
         ProofProtocol.Record(id: id, diagnostic: negative ? "TYPE_FORBIDDEN" : "BOUNDARY_ALLOWED",

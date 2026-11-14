@@ -1837,7 +1837,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Evaluate_DeclaredProjectsAndTypes_Accepted",
+      "expectedDiagnostic": "GRAPH_ALLOWED"
     },
     {
       "id": "ac-13.complete",
@@ -1853,7 +1855,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Inspect_CoreEngineType_ReportsCompiledLeak",
+      "expectedDiagnostic": "TYPE_FORBIDDEN"
     },
     {
       "id": "ac-14.complete",
@@ -2389,7 +2393,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Evaluate_AnalyzerAssemblyReference_ReportsForbidden",
+      "expectedDiagnostic": "GRAPH_FORBIDDEN"
     },
     {
       "id": "edge.rule-05.empty",
@@ -2405,7 +2411,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Inspect_AbsentAndDuplicateSelectors_ReportsMissingSubject",
+      "expectedDiagnostic": "SUBJECT_REQUIRED"
     },
     {
       "id": "edge.rule-05.ordering",
@@ -2421,7 +2429,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Evaluate_PermutedReferences_PreservesVerdict",
+      "expectedDiagnostic": "ORDER_INDEPENDENT"
     },
     {
       "id": "edge.rule-06.adjacency",
@@ -3899,8 +3909,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule34_DeclaredVisibility_Accepted",
+      "expectedDiagnostic": "VISIBILITY_ALLOWED"
     },
     {
       "id": "R-34.negative",
@@ -3916,8 +3928,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule34_AdjacentPublicModel_Rejected",
+      "expectedDiagnostic": "R-34"
     },
     {
       "id": "R-35.positive",
@@ -4518,8 +4532,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Rule51_GraphControl_Accepted",
+      "expectedDiagnostic": "BOUNDARY_ALLOWED"
     },
     {
       "id": "R-51.negative",
@@ -4535,8 +4551,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Rule51_GraphViolation_Rejected",
+      "expectedDiagnostic": "GRAPH_FORBIDDEN"
     },
     {
       "id": "R-52.positive",
@@ -4552,8 +4570,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Rule52_OutputControl_Accepted",
+      "expectedDiagnostic": "BOUNDARY_ALLOWED"
     },
     {
       "id": "R-52.negative",
@@ -4569,8 +4589,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Evaluate_CoreExecutable_ReportsOutputKind",
+      "expectedDiagnostic": "GRAPH_OUTPUT_KIND"
     },
     {
       "id": "R-53.positive",
@@ -4586,8 +4608,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Rule53_CompilerControl_Accepted",
+      "expectedDiagnostic": "COMPILER_ALLOWED"
     },
     {
       "id": "R-53.negative",
@@ -4603,8 +4627,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Rule53_CompilerViolation_Rejected",
+      "expectedDiagnostic": "CS0246"
     },
     {
       "id": "R-54.positive",
@@ -4620,8 +4646,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Rule54_AnalyzerControl_Accepted",
+      "expectedDiagnostic": "BOUNDARY_ALLOWED"
     },
     {
       "id": "R-54.negative",
@@ -4637,8 +4665,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Rule54_AnalyzerViolation_Rejected",
+      "expectedDiagnostic": "GRAPH_FORBIDDEN"
     },
     {
       "id": "R-55.positive",
@@ -4654,8 +4684,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Rule55_PortsControl_Accepted",
+      "expectedDiagnostic": "BOUNDARY_ALLOWED"
     },
     {
       "id": "R-55.negative",
@@ -4671,8 +4703,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Rule55_PortsViolation_Rejected",
+      "expectedDiagnostic": "TYPE_FORBIDDEN"
     },
     {
       "id": "R-56.positive",
@@ -4688,8 +4722,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Rule56_ContractControl_Accepted",
+      "expectedDiagnostic": "BOUNDARY_ALLOWED"
     },
     {
       "id": "R-56.negative",
@@ -4705,8 +4741,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Rule56_ContractViolation_Rejected",
+      "expectedDiagnostic": "TYPE_FORBIDDEN"
     },
     {
       "id": "R-57.register-resolution",
@@ -4741,8 +4779,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Rule58_PurityControl_Accepted",
+      "expectedDiagnostic": "BOUNDARY_ALLOWED"
     },
     {
       "id": "R-58.negative",
@@ -4758,8 +4798,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Rule58_PurityViolation_Rejected",
+      "expectedDiagnostic": "TYPE_FORBIDDEN"
     },
     {
       "id": "R-59.positive",
@@ -4775,8 +4817,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Rule59_InfrastructureControl_Accepted",
+      "expectedDiagnostic": "BOUNDARY_ALLOWED"
     },
     {
       "id": "R-59.negative",
@@ -4792,8 +4836,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Rule59_InfrastructureViolation_Rejected",
+      "expectedDiagnostic": "TYPE_FORBIDDEN"
     },
     {
       "id": "R-60.positive",
@@ -4809,8 +4855,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Rule60_LocatorControl_Accepted",
+      "expectedDiagnostic": "COMPOSITION_ALLOWED"
     },
     {
       "id": "R-60.negative",
@@ -4826,8 +4874,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Rule60_LocatorViolation_Rejected",
+      "expectedDiagnostic": "R-60"
     },
     {
       "id": "R-61.positive",
@@ -4843,8 +4893,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Rule61_ProviderControl_Accepted",
+      "expectedDiagnostic": "BOUNDARY_ALLOWED"
     },
     {
       "id": "R-61.negative",
@@ -4860,8 +4912,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Rule61_ProviderViolation_Rejected",
+      "expectedDiagnostic": "TYPE_FORBIDDEN"
     },
     {
       "id": "R-62.positive",
@@ -4877,8 +4931,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Rule62_ReusableControl_Accepted",
+      "expectedDiagnostic": "BOUNDARY_ALLOWED"
     },
     {
       "id": "R-62.negative",
@@ -4894,8 +4950,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Rule62_ReusableViolation_Rejected",
+      "expectedDiagnostic": "TYPE_FORBIDDEN"
     },
     {
       "id": "R-63.positive",
@@ -4911,8 +4969,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule63_CompliantModel_Accepted",
+      "expectedDiagnostic": "STRUCTURE_ALLOWED"
     },
     {
       "id": "R-63.negative",
@@ -4928,8 +4988,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule63_ViolatingModel_Rejected",
+      "expectedDiagnostic": "R-63"
     },
     {
       "id": "R-64.positive",
@@ -4945,8 +5007,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule64_CompliantModel_Accepted",
+      "expectedDiagnostic": "STRUCTURE_ALLOWED"
     },
     {
       "id": "R-64.negative",
@@ -4962,8 +5026,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule64_ViolatingModel_Rejected",
+      "expectedDiagnostic": "R-64"
     },
     {
       "id": "R-65.positive",
@@ -4979,8 +5045,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule65_CompliantModel_Accepted",
+      "expectedDiagnostic": "STRUCTURE_ALLOWED"
     },
     {
       "id": "R-65.negative",
@@ -4996,8 +5064,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule65_ViolatingModel_Rejected",
+      "expectedDiagnostic": "R-65"
     },
     {
       "id": "R-66.positive",
@@ -5013,8 +5083,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule66_CompliantModel_Accepted",
+      "expectedDiagnostic": "STRUCTURE_ALLOWED"
     },
     {
       "id": "R-66.negative",
@@ -5030,8 +5102,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule66_ViolatingModel_Rejected",
+      "expectedDiagnostic": "R-66"
     },
     {
       "id": "R-67.positive",
@@ -5285,8 +5359,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule74_CompliantModel_Accepted",
+      "expectedDiagnostic": "STRUCTURE_ALLOWED"
     },
     {
       "id": "R-74.negative",
@@ -5302,8 +5378,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule74_ViolatingModel_Rejected",
+      "expectedDiagnostic": "R-74"
     },
     {
       "id": "R-75.positive",
@@ -5319,8 +5397,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule75_CompliantModel_Accepted",
+      "expectedDiagnostic": "STRUCTURE_ALLOWED"
     },
     {
       "id": "R-75.negative",
@@ -5336,8 +5416,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule75_ViolatingModel_Rejected",
+      "expectedDiagnostic": "R-75"
     },
     {
       "id": "R-76.register-resolution",
@@ -5372,8 +5454,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule77_CompliantModel_Accepted",
+      "expectedDiagnostic": "STRUCTURE_ALLOWED"
     },
     {
       "id": "R-77.negative",
@@ -5389,8 +5473,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule77_ViolatingModel_Rejected",
+      "expectedDiagnostic": "R-77"
     },
     {
       "id": "R-78.positive",
@@ -5406,8 +5492,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Rule78_EnumBoundaryControl_Accepted",
+      "expectedDiagnostic": "BOUNDARY_ALLOWED"
     },
     {
       "id": "R-78.negative",
@@ -5423,8 +5511,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Rule78_EnumBoundaryViolation_Rejected",
+      "expectedDiagnostic": "TYPE_FORBIDDEN"
     },
     {
       "id": "R-79.register-resolution",
@@ -5478,8 +5568,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule81_CompliantModel_Accepted",
+      "expectedDiagnostic": "STRUCTURE_ALLOWED"
     },
     {
       "id": "R-81.negative",
@@ -5495,8 +5587,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule81_ViolatingModel_Rejected",
+      "expectedDiagnostic": "R-81"
     },
     {
       "id": "R-82.positive",
@@ -11859,6 +11953,366 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.GraphTests.Evaluate_CoreEngineReference_ReportsForbiddenEdge",
       "expectedDiagnostic": "GRAPH_FORBIDDEN"
+    },
+    {
+      "id": "graph.props",
+      "group": "graph",
+      "rule": "RULE-05",
+      "owner": "01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Evaluate_PropsReference_ReportsBoundary",
+      "expectedDiagnostic": "GRAPH_FORBIDDEN"
+    },
+    {
+      "id": "graph.targets",
+      "group": "graph",
+      "rule": "RULE-05",
+      "owner": "01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Evaluate_TargetsReference_ReportsBoundary",
+      "expectedDiagnostic": "GRAPH_FORBIDDEN"
+    },
+    {
+      "id": "graph.wildcard",
+      "group": "graph",
+      "rule": "RULE-05",
+      "owner": "01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Evaluate_WildcardReference_ReportsBoundary",
+      "expectedDiagnostic": "GRAPH_FORBIDDEN"
+    },
+    {
+      "id": "graph.semicolon",
+      "group": "graph",
+      "rule": "RULE-05",
+      "owner": "01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Evaluate_SemicolonReference_ReportsBoundary",
+      "expectedDiagnostic": "GRAPH_FORBIDDEN"
+    },
+    {
+      "id": "graph.transitive",
+      "group": "graph",
+      "rule": "RULE-05",
+      "owner": "01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Evaluate_TransitiveReference_ReportsBoundary",
+      "expectedDiagnostic": "GRAPH_FORBIDDEN"
+    },
+    {
+      "id": "graph.undeclared",
+      "group": "graph",
+      "rule": "RULE-05",
+      "owner": "01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Evaluate_UndeclaredReference_ReportsBoundary",
+      "expectedDiagnostic": "GRAPH_FORBIDDEN"
+    },
+    {
+      "id": "graph.duplicate",
+      "group": "graph",
+      "rule": "RULE-05",
+      "owner": "01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Evaluate_DuplicateReference_ReportsBoundary",
+      "expectedDiagnostic": "GRAPH_FORBIDDEN"
+    },
+    {
+      "id": "graph.type-base",
+      "group": "graph",
+      "rule": "RULE-05",
+      "owner": "01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Inspect_BaseLeak_ReportsCompiledBoundary",
+      "expectedDiagnostic": "TYPE_FORBIDDEN"
+    },
+    {
+      "id": "graph.type-interface",
+      "group": "graph",
+      "rule": "RULE-05",
+      "owner": "01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Inspect_InterfaceLeak_ReportsCompiledBoundary",
+      "expectedDiagnostic": "TYPE_FORBIDDEN"
+    },
+    {
+      "id": "graph.type-generic",
+      "group": "graph",
+      "rule": "RULE-05",
+      "owner": "01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Inspect_GenericLeak_ReportsCompiledBoundary",
+      "expectedDiagnostic": "TYPE_FORBIDDEN"
+    },
+    {
+      "id": "graph.type-attribute",
+      "group": "graph",
+      "rule": "RULE-05",
+      "owner": "01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Inspect_AttributeLeak_ReportsCompiledBoundary",
+      "expectedDiagnostic": "TYPE_FORBIDDEN"
+    },
+    {
+      "id": "graph.type-signature",
+      "group": "graph",
+      "rule": "RULE-05",
+      "owner": "01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Inspect_SignatureLeak_ReportsCompiledBoundary",
+      "expectedDiagnostic": "TYPE_FORBIDDEN"
+    },
+    {
+      "id": "graph.type-field",
+      "group": "graph",
+      "rule": "RULE-05",
+      "owner": "01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Inspect_FieldLeak_ReportsCompiledBoundary",
+      "expectedDiagnostic": "TYPE_FORBIDDEN"
+    },
+    {
+      "id": "graph.type-body",
+      "group": "graph",
+      "rule": "RULE-05",
+      "owner": "01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Inspect_BodyLeak_ReportsCompiledBoundary",
+      "expectedDiagnostic": "TYPE_FORBIDDEN"
+    },
+    {
+      "id": "graph.type-lambda",
+      "group": "graph",
+      "rule": "RULE-05",
+      "owner": "01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Inspect_LambdaLeak_ReportsCompiledBoundary",
+      "expectedDiagnostic": "TYPE_FORBIDDEN"
+    },
+    {
+      "id": "graph.type-async",
+      "group": "graph",
+      "rule": "RULE-05",
+      "owner": "01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Inspect_AsyncLeak_ReportsCompiledBoundary",
+      "expectedDiagnostic": "TYPE_FORBIDDEN"
+    },
+    {
+      "id": "graph.type-iterator",
+      "group": "graph",
+      "rule": "RULE-05",
+      "owner": "01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Inspect_IteratorLeak_ReportsCompiledBoundary",
+      "expectedDiagnostic": "TYPE_FORBIDDEN"
+    },
+    {
+      "id": "graph.policy-selectors",
+      "group": "graph",
+      "rule": "RULE-05",
+      "owner": "01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Evaluate_MalformedPolicySelectors_ReportsRequired",
+      "expectedDiagnostic": "SUBJECT_REQUIRED"
+    },
+    {
+      "id": "graph.allowed-composition",
+      "group": "graph",
+      "rule": "RULE-05",
+      "owner": "01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Build_ExplicitCoreAndPortComposition_Accepted",
+      "expectedDiagnostic": "GRAPH_ALLOWED"
+    },
+    {
+      "id": "graph.transitive-compiler",
+      "group": "graph",
+      "rule": "R-53",
+      "owner": "01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Build_UndeclaredTransitiveEngineType_ReportsCs0012",
+      "expectedDiagnostic": "CS0012"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."

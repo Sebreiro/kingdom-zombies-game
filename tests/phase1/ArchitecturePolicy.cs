@@ -25,7 +25,12 @@ internal static class ArchitecturePolicy
                 ?? throw new InvalidDataException(message: "VISIBILITY_REGISTRY: missing permissions");
         string[] permissions = [..rows.Select(selector: row => row?["path"]?.GetValue<string>() + "|"
                 + row?["type"]?.GetValue<string>())];
-        if (registry["schemaVersion"]?.GetValue<int>() != 1 || registry["rule"]?.GetValue<string>() is not "R-34"
+        if (registry.Count != 5 || registry["schemaVersion"]?.GetValue<int>() != 1
+                || registry["rule"]?.GetValue<string>() is not "R-34"
+                || registry["positiveProof"]?.GetValue<string>() is not "R-34.positive"
+                || registry["negativeProof"]?.GetValue<string>() is not "R-34.negative"
+                || rows.Any(predicate: row => row?.AsObject().Count != 3 || string.IsNullOrWhiteSpace(
+                        value: row?["reason"]?.GetValue<string>()))
                 || permissions.Length != expected.Length || permissions.Distinct(comparer: StringComparer.Ordinal)
                         .Count() != permissions.Length || !permissions.Order(comparer: StringComparer.Ordinal)
                                 .SequenceEqual(second: expected.Order(comparer: StringComparer.Ordinal),

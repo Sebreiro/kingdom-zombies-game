@@ -28,17 +28,31 @@ internal static class ProjectEvaluator
     }
 
     /// <summary>Checks an isolated provider's declared ports-only inspection boundary.</summary>
-    internal static IReadOnlyList<string> ValidateProvider(string root, string project)
+    internal static IReadOnlyList<string> ValidateProvider(string root, string project, bool reusable = false)
     {
         var errors = new List<string>();
         var policy = new Dictionary<string, string[]>(comparer: StringComparer.Ordinal)
         {
-            [project] = [_expected[1]],
+            [project] = reusable ? [] : [_expected[1]],
             [_expected[1]] = [],
             [Analyzer] = []
         };
         Visit(root: root, project: project, policy: policy,
                 visited: new HashSet<string>(comparer: StringComparer.Ordinal), errors: errors);
+        if (reusable)
+        {
+            (int Exit, string Output) query = GraphFixture.RunAt(root: root,
+                    arguments: ["msbuild", project, "-nologo", "-getItem:PackageReference"]);
+            if (query.Exit != 0)
+            {
+                throw new InvalidDataException(message: "GRAPH_INFRASTRUCTURE: " + query.Output);
+            }
+
+            JsonObject evaluation = JsonNode.Parse(json: query.Output)?.AsObject()
+                    ?? throw new InvalidDataException(message: "GRAPH_INFRASTRUCTURE: missing package evaluation");
+            CheckPackages(project: project, evaluation: evaluation, errors: errors, productAgnostic: true);
+        }
+
         return errors.Order(comparer: StringComparer.Ordinal).ToArray();
     }
 
@@ -59,6 +73,11 @@ internal static class ProjectEvaluator
     private static Dictionary<string, string[]> ReadPolicy(string root, List<string> errors)
     {
         string path = Path.Combine(path1: root, path2: "tools/phase1/projects.json");
+        if (new FileInfo(fileName: path).Length is 0 or > 32768)
+        {
+            throw new InvalidDataException(message: "GRAPH_POLICY: bounded nonempty policy required " + path);
+        }
+
         JsonObject document = JsonNode.Parse(json: File.ReadAllText(path: path))?.AsObject()
                 ?? throw new InvalidDataException(message: "GRAPH_POLICY: missing object " + path);
         if (document.Count != 2 || document["schemaVersion"]?.GetValue<int>() != 1)
@@ -267,12 +286,20 @@ internal static class ProjectEvaluator
         Visit(root: root, project: target, policy: policy, visited: visited, errors: errors);
     }
 
-    private static void CheckPackages(string project, JsonObject evaluation, List<string> errors)
+    private static void CheckPackages(string project, JsonObject evaluation, List<string> errors,
+            bool productAgnostic = false)
     {
         var seen = new HashSet<string>(comparer: StringComparer.Ordinal);
         foreach (JsonNode? package in evaluation["Items"]?["PackageReference"]?.AsArray() ?? [])
         {
             string identity = package?["Identity"]?.GetValue<string>() ?? "";
+            if ((productAgnostic || StringComparer.Ordinal.Equals(x: project, y: Analyzer))
+                    && identity.Contains(value: "KingdomZombies",
+                            comparisonType: StringComparison.OrdinalIgnoreCase))
+            {
+                errors.Add(item: "GRAPH_PACKAGE: reusable analyzer product dependency " + identity);
+            }
+
             if (!seen.Add(item: identity))
             {
                 errors.Add(item: "GRAPH_DUPLICATE: " + project + " package " + identity);
