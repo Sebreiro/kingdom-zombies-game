@@ -2847,8 +2847,8 @@
     {
       "sourceId": "R-70",
       "disposition": "adapted",
-      "reason": "Declare snapshot unknown/null policy; document any divergence from permissive HTTP defaults.",
-      "adaptationReason": "Declare snapshot unknown/null policy; document any divergence from permissive HTTP defaults.",
+      "reason": "Strict internal authoritative snapshots reject unknown fields and null/absent required values, diverging from permissive HTTP defaults to prevent silent data loss or hidden winners before atomic replacement.",
+      "adaptationReason": "Strict internal authoritative snapshots reject unknown fields and null/absent required values, diverging from permissive HTTP defaults to prevent silent data loss or hidden winners before atomic replacement.",
       "headingRefs": [
         "src/backend/docs/CodeRules/code-architecture.md:315"
       ],
@@ -2863,7 +2863,7 @@
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Detached authoritative state/snapshot examples; no HTTP or database settings",
+      "scope": "Schema-1 Phase1 internal detached state only; SnapshotJson.Fields/Text/Collection plus R-70 positive/negative proofs; no HTTP settings or production save system",
       "exemptions": [],
       "positiveProof": {
         "id": "R-70.positive",

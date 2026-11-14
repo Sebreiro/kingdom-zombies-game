@@ -212,12 +212,12 @@ public sealed class ArchitectureRuleTests
 
     private static void VerifyProduction(string rule, bool negative)
     {
-        if (rule is not ("R-63" or "R-74" or "R-75" or "R-77"))
+        if (rule is not ("R-63" or "R-64" or "R-74" or "R-75" or "R-77"))
         {
             return;
         }
 
-        string type = rule is "R-63" ? "ExampleState" : "ProofKind";
+        string type = rule switch { "R-63" => "ExampleState", "R-64" => "SnapshotDto", _ => "ProofKind" };
         string path = "src/core/" + type + ".cs";
         string source = File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: path));
         if (negative)
@@ -225,6 +225,8 @@ public sealed class ArchitectureRuleTests
             source = rule switch
             {
                 "R-63" => source.Replace(oldValue: "{ get; }", newValue: "{ get; set; }",
+                        comparisonType: StringComparison.Ordinal),
+                "R-64" => source.Replace(oldValue: "{ get; }", newValue: "{ get; set; }",
                         comparisonType: StringComparison.Ordinal),
                 "R-74" => source.Replace(oldValue: "Unknown = 0", newValue: "Unknown = -1",
                         comparisonType: StringComparison.Ordinal),
@@ -241,7 +243,7 @@ public sealed class ArchitectureRuleTests
         }
 
         string selector = "KingdomZombies.Core." + type;
-        IReadOnlyList<string> errors = rule is "R-63" ? ArchitecturePolicy.Model(source: source,
+        IReadOnlyList<string> errors = rule is "R-63" or "R-64" ? ArchitecturePolicy.Model(source: source,
                 selector: selector, rule: rule) : ArchitecturePolicy.Enum(source: source,
                         selector: selector, rule: rule);
         if (negative)

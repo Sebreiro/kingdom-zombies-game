@@ -11,11 +11,13 @@ internal sealed class ExampleState
 {
     /// <summary>Initializes explicit time, sequence and keyed values.</summary>
     internal ExampleState(long elapsedMilliseconds, IReadOnlyList<StableIdentity> ordered,
-            IEnumerable<KeyValuePair<StableIdentity, long>> records, ProofKind kind = ProofKind.Sample)
+            IEnumerable<KeyValuePair<StableIdentity, long>> records, ProofKind kind = ProofKind.Sample,
+            int seed = 0, long drawPosition = 0, string randomContractVersion = ReplayRandom.PinnedRuntimeContract)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(value: elapsedMilliseconds);
         ArgumentNullException.ThrowIfNull(argument: ordered);
         ArgumentNullException.ThrowIfNull(argument: records);
+        ValidateRandom(drawPosition: drawPosition, randomContractVersion: randomContractVersion);
         if (kind is not ProofKind.Sample)
         {
             throw new ArgumentOutOfRangeException(paramName: nameof(kind), message: "STATE_KIND: Sample required");
@@ -28,6 +30,9 @@ internal sealed class ExampleState
         Ordered = Array.AsReadOnly(array: sequence);
         Records = new ReadOnlyDictionary<StableIdentity, long>(dictionary: values);
         Kind = kind;
+        Seed = seed;
+        DrawPosition = drawPosition;
+        RandomContractVersion = randomContractVersion;
     }
 
     /// <summary>Gets the exact integer elapsed total.</summary>
@@ -38,6 +43,12 @@ internal sealed class ExampleState
     internal IReadOnlyDictionary<StableIdentity, long> Records { get; }
     /// <summary>Gets the explicit supported proof-state kind.</summary>
     internal ProofKind Kind { get; }
+    /// <summary>Gets the persisted explicit seed.</summary>
+    internal int Seed { get; }
+    /// <summary>Gets the accepted continuation position.</summary>
+    internal long DrawPosition { get; }
+    /// <summary>Gets the exact runtime operation contract.</summary>
+    internal string RandomContractVersion { get; }
 
     /// <summary>Advances through explicit controlled inputs.</summary>
     internal ExampleState Advance(IElapsedInput elapsed, IRandomInput random)
@@ -65,7 +76,9 @@ internal sealed class ExampleState
             values[Ordered[0]] = draw;
         }
 
-        return new ExampleState(elapsedMilliseconds: total, ordered: Ordered, records: values, kind: Kind);
+        return new ExampleState(elapsedMilliseconds: total, ordered: Ordered, records: values, kind: Kind,
+                seed: random is ReplayRandom replay ? replay.Seed : Seed, drawPosition: random.DrawPosition,
+                randomContractVersion: RandomContractVersion);
     }
 
     /// <summary>Parses the integer-only input boundary without floating point or culture-dependent rounding.</summary>
@@ -88,6 +101,12 @@ internal sealed class ExampleState
         var values = new Dictionary<StableIdentity, long>();
         foreach (KeyValuePair<StableIdentity, long> record in records)
         {
+            if (values.Count == SnapshotCodec.MaxRecords)
+            {
+                throw new ArgumentException(message: "SNAPSHOT_RECORD_LIMIT: at most 1024 records",
+                        paramName: nameof(records));
+            }
+
             ArgumentNullException.ThrowIfNull(argument: record.Key, paramName: nameof(records));
             ArgumentOutOfRangeException.ThrowIfNegative(value: record.Value, paramName: nameof(records));
             if (!values.TryAdd(key: record.Key, value: record.Value))
@@ -98,6 +117,17 @@ internal sealed class ExampleState
         }
 
         return values;
+    }
+
+    private static void ValidateRandom(long drawPosition, string randomContractVersion)
+    {
+        ArgumentOutOfRangeException.ThrowIfNegative(value: drawPosition);
+        ArgumentOutOfRangeException.ThrowIfGreaterThan(value: drawPosition, other: ReplayRandom.MaxDrawPosition);
+        if (!StringComparer.Ordinal.Equals(x: randomContractVersion, y: ReplayRandom.PinnedRuntimeContract))
+        {
+            throw new ArgumentException(message: "RANDOM_CONTRACT: pinned version required",
+                    paramName: nameof(randomContractVersion));
+        }
     }
 
     private static void ValidateOrder(StableIdentity[] ordered, Dictionary<StableIdentity, long> records)

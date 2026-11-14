@@ -1973,7 +1973,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.SnapshotTests.Acceptance_ExactState_PreservesContinuation",
+      "expectedDiagnostic": "EXACT_SNAPSHOT_CONTINUATION"
     },
     {
       "id": "ac-21.complete",
@@ -1989,7 +1991,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.SnapshotTests.Acceptance_RequiredFields_RejectsMissingAndNull",
+      "expectedDiagnostic": "REQUIRED_SNAPSHOT_REJECTED"
     },
     {
       "id": "ac-22.complete",
@@ -2549,7 +2553,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.SnapshotTests.Bounds_NearestNeighbors_EnforcesAllLimits",
+      "expectedDiagnostic": "BOUNDED_SNAPSHOT_NEIGHBORS"
     },
     {
       "id": "edge.rule-07.empty",
@@ -2565,7 +2571,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.SnapshotTests.Collections_EmptyAndNull_DistinguishesRequiredState",
+      "expectedDiagnostic": "EMPTY_DIFFERS_FROM_ABSENT"
     },
     {
       "id": "edge.rule-07.encoding",
@@ -2581,7 +2589,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.SnapshotTests.Encoding_ExactUnicode_RejectsMalformedInputs",
+      "expectedDiagnostic": "STRICT_UTF8_ORDINAL_IDENTITIES"
     },
     {
       "id": "edge.rule-07.ordering",
@@ -2597,7 +2607,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.SnapshotTests.Ordering_UnorderedPermutation_PreservesSemantics",
+      "expectedDiagnostic": "ORDERED_AND_UNORDERED_SEMANTICS"
     },
     {
       "id": "edge.rule-07.precision",
@@ -2613,7 +2625,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.SnapshotTests.Numbers_ExactNeighbors_RejectsLossyTokens",
+      "expectedDiagnostic": "EXACT_INT64_SNAPSHOT"
     },
     {
       "id": "edge.rule-07.idempotency",
@@ -5161,8 +5175,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.SnapshotTests.CamelCase_AcceptedSchema_ContainsExactNames",
+      "expectedDiagnostic": "PINNED_CAMELCASE"
     },
     {
       "id": "R-68.negative",
@@ -5178,8 +5194,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.SnapshotTests.CamelCase_WrongCase_RejectsSchema",
+      "expectedDiagnostic": "SNAPSHOT_FIELDS"
     },
     {
       "id": "R-69.positive",
@@ -5195,8 +5213,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.SnapshotTests.Enum_ExactName_AcceptsPinnedValue",
+      "expectedDiagnostic": "PINNED_ENUM_NAME"
     },
     {
       "id": "R-69.negative",
@@ -5212,8 +5232,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.SnapshotTests.Enum_UnpinnedNames_RejectsEveryVariant",
+      "expectedDiagnostic": "SNAPSHOT_KIND"
     },
     {
       "id": "R-70.positive",
@@ -5229,8 +5251,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.SnapshotTests.NullPolicy_EmptyCollections_WritesRequiredValues",
+      "expectedDiagnostic": "STRICT_NULL_POLICY"
     },
     {
       "id": "R-70.negative",
@@ -5246,8 +5270,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.SnapshotTests.NullPolicy_UnknownFields_RejectsAtEveryLevel",
+      "expectedDiagnostic": "SNAPSHOT_FIELDS"
     },
     {
       "id": "R-71.positive",
@@ -5263,8 +5289,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.SnapshotTests.RequiredValues_CompleteCollections_AcceptsAll",
+      "expectedDiagnostic": "COMPLETE_REQUIRED_VALUES"
     },
     {
       "id": "R-71.negative",
@@ -5280,8 +5308,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.SnapshotTests.RequiredValues_MissingRecordFields_RejectsAll",
+      "expectedDiagnostic": "SNAPSHOT_FIELDS"
     },
     {
       "id": "R-72.positive",
@@ -5297,8 +5327,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.SnapshotTests.SharedCodec_IndependentRuns_UsesExactContract",
+      "expectedDiagnostic": "ONE_STRICT_CODEC"
     },
     {
       "id": "R-72.negative",
@@ -5314,8 +5346,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.SnapshotTests.SharedCodec_DuplicateProperties_RejectsBeforeConversion",
+      "expectedDiagnostic": "SNAPSHOT_DUPLICATE_PROPERTY"
     },
     {
       "id": "R-73.positive",
@@ -12557,6 +12591,42 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.RandomContractTests.Enum_StableMap_RejectsIncompatibleEvolution",
       "expectedDiagnostic": "PINNED_ENUM_EVOLUTION"
+    },
+    {
+      "id": "state.snapshot",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-11",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.SnapshotTests.Codec_DetachedState_RoundTripsExactValues",
+      "expectedDiagnostic": "STRICT_SNAPSHOT_ROUNDTRIP"
+    },
+    {
+      "id": "state.snapshot-shape",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-11",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.SnapshotTests.Shape_CompiledState_ContainsIndependentValues",
+      "expectedDiagnostic": "COMPILED_INDEPENDENT_STATE"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."
