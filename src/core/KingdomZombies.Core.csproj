@@ -6,4 +6,7 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <DisableTransitiveProjectReferences>true</DisableTransitiveProjectReferences>
   </PropertyGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="KingdomZombies.Phase1.Tests" />
+  </ItemGroup>
 </Project>
