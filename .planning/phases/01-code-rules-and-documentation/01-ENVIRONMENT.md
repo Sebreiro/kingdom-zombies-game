@@ -1,5 +1,13 @@
 # Phase 1 Execution Environment
 
+## Hardware-acceleration handoff — 2026-11-14
+
+The creator now requires complete phase scope on the development OS and a local VM running the other OS. The creator confirmed manually enabling Windows Hypervisor Platform. A subsequent live host query still returned `HypervisorPresent: false`, so accelerated Linux acceptance awaits the Windows restart. The earlier administrator-helper launch was canceled before execution; no successful automated feature installation is claimed.
+
+The existing ignored launcher `.phase1/tools/linux-vm/start-vm.cjs` now defaults to WHPX and records its requested accelerator/CPU. It refuses to start while the recorded VM PID is live. `PHASE1_VM_ACCELERATOR=tcg` is an explicit diagnostic choice, not a silent fallback; default CPU is `max` with `PHASE1_VM_CPU` available for a concrete supported-runtime correction if actual startup requires it. This prepares configuration only. After restart, verify the live host capability, actual QEMU WHPX startup/logs and genuine guest access before running the complete 676-case Phase 1 selection. The [official backend guide](https://www.qemu.org/docs/master/system/whpx.html) documents the Windows feature and WHPX selection.
+
+Preserve the existing VM disk, official tools and authenticated package caches. Before the host restarts, prepare the final same-source bundle/checkout and cleanly shut down only this owned guest. Its old TCG source/results remain historical; no old pass certifies the repaired implementation. The final checkpoint records the actual shutdown and new candidate rather than inferring them here.
+
 ## Local Linux Runtime
 
 The orchestrator prepared a workspace-contained Linux VM on 2026-11-13. Windows features and system installations were not changed. This is environment preparation, not a passed Linux acceptance report.

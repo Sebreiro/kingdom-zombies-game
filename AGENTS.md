@@ -6,7 +6,7 @@ This is the documentation entry point. Open the documents relevant to the curren
 
 | Need | Read |
 | --- | --- |
-| AI collaboration, questions, and decision prompts | [AI collaboration](docs/workflow/ai-collaboration.md) |
+| AI collaboration, testing platforms, questions, and decision prompts | [AI collaboration](docs/workflow/ai-collaboration.md) |
 | C# rules, executable definitions, exemptions, and qualitative review | [Code index](docs/code/README.md) |
 | Project boundaries and architecture decisions | [Architecture index](docs/architecture/README.md) |
 | Toolchain prerequisites and isolated setup | [Development setup](docs/workflow/setup.md) |
