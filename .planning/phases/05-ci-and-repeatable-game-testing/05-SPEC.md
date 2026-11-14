@@ -3,15 +3,17 @@
 **Created:** 2026-11-14 (Europe/Paris)
 **Ambiguity score:** 0.038 (gate: ≤ 0.20)
 **Requirements:** 10 locked — TEST-01 through TEST-10
-**Status:** Ready for implementation discussion; execution depends on completion of Phases 1–4.
+**Status:** Discussion captured; ready for planning. Execution depends on completion of Phases 1–4.
+
+**Discussion amendment, 2026-11-14:** The creator selected build/repository-only PR checks targeting about ten minutes per OS with cached dependencies, folder/dependency-aware feature selection, and validated reuse of unchanged passing groups at phase completion. These decisions supersede the earlier broad behavior-on-PR and repeat-everything closure policy. Complete required case/environment coverage, actual full-workflow compatibility, immutable evidence, all eight handoff IDs and 90%/80% targets remain binding. See [05-CONTEXT.md](05-CONTEXT.md). This document is amended authority; original interview answers below remain historical.
 
 ## Goal
 
-Developers and AI agents can select, execute, diagnose and rerun traceable checks for the delivered foundations locally and in Windows/Linux GitHub Actions, with full final-source certification of the required cases, native-hosted coverage and distinct environment evidence.
+Developers and AI agents can select, execute, diagnose and rerun traceable foundation checks locally and in Windows/Linux GitHub Actions, with fast basic PR feedback and complete certification using fresh or explicitly validated unchanged-group evidence, native-hosted coverage and distinct environments.
 
 ## Background
 
-The repository already contains the Godot/C# toolchain, twelve inherited analyzers, Core/state/snapshot and native lifecycle fixtures, an independent case manifest and a runner with exact selection, isolated process execution and fresh evidence reconciliation. At scout time the manifest has 684 declarations: 676 Phase 1 obligations and eight explicitly pending Phase 5 certification cases. The latest recorded complete Windows Phase 1 run accepted 676/676; matching Linux completion and separate human review remain pending in STATE.md. This specification is not new platform acceptance evidence.
+At the initial specification scout the repository contained the Godot/C# toolchain, twelve inherited analyzers, Core/state/snapshot and native lifecycle fixtures, an independent case manifest and a runner with exact selection, isolated processes and fresh evidence reconciliation. The manifest declared 684 cases: 676 Phase 1 obligations and eight pending Phase 5 identities. The retained complete Windows run accepted 676/676. Current Phase 1 closure and unperformed Linux/human follow-ups are recorded separately in STATE.md and its closure exception; neither that closure nor this amendment supplies Phase 5 certification.
 
 Phases 2–4 have specifications and captured implementation context, but their playable menu/movement, LAN scenario and complete content pack/inspection delivery do not yet exist. No .github workflow, complete game acceptance-case catalog, four-process gameplay runner or accepted measured analyzer/production coverage report exists. Phase 5 extends the working verification foundation once those earlier increments are delivered; it neither assumes they passed nor replaces them with test-only demonstrations.
 
@@ -24,10 +26,10 @@ Authority: [project definition](../../PROJECT.md), [approved requirements](../..
    - Target: One readable repository catalog covers all 47 source scenarios without renumbering, the existing rule cases, BASE/LAN/ASSET/TEST checks and additional regressions. Each declaration names its approved requirements, owner and acceptance phase, required/planned state, executable check or repeatable evidence procedure, environment and required artifacts. Multiple checks may implement one source scenario; that relationship is explicit.
    - Acceptance: AC-01–AC-03, AC-19, AC-27 and AC-30 pass, including missing/duplicate metadata controls and order-independent catalog coverage.
 
-2. **TEST-02 — Local and CI execution with explicit scope:** Documented local and GitHub Actions entry points run the currently required checks on Windows and Linux, with fast pull-request checks for the strict build, rules, architecture, documentation and affected behavior, full checks on manual request and before phase completion, and actual same-source local, other-OS VM and hosted CI completion evidence.
+2. **TEST-02 — Local and CI execution with explicit scope:** Shared documented entry points support basic Windows/Linux PR checks, focused dependency-aware feature checks, manual full execution and complete phase evidence assembled from fresh results and validated unchanged groups. Ordinary PRs target about ten minutes per OS with dependencies cached.
    - Current: The Phase 1 runner already supports exact case/group/phase selection and isolated evidence. No .github workflow exists at scout time. The recorded Windows 676-case result is Phase 1 evidence; Linux completion is still pending. No gameplay CI execution has occurred.
-   - Target: The same documented check entry points serve local use and Windows/Linux GitHub Actions. Pull requests run the strict build, rules, architecture, documentation and affected-behavior checks. Full runs are manually available and mandatory before phase completion. Phase 5 completion includes actual final-source clean local/other-OS VM runs and a real passing full Windows/Linux Actions run; configuration or prepared environments alone are insufficient.
-   - Acceptance: AC-03–AC-06, AC-25 and AC-32 pass; the fast result identifies exactly what ran and the full result accounts for the complete required scope.
+   - Target: PRs run strict build/analyzers, current project/code boundaries and documentation/catalog validation only, with no game launch. Focused/full paths retain gameplay, rendered, LAN, coverage and deliberate-defect proofs. Phase closure reruns missing/invalidated groups and dependents and may reuse matching unchanged evidence for each required local/other-OS-VM/hosted environment. Prove the actual full Windows/Linux Actions path; configuration alone is insufficient.
+   - Acceptance: AC-03–AC-06, AC-25 and AC-32–AC-34 pass. Basic PR results identify their limited scope and measured timing; closure reconciles the entire required scope with explicit fresh/reused provenance.
 
 3. **TEST-03 — Agent-operated diagnosis and recovery:** An AI agent can follow a repository-documented select, run, inspect, reproduce, fix and rerun procedure using recorded scenario inputs and current-run evidence, while preserving failed attempts and requiring diagnosis plus a clean rerun before acceptance.
    - Current: docs/workflow/verification.md describes Phase 1 selection, immutable reports and failure handling. It does not yet provide the complete game/menu/LAN/content select-to-reproduction workflow.
@@ -49,10 +51,10 @@ Authority: [project definition](../../PROJECT.md), [approved requirements](../..
    - Target: A real host and three guest processes use independent profiles and the actual delivered LAN/authority path. Each controls its own actor and observes the inherited synchronized state. Scenarios have bounded readiness/action/termination waits, per-peer results and logs, and cleanup limited to owned resources. The full scenario runs on each required local/VM/CI operating system.
    - Acceptance: AC-14–AC-16, AC-19 and AC-27–AC-29 pass, including missing/duplicate peers, capacity, repeat-run and overlapping-run controls.
 
-7. **TEST-07 — Fresh inspectable reports and coverage evidence:** Each run publishes nonempty results, process logs, state observations and required rendered images reconciled by exact case, peer, source, tool, platform and invocation identity, together with separate real analyzer and production coverage counts.
+7. **TEST-07 — Inspectable reports and coverage evidence:** Each execution publishes fresh nonempty results, logs, observations and required images bound to exact case/peer/source/tool/platform/invocation identity, with separate real analyzer/production counts. A distinct completion aggregate may reference unchanged passing groups only after validated reuse.
    - Current: Phase 1 publishes per-invocation summaries, per-case results, real subject/process logs and source/tool/platform fingerprints. There is no integrated game/image/peer report or accepted measured analyzer/production coverage report.
-   - Target: Concise human-readable summaries and machine-readable results link exact cases and peers to fresh logs, observations, decoded rendered images and measured coverage. Invocation, source revision/input fingerprint, actual tools/platform and artifact identities are reconciled. Analyzer and production scopes retain separate covered/total line and branch counts. Reports and linked artifacts are sufficient; a dedicated results viewer is outside scope.
-   - Acceptance: AC-17–AC-19, AC-21–AC-24 and AC-27–AC-29 pass; missing expected modules and mixed/stale evidence cannot pass.
+   - Target: Concise human and machine reports link cases/peers to actual logs, observations, decoded images and coverage counts. New runs require fresh invocation evidence. Completion aggregates retain original report/revision identities and classify executed-now, validated reuse and missing/invalidated obligations. Analyzer and production line/branch counts remain separate. Reports and linked artifacts suffice; no dedicated viewer is required.
+   - Acceptance: AC-17–AC-19, AC-21–AC-24, AC-27–AC-29 and AC-33 pass. Missing modules, stale/mixed per-run evidence and unvalidated or invalidated reuse cannot pass.
 
 8. **TEST-08 — Visible failure for incomplete verification:** Verification reports a visible non-success outcome for missing dependencies, bad runner discovery or filters, zero required-case execution, skipped required cases, crashes, timeouts, missing peers, stale or missing evidence and invalid measured-coverage reports.
    - Current: Existing runner/architecture/documentation/native tests reject many deliberate failures. The game/peer/image, coverage-report and transferred aggregate certification controls remain incomplete.
@@ -62,7 +64,7 @@ Authority: [project definition](../../PROJECT.md), [approved requirements](../..
 9. **TEST-09 — Measured coverage and completed inherited certification:** Deliberate positive and negative trials prove that runner and report checks and the inclusive 90% line and 80% branch coverage gates accept genuine sufficient evidence and reject insufficient or invalid evidence for the separate real analyzer and applicable handwritten production scopes, while completing all eight inherited Phase 5 aggregate and coverage identities without weakening existing checks.
    - Current: Twelve analyzers and native/Core proofs exist, but real measured 90%/80% coverage and all eight transferred aggregate/coverage identities are pending. The handoff explicitly preserves those IDs and their original meaning.
    - Target: Real analyzer code and applicable handwritten Core, ports and Godot managed production code separately meet inclusive 90% line and 80% branch coverage. A native-hosted engine callback and nonzero branch evidence are actually measured. Exact denominator/exclusion/report validation, meaningful positive/negative controls and all eight transferred declarations are completed without lowering existing rules or replacing working proofs.
-   - Acceptance: AC-20–AC-29 pass, including exact-threshold neighbors, authentic native-hosted collection, all transferred IDs and fresh complete same-source Windows/Linux execution.
+   - Acceptance: AC-20–AC-29 and AC-33 pass, including exact-threshold neighbors, authentic native hosting, all transferred IDs and complete Windows/Linux evidence matching final relevant inputs. Reuse is explicit and cannot hide an unresolved later failure.
 
 10. **TEST-10 — Feature activation and distinct evidence obligations:** Feature delivery activates its owning planned cases as required, preserves earlier regressions and records rendered input, real mixed-OS LAN, reference-PC and endurance evidence as separate obligations with repeatable procedures and accurate completion status.
    - Current: Phase ownership and future-case lifecycle rules are documented; the Phase 1 selector separates its eight later declarations. There is no complete game-case activation procedure or release-environment evidence catalog.
@@ -74,13 +76,13 @@ Authority: [project definition](../../PROJECT.md), [approved requirements](../..
 **In scope:**
 
 - A complete readable case/evidence catalog for A-01–A-47, inherited rules, foundation/content checks and regressions, using the approved requirement and phase identities.
-- Documented shared local/CI selection and execution entry points, fast Windows/Linux PR workflows, and manually triggered full Windows/Linux verification.
+- Shared local/CI entry points: basic Windows/Linux PR checks targeting about ten minutes per OS, focused feature groups and manually triggered full verification.
 - Automated verification of the delivered rule, menu/movement, LAN and content/inspection foundations, with controlled setup, actual production paths and current rendered evidence.
 - A real host-plus-three-client coordinator with independent profiles, bounded waits, per-peer diagnostics and owned-resource cleanup.
 - Agent instructions and an exercised select/run/inspect/reproduce/fix/rerun workflow, including diagnosis and preserved attempts when a rerun passes unchanged.
 - Human-readable summaries, machine-readable results and directly accessible logs, state observations and images, with AI appearance/readability review where required.
 - Actual separate analyzer/production coverage and unchanged inclusive 90% line / 80% branch gates, native-hosted callback measurement, report controls and all eight transferred certification cases.
-- Fresh complete final-source local development-OS, other-OS local VM and hosted Windows/Linux CI evidence for the Phase 5 required scope.
+- Complete evidence for required development-OS, other-OS local VM and hosted Windows/Linux groups, using fresh execution or explicitly validated unchanged results and actual full-workflow compatibility proof.
 - Case activation rules and separate repeatable future physical-LAN/reference-PC/endurance procedures, without giving unexecuted cases acceptance credit.
 
 **Out of scope:**
@@ -91,7 +93,7 @@ Authority: [project definition](../../PROJECT.md), [approved requirements](../..
 - Certifying complete campaigns, actual mixed-computer/mixed-OS LAN, reference-PC performance/endurance or final release exports now — Phase 10 owns the distinct release evidence.
 - A dedicated results dashboard/viewer — the creator selected reports with linked artifacts.
 - Approved image baselines and automatic visual-difference gates — the creator selected objective automation plus AI image review.
-- Mandatory full-suite execution on every PR/push or on a nightly schedule — fast PR checks and manual/pre-completion full execution were selected; no scheduled full run was requested.
+- Game launches, screenshots/AI review, full LAN, coverage certification and exhaustive checker-defect proofs in ordinary PRs; mandatory nightly runs or full reruns solely because a phase is closing when every required group already has valid evidence.
 - A new wholesale rule/runner replacement, weaker enforcement, wider suppressions, lower coverage targets or deleted regressions — the existing delivered foundation and handoff remain binding.
 - Selection of a particular new testing library, runner API, report schema or instrumentation implementation — compatibility proofs and concrete mechanisms belong to research/discussion/planning.
 
@@ -100,13 +102,13 @@ Authority: [project definition](../../PROJECT.md), [approved requirements](../..
 - Preserve Godot/C#, the existing project/engine/service boundaries, compatible proven pins/locks, all twelve analyzers, exact rule thresholds, bounded generated/suppression permissions and existing proofs. A candidate test adapter is not proven by package availability or successful compilation.
 - Prove actual discovery, subject execution, process exits, evidence and deliberate failure behavior for the selected runner. An incompatible candidate may be replaced by a bounded repository-owned harness while retaining every acceptance obligation.
 - Test drivers use production input/commands; initialization and read-only observation are distinct. Test-only authority controls are excluded from release builds. Shared fixture setup must not become substitute gameplay.
-- Use relevant focused checks during development. At phase completion run the complete required scope on the development OS and a local VM with the other supported OS, with hardware acceleration when available. In addition, Phase 5 requires an actual passing full Windows/Linux Actions run on the final source. All required environments remain visible if blocked.
+- Use focused development-OS checks selected from changed folders plus consumers, transitive dependencies and shared inputs. At closure, reconcile the complete declared required scope in each required environment, rerunning missing/invalidated groups and dependents. Reuse only after validating code/assets, test/case definitions, dependencies, tools and required environment. Unknown impact blocks selection. Use VM acceleration when available; retain actual full hosted workflow execution evidence.
 - Preserve the Phase 2/3 display, input, authority, movement, timing and lifecycle contracts and the Phase 4 census, presentation decisions and bounded cosmetic exception. Phase 5 adds cross-platform verification of the delivered foundations; it does not convert future asset/gameplay bindings into passed behavior.
 - Coverage scopes are separate: real analyzer code, and applicable handwritten Core/ports/native-hosted managed Godot production code. Classify genuinely non-executable modules and legitimate generated exclusions explicitly; never omit expected unmeasured handwritten modules.
 - Use exact inclusive threshold arithmetic and authenticated same-source evidence. Collection may instrument isolated copied assemblies/PDBs if necessary, preserving originals. Functional execution, collection, validation and publication must be acyclic.
-- Every scenario/process has explicit bounded waits and owned cleanup. No fixed PR runtime or new performance/latency target was selected. Preserve inherited numeric limits rather than inventing new gameplay balance or a weaker test-only tolerance.
+- Every scenario/process has explicit bounded waits and owned cleanup. Ordinary cached PRs target about ten minutes per OS; this is an optimization target, not permission to omit selected checks or change inherited proof deadlines. Measure warm/cold setup, per-group and end-to-end time separately. No new gameplay performance/latency target is selected.
 - Cases are selected from independent declarations and phase ownership, not from discovery, implementation labels or prior outcomes. Future planned work is never passed, skipped for credit or allowed to hide a currently required case.
-- Reports retain failure history, source/run identity and the precise selected scope. Technical failures and unreviewed required visuals cannot be relabeled as accepted.
+- Reports retain failure history, original source/run identity and exact selected scope. A new execution cannot reuse another invocation's artifacts as fresh. A completion aggregate may link eligible immutable old results with explicit reuse validation. Unresolved later failures and unreviewed required visuals cannot be relabeled accepted.
 - This is a planning-only change. It does not advance STATE.md, complete a requirement, start the VM, run the game or establish CI/coverage acceptance.
 
 ## Acceptance Criteria
@@ -115,13 +117,13 @@ Authority: [project definition](../../PROJECT.md), [approved requirements](../..
 
 - [ ] **AC-02:** Every case has a readable scenario and valid, nonblank requirement/owner/acceptance-phase/status/check-or-procedure/environment/artifact references. Invalid, duplicate or dangling metadata is rejected. A source umbrella scenario may link multiple checks with explicit ownership and evidence.
 
-- [ ] **AC-03:** Selection lists the independently declared expected set before acceptance. Exact case, group, fast and full/current-phase selections are documented. Phase selectors accept positive integers and include every declaration with acceptancePhase at or below the selected phase, irrespective of implementation status. Unknown, conflicting or wrong filters, invalid phases and zero required-case execution cannot return a successful verification result.
+- [ ] **AC-03:** Selection exposes the independently declared expected set. Document exact case/group, basic PR, focused and full/current-phase selections. Phase selectors accept positive integers and include all declarations with acceptancePhase at or below the selected phase, irrespective of implementation status. Invalid/conflicting filters and regular test execution with zero required cases are non-success. A distinct completion validation may execute no new cases only if every required case/environment has valid matching prior evidence under AC-33; report zero new executions explicitly.
 
-- [ ] **AC-04:** Windows/Linux pull-request workflows execute a strict build and the applicable rule, architecture and documentation checks plus focused checks for affected delivered behavior. The affected-case selection rule is documented and auditable; uncertain impact selects a sufficient broader set or reports a blocker. The report names its selected cases and omissions. Fast means this defined scope; no fixed runtime budget was selected.
+- [ ] **AC-04:** Ordinary Windows/Linux PRs run strict build/analyzers on actual code, current project/code boundary checks and documentation/catalog validation, with no game launch, rendered review, four-process LAN, exhaustive deliberate-defect proofs or coverage certification. Target about ten minutes per OS with dependencies cached; record measured group/total time and overruns without dropping selected checks. Feature selections use changed folders plus transitive consumers/shared inputs; unknown impact is a visible blocker. Reports name selected cases, omissions and reasons.
 
-- [ ] **AC-05:** A manual full GitHub Actions run and the documented local full entry point execute the same declared currently required scope on Windows and Linux, including inherited rules/native proofs, controlled fixtures, rendered production-input checks, delivered content checks, four real LAN processes and coverage/certification. CI configuration alone does not satisfy execution.
+- [ ] **AC-05:** Manual full GitHub Actions and local entry points can execute the same complete declared required scope, including inherited rules/native proofs, controlled fixtures, rendered input, content checks, real four-process LAN and coverage/certification. Prove actual successful full Windows/Linux Actions execution, not configuration alone. Routine PR scope is separate. Later closure may retain unchanged group evidence from those actual executions under AC-06/AC-33 rather than repeat everything.
 
-- [ ] **AC-06:** Before Phase 5 completion, preserve clean full results for the same final implementation from the development OS, a local VM running the other supported OS, and an actual full Windows/Linux GitHub Actions run. Record actual platform/kernel/architecture, tools, revision and input identity. Use VM hardware acceleration when available and record the actual mode. A source/contract repair renews affected checks and final complete evidence on the final source. No donor folders, Downloads cache or previous build/proof output is required for clean acceptance.
+- [ ] **AC-06:** Before Phase 5 completion, reconcile complete required evidence from the development OS, other-OS local VM and hosted Windows/Linux. Run missing/invalidated groups and dependents; reuse passing groups only after AC-33 validation against final relevant inputs. Preserve actual OS/kernel/architecture, tools, tested revision, fingerprints and original invocation/artifact identities. Record VM acceleration mode. No donor folders, Downloads cache or previous proof/build output is necessary for clean execution. Broad shared changes may require all groups again. A prepared environment, cross-build or relabeled historical report supplies no acceptance.
 
 - [ ] **AC-07:** An agent follows the repository procedure through one actual controlled current-run failure: find its declaration, select/run it, locate the exact report/log/state/image evidence, reproduce the recorded setup/seed/action sequence, diagnose and repair the cause, and obtain the required fresh reruns. Missing reproduction information or required artifacts leaves the exercise unaccepted.
 
@@ -131,7 +133,7 @@ Authority: [project definition](../../PROJECT.md), [approved requirements](../..
 
 - [ ] **AC-10:** Elapsed/random-input fixture boundaries follow their actual units and range contracts, including zero, nearest valid/invalid neighbors, insufficient/negative values where applicable and overflow/fraction rejection. Repeated setup/seed/time/action inputs produce the specified logical state. This does not require bit-identical pixels, process timings or network scheduling.
 
-- [ ] **AC-11:** Rendered checks use the real menu, keyboard and mouse routes and verify scene entry/exit/reentry, movement/facing and focus handling against the inherited Phase 2/3 contracts. Obtain actual before/after captures at 1280x720 and 1920x1080 for the required cases. Text-entry/control focus does not leak gameplay input, and repeated entry does not add duplicate handlers/actions. Missing or undecodable images and absent objective assertions cannot pass.
+- [ ] **AC-11:** Rendered checks exercise real menu/keyboard/mouse routes and assert scene entry/exit/reentry, movement/facing and focus handling under Phase 2/3 contracts. Capture before/after scenario states at 1280x720 and 1920x1080. These are checkpoints in a selected run of the current build, not mandatory old/new-build launches for each edit. Input cannot leak through focused controls; reentry cannot duplicate actions. Missing/undecodable images or absent objective assertions cannot pass.
 
 - [ ] **AC-12:** Delivered content/inspection fixtures produce objective resource/state results and the required current-run images. The AI records which images it inspected, appearance/readability findings and any defects, linked to case/run/source identity. Preserve the Phase 4 resource census, visual decisions and explicit minor-cosmetic exception; no screenshot baseline or image-diff gate is required. Missing declared visual review stays unaccepted; headless execution cannot supply it.
 
@@ -143,9 +145,9 @@ Authority: [project definition](../../PROJECT.md), [approved requirements](../..
 
 - [ ] **AC-16:** Repeated and overlapping runs preserve isolated profiles, user data, session endpoints, logs and artifacts. Conflicting access to input focus is handled explicitly rather than sending actions to another window. Cleanup verifies ownership and releases the run's processes/descendants/resources, without terminating unrelated games, another run or the preserved local VM. A rerun has no stale actors, slots, callbacks or peer results.
 
-- [ ] **AC-17:** Every invocation publishes an immutable report identity and records its revision, input fingerprint, actual tool/platform identities, selected scope, commands/exits, case/peer outcomes and artifact references/hashes. Required logs/observations/images are current and nonempty; images decode and demonstrate the declared capture. Changed tested inputs, stale artifacts and evidence from another invocation cannot establish acceptance.
+- [ ] **AC-17:** Each execution publishes immutable identity, revision/input fingerprint, actual tool/platform identities, selected scope, commands/exits, outcomes and artifact references/hashes. Its required logs/observations/images are fresh, nonempty and valid; source changes or artifacts from another invocation cannot establish that run's acceptance. A distinct completion aggregate may reference original prior reports only through explicit validated reuse under AC-33, never by copying or rewriting them as fresh.
 
-- [ ] **AC-18:** Reconcile exact expected case, peer and artifact identities against actual fresh discovery/execution/results, rather than accepting exit zero or discovered counts alone. Reject missing, duplicate, unexpected, skipped, stale or mismatched results. Shared artifacts are declared explicitly and never replace distinct case/peer results. Report independent failures and blocked obligations separately; blocked/skipped/pending cases receive no pass credit.
+- [ ] **AC-18:** Each execution reconciles exact expected cases/peers/artifacts against its actual fresh discovery/results, rejecting missing, duplicate, unexpected, skipped, stale or mismatched records. Shared artifacts are declared and cannot replace distinct results. Completion aggregates additionally validate exact required membership and every reused reference under AC-33. Independent failures, blocked obligations, planned work and missing/invalidated evidence remain distinct and receive no pass credit.
 
 - [ ] **AC-19:** Catalog/report/reproduction metadata is valid UTF-8. Stable case/profile/actor/peer/module identities and portable path segments retain exact spelling, case and Unicode identity; display names do not substitute for them. Valid Unicode workspace/profile paths work. Malformed encoding, wrong-case or silently normalized identity references fail explicitly.
 
@@ -173,14 +175,18 @@ Authority: [project definition](../../PROJECT.md), [approved requirements](../..
 
 - [ ] **AC-31:** Store separate repeatable procedures, environments, expected artifacts and completion records for headless/native state, rendered input and AI review, four local processes, actual mixed-computer/mixed-OS LAN, reference-PC rendering performance and saved/resumed endurance. Later feature/release records remain planned under their approved owners until actually executed. Local/hosted automation does not certify the distinct physical-LAN, hardware or endurance obligations.
 
-- [ ] **AC-32:** Summaries distinguish a passing fast selection from a complete full run and identify deferred/planned cases and still-missing environments/reviews. Missing required tools, environments, artifacts or review yields explicit non-success/blocker status, never a broader completion claim. A dedicated results viewer, mandatory nightly full runs and approved screenshot baselines are not required.
+- [ ] **AC-32:** Summaries distinguish basic PR, focused execution, full execution and complete evidence validation, and show executed-now, explicitly reused, missing/invalidated and planned obligations with original provenance. Include group counts/reasons and links to exact selected/omitted lists, environment/review gaps and measured timing. Missing required tools/evidence/environments/review or invalid reuse is non-success. No dedicated viewer, mandatory nightly full runs or approved screenshot baselines is required.
+
+- [ ] **AC-33:** Reuse validation accepts unchanged passing group evidence in its required environment and rejects changed assets/code or transitive dependencies outside the group's folder, changed test/case definitions or required membership, incompatible tools/environment, missing/altered artifacts, wrong case/peer identity, unresolved later failures and unknown impact. Coverage reuse also validates the full expected module/scope inputs; visual reuse includes its inspected images and valid review record. Validate affected consumer groups and shared configuration inputs, not only directory modification. Exercise real positive/negative controls, including a closure needing zero new executions because every obligation remains valid, and a missing/invalidated obligation that cannot be hidden by an older pass. Never relabel original revisions/invocations.
+
+- [ ] **AC-34:** Publish the logical groups and their selection dependencies, purpose, expected artifacts and measured duration by OS/environment. Record cached and cold setup separately from execution, and total PR wall time. Optimize redundant setup/build/process launches and use only proven isolated bounded concurrency; retain all case assertions, deliberate-defect meanings and native/production paths. Ten minutes is the ordinary cached PR design target, not a fabricated result, hard gameplay deadline or justification to truncate scope. Full behavior/coverage/visual durations remain unmeasured until those implementations run.
 
 ## Edge Coverage
 
-**Coverage:** 67/67 applicable edges resolved · 0 unresolved
+**Original specification coverage:** 67/67 applicable edges resolved. The later discussion amendment adds explicit execution/reuse controls in AC-33–AC-34; no new automated edge-probe result or ambiguity score is claimed.
 **Verification:** 67 explicit · 0 backstop · 0 dismissed
 
-The compiled edge probe ran over the exact ten requirement statements above with authored data/behavior shapes. Its deterministic floor proposed 63 edges, all resolved with explicit criteria. Manual review added four missed categories: phase-selector boundaries, reproduction text/paths, rendered-size boundaries and LAN identity encoding. The creator accepted the complete grouped edge proposals after the requirements gate. The table records every engine-proposed pair plus those four additions; no proposed edge was silently dropped.
+The original compiled edge probe ran over the ten pre-amendment requirement statements with authored data/behavior shapes. Its deterministic floor proposed 63 edges, all resolved explicitly. Manual review added phase-selector boundaries, reproduction text/paths, rendered-size boundaries and LAN identity encoding. The creator accepted those grouped proposals. The table preserves that original record; AC-33–AC-34 add discussion-era reuse/runtime controls without claiming a new probe execution.
 
 | Category | Requirement | Status | Resolution / Reason |
 |----------|-------------|--------|---------------------|
@@ -271,7 +277,7 @@ General credential handling, path/injection protection and artifact privacy are 
 | Goal Clarity | 0.97 | 0.75 | Met | Complete traceable foundation verification and inherited certification, without claiming future gameplay. |
 | Boundary Clarity | 0.97 | 0.70 | Met | Fast/manual/full split, reports without a viewer, real hosted evidence, and later release environments have explicit owners. |
 | Constraint Clarity | 0.94 | 0.65 | Met | Exact coverage scopes/thresholds, controlled input, native execution, two local OSes plus hosted CI, bounded isolation and inherited contracts. |
-| Acceptance Criteria | 0.96 | 0.70 | Met | 32 pass/fail criteria and 67 explicitly resolved edges; no unresolved dimensions or planner assumptions. |
+| Acceptance Criteria | 0.96 | 0.70 | Met | Original 32 criteria/67 resolved edges; discussion adds AC-33–AC-34 for validated reuse and measured runtime. Original scores are historical. |
 | **Ambiguity** | **0.038** | **≤ 0.20** | **Met** | 1 − (0.35×0.97 + 0.25×0.97 + 0.20×0.94 + 0.20×0.96). |
 
 The scores record specification clarity, not implementation progress or a measured probability of correctness.
@@ -282,6 +288,8 @@ The scores record specification clarity, not implementation progress or a measur
 - After round 3: goal 0.97, boundaries 0.97, constraints 0.94, acceptance 0.96; ambiguity 0.038, displayed as 0.04. The creator approved proceeding, then explicitly accepted all proposed edge rules.
 
 ## Interview Log
+
+The original requirement interview below is retained as history. The later discussion amendment and current requirements/criteria above supersede its earlier PR breadth and mandatory fresh-full closure timing.
 
 | Round | Perspective | Question summary | Answer / decision locked |
 |-------|-------------|------------------|--------------------------|
@@ -303,4 +311,4 @@ The scores record specification clarity, not implementation progress or a measur
 
 *Spec created: 2026-11-14 (Europe/Paris)*
 
-*Next step: $gsd-discuss-phase 5 — implementation decisions for the locked scope above.*
+*Next step: $gsd-plan-phase 5 — use the amended specification and 05-CONTEXT.md. This discussion implements no runner, CI or evidence-reuse capability.*
