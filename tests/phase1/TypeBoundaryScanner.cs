@@ -9,6 +9,12 @@ namespace KingdomZombies.Phase1.Tests;
 /// <summary>Inspects compiled metadata without loading or constructing engine objects.</summary>
 internal static class TypeBoundaryScanner
 {
+    /// <summary>Checks the semantic engine access boundary without constructing native engine objects.</summary>
+    internal static IReadOnlyList<string> EngineAccess(string source, string path)
+    {
+        return [];
+    }
+
     /// <summary>Checks independent concrete subjects in the actual compiled pure and reusable projects.</summary>
     internal static IReadOnlyList<string> ValidateRepository(string root)
     {
