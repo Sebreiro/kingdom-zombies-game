@@ -159,6 +159,7 @@ public sealed class RunnerContractTests
             "tool",
             "platform",
             "selected",
+            "deferred",
             "results",
             "failures"
         }
@@ -399,6 +400,11 @@ public sealed class RunnerContractTests
                 + "uire('./tools/phase1/required-cases.json');const rows=["
                 + "['--group','unknown'],['--case','unknown'],['--case'],["
                 + "'--unknown'],['--all','--case','runner.assertion-pass']"
+                + ",['--phase'],['--phase','0'],['--phase','-1'],['--phase','1.5'],"
+                + "['--phase','01'],['--phase','1e0'],['--phase','NaN'],['--phase','Infinity'],"
+                + "['--phase','9007199254740992'],['--phase','1','--all'],"
+                + "['--phase','1','--group','docs'],['--case','runner.selection','--phase','1'],"
+                + "['--phase','1','--phase','5'],['--list','--list']"
                 + "];for(const args of rows){let rejected=false;try{c.sele"
                 + "ct(m,args)}catch{rejected=true}if(!rejected)process.exi"
                 + "tCode=1}console.log('SELECTION_REJECTED')");
@@ -406,6 +412,119 @@ public sealed class RunnerContractTests
         result.Exit.ShouldBe(expected: 0);
         result.Output.ShouldContain(expected: "SELECTION_REJECTED");
         ProofProtocol.Record(id: "runner.selection", diagnostic: "SELECTION_REJECTED", location: "CLI selection");
+    }
+
+    /// <summary>Keeps every implemented obligation and transfers only the eight explicit certification IDs.</summary>
+    [Fact, Trait("Case", "runner.phase-membership")]
+    public void Select_DeclaredPhases_RetainsImplementedCases()
+    {
+        string script = "const c=require('./tools/phase1/check.cjs'),a=require('node:assert/strict');"
+                + "const m=require('./tools/phase1/required-cases.json'),s=c.select(m,['--phase','1']);"
+                + "const ids=['ac-02.complete','ac-06.complete','ac-07.complete','ac-09.complete',"
+                + "'R-49.positive','R-49.negative','R-82.positive','R-82.negative'].sort();"
+                + "a.deepEqual(s.deferred.map(r=>r.id).sort(),ids);a.equal(s.selected.length,670);"
+                + "a.ok(s.deferred.every(r=>r.acceptancePhase===5&&r.owner==='Phase 5'));"
+                + "a.deepEqual(s.selected,m.cases.filter(r=>!ids.includes(r.id)));"
+                + "a.ok(m.cases.filter(r=>r.implementation==='csharp').every(r=>s.selected.includes(r)));"
+                + "a.deepEqual(c.select(m,['--all']).selected,m.cases);"
+                + "a.deepEqual(c.select(m,['--phase','5']).selected,m.cases);"
+                + "a.deepEqual(c.select(m,['--list']).selected,m.cases);"
+                + "a.deepEqual(c.select(m,['--phase','1','--list']).selected,s.selected);"
+                + "a.equal(c.select(m,['--case','R-49.positive']).selected[0].id,'R-49.positive');"
+                + "a.ok(c.select(m,['--group','rules']).selected.some(r=>r.id==='R-49.positive'));"
+                + "console.log('PHASE_MEMBERSHIP_EXACT')";
+        ProofProtocol.Node(script: script).Exit.ShouldBe(expected: 0);
+        ProofProtocol.Record(id: "runner.phase-membership", diagnostic: "PHASE_MEMBERSHIP_EXACT",
+                location: "independent declarations: 670 Phase 1, eight Phase 5; exhaustive 678");
+    }
+
+    /// <summary>Rejects malformed declarations even when their case would be outside the requested phase.</summary>
+    [Fact, Trait("Case", "runner.phase-declarations")]
+    public void Select_InvalidDeclaredPhase_RejectsUnselectedCorruption()
+    {
+        string script = "const c=require('./tools/phase1/check.cjs'),a=require('node:assert/strict');"
+                + "const m=require('./tools/phase1/required-cases.json'),row=m.cases[0];"
+                + "for(const value of [null,0,-1,1.5,'5',true,{},[],9007199254740992]){"
+                + "const bad={...m,cases:[row,{...row,id:'fixture.bad',acceptancePhase:value}]};"
+                + "a.throws(()=>c.select(bad,['--phase','1']),e=>e.diagnostic==='MANIFEST_PHASE')}"
+                + "for(const bad of [null,[],{}, {...row,group:'unknown'},{...row,owner:''},"
+                + "{...row,id:'fixture.bad',owner:5},{...row,id:'fixture.bad',evidence:'log'},"
+                + "{...row,id:'fixture.bad',test:null},{...row,id:'fixture.bad',implementation:'unknown'}]){"
+                + "a.throws(()=>c.select({...m,cases:[row,bad]},['--phase','1']))}"
+                + "const pending={...row,id:'fixture.pending',implementation:'pending',acceptancePhase:3};"
+                + "a.equal(c.select({...m,cases:[row,pending]},['--phase','2']).selected.length,1);"
+                + "a.equal(c.select({...m,cases:[row,pending]},['--phase','3']).selected.length,2);"
+                + "console.log('MANIFEST_PHASE_REJECTED')";
+        ProofProtocol.Node(script: script).Exit.ShouldBe(expected: 0);
+        ProofProtocol.Record(id: "runner.phase-declarations", diagnostic: "MANIFEST_PHASE_REJECTED",
+                location: "actual selector: invalid/null/string/unsafe phases and corrupt unselected declarations");
+    }
+
+    /// <summary>Publishes deferred owners separately while exhaustive mode still fails pending work.</summary>
+    [Fact, Trait("Case", "runner.phase-summary")]
+    public void Run_DeclaredPhase_PublishesSeparateDeferredOwners()
+    {
+        using var fixture = RunnerProcessFixture.Create(mode: "pass");
+        AddPendingDeclaration(fixture: fixture, phase: 5);
+        fixture.Run(args: ["--phase", "1"]).Exit.ShouldBe(expected: 0);
+        JsonNode summary = fixture.Summary();
+        summary["selected"]?.AsArray().Count.ShouldBe(expected: 1);
+        summary["results"]?.AsArray().Count.ShouldBe(expected: 1);
+        summary["failures"]?.AsArray().Count.ShouldBe(expected: 0);
+        summary["deferred"]?.AsArray().Count.ShouldBe(expected: 1);
+        summary["deferred"]?[0]?["id"]?.GetValue<string>().ShouldBe(expected: "fixture.pending");
+        summary["deferred"]?[0]?["owner"]?.GetValue<string>().ShouldBe(expected: "Phase 5");
+        summary["deferred"]?[0]?["acceptancePhase"]?.GetValue<int>().ShouldBe(expected: 5);
+        string[][] selections = [["--all"], ["--phase", "5"]];
+        foreach (string[] args in selections)
+        {
+            fixture.Run(args: args).Exit.ShouldBe(expected: 1);
+            summary = fixture.Summary();
+            summary["selected"]?.AsArray().Count.ShouldBe(expected: 2);
+            summary["deferred"]?.AsArray().Count.ShouldBe(expected: 0);
+            summary["failures"]?[0]?["diagnostic"]?.GetValue<string>().ShouldBe(
+                    expected: "IMPLEMENTATION_PENDING");
+        }
+
+        ProofProtocol.Record(id: "runner.phase-summary", diagnostic: "PHASE_DEFERRED_SEPARATE",
+                location: "actual CLI: phase 1 passes 1/1; exhaustive/phase 5 fail pending 1/2");
+    }
+
+    /// <summary>An unresolved default-phase declaration and deleted selected evidence remain actual failures.</summary>
+    [Fact, Trait("Case", "runner.phase-required")]
+    public void Run_RequiredPhase_RejectsUnresolvedAndMissingEvidence()
+    {
+        using var fixture = RunnerProcessFixture.Create(mode: "pass");
+        AddPendingDeclaration(fixture: fixture, phase: null);
+        (int Exit, string Output) result = fixture.Run(args: ["--phase", "1"]);
+        result.Exit.ShouldBe(expected: 1);
+        result.Output.ShouldContain(expected: "IMPLEMENTATION_PENDING");
+        fixture.Summary()["selected"]?.AsArray().Count.ShouldBe(expected: 2);
+        fixture.Summary()["deferred"]?.AsArray().Count.ShouldBe(expected: 0);
+        using var missing = RunnerProcessFixture.Create(mode: "deleted-result");
+        result = missing.Run(args: ["--phase", "1"]);
+        result.Exit.ShouldBe(expected: 1);
+        result.Output.ShouldContain(expected: "RESULT_MISSING");
+        ProofProtocol.Record(id: "runner.phase-required", diagnostic: "PHASE_REQUIRED_FAILURE",
+                location: "actual CLI: unresolved default Phase 1 and deleted selected proof reject acceptance");
+    }
+
+    private static void AddPendingDeclaration(RunnerProcessFixture fixture, int? phase)
+    {
+        string path = Path.Combine(path1: fixture.Root, path2: "tools/phase1/required-cases.json");
+        JsonObject manifest = RegisterValidator.Parse(bytes: File.ReadAllBytes(path: path));
+        JsonArray cases = manifest["cases"]?.AsArray() ?? throw new InvalidDataException(message: "CASES_REQUIRED");
+        JsonNode pending = cases[0]?.DeepClone() ?? throw new InvalidDataException(message: "CASE_REQUIRED");
+        pending["id"] = "fixture.pending";
+        pending["implementation"] = "pending";
+        pending["owner"] = "Phase 5";
+        if (phase is not null)
+        {
+            pending["acceptancePhase"] = phase.Value;
+        }
+
+        cases.Add(item: pending);
+        File.WriteAllText(path: path, contents: manifest.ToJsonString());
     }
 
     private static string RequiredText(JsonNode row, string name)

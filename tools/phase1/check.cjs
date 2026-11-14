@@ -50,26 +50,35 @@ function select(manifest, args) {
   if (!Array.isArray(manifest.cases) || !manifest.cases.length) reject('MANIFEST_EMPTY', 'No declared obligations');
   const ids = new Set();
   for (const row of manifest.cases) {
-    if (!/^[A-Za-z0-9][A-Za-z0-9._-]+$/.test(row.id) || ids.has(row.id)) reject('MANIFEST_DUPLICATE', row.id);
+    if (!row || typeof row !== 'object' || Array.isArray(row)) reject('MANIFEST_INVALID', 'Case must be an object');
+    if (typeof row.id !== 'string' || !/^[A-Za-z0-9][A-Za-z0-9._-]+$/.test(row.id) || ids.has(row.id)) reject('MANIFEST_DUPLICATE', String(row.id));
     ids.add(row.id);
-    if (!groups.includes(row.group) || !row.owner || !Array.isArray(row.prerequisites) || !row.evidence?.length || !row.rule) reject('MANIFEST_INVALID', row.id);
+    const strings = values => Array.isArray(values) && values.length > 0 && values.every(value => typeof value === 'string' && value.trim());
+    if (!groups.includes(row.group) || typeof row.owner !== 'string' || !row.owner.trim()
+        || !strings(row.prerequisites) || !strings(row.evidence) || typeof row.rule !== 'string' || !row.rule.trim()
+        || !['csharp', 'pending'].includes(row.implementation)
+        || (row.implementation === 'csharp' && (typeof row.test !== 'string' || !row.test.trim()))) reject('MANIFEST_INVALID', row.id);
+    if (Object.hasOwn(row, 'acceptancePhase') && (!Number.isSafeInteger(row.acceptancePhase) || row.acceptancePhase < 1)) reject('MANIFEST_PHASE', row.id);
   }
   let mode, value, list = false;
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
     if (arg === '--list' && !list) { list = true; continue; }
-    if (mode || !['--all', '--group', '--case'].includes(arg)) reject('USAGE', `Unknown/conflicting option ${arg}`);
+    if (mode || !['--all', '--group', '--case', '--phase'].includes(arg)) reject('USAGE', `Unknown/conflicting option ${arg}`);
     mode = arg;
     if (arg !== '--all') {
       value = args[++i];
       if (!value || value.startsWith('--')) reject('USAGE', `Missing value for ${arg}`);
     }
   }
-  if (!mode && !list) reject('USAGE', 'Use --all, --group name, --case exact-id or --list');
+  if (!mode && !list) reject('USAGE', 'Use --all, --phase N, --group name, --case exact-id or --list');
+  if (mode === '--phase' && (!/^[1-9][0-9]*$/.test(value) || !Number.isSafeInteger(Number(value)))) reject('USAGE', 'Phase must be a positive integer');
   if (mode === '--group' && !groups.includes(value)) reject('SELECTION_UNKNOWN', value);
-  const selected = manifest.cases.filter(row => !mode || mode === '--all' || (mode === '--group' ? row.group === value : row.id === value));
+  const deferred = mode === '--phase' ? manifest.cases.filter(row => (row.acceptancePhase ?? 1) > Number(value)) : [];
+  const selected = manifest.cases.filter(row => !mode || mode === '--all' || (mode === '--phase'
+    ? (row.acceptancePhase ?? 1) <= Number(value) : mode === '--group' ? row.group === value : row.id === value));
   if (!selected.length) reject('SELECTION_EMPTY', String(value));
-  return { selected, list };
+  return { selected, deferred, list };
 }
 function evidence(root, name) {
   const file = inside(root, name);
@@ -233,12 +242,14 @@ async function main(root, args) {
   const status = failures.length || accepted.length !== selection.selected.length ? 'fail' : 'pass';
   const summary = { schemaVersion: 1, nonce, status, selected: selection.selected.map(row => row.id), input: context.input, tool: context.tool, platform: context.platform,
     revision: spawnSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8', windowsHide: true }).stdout?.trim() || 'fixture-without-git',
+    deferred: selection.deferred.map(row => ({ id: row.id, acceptancePhase: row.acceptancePhase, owner: row.owner })),
     results: accepted, failures, commands: context.commands };
   const temporary = path.join(directory, 'summary.json.tmp');
   fs.writeFileSync(temporary, JSON.stringify(summary, null, 2));
   fs.renameSync(temporary, path.join(directory, 'summary.json'));
   fs.closeSync(lockFd); fs.unlinkSync(lock);
   for (const failure of failures) console.error(`${failure.status.toUpperCase()} ${failure.id}: ${failure.diagnostic}${failure.message ? ' — ' + failure.message : ''}${failure.log ? ' [log](' + path.relative(root, path.join(directory, failure.log)).replaceAll('\\', '/') + ')' : ''}`);
+  for (const item of selection.deferred) console.log(`DEFERRED ${item.id}: Phase ${item.acceptancePhase}; owner ${item.owner}`);
   console.log(`${status.toUpperCase()} ${accepted.length}/${selection.selected.length} selected obligations; [summary](${path.relative(root, path.join(directory, 'summary.json')).replaceAll('\\', '/')})`);
   if (status !== 'pass') process.exitCode = 1;
 }

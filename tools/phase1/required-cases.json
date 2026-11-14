@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "scope": "Phase 1 only. Pending subjects block --all. Proposed dispositions require register validation. Qualitative review is never a runtime pass.",
+  "scope": "Declared acceptance phases: absent means 1; --phase N requires phases <= N. Pending subjects block exhaustive --all. Proposed dispositions require register validation. Qualitative review is never a runtime pass.",
   "project": "tests/phase1/KingdomZombies.Phase1.Tests.csproj",
   "assembly": "tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll",
   "inputs": [
@@ -1701,7 +1701,7 @@
       "id": "ac-02.complete",
       "group": "platform",
       "rule": "RULE-01",
-      "owner": "01-17",
+      "owner": "Phase 5",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -1711,7 +1711,8 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "pending",
+      "acceptancePhase": 5
     },
     {
       "id": "ac-05.complete",
@@ -1735,7 +1736,7 @@
       "id": "ac-06.complete",
       "group": "register",
       "rule": "RULE-02",
-      "owner": "01-15",
+      "owner": "Phase 5",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -1747,13 +1748,14 @@
       ],
       "implementation": "pending",
       "declaredOwner": "01-14",
-      "pendingReason": "Real measured analyzer/native-hosted managed coverage and exact threshold mechanisms required; precoverage linkage is separate."
+      "pendingReason": "Real measured analyzer/native-hosted managed coverage and exact threshold mechanisms required; precoverage linkage is separate.",
+      "acceptancePhase": 5
     },
     {
       "id": "ac-07.complete",
       "group": "rules",
       "rule": "RULE-03",
-      "owner": "01-15",
+      "owner": "Phase 5",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -1765,7 +1767,8 @@
       ],
       "implementation": "pending",
       "declaredOwner": "01-09",
-      "pendingReason": "Real measured analyzer/native-hosted managed coverage and exact threshold mechanisms required; precoverage linkage is separate."
+      "pendingReason": "Real measured analyzer/native-hosted managed coverage and exact threshold mechanisms required; precoverage linkage is separate.",
+      "acceptancePhase": 5
     },
     {
       "id": "ac-08.complete",
@@ -1789,7 +1792,7 @@
       "id": "ac-09.complete",
       "group": "rules",
       "rule": "RULE-03",
-      "owner": "01-15",
+      "owner": "Phase 5",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -1801,7 +1804,8 @@
       ],
       "implementation": "pending",
       "declaredOwner": "01-07",
-      "pendingReason": "Real measured analyzer/native-hosted managed coverage and exact threshold mechanisms required; precoverage linkage is separate."
+      "pendingReason": "Real measured analyzer/native-hosted managed coverage and exact threshold mechanisms required; precoverage linkage is separate.",
+      "acceptancePhase": 5
     },
     {
       "id": "ac-10.complete",
@@ -4535,7 +4539,7 @@
       "id": "R-49.positive",
       "group": "rules",
       "rule": "R-49",
-      "owner": "01-15",
+      "owner": "Phase 5",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -4548,13 +4552,14 @@
       "implementation": "pending",
       "polarity": "positive",
       "declaredOwner": "01-05..01-09",
-      "pendingReason": "Real measured analyzer/native-hosted managed coverage and exact threshold mechanisms required; precoverage linkage is separate."
+      "pendingReason": "Real measured analyzer/native-hosted managed coverage and exact threshold mechanisms required; precoverage linkage is separate.",
+      "acceptancePhase": 5
     },
     {
       "id": "R-49.negative",
       "group": "rules",
       "rule": "R-49",
-      "owner": "01-15",
+      "owner": "Phase 5",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -4567,7 +4572,8 @@
       "implementation": "pending",
       "polarity": "negative",
       "declaredOwner": "01-05..01-09",
-      "pendingReason": "Real measured analyzer/native-hosted managed coverage and exact threshold mechanisms required; precoverage linkage is separate."
+      "pendingReason": "Real measured analyzer/native-hosted managed coverage and exact threshold mechanisms required; precoverage linkage is separate.",
+      "acceptancePhase": 5
     },
     {
       "id": "R-50.positive",
@@ -5715,7 +5721,7 @@
       "id": "R-82.positive",
       "group": "rules",
       "rule": "R-82",
-      "owner": "01-15",
+      "owner": "Phase 5",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -5728,13 +5734,14 @@
       "implementation": "pending",
       "polarity": "positive",
       "declaredOwner": "01-05..01-09",
-      "pendingReason": "Real measured analyzer/native-hosted managed coverage and exact threshold mechanisms required; precoverage linkage is separate."
+      "pendingReason": "Real measured analyzer/native-hosted managed coverage and exact threshold mechanisms required; precoverage linkage is separate.",
+      "acceptancePhase": 5
     },
     {
       "id": "R-82.negative",
       "group": "rules",
       "rule": "R-82",
-      "owner": "01-15",
+      "owner": "Phase 5",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -5747,7 +5754,8 @@
       "implementation": "pending",
       "polarity": "negative",
       "declaredOwner": "01-05..01-09",
-      "pendingReason": "Real measured analyzer/native-hosted managed coverage and exact threshold mechanisms required; precoverage linkage is separate."
+      "pendingReason": "Real measured analyzer/native-hosted managed coverage and exact threshold mechanisms required; precoverage linkage is separate.",
+      "acceptancePhase": 5
     },
     {
       "id": "R-83.positive",
@@ -13686,6 +13694,74 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.RuleBindingTests.Bind_ReorderedCurrentRows_PreservesIndex",
       "expectedDiagnostic": "BINDING_ORDER"
+    },
+    {
+      "id": "runner.phase-membership",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-15",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Select_DeclaredPhases_RetainsImplementedCases"
+    },
+    {
+      "id": "runner.phase-declarations",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-15",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Select_InvalidDeclaredPhase_RejectsUnselectedCorruption"
+    },
+    {
+      "id": "runner.phase-summary",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-15",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Run_DeclaredPhase_PublishesSeparateDeferredOwners"
+    },
+    {
+      "id": "runner.phase-required",
+      "group": "runner",
+      "rule": "RULE-03",
+      "owner": "01-15",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Run_RequiredPhase_RejectsUnresolvedAndMissingEvidence"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."
