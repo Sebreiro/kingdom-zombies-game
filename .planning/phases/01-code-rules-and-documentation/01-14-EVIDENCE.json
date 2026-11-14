@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "plan": "01-14",
-  "status": "shared-metadata-complete-focused-documentation-validation-pending",
+  "status": "complete",
   "mainHead": "a8ebbf6e37849919ca687a588b695b784c0dce8e",
   "planHeadBefore": "e1f3e372b0ec5f6e9e9d54d47073904421682625",
   "commits": 5,
@@ -267,9 +267,36 @@
     "completed": "2026-11-14T13:18:58.073Z",
     "commands": 671
   },
-  "pendingSharedCloseout": [
-    "latest-main D11 documentation validation after metadata commit"
-  ],
+  "pendingSharedCloseout": [],
+  "focusedDocumentation": {
+    "status": "pass",
+    "accepted": 36,
+    "failed": 0,
+    "exit": 0,
+    "nonce": "af441443-c7cd-4c90-b0eb-c902b2496c95",
+    "revision": "85c64b8ade4ca2160aa66d63f984bbb9c635a6f8",
+    "input": "053d97e5344377ff4277cdb2372f7a8a2df039251773927c5ff90202dcde2853",
+    "tool": "1cf98decea2947b1f425efadcf974093deb1bc67b7484890345f7c21675f6c14",
+    "platform": "win32-x64-10.0.19044",
+    "report": ".phase1/runs/af441443-c7cd-4c90-b0eb-c902b2496c95/summary.json",
+    "completed": "2026-11-14T13:47:10.587Z",
+    "currentInputMatches": true,
+    "changedFromFrozen": [
+      ".planning/phases/01-code-rules-and-documentation/01-CONTEXT.md",
+      ".planning/phases/01-code-rules-and-documentation/01-SPEC.md",
+      ".planning/PROJECT.md",
+      ".planning/REQUIREMENTS.md",
+      ".planning/ROADMAP.md",
+      ".planning/STATE.md",
+      "docs/architecture/decisions/0001-development-baseline.md",
+      "docs/architecture/decisions/0001-enforcement.md",
+      "docs/architecture/decisions/0003-state-and-engine.md",
+      "docs/code/review.md",
+      "docs/code/rule-matrix.md",
+      "docs/workflow/setup.md",
+      "docs/workflow/verification.md"
+    ]
+  },
   "evidenceKind": "derived-closeout-index; immutable source report remains unchanged",
   "authorityAmendment": {
     "authorization": "Parent verified the direct user instruction moving coverage and exhaustive platform/runner certification to Phase 5 while preserving working rules and checks.",

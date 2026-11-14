@@ -81,14 +81,14 @@ plan_head_after: a8ebbf6e37849919ca687a588b695b784c0dce8e
 duration: 101min
 completed: "2026-11-14"
 status: complete
-workflow-closeout: metadata-complete-focused-documentation-validation-pending
+workflow-closeout: complete
 ---
 
 # Phase 1 Plan 14: Project references and real rule bindings Summary
 
 **Five module declarations now match evaluated MSBuild references; all 85 rules have accurate current linkage/dispositions, and the frozen candidate accepted 666 implemented controls with zero failed controls.**
 
-Both implementation tasks are complete and committed. Shared workflow metadata closeout resumed after the authorized acceptance-timing amendment was committed as `1587015`: ROADMAP was updated first, then STATE advanced to **15/18, next revised 01-15**. A separate latest-main D-11 documentation result follows the metadata commit; the frozen full report remains evidence for its original tested candidate. No coverage, Linux acceptance or human pass is claimed. All shared RULE requirements remain Pending.
+Both implementation tasks and shared workflow closeout are complete and committed. After the authorized amendment `1587015`, ROADMAP was updated first, then STATE advanced to **15/18, next revised 01-15**. A separate latest-main D-11 run accepted **36/36** after metadata commit `85c64b8`; the frozen full report remains evidence for its original tested candidate. No coverage, Linux acceptance or human pass is claimed. All shared RULE requirements remain Pending.
 
 ## Delivered behavior
 
@@ -169,6 +169,21 @@ On authorized resumption, SDK `roadmap.update-plan-progress 1` first recorded **
 This resumption changes only shared progress and owned summary/derived evidence. It performs no source/runner repair, no replacement full run, and no Linux VM/helper/transfer operation. Revised 01-15 owns phase selection and executable Phase 5 handoff reconciliation; 01-16 owns the final complete functional Windows run; 01-17 owns representative actual Linux execution and qualitative review. The separate latest-main D-11 documentation check is recorded after the metadata commit with its own input/tool identity.
 
 All shared RULE requirements and qualitative reviewer/date/outcome remain Pending. No gameplay, Phase 2 execution, actual Linux acceptance or measured coverage is claimed. The exact fourteen human components are ready for consolidated phase-end review; automation/AI do not fill their outcome fields.
+
+## Separate latest-main D-11 documentation evidence
+
+Metadata commit `85c64b8` contains only ROADMAP, STATE and this plan's summary/derived evidence. The subsequent `node tools/phase1/check.cjs --group docs` accepted **36/36**, with **zero failures** and actual exit **0**. Its [canonical report](../../../.phase1/runs/af441443-c7cd-4c90-b0eb-c902b2496c95/summary.json) records:
+
+- Tested revision: `85c64b8ade4ca2160aa66d63f984bbb9c635a6f8`.
+- Invocation: `af441443-c7cd-4c90-b0eb-c902b2496c95`.
+- Input: `053d97e5344377ff4277cdb2372f7a8a2df039251773927c5ff90202dcde2853`.
+- Tool: `1cf98decea2947b1f425efadcf974093deb1bc67b7484890345f7c21675f6c14`.
+- Platform: `win32-x64-10.0.19044`.
+- Completed: `2026-11-14T13:47:10.587Z`.
+
+The current input snapshot still matches that docs report. Comparing it with the frozen full inventory identifies the thirteen amended authority/documentation inputs already reconciled by `1587015` and this metadata closeout: PROJECT, REQUIREMENTS, ROADMAP, STATE, Phase 1 SPEC/CONTEXT, three architecture decisions, review.md, rule-matrix.md, setup.md and verification.md. No implementation source or executable configuration changed. This distinct focused result validates current documentation; it is not a new full-suite result and does not reuse the earlier frozen identity.
+
+The fourteen human components and all seven RULE requirements remain Pending. There was no documentation failure requiring a future-plan code repair. Revised 01-15 still owns the selector and executable ownership migration; no `--phase 1` capability is claimed before it exists. This final summary/evidence-only addition lies outside the runner's fingerprinted input set.
 
 ## Self-Check: PASSED
 
