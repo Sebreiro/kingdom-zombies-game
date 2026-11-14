@@ -1425,6 +1425,28 @@
   ],
   "cases": [
     {
+      "id": "engine.method-escape",
+      "group": "engine",
+      "rule": "RULE-06",
+      "owner": "01-12",
+      "prerequisites": ["pinned-tools", "proof-build"],
+      "evidence": ["fresh-result", "nonempty-log", "actual-test-report"],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.EngineOperationTests.Check_NativeDelegates_RejectsEscapingMethodGroups",
+      "expectedDiagnostic": "ENGINE_METHOD_ESCAPE"
+    },
+    {
+      "id": "engine.inherited-members",
+      "group": "engine",
+      "rule": "RULE-06",
+      "owner": "01-12",
+      "prerequisites": ["pinned-tools", "proof-build"],
+      "evidence": ["fresh-result", "nonempty-log", "actual-test-report"],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.EngineOperationTests.Check_ImplicitNativeMembers_RejectsUnguardedAccess",
+      "expectedDiagnostic": "ENGINE_IMPLICIT_MEMBER"
+    },
+    {
       "id": "engine.consumer-branches",
       "group": "engine",
       "rule": "RULE-06",

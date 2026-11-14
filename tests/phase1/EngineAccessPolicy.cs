@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Operations;
 
 namespace KingdomZombies.Phase1.Tests;
 /// <summary>Resolves engine symbols while restricting adapters to exact files, types and guarded methods.</summary>
@@ -27,23 +28,28 @@ internal static class EngineAccessPolicy
         string path = tree.FilePath;
         SemanticModel model = compilation.GetSemanticModel(syntaxTree: tree);
         var errors = new List<string>();
-        foreach (SyntaxNode node in tree.GetRoot().DescendantNodes().Where(predicate: node => node is
-                InvocationExpressionSyntax or BaseObjectCreationExpressionSyntax or MemberAccessExpressionSyntax))
+        IEnumerable<IOperation> operations = tree.GetRoot().DescendantNodes().Select(selector: node =>
+                model.GetOperation(node: node)).OfType<IOperation>().DistinctBy(keySelector: operation =>
+                        (operation.Kind, operation.Syntax.Span));
+        foreach (IOperation operation in operations)
         {
-            ISymbol? symbol = model.GetSymbolInfo(node: node).Symbol;
-            if (node is MemberAccessExpressionSyntax && symbol is not (IPropertySymbol or IFieldSymbol))
+            ISymbol? symbol = operation switch
             {
-                continue;
-            }
-
+                IInvocationOperation invocation => invocation.TargetMethod,
+                IObjectCreationOperation creation => creation.Constructor,
+                IMethodReferenceOperation reference => reference.Method,
+                IPropertyReferenceOperation property => property.Property,
+                IFieldReferenceOperation field => field.Field,
+                _ => null
+            };
             if (symbol?.ContainingAssembly?.Name is not ("GodotSharp" or "GodotSharpEditor"))
             {
                 continue;
             }
 
-            if (!Allowed(node: node, path: path, model: model))
+            if (operation is IMethodReferenceOperation || !Allowed(node: operation.Syntax, path: path, model: model))
             {
-                FileLinePositionSpan location = node.GetLocation().GetLineSpan();
+                FileLinePositionSpan location = operation.Syntax.GetLocation().GetLineSpan();
                 errors.Add(item: "ENGINE_ACCESS " + path + "(" + (location.StartLinePosition.Line + 1)
                         .ToString(provider: CultureInfo.InvariantCulture) + "," + (location.StartLinePosition
                                 .Character + 1).ToString(provider: CultureInfo.InvariantCulture) + ") "
