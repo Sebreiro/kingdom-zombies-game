@@ -403,7 +403,7 @@ last_updated: 2026-11-14T16:47:55.807Z
     "phase": "01",
     "file": "docs/workflow/platform-proof.md",
     "line": null,
-    "description": "01-17 actual same-source Linux selection accepts seven of sixteen cases; nine required analyzer/graph/project/native selectors hit unchanged 45-second limits on TCG. Clean locked restore, strict build and raw native bootstrap pass; a longer diagnostic is not acceptance. Linux capacity remains blocking.",
+    "description": "01-17 final complete 676-case Linux-VM acceptance remains pending for repaired source 59f032c. Matching clean source/input and authenticated tools/cache are prepared; owned TCG guest shut down cleanly, but HypervisorPresent remains false until the creator restarts Windows and actual WHPX startup is verified. Historical f4658bb representative run accepted seven of sixteen cases with nine unchanged-deadline TCG timeouts; longer diagnostics supply no acceptance. Keep this gap open until complete current Linux scope passes under unchanged checks/deadlines.",
     "status": "open",
     "reason": "",
     "recorded_at": "2026-11-14T16:47:55.807Z",

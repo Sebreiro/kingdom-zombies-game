@@ -1,8 +1,41 @@
 # Phase 1 platform baseline
 
-**Current final-acceptance requirement (creator instruction, 2026-11-14):** Complete the current 676-case Phase 1 selection on Windows and the local Linux VM for the same repaired source. Earlier f4658bb runs below are retained historical evidence, including nine genuine TCG timeouts; they are not final acceptance for the four repairs through 5c52a20. Hardware acceleration setup is requested. Current complete platform reports and separate human judgment remain Pending. See the [repair report](../../.planning/phases/01-code-rules-and-documentation/01-REVIEW-FIX.md) and [verification reference](verification.md).
+**Current final-acceptance requirement (creator instruction, 2026-11-14):** Complete the current 676-case Phase 1 selection on Windows and the local Linux VM for the same repaired source. The fresh final Windows run below accepts **676/676**. Complete Linux-VM execution and separate human judgment remain **Pending**. Earlier f4658bb runs are retained historical evidence, including nine genuine TCG timeouts; they do not certify the four repairs through 5c52a20. See the [repair report](../../.planning/phases/01-code-rules-and-documentation/01-REVIEW-FIX.md) and [verification reference](verification.md).
 
-The [setup](setup.md) and [verification](verification.md) pages define the ordinary commands. This record distinguishes the complete functional Windows baseline owned by 01-16 from actual representative Linux execution owned by 01-17. The Linux baseline remains blocked by real canonical case timeouts on the emulated machine. Preparation, exploratory feedback and separate longer diagnostics carry no acceptance credit. Coverage and exhaustive certification remain pending in the [Phase 5 handoff](../../.planning/phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md).
+The [setup](setup.md) and [verification](verification.md) pages define the ordinary commands. Plan 01-17 owns fresh complete platform evidence after the review repairs. Its matching Linux checkout/tools/cache are verified and the owned old TCG guest is cleanly shut down; an active host hypervisor and actual WHPX startup await the creator's Windows restart. Preparation, exploratory feedback and separate longer diagnostics carry no acceptance credit. Coverage and the eight explicit later-phase declarations remain pending in the [Phase 5 handoff](../../.planning/phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md).
+
+## Final repaired-source Windows execution
+
+On 2026-11-14, the clean frozen validation checkout `.phase1/temp/17-windows-59f032c` executed the complete current Phase 1 scope after the four review repairs stabilized. It began with no old build/proof outputs. Only 41 exact lock-verified NuGet payloads and the authenticated official Windows Godot archive/checksum were seeded. Source was never repaired inside this validation checkout; donor files, VM files, private keys and old build outputs were excluded.
+
+| Actual command | Actual result |
+| --- | --- |
+| `node tools/phase1/bootstrap.cjs --probe engine` | Exit 0; fresh native Windows engine, raw compatibility nonce `27a26937-02f2-4085-b9d2-254b5700f25c` |
+| `dotnet restore KingdomZombies.slnx --locked-mode --disable-parallel -p:NuGetAudit=false` | Exit 0; all five projects restored with unchanged committed locks |
+| `dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q` | Exit 0; zero warnings/errors, `00:00:06.15` |
+| `node tools/phase1/check.cjs --phase 1` | Exit 0; **676/676 ACCEPTED**, zero failed, blocked, missing or skipped selected obligations; eight separate Phase 5 deferrals |
+
+| Identity | Actual value |
+| --- | --- |
+| Tested revision | `59f032cf23340058eec91f12c5d240f585dfabdc` |
+| Invocation | `b8b5eacc-c46a-42d7-a898-01ad33c1b0a8` |
+| Input / file count | `fe2bf549f20329633fd62cfeab796ca8fb2c5ce02da432346e8ee4c314873426` / 203 |
+| Tool | `a23d7bacf589ac13e65eda9e329b0218ebef3a34ba90ad2630f1607349e6aab1` |
+| Platform | `win32-x64-10.0.19044` |
+| Canonical execution interval | `2026-11-14T18:40:20.004Z`–`2026-11-14T19:31:55.692Z` |
+| Summary SHA-256 | `042c7e2b280940860c7e1304ee85bcfb756d4ae58c2d192b51c713dbbd37aa4a` |
+
+The original canonical report is `.phase1/temp/17-windows-59f032c/.phase1/runs/b8b5eacc-c46a-42d7-a898-01ad33c1b0a8/summary.json`, recorded with setup/log receipts in the [partial plan summary](../../.planning/phases/01-code-rules-and-documentation/01-17-SUMMARY.md). Inspection at `2026-11-14T19:32:38.400Z` reverified all 676 exact discovered test reports, their hashes, 692 subject-evidence files, all 681 recorded command outcomes/log hashes and unchanged source fingerprint. Every selected case command exited zero without timeout/signal; no selected case was skipped or credited from another invocation. Frozen Git status and all five locks remain unchanged. Groups accepted: rules 449, graph 27, engine 22, runner 36, pins 27, register 46, docs 36 and state 33.
+
+Observed tools are Node `24.22.1`, SDK `10.0.404`, compiler `5.9.0-1.26529.119 (2ab2854867733112c84ac12c4273d7970ac3afdf)`, native Godot `4.7.2.stable.mono.official.ed1daf0bf`, editor runtime `8.0.16` and hosted application runtime `10.0.15`. The fresh raw native log includes construction/ready/exit and 21 surface/cycle records for two distinct instances, with callbacks, resources/exports/binding/null validation, teardown, late-work fencing, prohibited-worker rejection and captured main-thread delivery. Canonical engine cases separately passed within the complete run. No coverage or human judgment is inferred.
+
+## Matching Linux preparation and restart prerequisite
+
+The new clean guest checkout `/home/phase1/phase1-final-17` is pinned to the exact revision and 203-file input above. Its tracked-source bundle `/home/phase1/phase1-tools/downloads/final-17.bundle` has matching Windows/Linux SHA-256 `334110bde21f2a983deb965d0d227e0872ed659309c8d170e3fd10e07f35f54b`. Guest inspection reverified all 41 package payloads against their raw hashes and current lock identities, both official Godot archives, all four retained tool archives and absence of old `bin`/`obj`/`.godot` outputs. Native archive identity and canonical common managed archive identity remain separate. No Linux restore, build, bootstrap or acceptance case has run on this candidate.
+
+After positive live process/executable/parent/disk/known-host verification, only the owned old TCG guest received `sync; sudo -n poweroff` at `2026-11-14T18:43:22Z`. At `18:43:33.5437334Z`, QEMU 21752 and launcher 23576 were exited, loopback SSH/QMP listeners were absent, and the preserved disk allowed an exclusive read-open. The ignored process record now marks confirmed shutdown and clears live PIDs while retaining the old identities. The [environment record](../../.planning/phases/01-code-rules-and-documentation/01-ENVIRONMENT.md) names the original receipts and exact prepared paths. No unrelated process, host setting or disk was changed.
+
+The host still reported `HypervisorPresent: false`; Windows was not restarted by the agent. The creator has enabled Windows Hypervisor Platform and must complete the host restart. After restart, verify the active hypervisor, start only this owned guest with the prepared WHPX-default launcher, verify actual WHPX startup and genuine Linux access, then execute native bootstrap, clean locked five-project restore, strict zero-warning/error build and the complete `node tools/phase1/check.cjs --phase 1` selection on this frozen candidate. Unchanged deadlines apply. Keep WINDOWS 28 open until complete current Linux acceptance actually passes. Plan 01-17 remains halted at **0/2 accepted tasks**; all fourteen human components and RULE-01–RULE-07 remain Pending.
 
 ## Same managed payloads and native platforms
 
@@ -39,7 +72,7 @@ An earlier invocation on candidate `18fec9f` was stopped shortly after start whe
 
 ## Deferred Phase 5 identities
 
-These eight declarations remain pending with `acceptancePhase: 5` and owner `Phase 5`. They are outside the 670 selected denominator and receive no pass or skip result.
+These eight declarations remain pending with `acceptancePhase: 5` and owner `Phase 5`. They are outside the current 676 selected denominator (670 in the historical pre-review run) and receive no pass or skip result.
 
 | Exact ID | Required later certification |
 | --- | --- |

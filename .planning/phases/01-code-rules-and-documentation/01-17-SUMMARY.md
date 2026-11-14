@@ -38,6 +38,8 @@ status: halted
 
 # Phase 1 Plan 17: Linux baseline and qualitative review Summary
 
+**Latest continuation:** Fresh repaired-source Windows **676/676 ACCEPTED**; identical Linux source/tools/cache prepared and owned guest cleanly shut down. Active hypervisor/WHPX after the creator's Windows restart, complete Linux 676-case execution and all fourteen human judgments remain required. Plan status stays **halted**, with **0/2 accepted tasks**. The original representative-only evidence below is historical; see the latest continuation section at the end.
+
 **Clean genuine Linux setup and seven representative proofs pass; nine canonical timeouts and actual human judgment still block Phase 1.**
 
 ## Status and recorded window
@@ -129,3 +131,52 @@ Shared STATE/ROADMAP/REQUIREMENTS are intentionally **not advanced** for this ha
 ## Self-Check: PASSED
 
 All four owned changed paths, this summary and the retained evidence archive exist. Both owned proof/review commits are ancestors of HEAD; neither deletes tracked files. The sixteen original reports reconcile the exact same source/input/tool/platform, seven accepted test reports and subject-evidence hashes, nine actual canonical timeouts and zero skipped/unrun selectors. Archive hashes match across Linux and Windows. The main snapshot still exactly matches the distinct D-11 report input `e07e91f9b6d86a09dc8dfe21b0e44d5b2dfcec3eac034ce7fe69cfb991732eee` after summary creation. All fourteen human outcomes and seven RULE requirements are verified Pending. Summary status is halted, not complete; shared progress has not advanced. The only new tracked artifact is this intentional summary; generated/runtime evidence remains ignored. The Linux capacity gap remains open as WINDOWS 28, historical item 1 remains open, and items 25–27 remain fixed.
+
+## Latest continuation — repaired-source Windows pass and restart prerequisite
+
+On 2026-11-14, this continuation executed only the remaining independent work for revised Plan 01-17. It did not repeat Plans 01-01–01-16 or execute Phase 2/5. All historical records above remain unchanged. The latest creator rule requires the complete current Phase 1 scope on Windows and the local Linux VM; the earlier sixteen Linux selectors are historical diagnostics, rather than the current acceptance boundary. The four review repairs through `5c52a20` and the independent clean re-review/security audit precede the frozen candidate. No implementation, package pin, framework, threshold, suppression scope or deadline changed in this continuation.
+
+### Frozen final source and clean Windows execution
+
+Prose correction `59f032c` labels the older representative procedures historical and aligns setup's opening with the already-approved complete-scope platform rule. The donor-independent validation clone `.phase1/temp/17-windows-59f032c` was then frozen at `59f032cf23340058eec91f12c5d240f585dfabdc`, with no old `bin`/`obj`/`.godot` or proof outputs. Its only seeds were 41 raw-hash/lock-verified NuGet payloads and the authenticated official Windows Godot archive/checksum. Source edits were authored only in the main checkout; none were made in the validation clone.
+
+| Executed verification | Actual outcome |
+| --- | --- |
+| `node tools/phase1/bootstrap.cjs --probe engine` | Exit 0; native Windows compatibility nonce `27a26937-02f2-4085-b9d2-254b5700f25c` |
+| `dotnet restore KingdomZombies.slnx --locked-mode --disable-parallel -p:NuGetAudit=false` | Exit 0; all five projects restored, locks unchanged |
+| `dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q` | Exit 0; zero warnings/errors, `00:00:06.15` |
+| `node tools/phase1/check.cjs --phase 1` | Exit 0; **676/676 ACCEPTED**, zero failed, blocked, missing or skipped selected obligations |
+
+| Identity | Actual value |
+| --- | --- |
+| Tested revision | `59f032cf23340058eec91f12c5d240f585dfabdc` |
+| Invocation | `b8b5eacc-c46a-42d7-a898-01ad33c1b0a8` |
+| Input / file count | `fe2bf549f20329633fd62cfeab796ca8fb2c5ce02da432346e8ee4c314873426` / 203 |
+| Tool | `a23d7bacf589ac13e65eda9e329b0218ebef3a34ba90ad2630f1607349e6aab1` |
+| Platform | `win32-x64-10.0.19044` |
+| Actual canonical interval | `2026-11-14T18:40:20.004Z`–`2026-11-14T19:31:55.692Z` |
+| Canonical summary SHA-256 | `042c7e2b280940860c7e1304ee85bcfb756d4ae58c2d192b51c713dbbd37aa4a` |
+
+The original report is `.phase1/temp/17-windows-59f032c/.phase1/runs/b8b5eacc-c46a-42d7-a898-01ad33c1b0a8/summary.json`. Setup/full logs and actual `.exit` receipts are under that clone's `.phase1/temp/17-{bootstrap,restore,build,full}.*`; the raw native compatibility directory retains its own actual commands/exits. At `2026-11-14T19:32:38.400Z`, independent post-run inspection reverified every exact discovered test report and report hash, 692 nonempty subject-evidence files with their hashes, all 681 recorded canonical command outcomes and process-log hashes, exact selected/deferred membership, clean frozen Git and the unchanged 203-file input. All 676 case commands exited zero without timeout/signal. `.phase1/temp/17-final-preparation/final-reconciliation.json` retains that inspection receipt. Accepted groups: rules 449, graph 27, engine 22, runner 36, pins 27, register 46, docs 36 and state 33.
+
+The complete selected denominator is 676 of 684 declarations: all original declarations remain, with six meaningful review regressions. The same eight Phase 5 IDs remain outside the denominator with no pass/skip credit: `ac-02.complete`, `ac-06.complete`, `ac-07.complete`, `ac-09.complete`, `R-49.positive`, `R-49.negative`, `R-82.positive` and `R-82.negative`. The unchanged 90% line / 80% branch targets, measured coverage and advanced aggregate/reconciliation work retain Phase 5 ownership.
+
+Observed tools are Node `24.22.1`, SDK `10.0.404`, compiler `5.9.0-1.26529.119 (2ab2854867733112c84ac12c4273d7970ac3afdf)`, native Godot `4.7.2.stable.mono.official.ed1daf0bf`, editor runtime `8.0.16` and hosted runtime `10.0.15`. Fresh raw native evidence contains construction/ready/exit plus 21 surface/cycle records for instances `27179091412` and `27481081300` on captured managed thread `2`, including prohibited-worker rejection, old-generation fencing and main-thread delivery. Canonical native cases separately pass in the complete report. Raw bootstrap controls retain their intended rejection outcomes; a raw exit-zero claim never substitutes for canonical acceptance.
+
+### Identical Linux preparation and verified owned shutdown
+
+The tracked-source bundle `.phase1/temp/17-final-preparation/final-17.bundle`, copied to `/home/phase1/phase1-tools/downloads/final-17.bundle`, has SHA-256 `334110bde21f2a983deb965d0d227e0872ed659309c8d170e3fd10e07f35f54b` on both platforms. New guest checkout `/home/phase1/phase1-final-17` is clean at the exact Windows revision and 203-file input above. It contains no old `bin`, `obj` or `.godot` outputs under source/tests/tools. No donor, credential or old report/build output was bundled or copied.
+
+Preparation-only guest inspection at `2026-11-14T18:42:47.105Z` independently verified all 41 raw NuGet payload hashes and normalized identities against the five current locks, both pinned official Godot ZIPs and all four retained official tool archives against authenticated receipts. Linux uses its native engine archive and the Windows archive's canonical common managed packages; no Linux raw nupkg substitution occurred. Existing Node `24.22.1`, SDK `10.0.404` and runtimes `8.0.16` / `10.0.15` were observed through `/home/phase1/phase1-tools/env.sh`. **No Linux restore, build, bootstrap or acceptance case ran on this candidate under TCG.** Preparation supplies no Linux acceptance credit. Receipts are `.phase1/temp/17-final-preparation/linux-prepared.json`, `linux-prepared-inputs.json`, `linux-preparation.log` and its actual exit-zero receipt; originals also remain in the guest checkout's `.phase1/`.
+
+Before shutdown, positive live inspection matched QEMU PID 21752, launcher PID 23576, the expected executable, parent relationship, full owned disk/loopback command line, start identities and known-host-verified SSH access. Only that owned guest received `sync; sudo -n poweroff` at `2026-11-14T18:43:22Z`; the actual SSH command exited zero. At `2026-11-14T18:43:33.5437334Z`, both owned processes had exited, loopback SSH/QMP ports 23022/23023 had no listeners and the preserved disk allowed an exclusive read-open. The ignored `processes.json` retains executable/start and last PID details, marks confirmed shutdown/stopped time, and clears live QEMU/launcher values to avoid stale-PID reuse. Exact observations are `vm-before-shutdown.json`, `vm-shutdown.log`, `vm-shutdown-ssh.exit` and `vm-stopped.json` under the preparation directory. The 30 GB owned disk, base image, firmware, tools/caches and keys remain preserved. No unrelated process was stopped.
+
+### Blocking prerequisite and remaining acceptance
+
+The same actual host query returned **`HypervisorPresent: false`**. The creator confirmed enabling Windows Hypervisor Platform, but the host still needs the creator-controlled Windows restart. No automated Windows restart, new guest startup or host-setting change was performed here. The existing ignored launcher defaults to WHPX; that configuration does not establish active hardware acceleration.
+
+After restart, verify the live host hypervisor, actual owned QEMU WHPX startup and genuine Linux access. Then source the existing guest environment, establish checkout-local CLI/package/cache/temp isolation and execute native bootstrap, clean locked five-project restore, strict zero-warning/error whole-solution build and all **676** current Phase 1 cases from `/home/phase1/phase1-final-17`. Retain all failures/skips/blocked/missing results as nonpasses under the unchanged deadlines. Preserve all historical reports. The [environment record](01-ENVIRONMENT.md) and [platform record](../../../docs/workflow/platform-proof.md) provide exact paths and commands.
+
+Task 1 remains incomplete until complete same-source Linux execution passes. Task 2 remains incomplete until actual separate human judgment is recorded for all fourteen components. **Accepted tasks stay 0/2, status stays halted, and RULE-01–RULE-07 remain Pending.** WINDOWS 28 remains open for complete current accelerated Linux acceptance; its description now identifies the concrete restart/hypervisor prerequisite and preserves the historical nine TCG timeouts. WINDOWS 1 remains historical/open; no retrospective RED, waiver or exemption was invented. No coverage, gameplay/export/rendered/LAN/performance/endurance or qualitative-human pass is claimed.
+
+Shared STATE/ROADMAP/REQUIREMENTS/review/security/human outcomes were not advanced by this continuation. Root owns the final phase verification and prerequisite checkpoint records. Concurrent Phase 2/3/4 planning context is preserved, including an unrelated untracked Phase 4 discussion checkpoint. This is partial execution evidence, not plan or phase closure.
