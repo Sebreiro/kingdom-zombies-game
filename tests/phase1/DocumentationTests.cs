@@ -7,6 +7,19 @@ namespace KingdomZombies.Phase1.Tests;
 /// <summary>Proves exact documentation navigation with actual compliant and mutated inputs.</summary>
 public sealed class DocumentationTests
 {
+    /// <summary>Distinguishes an existing heading-only index from a usable required navigation index.</summary>
+    [Fact, Trait("Case", "docs.portable")]
+    public void Check_EmptyIndex_RejectsMissingEntries()
+    {
+        var files = new Dictionary<string, byte[]>(comparer: System.StringComparer.Ordinal)
+        {
+            ["AGENTS.md"] = Encoding.UTF8.GetBytes(s: "# Guide\n"),
+        };
+        DocumentationValidator.Check(files: files, required: ["AGENTS.md"]).ShouldContain(
+                elementPredicate: item => System.StringComparer.Ordinal.Equals(x: item, y: "DOC_INDEX AGENTS.md"));
+        ProofProtocol.Record(id: "docs.portable", diagnostic: "DOC_INDEX", location: "AGENTS.md:1");
+    }
+
     /// <summary>Rejects a wrong-case target even when the host filesystem accepts the spelling.</summary>
     [Fact, Trait("Case", "docs.navigation")]
     public void Check_WrongCaseLink_ReportsExactTarget()
