@@ -1,5 +1,7 @@
 # Phase 1: Code rules and documentation - Context
 
+**Latest creator instruction, 2026-11-14:** No host restart now; execute a few important Linux tests and close Phase 1. The [focused closure exception](01-CLOSURE-EXCEPTION.md) is the current Phase 1 acceptance boundary and supersedes earlier full-Linux/restart and individual-review closure timing. Preserve all working enforcement and the full Windows result. Full Linux execution and unreviewed human components remain follow-ups, without pass credit. Future phases retain the general two-platform rule.
+
 **Gathered:** 2026-11-13 (Europe/Paris)
 **Status:** Ready for planning
 

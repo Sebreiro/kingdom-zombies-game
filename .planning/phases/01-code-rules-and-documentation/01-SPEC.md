@@ -7,6 +7,8 @@
 
 ## Approved Simplification — 2026-11-14
 
+**Latest Phase 1 closure instruction:** The creator requested no restart and closure after a few important Linux tests. The [one-time exception](01-CLOSURE-EXCEPTION.md) supersedes the full-Linux/restart and detailed-review closure gates below for this phase: retain Windows 676/676, require the predeclared actual Linux smoke/build/native checks, and retain complete-Linux and unreviewed individual human judgments as explicit follow-ups. No test assertion, canonical timeout, operational rule or Phase 5 obligation is weakened or marked passed by this scheduling exception.
+
 The creator requested faster Phase 1 completion while preserving important rules and everything already working. Keep all existing compiler/analyzer, dependency, exemption, documentation, runner, state and native lifecycle checks. Complete short project references and accurate rule/review mappings, then prove the usable baseline on Windows and Linux.
 
 Phase 5 owns measured analyzer/production coverage (the unchanged 90% line / 80% branch targets), advanced platform/report reconciliation and unfinished aggregate certification. Its complete certification suite includes those later obligations. The [handoff](../05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md) names every transferred case and obligation. Deferred work remains pending with Phase 5 ownership; it is not skipped, passed, waived or silently removed. All 133 milestone requirement IDs and their primary owners remain unchanged.

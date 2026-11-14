@@ -19,4 +19,6 @@ This document records the creator's preferences for AI agents working on Kingdom
 
 The creator established this platform rule on 2026-11-14. It supersedes Phase 1's earlier representative-only Linux completion boundary. See [verification](verification.md) for the current commands and evidence requirements.
 
+**One-time Phase 1 exception, later on 2026-11-14:** The creator requested no Windows restart, a few important actual Linux tests, then Phase 1 closure. The [closure exception](../../.planning/phases/01-code-rules-and-documentation/01-CLOSURE-EXCEPTION.md) predeclares the focused checks and evidence limits. Preserve the full Windows result; keep the unexecuted complete Linux suite and unreviewed detailed human checklist visible as follow-ups. This exception does not change the rule for later phases or fabricate test/review passes.
+
 See [GSD workflow](gsd.md) for phase commands and planning artifacts.
