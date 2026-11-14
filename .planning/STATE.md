@@ -4,17 +4,17 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 1
 current_phase_name: Code rules and documentation
-current_plan: 8
+current_plan: 9
 status: executing
-stopped_at: 01-08 portable pinned producer verified; R44/R48/exemptions/thresholds and full closure pending; Phase 2 context captured (02-CONTEXT.md)
-last_updated: "2026-11-14T00:25:37.696Z"
-last_activity: "2026-11-13 (Europe/Paris) — Completed plan 01-07; 374 implemented proofs pass, with 184 future obligations blocked. Next: 01-08."
-state_head: c654fdb31410291a3edf911ce6ad900e518d27dd
+stopped_at: Completed 01-08-PLAN.md; next 01-09 evaluated graph/type boundaries; Phase 2 context captured (02-CONTEXT.md)
+last_updated: "2026-11-14T02:13:05.341Z"
+last_activity: "2026-11-14 (Europe/Paris) — Completed plan 01-08; 477 implemented proofs pass, zero failed controls, 107 later-owner obligations pending. Next: 01-09."
+state_head: cc964c2ca3154d064429ee74c92351855cb39d8c
 progress:
   total_phases: 10
   completed_phases: 0
   total_plans: 18
-  completed_plans: 8
+  completed_plans: 9
   percent: 0
 ---
 
@@ -26,36 +26,36 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-13).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase 1 — Code rules and documentation; eight plans complete, all twelve real inherited analyzers with exact Roslyn proofs, numeric/syntax boundaries and independent source identity. Two observed Godot syntax spans have exact content/path/diagnostic/location permissions and origin/boundary proofs. Wider enforcement and exemptions belong to 01-08.
+**Current focus:** Phase 1 — Code rules and documentation; nine plans complete. Strict inherited policy, actual consumer failures, exact source/generated scopes, retained test naming, numeric boundaries and independent evidence pass. Next: 01-09 evaluated graph/type boundaries. Phase 1 and all shared RULE requirements remain incomplete.
 
 ## Current Position
 
 Phase: 1 (Code rules and documentation) — EXECUTING
-Current Plan: 8
+Current Plan: 9
 Total Plans in Phase: 18
 Status: Ready to execute
-Last activity: 2026-11-13 (Europe/Paris) — Completed plan 01-07; 374 implemented proofs pass, with 184 future obligations blocked. Next: 01-08.
+Last activity: 2026-11-14 (Europe/Paris) — Completed plan 01-08; 477 implemented proofs pass, zero failed controls, 107 later-owner obligations pending. Next: 01-09.
 
 Progress: [░░░░░░░░░░] 0%
 
-Phase 1 plan progress: 8/18 completed (44%); milestone phase completion remains 0/10.
+Phase 1 plan progress: 9/18 completed (50%); milestone phase completion remains 0/10.
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 8
-- Average duration: 25min observed implementation windows (rounded)
-- Total execution time: 201min observed implementation windows
+- Total plans completed: 9
+- Average duration: 54min recorded windows (rounded)
+- Total execution time: 490min recorded windows; plan 01-08 uses observed continuation/verification wall time
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 | --- | --- | --- | --- |
-| 01 | 8 | 201min | 25min |
+| 01 | 9 | 490min | 54min |
 
 **Recent Trend:**
-- Last 5 plans: 01-04 (17min), 01-18 (21min), 01-05 (25min), 01-06 (44min), 01-07 (47min)
-- Trend: Eight observed implementation windows
+- Last 5 plans: 01-18 (21min), 01-05 (25min), 01-06 (44min), 01-07 (47min), 01-08 (289min)
+- Trend: Nine recorded windows; 01-08 includes full continuation and verification elapsed time
 
 **Per-Plan Metrics:**
 
@@ -69,6 +69,7 @@ Phase 1 plan progress: 8/18 completed (44%); milestone phase completion remains 
 | Phase 01 P05 | 25min | 2 tasks | 30 files |
 | Phase 01 P06 | 44min | 2 tasks | 41 files |
 | Phase 01 P07 | 47min | 2 tasks | 38 files |
+| Phase 01 P08 | 289min | 2 tasks | 55 files |
 
 ## Accumulated Context
 
@@ -90,24 +91,25 @@ Full decisions are in PROJECT.md.
 - [Phase 01]: Owned analyzer source participates in the independent input fingerprint; isolated real-source mutation rejects stale evidence with INPUT_MISMATCH.
 - [Phase 01]: SCR0005-SCR0008 retain exact donor numeric/order semantics; generated layout permissions require immutable source/path/line or exact-member provenance and actual boundary proofs.
 - [Phase 01]: All twelve inherited analyzers require exact Error spans; two observed Godot syntax permissions require exact diagnostic, path, complete text identity and location with actual origin and boundary proofs.
+- [Phase 01]: Exact real consumer and bounded suppression/generated-origin controls pass; immutable full suite 477 passed, zero failed controls, 107 later-owner pending. Pinned authentic xUnit generation uses a verified logical seed; RULE requirements and Linux/coverage acceptance remain Pending.
 
 ### Pending Todos
 
-Continue Phase 1 with plan 01-08; 01-14 must close the five distinct runner-edge bindings recorded in WINDOWS entry 9.
+Continue Phase 1 with plan 01-09; 01-14 must close the five distinct runner-edge bindings recorded in WINDOWS entry 9.
 
 ### Blockers/Concerns
 
-- Plans 01-01 through 01-07 and 01-18 prove the Windows Godot/compiler slice, trusted runner, donor/register identity, permitted composition, strict evaluated policy, five canonical locks and twelve inherited analyzers. Final run 5a29a8aa-54df-4a2b-9add-a7e5cfc3978e has 374 implemented passes, zero failed controls and 184 explicit pending obligations. Wider register activation/enforcement/exemptions, graph, state, lifecycle, docs, coverage and Linux proofs remain pending.
-- Five pins runner-edge identities retain declared owner 01-02 and remain pending; 01-14 owns their distinct actual-case closure (WINDOWS entry 9). The observed exact Godot report-method adaptation in docs/code/engine-adaptations.json must feed 01-08's broader origin/exemption validation.
-- All twelve custom analyzers enforce SCR0001-SCR0012. WINDOWS entry 8 is fixed. Existing ten SCR0001 member permissions, four immutable layout-source records, seven layout-member permissions and the original Godot RS0030 scope retain their values. Two new exact Godot syntax spans additionally require complete text identity, exact path/diagnostic/location and origin/boundary proofs. All RULE requirements remain Pending.
+- Plans 01-01 through 01-08 and 01-18 prove the Windows Godot/compiler slice, trusted runner, donor/register identity, strict inherited/evaluated policy, real consumer violations and exact source/generated boundaries. Final immutable run ad285936-7755-4d08-a242-f882d2495ea9 has 477 passes, zero failed controls and 107 IMPLEMENTATION_PENDING obligations of 584; actual exit 1 solely reflects later-owner work. Graph/default visibility, state, lifecycle, docs, measured coverage and Linux acceptance remain pending.
+- Five pins runner-edge identities retain declared owner 01-02 and remain pending; 01-14 owns their distinct actual-case closure (WINDOWS entry 9). The exact Godot report-method adaptation is included in 01-08's broader source/origin/exemption validation.
+- All twelve custom analyzers enforce SCR0001-SCR0012. Exact generated permissions remain bounded by producer/package/source identity and member/span boundaries; only observed xUnit Main identities changed for the authenticated logical-seed producer. Four immutable layout-source records, seven layout-member permissions, the Godot RS0030 scope and two Godot syntax spans retain precise boundaries. All RULE requirements remain Pending.
 - Plan 01-01's historical missing-RED deviation remains open in WINDOWS.md; Plan 01-02 supplies genuine RED/GREEN proofs without fabricating earlier evidence.
 - A workspace-contained Ubuntu 24.04 x86_64 VM shell is prepared as recorded in 01-ENVIRONMENT.md. Actual Linux toolchain and acceptance execution remain required; environment preparation supplies no platform pass.
 - Reference-PC hardware and required real mixed-OS LAN/endurance environments need recording before release proofs; no measurements are available.
-- 01-08 activation `dd59a77` and 42 real-build cases `f4d4d79` have a complete immutable-source run: 417 passed, zero failed controls, 142 pending of 559 (0d359120-54ec-4e77-a1d1-c5e3587c7f1a; exit 1 solely pending). Later source-format RED `6241e33` → GREEN `d95e99e` has 15 canonical focused passes, 36/36 register controls, strict whole-solution and native bootstrap passes. Five exact registered LF locks survive actual locked restore byte-for-byte unchanged; CRLF is not exempt. Current declarations are 432 implemented/132 pending of 564; full-suite closure for this later code remains unrun. Formatter/permission/test-project/configuration/naming and broader suppression/generated-surface/numeric work remain. One-shot stage/binding scripts must not be reapplied. No SUMMARY, task/plan advancement or RULE completion is claimed.
+- 01-08's two tasks and final reconciliation are complete; see 01-08-SUMMARY.md. Strict whole solution has zero warnings/errors, native bootstrap and the twelve-analyzer source consumer pass, five exact LF locks survive locked restore unchanged, and every implemented case has distinct fresh evidence. WINDOWS entry 23 is fixed; historical bootstrap RED entry 1 is unchanged. One-shot refactoring/binding utilities must not be reapplied.
 
 ## Deferred Items
 
-01-08 later focused progress: real formatter/tab boundaries `4c608a5`, producer portability RED `f93cef3` → GREEN `6df071f`. Authentic hash-verified xUnit generation uses a stable logical seed; root/two-path/integrity and exact call-site/layout boundaries pass, strict five-project build is green. Current declarations 448 implemented/122 pending of 570 are not a new full-suite pass. Remaining R-44/R-48 and broader exemptions/thresholds plus final closure are recorded in 01-08-CHECKPOINT.md; 8/18 and all RULE statuses remain unchanged.
+No 01-08 implementation is deferred. The 107 declared later-owner cases remain required, including graph 09, shared closure 14, measured coverage 15 and actual Linux/clean-checkout acceptance 16/17. The pinned logical-seed producer is proven in the normal checkout and two fresh Windows paths; no Linux pass is claimed.
 
 | Category | Item | Status | Deferred At | Milestone |
 | --- | --- | --- | --- | --- |
@@ -115,8 +117,8 @@ Continue Phase 1 with plan 01-08; 01-14 must close the five distinct runner-edge
 
 ## Session Continuity
 
-Last session: 2026-11-14T00:25:37.660Z
-Stopped at: 01-08 portable pinned producer verified; R44/R48/exemptions/thresholds and full closure pending; Phase 2 context captured (02-CONTEXT.md)
-Resume file: .planning/phases/01-code-rules-and-documentation/01-08-CHECKPOINT.md
+Last session: 2026-11-14T02:13:05.303Z
+Stopped at: Completed 01-08-PLAN.md; next 01-09 evaluated graph/type boundaries; Phase 2 context captured (02-CONTEXT.md)
+Resume file: None
 
-Next action: Execute 01-08-PLAN.md for wider enforcement, real-build, exemption and threshold validation. Plan 18 executed before 05 by dependency order. Remain in Phase 1; all RULE requirements are Pending.
+Next action: Execute 01-09-PLAN.md for evaluated dependency and type boundaries. Plan 18 executed before 05 by dependency order. Remain in Phase 1; all RULE requirements are Pending.

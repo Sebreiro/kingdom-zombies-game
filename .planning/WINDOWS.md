@@ -1,10 +1,10 @@
 ---
 schema_version: 1
-open_count: 3
+open_count: 2
 waived_count: 0
-fixed_count: 20
+fixed_count: 21
 total_count: 23
-last_updated: 2026-11-13T21:25:19.535Z
+last_updated: 2026-11-14T02:15:17.940Z
 ---
 
 # Broken Windows Ledger
@@ -37,7 +37,7 @@ last_updated: 2026-11-13T21:25:19.535Z
 | 20 | 01 | deviation | tests/phase1/ConfigurationTests.cs |  | SCR0009/SCR0010 enforcement exposes handwritten continuation and import prerequisites; corrected source layout, nullable fixture contracts and unused fixture variables while preserving literal values and diagnostic scopes. | fixed |  | 2026-11-13T20:36:42.897Z | 2026-11-13T21:12:33.089Z |
 | 21 | 01 | deviation | tests/phase1/Analyzers/ContinuationIndentAnalyzerTests.cs |  | Captured formatter compatibility proof uses the SDK-bundled dotnet format whitespace folder verifier instead of adding a Workspaces package; original agreed sample remains unchanged by formatting. | fixed |  | 2026-11-13T20:36:43.087Z | 2026-11-13T21:12:33.448Z |
 | 22 | 01 | deviation | docs/code/generated-syntax-adaptations.json |  | Whole-solution build requires one Core qualification fix, handwritten Godot continuation layout fixes, and two exact Godot syntax permissions bounded by diagnostic, full content hash, path and span with actual origin, mutation, adjacency and impostor proofs. | fixed |  | 2026-11-13T20:56:19.761Z | 2026-11-13T21:12:33.814Z |
-| 23 | 01 | unrun-verify | tests/phase1/EnforcementTests.cs |  | 01-08 wider enforcement and exemptions remain unimplemented after three bounded prerequisite repair attempts; full suite not rerun under failed activation; safe tracer remains committed. | open |  | 2026-11-13T21:25:19.535Z |  |
+| 23 | 01 | unrun-verify | tests/phase1/EnforcementTests.cs |  | 01-08 incomplete. Last full run remains 417 passed/zero failed/142 pending of 559. Later source-format, formatter/tab, async/test-project and authentic xUnit portability focused increments pass. Producer REDf93cef3/GREEN6df071f proves root/two-path exact generation, seed/hash/bypass/shape failures and handwritten call-site/layout boundaries with no broad suppression or disabled generation. Current declarations 448 implemented/122 pending of 570 are not a new full-suite verdict. Remaining R44/R48, broader exemptions/generated-surface/numeric and final immutable-source closure must finish. Exact evidence and one-shot cautions are in 01-08-CHECKPOINT.md. | fixed |  | 2026-11-13T21:25:19.535Z | 2026-11-14T02:15:17.940Z |
 
 ````json
 [
@@ -334,10 +334,10 @@ last_updated: 2026-11-13T21:25:19.535Z
     "file": "tests/phase1/EnforcementTests.cs",
     "line": null,
     "description": "01-08 incomplete. Last full run remains 417 passed/zero failed/142 pending of 559. Later source-format, formatter/tab, async/test-project and authentic xUnit portability focused increments pass. Producer REDf93cef3/GREEN6df071f proves root/two-path exact generation, seed/hash/bypass/shape failures and handwritten call-site/layout boundaries with no broad suppression or disabled generation. Current declarations 448 implemented/122 pending of 570 are not a new full-suite verdict. Remaining R44/R48, broader exemptions/generated-surface/numeric and final immutable-source closure must finish. Exact evidence and one-shot cautions are in 01-08-CHECKPOINT.md.",
-    "status": "open",
+    "status": "fixed",
     "reason": "",
     "recorded_at": "2026-11-13T21:25:19.535Z",
-    "resolved_at": null,
+    "resolved_at": "2026-11-14T02:15:17.940Z",
     "milestone": "v0.1"
   }
 ]

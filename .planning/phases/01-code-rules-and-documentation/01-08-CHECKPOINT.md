@@ -1,8 +1,12 @@
 # 01-08 execution checkpoint
 
-Status: incomplete; Task 1 tracer proven, Task 1 expansion and Task 2 pending. No SUMMARY.md exists and no plan/requirement progress was advanced.
+Status: complete; both owned tasks and final immutable-source reconciliation pass. See 01-08-SUMMARY.md. Phase 1 is 9/18, next 01-09; all RULE requirements remain Pending. Earlier sections below are historical continuation records.
 
-## Latest continuation: all owned controls ready for immutable full closure
+## Final closure
+
+Final report `.phase1/runs/ad285936-7755-4d08-a242-f882d2495ea9/summary.json`: **477 passed, zero failed controls, 107 IMPLEMENTATION_PENDING later-owner obligations, 584 declared**. Actual exit 1 is solely pending work. Tested HEAD `cc964c2ca3154d064429ee74c92351855cb39d8c`, input `7cde7c9c72a422541f89379dd2df4d2d05988174fed650aaa53db6838c65a35f`. Source remained immutable and clean. All 01-08-owned cases passed; no later-plan work or RULE completion is claimed. SUMMARY self-check passed; roadmap/state now point to 01-09 and preserve the independent Phase 2 annotation. WINDOWS23 is fixed after canonical rendering repaired only its pre-existing stale table row; other entries are preserved.
+
+## Previous continuation: all owned controls ready for immutable full closure
 
 **Empty-inventory RED `f78bd25` → aggregate GREEN `114f2c9`.** The compiled intended test demonstrated that clearing all ten local records and every backreference incorrectly returned `[]`. Fresh `08-empty-red.json` / `08-empty-red.xml` received `RED_EVIDENCE_OK`. The register now requires the exact ten-ID active inventory independently of backreferences; the original target passes `08-empty-green.xml` and canonical `aa21070a`.
 
