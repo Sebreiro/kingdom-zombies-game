@@ -2,7 +2,19 @@
 
 Status: incomplete; Task 1 tracer proven, Task 1 expansion and Task 2 pending. No SUMMARY.md exists and no plan/requirement progress was advanced.
 
-## Latest continuation: exact local dispositions and real engine companions
+## Latest continuation: all owned controls ready for immutable full closure
+
+**Empty-inventory RED `f78bd25` → aggregate GREEN `114f2c9`.** The compiled intended test demonstrated that clearing all ten local records and every backreference incorrectly returned `[]`. Fresh `08-empty-red.json` / `08-empty-red.xml` received `RED_EVIDENCE_OK`. The register now requires the exact ten-ID active inventory independently of backreferences; the original target passes `08-empty-green.xml` and canonical `aa21070a`.
+
+All remaining separately bound controls pass: overlap/adjacency `3aecfe02`; exact encoding/byte-probe neighbors `16682769`; input permutations `940da8d1`; real repeated immutable-input child runs `4b09f2a1`; real concurrent evidence isolation `45041562`; all numeric metadata overflow/fraction/type vectors `2af87f9d`; actual analyzer nearest neighbors `bb350253`. The latter executes UTF-16 119/120/121 using ASCII/Cyrillic/supplementary/combining text and LF/CRLF, body lines 59/60/61 and continuation offsets 7/8/9. Separate real formatter 3/4/5 controls remain required. Coverage and enum/state runtime obligations retain their later owners; metadata checks provide no measurement credit.
+
+Independent AC-08 case `b0fd8f80` performs its own fresh copied Godot restore/clean build and handwritten-only SCR0001 mutation while all eight genuine generated hashes remain unchanged, plus required current source/configuration/origin validation. The exact plan Task 2 command `node tools/phase1/check.cjs --case rules.exemptions` now has a distinct actual C# binding and passes `f39f925d`: a real compiler-accepted pragma bypass is rejected by the required source guard at `Subject.cs(1,1)`. It is not an alias or registry-only assertion. The one-shot aggregate/task2 binding utilities have run and must not be reapplied.
+
+Final cheap preflight: whole five-project solution zero warnings/errors (`08-final-preflight-build.log`); actual native bootstrap `d70acb20-9f33-40d4-8055-53ff70ea8b14` passes as raw compatibility evidence; all twelve analyzer sources as a real consumer `5dae576c`; current tracked source format `804d73ea`; every current unique actual test binding `ba02168a`; exact Task 1 tracer `34dbc5f9`; register class **36/36**, zero skipped (`08-final-preflight-register.xml`); diff check clean.
+
+All 01-08-owned cases are implemented. Current manifest: **584 declared, 477 implemented, 107 later-owner pending**. Complete-suite reconciliation is still required before task/plan completion. Source commit `114f2c91671a38071b8f49490922e3c03f07f5af` is ready for the immutable `--all` run. No SUMMARY/requirement completion or advancement beyond 8/18 yet. Shared Phase 2 annotations remain untouched.
+
+## Previous continuation: exact local dispositions and real engine companions
 
 | Verified increment | Commit | Result |
 | --- | --- | --- |
