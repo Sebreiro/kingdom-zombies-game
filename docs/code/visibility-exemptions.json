@@ -2,6 +2,9 @@
   "schemaVersion": 1,
   "rule": "R-34",
   "permissions": [
+    { "path": "src/core/FoundationMovementCommand.cs", "type": "KingdomZombies.Core.FoundationMovementCommand", "reason": "The game adapter submits immutable identified movement requests across the Core assembly boundary." },
+    { "path": "src/core/FoundationActorState.cs", "type": "KingdomZombies.Core.FoundationActorState", "reason": "The game view reads the immutable identified actor publication across the Core assembly boundary." },
+    { "path": "src/core/FoundationSession.cs", "type": "KingdomZombies.Core.FoundationSession", "reason": "The game composition owns this pure authoritative local session across the Core assembly boundary." },
     { "path": "src/core/ProofValue.cs", "type": "KingdomZombies.Core.ProofValue", "reason": "The game composition proof consumes this explicit immutable cross-assembly value contract." },
     { "path": "src/multiplayer-abstractions/IProofService.cs", "type": "KingdomZombies.Multiplayer.Abstractions.IProofService", "reason": "An independent provider must implement this explicit cross-assembly service port." },
     { "path": "src/godot-game/proofs/Phase1.cs", "type": "KingdomZombies.Proofs.Phase1", "reason": "The observed Godot scene script and its generated partial expose this exact engine-facing type. This grants no other script or generated source permission." }
