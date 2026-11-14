@@ -1863,7 +1863,7 @@
       "id": "ac-14.complete",
       "group": "engine",
       "rule": "RULE-06",
-      "owner": "01-11",
+      "owner": "01-12",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -1873,7 +1873,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.EngineCaseTests.Run_CompleteIntegration_RequiresAllNativeSurfaces",
+      "expectedDiagnostic": "ENGINE_ASSERTIONS"
     },
     {
       "id": "ac-15.complete",
@@ -1889,7 +1891,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.EngineCaseTests.Run_RepeatedLifetimes_RequiresCleanTeardown",
+      "expectedDiagnostic": "ENGINE_ASSERTIONS"
     },
     {
       "id": "ac-16.complete",
@@ -1905,7 +1909,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.EngineCaseTests.Load_MissingReference_RejectsBeforeValueUse",
+      "expectedDiagnostic": "EXPORT_REQUIRED"
     },
     {
       "id": "ac-17.complete",
@@ -1921,7 +1927,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.EngineCaseTests.Run_WorkerBoundary_RequiresMainThreadMutation",
+      "expectedDiagnostic": "ENGINE_ASSERTIONS"
     },
     {
       "id": "ac-18.complete",
@@ -2457,7 +2465,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.EngineCaseTests.Emit_RepeatedGenerations_RequiresSingleHandler",
+      "expectedDiagnostic": "ENGINE_ASSERTIONS"
     },
     {
       "id": "edge.rule-06.empty",
@@ -2473,7 +2483,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.EngineCaseTests.Load_MissingNullableValue_RejectsRequiredEmpty",
+      "expectedDiagnostic": "EXPORT_REQUIRED"
     },
     {
       "id": "edge.rule-06.ordering",
@@ -2489,7 +2501,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.EngineCaseTests.Run_NativeCallbacks_RequiresDocumentedOrder",
+      "expectedDiagnostic": "ENGINE_ASSERTIONS"
     },
     {
       "id": "edge.rule-06.idempotency",
@@ -2505,7 +2519,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.EngineCaseTests.Run_NewSceneInstances_RejectsInheritedState",
+      "expectedDiagnostic": "ENGINE_ASSERTIONS"
     },
     {
       "id": "edge.rule-06.concurrency",
@@ -2521,7 +2537,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.EngineCaseTests.Release_OldQueuedResult_PreservesBothGenerations",
+      "expectedDiagnostic": "ENGINE_ASSERTIONS"
     },
     {
       "id": "edge.rule-07.boundary",
@@ -12759,6 +12777,150 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.EngineEvidenceTests.Load_SerializedExports_ValidatesBeforeUse",
       "expectedDiagnostic": "ASSERTION_PASSED"
+    },
+    {
+      "id": "engine.evidence-integrity",
+      "group": "engine",
+      "rule": "RULE-06",
+      "owner": "01-12",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.EngineEvidenceTests.Check_NativeEvidence_RejectsMissingStaleAndDuplicate",
+      "expectedDiagnostic": "ENGINE_EVIDENCE_EXACT"
+    },
+    {
+      "id": "engine.gateway-bypass",
+      "group": "engine",
+      "rule": "RULE-06",
+      "owner": "01-12",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.EngineBoundaryTests.Check_GatewayBypass_RejectsExactSubject",
+      "expectedDiagnostic": "ENGINE_ACCESS"
+    },
+    {
+      "id": "engine.source-policy",
+      "group": "engine",
+      "rule": "RULE-06",
+      "owner": "01-12",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.EngineBoundaryTests.Check_EngineSource_RequiresDeclaredGuardedAdapters",
+      "expectedDiagnostic": "ENGINE_SOURCE_GUARDED"
+    },
+    {
+      "id": "engine.core-independence",
+      "group": "engine",
+      "rule": "RULE-06",
+      "owner": "01-12",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.EngineBoundaryTests.Run_CoreState_PreservesEngineIndependence",
+      "expectedDiagnostic": "CORE_ENGINE_INDEPENDENT"
+    },
+    {
+      "id": "engine.generated-origin",
+      "group": "engine",
+      "rule": "RULE-06",
+      "owner": "01-12",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.EngineGeneratedTests.Check_EmittedEngineSpans_RequiresAuthenticatedOrigin",
+      "expectedDiagnostic": "ENGINE_GENERATED_ORIGIN"
+    },
+    {
+      "id": "engine.generated-boundary",
+      "group": "engine",
+      "rule": "RULE-06",
+      "owner": "01-12",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.EngineGeneratedTests.Check_EngineSpanPermissions_RejectsAdjacentImpostors",
+      "expectedDiagnostic": "ENGINE_GENERATED_BOUNDARY"
+    },
+    {
+      "id": "engine.handwritten-partial",
+      "group": "engine",
+      "rule": "RULE-06",
+      "owner": "01-12",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.EngineGeneratedTests.Build_HandwrittenEnginePartial_RetainsNamedArgumentRule",
+      "expectedDiagnostic": "SCR0001"
+    },
+    {
+      "id": "engine.fake-generated",
+      "group": "engine",
+      "rule": "RULE-06",
+      "owner": "01-12",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.EngineGeneratedTests.Build_FakeEngineGeneration_RetainsExactDiagnostic",
+      "expectedDiagnostic": "SCR0001"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."

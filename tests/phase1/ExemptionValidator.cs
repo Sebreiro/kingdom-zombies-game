@@ -197,9 +197,9 @@ internal static class ExemptionValidator
                 permissions: permissions);
         AddRecords(relative: "docs/code/generated-layout-adaptations.json", collection: "members", count: 7,
                 permissions: permissions);
-        AddRecords(relative: "docs/code/engine-adaptations.json", collection: "local", count: 2,
+        AddRecords(relative: "docs/code/engine-adaptations.json", collection: "local", count: 1,
                 permissions: permissions);
-        Require(value: permissions.Count == 19, message: "SUPPRESSION_TOTAL_COUNT");
+        Require(value: permissions.Count == 18, message: "SUPPRESSION_TOTAL_COUNT");
         return permissions;
     }
 
@@ -287,18 +287,15 @@ internal static class ExemptionValidator
         string diagnostic = ReadArgument(attribute: attribute, model: model, index: 1);
         string target = ReadArgument(attribute: attribute, model: model, name: "Target");
         string key = Permission(path: path, diagnostic: diagnostic, target: target);
-        bool sealing = StringComparer.Ordinal.Equals(x: diagnostic, y: "CA1852")
-                && StringComparer.Ordinal.Equals(x: target, y: "~T:KingdomZombies.Proofs.LifecycleFixture");
         bool valid = StringComparer.Ordinal.Equals(x: type,
                 y: "System.Diagnostics.CodeAnalysis.SuppressMessageAttribute")
                 && attribute.Parent is AttributeListSyntax { Target.Identifier.ValueText: "assembly" }
                 && StringComparer.Ordinal.Equals(x: ReadArgument(attribute: attribute, model: model, name: "Scope"),
-                        y: sealing ? "type" : "member") && ReadArgument(attribute: attribute, model: model,
+                        y: "member") && ReadArgument(attribute: attribute, model: model,
                                 name: "Justification").Length > 0
                 && StringComparer.Ordinal.Equals(x: ReadArgument(attribute: attribute, model: model, index: 0),
                         y: diagnostic.StartsWith(value: "SCR", comparisonType: StringComparison.Ordinal)
-                                ? "Sebreiro.CodeRules" : sealing ? "Performance" : "ApiDesign")
-                && (permissions?.Contains(item: key) ?? false);
+                                ? "Sebreiro.CodeRules" : "ApiDesign") && (permissions?.Contains(item: key) ?? false);
         string code = !seen.Add(item: key) ? "SUPPRESSION_DUPLICATE" : "SUPPRESSION_UNREGISTERED";
         if (!valid || StringComparer.Ordinal.Equals(x: code, y: "SUPPRESSION_DUPLICATE"))
         {
@@ -357,10 +354,7 @@ internal static class ExemptionValidator
             string path = Text(row: row, name: "path");
             string diagnostic = Text(row: row, name: "diagnostic");
             string target = Text(row: row, name: "target");
-            Require(value: (target.StartsWith(value: "~M:", comparisonType: StringComparison.Ordinal)
-                    || (StringComparer.Ordinal.Equals(x: diagnostic, y: "CA1852")
-                            && StringComparer.Ordinal.Equals(x: target,
-                                    y: "~T:KingdomZombies.Proofs.LifecycleFixture")))
+            Require(value: target.StartsWith(value: "~M:", comparisonType: StringComparison.Ordinal)
                     && target.IndexOfAny(anyOf: ['*', '?']) < 0, message: "SUPPRESSION_MEMBER_REQUIRED " + target);
             Require(value: permissions.Add(item: Permission(path: path, diagnostic: diagnostic, target: target)),
                     message: "SUPPRESSION_RECORD_OVERLAP " + target);

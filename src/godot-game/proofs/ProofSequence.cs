@@ -85,6 +85,7 @@ internal static class ProofSequence
 
     private static void Load(Node owner)
     {
+        Gateway.RequireThread();
         string mode = System.Environment.GetEnvironmentVariable(variable: "PHASE1_ENGINE_MODE") ?? "valid";
         string path = StringComparer.Ordinal.Equals(x: mode, y: "missing-reference")
                 ? "res://proofs/InvalidFixture.tscn" : "res://proofs/ValidFixture.tscn";
@@ -150,11 +151,14 @@ internal static class ProofSequence
 
     private static void Finish(Node owner, string nonce)
     {
+        Gateway.RequireThread();
         Require(condition: _worker?.IsCompletedSuccessfully == true, message: "WORKER_FAILED");
         Gateway.Drain();
         Require(condition: Current.Value == 41 && Current.Handlers == 1 && _first.Value == 7
                 && _first.Handlers == 1 && _first.Resources + Current.Resources > 0,
                 message: "MAIN_THREAD_RESULT");
+        Require(condition: _first.Instance > 0 && Current.Instance > 0 && _first.Instance != Current.Instance,
+                message: "DISTINCT_ENGINE_INSTANCES");
         Cleanup(owner: owner);
         Validate(lifetime: Current);
         _barrier.Dispose();
@@ -177,6 +181,7 @@ internal static class ProofSequence
 
     private static void Cleanup(Node owner)
     {
+        Gateway.RequireThread();
         if (_fixture is null)
         {
             return;
@@ -184,6 +189,7 @@ internal static class ProofSequence
 
         owner.RemoveChild(node: _fixture);
         _fixture.Free();
+        Require(condition: !GodotObject.IsInstanceValid(instance: _fixture), message: "NATIVE_TEARDOWN");
         _fixture = null;
     }
 
@@ -202,7 +208,15 @@ internal static class ProofSequence
 
     private static void Publish(string nonce, string surface, int cycle)
     {
-        GD.Print(what: ["PHASE1_SURFACE " + JsonSerializer.Serialize(value: new { nonce, surface, cycle })]);
+        Gateway.RequireThread();
+        GD.Print(what: ["PHASE1_SURFACE " + JsonSerializer.Serialize(value: new
+        {
+            nonce,
+            surface,
+            cycle,
+            instance = cycle == 1 ? _first.Instance : Current.Instance,
+            thread = System.Environment.CurrentManagedThreadId
+        })]);
     }
 
     private static void Require(bool condition, string message)

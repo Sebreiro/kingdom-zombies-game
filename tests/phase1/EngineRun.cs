@@ -15,6 +15,8 @@ internal sealed class EngineRun
     internal string Output { get; private init; } = "";
     /// <summary>Gets the actual native output artifact path.</summary>
     internal string Log { get; private init; } = "";
+    /// <summary>Gets the distinct native-process nonce required by every surface record.</summary>
+    internal string Nonce { get; private init; } = "";
 
     /// <summary>Starts the exact local pinned engine without loading its managed API in this test host.</summary>
     internal static EngineRun Start(string mode = "valid")
@@ -73,8 +75,6 @@ internal sealed class EngineRun
                 value: "PHASE1_SURFACE ", comparisonType: StringComparison.Ordinal))];
         return lines.Count(predicate: line => Matches(line: line, surface: surface, cycle: cycle)) == 1;
     }
-
-    private string Nonce { get; init; } = "";
 
     private bool Matches(string line, string surface, int cycle)
     {

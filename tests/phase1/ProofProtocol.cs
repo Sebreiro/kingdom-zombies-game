@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -14,7 +16,8 @@ public static class ProofProtocol
             .GetCurrentDirectory();
 
     /// <summary>Writes the case log and nonce-bound proof result when a result directory is configured.</summary>
-    public static void Record(string id, string diagnostic = "ASSERTION_PASSED", string location = "C# assertion")
+    public static void Record(string id, string diagnostic = "ASSERTION_PASSED", string location = "C# assertion",
+            IReadOnlyList<string>? artifacts = null)
     {
         string? directory = Environment.GetEnvironmentVariable(variable: "PHASE1_RESULT_DIRECTORY");
         if (directory is null)
@@ -40,10 +43,9 @@ public static class ProofProtocol
                 "discovery",
                 "execution"
             },
-            evidence = new[]
-            {
-                Path.GetFileName(path: log)
-            },
+            evidence = new[] { log }.Concat(second: artifacts ?? []).Select(selector: path => Path.GetFileName(
+                    path: path))
+                    .ToArray(),
         };
         File.WriteAllText(path: Path.Combine(path1: directory, path2: id + ".proof.json"),
                 contents: JsonSerializer.Serialize(value: result));

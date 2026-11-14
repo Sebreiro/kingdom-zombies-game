@@ -42,12 +42,14 @@ public partial class Phase1 : Node
     /// <summary>Emits teardown evidence carrying the same invocation nonce as construction and ready.</summary>
     public override void _ExitTree()
     {
+        ProofSequence.Gateway.RequireThread();
         WriteEvidence(assertion: "exit");
     }
     private readonly string _nonce;
 
     private void WriteEvidence(string assertion)
     {
+        ProofSequence.Gateway.RequireThread();
         GD.Print(what: ["PHASE1_ASSERT " + JsonSerializer.Serialize(value: new
         {
             nonce = _nonce,

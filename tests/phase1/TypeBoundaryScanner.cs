@@ -12,13 +12,14 @@ internal static class TypeBoundaryScanner
     /// <summary>Checks the semantic engine access boundary without constructing native engine objects.</summary>
     internal static IReadOnlyList<string> EngineAccess(string source, string path)
     {
-        return [];
+        return EngineAccessPolicy.Check(source: source, path: path);
     }
 
     /// <summary>Checks independent concrete subjects in the actual compiled pure and reusable projects.</summary>
     internal static IReadOnlyList<string> ValidateRepository(string root)
     {
         var errors = new List<string>();
+        errors.AddRange(collection: EngineAccessPolicy.Repository());
         errors.AddRange(collection: Validate(assembly: Path.Combine(path1: root,
                 path2: "src/core/bin/Debug/net10.0/KingdomZombies.Core.dll"),
                 expectedType: "KingdomZombies.Core.ProofValue", boundary: "core"));

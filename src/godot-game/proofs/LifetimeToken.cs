@@ -22,6 +22,8 @@ internal sealed class LifetimeToken
     internal int Uses { get; set; }
     /// <summary>Gets or sets genuine native resource construction observations.</summary>
     internal int Resources { get; set; }
+    /// <summary>Gets or sets the actual engine identity of this generation's root node.</summary>
+    internal ulong Instance { get; set; }
     /// <summary>Gets the cancellation source independently of the generation acceptance fence.</summary>
     internal CancellationTokenSource Cancellation { get; } = new();
 

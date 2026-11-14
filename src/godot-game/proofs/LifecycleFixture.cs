@@ -3,7 +3,7 @@ using Godot;
 
 namespace KingdomZombies.Proofs;
 /// <summary>Receives engine-owned callbacks and generated signal binding for each actual scene instance.</summary>
-internal partial class LifecycleFixture : Node
+internal sealed partial class LifecycleFixture : Node
 {
     /// <summary>Records genuine parameterless construction by the engine scene loader.</summary>
     public LifecycleFixture()
@@ -17,6 +17,10 @@ internal partial class LifecycleFixture : Node
     {
         ProofSequence.Gateway.RequireThread();
         _lifetime.Events.Add(item: Name + ":enter");
+        if (Name == "Parent")
+        {
+            _lifetime.Instance = GetInstanceId();
+        }
     }
 
     /// <summary>Records readiness and explicitly subscribes the intended live parent handler.</summary>
@@ -109,6 +113,7 @@ internal partial class LifecycleFixture : Node
 
     private (ProofResource Resource, int Value) CheckedExports()
     {
+        ProofSequence.Gateway.RequireThread();
         ProofResource resource = RequiredResource
                 ?? throw new InvalidOperationException(message: "EXPORT_REQUIRED:RequiredResource");
         int? staged = RequiredValue.VariantType == Variant.Type.Int ? RequiredValue.AsInt32() : null;

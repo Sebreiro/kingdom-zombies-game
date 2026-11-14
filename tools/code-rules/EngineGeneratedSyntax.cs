@@ -19,7 +19,7 @@ internal static class EngineGeneratedSyntax
         {
             if (!StringComparer.Ordinal.Equals(x: diagnostic, y: row.Diagnostic) || !path.EndsWith(
                     value: row.Suffix, comparisonType: StringComparison.Ordinal) || position.Line + 1 != row.Line
-                            || position.Character + 1 != row.Column || span.Length != row.Length)
+                    || position.Character + 1 != row.Column || span.Length != row.Length)
             {
                 continue;
             }
@@ -35,36 +35,6 @@ internal static class EngineGeneratedSyntax
 
     private static readonly SyntaxPermission[] _spans =
     [
-        ("SCR0007", "/Godot.SourceGenerators.ScriptSignalsGenerator/"
-                + "KingdomZombies.Proofs.LifecycleFixture_ScriptSignals.generated.cs",
-            "f67cd222d46663404e13d154f0b4f88f34a28f8466e80f956b5f0c020900cb02", 27, 121, 362),
-        ("SCR0008", "/Godot.SourceGenerators.ScriptSignalsGenerator/"
-                + "KingdomZombies.Proofs.LifecycleFixture_ScriptSignals.generated.cs",
-            "f67cd222d46663404e13d154f0b4f88f34a28f8466e80f956b5f0c020900cb02", 24, 98, 18),
-        ("SCR0001", "/Godot.SourceGenerators.ScriptSignalsGenerator/"
-                + "KingdomZombies.Proofs.LifecycleFixture_ScriptSignals.generated.cs",
-            "f67cd222d46663404e13d154f0b4f88f34a28f8466e80f956b5f0c020900cb02", 39, 20, 16),
-        ("SCR0001", "/Godot.SourceGenerators.ScriptSignalsGenerator/"
-                + "KingdomZombies.Proofs.LifecycleFixture_ScriptSignals.generated.cs",
-            "f67cd222d46663404e13d154f0b4f88f34a28f8466e80f956b5f0c020900cb02", 39, 38, 8),
-        ("SCR0001", "/Godot.SourceGenerators.ScriptSignalsGenerator/"
-                + "KingdomZombies.Proofs.LifecycleFixture_ScriptSignals.generated.cs",
-            "f67cd222d46663404e13d154f0b4f88f34a28f8466e80f956b5f0c020900cb02", 58, 41, 6),
-        ("SCR0001", "/Godot.SourceGenerators.ScriptSignalsGenerator/"
-                + "KingdomZombies.Proofs.LifecycleFixture_ScriptSignals.generated.cs",
-            "f67cd222d46663404e13d154f0b4f88f34a28f8466e80f956b5f0c020900cb02", 26, 100, 1),
-        ("SCR0001", "/Godot.SourceGenerators.ScriptSignalsGenerator/"
-                + "KingdomZombies.Proofs.LifecycleFixture_ScriptSignals.generated.cs",
-            "f67cd222d46663404e13d154f0b4f88f34a28f8466e80f956b5f0c020900cb02", 27, 21, 460),
-        ("SCR0001", "/Godot.SourceGenerators.ScriptSignalsGenerator/"
-                + "KingdomZombies.Proofs.LifecycleFixture_ScriptSignals.generated.cs",
-            "f67cd222d46663404e13d154f0b4f88f34a28f8466e80f956b5f0c020900cb02", 46, 91, 7),
-        ("SCR0001", "/Godot.SourceGenerators.ScriptSignalsGenerator/"
-                + "KingdomZombies.Proofs.LifecycleFixture_ScriptSignals.generated.cs",
-            "f67cd222d46663404e13d154f0b4f88f34a28f8466e80f956b5f0c020900cb02", 49, 45, 6),
-        ("SCR0001", "/Godot.SourceGenerators.ScriptSignalsGenerator/"
-                + "KingdomZombies.Proofs.LifecycleFixture_ScriptSignals.generated.cs",
-            "f67cd222d46663404e13d154f0b4f88f34a28f8466e80f956b5f0c020900cb02", 49, 53, 4),
         ("SCR0007", "/Godot.SourceGenerators.ScriptMethodsGenerator/"
                 + "KingdomZombies.Proofs.LifecycleFixture_ScriptMethods.generated.cs",
             "5bb4d4f1584b5d6bf9366ef6aa87df086899e54beefce1181bf58f7ef1ec245b", 55, 121, 190),
@@ -544,6 +514,36 @@ internal static class EngineGeneratedSyntax
             "5bb4d4f1584b5d6bf9366ef6aa87df086899e54beefce1181bf58f7ef1ec245b", 61, 21, 293),
         ("SCR0001", "/Godot.SourceGenerators.ScriptMethodsGenerator/"
                 + "KingdomZombies.Proofs.LifecycleFixture_ScriptMethods.generated.cs",
-            "5bb4d4f1584b5d6bf9366ef6aa87df086899e54beefce1181bf58f7ef1ec245b", 62, 21, 462)
+            "5bb4d4f1584b5d6bf9366ef6aa87df086899e54beefce1181bf58f7ef1ec245b", 62, 21, 462),
+        ("SCR0007", "/Godot.SourceGenerators.ScriptSignalsGenerator/"
+                + "KingdomZombies.Proofs.LifecycleFixture_ScriptSignals.generated.cs",
+            "16d37d09d65b6fea642fad98c45c0d7812454064932d800f79c28e5841ec3d7d", 27, 121, 362),
+        ("SCR0008", "/Godot.SourceGenerators.ScriptSignalsGenerator/"
+                + "KingdomZombies.Proofs.LifecycleFixture_ScriptSignals.generated.cs",
+            "16d37d09d65b6fea642fad98c45c0d7812454064932d800f79c28e5841ec3d7d", 24, 98, 18),
+        ("SCR0001", "/Godot.SourceGenerators.ScriptSignalsGenerator/"
+                + "KingdomZombies.Proofs.LifecycleFixture_ScriptSignals.generated.cs",
+            "16d37d09d65b6fea642fad98c45c0d7812454064932d800f79c28e5841ec3d7d", 26, 100, 1),
+        ("SCR0001", "/Godot.SourceGenerators.ScriptSignalsGenerator/"
+                + "KingdomZombies.Proofs.LifecycleFixture_ScriptSignals.generated.cs",
+            "16d37d09d65b6fea642fad98c45c0d7812454064932d800f79c28e5841ec3d7d", 27, 21, 460),
+        ("SCR0001", "/Godot.SourceGenerators.ScriptSignalsGenerator/"
+                + "KingdomZombies.Proofs.LifecycleFixture_ScriptSignals.generated.cs",
+            "16d37d09d65b6fea642fad98c45c0d7812454064932d800f79c28e5841ec3d7d", 39, 20, 16),
+        ("SCR0001", "/Godot.SourceGenerators.ScriptSignalsGenerator/"
+                + "KingdomZombies.Proofs.LifecycleFixture_ScriptSignals.generated.cs",
+            "16d37d09d65b6fea642fad98c45c0d7812454064932d800f79c28e5841ec3d7d", 39, 38, 8),
+        ("SCR0001", "/Godot.SourceGenerators.ScriptSignalsGenerator/"
+                + "KingdomZombies.Proofs.LifecycleFixture_ScriptSignals.generated.cs",
+            "16d37d09d65b6fea642fad98c45c0d7812454064932d800f79c28e5841ec3d7d", 58, 41, 6),
+        ("SCR0001", "/Godot.SourceGenerators.ScriptSignalsGenerator/"
+                + "KingdomZombies.Proofs.LifecycleFixture_ScriptSignals.generated.cs",
+            "16d37d09d65b6fea642fad98c45c0d7812454064932d800f79c28e5841ec3d7d", 46, 91, 7),
+        ("SCR0001", "/Godot.SourceGenerators.ScriptSignalsGenerator/"
+                + "KingdomZombies.Proofs.LifecycleFixture_ScriptSignals.generated.cs",
+            "16d37d09d65b6fea642fad98c45c0d7812454064932d800f79c28e5841ec3d7d", 49, 45, 6),
+        ("SCR0001", "/Godot.SourceGenerators.ScriptSignalsGenerator/"
+                + "KingdomZombies.Proofs.LifecycleFixture_ScriptSignals.generated.cs",
+            "16d37d09d65b6fea642fad98c45c0d7812454064932d800f79c28e5841ec3d7d", 49, 53, 4)
     ];
 }

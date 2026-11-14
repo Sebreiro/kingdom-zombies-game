@@ -1860,8 +1860,8 @@
     {
       "sourceId": "R-45",
       "disposition": "adapted",
-      "reason": "Pure library continuations differ from main-thread engine continuations.",
-      "adaptationReason": "Pure library continuations differ from main-thread engine continuations.",
+      "reason": "Pure Core/ports require explicit ConfigureAwait policy; engine work returns via a captured-thread queue drained by real frames. Every engine mutation is guarded on that thread; pure worker results retain an independent generation fence closed before cancellation/disconnection.",
+      "adaptationReason": "Pure Core/ports require explicit ConfigureAwait policy; engine work returns via a captured-thread queue drained by real frames. Every engine mutation is guarded on that thread; pure worker results retain an independent generation fence closed before cancellation/disconnection.",
       "headingRefs": [
         "src/backend/docs/CodeRules/code-style.md:528"
       ],
@@ -2073,8 +2073,8 @@
     {
       "sourceId": "R-50",
       "disposition": "adapted",
-      "reason": "Replace migration exemption with genuine SDK-generated outputs only.",
-      "adaptationReason": "Replace migration exemption with genuine SDK-generated outputs only.",
+      "reason": "Genuine SDK/Godot output only: existing exact identities remain; sealed engine fixture adds 170 exact diagnostic/path/source/member/span permissions. The pinned generator adapts its helper without a type-level exemption. Producer, origin, adjacent, handwritten-partial and fake-generation proofs remain required.",
+      "adaptationReason": "Genuine SDK/Godot output only: existing exact identities remain; sealed engine fixture adds 170 exact diagnostic/path/source/member/span permissions. The pinned generator adapts its helper without a type-level exemption. Producer, origin, adjacent, handwritten-partial and fake-generation proofs remain required.",
       "headingRefs": [
         "src/backend/docs/CodeRules/code-style.md:586"
       ],
@@ -2107,7 +2107,15 @@
         "required": false,
         "status": "not-required"
       },
-      "numeric": null
+      "numeric": null,
+      "engineProofPermissions": {
+        "spans": "docs/code/engine-generated-spans.json",
+        "producerAdaptations": "docs/code/engine-adaptations.json",
+        "exactSpanCount": 170,
+        "positiveProof": "engine.generated-origin",
+        "negativeProof": "engine.generated-boundary",
+        "scope": "Exact diagnostic, member, authentic producer/package, full source identity, path and span; all handwritten companions remain analyzed"
+      }
     },
     {
       "sourceId": "R-51",
