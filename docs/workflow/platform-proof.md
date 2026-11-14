@@ -12,7 +12,7 @@ The pinned SDK's assembly-attribute writer emits CRLF on Windows and LF on Linux
 
 The actual testing-platform `SelfRegisteredExtensions.cs` has one platform-specific newline after its MSBuild hook call. Both existing exact-member registries retain the Windows identity and additionally record observed Linux SHA-256 `4e0ebb8f0acc3074a07b86d417bfffe8168857353c4c2eec668c3f24f0c0bb2e`, authenticated against the same pinned package and exact member. Other template CRLF bytes remain unchanged. Source validation chooses the actual platform's complete raw hash; it never normalizes a subject. Existing origin and adjacent/collision controls cover this adaptation. The combined exploratory Linux inventory checks 560 source/text/package/producer identities with no mismatches, including all 170 unchanged native generated spans. These setup diagnostics carry no 01-17 acceptance credit.
 
-## Final clean Windows functional baseline
+## Historical pre-review Windows functional baseline
 
 On 2026-11-14, the donor-independent clean checkout `D:/Work/Games/KingdomZombies/.phase1/temp/16-windows-f4658bb` passed locked whole-solution restore, strict build with zero warnings/errors, actual native bootstrap and the complete declared Phase 1 selection. It began without old `bin`, `obj`, `.godot` or proof outputs. Its only seeded dependencies were 41 existing lock-verified NuGet cache payloads and the authenticated official Windows engine archive/checksum file. No donor folder, Downloads path, Linux VM file or private key was copied or required.
 
@@ -71,9 +71,9 @@ Three bounded environment-only trials of the failed `R-38.positive` selector als
 
 A separate direct diagnostic used an explicit 180-second outer bound and 120-second test limit, receiving **no acceptance credit**. It ran the same named-argument proof under the normal environment, nonce `64865a1c-850f-4f4c-a18a-2b9bf04b5056`, and exited 0 with one passed, zero failed/skipped tests. The selected body took 39.724 seconds; the platform session took 49.08 seconds, exceeding the canonical outer 45 seconds. The [standard platform trace](https://learn.microsoft.com/en-us/dotnet/core/testing/microsoft-testing-platform-config) showed normal discovery followed by actual evaluated-reference/Roslyn work, with telemetry disabled. `/home/phase1/17-direct-default.*`, `17-direct-diagnostics/` and `.phase1/temp/17-direct-default/` retain its real records. This explains the observed capacity gap without waiving it or claiming a canonical pass.
 
-## Predeclared Linux acceptance selection
+## Historical predeclared Linux representative selection
 
-This selection is declared before 01-17 execution. Run each exact ID with `node tools/phase1/check.cjs --case <ID>` after the clean native bootstrap, locked whole-solution restore and strict build. Each invocation must publish its own fresh canonical report with one selected and accepted obligation, actual exit zero and no missing, failed, blocked or skipped result. Preserve the common vectors unchanged. No exhaustive Linux run or new wrapper is required.
+This selection was declared before the earlier 01-17 representative execution and is retained to explain its actual outcomes. Each exact ID used `node tools/phase1/check.cjs --case <ID>` after native bootstrap, locked whole-solution restore and strict build. That earlier selection is superseded for final acceptance: run the complete current `node tools/phase1/check.cjs --phase 1` scope on both Windows and the local Linux VM, with the common vectors and deadlines unchanged.
 
 | Exact case ID | Representative obligation | Actual result / exit | Invocation nonce |
 | --- | --- | --- | --- |

@@ -1,6 +1,6 @@
 # Development setup
 
-The exact baseline is [toolchain.json](../../tools/phase1/toolchain.json). The existing [Godot project](../../src/godot-game/project.godot) hosts a minimal C# proof scene. These setup references introduce no gameplay. Preserve the implemented runner and rules; Phase 1 requires the functional Windows and representative actual Linux baseline. Measured coverage and exhaustive certification are Phase 5 obligations under the creator's 2026-11-14 amendment. [Verification](verification.md) owns commands and result interpretation.
+The exact baseline is [toolchain.json](../../tools/phase1/toolchain.json). The existing [Godot project](../../src/godot-game/project.godot) hosts a minimal C# proof scene. These setup references introduce no gameplay. Preserve the implemented runner and rules; Phase 1 requires its complete current scope on Windows and the local Linux VM for the same final implementation. Measured coverage and the eight explicit later-phase declarations remain Phase 5 obligations. [Verification](verification.md) owns commands and result interpretation under the creator's latest 2026-11-14 platform rule.
 
 | Prerequisite | Exact version | Source |
 | --- | --- | --- |
