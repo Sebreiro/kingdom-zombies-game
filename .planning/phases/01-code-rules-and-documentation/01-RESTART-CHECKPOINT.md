@@ -46,3 +46,18 @@ Owned shutdown at 2026-11-14T18:43:22Z was verified at 18:43:33Z and reconfirmed
 Shared progress remains **17/18 plans**, zero completed milestone phases. Plan 17's summary is deliberately halted and neither task is fully accepted: Task 1 still needs the complete Linux run and Task 2 needs real human judgment. The plan-index helper may return no incomplete plans merely because a halted summary exists; that is not acceptance evidence. Resume this checkpoint rather than treating all 18 plans as complete or repeating the finished Windows run without a new invalidating change.
 
 The historical f4658bb 670-case Windows pass and sixteen-case Linux results retain their original meanings. The new creator rule requires the complete current phase scope on the development OS and a local VM using the other OS. The eight Phase 5 coverage/aggregate identities and unchanged 90%/80% targets retain later ownership. Historical WINDOWS item 1 remains open; WINDOWS 28 awaits complete current Linux acceptance. Preserve captured Phase 2/3 context and unrelated Phase 4 discussion files.
+
+## Post-state documentation check
+
+After checkpoint commit b85a518, the existing actual repository-navigation control `--case ac-10.complete` passed 1/1 selected, actual exit 0, with no failure. Planning consistency independently retained 133 active requirement IDs, all seven RULE checkboxes Pending, 17/18 accepted plans and zero completed milestone phases; captured Phase 4 context is preserved. This is metadata validation, not another complete platform run.
+
+```json
+{
+  "revision": "b85a5184f6d7037a8356ed7459fcb1ebdfa18b2e",
+  "nonce": "5ee9d083-b818-4600-a7b3-4227112af20b",
+  "input": "3cc36df574b4ebe667ec4c9c35f9dde8e75ae3d3e9333f1abac9eb2ef47d02b8",
+  "tool": "ee1af6264013db4c3439d7970e12f6fdda9a9792c00df06d76cfb5ca53be3158",
+  "platform": "win32-x64-10.0.19044",
+  "summarySha256": "7b01b028589ff871035b4e356efe63f1290c64b230d111b9cab2f0499a527758"
+}
+```
