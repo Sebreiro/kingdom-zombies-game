@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
@@ -24,8 +25,15 @@ public sealed class GeneratedLayoutAdapterTests
         using JsonDocument registry = ReadRegistry();
         foreach (JsonElement row in registry.RootElement.GetProperty(propertyName: "sources").EnumerateArray())
         {
-            Hash(path: Text(row: row, name: "surface")).ShouldBe(expected: Text(row: row, name: "sha256"));
-            Hash(path: Text(row: row, name: "origin")).ShouldBe(expected: Text(row: row, name: "originSha256"));
+            bool sdk = row.TryGetProperty(propertyName: "originSymbol", value: out _);
+            string origin = sdk ? Path.GetFullPath(path: Path.Combine(path1: RuntimeEnvironment
+                    .GetRuntimeDirectory(), path2: "../../..", path3: Text(row: row, name: "origin")))
+                    : Text(row: row, name: "origin");
+            bool linux = sdk && OperatingSystem.IsLinux();
+            Hash(path: Text(row: row, name: "surface")).ShouldBe(expected: Text(row: row,
+                    name: linux ? "linuxSha256" : "sha256"));
+            Hash(path: origin).ShouldBe(expected: Text(row: row,
+                    name: linux ? "linuxOriginSha256" : "originSha256"));
         }
 
         foreach (JsonElement row in registry.RootElement.GetProperty(propertyName: "members").EnumerateArray())
@@ -75,14 +83,14 @@ public sealed class GeneratedLayoutAdapterTests
         {
             string path = Local(path: Text(row: row, name: "surface"));
             string source = InheritedAnalyzerVerifier.ReadUtf8(path: path);
-            await AnalyzerVerifier.VerifyAsync(source: source, expected: [], sourcePath: path,
-                    additionalReferences: references, analyzer: analyzer).ConfigureAwait(
-                            continueOnCapturedContext: true);
-            string changed = source + "\n//" + new string(c: 'a', count: 119);
-            await RejectLinesAsync(source: changed, path: path, analyzer: analyzer, references: references)
-                    .ConfigureAwait(continueOnCapturedContext: true);
-            await RejectLinesAsync(source: source, path: "Subject.cs", analyzer: analyzer,
-                    references: references).ConfigureAwait(continueOnCapturedContext: true);
+            string[] variants = row.TryGetProperty(propertyName: "linuxSha256", value: out _)
+                    ? [source.ReplaceLineEndings(replacementText: "\r\n"),
+                        source.ReplaceLineEndings(replacementText: "\n")] : [source];
+            foreach (string variant in variants)
+            {
+                await VerifyLayoutSourceAsync(source: variant, path: path, analyzer: analyzer,
+                        references: references).ConfigureAwait(continueOnCapturedContext: true);
+            }
         }
 
         RejectAdjacentMembers();
@@ -124,6 +132,19 @@ public sealed class GeneratedLayoutAdapterTests
         expected.Length.ShouldBeGreaterThan(expected: 0);
         await AnalyzerVerifier.VerifyAsync(source: source, expected: expected, sourcePath: path,
                 analyzer: analyzer, additionalReferences: references).ConfigureAwait(continueOnCapturedContext: true);
+    }
+
+    private static async Task VerifyLayoutSourceAsync(string source, string path, DiagnosticAnalyzer analyzer,
+            MetadataReference[] references)
+    {
+        await AnalyzerVerifier.VerifyAsync(source: source, expected: [], sourcePath: path,
+                additionalReferences: references, analyzer: analyzer).ConfigureAwait(
+                        continueOnCapturedContext: true);
+        string changed = source + "\n//" + new string(c: 'a', count: 119);
+        await RejectLinesAsync(source: changed, path: path, analyzer: analyzer, references: references)
+                .ConfigureAwait(continueOnCapturedContext: true);
+        await RejectLinesAsync(source: source, path: "Subject.cs", analyzer: analyzer, references: references)
+                .ConfigureAwait(continueOnCapturedContext: true);
     }
 
     private static void RejectAdjacentMembers()
