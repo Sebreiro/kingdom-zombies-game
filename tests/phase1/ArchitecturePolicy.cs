@@ -13,7 +13,8 @@ namespace KingdomZombies.Phase1.Tests;
 internal static class ArchitecturePolicy
 {
     /// <summary>Accepts only the exact independently declared public API and observed engine script surfaces.</summary>
-    internal static IReadOnlyList<string> Visibility(string root, string source, string path)
+    internal static IReadOnlyList<string> Visibility(string root, string source, string path,
+            CSharpParseOptions options)
     {
         JsonObject registry = JsonNode.Parse(json: File.ReadAllText(path: Path.Combine(path1: root,
                 path2: "docs/code/visibility-exemptions.json")))?.AsObject()
@@ -39,13 +40,30 @@ internal static class ArchitecturePolicy
             return ["R-34: invalid or expanded exact visibility registry"];
         }
 
-        return CSharpSyntaxTree.ParseText(text: source).GetRoot().DescendantNodes()
+        return CSharpSyntaxTree.ParseText(text: source, options: options, path: path).GetRoot().DescendantNodes()
                 .OfType<BaseTypeDeclarationSyntax>().Where(predicate: type => type.Modifiers.Any(predicate: modifier =>
                         modifier.IsKind(kind: SyntaxKind.PublicKeyword))).Where(predicate: type => !permissions
                                 .Contains(
                                         value: path + "|" + FullName(type: type), comparer: StringComparer.Ordinal))
                 .Select(selector: type => "R-34: undeclared public type " + FullName(type: type) + " in " + path)
                 .ToArray();
+    }
+
+    /// <summary>Checks every evaluated production Compile input against the exact three-type registry.</summary>
+    internal static IReadOnlyList<string> VisibilityRepository(string root)
+    {
+        var errors = new List<string>();
+        foreach (string project in ProjectEvaluator.Expected.Take(count: 3))
+        {
+            var consumer = ConsumerCompilation.Read(root: root, project: project);
+            foreach (string path in consumer.AuthoredPaths)
+            {
+                errors.AddRange(collection: Visibility(root: root, source: File.ReadAllText(path: Path.Combine(
+                        path1: root, path2: path)), path: path, options: consumer.Options));
+            }
+        }
+
+        return errors;
     }
 
     /// <summary>Rejects any authored version declaration outside the single shared version authority.</summary>

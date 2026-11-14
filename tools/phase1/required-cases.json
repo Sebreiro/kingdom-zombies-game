@@ -1425,6 +1425,17 @@
   ],
   "cases": [
     {
+      "id": "graph.visibility-inventory",
+      "group": "graph",
+      "rule": "R-34",
+      "owner": "01-14",
+      "prerequisites": ["pinned-tools", "proof-build"],
+      "evidence": ["fresh-result", "nonempty-log", "actual-test-report"],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Scan_ProductionVisibility_RejectsUnregisteredPublicType",
+      "expectedDiagnostic": "VISIBILITY_INVENTORY_REJECTED"
+    },
+    {
       "id": "engine.method-escape",
       "group": "engine",
       "rule": "RULE-06",

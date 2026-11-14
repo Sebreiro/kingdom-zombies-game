@@ -13,13 +13,7 @@ public sealed class ArchitectureRuleTests
     [Fact, Trait("Case", "R-34.positive")]
     public void Rule34_DeclaredVisibility_Accepted()
     {
-        foreach (string path in new[] { "src/core/ProofValue.cs", "src/multiplayer-abstractions/IProofService.cs",
-            "src/godot-game/proofs/Phase1.cs", "tests/phase1/Models/BoundaryEntity.cs" })
-        {
-            ArchitecturePolicy.Visibility(root: ProofProtocol.Root, source: File.ReadAllText(path: Path.Combine(
-                    path1: ProofProtocol.Root, path2: path)), path: path).ShouldBeEmpty();
-        }
-
+        ArchitecturePolicy.VisibilityRepository(root: ProofProtocol.Root).ShouldBeEmpty();
         ProofProtocol.Record(id: "R-34.positive", diagnostic: "VISIBILITY_ALLOWED");
     }
 
@@ -36,9 +30,45 @@ public sealed class ArchitectureRuleTests
         fixture.Restore();
         (int Exit, string Output) built = fixture.Build();
         built.Exit.ShouldBe(expected: 0, customMessage: "INFRASTRUCTURE_SUBJECT: " + built.Output);
+        var consumer = ConsumerCompilation.Read(root: fixture.DirectoryPath, project: ProjectEvaluator.Expected[0]);
         ArchitecturePolicy.Visibility(root: ProofProtocol.Root, source: source,
-                path: "tests/phase1/Models/BoundaryOptions.cs").ShouldNotBeEmpty();
+                path: "tests/phase1/Models/BoundaryOptions.cs", options: consumer.Options).ShouldNotBeEmpty();
         ProofProtocol.Record(id: "R-34.negative", diagnostic: "R-34");
+    }
+
+    /// <summary>The real production scan rejects an undeclared public type outside the former four-file list.</summary>
+    [Fact, Trait("Case", "graph.visibility-inventory")]
+    public void Scan_ProductionVisibility_RejectsUnregisteredPublicType()
+    {
+        var fixture = new BuildFixture(game: true);
+        string registry = "docs/code/visibility-exemptions.json";
+        string destination = Path.Combine(path1: fixture.DirectoryPath, path2: registry);
+        Directory.CreateDirectory(path: Path.GetDirectoryName(path: destination)
+                ?? throw new InvalidDataException(message: "Visibility fixture directory required"));
+        File.Copy(sourceFileName: Path.Combine(path1: ProofProtocol.Root, path2: registry), destFileName: destination);
+        fixture.Restore();
+        (int Exit, string Output) clean = fixture.Build();
+        clean.Exit.ShouldBe(expected: 0, customMessage: clean.Output);
+        ArchitecturePolicy.VisibilityRepository(root: fixture.DirectoryPath).ShouldBeEmpty();
+        const string SourcePath = "src/core/ExampleState.cs";
+        string file = Path.Combine(path1: fixture.DirectoryPath, path2: SourcePath);
+        string source = File.ReadAllText(path: file).Replace(oldValue: "internal sealed class ExampleState",
+                newValue: "#if DEBUG\npublic sealed class ExampleState\n#else\n"
+                        + "internal sealed class ExampleState\n#endif",
+                comparisonType: StringComparison.Ordinal);
+        File.WriteAllText(path: file, contents: source);
+        (int Exit, string Output) mutation = fixture.Build();
+        mutation.Exit.ShouldBe(expected: 0, customMessage: mutation.Output);
+        ArchitecturePolicy.VisibilityRepository(root: fixture.DirectoryPath).ShouldContain(expected:
+                "R-34: undeclared public type KingdomZombies.Core.ExampleState in " + SourcePath,
+                comparer: StringComparer.Ordinal);
+        File.WriteAllText(path: file, contents: source.Replace(oldValue: "#if DEBUG", newValue: "#if !DEBUG",
+                comparisonType: StringComparison.Ordinal));
+        var consumer = ConsumerCompilation.Read(root: fixture.DirectoryPath, project: ProjectEvaluator.Expected[0]);
+        ConsumerCompilation.RequireValid(compilation: consumer.Create());
+        ArchitecturePolicy.VisibilityRepository(root: fixture.DirectoryPath).ShouldBeEmpty();
+        ProofProtocol.Record(id: "graph.visibility-inventory", diagnostic: "VISIBILITY_INVENTORY_REJECTED",
+                location: fixture.DirectoryPath + "/" + SourcePath + "; DEBUG/inverse, three production consumers");
     }
 
     /// <summary>Exercises R-63 against the actual compiled declared proof model.</summary>

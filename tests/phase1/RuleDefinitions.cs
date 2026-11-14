@@ -27,6 +27,7 @@ internal static class RuleDefinitions
             >= 2 and <= 6 => ("tests/phase1/SourceFileFormat.cs", "SourceFileFormat.Check"),
             7 or 8 => ("tests/phase1/SourceFileFormat.cs", "SourceFileFormat.RequireEditorSetting"),
             16 => ("Directory.Build.props", "<ImplicitUsings>disable</ImplicitUsings>"),
+            34 => ("tests/phase1/ArchitecturePolicy.cs", "ArchitecturePolicy.VisibilityRepository"),
             35 => ("Directory.Build.props", "<GenerateDocumentationFile>true</GenerateDocumentationFile>"),
             39 or 73 => ("BannedSymbols.txt", "P:System.DateTime.UtcNow;Use an injected clock"),
             40 => ("BannedSymbols.txt", "T:System.Console;Use an explicit log/report adapter"),

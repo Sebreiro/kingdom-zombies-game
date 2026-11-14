@@ -1727,7 +1727,7 @@
         "status": "implemented",
         "owner": "01-14",
         "path": "tests/phase1/ArchitecturePolicy.cs",
-        "symbol": "ArchitecturePolicy.Visibility",
+        "symbol": "ArchitecturePolicy.VisibilityRepository",
         "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
         "positiveMethod": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule34_DeclaredVisibility_Accepted",
         "negativeMethod": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule34_AdjacentPublicModel_Rejected"
