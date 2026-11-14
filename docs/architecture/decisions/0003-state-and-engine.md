@@ -12,4 +12,4 @@ Core uses explicit integer elapsed time, bounded replayable randomness and ordin
 
 ## Consequences
 
-These examples establish contracts rather than production save UX or gameplay. Nullable pre-injection staging is checked before use. Genuine generated source receives exact authenticated span permissions; handwritten partials stay fully checked. [Current bindings](../../code/rule-matrix.md) index the actual definitions. Linux, measured coverage and [human judgment](../../code/review.md) remain separate required gates.
+These examples establish contracts rather than production save UX or gameplay. Nullable pre-injection staging is checked before use. Genuine generated source receives exact authenticated span permissions; handwritten partials stay fully checked. [Current bindings](../../code/rule-matrix.md) index the actual definitions. The representative actual Linux baseline and [human judgment](../../code/review.md) remain Phase 1 requirements; measured coverage and exhaustive certification belong to Phase 5 under the creator's 2026-11-14 amendment. Preserve all already implemented state and lifetime behavior.

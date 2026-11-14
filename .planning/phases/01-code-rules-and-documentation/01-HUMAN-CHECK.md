@@ -1,6 +1,6 @@
 # Phase 1 qualitative human check
 
-Status: Pending. Prepared by 01-14 for one consolidated end-of-phase review after the remaining implementation/coverage/platform work is concrete. This record is separate from automated and AI review results. All shared RULE requirements remain Pending.
+Status: Pending. Prepared by 01-14 for one consolidated end-of-phase review after the functional Phase 1 Windows and representative Linux baseline work is concrete. The creator's 2026-11-14 amendment moves measured coverage and exhaustive certification to Phase 5; they are not prerequisites for this review. This record remains separate from automated and AI review results. All shared RULE requirements remain Pending until the revised Phase 1 acceptance and review are actually complete.
 
 Review the exact components in [review.md](../../../docs/code/review.md), the [current bindings](../../../docs/code/rule-matrix.md), scoped adaptation reasons and architecture decisions against the final frozen source and actual proof reports. Necessary public APIs, invariant meaning, mapping intent, enum evolution and decision accuracy require human judgment.
 

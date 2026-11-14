@@ -2,6 +2,8 @@
 
 **Status:** planning coverage only; implementation/proofs pending. All rows below are COVERED by explicit owned tasks, not passed acceptance evidence.
 
+**Revised ownership, approved 2026-11-14:** This is source-allocation coverage, distinct from measured code coverage. The amended [specification](01-SPEC.md) and plans 01-14–17 govern remaining work. All existing functional cases stay required. Actual 90%/80% measurement, exhaustive Windows/Linux suites and the eight pending aggregate/coverage IDs are [Phase 5 obligations](../05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md). Earlier task-number and threat/cost allocations below describe the original plan; they do not restore deferred Phase 1 gates or claim execution.
+
 No external API integration: Phase1 integrates the local Godot runtime/compiler/analyzer toolchain and C# proof fixtures; it introduces no remote API, product AI integration, HTTP service or external service capabilities. Package acquisition is development bootstrap. No AI-SPEC is needed. Schema-push gate is inapplicable: no database/ORM artifacts. The assumption-delta scanner returned detected:false for the actual Phase1 roadmap section; no identity transition is inferred.
 
 ## GOAL / REQ / CONTEXT / RESEARCH Audit
@@ -44,8 +46,8 @@ No external API integration: Phase1 integrates the local Godot runtime/compiler/
 | RESEARCH | Lifecycle | Actual creation/resource/export/partial/signal/callback surfaces, two cycles, late result/thread guard | 01-01,12 | COVERED |
 | RESEARCH | State | Integer controlled time, bounded replay random, ordinal identity, strict detached codec and atomic root | 01-10,11 | COVERED |
 | RESEARCH | Docs | Exact Git casing/navigation/encoding/anchors, scope and everyproject reference page | 01-13,14 | COVERED |
-| RESEARCH | Coverage | Real managed native-host instrumentation and both adopted scopes, no silent exclusions | 01-15 | COVERED |
-| RESEARCH | Environment | Complete clean Windows and actualLinux evidence; prepared concrete environment checkpoint | 01-16,17 | COVERED |
+| RESEARCH | Coverage | Real native-host instrumentation, both 90%/80% scopes and report controls | Phase 5 handoff | REQUIRED LATER |
+| RESEARCH | Environment | Complete functional Windows baseline and actual representative clean Linux checks | 01-16,17; exhaustive certification in Phase 5 | COVERED |
 | RESEARCH | Security | ASVS L1 proportional input/process/tool/evidence integrity; unique T-01-01–36 plus reservedSC | Every plan | COVERED |
 
 ## All22 Acceptance Criteria → Truth/Proof Ownership
@@ -55,14 +57,14 @@ Each named plan's must_haves.truths and task done/acceptance criteria carry thes
 | AC | Exact task owners | Required proof group | Concrete obligation |
 | --- | --- | --- | --- |
 | AC-01 | 01-01:1–2;01-02:2;01-18:2 | pins | Exact pins, missing/conflict/mismatch, equivalent permutations, evaluated central pins and five generated locks |
-| AC-02 | 01-16:1;01-17:1–2 | platform | Actual clean donor-independent same-source Windows and Linux full suites |
+| AC-02 | 01-16:1;01-17:1 | existing runner/groups | Clean Windows Phase 1 suite and representative clean Linux baseline; original exhaustive aggregate in Phase 5 |
 | AC-03 | 01-02:1–2 | runner | Real failure, missing tool/discovery/filter/skip/crash/timeout/log/result/stale/duplicate |
 | AC-04 | 01-02:2;01-17:2 | runner | Repeat/interruption/concurrency/source-document mutation |
 | AC-05 | 01-03:1–2;01-14:2 | register | 85IDs/84headings/24exemptions, exact disposition and identity mutations |
 | AC-06 | 01-03:2;01-14:2 | register | Bidirectional mechanism/proof/reference integrity and permutation |
 | AC-07 | 01-18:1–2;01-05–01-09;01-14:2 | pins/rules | Exact compiler verifier/configuration controls, every applicable machine mechanism clean/negative plus actual-build categories |
 | AC-08 | 01-08:2;01-12:3 | rules | Exact exemptions, overlap/suppression/fake-generation/adjacent boundaries |
-| AC-09 | 01-06;01-07:1;01-08:2;01-15 | rules/coverage | Exact numeric units and below/equal/above; real coverage90/80 |
+| AC-09 | Existing 01-06–08 proofs; Phase 5 coverage handoff | rules | Code-rule numeric limits remain enforced; measured 90%/80% and aggregate certification in Phase 5 |
 | AC-10 | 01-13:1;01-14:1 | docs | Canonical AGENTS, focused indexes and allfive project docs |
 | AC-11 | 01-13:1–2 | docs | Portable exact paths/anchors/case/space/Unicode/encoding/scope |
 | AC-12 | 01-04:1–2;01-18:1;01-09:1 | bootstrap boundaries/pins/graph | Exact expected evaluated graph, owned declarations, allowed real Godot/Core/service boundary use |
@@ -132,7 +134,7 @@ Capture/schema/linkage for every ID:01-03 and01-14. Every retained/adapted machi
 | R-09,R-14,R-18,R-28 | 01-07: actual custom analyzers;01-08 build wiring |
 | R-10,R-26,R-33,R-37 | 01-06: analyzers/threshold neighbors;01-08 build wiring |
 | R-23–R-25,R-36,R-38 | 01-05: analyzers;01-08 build wiring |
-| R-49,R-82 | 01-15: actual analyzer+production managed coverage and exact threshold/report mutations |
+| R-49,R-82 | Phase 5: actual analyzer/production 90%/80% coverage and threshold/report controls; 01-15 migrates declared acceptance ownership |
 | R-50,R-67 | 01-08/12: exact genuine generation/suppression/exemption boundaries |
 | R-51–R-56,R-58–R-66,R-78,R-81 | 01-09 graph/type/model rules;01-10/11 actual state model/codec; qualitative components01-14 |
 | R-68–R-75,R-77 | 01-10/11 strict snapshot/time/enum/identity representation;01-09 structural enum/version checks |

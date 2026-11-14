@@ -9,6 +9,8 @@ Deliver the complete specified version 0.1: players build, equip, and defend one
 **Scope authority:** [PROJECT.md](PROJECT.md), [REQUIREMENTS.md](REQUIREMENTS.md), the [game specification](../specs/0.1/initial-spec.md), and the [asset/resource plan](../specs/0.1/assets-and-resources.md). [Research](research/SUMMARY.md) informs proofs and implementation choices; its candidate versions are unverified.
 **Approval:** Requirements, working-increment direction, and detailed roadmap approved by the creator on 2026-11-13.
 
+**Scope timing amendment, approved 2026-11-14:** Keep Phase 1's working rules, tests and clean two-platform baseline. Phase 5 now owns measured coverage, exhaustive platform execution/evidence reconciliation and unfinished aggregate runner certification. The ten-phase order, all 133 requirement IDs and their primary owners are unchanged; the [Phase 5 handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md) records the required certification work.
+
 ## Milestones
 
 - 🚧 **v0.1 Complete playable LAN campaign** — Phases 1–10; roadmap approved, implementation not started.
@@ -40,7 +42,7 @@ Every feature includes its stable identities, host-authoritative validation and 
 
 | Boundary | Required timing |
 | --- | --- |
-| Rule and foundation checks | Phase 1 has positive/negative rule proofs. Phases 2 and 3 have executable launch, input, rendered-scene, and connection smoke checks before the comprehensive framework in Phase 5. |
+| Rule and foundation checks | Phase 1 keeps positive/negative rule proofs and representative clean Windows/Linux execution. Phase 5 owns measured 90%/80% coverage, exhaustive platform suites and unfinished aggregate runner certification. Phases 2 and 3 retain executable launch, input, rendered-scene, and connection smoke checks before the comprehensive framework. |
 | Resource production versus integration | Phase 4 finishes all 180 resource obligations and content/combination fixtures, including data, text, audio bindings, and presentation metadata. Phases 6–9 connect those outputs to real gameplay, session, and save behavior; Phase 10 proves the integrated workload. |
 | Full catalog versus implemented cases | Phase 5 records A-01–A-47 and additional rule/foundation/content/regression cases, and requires cases for implemented foundations. Future feature cases are explicitly planned with owners, then activated during implementation. Planned cases never count as passed. |
 | Early world services | At the start of Phase 6, authoritative elapsed time, safety/danger, and reachability support recovery and access. At the start of Phase 7, day/night transitions, once-only resource-event identities, authored work areas/portal barriers, and live border/fallback rules support actual camp work. Full campaign scheduling remains Phase 8. |
@@ -62,6 +64,8 @@ Every feature includes its stable identities, host-authoritative validation and 
 2. A developer can find every inherited LangProj rule classified as retained, adapted, or inapplicable, with a reason and narrowly scoped compatibility decision; normal Godot code passes without blanket suppression.
 3. Running the documented checks accepts compliant examples and rejects deliberate code, architecture, and exemption violations with actionable diagnostics.
 4. A developer or agent can navigate a short root `AGENTS.md` and focused indexes with valid, consistently cased links, and locate enforced gameplay/Godot/service boundaries plus rules for time, randomness, identities, and saveable authoritative state.
+
+**Revised completion boundary (2026-11-14):** Retain every working compiler/analyzer, boundary, exemption, runner, documentation, state and lifecycle check. Complete the short project references and accurate rule/review mappings; use focused feedback while closing related work, one final complete Phase 1 Windows run, and an actual clean Linux restore/build plus representative analyzer/graph/state/engine checks. Measured coverage, complete Linux failure-variant execution and exhaustive cross-platform/report certification belong to Phase 5. Deferred obligations remain visible with that owner and do not count as passes. The revised [specification](phases/01-code-rules-and-documentation/01-SPEC.md) governs the remaining plans.
 
 **Plans:** 14/18 plans executed; independently checked, ready for execution.
 **Wave 1**
@@ -110,13 +114,13 @@ Every feature includes its stable identities, host-authoritative validation and 
 - [ ] 01-14-PLAN.md — Project references and rule bindings
 
 **Wave 16** *(blocked on Wave 15 completion)*
-- [ ] 01-15-PLAN.md — Actual coverage collection and gates
+- [ ] 01-15-PLAN.md — Explicit Phase 1 selection and Phase 5 certification handoff
 
 **Wave 17** *(blocked on Wave 16 completion)*
-- [ ] 01-16-PLAN.md — Clean Windows proof and Linux preparation
+- [ ] 01-16-PLAN.md — Final clean Windows baseline and Linux preparation
 
 **Wave 18** *(blocked on Wave 17 completion)*
-- [ ] 01-17-PLAN.md — Genuine Linux proof and reconciliation
+- [ ] 01-17-PLAN.md — Representative clean Linux checks and Phase 1 review
 
 **Cross-cutting constraints:** <!-- gsd:generated -->
 - A developer receives actionable inherited analyzer failures while compliant code is accepted (AC-07).
@@ -124,7 +128,7 @@ Every feature includes its stable identities, host-authoritative validation and 
 
 **UI hint:** no
 
-**Delivery boundary:** Adapt the relevant conventions, analyzer/proof patterns, and documentation index from `D:/Work/SaaS/LangProj_monorepo`; do not import its HTTP/database architecture. Resolve the existing `Agents.md` casing consistently on Windows/Linux. The research's engine/.NET, renderer, xUnit/MTP, and Godot-test/VSTest pairings remain candidates until actual compatibility proofs select the baseline; comprehensive game-runner integration is Phase 5. This phase's own rule proofs are required now.
+**Delivery boundary:** Preserve the adopted LangProj conventions, analyzers, exact numeric semantics, bounded Godot permissions and five-project boundaries. Keep the selected toolchain pins and canonical `AGENTS.md`; no working checks are removed or weakened. Plans 01-15–17 now separate explicit Phase 5 certification obligations from Phase 1's functional evidence and finish the clean two-platform baseline. Reuse completed project/reference/decision pages rather than creating parallel documentation. Coverage and exhaustive certification are required in the [Phase 5 handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md).
 
 ### Phase 2: Playable foundation
 
@@ -192,12 +196,14 @@ Every feature includes its stable identities, host-authoritative validation and 
 2. The same documented entry points run locally and in GitHub Actions on Windows and Linux, covering controlled rule fixtures, actual keyboard/mouse/menu/focus/scene input, and a real host-plus-three-client scenario with independent profiles, bounded waits, isolated logs, and cleanup.
 3. An agent can follow the documented select/run/inspect/reproduce/fix/rerun procedure and diagnose a current-run failure using results, logs, state observations, and required rendered images.
 4. Deliberate missing-tool, bad-runner, zero-discovery, wrong-filter, skipped-required-case, crash, timeout, missing-peer, and missing-evidence trials fail visibly; a planned feature case cannot manufacture a pass or hide a currently required case.
-5. The catalog and activation procedure preserve separate rendered-input, actual mixed-OS LAN, reference-PC, and endurance records, and a newly implemented feature's cases become required alongside that feature.
+5. The catalog and activation procedure preserve separate rendered-input, actual mixed-OS LAN, reference-PC, and endurance records, and a newly implemented feature's cases become required alongside that feature. The [Phase 1 handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md) is activated: both real analyzer and production managed-code scopes meet 90% line / 80% branch coverage, and complete clean Windows/Linux suites plus the deferred aggregate runner/report checks have fresh passing evidence.
 
 **Plans:** TBD
 **UI hint:** yes
 
 **Delivery boundary:** Prove exact test-runner discovery, execution, exit status, and report reconciliation; the research's prerelease Godot runner and mixed MTP/VSTest candidates are not pre-certified. Use a bounded repository-owned scene harness if the selected candidate fails compatibility, keeping the same acceptance obligations. Automate the delivered rules/menu/LAN/content foundations now. Full feature and release cases are cataloged, not falsely certified before implementation. Test drivers exercise production input/commands, with observation separated from mutation and test-only authority controls excluded from release builds.
+
+**Required planning input:** Read [05-PHASE1-HANDOFF.md](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md) before discussing/planning Phase 5. Allocate coverage collection/threshold/report checks, exhaustive same-source Windows/Linux execution and deferred aggregate case IDs to concrete Phase 5 plans. Phase 1 completion does not satisfy or waive these Phase 5 obligations.
 
 ### Phase 6: Survivors, inventory, and combat
 

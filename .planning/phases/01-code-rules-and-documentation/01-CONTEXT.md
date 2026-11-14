@@ -3,6 +3,8 @@
 **Gathered:** 2026-11-13 (Europe/Paris)
 **Status:** Ready for planning
 
+**Creator-approved amendment, 2026-11-14:** The remaining plans use the simplified completion boundary in [01-SPEC.md](01-SPEC.md). Preserve all working rules, fixtures and tests. Measured coverage, exhaustive platform suites/evidence reconciliation and unfinished aggregate runner certification move to [Phase 5](../05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md). Actual representative Windows/Linux checks and separate qualitative review remain Phase 1 requirements. This amendment supersedes the original completion timing below and in historical research/plans.
+
 <domain>
 ## Phase Boundary
 
@@ -58,8 +60,8 @@ Downstream agents MUST read `.planning/phases/01-code-rules-and-documentation/01
 
 ### Everyday verification workflow
 
-- **D-10:** Use focused checks while editing, then run the complete local suite before finishing a code change. Partial checks are useful feedback and are not complete verification. Phase completion still requires the actual Windows and Linux evidence defined by the specification.
-- **D-11:** For prose-only documentation edits, run documentation checks. Changes to rules, commands, or contracts require the complete local suite.
+- **D-10 (amended 2026-11-14):** Use focused checks while batching related Phase 1 closure changes. After implementation stabilizes, obtain one complete Phase 1 Windows run and the representative clean Linux evidence defined by the revised specification. Re-run affected checks after a defect; repeat the full run only when a subsequent source/contract change invalidates it. Exhaustive platform/report certification is Phase 5 work. Existing required checks still fail on real failures, skips, missing results or stale evidence.
+- **D-11 (amended 2026-11-14):** Planning-only and prose-only documentation edits use documentation and planning-consistency checks. They do not execute planned commands or claim new implementation evidence. Changes to executable rules, runner selection or code receive focused behavioral checks plus the final D-10 Phase 1 run. Retain every working enforcement rule and test.
 - **D-12:** Show concise progress and a final summary, with clear failure explanations and links to detailed logs.
 - **D-13:** Collect all independent failures in one run. Stop checks whose prerequisites failed and report those blocked obligations explicitly; they do not count as passes. Retain the specification's fresh-result, non-skipping, and trustworthy-failure requirements.
 
@@ -77,6 +79,8 @@ Downstream agents MUST read `.planning/phases/01-code-rules-and-documentation/01
 ### Agent's Discretion
 
 No “you decide” answers delegated additional product choices. Research and planning still select concrete versions, project layout, enforcement implementations, state representations, and proof tooling within the locked specification and the decisions above. Choose the smallest implementation that genuinely proves the requirements; do not invent gameplay work or new documentation layers.
+
+**D-19 — Preserve completed work:** Keep all already implemented checks, including runner-edge cases delivered during 01-14, generated-source permissions, strict snapshots and native lifecycle fixtures. The simplification changes remaining acceptance timing; it does not delete tests, relax diagnostics, widen exemptions or rewrite working infrastructure. The eight still-pending aggregate/coverage case IDs are explicitly assigned to Phase 5 by 01-15, with no skipped or fabricated pass.
 
 </decisions>
 

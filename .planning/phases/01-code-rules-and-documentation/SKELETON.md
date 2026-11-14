@@ -18,7 +18,7 @@ A developer launches the existing Godot project through pinned local commands, o
 | Auth | No account/session surface | Explicit phase boundary. |
 | Development target | Actual Windows and actual Linux native engine execution | AC-02; instructions or cross-builds do not substitute. |
 | Rule authority | Executable definitions indexed by85-row local register | D-01–D-04;84 heading relations and24 source exemptions remain traceable. |
-| Verification | One C# xUnit proof project; dependency-free Node coordinator | D-09; independent required IDs, process self-failures, fresh evidence, exact coverage. |
+| Verification | Existing C# proof project and Node coordinator | Preserve all working checks and fresh-result integrity; explicit Phase 1 selection, with measured coverage and exhaustive certification owned by Phase 5. |
 | Directory layout | Core, service ports, existing game, analyzer, Phase1.Tests | Exactly five owned projects; no web topology. |
 
 ## Stack Touched in Phase 1
@@ -27,7 +27,7 @@ A developer launches the existing Godot project through pinned local commands, o
 - [ ] Real engine-created scene/resources, exports, generated/handwritten partials, callbacks, signals, two unload cycles and thread/lifetime guards.
 - [ ] Real controlled state advance and snapshot read/write/atomic restore.
 - [ ] Exact graph, source rule inventory and portable documentation navigation.
-- [ ] Actual clean same-source full proofs on Windows and Linux with measured90%line/80%branch gates.
+- [ ] Final clean complete Phase 1 Windows run and actual clean representative Linux rule/graph/docs/state/engine checks; measured 90%/80% coverage and exhaustive certification are [Phase 5 work](../05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md).
 
 Generic web skeleton expectations are adapted to the approved game tooling phase: scene entry replaces a web route; detached snapshot read/write replaces a database operation; developer command/result interaction replaces player UI; native local execution replaces a web deployment. No HTTP, database, account, menu, HUD or gameplay work is introduced.
 
@@ -56,9 +56,9 @@ Phases2–10 retain their approved roadmap order and ownership. They consume the
 - Wave13: 01-12 — Prove actual Godot lifetimes, exports, signals and thread access.
 - Wave14: 01-13 — Validate focused documentation with portable exact navigation.
 - Wave15: 01-14 — Bind every project and inherited rule to its real proof.
-- Wave16: 01-15 — Measure real analyzer and native-hosted managed coverage.
-- Wave17: 01-16 — Prove clean Windows checkout and prepare genuine Linux execution.
-- Wave18: 01-17 — Execute Linux and reconcile complete two-platform proof.
+- Wave16: 01-15 — Declare Phase 1 selection and pending Phase 5 certification ownership.
+- Wave17: 01-16 — Obtain one final clean Windows baseline and prepare Linux.
+- Wave18: 01-17 — Execute representative Linux checks and complete separate qualitative review.
 
-Shared rule/register/proof project outputs and engine build/coverage artifacts force ordered execution. This keeps evidence generation isolated and avoids concurrent edits to common configuration. Each plan has2–3 bounded proof increments.
+The remaining plans reuse shared rule/register/proof outputs. Batch focused closure checks before the final Windows run. Keep all implemented fixtures, checks, state/lifetime behavior and bounded permissions. This skeleton follows the creator-approved 2026-11-14 timing amendment; coverage/platform certification is not a Phase 1 prerequisite.
 

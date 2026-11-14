@@ -1,0 +1,52 @@
+# Phase 5 — Certification transferred from Phase 1
+
+**Approved:** Creator instruction, 2026-11-14 (Europe/Paris).
+**Status:** Required Phase 5 planning input; implementation and acceptance pending. This handoff is not an executed plan or a passing report.
+**Owners:** TEST-02, TEST-07, TEST-08 and TEST-09. RULE-01–RULE-07 retain their primary Phase 1 ownership for the usable development baseline.
+
+## Preserve the delivered foundation
+
+Keep the selected pins/locks, all twelve analyzers, exact code-rule thresholds, five-project graph, source register, bounded exemptions/generated permissions, every implemented runner/documentation/architecture/state/lifecycle test and the real Godot fixtures. Do not delete completed checks, widen suppressions, lower severity or replace working infrastructure just to implement this handoff. Already implemented advanced cases remain required regressions in Phase 1 and later.
+
+The revised [Phase 1 specification](../01-code-rules-and-documentation/01-SPEC.md) retains actual clean Windows/Linux baseline execution. Phase 1 completion supplies no measured coverage or exhaustive two-platform certification credit.
+
+## Required work packages
+
+| Package | Phase 5 acceptance | Source / requirement |
+| --- | --- | --- |
+| Measured analyzer coverage | Real covered/total line and branch counts for the analyzer scope; at least 90% lines and 80% branches | R-49; TEST-02/07/09; former 01-15 coverage task |
+| Measured production coverage | The same unchanged targets for applicable handwritten Core, ports and native-hosted managed Godot code; prove an actual engine callback is measured | R-82; TEST-02/07/09; former 01-15 coverage task |
+| Coverage failure/report controls | Reject below-limit, absent, empty, malformed, duplicate, stale and wrong-source reports; exact denominators, legitimate generated exclusions and order-independent totals | AC-06/07/09 aggregate certification; TEST-07/08/09 |
+| Exhaustive platform execution | Complete clean Windows and Linux functional suites, all required failure variants, native lifecycle checks, common state vectors and coverage on the same final source | Original exhaustive AC-02; TEST-02 |
+| Platform/runner certification | Reconcile discovery, actual exits, case counts, source/tool/platform/run identities and required evidence; exercise remaining advanced failure, interruption and concurrent-run scenarios | TEST-07/08/09 |
+
+Coverage targets are inclusive and unchanged. Compare exact counts using overflow-safe integer arithmetic, not rounded percentages. Report the analyzer and production scopes separately. Classify modules with no executable sequence points explicitly; absent expected handwritten modules are failures, not exclusions. Do not omit unmeasured engine code to meet the targets.
+
+Use the pinned local coverage tool selected by the existing research only after proving compatibility. First collect a genuine managed Godot callback and nonzero branch evidence. If native hosting prevents dynamic collection, instrument isolated copied assemblies/PDBs and launch the existing scene against the copy; retain original binaries and source identity. Do not change production sources to improve the measurement. Add meaningful behavior tests where necessary. Coverage orchestration must be acyclic: functional execution, collection, validation and publication; coverage tests must not recursively call the full suite.
+
+Complete clean runs must be donor-independent and identify actual OS/kernel/architecture, engine/runtime/compiler tools, source revision and command results. A Windows cross-build or prepared Linux VM never proves Linux execution. If either platform needs a source fix, rerun affected checks and obtain final same-source evidence for both. Native/headless results do not replace rendered-input, physical mixed-OS LAN, reference-PC or endurance evidence.
+
+## Transferred case identities
+
+At amendment time, the independently declared manifest contains 674 cases: 666 implemented cases and the eight pending identities below. Preserve their IDs and original exhaustive meaning. Plan 01-15 assigns them an explicit Phase 5 acceptance stage; it does not manufacture test results for them.
+
+| Existing ID | Phase 5 closure |
+| --- | --- |
+| `ac-02.complete` | Exhaustive clean two-platform execution and reconciliation |
+| `ac-06.complete` | Complete register/mechanism bindings including measured coverage |
+| `ac-07.complete` | Complete enforcement certification including measured coverage |
+| `ac-09.complete` | All numeric/report thresholds including measured 90%/80% coverage |
+| `R-49.positive` | Actual analyzer coverage meets both targets |
+| `R-49.negative` | Actual analyzer coverage gate rejects insufficient/invalid evidence |
+| `R-82.positive` | Actual production/engine coverage meets both targets |
+| `R-82.negative` | Actual production/engine coverage gate rejects insufficient/invalid evidence |
+
+The five `edge.rule-01.*` identities were implemented during 01-14 and stay required; their older pending handoff is historical. Do not move implemented tests out of Phase 1 merely because they cover advanced runner behavior. Further cases discovered during Phase 5 must be declared and owned before acceptance; the list above is not permission to omit actual failures.
+
+The planned Phase 1 selector uses explicit declared phase ownership, never an `implementation == csharp` filter. Preserve `--all` as exhaustive, including pending Phase 5 cases. A Phase 1 summary lists deferred Phase 5 IDs/owners separately without passing, skipping or silently dropping them. Missing or failed Phase 1 cases remain failures. Phase 5 activates all transferred cases and requires fresh actual evidence.
+
+## Planning and completion instructions
+
+Read this handoff before discussing or planning Phase 5. Allocate each package and every transferred ID to a concrete executable Phase 5 plan with artifact paths, commands and meaningful positive/negative validation. Reuse the existing runner/register/tests and optimize expensive execution only when needed; no wholesale replacement is required. The original implementation guidance is preserved in Git history for 01-15/16/17 before the approved amendment.
+
+Catalog these obligations as required Phase 5 work under the existing TEST IDs, alongside the delivered menu/LAN/content foundations. Update current register/case ownership during implementation; leave historical reports and completed summaries unchanged. Do not mark Phase 5 complete while coverage, either platform or any activated case is missing, failed, skipped or merely planned. Qualitative human judgment remains separate from automated results.

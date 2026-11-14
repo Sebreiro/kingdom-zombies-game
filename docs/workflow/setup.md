@@ -1,6 +1,6 @@
 # Development setup
 
-The exact baseline is [toolchain.json](../../tools/phase1/toolchain.json). The existing [Godot project](../../src/godot-game/project.godot) hosts a minimal C# proof scene. These setup references introduce no gameplay. The trusted proof runner is implemented; full Phase 1 acceptance, measured coverage and actual Linux execution remain required. [Verification](verification.md) owns proof commands and result interpretation.
+The exact baseline is [toolchain.json](../../tools/phase1/toolchain.json). The existing [Godot project](../../src/godot-game/project.godot) hosts a minimal C# proof scene. These setup references introduce no gameplay. Preserve the implemented runner and rules; Phase 1 requires the functional Windows and representative actual Linux baseline. Measured coverage and exhaustive certification are Phase 5 obligations under the creator's 2026-11-14 amendment. [Verification](verification.md) owns commands and result interpretation.
 
 | Prerequisite | Exact version | Source |
 | --- | --- | --- |
@@ -59,4 +59,4 @@ dotnet restore KingdomZombies.slnx --locked-mode --disable-parallel -p:NuGetAudi
 
 Use the same source checkout and pinned prerequisites on each operating system. A clean checkout must not need LangProj, recovered donor folders or a Downloads cache. Keep each checkout's CLI home, package/feed/cache/temp paths local and retain the entire platform Godot archive directory. Acquisition failure, missing prerequisites or failed locked restore blocks the dependent build/proofs. Do not substitute an unverified package name or silently update a lock to bypass failure. Bootstrap native subprocesses have bounded deadlines; the full case coordinator records each case's own deadline and cleanup. The prepared workspace Linux VM belongs to later platform execution and must not be terminated by unrelated proof cleanup.
 
-Setup does not certify coverage, exports, rendered gameplay or a second operating system. Actual clean Windows and Linux suites and measured coverage retain their later Phase 1 owners. Verification commands and fresh evidence requirements live in [verification](verification.md); the focused entry point remains [AGENTS.md](../../AGENTS.md).
+Setup does not certify coverage, exports, rendered gameplay or a second operating system. The final clean complete functional Windows run belongs to 01-16 and representative actual clean Linux checks to 01-17. Measured 90%/80% coverage, exhaustive suites and platform/runner certification belong to [Phase 5](../../.planning/phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md). Verification and fresh evidence guidance live in [verification](verification.md); the focused entry point remains [AGENTS.md](../../AGENTS.md).

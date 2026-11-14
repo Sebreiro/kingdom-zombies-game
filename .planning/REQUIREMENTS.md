@@ -27,6 +27,8 @@ Source: Creator direction; PROJECT.md; LangProj rule and documentation reference
 - [ ] **RULE-06**: Developers can use normal Godot construction, callbacks, partial/generated code, exports, signals, nullability, and teardown under the rules without blanket suppression.
 - [ ] **RULE-07**: Developers have explicit rules for main-thread engine access, testable time/randomness, stable identities, and saveable authoritative state.
 
+**Acceptance timing amended by the creator on 2026-11-14:** Phase 1 retains all applicable coding and architecture rules, existing working checks, narrow exemptions, focused documentation, and actual clean Windows/Linux baseline checks. Measured coverage (including the unchanged 90% line / 80% branch targets), exhaustive two-platform certification, and unfinished aggregate runner/report certification move to Phase 5 under TEST-02, TEST-07, TEST-08 and TEST-09. RULE-01–RULE-07 keep their Phase 1 primary ownership; the later certification work has explicit Phase 5 acceptance ownership in the [handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md). Deferred work is pending, never passed or waived.
+
 ### Playable foundation
 
 Source: Creator Phase 2 direction.
@@ -68,6 +70,8 @@ Source: Creator Phase 5 direction; spec §14 and A-01–A-47.
 - [ ] **TEST-08**: Verification fails for missing dependencies, zero discovery, skipped required cases, crashes, timeouts, missing peer results, or missing required evidence.
 - [ ] **TEST-09**: Developers can prove the verification runner rejects deliberate failures and correctly distinguishes future planned cases from currently required cases.
 - [ ] **TEST-10**: Developers can activate new cases with each implemented feature and retain separate rendered, real mixed-OS LAN, reference-PC, and endurance evidence.
+
+Phase 5 also owns the [Phase 1 certification handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md): real analyzer/production coverage measurement and 90%/80% enforcement, exhaustive clean Windows/Linux suites and evidence reconciliation, and remaining aggregate runner/report checks. Existing Phase 1 tests and enforcement remain required regressions. This changes delivery timing without adding or deleting requirement IDs.
 
 ### Survivors, movement, and recovery
 

@@ -6,9 +6,9 @@ current_phase: 1
 current_phase_name: Code rules and documentation
 current_plan: 14
 status: executing
-stopped_at: Completed 01-13-PLAN.md; next 01-14 project references and rule bindings; Phase 2 context captured (02-CONTEXT.md); Phase 3 context gathered (03-CONTEXT.md)
-last_updated: "2026-11-14T12:06:35.724Z"
-last_activity: "2026-11-14 (Europe/Paris) — Completed plan 01-13; 641 accepted controls, zero failed controls, 15 later-owner obligations pending. Next: 01-14."
+stopped_at: Revised Phase 1 plans; finish current 01-14 closure then 01-15 phase selection; Phase 2 context captured (02-CONTEXT.md); Phase 3 context gathered (03-CONTEXT.md)
+last_updated: "2026-11-14T13:30:57.509Z"
+last_activity: "2026-11-14 (Europe/Paris) — Creator approved simplified Phase 1 plans; measured coverage and exhaustive platform/runner certification assigned to Phase 5. Implementation progress is unchanged."
 progress:
   total_phases: 10
   completed_phases: 0
@@ -25,7 +25,7 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-13).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase 1 — Code rules and documentation; fourteen plans complete. Canonical AGENTS.md, focused executable-rule/architecture indexes and 32 distinct portable navigation/workflow proofs now pass alongside native Godot lifetimes, independent Core state and snapshots. Next: 01-14 project references and complete rule bindings. Phase 1 and all shared RULE requirements remain incomplete.
+**Current focus:** Phase 1 — Code rules and documentation; fourteen plans have completion summaries. Finish current 01-14 closure without redoing implemented pages/bindings, then execute revised 01-15 for explicit phase selection, 01-16 for the final clean Windows baseline and 01-17 for representative actual Linux checks and qualitative review. Preserve all working rules/tests. Coverage and exhaustive certification are Phase 5 obligations. This planning update completes no implementation plan or RULE requirement.
 
 ## Current Position
 
@@ -33,7 +33,7 @@ Phase: 1 (Code rules and documentation) — EXECUTING
 Current Plan: 14
 Total Plans in Phase: 18
 Status: Ready to execute
-Last activity: 2026-11-14 (Europe/Paris) — Completed plan 01-13; 641 accepted controls, zero failed controls, 15 later-owner obligations pending. Next: 01-14.
+Last activity: 2026-11-14 (Europe/Paris) — Approved simplification recorded in SPEC/CONTEXT, plans 01-14–17, validation and Phase 5 handoff; implementation progress unchanged.
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -111,12 +111,16 @@ Full decisions are in PROJECT.md.
 
 ### Pending Todos
 
-Continue Phase 1 with plan 01-14; finish the five project reference pages and full rule/review closure, including the five distinct runner-edge bindings recorded in WINDOWS entry 9. Refine the complete prerequisite review/decision pages delivered by 01-13.
+Finish only unresolved 01-14 closure and record its actual implementation evidence; the five project pages and distinct runner-edge cases already exist. Next execute revised 01-15: keep all implemented checks, explicitly migrate the eight pending aggregate/coverage IDs to Phase 5 and implement phase-scoped selection. Then obtain one final clean complete Phase 1 Windows run (01-16), actual representative clean Linux checks and separate human review (01-17). Reuse existing documentation and tools; do not implement coverage or exhaustive certification in Phase 1.
+
+### Roadmap Evolution
+
+- 2026-11-14 — Creator approved Phase 1 simplification. Revised remaining plans 01-14–17 and Phase 1/5 acceptance boundaries. Coverage targets remain 90% lines / 80% branches; measured coverage, exhaustive platform/report reconciliation and unfinished aggregate certification have explicit Phase 5 ownership. Ten phases, 133 requirement IDs, primary owners and all working enforcement/tests are preserved. This is a plan change, not a passed implementation or platform check.
 
 ### Blockers/Concerns
 
-- Plans 01-01 through 01-13 and 01-18 prove the Windows Godot/compiler slice, trusted runner, donor/register identity, strict inherited/evaluated policy, consumer violations, bounded source/generated permissions, compiled boundaries, controlled Core inputs, strict snapshots/atomic restoration, actual native lifetimes/thread integration and exact portable documentation. Final immutable run 9ec275b7-832e-429b-be84-8e667c28cbd2 accepts 641 controls with zero failed controls and 15 IMPLEMENTATION_PENDING obligations of 656; actual exit 1 solely reflects later-owner work. Complete project/rule/review closure, measured coverage and Linux acceptance remain pending.
-- Five pins runner-edge identities retain declared owner 01-02 and remain pending; 01-14 owns their distinct actual-case closure (WINDOWS entry 9). The exact Godot report-method adaptation is included in 01-08's broader source/origin/exemption validation.
+- Plans 01-01 through 01-13 and 01-18 prove the Windows Godot/compiler slice, trusted runner, donor/register identity, strict inherited/evaluated policy, consumer violations, bounded source/generated permissions, compiled boundaries, controlled Core inputs, strict snapshots/atomic restoration, actual native lifetimes/thread integration and exact portable documentation. Final immutable run 9ec275b7-832e-429b-be84-8e667c28cbd2 accepts 641 controls with zero failed controls and 15 IMPLEMENTATION_PENDING obligations of 656; actual exit 1 solely reflects later-owner work. This is historical evidence, not a pass for later changes. The revised functional Windows/Linux baseline and qualitative review remain Phase 1 work; measured coverage and exhaustive certification are Phase 5 work.
+- Five runner-edge identities have now been implemented during 01-14 and remain required; preserve their distinct tests and actual evidence. Their older pending handoff is historical. Verify plan closure evidence before changing historical issue status. The exact Godot report-method adaptation remains covered by 01-08's source/origin/exemption validation.
 - All twelve custom analyzers enforce SCR0001-SCR0012. Exact generated permissions remain bounded by producer/package/source identity and member/span boundaries. The authenticated xUnit logical-seed producer, four immutable layout-source records, seven layout-member permissions, Godot RS0030 scope and two existing syntax spans retain precise boundaries. Plan 01-12 adds 170 authenticated native-fixture diagnostic/member/source/path/span permissions and reconciles current callback output hashes. The actual sealed script needs no added type-level exemption; all eighteen existing suppressions remain exact. All RULE requirements remain Pending.
 - Plan 01-01's historical missing-RED deviation remains open in WINDOWS.md; Plan 01-02 supplies genuine RED/GREEN proofs without fabricating earlier evidence.
 - A workspace-contained Ubuntu 24.04 x86_64 VM shell is prepared as recorded in 01-ENVIRONMENT.md. Actual Linux toolchain and acceptance execution remain required; environment preparation supplies no platform pass.
@@ -129,18 +133,19 @@ Continue Phase 1 with plan 01-14; finish the five project reference pages and fu
 
 ## Deferred Items
 
-No 01-13 implementation is deferred. The 15 declared later-owner cases remain required: shared closure 14, measured coverage 15 and actual Linux/clean-checkout acceptance 16/17. Their groups are platform 1, register 1, rules 8 and pins 5; no documentation or engine obligation remains implementation-pending. The five project reference pages and complete qualitative mappings remain 01-14 work. The pinned logical-seed producer is proven in the normal checkout and two fresh Windows paths; no Linux pass is claimed. The same independently observed random vectors and native fixtures must execute unchanged on Linux. WINDOWS historical entries 1 and 9 remain open.
+The approved [Phase 5 handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md) owns real analyzer/production 90%/80% coverage, exhaustive platform suites/reconciliation and unfinished aggregate certification. The current declaration contains 674 cases, with 666 implemented and eight pending aggregate/coverage IDs: ac-02/06/07/09.complete and R-49/R-82 positive/negative. These are declared implementation counts, not a new passing run. Revised 01-15 must migrate their executable ownership and add explicit phase selection; until implemented, --all retains the original exhaustive non-success for pending work. No working case, exemption boundary or operational rule is removed. Actual representative Linux execution and qualitative review still block Phase 1 until performed.
 
-01-13 now fingerprints the core PROJECT/REQUIREMENTS/ROADMAP/STATE/research authority pages and workflow configuration actually read by docs proofs. Plans 01-16/01-17 must freeze the same authority inputs across both platform full runs and reconcile before workflow metadata updates. Metadata prose changes receive a separate D-11 focused docs result and changed input identity; do not claim the earlier full fingerprint is unchanged.
+Preserve immutable reports and freeze tested inputs during every final run. Under the amendment, 01-16 owns the complete functional Windows run and 01-17 representative actual Linux evidence for the intended final implementation; exhaustive same-source cross-platform certification is Phase 5 work. Planning/prose updates receive separate docs and consistency validation and never reuse an earlier full fingerprint as if unchanged.
 
 | Category | Item | Status | Deferred At | Milestone |
 | --- | --- | --- | --- | --- |
+| Phase 5 certification | Measured 90%/80% coverage, exhaustive platforms and eight pending aggregate/coverage cases | Required; implementation/acceptance pending | Creator-approved 2026-11-14 amendment | v0.1 Phase 5 |
 | Future platform work | PLAT-01 and PLAT-02 Steam/Epic implementations | Outside v0.1; no next-release commitment | Initial scope | v0.1 |
 
 ## Session Continuity
 
 Last session: 2026-11-14T12:06:35.670Z
-Stopped at: Completed 01-13-PLAN.md; next 01-14 project references and rule bindings; Phase 2 context captured (02-CONTEXT.md); Phase 3 context gathered (03-CONTEXT.md)
+Stopped at: Revised Phase 1 plans; finish current 01-14 closure then 01-15 phase selection; Phase 2 context captured (02-CONTEXT.md); Phase 3 context gathered (03-CONTEXT.md)
 Resume file: None
 
-Next action: Execute 01-14-PLAN.md for five project references and complete distinct rule/review bindings. Plan 18 executed before 05 by dependency order. Remain in Phase 1; all RULE requirements are Pending.
+Next action: Finish unresolved 01-14 closure using existing work/evidence, then execute revised 01-15 for explicit phase selection and Phase 5 ownership. Continue with one final clean Windows Phase 1 run (01-16), representative actual Linux checks and qualitative review (01-17). Plan 18's completed dependency order and captured Phase 2/3 context are preserved. Phase 1 and all RULE requirements remain Pending.

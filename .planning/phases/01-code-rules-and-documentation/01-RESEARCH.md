@@ -4,6 +4,8 @@
 **Domain:** Godot/C# development rules, reproducible builds, executable architecture and lifecycle/state proofs
 **Confidence:** MEDIUM overall; HIGH for inspected donor contents; integrated compatibility remains unproven.
 
+**Timing amendment, 2026-11-14:** This research preserves the original technical options and evidence requirements. The creator subsequently moved measured coverage, exhaustive platform execution and unfinished aggregate runner certification to [Phase 5](../05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md). The revised [specification](01-SPEC.md), context and plans 01-14–17 supersede original Phase 1 timing in the copied constraints below. Preserve working rules/tests and representative actual Windows/Linux baseline execution; research is not completion evidence.
+
 <user_constraints>
 ## User Constraints (from CONTEXT.md)
 

@@ -1,5 +1,11 @@
 # Deferred execution issues
 
+## Current approved handoff — 2026-11-14
+
+The creator moved measured analyzer/production coverage (unchanged 90%/80%), exhaustive Windows/Linux suites/reconciliation and unfinished aggregate runner/report certification to [Phase 5](../05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md). The eight pending case IDs and explicit later owner are listed there; 01-15 implements phase-scoped selection. Keep every implemented test, including the five runner-edge identities added in 01-14. Phase 1 still needs its complete Windows run, representative actual Linux baseline and qualitative review. No deferred obligation is passed or waived.
+
+The entries below preserve historical checkpoints and original handoffs; they do not override the revised specification or re-open implemented work.
+
 ## 01-04 Task 2 strict-build checkpoint
 
 The third bounded automatic correction pass leaves 151 strict-build diagnostics: 111 CS1591, 36 CA1707, two MA0051 and two MA0023. They block Task 2 completion; they are not accepted warnings, skipped tests or passed proof cases. See 01-04-CHECKPOINT.md and `.phase1/temp/01-04-strict-build3.log` for precise locations and continuation instructions. Existing source and lock changes remain reversible and uncommitted pending the continuation build.

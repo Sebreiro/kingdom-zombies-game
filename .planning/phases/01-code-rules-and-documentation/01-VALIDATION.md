@@ -5,108 +5,68 @@ status: draft
 nyquist_compliant: false
 wave_0_complete: false
 created: "2026-11-13"
+updated: "2026-11-14"
 ---
 
 # Phase 01 — Validation Strategy
 
-This is a validation contract, not a claim of executed evidence. The locked [specification](01-SPEC.md) and the complete acceptance map in [research](01-RESEARCH.md#validation-architecture) govern the required cases.
+The creator approved simplified Phase 1 completion on 2026-11-14. The revised [specification](01-SPEC.md) and [context](01-CONTEXT.md) govern acceptance. This is a validation plan, not newly executed evidence. Completed-plan reports remain historical; source-allocation coverage in [COVERAGE.md](COVERAGE.md) does not mean measured code coverage.
 
-## Test Infrastructure
+## Preserve important rules
 
-| Property | Value |
+Keep the pinned toolchain/locks, all twelve analyzers and exact numeric code-rule limits, five-project dependency checks, all 85 rule dispositions, narrow generated/source permissions and every implemented runner/docs/state/native-lifecycle case. Keep intended positive/negative diagnostics, controlled inputs, stable identities, serializable independent state, atomic restore and engine main-thread/lifetime behavior. No working test is removed, skipped or weakened.
+
+## Acceptance timing and commands
+
+| Check | Phase 1 completion | Phase 5 certification |
+| --- | --- | --- |
+| Windows | Clean donor-independent locked restore, strict solution build, real native bootstrap and one final complete Phase 1 suite | Full certification including coverage and aggregate reports |
+| Linux | Actual clean restore/build plus predeclared representative analyzer/graph/docs/state/native-engine checks | Exhaustive complete suite, every failure variant, coverage and cross-platform reconciliation |
+| Coverage | Preserve the documented 90% line / 80% branch policy and pending ownership | Actual analyzer and native-hosted production collection, thresholds and report controls |
+| Runner | Preserve all implemented failure/freshness/interruption/concurrency cases and truthful selected-set completeness | Remaining aggregate certification and additional exhaustive platform/runner scenarios |
+| Human judgment | Short separate review of exact qualitative rule IDs at phase end | Later changes receive their own relevant review |
+
+Existing focused commands: `node tools/phase1/check.cjs --group docs` (or `runner`, `register`, `rules`, `graph`, `state`, `engine`, `pins`) and exact `--case` IDs from the manifest. `node tools/phase1/bootstrap.cjs --probe engine` proves actual native compatibility. The strict whole-solution build and clean restore prerequisites remain in [setup](../../../docs/workflow/setup.md) and [verification](../../../docs/workflow/verification.md).
+
+**Planned completion command:** `node tools/phase1/check.cjs --phase 1`, implemented by 01-15 before use. It selects independently declared Phase 1 obligations and reports explicit deferred Phase 5 IDs separately. It must never filter simply by implementation status or suppress a missing/failed Phase 1 result. Until 01-15 is implemented, this is not an available command. Existing `--all` retains its exhaustive meaning and remains non-success while declared Phase 5 certification is pending.
+
+## Remaining plan ownership
+
+| Plan | Required work | Verification |
+| --- | --- | --- |
+| 01-14 | Finish only unresolved project/rule mappings and review preparation; reuse already created pages and runner-edge cases | Existing docs.projects, register.binding-precoverage and focused docs/register checks |
+| 01-15 | Explicit acceptance-phase metadata, minimal selector, visible Phase 5 ownership and current binding guidance | Focused selection/failure tests; existing register/docs checks |
+| 01-16 | One final clean complete Windows Phase 1 run; prepare actual Linux baseline using existing tools/VM | Locked restore, strict solution build, native bootstrap, implemented --phase 1 |
+| 01-17 | Execute predeclared representative clean Linux checks, consolidate qualitative review and record truthful closure | Existing exact selectors/native assertions, actual platform logs and separate human review |
+
+Do not repeat a full suite solely to close each intermediate plan or edit planning metadata. Use focused checks while batching related fixes, then the final Windows run after implementation stabilizes. A later implementation/contract change invalidating that evidence requires appropriate renewed verification. Keep tested inputs fixed during each run and retain original reports. Planning/prose-only changes receive docs and consistency checks.
+
+## AC-01 through AC-22
+
+| Criteria | Phase 1 evidence |
 | --- | --- |
-| Framework | Pinned C# proof project and actual Godot processes; exact package pairing proven during bootstrap |
-| Config file | Repository toolchain manifest and required-case manifest, created in Wave 0 |
-| Quick run command | `node tools/phase1/check.cjs --group state` |
-| Full suite command | `node tools/phase1/check.cjs --all` |
-| Platform gate | Complete fresh suite on Windows and Linux against the same source identity |
-| Estimated runtime | Measure during bootstrap; all processes have explicit timeouts |
+| AC-01 | Existing exact pin/compiler/configuration/lock checks and clean builds |
+| AC-02 | Complete clean functional Windows run and actual representative clean Linux baseline; exhaustive ac-02.complete moves to Phase 5 |
+| AC-03–04 | Existing runner failure, fresh-result, repeat/interruption/concurrency/input-integrity checks; no new certification matrix |
+| AC-05–06 | Captured 85 IDs / 84 heading relations / 24 source exemption dispositions; real current precoverage binding checks and accurate later ownership |
+| AC-07–09 | All implemented analyzer/compiler/build/exemption/numeric tests stay required; the coverage-dependent aggregate cases and measured 90%/80% are Phase 5 |
+| AC-10–11 | Canonical guide/indexes, five short project references and existing portable documentation checks |
+| AC-12–13 | Existing declared/evaluated/compiled graph and intended violation tests; representative allowed/forbidden cases execute on Linux |
+| AC-14–17 | Existing actual engine fixture/assertions for construction/resources/partials/exports/callbacks/signals/teardown and guarded thread/lifetime behavior on both OS baselines |
+| AC-18–22 | Existing controlled time/randomness, unchanged common replay vectors, identity/snapshot/restore tests; representative input/round-trip cases execute on Linux |
 
-## Sampling Rate
+All already implemented edge cases remain required regressions. The original eight pending aggregate/coverage identities and their full acceptance meaning are retained in the [Phase 5 handoff](../05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md). They receive no Phase 1 pass, skip or waiver; 01-15 migrates their executable selection/binding metadata. Phase 1's revised criteria use the existing substantive functional proofs instead of requiring new aggregate wrappers.
 
-- After each task: run its relevant automated group; prerequisite failures block dependent checks.
-- After each implementation wave and before phase verification: run the complete available local suite.
-- Prose-only changes: run `node tools/phase1/check.cjs --group docs`.
-- Target quick feedback below 30 seconds after build; bounded build/engine/coverage checks remain required even when slower.
-- Missing, skipped, duplicated, stale, or interrupted results cannot pass. Collect independent failures and report blocked obligations.
+## Required separate review
 
-## Per-Task Verification Map
+Use the existing [qualitative checklist](../../../docs/code/review.md) and [human-check record](01-HUMAN-CHECK.md). Record actual reviewer/date/outcome for the listed rule components; automated or AI results never fill human fields. Missing concrete Linux access is an explicit baseline blocker. Prepare all independent setup first, then request only the missing access if needed. A VM boot, instructions or Windows cross-build never supplies Linux acceptance.
 
-Exact ownership below refers to the18 checked plans (37tasks). All commands remain planned outputs until implemented; this document claims no executed compliance. Every negative proof must observe its intended subject diagnostic, not a restore/tool failure. Full source/decision/85-rule/38-edge allocation is in [COVERAGE.md](COVERAGE.md).
+## Sign-off
 
-| ACs | Requirements | Automated command | Coverage obligation | File exists | Status |
-| --- | --- | --- | --- | --- | --- |
-| AC-01 | RULE-01 | `node tools/phase1/check.cjs --group pins` | Exact coherent pins; absent/conflicting/mismatched tools and reordered declarations | No — Wave 0 | pending |
-| AC-02 | RULE-01, RULE-06 | `node tools/phase1/check.cjs --all` on each OS | Clean donor-independent restore/build/rules/real scene; source and platform identity | No — Wave 0 | pending |
-| AC-03, AC-04 | RULE-01, RULE-03, RULE-04, RULE-07 | `node tools/phase1/check.cjs --group runner` | Real failure/zero discovery/filter/skip/crash/timeout/artifact/stale/duplicate/interruption/concurrency/source-mutation checks | No — Wave 0 | pending |
-| AC-05, AC-06 | RULE-02, RULE-03 | `node tools/phase1/check.cjs --group register` | All 85 donor IDs, 84 headings, exact relations/dispositions; invalid/empty/duplicate/missing/reordered cases | No — Wave 0 | pending |
-| AC-07, AC-08, AC-09 | RULE-03, RULE-06 | `node tools/phase1/check.cjs --group rules` | Real compliant/violation proofs for every applicable machine rule; actual builds; bounded exemptions; numeric neighbors and coverage thresholds | No — Wave 0 | pending |
-| AC-10, AC-11 | RULE-04 | `node tools/phase1/check.cjs --group docs` | Canonical tracked AGENTS.md; exact links/anchors/encoding/scope; invalid fixtures and project docs | No — Wave 0 | pending |
-| AC-12, AC-13 | RULE-05 | `node tools/phase1/check.cjs --group graph` | Exact evaluated graph and type boundaries; positive and forbidden direct/transitive/undeclared/missing/empty/reordered cases | No — Wave 0 | pending |
-| AC-14, AC-15, AC-16, AC-17 | RULE-06, RULE-07 | `node tools/phase1/check.cjs --group engine` | Engine-created resources/exports/partials/callbacks/signals; two cycles; invalid initialization; no late work; thread guard | No — Wave 0 | pending |
-| AC-18, AC-19, AC-20, AC-21, AC-22 | RULE-07 | `node tools/phase1/check.cjs --group state` | Controlled time/randomness; numeric edges; exact IDs/order; strict empty/invalid/version parsing; atomic repeated restore | No — Wave 0 | pending |
-
-## Exact Plan/Task Ownership
-
-| Acceptance criterion | Exact owners (plan:task) | Required command group | Proof obligation |
-| --- | --- | --- | --- |
-| AC-01 | 01-01:1–2;01-02:2;01-18:2 | `node tools/phase1/check.cjs --group pins` | Exact pins, missing/conflict/mismatch, equivalent permutations, evaluated central pins and five generated locks |
-| AC-02 | 01-16:1;01-17:1–2 | `node tools/phase1/check.cjs --group platform` | Actual clean donor-independent same-source Windows and Linux full suites |
-| AC-03 | 01-02:1–2 | `node tools/phase1/check.cjs --group runner` | Real failure, missing tool/discovery/filter/skip/crash/timeout/log/result/stale/duplicate |
-| AC-04 | 01-02:2;01-17:2 | `node tools/phase1/check.cjs --group runner` | Repeat/interruption/concurrency/source-document mutation |
-| AC-05 | 01-03:1–2;01-14:2 | `node tools/phase1/check.cjs --group register` | 85IDs/84headings/24exemptions, exact disposition and identity mutations |
-| AC-06 | 01-03:2;01-14:2 | `node tools/phase1/check.cjs --group register` | Bidirectional mechanism/proof/reference integrity and permutation |
-| AC-07 | 01-18:1–2;01-05–01-09;01-14:2 | `node tools/phase1/check.cjs --group pins`; `node tools/phase1/check.cjs --group rules` | Exact compiler verifier/configuration controls, every applicable machine mechanism clean/negative plus actual-build categories |
-| AC-08 | 01-08:2;01-12:3 | `node tools/phase1/check.cjs --group rules` | Exact exemptions, overlap/suppression/fake-generation/adjacent boundaries |
-| AC-09 | 01-06;01-07:1;01-08:2;01-15 | `node tools/phase1/check.cjs --group rules` | Exact numeric units and below/equal/above; real coverage90/80 |
-| AC-10 | 01-13:1;01-14:1 | `node tools/phase1/check.cjs --group docs` | Canonical AGENTS, focused indexes and allfive project docs |
-| AC-11 | 01-13:1–2 | `node tools/phase1/check.cjs --group docs` | Portable exact paths/anchors/case/space/Unicode/encoding/scope |
-| AC-12 | 01-04:1–2;01-18:1;01-09:1 | `node tools/phase1/bootstrap.cjs --probe boundaries`; `node tools/phase1/check.cjs --group pins`; `node tools/phase1/check.cjs --group graph` | Exact expected evaluated graph, owned declarations, allowed real Godot/Core/service boundary use |
-| AC-13 | 01-09:1–2 | `node tools/phase1/check.cjs --group graph` | Direct/imported/transitive/type/generated/undeclared/missing/empty/permutation |
-| AC-14 | 01-01:1;01-12:1–3 | `node tools/phase1/check.cjs --group engine` | Actual engine/resource/callback/export/partial/signal/nullability surface assertions |
-| AC-15 | 01-12:1 | `node tools/phase1/check.cjs --group engine` | Two distinct cycles, callback order, exactly-once handlers, latework rejection |
-| AC-16 | 01-12:2 | `node tools/phase1/check.cjs --group engine` | Required missing/invalid exports fail before use, optionalnull passes |
-| AC-17 | 01-09;01-10;01-12:1,3 | `node tools/phase1/check.cjs --group engine` | Main-thread guard and semantic bypass checks; pure worker/Core |
-| AC-18 | 01-10:1–2;01-17 | `node tools/phase1/check.cjs --group state` | Controlled repeatability and saved random continuation common vectors |
-| AC-19 | 01-10:1–2;01-11:1 | `node tools/phase1/check.cjs --group state` | Integer units/range/precision/zero/overflow/invalid neighbors |
-| AC-20 | 01-10;01-11:1 | `node tools/phase1/check.cjs --group state` | Exact ordinal identities/values, meaningful ordering, unordered semantics |
-| AC-21 | 01-11:1–2 | `node tools/phase1/check.cjs --group state` | Empty/single/many; absent/null/duplicate/malformed/version rejection |
-| AC-22 | 01-11:2 | `node tools/phase1/check.cjs --group state` | Idempotent restore, interruption, competing writers, atomic reader visibility |
-
-Platform orchestration is deliberately outside `check.cjs --all` to prevent recursion: `node tools/phase1/platform.cjs --windows-clean` (01-16:1), `--prepare-linux` (01-16:2, preparation only), actual Linux-native `--linux-clean` (01-17:1), and `--reconcile` (01-17:2). Every child is bounded and every command needs exact fresh required IDs, not only exit0. Check group pins/runner is ready in01-02; capture/schema checks in01-03; project/shared configuration declarations in01-04; permitted consumer references, exact compiler verifier/configuration controls and all five generated locks in01-18; each analyzer family in01-05–07; real builds/exemptions01-08; graph01-09; state01-10/11; actual engine01-12; docs01-13/14; coverage01-15. Until later required groups exist, `--all` stays non-success rather than omitting them.
-
-Register checks use staged exact obligations: `--case register.capture` and `--case register.schema` in01-03 validate the captured baseline and mapping schema; `--case register.binding-precoverage` in01-14 resolves all actual created mechanisms/proofs except the explicitly owned coverage cases. Full `register.binding` and complete-suite success require the implemented coverage bindings in01-15. Stage-specific feedback does not claim full inheritance enforcement before its mechanisms exist.
-
-Unique tooling-integrity threats are T-01-01 through T-01-36, allocated consecutively two per numeric plan ID;01-18 adds T-01-35/36 and executes in wave5 after01-04. T-01-SC is the reserved repeated supply-chain row. Each task's actual mutation proofs verify its relevant input/evidence boundary. Exact source/edge/rule allocations remain planning commitments, never passed status.
-
-## Wave 0 Requirements
-
-- [ ] Workspace-local writable tool/cache/run directories, exact pinned inputs, dependency locks and actual Godot integration compatibility.
-- [ ] Minimal compilable core/service/Godot/enforcement/proof boundaries; independent expected project inventory.
-- [ ] Captured donor originals, content/revision identity, heading-to-rule relations and all adopted enforcement inputs.
-- [ ] Required-case manifest and fresh-result reconciliation before treating any suite as complete.
-- [ ] Actual compiler/analyzer/architecture violations and exact diagnostic checks.
-- [ ] Real engine lifecycle fixtures and pure state examples, with managed coverage collection retaining adopted 90% line / 80% branch gates.
-- [ ] Genuine Linux execution path, including required SDK/runtime and engine; Windows-only results do not close the phase.
-
-## Security Verification
-
-Plans must allocate unique phase threat IDs and map their tests into these task rows: strict paths and process arguments, bounded parsing, exact pins and provenance, fake generation/suppression rejection, fresh proof identity and atomic publication. ASVS L1 is scoped guidance, not a certification claim. See research security applicability.
-
-## Manual-Only Verifications
-
-| Behavior | Requirement | Why manual | Instructions |
-| --- | --- | --- | --- |
-| Qualitative rule obligations | RULE-02, RULE-03 | Human judgment cannot honestly be reported as automated enforcement | Keep a short checklist with exact rule IDs and record review separately. |
-| Linux environment provisioning if no usable runtime is available | RULE-01, RULE-06 | Environment access may require the creator | Prepare reproducible commands and source identity; request only concrete missing environment access. Actual Linux checks must still execute. |
-
-## Validation Sign-Off
-
-- [ ] Every task has an automated check or an explicit Wave 0 dependency.
-- [ ] No three consecutive tasks lack automated verification.
-- [ ] Wave 0 covers every missing reference.
-- [ ] No watch-mode checks or unbounded child processes.
-- [ ] Fresh complete Windows and Linux evidence exists for the same source identity.
-- [ ] `nyquist_compliant: true` only after actual validation.
-
-Approval: pending implementation and executed validation.
+- [ ] Important operational rules and every working test are preserved.
+- [ ] Explicit Phase 1 selection rejects missing/failed required obligations; Phase 5 work is visible and pending.
+- [ ] Clean complete Windows Phase 1 results are current and passing.
+- [ ] Actual representative clean Linux checks are current and passing for the intended final implementation.
+- [ ] Short project/rule references are accurate and the separate qualitative review is complete.
+- [ ] Coverage/exhaustive certification remain required in Phase 5 without false pass credit.
+- [ ] Only after these checks may Phase 1 and its RULE requirements be marked complete; this planning update leaves compliance/sign-off flags false.
