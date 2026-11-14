@@ -1,5 +1,7 @@
 # Development setup
 
+**Current Phase 1 closure boundary (creator instruction, 2026-11-14):** The [one-time exception](../../.planning/phases/01-code-rules-and-documentation/01-CLOSURE-EXCEPTION.md) accepts the retained complete Windows baseline plus actual focused Linux strict/native/rule/state/graph evidence without a host restart. The narrow GODOT_LINUXBSD test correction passed separately on both OSes. A complete Linux suite, its original graph capacity failure and fourteen individually unreviewed human components remain explicit [follow-ups](../../.planning/phases/01-code-rules-and-documentation/01-CLOSURE-FOLLOWUPS.md), not passes. The complete-other-OS-VM rule continues for later phases.
+
 The exact baseline is [toolchain.json](../../tools/phase1/toolchain.json). The existing [Godot project](../../src/godot-game/project.godot) hosts a minimal C# proof scene. These setup references introduce no gameplay. Preserve the implemented runner and rules; Phase 1 requires its complete current scope on Windows and the local Linux VM for the same final implementation. Measured coverage and the eight explicit later-phase declarations remain Phase 5 obligations. [Verification](verification.md) owns commands and result interpretation under the creator's latest 2026-11-14 platform rule.
 
 | Prerequisite | Exact version | Source |

@@ -1,5 +1,7 @@
 # KingdomZombies
 
+**Current Phase 1 closure boundary (creator instruction, 2026-11-14):** The [one-time exception](phases/01-code-rules-and-documentation/01-CLOSURE-EXCEPTION.md) accepts the retained complete Windows baseline plus actual focused Linux strict/native/rule/state/graph evidence without a host restart. The narrow GODOT_LINUXBSD test correction passed separately on both OSes. A complete Linux suite, its original graph capacity failure and fourteen individually unreviewed human components remain explicit [follow-ups](phases/01-code-rules-and-documentation/01-CLOSURE-FOLLOWUPS.md), not passes. The complete-other-OS-VM rule continues for later phases.
+
 **Current platform policy (creator instruction, 2026-11-14):** Agents use the development OS for implementation checks. Before phase completion, its complete required scope must also pass in a local VM running the other supported OS. Use hardware acceleration when available. This supersedes earlier representative-only Phase 1 Linux timing; coverage and the eight explicit Phase 5 declarations retain their ownership. See [AI collaboration](../docs/workflow/ai-collaboration.md).
 
 ## What This Is

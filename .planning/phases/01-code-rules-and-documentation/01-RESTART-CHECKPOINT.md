@@ -1,7 +1,7 @@
 ---
 phase: "01"
 plan: "17"
-status: awaiting_restart
+status: superseded_by_focused_closure
 phase_complete: false
 candidate: 59f032cf23340058eec91f12c5d240f585dfabdc
 windows_cases_accepted: 676
@@ -9,7 +9,9 @@ linux_current_scope_executed: false
 human_review: Pending
 ---
 
-# Phase 1 — Windows restart checkpoint
+# Phase 1 — Historical Windows restart checkpoint
+
+**Superseded:** The creator later requested no restart and closure after focused important Linux checks. Those checks and the explicit amendment passed as recorded in [the summary](01-17-SUMMARY.md). The VM is again cleanly stopped. This retained checkpoint no longer blocks Phase 1; complete accelerated Linux execution remains a [follow-up](01-CLOSURE-FOLLOWUPS.md).
 
 The complete current Windows Phase 1 selection passed. The creator enabled Windows Hypervisor Platform, but the final live host query still returned `HypervisorPresent: false`. A creator-controlled Windows restart is the next environment prerequisite. The owned Linux guest is cleanly shut down and its disk, tools, caches and same-source checkout are preserved. No host restart was initiated by an agent.
 

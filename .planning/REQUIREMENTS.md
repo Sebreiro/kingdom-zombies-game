@@ -1,5 +1,7 @@
 # Requirements: KingdomZombies
 
+**Current Phase 1 closure boundary (creator instruction, 2026-11-14):** The [one-time exception](phases/01-code-rules-and-documentation/01-CLOSURE-EXCEPTION.md) accepts the retained complete Windows baseline plus actual focused Linux strict/native/rule/state/graph evidence without a host restart. The narrow GODOT_LINUXBSD test correction passed separately on both OSes. A complete Linux suite, its original graph capacity failure and fourteen individually unreviewed human components remain explicit [follow-ups](phases/01-code-rules-and-documentation/01-CLOSURE-FOLLOWUPS.md), not passes. The complete-other-OS-VM rule continues for later phases.
+
 **Platform verification policy, 2026-11-14:** During implementation, test on the development OS. At phase completion, run the complete required phase scope on that OS and a local VM using the other supported OS. Phase 1 therefore requires the complete current Windows/Linux-VM selection, rather than representative Linux cases. All 133 requirement IDs and primary owners are unchanged; the eight explicitly deferred Phase 5 certification cases remain pending.
 
 **Defined:** 2026-11-13

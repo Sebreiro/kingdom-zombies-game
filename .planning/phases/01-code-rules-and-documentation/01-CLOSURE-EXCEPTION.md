@@ -2,7 +2,7 @@
 phase: "01"
 date: "2026-11-14"
 authority: creator_instruction
-status: execution_pending
+status: technical_condition_satisfied
 scope: phase_1_only
 ---
 
@@ -51,3 +51,7 @@ After these checks actually pass, close Phase 1 under the creator's conditional 
 The detailed fourteen-component human checklist has not been individually reviewed. Keep its outcomes explicitly unreviewed/Pending as follow-up; do not manufacture reviewer judgments, dates or passes. Overall Phase 1 acceptance is the creator's instruction above, conditional on the important Linux checks. The pending individual judgments and a complete accelerated Linux run remain visible closure follow-ups. They are not represented as completed tests or component reviews.
 
 The eight existing Phase 5 declarations and unchanged 90%/80% coverage targets retain their ownership and pending status. No extra phase or requirement ID is created. Stop after Phase 1 under the original `--only 1` request.
+
+## Actual condition satisfied
+
+The [final summary](01-17-SUMMARY.md) records strict Linux setup/native success, five unchanged successful cases, the corrected platform case passing on Windows and Linux, and the direct graph validator accepting the allowed graph and producing the exact forbidden-edge result. Original 5/7 attempt failures remain immutable. The [follow-up register](01-CLOSURE-FOLLOWUPS.md) preserves all unperformed/unaccepted items. The VM is cleanly stopped and Windows was not restarted. Final phase-goal verification and completion tracking are the remaining administrative steps.

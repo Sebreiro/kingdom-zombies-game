@@ -1,5 +1,7 @@
 # Phase 5 — Certification transferred from Phase 1
 
+**Later creator exception, 2026-11-14:** Phase 1 may close under its [focused no-restart scope](../01-code-rules-and-documentation/01-CLOSURE-EXCEPTION.md). Preserve all eight pending declarations and unchanged 90%/80% targets. Its [complete-Linux/canonical-graph and human follow-ups](../01-code-rules-and-documentation/01-CLOSURE-FOLLOWUPS.md) remain transparent; no full Linux certification or individual human pass is supplied.
+
 **Later platform-policy amendment, 2026-11-14:** The complete current scope of every phase must run on its development OS and a local VM using the other OS at phase end. Phase 1 now requires the complete 676-case selection on Windows and Linux, including all implemented failure variants. This does not complete the eight pending declarations below, measure coverage or deliver Phase 5 advanced reconciliation. The pre-review manifest counts below remain historical; six added review regressions make the current totals 684 declarations / 676 Phase 1 obligations.
 
 **Approved:** Creator instruction, 2026-11-14 (Europe/Paris).

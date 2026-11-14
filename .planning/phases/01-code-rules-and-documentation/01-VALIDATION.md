@@ -2,13 +2,19 @@
 phase: "01"
 slug: "code-rules-and-documentation"
 status: validated
-nyquist_compliant: false
-wave_0_complete: false
+nyquist_compliant: true
+wave_0_complete: true
 created: "2026-11-13"
 updated: "2026-11-14"
 ---
 
 # Phase 01 — Validation Strategy
+
+## Current accepted scope — focused creator exception
+
+All current required technical behaviors in [01-CLOSURE-EXCEPTION.md](01-CLOSURE-EXCEPTION.md) have real passing evidence: Windows 676-case baseline, focused Windows/Linux test-portability amendment, Linux strict/native setup, five unchanged cases and the separately validated allowed/forbidden graph mechanism. The original attempt remains 5 passed / 2 failed; one defect has a passing separate correction and the graph case remains failed/unaccepted. There is no synthetic seven-case or full Linux pass.
+
+Nyquist compliance here refers to the creator-amended current automated scope. The former complete-Linux gate was superseded, not falsely executed; full Linux, canonical graph capacity, fourteen unperformed human reviews and Phase 5 certification remain explicit [follow-ups](01-CLOSURE-FOLLOWUPS.md). No new missing behavioral test is identified. Earlier failed/blocked sections below are historical evidence under previous acceptance boundaries.
 
 **Latest acceptance policy, 2026-11-14:** The creator now requires complete current phase scope on the development OS and a local VM running the other OS. Four review repairs and six new regressions require fresh full Windows/Linux-VM evidence for 676 selected obligations. Historical 670-case Windows and sixteen-case Linux records below retain their actual outcomes; they do not certify the repaired implementation. Independent repair/security review and actual human judgment remain Pending.
 
@@ -125,3 +131,11 @@ No implementation/rule/test/configuration diff exists between that reviewed sour
 | Gaps found | 1 |
 | Resolved | 0 |
 | Escalated | 1 |
+
+## Validation Audit 2026-11-14
+
+| Metric | Count |
+|---|---|
+| Gaps found | 1 |
+| Resolved | 1 |
+| Escalated | 0 |

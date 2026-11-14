@@ -36,16 +36,18 @@ key-decisions:
 requirements-completed: []
 actuals:
   tokens: 25194
-  tasks: 1
+  tasks: 2
   commits: 27
 plan_head_before: 21597fdeaed675c89bab5e0dd7aabf29c0266597
 plan_head_after: 239912587fa984a43264c311a3adcbe667ae2a46
 duration: 155min across three recorded execution windows
 completed: 2026-11-14
-status: halted
+status: complete
 ---
 
 # Phase 1 Plan 17: Linux baseline and qualitative review Summary
+
+**Plan complete under the latest creator-authorized exception.** Task 1's composed technical condition is fulfilled; Task 2 records the conditional creator acceptance, preserved failures and explicit unperformed follow-ups. Required final phase-goal verification and the phase-completion owner still govern shared tracking. No individual human review, original graph-case pass or full Linux pass is claimed. See [closure follow-ups](01-CLOSURE-FOLLOWUPS.md).
 
 **Latest continuation — technical scope satisfied under creator exception:** Retain the original Windows **676/676** baseline. Actual Linux strict setup/native bootstrap and five unchanged cases pass; narrow observed `GODOT_LINUXBSD` test correction passes on both OSes, and a separately authorized direct proof accepts the allowed graph and rejects the genuinely compiled forbidden edge through the existing validator. This is composed assurance, not a new seven-case or full-suite pass. The original graph case remains failed/unaccepted, full Linux scope remains unrun and fourteen individual human outcomes remain unreviewed follow-ups. **Task 1's amended technical scope is complete; formal Task 2/plan/phase/RULE closure is owned by the parent.** Summary status remains halted pending that closure; no human outcome or shared completion flag was changed here. Earlier restart and representative-only records below are historical.
 
