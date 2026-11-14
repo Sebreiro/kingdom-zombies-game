@@ -40,6 +40,8 @@ Phase implementation now uses `feature/<task-id>-<short-description>`, with an e
 
 ## Commit and Scope
 
-- Policy/settings commit: `d68293f` — `docs(quick-261114-we2): require phase feature branches and draft PRs`.
-- Local task branch: `feature/261114-we2-phase-pr-lifecycle`, created from the existing checkout for this documentation/configuration task. This task did not start phase implementation, publish a PR or administer the hosted repository's default branch.
+- Policy/settings commit: `862ac06` — `docs(quick-261114-we2): require phase feature branches and draft PRs`.
+- Published task branch: `feature/261114-we2-phase-pr-lifecycle`. Its two task commits were replayed onto `origin/dev` before publication after confirming that the merged development tree exactly matched the original task baseline. The tested implementation bytes and original evidence identities are preserved.
+- Pull request: [#2 — Require phase feature branches and draft PR lifecycle](https://github.com/Sebreiro/kingdom-zombies-game/pull/2), targeting `dev`. Opened as a draft; its current review state is recorded on GitHub. The PR contains only this task's seven changed files.
+- GitHub confirmed `dev` as the default branch. This documentation/configuration task did not start a game implementation phase or change repository administration settings.
 - The quick workflow ran inline under its Codex spawn restriction. Phase 02 remains ready to plan; no roadmap, phase-completion or acceptance status changed.
