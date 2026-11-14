@@ -81,14 +81,14 @@ plan_head_after: a8ebbf6e37849919ca687a588b695b784c0dce8e
 duration: 101min
 completed: "2026-11-14"
 status: complete
-workflow-closeout: pending-authority-reconciliation
+workflow-closeout: metadata-complete-focused-documentation-validation-pending
 ---
 
 # Phase 1 Plan 14: Project references and real rule bindings Summary
 
 **Five module declarations now match evaluated MSBuild references; all 85 rules have accurate current linkage/dispositions, and the frozen candidate accepted 666 implemented controls with zero failed controls.**
 
-Both implementation tasks are complete and committed. Shared workflow closeout is **pending**, as instructed by the orchestrator while another chat finishes an authorized acceptance-timing amendment. This summary does not claim ROADMAP/STATE advancement, validation of amended authority bytes, coverage, Linux acceptance or a human pass. All shared RULE requirements remain Pending.
+Both implementation tasks are complete and committed. Shared workflow metadata closeout resumed after the authorized acceptance-timing amendment was committed as `1587015`: ROADMAP was updated first, then STATE advanced to **15/18, next revised 01-15**. A separate latest-main D-11 documentation result follows the metadata commit; the frozen full report remains evidence for its original tested candidate. No coverage, Linux acceptance or human pass is claimed. All shared RULE requirements remain Pending.
 
 ## Delivered behavior
 
@@ -148,7 +148,7 @@ Fixture setup exposed `powershell.exe` Archive-module autoload failure. The same
 
 WINDOWS item **9 is fixed** at `2026-11-14T13:24:24.221Z` from its five distinct accepted full-run controls. Historical missing-bootstrap-RED item **1 remains open**. Existing strict severities, all twelve analyzers, 170 exact native generated spans, eighteen member suppressions, authentic xUnit logical-seed production and inherited native companion repair are preserved.
 
-## Authorized authority amendment and pending shared closeout
+## Authorized authority amendment and completed shared metadata closeout
 
 After the frozen candidate was created, another chat edited acceptance timing. The orchestrator verified the direct user instruction to move coverage and exhaustive platform/runner checks to Phase 5 while preserving important rules and everything already working. That instruction governs remaining work. No replacement full run is required merely for this authorized timing amendment.
 
@@ -162,10 +162,14 @@ The main/candidate comparison observed **exactly five changed fingerprinted auth
 
 The observed main input is `bc50ad84fd6102143420f97b148a7dd0b7223fe1ad77015397f660295583dc01`; exact before/after file hashes are in the derived evidence. It differs from the frozen full input and has not been represented as tested by that report. Further WIP also includes revised plans 14–17, the human-check artifact, research/coverage/skeleton/deferred notes and the Phase 5 handoff. Those edits belong to the other chat and were not staged, overwritten or reverted by this executor.
 
-Per the orchestrator's explicit instruction, **ROADMAP/STATE/REQUIREMENTS were not updated by this closeout**. Preserve the complete existing Phase 2 and Phase 3 session annotations and all foreign commits. Once the other chat commits/stabilizes, the orchestrator must reconcile the amended ownership, update ROADMAP before STATE, record metrics/next plan, and run a **separate latest-main D-11 docs check**. That result must record its own changed input/tool identity. No post-amendment or post-metadata documentation pass is claimed here.
+The initial closeout deliberately left shared progress untouched while that chat was editing. The orchestrator subsequently verified the user approval and committed all 24 amendment files as `15870156eee42fa72b0f0588427e37865ab6aff2`. The approved amendment supersedes old timing for the remaining plans and preserves all working rules/checks. Its later edits also changed STATE and seven focused documentation pages; the earlier five-file comparison above is a historical point-in-time observation, not a claim about current bytes.
+
+On authorized resumption, SDK `roadmap.update-plan-progress 1` first recorded **15 summaries / 18 plans, In Progress**. Only then did STATE advance from plan **14 to 15** and recalculate **15/18 completed**. SDK metrics record the existing actual **101min / two tasks / 31 owned files**; the previously measured token and commit-span figures remain unchanged. The complete `Phase 2 context captured (02-CONTEXT.md); Phase 3 context gathered (03-CONTEXT.md)` annotations and the new amendment decisions are preserved. REQUIREMENTS and all fourteen human outcome rows remain Pending.
+
+This resumption changes only shared progress and owned summary/derived evidence. It performs no source/runner repair, no replacement full run, and no Linux VM/helper/transfer operation. Revised 01-15 owns phase selection and executable Phase 5 handoff reconciliation; 01-16 owns the final complete functional Windows run; 01-17 owns representative actual Linux execution and qualitative review. The separate latest-main D-11 documentation check is recorded after the metadata commit with its own input/tool identity.
 
 All shared RULE requirements and qualitative reviewer/date/outcome remain Pending. No gameplay, Phase 2 execution, actual Linux acceptance or measured coverage is claimed. The exact fourteen human components are ready for consolidated phase-end review; automation/AI do not fill their outcome fields.
 
 ## Self-Check: PASSED
 
-All 31 owned implementation/artifact paths plus this SUMMARY and the derived evidence file exist (**33 checked paths**). Both owned task commits are ancestors of main HEAD, and the persisted ledger measures the five-commit range recorded above. The unaltered full report reconciles 666 accepted controls, zero failed controls and exactly eight pending obligations; the frozen input snapshot remains unchanged. No functional TODO/FIXME/placeholder, new skipped test, accidental tracked deletion or new unmodeled network/auth surface was introduced. WINDOWS 9 is fixed and historical WINDOWS 1 remains open. Shared state advancement and the separate latest-main D-11 result remain deferred by the orchestrator's instruction.
+All 31 owned implementation/artifact paths plus this SUMMARY and the derived evidence file exist (**33 checked paths**). Both owned task commits are ancestors of main HEAD, and the persisted ledger measures the five-commit range recorded above. The unaltered full report reconciles 666 accepted controls, zero failed controls and exactly eight pending obligations; the frozen input snapshot remains unchanged. No functional TODO/FIXME/placeholder, new skipped test, accidental tracked deletion or new unmodeled network/auth surface was introduced. WINDOWS 9 is fixed and historical WINDOWS 1 remains open. Shared metadata now records 15/18 and next revised 01-15; latest-main D-11 evidence is recorded separately below.
