@@ -34,12 +34,12 @@ key-decisions:
 requirements-completed: []
 requirements-contributed: [RULE-01, RULE-03, RULE-04, RULE-06]
 actuals:
-  tokens: 10554
+  tokens: 20525
   tasks: 2
-  commits: 5
-commits: 5
+  commits: 8
+commits: 8
 plan_head_before: 9b8091c24b009c433849b5fa5fa5ab888db5fccd
-plan_head_after: c89f552900b89c8407f399adf9d8d6d4c9b15e72
+plan_head_after: 605511232928720251f40fb19f2df452b72e28fe
 duration: 84min
 completed: "2026-11-14"
 status: complete
@@ -138,6 +138,27 @@ There are no new functional stubs, skipped tests or unrun required plan verifica
 
 The recorded implementation/verification window is `2026-11-14T14:18:18.597Z`–`2026-11-14T15:41:26.671Z`, rounded up to **84min**, before summary/shared-metadata closeout. Initial measured actuals cover 42,215 realized diff characters / 4, rounded up to **10,554**, across five commits ending at c89f552, from the persisted plan ledger. These are diff-scale actuals, never harness token counts. Completion-metadata documentation evidence and the final measured range are recorded separately after publication.
 
+## Shared closeout and distinct D-11 evidence
+
+Summary/self-check and fixed WINDOWS 25–27 were committed as `18ff221` before shared progress changed. SDK `roadmap.update-plan-progress 1` first recorded **17 summaries / 18 plans, In Progress**. Only then did STATE advance **16 → 17**, recalculate progress and record **84min / two tasks / eleven owned files**, decisions and session. Metadata commit `49fd6d1` preserves the approved amendment, plan-18 ordering and full Phase 2/3 context annotations. RULE-01–RULE-07 and all fourteen human outcomes remain Pending; no requirement was prematurely marked complete.
+
+The first postmetadata docs invocation `4de5deb9-7119-45db-b2a1-c5bf662c1005` accepted 32 controls and rejected four with the same `DOC_TARGET`: an authored platform page linked directly to an ignored runtime JSON outside the strict Git documentation inventory. Prose-only fix `6055112` links the tracked summary and records the exact runtime path as code. The checker/subject rules were not weakened and no implementation/configuration changed.
+
+The subsequent actual `node tools/phase1/check.cjs --group docs` accepted **36/36**, zero failures, actual exit **0**, with distinct [canonical evidence](../../../.phase1/runs/57d58377-4041-481d-a21e-16331c98d66f/summary.json):
+
+| Identity | Actual value |
+| --- | --- |
+| Tested revision | `605511232928720251f40fb19f2df452b72e28fe` |
+| Invocation | `57d58377-4041-481d-a21e-16331c98d66f` |
+| Input | `08e5f9859a85da7075daa9d20760cac21076be468262b435c8ee8cdb2b593925` |
+| Tool | `311e21c1f8efe05630bacea96bd512b0bfca556d4b7034d1b4e666cf11335389` |
+| Platform | `win32-x64-10.0.19044` |
+| Actual last child completion | `2026-11-14T15:49:25.389Z` |
+
+Compared with the frozen full input, current main has exactly three changed fingerprinted prose/progress inputs: `docs/workflow/platform-proof.md`, `.planning/ROADMAP.md` and `.planning/STATE.md`. There are no removed inputs or source/configuration/lock changes. The current snapshot matches the distinct docs report above. The final same-source Windows and Linux checkouts retain their original `23d1060b...6020071` input. This documentation result is not a replacement full run or Linux acceptance.
+
+Final frontmatter actuals are measured from the persisted ledger base `9b8091c24b009c433849b5fa5fa5ab888db5fccd` through `605511232928720251f40fb19f2df452b72e28fe`: **eight commits**, **82,097 realized diff characters**, **20,525 ceil(chars/4) tokens**. The initial historical five-commit measurement above remains explicit. This final summary-only evidence update follows that measured end revision and is outside the fingerprinted input set.
+
 ## Self-Check: PASSED
 
-All eleven owned implementation/documentation paths and this summary exist. All five task/closure commits are ancestors of HEAD. The final canonical report reconciles 670 accepted results, zero failures/skips and eight separate deferrals; all 670 case command exits are zero, and the frozen input remains unchanged. Exactly five LF locks, the compiler/analyzer policy, declaration manifest, 85-rule register, 170 native span records and scoped exemption registry are unchanged from the plan base. No tracked deletion or unrelated untracked file remains. WINDOWS 25–27 are fixed; historical item 1 remains open. Shared RULE and human-review outcomes remain Pending.
+All eleven owned implementation/documentation paths and this summary exist. All five task/closure commits, summary commit `18ff221`, metadata commit `49fd6d1` and prose fix `6055112` are ancestors of HEAD. The final canonical report reconciles 670 accepted results, zero failures/skips and eight separate deferrals; all 670 case command exits are zero, and the frozen input remains unchanged. Exactly five LF locks, the compiler/analyzer policy, declaration manifest, 85-rule register, 170 native span records and scoped exemption registry are unchanged from the plan base. Current main's distinct D-11 docs report accepts 36/36 and matches its current snapshot; shared progress is 17/18, next 01-17, with Phase 2/3 annotations preserved. No tracked deletion or unrelated untracked file remains. WINDOWS 25–27 are fixed; historical item 1 remains open. Shared RULE and human-review outcomes remain Pending.
