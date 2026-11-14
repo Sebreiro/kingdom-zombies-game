@@ -52,12 +52,12 @@ coverage:
         status: pass
     human_judgment: false
 actuals:
-  tokens: 12379
+  tokens: 19393
   tasks: 2
-  commits: 2
-commits: 2
+  commits: 4
+commits: 4
 plan_head_before: aa7a036171d7d7cd5d615f90ffac5563f5850782
-plan_head_after: 2ea0c8755a8902a1bdd3686bba6b506aec69d977
+plan_head_after: ca1fe058c9ee160b2228701f09c93c589415d263
 duration: 11min
 completed: "2026-11-14"
 status: complete
@@ -140,8 +140,23 @@ Plan 01-16 owns one final complete clean Windows Phase 1 run after closure stabi
 
 All seven RULE requirements and all fourteen human outcomes remain Pending. Phase 5 still owes measured coverage, exhaustive platform/runner certification and the eight exact identities above. There is no new production gameplay, project, coverage instrumentation, broad exemption or reporting framework. Existing historical WINDOWS item 1 remains open; item 9 stays fixed. No new implementation stub, skipped test, unrun plan verification or security-relevant trust boundary was introduced.
 
-The initial recorded execution window begins `2026-11-14T13:55:00Z`. Actual token scale is 49,515 realized task-diff characters / 4, rounded up to 12,379; this is not a harness token count. The commit ledger records the measured two-task commit range above; subsequent summary/state evidence commits are separate closeout work.
+The recorded 11min implementation window begins `2026-11-14T13:55:00Z` and ends with the initial summary/self-check, before shared metadata and final documentation evidence. The implementation task diff is 49,515 characters / 4, rounded up to 12,379. Frontmatter actuals include committed closeout through `ca1fe05`: 77,572 realized diff characters / 4 = 19,393, with four commits measured from the persisted ledger. These use realized diff scale, never harness tokens. The final evidence-only summary update follows that explicit measured end revision.
+
+## Shared closeout and separate latest-main D-11 evidence
+
+Summary/self-check commit `9f118f1` precedes all shared progress updates. SDK `roadmap.update-plan-progress 1` first recorded **16 summaries / 18 plans, In Progress**; only then did STATE advance **15 → 16**, recalculate progress and record the **11min / two tasks / ten owned files** metric and decisions. Metadata commit `ca1fe05` preserves the Phase 2/3 context/session annotations, approved amendment and plan-18 ordering. A focused planning consistency check confirms **16/18**, next **01-16**, and all seven RULE requirements still Pending. REQUIREMENTS, the fourteen human outcomes and frozen plan-14 evidence are unchanged.
+
+After metadata publication, `node tools/phase1/check.cjs --group docs` accepted **36/36**, with **zero failures** and actual exit **0**. Its [canonical report](../../../.phase1/runs/f0f26a00-7003-4144-835b-9079f8d52a0a/summary.json) records:
+
+- Tested revision: `ca1fe058c9ee160b2228701f09c93c589415d263`.
+- Invocation: `f0f26a00-7003-4144-835b-9079f8d52a0a`.
+- Input: `8d2ceb041f06a938e9387bb5e8740db685753c74b0eb436432c980d83e247a27`.
+- Tool: `9cc04f5673c0665f24d075a9874cac7f59a8b7559f6c1f0fa01e47b5aa40b3c8`.
+- Platform: `win32-x64-10.0.19044`.
+- Last actual child completion: `2026-11-14T14:10:27.066Z`.
+
+The current independent snapshot matches that report's input. This is a distinct postmetadata D-11 documentation result, not a complete Phase 1 run or reuse of the earlier fingerprint. This final summary-only evidence update is outside the fingerprinted input set. No source/contract repair, full run, Linux execution or human-review outcome was added during closeout.
 
 ## Self-Check: PASSED
 
-All ten owned implementation/documentation paths exist. Both task commits are ancestors of HEAD. The persisted plan ledger begins at `aa7a036171d7d7cd5d615f90ffac5563f5850782`; its measured task-end range contains two commits ending at `2ea0c8755a8902a1bdd3686bba6b506aec69d977`. Baseline comparison proves exact preservation of all 666 earlier implemented declarations and all 85 technical rule definitions apart from the authorized coverage timing/owner fields. Canonical register binding, all 46 implemented register controls and all 36 documentation controls have actual accepted results. Initial diagnostic failures and corrected focused results are explicitly distinguished above.
+All ten owned implementation/documentation paths plus this summary exist. Both task commits and both prior closeout commits are ancestors of HEAD. The persisted plan ledger begins at `aa7a036171d7d7cd5d615f90ffac5563f5850782`; its measured range contains four commits ending at `ca1fe058c9ee160b2228701f09c93c589415d263`, including two task commits. Baseline comparison proves exact preservation of all 666 earlier implemented declarations and all 85 technical rule definitions apart from the authorized coverage timing/owner fields. Canonical register binding, all 46 implemented register controls and both 36-case documentation runs have actual accepted results. Initial diagnostic failures and corrected focused results are explicitly distinguished above. Shared progress and unchanged pending requirements/review files were checked; the final docs report still matches the current fingerprint. No unrelated untracked artifact or accidental tracked deletion remains.
