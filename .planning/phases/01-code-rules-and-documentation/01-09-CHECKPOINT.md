@@ -1,4 +1,37 @@
-# Plan 01-09 execution checkpoint — current continuation 3
+# Plan 01-09 execution checkpoint — current continuation 4
+
+**Full closure remains incomplete: 0/2 entire tasks, no SUMMARY, no immutable full09 suite and no STATE/ROADMAP advancement.** Phase 1 stays9/18; all RULE requirements Pending. Preserve the independent Phase 2 annotation/artifacts. The eight WIP paths below remain intact; never reset/reapply prior changes.
+
+## Immediate next action
+
+`GraphTests.Build_UndeclaredTransitiveEngineType_ReportsCs0012` now references the built game assembly explicitly, because the original ProjectReference also supplied transitive Godot compile assets and the alleged violation successfully compiled. The current explicit `HintPath` is wrong: it uses `../godot-game/bin/Debug/net10.0/KingdomZombies.dll`. The real freshly compiled assembly was read-only verified at:
+
+```text
+.phase1/temp/build-6172b59e25a14006be312ab99b796c18/src/godot-game/.godot/mono/temp/bin/Debug/KingdomZombies.dll
+```
+
+Change only the isolated HintPath to `../godot-game/.godot/mono/temp/bin/Debug/KingdomZombies.dll`, retaining clean build before intentional type use and normal inherited strict rules. Rebuild strict solution, rerun this exact target with a fresh report, require genuine CS0012 after the clean assembly-reference subject succeeds. Tighten intended source coordinates if the observed diagnostic permits. Infrastructure/restore/style failure never passes. Current clean control fails **MSB3245**, not intended CS0012; no RED or acceptance credit.
+
+This continuation used its fresh three-repair budget: initial three convention corrections; correction of the transitive compiler fixture assumption; wrapping the added 121-character line. The remaining path prerequisite is preserved for a fresh continuation. No user decision, authorization or package installation is missing.
+
+## New verified results
+
+- Initial three convention errors corrected; actual `dotnet build KingdomZombies.slnx --no-restore -p:NuGetAudit=false --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -v:q` passed **0warnings/0errors**. A final strict rebuild after the transitive-fixture edit also passed0/0. The first mistaken `.sln` command only reported missing file; it supplied no evidence.
+- `.phase1/temp/09-final-affected.xml`, matching `.log` and `.exit`: actual exit2, **42executed,41passed,1failed,0skipped**,2m01s. Every one of the36 RegisterTests mutation cases passed with the final register WIP; Core-to-concrete-provider R59 negative and both provider/reusable R61/R62 polarities passed. Sole failed target was the original transitive-compiler assumption (`built.Exit` was0). Results do not cover the subsequent transitive fixture edit.
+- `.phase1/temp/09-final-preflight.xml`, matching `.log` and `.exit`: actual exit0, **4/4passed**,0failed/skipped,~10s. Exact targets: all unique binding/Method_State_Expected naming; current tracked-source format; five exact LF locks unchanged by actual locked restores; actual owned analyzer source consumer with all twelve strict Error descriptors. These ran before the transitive fixture edit; later full immutable run must cover final code.
+- `node tools/phase1/bootstrap.cjs --probe engine` actual exit0, raw compatibility **pass**, nonce `20a330d4-1dc9-423f-9f91-f7bc28e10b5d`, logs `.phase1/runs/20a330d4-1dc9-423f-9f91-f7bc28e10b5d`; console/exit `.phase1/temp/09-final-engine.log`/`.exit`.
+- `.phase1/temp/09-transitive-final.xml`, matching `.log` and `.exit`: actual exit2, **0/1passed**,20s. New explicit assembly-reference control fails MSB3245 because HintPath is wrong, before any expected compiler violation. No acceptance.
+- `git diff --check` passed. SDK git protection query with normal elevated metadata returns `false` under the recorded default-branch override; restricted sandbox metadata falsely returned protected and was not used for commits. Normal hooks remain mandatory.
+
+## Preserved WIP and closure
+
+Modified: `docs/code/register.json`; `tests/phase1/ArchitecturePolicy.cs`, `BoundaryFixture.cs`, `GraphTests.cs`, `ProjectEvaluator.cs`, `RegisterValidator.cs`; `tools/phase1/required-cases.json`. Intentional untracked `tests/phase1/ArchitectureRuleTests.cs` retains the18 previously passing proofs. No Task2 source commit yet. Ledger remains `.git/gsd-plan-head-before-01-09` = `286fb681f356badc1c426ffca35f2770053702bb`.
+
+After fixing/verifying the single remaining compiler fixture, finish the current continuation3 closure procedure below: final source/bindings/diff checks as affected, normal Task2 source commit, then exactly one immutable `node tools/phase1/check.cjs --all` with fingerprinted inputs fixed. Current manifest expectations605/545implemented/60later pending remain expectations until actual reconciliation. Record actual source/tool/platform, exit and report. Pending is never passing. Only then SUMMARY, self-check, latest ROADMAP then STATE10/18/next10 preserving Phase2 context; all RULE Pending. No Linux/coverage credit. Do not kill the Linux VM shell.
+
+---
+
+# Prior continuation 3 (superseded)
 
 **Full plan closure remains incomplete: no SUMMARY, no immutable full09 suite and no STATE/ROADMAP advancement.**
 The evaluated/compiled Task 1 foundation is now committed as `7e2a528`; final cross-rule register bindings and Task 2 proof activation are preserved WIP. Do not treat a foundation increment as both entire tasks complete. Phase 1 stays9/18; all RULE requirements Pending; independent Phase 2 annotation/artifacts remain untouched.
