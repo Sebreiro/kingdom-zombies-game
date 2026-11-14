@@ -13,7 +13,7 @@ internal sealed class SnapshotDto
         Seed = state.Seed;
         DrawPosition = state.DrawPosition;
         RandomContractVersion = state.RandomContractVersion;
-        Kind = state.Kind.ToString();
+        Kind = SnapshotCodec.SampleWireName;
         Ordered = System.Array.AsReadOnly(array: state.Ordered.Select(selector: identity => identity.Value).ToArray());
         Records = System.Array.AsReadOnly(array: state.Records.Select(selector: pair =>
                 new KeyValuePair<string, long>(key: pair.Key.Value, value: pair.Value)).ToArray());

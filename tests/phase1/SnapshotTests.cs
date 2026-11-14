@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 using KingdomZombies.Core;
 using Shouldly;
 using Xunit;
@@ -98,6 +100,9 @@ public sealed class SnapshotTests
         JsonObject many = SnapshotProofData.Document(count: 1024);
         many["records"]?.AsArray().Add(item: JsonNode.Parse(json: "{\"id\":\"extra\",\"value\":0}"));
         SnapshotProofData.Reject(document: many.ToJsonString(), diagnostic: "SNAPSHOT_COLLECTION");
+        JsonObject order = SnapshotProofData.Document(count: 1024);
+        order["ordered"]?.AsArray().Add(item: JsonValue.Create(value: "extra"));
+        SnapshotProofData.Reject(document: order.ToJsonString(), diagnostic: "SNAPSHOT_COLLECTION");
         ProofProtocol.Record(id: "edge.rule-07.adjacency", diagnostic: "BOUNDED_SNAPSHOT_NEIGHBORS",
                 location: "src/core/SnapshotJson.cs:Parse/Collection; src/core/ExampleState.cs:ValidateRecords");
     }
@@ -152,6 +157,8 @@ public sealed class SnapshotTests
         }
 
         AssertInvalidIdentities();
+        byte[] complete = SnapshotCodec.Encode(state: state);
+        Should.Throw<JsonException>(actual: () => SnapshotCodec.Decode(document: complete.AsMemory()[..^1]));
         ProofProtocol.Record(id: "edge.rule-07.encoding", diagnostic: "STRICT_UTF8_ORDINAL_IDENTITIES",
                 location: "src/core/SnapshotJson.cs:Parse/Text; src/core/StableIdentity.cs:ValidateText");
     }
@@ -200,6 +207,11 @@ public sealed class SnapshotTests
             JsonObject document = SnapshotProofData.Document();
             document["elapsedMilliseconds"] = JsonNode.Parse(json: token);
             Should.Throw<Exception>(actual: () => SnapshotProofData.Decode(document: document));
+            JsonObject recordDocument = SnapshotProofData.Document();
+            JsonNode record = recordDocument["records"]?[0]
+                    ?? throw new InvalidOperationException(message: "PROOF_RECORD_REQUIRED");
+            record["value"] = JsonNode.Parse(json: token);
+            Should.Throw<Exception>(actual: () => SnapshotProofData.Decode(document: recordDocument));
         }
 
         AssertVersionAndIdentityFailures();
@@ -214,7 +226,7 @@ public sealed class SnapshotTests
         using var parsed = JsonDocument.Parse(utf8Json: SnapshotCodec.Encode(
                 state: SnapshotProofData.State(count: 0)));
         parsed.RootElement.EnumerateObject().Select(selector: item => item.Name).ShouldBe(expected: _schemaFields);
-        parsed.RootElement.GetProperty(propertyName: "kind").GetString().ShouldBe(expected: "Sample");
+        parsed.RootElement.GetProperty(propertyName: "kind").GetString().ShouldBe(expected: "sample");
         ProofProtocol.Record(id: "R-68.positive", diagnostic: "PINNED_CAMELCASE",
                 location: "src/core/SnapshotCodec.cs:Decode; src/core/SnapshotJson.cs");
     }
@@ -235,8 +247,11 @@ public sealed class SnapshotTests
     [Fact, Trait("Case", "R-69.positive")]
     public void Enum_ExactName_AcceptsPinnedValue()
     {
+        FieldInfo member = typeof(ProofKind).GetField(name: nameof(ProofKind.Sample))
+                ?? throw new InvalidOperationException(message: "PINNED_KIND_MEMBER_REQUIRED");
+        member.GetCustomAttribute<JsonStringEnumMemberNameAttribute>()?.Name.ShouldBe(expected: "sample");
         JsonObject document = SnapshotProofData.Document();
-        document["kind"] = "Sample";
+        document["kind"] = "sample";
         SnapshotProofData.Decode(document: document).Kind.ShouldBe(expected: ProofKind.Sample);
         ProofProtocol.Record(id: "R-69.positive", diagnostic: "PINNED_ENUM_NAME",
                 location: "src/core/SnapshotCodec.cs:Decode; src/core/SnapshotJson.cs");
@@ -246,7 +261,7 @@ public sealed class SnapshotTests
     [Fact, Trait("Case", "R-69.negative")]
     public void Enum_UnpinnedNames_RejectsEveryVariant()
     {
-        foreach (string token in new[] { "\"sample\"", "\"SAMPLE\"", "\"Unknown\"", "\"unknown\"",
+        foreach (string token in new[] { "\"Sample\"", "\"SAMPLE\"", "\"Unknown\"", "\"unknown\"",
             "\"1\"", "1", "0", "-1", "null", "\" Sample\"", "\"Future\"" })
         {
             JsonObject document = SnapshotProofData.Document();
@@ -346,7 +361,7 @@ public sealed class SnapshotTests
             ("\"schemaVersion\":1", "\"schemaVersion\":1,\"schemaVersion\":2"),
             ("\"id\":\"id0\"", "\"id\":\"id0\",\"id\":\"other\""),
             ("\"value\":9", "\"value\":9,\"value\":8"),
-            ("\"kind\":\"Sample\"", "\"future\":{\"x\":0,\"x\":1},\"kind\":\"Sample\"") })
+            ("\"kind\":\"sample\"", "\"future\":{\"x\":0,\"x\":1},\"kind\":\"sample\"") })
         {
             string duplicate = original.Replace(oldValue: oldValue, newValue: newValue,
                     comparisonType: StringComparison.Ordinal);
@@ -392,8 +407,20 @@ public sealed class SnapshotTests
 
     private static void AssertInvalidIdentities()
     {
+        foreach (int length in new[] { 127, 128 })
+        {
+            var id = new StableIdentity(value: new string(c: 'é', count: length));
+            var state = new ExampleState(elapsedMilliseconds: 0, ordered: [id],
+                    records: [new(key: id, value: 0)]);
+            SnapshotProofData.Equal(actual: SnapshotCodec.Decode(document: SnapshotCodec.Encode(state: state)),
+                    expected: state);
+        }
+
         string original = Encoding.UTF8.GetString(bytes: SnapshotCodec.Encode(
                 state: SnapshotProofData.State(count: 1)));
+        string tooLong = original.Replace(oldValue: "\"id0\"", newValue: "\"" + new string(c: 'x', count: 129) + "\"",
+                comparisonType: StringComparison.Ordinal);
+        SnapshotProofData.Reject(document: tooLong, diagnostic: "IDENTITY_LENGTH");
         foreach (string token in new[] { "\"\"", "null", "\"\\u0000\"", "\"\\n\"", "\"\\uD800\"", "\"\\uDC00\"" })
         {
             string invalid = original.Replace(oldValue: "\"id0\"", newValue: token,

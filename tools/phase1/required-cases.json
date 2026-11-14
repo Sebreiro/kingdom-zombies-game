@@ -2009,7 +2009,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RestoreAtomicityTests.Acceptance_RepeatedRestore_PreservesAllPersistedFields",
+      "expectedDiagnostic": "RESTORE_WITHOUT_REPLAY"
     },
     {
       "id": "edge.rule-01.adjacency",
@@ -2643,7 +2645,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RestoreAtomicityTests.Restore_ReorderedRepetitions_PreservesSemanticState",
+      "expectedDiagnostic": "IDEMPOTENT_PERMUTED_RESTORE"
     },
     {
       "id": "edge.rule-07.concurrency",
@@ -2659,7 +2663,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RestoreAtomicityTests.Restore_ConcurrentReaders_ObservesOnlyCompleteRoots",
+      "expectedDiagnostic": "ONLY_COMPLETE_OLD_OR_NEW"
     },
     {
       "id": "R-01.positive",
@@ -12627,6 +12633,96 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.SnapshotTests.Shape_CompiledState_ContainsIndependentValues",
       "expectedDiagnostic": "COMPILED_INDEPENDENT_STATE"
+    },
+    {
+      "id": "state.restore",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-11",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RestoreAtomicityTests.Restore_AcceptedCandidate_ReplacesOneCompleteRoot",
+      "expectedDiagnostic": "ATOMIC_ACCEPTED_ROOT"
+    },
+    {
+      "id": "state.restore-interrupted",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-11",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RestoreAtomicityTests.Restore_InterruptedPreparation_PreservesExactRoot",
+      "expectedDiagnostic": "INTERRUPTED_ROOT_UNCHANGED"
+    },
+    {
+      "id": "state.restore-cancellation",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-11",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RestoreAtomicityTests.Restore_CancelledBeforeCommit_PreservesExactRoot",
+      "expectedDiagnostic": "CANCELLED_ROOT_UNCHANGED"
+    },
+    {
+      "id": "state.restore-invalid",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-11",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RestoreAtomicityTests.Restore_InvalidAfterValid_PreservesAcceptedRoot",
+      "expectedDiagnostic": "INVALID_ACCEPTED_ROOT_UNCHANGED"
+    },
+    {
+      "id": "state.restore-mutation",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-11",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.RestoreAtomicityTests.Mutation_EarlyFirstRecord_DetectedByUnchangedRootAssertion",
+      "expectedDiagnostic": "EARLY_RECORD_MUTATION_DETECTED"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."

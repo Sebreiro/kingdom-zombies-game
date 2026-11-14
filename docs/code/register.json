@@ -2769,8 +2769,8 @@
     {
       "sourceId": "R-68",
       "disposition": "adapted",
-      "reason": "One snapshot serialization contract; no HTTP options.",
-      "adaptationReason": "One snapshot serialization contract; no HTTP options.",
+      "reason": "One camelCase schema and the exact wire name sample pinned by ProofKind.Sample JsonStringEnumMemberName; no HTTP options.",
+      "adaptationReason": "One camelCase schema and the exact wire name sample pinned by ProofKind.Sample JsonStringEnumMemberName; no HTTP options.",
       "headingRefs": [
         "src/backend/docs/CodeRules/code-architecture.md:298"
       ],
@@ -2808,8 +2808,8 @@
     {
       "sourceId": "R-69",
       "disposition": "adapted",
-      "reason": "Exact pinned enum parsing when enums are present in example.",
-      "adaptationReason": "Exact pinned enum parsing when enums are present in example.",
+      "reason": "Exact ordinal wire-name parsing accepts only sample as pinned by the actual enum attribute, rejecting Sample, Unknown, case variants and numeric input.",
+      "adaptationReason": "Exact ordinal wire-name parsing accepts only sample as pinned by the actual enum attribute, rejecting Sample, Unknown, case variants and numeric input.",
       "headingRefs": [
         "src/backend/docs/CodeRules/code-architecture.md:306"
       ],

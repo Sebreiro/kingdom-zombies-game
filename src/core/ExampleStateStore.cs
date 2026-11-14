@@ -23,11 +23,26 @@ internal sealed class ExampleStateStore
     internal ExampleState Restore(ReadOnlyMemory<byte> document, Action<ExampleState>? beforeCommit = null,
             CancellationToken cancellationToken = default)
     {
-        cancellationToken.ThrowIfCancellationRequested();
-        ExampleState candidate = SnapshotCodec.Decode(document: document);
-        beforeCommit?.Invoke(obj: candidate);
-        return Read();
+        if (Interlocked.CompareExchange(location1: ref _writer, value: 1, comparand: 0) != 0)
+        {
+            throw new InvalidOperationException(message: "RESTORE_BUSY: another writer owns preparation");
+        }
+
+        try
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            ExampleState candidate = SnapshotCodec.Decode(document: document);
+            beforeCommit?.Invoke(obj: candidate);
+            cancellationToken.ThrowIfCancellationRequested();
+            Interlocked.Exchange(location1: ref _root, value: candidate);
+            return candidate;
+        }
+        finally
+        {
+            Volatile.Write(location: ref _writer, value: 0);
+        }
     }
 
     private ExampleState _root;
+    private int _writer;
 }

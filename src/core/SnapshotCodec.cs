@@ -14,6 +14,8 @@ internal static class SnapshotCodec
     internal const int MaxDepth = 16;
     /// <summary>Limits each identity collection, inclusive.</summary>
     internal const int MaxRecords = 1024;
+    /// <summary>Pins the existing ProofKind.Sample JsonStringEnumMemberName value.</summary>
+    internal const string SampleWireName = "sample";
 
     /// <summary>Encodes independent values using exact camelCase schema names.</summary>
     internal static byte[] Encode(ExampleState state)
@@ -47,9 +49,9 @@ internal static class SnapshotCodec
 
     private static ProofKind ReadKind(JsonElement element)
     {
-        if (!StringComparer.Ordinal.Equals(x: SnapshotJson.Text(element: element), y: "Sample"))
+        if (!StringComparer.Ordinal.Equals(x: SnapshotJson.Text(element: element), y: SampleWireName))
         {
-            throw new FormatException(message: "SNAPSHOT_KIND: exact pinned Sample name required");
+            throw new FormatException(message: "SNAPSHOT_KIND: exact pinned sample name required");
         }
 
         return ProofKind.Sample;
