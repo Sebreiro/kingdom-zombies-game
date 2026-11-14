@@ -182,6 +182,6 @@ internal static class BoundaryFixture
         }
 
         ProofProtocol.Record(id: id, diagnostic: negative ? "R-60" : "COMPOSITION_ALLOWED",
-                location: string.Join(separator: "\n", values: errors));
+                location: owner + ".cs\n" + string.Join(separator: "\n", values: errors));
     }
 }
