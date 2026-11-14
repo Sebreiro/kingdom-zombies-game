@@ -4,17 +4,17 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 1
 current_phase_name: Code rules and documentation
-current_plan: 13
+current_plan: 14
 status: executing
-stopped_at: Completed 01-12-PLAN.md; next 01-13 focused documentation; Phase 2 context captured (02-CONTEXT.md)
-last_updated: "2026-11-14T10:11:52.963Z"
-last_activity: "2026-11-14 (Europe/Paris) — Completed plan 01-12; 609 accepted controls, zero failed controls, 26 later-owner obligations pending. Next: 01-13."
-state_head: 6132da6a50386f6ee80518c26123cb9a8b0e6ce4
+stopped_at: Completed 01-13-PLAN.md; next 01-14 project references and rule bindings; Phase 2 context captured (02-CONTEXT.md)
+last_updated: "2026-11-14T11:30:18.334Z"
+last_activity: "2026-11-14 (Europe/Paris) — Completed plan 01-13; 641 accepted controls, zero failed controls, 15 later-owner obligations pending. Next: 01-14."
+state_head: cec34691bf26316b9d5290d05ddc9c8b36452a2a
 progress:
   total_phases: 10
   completed_phases: 0
   total_plans: 18
-  completed_plans: 13
+  completed_plans: 14
   percent: 0
 ---
 
@@ -26,36 +26,36 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-13).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase 1 — Code rules and documentation; thirteen plans complete. Actual native Godot construction, serialized resources/exports, callbacks, signals, two distinct teardowns and captured-thread/generation boundaries now pass alongside independent Core state and snapshots. Next: 01-13 focused documentation and exact portable navigation. Phase 1 and all shared RULE requirements remain incomplete.
+**Current focus:** Phase 1 — Code rules and documentation; fourteen plans complete. Canonical AGENTS.md, focused executable-rule/architecture indexes and 32 distinct portable navigation/workflow proofs now pass alongside native Godot lifetimes, independent Core state and snapshots. Next: 01-14 project references and complete rule bindings. Phase 1 and all shared RULE requirements remain incomplete.
 
 ## Current Position
 
 Phase: 1 (Code rules and documentation) — EXECUTING
-Current Plan: 13
+Current Plan: 14
 Total Plans in Phase: 18
 Status: Ready to execute
-Last activity: 2026-11-14 (Europe/Paris) — Completed plan 01-12; 609 accepted controls, zero failed controls, 26 later-owner obligations pending. Next: 01-13.
+Last activity: 2026-11-14 (Europe/Paris) — Completed plan 01-13; 641 accepted controls, zero failed controls, 15 later-owner obligations pending. Next: 01-14.
 
 Progress: [░░░░░░░░░░] 0%
 
-Phase 1 plan progress: 13/18 completed (72% rounded); milestone phase completion remains 0/10.
+Phase 1 plan progress: 14/18 completed (78% rounded); milestone phase completion remains 0/10.
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 13
+- Total plans completed: 14
 - Average duration: 72min recorded windows (rounded)
-- Total execution time: 932min recorded windows; plans 01-08/01-09 include continuation/verification wall time and 01-12 includes diagnostic and replacement full runs
+- Total execution time: 1001min recorded windows; plans 01-08/01-09 include continuation/verification wall time, 01-12 includes diagnostic and replacement full runs, and 01-13 includes its immutable full run
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 | --- | --- | --- | --- |
-| 01 | 13 | 932min | 72min |
+| 01 | 14 | 1001min | 72min |
 
 **Recent Trend:**
-- Last 5 plans: 01-08 (289min), 01-09 (158min), 01-10 (62min), 01-11 (68min), 01-12 (154min)
-- Trend: Thirteen recorded windows; 01-08/01-09 include continuation and verification time, and 01-12 includes both immutable full runs
+- Last 5 plans: 01-09 (158min), 01-10 (62min), 01-11 (68min), 01-12 (154min), 01-13 (69min)
+- Trend: Fourteen recorded windows; 01-08/01-09 include continuation and verification time, 01-12 includes both immutable full runs, and 01-13 includes its single immutable full run
 
 **Per-Plan Metrics:**
 
@@ -74,6 +74,7 @@ Phase 1 plan progress: 13/18 completed (72% rounded); milestone phase completion
 | Phase 01 P10 | 62min | 2 tasks | 22 files |
 | Phase 01 P11 | 68min | 2 tasks | 15 files |
 | Phase 01 P12 | 154min | 3 tasks | 30 files |
+| Phase 01 P13 | 69min | 2 tasks | 20 files |
 
 ## Accumulated Context
 
@@ -106,14 +107,16 @@ Full decisions are in PROJECT.md.
 - [Phase 01]: Require 21 unique fresh native surface/cycle records with distinct actual instances and one captured mutation thread; compilation or exit zero without assertions cannot pass.
 - [Phase 01]: Authorize only exact synchronous engine adapter methods with an authentic preceding top-level guard; branch, worker, local-function and async continuation contexts cannot borrow a parent-thread guard.
 - [Phase 01]: Keep 170 observed generated diagnostic/member/source/path/span permissions authenticated; the actual sealed script requires no added type-level exemption.
+- [Phase 01]: Validate owned documentation against exact ordinal Git inventory and unique Unicode/anchor identities; checker never stages inputs.
+- [Phase 01]: Freeze core authority/configuration inputs through full reconciliation; metadata-only docs checks record their own changed fingerprint.
 
 ### Pending Todos
 
-Continue Phase 1 with plan 01-13; 01-14 must close the five distinct runner-edge bindings recorded in WINDOWS entry 9.
+Continue Phase 1 with plan 01-14; finish the five project reference pages and full rule/review closure, including the five distinct runner-edge bindings recorded in WINDOWS entry 9. Refine the complete prerequisite review/decision pages delivered by 01-13.
 
 ### Blockers/Concerns
 
-- Plans 01-01 through 01-12 and 01-18 prove the Windows Godot/compiler slice, trusted runner, donor/register identity, strict inherited/evaluated policy, consumer violations, bounded source/generated permissions, compiled boundaries, controlled Core inputs, strict snapshots/atomic restoration and actual native lifecycle/export/signal/thread integration. Final immutable run 8a7abb86-a8dc-40ba-92c4-02e355c80821 accepts 609 controls with zero failed controls and 26 IMPLEMENTATION_PENDING obligations of 635; actual exit 1 solely reflects later-owner work. Documentation, shared closure, measured coverage and Linux acceptance remain pending.
+- Plans 01-01 through 01-13 and 01-18 prove the Windows Godot/compiler slice, trusted runner, donor/register identity, strict inherited/evaluated policy, consumer violations, bounded source/generated permissions, compiled boundaries, controlled Core inputs, strict snapshots/atomic restoration, actual native lifetimes/thread integration and exact portable documentation. Final immutable run 9ec275b7-832e-429b-be84-8e667c28cbd2 accepts 641 controls with zero failed controls and 15 IMPLEMENTATION_PENDING obligations of 656; actual exit 1 solely reflects later-owner work. Complete project/rule/review closure, measured coverage and Linux acceptance remain pending.
 - Five pins runner-edge identities retain declared owner 01-02 and remain pending; 01-14 owns their distinct actual-case closure (WINDOWS entry 9). The exact Godot report-method adaptation is included in 01-08's broader source/origin/exemption validation.
 - All twelve custom analyzers enforce SCR0001-SCR0012. Exact generated permissions remain bounded by producer/package/source identity and member/span boundaries. The authenticated xUnit logical-seed producer, four immutable layout-source records, seven layout-member permissions, Godot RS0030 scope and two existing syntax spans retain precise boundaries. Plan 01-12 adds 170 authenticated native-fixture diagnostic/member/source/path/span permissions and reconciles current callback output hashes. The actual sealed script needs no added type-level exemption; all eighteen existing suppressions remain exact. All RULE requirements remain Pending.
 - Plan 01-01's historical missing-RED deviation remains open in WINDOWS.md; Plan 01-02 supplies genuine RED/GREEN proofs without fabricating earlier evidence.
@@ -127,7 +130,9 @@ Continue Phase 1 with plan 01-13; 01-14 must close the five distinct runner-edge
 
 ## Deferred Items
 
-No 01-12 implementation is deferred. The 26 declared later-owner cases remain required: documentation 13, shared closure 14, measured coverage 15 and actual Linux/clean-checkout acceptance 16/17. Their groups are platform 1, register 1, rules 12, documentation 7 and pins 5; no engine obligation remains implementation-pending. The pinned logical-seed producer is proven in the normal checkout and two fresh Windows paths; no Linux pass is claimed. The same independently observed random vectors and native fixtures must execute unchanged on Linux. WINDOWS historical entries 1 and 9 remain open.
+No 01-13 implementation is deferred. The 15 declared later-owner cases remain required: shared closure 14, measured coverage 15 and actual Linux/clean-checkout acceptance 16/17. Their groups are platform 1, register 1, rules 8 and pins 5; no documentation or engine obligation remains implementation-pending. The five project reference pages and complete qualitative mappings remain 01-14 work. The pinned logical-seed producer is proven in the normal checkout and two fresh Windows paths; no Linux pass is claimed. The same independently observed random vectors and native fixtures must execute unchanged on Linux. WINDOWS historical entries 1 and 9 remain open.
+
+01-13 now fingerprints the core PROJECT/REQUIREMENTS/ROADMAP/STATE/research authority pages and workflow configuration actually read by docs proofs. Plans 01-16/01-17 must freeze the same authority inputs across both platform full runs and reconcile before workflow metadata updates. Metadata prose changes receive a separate D-11 focused docs result and changed input identity; do not claim the earlier full fingerprint is unchanged.
 
 | Category | Item | Status | Deferred At | Milestone |
 | --- | --- | --- | --- | --- |
@@ -135,8 +140,8 @@ No 01-12 implementation is deferred. The 26 declared later-owner cases remain re
 
 ## Session Continuity
 
-Last session: 2026-11-14T10:11:52.922Z
-Stopped at: Completed 01-12-PLAN.md; next 01-13 focused documentation; Phase 2 context captured (02-CONTEXT.md)
+Last session: 2026-11-14T11:30:18.291Z
+Stopped at: Completed 01-13-PLAN.md; next 01-14 project references and rule bindings; Phase 2 context captured (02-CONTEXT.md)
 Resume file: None
 
-Next action: Execute 01-13-PLAN.md for focused documentation and exact portable navigation. Plan 18 executed before 05 by dependency order. Remain in Phase 1; all RULE requirements are Pending.
+Next action: Execute 01-14-PLAN.md for five project references and complete distinct rule/review bindings. Plan 18 executed before 05 by dependency order. Remain in Phase 1; all RULE requirements are Pending.
