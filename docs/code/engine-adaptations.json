@@ -18,6 +18,23 @@
       "positiveProof": "pins.generated-report",
       "negativeProof": "pins.generated-report-boundary",
       "status": "observed"
+    },
+    {
+      "id": "KZ-EX-GODOT-SIGNAL-SEALED-01",
+      "rule": "R-50",
+      "relatedRule": "R-33",
+      "diagnostic": "CA1852",
+      "path": "src/godot-game/GeneratedLifecycleAdapters.cs",
+      "surface": "Godot.SourceGenerators/Godot.SourceGenerators.ScriptSignalsGenerator/KingdomZombies.Proofs.LifecycleFixture_ScriptSignals.generated.cs",
+      "target": "~T:KingdomZombies.Proofs.LifecycleFixture",
+      "generatorPackage": "Godot.SourceGenerators",
+      "generatorVersion": "4.7.2",
+      "generatedSourceSha256": "0cea2a4e848b031c2d6dc0a4ccd5596cfb5290e5f527d6301c01bee1e9c6823e",
+      "packageSha256": "ce2beb0b75bfb81b94982bdaf7234fc681edd4cf024606c6baf6e40625e0ca4e",
+      "reason": "The pinned authentic signal generator introduces a protected helper; sealing the exact internal script produces CS0628. Other handwritten types remain checked.",
+      "positiveProof": "engine.generated-origin",
+      "negativeProof": "engine.generated-boundary",
+      "status": "observed"
     }
   ]
 }

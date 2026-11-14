@@ -13,12 +13,14 @@ public partial class Phase1 : Node
     {
         _nonce = System.Environment.GetEnvironmentVariable(variable: "PHASE1_NONCE")
                 ?? throw new InvalidOperationException(message: "ENGINE_NONCE_MISSING");
+        ProofSequence.Gateway.RequireThread();
         WriteEvidence(assertion: "construction");
     }
 
     /// <summary>Emits ready and observed engine/runtime identities, then requests a clean tree shutdown.</summary>
     public override void _Ready()
     {
+        ProofSequence.Gateway.RequireThread();
         WriteEvidence(assertion: "ready");
         GD.Print(what: ["PHASE1_IDENTITY " + JsonSerializer.Serialize(value: new
         {
@@ -29,7 +31,12 @@ public partial class Phase1 : Node
             renderer = RenderingServer.GetCurrentRenderingMethod(),
             engine = Engine.GetVersionInfo()["string"].AsString(),
         })]);
-        GetTree().Quit();
+    }
+
+    /// <summary>Advances the native proof through actual engine frames.</summary>
+    public override void _Process(double delta)
+    {
+        ProofSequence.Tick(owner: this, nonce: _nonce);
     }
 
     /// <summary>Emits teardown evidence carrying the same invocation nonce as construction and ready.</summary>

@@ -60,6 +60,12 @@ public sealed class MemberOrderAnalyzer : DiagnosticAnalyzer
 
             if (previous is not null && rank < previousRank)
             {
+                if (GeneratedSyntax.IsPermitted(diagnostic: DiagnosticId, tree: context.Node.SyntaxTree,
+                        span: NameToken(member: member).Span))
+                {
+                    return;
+                }
+
                 context.ReportDiagnostic(diagnostic: Diagnostic.Create(descriptor: Rule, location: NameToken(
                         member: member).GetLocation(), Name(member: member), Describe(member: member,
                                 inInterface: inInterface), Name(member: previous), Describe(member: previous,

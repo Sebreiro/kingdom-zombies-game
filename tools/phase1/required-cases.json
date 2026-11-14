@@ -12723,6 +12723,24 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.RestoreAtomicityTests.Mutation_EarlyFirstRecord_DetectedByUnchangedRootAssertion",
       "expectedDiagnostic": "EARLY_RECORD_MUTATION_DETECTED"
+    },
+    {
+      "id": "engine.lifecycle",
+      "group": "engine",
+      "rule": "RULE-06",
+      "owner": "01-12",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.EngineEvidenceTests.Run_TwoNativeCycles_RequiresLifecycleSurfaces",
+      "expectedDiagnostic": "ASSERTION_PASSED"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."

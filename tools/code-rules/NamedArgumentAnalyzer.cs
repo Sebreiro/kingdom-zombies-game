@@ -47,7 +47,8 @@ public sealed class NamedArgumentAnalyzer : DiagnosticAnalyzer
                 || argument.Syntax is AttributeArgumentSyntax
                 || argument.Syntax is not ArgumentSyntax syntax
                 || syntax.NameColon is not null
-                || IsExempt(argument: argument, syntax: syntax))
+                || IsExempt(argument: argument, syntax: syntax)
+                || GeneratedSyntax.IsPermitted(diagnostic: DiagnosticId, tree: syntax.SyntaxTree, span: syntax.Span))
         {
             return;
         }

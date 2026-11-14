@@ -31,7 +31,7 @@ internal static class GeneratedSyntax
             return StringComparer.Ordinal.Equals(x: hash, y: entry.Hash);
         }
 
-        return false;
+        return EngineGeneratedSyntax.IsPermitted(diagnostic: diagnostic, tree: tree, span: span);
     }
 
     private static readonly SyntaxPermission[] _spans =

@@ -19,6 +19,13 @@ internal sealed class EngineRun
     /// <summary>Starts the exact local pinned engine without loading its managed API in this test host.</summary>
     internal static EngineRun Start(string mode = "valid")
     {
+        (int Exit, string Output) build = ConfigurationTests.Dotnet("build", ConfigurationTests.Projects[2],
+                "--no-restore", "-p:NuGetAudit=false");
+        if (build.Exit != 0)
+        {
+            throw new InvalidOperationException(message: "ENGINE_BUILD: " + build.Output);
+        }
+
         string nonce = Guid.NewGuid().ToString(format: "D");
         string tool = OperatingSystem.IsWindows()
                 ? "Godot_v4.7.2-stable_mono_win64/Godot_v4.7.2-stable_mono_win64_console.exe"

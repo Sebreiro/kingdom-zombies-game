@@ -43,6 +43,11 @@ public sealed class LineLengthAnalyzer : DiagnosticAnalyzer
 
             var location = Location.Create(syntaxTree: context.Tree, textSpan: TextSpan.FromBounds(start: line
                     .Start + MaxLength, end: line.End));
+            if (GeneratedSyntax.IsPermitted(diagnostic: DiagnosticId, tree: context.Tree, span: location.SourceSpan))
+            {
+                continue;
+            }
+
             context.ReportDiagnostic(diagnostic: Diagnostic.Create(descriptor: Rule, location: location, line
                     .Span.Length));
         }
