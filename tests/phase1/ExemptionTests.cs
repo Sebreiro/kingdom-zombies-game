@@ -184,6 +184,41 @@ public sealed class ExemptionTests
                 location: "five recognized suffixes, both markers, aliased attribute and nullable directive");
     }
 
+    /// <summary>Only the exact real test project is an executable among the five evaluated projects.</summary>
+    [Fact, Trait("Case", "rules.exemption-executable-positive")]
+    public void Evaluate_ExactTestExecutable_AcceptsDeclaredProject()
+    {
+        foreach (string project in ConfigurationTests.Projects)
+        {
+            ExemptionValidator.CheckExecutableProperties(properties: ExecutableProperties(project: project),
+                    project: project).ShouldBeEmpty();
+        }
+
+        ProofProtocol.Record(id: "rules.exemption-executable-positive", diagnostic: "EXEMPTION_EXECUTABLE_EXACT",
+                location: "five evaluated projects; exact named proof executable and four libraries");
+    }
+
+    /// <summary>Rejects production executables, non-test identity and missing test executable output.</summary>
+    [Fact, Trait("Case", "rules.exemption-executable-negative")]
+    public void Evaluate_ExecutableScopeDrift_RejectsUndeclaredProject()
+    {
+        foreach ((string Project, string Override) mutation in new[]
+        {
+            (ConfigurationTests.Projects[0], "-p:OutputType=Exe"),
+            (ConfigurationTests.Projects[4], "-p:IsTestProject=false"),
+            (ConfigurationTests.Projects[4], "-p:OutputType=Library")
+        })
+        {
+            JsonObject properties = ExecutableProperties(project: mutation.Project, mutation.Override);
+            ExemptionValidator.CheckExecutableProperties(properties: properties, project: mutation.Project)
+                    .ShouldContain(expected: "EXEMPTION_EXECUTABLE_SCOPE " + mutation.Project,
+                            comparer: StringComparer.Ordinal);
+        }
+
+        ProofProtocol.Record(id: "rules.exemption-executable-negative", diagnostic: "EXEMPTION_EXECUTABLE_SCOPE",
+                location: "independent actual OutputType and IsTestProject evaluation mutations");
+    }
+
     /// <summary>The normal checkout uses the last owned target, exact original task and observed raw source.</summary>
     [Fact, Trait("Case", "rules.xunit-producer-root")]
     public void Generate_NormalCheckout_VerifiesExactProducer()
@@ -311,6 +346,15 @@ public sealed class ExemptionTests
         result.Exit.ShouldBe(expected: 0, customMessage: result.Output);
         return RegisterValidator.Parse(bytes: System.Text.Encoding.UTF8.GetBytes(s: result.Output))
                 ["Properties"]?.AsObject() ?? throw new InvalidDataException(message: "EFFECTIVE_PROPERTIES_REQUIRED");
+    }
+
+    private static JsonObject ExecutableProperties(string project, params string[] overrides)
+    {
+        (int Exit, string Output) result = ConfigurationTests.Dotnet(arguments: ["msbuild", project, "-nologo",
+            "-getProperty:OutputType,IsTestProject,MSBuildProjectName", ..overrides]);
+        result.Exit.ShouldBe(expected: 0, customMessage: result.Output);
+        return RegisterValidator.Parse(bytes: System.Text.Encoding.UTF8.GetBytes(s: result.Output))
+                ["Properties"]?.AsObject() ?? throw new InvalidDataException(message: "EXECUTABLE_PROPERTIES_REQUIRED");
     }
     private static BuildFixture CleanTestConsumer()
     {

@@ -47,6 +47,11 @@ internal static class ExemptionValidator
     /// <summary>Checks every actual owned tracked source against the exact registered member permissions.</summary>
     internal static IReadOnlyList<string> CheckRepository()
     {
+        IReadOnlyList<string> registryErrors = RegisterValidator.Validate(
+                manifest: RegisterValidator.Read(relative: "docs/code/provenance/manifest.json"),
+                register: RegisterValidator.Read(relative: "docs/code/register.json"),
+                exemptions: RegisterValidator.Read(relative: "docs/code/exemptions.json"));
+        Require(value: registryErrors.Count == 0, message: string.Join(separator: "\n", values: registryErrors));
         IReadOnlySet<string> permissions = ReadPermissions();
         var errors = new List<string>();
         foreach (string path in SourceFileFormat.ReadTrackedPaths().Where(predicate: SourceFileFormat.IsChecked))
@@ -65,6 +70,40 @@ internal static class ExemptionValidator
         }
 
         return errors;
+    }
+
+    /// <summary>Matches each active donor counterpart to one exact local setting or project edge.</summary>
+    internal static bool IsObservedLocalPermission(JsonNode entry, string id)
+    {
+        return _localPermissions.TryGetValue(key: id, value: out string[]? expected) && _localFields
+                .Select(selector: field => Text(row: entry, name: field)).SequenceEqual(second: expected,
+                        comparer: StringComparer.Ordinal);
+    }
+
+    /// <summary>Names independent actual controls for non-rule project bootstrap permissions.</summary>
+    internal static (string Positive, string Negative) LocalProofs(string id, string rule)
+    {
+        return id switch
+        {
+            "KZ-EX-TEST-EXE-01" => ("rules.exemption-executable-positive", "rules.exemption-executable-negative"),
+            "KZ-EX-ANALYZER-BOOTSTRAP-01" => ("rules.analyzer-source-consumer", "rules.analyzer-source-boundary"),
+            _ => (rule + ".positive", rule + ".negative")
+        };
+    }
+
+    /// <summary>Only the exact named proof project with IsTestProject true receives executable permission.</summary>
+    internal static IReadOnlyList<string> CheckExecutableProperties(JsonObject properties, string project)
+    {
+        bool tests = StringComparer.Ordinal.Equals(x: project,
+                y: "tests/phase1/KingdomZombies.Phase1.Tests.csproj");
+        string output = properties["OutputType"]?.GetValue<string>() ?? "";
+        bool testShape = StringComparer.Ordinal.Equals(x: output, y: "Exe")
+                && StringComparer.Ordinal.Equals(x: properties["IsTestProject"]?.GetValue<string>(), y: "true")
+                && StringComparer.Ordinal.Equals(x: properties["MSBuildProjectName"]?.GetValue<string>(),
+                        y: "KingdomZombies.Phase1.Tests");
+        bool libraryShape = StringComparer.Ordinal.Equals(x: output, y: "Library")
+                && !StringComparer.Ordinal.Equals(x: properties["IsTestProject"]?.GetValue<string>(), y: "true");
+        return (tests ? testShape : libraryShape) ? [] : ["EXEMPTION_EXECUTABLE_SCOPE " + project];
     }
 
     /// <summary>Requires declared non-error severities exactly once, and rejects any additional weakening.</summary>
@@ -167,6 +206,23 @@ internal static class ExemptionValidator
         "[*.cs]|dotnet_diagnostic.ma0051.severity|none", "[*.cs]|dotnet_diagnostic.ma0137.severity|none",
         "[*.cs]|dotnet_diagnostic.ma0156.severity|none",
         "[tests/phase1/**.cs]|dotnet_diagnostic.ca1707.severity|none"];
+    private static readonly string[] _localFields = ["sourceId", "rule", "diagnostic", "path", "surface", "subject"];
+    private static readonly Dictionary<string, string[]> _localPermissions = new(comparer: StringComparer.Ordinal)
+    {
+        ["KZ-EX-BODY-LENGTH-01"] = ["EX-01", "R-37", "MA0051", ".editorconfig", "exact editorconfig setting",
+            "[*.cs] dotnet_diagnostic.MA0051.severity = none"],
+        ["KZ-EX-ENGINE-AWAIT-01"] = ["EX-02", "R-45", "MA0004", ".editorconfig", "exact editorconfig setting",
+            "[*.cs] dotnet_diagnostic.MA0004.severity = none; [src/{core,multiplayer-abstractions}/**.cs] error"],
+        ["KZ-EX-TEST-NAMES-01"] = ["EX-03", "R-48", "CA1707", ".editorconfig", "exact editorconfig setting",
+            "[tests/phase1/**.cs] dotnet_diagnostic.CA1707.severity = none"],
+        ["KZ-EX-TEST-EXE-01"] = ["EX-13", "R-52", "PROJECT_OUTPUT_EXE",
+            "tests/phase1/KingdomZombies.Phase1.Tests.csproj", "exact project executable permission",
+            "KingdomZombies.Phase1.Tests; IsTestProject=true; OutputType=Exe"],
+        ["KZ-EX-ANALYZER-BOOTSTRAP-01"] = ["EX-19", "R-54", "ANALYZER_BOOTSTRAP_EDGE", "Directory.Build.targets",
+            "exact analyzer bootstrap edge",
+            "MSBuildProjectName != Sebreiro.CodeRules.Analyzers; OutputItemType=Analyzer; "
+                    + "ReferenceOutputAssembly=false"]
+    };
 
     private static MetadataReference[] References()
     {

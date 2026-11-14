@@ -11681,6 +11681,60 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.ExemptionTests.Generate_AdditionalSourceClaims_RejectsUnprovenOrigin",
       "expectedDiagnostic": "GENERATION_UNPROVEN"
+    },
+    {
+      "id": "rules.exemption-executable-positive",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-08",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ExemptionTests.Evaluate_ExactTestExecutable_AcceptsDeclaredProject",
+      "expectedDiagnostic": "EXEMPTION_EXECUTABLE_EXACT"
+    },
+    {
+      "id": "rules.exemption-executable-negative",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-08",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ExemptionTests.Evaluate_ExecutableScopeDrift_RejectsUndeclaredProject",
+      "expectedDiagnostic": "EXEMPTION_EXECUTABLE_SCOPE"
+    },
+    {
+      "id": "rules.analyzer-source-boundary",
+      "group": "rules",
+      "rule": "RULE-03",
+      "owner": "01-08",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.AnalyzerSourceConsumerTests.Analyze_AnalyzerConsumerViolation_RetainsScr0006",
+      "expectedDiagnostic": "ANALYZER_SOURCE_BOUNDARY_SCR0006"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."

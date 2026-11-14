@@ -5,77 +5,83 @@
       "sourceId": "EX-01",
       "rule": "R-37",
       "disposition": "adapted",
-      "reason": "Donor scope cannot be imported. Local analyzer/test/tooling scope requires observed local output and paired boundary proofs before activation.",
-      "localIds": []
+      "reason": "Adapted to exact local MA0051 setting; SCR0006 remains error with independent numeric boundary and actual build controls.",
+      "localIds": [
+        "KZ-EX-BODY-LENGTH-01"
+      ]
     },
     {
       "sourceId": "EX-02",
       "rule": "R-45",
       "disposition": "adapted",
-      "reason": "Donor scope cannot be imported. Local analyzer/test/tooling scope requires observed local output and paired boundary proofs before activation.",
-      "localIds": []
+      "reason": "Adapted to the exact engine-versus-pure-library continuation policy; Core and service libraries retain actual MA0004 enforcement.",
+      "localIds": [
+        "KZ-EX-ENGINE-AWAIT-01"
+      ]
     },
     {
       "sourceId": "EX-03",
       "rule": "R-48",
       "disposition": "adapted",
-      "reason": "Donor scope cannot be imported. Local analyzer/test/tooling scope requires observed local output and paired boundary proofs before activation.",
-      "localIds": []
+      "reason": "Adapted to the single exact proof-project section, required actual-method name scanner and production CA1707 boundary.",
+      "localIds": [
+        "KZ-EX-TEST-NAMES-01"
+      ]
     },
     {
       "sourceId": "EX-04",
       "rule": "R-50",
       "disposition": "inapplicable",
-      "reason": "No corresponding EF migration, web host, HTTP/ORM subject or bundled donor font exists locally; permission not imported.",
+      "reason": "No EF migration producer or migration folder exists locally. No generated_code directory permission is imported; genuine SDK/Godot/xUnit scopes are independently observed.",
       "localIds": []
     },
     {
       "sourceId": "EX-05",
       "rule": "R-50",
       "disposition": "inapplicable",
-      "reason": "No corresponding EF migration, web host, HTTP/ORM subject or bundled donor font exists locally; permission not imported.",
+      "reason": "No EF seed migration exists locally. The donor CA1814 pragma is not imported; disabling pragmas in owned source are rejected.",
       "localIds": []
     },
     {
       "sourceId": "EX-06",
       "rule": "R-50",
       "disposition": "inapplicable",
-      "reason": "No corresponding EF migration, web host, HTTP/ORM subject or bundled donor font exists locally; permission not imported.",
+      "reason": "No EF designer or model snapshot exists locally. The donor 612/618 pragmas are not imported; owned warning suppressions require exact registration.",
       "localIds": []
     },
     {
       "sourceId": "EX-07",
       "rule": "R-50",
       "disposition": "inapplicable",
-      "reason": "No corresponding EF migration, web host, HTTP/ORM subject or bundled donor font exists locally; permission not imported.",
+      "reason": "No EF nullable-disabled generated source exists locally. No nullable-disable permission is imported; owned nullable-disable directives are rejected.",
       "localIds": []
     },
     {
       "sourceId": "EX-08",
       "rule": "R-50",
       "disposition": "inapplicable",
-      "reason": "No corresponding EF migration, web host, HTTP/ORM subject or bundled donor font exists locally; permission not imported.",
+      "reason": "No EF generated marker permission is imported. Handwritten auto-generated markers are rejected; genuine output requires exact producer and raw-source evidence.",
       "localIds": []
     },
     {
       "sourceId": "EX-09",
       "rule": "R-50",
       "disposition": "inapplicable",
-      "reason": "No corresponding EF migration, web host, HTTP/ORM subject or bundled donor font exists locally; permission not imported.",
+      "reason": "No EF migration designer exists locally. A Designer.cs suffix alone never establishes genuine generated origin and is rejected on owned handwritten source.",
       "localIds": []
     },
     {
       "sourceId": "EX-10",
       "rule": "R-02",
       "disposition": "inapplicable",
-      "reason": "No corresponding EF migration, web host, HTTP/ORM subject or bundled donor font exists locally; permission not imported.",
+      "reason": "No EF migration BOM permission is imported. Tracked project text remains strict UTF-8 without BOM; exact generated raw bytes have separate producer proofs.",
       "localIds": []
     },
     {
       "sourceId": "EX-11",
       "rule": "R-04",
       "disposition": "adapted",
-      "reason": "Observed local NuGet-generated lock file; exact file only.",
+      "reason": "Adapted to exactly five observed local NuGet lock paths, permitting absent final LF only; LF bytes survive actual locked restores unchanged.",
       "localIds": [
         "KZ-EX-LOCK-01",
         "KZ-EX-LOCK-CORE-01",
@@ -88,91 +94,95 @@
       "sourceId": "EX-12",
       "rule": "R-01",
       "disposition": "inapplicable",
-      "reason": "No corresponding EF migration, web host, HTTP/ORM subject or bundled donor font exists locally; permission not imported.",
+      "reason": "No donor NU1901-NU1904 WarningsNotAsErrors downgrade is imported. Actual effective WarningsNotAsErrors must remain empty; additional suppression IDs are rejected.",
       "localIds": []
     },
     {
       "sourceId": "EX-13",
       "rule": "R-52",
       "disposition": "adapted",
-      "reason": "Donor scope cannot be imported. Local analyzer/test/tooling scope requires observed local output and paired boundary proofs before activation.",
-      "localIds": []
+      "reason": "Adapted to the exact pinned xUnit proof project, actual IsTestProject/OutputType evaluation and independent scope-drift controls.",
+      "localIds": [
+        "KZ-EX-TEST-EXE-01"
+      ]
     },
     {
       "sourceId": "EX-14",
       "rule": "R-55",
       "disposition": "inapplicable",
-      "reason": "No corresponding EF migration, web host, HTTP/ORM subject or bundled donor font exists locally; permission not imported.",
+      "reason": "No EF migrations namespace exists locally. No public generated migration namespace waiver is imported; default visibility and Godot-required public surfaces remain owned by plan 09.",
       "localIds": []
     },
     {
       "sourceId": "EX-15",
       "rule": "R-55",
       "disposition": "inapplicable",
-      "reason": "No corresponding EF migration, web host, HTTP/ORM subject or bundled donor font exists locally; permission not imported.",
+      "reason": "No donor web CompositionRoot or generated public Program host exists locally. No composition-project visibility waiver is imported; the exact Godot composition surface belongs to plan 09.",
       "localIds": []
     },
     {
       "sourceId": "EX-16",
       "rule": "R-55",
       "disposition": "inapplicable",
-      "reason": "No corresponding EF migration, web host, HTTP/ORM subject or bundled donor font exists locally; permission not imported.",
+      "reason": "No donor ApiRoutes or constants-only abstraction class exemption is imported. Local service-port structural subjects remain required by plan 09.",
       "localIds": []
     },
     {
       "sourceId": "EX-17",
       "rule": "R-55",
       "disposition": "inapplicable",
-      "reason": "No corresponding EF migration, web host, HTTP/ORM subject or bundled donor font exists locally; permission not imported.",
+      "reason": "The donor three-test-project integration-reference waiver is not imported. The one local proof project has no ordinary implementation ProjectReference; actual graph/type boundaries remain required by plan 09.",
       "localIds": []
     },
     {
       "sourceId": "EX-18",
       "rule": "R-60",
       "disposition": "inapplicable",
-      "reason": "No corresponding EF migration, web host, HTTP/ORM subject or bundled donor font exists locally; permission not imported.",
+      "reason": "No donor integration-test IServiceProvider waiver is imported. Both local production and test banned-input policies reject IServiceProvider; actual purity/type graph proofs remain required by plan 09.",
       "localIds": []
     },
     {
       "sourceId": "EX-19",
       "rule": "R-54",
       "disposition": "adapted",
-      "reason": "Donor scope cannot be imported. Local analyzer/test/tooling scope requires observed local output and paired boundary proofs before activation.",
-      "localIds": []
+      "reason": "Adapted to the exact analyzer bootstrap ProjectReference condition and separately built twelve-rule source consumer with its own intended-negative diagnostic.",
+      "localIds": [
+        "KZ-EX-ANALYZER-BOOTSTRAP-01"
+      ]
     },
     {
       "sourceId": "EX-20",
       "rule": "R-49",
-      "disposition": "adapted",
-      "reason": "Donor scope cannot be imported. Local analyzer/test/tooling scope requires observed local output and paired boundary proofs before activation.",
+      "disposition": "inapplicable",
+      "reason": "No donor GitHub Actions assembly filter is imported into Phase 1. Local analyzer coverage measurement, exact selectors and 90/80 gates remain explicitly unimplemented obligations of plan 15.",
       "localIds": []
     },
     {
       "sourceId": "EX-21",
       "rule": "R-42",
-      "disposition": "adapted",
-      "reason": "Donor scope cannot be imported. Local analyzer/test/tooling scope requires observed local output and paired boundary proofs before activation.",
+      "disposition": "inapplicable",
+      "reason": "No donor obj-wide xUnit RS0030 severity waiver is imported. The bounded local proof-host banned-input policy permits blocking coordination while retaining Assert/Console/service-locator bans; actual generated members remain separately scoped and checked.",
       "localIds": []
     },
     {
       "sourceId": "EX-23",
       "rule": "R-82",
-      "disposition": "adapted",
-      "reason": "Donor scope cannot be imported. Local analyzer/test/tooling scope requires observed local output and paired boundary proofs before activation.",
+      "disposition": "inapplicable",
+      "reason": "No donor GitHub Actions production/test assembly filter is imported. Local real Core/ports/Godot coverage selectors and 90/80 gates remain explicitly pending plan 15; this disposition grants no coverage exclusion.",
       "localIds": []
     },
     {
       "sourceId": "EX-24",
       "rule": "R-82",
       "disposition": "inapplicable",
-      "reason": "No corresponding EF migration, web host, HTTP/ORM subject or bundled donor font exists locally; permission not imported.",
+      "reason": "No EF migrations exist locally and no donor migration coverage exclusion is imported. Local production-module coverage remains required by plan 15.",
       "localIds": []
     },
     {
       "sourceId": "EX-25",
       "rule": "R-02",
       "disposition": "inapplicable",
-      "reason": "No corresponding EF migration, web host, HTTP/ORM subject or bundled donor font exists locally; permission not imported.",
+      "reason": "No donor Noto Sans font payload exists locally. No font-specific exception is imported; actual binary classification and its byte boundary have separate format proofs.",
       "localIds": []
     }
   ],
@@ -240,6 +250,71 @@
       "reason": "Observed canonical NuGet lock output omits final LF; only this exact path receives that single permission.",
       "positiveProof": "R-04.positive",
       "negativeProof": "R-04.negative",
+      "status": "pending"
+    },
+    {
+      "id": "KZ-EX-BODY-LENGTH-01",
+      "sourceId": "EX-01",
+      "rule": "R-37",
+      "diagnostic": "MA0051",
+      "path": ".editorconfig",
+      "surface": "exact editorconfig setting",
+      "subject": "[*.cs] dotnet_diagnostic.MA0051.severity = none",
+      "reason": "SCR0006 replaces the approximate third-party length rule; exact 59/60/61 body-line proofs remain mandatory.",
+      "positiveProof": "R-37.positive",
+      "negativeProof": "R-37.negative",
+      "status": "pending"
+    },
+    {
+      "id": "KZ-EX-ENGINE-AWAIT-01",
+      "sourceId": "EX-02",
+      "rule": "R-45",
+      "diagnostic": "MA0004",
+      "path": ".editorconfig",
+      "surface": "exact editorconfig setting",
+      "subject": "[*.cs] dotnet_diagnostic.MA0004.severity = none; [src/{core,multiplayer-abstractions}/**.cs] error",
+      "reason": "The engine continuation policy differs from the pure Core and service libraries. The exact pure-library override and independent actual MA0004 build controls retain the boundary.",
+      "positiveProof": "R-45.positive",
+      "negativeProof": "R-45.negative",
+      "status": "pending"
+    },
+    {
+      "id": "KZ-EX-TEST-NAMES-01",
+      "sourceId": "EX-03",
+      "rule": "R-48",
+      "diagnostic": "CA1707",
+      "path": ".editorconfig",
+      "surface": "exact editorconfig setting",
+      "subject": "[tests/phase1/**.cs] dotnet_diagnostic.CA1707.severity = none",
+      "reason": "Only the exact proof-project source section permits underscores. The required Roslyn scan enforces Method_State_Expected for every actual test; production CA1707 remains error.",
+      "positiveProof": "R-48.positive",
+      "negativeProof": "R-48.negative",
+      "status": "pending"
+    },
+    {
+      "id": "KZ-EX-TEST-EXE-01",
+      "sourceId": "EX-13",
+      "rule": "R-52",
+      "diagnostic": "PROJECT_OUTPUT_EXE",
+      "path": "tests/phase1/KingdomZombies.Phase1.Tests.csproj",
+      "surface": "exact project executable permission",
+      "subject": "KingdomZombies.Phase1.Tests; IsTestProject=true; OutputType=Exe",
+      "reason": "The pinned genuine xUnit proof host is an executable only under its exact project identity and IsTestProject=true. This does not exempt another project from graph rules.",
+      "positiveProof": "rules.exemption-executable-positive",
+      "negativeProof": "rules.exemption-executable-negative",
+      "status": "pending"
+    },
+    {
+      "id": "KZ-EX-ANALYZER-BOOTSTRAP-01",
+      "sourceId": "EX-19",
+      "rule": "R-54",
+      "diagnostic": "ANALYZER_BOOTSTRAP_EDGE",
+      "path": "Directory.Build.targets",
+      "surface": "exact analyzer bootstrap edge",
+      "subject": "MSBuildProjectName != Sebreiro.CodeRules.Analyzers; OutputItemType=Analyzer; ReferenceOutputAssembly=false",
+      "reason": "The analyzer cannot reference itself during its own compilation. Every owned analyzer source is separately compiled as a consumer of all twelve built rules, with an actual violating consumer boundary.",
+      "positiveProof": "rules.analyzer-source-consumer",
+      "negativeProof": "rules.analyzer-source-boundary",
       "status": "pending"
     }
   ]

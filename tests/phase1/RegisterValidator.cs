@@ -431,10 +431,7 @@ public static class RegisterValidator
                 "EX-03",
                 "EX-11",
                 "EX-13",
-                "EX-19",
-                "EX-20",
-                "EX-21",
-                "EX-23"
+                "EX-19"
             }.Contains(value: id, comparer: StringComparer.Ordinal) ? "adapted" : "inapplicable";
             if (!StringComparer.Ordinal.Equals(x: Text(node: entry["disposition"]), y: expectedDisposition))
             {
@@ -945,14 +942,16 @@ public static class RegisterValidator
                 errors.Add(item: id + ": EXEMPTION_SCOPE");
             }
 
-            if (!IsObservedLock(entry: entry, id: id, path: path))
+            if (!IsObservedLock(entry: entry, id: id, path: path)
+                    && !ExemptionValidator.IsObservedLocalPermission(entry: entry, id: id))
             {
                 errors.Add(item: id + ": EXEMPTION_UNOBSERVED");
             }
 
-            if (!StringComparer.Ordinal.Equals(x: Text(node: entry["positiveProof"]), y: Text(node: entry[
-                    "rule"]) + ".positive") || !StringComparer.Ordinal.Equals(x: Text(node: entry[
-                            "negativeProof"]), y: Text(node: entry["rule"]) + ".negative"))
+            (string Positive, string Negative) proofs = ExemptionValidator.LocalProofs(id: id,
+                    rule: Text(node: entry["rule"]));
+            if (!StringComparer.Ordinal.Equals(x: Text(node: entry["positiveProof"]), y: proofs.Positive)
+                    || !StringComparer.Ordinal.Equals(x: Text(node: entry["negativeProof"]), y: proofs.Negative))
             {
                 errors.Add(item: id + ": EXEMPTION_PROOF");
             }

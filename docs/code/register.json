@@ -1535,7 +1535,9 @@
         "status": "pending"
       },
       "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
-      "exemptions": [],
+      "exemptions": [
+        "KZ-EX-BODY-LENGTH-01"
+      ],
       "positiveProof": {
         "id": "R-37.positive",
         "rule": "R-37",
@@ -1877,7 +1879,9 @@
         "status": "pending"
       },
       "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
-      "exemptions": [],
+      "exemptions": [
+        "KZ-EX-ENGINE-AWAIT-01"
+      ],
       "positiveProof": {
         "id": "R-45.positive",
         "rule": "R-45",
@@ -1998,7 +2002,9 @@
         "status": "pending"
       },
       "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
-      "exemptions": [],
+      "exemptions": [
+        "KZ-EX-TEST-NAMES-01"
+      ],
       "positiveProof": {
         "id": "R-48.positive",
         "rule": "R-48",
@@ -2162,7 +2168,9 @@
         "status": "pending"
       },
       "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
-      "exemptions": [],
+      "exemptions": [
+        "KZ-EX-TEST-EXE-01"
+      ],
       "positiveProof": {
         "id": "R-52.positive",
         "rule": "R-52",
@@ -2243,7 +2251,9 @@
         "status": "pending"
       },
       "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
-      "exemptions": [],
+      "exemptions": [
+        "KZ-EX-ANALYZER-BOOTSTRAP-01"
+      ],
       "positiveProof": {
         "id": "R-54.positive",
         "rule": "R-54",
