@@ -2,7 +2,29 @@
 
 Status: incomplete; Task 1 tracer proven, Task 1 expansion and Task 2 pending. No SUMMARY.md exists and no plan/requirement progress was advanced.
 
-## Latest continuation: logging and retained test names verified
+## Latest continuation: source and effective suppression enforcement
+
+**RED `2a066f1` → GREEN `3b6b683`.** Strictly compiled `Suppress_UnregisteredPragma_ReportsExactLocation` failed its planned Count assertion against the accepting stub (1 expected / 0 observed). `.phase1/temp/08-suppression-red.json` and `08-suppression-red.xml` received `RED_EVIDENCE_OK`; the original target is GREEN in `08-suppression-green.xml`.
+
+`ExemptionValidator` scans actual tracked C# syntax and semantic attribute identities. It rejects disabling pragmas, undeclared or unconditional suppression attributes (including aliases), duplicate exact member suppressions and fake generated source claims. Only eighteen existing exact assembly/member permissions are accepted, bound to current exact generated source/package bytes and declared proof references. Existing producer/hash/path/member/span records are unchanged. The required local check also rejects unregistered editorconfig severity weakening, generated-code scopes and duplicate settings, and checks actual evaluated suppression properties from all five projects. The pinned SDK's observed `NoWarn=1701;1702` is a two-identifier set; duplicates and every extra identifier fail. `WarningsNotAsErrors` must be empty; analyzer enablement properties cannot be false. No blanket SDK suppression permission was inferred.
+
+All seven canonical focused controls pass 1/1:
+
+| Control | Report under `.phase1/runs/` |
+| --- | --- |
+| Exact pragma at `Subject.cs(1,1)` | `b835d69a-45bb-4023-ba72-d27473efbca9` |
+| Aliased and unconditional semantic attributes at `(2,12)`; quoted samples inert | `2fc21d71-cda9-4a79-9112-389f544472c3` |
+| Four independently duplicated exact member attributes | `dca8a7da-9874-484e-9f57-f8c11cb5ce9e` |
+| Actual configuration, severity neighbors, fake generation and duplicate setting | `af2e1e0d-3c52-453a-b7b0-732fa714b43d` |
+| Five real effective baselines plus six independent property overrides | `3a5838c0-cf21-4d5c-9ac3-54a7ce93b2cc` |
+| Genuine generated output and compliant handwritten game build, then global source scan | `609a0c60-81d5-4f1a-800d-82103cbd98cb` |
+| Fake suffix and marker independently retain actual SCR0006 at `Subject.g.cs(6,25)` / `Subject.cs(7,25)` | `f4a01b9e-e637-488f-885f-58738adfd795` |
+
+Whole five-project strict build: zero warnings/errors (`08-suppression-final-build.log`). Updated register class: 36/36, zero skipped (`08-suppression-register.xml`). All current unique naming bindings pass canonical `e2f2b95d-1659-4496-867c-eb7090611471`; diff check passes. The ignored `08-suppression-bind.cjs` ran exactly once.
+
+Current declarations: **459 implemented / 116 pending of 575**, not a full-suite verdict. Donor disposition/local-record alignment, remaining genuine handwritten engine boundary controls and numeric/edge aggregation still require completion before final immutable-source full closure. No task/SUMMARY/requirement completion or advancement beyond 8/18 is claimed. Shared Phase 2 annotations remain untouched.
+
+## Previous continuation: logging and retained test names verified
 
 R-44 increment **`df231b8`** uses the installed SDK logging reference pack only in isolated actual Core consumers. Cached `LoggerMessage.Define` passes (`c93af0ed-798c-41bc-abb1-08cc27152d60`); the negative requires both actual CA1848 at `Subject.cs(10,9)` and CA1873 at `(10,83)` after successful locked restore and clean build (`632fcf50-388c-4799-8dff-f15ebb324513`). Final whole five-project build has zero warnings/errors (`.phase1/temp/08-logging-final-build.log`). No product/package reference changed.
 
