@@ -1,0 +1,138 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://foundation/FoundationRoot.cs" id="1"]
+
+[sub_resource type="StyleBoxFlat" id="Button"]
+bg_color = Color(0.208, 0.263, 0.247, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.957, 0.949, 0.91, 1)
+
+[sub_resource type="StyleBoxFlat" id="Focus"]
+bg_color = Color(0.208, 0.263, 0.247, 0)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.941, 0.769, 0.416, 1)
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="Theme" id="Theme"]
+default_font_size = 24
+Button/colors/font_color = Color(0.957, 0.949, 0.91, 1)
+Button/styles/normal = SubResource("Button")
+Button/styles/focus = SubResource("Focus")
+
+[node name="Foundation" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme")
+script = ExtResource("1")
+
+[node name="Sky" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0.094, 0.145, 0.169, 1)
+
+[node name="World" type="Node2D" parent="."]
+visible = false
+
+[node name="Ground" type="Polygon2D" parent="World"]
+polygon = PackedVector2Array(-960, 540, 960, 540, 960, 720, -960, 720)
+color = Color(0.208, 0.263, 0.247, 1)
+
+[node name="GroundLine" type="Line2D" parent="World"]
+points = PackedVector2Array(-960, 540, 960, 540)
+width = 2.0
+default_color = Color(0.957, 0.949, 0.91, 1)
+
+[node name="Building" type="Polygon2D" parent="World"]
+polygon = PackedVector2Array(-48, 540, -48, 496, 0, 476, 48, 496, 48, 540)
+color = Color(0.208, 0.263, 0.247, 1)
+
+[node name="Roof" type="Line2D" parent="World/Building"]
+points = PackedVector2Array(-48, 540, -48, 496, 0, 476, 48, 496, 48, 540)
+width = 2.0
+default_color = Color(0.957, 0.949, 0.91, 1)
+
+[node name="Door" type="Polygon2D" parent="World/Building"]
+polygon = PackedVector2Array(-8, 540, -8, 516, 8, 516, 8, 540)
+color = Color(0.094, 0.145, 0.169, 1)
+
+[node name="Player" type="Node2D" parent="World"]
+position = Vector2(-128, 540)
+
+[node name="Outline" type="Polygon2D" parent="World/Player"]
+polygon = PackedVector2Array(-10, 0, -10, -34, 10, -34, 10, 0)
+color = Color(0.957, 0.949, 0.91, 1)
+
+[node name="Body" type="Polygon2D" parent="World/Player"]
+polygon = PackedVector2Array(-8, -2, -8, -32, 8, -32, 8, -2)
+color = Color(0.941, 0.769, 0.416, 1)
+
+[node name="Facing" type="Polygon2D" parent="World/Player"]
+polygon = PackedVector2Array(12, -14, 20, -20, 12, -26)
+color = Color(0.941, 0.769, 0.416, 1)
+
+[node name="Hint" type="Label" parent="."]
+visible = false
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 900.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(0.957, 0.949, 0.91, 1)
+theme_override_font_sizes/font_size = 16
+text = "Move: A / D or Left / Right arrows. Esc: Main menu."
+
+[node name="Menu" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Title" type="Label" parent="Menu"]
+offset_left = 400.0
+offset_top = 224.0
+offset_right = 880.0
+offset_bottom = 272.0
+theme_override_colors/font_color = Color(0.957, 0.949, 0.91, 1)
+theme_override_font_sizes/font_size = 32
+text = "KingdomZombies"
+horizontal_alignment = 1
+
+[node name="Start" type="Button" parent="Menu"]
+offset_left = 520.0
+offset_top = 304.0
+offset_right = 760.0
+offset_bottom = 352.0
+text = "Start"
+
+[node name="Quit" type="Button" parent="Menu"]
+offset_left = 520.0
+offset_top = 368.0
+offset_right = 760.0
+offset_bottom = 416.0
+text = "Quit"
+
+[node name="Error" type="Label" parent="Menu"]
+visible = false
+offset_left = 400.0
+offset_top = 432.0
+offset_right = 880.0
+offset_bottom = 488.0
+theme_override_font_sizes/font_size = 16
+text = "Could not start the scene. Try Start again."
+horizontal_alignment = 1
+autowrap_mode = 2

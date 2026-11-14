@@ -77,3 +77,44 @@ using System.Diagnostics.CodeAnalysis;
         Target = "~M:KingdomZombies.Proofs.Phase1.GetGodotPropertyList",
         Justification = ("Observed pinned Godot 4.7.2 generated layout; exact ori" +
                 "gin and adjacent/collision proofs"))]
+
+[assembly: SuppressMessage("Sebreiro.CodeRules", "SCR0001", Scope = "member",
+        Target = ("~M:KingdomZombies.Foundation.FoundationRoot.HasGodotClassMethod(Godot.Na" +
+                "tiveInterop.godot_string_name@)"),
+        Justification = "Observed pinned Godot member; KZ-EX-GODOT-CALLS-9 exact origin and boundary proofs")]
+
+[assembly: SuppressMessage("Sebreiro.CodeRules", "SCR0001", Scope = "member",
+        Target = ("~M:KingdomZombies.Foundation.FoundationRoot.SetGodotClassPropertyValue(G" +
+                "odot.NativeInterop.godot_string_name@,Godot.NativeInterop.godot_variant@" +
+                ")"),
+        Justification = "Observed pinned Godot member; KZ-EX-GODOT-CALLS-10 exact origin and boundary proofs")]
+
+[assembly: SuppressMessage("Sebreiro.CodeRules", "SCR0001", Scope = "member",
+        Target = ("~M:KingdomZombies.Foundation.FoundationRoot.GetGodotClassPropertyValue(G" +
+                "odot.NativeInterop.godot_string_name@,Godot.NativeInterop.godot_variant@" +
+                ")"),
+        Justification = "Observed pinned Godot member; KZ-EX-GODOT-CALLS-11 exact origin and boundary proofs")]
+
+[assembly: SuppressMessage("Sebreiro.CodeRules", "SCR0001", Scope = "member",
+        Target = ("~M:KingdomZombies.Foundation.FoundationRoot.InvokeGodotClassMethod(Godot" +
+                ".NativeInterop.godot_string_name@,Godot.NativeInterop.NativeVariantPtrAr" +
+                "gs,Godot.NativeInterop.godot_variant@)"),
+        Justification = "Observed pinned Godot member; KZ-EX-GODOT-CALLS-12 exact origin and boundary proofs")]
+
+[assembly: SuppressMessage("Sebreiro.CodeRules", "SCR0001", Scope = "member",
+        Target = ("~M:KingdomZombies.Foundation.FoundationRoot.GetGodotPropertyList"),
+        Justification = "Observed pinned Godot member; KZ-EX-GODOT-CALLS-13 exact origin and boundary proofs")]
+
+[assembly: SuppressMessage("Sebreiro.CodeRules", "SCR0001", Scope = "member",
+        Target = ("~M:KingdomZombies.Foundation.FoundationRoot.GetGodotMethodList"),
+        Justification = "Observed pinned Godot member; KZ-EX-GODOT-CALLS-14 exact origin and boundary proofs")]
+
+[assembly: SuppressMessage("Sebreiro.CodeRules", "SCR0001", Scope = "member",
+        Target = ("~M:KingdomZombies.Foundation.FoundationRoot.SaveGodotObjectData(Godot.Br" +
+                "idge.GodotSerializationInfo)"),
+        Justification = "Observed pinned Godot member; KZ-EX-GODOT-CALLS-15 exact origin and boundary proofs")]
+
+[assembly: SuppressMessage("Sebreiro.CodeRules", "SCR0001", Scope = "member",
+        Target = ("~M:KingdomZombies.Foundation.FoundationRoot.RestoreGodotObjectData(Godot" +
+                ".Bridge.GodotSerializationInfo)"),
+        Justification = "Observed pinned Godot member; KZ-EX-GODOT-CALLS-16 exact origin and boundary proofs")]

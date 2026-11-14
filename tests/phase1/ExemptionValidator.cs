@@ -199,13 +199,13 @@ internal static class ExemptionValidator
     internal static IReadOnlySet<string> ReadPermissions()
     {
         var permissions = new HashSet<string>(comparer: StringComparer.Ordinal);
-        AddRecords(relative: "docs/code/generated-callsite-adaptations.json", collection: "local", count: 10,
+        AddRecords(relative: "docs/code/generated-callsite-adaptations.json", collection: "local", count: 18,
                 permissions: permissions);
         AddRecords(relative: "docs/code/generated-layout-adaptations.json", collection: "members", count: 7,
                 permissions: permissions);
         AddRecords(relative: "docs/code/engine-adaptations.json", collection: "local", count: 1,
                 permissions: permissions);
-        Require(value: permissions.Count == 18, message: "SUPPRESSION_TOTAL_COUNT");
+        Require(value: permissions.Count == 26, message: "SUPPRESSION_TOTAL_COUNT");
         return permissions;
     }
 

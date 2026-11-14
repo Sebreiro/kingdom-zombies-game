@@ -22,7 +22,7 @@ public sealed class GodotCallSiteAdapterTests
                 .Root, path2: "docs/code/generated-callsite-adaptations.json")));
         JsonElement[] rows = [..registry.RootElement.GetProperty(propertyName: "local").EnumerateArray().Where(
                 predicate: row => row.TryGetProperty(propertyName: "collisionSource", value: out _))];
-        rows.Length.ShouldBe(expected: 8);
+        rows.Length.ShouldBe(expected: 16);
         foreach (JsonElement row in rows)
         {
             string source = (row.GetProperty(propertyName: "collisionSource").GetString()

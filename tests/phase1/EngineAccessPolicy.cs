@@ -92,7 +92,16 @@ internal static class EngineAccessPolicy
         BaseMethodDeclarationSyntax? method = node.Ancestors().OfType<BaseMethodDeclarationSyntax>().FirstOrDefault();
         string name = method is MethodDeclarationSyntax ordinary ? ordinary.Identifier.ValueText
                 : method is ConstructorDeclarationSyntax constructor ? constructor.Identifier.ValueText : "";
-        bool adapter = StringComparer.Ordinal.Equals(x: path, y: "src/godot-game/proofs/" + type + ".cs")
+        bool production = StringComparer.Ordinal.Equals(x: path, y: "src/godot-game/foundation/" + type + ".cs")
+                && StringComparer.Ordinal.Equals(x: node.Ancestors().OfType<BaseNamespaceDeclarationSyntax>()
+                        .FirstOrDefault()?.Name.ToString(), y: "KingdomZombies.Foundation")
+                && node.Ancestors().OfType<TypeDeclarationSyntax>().Count() == 1
+                && (type is "FoundationRoot" && new[] { "FoundationRoot", "_Ready", "_Input", "_Process",
+                    "_ExitTree", "Start", "ReturnToMenu", "Quit", "LoseFocus", "Observe", "Capture" }
+                        .Contains(value: name, comparer: StringComparer.Ordinal)
+                        || type is "FoundationView" && name is "Project");
+        bool adapter = production || StringComparer.Ordinal.Equals(x: path,
+                y: "src/godot-game/proofs/" + type + ".cs")
                 && StringComparer.Ordinal.Equals(x: node.Ancestors().OfType<BaseNamespaceDeclarationSyntax>()
                         .FirstOrDefault()?.Name.ToString(), y: "KingdomZombies.Proofs")
                 && node.Ancestors().OfType<TypeDeclarationSyntax>().Count() == 1

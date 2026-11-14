@@ -26,7 +26,7 @@ public sealed class EngineGeneratedTests
         build.Exit.ShouldBe(expected: 0, customMessage: build.Output);
         using JsonDocument registry = Registry();
         JsonElement[] rows = [.. registry.RootElement.GetProperty(propertyName: "local").EnumerateArray()];
-        rows.Length.ShouldBe(expected: 170);
+        rows.Length.ShouldBe(expected: 204);
         foreach (JsonElement row in rows)
         {
             string file = Local(path: Text(row: row, name: "surface"));
@@ -48,14 +48,14 @@ public sealed class EngineGeneratedTests
                     customMessage: Text(row: row, name: "id"));
         }
 
-        ExemptionValidator.ReadPermissions().Count.ShouldBe(expected: 18);
+        ExemptionValidator.ReadPermissions().Count.ShouldBe(expected: 26);
         JsonObject exemptions = RegisterValidator.Read(relative: "docs/code/exemptions.json");
         JsonObject register = RegisterValidator.Read(relative: "docs/code/register.json");
         register["rules"]?.AsArray().Single(predicate: rule => StringComparer.Ordinal.Equals(
                 x: rule?["sourceId"]?.GetValue<string>(), y: "R-50"))?["engineProofPermissions"]?.ToJsonString()
                 .ShouldBe(expected: exemptions["engineProofPermissions"]?.ToJsonString());
         ProofProtocol.Record(id: "engine.generated-origin", diagnostic: "ENGINE_GENERATED_ORIGIN",
-                location: "docs/code/engine-generated-spans.json:170 exact spans; actual emitted files and package");
+                location: "docs/code/engine-generated-spans.json:204 exact spans; actual emitted files and package");
     }
 
     /// <summary>Rejects changed bytes, adjacent spans and handwritten impostors for every permission.</summary>
@@ -84,7 +84,7 @@ public sealed class EngineGeneratedTests
 
         RejectSealingNeighbor();
         ProofProtocol.Record(id: "engine.generated-boundary", diagnostic: "ENGINE_GENERATED_BOUNDARY",
-                location: "170 exact changed-source/path/span boundaries; adjacent Subject.cs CA1852");
+                location: "204 exact changed-source/path/span boundaries; adjacent Subject.cs CA1852");
     }
 
     /// <summary>Builds a genuine companion before rejecting a handwritten partial call at its exact location.</summary>

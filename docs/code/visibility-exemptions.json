@@ -2,6 +2,7 @@
   "schemaVersion": 1,
   "rule": "R-34",
   "permissions": [
+    { "path": "src/godot-game/foundation/FoundationRoot.cs", "type": "KingdomZombies.Foundation.FoundationRoot", "reason": "The ordinary authored main scene requires this exact Godot engine-facing root and its authenticated generated partial." },
     { "path": "src/core/FoundationMovementCommand.cs", "type": "KingdomZombies.Core.FoundationMovementCommand", "reason": "The game adapter submits immutable identified movement requests across the Core assembly boundary." },
     { "path": "src/core/FoundationActorState.cs", "type": "KingdomZombies.Core.FoundationActorState", "reason": "The game view reads the immutable identified actor publication across the Core assembly boundary." },
     { "path": "src/core/FoundationSession.cs", "type": "KingdomZombies.Core.FoundationSession", "reason": "The game composition owns this pure authoritative local session across the Core assembly boundary." },
