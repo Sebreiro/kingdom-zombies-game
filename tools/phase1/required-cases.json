@@ -11841,6 +11841,24 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.ExemptionTests.Validate_RealSuppressionBypass_RequiresSourceGuard",
       "expectedDiagnostic": "UNREGISTERED_REAL_BUILD_SUPPRESSION"
+    },
+    {
+      "id": "graph.allowed-and-direct",
+      "group": "graph",
+      "rule": "RULE-05",
+      "owner": "01-09",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GraphTests.Evaluate_CoreEngineReference_ReportsForbiddenEdge",
+      "expectedDiagnostic": "GRAPH_FORBIDDEN"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."

@@ -14,6 +14,7 @@ internal sealed class GraphFixture
     {
         var fixture = new BuildFixture(game: true);
         Root = fixture.DirectoryPath;
+        CopyInventory();
         fixture.Restore();
         (int Exit, string Output) clean = fixture.Build();
         clean.Exit.ShouldBe(expected: 0, customMessage: "INFRASTRUCTURE_CLEAN: " + clean.Output);
@@ -93,5 +94,18 @@ internal sealed class GraphFixture
         File.WriteAllText(path: Path.Combine(path1: logs, path2: "graph-" + Guid.NewGuid().ToString(format: "N")
                 + ".log"), contents: text);
         return (child.ExitCode, text);
+    }
+
+    private void CopyInventory()
+    {
+        foreach (string relative in new[] { "KingdomZombies.slnx", "tools/phase1/projects.json",
+            "tests/phase1/KingdomZombies.Phase1.Tests.csproj" })
+        {
+            string target = Path.Combine(path1: Root, path2: relative);
+            Directory.CreateDirectory(path: Path.GetDirectoryName(path: target)
+                    ?? throw new InvalidDataException(message: "Missing fixture parent"));
+            File.Copy(sourceFileName: Path.Combine(path1: ProofProtocol.Root, path2: relative),
+                    destFileName: target);
+        }
     }
 }
