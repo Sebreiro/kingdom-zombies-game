@@ -501,14 +501,17 @@ public sealed class ExemptionTests
         (int Exit, string Output) clean = fixture.Build();
         clean.Exit.ShouldBe(expected: 0, customMessage: clean.Output);
         RequireGameOrigins(fixture: fixture);
-        string file = Path.Combine(path1: fixture.DirectoryPath, path2: "src/godot-game/Proofs/Phase1.cs");
+        string file = Path.Combine(path1: fixture.DirectoryPath, path2: "src/godot-game/proofs/Phase1.cs");
         if (!violate)
         {
             return (file, 0);
         }
 
-        string source = File.ReadAllText(path: file).Replace(oldValue: "        GetTree().Quit();",
-                newValue: "        _ = System.Math.Abs(-1);\n        GetTree().Quit();",
+        const string Anchor = "        WriteEvidence(assertion: \"ready\");";
+        string original = File.ReadAllText(path: file);
+        original.Split(separator: Anchor, options: StringSplitOptions.None).Length.ShouldBe(expected: 2);
+        string source = original.Replace(oldValue: Anchor,
+                newValue: "        _ = System.Math.Abs(-1);\n" + Anchor,
                 comparisonType: StringComparison.Ordinal);
         source.ShouldContain(expected: "System.Math.Abs(-1)");
         int line = source[..source.IndexOf(value: "        _ = System.Math.Abs(-1);",
