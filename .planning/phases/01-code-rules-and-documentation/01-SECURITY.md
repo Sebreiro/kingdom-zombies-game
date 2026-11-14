@@ -1,13 +1,13 @@
 ---
 phase: "01"
 slug: "code-rules-and-documentation"
-status: verified
-threats_open: 0
+status: needs_reverification
+threats_open: 5
 asvs_level: 1
 block_on: high
 register_authored_at_plan_time: true
 threats_total: 31
-threats_closed: 31
+threats_closed: 26
 created: "2026-11-14"
 ---
 
@@ -47,13 +47,13 @@ Every row is closed at the configured L1 depth. File names and case IDs below id
 | T-01-06 | Spoofing | Case/evidence boundary | high | mitigate | B1; distinct exact register diagnostics and fresh subject/test identities for provenance mutations | closed |
 | T-01-07 | Tampering | KingdomZombies.slnx | high | mitigate | ProjectEvaluator checks independent exact policy, five solution subjects and evaluated references; allowed/direct/undeclared/duplicate/transitive/type-leak controls | closed |
 | T-01-08 | Spoofing | Case/evidence boundary | high | mitigate | B1; exact graph/compiler diagnostics distinguish forbidden dependencies from graph infrastructure errors | closed |
-| T-01-09 | Tampering | NamedArgumentAnalyzer | high | mitigate | Actual argument-operation analysis including generated-marked code, SCR0001 and exact source/span origin exceptions; R-38 pair, call-site/generated/adjacent/origin controls | closed |
+| T-01-09 | Tampering | NamedArgumentAnalyzer | high | mitigate | Actual argument-operation analysis including generated-marked code, SCR0001 and exact source/span origin exceptions; R-38 pair, call-site/generated/adjacent/origin controls | open |
 | T-01-10 | Spoofing | Case/evidence boundary | high | mitigate | B1 and exact Roslyn verifier; R-38 negative matches Error SCR0001 at Subject.cs(4,25)-(4,26), excluding unrelated failures | closed |
-| T-01-11 | Tampering | NullForgivingAnalyzer | high | mitigate | Actual suppression-expression/token analysis including generated-marked code, Error SCR0005; R-26 pair, member/null-literal/generated controls | closed |
+| T-01-11 | Tampering | NullForgivingAnalyzer | high | mitigate | Actual suppression-expression/token analysis including generated-marked code, Error SCR0005; R-26 pair, member/null-literal/generated controls | open |
 | T-01-12 | Spoofing | Case/evidence boundary | high | mitigate | B1 and exact diagnostic sets; R-26 negative matches Error SCR0005 at Subject.cs(6,21)-(6,22) | closed |
-| T-01-13 | Tampering | ContinuationIndentAnalyzer | high | mitigate | Actual tree/indent computation, SCR0009 and exact generated-span permission; wrapped expressions, chains, nearest-neighbor/generated/adjacent controls | closed |
+| T-01-13 | Tampering | ContinuationIndentAnalyzer | high | mitigate | Actual tree/indent computation, SCR0009 and exact generated-span permission; wrapped expressions, chains, nearest-neighbor/generated/adjacent controls | open |
 | T-01-14 | Spoofing | Case/evidence boundary | high | mitigate | B1 and complete expected Roslyn spans; distinct compliant/violating continuation records reconcile | closed |
-| T-01-15 | Tampering | EnforcementTests | high | mitigate | BuildFixture requires locked clean restore/build and exact nonzero subject/error/location, excludes NU/MSB/analyzer-loading failures; real consumer, suppression-entry, formatter and wiring controls | closed |
+| T-01-15 | Tampering | EnforcementTests | high | mitigate | BuildFixture requires locked clean restore/build and exact nonzero subject/error/location, excludes NU/MSB/analyzer-loading failures; real consumer, suppression-entry, formatter and wiring controls | open |
 | T-01-16 | Spoofing | Case/evidence boundary | high | mitigate | B1 and real-build location matching; build wiring SCR0006 at Subject.cs(6,25), R-01 CS0168 at Subject.cs(8,13) after clean setup | closed |
 | T-01-17 | Tampering | tools/phase1/projects.json | high | mitigate | Bounded schema, canonical paths, independent exact five-project/type/edge inventories; malformed/empty/missing/duplicate/reordered/analyzer metadata controls | closed |
 | T-01-18 | Spoofing | Case/evidence boundary | high | mitigate | B1; exact graph-policy outcomes, including SUBJECT_REQUIRED for empty rule subject and order-independent forbidden-edge detection | closed |
@@ -61,7 +61,7 @@ Every row is closed at the configured L1 depth. File names and case IDs below id
 | T-01-20 | Spoofing | Case/evidence boundary | high | mitigate | B1; state.inputs binds CONTROLLED_ADVANCE to ExampleState:Advance, with distinct ownership/numeric/identity records | closed |
 | T-01-21 | Tampering | SnapshotCodec | high | mitigate | SnapshotJson bounds bytes/depth/UTF-8/fields/integers/collections/duplicates; complete candidate validation before ExampleStateStore root exchange; snapshot/invalid/interrupted/cancelled/atomic/mutation controls | closed |
 | T-01-22 | Spoofing | Case/evidence boundary | high | mitigate | B1; distinct strict round-trip, accepted-root, interrupted/cancelled/invalid-root and mutation evidence | closed |
-| T-01-23 | Tampering | MainThreadGateway | high | mitigate | RequireThread precedes work, Drain checks captured thread and live generation, LifetimeToken closes acceptance before cancellation; native thread/late-work/source/gateway-bypass controls | closed |
+| T-01-23 | Tampering | MainThreadGateway | high | mitigate | RequireThread precedes work, Drain checks captured thread and live generation, LifetimeToken closes acceptance before cancellation; native thread/late-work/source/gateway-bypass controls | open |
 | T-01-24 | Spoofing | Case/evidence boundary | high | mitigate | B1 plus exact EngineEvidencePolicy surface/cycle/nonce checks; evidence-integrity/lifecycle/export/generated/handwritten controls, raw results kept separate | closed |
 | T-01-25 | Tampering | AGENTS.md | high | mitigate | DocumentationValidator requires canonical root, ordinal case/collision checks, strict UTF-8, nonempty indexes and real links from tracked/explicit authored inventory; navigation/Unicode/anchor/case/input-preservation controls | closed |
 | T-01-26 | Spoofing | Case/evidence boundary | high | mitigate | B1; docs.navigation matches DOC_CASE AGENTS.md:2 and docs.portable matches the intended missing-index diagnostic | closed |
@@ -92,3 +92,7 @@ No accepted risks. No transfer or waiver was used to close a threat.
 The [partial summary](01-17-SUMMARY.md) and [validation record](01-VALIDATION.md) remain authoritative for the nine required Linux CHILD_TIMEOUT results and fourteen Pending human components. The [Phase 5 handoff](../05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md) retains all eight deferred declarations without pass/skip credit. Historical WINDOWS item 1 remains open. These conditions are not closed by this security verdict.
 
 All declared threats have a disposition, there are no accepted risks, `threats_open: 0` is verified, and security status is verified on 2026-11-14. Phase 1, Plan 17 and RULE-01–RULE-07 remain incomplete.
+
+## Subsequent code review — mitigation verdict superseded
+
+The later code review demonstrated active-branch source-policy and native-operation false acceptances (CR-01 and CR-02). The initial 31/31 L1 verdict above is historical and no longer the current sign-off. Five related mitigations are reopened pending repair and focused re-verification: T-01-09, T-01-11 and T-01-13 share the conditional suppression guard, T-01-15 owns enforcement/suppression checks, and T-01-23 owns the native-access source boundary. The compiled suppression reproduction directly exercises SCR0001; the other two analyzer entries are reopened conservatively because the same generic guard protects them. No risk is accepted. The current register has 26 closed and five open high threats. Phase advancement remains blocked.
