@@ -157,3 +157,17 @@ For 01-16/01-17, freeze the **same core authority/configuration inputs** as well
 ## Self-Check: PASSED
 
 All fourteen newly created files, canonical renamed guide and this SUMMARY exist. All four source/proof commits are ancestors of HEAD; evaluation-scope resolves the four actual commits, and the persisted ledger measures four. The final immutable report agrees with 641 accepted, zero failed controls and exactly 15 later-owner pending obligations. All 28 documentation, 26 graph, 33 state and 19 engine cases passed. Both original RED reports remain available. No accidental tracked deletion or generated untracked file was left behind.
+
+## Metadata-only documentation validation
+
+Completion metadata was committed as `f12f08b7bb476eebdd70e39ea5bd6755fb899bf2` after the full report reconciled. ROADMAP was updated first, then STATE advanced to **14/18, next 01-14**, preserving the exact `Phase 2 context captured (02-CONTEXT.md)` annotation and all seven RULE requirements as Pending.
+
+The subsequent D-11 `node tools/phase1/check.cjs --group docs` run accepted **28/28**, with zero failures and actual exit **0**. Its [separate canonical report](../../../.phase1/runs/b9baaa3c-f6d8-4235-ae24-7e8221532015/summary.json) records:
+
+- Tested metadata revision: `f12f08b7bb476eebdd70e39ea5bd6755fb899bf2`.
+- Nonce: `b9baaa3c-f6d8-4235-ae24-7e8221532015`.
+- New input identity: `a15b85faea710e7ffa67b5945d0fc1c2958203f48428aacac6055dfa25c39224`.
+- Actual tool identity: `c72160537033e7af8fb34e3f906032d3d39032b2bfd8f2b100aaf8d0d17d166e`.
+- Platform: `win32-x64-10.0.19044`.
+
+Comparing the two complete `inputs.json` inventories shows exactly **`.planning/ROADMAP.md` and `.planning/STATE.md` changed**, with no removed input. The source/docs/specification/configuration implementation is unchanged. This focused metadata result has a different input and tool identity from the earlier full run and does not claim a new full-suite run. This SUMMARY-only evidence addition lies outside the executable input scope; the current input snapshot still equals the metadata docs result. Plans 01-16/01-17 must preserve this distinction when reconciling same-source platform runs before workflow updates.
