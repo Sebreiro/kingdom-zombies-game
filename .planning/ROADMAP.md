@@ -4,11 +4,11 @@
 
 ## Overview
 
-Deliver the complete specified version 0.1: players build, equip, and defend one shared survivor camp through a solo or four-player LAN campaign, preserving their survivors, belongings, and progress. The creator approved all 133 requirements, the working-increment direction, and this detailed ten-phase roadmap on 2026-11-13. Project initialization is complete; no game implementation or verification is complete.
+Deliver the complete specified version 0.1: players build, equip, and defend one shared survivor camp through a solo or four-player LAN campaign, preserving their survivors, belongings, and progress. The creator approved all 133 requirements, the working-increment direction, and this detailed ten-phase roadmap on 2026-11-13. Phase 1 is complete under the focused Linux exception above. Its developer baseline is verified; playable game features remain future work.
 
 **Planning mode:** `mvp` means working, verifiable increments toward the full approved game; it does not reduce scope.
 **Granularity:** Standard configuration, with the creator's explicit ten-phase choice taking precedence over generic phase-count guidance.
-**Scope authority:** [PROJECT.md](PROJECT.md), [REQUIREMENTS.md](REQUIREMENTS.md), the [game specification](../specs/0.1/initial-spec.md), and the [asset/resource plan](../specs/0.1/assets-and-resources.md). [Research](research/SUMMARY.md) informs proofs and implementation choices; its candidate versions are unverified.
+**Scope authority:** [PROJECT.md](PROJECT.md), [REQUIREMENTS.md](REQUIREMENTS.md), the [game specification](../specs/0.1/initial-spec.md), and the [asset/resource plan](../specs/0.1/assets-and-resources.md). [Research](research/SUMMARY.md) informs proofs and implementation choices; it retains initial candidate history; Phase 1 records the now-pinned and proven development baseline.
 **Approval:** Requirements, working-increment direction, and detailed roadmap approved by the creator on 2026-11-13.
 
 **Scope timing amendment, approved 2026-11-14:** Keep Phase 1's working rules, tests and clean two-platform baseline. Phase 5 now owns measured coverage, exhaustive platform execution/evidence reconciliation and unfinished aggregate runner certification. The ten-phase order, all 133 requirement IDs and their primary owners are unchanged; the [Phase 5 handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md) records the required certification work.
@@ -25,7 +25,7 @@ Deliver the complete specified version 0.1: players build, equip, and defend one
 
 Integer phases execute in order. Decimal phases are reserved for explicitly inserted work.
 
-- [ ] **Phase 1: Code rules and documentation** - Developers can use strict, proven Godot-compatible C# rules and focused documentation.
+- [x] **Phase 1: Code rules and documentation** - Developers can use strict, proven Godot-compatible C# rules and focused documentation. (completed 2026-11-14)
 - [ ] **Phase 2: Playable foundation** - Players launch a menu, enter a small scene, and move one character left and right.
 - [ ] **Phase 3: Four-player LAN foundation** - A host and three guests independently control synchronized characters in the same scene.
 - [ ] **Phase 4: Asset production** - The complete required resource pack is reusable, self-contained, and inspectable in fixtures.
@@ -67,9 +67,9 @@ Every feature includes its stable identities, host-authoritative validation and 
 3. Running the documented checks accepts compliant examples and rejects deliberate code, architecture, and exemption violations with actionable diagnostics.
 4. A developer or agent can navigate a short root `AGENTS.md` and focused indexes with valid, consistently cased links, and locate enforced gameplay/Godot/service boundaries plus rules for time, randomness, identities, and saveable authoritative state.
 
-**Revised completion boundary (latest creator instruction, 2026-11-14):** Retain every working compiler/analyzer, boundary, exemption, runner, documentation, state and lifecycle check. Use focused development-OS feedback while repairing related findings, then clean setup and the complete declared Phase 1 scope on Windows and the local Linux VM for the same final implementation. Use hardware acceleration when available. Measured coverage, advanced certification/report reconciliation and the eight explicit pending declarations retain Phase 5 ownership and receive no pass/skip credit now. Separate actual qualitative review remains required. The revised [specification](phases/01-code-rules-and-documentation/01-SPEC.md) governs the final plan.
+**Earlier completion boundary (superseded for Phase 1 by the focused closure exception above):** Retain every working compiler/analyzer, boundary, exemption, runner, documentation, state and lifecycle check. Use focused development-OS feedback while repairing related findings, then clean setup and the complete declared Phase 1 scope on Windows and the local Linux VM for the same final implementation. Use hardware acceleration when available. Measured coverage, advanced certification/report reconciliation and the eight explicit pending declarations retain Phase 5 ownership and receive no pass/skip credit now. Separate actual qualitative review remains required. The revised [specification](phases/01-code-rules-and-documentation/01-SPEC.md) governs the final plan.
 
-**Plans:** 17/18 plans executed; independently checked, ready for execution.
+**Plans:** 18/18 plans complete; current amended goal verified and phase closed on 2026-11-14.
 **Wave 1**
 - [x] 01-01-PLAN.md — Pinned native-host toolchain proof
 
@@ -122,7 +122,7 @@ Every feature includes its stable identities, host-authoritative validation and 
 - [x] 01-16-PLAN.md — Final clean Windows baseline and Linux preparation
 
 **Wave 18** *(blocked on Wave 17 completion)*
-- [ ] 01-17-PLAN.md — Representative clean Linux checks and Phase 1 review
+- [x] 01-17-PLAN.md — Representative clean Linux checks and Phase 1 review
 
 **Cross-cutting constraints:** <!-- gsd:generated -->
 - A developer receives actionable inherited analyzer failures while compliant code is accepted (AC-07).
@@ -130,7 +130,7 @@ Every feature includes its stable identities, host-authoritative validation and 
 
 **UI hint:** no
 
-**Delivery boundary:** Preserve the adopted LangProj conventions, analyzers, exact numeric semantics, bounded Godot permissions and five-project boundaries. Keep the selected toolchain pins and canonical `AGENTS.md`; no working checks are removed or weakened. Plans 01-15–17 now separate explicit Phase 5 certification obligations from Phase 1's functional evidence and finish the clean two-platform baseline. Reuse completed project/reference/decision pages rather than creating parallel documentation. Coverage and exhaustive certification are required in the [Phase 5 handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md).
+**Delivery boundary:** Preserve the adopted LangProj conventions, analyzers, exact numeric semantics, bounded Godot permissions and five-project boundaries. Keep the selected toolchain pins and canonical `AGENTS.md`; no working checks are removed or weakened. Plans 01-15–17 separate explicit Phase 5 certification obligations from Phase 1's functional evidence. Final acceptance uses the retained Windows baseline plus actual focused Linux evidence and the targeted both-OS amendment under the creator exception; the original failed graph case, full Linux suite and individual human reviews remain explicit follow-ups. Reuse completed project/reference/decision pages rather than creating parallel documentation. Coverage and exhaustive certification are required in the [Phase 5 handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md).
 
 ### Phase 2: Playable foundation
 
@@ -304,9 +304,9 @@ Every feature includes its stable identities, host-authoritative validation and 
 
 ## Coverage
 
-| Phase | Primary requirements | Initial status |
+| Phase | Primary requirements | Current status |
 | --- | ---: | --- |
-| 1. Code rules and documentation | 7 | Pending |
+| 1. Code rules and documentation | 7 | Complete under focused closure exception |
 | 2. Playable foundation | 3 | Pending |
 | 3. Four-player LAN foundation | 4 | Pending |
 | 4. Asset production | 5 | Pending |
@@ -316,7 +316,7 @@ Every feature includes its stable identities, host-authoritative validation and 
 | 8. Zombie campaign and outcomes | 19 | Pending |
 | 9. Persistence and complete player experience | 28 | Pending |
 | 10. Release validation and balancing | 6 | Pending |
-| **Total** | **133** | **All Pending** |
+| **Total** | **133** | **7 complete / 126 pending** |
 
 Every approved version 0.1 ID is assigned exactly once; no unknown IDs, duplicate owners, or orphan requirements are allowed. The [requirements traceability table](REQUIREMENTS.md#traceability) is the per-ID ownership record. Its existing A-01–A-47 source crosswalk stays unchanged; Phase 5 expands it into executable/evidence cases and activation states.
 
@@ -326,7 +326,7 @@ Execution order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10. Plans
 
 | Phase | Plans Complete | Status | Completed |
 | --- | --- | --- | --- |
-| 1. Code rules and documentation | 17/18 | In Progress | - |
+| 1. Code rules and documentation | 18/18 | Complete    | 2026-11-14 |
 | 2. Playable foundation | 0/TBD | Not started | - |
 | 3. Four-player LAN foundation | 0/TBD | Not started | - |
 | 4. Asset production | 0/TBD | Not started | - |

@@ -2,11 +2,11 @@
 
 **Current Phase 1 closure boundary (creator instruction, 2026-11-14):** The [one-time exception](phases/01-code-rules-and-documentation/01-CLOSURE-EXCEPTION.md) accepts the retained complete Windows baseline plus actual focused Linux strict/native/rule/state/graph evidence without a host restart. The narrow GODOT_LINUXBSD test correction passed separately on both OSes. A complete Linux suite, its original graph capacity failure and fourteen individually unreviewed human components remain explicit [follow-ups](phases/01-code-rules-and-documentation/01-CLOSURE-FOLLOWUPS.md), not passes. The complete-other-OS-VM rule continues for later phases.
 
-**Platform verification policy, 2026-11-14:** During implementation, test on the development OS. At phase completion, run the complete required phase scope on that OS and a local VM using the other supported OS. Phase 1 therefore requires the complete current Windows/Linux-VM selection, rather than representative Linux cases. All 133 requirement IDs and primary owners are unchanged; the eight explicitly deferred Phase 5 certification cases remain pending.
+**Platform verification policy, 2026-11-14:** During implementation, test on the development OS. At phase completion, run the complete required phase scope on that OS and a local VM using the other supported OS. The later one-time Phase 1 closure exception above supersedes that full-Linux gate for Phase 1 only; later phases retain the complete two-OS rule. All 133 requirement IDs and primary owners are unchanged; the eight explicitly deferred Phase 5 certification cases remain pending.
 
 **Defined:** 2026-11-13
 **Release:** Complete version 0.1
-**Status:** All 133 version 0.1 requirements and their ten-phase roadmap approved by the creator on 2026-11-13. Every requirement has one primary phase; implementation remains Pending.
+**Status:** All 133 version 0.1 requirements and their ten-phase roadmap approved by the creator on 2026-11-13. Every requirement has one primary phase. RULE-01–RULE-07 are complete under the current Phase 1 exception; the other 126 requirements remain Pending.
 **Core Value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
 
 ## Authority and Interpretation
@@ -23,13 +23,13 @@ The GSD template heading `v1 Requirements` below means this project's first rele
 
 Source: Creator direction; PROJECT.md; LangProj rule and documentation references.
 
-- [ ] **RULE-01**: Developers can build with a pinned Godot/.NET/compiler/analyzer combination proven by a representative engine integration check.
-- [ ] **RULE-02**: Developers inherit applicable LangProj C# conventions through a retained/adapted/inapplicable rule register with reasons for every Godot adaptation.
-- [ ] **RULE-03**: Developers receive build or check failures for rule violations, with positive and deliberately failing proofs and only documented, narrowly scoped exemptions.
-- [ ] **RULE-04**: Developers can navigate a short root AGENTS.md and focused documentation indexes with valid links and consistent Windows/Linux filename casing.
-- [ ] **RULE-05**: Developers have documented, enforced dependency boundaries separating gameplay rules, Godot integration, and multiplayer services.
-- [ ] **RULE-06**: Developers can use normal Godot construction, callbacks, partial/generated code, exports, signals, nullability, and teardown under the rules without blanket suppression.
-- [ ] **RULE-07**: Developers have explicit rules for main-thread engine access, testable time/randomness, stable identities, and saveable authoritative state.
+- [x] **RULE-01**: Developers can build with a pinned Godot/.NET/compiler/analyzer combination proven by a representative engine integration check.
+- [x] **RULE-02**: Developers inherit applicable LangProj C# conventions through a retained/adapted/inapplicable rule register with reasons for every Godot adaptation.
+- [x] **RULE-03**: Developers receive build or check failures for rule violations, with positive and deliberately failing proofs and only documented, narrowly scoped exemptions.
+- [x] **RULE-04**: Developers can navigate a short root AGENTS.md and focused documentation indexes with valid links and consistent Windows/Linux filename casing.
+- [x] **RULE-05**: Developers have documented, enforced dependency boundaries separating gameplay rules, Godot integration, and multiplayer services.
+- [x] **RULE-06**: Developers can use normal Godot construction, callbacks, partial/generated code, exports, signals, nullability, and teardown under the rules without blanket suppression.
+- [x] **RULE-07**: Developers have explicit rules for main-thread engine access, testable time/randomness, stable identities, and saveable authoritative state.
 
 **Acceptance timing amended by the creator on 2026-11-14:** Phase 1 retains all applicable coding and architecture rules, existing working checks, narrow exemptions, focused documentation, and actual clean Windows/Linux baseline checks. Measured coverage (including the unchanged 90% line / 80% branch targets), exhaustive two-platform certification, and unfinished aggregate runner/report certification move to Phase 5 under TEST-02, TEST-07, TEST-08 and TEST-09. RULE-01–RULE-07 keep their Phase 1 primary ownership; the later certification work has explicit Phase 5 acceptance ownership in the [handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md). Deferred work is pending, never passed or waived.
 
@@ -362,13 +362,13 @@ All 133 version 0.1 requirements have exactly one primary owning phase in [ROADM
 
 | Requirement | Phase | Status |
 | --- | --- | --- |
-| RULE-01 | Phase 1 | Pending |
-| RULE-02 | Phase 1 | Pending |
-| RULE-03 | Phase 1 | Pending |
-| RULE-04 | Phase 1 | Pending |
-| RULE-05 | Phase 1 | Pending |
-| RULE-06 | Phase 1 | Pending |
-| RULE-07 | Phase 1 | Pending |
+| RULE-01 | Phase 1 | Complete |
+| RULE-02 | Phase 1 | Complete |
+| RULE-03 | Phase 1 | Complete |
+| RULE-04 | Phase 1 | Complete |
+| RULE-05 | Phase 1 | Complete |
+| RULE-06 | Phase 1 | Complete |
+| RULE-07 | Phase 1 | Complete |
 | BASE-01 | Phase 2 | Pending |
 | BASE-02 | Phase 2 | Pending |
 | BASE-03 | Phase 2 | Pending |
@@ -509,4 +509,3 @@ All 133 version 0.1 requirements have exactly one primary owning phase in [ROADM
 ---
 *Requirements defined: 2026-11-13*
 *Last updated: 2026-11-13 after creator approval of the complete ten-phase roadmap and requirement mapping*
-

@@ -17,7 +17,7 @@ Players can build, equip, and defend a shared survivor camp through a complete s
 - [Version 0.1 game specification](../specs/0.1/initial-spec.md) defines mandatory behavior, exclusions, proposed balance, release gates, and acceptance scenarios A-01 through A-47.
 - [Asset and resource production plan](../specs/0.1/assets-and-resources.md) defines required content, reusable donors, evidence levels, and production checks. It supplements the game specification; it does not override it.
 - The creator confirmed on 2026-11-13 that the project must deliver the full specified version 0.1, use Godot and C#, and follow the first five phases recorded below. The creator then approved the proposed ten-phase direction and creation of this project definition.
-- The creator subsequently approved all 133 version 0.1 requirements, working-increment phase planning, and the detailed ten-phase roadmap on 2026-11-13. Each phase ends with a verifiable result; initialization is complete and Phase 1 is ready for discussion and planning.
+- The creator subsequently approved all 133 version 0.1 requirements, working-increment phase planning, and the detailed ten-phase roadmap on 2026-11-13. Each phase ends with a verifiable result. Phase 1 is complete under the creator-authorized focused Linux exception; Phase 2 context is captured and its implementation has not started.
 - Confirmed behavior and exclusions are binding. Values and supporting rules labeled proposed in the specifications remain the working baseline to implement and evaluate; approval of this project does not turn untested balance into proven balance.
 - GSD's initial-release requirements will describe version 0.1. A template heading such as `v1 Requirements` must not be interpreted as a separate version 1.0 release or a reduced game scope.
 
@@ -25,12 +25,13 @@ Players can build, equip, and defend a shared survivor camp through a complete s
 
 ### Validated
 
-(None yet — the repository contains specifications, references, and a starter Godot project, but no implemented gameplay has been verified.)
+- ✓ Enforced C# and architecture baseline, inherited rule register, scoped Godot compatibility and positive/negative proofs — Phase 1; RULE-01, RULE-02, RULE-03, RULE-05, RULE-06 and RULE-07. See [verification](phases/01-code-rules-and-documentation/01-VERIFICATION.md).
+- ✓ Short canonical root AGENTS.md and checked focused documentation tree — Phase 1; RULE-04.
+
+Acceptance retains Windows 676/676 plus the focused both-OS platform-test amendment and actual Linux strict/native/rule/state/graph evidence. The full Linux suite, original graph-case timeout and fourteen individual human judgments remain [unperformed or unaccepted follow-ups](phases/01-code-rules-and-documentation/01-CLOSURE-FOLLOWUPS.md). No playable game feature is claimed.
 
 ### Active
 
-- [ ] Establish strict, enforced C# and architecture rules adapted from LangProj, with a rule matrix, scoped Godot compatibility decisions, and positive and negative proof tests.
-- [ ] Create a documentation tree with a short root `AGENTS.md` containing the project description and links to focused documents; agents load only documentation relevant to their task.
 - [ ] Deliver an initial menu-to-game flow with a small scene, a few base assets, and one character moving left and right.
 - [ ] Extend that same foundation to a host and up to three LAN guests, each independently controlling a character and observing consistent movement.
 - [ ] Produce the required asset and resource pack by reusing suitable recovered Kingdom Two Crowns content first, adapting it where necessary, and generating the missing content.
@@ -68,10 +69,10 @@ Players can build, equip, and defend a shared survivor camp through a complete s
 ### Current repository
 
 - Workspace: `D:/Work/Games/KingdomZombies`.
-- Game project: `src/godot-game/project.godot`; inspected starter settings declare `KingdomZombies`, the `4.7`/`Forward Plus` feature tags, and a .NET assembly name. Those settings do not prove an installed or validated engine/compiler combination.
-- The inspected game source consists of the Godot project settings and icon, with no C# gameplay, scenes, solution, or test runner yet.
+- Game project: `src/godot-game/project.godot`; the pinned Godot 4.7.2 / .NET 10 / C# 14 combination has actual Windows and focused Linux native/build evidence.
+- Five declared C# projects provide pure Core state, Godot integration, multiplayer-service boundaries, twelve custom analyzers and a source-bound proof runner. The representative native scene proves development integration; menu, movement and other gameplay remain future work.
 - Visual examples are under `examples/`, including three base references and zombie artwork. References guide style; written specifications control silhouettes and behavior.
-- The root `Agents.md` now provides a concise bootstrap description and documentation index. Phase 1 must establish the full focused rule documentation and consistent filename casing without creating case-colliding files on Windows/Linux.
+- The canonical root `AGENTS.md` and focused rules, architecture, project, decision and workflow indexes are implemented and checked for exact path/anchor identities and portable casing.
 - GSD initialization now includes approved context, workflow settings, research, 133 requirements, a ten-phase roadmap, and current state. No completed gameplay capability is being migrated. The asset register describes production work still to do; it is not evidence that the pack has already been exported or integrated.
 
 ### LangProj inheritance
@@ -87,7 +88,7 @@ Inspected entry points and implementation resources:
 - `packages/Sebreiro.CodeRules.Analyzers` and its tests: reusable Roslyn rules for named arguments, body comments, primary constructors, regions, null-forgiving operators, body/line length, member ordering, continuation indentation, using ordering, `this.` qualification, and local `new` declarations.
 - `LangProject.Core.ArchitectureTests`: project/dependency, documentation/index, format, suppression, rule-matrix, and real-build proof patterns.
 
-Inherit the applicable C# rules and the enforcement philosophy. Phase 1 must record which source rules are retained, adapted, or inapplicable, with reasons and proof checks. It must check compatibility with Godot-generated partial code, engine callbacks, scene/resource construction and serialization, node lifetime, main-thread access, nullable initialization, and the chosen SDK/compiler/analyzer versions. Do not import HTTP/EF-specific projects, constructors, test hosts, or registration rules simply because they exist in LangProj. Do not solve incompatibilities with blanket warning suppression or hidden exceptions.
+Inherit the applicable C# rules and the enforcement philosophy. Phase 1 records all 85 inherited rule dispositions and bounded exemptions, with actual compliant/violation proofs. Its verified compatibility covers Godot-generated partial code, engine callbacks, scene/resource construction and serialization, node lifetime, main-thread access, nullable initialization and the pinned toolchain. Do not import HTTP/EF-specific projects, constructors, test hosts, or registration rules simply because they exist in LangProj. Do not solve incompatibilities with blanket warning suppression or hidden exceptions.
 
 ### Recovered game content and logic
 
@@ -132,9 +133,9 @@ Repeatable testing after changes is a primary development requirement, not an op
 ## Constraints
 
 - **Scope:** Complete version 0.1 from the supplied specifications; no silently dropped mandatory systems. Changes to confirmed behavior/exclusions require an explicit recorded scope decision.
-- **Technology:** Godot with C#. Pin and prove a compatible engine, .NET SDK, compiler, analyzers, testing tools, and export templates; inherited .NET 10/latest-language settings are reference inputs until compatibility is verified.
+- **Technology:** Godot with C#. Preserve the Phase 1 pinned and proven Godot/.NET/compiler/analyzer/testing baseline and its scoped compatibility records. Runnable release exports and export-template validation remain later delivery work.
 - **Platforms/input:** Windows and Linux, keyboard/mouse, one computer per player, solo or up to four cooperative LAN participants including the host/spectators. No account service is required.
-- **Architecture:** Host-authoritative outcomes, clear gameplay/engine/service boundaries, stable item/player/content identity, and replaceable multiplayer services. Exact project layout and interfaces remain Phase 1 design work.
+- **Architecture:** Host-authoritative outcomes, clear gameplay/engine/service boundaries, stable item/player/content identity, and replaceable multiplayer services. Phase 1 enforces the five-project boundaries; future service implementations must preserve them.
 - **Ownership/persistence:** No item/money duplication, silent loss, double payment, duplicated daily/wave events, or resurrection through joining/loading. Nonempty corpses persist; incompatible saved layouts remain visible and removable.
 - **Content:** One handcrafted map, six portals, seven zombie archetypes, 24 baseline items, two wildlife types, four assigned NPC roles, three main/wall/tower tiers, and all required presentation/resources.
 - **Default run:** Eight starting survivors, 600-second days, 300-second nights, one scheduled-wave-free opening night, escalation every three days, and no player-count difficulty scaling. Unconfirmed baseline quantities remain configurable and subject to playtesting.
@@ -151,17 +152,19 @@ Repeatable testing after changes is a primary development requirement, not an op
 | Decision | Rationale | Outcome |
 | --- | --- | --- |
 | Deliver the full specified version 0.1 | The creator explicitly selected the complete game; early movement/network scenes are foundations. | — Pending implementation |
-| Use Godot and C# | The chosen project and requested inheritance of C# rules establish the technical direction. | — Pending toolchain validation |
+| Use Godot and C# | The chosen project and requested inheritance of C# rules establish the technical direction. | ✓ Phase 1 actual pinned Windows and focused Linux integration evidence |
 | Preserve Phases 1–5 in the requested order | Rules, a visible foundation, LAN, assets, then comprehensive CI/testing precede the main gameplay build. | — Approved and mapped; pending delivery |
 | Use five further phases, for ten total | The accepted direction separates survivors/combat, camp, campaign, persistence/experience, and release proof. | — Detailed roadmap approved; pending delivery |
 | Plan phases as working increments | The creator selected a verifiable result per phase; the GSD mode is `mvp`, without reducing the complete version 0.1 release scope. | — Approved direction; pending delivery |
-| Inherit applicable LangProj rules with documented Godot adaptations | Strong consistency and enforcement must coexist with the engine lifecycle and generated code. | — Pending compatibility proofs |
-| Keep root `AGENTS.md` short and use a documentation index tree | Agents and developers should find focused rules without loading every document. | — Pending Phase 1 |
+| Inherit applicable LangProj rules with documented Godot adaptations | Strong consistency and enforcement must coexist with the engine lifecycle and generated code. | ✓ Phase 1 rules and bounded compatibility proofs; measured coverage remains Phase 5 |
+| Keep root `AGENTS.md` short and use a documentation index tree | Agents and developers should find focused rules without loading every document. | ✓ Phase 1 checked canonical indexes and exact link/casing rules |
 | Reuse recovered assets and suitable logic first | The creator authorizes reuse; the asset plan identifies concrete donors and known gaps. | — Pending export/adaptation verification |
 | Store acceptance cases and automate repeated verification | An AI agent must be able to test changes, reproduce failures, and inspect evidence. | — Pending Phase 5 framework |
 | Start basic tests in the foundation phases | The rules and early playable/network foundations must be demonstrably usable before the full CI phase. | — Pending implementation |
 | Simplify Phase 1 completion; move certification to Phase 5 | Preserve the working rules/tests and representative clean Windows/Linux checks; deliver measured 90%/80% coverage, exhaustive platform suites and unfinished aggregate runner certification with CI/testing. | — Creator approved 2026-11-14; [handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md); implementation remains pending |
-| Design authority, identity, and saveable state throughout | Later persistence and LAN correctness cannot rely on retrofitting incompatible gameplay state. | — Pending architecture and tests |
+| Design authority, identity, and saveable state throughout | Later persistence and LAN correctness cannot rely on retrofitting incompatible gameplay state. | ✓ Phase 1 controlled state/snapshot/atomic-restore baseline; feature state and complete saves remain future work |
+| Test on the development OS and complete each phase on both supported OSes | The creator requires a local VM using the other OS and hardware acceleration when available. | Required for later phases; actual evidence rather than VM preparation |
+| Close Phase 1 after focused Linux checks without restarting Windows | Latest creator instruction permits the retained Windows baseline plus actual limited Linux assurance. | ✓ Phase 1 closed; full Linux, original graph timeout and fourteen individual reviews remain explicit follow-ups |
 | Preserve spec precedence over reference-game behavior | Unity assumptions, two-player behaviors, and excluded mechanics must not leak into this game. | — Pending reuse reviews |
 | Keep proposed balance explicitly unproven | The supplied numbers are a reproducible baseline; playthroughs must establish pacing and viability. | — Pending playtesting |
 
@@ -185,4 +188,4 @@ This document evolves at phase transitions and milestone boundaries.
 5. Record balance changes and explicitly distinguish confirmed scope changes from tuning.
 
 ---
-*Last updated: 2026-11-13 after final roadmap approval and completed project initialization*
+*Last updated: 2026-11-14 after Phase 1 completion under the creator-authorized focused Linux exception*

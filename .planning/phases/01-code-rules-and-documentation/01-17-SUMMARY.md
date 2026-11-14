@@ -2,7 +2,7 @@
 phase: 01-code-rules-and-documentation
 plan: "17"
 subsystem: linux-baseline-and-qualitative-review
-tags: [godot, csharp, linux, actual-evidence, blocking-human]
+tags: [godot, csharp, linux, actual-evidence, explicit-followups]
 requires:
   - phase: 01-16
     provides: Frozen f4658bb Windows 670-case pass and same-source genuine Linux checkout/tools/cache
@@ -33,7 +33,7 @@ key-decisions:
   - Follow the creator's one-time no-restart closure instruction with explicit composed baseline/amendment evidence; retain the original graph failure, full Linux scope and unreviewed human components as follow-ups.
   - Preserve canonical checks and deadlines; genuine Linux timeouts remain unaccepted, with the creator-authorized capacity follow-up recorded explicitly.
   - Keep individual human outcomes unreviewed/Pending; independent material review does not supply component-human approval.
-requirements-completed: []
+requirements-completed: [RULE-01, RULE-02, RULE-03, RULE-04, RULE-05, RULE-06, RULE-07]
 actuals:
   tokens: 25194
   tasks: 2
@@ -47,9 +47,9 @@ status: complete
 
 # Phase 1 Plan 17: Linux baseline and qualitative review Summary
 
-**Plan complete under the latest creator-authorized exception.** Task 1's composed technical condition is fulfilled; Task 2 records the conditional creator acceptance, preserved failures and explicit unperformed follow-ups. Required final phase-goal verification and the phase-completion owner still govern shared tracking. No individual human review, original graph-case pass or full Linux pass is claimed. See [closure follow-ups](01-CLOSURE-FOLLOWUPS.md).
+**Plan complete under the latest creator-authorized exception.** Task 1's composed technical condition is fulfilled; Task 2 records the conditional creator acceptance, preserved failures and explicit unperformed follow-ups. Final goal verification passed, and the phase-completion owner closed Phase 1 on 2026-11-14: 18/18 plans and RULE-01–RULE-07 complete. No individual human review, original graph-case pass or full Linux pass is claimed. See [closure follow-ups](01-CLOSURE-FOLLOWUPS.md).
 
-**Latest continuation — technical scope satisfied under creator exception:** Retain the original Windows **676/676** baseline. Actual Linux strict setup/native bootstrap and five unchanged cases pass; narrow observed `GODOT_LINUXBSD` test correction passes on both OSes, and a separately authorized direct proof accepts the allowed graph and rejects the genuinely compiled forbidden edge through the existing validator. This is composed assurance, not a new seven-case or full-suite pass. The original graph case remains failed/unaccepted, full Linux scope remains unrun and fourteen individual human outcomes remain unreviewed follow-ups. **Task 1's amended technical scope is complete; formal Task 2/plan/phase/RULE closure is owned by the parent.** Summary status remains halted pending that closure; no human outcome or shared completion flag was changed here. Earlier restart and representative-only records below are historical.
+**Latest continuation — technical scope satisfied under creator exception:** Retain the original Windows **676/676** baseline. Actual Linux strict setup/native bootstrap and five unchanged cases pass; narrow observed `GODOT_LINUXBSD` test correction passes on both OSes, and a separately authorized direct proof accepts the allowed graph and rejects the genuinely compiled forbidden edge through the existing validator. This is composed assurance, not a new seven-case or full-suite pass. The original graph case remains failed/unaccepted, full Linux scope remains unrun and fourteen individual human outcomes remain unreviewed follow-ups. **Both amended tasks and formal phase closure are complete.** The parent applied the passing current verdict through the phase-completion owner; individual human outcomes remain unchanged/Pending. Earlier restart and representative-only records below are historical.
 
 **Historical initial report:** Clean genuine Linux setup and seven representative proofs pass; nine canonical timeouts and actual human judgment blocked the original Phase 1 boundary.
 
@@ -303,3 +303,9 @@ All owned source/authority/proof-record paths, original and amendment archives, 
 Frontmatter now measures persisted plan ledger base `21597fdeaed675c89bab5e0dd7aabf29c0266597` through `239912587fa984a43264c311a3adcbe667ae2a46`: actual `git rev-list --count` is **27**, including preserved concurrent/orchestrator commits in that real range. It does not attribute all 27 to this continuation. The eight owned non-summary paths listed in `.phase1/temp/17-linux-smoke/partial-actuals.json` yield **100,776 realized diff characters**, exactly **25,194 chars/4 tokens**; unrelated source/specification files and harness token counts are excluded. One creator-amended technical task is fulfilled. The focused continuation from `ad6abaa` through `2399125` measures three commits, comprising the two owned commits above and concurrent `266a6d8` Phase 5 specification work, which was preserved and did not execute Phase 5. This final summary-only metrics commit follows the measured range.
 
 Recorded execution windows are the original `15:54:44Z`–`16:50:02.551Z`, final Windows pipeline `18:40:00.7644824Z`–`19:31:55.8710755Z`, and focused Linux/amendment/shutdown `20:21:29.529Z`–`21:09:10.1604557Z`, totaling approximately **154m54s**, rounded up to **155min**, excluding unrecorded context/metadata time. Earlier partial measurements remain historical, not rewritten reports. Final narrow self-check confirms both owned commits are ancestors, all owned files/receipts exist, both evidence-archive hashes and original full-Windows summary hash still match, the ignored VM record is stopped with live PIDs cleared, and all fourteen detailed human rows remain Pending. Current proof-prose focused D-11 validation and formal Task 2/plan/phase/RULE closure remain the parent's next authorized work.
+
+## Formal phase closure
+
+At 2026-11-14T21:44:00.479Z, the owner recorded Phase 1 complete after the current exception-based goal verification passed. It reported 18/18 plans, updated RULE-01–RULE-07 to Complete and advanced the bookkeeping pointer to Phase 2, ready to plan. This --only 1 run stops before any Phase 2 execution. Historical halted reports above retain their original outcomes; no full Linux, original graph-case or individual human-review pass is created by this closure.
+
+The first post-transition navigation check, nonce 15a1bb1f-94cc-40c8-aa51-d6e8de87f455, failed honestly: simultaneous Phase 5 discussion edits linked a not-yet-authored 05-CONTEXT.md and changed approved documents during execution. Preserve that failed report. The final navigation check must be rerun after those independently owned documentation edits stabilize; no source guard or required target is bypassed.
