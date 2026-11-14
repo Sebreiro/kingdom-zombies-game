@@ -10,6 +10,18 @@ namespace KingdomZombies.Phase1.Tests;
 /// consumers.</summary>
 public sealed class ExemptionTests
 {
+    /// <summary>Rejects an actual pragma directive at its intended source location.</summary>
+    [Fact, Trait("Case", "rules.suppression-pragma")]
+    public void Suppress_UnregisteredPragma_ReportsExactLocation()
+    {
+        IReadOnlyList<string> errors = ExemptionValidator.CheckSource(path: "Subject.cs",
+                content: "#pragma warning disable SCR0006\nnamespace Sample; class Subject {}\n");
+        errors.Count.ShouldBe(expected: 1);
+        errors[0].ShouldBe(expected: "SUPPRESSION_UNREGISTERED Subject.cs(1,1) pragma SCR0006");
+        ProofProtocol.Record(id: "rules.suppression-pragma", diagnostic: "SUPPRESSION_UNREGISTERED",
+                location: "Subject.cs(1,1) pragma SCR0006");
+    }
+
     /// <summary>The normal checkout uses the last owned target, exact original task and observed raw source.</summary>
     [Fact, Trait("Case", "rules.xunit-producer-root")]
     public void Generate_NormalCheckout_VerifiesExactProducer()
