@@ -7,6 +7,8 @@ requires:
   - phase: 01-16
     provides: Frozen f4658bb Windows 670-case pass and same-source genuine Linux checkout/tools/cache
 provides:
+  - Creator-authorized composed Linux assurance: strict/native baseline, five unchanged cases, corrected branch case and separate actual graph-mechanism proof
+  - Both-OS focused feedback for the observed Godot LinuxBSD test-literal correction, with original failures retained
   - Fresh repaired-source Windows 676-case acceptance with independently rechecked reports, evidence and command exits
   - Identical clean Linux source/tools/cache prepared and owned old TCG guest cleanly shut down for creator-controlled restart
   - Actual clean Linux locked restore, strict zero-warning/error build and raw native bootstrap
@@ -25,13 +27,16 @@ key-files:
     - .planning/phases/01-code-rules-and-documentation/01-VALIDATION.md
     - .planning/phases/01-code-rules-and-documentation/01-HUMAN-CHECK.md
     - .planning/WINDOWS.md
+    - .planning/phases/01-code-rules-and-documentation/01-CLOSURE-EXCEPTION.md
+    - tests/phase1/ConsumerPolicyTests.cs
 key-decisions:
-  - Preserve canonical source, checks and deadlines; genuine Linux timeouts remain blocking despite a longer diagnostic pass.
-  - Keep all human outcomes and RULE requirements Pending; independent material review does not supply human approval.
+  - Follow the creator's one-time no-restart closure instruction with explicit composed baseline/amendment evidence; retain the original graph failure, full Linux scope and unreviewed human components as follow-ups.
+  - Preserve canonical checks and deadlines; genuine Linux timeouts remain unaccepted, with the creator-authorized capacity follow-up recorded explicitly.
+  - Keep individual human outcomes unreviewed/Pending; independent material review does not supply component-human approval.
 requirements-completed: []
 actuals:
   tokens: 16849
-  tasks: 0
+  tasks: 1
   commits: 17
 plan_head_before: 21597fdeaed675c89bab5e0dd7aabf29c0266597
 plan_head_after: d1a752f8ca717210f76174897d84b26cfa14eebc
@@ -42,11 +47,11 @@ status: halted
 
 # Phase 1 Plan 17: Linux baseline and qualitative review Summary
 
-**Latest continuation:** The creator's one-time no-restart closure exception now applies. Fresh repaired-source Windows **676/676 ACCEPTED** is retained. Actual strict Linux setup and native bootstrap pass, but the first seven-case smoke attempt has **five passes and two real failures** (isolated compiler capacity and an actual LinuxBSD symbol assumption). No source repair or pass was invented. Plan status stays **halted**, with formal closure awaiting the parent's resolution. Complete Linux scope and fourteen individually unreviewed human outcomes remain visible follow-ups under the exception. Earlier restart and representative-only records below are historical.
+**Latest continuation — technical scope satisfied under creator exception:** Retain the original Windows **676/676** baseline. Actual Linux strict setup/native bootstrap and five unchanged cases pass; narrow observed `GODOT_LINUXBSD` test correction passes on both OSes, and a separately authorized direct proof accepts the allowed graph and rejects the genuinely compiled forbidden edge through the existing validator. This is composed assurance, not a new seven-case or full-suite pass. The original graph case remains failed/unaccepted, full Linux scope remains unrun and fourteen individual human outcomes remain unreviewed follow-ups. **Task 1's amended technical scope is complete; formal Task 2/plan/phase/RULE closure is owned by the parent.** Summary status remains halted pending that closure; no human outcome or shared completion flag was changed here. Earlier restart and representative-only records below are historical.
 
-**Clean genuine Linux setup and seven representative proofs pass; nine canonical timeouts and actual human judgment still block Phase 1.**
+**Historical initial report:** Clean genuine Linux setup and seven representative proofs pass; nine canonical timeouts and actual human judgment blocked the original Phase 1 boundary.
 
-## Status and recorded window
+## Historical initial status and recorded window
 
 This is a **partial, halted** summary. Neither task meets its full acceptance criterion: Task 1 has nine required Linux case failures; Task 2's independent review is prepared but its human component has not occurred. Completed tasks: **0/2**. All sixteen predeclared selectors actually ran; none is skipped or unrun. No requirement, plan or phase completion is claimed.
 
@@ -136,7 +141,7 @@ Shared STATE/ROADMAP/REQUIREMENTS are intentionally **not advanced** for this ha
 
 All four owned changed paths, this summary and the retained evidence archive exist. Both owned proof/review commits are ancestors of HEAD; neither deletes tracked files. The sixteen original reports reconcile the exact same source/input/tool/platform, seven accepted test reports and subject-evidence hashes, nine actual canonical timeouts and zero skipped/unrun selectors. Archive hashes match across Linux and Windows. The main snapshot still exactly matches the distinct D-11 report input `e07e91f9b6d86a09dc8dfe21b0e44d5b2dfcec3eac034ce7fe69cfb991732eee` after summary creation. All fourteen human outcomes and seven RULE requirements are verified Pending. Summary status is halted, not complete; shared progress has not advanced. The only new tracked artifact is this intentional summary; generated/runtime evidence remains ignored. The Linux capacity gap remains open as WINDOWS 28, historical item 1 remains open, and items 25–27 remain fixed.
 
-## Latest continuation — repaired-source Windows pass and restart prerequisite
+## Earlier continuation — repaired-source Windows pass and restart prerequisite
 
 On 2026-11-14, this continuation executed only the remaining independent work for revised Plan 01-17. It did not repeat Plans 01-01–01-16 or execute Phase 2/5. All historical records above remain unchanged. The latest creator rule requires the complete current Phase 1 scope on Windows and the local Linux VM; the earlier sixteen Linux selectors are historical diagnostics, rather than the current acceptance boundary. The four review repairs through `5c52a20` and the independent clean re-review/security audit precede the frozen candidate. No implementation, package pin, framework, threshold, suppression scope or deadline changed in this continuation.
 
@@ -208,6 +213,82 @@ Compared with the final frozen input, the distinct main snapshot changes only `d
 
 The original three-commit / 9,404-token measurement above remains a historical range through `3613a37`. The updated frontmatter measures the persisted plan ledger `21597fdeaed675c89bab5e0dd7aabf29c0266597` through `d1a752f8ca717210f76174897d84b26cfa14eebc`: `git rev-list --count` is **17**, including preserved concurrent/orchestrator commits in that real range rather than attributing them all to this continuation. The six owned non-summary record paths (platform, setup, environment, validation, human-check and WINDOWS) have **67,394 realized diff characters**, giving **16,849 ceil(chars/4) tokens**. No harness token count or unrelated source/specification diff is substituted. `.phase1/temp/17-final-preparation/partial-actuals.json` retains this measurement. The continuation alone measures two commits from `8a6462f` through `d1a752f`; this final summary-only evidence commit follows the stated measured range. Accepted tasks remain **0**. The final Windows pipeline's logged window is `18:40:00.7644824Z`–`19:31:55.8710755Z` (51m55s, 52min rounded up); the distinct docs interval is recorded above.
 
-## Latest continuation self-check: PASSED
+## Earlier continuation self-check: PASSED
 
 All five owned documentation/summary paths and all original preparation, native/full, Linux-source/cache, shutdown and D-11 receipts exist. New commits `59f032c` and `d1a752f` and original `1faad99` / `3613a37` are ancestors of HEAD; neither new commit deletes tracked files. The final Windows report independently reconciles 676 accepted exact cases, 692 subject-evidence files, 681 zero-exit canonical commands, unchanged 203-file input and eight separate Phase 5 deferrals. Actual raw native assertions and thread/lifetime records were inspected. Matching Linux revision/input/cache and zero old build outputs are proven only as preparation; no final Linux proof was run under TCG. Actual owned shutdown is verified with absent processes/listeners and free preserved disk; hypervisor remains inactive. Current main's distinct docs report passes 36/36 and matches its snapshot. No functional stub, skipped selected test, source/policy repair, new trust-boundary surface, blanket exemption or untracked generated output was introduced. The unrelated Phase 4 discussion checkpoint is preserved. All fourteen human components and seven RULE requirements remain Pending. Summary status remains halted, 0/2 tasks accepted, WINDOWS 28 and historical WINDOWS 1 remain open, and shared progress has not advanced.
+
+## Creator-authorized focused Linux continuation — actual results
+
+The creator declined a Windows restart and requested important actual Linux tests followed by Phase 1 closure. Parent authority commit `ad6abaa` records the one-time [closure exception](01-CLOSURE-EXCEPTION.md). After actual testing found two concrete issues, the parent authorized only the observed LinuxBSD test-literal repair with focused both-OS feedback and a separately labeled direct graph-mechanism proof. That precise fallback was recorded in the exception **before** additional execution. The general complete two-platform rule remains for later phases. No coverage target, pending Phase 5 identity, canonical deadline, production policy or detailed human outcome was weakened or falsely passed.
+
+### Original seven-case attempt, immutable five-pass/two-failure result
+
+The existing owned Ubuntu 24.04.5 LTS / `6.8.0-147-generic` / x86_64 guest ran explicitly under TCG, four virtual CPUs and 4096 MB. Original clean source `59f032cf23340058eec91f12c5d240f585dfabdc` and 203-file input `fe2bf549f20329633fd62cfeab796ca8fb2c5ce02da432346e8ee4c314873426` match the retained complete Windows baseline. No old `bin`/`obj`/`.godot` output was copied; verified official archives were extracted and the four canonical managed feed payload hashes checked. All paths were checkout-local through the existing guest environment.
+
+The ordinary locked five-project restore passed exit 0. Strict whole-solution build, original flags plus `-m:1`, passed **zero warnings/errors**, `00:06:07.66`; setup outer bounds were 1200 seconds. Unchanged raw native bootstrap then passed exit 0, nonce **`c9059bcc-b8fa-499d-82e3-6612c20dfbe7`**, with original 60-second child limits. Actual construction/ready/exit and **21** surface/cycle records across instances `27279754708` / `27581744596` on captured managed thread `1` were inspected: callbacks/process/signals/teardown, resources/exports/null validation/binding, late-work fencing, worker rejection and main-thread delivery. Observed Node `24.22.1`, SDK `10.0.404`, compiler `5.9.0-1.26529.119 (2ab2854867733112c84ac12c4273d7970ac3afdf)`, Godot `4.7.2.stable.mono.official.ed1daf0bf`, runtimes `8.0.16` / `10.0.15` and actual executable/compiler/assembly hashes are retained.
+
+Direct focused cases used explicit **8-minute MTP / 10-minute outer** limits. Every source assertion/internal deadline and the canonical runner's **45-second** limit remained unchanged. Original invocation **`55960e73-29ec-4d63-ad88-028f588e5e6d`** ran setup/cases `20:21:29.529Z`–`20:38:23.523Z`, observed tool **`1b607aea3c49c937008cfeca23d8e9a7c8082516cd844155c5c2291ced86c8cc`**, platform `linux-x64-6.8.0-147-generic`.
+
+| Original case | Actual result / diagnostic | Actual exit / process duration |
+| --- | --- | --- |
+| `R-38.positive` | 1 passed / 0 failed / 0 skipped; `ANALYZER_ACCEPTED` | 0 / 55.524s |
+| `R-38.negative` | 1 passed / 0 failed / 0 skipped; `SCR0001` | 0 / 53.774s |
+| `graph.allowed-and-direct` | 1 failed / 0 passed / 0 skipped; clean isolated compiler exceeded unchanged 60 seconds | 2 / 169.153s |
+| `state.snapshot` | 1 passed / 0 failed / 0 skipped; `STRICT_SNAPSHOT_ROUNDTRIP` | 0 / 15.160s |
+| `state.restore` | 1 passed / 0 failed / 0 skipped; `ATOMIC_ACCEPTED_ROOT` | 0 / 16.440s |
+| `engine.consumer-branches` | 1 failed / 0 passed / 0 skipped; missing assumed platform symbol | 2 / 44.025s |
+| `rules.suppression-conditional` | 1 passed / 0 failed / 0 skipped; `CONDITIONAL_SUPPRESSION_REJECTED` | 0 / 50.744s |
+
+The graph failed at `BuildFixture.Run:184` / `GraphFixture` constructor line 19, before its forbidden-edge subject. The consumer-branch failure was `Single` with no matching assumed `GODOT_WINDOWS`/`GODOT_LINUX`; actual bounded SDK evaluation proves **`GODOT_LINUXBSD`**, `GodotTargetPlatform: linuxbsd`, `OS: Unix`, `DEBUG`, `TOOLS`. These are genuine failures, preserved without retroactive credit. Five passing exact reports/proofs/evidence hashes and both exact failed reports were independently inspected; all 16 command-log hashes matched, only those two case exits were nonzero and neither outer process timed out. Post-run Git and all input hashes stayed unchanged.
+
+Original receipt: `/home/phase1/phase1-final-17/.phase1/smoke/55960e73-29ec-4d63-ad88-028f588e5e6d/smoke-receipt.json`, SHA-256 **`419cfed0bd80d579415317eef1407057098cad2cced33565c89716f2e4ffc5a8`**. Archive `/home/phase1/17-final-smoke-evidence.tar.gz` and Windows `.phase1/temp/17-linux-smoke/17-final-smoke-evidence.tar.gz` match SHA-256 **`ed71610d06a12d0aafa5d0c292b9bb20c5d14af9886098fad4c3b6696e76ada9`**, extracted beside it under `evidence/`. It retains original commands/reports/proofs/subject/native logs, SDK-symbol output and failed-fixture logs/inventory, without keys or build-output seeds. `original-inspection.json` records independent verification.
+
+### [Rule 1 — Bug] Observed LinuxBSD test portability correction
+
+- **Found during:** Actual `engine.consumer-branches` Linux smoke on the Windows-tested source.
+- **Issue:** The test selected only `GODOT_WINDOWS`/`GODOT_LINUX`, while the actual pinned SDK supplies `GODOT_LINUXBSD`. Production consumer evaluation correctly preserved the real symbol.
+- **Fix:** Add that exact observed spelling to `ConsumerPolicyTests.cs:23`. Preserve `DEBUG`/`TOOLS`, active/inverse branches, actual compiler/reference inputs, intended engine-access rejection and unresolved-subject failure. No production/helper/assertion/deadline/manifest/pin change.
+- **Commit:** **`70918fdb77cff309527b407418083e52db89378e`**, normal hooks. This atomic commit also records the predeclared focused amendment authority and truthful original-attempt evidence.
+
+The canonical Windows `--case engine.consumer-branches` passed **1/1**, exit 0, nonce **`66a74d57-ecc3-4d79-b1b8-0f27bf41e6d9`**, tool **`301718a41128e6df235378cea6b54c123baef1343a283ade9c21cbfaf870269a`**, platform `win32-x64-10.0.19044`. Its immutable report retains actual precommit workspace revision `266a6d87c72477d77dee8beaa8283ae0bce4d441`; postcommit inspection confirms its input **`2e16dd414d42f53cba37707e629c9110fe64164ddb8e96636c878c014419c15f`** equals the committed `70918fd` snapshot. The report is `.phase1/runs/66a74d57-ecc3-4d79-b1b8-0f27bf41e6d9/summary.json`. No fresh complete Windows run is claimed at the amended revision.
+
+The guest advanced **only through Git** using `/home/phase1/phase1-tools/downloads/amendment-17.bundle`, SHA-256 **`0dc445999b42dc5a07c0539b5d01d9080e100ce5b75a552455e42400cd013ca8`** on both platforms; no source was authored in the validation checkout. It remained clean at `70918fd`, same new 203-file input above. Strict incremental test-project build passed **zero warnings/errors**, `00:04:07.43`. New direct Linux amendment **`b4ccec5f-255f-466f-bea2-f807b260ccf8`** passed exactly **1 test, zero failed/skipped**, intended **`CONSUMER_BRANCHES_CHECKED`**, actual exit 0, with explicit `DEBUG/TOOLS/GODOT_LINUXBSD; inverse branches and unresolved subject` evidence. Observed new tool **`b8578556d768b15bb41bfc8a2b5b67e5b63a1be7b0dc2b278edcf658217b6f75`** derives from actual versions/executable/compiler/test-assembly hashes. Its six command outcomes/log hashes, exact report and nonce/input/tool/platform-bound subject proof were independently reverified.
+
+The Linux amendment ran `20:49:51.631Z`–`20:55:53.044Z`, including incremental build/tool observation. Receipt `.phase1/amendment/b4ccec5f-255f-466f-bea2-f807b260ccf8/amendment-receipt.json` has SHA-256 **`95d57c2c9f183e530382dcf8e64f255f32e483423e16473ae502f5a45f4e6733`**. Native baseline reuse is explicit because no production/native code changed; no new bootstrap is invented after the test-literal correction. The five other passing cases retain their original source/input/tool identities.
+
+### Authorized separate graph-mechanism smoke — original case remains failed
+
+The parent-authorized fallback preserves the canonical `graph.allowed-and-direct` failure as **unaccepted capacity follow-up**. Neither `GraphFixture` nor `BuildFixture` was changed, no old binary/output was copied and no test assertion was bypassed then credited. Instead, a separately labeled direct mechanism smoke exercised the actual existing validator on real compiled positive/negative subjects with ordinary bounded builds outside that unchanged 60-second helper.
+
+Invocation **`6eebf5c4-80f6-4fb0-9bbb-da7cbcfc6365`**, source `70918fd`, input `2e16dd...19c15f`, ran `20:57:02.986Z`–`21:05:58.060Z`. The owned failed fixture's **72** copied source hashes matched the candidate; unexpected source files were rejected, and its clean subject matched the existing compiled `BuildFixture.CleanSource` constant. One-off ignored reflection host compilation used the pinned SDK/reference pack without a new project/package/framework. It invoked existing compiled **`ProjectEvaluator.Validate`** and existing **`GraphTests.IsDirectViolation`**, not a text-based substitute.
+
+| Actual direct-proof step | Outcome |
+| --- | --- |
+| Strict compliant fixture build, original flags and `-m:1` | Exit 0; zero warnings/errors, `00:03:27.44` |
+| Existing compiled allowed-graph validator | Exit 0; **zero errors** |
+| Exact `AddDirectEngineEdge` XML delta | Only owned fixture game-to-Core removal / Core-to-game addition; actual before/after bytes retained |
+| Original-sequence force-evaluate and locked restore | Both exit 0; mutation confined to fixture locks |
+| Single original-sequence strict changed-Core build | Exit 0; zero warnings/errors, `00:01:56.88` |
+| Existing compiled forbidden-graph validator and existing predicate | Exit 0; **exactly one intended `GRAPH_FORBIDDEN`**, predicate true |
+
+The exact actual error is:
+
+```text
+GRAPH_FORBIDDEN: src/core/KingdomZombies.Core.csproj -> src/godot-game/KingdomZombies.csproj defined by src/core/KingdomZombies.Core.csproj
+```
+
+All eight direct-proof commands exited zero without timeout/signal. Ordinary setup/build bounds were 1200 seconds and validator-host bounds 600 seconds; internal source limits were unchanged. Actual existing validator assembly SHA-256 **`de05b6a138780912c7c103c69aea3f53442088215d54db48fbc6656f455de83f`** matches the amended Linux test assembly. Host source SHA-256 **`11f06df4604092c3b858c1901257503af0e43781a99f6251fdda2ce82c435c31`**, host binary **`9babaf4a9bc31d3eabdded0f2d34a0323a4e7bb9286493d23216b0ea3ff85a15`**, compiler **`1c70425ebcac3cff69b46f93b2e46ce8f4367ab57559e9678fe8f54afe925b08`** and reference-pack path are retained. Direct receipt `.phase1/direct-graph/6eebf5c4-80f6-4fb0-9bbb-da7cbcfc6365/graph-mechanism.json` has SHA-256 **`3c512d37162931e4f14666b130eaa21534046f592f256e60674a6e26899dfaaf`** and explicit **`originalCaseCredited: false`**.
+
+### Evidence preservation, actual shutdown and parent closure handoff
+
+New original amendment/direct artifacts are archived at `/home/phase1/17-focused-amendment-evidence.tar.gz` and Windows `.phase1/temp/17-linux-smoke/17-focused-amendment-evidence.tar.gz`, with matching SHA-256 **`ceeeb9e22e5dfb83d4752f178bd7f8eb385028a3b2d00b1115156adc6506c765`**, extracted under `amendment-evidence/`. It includes original reports/proofs/evidence, actual commands/logs, source inventory, controlled XML and fixture lock, strict-build output, existing evaluator's raw query logs, host source/binary/compiler identities and result JSON. `amendment-inspection.json` independently verifies all report/proof/log/source/mutation hashes and actual outcomes. Post-run guest source remains clean and input unchanged.
+
+Relative to the frozen complete Windows baseline, the new input changes exactly six paths: `.planning/phases/01-code-rules-and-documentation/01-CONTEXT.md`, `01-SPEC.md`, `.planning/STATE.md`, `docs/workflow/ai-collaboration.md`, `docs/workflow/platform-proof.md`, and `tests/phase1/ConsumerPolicyTests.cs`. **Only the last path changes C#**, by one symbol literal. No production source, runner/manifest, lock, pin, diagnostic severity, generated span or member exemption changed. This is explicit baseline-plus-focused-amendment evidence; there is no synthetic combined canonical report or fresh full-676 claim at `70918fd`.
+
+Only the positively identified owned TCG guest (QEMU **31028**, launcher **28040**, original start `2026-11-14T20:11:33.396Z`, exact owned executable/parent/disk/TCG command line and known-host SSH) received `sync; sudo -n poweroff` at **`2026-11-14T21:08:59Z`**, actual SSH exit **0**. At **`2026-11-14T21:09:10.1604557Z`**, both processes had exited, owned loopback SSH/QMP listeners were absent, and the preserved disk allowed an exclusive read-open. Original and new process receipts remain preserved. The ignored live record retains executable/start/requested TCG/CPU and last PIDs, marks confirmed shutdown and clears live PIDs. All disks/base image/firmware/tools/caches/keys and historical evidence remain. No unrelated process or host setting was changed. **Windows was not restarted; HypervisorPresent remains false.**
+
+Task 1's creator-amended technical boundary is now satisfied by the retained Windows 676 baseline, actual Linux strict/native baseline, five unchanged passing cases, corrected branch case on both OSes, and separate real graph mechanism. Task 2/formal plan/phase/RULE acceptance and final focused D-11 closure validation belong to the parent. This executor does not advance STATE/ROADMAP/REQUIREMENTS or detailed human fields. Original graph-case failure, full Linux 676 execution and all fourteen individually unreviewed human components remain transparent follow-ups; the eight Phase 5 cases and unchanged inclusive 90%/80% targets retain ownership and Pending status. Historical WINDOWS 1 is not retroactively resolved. No Phase 2/5 execution occurred; concurrent planning context is preserved.
+
+## Self-Check: PASSED — focused Linux continuation
+
+All owned source/authority/proof-record paths, original and amendment archives, original canonical Windows reports and actual new Linux receipts exist. Fix commit `70918fd` is an ancestor of HEAD and has no tracked deletion. Original first-attempt **5 passed / 2 failed / 0 skipped** reports remain immutable and independently verified. The one changed case has an exact canonical Windows pass and a fresh Linux pass with matching actual input; graph direct proof has zero allowed errors, exact forbidden-edge rejection, verified actual compiled subjects and **no original-case pass credit**. Every new command's actual exit and log hash, original source/input/tool identities, controlled mutations and native lifecycle/thread assertions were inspected. Guest source/pins/locks remain unchanged outside the committed one-line test correction. Owned shutdown is positively verified and its disk is free; no host restart occurred. No functional stub, disabled assertion, skipped required smoke, blanket exemption or new production trust surface was introduced. Formal closure and current proof-prose D-11 validation remain explicitly assigned to the parent; unreviewed human components are not passed here.
