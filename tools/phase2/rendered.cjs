@@ -40,13 +40,13 @@ function decodePng(file, width = 1280, height = 720) {
   requireTrue(colors.size > 3, 'PNG_EMPTY_CONTENT');
   return { width, height, colors: colors.size, decodedBytes: pixels.length };
 }
-async function command(executable, args, options = {}) {
+async function command(executable, args, options = {}, timeoutMilliseconds = 12000) {
   return new Promise((resolve, reject) => {
     const child = spawn(executable, args, { ...options, shell: false, windowsHide: true });
     let stdout = '', stderr = '';
     child.stdout?.on('data', chunk => { stdout += chunk; });
     child.stderr?.on('data', chunk => { stderr += chunk; });
-    const timer = setTimeout(() => { child.kill(); reject(new Error('INPUT_DEADLINE')); }, 12000);
+    const timer = setTimeout(() => { child.kill(); reject(new Error('INPUT_DEADLINE')); }, timeoutMilliseconds);
     child.on('error', error => { clearTimeout(timer); reject(error); });
     child.on('exit', code => { clearTimeout(timer); code === 0 ? resolve({ stdout, stderr }) : reject(new Error(`INPUT_EXIT ${code}: ${stdout}${stderr}`)); });
   });

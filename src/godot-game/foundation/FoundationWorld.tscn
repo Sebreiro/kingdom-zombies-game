@@ -1,0 +1,41 @@
+[gd_scene format=3]
+
+[node name="World" type="Node2D"]
+
+[node name="Ground" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-960, 540, 960, 540, 960, 720, -960, 720)
+color = Color(0.208, 0.263, 0.247, 1)
+
+[node name="GroundLine" type="Line2D" parent="."]
+points = PackedVector2Array(-960, 540, 960, 540)
+width = 2.0
+default_color = Color(0.957, 0.949, 0.91, 1)
+
+[node name="Building" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-48, 540, -48, 496, 0, 476, 48, 496, 48, 540)
+color = Color(0.208, 0.263, 0.247, 1)
+
+[node name="Roof" type="Line2D" parent="Building"]
+points = PackedVector2Array(-48, 540, -48, 496, 0, 476, 48, 496, 48, 540)
+width = 2.0
+default_color = Color(0.957, 0.949, 0.91, 1)
+
+[node name="Door" type="Polygon2D" parent="Building"]
+polygon = PackedVector2Array(-8, 540, -8, 516, 8, 516, 8, 540)
+color = Color(0.094, 0.145, 0.169, 1)
+
+[node name="Player" type="Node2D" parent="." groups=["foundation-actor"]]
+position = Vector2(-128, 540)
+
+[node name="Outline" type="Polygon2D" parent="Player"]
+polygon = PackedVector2Array(-10, 0, -10, -34, 10, -34, 10, 0)
+color = Color(0.957, 0.949, 0.91, 1)
+
+[node name="Body" type="Polygon2D" parent="Player"]
+polygon = PackedVector2Array(-8, -2, -8, -32, 8, -32, 8, -2)
+color = Color(0.941, 0.769, 0.416, 1)
+
+[node name="Facing" type="Polygon2D" parent="Player"]
+polygon = PackedVector2Array(12, -14, 20, -20, 12, -26)
+color = Color(0.941, 0.769, 0.416, 1)
+

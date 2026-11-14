@@ -108,10 +108,14 @@ public sealed partial class FoundationRoot : Control
             string generation = checked(++_generation).ToString(provider: CultureInfo.InvariantCulture);
             _session = new FoundationSession(sessionId: "local-session-" + generation, playerId: "local-player",
                     actorId: "local-actor-" + generation);
+            using PackedScene fixture = GD.Load<PackedScene>(path: "res://foundation/FoundationWorld.tscn");
+            Node2D world = fixture.Instantiate<Node2D>();
+            world.Name = "World";
+            AddChild(node: world);
+            MoveChild(childNode: world, toIndex: 1);
             _remainder = 0;
             GetNode<Control>(path: "Menu/Error").Visible = false;
             GetNode<Control>(path: "Menu").Visible = false;
-            GetNode<Node2D>(path: "World").Visible = true;
             GetNode<Control>(path: "Hint").Visible = true;
         }
         catch (Exception error)
@@ -128,7 +132,12 @@ public sealed partial class FoundationRoot : Control
         _session = null;
         _input.Clear();
         _remainder = 0;
-        GetNode<Node2D>(path: "World").Visible = false;
+        Node2D? world = GetNodeOrNull<Node2D>(path: "World");
+        if (world is not null)
+        {
+            RemoveChild(node: world);
+            world.QueueFree();
+        }
         GetNode<Control>(path: "Hint").Visible = false;
         GetNode<Control>(path: "Menu").Visible = true;
         GetNode<Button>(path: "Menu/Start").Disabled = false;
@@ -196,7 +205,8 @@ public sealed partial class FoundationRoot : Control
                 JsonSerializer.Serialize(value: new
                 {
                     nonce = System.Environment.GetEnvironmentVariable(variable: "PHASE2_NONCE"),
-                    checkpoint, actors = _session is null ? 0 : 1, actor = _session?.Actor,
+                    checkpoint, actors = GetTree().GetNodesInGroup(group: "foundation-actor").Count,
+                    actor = _session?.Actor,
                     inputEvents = _inputEvents, direction = _input.Direction,
                     focused = GetWindow().HasFocus(), width = image.GetWidth(), height = image.GetHeight(),
                 }));

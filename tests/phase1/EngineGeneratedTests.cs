@@ -21,39 +21,7 @@ public sealed class EngineGeneratedTests
     [Fact, Trait("Case", "engine.generated-origin")]
     public void Check_EmittedEngineSpans_RequiresAuthenticatedOrigin()
     {
-        (int Exit, string Output) build = ConfigurationTests.Dotnet("build", ConfigurationTests.Projects[2],
-                "--no-restore", "-p:NuGetAudit=false");
-        build.Exit.ShouldBe(expected: 0, customMessage: build.Output);
-        using JsonDocument registry = Registry();
-        JsonElement[] rows = [.. registry.RootElement.GetProperty(propertyName: "local").EnumerateArray()];
-        rows.Length.ShouldBe(expected: 204);
-        foreach (JsonElement row in rows)
-        {
-            string file = Local(path: Text(row: row, name: "surface"));
-            Hash(bytes: File.ReadAllBytes(path: file)).ShouldBe(expected: Text(row: row, name: "sha256"));
-            string source = File.ReadAllText(path: file);
-            Hash(bytes: Encoding.UTF8.GetBytes(s: source)).ShouldBe(expected: Text(row: row, name: "textSha256"));
-            Hash(bytes: File.ReadAllBytes(path: Local(path: Text(row: row, name: "package")))).ShouldBe(
-                    expected: "ce2beb0b75bfb81b94982bdaf7234fc681edd4cf024606c6baf6e40625e0ca4e");
-            Text(row: row, name: "producer").ShouldBe(expected: "Godot.SourceGenerators/4.7.2");
-            SyntaxTree tree = CSharpSyntaxTree.ParseText(text: source, path: file,
-                    options: new CSharpParseOptions(preprocessorSymbols: ["TOOLS"]),
-                    cancellationToken: TestContext.Current.CancellationToken);
-            string member = tree.GetRoot(cancellationToken: TestContext.Current.CancellationToken)
-                    .FindNode(span: Span(row: row, tree: tree)).AncestorsAndSelf()
-                    .OfType<MethodDeclarationSyntax>().FirstOrDefault()?.Identifier.ValueText
-                    ?? "AssemblyHasScriptsAttribute";
-            Text(row: row, name: "member").ShouldBe(expected: member);
-            Permitted(row: row, tree: tree, span: Span(row: row, tree: tree)).ShouldBeTrue(
-                    customMessage: Text(row: row, name: "id"));
-        }
-
-        ExemptionValidator.ReadPermissions().Count.ShouldBe(expected: 26);
-        JsonObject exemptions = RegisterValidator.Read(relative: "docs/code/exemptions.json");
-        JsonObject register = RegisterValidator.Read(relative: "docs/code/register.json");
-        register["rules"]?.AsArray().Single(predicate: rule => StringComparer.Ordinal.Equals(
-                x: rule?["sourceId"]?.GetValue<string>(), y: "R-50"))?["engineProofPermissions"]?.ToJsonString()
-                .ShouldBe(expected: exemptions["engineProofPermissions"]?.ToJsonString());
+        VerifyAuthenticatedOrigin();
         ProofProtocol.Record(id: "engine.generated-origin", diagnostic: "ENGINE_GENERATED_ORIGIN",
                 location: "docs/code/engine-generated-spans.json:204 exact spans; actual emitted files and package");
     }
@@ -62,27 +30,7 @@ public sealed class EngineGeneratedTests
     [Fact, Trait("Case", "engine.generated-boundary")]
     public void Check_EngineSpanPermissions_RejectsAdjacentImpostors()
     {
-        using JsonDocument registry = Registry();
-        foreach (JsonElement row in registry.RootElement.GetProperty(propertyName: "local").EnumerateArray())
-        {
-            string path = Local(path: Text(row: row, name: "surface"));
-            string source = File.ReadAllText(path: path);
-            SyntaxTree tree = CSharpSyntaxTree.ParseText(text: source, path: path,
-                    cancellationToken: TestContext.Current.CancellationToken);
-            TextSpan span = Span(row: row, tree: tree);
-            Permitted(row: row, tree: CSharpSyntaxTree.ParseText(text: source + "\n", path: path,
-                    cancellationToken: TestContext.Current.CancellationToken), span: span)
-                    .ShouldBeFalse();
-            Permitted(row: row, tree: CSharpSyntaxTree.ParseText(text: source, path: "Subject.generated.cs",
-                    cancellationToken: TestContext.Current.CancellationToken),
-                    span: span).ShouldBeFalse();
-            Permitted(row: row, tree: tree, span: new TextSpan(start: span.Start + 1, length: span.Length))
-                    .ShouldBeFalse();
-            Permitted(row: row, tree: tree, span: new TextSpan(start: span.Start, length: span.Length + 1))
-                    .ShouldBeFalse();
-        }
-
-        RejectSealingNeighbor();
+        VerifyGeneratedBoundaries();
         ProofProtocol.Record(id: "engine.generated-boundary", diagnostic: "ENGINE_GENERATED_BOUNDARY",
                 location: "204 exact changed-source/path/span boundaries; adjacent Subject.cs CA1852");
     }
@@ -133,6 +81,70 @@ public sealed class EngineGeneratedTests
                 expected: "GENERATION_UNPROVEN Subject.cs(1,1)");
         ProofProtocol.Record(id: "engine.fake-generated", diagnostic: "SCR0001",
                 location: fixture.DirectoryPath + "/src/godot-game/Subject.cs(7,32)");
+    }
+
+    /// <summary>Authenticates actual bytes and enforcement rows for reuse by production permission checks.</summary>
+    internal static void VerifyAuthenticatedOrigin()
+    {
+        (int Exit, string Output) build = ConfigurationTests.Dotnet("build", ConfigurationTests.Projects[2],
+                "--no-restore", "-p:NuGetAudit=false");
+        build.Exit.ShouldBe(expected: 0, customMessage: build.Output);
+        using JsonDocument registry = Registry();
+        JsonElement[] rows = [.. registry.RootElement.GetProperty(propertyName: "local").EnumerateArray()];
+        rows.Length.ShouldBe(expected: 204);
+        foreach (JsonElement row in rows)
+        {
+            string file = Local(path: Text(row: row, name: "surface"));
+            Hash(bytes: File.ReadAllBytes(path: file)).ShouldBe(expected: Text(row: row, name: "sha256"));
+            string source = File.ReadAllText(path: file);
+            Hash(bytes: Encoding.UTF8.GetBytes(s: source)).ShouldBe(expected: Text(row: row, name: "textSha256"));
+            Hash(bytes: File.ReadAllBytes(path: Local(path: Text(row: row, name: "package")))).ShouldBe(
+                    expected: "ce2beb0b75bfb81b94982bdaf7234fc681edd4cf024606c6baf6e40625e0ca4e");
+            Text(row: row, name: "producer").ShouldBe(expected: "Godot.SourceGenerators/4.7.2");
+            SyntaxTree tree = CSharpSyntaxTree.ParseText(text: source, path: file,
+                    options: new CSharpParseOptions(preprocessorSymbols: ["TOOLS"]),
+                    cancellationToken: TestContext.Current.CancellationToken);
+            string member = tree.GetRoot(cancellationToken: TestContext.Current.CancellationToken)
+                    .FindNode(span: Span(row: row, tree: tree)).AncestorsAndSelf()
+                    .OfType<MethodDeclarationSyntax>().FirstOrDefault()?.Identifier.ValueText
+                    ?? "AssemblyHasScriptsAttribute";
+            Text(row: row, name: "member").ShouldBe(expected: member);
+            Permitted(row: row, tree: tree, span: Span(row: row, tree: tree)).ShouldBeTrue(
+                    customMessage: Text(row: row, name: "id"));
+        }
+
+        ExemptionValidator.ReadPermissions().Count.ShouldBe(expected: 26);
+        JsonObject exemptions = RegisterValidator.Read(relative: "docs/code/exemptions.json");
+        JsonObject register = RegisterValidator.Read(relative: "docs/code/register.json");
+        register["rules"]?.AsArray().Single(predicate: rule => StringComparer.Ordinal.Equals(
+                x: rule?["sourceId"]?.GetValue<string>(), y: "R-50"))?["engineProofPermissions"]?.ToJsonString()
+                .ShouldBe(expected: exemptions["engineProofPermissions"]?.ToJsonString());
+    }
+
+    /// <summary>Rejects every actual generated permission's changed text, source path and adjacent spans.</summary>
+    internal static void VerifyGeneratedBoundaries()
+    {
+        using JsonDocument registry = Registry();
+        foreach (JsonElement row in registry.RootElement.GetProperty(propertyName: "local").EnumerateArray())
+        {
+            string path = Local(path: Text(row: row, name: "surface"));
+            string source = File.ReadAllText(path: path);
+            SyntaxTree tree = CSharpSyntaxTree.ParseText(text: source, path: path,
+                    cancellationToken: TestContext.Current.CancellationToken);
+            TextSpan span = Span(row: row, tree: tree);
+            Permitted(row: row, tree: CSharpSyntaxTree.ParseText(text: source + "\n", path: path,
+                    cancellationToken: TestContext.Current.CancellationToken), span: span)
+                    .ShouldBeFalse();
+            Permitted(row: row, tree: CSharpSyntaxTree.ParseText(text: source, path: "Subject.generated.cs",
+                    cancellationToken: TestContext.Current.CancellationToken),
+                    span: span).ShouldBeFalse();
+            Permitted(row: row, tree: tree, span: new TextSpan(start: span.Start + 1, length: span.Length))
+                    .ShouldBeFalse();
+            Permitted(row: row, tree: tree, span: new TextSpan(start: span.Start, length: span.Length + 1))
+                    .ShouldBeFalse();
+        }
+
+        RejectSealingNeighbor();
     }
 
     private static readonly MethodInfo _permission = PermissionMethod();

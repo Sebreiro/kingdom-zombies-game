@@ -53,6 +53,7 @@ async function main(root, args) {
     requireTrue(fs.existsSync(engine),'ENGINE_MISSING');
     const executableHash = hash(fs.readFileSync(engine));
     if (archive.executableSha256) requireTrue(executableHash === archive.executableSha256,'ENGINE_HASH');
+    if (process.platform === 'win32') requireTrue(hash(fs.readFileSync(nativeEngine)) === '45336315eb6f1a52a8923bc4f2ce8079a03dc4939dcb7d531047890f1f7cdfab','NATIVE_ENGINE_HASH');
     const version = await command(engine,['--version'],{cwd:root,env});
     requireTrue(version.stdout.trim() === pins.engineFullVersion,'ENGINE_VERSION');
     context.tool = hash(JSON.stringify({engine:executableHash,nativeEngine:hash(fs.readFileSync(nativeEngine)),node:process.version,driver:hash(fs.readFileSync(path.join(root,process.platform === 'win32'?'tools/phase2/windows-input.ps1':'tools/phase2/linux-input.sh')))}));
@@ -70,7 +71,7 @@ async function main(root, args) {
         }
       } else {
         const testEnv = {...env, PHASE1_ROOT:root,PHASE1_RESULT_DIRECTORY:directory,PHASE1_NONCE:nonce,PHASE1_INPUT:context.input,PHASE1_TOOL:context.tool,PHASE1_PLATFORM:platform};
-        const run = await command('dotnet',[path.join(root,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll'),'--filter-method',item.test,'--report-xunit-ctrf','--report-xunit-ctrf-filename',item.id+'.ctrf.json','--results-directory',directory],{cwd:root,env:testEnv});
+        const run = await command('dotnet',[path.join(root,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll'),'--filter-method',item.test,'--report-xunit-ctrf','--report-xunit-ctrf-filename',item.id+'.ctrf.json','--results-directory',directory],{cwd:root,env:testEnv},180000);
         fs.writeFileSync(path.join(directory,item.id+'.console.log'),run.stdout+run.stderr);
         const report = JSON.parse(fs.readFileSync(path.join(directory,item.id+'.ctrf.json'),'utf8'));
         requireTrue(report.results.summary.tests > 0 && report.results.summary.failed === 0 && report.results.summary.passed === report.results.summary.tests,'TEST_EXECUTION_COUNT');

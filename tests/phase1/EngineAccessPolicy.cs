@@ -40,6 +40,7 @@ internal static class EngineAccessPolicy
                 IMethodReferenceOperation reference => reference.Method,
                 IPropertyReferenceOperation property => property.Property,
                 IFieldReferenceOperation field => field.Field,
+                IEventReferenceOperation @event => @event.Event,
                 _ => null
             };
             if (symbol?.ContainingAssembly?.Name is not ("GodotSharp" or "GodotSharpEditor"))
