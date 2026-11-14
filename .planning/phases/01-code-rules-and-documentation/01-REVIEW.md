@@ -1,7 +1,9 @@
 ---
 phase: 01-code-rules-and-documentation
 reviewed: 2026-11-14T18:22:19Z
-revision: 5bb1a8d784f652fc05f0c768c93aa93645bcc3d4
+amended: 2026-11-14T21:28:56Z
+revision: 7d9fa3f11d3e7e6df335b85b085dd339c5e9f6c9
+prior_review_revision: 5bb1a8d784f652fc05f0c768c93aa93645bcc3d4
 depth: standard
 iteration: 1
 files_reviewed: 185
@@ -203,7 +205,10 @@ status: clean
 # Phase 1: Code Review Report
 
 **Reviewed:** 2026-11-14T18:22:19Z  
-**Revision:** `5bb1a8d784f652fc05f0c768c93aa93645bcc3d4`  
+**Original followup revision:** `5bb1a8d784f652fc05f0c768c93aa93645bcc3d4`
+
+**Amended:** 2026-11-14T21:28:56Z at `7d9fa3f11d3e7e6df335b85b085dd339c5e9f6c9`
+
 **Depth:** standard  
 **Files Reviewed:** 185  
 **Status:** clean
@@ -252,7 +257,17 @@ All six existing regression cases were rerun through the canonical runner on Win
 
 An independent complete-object comparison with `0276ea8` confirmed all 678 original manifest declarations are unchanged, with exactly these six additions. The current manifest therefore retains 676 required Phase 1 obligations and eight explicitly deferred Phase 5 cases, for 684 declarations. No permission registry, suppression allowance, deadline, threshold or previous case declaration was weakened by the repair diff.
 
-No new complete Windows or Linux suite was run by this reviewer. The prior full `f4658bb` reports are historical after these source repairs. Under the creator's latest platform instruction, final Phase 1 acceptance still requires fresh complete current-scope Windows and local Linux-VM runs for the stabilized implementation. The known historical Linux TCG timeouts establish no new source cause. The eight Phase 5 coverage/aggregate cases, inclusive 90/80 coverage targets, advanced certification, fourteen Pending human components and shared RULE requirements retain their recorded ownership/status. This code review provides no human qualitative sign-off and advances no phase-completion flag.
+At the original followup timestamp, no new complete Windows or Linux suite had been run by this reviewer; the full `f4658bb` reports were historical after the four repairs. Its then-current full-platform acceptance boundary is superseded for Phase 1 by the creator's later exception recorded below. This code review provides no human qualitative sign-off and advances no phase-completion flag.
+
+## Narrow Linux platform-symbol amendment
+
+**Verdict:** clean; zero new critical, warning or info findings. The existing 185-file scope and completed assessment are retained. This amendment independently inspected the complete C# diff from `59f032c` to `70918fd` and confirmed that the only C# change through current `7d9fa3f` is `tests/phase1/ConsumerPolicyTests.cs:23`: adding `GODOT_LINUXBSD` alongside the existing Windows/Linux names in the platform-symbol selector. Production implementation, compiler-input helpers, policy rules, manifests, locks, assertions and deadlines are unchanged. The active forbidden-call, inverse inactive-branch and unresolved-subject controls still execute against the selected consumer; this correction makes the Linux control select the platform symbol actually supplied by the pinned SDK.
+
+The original actual SDK evaluation at `.phase1/temp/17-linux-smoke/evidence/.phase1/smoke/55960e73-29ec-4d63-ad88-028f588e5e6d/actual-linux-defines.json` explicitly supplies `GODOT_LINUXBSD`, `DEBUG` and `TOOLS`, target `linuxbsd`, Debug configuration and Unix OS. It supplies neither of the formerly assumed platform names. Thus the added alternative repairs the demonstrated test setup failure without relaxing the required engine-operation rejection.
+
+The actual changed-case reports were inspected on both OSes. Windows canonical invocation `66a74d57-ecc3-4d79-b1b8-0f27bf41e6d9` accepts exactly `engine.consumer-branches`, with one passed test and zero failed/pending/skipped tests. Its immutable report retains genuine precommit workspace revision `266a6d87c72477d77dee8beaa8283ae0bce4d441`. Linux direct amendment `b4ccec5f-255f-466f-bea2-f807b260ccf8` records source `70918fdb77cff309527b407418083e52db89378e`, the same exact test passing with zero failed/pending/skipped tests, process exit zero, and the explicit 8-minute test/10-minute outer bounds. Both use input `2e16dd414d42f53cba37707e629c9110fe64164ddb8e96636c878c014419c15f`; their proofs identify actual `DEBUG/TOOLS/GODOT_WINDOWS` and `DEBUG/TOOLS/GODOT_LINUXBSD` respectively, including inverse branches and the unresolved subject. The changed C# file's current SHA-256 matches the Linux input inventory. Independent checks reverified the two Windows report/evidence hashes, the two Linux report/evidence hashes and all six Linux amendment command-log hashes; all recorded amendment commands exited zero without timeout. Linux receipt SHA-256 is `95d57c2c9f183e530382dcf8e64f255f32e483423e16473ae502f5a45f4e6733`. The copied Linux originals are under `.phase1/temp/17-linux-smoke/amendment-evidence/.phase1/amendment/b4ccec5f-255f-466f-bea2-f807b260ccf8/`.
+
+**Evidence and acceptance limits:** The complete Windows baseline remains 676/676 at `59f032cf23340058eec91f12c5d240f585dfabdc`, nonce `b8b5eacc-c46a-42d7-a898-01ad33c1b0a8`, plus the explicit one-case amendment above. No new complete Windows run at `70918fd` or current HEAD is claimed. The creator's later [Phase 1 closure exception](01-CLOSURE-EXCEPTION.md) authorizes important actual Linux checks without a host restart and preserves the general full-other-OS-VM rule for later phases. The recorded Linux assurance combines strict setup/native checks, five unchanged case passes, this corrected case, and separately labeled direct graph-mechanism evidence. The original graph case remains failed/unaccepted; the direct mechanism proof is not a replacement canonical case pass. The complete Linux suite and fourteen individually unreviewed human outcomes remain visible [closure follow-ups](01-CLOSURE-FOLLOWUPS.md), with no test or human pass fabricated. Eight Phase 5 coverage/aggregate cases, inclusive 90/80 targets and advanced certification retain their ownership. No tests, full suites, host/VM actions or human judgments were performed by this bounded reviewer amendment. The [platform record](../../../docs/workflow/platform-proof.md) preserves the composed evidence identities and limits.
 
 ---
 
