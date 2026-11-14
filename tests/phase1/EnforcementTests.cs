@@ -137,9 +137,8 @@ public sealed class EnforcementTests
     public void Rule16_CompliantConsumer_Accepted()
     {
         VerifyConsumer(id: "R-16.positive", diagnostic: "", line: 0,
-                column: 0, source: "namespace KingdomZombies.Core;\n\n/// <summary>Isolated real consumer."
-                        + "</summary>\ninternal static class Subject\n{\n    internal static int "
-                        + "Read()\n    {\n        return 1;\n    }\n}\n");
+                column: 0, source: ImplicitUsingSource.Replace(oldValue: "static Uri", newValue: "static System.Uri",
+                        comparisonType: StringComparison.Ordinal));
     }
 
     /// <summary>Exercises R-16 through its actual isolated compiler consumer.</summary>
@@ -147,9 +146,38 @@ public sealed class EnforcementTests
     public void Rule16_ViolatingConsumer_Rejected()
     {
         VerifyConsumer(id: "R-16.negative", diagnostic: "CS0246", line: 6,
-                column: 21, source: "namespace KingdomZombies.Core;\n\n/// <summary>Isolated real consumer."
-                        + "</summary>\ninternal static class Subject\n{\n    internal static Miss"
-                        + "ing Read()\n    {\n        return new();\n    }\n}\n");
+                column: 21, source: ImplicitUsingSource);
+    }
+
+    /// <summary>Changing only SDK implicit usings must make the same rejected subject compile.</summary>
+    [Fact, Trait("Case", "rules.implicit-usings-control")]
+    public void Configure_ImplicitUsings_ChangesNamespaceAvailability()
+    {
+        var fixture = new BuildFixture();
+        string project = Path.Combine(path1: fixture.DirectoryPath, path2: ProjectEvaluator.Expected[0]);
+        string disabledProject = File.ReadAllText(path: project).Replace(oldValue: "</Project>", newValue:
+                "<PropertyGroup><EnableDefaultCompileItems>false</EnableDefaultCompileItems></PropertyGroup>"
+                        + "<ItemGroup><Compile Include=\"Subject.cs\"/></ItemGroup></Project>",
+                comparisonType: StringComparison.Ordinal);
+        File.WriteAllText(path: project, contents: disabledProject);
+        fixture.Restore();
+        (int Exit, string Output) clean = fixture.Build();
+        clean.Exit.ShouldBe(expected: 0, customMessage: clean.Output);
+        fixture.Write(source: ImplicitUsingSource);
+        (int Exit, string Output) disabled = fixture.Build();
+        BuildFixture.HasDiagnostic(result: disabled, id: "CS0246", line: 6, column: 21).ShouldBeTrue(
+                customMessage: disabled.Output);
+        File.WriteAllText(path: project, contents: disabledProject.Replace(
+                oldValue: "<ImplicitUsings>disable</ImplicitUsings>",
+                newValue: "<ImplicitUsings>enable</ImplicitUsings>", comparisonType: StringComparison.Ordinal));
+        (int Exit, string Output) enabled = fixture.Build();
+        enabled.Exit.ShouldBe(expected: 0, customMessage: enabled.Output);
+        File.WriteAllText(path: project, contents: disabledProject);
+        (int Exit, string Output) restored = fixture.Build();
+        BuildFixture.HasDiagnostic(result: restored, id: "CS0246", line: 6, column: 21).ShouldBeTrue(
+                customMessage: restored.Output);
+        ProofProtocol.Record(id: "rules.implicit-usings-control", diagnostic: "IMPLICIT_USINGS_SENSITIVE",
+                location: fixture.DirectoryPath + "/src/core/Subject.cs(6,21), same bytes; disable/enable/disable");
     }
 
     /// <summary>Exercises R-17 through its actual isolated compiler consumer.</summary>
@@ -840,6 +868,10 @@ public sealed class EnforcementTests
                 location: fixture.DirectoryPath + "/src/core/Subject.cs(8,43)");
     }
 
+    private const string ImplicitUsingSource = "namespace KingdomZombies.Core;\n\n"
+            + "/// <summary>Isolated real consumer.</summary>\ninternal static class Subject\n{\n"
+            + "    internal static Uri Read()\n    {\n"
+            + "        return new(uriString: \"https://example.invalid/\");\n    }\n}\n";
     private const string AsyncEnumerablePermissionSource = "using System.Collections.Generic;\n\n"
             + "namespace KingdomZombies.Core;\n\n/// <summary>Async stream permission control.</summary>\n"
             + "internal static class Subject\n{\n"

@@ -422,7 +422,7 @@ public sealed class RunnerContractTests
                 + "const m=require('./tools/phase1/required-cases.json'),s=c.select(m,['--phase','1']);"
                 + "const ids=['ac-02.complete','ac-06.complete','ac-07.complete','ac-09.complete',"
                 + "'R-49.positive','R-49.negative','R-82.positive','R-82.negative'].sort();"
-                + "a.deepEqual(s.deferred.map(r=>r.id).sort(),ids);a.equal(s.selected.length,670);"
+                + "a.deepEqual(s.deferred.map(r=>r.id).sort(),ids);a.equal(s.selected.length,676);"
                 + "a.ok(s.deferred.every(r=>r.acceptancePhase===5&&r.owner==='Phase 5'));"
                 + "a.deepEqual(s.selected,m.cases.filter(r=>!ids.includes(r.id)));"
                 + "a.ok(m.cases.filter(r=>r.implementation==='csharp').every(r=>s.selected.includes(r)));"
@@ -435,7 +435,7 @@ public sealed class RunnerContractTests
                 + "console.log('PHASE_MEMBERSHIP_EXACT')";
         ProofProtocol.Node(script: script).Exit.ShouldBe(expected: 0);
         ProofProtocol.Record(id: "runner.phase-membership", diagnostic: "PHASE_MEMBERSHIP_EXACT",
-                location: "independent declarations: 670 Phase 1, eight Phase 5; exhaustive 678");
+                location: "independent declarations: 676 Phase 1, eight Phase 5; exhaustive 684");
     }
 
     /// <summary>Rejects malformed declarations even when their case would be outside the requested phase.</summary>

@@ -1425,6 +1425,17 @@
   ],
   "cases": [
     {
+      "id": "rules.implicit-usings-control",
+      "group": "rules",
+      "rule": "R-16",
+      "owner": "01-08",
+      "prerequisites": ["pinned-tools", "proof-build"],
+      "evidence": ["fresh-result", "nonempty-log", "actual-test-report"],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Configure_ImplicitUsings_ChangesNamespaceAvailability",
+      "expectedDiagnostic": "IMPLICIT_USINGS_SENSITIVE"
+    },
+    {
       "id": "graph.visibility-inventory",
       "group": "graph",
       "rule": "R-34",
