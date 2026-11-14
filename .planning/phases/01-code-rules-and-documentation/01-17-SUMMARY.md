@@ -7,6 +7,8 @@ requires:
   - phase: 01-16
     provides: Frozen f4658bb Windows 670-case pass and same-source genuine Linux checkout/tools/cache
 provides:
+  - Fresh repaired-source Windows 676-case acceptance with independently rechecked reports, evidence and command exits
+  - Identical clean Linux source/tools/cache prepared and owned old TCG guest cleanly shut down for creator-controlled restart
   - Actual clean Linux locked restore, strict zero-warning/error build and raw native bootstrap
   - Sixteen actual canonical Linux outcomes, seven accepted and nine capacity timeouts
   - Reviewed 85-rule mappings, explicit AC-01 through AC-22 outcomes and fourteen pending human components
@@ -18,6 +20,8 @@ key-files:
   created: [.planning/phases/01-code-rules-and-documentation/01-17-SUMMARY.md]
   modified:
     - docs/workflow/platform-proof.md
+    - docs/workflow/setup.md
+    - .planning/phases/01-code-rules-and-documentation/01-ENVIRONMENT.md
     - .planning/phases/01-code-rules-and-documentation/01-VALIDATION.md
     - .planning/phases/01-code-rules-and-documentation/01-HUMAN-CHECK.md
     - .planning/WINDOWS.md
@@ -26,11 +30,11 @@ key-decisions:
   - Keep all human outcomes and RULE requirements Pending; independent material review does not supply human approval.
 requirements-completed: []
 actuals:
-  tokens: 9404
+  tokens: 16849
   tasks: 0
-  commits: 3
+  commits: 17
 plan_head_before: 21597fdeaed675c89bab5e0dd7aabf29c0266597
-plan_head_after: 3613a3750049af18d87e036e34c7d950fde6b7cb
+plan_head_after: d1a752f8ca717210f76174897d84b26cfa14eebc
 duration: 56min recorded execution window
 completed: 2026-11-14
 status: halted
@@ -180,3 +184,30 @@ After restart, verify the live host hypervisor, actual owned QEMU WHPX startup a
 Task 1 remains incomplete until complete same-source Linux execution passes. Task 2 remains incomplete until actual separate human judgment is recorded for all fourteen components. **Accepted tasks stay 0/2, status stays halted, and RULE-01–RULE-07 remain Pending.** WINDOWS 28 remains open for complete current accelerated Linux acceptance; its description now identifies the concrete restart/hypervisor prerequisite and preserves the historical nine TCG timeouts. WINDOWS 1 remains historical/open; no retrospective RED, waiver or exemption was invented. No coverage, gameplay/export/rendered/LAN/performance/endurance or qualitative-human pass is claimed.
 
 Shared STATE/ROADMAP/REQUIREMENTS/review/security/human outcomes were not advanced by this continuation. Root owns the final phase verification and prerequisite checkpoint records. Concurrent Phase 2/3/4 planning context is preserved, including an unrelated untracked Phase 4 discussion checkpoint. This is partial execution evidence, not plan or phase closure.
+
+### Distinct focused D-11 documentation result
+
+After proof-record commit `d1a752f`, actual `node tools/phase1/check.cjs --group docs` passed **36/36**, exit **0**, zero failed/blocked/missing/skipped results. The original report is `.phase1/runs/1aba94e6-5790-4409-a1b9-a2a2e0f1f722/summary.json`; its exact report/evidence hashes, all 41 command outcomes/log hashes and current snapshot were independently reverified. `.phase1/temp/17-final-preparation/docs-reconciliation.json` retains the inspection receipt.
+
+| Identity | Actual value |
+| --- | --- |
+| Tested revision | `d1a752f8ca717210f76174897d84b26cfa14eebc` |
+| Invocation | `1aba94e6-5790-4409-a1b9-a2a2e0f1f722` |
+| Main input | `d5b5600ff0a97d965cf54acd43c662f10d59239884a87b32b5f03b137e58f8ae` |
+| Tool | `1807a4cb9b7d9f8bcb338b43f50d066bbe1aca89883b23ee9b6ca3d9970de8d3` |
+| Platform | `win32-x64-10.0.19044` |
+| Canonical interval | `2026-11-14T19:35:57.135Z`–`2026-11-14T19:37:06.563Z` |
+| Summary SHA-256 | `2e3eb22097b5e38a8c77a0acad3e3f9cfecf0cf86412cc3e3765380073f826c9` |
+
+Compared with the final frozen input, the distinct main snapshot changes only `docs/workflow/platform-proof.md`. No input is removed and no source/configuration/lock changes occurred. The identical final Windows/Linux candidate retains its original `fe2bf549...873426` input. This summary is outside the fingerprinted set; adding these identities does not require another full run or supply Linux acceptance.
+
+### Partial continuation commits and measured actuals
+
+- `59f032c` — `docs(01-17): distinguish final full scope from historical platform procedure`.
+- `d1a752f` — `docs(01-17): record complete Windows proof and owned Linux restart preparation`.
+
+The original three-commit / 9,404-token measurement above remains a historical range through `3613a37`. The updated frontmatter measures the persisted plan ledger `21597fdeaed675c89bab5e0dd7aabf29c0266597` through `d1a752f8ca717210f76174897d84b26cfa14eebc`: `git rev-list --count` is **17**, including preserved concurrent/orchestrator commits in that real range rather than attributing them all to this continuation. The six owned non-summary record paths (platform, setup, environment, validation, human-check and WINDOWS) have **67,394 realized diff characters**, giving **16,849 ceil(chars/4) tokens**. No harness token count or unrelated source/specification diff is substituted. `.phase1/temp/17-final-preparation/partial-actuals.json` retains this measurement. The continuation alone measures two commits from `8a6462f` through `d1a752f`; this final summary-only evidence commit follows the stated measured range. Accepted tasks remain **0**. The final Windows pipeline's logged window is `18:40:00.7644824Z`–`19:31:55.8710755Z` (51m55s, 52min rounded up); the distinct docs interval is recorded above.
+
+## Latest continuation self-check: PASSED
+
+All five owned documentation/summary paths and all original preparation, native/full, Linux-source/cache, shutdown and D-11 receipts exist. New commits `59f032c` and `d1a752f` and original `1faad99` / `3613a37` are ancestors of HEAD; neither new commit deletes tracked files. The final Windows report independently reconciles 676 accepted exact cases, 692 subject-evidence files, 681 zero-exit canonical commands, unchanged 203-file input and eight separate Phase 5 deferrals. Actual raw native assertions and thread/lifetime records were inspected. Matching Linux revision/input/cache and zero old build outputs are proven only as preparation; no final Linux proof was run under TCG. Actual owned shutdown is verified with absent processes/listeners and free preserved disk; hypervisor remains inactive. Current main's distinct docs report passes 36/36 and matches its snapshot. No functional stub, skipped selected test, source/policy repair, new trust-boundary surface, blanket exemption or untracked generated output was introduced. The unrelated Phase 4 discussion checkpoint is preserved. All fourteen human components and seven RULE requirements remain Pending. Summary status remains halted, 0/2 tasks accepted, WINDOWS 28 and historical WINDOWS 1 remain open, and shared progress has not advanced.
