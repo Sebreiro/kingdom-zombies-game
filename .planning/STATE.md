@@ -7,9 +7,10 @@ current_phase_name: Playable foundation
 current_plan: Not started
 status: planning
 stopped_at: Phase 5 context gathered; active Phase 02 planning position preserved
-last_updated: "2026-11-14T21:53:33.397Z"
+last_updated: "2026-11-14T22:24:51.241Z"
 last_activity: 2026-11-14
-last_activity_desc: Phase 1 complete, transitioned to Phase 02
+last_activity_desc: Completed quick task 261114-we2 - phase feature branches and draft PR lifecycle
+state_head: d68293f755587ae3eefe39c489bf0879b7cedd4c
 progress:
   total_phases: 10
   completed_phases: 1
@@ -34,7 +35,7 @@ Phase: 02 — Playable foundation
 Current Plan: Not started
 Total Plans in Phase: TBD (Phase 2 planning has not started)
 Status: Ready to plan
-Last activity: 2026-11-14 — Phase 1 complete, transitioned to Phase 02
+Last activity: 2026-11-14 - Completed quick task 261114-we2: phase feature branches and draft PR lifecycle
 
 Progress: [█░░░░░░░░░] 10%
 
@@ -91,6 +92,7 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - Accept Phase 1 through the creator-authorized Windows 676 baseline plus actual focused Linux strict/native/rule/state/graph evidence and one platform-name test correction checked on both OSes. No host restart occurred.
 - Keep the complete Linux suite, original graph-case timeout and fourteen unreviewed human components as explicit follow-ups. Never convert them into passed cases or reviews.
 - Later phases must test on the development OS and complete their required scope in a local VM using the other OS. Phase 5 retains measured 90%/80% coverage and eight pending certification declarations.
+- Phase implementation uses `feature/<task-id>-<short-description>` branches and draft PRs to `dev` at the first implementation push; the same PR becomes ready for review after phase completion and required verification. Follow the [phase branch and PR rules](../docs/workflow/ai-collaboration.md#phase-branches-and-pull-requests).
 
 ### Pending Todos
 
@@ -108,6 +110,12 @@ No remaining Phase 1 closure gate under the current creator exception. Follow-up
 - [Phase 5] Measured analyzer/production coverage, advanced reconciliation and eight certification cases remain pending at the unchanged inclusive 90% line / 80% branch targets.
 - [Process history] WINDOWS item 1 retains the missing original bootstrap RED record; later successful evidence does not recreate it. All original plan reports and failed attempts remain historical records. One-shot refactoring/binding utilities must not be reapplied.
 - [Release] Reference-PC hardware and required real mixed-OS LAN/endurance environments need actual recording and measurements before release acceptance.
+
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+| --- | --- | --- | --- | --- |
+| 261114-we2 | Require phase feature branches and draft-to-ready PRs targeting dev | 2026-11-14 | d68293f | [261114-we2-define-phase-feature-branches-and-draft-](./quick/261114-we2-define-phase-feature-branches-and-draft-/261114-we2-SUMMARY.md) |
 
 ## Deferred Items
 
