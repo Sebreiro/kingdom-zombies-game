@@ -258,6 +258,33 @@ public sealed class ExemptionTests
                         + ",29), unchanged exact generated output");
     }
 
+    /// <summary>Clearing backreferences cannot disguise the removal of all active local permissions.</summary>
+    [Fact, Trait("Case", "edge.rule-03.empty")]
+    public void Validate_EmptyLocalScopeInventory_RejectsMissingSubjects()
+    {
+        JsonObject manifest = RegisterValidator.Read(relative: "docs/code/provenance/manifest.json");
+        JsonObject register = RegisterValidator.Read(relative: "docs/code/register.json");
+        JsonObject exemptions = RegisterValidator.Read(relative: "docs/code/exemptions.json");
+        RegisterValidator.Validate(manifest: manifest, register: register, exemptions: exemptions).ShouldBeEmpty();
+        foreach (JsonObject row in (register["rules"]?.AsArray()
+                ?? throw new InvalidDataException(message: "RULES_REQUIRED")).OfType<JsonObject>())
+        {
+            row["exemptions"] = new JsonArray();
+        }
+
+        foreach (JsonObject row in (exemptions["donorExemptions"]?.AsArray()
+                ?? throw new InvalidDataException(message: "DONOR_EXEMPTIONS_REQUIRED")).OfType<JsonObject>())
+        {
+            row["localIds"] = new JsonArray();
+        }
+
+        exemptions["local"] = new JsonArray();
+        RegisterValidator.Validate(manifest: manifest, register: register, exemptions: exemptions)
+                .ShouldContain(expected: "REGISTER: LOCAL_EXEMPTION_INVENTORY", comparer: StringComparer.Ordinal);
+        ProofProtocol.Record(id: "edge.rule-03.empty", diagnostic: "LOCAL_EXEMPTION_INVENTORY",
+                location: "docs/code/exemptions.json local=[] despite cleared references");
+    }
+
     /// <summary>The normal checkout uses the last owned target, exact original task and observed raw source.</summary>
     [Fact, Trait("Case", "rules.xunit-producer-root")]
     public void Generate_NormalCheckout_VerifiesExactProducer()
