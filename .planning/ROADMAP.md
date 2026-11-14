@@ -67,7 +67,7 @@ Every feature includes its stable identities, host-authoritative validation and 
 
 **Revised completion boundary (2026-11-14):** Retain every working compiler/analyzer, boundary, exemption, runner, documentation, state and lifecycle check. Complete the short project references and accurate rule/review mappings; use focused feedback while closing related work, one final complete Phase 1 Windows run, and an actual clean Linux restore/build plus representative analyzer/graph/state/engine checks. Measured coverage, complete Linux failure-variant execution and exhaustive cross-platform/report certification belong to Phase 5. Deferred obligations remain visible with that owner and do not count as passes. The revised [specification](phases/01-code-rules-and-documentation/01-SPEC.md) governs the remaining plans.
 
-**Plans:** 15/18 plans executed; independently checked, ready for execution.
+**Plans:** 16/18 plans executed; independently checked, ready for execution.
 **Wave 1**
 - [x] 01-01-PLAN.md — Pinned native-host toolchain proof
 
@@ -114,7 +114,7 @@ Every feature includes its stable identities, host-authoritative validation and 
 - [x] 01-14-PLAN.md — Project references and rule bindings
 
 **Wave 16** *(blocked on Wave 15 completion)*
-- [ ] 01-15-PLAN.md — Explicit Phase 1 selection and Phase 5 certification handoff
+- [x] 01-15-PLAN.md — Explicit Phase 1 selection and Phase 5 certification handoff
 
 **Wave 17** *(blocked on Wave 16 completion)*
 - [ ] 01-16-PLAN.md — Final clean Windows baseline and Linux preparation
@@ -324,7 +324,7 @@ Execution order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10. Plans
 
 | Phase | Plans Complete | Status | Completed |
 | --- | --- | --- | --- |
-| 1. Code rules and documentation | 15/18 | In Progress | - |
+| 1. Code rules and documentation | 16/18 | In Progress | - |
 | 2. Playable foundation | 0/TBD | Not started | - |
 | 3. Four-player LAN foundation | 0/TBD | Not started | - |
 | 4. Asset production | 0/TBD | Not started | - |

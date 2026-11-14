@@ -4,17 +4,17 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 1
 current_phase_name: Code rules and documentation
-current_plan: 15
+current_plan: 16
 status: executing
-stopped_at: Completed 01-14-PLAN.md shared closeout; next revised 01-15 phase selection and Phase 5 handoff; Phase 2 context captured (02-CONTEXT.md); Phase 3 context gathered (03-CONTEXT.md)
-last_updated: "2026-11-14T13:42:26.189Z"
-last_activity: "2026-11-14 (Europe/Paris) — Completed 01-14 shared closeout: 15/18 plans complete; frozen pre-amendment evidence accepted 666 controls with zero failed controls and eight pending obligations. Next: revised 01-15 phase selection and Phase 5 handoff."
-state_head: 15870156eee42fa72b0f0588427e37865ab6aff2
+stopped_at: Completed 01-15-PLAN.md phase selection and Phase 5 handoff; next 01-16 final clean Windows baseline; Phase 2 context captured (02-CONTEXT.md); Phase 3 context gathered (03-CONTEXT.md)
+last_updated: "2026-11-14T14:07:04.342Z"
+last_activity: "2026-11-14 (Europe/Paris) — Completed 01-15: explicit phase selection, exact eight-case Phase 5 handoff and focused runner/register/docs evidence. 16/18 plans complete; next 01-16 final clean Windows baseline."
+state_head: 9f118f1042e89ea62afffdc5521a7f227a96de5e
 progress:
   total_phases: 10
   completed_phases: 0
   total_plans: 18
-  completed_plans: 15
+  completed_plans: 16
   percent: 0
 ---
 
@@ -26,36 +26,36 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-13).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase 1 — Code rules and documentation; fifteen plans complete. Plan 01-14 delivered five project references, exact rule bindings and distinct pin-edge closure, with 666 accepted pre-amendment controls and zero failed controls. Next: revised 01-15 explicit phase selection and Phase 5 handoff, then 01-16 final clean Windows baseline and 01-17 representative actual Linux checks and qualitative review. Preserve all working rules/tests. Coverage and exhaustive certification are Phase 5 obligations. Phase 1, all shared RULE requirements and the fourteen human-review components remain Pending.
+**Current focus:** Phase 1 — Code rules and documentation; sixteen plans complete. Plan 01-15 preserves all 666 existing implemented cases, adds four focused selector controls, and selects 670 Phase 1 obligations while separately listing eight pending Phase 5 cases. Strict whole solution, canonical precoverage linkage, all 46 implemented register controls and 36 docs controls pass; the corrected runner controls have focused evidence. Next: 01-16 final clean Windows baseline and 01-17 representative actual Linux checks and qualitative review. Preserve all working rules/tests and historical plan-14 evidence. Coverage and exhaustive certification are Phase 5 obligations. Phase 1, all shared RULE requirements and the fourteen human-review components remain Pending.
 
 ## Current Position
 
 Phase: 1 (Code rules and documentation) — EXECUTING
-Current Plan: 15
+Current Plan: 16
 Total Plans in Phase: 18
 Status: Ready to execute
-Last activity: 2026-11-14 (Europe/Paris) — Completed 01-14 shared closeout; fifteen plans complete. Next: revised 01-15 phase selection and Phase 5 handoff. The frozen report remains pre-amendment evidence.
+Last activity: 2026-11-14 (Europe/Paris) — Completed 01-15 phase selection and Phase 5 handoff with focused verification. Sixteen plans complete; next 01-16 final clean Windows baseline. Historical frozen reports retain their original source identities.
 
 Progress: [░░░░░░░░░░] 0%
 
-Phase 1 plan progress: 15/18 completed (83% rounded); milestone phase completion remains 0/10.
+Phase 1 plan progress: 16/18 completed (89% rounded); milestone phase completion remains 0/10.
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 15
-- Average duration: 73min recorded windows (rounded)
-- Total execution time: 1102min recorded windows; plans 01-08/01-09 include continuation/verification wall time, 01-12 includes diagnostic and replacement full runs, and 01-13/01-14 include their immutable full runs. Plan 01-14's 101min excludes later authority-reconciliation waiting and metadata resumption.
+- Total plans completed: 16
+- Average duration: 70min recorded windows (rounded)
+- Total execution time: 1113min recorded windows; plans 01-08/01-09 include continuation/verification wall time, 01-12 includes diagnostic and replacement full runs, and 01-13/01-14 include their immutable full runs. Plan 01-14's 101min excludes later authority-reconciliation waiting and metadata resumption; 01-15 records an 11min focused implementation window.
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 | --- | --- | --- | --- |
-| 01 | 15 | 1102min | 73min |
+| 01 | 16 | 1113min | 70min |
 
 **Recent Trend:**
-- Last 5 plans: 01-10 (62min), 01-11 (68min), 01-12 (154min), 01-13 (69min), 01-14 (101min)
-- Trend: Fifteen recorded windows; 01-08/01-09 include continuation and verification time, 01-12 includes both immutable full runs, and 01-13/01-14 include their immutable full runs
+- Last 5 plans: 01-11 (68min), 01-12 (154min), 01-13 (69min), 01-14 (101min), 01-15 (11min)
+- Trend: Sixteen recorded windows; 01-08/01-09 include continuation and verification time, 01-12 includes both immutable full runs, 01-13/01-14 include their immutable full runs and 01-15 uses approved focused closure checks
 
 **Per-Plan Metrics:**
 
@@ -76,6 +76,7 @@ Phase 1 plan progress: 15/18 completed (83% rounded); milestone phase completion
 | Phase 01 P12 | 154min | 3 tasks | 30 files |
 | Phase 01 P13 | 69min | 2 tasks | 20 files |
 | Phase 01 P14 | 101min | 2 tasks | 31 files |
+| Phase 01 P15 | 11min | 2 tasks | 10 files |
 
 ## Accumulated Context
 
@@ -111,10 +112,12 @@ Full decisions are in PROJECT.md.
 - [Phase 01]: Validate owned documentation against exact ordinal Git inventory and unique Unicode/anchor identities; checker never stages inputs.
 - [Phase 01]: Freeze core authority/configuration inputs through full reconciliation; metadata-only docs checks record their own changed fingerprint.
 - [Phase 01]: Plan 01-14 closes five project references and real rule/pin-edge bindings; preserve its frozen pre-amendment 666-accepted report and record amended metadata validation with a separate identity.
+- [Phase 01]: Select phases only from independent executable declarations; preserve all 666 existing cases plus four selector controls, with eight exact pending Phase 5 identities outside the selected denominator.
+- [Phase 01]: Preserve exhaustive all/group/case semantics and all 85 technical rule definitions; pending R-49/R-82 collection/certification has explicit Phase 5 ownership with unchanged inclusive 90%/80% targets.
 
 ### Pending Todos
 
-Execute revised 01-15: keep all implemented checks, explicitly migrate the eight pending aggregate/coverage IDs to Phase 5 and implement phase-scoped selection. Plan 01-14's implementation and shared metadata closeout are complete; preserve its valid frozen pre-amendment report and separate latest-main documentation result. Then obtain one final clean complete Phase 1 Windows run (01-16), actual representative clean Linux checks and separate human review (01-17). Reuse existing documentation and tools; do not implement coverage or exhaustive certification in Phase 1.
+Execute 01-16: obtain one final clean complete Phase 1 Windows run with the implemented `--phase 1` selector after closure stabilizes. Plan 01-15's two tasks, current bindings and focused evidence are complete; preserve its distinct report identities and plan-14's frozen pre-amendment evidence. Then execute actual representative clean Linux checks and separate human review (01-17). Reuse existing documentation and tools; do not implement coverage or exhaustive certification in Phase 1.
 
 ### Roadmap Evolution
 
@@ -136,7 +139,7 @@ Execute revised 01-15: keep all implemented checks, explicitly migrate the eight
 
 ## Deferred Items
 
-The approved [Phase 5 handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md) owns real analyzer/production 90%/80% coverage, exhaustive platform suites/reconciliation and unfinished aggregate certification. The current declaration contains 674 cases, with 666 implemented and eight pending aggregate/coverage IDs: ac-02/06/07/09.complete and R-49/R-82 positive/negative. These are declared implementation counts, not a new passing run. Revised 01-15 must migrate their executable ownership and add explicit phase selection; until implemented, --all retains the original exhaustive non-success for pending work. No working case, exemption boundary or operational rule is removed. Actual representative Linux execution and qualitative review still block Phase 1 until performed.
+The approved [Phase 5 handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md) owns real analyzer/production 90%/80% coverage, exhaustive platform suites/reconciliation and unfinished aggregate certification. The current declaration contains 678 cases: all 666 prior implemented cases, four new selector controls and eight pending aggregate/coverage IDs: ac-02/06/07/09.complete and R-49/R-82 positive/negative. The eight pending declarations have acceptancePhase 5 and owner Phase 5. `--phase 1` selects 670 obligations independently from implementation status and lists those eight separately; `--all` retains exhaustive non-success while any selected work is pending. These are declared membership counts, not a new full passing run. No working case, exemption boundary or operational rule is removed. Actual representative Linux execution and qualitative review still block Phase 1 until performed.
 
 Preserve immutable reports and freeze tested inputs during every final run. Under the amendment, 01-16 owns the complete functional Windows run and 01-17 representative actual Linux evidence for the intended final implementation; exhaustive same-source cross-platform certification is Phase 5 work. Planning/prose updates receive separate docs and consistency validation and never reuse an earlier full fingerprint as if unchanged.
 
@@ -147,8 +150,8 @@ Preserve immutable reports and freeze tested inputs during every final run. Unde
 
 ## Session Continuity
 
-Last session: 2026-11-14T13:42:26.143Z
-Stopped at: Completed 01-14-PLAN.md shared closeout; next revised 01-15 phase selection and Phase 5 handoff; Phase 2 context captured (02-CONTEXT.md); Phase 3 context gathered (03-CONTEXT.md)
+Last session: 2026-11-14T14:07:04.298Z
+Stopped at: Completed 01-15-PLAN.md phase selection and Phase 5 handoff; next 01-16 final clean Windows baseline; Phase 2 context captured (02-CONTEXT.md); Phase 3 context gathered (03-CONTEXT.md)
 Resume file: None
 
-Next action: Execute revised 01-15 for explicit phase selection and Phase 5 ownership. Continue with one final clean Windows Phase 1 run (01-16), representative actual Linux checks and qualitative review (01-17). Plan 18's completed dependency order and captured Phase 2/3 context are preserved. Phase 1, all RULE requirements and all fourteen human-review outcomes remain Pending.
+Next action: Execute 01-16 for one final clean complete Windows Phase 1 run, then representative actual Linux checks and qualitative review (01-17). Plan 01-15's phase selection and Phase 5 ownership are complete. Plan 18's completed dependency order and captured Phase 2/3 context are preserved. Phase 1, all RULE requirements and all fourteen human-review outcomes remain Pending.
