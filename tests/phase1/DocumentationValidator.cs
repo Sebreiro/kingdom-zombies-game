@@ -14,7 +14,9 @@ internal static class DocumentationValidator
         "AGENTS.md", "docs/code/README.md", "docs/architecture/README.md", "docs/code/review-checklist.md",
         "docs/architecture/decisions/0001-enforcement.md", "docs/architecture/decisions/0002-boundaries.md",
         "docs/architecture/decisions/0003-state-and-engine.md", "docs/workflow/setup.md",
-        "docs/workflow/ai-collaboration.md", "docs/workflow/gsd.md", "docs/workflow/verification.md"
+        "docs/workflow/ai-collaboration.md", "docs/workflow/gsd.md", "docs/workflow/verification.md",
+        "src/core/docs/README.md", "src/multiplayer-abstractions/docs/README.md",
+        "src/godot-game/docs/README.md", "tools/code-rules/docs/README.md", "tests/phase1/docs/README.md"
     ];
 
     /// <summary>Returns subject diagnostics without modifying documentation or the Git index.</summary>

@@ -13327,6 +13327,150 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_DistinctUnicodeTarget_RejectsNormalization",
       "expectedDiagnostic": "DOC_TARGET"
+    },
+    {
+      "id": "docs.projects",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-14",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationProjectTests.Check_ActualProjectPages_MatchesEvaluatedReferences",
+      "expectedDiagnostic": "DOC_PROJECTS"
+    },
+    {
+      "id": "docs.projects.missing",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-14",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationProjectTests.Check_RemovedCorePage_RejectsMissingDeclaration",
+      "expectedDiagnostic": "DOC_PROJECT_REQUIRED"
+    },
+    {
+      "id": "docs.projects.empty",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-14",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationProjectTests.Check_EmptyCorePage_RejectsEmptyDeclaration",
+      "expectedDiagnostic": "DOC_PROJECT_DECLARATION"
+    },
+    {
+      "id": "docs.projects.unreachable",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-14",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationProjectTests.Check_UnlinkedCorePage_RejectsUnreachableDeclaration",
+      "expectedDiagnostic": "DOC_PROJECT_UNREACHABLE"
+    },
+    {
+      "id": "docs.projects.edges",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-14",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationProjectTests.Check_ExtraCoreEdge_RejectsPolicyMismatch",
+      "expectedDiagnostic": "DOC_PROJECT_EDGES"
+    },
+    {
+      "id": "docs.projects.output-item",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-14",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationProjectTests.Check_AnalyzerOutputType_RejectsMetadataMismatch",
+      "expectedDiagnostic": "DOC_PROJECT_ANALYZER"
+    },
+    {
+      "id": "docs.projects.reference-output",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-14",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationProjectTests.Check_AnalyzerAssemblyFlag_RejectsMetadataMismatch",
+      "expectedDiagnostic": "DOC_PROJECT_ANALYZER"
+    },
+    {
+      "id": "docs.projects.ambiguous",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-14",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationProjectTests.Check_DuplicateDeclaration_RejectsAmbiguousPolicy",
+      "expectedDiagnostic": "DOC_PROJECT_DECLARATION"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."
