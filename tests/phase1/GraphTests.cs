@@ -7,6 +7,25 @@ namespace KingdomZombies.Phase1.Tests;
 /// <summary>Proves evaluated allowed and forbidden dependency graphs using real compiled subjects.</summary>
 public sealed class GraphTests
 {
+    /// <summary>Requires production output policy to reject a compilable unintended executable.</summary>
+    [Fact]
+    public void Evaluate_CoreExecutable_ReportsOutputKind()
+    {
+        var fixture = new GraphFixture();
+        string core = Path.Combine(path1: fixture.Root, path2: ProjectEvaluator.Expected[0]);
+        File.WriteAllText(path: core, contents: File.ReadAllText(path: core).Replace(oldValue: "</Project>",
+                newValue: "<PropertyGroup><OutputType>Exe</OutputType></PropertyGroup></Project>",
+                comparisonType: System.StringComparison.Ordinal));
+        string source = "namespace KingdomZombies.Core;\n\ninternal static class Entry\n{\n"
+                + "    internal static int Main()\n    {\n        return 0;\n    }\n}\n";
+        File.WriteAllText(path: Path.Combine(path1: fixture.Root, path2: "src/core/Entry.cs"), contents: source);
+        (int Exit, string Output) built = fixture.Run("build", core, "--no-restore", "--disable-build-servers",
+                "-p:UseSharedCompilation=false", "-nodeReuse:false", "-p:NuGetAudit=false");
+        built.Exit.ShouldBe(expected: 0, customMessage: "INFRASTRUCTURE_SUBJECT: " + built.Output);
+        ProjectEvaluator.Validate(root: fixture.Root).ShouldContain(elementPredicate: error => error.Contains(
+                value: "GRAPH_OUTPUT_KIND", comparisonType: System.StringComparison.Ordinal));
+    }
+
     /// <summary>Requires an intended graph failure after a clean and a violating subject both compile.</summary>
     [Fact, Trait("Case", "graph.allowed-and-direct")]
     public void Evaluate_CoreEngineReference_ReportsForbiddenEdge()
