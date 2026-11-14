@@ -1,7 +1,7 @@
 ---
 phase: "01"
 slug: "code-rules-and-documentation"
-status: draft
+status: validated
 nyquist_compliant: false
 wave_0_complete: false
 created: "2026-11-13"
@@ -9,6 +9,14 @@ updated: "2026-11-14"
 ---
 
 # Phase 01 — Validation Strategy
+
+## Validation audit — 2026-11-14
+
+The required post-execution audit is **partial**: it identified no new missing-test behavior, but escalated nine existing automated Linux execution gaps with zero resolved. The fourteen qualitative human components remain separately Pending. `status: validated` records that this audit occurred; `nyquist_compliant: false` and the incomplete phase status remain unchanged.
+
+The independent audit reconciled all 670 unique Windows selected/accepted cases, all 675 zero command exits and all 1,356 recorded subject/report artifact hashes. The fourteen artifacts belonging to the seven accepted Linux cases also match. It confirmed the original Linux archive SHA-256 and retained the nine actual CHILD_TIMEOUT results without acceptance credit. Existing tests cover each RULE-01–RULE-07 behavior; no duplicate test or additional full run was needed. Phase 5 declarations retain their explicit pending ownership.
+
+The nine escalated machine-check gaps remain the exact failed selectors in the platform record. They require successful actual execution; they are not reclassified as manual-only checks. The human-review record remains the sole owner of human reviewer/date/outcome fields. See the [partial execution summary](01-17-SUMMARY.md) and [platform record](../../../docs/workflow/platform-proof.md).
 
 The creator approved simplified Phase 1 completion on 2026-11-14. The revised [specification](01-SPEC.md) and [context](01-CONTEXT.md) govern acceptance. This record combines the validation strategy with actual 01-17 partial outcomes below. Phase 1 remains incomplete: nine required representative Linux cases timed out, and human review is Pending. Completed-plan reports remain historical; source-allocation coverage in [COVERAGE.md](COVERAGE.md) does not mean measured code coverage.
 
@@ -93,3 +101,11 @@ No implementation/rule/test/configuration diff exists between that reviewed sour
 - [ ] Short project/rule references are accurate and the separate qualitative review is complete.
 - [x] Coverage/exhaustive certification remain required in Phase 5 without false pass credit.
 - [ ] Only after these checks may Phase 1 and its RULE requirements be marked complete; this planning update leaves compliance/sign-off flags false.
+
+## Validation Audit 2026-11-14
+
+| Metric | Count |
+|---|---|
+| Gaps found | 9 |
+| Resolved | 0 |
+| Escalated | 9 |
