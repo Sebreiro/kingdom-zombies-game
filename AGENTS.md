@@ -4,9 +4,11 @@ KingdomZombies is a Godot/C# side-view survival and camp-management game for sol
 
 This is the documentation entry point. Open the documents relevant to the current task.
 
+Before starting or finishing phase implementation, follow the [phase branch and pull request rules](docs/workflow/ai-collaboration.md#phase-branches-and-pull-requests).
+
 | Need | Read |
 | --- | --- |
-| AI collaboration, testing platforms, questions, and decision prompts | [AI collaboration](docs/workflow/ai-collaboration.md) |
+| AI collaboration, phase branches/PRs, testing platforms, and decisions | [AI collaboration](docs/workflow/ai-collaboration.md) |
 | C# rules, executable definitions, exemptions, and qualitative review | [Code index](docs/code/README.md) |
 | Project boundaries and architecture decisions | [Architecture index](docs/architecture/README.md) |
 | Toolchain prerequisites and isolated setup | [Development setup](docs/workflow/setup.md) |

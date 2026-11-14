@@ -2,7 +2,7 @@
 
 GSD manages project context, scoped requirements, phase planning, execution, and verification. Its planning artifacts live in `.planning/`.
 
-Follow the [AI collaboration instructions](ai-collaboration.md) when asking questions or presenting decisions. Use interactive question controls; the project keeps `workflow.text_mode` disabled.
+Follow the [AI collaboration instructions](ai-collaboration.md) for phase branches and PRs, testing, questions and decisions. Use interactive question controls; the project keeps `workflow.text_mode` disabled.
 
 ## Find the Current Position
 
@@ -17,7 +17,11 @@ Use `$gsd-progress` to inspect the project state and identify the next workflow 
 | `$gsd-execute-phase N` | Execute the phase's plans and record implementation results. |
 | `$gsd-verify-work N` | Check delivered behavior against the phase and user acceptance expectations. |
 
-Phase 1's requirements and context are captured and execution is in progress. [STATE.md](../../.planning/STATE.md) is the current next-action authority. Planning documents alone do not complete an implementation phase.
+At `$gsd-execute-phase N` start, apply the [phase branch and pull request rules](ai-collaboration.md#phase-branches-and-pull-requests): create or resume `feature/<task-id>-<short-description>` and open a draft PR to `dev` with the first implementation push. At phase completion, after required verification, mark the same PR ready for review. Preserve its branch and PR URL in continuation records.
+
+The [GSD configuration](../../.planning/config.json) sets `git.branching_strategy` to `phase`, `git.phase_branch_template` to `feature/{phase}-{slug}` and `git.base_branch` to `dev`, with default-branch commits disabled. Agents perform the PR lifecycle actions as part of execution and completion.
+
+[STATE.md](../../.planning/STATE.md) is the current next-action authority. Planning documents alone do not complete an implementation phase.
 
 ## Planning Artifacts
 

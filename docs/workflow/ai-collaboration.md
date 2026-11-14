@@ -2,6 +2,17 @@
 
 This document records the creator's preferences for AI agents working on KingdomZombies. The root [agent guide](../../AGENTS.md) indexes these instructions.
 
+## Phase Branches and Pull Requests
+
+- Before implementing a phase, create its branch from the latest `origin/dev` using `feature/<task-id>-<short-description>`. For GSD phases, `<task-id>` is the zero-padded phase identifier and `<short-description>` is a concise lowercase, hyphenated description; for example, `feature/02-playable-foundation`. Keep the phase's implementation commits on that branch.
+- At implementation start, push the branch and open a **draft pull request targeting `dev`**, the project's default integration branch, as soon as the first implementation commit is available. Create the draft during the initial implementation work; do not postpone it until phase completion or `$gsd-ship`.
+- When resuming a phase, reuse its existing feature branch and open PR. Keep that PR updated throughout development, with the phase scope and completed/pending verification in its description. Record the branch and PR URL in the phase's continuation information so another agent can resume the same work.
+- Once the phase's implementation and required verification are complete, mark the **same PR ready for review**. Apply the phase-end platform and evidence requirements below, including any explicitly approved exception. Keep the PR in draft while required work or completion checks remain outstanding.
+- Marking a PR ready for review does not authorize merging it. Leave the merge to the creator unless separately instructed.
+- If `dev`, remote access or PR permissions are unavailable, report the specific blocker and preserve the current branch/PR state. Do not silently target another branch or claim a PR was created or made ready when the action did not succeed.
+
+The [GSD configuration](../../.planning/config.json) uses phase branching, `feature/{phase}-{slug}` and base branch `dev`. Agents must perform the draft/ready transitions at the lifecycle points above; branch configuration alone does not create or update a PR.
+
 ## Interactive Questions
 
 - Use the available interactive question controls when asking the creator for information, preferences, or decisions. Do not substitute a numbered chat list when interactive controls are available.
