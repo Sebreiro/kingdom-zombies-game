@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -15,13 +14,14 @@ internal static class ExemptionValidator
 {
     /// <summary>Checks syntax and semantic suppression identities against exact observed member permissions.</summary>
     internal static IReadOnlyList<string> CheckSource(string path, string content,
-            IReadOnlySet<string>? permissions = null)
+            IReadOnlySet<string>? permissions = null, ConsumerCompilation? consumer = null)
     {
-        SyntaxTree tree = CSharpSyntaxTree.ParseText(text: content, path: path);
+        consumer ??= ConsumerCompilation.Read(root: ProofProtocol.Root, project: SourceProject(path: path));
+        SyntaxTree tree = consumer.Parse(source: content, path: path);
         SyntaxNode root = tree.GetRoot();
         var errors = new List<string>();
         SemanticModel model = CSharpCompilation.Create(assemblyName: "SuppressionScan", syntaxTrees: [tree],
-                references: _references).GetSemanticModel(syntaxTree: tree);
+                references: consumer.References).GetSemanticModel(syntaxTree: tree);
         var seen = new HashSet<string>(comparer: StringComparer.Ordinal);
         foreach (SyntaxTrivia trivia in root.DescendantTrivia(descendIntoTrivia: true))
         {
@@ -54,12 +54,18 @@ internal static class ExemptionValidator
         Require(value: registryErrors.Count == 0, message: string.Join(separator: "\n", values: registryErrors));
         IReadOnlySet<string> permissions = ReadPermissions();
         var errors = new List<string>();
+        ConsumerCompilation[] consumers = [..ProjectEvaluator.Expected.Select(selector: project =>
+                ConsumerCompilation.Read(root: ProofProtocol.Root, project: project))];
         foreach (string path in SourceFileFormat.ReadTrackedPaths().Where(predicate: SourceFileFormat.IsChecked))
         {
             string content = File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: path));
             if (path.EndsWith(value: ".cs", comparisonType: StringComparison.Ordinal))
             {
-                errors.AddRange(collection: CheckSource(path: path, content: content, permissions: permissions));
+                ConsumerCompilation[] owners = [..consumers.Where(predicate: consumer => consumer.AuthoredPaths
+                        .Contains(value: path, comparer: StringComparer.Ordinal))];
+                Require(value: owners.Length == 1, message: "SUPPRESSION_SOURCE_OWNERSHIP " + path);
+                errors.AddRange(collection: CheckSource(path: path, content: content, permissions: permissions,
+                        consumer: owners[0]));
             }
             else if (path.EndsWith(value: ".editorconfig", comparisonType: StringComparison.Ordinal)
                     || path.EndsWith(value: ".globalconfig", comparisonType: StringComparison.Ordinal))
@@ -203,7 +209,6 @@ internal static class ExemptionValidator
         return permissions;
     }
 
-    private static readonly MetadataReference[] _references = References();
     private static readonly string[] _sdkNoWarn = ["1701", "1702"];
     private static readonly string[] _generatedSuffixes = [".g.cs", ".g.i.cs", ".designer.cs", ".generated.cs"];
     private static readonly string[] _trueOrDefault = ["RunAnalyzers", "RunAnalyzersDuringBuild",
@@ -230,11 +235,11 @@ internal static class ExemptionValidator
                     + "ReferenceOutputAssembly=false"]
     };
 
-    private static MetadataReference[] References()
+    private static string SourceProject(string path)
     {
-        string[] paths = [typeof(object).Assembly.Location, typeof(SuppressMessageAttribute).Assembly.Location];
-        return [..paths.Distinct(comparer: StringComparer.Ordinal).Select(selector: path => MetadataReference
-                .CreateFromFile(path: path))];
+        return ProjectEvaluator.Expected.FirstOrDefault(predicate: project => path.StartsWith(value:
+                (Path.GetDirectoryName(path: project) ?? "").Replace(oldChar: '\\', newChar: '/') + "/",
+                comparisonType: StringComparison.Ordinal)) ?? ProjectEvaluator.Expected[4];
     }
 
     private static void CheckTrivia(string path, SyntaxTrivia trivia, List<string> errors)
@@ -271,7 +276,8 @@ internal static class ExemptionValidator
             IReadOnlySet<string>? permissions, HashSet<string> seen, List<string> errors)
     {
         string type = (model.GetSymbolInfo(node: attribute).Symbol as IMethodSymbol)?.ContainingType
-                .ToDisplayString() ?? attribute.Name.ToString();
+                .ToDisplayString() ?? throw new InvalidDataException(message: "SUPPRESSION_ATTRIBUTE_UNRESOLVED "
+                        + path + " " + attribute.Name);
         if (type.EndsWith(value: "GeneratedCodeAttribute", comparisonType: StringComparison.Ordinal))
         {
             errors.Add(item: At(path: path, location: attribute.GetLocation(), diagnostic: "GENERATION_UNPROVEN")

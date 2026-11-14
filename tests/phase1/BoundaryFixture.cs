@@ -164,9 +164,10 @@ internal static class BoundaryFixture
         {
             built.Exit.ShouldBe(expected: 0, customMessage: "INFRASTRUCTURE_SUBJECT: " + built.Output);
         }
+        var consumer = ConsumerCompilation.Read(root: fixture.DirectoryPath, project: ProjectEvaluator.Expected[0]);
         var compilation = CSharpCompilation.Create(assemblyName: "LocatorProbe",
-                syntaxTrees: [CSharpSyntaxTree.ParseText(text: source, path: owner + ".cs")],
-                references: Verification.AnalyzerVerifier.References(), options: new CSharpCompilationOptions(
+                syntaxTrees: [consumer.Parse(source: source, path: owner + ".cs")],
+                references: consumer.References, options: new CSharpCompilationOptions(
                         outputKind: OutputKind.DynamicallyLinkedLibrary,
                         nullableContextOptions: NullableContextOptions.Enable));
         compilation.GetDiagnostics().Where(predicate: diagnostic => diagnostic.Severity == DiagnosticSeverity.Error)

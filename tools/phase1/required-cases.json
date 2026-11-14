@@ -1425,6 +1425,28 @@
   ],
   "cases": [
     {
+      "id": "engine.consumer-branches",
+      "group": "engine",
+      "rule": "RULE-06",
+      "owner": "01-12",
+      "prerequisites": ["pinned-tools", "proof-build"],
+      "evidence": ["fresh-result", "nonempty-log", "actual-test-report"],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ConsumerPolicyTests.Check_EvaluatedBranches_RejectsActiveEngineCalls",
+      "expectedDiagnostic": "CONSUMER_BRANCHES_CHECKED"
+    },
+    {
+      "id": "rules.suppression-conditional",
+      "group": "rules",
+      "rule": "R-67",
+      "owner": "01-14",
+      "prerequisites": ["pinned-tools", "proof-build"],
+      "evidence": ["fresh-result", "nonempty-log", "actual-test-report"],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.ConsumerPolicyTests.Check_ConditionalSuppression_RejectsAnalyzerEscape",
+      "expectedDiagnostic": "CONDITIONAL_SUPPRESSION_REJECTED"
+    },
+    {
       "id": "runner.missing-result",
       "group": "runner",
       "rule": "RULE-03",

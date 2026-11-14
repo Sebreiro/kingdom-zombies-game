@@ -142,11 +142,8 @@ public sealed class RandomContractTests
     [Fact, Trait("Case", "state.random-scope")]
     public void Symbols_ExactAdapterBoundary_RejectsAdjacentUses()
     {
-        SyntaxTree[] trees = [.. Directory.EnumerateFiles(path: Path.Combine(path1: ProofProtocol.Root,
-                path2: "src/core"), searchPattern: "*.cs").Select(selector: path => CSharpSyntaxTree.ParseText(
-                        text: File.ReadAllText(path: path), path: "src/core/" + Path.GetFileName(path: path),
-                        cancellationToken: TestContext.Current.CancellationToken))];
-        CSharpCompilation actual = Compilation(trees: trees);
+        var consumer = ConsumerCompilation.Read(root: ProofProtocol.Root, project: ProjectEvaluator.Expected[0]);
+        CSharpCompilation actual = consumer.Create();
         actual.GetDiagnostics(cancellationToken: TestContext.Current.CancellationToken)
                 .Where(predicate: diagnostic => diagnostic.Severity is DiagnosticSeverity.Error)
                 .ShouldBeEmpty();
@@ -154,8 +151,8 @@ public sealed class RandomContractTests
         VerifyProductUses();
         foreach ((string Path, string Source) subject in ScopeMutations())
         {
-            CSharpCompilation compilation = Compilation(trees: [CSharpSyntaxTree.ParseText(text: subject.Source,
-                    path: subject.Path, cancellationToken: TestContext.Current.CancellationToken)]);
+            CSharpCompilation compilation = Compilation(trees: [consumer.Parse(source: subject.Source,
+                    path: subject.Path)]);
             compilation.GetDiagnostics(cancellationToken: TestContext.Current.CancellationToken)
                     .Where(predicate: diagnostic => diagnostic.Severity is DiagnosticSeverity.Error).ShouldBeEmpty();
             ControlledInputPolicy.Validate(compilation: compilation).ShouldNotBeEmpty(customMessage: subject.Path);
@@ -356,14 +353,12 @@ public sealed class RandomContractTests
 
     private static void VerifyProductUses()
     {
-        string[] paths = [.. ProjectEvaluator.DiscoverFiles(root: ProofProtocol.Root, pattern: "*.cs")
-                .Where(predicate: path => path.StartsWith(value: "src/", comparisonType: StringComparison.Ordinal))];
-        paths.Length.ShouldBeGreaterThan(expected: 8);
-        SyntaxTree[] trees = [.. paths.Select(selector: path => CSharpSyntaxTree.ParseText(text: File.ReadAllText(
-                path: Path.Combine(path1: ProofProtocol.Root, path2: path)), path: path))];
-        CSharpCompilation compilation = Compilation(trees: trees).AddReferences(references:
-                MetadataReference.CreateFromFile(path: Path.Combine(path1: ProofProtocol.Root,
-                        path2: ".phase1/packages/godotsharp/4.7.2/lib/net8.0/GodotSharp.dll")));
-        ControlledInputPolicy.Validate(compilation: compilation).ShouldBeEmpty();
+        foreach (string project in ProjectEvaluator.Expected.Take(count: 3))
+        {
+            var consumer = ConsumerCompilation.Read(root: ProofProtocol.Root, project: project);
+            CSharpCompilation compilation = consumer.Create();
+            ConsumerCompilation.RequireValid(compilation: compilation);
+            ControlledInputPolicy.Validate(compilation: compilation).ShouldBeEmpty();
+        }
     }
 }

@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -12,12 +11,13 @@ namespace KingdomZombies.Phase1.Tests;
 internal static class EngineAccessPolicy
 {
     /// <summary>Rejects direct engine operations outside declared guarded adapter methods.</summary>
-    internal static IReadOnlyList<string> Check(string source, string path)
+    internal static IReadOnlyList<string> Check(string source, string path, ConsumerCompilation? consumer = null)
     {
-        SyntaxTree tree = CSharpSyntaxTree.ParseText(text: source, path: path);
-        var compilation = CSharpCompilation.Create(assemblyName: "EngineAccessSubject",
-                syntaxTrees: Trees().Where(predicate: candidate => !StringComparer.Ordinal.Equals(
-                        x: candidate.FilePath, y: path)).Append(element: tree), references: References());
+        consumer ??= ConsumerCompilation.Read(root: ProofProtocol.Root, project: ProjectEvaluator.Expected[2]);
+        CSharpCompilation compilation = consumer.Create(source: source, path: path);
+        ConsumerCompilation.RequireValid(compilation: compilation);
+        SyntaxTree tree = compilation.SyntaxTrees.Single(predicate: candidate => StringComparer.Ordinal.Equals(
+                x: candidate.FilePath, y: path));
         return CheckTree(tree: tree, compilation: compilation);
     }
 
@@ -58,11 +58,12 @@ internal static class EngineAccessPolicy
     internal static IReadOnlyList<string> Repository()
     {
         var errors = new List<string>();
-        IReadOnlyList<SyntaxTree> trees = Trees();
-        var compilation = CSharpCompilation.Create(assemblyName: "EngineAccessRepository", syntaxTrees: trees,
-                references: References());
-        foreach (SyntaxTree tree in trees.Where(predicate: tree => !tree.FilePath.Contains(value: "/.godot/",
-                comparisonType: StringComparison.Ordinal)))
+        var consumer = ConsumerCompilation.Read(root: ProofProtocol.Root,
+                project: ProjectEvaluator.Expected[2]);
+        CSharpCompilation compilation = consumer.Create();
+        ConsumerCompilation.RequireValid(compilation: compilation);
+        foreach (SyntaxTree tree in compilation.SyntaxTrees.Where(predicate: tree => consumer.AuthoredPaths.Contains(
+                value: tree.FilePath, comparer: StringComparer.Ordinal)))
         {
             errors.AddRange(collection: CheckTree(tree: tree, compilation: compilation));
         }
@@ -102,36 +103,4 @@ internal static class EngineAccessPolicy
                                         y: "KingdomZombies.Proofs.MainThreadGateway")) ?? false);
     }
 
-    private static List<SyntaxTree> Trees()
-    {
-        var trees = new List<SyntaxTree>();
-        foreach (string file in Directory.EnumerateFiles(path: Path.Combine(path1: ProofProtocol.Root,
-                path2: "src/godot-game"), searchPattern: "*.cs", searchOption: SearchOption.AllDirectories))
-        {
-            string path = Path.GetRelativePath(relativeTo: ProofProtocol.Root, path: file)
-                    .Replace(oldChar: '\\', newChar: '/');
-            if (!path.Contains(value: "/.godot/", comparisonType: StringComparison.Ordinal)
-                    || path.Contains(value: "/obj/Debug/generated/", comparisonType: StringComparison.Ordinal))
-            {
-                trees.Add(item: CSharpSyntaxTree.ParseText(text: File.ReadAllText(path: file), path: path));
-            }
-        }
-
-        return trees;
-    }
-
-    private static MetadataReference[] References()
-    {
-        string trusted = AppContext.GetData(name: "TRUSTED_PLATFORM_ASSEMBLIES") as string
-                ?? throw new InvalidOperationException(message: "ENGINE_ACCESS_FRAMEWORK");
-        string godot = Path.Combine(path1: ProofProtocol.Root,
-                path2: ".phase1/packages/godotsharp/4.7.2/lib/net8.0/GodotSharp.dll");
-        string core = Path.Combine(path1: ProofProtocol.Root,
-                path2: "src/core/bin/Debug/net10.0/KingdomZombies.Core.dll");
-        string ports = Path.Combine(path1: ProofProtocol.Root,
-                path2: "src/multiplayer-abstractions/bin/Debug/net10.0/KingdomZombies.Multiplayer.Abstractions.dll");
-        return [..trusted.Split(separator: Path.PathSeparator).Concat(second: [godot, core, ports])
-                .Distinct(comparer: StringComparer.Ordinal).Select(selector: path =>
-                        MetadataReference.CreateFromFile(path: path))];
-    }
 }

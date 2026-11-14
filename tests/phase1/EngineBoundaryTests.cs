@@ -35,31 +35,38 @@ public sealed class EngineBoundaryTests
     public void Check_EngineSource_RequiresDeclaredGuardedAdapters()
     {
         EngineAccessPolicy.Repository().ShouldBeEmpty();
+        var consumer = ConsumerCompilation.Read(root: ProofProtocol.Root, project: ProjectEvaluator.Expected[2]);
         const string Prefix = "using Alias = Godot.GD; namespace KingdomZombies.Proofs; "
                 + "public partial class Phase1 : Godot.Node { public override void _Ready() { ";
-        const string Guard = "ProofSequence.Gateway.RequireThread(); ";
-        TypeBoundaryScanner.EngineAccess(source: Prefix + Guard + "Alias.Print(what: [1]); } }",
-                path: "src/godot-game/proofs/Phase1.cs").ShouldBeEmpty();
+        const string Guard = "KingdomZombies.Proofs.ProofSequence.Gateway.RequireThread(); ";
+        const string Suffix = " } private readonly string _nonce = \"fixture\"; "
+                + "private void WriteEvidence(string assertion) { } }";
+        EngineAccessPolicy.Check(source: Prefix + Guard + "Alias.Print(what: [1]);" + Suffix,
+                path: "src/godot-game/proofs/Phase1.cs", consumer: consumer).ShouldBeEmpty();
         foreach (string body in new[] { "Alias.Print(what: [1]);", "System.Threading.Tasks.Task.Run(action: "
                 + "() => Alias.Print(what: [1]));", "Alias.Print(what: [1]); " + Guard,
                 "if (false) { " + Guard + " } Alias.Print(what: [1]);",
                 Guard + "System.Threading.Tasks.Task.Run(action: () => Alias.Print(what: [1]));",
                 Guard + "void Work() { Alias.Print(what: [1]); } System.Threading.Tasks.Task.Run(action: Work);" })
         {
-            TypeBoundaryScanner.EngineAccess(source: Prefix + body + " } }", path: "src/godot-game/proofs/Phase1.cs")
+            EngineAccessPolicy.Check(source: Prefix + body + Suffix, path: "src/godot-game/proofs/Phase1.cs",
+                    consumer: consumer)
                     .Any(predicate: error => error.StartsWith(value: "ENGINE_ACCESS ",
                             comparisonType: StringComparison.Ordinal)).ShouldBeTrue();
         }
 
-        TypeBoundaryScanner.EngineAccess(source: Prefix + "Alias.Print(what: [1]); } }",
-                path: "src/godot-game/proofs/Other.cs").ShouldNotBeEmpty();
-        TypeBoundaryScanner.EngineAccess(source: Prefix.Replace(oldValue: "public override void",
+        EngineAccessPolicy.Check(source: Prefix.Replace(oldValue: "class Phase1", newValue: "class Other",
+                comparisonType: StringComparison.Ordinal) + "Alias.Print(what: [1]); } }",
+                path: "src/godot-game/proofs/Other.cs", consumer: consumer).ShouldNotBeEmpty();
+        EngineAccessPolicy.Check(source: Prefix.Replace(oldValue: "public override void",
                 newValue: "public override async void", comparisonType: StringComparison.Ordinal) + Guard
                 + "await System.Threading.Tasks.Task.Delay(millisecondsDelay: 1).ConfigureAwait(false); "
-                + "Alias.Print(what: [1]); } }", path: "src/godot-game/proofs/Phase1.cs").ShouldNotBeEmpty();
-        TypeBoundaryScanner.EngineAccess(source: (Prefix + Guard + "Alias.Print(what: [1]); } }")
-                .Replace(oldValue: "KingdomZombies.Proofs", newValue: "Other.Proofs",
-                        comparisonType: StringComparison.Ordinal), path: "src/godot-game/proofs/Phase1.cs")
+                + "Alias.Print(what: [1]);" + Suffix, path: "src/godot-game/proofs/Phase1.cs", consumer: consumer)
+                .ShouldNotBeEmpty();
+        EngineAccessPolicy.Check(source: (Prefix + Guard + "Alias.Print(what: [1]); } }")
+                .Replace(oldValue: "namespace KingdomZombies.Proofs", newValue: "namespace Other.Proofs",
+                        comparisonType: StringComparison.Ordinal), path: "src/godot-game/proofs/Other.cs",
+                consumer: consumer)
                 .ShouldNotBeEmpty();
         ProofProtocol.Record(id: "engine.source-policy", diagnostic: "ENGINE_SOURCE_GUARDED",
                 location: "actual handwritten sources and aliased/spoofed/late-guard/worker subjects");
