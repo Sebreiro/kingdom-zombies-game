@@ -6,16 +6,16 @@ current_phase: 1
 current_phase_name: Code rules and documentation
 current_plan: 17
 status: executing
-stopped_at: Four review findings repaired; independent re-review and complete Windows/Linux-VM acceptance pending; Phase 2 context captured (02-CONTEXT.md); Phase 3 context gathered (03-CONTEXT.md)
-last_updated: "2026-11-14T18:15:27.856Z"
-last_activity: 2026-11-14 (Europe/Paris) — Four code-review findings repaired; six regression cases added, 676 Phase 1 obligations. Latest creator policy requires complete Windows and local Linux-VM phase-scope acceptance. Hardware acceleration setup requested; final runs and human review remain Pending.
-state_head: 5c52a20c9fdabe9fad085e97333ca65d1ec8b219
+stopped_at: Final Windows676 passed; matching Linux prepared and VM stopped; awaiting Windows restart and complete Linux acceptance; Phase 2 context captured (02-CONTEXT.md); Phase 3 context gathered (03-CONTEXT.md); Phase 4 context gathered (04-CONTEXT.md)
+last_updated: "2026-11-14T19:46:31.364Z"
+last_activity: 2026-11-14 (Europe/Paris) — Complete final Windows676/676 accepted at59f032c; independent repair review clean and security31/31 closed. Identical Linux checkout prepared and VM safely stopped. Await creator Windows restart to activate WHPX, then complete Linux676 and actual human review. Phase1 remains17/18.
 progress:
   total_phases: 10
   completed_phases: 0
   total_plans: 18
   completed_plans: 17
   percent: 0
+state_head: 3d59c8b3bc98e134bf18becf5044bd846049498a
 ---
 
 # Project State
@@ -26,15 +26,15 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-13).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase 1, Plan 17 remains incomplete at 17/18 plans. Review repairs 330a427, 8ebbc1d, 3da7114 and 5c52a20 address active-branch parsing, native operation escapes, actual visibility inventory and implicit-usings proof sensitivity. Focused checks and strict builds pass; independent review and fresh complete Windows/Linux-VM runs for all 676 Phase 1 obligations are next. The old f4658bb platform records are historical. Eight Phase 5 declarations and fourteen human outcomes remain Pending. Preserve all captured Phase 2/3 context and concurrent Phase 4 specification work.
+**Current focus:** Phase 1, Plan 17 remains incomplete at 17/18 plans. Final clean Windows 59f032c accepts 676/676 (b8b5eacc-c46a-42d7-a898-01ad33c1b0a8), with all evidence inspected. Independent repair review is clean and security 31/31 closed. Identical Linux source/input and verified caches are prepared; the owned VM is cleanly stopped. Creator-enabled Windows Hypervisor Platform awaits a host restart (live HypervisorPresent false). Resume the [restart checkpoint](phases/01-code-rules-and-documentation/01-RESTART-CHECKPOINT.md), verify WHPX, run all 676 Linux cases, then obtain the fourteen human outcomes. All seven RULE requirements and eight deferred Phase 5 declarations remain Pending. Preserve captured Phase 2/3/4 context.
 
 ## Current Position
 
 Phase: 1 (Code rules and documentation) — EXECUTING
 Current Plan: 17
 Total Plans in Phase: 18
-Status: Executing final review and complete platform acceptance
-Last activity: 2026-11-14 (Europe/Paris) — Four code-review findings repaired; six regression cases added, 676 Phase 1 obligations. Latest creator policy requires complete Windows and local Linux-VM phase-scope acceptance. Hardware acceleration setup requested; final runs and human review remain Pending.
+Status: Awaiting creator Windows restart for complete Linux-VM acceptance
+Last activity: 2026-11-14 (Europe/Paris) — Complete final Windows676/676 accepted at59f032c; independent repair review clean and security31/31 closed. Identical Linux checkout prepared and VM safely stopped. Await creator Windows restart to activate WHPX, then complete Linux676 and actual human review. Phase1 remains17/18.
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -120,7 +120,7 @@ Full decisions are in PROJECT.md.
 
 ### Pending Todos
 
-Complete independent repair/security re-verification, finish the local hardware-acceleration prerequisite, then obtain clean same-source Windows and Linux-VM setup and complete `--phase 1` runs (676 required). Record actual human judgment separately. Preserve all original reports, deadlines, pins, locks and deferred ownership.
+The complete Windows 676/676 run, independent review and security are complete. Resume the saved restart checkpoint: after creator Windows restart, verify actual WHPX and run clean Linux setup plus the complete 676-case selection on the preserved same-source checkout. Then obtain actual qualitative review. No complete phase or human result is claimed.
 
 ### Roadmap Evolution
 
@@ -153,8 +153,10 @@ Preserve immutable reports and freeze tested inputs during complete runs. After 
 
 ## Session Continuity
 
-Last session: 2026-11-14T18:15:27.857Z
-Stopped at: Four review findings repaired; independent re-review and complete Windows/Linux-VM acceptance pending; Phase 2 context captured (02-CONTEXT.md); Phase 3 context gathered (03-CONTEXT.md)
-Resume file: None
+Last session: 2026-11-14T19:46:31.365Z
+Stopped at: Final Windows676 passed; matching Linux prepared and VM stopped; awaiting Windows restart and complete Linux acceptance; Phase 2 context captured (02-CONTEXT.md); Phase 3 context gathered (03-CONTEXT.md); Phase 4 context gathered (04-CONTEXT.md)
+Resume file: phases/01-code-rules-and-documentation/01-RESTART-CHECKPOINT.md
 
-Next action: Complete independent review and hardware-acceleration setup, then clean same-source full Windows/Linux-VM Phase 1 runs (676 obligations) and actual qualitative review. Preserve Plan 18 ordering, all historical evidence and captured Phase 2/3 context. No Phase 2 execution is authorized by this --only 1 run.
+Next action: Creator restarts Windows, then resume Plan 01-17 only from the [restart checkpoint](phases/01-code-rules-and-documentation/01-RESTART-CHECKPOINT.md). Verify active hypervisor/WHPX, complete clean Linux 676 acceptance and real human review. Preserve the passed frozen Windows run, Plan 18 ordering and Phase 2/3/4 context; do not advance to Phase 2.
+
+Parallel context resume: [Phase 4 context](phases/04-asset-production/04-CONTEXT.md). Its capture is preserved separately from this active Phase 1 execution.

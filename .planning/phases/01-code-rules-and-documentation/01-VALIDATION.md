@@ -12,7 +12,13 @@ updated: "2026-11-14"
 
 **Latest acceptance policy, 2026-11-14:** The creator now requires complete current phase scope on the development OS and a local VM running the other OS. Four review repairs and six new regressions require fresh full Windows/Linux-VM evidence for 676 selected obligations. Historical 670-case Windows and sixteen-case Linux records below retain their actual outcomes; they do not certify the repaired implementation. Independent repair/security review and actual human judgment remain Pending.
 
-## Validation audit — 2026-11-14
+## Current complete-scope checkpoint — 2026-11-14
+
+The repaired final source59f032c now passes the complete Windows selection: **676/676 accepted**, zero failures/blocks/missing/skips, nonce b8b5eacc-c46a-42d7-a898-01ad33c1b0a8. All676 test reports,692 subject files and681 command outcomes/log hashes reconcile. Independent repair review is clean; all31 declared security mitigations are closed.
+
+The current automated execution gap is **one missing complete Linux platform run** (all676 current obligations), blocked by the creator-controlled Windows restart needed for WHPX. Its same-source checkout/input/cache are prepared and the owned VM is cleanly stopped. The earlier nine TCG case timeouts below remain historical, not new-source passes or waivers; the latest full-scope requirement supersedes their representative-only acceptance boundary. No missing behavioral test was found. Fourteen human components remain separately Pending. Nyquist compliance and phase completion remain false. See the [restart checkpoint](01-RESTART-CHECKPOINT.md).
+
+## Historical validation audit — 2026-11-14
 
 The required post-execution audit is **partial**: it identified no new missing-test behavior, but escalated nine existing automated Linux execution gaps with zero resolved. The fourteen qualitative human components remain separately Pending. `status: validated` records that this audit occurred; `nyquist_compliant: false` and the incomplete phase status remain unchanged.
 
@@ -111,3 +117,11 @@ No implementation/rule/test/configuration diff exists between that reviewed sour
 | Gaps found | 9 |
 | Resolved | 0 |
 | Escalated | 9 |
+
+## Validation Audit 2026-11-14
+
+| Metric | Count |
+|---|---|
+| Gaps found | 1 |
+| Resolved | 0 |
+| Escalated | 1 |
