@@ -16,7 +16,7 @@ public sealed class AnalyzerSourceConsumerTests
     /// <summary>Every owned analyzer source file passes all currently implemented rules in an actual
     /// compiler.</summary>
     [Fact, Trait("Case", "rules.analyzer-source-consumer")]
-    public void AnalyzerSourcesPassTheirOwnRules()
+    public void Analyze_OwnedAnalyzerSources_PassesAllTwelveRules()
     {
         var assembly = Assembly.Load(rawAssembly: File.ReadAllBytes(path: Path.Combine(path1: ProofProtocol
                 .Root, path2: "tools/code-rules/bin/Debug/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll")));

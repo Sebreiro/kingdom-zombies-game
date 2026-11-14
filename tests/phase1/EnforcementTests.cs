@@ -13,7 +13,7 @@ public sealed class EnforcementTests
 {
     /// <summary>A real copied Core consumer rejects precisely the sixty-first body line.</summary>
     [Fact, Trait("Case", "rules.build-wiring")]
-    public void RealConsumerRejectsSixtyFirstBodyLine()
+    public void Build_SixtyFirstBodyLine_ReportsScr0006()
     {
         var fixture = new BuildFixture();
         fixture.Restore();

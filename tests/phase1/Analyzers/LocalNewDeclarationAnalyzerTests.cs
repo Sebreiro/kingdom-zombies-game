@@ -15,7 +15,7 @@ public sealed class LocalNewDeclarationAnalyzerTests
     /// <summary><c>{|SCR0012:Foo x = new()|};</c> is reported on the declaration.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "R-18.negative")]
-    public Task AnalyzeTypedLocalWithTargetTypedNewReports()
+    public Task Analyze_TypedLocalWithTargetTypedNew_Reports()
     {
         return VerifyAsync(caseId: "R-18.negative", diagnostic: "SCR0012", source: """
                 class Foo
@@ -32,7 +32,7 @@ public sealed class LocalNewDeclarationAnalyzerTests
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", ("rules.localnewdeclaration.Analyze_TargetTypedNewWithArg" +
             "umentsAndInitializer_Reports"))]
-    public Task AnalyzeTargetTypedNewWithArgumentsAndInitializerReports()
+    public Task Analyze_TargetTypedNewWithArgumentsAndInitializer_Reports()
     {
         return VerifyAsync(caseId: ("rules.localnewdeclaration.Analyze_TargetTypedNewWithArg" +
                 "umentsAndInitializer_Reports"), diagnostic: "SCR0012", source: """
@@ -55,7 +55,7 @@ public sealed class LocalNewDeclarationAnalyzerTests
     /// <summary><c>var x = new Foo();</c> passes.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "R-18.positive")]
-    public Task AnalyzeVarWithNewPasses()
+    public Task Analyze_VarWithNew_Passes()
     {
         return VerifyAsync(caseId: "R-18.positive", diagnostic: "ANALYZER_ACCEPTED", source: """
                 class Foo
@@ -73,7 +73,7 @@ public sealed class LocalNewDeclarationAnalyzerTests
     /// </summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.localnewdeclaration.Analyze_TypedLocalWithExplicitNew_IsNotReported")]
-    public Task AnalyzeTypedLocalWithExplicitNewIsNotReported()
+    public Task Analyze_TypedLocalWithExplicitNew_IsNotReported()
     {
         return VerifyAsync(caseId: "rules.localnewdeclaration.Analyze_TypedLocalWithExplicitNew_IsNotReported",
                 diagnostic: "ANALYZER_ACCEPTED", source: """
@@ -90,7 +90,7 @@ public sealed class LocalNewDeclarationAnalyzerTests
     /// <summary>A field and a property initialized with target-typed <c>new()</c> pass.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.localnewdeclaration.Analyze_FieldAndProperty_Pass")]
-    public Task AnalyzeFieldAndPropertyPass()
+    public Task Analyze_FieldAndProperty_Pass()
     {
         return VerifyAsync(caseId: "rules.localnewdeclaration.Analyze_FieldAndProperty_Pass", diagnostic:
                 "ANALYZER_ACCEPTED", source: """
@@ -106,7 +106,7 @@ public sealed class LocalNewDeclarationAnalyzerTests
     /// <summary>Target-typed <c>new()</c> as an argument and as a return value passes.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.localnewdeclaration.Analyze_ArgumentAndReturnValue_Pass")]
-    public Task AnalyzeArgumentAndReturnValuePass()
+    public Task Analyze_ArgumentAndReturnValue_Pass()
     {
         return VerifyAsync(caseId: "rules.localnewdeclaration.Analyze_ArgumentAndReturnValue_Pass", diagnostic:
                 "ANALYZER_ACCEPTED", source: """
@@ -128,7 +128,7 @@ public sealed class LocalNewDeclarationAnalyzerTests
     /// <summary>A <c>using</c> declaration and an <c>await using</c> declaration are both reported.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.localnewdeclaration.Analyze_UsingAndAwaitUsingDeclarations_Report")]
-    public Task AnalyzeUsingAndAwaitUsingDeclarationsReport()
+    public Task Analyze_UsingAndAwaitUsingDeclarations_Report()
     {
         return VerifyAsync(caseId: "rules.localnewdeclaration.Analyze_UsingAndAwaitUsingDeclarations_Report",
                 diagnostic: "SCR0012", source: """
@@ -159,7 +159,7 @@ public sealed class LocalNewDeclarationAnalyzerTests
     /// <summary>A <c>for</c> initializer and a <c>using (…)</c> statement declaration are both reported.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.localnewdeclaration.Analyze_ForInitializerAndUsingStatement_Report")]
-    public Task AnalyzeForInitializerAndUsingStatementReport()
+    public Task Analyze_ForInitializerAndUsingStatement_Report()
     {
         return VerifyAsync(caseId: "rules.localnewdeclaration.Analyze_ForInitializerAndUsingStatement_Report",
                 diagnostic: "SCR0012", source: ("using System;\n\nclass Counter : IDisposable\n{\n    public" +
@@ -174,7 +174,7 @@ public sealed class LocalNewDeclarationAnalyzerTests
     /// <summary>Several declarators in one declaration cannot use <c>var</c>, so they pass.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.localnewdeclaration.Analyze_SeveralDeclarators_Pass")]
-    public Task AnalyzeSeveralDeclaratorsPass()
+    public Task Analyze_SeveralDeclarators_Pass()
     {
         return VerifyAsync(caseId: "rules.localnewdeclaration.Analyze_SeveralDeclarators_Pass", diagnostic:
                 "ANALYZER_ACCEPTED", source: """
@@ -197,7 +197,7 @@ public sealed class LocalNewDeclarationAnalyzerTests
     /// </summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.localnewdeclaration.Analyze_OtherInitializers_Pass")]
-    public Task AnalyzeOtherInitializersPass()
+    public Task Analyze_OtherInitializers_Pass()
     {
         return VerifyAsync(caseId: "rules.localnewdeclaration.Analyze_OtherInitializers_Pass", diagnostic:
                 "ANALYZER_ACCEPTED", source: """
@@ -229,7 +229,7 @@ public sealed class LocalNewDeclarationAnalyzerTests
     /// <summary>A top-level statement local with target-typed <c>new()</c> is reported.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.localnewdeclaration.Analyze_TopLevelStatement_Reports")]
-    public Task AnalyzeTopLevelStatementReports()
+    public Task Analyze_TopLevelStatement_Reports()
     {
         return VerifyAsync(caseId: "rules.localnewdeclaration.Analyze_TopLevelStatement_Reports", diagnostic:
                 "SCR0012",
@@ -245,7 +245,7 @@ public sealed class LocalNewDeclarationAnalyzerTests
     /// <summary>The message names the local and the type to write after <c>new</c>.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.localnewdeclaration.Analyze_Message_NamesLocalAndType")]
-    public Task AnalyzeMessageNamesLocalAndType()
+    public Task Analyze_Message_NamesLocalAndType()
     {
         return VerifyAsync(caseId: "rules.localnewdeclaration.Analyze_Message_NamesLocalAndType", diagnostic:
                 "SCR0012",
@@ -264,7 +264,7 @@ public sealed class LocalNewDeclarationAnalyzerTests
     /// <summary>Generated settings cannot exempt handwritten code.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.localnewdeclaration.Analyze_GeneratedCode_IsSkipped")]
-    public Task AnalyzeGeneratedCodeIsSkipped()
+    public Task Analyze_GeneratedCode_IsSkipped()
     {
         return VerifyAsync(caseId: "rules.localnewdeclaration.Analyze_GeneratedCode_IsSkipped", diagnostic: "SCR0012",
                 source: """

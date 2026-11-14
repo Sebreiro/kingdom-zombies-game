@@ -14,7 +14,7 @@ public sealed class NamedArgumentAnalyzerTests
     /// <summary>A positional argument to a method is reported.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "R-38.negative")]
-    public Task InvocationPositionalArgumentReports()
+    public Task Invocation_PositionalArgument_Reports()
     {
         return VerifyAsync(caseId: "R-38.negative", diagnostic: "SCR0001", source: """
                 class C
@@ -28,7 +28,7 @@ public sealed class NamedArgumentAnalyzerTests
     /// <summary>A named argument passes.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "R-38.positive")]
-    public Task InvocationNamedArgumentPasses()
+    public Task Invocation_NamedArgument_Passes()
     {
         return VerifyAsync(caseId: "R-38.positive", diagnostic: "ANALYZER_ACCEPTED", source: """
                 class C
@@ -42,7 +42,7 @@ public sealed class NamedArgumentAnalyzerTests
     /// <summary>Positional arguments to constructors and constructor initializers are reported.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.namedargument.Construction_PositionalArgument_Reports")]
-    public Task ConstructionPositionalArgumentReports()
+    public Task Construction_PositionalArgument_Reports()
     {
         return VerifyAsync(caseId: "rules.namedargument.Construction_PositionalArgument_Reports", diagnostic:
                 "SCR0001", source: ("class B\n{\n    public B(int a) { }\n}\n\nclass C : B\n{\n    " +
@@ -56,7 +56,7 @@ public sealed class NamedArgumentAnalyzerTests
     /// </summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.namedargument.Params_Elements_AreExempt")]
-    public Task ParamsElementsAreExempt()
+    public Task Params_Elements_AreExempt()
     {
         return VerifyAsync(caseId: "rules.namedargument.Params_Elements_AreExempt", diagnostic: "SCR0001",
                 source: ("using System;\nusing System.Collections.Generic;\n\nclass " +
@@ -73,7 +73,7 @@ public sealed class NamedArgumentAnalyzerTests
     /// <summary>E2: the receiver of an extension call passes; the same receiver written as an argument fails.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.namedargument.Analyze_ExtensionReceiver_IsExempt")]
-    public Task AnalyzeExtensionReceiverIsExempt()
+    public Task Analyze_ExtensionReceiver_IsExempt()
     {
         return VerifyAsync(caseId: "rules.namedargument.Analyze_ExtensionReceiver_IsExempt", diagnostic:
                 "SCR0001", source: ("static class Ext\n{\n    public static int Twice(this str" +
@@ -85,7 +85,7 @@ public sealed class NamedArgumentAnalyzerTests
     /// <summary>E2: the receiver of a C# 14 extension member passes.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.namedargument.Analyze_ExtensionMemberReceiver_IsExempt")]
-    public Task AnalyzeExtensionMemberReceiverIsExempt()
+    public Task Analyze_ExtensionMemberReceiver_IsExempt()
     {
         return VerifyAsync(caseId: "rules.namedargument.Analyze_ExtensionMemberReceiver_IsExempt", diagnostic:
                 "ANALYZER_ACCEPTED", source: """
@@ -107,7 +107,7 @@ public sealed class NamedArgumentAnalyzerTests
     /// <summary>E3: attribute arguments pass; the same constructor called in code fails.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.namedargument.Analyze_AttributeArguments_AreExempt")]
-    public Task AnalyzeAttributeArgumentsAreExempt()
+    public Task Analyze_AttributeArguments_AreExempt()
     {
         return VerifyAsync(caseId: "rules.namedargument.Analyze_AttributeArguments_AreExempt", diagnostic:
                 "SCR0001", source: ("using System;\n\nclass C\n{\n    [Obsolete(\"Old.\", false)]\n" +
@@ -120,7 +120,7 @@ public sealed class NamedArgumentAnalyzerTests
     /// <summary>E4: indexer and element-access arguments pass.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.namedargument.Analyze_IndexerArguments_AreExempt")]
-    public Task AnalyzeIndexerArgumentsAreExempt()
+    public Task Analyze_IndexerArguments_AreExempt()
     {
         return VerifyAsync(caseId: "rules.namedargument.Analyze_IndexerArguments_AreExempt", diagnostic:
                 "ANALYZER_ACCEPTED", source: """
@@ -142,7 +142,7 @@ public sealed class NamedArgumentAnalyzerTests
     /// <summary>E5: a delegate invocation passes; a method call on the same value fails.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.namedargument.Analyze_DelegateInvocation_IsExempt")]
-    public Task AnalyzeDelegateInvocationIsExempt()
+    public Task Analyze_DelegateInvocation_IsExempt()
     {
         return VerifyAsync(caseId: "rules.namedargument.Analyze_DelegateInvocation_IsExempt", diagnostic:
                 "SCR0001", source: ("using System;\n\nclass C\n{\n    static int N(Func<int, int" +
@@ -157,7 +157,7 @@ public sealed class NamedArgumentAnalyzerTests
     /// </summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.namedargument.FunctionPointerInvocation_PositionalArgument_IsExempt")]
-    public Task FunctionPointerInvocationPositionalArgumentIsExempt()
+    public Task FunctionPointerInvocation_PositionalArgument_IsExempt()
     {
         return VerifyAsync(caseId: "rules.namedargument.FunctionPointerInvocation_PositionalArgument_IsExempt",
                 diagnostic: "SCR0001", source: """
@@ -179,7 +179,7 @@ public sealed class NamedArgumentAnalyzerTests
     /// <summary>E7: <c>nameof</c>, tuples, <c>typeof</c> and <c>default</c> are not arguments.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.namedargument.Analyze_NameofTupleTypeofDefault_AreExempt")]
-    public Task AnalyzeNameofTupleTypeofDefaultAreExempt()
+    public Task Analyze_NameofTupleTypeofDefault_AreExempt()
     {
         return VerifyAsync(caseId: "rules.namedargument.Analyze_NameofTupleTypeofDefault_AreExempt", diagnostic
                 : "ANALYZER_ACCEPTED", source: ("using System;\n\nclass C\n{\n    static object N(int code)\n" +
@@ -191,7 +191,7 @@ public sealed class NamedArgumentAnalyzerTests
     /// <summary>E7: a <c>nameof</c> passed as an argument value still needs the parameter name.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.namedargument.Analyze_NameofAsArgumentValue_Reports")]
-    public Task AnalyzeNameofAsArgumentValueReports()
+    public Task Analyze_NameofAsArgumentValue_Reports()
     {
         return VerifyAsync(caseId: "rules.namedargument.Analyze_NameofAsArgumentValue_Reports", diagnostic:
                 "SCR0001", source: ("using System;\n\nclass C\n{\n    static Exception N(int cod" +
@@ -203,7 +203,7 @@ public sealed class NamedArgumentAnalyzerTests
     /// handwritten subject.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.namedargument.GeneratedConfigurationCannotExemptHandwrittenCode")]
-    public Task GeneratedConfigurationCannotExemptHandwrittenCode()
+    public Task Analyze_HandwrittenWithGeneratedConfiguration_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.namedargument.GeneratedConfigurationCannotExemptHandwrittenCode",
                 diagnostic: "SCR0001",
@@ -227,7 +227,7 @@ public sealed class NamedArgumentAnalyzerTests
     /// </summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.namedargument.Analyze_ImplicitArguments_AreSkipped")]
-    public Task AnalyzeImplicitArgumentsAreSkipped()
+    public Task Analyze_ImplicitArguments_AreSkipped()
     {
         return VerifyAsync(caseId: "rules.namedargument.Analyze_ImplicitArguments_AreSkipped", diagnostic:
                 "SCR0001", source: ("using System.Globalization;\nusing System.Text;\n\nclass C" +
@@ -244,7 +244,7 @@ public sealed class NamedArgumentAnalyzerTests
     /// <summary>Dropped E6: a single lambda argument still needs its parameter name.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.namedargument.Analyze_SingleLambdaArgument_Reports")]
-    public Task AnalyzeSingleLambdaArgumentReports()
+    public Task Analyze_SingleLambdaArgument_Reports()
     {
         return VerifyAsync(caseId: "rules.namedargument.Analyze_SingleLambdaArgument_Reports", diagnostic:
                 "SCR0001", source: ("using System.Collections.Generic;\nusing System.Linq;\n\nc" +
@@ -256,7 +256,7 @@ public sealed class NamedArgumentAnalyzerTests
     /// <summary>Dropped E8: an argument to a single-parameter method still needs its parameter name.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.namedargument.Analyze_SingleParameterMethod_Reports")]
-    public Task AnalyzeSingleParameterMethodReports()
+    public Task Analyze_SingleParameterMethod_Reports()
     {
         return VerifyAsync(caseId: "rules.namedargument.Analyze_SingleParameterMethod_Reports", diagnostic:
                 "SCR0001", source: ("using System;\n\nclass C\n{\n    static bool N(string word)" +
@@ -267,7 +267,7 @@ public sealed class NamedArgumentAnalyzerTests
     /// <summary>Dropped E9: an identifier equal to the parameter name still needs the name.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.namedargument.Analyze_IdentifierEqualToParameterName_Reports")]
-    public Task AnalyzeIdentifierEqualToParameterNameReports()
+    public Task Analyze_IdentifierEqualToParameterName_Reports()
     {
         return VerifyAsync(caseId: "rules.namedargument.Analyze_IdentifierEqualToParameterName_Reports",
                 diagnostic: "SCR0001", source: ("class C\n{\n    static void M(int code) { }\n    static vo" +
@@ -278,7 +278,7 @@ public sealed class NamedArgumentAnalyzerTests
     /// <summary>Explicit params arrays and ref arguments are ordinary arguments immediately outside element
     /// exemptions.</summary>
     [Fact, Trait("Case", "rules.namedargument.explicit-params-ref")]
-    public Task ExplicitParamsArraysAndRefArgumentsRequireNames()
+    public Task Analyze_ExplicitParamsArraysAndRefArguments_RequiresNames()
     {
         return VerifyAsync(caseId: "rules.namedargument.explicit-params-ref", diagnostic: "SCR0001", source: """
                 class C

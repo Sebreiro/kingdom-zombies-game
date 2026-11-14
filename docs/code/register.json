@@ -1989,7 +1989,7 @@
         "symbol": "R-48"
       },
       "mechanism": {
-        "path": ".editorconfig",
+        "path": "tests/phase1/TestSourceIndex.cs",
         "symbol": "R-48",
         "diagnostics": [
           "CA1707"
@@ -2003,13 +2003,13 @@
         "id": "R-48.positive",
         "rule": "R-48",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "tests/phase1/TestMethodNameTests.cs"
       },
       "negativeProof": {
         "id": "R-48.negative",
         "rule": "R-48",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "tests/phase1/TestMethodNameTests.cs"
       },
       "qualitativeReview": {
         "required": false,

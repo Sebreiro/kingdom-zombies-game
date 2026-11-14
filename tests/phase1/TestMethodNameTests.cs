@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Nodes;
 using Shouldly;
 using Xunit;
 
@@ -42,6 +43,7 @@ public sealed class TestMethodNameTests
         IReadOnlyList<string> methods = TestSourceIndex.ProductionTestMethods();
         methods.Count.ShouldBeGreaterThan(expected: 400);
         methods.Distinct(comparer: System.StringComparer.Ordinal).Count().ShouldBe(expected: methods.Count);
+        RequireCurrentBindings(methods: methods);
         IEnumerable<string> violations = methods.Where(predicate: name => !TestSourceIndex.FollowsMethodStateExpected(
                 methodName: name[(name.LastIndexOf(value: '.') + 1)..]));
         violations.ShouldBeEmpty(customMessage: string.Join(separator: "\n", values: violations));
@@ -61,4 +63,27 @@ public sealed class TestMethodNameTests
     private static readonly string[] _unusualMethods = ["Sample.Tests.Odd.Wrapped", "Sample.Tests.Odd.Qualified",
         "Sample.Tests.Odd.Suffixed", "Sample.Tests.Odd.Custom", "Sample.Tests.Odd.Static", "Sample.Tests.Odd.Generic",
         "Sample.Tests.Odd.Nested.Inner"];
+
+    private static void RequireCurrentBindings(IReadOnlyList<string> methods)
+    {
+        JsonObject manifest = RegisterValidator.Read(relative: "tools/phase1/required-cases.json");
+        JsonArray cases = manifest["cases"]?.AsArray()
+                ?? throw new System.IO.InvalidDataException(message: "NAMING_CASES_REQUIRED");
+        var bindings = new HashSet<string>(comparer: System.StringComparer.Ordinal);
+        foreach (JsonNode? row in cases)
+        {
+            if (!System.StringComparer.Ordinal.Equals(x: row?["implementation"]?.GetValue<string>(), y: "csharp"))
+            {
+                continue;
+            }
+
+            string name = row?["test"]?.GetValue<string>()
+                    ?? throw new System.IO.InvalidDataException(message: "NAMING_BINDING_REQUIRED");
+            bindings.Add(item: name).ShouldBeTrue(customMessage: "Duplicate binding: " + name);
+            methods.Any(predicate: actual => System.StringComparer.Ordinal.Equals(x: actual, y: name))
+                    .ShouldBeTrue(customMessage: "Missing binding: " + name);
+        }
+
+        bindings.Count.ShouldBeGreaterThan(expected: 400);
+    }
 }

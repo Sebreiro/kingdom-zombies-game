@@ -15,7 +15,7 @@ public sealed class BodyCommentAnalyzerTests
     /// <summary>A line comment and a block comment inside a method body are reported.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "R-36.negative")]
-    public Task MethodLineAndBlockCommentsReport()
+    public Task Method_LineAndBlockComments_Report()
     {
         return VerifyAsync(caseId: "R-36.negative", diagnostic: "SCR0002", source: """
                 class C
@@ -32,7 +32,7 @@ public sealed class BodyCommentAnalyzerTests
     /// <summary>A comment after a statement on the same line is reported.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.bodycomment.Method_TrailingComment_Reports")]
-    public Task MethodTrailingCommentReports()
+    public Task Method_TrailingComment_Reports()
     {
         return VerifyAsync(caseId: "rules.bodycomment.Method_TrailingComment_Reports", diagnostic: "SCR0002",
                 source: """
@@ -50,7 +50,7 @@ public sealed class BodyCommentAnalyzerTests
     /// <summary>A comment inside a constructor and a destructor is reported.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.bodycomment.ConstructorAndDestructor_Comments_Report")]
-    public Task ConstructorAndDestructorCommentsReport()
+    public Task ConstructorAndDestructor_Comments_Report()
     {
         return VerifyAsync(caseId: "rules.bodycomment.ConstructorAndDestructor_Comments_Report", diagnostic:
                 "SCR0002", source: """
@@ -72,7 +72,7 @@ public sealed class BodyCommentAnalyzerTests
     /// <summary>A comment inside property, indexer and event accessors and an expression body is reported.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.bodycomment.Accessors_Comments_Report")]
-    public Task AccessorsCommentsReport()
+    public Task Accessors_Comments_Report()
     {
         return VerifyAsync(caseId: "rules.bodycomment.Accessors_Comments_Report", diagnostic: "SCR0002", source: """
                 using System;
@@ -111,7 +111,7 @@ public sealed class BodyCommentAnalyzerTests
     /// <summary>A comment inside an operator and a conversion operator is reported.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.bodycomment.Operators_Comments_Report")]
-    public Task OperatorsCommentsReport()
+    public Task Operators_Comments_Report()
     {
         return VerifyAsync(caseId: "rules.bodycomment.Operators_Comments_Report", diagnostic: "SCR0002", source: """
                 class C
@@ -134,7 +134,7 @@ public sealed class BodyCommentAnalyzerTests
     /// <summary>A comment inside a local function and inside lambdas is reported.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.bodycomment.LocalFunctionAndLambda_Comments_Report")]
-    public Task LocalFunctionAndLambdaCommentsReport()
+    public Task LocalFunctionAndLambda_Comments_Report()
     {
         return VerifyAsync(caseId: "rules.bodycomment.LocalFunctionAndLambda_Comments_Report", diagnostic:
                 "SCR0002", source: """
@@ -164,7 +164,7 @@ public sealed class BodyCommentAnalyzerTests
     /// <summary>A comment inside a lambda in a field initializer is reported: the lambda is a body.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.bodycomment.FieldInitializerLambda_Comment_Reports")]
-    public Task FieldInitializerLambdaCommentReports()
+    public Task FieldInitializerLambda_Comment_Reports()
     {
         return VerifyAsync(caseId: "rules.bodycomment.FieldInitializerLambda_Comment_Reports", diagnostic:
                 "SCR0002", source: ("using System;\n\nclass C\n{\n    private static readonly Fu" +
@@ -177,7 +177,7 @@ public sealed class BodyCommentAnalyzerTests
     /// <summary>A <c>///</c> comment inside a method body is a body comment.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.bodycomment.Method_DocumentationComment_Reports")]
-    public Task MethodDocumentationCommentReports()
+    public Task Method_DocumentationComment_Reports()
     {
         return VerifyAsync(caseId: "rules.bodycomment.Method_DocumentationComment_Reports", diagnostic:
                 "SCR0002", source: """
@@ -200,7 +200,7 @@ public sealed class BodyCommentAnalyzerTests
     /// <summary>XML docs on members and comments between members, before and after bodies pass.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "R-36.positive")]
-    public Task AnalyzeCommentsOutsideBodiesPass()
+    public Task Analyze_CommentsOutsideBodies_Pass()
     {
         return VerifyAsync(caseId: "R-36.positive", diagnostic: "ANALYZER_ACCEPTED", source: """
                 // File header.
@@ -230,7 +230,7 @@ public sealed class BodyCommentAnalyzerTests
     /// </summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.bodycomment.PreprocessorDirectives_InBody_Pass")]
-    public Task PreprocessorDirectivesInBodyPass()
+    public Task PreprocessorDirectives_InBody_Pass()
     {
         return VerifyAsync(caseId: "rules.bodycomment.PreprocessorDirectives_InBody_Pass", diagnostic:
                 "ANALYZER_ACCEPTED", source: """
@@ -257,7 +257,7 @@ public sealed class BodyCommentAnalyzerTests
     /// </summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.bodycomment.GlobalStatements_Comments_Report")]
-    public Task GlobalStatementsCommentsReport()
+    public Task GlobalStatements_Comments_Report()
     {
         return VerifyAsync(caseId: "rules.bodycomment.GlobalStatements_Comments_Report", diagnostic: "SCR0002",
                 source: """
@@ -276,7 +276,7 @@ public sealed class BodyCommentAnalyzerTests
     /// </summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.bodycomment.GlobalStatements_CommentBeforeType_Passes")]
-    public Task GlobalStatementsCommentBeforeTypePasses()
+    public Task GlobalStatements_CommentBeforeType_Passes()
     {
         return VerifyAsync(caseId: "rules.bodycomment.GlobalStatements_CommentBeforeType_Passes", diagnostic:
                 "ANALYZER_ACCEPTED",
@@ -295,7 +295,7 @@ public sealed class BodyCommentAnalyzerTests
     /// handwritten subject.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.bodycomment.GeneratedConfigurationCannotExemptHandwrittenCode")]
-    public Task GeneratedConfigurationCannotExemptHandwrittenCode()
+    public Task Analyze_HandwrittenWithGeneratedConfiguration_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.bodycomment.GeneratedConfigurationCannotExemptHandwrittenCode",
                 diagnostic: "SCR0002",
@@ -319,7 +319,7 @@ public sealed class BodyCommentAnalyzerTests
     /// <summary>Block XML docs and anonymous-method comments are checked once, including CRLF and first-line
     /// spans.</summary>
     [Fact, Trait("Case", "rules.bodycomment.block-doc-anonymous")]
-    public Task BlockDocumentationAndAnonymousMethodsAreChecked()
+    public Task Analyze_BlockDocumentationAndAnonymousMethods_ReportsDiagnostics()
     {
         return VerifyAsync(caseId: "rules.bodycomment.block-doc-anonymous", diagnostic: "SCR0002", source: (
                 "class C\n{\n    static int Run()\n    {\n        {|SCR0002:" +

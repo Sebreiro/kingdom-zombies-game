@@ -13,7 +13,7 @@ public sealed class LineLengthAnalyzerTests
     /// <summary>A line of exactly 120 Latin letters passes.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "R-10.positive")]
-    public Task Line120CharactersPasses()
+    public Task Line_120Characters_Passes()
     {
         return VerifyAsync(caseId: "R-10.positive", diagnostic: "ANALYZER_ACCEPTED", source: TypeNamed(
                 name: Letters(letter: 'A', count: 120)));
@@ -22,7 +22,7 @@ public sealed class LineLengthAnalyzerTests
     /// <summary>A line of 121 Latin letters fails, reported on the characters past the limit.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "R-10.negative")]
-    public Task Line121CharactersFails()
+    public Task Line_121Characters_Fails()
     {
         return VerifyAsync(caseId: "R-10.negative", diagnostic: "SCR0007", source: TypeNamed(name: Letters(
                 letter: 'A', count: 120) + "{|SCR0007:A|}"));
@@ -31,7 +31,7 @@ public sealed class LineLengthAnalyzerTests
     /// <summary>A line of 120 Cyrillic letters passes: each letter is one UTF-16 character.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.linelength.Line_120CyrillicLetters_Passes")]
-    public Task Line120CyrillicLettersPasses()
+    public Task Line_120CyrillicLetters_Passes()
     {
         return VerifyAsync(caseId: "rules.linelength.Line_120CyrillicLetters_Passes",
                 diagnostic: "ANALYZER_ACCEPTED", source: TypeNamed(name: Letters(letter: 'Я', count: 120)));
@@ -40,7 +40,7 @@ public sealed class LineLengthAnalyzerTests
     /// <summary>A line of 121 Cyrillic letters fails.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.linelength.Line_121CyrillicLetters_Fails")]
-    public Task Line121CyrillicLettersFails()
+    public Task Line_121CyrillicLetters_Fails()
     {
         return VerifyAsync(caseId: "rules.linelength.Line_121CyrillicLetters_Fails", diagnostic: "SCR0007",
                 source: TypeNamed(name: Letters(letter: 'Я', count: 120) + "{|SCR0007:Я|}"));
@@ -49,7 +49,7 @@ public sealed class LineLengthAnalyzerTests
     /// <summary>A comment line of 121 characters fails as well: every line is checked.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.linelength.CommentLine_121Characters_Fails")]
-    public Task CommentLine121CharactersFails()
+    public Task CommentLine_121Characters_Fails()
     {
         return VerifyAsync(caseId: "rules.linelength.CommentLine_121Characters_Fails", diagnostic: "SCR0007",
                 source: "class C\n{\n}\n//" + Letters(letter: 'a', count: 118) + "{|SCR0007:a|}\n");
@@ -58,7 +58,7 @@ public sealed class LineLengthAnalyzerTests
     /// <summary>The CRLF terminator is not counted: a 120-character line ending in CRLF passes.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.linelength.Analyze_CrLfTerminator_IsNotCounted")]
-    public Task AnalyzeCrLfTerminatorIsNotCounted()
+    public Task Analyze_CrLfTerminator_IsNotCounted()
     {
         return VerifyAsync(caseId: "rules.linelength.Analyze_CrLfTerminator_IsNotCounted",
                 diagnostic: "ANALYZER_ACCEPTED", source: "class\r\n" + Letters(letter: 'A', count: 120)
@@ -68,7 +68,7 @@ public sealed class LineLengthAnalyzerTests
     /// <summary>A generated marker cannot exempt a handwritten violation.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.linelength.Analyze_GeneratedCode_IsSkipped")]
-    public Task GeneratedConfigurationCannotExemptHandwrittenCode()
+    public Task Analyze_HandwrittenWithGeneratedConfiguration_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.linelength.Analyze_GeneratedCode_IsSkipped", diagnostic: "SCR0007",
                 source: TypeNamed(name: Letters(letter: 'A', count: 120) + "{|SCR0007:" + Letters(letter: 'A',
@@ -82,84 +82,84 @@ public sealed class LineLengthAnalyzerTests
 
     /// <summary>Checks 119 UTF-16 units using Ascii text, excluding the terminator.</summary>
     [Fact, Trait("Case", "rules.line.ascii.119")]
-    public Task Ascii119Utf16Units()
+    public Task Analyze_Ascii119Utf16Units_Passes()
     {
         return Utf16LineAsync(caseId: "rules.line.ascii.119", units: 119, sequence: "a");
     }
 
     /// <summary>Checks 120 UTF-16 units using Ascii text, excluding the terminator.</summary>
     [Fact, Trait("Case", "rules.line.ascii.120")]
-    public Task Ascii120Utf16Units()
+    public Task Analyze_Ascii120Utf16Units_Passes()
     {
         return Utf16LineAsync(caseId: "rules.line.ascii.120", units: 120, sequence: "a");
     }
 
     /// <summary>Checks 121 UTF-16 units using Ascii text, excluding the terminator.</summary>
     [Fact, Trait("Case", "rules.line.ascii.121")]
-    public Task Ascii121Utf16Units()
+    public Task Analyze_Ascii121Utf16Units_ReportsDiagnostic()
     {
         return Utf16LineAsync(caseId: "rules.line.ascii.121", units: 121, sequence: "a");
     }
 
     /// <summary>Checks 119 UTF-16 units using Cyrillic text, excluding the terminator.</summary>
     [Fact, Trait("Case", "rules.line.cyrillic.119")]
-    public Task Cyrillic119Utf16Units()
+    public Task Analyze_Cyrillic119Utf16Units_Passes()
     {
         return Utf16LineAsync(caseId: "rules.line.cyrillic.119", units: 119, sequence: "Я");
     }
 
     /// <summary>Checks 120 UTF-16 units using Cyrillic text, excluding the terminator.</summary>
     [Fact, Trait("Case", "rules.line.cyrillic.120")]
-    public Task Cyrillic120Utf16Units()
+    public Task Analyze_Cyrillic120Utf16Units_Passes()
     {
         return Utf16LineAsync(caseId: "rules.line.cyrillic.120", units: 120, sequence: "Я");
     }
 
     /// <summary>Checks 121 UTF-16 units using Cyrillic text, excluding the terminator.</summary>
     [Fact, Trait("Case", "rules.line.cyrillic.121")]
-    public Task Cyrillic121Utf16Units()
+    public Task Analyze_Cyrillic121Utf16Units_ReportsDiagnostic()
     {
         return Utf16LineAsync(caseId: "rules.line.cyrillic.121", units: 121, sequence: "Я");
     }
 
     /// <summary>Checks 119 UTF-16 units using Surrogate text, excluding the terminator.</summary>
     [Fact, Trait("Case", "rules.line.surrogate.119")]
-    public Task Surrogate119Utf16Units()
+    public Task Analyze_Surrogate119Utf16Units_Passes()
     {
         return Utf16LineAsync(caseId: "rules.line.surrogate.119", units: 119, sequence: "😀");
     }
 
     /// <summary>Checks 120 UTF-16 units using Surrogate text, excluding the terminator.</summary>
     [Fact, Trait("Case", "rules.line.surrogate.120")]
-    public Task Surrogate120Utf16Units()
+    public Task Analyze_Surrogate120Utf16Units_Passes()
     {
         return Utf16LineAsync(caseId: "rules.line.surrogate.120", units: 120, sequence: "😀");
     }
 
     /// <summary>Checks 121 UTF-16 units using Surrogate text, excluding the terminator.</summary>
     [Fact, Trait("Case", "rules.line.surrogate.121")]
-    public Task Surrogate121Utf16Units()
+    public Task Analyze_Surrogate121Utf16Units_ReportsDiagnostic()
     {
         return Utf16LineAsync(caseId: "rules.line.surrogate.121", units: 121, sequence: "😀");
     }
 
     /// <summary>Checks 119 UTF-16 units using Combining text, excluding the terminator.</summary>
     [Fact, Trait("Case", "rules.line.combining.119")]
-    public Task Combining119Utf16Units()
+    public Task Analyze_Combining119Utf16Units_Passes()
     {
         return Utf16LineAsync(caseId: "rules.line.combining.119", units: 119, sequence: "é");
     }
 
     /// <summary>Checks 120 UTF-16 units using Combining text, excluding the terminator.</summary>
     [Fact, Trait("Case", "rules.line.combining.120")]
-    public Task Combining120Utf16Units()
+    public Task Analyze_Combining120Utf16Units_Passes()
     {
         return Utf16LineAsync(caseId: "rules.line.combining.120", units: 120, sequence: "é");
     }
 
     /// <summary>Checks 121 UTF-16 units using Combining text, excluding the terminator.</summary>
     [Fact, Trait("Case", "rules.line.combining.121")]
-    public Task Combining121Utf16Units()
+    public Task Analyze_Combining121Utf16Units_ReportsDiagnostic()
     {
         return Utf16LineAsync(caseId: "rules.line.combining.121", units: 121, sequence: "é");
     }

@@ -15,7 +15,7 @@ public sealed class MemberOrderAnalyzerTests
     /// <summary>The full D-27 order passes.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.memberorder.Analyze_FullOrder_Passes")]
-    public Task AnalyzeFullOrderPasses()
+    public Task Analyze_FullOrder_Passes()
     {
         return VerifyAsync(caseId: "rules.memberorder.Analyze_FullOrder_Passes", diagnostic: "ANALYZER_ACCEPTED"
                 , source: """
@@ -68,7 +68,7 @@ public sealed class MemberOrderAnalyzerTests
     /// <summary>A private field declared before a public method is reported on the method.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "R-33.negative")]
-    public Task AnalyzePrivateFieldBeforePublicMethodReports()
+    public Task Analyze_PrivateFieldBeforePublicMethod_Reports()
     {
         return VerifyAsync(caseId: "R-33.negative", diagnostic: "SCR0008", source: """
                 class C
@@ -90,7 +90,7 @@ public sealed class MemberOrderAnalyzerTests
     /// <summary>A public property after a public method is reported on the property.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.memberorder.Analyze_PublicPropertyAfterPublicMethod_Reports")]
-    public Task AnalyzePublicPropertyAfterPublicMethodReports()
+    public Task Analyze_PublicPropertyAfterPublicMethod_Reports()
     {
         return VerifyAsync(caseId: "rules.memberorder.Analyze_PublicPropertyAfterPublicMethod_Reports",
                 diagnostic: "SCR0008", source: """
@@ -108,7 +108,7 @@ public sealed class MemberOrderAnalyzerTests
     /// <summary>A constructor after a property of the same access is reported on the constructor.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.memberorder.ConstructorAfterProperty_SameAccess_Reports")]
-    public Task ConstructorAfterPropertySameAccessReports()
+    public Task ConstructorAfterProperty_SameAccess_Reports()
     {
         return VerifyAsync(caseId: "rules.memberorder.ConstructorAfterProperty_SameAccess_Reports", diagnostic:
                 "SCR0008", source: """
@@ -126,7 +126,7 @@ public sealed class MemberOrderAnalyzerTests
     /// <summary>A nested type before a member is reported on the member, whatever the access of either.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.memberorder.Analyze_NestedTypeBeforeMember_Reports")]
-    public Task AnalyzeNestedTypeBeforeMemberReports()
+    public Task Analyze_NestedTypeBeforeMember_Reports()
     {
         return VerifyAsync(caseId: "rules.memberorder.Analyze_NestedTypeBeforeMember_Reports", diagnostic:
                 "SCR0008", source: """
@@ -149,7 +149,7 @@ public sealed class MemberOrderAnalyzerTests
     /// <summary>Nested types come last in any access order, and each one's own members are checked.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.memberorder.NestedTypes_AnyAccessOrder_PassAndAreCheckedThemselves")]
-    public Task NestedTypesAnyAccessOrderPassAndAreCheckedThemselves()
+    public Task NestedTypes_AnyAccessOrder_PassAndAreCheckedThemselves()
     {
         return VerifyAsync(caseId: "rules.memberorder.NestedTypes_AnyAccessOrder_PassAndAreCheckedThemselves",
                 diagnostic: "SCR0008", source: """
@@ -185,7 +185,7 @@ public sealed class MemberOrderAnalyzerTests
     /// </summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "R-33.positive")]
-    public Task AllSixAccessLevelsInOrderPass()
+    public Task AllSixAccessLevels_InOrder_Pass()
     {
         return VerifyAsync(caseId: "R-33.positive", diagnostic: "ANALYZER_ACCEPTED", source: """
                 class C
@@ -228,7 +228,7 @@ public sealed class MemberOrderAnalyzerTests
     /// <summary>A protected internal member after a protected one is reported.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.memberorder.Analyze_ProtectedInternalAfterProtected_Reports")]
-    public Task AnalyzeProtectedInternalAfterProtectedReports()
+    public Task Analyze_ProtectedInternalAfterProtected_Reports()
     {
         return VerifyAsync(caseId: "rules.memberorder.Analyze_ProtectedInternalAfterProtected_Reports",
                 diagnostic: "SCR0008", source: """
@@ -248,7 +248,7 @@ public sealed class MemberOrderAnalyzerTests
     /// <summary>A protected member after a private protected one is reported.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.memberorder.Analyze_ProtectedAfterPrivateProtected_Reports")]
-    public Task AnalyzeProtectedAfterPrivateProtectedReports()
+    public Task Analyze_ProtectedAfterPrivateProtected_Reports()
     {
         return VerifyAsync(caseId: "rules.memberorder.Analyze_ProtectedAfterPrivateProtected_Reports",
                 diagnostic: "SCR0008", source: """
@@ -268,7 +268,7 @@ public sealed class MemberOrderAnalyzerTests
     /// <summary>A member with no access modifier in a class is private.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.memberorder.Analyze_NoModifierInClass_IsPrivate")]
-    public Task AnalyzeNoModifierInClassIsPrivate()
+    public Task Analyze_NoModifierInClass_IsPrivate()
     {
         return VerifyAsync(caseId: "rules.memberorder.Analyze_NoModifierInClass_IsPrivate", diagnostic:
                 "SCR0008", source: """
@@ -288,7 +288,7 @@ public sealed class MemberOrderAnalyzerTests
     /// <summary>An explicit interface implementation ranks as public, so it may sit among the public methods.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.memberorder.Analyze_ExplicitInterfaceImplementation_RanksAsPublic")]
-    public Task AnalyzeExplicitInterfaceImplementationRanksAsPublic()
+    public Task Analyze_ExplicitInterfaceImplementation_RanksAsPublic()
     {
         return VerifyAsync(caseId: "rules.memberorder.Analyze_ExplicitInterfaceImplementation_RanksAsPublic",
                 diagnostic: "ANALYZER_ACCEPTED", source: """
@@ -314,7 +314,7 @@ public sealed class MemberOrderAnalyzerTests
     /// <summary>An explicit interface implementation after an internal member is reported.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.memberorder.Analyze_ExplicitInterfaceImplementationAfterInternal_Reports")]
-    public Task AnalyzeExplicitInterfaceImplementationAfterInternalReports()
+    public Task Analyze_ExplicitInterfaceImplementationAfterInternal_Reports()
     {
         return VerifyAsync(caseId:
                 "rules.memberorder.Analyze_ExplicitInterfaceImplementationAfterInternal_Reports", diagnostic:
@@ -337,7 +337,7 @@ public sealed class MemberOrderAnalyzerTests
     /// <summary>A member with no access modifier in an interface is public.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.memberorder.Analyze_InterfaceMembers_ArePublicAndChecked")]
-    public Task AnalyzeInterfaceMembersArePublicAndChecked()
+    public Task Analyze_InterfaceMembers_ArePublicAndChecked()
     {
         return VerifyAsync(caseId: "rules.memberorder.Analyze_InterfaceMembers_ArePublicAndChecked", diagnostic
                 : "SCR0008", source: """
@@ -353,7 +353,7 @@ public sealed class MemberOrderAnalyzerTests
     /// <summary>Structs, records and record structs are checked like classes.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.memberorder.Analyze_StructAndRecords_AreChecked")]
-    public Task AnalyzeStructAndRecordsAreChecked()
+    public Task Analyze_StructAndRecords_AreChecked()
     {
         return VerifyAsync(caseId: "rules.memberorder.Analyze_StructAndRecords_AreChecked", diagnostic:
                 "SCR0008", source: """
@@ -397,7 +397,7 @@ public sealed class MemberOrderAnalyzerTests
     /// <summary>A static constructor has no access modifier, so it ranks as a private constructor.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.memberorder.Analyze_StaticConstructor_RanksAsPrivateConstructor")]
-    public Task AnalyzeStaticConstructorRanksAsPrivateConstructor()
+    public Task Analyze_StaticConstructor_RanksAsPrivateConstructor()
     {
         return VerifyAsync(caseId: "rules.memberorder.Analyze_StaticConstructor_RanksAsPrivateConstructor",
                 diagnostic: "SCR0008", source: """
@@ -427,7 +427,7 @@ public sealed class MemberOrderAnalyzerTests
     /// </summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.memberorder.Analyze_PartialParts_AreCheckedOnTheirOwn")]
-    public Task AnalyzePartialPartsAreCheckedOnTheirOwn()
+    public Task Analyze_PartialParts_AreCheckedOnTheirOwn()
     {
         return VerifyAsync(caseId: "rules.memberorder.Analyze_PartialParts_AreCheckedOnTheirOwn", diagnostic:
                 "SCR0008", source: """
@@ -468,7 +468,7 @@ public sealed class MemberOrderAnalyzerTests
     /// <summary>Only the first member out of order is reported in a type declaration part.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.memberorder.Analyze_SeveralViolations_OnlyTheFirstIsReported")]
-    public Task AnalyzeSeveralViolationsOnlyTheFirstIsReported()
+    public Task Analyze_SeveralViolations_OnlyTheFirstIsReported()
     {
         return VerifyAsync(caseId: "rules.memberorder.Analyze_SeveralViolations_OnlyTheFirstIsReported",
                 diagnostic: "SCR0008", source: """
@@ -499,7 +499,7 @@ public sealed class MemberOrderAnalyzerTests
     /// <summary>The message names both members and their access and kind.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.memberorder.Analyze_Message_NamesBothMembers")]
-    public Task AnalyzeMessageNamesBothMembers()
+    public Task Analyze_Message_NamesBothMembers()
     {
         return VerifyAsync(caseId: "rules.memberorder.Analyze_Message_NamesBothMembers", diagnostic: "SCR0008",
                 source: """
@@ -526,7 +526,7 @@ public sealed class MemberOrderAnalyzerTests
     /// </summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.memberorder.ExtensionBlock_BetweenMembers_Passes")]
-    public Task ExtensionBlockBetweenMembersPasses()
+    public Task ExtensionBlock_BetweenMembers_Passes()
     {
         return VerifyAsync(caseId: "rules.memberorder.ExtensionBlock_BetweenMembers_Passes", diagnostic:
                 "ANALYZER_ACCEPTED", source: """
@@ -554,7 +554,7 @@ public sealed class MemberOrderAnalyzerTests
     /// <summary>A private method before a public method inside an extension block is reported.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.memberorder.ExtensionBlock_PrivateBeforePublic_Reports")]
-    public Task ExtensionBlockPrivateBeforePublicReports()
+    public Task ExtensionBlock_PrivateBeforePublic_Reports()
     {
         return VerifyAsync(caseId: "rules.memberorder.ExtensionBlock_PrivateBeforePublic_Reports", diagnostic:
                 "SCR0008", source: """
@@ -582,7 +582,7 @@ public sealed class MemberOrderAnalyzerTests
     /// </summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.memberorder.ExtensionBlock_NoModifier_RanksAsPrivate")]
-    public Task ExtensionBlockNoModifierRanksAsPrivate()
+    public Task ExtensionBlock_NoModifier_RanksAsPrivate()
     {
         return VerifyAsync(caseId: "rules.memberorder.ExtensionBlock_NoModifier_RanksAsPrivate", diagnostic: "SCR0008",
                 source: """
@@ -608,7 +608,7 @@ public sealed class MemberOrderAnalyzerTests
     /// <summary>A generated marker cannot exempt a handwritten violation.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.memberorder.Analyze_GeneratedCode_IsSkipped")]
-    public Task GeneratedConfigurationCannotExemptHandwrittenCode()
+    public Task Analyze_HandwrittenWithGeneratedConfiguration_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.memberorder.Analyze_GeneratedCode_IsSkipped", diagnostic: "SCR0008",
                 source: """

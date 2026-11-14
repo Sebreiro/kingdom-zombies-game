@@ -8,14 +8,14 @@ public sealed class PinsTests
 {
     /// <summary>Requires a missing SDK pin to fail validation with PINS_MISSING.</summary>
     [Fact, Trait("Case", "pins.missing")]
-    public void MissingPinIsRejected()
+    public void ValidatePins_MissingPin_Rejected()
     {
         Reject(id: "pins.missing", mutation: "delete m.sdk;b.validateManifest(m)", diagnostic: "PINS_MISSING");
     }
 
     /// <summary>Rejects repeated SDK keys even when both values are identical.</summary>
     [Fact, Trait("Case", "pins.duplicate-identical")]
-    public void DuplicateIdenticalDeclarationRequiresUniqueness()
+    public void ValidatePins_IdenticalDuplicate_RejectsNonUniqueDeclaration()
     {
         Reject(id: "pins.duplicate-identical",
                 mutation: "b.parseJson('{\"sdk\":\"10.0.404\",\"sdk\":\"10.0.404\"}')", diagnostic: "PINS_CONFLICT");
@@ -23,7 +23,7 @@ public sealed class PinsTests
 
     /// <summary>Rejects conflicting SDK keys before a parser can select a value.</summary>
     [Fact, Trait("Case", "pins.duplicate-conflicting")]
-    public void ConflictingDuplicateDeclarationIsRejected()
+    public void ValidatePins_ConflictingDuplicateDeclaration_Rejected()
     {
         Reject(id: "pins.duplicate-conflicting",
                 mutation: "b.parseJson('{\"sdk\":\"10.0.404\",\"sdk\":\"8.0.100\"}')", diagnostic: "PINS_CONFLICT");
@@ -31,7 +31,7 @@ public sealed class PinsTests
 
     /// <summary>Rejects duplicate Godot package candidates instead of selecting by order.</summary>
     [Fact, Trait("Case", "pins.duplicate-candidate")]
-    public void AmbiguousCandidatesCannotSelectAccidentally()
+    public void ValidatePins_AmbiguousCandidates_RejectsAccidentalSelection()
     {
         Reject(id: "pins.duplicate-candidate",
                 mutation: "m.godotPackages.push(m.godotPackages[0]);b.validateManifest(m)",
@@ -40,7 +40,7 @@ public sealed class PinsTests
 
     /// <summary>Rejects a source generator version that differs from the selected engine packages.</summary>
     [Fact, Trait("Case", "pins.generator")]
-    public void IncompatibleGeneratorIsRejected()
+    public void ValidatePins_IncompatibleGenerator_Rejected()
     {
         Reject(id: "pins.generator", mutation: ("m.godotPackages.find(x=>x.id==='Godot.SourceGenerators'"
                 + ").version='4.7.1';b.validateManifest(m)"), diagnostic: "PINS_MISMATCH");
@@ -48,7 +48,7 @@ public sealed class PinsTests
 
     /// <summary>Compares an actual foreign executable identity against the pinned engine.</summary>
     [Fact, Trait("Case", "pins.observed-engine")]
-    public void WrongActualEngineToolIsRejected()
+    public void ValidatePins_WrongActualEngineTool_Rejected()
     {
         Reject(id: "pins.observed-engine", mutation: ("const r=cp.spawnSync(process.execPath,['--version'],{en"
                 + "coding:'utf8'});if(r.status!==0)throw Error('prerequisi"
@@ -58,7 +58,7 @@ public sealed class PinsTests
 
     /// <summary>Rejects the SDK identity when presented as the required compiler identity.</summary>
     [Fact, Trait("Case", "pins.observed-compiler")]
-    public void WrongActualCompilerIdentityIsRejected()
+    public void ValidatePins_WrongActualCompilerIdentity_Rejected()
     {
         Reject(id: "pins.observed-compiler",
                 mutation: ("const r=cp.spawnSync('dotnet',['--version'],{encoding:'"
@@ -68,7 +68,7 @@ public sealed class PinsTests
 
     /// <summary>Hashes the acquired generator package and rejects an intentionally different hash.</summary>
     [Fact, Trait("Case", "pins.observed-generator")]
-    public void WrongGeneratorPayloadIdentityIsRejected()
+    public void ValidatePins_WrongGeneratorPayloadIdentity_Rejected()
     {
         Reject(id: "pins.observed-generator",
                 mutation: ("const r=fs.readFileSync('.phase1/feed/Godot.SourceGener"
@@ -79,7 +79,7 @@ public sealed class PinsTests
 
     /// <summary>Proves equivalent declaration and candidate permutations select the same toolchain.</summary>
     [Fact, Trait("Case", "pins.permutation")]
-    public void CandidateAndDeclarationOrderingPreservesSelection()
+    public void ValidatePins_PermutedCandidates_PreservesSelection()
     {
         (int Exit, string Output) closure = ProofProtocol.Node(
                 script: ("const b=require('./tools/phase1/bootstrap.cjs'),fs=requ"

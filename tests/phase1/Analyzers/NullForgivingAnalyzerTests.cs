@@ -14,7 +14,7 @@ public sealed class NullForgivingAnalyzerTests
     /// <summary>The null-forgiving operator on a variable is reported on the operator.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "R-26.negative")]
-    public Task AnalyzeVariableReports()
+    public Task Analyze_Variable_Reports()
     {
         return VerifyAsync(caseId: "R-26.negative", diagnostic: "SCR0005", source: """
                 #nullable enable
@@ -31,7 +31,7 @@ public sealed class NullForgivingAnalyzerTests
     /// <summary>The null-forgiving operator before a member access is reported.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.nullforgiving.Analyze_BeforeMemberAccess_Reports")]
-    public Task AnalyzeBeforeMemberAccessReports()
+    public Task Analyze_BeforeMemberAccess_Reports()
     {
         return VerifyAsync(caseId: "rules.nullforgiving.Analyze_BeforeMemberAccess_Reports", diagnostic:
                 "SCR0005", source: """
@@ -49,7 +49,7 @@ public sealed class NullForgivingAnalyzerTests
     /// <summary>The null-forgiving operator on the <see langword="null"/> literal is reported.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.nullforgiving.Analyze_NullLiteral_Reports")]
-    public Task AnalyzeNullLiteralReports()
+    public Task Analyze_NullLiteral_Reports()
     {
         return VerifyAsync(caseId: "rules.nullforgiving.Analyze_NullLiteral_Reports", diagnostic: "SCR0005", source: """
                 #nullable enable
@@ -63,7 +63,7 @@ public sealed class NullForgivingAnalyzerTests
     /// <summary>Logical not and the not-equals operator pass.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "R-26.positive")]
-    public Task AnalyzeLogicalNotAndNotEqualsPass()
+    public Task Analyze_LogicalNotAndNotEquals_Pass()
     {
         return VerifyAsync(caseId: "R-26.positive", diagnostic: "ANALYZER_ACCEPTED", source: """
                 #nullable enable
@@ -79,7 +79,7 @@ public sealed class NullForgivingAnalyzerTests
 
     /// <summary>Generated markers and settings cannot exempt handwritten null suppression.</summary>
     [Fact, Trait("Case", "rules.null.generated")]
-    public Task GeneratedNullSuppressionIsRejected()
+    public Task Analyze_GeneratedNullSuppression_Rejected()
     {
         return VerifyAsync(caseId: "rules.null.generated", diagnostic: "SCR0005", editorConfig:
                 "generated_code = true", source:

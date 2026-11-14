@@ -20,7 +20,7 @@ public sealed class GeneratedSyntaxAdapterTests
     /// <summary>Requires exact package/raw output identities and complete Roslyn text plus precise syntax
     /// spans.</summary>
     [Fact, Trait("Case", "rules.generated-syntax-origin")]
-    public void GeneratedSyntaxHasPinnedOrigin()
+    public void Check_GeneratedSyntax_HasPinnedOrigin()
     {
         using JsonDocument registry = Registry();
         foreach (JsonElement row in registry.RootElement.GetProperty(propertyName: "local").EnumerateArray())
@@ -45,7 +45,7 @@ public sealed class GeneratedSyntaxAdapterTests
     /// <summary>Changed content/path/span and same-span handwritten impostors fail; adjacent and colliding
     /// members fail actual builds.</summary>
     [Fact, Trait("Case", "rules.generated-syntax-boundary")]
-    public async Task GeneratedSyntaxPermissionsAreBounded()
+    public async Task Check_GeneratedSyntaxPermissions_StayBounded()
     {
         using JsonDocument registry = Registry();
         foreach (JsonElement row in registry.RootElement.GetProperty(propertyName: "local").EnumerateArray())

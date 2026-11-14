@@ -17,7 +17,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <summary>Wrapped arguments, each on its own line, pass at 8 spaces past the line holding the <c>(</c>.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "R-09.positive")]
-    public Task WrappedArgument8SpacesPasses()
+    public Task WrappedArgument_8Spaces_Passes()
     {
         return VerifyAsync(caseId: "R-09.positive", diagnostic: "ANALYZER_ACCEPTED", source: Sample(
                 template: WrappedArgument, offset: 8, marked: false));
@@ -27,7 +27,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <returns>A task that completes when the verification has run.</returns>
     /// <summary>Rejects WrappedArgument at offset 4 on its exact token.</summary>
     [Fact, Trait("Case", "R-09.negative")]
-    public Task WrappedArgument4Or12SpacesFails4()
+    public Task Analyze_WrappedArgument4Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "R-09.negative", diagnostic: "SCR0009", source: Sample(
                 template: WrappedArgument, offset: 4, marked: true));
@@ -35,7 +35,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects WrappedArgument at offset 12 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.WrappedArgument_4Or12Spaces_Fails12")]
-    public Task WrappedArgument4Or12SpacesFails12()
+    public Task Analyze_WrappedArgument12Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.WrappedArgument_4Or12Spaces_Fails12",
                 diagnostic: "SCR0009", source: Sample(template: WrappedArgument, offset: 12, marked: true));
@@ -44,7 +44,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <summary>A wrapped attribute argument passes at 8 spaces past the attribute's line.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.WrappedAttributeArgument_8Spaces_Passes")]
-    public Task WrappedAttributeArgument8SpacesPasses()
+    public Task WrappedAttributeArgument_8Spaces_Passes()
     {
         return VerifyAsync(caseId: "rules.continuationindent.WrappedAttributeArgument_8Spaces_Passes",
                 diagnostic: "ANALYZER_ACCEPTED", source: Sample(template: WrappedAttributeArgument, offset: 8,
@@ -55,7 +55,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <returns>A task that completes when the verification has run.</returns>
     /// <summary>Rejects WrappedAttributeArgument at offset 4 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.WrappedAttributeArgument_4Or12Spaces_Fails4")]
-    public Task WrappedAttributeArgument4Or12SpacesFails4()
+    public Task Analyze_WrappedAttributeArgument4Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.WrappedAttributeArgument_4Or12Spaces_Fails4",
                 diagnostic: "SCR0009", source: Sample(template: WrappedAttributeArgument, offset: 4, marked: true));
@@ -63,7 +63,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects WrappedAttributeArgument at offset 12 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.WrappedAttributeArgument_4Or12Spaces_Fails12")]
-    public Task WrappedAttributeArgument4Or12SpacesFails12()
+    public Task Analyze_WrappedAttributeArgument12Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.WrappedAttributeArgument_4Or12Spaces_Fails12",
                 diagnostic: "SCR0009", source: Sample(template: WrappedAttributeArgument, offset: 12, marked: true));
@@ -72,7 +72,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <summary>Wrapped parameters pass at 8 spaces past the declaration's line.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.WrappedParameter_8Spaces_Passes")]
-    public Task WrappedParameter8SpacesPasses()
+    public Task WrappedParameter_8Spaces_Passes()
     {
         return VerifyAsync(caseId: "rules.continuationindent.WrappedParameter_8Spaces_Passes",
                 diagnostic: "ANALYZER_ACCEPTED", source: Sample(template: WrappedParameter, offset: 8, marked: false));
@@ -82,7 +82,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <returns>A task that completes when the verification has run.</returns>
     /// <summary>Rejects WrappedParameter at offset 4 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.WrappedParameter_4Or12Spaces_Fails4")]
-    public Task WrappedParameter4Or12SpacesFails4()
+    public Task Analyze_WrappedParameter4Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.WrappedParameter_4Or12Spaces_Fails4",
                 diagnostic: "SCR0009", source: Sample(template: WrappedParameter, offset: 4, marked: true));
@@ -90,7 +90,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects WrappedParameter at offset 12 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.WrappedParameter_4Or12Spaces_Fails12")]
-    public Task WrappedParameter4Or12SpacesFails12()
+    public Task Analyze_WrappedParameter12Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.WrappedParameter_4Or12Spaces_Fails12",
                 diagnostic: "SCR0009", source: Sample(template: WrappedParameter, offset: 12, marked: true));
@@ -99,7 +99,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <summary>Fluent-chain lines pass at 8 spaces past the line that starts the chain.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.FluentChain_8Spaces_Passes")]
-    public Task FluentChain8SpacesPasses()
+    public Task FluentChain_8Spaces_Passes()
     {
         return VerifyAsync(caseId: "rules.continuationindent.FluentChain_8Spaces_Passes",
                 diagnostic: "ANALYZER_ACCEPTED", source: Sample(template: FluentChain, offset: 8, marked: false));
@@ -109,7 +109,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <returns>A task that completes when the verification has run.</returns>
     /// <summary>Rejects FluentChain at offset 4 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.FluentChain_4Or12Spaces_Fails4")]
-    public Task FluentChain4Or12SpacesFails4()
+    public Task Analyze_FluentChain4Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.FluentChain_4Or12Spaces_Fails4",
                 diagnostic: "SCR0009", source: Sample(template: FluentChain, offset: 4, marked: true));
@@ -117,7 +117,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects FluentChain at offset 12 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.FluentChain_4Or12Spaces_Fails12")]
-    public Task FluentChain4Or12SpacesFails12()
+    public Task Analyze_FluentChain12Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.FluentChain_4Or12Spaces_Fails12",
                 diagnostic: "SCR0009", source: Sample(template: FluentChain, offset: 12, marked: true));
@@ -126,7 +126,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <summary>A <c>?.</c> chain line passes at 8 spaces past the line that starts the chain.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.ConditionalAccessChain_8Spaces_Passes")]
-    public Task ConditionalAccessChain8SpacesPasses()
+    public Task ConditionalAccessChain_8Spaces_Passes()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ConditionalAccessChain_8Spaces_Passes",
                 diagnostic: "ANALYZER_ACCEPTED", source: Sample(template: ConditionalAccessChain, offset: 8,
@@ -137,7 +137,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <returns>A task that completes when the verification has run.</returns>
     /// <summary>Rejects ConditionalAccessChain at offset 4 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ConditionalAccessChain_4Or12Spaces_Fails4")]
-    public Task ConditionalAccessChain4Or12SpacesFails4()
+    public Task Analyze_ConditionalAccessChain4Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ConditionalAccessChain_4Or12Spaces_Fails4",
                 diagnostic: "SCR0009", source: Sample(template: ConditionalAccessChain, offset: 4, marked: true));
@@ -145,7 +145,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects ConditionalAccessChain at offset 12 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ConditionalAccessChain_4Or12Spaces_Fails12")]
-    public Task ConditionalAccessChain4Or12SpacesFails12()
+    public Task Analyze_ConditionalAccessChain12Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ConditionalAccessChain_4Or12Spaces_Fails12",
                 diagnostic: "SCR0009", source: Sample(template: ConditionalAccessChain, offset: 12, marked: true));
@@ -157,7 +157,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// </summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.ConditionalAccessSteps_8Spaces_Passes")]
-    public Task ConditionalAccessSteps8SpacesPasses()
+    public Task ConditionalAccessSteps_8Spaces_Passes()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ConditionalAccessSteps_8Spaces_Passes",
                 diagnostic: "ANALYZER_ACCEPTED", source: Sample(template: ConditionalAccessSteps, offset: 8,
@@ -168,7 +168,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <returns>A task that completes when the verification has run.</returns>
     /// <summary>Rejects ConditionalAccessSteps at offset 4 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ConditionalAccessSteps_4Or12Spaces_Fails4")]
-    public Task ConditionalAccessSteps4Or12SpacesFails4()
+    public Task Analyze_ConditionalAccessSteps4Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ConditionalAccessSteps_4Or12Spaces_Fails4",
                 diagnostic: "SCR0009", source: Sample(template: ConditionalAccessSteps, offset: 4, marked: true));
@@ -176,7 +176,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects ConditionalAccessSteps at offset 12 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ConditionalAccessSteps_4Or12Spaces_Fails12")]
-    public Task ConditionalAccessSteps4Or12SpacesFails12()
+    public Task Analyze_ConditionalAccessSteps12Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ConditionalAccessSteps_4Or12Spaces_Fails12",
                 diagnostic: "SCR0009", source: Sample(template: ConditionalAccessSteps, offset: 12, marked: true));
@@ -187,7 +187,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// </summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.MixedChain_8Spaces_Passes")]
-    public Task MixedChain8SpacesPasses()
+    public Task MixedChain_8Spaces_Passes()
     {
         return VerifyAsync(caseId: "rules.continuationindent.MixedChain_8Spaces_Passes",
                 diagnostic: "ANALYZER_ACCEPTED", source: Sample(template: MixedChain, offset: 8, marked: false));
@@ -197,7 +197,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <returns>A task that completes when the verification has run.</returns>
     /// <summary>Rejects MixedChain at offset 4 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.MixedChain_4Or12Spaces_Fails4")]
-    public Task MixedChain4Or12SpacesFails4()
+    public Task Analyze_MixedChain4Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.MixedChain_4Or12Spaces_Fails4",
                 diagnostic: "SCR0009", source: Sample(template: MixedChain, offset: 4, marked: true));
@@ -205,7 +205,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects MixedChain at offset 12 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.MixedChain_4Or12Spaces_Fails12")]
-    public Task MixedChain4Or12SpacesFails12()
+    public Task Analyze_MixedChain12Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.MixedChain_4Or12Spaces_Fails12",
                 diagnostic: "SCR0009", source: Sample(template: MixedChain, offset: 12, marked: true));
@@ -214,7 +214,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <summary>A line starting with a binary operator passes at 8 spaces past the left operand's line.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.LeadingBinaryOperator_8Spaces_Passes")]
-    public Task LeadingBinaryOperator8SpacesPasses()
+    public Task LeadingBinaryOperator_8Spaces_Passes()
     {
         return VerifyAsync(caseId: "rules.continuationindent.LeadingBinaryOperator_8Spaces_Passes",
                 diagnostic: "ANALYZER_ACCEPTED", source: Sample(template: LeadingBinaryOperator, offset: 8,
@@ -225,7 +225,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <returns>A task that completes when the verification has run.</returns>
     /// <summary>Rejects LeadingBinaryOperator at offset 4 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.LeadingBinaryOperator_4Or12Spaces_Fails4")]
-    public Task LeadingBinaryOperator4Or12SpacesFails4()
+    public Task Analyze_LeadingBinaryOperator4Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.LeadingBinaryOperator_4Or12Spaces_Fails4",
                 diagnostic: "SCR0009", source: Sample(template: LeadingBinaryOperator, offset: 4, marked: true));
@@ -233,7 +233,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects LeadingBinaryOperator at offset 12 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.LeadingBinaryOperator_4Or12Spaces_Fails12")]
-    public Task LeadingBinaryOperator4Or12SpacesFails12()
+    public Task Analyze_LeadingBinaryOperator12Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.LeadingBinaryOperator_4Or12Spaces_Fails12",
                 diagnostic: "SCR0009", source: Sample(template: LeadingBinaryOperator, offset: 12, marked: true));
@@ -242,7 +242,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <summary>The right operand after a trailing binary operator passes at 8 spaces.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.TrailingBinaryOperator_8Spaces_Passes")]
-    public Task TrailingBinaryOperator8SpacesPasses()
+    public Task TrailingBinaryOperator_8Spaces_Passes()
     {
         return VerifyAsync(caseId: "rules.continuationindent.TrailingBinaryOperator_8Spaces_Passes",
                 diagnostic: "ANALYZER_ACCEPTED", source: Sample(template: TrailingBinaryOperator, offset: 8,
@@ -253,7 +253,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <returns>A task that completes when the verification has run.</returns>
     /// <summary>Rejects TrailingBinaryOperator at offset 4 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.TrailingBinaryOperator_4Or12Spaces_Fails4")]
-    public Task TrailingBinaryOperator4Or12SpacesFails4()
+    public Task Analyze_TrailingBinaryOperator4Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.TrailingBinaryOperator_4Or12Spaces_Fails4",
                 diagnostic: "SCR0009", source: Sample(template: TrailingBinaryOperator, offset: 4, marked: true));
@@ -261,7 +261,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects TrailingBinaryOperator at offset 12 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.TrailingBinaryOperator_4Or12Spaces_Fails12")]
-    public Task TrailingBinaryOperator4Or12SpacesFails12()
+    public Task Analyze_TrailingBinaryOperator12Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.TrailingBinaryOperator_4Or12Spaces_Fails12",
                 diagnostic: "SCR0009", source: Sample(template: TrailingBinaryOperator, offset: 12, marked: true));
@@ -270,7 +270,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <summary>A wrapped <c>if (</c> condition passes at 8 spaces past the <c>if</c> line.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.WrappedIfCondition_8Spaces_Passes")]
-    public Task WrappedIfCondition8SpacesPasses()
+    public Task WrappedIfCondition_8Spaces_Passes()
     {
         return VerifyAsync(caseId: "rules.continuationindent.WrappedIfCondition_8Spaces_Passes",
                 diagnostic: "ANALYZER_ACCEPTED", source: Sample(template: WrappedIfCondition, offset: 8,
@@ -281,7 +281,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <returns>A task that completes when the verification has run.</returns>
     /// <summary>Rejects WrappedIfCondition at offset 4 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.WrappedIfCondition_4Or12Spaces_Fails4")]
-    public Task WrappedIfCondition4Or12SpacesFails4()
+    public Task Analyze_WrappedIfCondition4Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.WrappedIfCondition_4Or12Spaces_Fails4",
                 diagnostic: "SCR0009", source: Sample(template: WrappedIfCondition, offset: 4, marked: true));
@@ -289,7 +289,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects WrappedIfCondition at offset 12 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.WrappedIfCondition_4Or12Spaces_Fails12")]
-    public Task WrappedIfCondition4Or12SpacesFails12()
+    public Task Analyze_WrappedIfCondition12Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.WrappedIfCondition_4Or12Spaces_Fails12",
                 diagnostic: "SCR0009", source: Sample(template: WrappedIfCondition, offset: 12, marked: true));
@@ -298,7 +298,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <summary>The <c>?</c> and <c>:</c> lines of a conditional operator pass at 8 spaces.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.ConditionalOperator_8Spaces_Passes")]
-    public Task ConditionalOperator8SpacesPasses()
+    public Task ConditionalOperator_8Spaces_Passes()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ConditionalOperator_8Spaces_Passes",
                 diagnostic: "ANALYZER_ACCEPTED", source: Sample(template: ConditionalOperator, offset: 8,
@@ -309,7 +309,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <returns>A task that completes when the verification has run.</returns>
     /// <summary>Rejects ConditionalOperator at offset 4 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ConditionalOperator_4Or12Spaces_Fails4")]
-    public Task ConditionalOperator4Or12SpacesFails4()
+    public Task Analyze_ConditionalOperator4Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ConditionalOperator_4Or12Spaces_Fails4",
                 diagnostic: "SCR0009", source: Sample(template: ConditionalOperator, offset: 4, marked: true));
@@ -317,7 +317,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects ConditionalOperator at offset 12 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ConditionalOperator_4Or12Spaces_Fails12")]
-    public Task ConditionalOperator4Or12SpacesFails12()
+    public Task Analyze_ConditionalOperator12Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ConditionalOperator_4Or12Spaces_Fails12",
                 diagnostic: "SCR0009", source: Sample(template: ConditionalOperator, offset: 12, marked: true));
@@ -326,7 +326,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <summary>A constructor initializer passes at 8 spaces past the constructor's first line.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.ConstructorInitializer_8Spaces_Passes")]
-    public Task ConstructorInitializer8SpacesPasses()
+    public Task ConstructorInitializer_8Spaces_Passes()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ConstructorInitializer_8Spaces_Passes",
                 diagnostic: "ANALYZER_ACCEPTED", source: Sample(template: ConstructorInitializer, offset: 8,
@@ -337,7 +337,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <returns>A task that completes when the verification has run.</returns>
     /// <summary>Rejects ConstructorInitializer at offset 4 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ConstructorInitializer_4Or12Spaces_Fails4")]
-    public Task ConstructorInitializer4Or12SpacesFails4()
+    public Task Analyze_ConstructorInitializer4Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ConstructorInitializer_4Or12Spaces_Fails4",
                 diagnostic: "SCR0009", source: Sample(template: ConstructorInitializer, offset: 4, marked: true));
@@ -345,7 +345,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects ConstructorInitializer at offset 12 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ConstructorInitializer_4Or12Spaces_Fails12")]
-    public Task ConstructorInitializer4Or12SpacesFails12()
+    public Task Analyze_ConstructorInitializer12Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ConstructorInitializer_4Or12Spaces_Fails12",
                 diagnostic: "SCR0009", source: Sample(template: ConstructorInitializer, offset: 12, marked: true));
@@ -354,7 +354,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <summary>A <c>where</c> clause passes at 8 spaces past the declaration's first line.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.WhereClause_8Spaces_Passes")]
-    public Task WhereClause8SpacesPasses()
+    public Task WhereClause_8Spaces_Passes()
     {
         return VerifyAsync(caseId: "rules.continuationindent.WhereClause_8Spaces_Passes",
                 diagnostic: "ANALYZER_ACCEPTED", source: Sample(template: WhereClause, offset: 8, marked: false));
@@ -364,7 +364,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <returns>A task that completes when the verification has run.</returns>
     /// <summary>Rejects WhereClause at offset 4 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.WhereClause_4Or12Spaces_Fails4")]
-    public Task WhereClause4Or12SpacesFails4()
+    public Task Analyze_WhereClause4Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.WhereClause_4Or12Spaces_Fails4",
                 diagnostic: "SCR0009", source: Sample(template: WhereClause, offset: 4, marked: true));
@@ -372,7 +372,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects WhereClause at offset 12 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.WhereClause_4Or12Spaces_Fails12")]
-    public Task WhereClause4Or12SpacesFails12()
+    public Task Analyze_WhereClause12Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.WhereClause_4Or12Spaces_Fails12",
                 diagnostic: "SCR0009", source: Sample(template: WhereClause, offset: 12, marked: true));
@@ -381,7 +381,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <summary>A value on the line after <c>=</c> in a declaration passes at 8 spaces.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.ValueAfterEquals_8Spaces_Passes")]
-    public Task ValueAfterEquals8SpacesPasses()
+    public Task ValueAfterEquals_8Spaces_Passes()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ValueAfterEquals_8Spaces_Passes",
                 diagnostic: "ANALYZER_ACCEPTED", source: Sample(template: ValueAfterEquals, offset: 8, marked: false));
@@ -391,7 +391,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <returns>A task that completes when the verification has run.</returns>
     /// <summary>Rejects ValueAfterEquals at offset 4 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ValueAfterEquals_4Or12Spaces_Fails4")]
-    public Task ValueAfterEquals4Or12SpacesFails4()
+    public Task Analyze_ValueAfterEquals4Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ValueAfterEquals_4Or12Spaces_Fails4",
                 diagnostic: "SCR0009", source: Sample(template: ValueAfterEquals, offset: 4, marked: true));
@@ -399,7 +399,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects ValueAfterEquals at offset 12 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ValueAfterEquals_4Or12Spaces_Fails12")]
-    public Task ValueAfterEquals4Or12SpacesFails12()
+    public Task Analyze_ValueAfterEquals12Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ValueAfterEquals_4Or12Spaces_Fails12",
                 diagnostic: "SCR0009", source: Sample(template: ValueAfterEquals, offset: 12, marked: true));
@@ -408,7 +408,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <summary>A value on the line after an assignment's <c>=</c> passes at 8 spaces.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.ValueAfterAssignment_8Spaces_Passes")]
-    public Task ValueAfterAssignment8SpacesPasses()
+    public Task ValueAfterAssignment_8Spaces_Passes()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ValueAfterAssignment_8Spaces_Passes",
                 diagnostic: "ANALYZER_ACCEPTED", source: Sample(template: ValueAfterAssignment, offset: 8,
@@ -419,7 +419,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <returns>A task that completes when the verification has run.</returns>
     /// <summary>Rejects ValueAfterAssignment at offset 4 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ValueAfterAssignment_4Or12Spaces_Fails4")]
-    public Task ValueAfterAssignment4Or12SpacesFails4()
+    public Task Analyze_ValueAfterAssignment4Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ValueAfterAssignment_4Or12Spaces_Fails4",
                 diagnostic: "SCR0009", source: Sample(template: ValueAfterAssignment, offset: 4, marked: true));
@@ -427,7 +427,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects ValueAfterAssignment at offset 12 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ValueAfterAssignment_4Or12Spaces_Fails12")]
-    public Task ValueAfterAssignment4Or12SpacesFails12()
+    public Task Analyze_ValueAfterAssignment12Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ValueAfterAssignment_4Or12Spaces_Fails12",
                 diagnostic: "SCR0009", source: Sample(template: ValueAfterAssignment, offset: 12, marked: true));
@@ -436,7 +436,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <summary>A value on the line after <c>return</c> passes at 8 spaces.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.ValueAfterReturn_8Spaces_Passes")]
-    public Task ValueAfterReturn8SpacesPasses()
+    public Task ValueAfterReturn_8Spaces_Passes()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ValueAfterReturn_8Spaces_Passes",
                 diagnostic: "ANALYZER_ACCEPTED", source: Sample(template: ValueAfterReturn, offset: 8, marked: false));
@@ -446,7 +446,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <returns>A task that completes when the verification has run.</returns>
     /// <summary>Rejects ValueAfterReturn at offset 4 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ValueAfterReturn_4Or12Spaces_Fails4")]
-    public Task ValueAfterReturn4Or12SpacesFails4()
+    public Task Analyze_ValueAfterReturn4Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ValueAfterReturn_4Or12Spaces_Fails4",
                 diagnostic: "SCR0009", source: Sample(template: ValueAfterReturn, offset: 4, marked: true));
@@ -454,7 +454,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects ValueAfterReturn at offset 12 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ValueAfterReturn_4Or12Spaces_Fails12")]
-    public Task ValueAfterReturn4Or12SpacesFails12()
+    public Task Analyze_ValueAfterReturn12Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ValueAfterReturn_4Or12Spaces_Fails12",
                 diagnostic: "SCR0009", source: Sample(template: ValueAfterReturn, offset: 12, marked: true));
@@ -463,7 +463,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <summary>An expression-bodied member's <c>=&gt;</c> on the next line passes at 8 spaces.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.ExpressionBodyArrow_8Spaces_Passes")]
-    public Task ExpressionBodyArrow8SpacesPasses()
+    public Task ExpressionBodyArrow_8Spaces_Passes()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ExpressionBodyArrow_8Spaces_Passes",
                 diagnostic: "ANALYZER_ACCEPTED", source: Sample(template: ExpressionBodyArrow, offset: 8,
@@ -474,7 +474,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <returns>A task that completes when the verification has run.</returns>
     /// <summary>Rejects ExpressionBodyArrow at offset 4 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ExpressionBodyArrow_4Or12Spaces_Fails4")]
-    public Task ExpressionBodyArrow4Or12SpacesFails4()
+    public Task Analyze_ExpressionBodyArrow4Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ExpressionBodyArrow_4Or12Spaces_Fails4",
                 diagnostic: "SCR0009", source: Sample(template: ExpressionBodyArrow, offset: 4, marked: true));
@@ -482,7 +482,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects ExpressionBodyArrow at offset 12 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ExpressionBodyArrow_4Or12Spaces_Fails12")]
-    public Task ExpressionBodyArrow4Or12SpacesFails12()
+    public Task Analyze_ExpressionBodyArrow12Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ExpressionBodyArrow_4Or12Spaces_Fails12",
                 diagnostic: "SCR0009", source: Sample(template: ExpressionBodyArrow, offset: 12, marked: true));
@@ -491,7 +491,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <summary>A base list on the next line passes at 8 spaces past the type's first line.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.BaseList_8Spaces_Passes")]
-    public Task BaseList8SpacesPasses()
+    public Task BaseList_8Spaces_Passes()
     {
         return VerifyAsync(caseId: "rules.continuationindent.BaseList_8Spaces_Passes",
                 diagnostic: "ANALYZER_ACCEPTED", source: Sample(template: BaseList, offset: 8, marked: false));
@@ -501,7 +501,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <returns>A task that completes when the verification has run.</returns>
     /// <summary>Rejects BaseList at offset 4 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.BaseList_4Or12Spaces_Fails4")]
-    public Task BaseList4Or12SpacesFails4()
+    public Task Analyze_BaseList4Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.BaseList_4Or12Spaces_Fails4",
                 diagnostic: "SCR0009", source: Sample(template: BaseList, offset: 4, marked: true));
@@ -509,7 +509,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects BaseList at offset 12 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.BaseList_4Or12Spaces_Fails12")]
-    public Task BaseList4Or12SpacesFails12()
+    public Task Analyze_BaseList12Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.BaseList_4Or12Spaces_Fails12",
                 diagnostic: "SCR0009", source: Sample(template: BaseList, offset: 12, marked: true));
@@ -518,7 +518,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <summary>A lambda expression body on the line after <c>=&gt;</c> passes at 8 spaces.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.LambdaExpressionBody_8Spaces_Passes")]
-    public Task LambdaExpressionBody8SpacesPasses()
+    public Task LambdaExpressionBody_8Spaces_Passes()
     {
         return VerifyAsync(caseId: "rules.continuationindent.LambdaExpressionBody_8Spaces_Passes",
                 diagnostic: "ANALYZER_ACCEPTED", source: Sample(template: LambdaExpressionBody, offset: 8,
@@ -529,7 +529,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <returns>A task that completes when the verification has run.</returns>
     /// <summary>Rejects LambdaExpressionBody at offset 4 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.LambdaExpressionBody_4Or12Spaces_Fails4")]
-    public Task LambdaExpressionBody4Or12SpacesFails4()
+    public Task Analyze_LambdaExpressionBody4Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.LambdaExpressionBody_4Or12Spaces_Fails4",
                 diagnostic: "SCR0009", source: Sample(template: LambdaExpressionBody, offset: 4, marked: true));
@@ -537,7 +537,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects LambdaExpressionBody at offset 12 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.LambdaExpressionBody_4Or12Spaces_Fails12")]
-    public Task LambdaExpressionBody4Or12SpacesFails12()
+    public Task Analyze_LambdaExpressionBody12Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.LambdaExpressionBody_4Or12Spaces_Fails12",
                 diagnostic: "SCR0009", source: Sample(template: LambdaExpressionBody, offset: 12, marked: true));
@@ -546,7 +546,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <summary>Block-lambda braces pass at the indent of the line where the lambda starts.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.BlockLambdaBraces_AtLambdaLineIndent_Passes")]
-    public Task BlockLambdaBracesAtLambdaLineIndentPasses()
+    public Task BlockLambdaBraces_AtLambdaLineIndent_Passes()
     {
         return VerifyAsync(caseId: "rules.continuationindent.BlockLambdaBraces_AtLambdaLineIndent_Passes",
                 diagnostic: "ANALYZER_ACCEPTED", source: Sample(template: BlockLambdaBraces, offset: 0, marked: false));
@@ -556,7 +556,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <returns>A task that completes when the verification has run.</returns>
     /// <summary>Rejects BlockLambdaBraces at offset 4 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.BlockLambdaBraces_4Or8Spaces_Fails4")]
-    public Task BlockLambdaBraces4Or8SpacesFails4()
+    public Task Analyze_BlockLambdaBraces4Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.BlockLambdaBraces_4Or8Spaces_Fails4",
                 diagnostic: "SCR0009", source: Sample(template: BlockLambdaBraces, offset: 4, marked: true));
@@ -564,7 +564,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects BlockLambdaBraces at offset 8 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.BlockLambdaBraces_4Or8Spaces_Fails8")]
-    public Task BlockLambdaBraces4Or8SpacesFails8()
+    public Task Analyze_BlockLambdaBraces8Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.BlockLambdaBraces_4Or8Spaces_Fails8",
                 diagnostic: "SCR0009", source: Sample(template: BlockLambdaBraces, offset: 8, marked: true));
@@ -573,7 +573,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <summary>A collection expression's <c>[</c> on the line after <c>=</c> passes at that line's indent.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.CollectionOpenBracket_AtEqualsLineIndent_Passes")]
-    public Task CollectionOpenBracketAtEqualsLineIndentPasses()
+    public Task CollectionOpenBracket_AtEqualsLineIndent_Passes()
     {
         return VerifyAsync(caseId: "rules.continuationindent.CollectionOpenBracket_AtEqualsLineIndent_Passes",
                 diagnostic: "ANALYZER_ACCEPTED", source: Sample(template: CollectionOpenBracket, offset: 0,
@@ -584,7 +584,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <returns>A task that completes when the verification has run.</returns>
     /// <summary>Rejects CollectionOpenBracket at offset 4 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.CollectionOpenBracket_4Or8Spaces_Fails4")]
-    public Task CollectionOpenBracket4Or8SpacesFails4()
+    public Task Analyze_CollectionOpenBracket4Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.CollectionOpenBracket_4Or8Spaces_Fails4",
                 diagnostic: "SCR0009", source: Sample(template: CollectionOpenBracket, offset: 4, marked: true));
@@ -592,7 +592,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects CollectionOpenBracket at offset 8 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.CollectionOpenBracket_4Or8Spaces_Fails8")]
-    public Task CollectionOpenBracket4Or8SpacesFails8()
+    public Task Analyze_CollectionOpenBracket8Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.CollectionOpenBracket_4Or8Spaces_Fails8",
                 diagnostic: "SCR0009", source: Sample(template: CollectionOpenBracket, offset: 8, marked: true));
@@ -603,7 +603,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// </summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.OneLineCollectionAfterEquals_8Spaces_Passes")]
-    public Task OneLineCollectionAfterEquals8SpacesPasses()
+    public Task OneLineCollectionAfterEquals_8Spaces_Passes()
     {
         return VerifyAsync(caseId: "rules.continuationindent.OneLineCollectionAfterEquals_8Spaces_Passes",
                 diagnostic: "ANALYZER_ACCEPTED", source: Sample(template: OneLineCollection, offset: 8, marked: false));
@@ -613,7 +613,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <returns>A task that completes when the verification has run.</returns>
     /// <summary>Rejects OneLineCollectionAfterEquals at offset 0 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.OneLineCollectionAfterEquals_0Or12Spaces_Fails0")]
-    public Task OneLineCollectionAfterEquals0Or12SpacesFails0()
+    public Task Analyze_OneLineCollectionAfterEquals0Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.OneLineCollectionAfterEquals_0Or12Spaces_Fails0",
                 diagnostic: "SCR0009", source: Sample(template: OneLineCollection, offset: 0, marked: true));
@@ -621,7 +621,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects OneLineCollectionAfterEquals at offset 12 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.OneLineCollectionAfterEquals_0Or12Spaces_Fails12")]
-    public Task OneLineCollectionAfterEquals0Or12SpacesFails12()
+    public Task Analyze_OneLineCollectionAfterEquals12Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.OneLineCollectionAfterEquals_0Or12Spaces_Fails12",
                 diagnostic: "SCR0009", source: Sample(template: OneLineCollection, offset: 12, marked: true));
@@ -630,7 +630,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <summary>Collection-expression elements pass at 4 spaces past the line holding the <c>[</c>.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.CollectionElement_4Spaces_Passes")]
-    public Task CollectionElement4SpacesPasses()
+    public Task CollectionElement_4Spaces_Passes()
     {
         return VerifyAsync(caseId: "rules.continuationindent.CollectionElement_4Spaces_Passes",
                 diagnostic: "ANALYZER_ACCEPTED", source: Sample(template: CollectionElement, offset: 4, marked: false));
@@ -640,7 +640,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <returns>A task that completes when the verification has run.</returns>
     /// <summary>Rejects CollectionElement at offset 0 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.CollectionElement_0Or8Spaces_Fails0")]
-    public Task CollectionElement0Or8SpacesFails0()
+    public Task Analyze_CollectionElement0Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.CollectionElement_0Or8Spaces_Fails0",
                 diagnostic: "SCR0009", source: Sample(template: CollectionElement, offset: 0, marked: true));
@@ -648,7 +648,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects CollectionElement at offset 8 on its exact token.</summary>
     [Fact, Trait("Case", "rules.continuationindent.CollectionElement_0Or8Spaces_Fails8")]
-    public Task CollectionElement0Or8SpacesFails8()
+    public Task Analyze_CollectionElement8Spaces_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.CollectionElement_0Or8Spaces_Fails8",
                 diagnostic: "SCR0009", source: Sample(template: CollectionElement, offset: 8, marked: true));
@@ -657,7 +657,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <summary>A collection expression's <c>]</c> passes at the indent of the line holding the <c>[</c>.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.CollectionCloseBracket_AtOpenLineIndent_Passes")]
-    public Task CollectionCloseBracketAtOpenLineIndentPasses()
+    public Task CollectionCloseBracket_AtOpenLineIndent_Passes()
     {
         return VerifyAsync(caseId: "rules.continuationindent.CollectionCloseBracket_AtOpenLineIndent_Passes",
                 diagnostic: "ANALYZER_ACCEPTED", source: Sample(template: CollectionCloseBracket, offset: 0,
@@ -667,7 +667,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <summary>A collection expression's <c>]</c> 4 spaces past the <c>[</c> line fails.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.CollectionCloseBracket_4Spaces_Fails")]
-    public Task CollectionCloseBracket4SpacesFails()
+    public Task CollectionCloseBracket_4Spaces_Fails()
     {
         return VerifyAsync(caseId: "rules.continuationindent.CollectionCloseBracket_4Spaces_Fails",
                 diagnostic: "SCR0009", source: Sample(template: CollectionCloseBracket, offset: 4, marked: true));
@@ -679,7 +679,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// </summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.NestedContinuations_8SpacesPastTheirOwnLine_Pass")]
-    public Task NestedContinuations8SpacesPastTheirOwnLinePass()
+    public Task NestedContinuations_8SpacesPastTheirOwnLine_Pass()
     {
         return VerifyAsync(caseId: "rules.continuationindent.NestedContinuations_8SpacesPastTheirOwnLine_Pass",
                 diagnostic: "ANALYZER_ACCEPTED", source: NestedContinuations);
@@ -688,7 +688,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <summary>An inner wrapped argument at the outer argument's indent fails.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.NestedArgument_AtOuterIndent_Fails")]
-    public Task NestedArgumentAtOuterIndentFails()
+    public Task NestedArgument_AtOuterIndent_Fails()
     {
         return VerifyAsync(caseId: "rules.continuationindent.NestedArgument_AtOuterIndent_Fails",
                 diagnostic: "SCR0009", source: """
@@ -709,7 +709,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <summary>Object and collection initializers and anonymous objects are left to IDE0055.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.Initializers_AnyIndent_NotReported")]
-    public Task InitializersAnyIndentNotReported()
+    public Task Initializers_AnyIndent_NotReported()
     {
         return VerifyAsync(caseId: "rules.continuationindent.Initializers_AnyIndent_NotReported",
                 diagnostic: "ANALYZER_ACCEPTED", source: Initializers);
@@ -718,7 +718,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <summary>Switch-expression braces and arms and query clauses are left to IDE0055.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.SwitchExpressionAndQuery_AnyIndent_NotReported")]
-    public Task SwitchExpressionAndQueryAnyIndentNotReported()
+    public Task SwitchExpressionAndQuery_AnyIndent_NotReported()
     {
         return VerifyAsync(caseId: "rules.continuationindent.SwitchExpressionAndQuery_AnyIndent_NotReported",
                 diagnostic: "ANALYZER_ACCEPTED", source: SwitchExpressionAndQuery);
@@ -727,7 +727,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <summary>Lines inside multi-line string literals, raw, verbatim and interpolated, are never checked.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.StringLiteralLines_AnyIndent_NotReported")]
-    public Task StringLiteralLinesAnyIndentNotReported()
+    public Task StringLiteralLines_AnyIndent_NotReported()
     {
         return VerifyAsync(caseId: "rules.continuationindent.StringLiteralLines_AnyIndent_NotReported",
                 diagnostic: "ANALYZER_ACCEPTED", source: StringLiteralLines);
@@ -739,7 +739,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// </summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.OtherKinds_AnyIndent_NotReported")]
-    public Task OtherKindsAnyIndentNotReported()
+    public Task OtherKinds_AnyIndent_NotReported()
     {
         return VerifyAsync(caseId: "rules.continuationindent.OtherKinds_AnyIndent_NotReported",
                 diagnostic: "ANALYZER_ACCEPTED", source: OtherKinds);
@@ -751,7 +751,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// </summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.AgreedSamples_FormatterLeavesUnchanged_AndNotReported")]
-    public Task AgreedSamplesFormatterLeavesUnchangedAndNotReported()
+    public Task Format_AgreedSamples_PreservesBytesAndHasNoDiagnostic()
     {
         return FormatterAgreesAsync(
                 caseId: "rules.continuationindent.AgreedSamples_FormatterLeavesUnchanged_AndNotReported",
@@ -761,7 +761,7 @@ public sealed class ContinuationIndentAnalyzerTests
     /// <summary>Generated settings cannot exempt handwritten code.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.continuationindent.Analyze_GeneratedCode_IsSkipped")]
-    public Task AnalyzeGeneratedCodeIsSkipped()
+    public Task Analyze_GeneratedCode_IsSkipped()
     {
         return VerifyAsync(caseId: "rules.continuationindent.Analyze_GeneratedCode_IsSkipped",
                 diagnostic: "SCR0009", source: Sample(template: WrappedArgument, offset: 4, marked: true),
@@ -775,7 +775,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 7-space neighbor for WrappedArgument.</summary>
     [Fact, Trait("Case", "rules.continuationindent.WrappedArgumentOffset7Fails")]
-    public Task WrappedArgumentOffset7Fails()
+    public Task Analyze_WrappedArgumentOffset7_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.WrappedArgumentOffset7Fails",
                 diagnostic: "SCR0009", source: Sample(template: WrappedArgument, offset: 7, marked: true));
@@ -783,7 +783,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 9-space neighbor for WrappedArgument.</summary>
     [Fact, Trait("Case", "rules.continuationindent.WrappedArgumentOffset9Fails")]
-    public Task WrappedArgumentOffset9Fails()
+    public Task Analyze_WrappedArgumentOffset9_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.WrappedArgumentOffset9Fails",
                 diagnostic: "SCR0009", source: Sample(template: WrappedArgument, offset: 9, marked: true));
@@ -791,7 +791,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 7-space neighbor for WrappedAttributeArgument.</summary>
     [Fact, Trait("Case", "rules.continuationindent.WrappedAttributeArgumentOffset7Fails")]
-    public Task WrappedAttributeArgumentOffset7Fails()
+    public Task Analyze_WrappedAttributeArgumentOffset7_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.WrappedAttributeArgumentOffset7Fails",
                 diagnostic: "SCR0009", source: Sample(template: WrappedAttributeArgument, offset: 7, marked: true));
@@ -799,7 +799,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 9-space neighbor for WrappedAttributeArgument.</summary>
     [Fact, Trait("Case", "rules.continuationindent.WrappedAttributeArgumentOffset9Fails")]
-    public Task WrappedAttributeArgumentOffset9Fails()
+    public Task Analyze_WrappedAttributeArgumentOffset9_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.WrappedAttributeArgumentOffset9Fails",
                 diagnostic: "SCR0009", source: Sample(template: WrappedAttributeArgument, offset: 9, marked: true));
@@ -807,7 +807,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 7-space neighbor for WrappedParameter.</summary>
     [Fact, Trait("Case", "rules.continuationindent.WrappedParameterOffset7Fails")]
-    public Task WrappedParameterOffset7Fails()
+    public Task Analyze_WrappedParameterOffset7_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.WrappedParameterOffset7Fails",
                 diagnostic: "SCR0009", source: Sample(template: WrappedParameter, offset: 7, marked: true));
@@ -815,7 +815,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 9-space neighbor for WrappedParameter.</summary>
     [Fact, Trait("Case", "rules.continuationindent.WrappedParameterOffset9Fails")]
-    public Task WrappedParameterOffset9Fails()
+    public Task Analyze_WrappedParameterOffset9_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.WrappedParameterOffset9Fails",
                 diagnostic: "SCR0009", source: Sample(template: WrappedParameter, offset: 9, marked: true));
@@ -823,7 +823,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 7-space neighbor for FluentChain.</summary>
     [Fact, Trait("Case", "rules.continuationindent.FluentChainOffset7Fails")]
-    public Task FluentChainOffset7Fails()
+    public Task Analyze_FluentChainOffset7_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.FluentChainOffset7Fails", diagnostic: "SCR0009",
                 source: Sample(template: FluentChain, offset: 7, marked: true));
@@ -831,7 +831,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 9-space neighbor for FluentChain.</summary>
     [Fact, Trait("Case", "rules.continuationindent.FluentChainOffset9Fails")]
-    public Task FluentChainOffset9Fails()
+    public Task Analyze_FluentChainOffset9_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.FluentChainOffset9Fails", diagnostic: "SCR0009",
                 source: Sample(template: FluentChain, offset: 9, marked: true));
@@ -839,7 +839,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 7-space neighbor for ConditionalAccessChain.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ConditionalAccessChainOffset7Fails")]
-    public Task ConditionalAccessChainOffset7Fails()
+    public Task Analyze_ConditionalAccessChainOffset7_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ConditionalAccessChainOffset7Fails",
                 diagnostic: "SCR0009", source: Sample(template: ConditionalAccessChain, offset: 7, marked: true));
@@ -847,7 +847,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 9-space neighbor for ConditionalAccessChain.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ConditionalAccessChainOffset9Fails")]
-    public Task ConditionalAccessChainOffset9Fails()
+    public Task Analyze_ConditionalAccessChainOffset9_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ConditionalAccessChainOffset9Fails",
                 diagnostic: "SCR0009", source: Sample(template: ConditionalAccessChain, offset: 9, marked: true));
@@ -855,7 +855,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 7-space neighbor for ConditionalAccessSteps.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ConditionalAccessStepsOffset7Fails")]
-    public Task ConditionalAccessStepsOffset7Fails()
+    public Task Analyze_ConditionalAccessStepsOffset7_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ConditionalAccessStepsOffset7Fails",
                 diagnostic: "SCR0009", source: Sample(template: ConditionalAccessSteps, offset: 7, marked: true));
@@ -863,7 +863,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 9-space neighbor for ConditionalAccessSteps.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ConditionalAccessStepsOffset9Fails")]
-    public Task ConditionalAccessStepsOffset9Fails()
+    public Task Analyze_ConditionalAccessStepsOffset9_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ConditionalAccessStepsOffset9Fails",
                 diagnostic: "SCR0009", source: Sample(template: ConditionalAccessSteps, offset: 9, marked: true));
@@ -871,7 +871,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 7-space neighbor for MixedChain.</summary>
     [Fact, Trait("Case", "rules.continuationindent.MixedChainOffset7Fails")]
-    public Task MixedChainOffset7Fails()
+    public Task Analyze_MixedChainOffset7_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.MixedChainOffset7Fails", diagnostic: "SCR0009",
                 source: Sample(template: MixedChain, offset: 7, marked: true));
@@ -879,7 +879,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 9-space neighbor for MixedChain.</summary>
     [Fact, Trait("Case", "rules.continuationindent.MixedChainOffset9Fails")]
-    public Task MixedChainOffset9Fails()
+    public Task Analyze_MixedChainOffset9_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.MixedChainOffset9Fails", diagnostic: "SCR0009",
                 source: Sample(template: MixedChain, offset: 9, marked: true));
@@ -887,7 +887,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 7-space neighbor for LeadingBinaryOperator.</summary>
     [Fact, Trait("Case", "rules.continuationindent.LeadingBinaryOperatorOffset7Fails")]
-    public Task LeadingBinaryOperatorOffset7Fails()
+    public Task Analyze_LeadingBinaryOperatorOffset7_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.LeadingBinaryOperatorOffset7Fails",
                 diagnostic: "SCR0009", source: Sample(template: LeadingBinaryOperator, offset: 7, marked: true));
@@ -895,7 +895,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 9-space neighbor for LeadingBinaryOperator.</summary>
     [Fact, Trait("Case", "rules.continuationindent.LeadingBinaryOperatorOffset9Fails")]
-    public Task LeadingBinaryOperatorOffset9Fails()
+    public Task Analyze_LeadingBinaryOperatorOffset9_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.LeadingBinaryOperatorOffset9Fails",
                 diagnostic: "SCR0009", source: Sample(template: LeadingBinaryOperator, offset: 9, marked: true));
@@ -903,7 +903,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 7-space neighbor for TrailingBinaryOperator.</summary>
     [Fact, Trait("Case", "rules.continuationindent.TrailingBinaryOperatorOffset7Fails")]
-    public Task TrailingBinaryOperatorOffset7Fails()
+    public Task Analyze_TrailingBinaryOperatorOffset7_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.TrailingBinaryOperatorOffset7Fails",
                 diagnostic: "SCR0009", source: Sample(template: TrailingBinaryOperator, offset: 7, marked: true));
@@ -911,7 +911,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 9-space neighbor for TrailingBinaryOperator.</summary>
     [Fact, Trait("Case", "rules.continuationindent.TrailingBinaryOperatorOffset9Fails")]
-    public Task TrailingBinaryOperatorOffset9Fails()
+    public Task Analyze_TrailingBinaryOperatorOffset9_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.TrailingBinaryOperatorOffset9Fails",
                 diagnostic: "SCR0009", source: Sample(template: TrailingBinaryOperator, offset: 9, marked: true));
@@ -919,7 +919,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 7-space neighbor for WrappedIfCondition.</summary>
     [Fact, Trait("Case", "rules.continuationindent.WrappedIfConditionOffset7Fails")]
-    public Task WrappedIfConditionOffset7Fails()
+    public Task Analyze_WrappedIfConditionOffset7_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.WrappedIfConditionOffset7Fails",
                 diagnostic: "SCR0009", source: Sample(template: WrappedIfCondition, offset: 7, marked: true));
@@ -927,7 +927,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 9-space neighbor for WrappedIfCondition.</summary>
     [Fact, Trait("Case", "rules.continuationindent.WrappedIfConditionOffset9Fails")]
-    public Task WrappedIfConditionOffset9Fails()
+    public Task Analyze_WrappedIfConditionOffset9_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.WrappedIfConditionOffset9Fails",
                 diagnostic: "SCR0009", source: Sample(template: WrappedIfCondition, offset: 9, marked: true));
@@ -935,7 +935,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 7-space neighbor for ConditionalOperator.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ConditionalOperatorOffset7Fails")]
-    public Task ConditionalOperatorOffset7Fails()
+    public Task Analyze_ConditionalOperatorOffset7_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ConditionalOperatorOffset7Fails",
                 diagnostic: "SCR0009", source: Sample(template: ConditionalOperator, offset: 7, marked: true));
@@ -943,7 +943,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 9-space neighbor for ConditionalOperator.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ConditionalOperatorOffset9Fails")]
-    public Task ConditionalOperatorOffset9Fails()
+    public Task Analyze_ConditionalOperatorOffset9_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ConditionalOperatorOffset9Fails",
                 diagnostic: "SCR0009", source: Sample(template: ConditionalOperator, offset: 9, marked: true));
@@ -951,7 +951,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 7-space neighbor for ConstructorInitializer.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ConstructorInitializerOffset7Fails")]
-    public Task ConstructorInitializerOffset7Fails()
+    public Task Analyze_ConstructorInitializerOffset7_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ConstructorInitializerOffset7Fails",
                 diagnostic: "SCR0009", source: Sample(template: ConstructorInitializer, offset: 7, marked: true));
@@ -959,7 +959,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 9-space neighbor for ConstructorInitializer.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ConstructorInitializerOffset9Fails")]
-    public Task ConstructorInitializerOffset9Fails()
+    public Task Analyze_ConstructorInitializerOffset9_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ConstructorInitializerOffset9Fails",
                 diagnostic: "SCR0009", source: Sample(template: ConstructorInitializer, offset: 9, marked: true));
@@ -967,7 +967,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 7-space neighbor for WhereClause.</summary>
     [Fact, Trait("Case", "rules.continuationindent.WhereClauseOffset7Fails")]
-    public Task WhereClauseOffset7Fails()
+    public Task Analyze_WhereClauseOffset7_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.WhereClauseOffset7Fails", diagnostic: "SCR0009",
                 source: Sample(template: WhereClause, offset: 7, marked: true));
@@ -975,7 +975,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 9-space neighbor for WhereClause.</summary>
     [Fact, Trait("Case", "rules.continuationindent.WhereClauseOffset9Fails")]
-    public Task WhereClauseOffset9Fails()
+    public Task Analyze_WhereClauseOffset9_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.WhereClauseOffset9Fails", diagnostic: "SCR0009",
                 source: Sample(template: WhereClause, offset: 9, marked: true));
@@ -983,7 +983,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 7-space neighbor for ValueAfterEquals.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ValueAfterEqualsOffset7Fails")]
-    public Task ValueAfterEqualsOffset7Fails()
+    public Task Analyze_ValueAfterEqualsOffset7_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ValueAfterEqualsOffset7Fails",
                 diagnostic: "SCR0009", source: Sample(template: ValueAfterEquals, offset: 7, marked: true));
@@ -991,7 +991,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 9-space neighbor for ValueAfterEquals.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ValueAfterEqualsOffset9Fails")]
-    public Task ValueAfterEqualsOffset9Fails()
+    public Task Analyze_ValueAfterEqualsOffset9_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ValueAfterEqualsOffset9Fails",
                 diagnostic: "SCR0009", source: Sample(template: ValueAfterEquals, offset: 9, marked: true));
@@ -999,7 +999,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 7-space neighbor for ValueAfterAssignment.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ValueAfterAssignmentOffset7Fails")]
-    public Task ValueAfterAssignmentOffset7Fails()
+    public Task Analyze_ValueAfterAssignmentOffset7_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ValueAfterAssignmentOffset7Fails",
                 diagnostic: "SCR0009", source: Sample(template: ValueAfterAssignment, offset: 7, marked: true));
@@ -1007,7 +1007,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 9-space neighbor for ValueAfterAssignment.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ValueAfterAssignmentOffset9Fails")]
-    public Task ValueAfterAssignmentOffset9Fails()
+    public Task Analyze_ValueAfterAssignmentOffset9_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ValueAfterAssignmentOffset9Fails",
                 diagnostic: "SCR0009", source: Sample(template: ValueAfterAssignment, offset: 9, marked: true));
@@ -1015,7 +1015,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 7-space neighbor for ValueAfterReturn.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ValueAfterReturnOffset7Fails")]
-    public Task ValueAfterReturnOffset7Fails()
+    public Task Analyze_ValueAfterReturnOffset7_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ValueAfterReturnOffset7Fails",
                 diagnostic: "SCR0009", source: Sample(template: ValueAfterReturn, offset: 7, marked: true));
@@ -1023,7 +1023,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 9-space neighbor for ValueAfterReturn.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ValueAfterReturnOffset9Fails")]
-    public Task ValueAfterReturnOffset9Fails()
+    public Task Analyze_ValueAfterReturnOffset9_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ValueAfterReturnOffset9Fails",
                 diagnostic: "SCR0009", source: Sample(template: ValueAfterReturn, offset: 9, marked: true));
@@ -1031,7 +1031,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 7-space neighbor for ExpressionBodyArrow.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ExpressionBodyArrowOffset7Fails")]
-    public Task ExpressionBodyArrowOffset7Fails()
+    public Task Analyze_ExpressionBodyArrowOffset7_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ExpressionBodyArrowOffset7Fails",
                 diagnostic: "SCR0009", source: Sample(template: ExpressionBodyArrow, offset: 7, marked: true));
@@ -1039,7 +1039,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 9-space neighbor for ExpressionBodyArrow.</summary>
     [Fact, Trait("Case", "rules.continuationindent.ExpressionBodyArrowOffset9Fails")]
-    public Task ExpressionBodyArrowOffset9Fails()
+    public Task Analyze_ExpressionBodyArrowOffset9_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.ExpressionBodyArrowOffset9Fails",
                 diagnostic: "SCR0009", source: Sample(template: ExpressionBodyArrow, offset: 9, marked: true));
@@ -1047,7 +1047,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 7-space neighbor for BaseList.</summary>
     [Fact, Trait("Case", "rules.continuationindent.BaseListOffset7Fails")]
-    public Task BaseListOffset7Fails()
+    public Task Analyze_BaseListOffset7_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.BaseListOffset7Fails", diagnostic: "SCR0009",
                 source: Sample(template: BaseList, offset: 7, marked: true));
@@ -1055,7 +1055,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 9-space neighbor for BaseList.</summary>
     [Fact, Trait("Case", "rules.continuationindent.BaseListOffset9Fails")]
-    public Task BaseListOffset9Fails()
+    public Task Analyze_BaseListOffset9_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.BaseListOffset9Fails", diagnostic: "SCR0009",
                 source: Sample(template: BaseList, offset: 9, marked: true));
@@ -1063,7 +1063,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 7-space neighbor for LambdaExpressionBody.</summary>
     [Fact, Trait("Case", "rules.continuationindent.LambdaExpressionBodyOffset7Fails")]
-    public Task LambdaExpressionBodyOffset7Fails()
+    public Task Analyze_LambdaExpressionBodyOffset7_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.LambdaExpressionBodyOffset7Fails",
                 diagnostic: "SCR0009", source: Sample(template: LambdaExpressionBody, offset: 7, marked: true));
@@ -1071,7 +1071,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 9-space neighbor for LambdaExpressionBody.</summary>
     [Fact, Trait("Case", "rules.continuationindent.LambdaExpressionBodyOffset9Fails")]
-    public Task LambdaExpressionBodyOffset9Fails()
+    public Task Analyze_LambdaExpressionBodyOffset9_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.LambdaExpressionBodyOffset9Fails",
                 diagnostic: "SCR0009", source: Sample(template: LambdaExpressionBody, offset: 9, marked: true));
@@ -1079,7 +1079,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 7-space neighbor for OneLineCollection.</summary>
     [Fact, Trait("Case", "rules.continuationindent.OneLineCollectionOffset7Fails")]
-    public Task OneLineCollectionOffset7Fails()
+    public Task Analyze_OneLineCollectionOffset7_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.OneLineCollectionOffset7Fails",
                 diagnostic: "SCR0009", source: Sample(template: OneLineCollection, offset: 7, marked: true));
@@ -1087,7 +1087,7 @@ public sealed class ContinuationIndentAnalyzerTests
 
     /// <summary>Rejects the immediate 9-space neighbor for OneLineCollection.</summary>
     [Fact, Trait("Case", "rules.continuationindent.OneLineCollectionOffset9Fails")]
-    public Task OneLineCollectionOffset9Fails()
+    public Task Analyze_OneLineCollectionOffset9_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.continuationindent.OneLineCollectionOffset9Fails",
                 diagnostic: "SCR0009", source: Sample(template: OneLineCollection, offset: 9, marked: true));

@@ -18,7 +18,7 @@ public sealed class ConfigurationTests
     /// <summary>Requires the actual game to compose exactly Core and service ports with an analyzer-only
     /// tooling edge.</summary>
     [Fact, Trait("Case", "pins.composition")]
-    public void GameHasPermittedEvaluatedComposition()
+    public void Evaluate_GameComposition_MatchesPermittedPolicy()
     {
         (int Exit, string Output) result = Dotnet("msbuild", Projects[2], "-nologo", "-getItem:ProjectReference");
         result.Exit.ShouldBe(expected: 0, customMessage: result.Output);
@@ -44,7 +44,7 @@ public sealed class ConfigurationTests
 
     /// <summary>Emits an actual Godot consumer against the built game, Core and service-port assemblies.</summary>
     [Fact, Trait("Case", "pins.consumer")]
-    public async Task RealGodotConsumerCompiles()
+    public async Task Build_RealGodotConsumer_Compiles()
     {
         (int Exit, string Output) build = Dotnet("build", Projects[2], "--no-restore", "-p:NuGetAudit=false");
         build.Exit.ShouldBe(expected: 0, customMessage: build.Output);
@@ -66,7 +66,7 @@ public sealed class ConfigurationTests
     /// <summary>Accepts the exact compiler diagnostic, then rejects wrong identity, severity, location and
     /// additional errors.</summary>
     [Fact, Trait("Case", "pins.verifier")]
-    public async Task VerifierRequiresExactCompilerDiagnostic()
+    public async Task Verify_WrongCompilerDiagnostic_IsRejected()
     {
         var exact = new AnalyzerVerifier.Expected(id: "CS0246", severity: DiagnosticSeverity.Error,
                 file: "Subject.cs", line: 1, column: 24, endLine: 1, endColumn: 31);
@@ -113,7 +113,7 @@ public sealed class ConfigurationTests
 
     /// <summary>Requires production and tests to consume different checked banned-symbol inputs.</summary>
     [Fact, Trait("Case", "pins.banned-inputs")]
-    public void ConsumersSelectScopedBannedInputs()
+    public void Evaluate_ConsumerProjects_SelectScopedBannedInputs()
     {
         foreach (string? project in new[]
         {
@@ -143,7 +143,7 @@ public sealed class ConfigurationTests
 
     /// <summary>Requires strict effective properties and exact global package versions for all five subjects.</summary>
     [Fact, Trait("Case", "pins.evaluated")]
-    public void AllFiveProjectsInheritExactPolicy()
+    public void Evaluate_AllFiveProjects_InheritExactPolicy()
     {
         foreach (string project in Projects)
         {
@@ -158,7 +158,7 @@ public sealed class ConfigurationTests
 
     /// <summary>Rejects actual evaluated severity, import and runtime-analyzer metadata mutations.</summary>
     [Fact, Trait("Case", "pins.configuration-drift")]
-    public void EvaluatedPolicyRejectsWeakening()
+    public void Evaluate_WeakenedPolicy_IsRejected()
     {
         foreach (string? setting in new[]
         {
@@ -206,7 +206,7 @@ public sealed class ConfigurationTests
     /// <summary>Rejects uncontrolled wall-clock/randomness, service locators and Console in actual production
     /// builds.</summary>
     [Fact, Trait("Case", "pins.banned-production")]
-    public void ProductionBannedApisFailRealCompilation()
+    public void Build_ProductionBannedApis_FailsAtExactLocations()
     {
         string project = Fixture(source: ("namespace CompilerFixture; /// <summary>Negative produc"
                 + "tion control.</summary>\npublic static class Subject { /"
@@ -235,7 +235,7 @@ public sealed class ConfigurationTests
     /// <summary>Accepts Shouldly and an awaitable method without an Async suffix; rejects inherited
     /// Xunit.Assert usage.</summary>
     [Fact, Trait("Case", "pins.banned-tests")]
-    public void TestsRetainShouldlyAndRejectAssert()
+    public void Build_TestAssertions_AcceptsShouldlyAndRejectsAssert()
     {
         string project = Fixture(source: ("using Shouldly; namespace CompilerFixture; /// <summary"
                 + ">Permitted test APIs.</summary>\npublic static class Sub"
@@ -256,7 +256,7 @@ public sealed class ConfigurationTests
 
     /// <summary>Rejects severity weakening when it removes the intended subject diagnostic.</summary>
     [Fact, Trait("Case", "pins.banned-severity")]
-    public void BannedSeverityWeakeningCannotSatisfyTheContract()
+    public void Evaluate_WeakenedBannedSeverity_IsRejected()
     {
         string project = Fixture(source: ("namespace CompilerFixture; /// <summary>Diagnostic seve"
                 + "rity control.</summary>\npublic static class Subject { /"
@@ -278,7 +278,7 @@ public sealed class ConfigurationTests
     /// <summary>Preserves permission for awaitable methods without an Async suffix and rejects a
     /// configuration that removes it.</summary>
     [Fact, Trait("Case", "pins.async-permission")]
-    public void AsyncSuffixPermissionRejectsConfigurationDrift()
+    public void Evaluate_AsyncSuffixPermission_RejectsConfigurationDrift()
     {
         string project = Fixture(source: ("namespace CompilerFixture; /// <summary>Awaitable namin"
                 + "g permission.</summary>\npublic static class Subject { /"
@@ -297,7 +297,7 @@ public sealed class ConfigurationTests
     /// <summary>Requires five canonical locks and rejects a changed exact dependency under clean locked
     /// restore.</summary>
     [Fact, Trait("Case", "ac-01.complete")]
-    public void FiveCanonicalLocksRejectDependencyDrift()
+    public void Restore_FiveCanonicalLocks_RejectsDependencyDrift()
     {
         var hashes = new Dictionary<string, string>(comparer: StringComparer.Ordinal);
         foreach (string project in Projects)
@@ -363,7 +363,7 @@ public sealed class ConfigurationTests
     /// <summary>Requires the pinned generator package and authentic generated method before accepting its
     /// report adapter.</summary>
     [Fact, Trait("Case", "pins.generated-report")]
-    public void GeneratedReportAdapterHasPinnedOrigin()
+    public void Check_GeneratedReportAdapter_HasPinnedOrigin()
     {
         (int Exit, string Output) build = Dotnet("build", Projects[2], "--no-restore", "-p:NuGetAudit=false",
                 "-t:Rebuild");
@@ -405,7 +405,7 @@ public sealed class ConfigurationTests
 
     /// <summary>Rejects handwritten adjacent Console use and a same-signature generated-method impostor.</summary>
     [Fact, Trait("Case", "pins.generated-report-boundary")]
-    public void GeneratedReportPermissionCannotEscapeItsMethod()
+    public void Analyze_GeneratedReportPermission_RejectsOutsideMethod()
     {
         string adjacent = BuildGameWithSource(
                 source: ("namespace GodotPlugins.Game; internal static partial cl"

@@ -11,7 +11,7 @@ public sealed class GodotCallSiteAdapterTests
     /// <summary>Rejects an adjacent handwritten call and a colliding handwritten definition for every
     /// permitted symbol.</summary>
     [Fact, Trait("Case", "rules.godot-callsite-boundary")]
-    public void GodotCallSitePermissionsCannotEscapeTheirMembers()
+    public void Analyze_GodotCallSitePermissions_RejectsOutsideMembers()
     {
         string adjacent = ConfigurationTests.BuildGameWithSource(
                 source: ("namespace KingdomZombies.Proofs; public partial class P"

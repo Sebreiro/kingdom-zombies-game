@@ -12,7 +12,7 @@ public sealed class RegionDirectiveAnalyzerTests
     /// <summary>A region inside a type is reported on its <c>#region</c> line.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "R-25.negative")]
-    public Task AnalyzeInsideTypeReports()
+    public Task Analyze_InsideType_Reports()
     {
         return VerifyAsync(caseId: "R-25.negative", diagnostic: "SCR0004", source: """
                 class C
@@ -29,7 +29,7 @@ public sealed class RegionDirectiveAnalyzerTests
     /// <summary>A region inside a member body is reported.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.regiondirective.Analyze_InsideBody_Reports")]
-    public Task AnalyzeInsideBodyReports()
+    public Task Analyze_InsideBody_Reports()
     {
         return VerifyAsync(caseId: "rules.regiondirective.Analyze_InsideBody_Reports", diagnostic: "SCR0004",
                 source: """
@@ -49,7 +49,7 @@ public sealed class RegionDirectiveAnalyzerTests
     /// <summary>A region around a type at file level is reported, and so is a nested region.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.regiondirective.Analyze_FileLevelAndNested_Report")]
-    public Task AnalyzeFileLevelAndNestedReport()
+    public Task Analyze_FileLevelAndNested_Report()
     {
         return VerifyAsync(caseId: "rules.regiondirective.Analyze_FileLevelAndNested_Report",
                 diagnostic: "SCR0004", source: """
@@ -68,7 +68,7 @@ public sealed class RegionDirectiveAnalyzerTests
     /// <summary><c>#if</c>, <c>#else</c> and <c>#endif</c> are not regions and pass.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "R-25.positive")]
-    public Task AnalyzeOtherDirectivesPass()
+    public Task Analyze_OtherDirectives_Pass()
     {
         return VerifyAsync(caseId: "R-25.positive", diagnostic: "ANALYZER_ACCEPTED", source: """
                 class C
@@ -87,7 +87,7 @@ public sealed class RegionDirectiveAnalyzerTests
 
     /// <summary>Generated markers and inactive branches cannot exempt a region directive.</summary>
     [Fact, Trait("Case", "rules.regiondirective.generated-inactive")]
-    public Task GeneratedAndInactiveRegionsRemainChecked()
+    public Task Analyze_GeneratedAndInactiveRegions_ReportsDiagnostics()
     {
         return InheritedAnalyzerVerifier.VerifyAsync(caseId: "rules.regiondirective.generated-inactive",
                 diagnostic: "SCR0004", analyzerType: "RegionDirectiveAnalyzer",

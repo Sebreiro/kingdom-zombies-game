@@ -111,7 +111,7 @@ public sealed class RunnerProcessFixture : IDisposable
     /// <summary>Executes the selected explicit process-failure control and mutates evidence only in the
     /// isolated fixture.</summary>
     [Fact(Explicit = true), Trait("Case", "fixture.pass")]
-    public void Child()
+    public void Run_ExplicitChild_EmitsSelectedResult()
     {
         string mode = Environment.GetEnvironmentVariable(variable: "PHASE1_MUTATION") ?? "pass";
         ExerciseProcessFailure(mode: mode);
@@ -122,20 +122,20 @@ public sealed class RunnerProcessFixture : IDisposable
 
     /// <summary>Provides the intentional explicit skip that proves the parent rejects skipped required cases.</summary>
     [Fact(Explicit = true, Skip = "Intentional isolated skip control"), Trait("Case", "fixture.pass")]
-    public void Skipped()
+    public void Run_ExplicitSkipped_IsRejectedByParent()
     {
     }
 
     /// <summary>Provides a passing explicit case with the wrong identity to prove discovery reconciliation.</summary>
     [Fact(Explicit = true), Trait("Case", "fixture.wrong")]
-    public void WrongSelection()
+    public void Run_WrongSelection_IsRejectedByParent()
     {
         (2 + 2).ShouldBe(expected: 4);
     }
 
     /// <summary>Signals actual descendant startup, then waits for the parent timeout cleanup control.</summary>
     [Fact(Explicit = true), Trait("Case", "fixture.descendant")]
-    public void Descendant()
+    public void Run_Descendant_WaitsForCleanup()
     {
         File.WriteAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: "descendant.ready"),
                 contents: Environment.ProcessId.ToString(provider: System.Globalization.CultureInfo.InvariantCulture));
@@ -186,11 +186,12 @@ public sealed class RunnerProcessFixture : IDisposable
 
     private void WriteFixtureManifest(string mode)
     {
-        string method = StringComparer.Ordinal.Equals(x: mode, y: "skip") ? "Skipped" : StringComparer.Ordinal
-                .Equals(x: mode, y: "zero") ? "NoSuchTest" : "Child";
+        string method = StringComparer.Ordinal.Equals(x: mode, y: "skip")
+                ? "Run_ExplicitSkipped_IsRejectedByParent" : StringComparer.Ordinal
+                        .Equals(x: mode, y: "zero") ? "NoSuchTest" : "Run_ExplicitChild_EmitsSelectedResult";
         if (StringComparer.Ordinal.Equals(x: mode, y: "filter"))
         {
-            method = "WrongSelection";
+            method = "Run_WrongSelection_IsRejectedByParent";
         }
 
         var manifest = new
@@ -246,7 +247,8 @@ public sealed class RunnerProcessFixture : IDisposable
 
         if (StringComparer.Ordinal.Equals(x: mode, y: "assertion"))
         {
-            (2 + 2).ShouldBe(expected: 5, customMessage: "INTENDED_ASSERTION_FAILURE at RunnerProcessFixture.Child");
+            (2 + 2).ShouldBe(expected: 5, customMessage: "INTENDED_ASSERTION_FAILURE at RunnerProcessFixture."
+                    + "Run_ExplicitChild_EmitsSelectedResult");
         }
 
         if (StringComparer.Ordinal.Equals(x: mode, y: "crash"))
@@ -265,7 +267,8 @@ public sealed class RunnerProcessFixture : IDisposable
                 };
                 descendant.ArgumentList.Add(item: Assembly.GetExecutingAssembly().Location);
                 descendant.ArgumentList.Add(item: "--filter-method");
-                descendant.ArgumentList.Add(item: "KingdomZombies.Phase1.Tests.RunnerProcessFixture.Descendant");
+                descendant.ArgumentList.Add(item: "KingdomZombies.Phase1.Tests.RunnerProcessFixture."
+                        + "Run_Descendant_WaitsForCleanup");
                 descendant.ArgumentList.Add(item: "--no-ansi");
                 descendant.ArgumentList.Add(item: "--progress");
                 descendant.ArgumentList.Add(item: "off");

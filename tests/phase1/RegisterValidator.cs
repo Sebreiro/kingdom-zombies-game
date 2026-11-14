@@ -117,6 +117,7 @@ public static class RegisterValidator
         return number switch
         {
             >= 68 and <= 78 => "src/core/SnapshotCodec.cs",
+            48 => "tests/phase1/TestSourceIndex.cs",
             49 or 82 => "tools/phase1/coverage-policy.json",
             >= 83 => "tests/phase1/DocumentationValidator.cs",
             >= 51 => "tests/phase1/ArchitectureRuleTests.cs",
@@ -319,6 +320,7 @@ public static class RegisterValidator
                     ? "tests/phase1/Analyzers/" + analyzer + "AnalyzerTests.cs" : number switch
                     {
                         >= 68 and <= 78 => "tests/phase1/SnapshotTests.cs",
+                        48 => "tests/phase1/TestMethodNameTests.cs",
                         49 or 82 => "tests/phase1/CoverageTests.cs",
                         >= 83 => "tests/phase1/DocumentationTests.cs",
                         >= 51 => "tests/phase1/ArchitectureRuleTests.cs",

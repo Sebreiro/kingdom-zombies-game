@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -21,7 +22,9 @@ internal static class TestSourceIndex
     /// <summary>Checks exactly three uppercase-or-digit alphanumeric name parts.</summary>
     internal static bool FollowsMethodStateExpected(string methodName)
     {
-        return true;
+        return Regex.IsMatch(input: methodName, pattern: "^[A-Z0-9][A-Za-z0-9]*(_[A-Z0-9][A-Za-z0-9]*){2}$",
+                options: RegexOptions.ExplicitCapture | RegexOptions.CultureInvariant,
+                matchTimeout: TimeSpan.FromSeconds(value: 1));
     }
 
     /// <summary>Reads the owned test project source, retaining nested, generic and explicit controls.</summary>

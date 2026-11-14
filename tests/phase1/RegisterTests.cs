@@ -13,7 +13,7 @@ public sealed class RegisterTests
 {
     /// <summary>Checks the complete capture, then requires rejection when R-01 loses a heading relation.</summary>
     [Fact, Trait("Case", "register.capture")]
-    public void CaptureMissingHeadingRelationIsRejected()
+    public void ValidateRegister_CaptureMissingHeadingRelation_Rejected()
     {
         (JsonObject Manifest, JsonObject Register, JsonObject Exemptions) input = Inputs();
         RegisterValidator.Validate(manifest: input.Manifest, register: input.Register, exemptions: input
@@ -32,7 +32,7 @@ public sealed class RegisterTests
 
     /// <summary>Rejects a capture that omits an expected donor heading.</summary>
     [Fact, Trait("Case", "register.omit-heading")]
-    public void CaptureMissingHeadingIsRejected()
+    public void ValidateRegister_CaptureMissingHeading_Rejected()
     {
         RejectCapture(id: "register.omit-heading", mutate: (m, r, e) => (m["headings"]
                 ?? throw new System.InvalidOperationException(message: "Required proof value is null"))
@@ -41,7 +41,7 @@ public sealed class RegisterTests
 
     /// <summary>Rejects a capture that omits the R-01 matrix row.</summary>
     [Fact, Trait("Case", "register.omit-matrix")]
-    public void CaptureMissingMatrixRowIsRejected()
+    public void ValidateRegister_CaptureMissingMatrixRow_Rejected()
     {
         RejectCapture(id: "register.omit-matrix", mutate: (m, r, e) => (m["matrix"]
                 ?? throw new System.InvalidOperationException(message: "Required proof value is null"))
@@ -50,7 +50,7 @@ public sealed class RegisterTests
 
     /// <summary>Rejects omission of an original donor exemption disposition.</summary>
     [Fact, Trait("Case", "register.omit-exemption")]
-    public void CaptureMissingSourceExemptionIsRejected()
+    public void ValidateRegister_CaptureMissingSourceExemption_Rejected()
     {
         RejectCapture(id: "register.omit-exemption", mutate: (m, r, e) => (e["donorExemptions"]
                 ?? throw new System.InvalidOperationException(message: "Required proof value is null"))
@@ -59,7 +59,7 @@ public sealed class RegisterTests
 
     /// <summary>Rejects duplicate rule IDs before deduplication could conceal them.</summary>
     [Fact, Trait("Case", "register.duplicate")]
-    public void CaptureDuplicateIdIsRejectedBeforeSetConversion()
+    public void ValidateRegister_CaptureDuplicateId_RejectedBeforeSetConversion()
     {
         RejectCapture(id: "register.duplicate", mutate: (m, r, e) => (r["rules"]
                 ?? throw new System.InvalidOperationException(message: "Required proof value is null"))
@@ -72,7 +72,7 @@ public sealed class RegisterTests
     /// <summary>Checks both R-37 source headings and its pending 59/60/61 boundary mappings without claiming
     /// enforcement.</summary>
     [Fact, Trait("Case", "register.r37-trace")]
-    public void CaptureR37ConnectsBothHeadingsAndPlannedBoundaryProofs()
+    public void ValidateRegister_R37Capture_ConnectsBothHeadingsAndProofs()
     {
         (JsonObject Manifest, JsonObject Register, JsonObject Exemptions) input = Inputs();
         RegisterValidator.Validate(manifest: input.Manifest, register: input.Register, exemptions: input
@@ -121,7 +121,7 @@ public sealed class RegisterTests
 
     /// <summary>Requires an enforcement mechanism for an applicable rule.</summary>
     [Fact, Trait("Case", "register.schema")]
-    public void SchemaMissingMechanismIsRejected()
+    public void ValidateRegister_SchemaMissingMechanism_Rejected()
     {
         RejectCapture(id: "register.schema", mutate: (m, r, e) => ((r["rules"]
                 ?? throw new System.InvalidOperationException(message: "Required proof value is null"))[0]
@@ -131,7 +131,7 @@ public sealed class RegisterTests
 
     /// <summary>Reports the rule ID when its heading relation field is absent.</summary>
     [Fact, Trait("Case", "register.missing-relation-field")]
-    public void SchemaAbsentRelationFieldIsActionable()
+    public void ValidateRegister_SchemaAbsentRelationField_ReportsActionableFailure()
     {
         RejectCapture(id: "register.missing-relation-field", mutate: (m, r, e) => ((r["rules"]
                 ?? throw new System.InvalidOperationException(message: "Required proof value is null"))[0]
@@ -141,7 +141,7 @@ public sealed class RegisterTests
 
     /// <summary>Checks all 85 rules, 84 headings and 24 exemptions, including the absent EX-22 identity.</summary>
     [Fact, Trait("Case", "ac-05.complete")]
-    public void InventoryCompleteBaselineHasEveryExactDisposition()
+    public void ValidateRegister_CompleteInventory_HasEveryExactDisposition()
     {
         (JsonObject Manifest, JsonObject Register, JsonObject Exemptions) input = Inputs();
         RegisterValidator.Validate(manifest: input.Manifest, register: input.Register, exemptions: input
@@ -166,7 +166,7 @@ public sealed class RegisterTests
 
     /// <summary>Rejects a second R-01 declaration with a conflicting disposition.</summary>
     [Fact, Trait("Case", "edge.rule-02.adjacency")]
-    public void SchemaConflictingDuplicateCannotMaskOriginal()
+    public void ValidateRegister_ConflictingDuplicate_RejectsMaskedOriginal()
     {
         RejectCapture(id: "edge.rule-02.adjacency", mutate: (m, r, e) =>
         {
@@ -181,7 +181,7 @@ public sealed class RegisterTests
 
     /// <summary>Rejects nine detached mutations that empty inventories or remove required mapping fields.</summary>
     [Fact, Trait("Case", "edge.rule-02.empty")]
-    public void SchemaEmptyRequiredFieldsAlwaysFail()
+    public void ValidateRegister_EmptyRequiredFields_RejectsEveryMissingValue()
     {
         var mutations = new (Action<JsonObject, JsonObject, JsonObject> Apply, string Diagnostic)[]
         {
@@ -229,7 +229,7 @@ public sealed class RegisterTests
 
     /// <summary>Rejects identity spelling changes, invalid UTF-8 and duplicate JSON keys.</summary>
     [Fact, Trait("Case", "edge.rule-02.encoding")]
-    public void SchemaExactEncodingNeverNormalizesIdentity()
+    public void ValidateRegister_AlternateEncoding_PreservesExactIdentity()
     {
         foreach (string? value in new[]
         {
@@ -261,7 +261,7 @@ public sealed class RegisterTests
     /// <summary>Checks that row and relation permutations preserve coverage while unknown rule IDs still
     /// fail.</summary>
     [Fact, Trait("Case", "edge.rule-02.ordering")]
-    public void SchemaPermutationsPreserveVerdictAndExactCoverage()
+    public void ValidateRegister_Permutations_PreserveVerdictAndCoverage()
     {
         (JsonObject Manifest, JsonObject Register, JsonObject Exemptions) input = Inputs();
         IReadOnlyList<string> before = RegisterValidator.Validate(manifest: input.Manifest, register: input
@@ -311,7 +311,7 @@ public sealed class RegisterTests
 
     /// <summary>Rejects a mechanism path whose filename casing differs from the declared symbol.</summary>
     [Fact, Trait("Case", "register.reference-case")]
-    public void SchemaCaseChangedReferenceIsRejected()
+    public void ValidateRegister_SchemaCaseChangedReference_Rejected()
     {
         RejectCapture(id: "register.reference-case", mutate: (m, r, e) => (((r["rules"]
                 ?? throw new System.InvalidOperationException(message: "Required proof value is null"))[36]
@@ -324,7 +324,7 @@ public sealed class RegisterTests
 
     /// <summary>Rejects a mechanism symbol that differs from the exact analyzer name.</summary>
     [Fact, Trait("Case", "register.symbol")]
-    public void SchemaWrongMechanismSymbolIsRejected()
+    public void ValidateRegister_SchemaWrongMechanismSymbol_Rejected()
     {
         RejectCapture(id: "register.symbol", mutate: (m, r, e) => (((r["rules"]
                 ?? throw new System.InvalidOperationException(message: "Required proof value is null"))[36]
@@ -336,7 +336,7 @@ public sealed class RegisterTests
 
     /// <summary>Detects a captured mechanism field changed from the immutable donor row.</summary>
     [Fact, Trait("Case", "register.source-field")]
-    public void SchemaAlteredCapturedMechanismIsRejected()
+    public void ValidateRegister_SchemaAlteredCapturedMechanism_Rejected()
     {
         RejectCapture(id: "register.source-field", mutate: (m, r, e) => ((m["matrix"]
                 ?? throw new System.InvalidOperationException(message: "Required proof value is null"))[36]
@@ -346,7 +346,7 @@ public sealed class RegisterTests
 
     /// <summary>Rejects a proof path that does not match the rule-specific analyzer test.</summary>
     [Fact, Trait("Case", "register.proof-path")]
-    public void SchemaWrongProofPathIsRejected()
+    public void ValidateRegister_SchemaWrongProofPath_Rejected()
     {
         RejectCapture(id: "register.proof-path", mutate: (m, r, e) => (((r["rules"]
                 ?? throw new System.InvalidOperationException(message: "Required proof value is null"))[36]
@@ -359,7 +359,7 @@ public sealed class RegisterTests
 
     /// <summary>Keeps composed and decomposed Unicode paths distinct from the required ASCII path.</summary>
     [Fact, Trait("Case", "register.reference-unicode")]
-    public void SchemaUnicodeReferenceIsRejected()
+    public void ValidateRegister_SchemaUnicodeReference_Rejected()
     {
         foreach (string? spelling in new[]
         {
@@ -385,7 +385,7 @@ public sealed class RegisterTests
 
     /// <summary>Rejects evidence mapping borrowed from another rule.</summary>
     [Fact, Trait("Case", "register.proof-reverse")]
-    public void SchemaProofForDifferentRuleIsRejected()
+    public void ValidateRegister_SchemaProofForDifferentRule_Rejected()
     {
         RejectCapture(id: "register.proof-reverse", mutate: (m, r, e) => ((r["rules"]
                 ?? throw new System.InvalidOperationException(message: "Required proof value is null"))[0]
@@ -401,7 +401,7 @@ public sealed class RegisterTests
 
     /// <summary>Rejects a rule mechanism whose required error severity is weakened.</summary>
     [Fact, Trait("Case", "register.severity")]
-    public void SchemaSeverityWeakeningIsRejected()
+    public void ValidateRegister_SchemaSeverityWeakening_Rejected()
     {
         RejectCapture(id: "register.severity", mutate: (m, r, e) => (((r["rules"]
                 ?? throw new System.InvalidOperationException(message: "Required proof value is null"))[36]
@@ -413,7 +413,7 @@ public sealed class RegisterTests
 
     /// <summary>Rejects substitution of a different custom diagnostic ID.</summary>
     [Fact, Trait("Case", "register.diagnostic")]
-    public void SchemaDiagnosticSubstitutionIsRejected()
+    public void ValidateRegister_SchemaDiagnosticSubstitution_Rejected()
     {
         RejectCapture(id: "register.diagnostic", mutate: (m, r, e) => (((r["rules"]
                 ?? throw new System.InvalidOperationException(message: "Required proof value is null"))[36]
@@ -425,7 +425,7 @@ public sealed class RegisterTests
 
     /// <summary>Requires the exact rule identity in the documentation reference.</summary>
     [Fact, Trait("Case", "register.documentation")]
-    public void SchemaWrongDocumentationAnchorIsRejected()
+    public void ValidateRegister_SchemaWrongDocumentationAnchor_Rejected()
     {
         RejectCapture(id: "register.documentation", mutate: (m, r, e) => (((r["rules"]
                 ?? throw new System.InvalidOperationException(message: "Required proof value is null"))[0]
@@ -437,7 +437,7 @@ public sealed class RegisterTests
 
     /// <summary>Rejects a body-length limit changed from the captured numeric policy.</summary>
     [Fact, Trait("Case", "register.numeric")]
-    public void SchemaNumericLimitDriftIsRejected()
+    public void ValidateRegister_SchemaNumericLimitDrift_Rejected()
     {
         RejectCapture(id: "register.numeric", mutate: (m, r, e) => (((r["rules"]
                 ?? throw new System.InvalidOperationException(message: "Required proof value is null"))[36]
@@ -449,7 +449,7 @@ public sealed class RegisterTests
 
     /// <summary>Rejects a line-length counting unit changed to Unicode scalar values.</summary>
     [Fact, Trait("Case", "register.numeric-semantics")]
-    public void SchemaNumericCountingChangeIsRejected()
+    public void ValidateRegister_SchemaNumericCountingChange_Rejected()
     {
         RejectCapture(id: "register.numeric-semantics", mutate: (m, r, e) => (((r["rules"]
                 ?? throw new System.InvalidOperationException(message: "Required proof value is null"))[9]
@@ -461,7 +461,7 @@ public sealed class RegisterTests
 
     /// <summary>Rejects duplicate boundary proof IDs instead of counting one case twice.</summary>
     [Fact, Trait("Case", "register.boundary-proof")]
-    public void SchemaReusedBoundaryEvidenceIsRejected()
+    public void ValidateRegister_SchemaReusedBoundaryEvidence_Rejected()
     {
         RejectCapture(id: "register.boundary-proof", mutate: (m, r, e) => (((((r["rules"]
                 ?? throw new System.InvalidOperationException(message: "Required proof value is null"))[36]
@@ -475,7 +475,7 @@ public sealed class RegisterTests
 
     /// <summary>Prevents a pending qualitative review from being represented as an automated pass.</summary>
     [Fact, Trait("Case", "register.review")]
-    public void SchemaAutomatedHumanJudgmentIsRejected()
+    public void ValidateRegister_SchemaAutomatedHumanJudgment_Rejected()
     {
         RejectCapture(id: "register.review", mutate: (m, r, e) => (((r["rules"]
                 ?? throw new System.InvalidOperationException(message: "Required proof value is null"))[23]
@@ -487,7 +487,7 @@ public sealed class RegisterTests
 
     /// <summary>Rejects duplicate local exemption IDs before scopes can be combined.</summary>
     [Fact, Trait("Case", "register.exemption-duplicate")]
-    public void SchemaDuplicateExemptionIsRejected()
+    public void ValidateRegister_SchemaDuplicateExemption_Rejected()
     {
         RejectCapture(id: "register.exemption-duplicate", mutate: (m, r, e) => (e["local"]
                 ?? throw new System.InvalidOperationException(message: "Required proof value is null"))
@@ -499,7 +499,7 @@ public sealed class RegisterTests
 
     /// <summary>Rejects a differently named exemption overlapping an existing diagnostic scope.</summary>
     [Fact, Trait("Case", "register.exemption-overlap")]
-    public void SchemaOverlappingExemptionsAreRejected()
+    public void ValidateRegister_SchemaOverlappingExemptions_Rejected()
     {
         RejectCapture(id: "register.exemption-overlap", mutate: (m, r, e) =>
         {
@@ -514,7 +514,7 @@ public sealed class RegisterTests
 
     /// <summary>Rejects replacing an exact lock-file exemption with a directory glob.</summary>
     [Fact, Trait("Case", "register.exemption-broad")]
-    public void SchemaBroadenedExemptionScopeIsRejected()
+    public void ValidateRegister_SchemaBroadenedExemptionScope_Rejected()
     {
         RejectCapture(id: "register.exemption-broad", mutate: (m, r, e) => ((e["local"]
                 ?? throw new System.InvalidOperationException(message: "Required proof value is null"))[0]
@@ -524,7 +524,7 @@ public sealed class RegisterTests
 
     /// <summary>Requires pending mechanisms and reviews to remain incomplete when implementation is required.</summary>
     [Fact, Trait("Case", "register.pending")]
-    public void SchemaFutureMappingsCannotCountAsCompletedEvidence()
+    public void ValidateRegister_FutureMappings_RejectsCompletionCredit()
     {
         (JsonObject Manifest, JsonObject Register, JsonObject Exemptions) input = Inputs();
         RegisterValidator.Validate(manifest: input.Manifest, register: input.Register, exemptions: input
@@ -542,42 +542,42 @@ public sealed class RegisterTests
 
     /// <summary>Checks R43 has an explicit inapplicable disposition and reason without enforcement mappings.</summary>
     [Fact, Trait("Case", "R-43.register-resolution")]
-    public void ResolutionR43IsExplicit()
+    public void ValidateRegister_ResolutionR43_IsExplicit()
     {
         Resolution(id: "R-43");
     }
 
     /// <summary>Checks R57 has an explicit inapplicable disposition and reason without enforcement mappings.</summary>
     [Fact, Trait("Case", "R-57.register-resolution")]
-    public void ResolutionR57IsExplicit()
+    public void ValidateRegister_ResolutionR57_IsExplicit()
     {
         Resolution(id: "R-57");
     }
 
     /// <summary>Checks R76 has an explicit inapplicable disposition and reason without enforcement mappings.</summary>
     [Fact, Trait("Case", "R-76.register-resolution")]
-    public void ResolutionR76IsExplicit()
+    public void ValidateRegister_ResolutionR76_IsExplicit()
     {
         Resolution(id: "R-76");
     }
 
     /// <summary>Checks R79 has an explicit inapplicable disposition and reason without enforcement mappings.</summary>
     [Fact, Trait("Case", "R-79.register-resolution")]
-    public void ResolutionR79IsExplicit()
+    public void ValidateRegister_ResolutionR79_IsExplicit()
     {
         Resolution(id: "R-79");
     }
 
     /// <summary>Checks R80 has an explicit inapplicable disposition and reason without enforcement mappings.</summary>
     [Fact, Trait("Case", "R-80.register-resolution")]
-    public void ResolutionR80IsExplicit()
+    public void ValidateRegister_ResolutionR80_IsExplicit()
     {
         Resolution(id: "R-80");
     }
 
     /// <summary>Checks R85 has an explicit inapplicable disposition and reason without enforcement mappings.</summary>
     [Fact, Trait("Case", "R-85.register-resolution")]
-    public void ResolutionR85IsExplicit()
+    public void ValidateRegister_ResolutionR85_IsExplicit()
     {
         Resolution(id: "R-85");
     }

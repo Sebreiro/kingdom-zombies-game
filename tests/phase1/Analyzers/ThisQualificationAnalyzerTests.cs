@@ -14,7 +14,7 @@ public sealed class ThisQualificationAnalyzerTests
     /// <summary>Assigning a field through <c>this.</c> is reported.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "R-28.negative")]
-    public Task AnalyzeFieldAssignmentReports()
+    public Task Analyze_FieldAssignment_Reports()
     {
         return VerifyAsync(caseId: "R-28.negative", diagnostic: "SCR0011", source: """
                 class C
@@ -32,7 +32,7 @@ public sealed class ThisQualificationAnalyzerTests
     /// <summary>Calling a method through <c>this.</c> is reported.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.thisqualification.Analyze_MethodCall_Reports")]
-    public Task AnalyzeMethodCallReports()
+    public Task Analyze_MethodCall_Reports()
     {
         return VerifyAsync(caseId: "rules.thisqualification.Analyze_MethodCall_Reports", diagnostic: "SCR0011",
                 source: """
@@ -53,7 +53,7 @@ public sealed class ThisQualificationAnalyzerTests
     /// <summary>Reading a property and raising an event through <c>this.</c> are both reported.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.thisqualification.Analyze_PropertyAndEvent_Report")]
-    public Task AnalyzePropertyAndEventReport()
+    public Task Analyze_PropertyAndEvent_Report()
     {
         return VerifyAsync(caseId: "rules.thisqualification.Analyze_PropertyAndEvent_Report", diagnostic:
                 "SCR0011", source: """
@@ -77,7 +77,7 @@ public sealed class ThisQualificationAnalyzerTests
     /// <summary>Unqualified member access passes.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "R-28.positive")]
-    public Task AnalyzeUnqualifiedPasses()
+    public Task Analyze_Unqualified_Passes()
     {
         return VerifyAsync(caseId: "R-28.positive", diagnostic: "ANALYZER_ACCEPTED", source: """
                 class C
@@ -100,7 +100,7 @@ public sealed class ThisQualificationAnalyzerTests
     /// <summary>Constructor chaining with <c>: this(...)</c> passes.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.thisqualification.Analyze_ConstructorChaining_Passes")]
-    public Task AnalyzeConstructorChainingPasses()
+    public Task Analyze_ConstructorChaining_Passes()
     {
         return VerifyAsync(caseId: "rules.thisqualification.Analyze_ConstructorChaining_Passes", diagnostic:
                 "ANALYZER_ACCEPTED", source: """
@@ -121,7 +121,7 @@ public sealed class ThisQualificationAnalyzerTests
     /// <summary>Passing <c>this</c> as an argument and returning it pass.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.thisqualification.Analyze_ThisAsValue_Passes")]
-    public Task AnalyzeThisAsValuePasses()
+    public Task Analyze_ThisAsValue_Passes()
     {
         return VerifyAsync(caseId: "rules.thisqualification.Analyze_ThisAsValue_Passes", diagnostic:
                 "ANALYZER_ACCEPTED", source: """
@@ -143,7 +143,7 @@ public sealed class ThisQualificationAnalyzerTests
     /// <summary>An indexer declaration <c>this[int i]</c> and an element access <c>this[0]</c> pass.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.thisqualification.Analyze_Indexer_Passes")]
-    public Task AnalyzeIndexerPasses()
+    public Task Analyze_Indexer_Passes()
     {
         return VerifyAsync(caseId: "rules.thisqualification.Analyze_Indexer_Passes", diagnostic:
                 "ANALYZER_ACCEPTED", source: """
@@ -162,7 +162,7 @@ public sealed class ThisQualificationAnalyzerTests
     /// <summary>The <c>this</c> modifier of an extension method's first parameter passes.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.thisqualification.Analyze_ExtensionMethodParameter_Passes")]
-    public Task AnalyzeExtensionMethodParameterPasses()
+    public Task Analyze_ExtensionMethodParameter_Passes()
     {
         return VerifyAsync(caseId: "rules.thisqualification.Analyze_ExtensionMethodParameter_Passes", diagnostic
                 : "ANALYZER_ACCEPTED", source: """
@@ -182,7 +182,7 @@ public sealed class ThisQualificationAnalyzerTests
     /// </summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.thisqualification.ExtensionMethodCall_OnThis_Passes")]
-    public Task ExtensionMethodCallOnThisPasses()
+    public Task ExtensionMethodCall_OnThis_Passes()
     {
         return VerifyAsync(caseId: "rules.thisqualification.ExtensionMethodCall_OnThis_Passes", diagnostic:
                 "ANALYZER_ACCEPTED", source: """
@@ -210,7 +210,7 @@ public sealed class ThisQualificationAnalyzerTests
     /// </summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.thisqualification.ExtensionMember_OnThis_Passes")]
-    public Task ExtensionMemberOnThisPasses()
+    public Task ExtensionMember_OnThis_Passes()
     {
         return VerifyAsync(caseId: "rules.thisqualification.ExtensionMember_OnThis_Passes", diagnostic:
                 "SCR0011", source: ("static class E\n{\n    extension(C c)\n    {\n        publi" +
@@ -224,7 +224,7 @@ public sealed class ThisQualificationAnalyzerTests
     /// <summary>Generated settings cannot exempt handwritten code.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.thisqualification.Analyze_GeneratedCode_IsSkipped")]
-    public Task AnalyzeGeneratedCodeIsSkipped()
+    public Task Analyze_GeneratedCode_IsSkipped()
     {
         return VerifyAsync(caseId: "rules.thisqualification.Analyze_GeneratedCode_IsSkipped", diagnostic: "SCR0011",
                 source: """

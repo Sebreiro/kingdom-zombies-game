@@ -19,7 +19,7 @@ public sealed class GeneratedLayoutAdapterTests
 {
     /// <summary>Checks actual generated/package bytes, origin hashes, exact targets and both normal builds.</summary>
     [Fact, Trait("Case", "rules.generated-layout-origin")]
-    public void GeneratedLayoutHasPinnedOrigin()
+    public void Check_GeneratedLayout_HasPinnedOrigin()
     {
         using JsonDocument registry = ReadRegistry();
         foreach (JsonElement row in registry.RootElement.GetProperty(propertyName: "sources").EnumerateArray())
@@ -61,7 +61,7 @@ public sealed class GeneratedLayoutAdapterTests
     /// <summary>Exact original source passes; identical paths with changed bytes and wrong paths fail exact
     /// spans.</summary>
     [Fact, Trait("Case", "rules.generated-layout-boundary")]
-    public async Task GeneratedLayoutPermissionsAreBounded()
+    public async Task Check_GeneratedLayoutPermissions_StayBounded()
     {
         using JsonDocument registry = ReadRegistry();
         MetadataReference[] references = PackageReferences();
@@ -94,7 +94,7 @@ public sealed class GeneratedLayoutAdapterTests
 
     /// <summary>Invalid UTF-8 is rejected before it can become a replacement-character source subject.</summary>
     [Fact, Trait("Case", "rules.line.invalid-utf8")]
-    public void InvalidUtf8CannotBecomeACompliantSubject()
+    public void Decode_InvalidUtf8_RejectsMalformedSubject()
     {
         foreach (byte[] bytes in new byte[][]
         {

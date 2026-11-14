@@ -12,7 +12,7 @@ public sealed class GeneratedCallSiteAdapterTests
 {
     /// <summary>Requires actual pinned generator outputs and exactly registered symbol-scoped permissions.</summary>
     [Fact, Trait("Case", "rules.generated-callsite-origin")]
-    public void GeneratedCallSitesHavePinnedOrigin()
+    public void Check_GeneratedCallSites_HavePinnedOrigin()
     {
         using var register = JsonDocument.Parse(json: File.ReadAllText(path: Path.Combine(path1: ProofProtocol
                 .Root, path2: "docs/code/generated-callsite-adaptations.json")));
@@ -46,7 +46,7 @@ public sealed class GeneratedCallSiteAdapterTests
     /// <summary>Rejects adjacent positional calls and duplicate handwritten declarations at both exact
     /// permitted symbols.</summary>
     [Fact, Trait("Case", "rules.generated-callsite-boundary")]
-    public void GeneratedCallSitePermissionCannotEscapeItsMembers()
+    public void Analyze_GeneratedCallSitePermission_RejectsOutsideMembers()
     {
         string adjacent = RebuildWithSource(source: ("namespace KingdomZombies.Phase1.Tests; internal static "
                 + "class Adjacent { internal static int Run() => System.Ma" + "th.Abs(-1); }"));

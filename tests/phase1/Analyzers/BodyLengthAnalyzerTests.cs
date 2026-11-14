@@ -16,7 +16,7 @@ public sealed class BodyLengthAnalyzerTests
     /// <summary>A method body of exactly 60 lines between its braces passes.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.body.60")]
-    public Task Method60LinesPasses()
+    public Task Method_60Lines_Passes()
     {
         return VerifyAsync(caseId: "rules.body.60", diagnostic: "ANALYZER_ACCEPTED", source: $$"""
                 class C
@@ -34,7 +34,7 @@ public sealed class BodyLengthAnalyzerTests
     /// <summary>A method body of 61 lines between its braces fails, reported on the method name.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.body.61")]
-    public Task Method61LinesFails()
+    public Task Method_61Lines_Fails()
     {
         return VerifyAsync(caseId: "rules.body.61", diagnostic: "SCR0006", source: $$"""
                 class C
@@ -52,7 +52,7 @@ public sealed class BodyLengthAnalyzerTests
     /// <summary>Blank lines count: one statement and 60 blank lines make a 61-line body, which fails.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "R-37.negative")]
-    public Task MethodBlankLinesCount61LinesFails()
+    public Task Method_BlankLinesCount_61LinesFails()
     {
         return VerifyAsync(caseId: "R-37.negative", diagnostic: "SCR0006", source: $$"""
                 class C
@@ -71,7 +71,7 @@ public sealed class BodyLengthAnalyzerTests
     /// <summary>An empty body passes, on one line or with the braces on their own lines.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "R-37.positive")]
-    public Task AnalyzeEmptyBodyPasses()
+    public Task Analyze_EmptyBody_Passes()
     {
         return VerifyAsync(caseId: "R-37.positive", diagnostic: "ANALYZER_ACCEPTED", source: """
                 class C
@@ -88,7 +88,7 @@ public sealed class BodyLengthAnalyzerTests
     /// <summary>An expression-bodied property of 60 physical lines passes.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.bodylength.ExpressionBody_60Lines_Passes")]
-    public Task ExpressionBody60LinesPasses()
+    public Task ExpressionBody_60Lines_Passes()
     {
         return VerifyAsync(caseId: "rules.bodylength.ExpressionBody_60Lines_Passes", diagnostic:
                 "ANALYZER_ACCEPTED", source: $$"""
@@ -103,7 +103,7 @@ public sealed class BodyLengthAnalyzerTests
     /// <summary>An expression-bodied property spanning 61 physical lines fails.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.bodylength.ExpressionBody_61Lines_Fails")]
-    public Task ExpressionBody61LinesFails()
+    public Task ExpressionBody_61Lines_Fails()
     {
         return VerifyAsync(caseId: "rules.bodylength.ExpressionBody_61Lines_Fails", diagnostic: "SCR0006", source: $$"""
                 class C
@@ -120,7 +120,7 @@ public sealed class BodyLengthAnalyzerTests
     /// </summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.bodylength.ExpressionBodyAfterArrow_60Lines_Passes")]
-    public Task ExpressionBodyAfterArrow60LinesPasses()
+    public Task ExpressionBodyAfterArrow_60Lines_Passes()
     {
         return VerifyAsync(caseId: "rules.bodylength.ExpressionBodyAfterArrow_60Lines_Passes", diagnostic:
                 "ANALYZER_ACCEPTED", source: $$"""
@@ -139,7 +139,7 @@ public sealed class BodyLengthAnalyzerTests
     /// </summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.bodylength.LambdaAfterArrow_60Lines_Passes")]
-    public Task LambdaAfterArrow60LinesPasses()
+    public Task LambdaAfterArrow_60Lines_Passes()
     {
         return VerifyAsync(caseId: "rules.bodylength.LambdaAfterArrow_60Lines_Passes", diagnostic:
                 "ANALYZER_ACCEPTED", source: $$"""
@@ -160,7 +160,7 @@ public sealed class BodyLengthAnalyzerTests
     /// </summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.bodylength.LambdaAfterArrow_61Lines_Fails")]
-    public Task LambdaAfterArrow61LinesFails()
+    public Task LambdaAfterArrow_61Lines_Fails()
     {
         return VerifyAsync(caseId: "rules.bodylength.LambdaAfterArrow_61Lines_Fails", diagnostic: "SCR0006",
                 source: $$"""
@@ -178,7 +178,7 @@ public sealed class BodyLengthAnalyzerTests
     /// <summary>A constructor body of 61 lines fails.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.bodylength.Constructor_61Lines_Fails")]
-    public Task Constructor61LinesFails()
+    public Task Constructor_61Lines_Fails()
     {
         return VerifyAsync(caseId: "rules.bodylength.Constructor_61Lines_Fails", diagnostic: "SCR0006", source: $$"""
                 class C
@@ -196,7 +196,7 @@ public sealed class BodyLengthAnalyzerTests
     /// <summary>A property accessor body of 61 lines fails, reported on the accessor keyword.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.bodylength.Accessor_61Lines_Fails")]
-    public Task Accessor61LinesFails()
+    public Task Accessor_61Lines_Fails()
     {
         return VerifyAsync(caseId: "rules.bodylength.Accessor_61Lines_Fails", diagnostic: "SCR0006", source: $$"""
                 class C
@@ -218,7 +218,7 @@ public sealed class BodyLengthAnalyzerTests
     /// <summary>An operator body of 61 lines fails, reported on the operator token.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.bodylength.Operator_61Lines_Fails")]
-    public Task Operator61LinesFails()
+    public Task Operator_61Lines_Fails()
     {
         return VerifyAsync(caseId: "rules.bodylength.Operator_61Lines_Fails", diagnostic: "SCR0006", source: $$"""
                 class C
@@ -239,7 +239,7 @@ public sealed class BodyLengthAnalyzerTests
     /// </summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.bodylength.LocalFunction_61Lines_Fails")]
-    public Task LocalFunction61LinesFails()
+    public Task LocalFunction_61Lines_Fails()
     {
         return VerifyAsync(caseId: "rules.bodylength.LocalFunction_61Lines_Fails", diagnostic: "SCR0006", source: $$"""
                 class C
@@ -265,7 +265,7 @@ public sealed class BodyLengthAnalyzerTests
     /// </summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.bodylength.Analyze_LocalFunction_CountsTowardEnclosingMember")]
-    public Task AnalyzeLocalFunctionCountsTowardEnclosingMember()
+    public Task Analyze_LocalFunction_CountsTowardEnclosingMember()
     {
         return VerifyAsync(caseId: "rules.bodylength.Analyze_LocalFunction_CountsTowardEnclosingMember",
                 diagnostic: "SCR0006", source: $$"""
@@ -290,7 +290,7 @@ public sealed class BodyLengthAnalyzerTests
     /// <summary>The global statements of a file form one body: an inclusive span of 60 lines passes.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.bodylength.GlobalStatements_60Lines_Passes")]
-    public Task GlobalStatements60LinesPasses()
+    public Task GlobalStatements_60Lines_Passes()
     {
         return VerifyAsync(caseId: "rules.bodylength.GlobalStatements_60Lines_Passes", diagnostic: "ANALYZER_ACCEPTED",
                 source: $$"""
@@ -305,7 +305,7 @@ public sealed class BodyLengthAnalyzerTests
     /// </summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.bodylength.GlobalStatements_61Lines_Fails")]
-    public Task GlobalStatements61LinesFails()
+    public Task GlobalStatements_61Lines_Fails()
     {
         return VerifyAsync(caseId: "rules.bodylength.GlobalStatements_61Lines_Fails", diagnostic: "SCR0006",
                 source: $$"""
@@ -318,7 +318,7 @@ public sealed class BodyLengthAnalyzerTests
     /// <summary>A generated marker cannot exempt a handwritten long body.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.bodylength.Analyze_GeneratedCode_IsSkipped")]
-    public Task GeneratedConfigurationCannotExemptHandwrittenCode()
+    public Task Analyze_HandwrittenWithGeneratedConfiguration_ReportsDiagnostic()
     {
         return VerifyAsync(caseId: "rules.bodylength.Analyze_GeneratedCode_IsSkipped", diagnostic: "SCR0006",
                 source: $$"""
@@ -342,7 +342,7 @@ public sealed class BodyLengthAnalyzerTests
 
     /// <summary>One below the hard limit is accepted independently.</summary>
     [Fact, Trait("Case", "rules.body.59")]
-    public Task Method59LinesPasses()
+    public Task Analyze_Method59Lines_Passes()
     {
         return VerifyAsync(caseId: "rules.body.59", diagnostic: "ANALYZER_ACCEPTED", source:
                 "class C { private int _x; void M()\n{\n" + Repeat(line: Statement, count: 59) + "\n} }");
@@ -350,7 +350,7 @@ public sealed class BodyLengthAnalyzerTests
 
     /// <summary>Forty lines is advice, not an additional hard limit.</summary>
     [Fact, Trait("Case", "rules.body.40")]
-    public Task Method40LinesPasses()
+    public Task Analyze_Method40Lines_Passes()
     {
         return VerifyAsync(caseId: "rules.body.40", diagnostic: "ANALYZER_ACCEPTED", source:
                 "class C { private int _x; void M()\n{\n" + Repeat(line: Statement, count: 40) + "\n} }");

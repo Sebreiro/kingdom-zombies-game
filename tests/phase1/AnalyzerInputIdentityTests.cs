@@ -11,7 +11,7 @@ public sealed class AnalyzerInputIdentityTests
     /// <summary>Mutates a copied real analyzer and rejects its old identity; cache output stays outside the
     /// declared scope.</summary>
     [Fact, Trait("Case", "rules.analyzer-input-identity")]
-    public void AnalyzerSourceMutationInvalidatesInputIdentity()
+    public void Fingerprint_ChangedAnalyzerSource_InvalidatesInputIdentity()
     {
         string directory = Path.Combine(path1: ProofProtocol.Root, path2: ".phase1/temp/analyzer-identity-"
                 + Guid.NewGuid().ToString(format: "N"));

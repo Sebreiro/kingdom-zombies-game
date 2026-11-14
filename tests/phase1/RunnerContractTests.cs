@@ -13,91 +13,91 @@ public sealed class RunnerContractTests
 {
     /// <summary>Requires TOOL_MISSING when the isolated runner executable does not exist.</summary>
     [Fact, Trait("Case", "runner.process.missing-executable")]
-    public void RealMissingExecutableIsRejected()
+    public void Reconcile_RealMissingExecutable_Rejected()
     {
         ProcessRejects(id: "runner.process.missing-executable", mode: "missing-executable", diagnostic: "TOOL_MISSING");
     }
 
     /// <summary>Requires DISCOVERY_EMPTY when the requested method discovers no test.</summary>
     [Fact, Trait("Case", "runner.process.zero-discovery")]
-    public void RealZeroDiscoveryIsRejected()
+    public void Reconcile_RealZeroDiscovery_Rejected()
     {
         ProcessRejects(id: "runner.process.zero-discovery", mode: "zero", diagnostic: "DISCOVERY_EMPTY");
     }
 
     /// <summary>Requires DISCOVERY_WRONG when a real child selects a different case.</summary>
     [Fact, Trait("Case", "runner.process.wrong-filter")]
-    public void RealWrongFilterIsRejected()
+    public void Reconcile_RealWrongFilter_Rejected()
     {
         ProcessRejects(id: "runner.process.wrong-filter", mode: "filter", diagnostic: "DISCOVERY_WRONG");
     }
 
     /// <summary>Requires TEST_SKIPPED for the intentionally skipped isolated control.</summary>
     [Fact, Trait("Case", "runner.process.skip")]
-    public void RealSkipIsRejected()
+    public void Reconcile_RealSkip_Rejected()
     {
         ProcessRejects(id: "runner.process.skip", mode: "skip", diagnostic: "TEST_SKIPPED");
     }
 
     /// <summary>Requires REPORT_MISSING when a real child exits before producing a report.</summary>
     [Fact, Trait("Case", "runner.process.crash")]
-    public void RealCrashIsRejected()
+    public void Reconcile_RealCrash_Rejected()
     {
         ProcessRejects(id: "runner.process.crash", mode: "crash", diagnostic: "REPORT_MISSING");
     }
 
     /// <summary>Requires a child timeout and verifies cleanup of its running descendant.</summary>
     [Fact, Trait("Case", "runner.process.timeout")]
-    public void RealTimeoutKillsDescendants()
+    public void Run_TimedOutChild_KillsDescendants()
     {
         ProcessRejects(id: "runner.process.timeout", mode: "timeout", diagnostic: "CHILD_TIMEOUT");
     }
 
     /// <summary>Rejects a real child result whose required subject log was deleted.</summary>
     [Fact, Trait("Case", "runner.process.deleted-log")]
-    public void RealDeletedLogIsRejected()
+    public void Reconcile_RealDeletedLog_Rejected()
     {
         ProcessRejects(id: "runner.process.deleted-log", mode: "deleted-log", diagnostic: "EVIDENCE_MISSING");
     }
 
     /// <summary>Rejects a real child execution whose proof result was deleted.</summary>
     [Fact, Trait("Case", "runner.process.deleted-result")]
-    public void RealDeletedResultIsRejected()
+    public void Reconcile_RealDeletedResult_Rejected()
     {
         ProcessRejects(id: "runner.process.deleted-result", mode: "deleted-result", diagnostic: "RESULT_MISSING");
     }
 
     /// <summary>Rejects two real proof files claiming the same required case.</summary>
     [Fact, Trait("Case", "runner.process.duplicate")]
-    public void RealDuplicateResultIsRejected()
+    public void Reconcile_RealDuplicateResult_Rejected()
     {
         ProcessRejects(id: "runner.process.duplicate", mode: "duplicate", diagnostic: "RESULT_DUPLICATE");
     }
 
     /// <summary>Rejects a real proof file carrying another invocation nonce.</summary>
     [Fact, Trait("Case", "runner.process.nonce")]
-    public void RealWrongNonceIsRejected()
+    public void Reconcile_RealWrongNonce_Rejected()
     {
         ProcessRejects(id: "runner.process.nonce", mode: "nonce", diagnostic: "NONCE_MISMATCH");
     }
 
     /// <summary>Prevents publication after a child modifies an approved source input.</summary>
     [Fact, Trait("Case", "runner.process.source")]
-    public void RealSourceMutationInvalidatesPublication()
+    public void Publish_ChangedSource_RejectsStaleEvidence()
     {
         ProcessRejects(id: "runner.process.source", mode: "source", diagnostic: "SOURCE_CHANGED");
     }
 
     /// <summary>Prevents publication after a child modifies an approved document input.</summary>
     [Fact, Trait("Case", "runner.process.document")]
-    public void RealDocumentMutationInvalidatesPublication()
+    public void Publish_ChangedDocument_RejectsStaleEvidence()
     {
         ProcessRejects(id: "runner.process.document", mode: "document", diagnostic: "SOURCE_CHANGED");
     }
 
     /// <summary>Checks repeated unchanged runs produce identical normalized verdicts.</summary>
     [Fact, Trait("Case", "runner.process.repeat")]
-    public void UnchangedRunsHaveIdenticalNormalizedVerdicts()
+    public void Reconcile_UnchangedRuns_HaveIdenticalNormalizedVerdicts()
     {
         using var fixture = RunnerProcessFixture.Create(mode: "pass");
         fixture.Run().Exit.ShouldBe(expected: 0);
@@ -151,7 +151,7 @@ public sealed class RunnerContractTests
 
     /// <summary>Requires fresh evidence instead of accepting a previous run result.</summary>
     [Fact, Trait("Case", "runner.process.stale")]
-    public void NewRunCannotBorrowPriorCompleteArtifacts()
+    public void Reconcile_NewRun_RejectsBorrowedPriorArtifacts()
     {
         using var fixture = RunnerProcessFixture.Create(mode: "pass");
         fixture.Run().Exit.ShouldBe(expected: 0);
@@ -170,7 +170,7 @@ public sealed class RunnerContractTests
 
     /// <summary>Checks a second full invocation is rejected while the first owns the runner lock.</summary>
     [Fact, Trait("Case", "runner.process.concurrent")]
-    public void ConcurrentFullInvocationIsExplicitlyRejected()
+    public void Run_ConcurrentFullInvocation_ReportsAlreadyRunning()
     {
         using var fixture = RunnerProcessFixture.Create(mode: "concurrent");
         using Process first = fixture.Start();
@@ -191,7 +191,7 @@ public sealed class RunnerContractTests
 
     /// <summary>Kills an active run and verifies it cannot publish or supply a later passing result.</summary>
     [Fact, Trait("Case", "runner.process.interrupted")]
-    public void InterruptionCannotPublishOrLendSuccess()
+    public void Publish_InterruptedRun_RejectsSuccessAndBorrowedEvidence()
     {
         using var fixture = RunnerProcessFixture.Create(mode: "hold");
         using Process first = fixture.Start();
@@ -213,7 +213,7 @@ public sealed class RunnerContractTests
 
     /// <summary>Runs the deliberate failing assertion and checks that its diagnostic remains visible.</summary>
     [Fact, Trait("Case", "runner.process.assertion")]
-    public void RealAssertionFailureIsActionable()
+    public void Reconcile_RealAssertionFailure_ReportsActionableFailure()
     {
         using var fixture = RunnerProcessFixture.Create(mode: "assertion");
         (int Exit, string Output) result = fixture.Run();
@@ -222,13 +222,13 @@ public sealed class RunnerContractTests
         result.Output.ShouldContain(expected: "INTENDED_ASSERTION_FAILURE");
         result.Output.ShouldContain(expected: "[log](");
         ProofProtocol.Record(id: "runner.process.assertion", diagnostic: "TEST_FAILED",
-                location: "RunnerProcessFixture.Child");
+                location: "RunnerProcessFixture.Run_ExplicitChild_EmitsSelectedResult");
     }
 
     // Only selected inside isolated negative-control workspaces, never as a passing obligation.
     /// <summary>Provides an explicitly selected failing assertion for the isolated failure-reporting control.</summary>
     [Fact(Explicit = true), Trait("Case", "fixture.assertion")]
-    public void DeliberateAssertionFailure()
+    public void Assert_DeliberateFailure_ReportsExpectedAssertion()
     {
         (2 + 2).ShouldBe(expected: 5, customMessage: "INTENDED_ASSERTION_FAILURE at RunnerContractTests.cs");
     }
@@ -236,7 +236,7 @@ public sealed class RunnerContractTests
     /// <summary>Rejects reconciliation when a required case has no result.</summary>
     [Fact]
     [Trait("Case", "runner.missing-result")]
-    public void MissingRequiredResultCannotPass()
+    public void Reconcile_MissingRequiredResult_Rejected()
     {
         (int Exit, string Output) result = ProofProtocol.Node(
                 script: ("const c=require('./tools/phase1/check.cjs'); try { c.re"
@@ -250,7 +250,7 @@ public sealed class RunnerContractTests
     /// <summary>Publishes one fresh positive C# assertion result as the runner control.</summary>
     [Fact]
     [Trait("Case", "runner.assertion-pass")]
-    public void RealAssertionPasses()
+    public void Assert_RealControl_Passes()
     {
         (2 + 2).ShouldBe(expected: 4);
         ProofProtocol.Record(id: "runner.assertion-pass");
@@ -258,7 +258,7 @@ public sealed class RunnerContractTests
 
     /// <summary>Rejects repeated case results before set conversion could hide the duplicate.</summary>
     [Fact, Trait("Case", "runner.duplicate-result")]
-    public void DuplicateResultIsRejectedBeforeSetConversion()
+    public void Reconcile_DuplicateResult_RejectedBeforeSetConversion()
     {
         RejectMutation(id: "runner.duplicate-result", mutation: "results.push(results[0])",
                 expected: "RESULT_DUPLICATE");
@@ -266,35 +266,35 @@ public sealed class RunnerContractTests
 
     /// <summary>Prevents an unknown case identity from satisfying a required case.</summary>
     [Fact, Trait("Case", "runner.unknown-result")]
-    public void UnknownResultCannotSatisfyAnotherObligation()
+    public void Reconcile_UnknownResult_RejectsSubstitutedObligation()
     {
         RejectMutation(id: "runner.unknown-result", mutation: "results[0].id='unknown'", expected: "RESULT_UNKNOWN");
     }
 
     /// <summary>Rejects a result whose nonce belongs to another invocation.</summary>
     [Fact, Trait("Case", "runner.wrong-nonce")]
-    public void WrongNonceCannotReusePriorEvidence()
+    public void Reconcile_WrongNonce_RejectsReusedEvidence()
     {
         RejectMutation(id: "runner.wrong-nonce", mutation: "results[0].nonce='old'", expected: "NONCE_MISMATCH");
     }
 
     /// <summary>Rejects a result whose input fingerprint differs from the current inputs.</summary>
     [Fact, Trait("Case", "runner.changed-input")]
-    public void ChangedInputCannotBorrowEvidence()
+    public void Reconcile_ChangedInput_RejectsBorrowedEvidence()
     {
         RejectMutation(id: "runner.changed-input", mutation: "results[0].input='changed'", expected: "INPUT_MISMATCH");
     }
 
     /// <summary>Rejects a result produced by a different tool identity.</summary>
     [Fact, Trait("Case", "runner.wrong-tool")]
-    public void WrongToolCannotBorrowEvidence()
+    public void Reconcile_WrongTool_RejectsBorrowedEvidence()
     {
         RejectMutation(id: "runner.wrong-tool", mutation: "results[0].tool='different'", expected: "TOOL_MISMATCH");
     }
 
     /// <summary>Rejects a result produced for a different platform identity.</summary>
     [Fact, Trait("Case", "runner.wrong-platform")]
-    public void WrongPlatformCannotBorrowEvidence()
+    public void Reconcile_WrongPlatform_RejectsBorrowedEvidence()
     {
         RejectMutation(id: "runner.wrong-platform", mutation: "results[0].platform='different'",
                 expected: "PLATFORM_MISMATCH");
@@ -302,7 +302,7 @@ public sealed class RunnerContractTests
 
     /// <summary>Prevents a skipped status from satisfying a required passing case.</summary>
     [Fact, Trait("Case", "runner.skipped-result")]
-    public void SkippedResultCannotPass()
+    public void Reconcile_SkippedResult_Rejected()
     {
         RejectMutation(id: "runner.skipped-result", mutation: "results[0].status='skipped'",
                 expected: "RESULT_NOT_PASS");
@@ -310,7 +310,7 @@ public sealed class RunnerContractTests
 
     /// <summary>Prevents a blocked status from satisfying a required passing case.</summary>
     [Fact, Trait("Case", "runner.blocked-result")]
-    public void BlockedResultCannotPass()
+    public void Reconcile_BlockedResult_Rejected()
     {
         RejectMutation(id: "runner.blocked-result", mutation: "results[0].status='blocked'",
                 expected: "RESULT_NOT_PASS");
@@ -318,14 +318,14 @@ public sealed class RunnerContractTests
 
     /// <summary>Requires a nonempty evidence list for an accepted result.</summary>
     [Fact, Trait("Case", "runner.empty-evidence")]
-    public void EmptyEvidenceCannotPass()
+    public void Reconcile_EmptyEvidence_Rejected()
     {
         RejectMutation(id: "runner.empty-evidence", mutation: "results[0].evidence=[]", expected: "EVIDENCE_MISSING");
     }
 
     /// <summary>Rejects an evidence path that traverses outside the current run directory.</summary>
     [Fact, Trait("Case", "runner.escaping-evidence")]
-    public void EvidenceCannotEscapeRunDirectory()
+    public void Reconcile_EscapingEvidence_RejectsOutsidePath()
     {
         RejectMutation(id: "runner.escaping-evidence", mutation: "results[0].evidence=['../outside.log']",
                 expected: "PATH_ESCAPE");
@@ -333,7 +333,7 @@ public sealed class RunnerContractTests
 
     /// <summary>Rejects restore failure as evidence for an intended subject diagnostic.</summary>
     [Fact, Trait("Case", "runner.unrelated-diagnostic")]
-    public void InfrastructureFailureCannotStandForSubjectViolation()
+    public void Reconcile_InfrastructureFailure_RejectsSubjectCredit()
     {
         RejectMutation(id: "runner.unrelated-diagnostic", mutation: "results[0].diagnostic='RESTORE_FAILED'",
                 expected: "SUBJECT_DIAGNOSTIC");
@@ -341,7 +341,7 @@ public sealed class RunnerContractTests
 
     /// <summary>Requires discovery and execution prerequisites before accepting negative evidence.</summary>
     [Fact, Trait("Case", "runner.missing-prerequisite")]
-    public void NegativeEvidenceRequiresSuccessfulInfrastructure()
+    public void Reconcile_NegativeEvidence_RequiresSuccessfulInfrastructure()
     {
         RejectMutation(id: "runner.missing-prerequisite", mutation: "results[0].prerequisites=['build']",
                 expected: "SUBJECT_EVIDENCE");
@@ -349,7 +349,7 @@ public sealed class RunnerContractTests
 
     /// <summary>Rejects unknown, incomplete, conflicting and empty CLI selections.</summary>
     [Fact, Trait("Case", "runner.selection")]
-    public void WrongAndEmptySelectionsAreRejected()
+    public void Reconcile_WrongAndEmptySelections_Rejected()
     {
         string script = ("const c=require('./tools/phase1/check.cjs');const m=req"
                 + "uire('./tools/phase1/required-cases.json');const rows=["

@@ -12,7 +12,7 @@ public sealed class PrimaryConstructorAnalyzerTests
     /// <summary>A class with a primary constructor is reported on its parameter list.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "R-23.negative")]
-    public Task ClassPrimaryConstructorReports()
+    public Task Class_PrimaryConstructor_Reports()
     {
         return VerifyAsync(caseId: "R-23.negative", diagnostic: "SCR0003", source: """
                 class C{|SCR0003:(int x)|}
@@ -25,7 +25,7 @@ public sealed class PrimaryConstructorAnalyzerTests
     /// <summary>A class with an empty primary constructor parameter list is reported.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.primaryconstructor.Class_EmptyPrimaryConstructor_Reports")]
-    public Task ClassEmptyPrimaryConstructorReports()
+    public Task Class_EmptyPrimaryConstructor_Reports()
     {
         return VerifyAsync(caseId: "rules.primaryconstructor.Class_EmptyPrimaryConstructor_Reports",
                 diagnostic: "SCR0003", source: """
@@ -38,7 +38,7 @@ public sealed class PrimaryConstructorAnalyzerTests
     /// <summary>A struct with a primary constructor is reported.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.primaryconstructor.Struct_PrimaryConstructor_Reports")]
-    public Task StructPrimaryConstructorReports()
+    public Task Struct_PrimaryConstructor_Reports()
     {
         return VerifyAsync(caseId: "rules.primaryconstructor.Struct_PrimaryConstructor_Reports",
                 diagnostic: "SCR0003", source: """
@@ -52,7 +52,7 @@ public sealed class PrimaryConstructorAnalyzerTests
     /// <summary>A positional record and a positional record class are reported.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "R-24.negative")]
-    public Task AnalyzePositionalRecordReports()
+    public Task Analyze_PositionalRecord_Reports()
     {
         return VerifyAsync(caseId: "R-24.negative", diagnostic: "SCR0003", source: """
                 record R{|SCR0003:(int X)|};
@@ -64,7 +64,7 @@ public sealed class PrimaryConstructorAnalyzerTests
     /// <summary>A positional record struct is reported.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.primaryconstructor.Analyze_PositionalRecordStruct_Reports")]
-    public Task AnalyzePositionalRecordStructReports()
+    public Task Analyze_PositionalRecordStruct_Reports()
     {
         return VerifyAsync(caseId: "rules.primaryconstructor.Analyze_PositionalRecordStruct_Reports",
                 diagnostic: "SCR0003", source: """
@@ -75,7 +75,7 @@ public sealed class PrimaryConstructorAnalyzerTests
     /// <summary>A record with init properties and no parameter list passes.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "R-24.positive")]
-    public Task AnalyzeNonPositionalRecordPasses()
+    public Task Analyze_NonPositionalRecord_Passes()
     {
         return VerifyAsync(caseId: "R-24.positive", diagnostic: "ANALYZER_ACCEPTED", source: """
                 record R
@@ -93,7 +93,7 @@ public sealed class PrimaryConstructorAnalyzerTests
     /// <summary>A class and a struct with ordinary constructors pass.</summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "R-23.positive")]
-    public Task AnalyzeOrdinaryConstructorPasses()
+    public Task Analyze_OrdinaryConstructor_Passes()
     {
         return VerifyAsync(caseId: "R-23.positive", diagnostic: "ANALYZER_ACCEPTED", source: """
                 class C
@@ -125,7 +125,7 @@ public sealed class PrimaryConstructorAnalyzerTests
     /// </summary>
     /// <returns>A task that completes when the verification has run.</returns>
     [Fact, Trait("Case", "rules.primaryconstructor.ExtensionBlock_ReceiverParameter_Passes")]
-    public Task ExtensionBlockReceiverParameterPasses()
+    public Task ExtensionBlock_ReceiverParameter_Passes()
     {
         return VerifyAsync(caseId: "rules.primaryconstructor.ExtensionBlock_ReceiverParameter_Passes",
                 diagnostic: "ANALYZER_ACCEPTED", source: """
@@ -141,7 +141,7 @@ public sealed class PrimaryConstructorAnalyzerTests
 
     /// <summary>Empty and nested positional forms remain forbidden even on a generated-marked tree.</summary>
     [Fact, Trait("Case", "rules.primaryconstructor.generated-nested")]
-    public Task GeneratedNestedPrimaryConstructorsRemainChecked()
+    public Task Analyze_GeneratedNestedPrimaryConstructors_ReportsDiagnostics()
     {
         return InheritedAnalyzerVerifier.VerifyAsync(caseId: "rules.primaryconstructor.generated-nested",
                 diagnostic: "SCR0003", analyzerType: "PrimaryConstructorAnalyzer",

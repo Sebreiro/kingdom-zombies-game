@@ -1433,7 +1433,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.MissingRequiredResultCannotPass"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Reconcile_MissingRequiredResult_Rejected"
     },
     {
       "id": "runner.assertion-pass",
@@ -1450,7 +1450,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.RealAssertionPasses"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Assert_RealControl_Passes"
     },
     {
       "id": "runner.duplicate-result",
@@ -1467,7 +1467,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.DuplicateResultIsRejectedBeforeSetConversion"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Reconcile_DuplicateResult_RejectedBeforeSetConversion"
     },
     {
       "id": "runner.unknown-result",
@@ -1484,7 +1484,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.UnknownResultCannotSatisfyAnotherObligation"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Reconcile_UnknownResult_RejectsSubstitutedObligation"
     },
     {
       "id": "runner.wrong-nonce",
@@ -1501,7 +1501,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.WrongNonceCannotReusePriorEvidence"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Reconcile_WrongNonce_RejectsReusedEvidence"
     },
     {
       "id": "runner.changed-input",
@@ -1518,7 +1518,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.ChangedInputCannotBorrowEvidence"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Reconcile_ChangedInput_RejectsBorrowedEvidence"
     },
     {
       "id": "runner.wrong-tool",
@@ -1535,7 +1535,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.WrongToolCannotBorrowEvidence"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Reconcile_WrongTool_RejectsBorrowedEvidence"
     },
     {
       "id": "runner.wrong-platform",
@@ -1552,7 +1552,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.WrongPlatformCannotBorrowEvidence"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Reconcile_WrongPlatform_RejectsBorrowedEvidence"
     },
     {
       "id": "runner.skipped-result",
@@ -1569,7 +1569,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.SkippedResultCannotPass"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Reconcile_SkippedResult_Rejected"
     },
     {
       "id": "runner.blocked-result",
@@ -1586,7 +1586,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.BlockedResultCannotPass"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Reconcile_BlockedResult_Rejected"
     },
     {
       "id": "runner.empty-evidence",
@@ -1603,7 +1603,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.EmptyEvidenceCannotPass"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Reconcile_EmptyEvidence_Rejected"
     },
     {
       "id": "runner.escaping-evidence",
@@ -1620,7 +1620,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.EvidenceCannotEscapeRunDirectory"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Reconcile_EscapingEvidence_RejectsOutsidePath"
     },
     {
       "id": "runner.unrelated-diagnostic",
@@ -1637,7 +1637,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.InfrastructureFailureCannotStandForSubjectViolation"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Reconcile_InfrastructureFailure_RejectsSubjectCredit"
     },
     {
       "id": "runner.missing-prerequisite",
@@ -1654,7 +1654,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.NegativeEvidenceRequiresSuccessfulInfrastructure"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Reconcile_NegativeEvidence_RequiresSuccessfulInfrastructure"
     },
     {
       "id": "runner.selection",
@@ -1671,7 +1671,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.WrongAndEmptySelectionsAreRejected"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Reconcile_WrongAndEmptySelections_Rejected"
     },
     {
       "id": "ac-01.complete",
@@ -1688,7 +1688,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.FiveCanonicalLocksRejectDependencyDrift",
+      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.Restore_FiveCanonicalLocks_RejectsDependencyDrift",
       "expectedDiagnostic": "LOCKED_GRAPH_EXACT"
     },
     {
@@ -1722,7 +1722,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.InventoryCompleteBaselineHasEveryExactDisposition",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_CompleteInventory_HasEveryExactDisposition",
       "expectedDiagnostic": "INVENTORY_EXACT"
     },
     {
@@ -2092,7 +2092,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaConflictingDuplicateCannotMaskOriginal",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_ConflictingDuplicate_RejectsMaskedOriginal",
       "expectedDiagnostic": "R-01: RULE_ID: DUPLICATE_OR_EMPTY"
     },
     {
@@ -2110,7 +2110,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaEmptyRequiredFieldsAlwaysFail",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_EmptyRequiredFields_RejectsEveryMissingValue",
       "expectedDiagnostic": "REQUIRED_FIELDS_REJECTED"
     },
     {
@@ -2128,7 +2128,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaExactEncodingNeverNormalizesIdentity",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_AlternateEncoding_PreservesExactIdentity",
       "expectedDiagnostic": "IDENTITY_EXACT"
     },
     {
@@ -2146,7 +2146,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaPermutationsPreserveVerdictAndExactCoverage",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_Permutations_PreserveVerdictAndCoverage",
       "expectedDiagnostic": "PERMUTATION_EQUAL"
     },
     {
@@ -2933,7 +2933,7 @@
       ],
       "implementation": "csharp",
       "polarity": "positive",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedArgument8SpacesPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedArgument_8Spaces_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -2952,7 +2952,7 @@
       ],
       "implementation": "csharp",
       "polarity": "negative",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedArgument4Or12SpacesFails4",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_WrappedArgument4Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -2971,7 +2971,7 @@
       ],
       "implementation": "csharp",
       "polarity": "positive",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Line120CharactersPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Line_120Characters_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -2990,7 +2990,7 @@
       ],
       "implementation": "csharp",
       "polarity": "negative",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Line121CharactersFails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Line_121Characters_Fails",
       "expectedDiagnostic": "SCR0007"
     },
     {
@@ -3123,7 +3123,7 @@
       ],
       "implementation": "csharp",
       "polarity": "positive",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeSystemFirstThenAlphabeticalPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.Analyze_SystemFirstThenAlphabetical_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -3142,7 +3142,7 @@
       ],
       "implementation": "csharp",
       "polarity": "negative",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeSystemTextBeforeSystemReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.Analyze_SystemTextBeforeSystem_Reports",
       "expectedDiagnostic": "SCR0010"
     },
     {
@@ -3275,7 +3275,7 @@
       ],
       "implementation": "csharp",
       "polarity": "positive",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LocalNewDeclarationAnalyzerTests.AnalyzeVarWithNewPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LocalNewDeclarationAnalyzerTests.Analyze_VarWithNew_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -3294,7 +3294,7 @@
       ],
       "implementation": "csharp",
       "polarity": "negative",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LocalNewDeclarationAnalyzerTests.AnalyzeTypedLocalWithTargetTypedNewReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LocalNewDeclarationAnalyzerTests.Analyze_TypedLocalWithTargetTypedNew_Reports",
       "expectedDiagnostic": "SCR0012"
     },
     {
@@ -3465,7 +3465,7 @@
       ],
       "implementation": "csharp",
       "polarity": "positive",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.AnalyzeOrdinaryConstructorPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.Analyze_OrdinaryConstructor_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -3484,7 +3484,7 @@
       ],
       "implementation": "csharp",
       "polarity": "negative",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.ClassPrimaryConstructorReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.Class_PrimaryConstructor_Reports",
       "expectedDiagnostic": "SCR0003"
     },
     {
@@ -3503,7 +3503,7 @@
       ],
       "implementation": "csharp",
       "polarity": "positive",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.AnalyzeNonPositionalRecordPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.Analyze_NonPositionalRecord_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -3522,7 +3522,7 @@
       ],
       "implementation": "csharp",
       "polarity": "negative",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.AnalyzePositionalRecordReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.Analyze_PositionalRecord_Reports",
       "expectedDiagnostic": "SCR0003"
     },
     {
@@ -3541,7 +3541,7 @@
       ],
       "implementation": "csharp",
       "polarity": "positive",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.RegionDirectiveAnalyzerTests.AnalyzeOtherDirectivesPass",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.RegionDirectiveAnalyzerTests.Analyze_OtherDirectives_Pass",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -3560,7 +3560,7 @@
       ],
       "implementation": "csharp",
       "polarity": "negative",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.RegionDirectiveAnalyzerTests.AnalyzeInsideTypeReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.RegionDirectiveAnalyzerTests.Analyze_InsideType_Reports",
       "expectedDiagnostic": "SCR0004"
     },
     {
@@ -3579,7 +3579,7 @@
       ],
       "implementation": "csharp",
       "polarity": "positive",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.NullForgivingAnalyzerTests.AnalyzeLogicalNotAndNotEqualsPass",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.NullForgivingAnalyzerTests.Analyze_LogicalNotAndNotEquals_Pass",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -3598,7 +3598,7 @@
       ],
       "implementation": "csharp",
       "polarity": "negative",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.NullForgivingAnalyzerTests.AnalyzeVariableReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.NullForgivingAnalyzerTests.Analyze_Variable_Reports",
       "expectedDiagnostic": "SCR0005"
     },
     {
@@ -3655,7 +3655,7 @@
       ],
       "implementation": "csharp",
       "polarity": "positive",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ThisQualificationAnalyzerTests.AnalyzeUnqualifiedPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ThisQualificationAnalyzerTests.Analyze_Unqualified_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -3674,7 +3674,7 @@
       ],
       "implementation": "csharp",
       "polarity": "negative",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ThisQualificationAnalyzerTests.AnalyzeFieldAssignmentReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ThisQualificationAnalyzerTests.Analyze_FieldAssignment_Reports",
       "expectedDiagnostic": "SCR0011"
     },
     {
@@ -3845,7 +3845,7 @@
       ],
       "implementation": "csharp",
       "polarity": "positive",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.AllSixAccessLevelsInOrderPass",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.AllSixAccessLevels_InOrder_Pass",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -3864,7 +3864,7 @@
       ],
       "implementation": "csharp",
       "polarity": "negative",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.AnalyzePrivateFieldBeforePublicMethodReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.Analyze_PrivateFieldBeforePublicMethod_Reports",
       "expectedDiagnostic": "SCR0008"
     },
     {
@@ -3955,7 +3955,7 @@
       ],
       "implementation": "csharp",
       "polarity": "positive",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.AnalyzeCommentsOutsideBodiesPass",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.Analyze_CommentsOutsideBodies_Pass",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -3974,7 +3974,7 @@
       ],
       "implementation": "csharp",
       "polarity": "negative",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.MethodLineAndBlockCommentsReport",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.Method_LineAndBlockComments_Report",
       "expectedDiagnostic": "SCR0002"
     },
     {
@@ -3993,7 +3993,7 @@
       ],
       "implementation": "csharp",
       "polarity": "positive",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.AnalyzeEmptyBodyPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.Analyze_EmptyBody_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -4012,7 +4012,7 @@
       ],
       "implementation": "csharp",
       "polarity": "negative",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.MethodBlankLinesCount61LinesFails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.Method_BlankLinesCount_61LinesFails",
       "expectedDiagnostic": "SCR0006"
     },
     {
@@ -4031,7 +4031,7 @@
       ],
       "implementation": "csharp",
       "polarity": "positive",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.InvocationNamedArgumentPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.Invocation_NamedArgument_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -4050,7 +4050,7 @@
       ],
       "implementation": "csharp",
       "polarity": "negative",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.InvocationPositionalArgumentReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.Invocation_PositionalArgument_Reports",
       "expectedDiagnostic": "SCR0001"
     },
     {
@@ -4221,7 +4221,7 @@
       ],
       "implementation": "csharp",
       "polarity": "register-resolution",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ResolutionR43IsExplicit",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_ResolutionR43_IsExplicit",
       "expectedDiagnostic": "INAPPLICABLE_ACCOUNTED"
     },
     {
@@ -4380,7 +4380,7 @@
       "id": "R-48.positive",
       "group": "rules",
       "rule": "R-48",
-      "owner": "01-05..01-09",
+      "owner": "01-08",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -4390,14 +4390,16 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.TestMethodNameTests.Names_AllOwnedTests_FollowRequiredShape",
+      "expectedDiagnostic": "TEST_NAMES_ACCEPTED"
     },
     {
       "id": "R-48.negative",
       "group": "rules",
       "rule": "R-48",
-      "owner": "01-05..01-09",
+      "owner": "01-08",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -4407,8 +4409,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.TestMethodNameTests.Names_InvalidShape_Rejected",
+      "expectedDiagnostic": "CA1707"
     },
     {
       "id": "R-49.positive",
@@ -4698,7 +4702,7 @@
       ],
       "implementation": "csharp",
       "polarity": "register-resolution",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ResolutionR57IsExplicit",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_ResolutionR57_IsExplicit",
       "expectedDiagnostic": "INAPPLICABLE_ACCOUNTED"
     },
     {
@@ -5329,7 +5333,7 @@
       ],
       "implementation": "csharp",
       "polarity": "register-resolution",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ResolutionR76IsExplicit",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_ResolutionR76_IsExplicit",
       "expectedDiagnostic": "INAPPLICABLE_ACCOUNTED"
     },
     {
@@ -5416,7 +5420,7 @@
       ],
       "implementation": "csharp",
       "polarity": "register-resolution",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ResolutionR79IsExplicit",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_ResolutionR79_IsExplicit",
       "expectedDiagnostic": "INAPPLICABLE_ACCOUNTED"
     },
     {
@@ -5435,7 +5439,7 @@
       ],
       "implementation": "csharp",
       "polarity": "register-resolution",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ResolutionR80IsExplicit",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_ResolutionR80_IsExplicit",
       "expectedDiagnostic": "INAPPLICABLE_ACCOUNTED"
     },
     {
@@ -5590,7 +5594,7 @@
       ],
       "implementation": "csharp",
       "polarity": "register-resolution",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ResolutionR85IsExplicit",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_ResolutionR85_IsExplicit",
       "expectedDiagnostic": "INAPPLICABLE_ACCOUNTED"
     },
     {
@@ -5608,7 +5612,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.RealMissingExecutableIsRejected"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Reconcile_RealMissingExecutable_Rejected"
     },
     {
       "id": "runner.process.zero-discovery",
@@ -5625,7 +5629,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.RealZeroDiscoveryIsRejected"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Reconcile_RealZeroDiscovery_Rejected"
     },
     {
       "id": "runner.process.wrong-filter",
@@ -5642,7 +5646,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.RealWrongFilterIsRejected"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Reconcile_RealWrongFilter_Rejected"
     },
     {
       "id": "runner.process.skip",
@@ -5659,7 +5663,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.RealSkipIsRejected"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Reconcile_RealSkip_Rejected"
     },
     {
       "id": "runner.process.crash",
@@ -5676,7 +5680,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.RealCrashIsRejected"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Reconcile_RealCrash_Rejected"
     },
     {
       "id": "runner.process.timeout",
@@ -5693,7 +5697,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.RealTimeoutKillsDescendants"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Run_TimedOutChild_KillsDescendants"
     },
     {
       "id": "runner.process.deleted-log",
@@ -5710,7 +5714,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.RealDeletedLogIsRejected"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Reconcile_RealDeletedLog_Rejected"
     },
     {
       "id": "runner.process.deleted-result",
@@ -5727,7 +5731,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.RealDeletedResultIsRejected"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Reconcile_RealDeletedResult_Rejected"
     },
     {
       "id": "runner.process.duplicate",
@@ -5744,7 +5748,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.RealDuplicateResultIsRejected"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Reconcile_RealDuplicateResult_Rejected"
     },
     {
       "id": "runner.process.nonce",
@@ -5761,7 +5765,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.RealWrongNonceIsRejected"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Reconcile_RealWrongNonce_Rejected"
     },
     {
       "id": "runner.process.source",
@@ -5778,7 +5782,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.RealSourceMutationInvalidatesPublication"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Publish_ChangedSource_RejectsStaleEvidence"
     },
     {
       "id": "runner.process.document",
@@ -5795,7 +5799,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.RealDocumentMutationInvalidatesPublication"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Publish_ChangedDocument_RejectsStaleEvidence"
     },
     {
       "id": "runner.process.repeat",
@@ -5812,7 +5816,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.UnchangedRunsHaveIdenticalNormalizedVerdicts"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Reconcile_UnchangedRuns_HaveIdenticalNormalizedVerdicts"
     },
     {
       "id": "runner.process.stale",
@@ -5829,7 +5833,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.NewRunCannotBorrowPriorCompleteArtifacts"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Reconcile_NewRun_RejectsBorrowedPriorArtifacts"
     },
     {
       "id": "runner.process.concurrent",
@@ -5846,7 +5850,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.ConcurrentFullInvocationIsExplicitlyRejected"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Run_ConcurrentFullInvocation_ReportsAlreadyRunning"
     },
     {
       "id": "runner.process.interrupted",
@@ -5863,7 +5867,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.InterruptionCannotPublishOrLendSuccess"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Publish_InterruptedRun_RejectsSuccessAndBorrowedEvidence"
     },
     {
       "id": "runner.process.assertion",
@@ -5880,7 +5884,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.RealAssertionFailureIsActionable"
+      "test": "KingdomZombies.Phase1.Tests.RunnerContractTests.Reconcile_RealAssertionFailure_ReportsActionableFailure"
     },
     {
       "id": "pins.missing",
@@ -5897,7 +5901,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.PinsTests.MissingPinIsRejected"
+      "test": "KingdomZombies.Phase1.Tests.PinsTests.ValidatePins_MissingPin_Rejected"
     },
     {
       "id": "pins.duplicate-identical",
@@ -5914,7 +5918,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.PinsTests.DuplicateIdenticalDeclarationRequiresUniqueness"
+      "test": "KingdomZombies.Phase1.Tests.PinsTests.ValidatePins_IdenticalDuplicate_RejectsNonUniqueDeclaration"
     },
     {
       "id": "pins.duplicate-conflicting",
@@ -5931,7 +5935,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.PinsTests.ConflictingDuplicateDeclarationIsRejected"
+      "test": "KingdomZombies.Phase1.Tests.PinsTests.ValidatePins_ConflictingDuplicateDeclaration_Rejected"
     },
     {
       "id": "pins.duplicate-candidate",
@@ -5948,7 +5952,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.PinsTests.AmbiguousCandidatesCannotSelectAccidentally"
+      "test": "KingdomZombies.Phase1.Tests.PinsTests.ValidatePins_AmbiguousCandidates_RejectsAccidentalSelection"
     },
     {
       "id": "pins.generator",
@@ -5965,7 +5969,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.PinsTests.IncompatibleGeneratorIsRejected"
+      "test": "KingdomZombies.Phase1.Tests.PinsTests.ValidatePins_IncompatibleGenerator_Rejected"
     },
     {
       "id": "pins.observed-engine",
@@ -5982,7 +5986,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.PinsTests.WrongActualEngineToolIsRejected"
+      "test": "KingdomZombies.Phase1.Tests.PinsTests.ValidatePins_WrongActualEngineTool_Rejected"
     },
     {
       "id": "pins.observed-compiler",
@@ -5999,7 +6003,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.PinsTests.WrongActualCompilerIdentityIsRejected"
+      "test": "KingdomZombies.Phase1.Tests.PinsTests.ValidatePins_WrongActualCompilerIdentity_Rejected"
     },
     {
       "id": "pins.observed-generator",
@@ -6016,7 +6020,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.PinsTests.WrongGeneratorPayloadIdentityIsRejected"
+      "test": "KingdomZombies.Phase1.Tests.PinsTests.ValidatePins_WrongGeneratorPayloadIdentity_Rejected"
     },
     {
       "id": "pins.permutation",
@@ -6033,7 +6037,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.PinsTests.CandidateAndDeclarationOrderingPreservesSelection"
+      "test": "KingdomZombies.Phase1.Tests.PinsTests.ValidatePins_PermutedCandidates_PreservesSelection"
     },
     {
       "id": "register.capture",
@@ -6050,7 +6054,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.CaptureMissingHeadingRelationIsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_CaptureMissingHeadingRelation_Rejected",
       "expectedDiagnostic": "CAPTURE_EXACT"
     },
     {
@@ -6068,7 +6072,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.CaptureMissingHeadingIsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_CaptureMissingHeading_Rejected",
       "expectedDiagnostic": "CAPTURE: HEADING_INVENTORY"
     },
     {
@@ -6086,7 +6090,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.CaptureMissingMatrixRowIsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_CaptureMissingMatrixRow_Rejected",
       "expectedDiagnostic": "R-01: SOURCE_ROW"
     },
     {
@@ -6104,7 +6108,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.CaptureMissingSourceExemptionIsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_CaptureMissingSourceExemption_Rejected",
       "expectedDiagnostic": "REGISTER: DONOR_EXEMPTION_INVENTORY"
     },
     {
@@ -6122,7 +6126,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.CaptureDuplicateIdIsRejectedBeforeSetConversion",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_CaptureDuplicateId_RejectedBeforeSetConversion",
       "expectedDiagnostic": "R-01: RULE_ID: DUPLICATE_OR_EMPTY"
     },
     {
@@ -6140,7 +6144,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.CaptureR37ConnectsBothHeadingsAndPlannedBoundaryProofs",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_R37Capture_ConnectsBothHeadingsAndProofs",
       "expectedDiagnostic": "R37_TRACE_EXACT"
     },
     {
@@ -6158,7 +6162,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaMissingMechanismIsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_SchemaMissingMechanism_Rejected",
       "expectedDiagnostic": "R-01: MECHANISM_REQUIRED"
     },
     {
@@ -6176,7 +6180,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaCaseChangedReferenceIsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_SchemaCaseChangedReference_Rejected",
       "expectedDiagnostic": "R-37: MECHANISM_REFERENCE"
     },
     {
@@ -6194,7 +6198,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaUnicodeReferenceIsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_SchemaUnicodeReference_Rejected",
       "expectedDiagnostic": "R-37: MECHANISM_REFERENCE"
     },
     {
@@ -6212,7 +6216,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaProofForDifferentRuleIsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_SchemaProofForDifferentRule_Rejected",
       "expectedDiagnostic": "R-01: PROOF_REVERSE_ID"
     },
     {
@@ -6230,7 +6234,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaSeverityWeakeningIsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_SchemaSeverityWeakening_Rejected",
       "expectedDiagnostic": "R-37: SEVERITY_WEAKENED"
     },
     {
@@ -6248,7 +6252,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaDiagnosticSubstitutionIsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_SchemaDiagnosticSubstitution_Rejected",
       "expectedDiagnostic": "R-37: DIAGNOSTIC_IDENTITY"
     },
     {
@@ -6266,7 +6270,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaWrongDocumentationAnchorIsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_SchemaWrongDocumentationAnchor_Rejected",
       "expectedDiagnostic": "R-01: DOCUMENTATION_REFERENCE"
     },
     {
@@ -6284,7 +6288,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaNumericLimitDriftIsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_SchemaNumericLimitDrift_Rejected",
       "expectedDiagnostic": "R-37: NUMERIC_LIMIT"
     },
     {
@@ -6302,7 +6306,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaAutomatedHumanJudgmentIsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_SchemaAutomatedHumanJudgment_Rejected",
       "expectedDiagnostic": "R-24: HUMAN_REVIEW_PENDING"
     },
     {
@@ -6320,7 +6324,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaDuplicateExemptionIsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_SchemaDuplicateExemption_Rejected",
       "expectedDiagnostic": "KZ-EX-LOCK-01: LOCAL_EXEMPTION_ID: DUPLICATE_OR_EMPTY"
     },
     {
@@ -6338,7 +6342,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaOverlappingExemptionsAreRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_SchemaOverlappingExemptions_Rejected",
       "expectedDiagnostic": "KZ-EX-LOCK-02: EXEMPTION_OVERLAP"
     },
     {
@@ -6356,7 +6360,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaBroadenedExemptionScopeIsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_SchemaBroadenedExemptionScope_Rejected",
       "expectedDiagnostic": "KZ-EX-LOCK-01: EXEMPTION_SCOPE"
     },
     {
@@ -6374,7 +6378,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaFutureMappingsCannotCountAsCompletedEvidence",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_FutureMappings_RejectsCompletionCredit",
       "expectedDiagnostic": "IMPLEMENTATION_PENDING"
     },
     {
@@ -6393,7 +6397,7 @@
       ],
       "implementation": "csharp",
       "polarity": "positive",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.Method59LinesPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.Analyze_Method59Lines_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -6412,7 +6416,7 @@
       ],
       "implementation": "csharp",
       "polarity": "positive",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.Method60LinesPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.Method_60Lines_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -6431,7 +6435,7 @@
       ],
       "implementation": "csharp",
       "polarity": "negative",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.Method61LinesFails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.Method_61Lines_Fails",
       "expectedDiagnostic": "SCR0006"
     },
     {
@@ -6449,7 +6453,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaWrongMechanismSymbolIsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_SchemaWrongMechanismSymbol_Rejected",
       "expectedDiagnostic": "R-37: MECHANISM_REFERENCE"
     },
     {
@@ -6467,7 +6471,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaAlteredCapturedMechanismIsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_SchemaAlteredCapturedMechanism_Rejected",
       "expectedDiagnostic": "R-37: SOURCE_FIELD: mechanism"
     },
     {
@@ -6485,7 +6489,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaWrongProofPathIsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_SchemaWrongProofPath_Rejected",
       "expectedDiagnostic": "R-37: PROOF_PATH"
     },
     {
@@ -6503,7 +6507,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaNumericCountingChangeIsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_SchemaNumericCountingChange_Rejected",
       "expectedDiagnostic": "R-10: NUMERIC_SEMANTICS"
     },
     {
@@ -6521,7 +6525,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaReusedBoundaryEvidenceIsRejected",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_SchemaReusedBoundaryEvidence_Rejected",
       "expectedDiagnostic": "rules.body.59: BOUNDARY_PROOF: DUPLICATE_OR_EMPTY"
     },
     {
@@ -6539,7 +6543,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.RegisterTests.SchemaAbsentRelationFieldIsActionable",
+      "test": "KingdomZombies.Phase1.Tests.RegisterTests.ValidateRegister_SchemaAbsentRelationField_ReportsActionableFailure",
       "expectedDiagnostic": "R-01: HEADING_RELATION"
     },
     {
@@ -6557,7 +6561,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.GameHasPermittedEvaluatedComposition",
+      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.Evaluate_GameComposition_MatchesPermittedPolicy",
       "expectedDiagnostic": "COMPOSITION_EXACT"
     },
     {
@@ -6575,7 +6579,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.RealGodotConsumerCompiles",
+      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.Build_RealGodotConsumer_Compiles",
       "expectedDiagnostic": "CONSUMER_EMITTED"
     },
     {
@@ -6593,7 +6597,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.VerifierRequiresExactCompilerDiagnostic",
+      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.Verify_WrongCompilerDiagnostic_IsRejected",
       "expectedDiagnostic": "DIAGNOSTIC_EXACT"
     },
     {
@@ -6611,7 +6615,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.ConsumersSelectScopedBannedInputs",
+      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.Evaluate_ConsumerProjects_SelectScopedBannedInputs",
       "expectedDiagnostic": "BANNED_INPUTS_SCOPED"
     },
     {
@@ -6629,7 +6633,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.AllFiveProjectsInheritExactPolicy",
+      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.Evaluate_AllFiveProjects_InheritExactPolicy",
       "expectedDiagnostic": "EVALUATED_POLICY_EXACT"
     },
     {
@@ -6647,7 +6651,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.EvaluatedPolicyRejectsWeakening",
+      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.Evaluate_WeakenedPolicy_IsRejected",
       "expectedDiagnostic": "POLICY_DRIFT_REJECTED"
     },
     {
@@ -6665,7 +6669,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.ProductionBannedApisFailRealCompilation",
+      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.Build_ProductionBannedApis_FailsAtExactLocations",
       "expectedDiagnostic": "RS0030"
     },
     {
@@ -6683,7 +6687,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.TestsRetainShouldlyAndRejectAssert",
+      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.Build_TestAssertions_AcceptsShouldlyAndRejectsAssert",
       "expectedDiagnostic": "TEST_POLICY_EXACT"
     },
     {
@@ -6701,7 +6705,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.BannedSeverityWeakeningCannotSatisfyTheContract",
+      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.Evaluate_WeakenedBannedSeverity_IsRejected",
       "expectedDiagnostic": "POLICY_BYPASS_REJECTED"
     },
     {
@@ -6719,7 +6723,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.AsyncSuffixPermissionRejectsConfigurationDrift",
+      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.Evaluate_AsyncSuffixPermission_RejectsConfigurationDrift",
       "expectedDiagnostic": "ASYNC_PERMISSION_EXACT"
     },
     {
@@ -6737,7 +6741,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.GeneratedReportAdapterHasPinnedOrigin",
+      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.Check_GeneratedReportAdapter_HasPinnedOrigin",
       "expectedDiagnostic": "GENERATOR_ORIGIN_EXACT"
     },
     {
@@ -6755,7 +6759,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.GeneratedReportPermissionCannotEscapeItsMethod",
+      "test": "KingdomZombies.Phase1.Tests.ConfigurationTests.Analyze_GeneratedReportPermission_RejectsOutsideMethod",
       "expectedDiagnostic": "GENERATED_PERMISSION_BOUNDED"
     },
     {
@@ -6773,7 +6777,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.ConstructionPositionalArgumentReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.Construction_PositionalArgument_Reports",
       "expectedDiagnostic": "SCR0001"
     },
     {
@@ -6791,7 +6795,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.ParamsElementsAreExempt",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.Params_Elements_AreExempt",
       "expectedDiagnostic": "SCR0001"
     },
     {
@@ -6809,7 +6813,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.AnalyzeExtensionReceiverIsExempt",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.Analyze_ExtensionReceiver_IsExempt",
       "expectedDiagnostic": "SCR0001"
     },
     {
@@ -6827,7 +6831,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.AnalyzeExtensionMemberReceiverIsExempt",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.Analyze_ExtensionMemberReceiver_IsExempt",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -6845,7 +6849,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.AnalyzeAttributeArgumentsAreExempt",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.Analyze_AttributeArguments_AreExempt",
       "expectedDiagnostic": "SCR0001"
     },
     {
@@ -6863,7 +6867,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.AnalyzeIndexerArgumentsAreExempt",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.Analyze_IndexerArguments_AreExempt",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -6881,7 +6885,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.AnalyzeDelegateInvocationIsExempt",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.Analyze_DelegateInvocation_IsExempt",
       "expectedDiagnostic": "SCR0001"
     },
     {
@@ -6899,7 +6903,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.FunctionPointerInvocationPositionalArgumentIsExempt",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.FunctionPointerInvocation_PositionalArgument_IsExempt",
       "expectedDiagnostic": "SCR0001"
     },
     {
@@ -6917,7 +6921,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.AnalyzeNameofTupleTypeofDefaultAreExempt",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.Analyze_NameofTupleTypeofDefault_AreExempt",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -6935,7 +6939,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.AnalyzeNameofAsArgumentValueReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.Analyze_NameofAsArgumentValue_Reports",
       "expectedDiagnostic": "SCR0001"
     },
     {
@@ -6953,7 +6957,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.GeneratedConfigurationCannotExemptHandwrittenCode",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.Analyze_HandwrittenWithGeneratedConfiguration_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0001"
     },
     {
@@ -6971,7 +6975,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.AnalyzeImplicitArgumentsAreSkipped",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.Analyze_ImplicitArguments_AreSkipped",
       "expectedDiagnostic": "SCR0001"
     },
     {
@@ -6989,7 +6993,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.AnalyzeSingleLambdaArgumentReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.Analyze_SingleLambdaArgument_Reports",
       "expectedDiagnostic": "SCR0001"
     },
     {
@@ -7007,7 +7011,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.AnalyzeSingleParameterMethodReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.Analyze_SingleParameterMethod_Reports",
       "expectedDiagnostic": "SCR0001"
     },
     {
@@ -7025,7 +7029,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.AnalyzeIdentifierEqualToParameterNameReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.Analyze_IdentifierEqualToParameterName_Reports",
       "expectedDiagnostic": "SCR0001"
     },
     {
@@ -7043,7 +7047,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.MethodTrailingCommentReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.Method_TrailingComment_Reports",
       "expectedDiagnostic": "SCR0002"
     },
     {
@@ -7061,7 +7065,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.ConstructorAndDestructorCommentsReport",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.ConstructorAndDestructor_Comments_Report",
       "expectedDiagnostic": "SCR0002"
     },
     {
@@ -7079,7 +7083,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.AccessorsCommentsReport",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.Accessors_Comments_Report",
       "expectedDiagnostic": "SCR0002"
     },
     {
@@ -7097,7 +7101,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.OperatorsCommentsReport",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.Operators_Comments_Report",
       "expectedDiagnostic": "SCR0002"
     },
     {
@@ -7115,7 +7119,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.LocalFunctionAndLambdaCommentsReport",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.LocalFunctionAndLambda_Comments_Report",
       "expectedDiagnostic": "SCR0002"
     },
     {
@@ -7133,7 +7137,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.FieldInitializerLambdaCommentReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.FieldInitializerLambda_Comment_Reports",
       "expectedDiagnostic": "SCR0002"
     },
     {
@@ -7151,7 +7155,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.MethodDocumentationCommentReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.Method_DocumentationComment_Reports",
       "expectedDiagnostic": "SCR0002"
     },
     {
@@ -7169,7 +7173,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.PreprocessorDirectivesInBodyPass",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.PreprocessorDirectives_InBody_Pass",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -7187,7 +7191,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.GlobalStatementsCommentsReport",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.GlobalStatements_Comments_Report",
       "expectedDiagnostic": "SCR0002"
     },
     {
@@ -7205,7 +7209,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.GlobalStatementsCommentBeforeTypePasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.GlobalStatements_CommentBeforeType_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -7223,7 +7227,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.GeneratedConfigurationCannotExemptHandwrittenCode",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.Analyze_HandwrittenWithGeneratedConfiguration_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0002"
     },
     {
@@ -7241,7 +7245,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.GeneratedCallSiteAdapterTests.GeneratedCallSitesHavePinnedOrigin",
+      "test": "KingdomZombies.Phase1.Tests.GeneratedCallSiteAdapterTests.Check_GeneratedCallSites_HavePinnedOrigin",
       "expectedDiagnostic": "GENERATED_CALLSITE_ORIGIN_EXACT"
     },
     {
@@ -7259,7 +7263,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.GeneratedCallSiteAdapterTests.GeneratedCallSitePermissionCannotEscapeItsMembers",
+      "test": "KingdomZombies.Phase1.Tests.GeneratedCallSiteAdapterTests.Analyze_GeneratedCallSitePermission_RejectsOutsideMembers",
       "expectedDiagnostic": "GENERATED_CALLSITE_BOUNDARY_REJECTED"
     },
     {
@@ -7277,7 +7281,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.ClassEmptyPrimaryConstructorReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.Class_EmptyPrimaryConstructor_Reports",
       "expectedDiagnostic": "SCR0003"
     },
     {
@@ -7295,7 +7299,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.StructPrimaryConstructorReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.Struct_PrimaryConstructor_Reports",
       "expectedDiagnostic": "SCR0003"
     },
     {
@@ -7313,7 +7317,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.AnalyzePositionalRecordStructReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.Analyze_PositionalRecordStruct_Reports",
       "expectedDiagnostic": "SCR0003"
     },
     {
@@ -7331,7 +7335,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.ExtensionBlockReceiverParameterPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.ExtensionBlock_ReceiverParameter_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -7349,7 +7353,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.RegionDirectiveAnalyzerTests.AnalyzeInsideBodyReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.RegionDirectiveAnalyzerTests.Analyze_InsideBody_Reports",
       "expectedDiagnostic": "SCR0004"
     },
     {
@@ -7367,7 +7371,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.RegionDirectiveAnalyzerTests.AnalyzeFileLevelAndNestedReport",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.RegionDirectiveAnalyzerTests.Analyze_FileLevelAndNested_Report",
       "expectedDiagnostic": "SCR0004"
     },
     {
@@ -7385,7 +7389,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.ExplicitParamsArraysAndRefArgumentsRequireNames",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.Analyze_ExplicitParamsArraysAndRefArguments_RequiresNames",
       "expectedDiagnostic": "SCR0001"
     },
     {
@@ -7403,7 +7407,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.BlockDocumentationAndAnonymousMethodsAreChecked",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.Analyze_BlockDocumentationAndAnonymousMethods_ReportsDiagnostics",
       "expectedDiagnostic": "SCR0002"
     },
     {
@@ -7421,7 +7425,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.GeneratedNestedPrimaryConstructorsRemainChecked",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.Analyze_GeneratedNestedPrimaryConstructors_ReportsDiagnostics",
       "expectedDiagnostic": "SCR0003"
     },
     {
@@ -7439,7 +7443,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.RegionDirectiveAnalyzerTests.GeneratedAndInactiveRegionsRemainChecked",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.RegionDirectiveAnalyzerTests.Analyze_GeneratedAndInactiveRegions_ReportsDiagnostics",
       "expectedDiagnostic": "SCR0004"
     },
     {
@@ -7457,7 +7461,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.AnalyzerInputIdentityTests.AnalyzerSourceMutationInvalidatesInputIdentity",
+      "test": "KingdomZombies.Phase1.Tests.AnalyzerInputIdentityTests.Fingerprint_ChangedAnalyzerSource_InvalidatesInputIdentity",
       "expectedDiagnostic": "ANALYZER_INPUT_CHANGED"
     },
     {
@@ -7475,7 +7479,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.GodotCallSiteAdapterTests.GodotCallSitePermissionsCannotEscapeTheirMembers",
+      "test": "KingdomZombies.Phase1.Tests.GodotCallSiteAdapterTests.Analyze_GodotCallSitePermissions_RejectsOutsideMembers",
       "expectedDiagnostic": "GODOT_CALLSITE_BOUNDARY_REJECTED"
     },
     {
@@ -7493,7 +7497,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.NullForgivingAnalyzerTests.AnalyzeBeforeMemberAccessReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.NullForgivingAnalyzerTests.Analyze_BeforeMemberAccess_Reports",
       "expectedDiagnostic": "SCR0005"
     },
     {
@@ -7511,7 +7515,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.NullForgivingAnalyzerTests.AnalyzeNullLiteralReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.NullForgivingAnalyzerTests.Analyze_NullLiteral_Reports",
       "expectedDiagnostic": "SCR0005"
     },
     {
@@ -7529,7 +7533,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.ExpressionBody60LinesPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.ExpressionBody_60Lines_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -7547,7 +7551,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.ExpressionBody61LinesFails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.ExpressionBody_61Lines_Fails",
       "expectedDiagnostic": "SCR0006"
     },
     {
@@ -7565,7 +7569,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.ExpressionBodyAfterArrow60LinesPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.ExpressionBodyAfterArrow_60Lines_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -7583,7 +7587,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.LambdaAfterArrow60LinesPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.LambdaAfterArrow_60Lines_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -7601,7 +7605,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.LambdaAfterArrow61LinesFails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.LambdaAfterArrow_61Lines_Fails",
       "expectedDiagnostic": "SCR0006"
     },
     {
@@ -7619,7 +7623,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.Constructor61LinesFails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.Constructor_61Lines_Fails",
       "expectedDiagnostic": "SCR0006"
     },
     {
@@ -7637,7 +7641,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.Accessor61LinesFails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.Accessor_61Lines_Fails",
       "expectedDiagnostic": "SCR0006"
     },
     {
@@ -7655,7 +7659,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.Operator61LinesFails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.Operator_61Lines_Fails",
       "expectedDiagnostic": "SCR0006"
     },
     {
@@ -7673,7 +7677,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.LocalFunction61LinesFails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.LocalFunction_61Lines_Fails",
       "expectedDiagnostic": "SCR0006"
     },
     {
@@ -7691,7 +7695,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.AnalyzeLocalFunctionCountsTowardEnclosingMember",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.Analyze_LocalFunction_CountsTowardEnclosingMember",
       "expectedDiagnostic": "SCR0006"
     },
     {
@@ -7709,7 +7713,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.GlobalStatements60LinesPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.GlobalStatements_60Lines_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -7727,7 +7731,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.GlobalStatements61LinesFails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.GlobalStatements_61Lines_Fails",
       "expectedDiagnostic": "SCR0006"
     },
     {
@@ -7745,7 +7749,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.GeneratedConfigurationCannotExemptHandwrittenCode",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.Analyze_HandwrittenWithGeneratedConfiguration_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0006"
     },
     {
@@ -7763,7 +7767,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.Method40LinesPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.Analyze_Method40Lines_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -7781,7 +7785,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Line120CyrillicLettersPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Line_120CyrillicLetters_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -7799,7 +7803,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Line121CyrillicLettersFails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Line_121CyrillicLetters_Fails",
       "expectedDiagnostic": "SCR0007"
     },
     {
@@ -7817,7 +7821,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.CommentLine121CharactersFails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.CommentLine_121Characters_Fails",
       "expectedDiagnostic": "SCR0007"
     },
     {
@@ -7835,7 +7839,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.AnalyzeCrLfTerminatorIsNotCounted",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Analyze_CrLfTerminator_IsNotCounted",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -7853,7 +7857,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.GeneratedConfigurationCannotExemptHandwrittenCode",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Analyze_HandwrittenWithGeneratedConfiguration_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0007"
     },
     {
@@ -7871,7 +7875,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.AnalyzeFullOrderPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.Analyze_FullOrder_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -7889,7 +7893,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.AnalyzePublicPropertyAfterPublicMethodReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.Analyze_PublicPropertyAfterPublicMethod_Reports",
       "expectedDiagnostic": "SCR0008"
     },
     {
@@ -7907,7 +7911,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.ConstructorAfterPropertySameAccessReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.ConstructorAfterProperty_SameAccess_Reports",
       "expectedDiagnostic": "SCR0008"
     },
     {
@@ -7925,7 +7929,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.AnalyzeNestedTypeBeforeMemberReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.Analyze_NestedTypeBeforeMember_Reports",
       "expectedDiagnostic": "SCR0008"
     },
     {
@@ -7943,7 +7947,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.NestedTypesAnyAccessOrderPassAndAreCheckedThemselves",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.NestedTypes_AnyAccessOrder_PassAndAreCheckedThemselves",
       "expectedDiagnostic": "SCR0008"
     },
     {
@@ -7961,7 +7965,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.AnalyzeProtectedInternalAfterProtectedReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.Analyze_ProtectedInternalAfterProtected_Reports",
       "expectedDiagnostic": "SCR0008"
     },
     {
@@ -7979,7 +7983,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.AnalyzeProtectedAfterPrivateProtectedReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.Analyze_ProtectedAfterPrivateProtected_Reports",
       "expectedDiagnostic": "SCR0008"
     },
     {
@@ -7997,7 +8001,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.AnalyzeNoModifierInClassIsPrivate",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.Analyze_NoModifierInClass_IsPrivate",
       "expectedDiagnostic": "SCR0008"
     },
     {
@@ -8015,7 +8019,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.AnalyzeExplicitInterfaceImplementationRanksAsPublic",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.Analyze_ExplicitInterfaceImplementation_RanksAsPublic",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -8033,7 +8037,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.AnalyzeExplicitInterfaceImplementationAfterInternalReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.Analyze_ExplicitInterfaceImplementationAfterInternal_Reports",
       "expectedDiagnostic": "SCR0008"
     },
     {
@@ -8051,7 +8055,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.AnalyzeInterfaceMembersArePublicAndChecked",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.Analyze_InterfaceMembers_ArePublicAndChecked",
       "expectedDiagnostic": "SCR0008"
     },
     {
@@ -8069,7 +8073,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.AnalyzeStructAndRecordsAreChecked",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.Analyze_StructAndRecords_AreChecked",
       "expectedDiagnostic": "SCR0008"
     },
     {
@@ -8087,7 +8091,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.AnalyzeStaticConstructorRanksAsPrivateConstructor",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.Analyze_StaticConstructor_RanksAsPrivateConstructor",
       "expectedDiagnostic": "SCR0008"
     },
     {
@@ -8105,7 +8109,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.AnalyzePartialPartsAreCheckedOnTheirOwn",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.Analyze_PartialParts_AreCheckedOnTheirOwn",
       "expectedDiagnostic": "SCR0008"
     },
     {
@@ -8123,7 +8127,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.AnalyzeSeveralViolationsOnlyTheFirstIsReported",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.Analyze_SeveralViolations_OnlyTheFirstIsReported",
       "expectedDiagnostic": "SCR0008"
     },
     {
@@ -8141,7 +8145,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.AnalyzeMessageNamesBothMembers",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.Analyze_Message_NamesBothMembers",
       "expectedDiagnostic": "SCR0008"
     },
     {
@@ -8159,7 +8163,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.ExtensionBlockBetweenMembersPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.ExtensionBlock_BetweenMembers_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -8177,7 +8181,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.ExtensionBlockPrivateBeforePublicReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.ExtensionBlock_PrivateBeforePublic_Reports",
       "expectedDiagnostic": "SCR0008"
     },
     {
@@ -8195,7 +8199,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.ExtensionBlockNoModifierRanksAsPrivate",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.ExtensionBlock_NoModifier_RanksAsPrivate",
       "expectedDiagnostic": "SCR0008"
     },
     {
@@ -8213,7 +8217,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.GeneratedConfigurationCannotExemptHandwrittenCode",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.Analyze_HandwrittenWithGeneratedConfiguration_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0008"
     },
     {
@@ -8231,7 +8235,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Ascii119Utf16Units",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Analyze_Ascii119Utf16Units_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -8249,7 +8253,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Ascii120Utf16Units",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Analyze_Ascii120Utf16Units_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -8267,7 +8271,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Ascii121Utf16Units",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Analyze_Ascii121Utf16Units_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0007"
     },
     {
@@ -8285,7 +8289,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Cyrillic119Utf16Units",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Analyze_Cyrillic119Utf16Units_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -8303,7 +8307,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Cyrillic120Utf16Units",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Analyze_Cyrillic120Utf16Units_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -8321,7 +8325,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Cyrillic121Utf16Units",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Analyze_Cyrillic121Utf16Units_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0007"
     },
     {
@@ -8339,7 +8343,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Surrogate119Utf16Units",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Analyze_Surrogate119Utf16Units_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -8357,7 +8361,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Surrogate120Utf16Units",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Analyze_Surrogate120Utf16Units_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -8375,7 +8379,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Surrogate121Utf16Units",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Analyze_Surrogate121Utf16Units_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0007"
     },
     {
@@ -8393,7 +8397,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Combining119Utf16Units",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Analyze_Combining119Utf16Units_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -8411,7 +8415,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Combining120Utf16Units",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Analyze_Combining120Utf16Units_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -8429,7 +8433,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Combining121Utf16Units",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Analyze_Combining121Utf16Units_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0007"
     },
     {
@@ -8447,7 +8451,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.NullForgivingAnalyzerTests.GeneratedNullSuppressionIsRejected",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.NullForgivingAnalyzerTests.Analyze_GeneratedNullSuppression_Rejected",
       "expectedDiagnostic": "SCR0005"
     },
     {
@@ -8464,7 +8468,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.GeneratedLayoutAdapterTests.GeneratedLayoutHasPinnedOrigin",
+      "test": "KingdomZombies.Phase1.Tests.GeneratedLayoutAdapterTests.Check_GeneratedLayout_HasPinnedOrigin",
       "expectedDiagnostic": "GENERATED_LAYOUT_ORIGIN_EXACT",
       "rule": "RULE-03"
     },
@@ -8482,7 +8486,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.GeneratedLayoutAdapterTests.GeneratedLayoutPermissionsAreBounded",
+      "test": "KingdomZombies.Phase1.Tests.GeneratedLayoutAdapterTests.Check_GeneratedLayoutPermissions_StayBounded",
       "expectedDiagnostic": "GENERATED_LAYOUT_BOUNDARY_REJECTED",
       "rule": "RULE-03"
     },
@@ -8500,7 +8504,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.GeneratedLayoutAdapterTests.InvalidUtf8CannotBecomeACompliantSubject",
+      "test": "KingdomZombies.Phase1.Tests.GeneratedLayoutAdapterTests.Decode_InvalidUtf8_RejectsMalformedSubject",
       "expectedDiagnostic": "SOURCE_ENCODING_INVALID",
       "rule": "R-10"
     },
@@ -8519,7 +8523,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.AnalyzerSourceConsumerTests.AnalyzerSourcesPassTheirOwnRules",
+      "test": "KingdomZombies.Phase1.Tests.AnalyzerSourceConsumerTests.Analyze_OwnedAnalyzerSources_PassesAllTwelveRules",
       "expectedDiagnostic": "ANALYZER_SOURCE_CONSUMER_BUILT"
     },
     {
@@ -8537,7 +8541,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedAttributeArgument8SpacesPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedAttributeArgument_8Spaces_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -8555,7 +8559,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedAttributeArgument4Or12SpacesFails4",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_WrappedAttributeArgument4Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -8573,7 +8577,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedParameter8SpacesPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedParameter_8Spaces_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -8591,7 +8595,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedParameter4Or12SpacesFails4",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_WrappedParameter4Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -8609,7 +8613,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.FluentChain8SpacesPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.FluentChain_8Spaces_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -8627,7 +8631,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.FluentChain4Or12SpacesFails4",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_FluentChain4Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -8645,7 +8649,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalAccessChain8SpacesPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalAccessChain_8Spaces_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -8663,7 +8667,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalAccessChain4Or12SpacesFails4",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ConditionalAccessChain4Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -8681,7 +8685,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalAccessSteps8SpacesPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalAccessSteps_8Spaces_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -8699,7 +8703,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalAccessSteps4Or12SpacesFails4",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ConditionalAccessSteps4Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -8717,7 +8721,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.MixedChain8SpacesPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.MixedChain_8Spaces_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -8735,7 +8739,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.MixedChain4Or12SpacesFails4",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_MixedChain4Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -8753,7 +8757,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.LeadingBinaryOperator8SpacesPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.LeadingBinaryOperator_8Spaces_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -8771,7 +8775,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.LeadingBinaryOperator4Or12SpacesFails4",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_LeadingBinaryOperator4Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -8789,7 +8793,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.TrailingBinaryOperator8SpacesPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.TrailingBinaryOperator_8Spaces_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -8807,7 +8811,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.TrailingBinaryOperator4Or12SpacesFails4",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_TrailingBinaryOperator4Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -8825,7 +8829,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedIfCondition8SpacesPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedIfCondition_8Spaces_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -8843,7 +8847,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedIfCondition4Or12SpacesFails4",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_WrappedIfCondition4Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -8861,7 +8865,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalOperator8SpacesPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalOperator_8Spaces_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -8879,7 +8883,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalOperator4Or12SpacesFails4",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ConditionalOperator4Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -8897,7 +8901,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConstructorInitializer8SpacesPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConstructorInitializer_8Spaces_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -8915,7 +8919,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConstructorInitializer4Or12SpacesFails4",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ConstructorInitializer4Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -8933,7 +8937,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WhereClause8SpacesPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WhereClause_8Spaces_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -8951,7 +8955,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WhereClause4Or12SpacesFails4",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_WhereClause4Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -8969,7 +8973,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterEquals8SpacesPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterEquals_8Spaces_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -8987,7 +8991,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterEquals4Or12SpacesFails4",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ValueAfterEquals4Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9005,7 +9009,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterAssignment8SpacesPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterAssignment_8Spaces_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -9023,7 +9027,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterAssignment4Or12SpacesFails4",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ValueAfterAssignment4Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9041,7 +9045,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterReturn8SpacesPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterReturn_8Spaces_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -9059,7 +9063,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterReturn4Or12SpacesFails4",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ValueAfterReturn4Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9077,7 +9081,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ExpressionBodyArrow8SpacesPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ExpressionBodyArrow_8Spaces_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -9095,7 +9099,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ExpressionBodyArrow4Or12SpacesFails4",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ExpressionBodyArrow4Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9113,7 +9117,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.BaseList8SpacesPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.BaseList_8Spaces_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -9131,7 +9135,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.BaseList4Or12SpacesFails4",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_BaseList4Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9149,7 +9153,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.LambdaExpressionBody8SpacesPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.LambdaExpressionBody_8Spaces_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -9167,7 +9171,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.LambdaExpressionBody4Or12SpacesFails4",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_LambdaExpressionBody4Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9185,7 +9189,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.BlockLambdaBracesAtLambdaLineIndentPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.BlockLambdaBraces_AtLambdaLineIndent_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -9203,7 +9207,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.BlockLambdaBraces4Or8SpacesFails4",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_BlockLambdaBraces4Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9221,7 +9225,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.CollectionOpenBracketAtEqualsLineIndentPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.CollectionOpenBracket_AtEqualsLineIndent_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -9239,7 +9243,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.CollectionOpenBracket4Or8SpacesFails4",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_CollectionOpenBracket4Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9257,7 +9261,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.OneLineCollectionAfterEquals8SpacesPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.OneLineCollectionAfterEquals_8Spaces_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -9275,7 +9279,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.OneLineCollectionAfterEquals0Or12SpacesFails0",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_OneLineCollectionAfterEquals0Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9293,7 +9297,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.CollectionElement4SpacesPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.CollectionElement_4Spaces_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -9311,7 +9315,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.CollectionElement0Or8SpacesFails0",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_CollectionElement0Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9329,7 +9333,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.CollectionCloseBracketAtOpenLineIndentPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.CollectionCloseBracket_AtOpenLineIndent_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -9347,7 +9351,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.CollectionCloseBracket4SpacesFails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.CollectionCloseBracket_4Spaces_Fails",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9365,7 +9369,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.NestedContinuations8SpacesPastTheirOwnLinePass",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.NestedContinuations_8SpacesPastTheirOwnLine_Pass",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -9383,7 +9387,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.NestedArgumentAtOuterIndentFails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.NestedArgument_AtOuterIndent_Fails",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9401,7 +9405,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.InitializersAnyIndentNotReported",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Initializers_AnyIndent_NotReported",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -9419,7 +9423,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.SwitchExpressionAndQueryAnyIndentNotReported",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.SwitchExpressionAndQuery_AnyIndent_NotReported",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -9437,7 +9441,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.StringLiteralLinesAnyIndentNotReported",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.StringLiteralLines_AnyIndent_NotReported",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -9455,7 +9459,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.OtherKindsAnyIndentNotReported",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.OtherKinds_AnyIndent_NotReported",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -9473,7 +9477,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.AgreedSamplesFormatterLeavesUnchangedAndNotReported",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Format_AgreedSamples_PreservesBytesAndHasNoDiagnostic",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -9491,7 +9495,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.AnalyzeGeneratedCodeIsSkipped",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_GeneratedCode_IsSkipped",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9509,7 +9513,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedArgumentOffset7Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_WrappedArgumentOffset7_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9527,7 +9531,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedArgumentOffset9Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_WrappedArgumentOffset9_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9545,7 +9549,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedAttributeArgumentOffset7Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_WrappedAttributeArgumentOffset7_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9563,7 +9567,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedAttributeArgumentOffset9Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_WrappedAttributeArgumentOffset9_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9581,7 +9585,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedParameterOffset7Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_WrappedParameterOffset7_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9599,7 +9603,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedParameterOffset9Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_WrappedParameterOffset9_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9617,7 +9621,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.FluentChainOffset7Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_FluentChainOffset7_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9635,7 +9639,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.FluentChainOffset9Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_FluentChainOffset9_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9653,7 +9657,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalAccessChainOffset7Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ConditionalAccessChainOffset7_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9671,7 +9675,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalAccessChainOffset9Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ConditionalAccessChainOffset9_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9689,7 +9693,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalAccessStepsOffset7Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ConditionalAccessStepsOffset7_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9707,7 +9711,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalAccessStepsOffset9Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ConditionalAccessStepsOffset9_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9725,7 +9729,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.MixedChainOffset7Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_MixedChainOffset7_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9743,7 +9747,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.MixedChainOffset9Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_MixedChainOffset9_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9761,7 +9765,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.LeadingBinaryOperatorOffset7Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_LeadingBinaryOperatorOffset7_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9779,7 +9783,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.LeadingBinaryOperatorOffset9Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_LeadingBinaryOperatorOffset9_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9797,7 +9801,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.TrailingBinaryOperatorOffset7Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_TrailingBinaryOperatorOffset7_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9815,7 +9819,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.TrailingBinaryOperatorOffset9Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_TrailingBinaryOperatorOffset9_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9833,7 +9837,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedIfConditionOffset7Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_WrappedIfConditionOffset7_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9851,7 +9855,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedIfConditionOffset9Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_WrappedIfConditionOffset9_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9869,7 +9873,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalOperatorOffset7Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ConditionalOperatorOffset7_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9887,7 +9891,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalOperatorOffset9Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ConditionalOperatorOffset9_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9905,7 +9909,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConstructorInitializerOffset7Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ConstructorInitializerOffset7_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9923,7 +9927,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConstructorInitializerOffset9Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ConstructorInitializerOffset9_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9941,7 +9945,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WhereClauseOffset7Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_WhereClauseOffset7_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9959,7 +9963,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WhereClauseOffset9Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_WhereClauseOffset9_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9977,7 +9981,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterEqualsOffset7Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ValueAfterEqualsOffset7_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -9995,7 +9999,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterEqualsOffset9Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ValueAfterEqualsOffset9_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10013,7 +10017,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterAssignmentOffset7Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ValueAfterAssignmentOffset7_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10031,7 +10035,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterAssignmentOffset9Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ValueAfterAssignmentOffset9_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10049,7 +10053,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterReturnOffset7Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ValueAfterReturnOffset7_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10067,7 +10071,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterReturnOffset9Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ValueAfterReturnOffset9_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10085,7 +10089,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ExpressionBodyArrowOffset7Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ExpressionBodyArrowOffset7_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10103,7 +10107,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ExpressionBodyArrowOffset9Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ExpressionBodyArrowOffset9_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10121,7 +10125,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.BaseListOffset7Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_BaseListOffset7_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10139,7 +10143,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.BaseListOffset9Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_BaseListOffset9_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10157,7 +10161,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.LambdaExpressionBodyOffset7Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_LambdaExpressionBodyOffset7_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10175,7 +10179,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.LambdaExpressionBodyOffset9Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_LambdaExpressionBodyOffset9_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10193,7 +10197,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.OneLineCollectionOffset7Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_OneLineCollectionOffset7_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10211,7 +10215,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.OneLineCollectionOffset9Fails",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_OneLineCollectionOffset9_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10229,7 +10233,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeMicrosoftBeforeSystemReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.Analyze_MicrosoftBeforeSystem_Reports",
       "expectedDiagnostic": "SCR0010"
     },
     {
@@ -10247,7 +10251,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeNonSystemOutOfOrderReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.Analyze_NonSystemOutOfOrder_Reports",
       "expectedDiagnostic": "SCR0010"
     },
     {
@@ -10265,7 +10269,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.SystemPrefixWithoutDotSortsWithOthersPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.SystemPrefixWithoutDot_SortsWithOthers_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -10283,7 +10287,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeCaseIgnoredPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.Analyze_CaseIgnored_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -10301,7 +10305,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeCaseIgnoredReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.Analyze_CaseIgnored_Reports",
       "expectedDiagnostic": "SCR0010"
     },
     {
@@ -10319,7 +10323,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.StaticAfterPlainAliasesLastPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.StaticAfterPlain_AliasesLast_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -10337,7 +10341,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeStaticBeforePlainReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.Analyze_StaticBeforePlain_Reports",
       "expectedDiagnostic": "SCR0010"
     },
     {
@@ -10355,7 +10359,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeAliasBeforeStaticReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.Analyze_AliasBeforeStatic_Reports",
       "expectedDiagnostic": "SCR0010"
     },
     {
@@ -10373,7 +10377,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeStaticGroupOutOfOrderReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.Analyze_StaticGroupOutOfOrder_Reports",
       "expectedDiagnostic": "SCR0010"
     },
     {
@@ -10391,7 +10395,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeAliasesOutOfOrderReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.Analyze_AliasesOutOfOrder_Reports",
       "expectedDiagnostic": "SCR0010"
     },
     {
@@ -10409,7 +10413,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeGlobalUsingsFirstPass",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.Analyze_GlobalUsingsFirst_Pass",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -10427,7 +10431,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeGlobalUsingsOutOfOrderReport",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.Analyze_GlobalUsingsOutOfOrder_Report",
       "expectedDiagnostic": "SCR0010"
     },
     {
@@ -10445,7 +10449,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeOnlyFirstViolationReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.Analyze_OnlyFirstViolation_Reports",
       "expectedDiagnostic": "SCR0010"
     },
     {
@@ -10463,7 +10467,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.NamespaceBlockCheckedOnItsOwnPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.NamespaceBlock_CheckedOnItsOwn_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -10481,7 +10485,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeNamespaceBlockOutOfOrderReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.Analyze_NamespaceBlockOutOfOrder_Reports",
       "expectedDiagnostic": "SCR0010"
     },
     {
@@ -10499,7 +10503,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeFileScopedNamespaceOutOfOrderReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.Analyze_FileScopedNamespaceOutOfOrder_Reports",
       "expectedDiagnostic": "SCR0010"
     },
     {
@@ -10517,7 +10521,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeMessageNamesBothDirectives",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.Analyze_Message_NamesBothDirectives",
       "expectedDiagnostic": "SCR0010"
     },
     {
@@ -10535,7 +10539,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.AnalyzeGeneratedCodeIsSkipped",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.Analyze_GeneratedCode_IsSkipped",
       "expectedDiagnostic": "SCR0010"
     },
     {
@@ -10553,7 +10557,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedArgument4Or12SpacesFails12",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_WrappedArgument12Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10571,7 +10575,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedAttributeArgument4Or12SpacesFails12",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_WrappedAttributeArgument12Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10589,7 +10593,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedParameter4Or12SpacesFails12",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_WrappedParameter12Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10607,7 +10611,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.FluentChain4Or12SpacesFails12",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_FluentChain12Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10625,7 +10629,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalAccessChain4Or12SpacesFails12",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ConditionalAccessChain12Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10643,7 +10647,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalAccessSteps4Or12SpacesFails12",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ConditionalAccessSteps12Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10661,7 +10665,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.MixedChain4Or12SpacesFails12",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_MixedChain12Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10679,7 +10683,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.LeadingBinaryOperator4Or12SpacesFails12",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_LeadingBinaryOperator12Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10697,7 +10701,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.TrailingBinaryOperator4Or12SpacesFails12",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_TrailingBinaryOperator12Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10715,7 +10719,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedIfCondition4Or12SpacesFails12",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_WrappedIfCondition12Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10733,7 +10737,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConditionalOperator4Or12SpacesFails12",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ConditionalOperator12Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10751,7 +10755,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ConstructorInitializer4Or12SpacesFails12",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ConstructorInitializer12Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10769,7 +10773,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WhereClause4Or12SpacesFails12",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_WhereClause12Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10787,7 +10791,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterEquals4Or12SpacesFails12",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ValueAfterEquals12Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10805,7 +10809,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterAssignment4Or12SpacesFails12",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ValueAfterAssignment12Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10823,7 +10827,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ValueAfterReturn4Or12SpacesFails12",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ValueAfterReturn12Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10841,7 +10845,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.ExpressionBodyArrow4Or12SpacesFails12",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_ExpressionBodyArrow12Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10859,7 +10863,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.BaseList4Or12SpacesFails12",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_BaseList12Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10877,7 +10881,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.LambdaExpressionBody4Or12SpacesFails12",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_LambdaExpressionBody12Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10895,7 +10899,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.BlockLambdaBraces4Or8SpacesFails8",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_BlockLambdaBraces8Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10913,7 +10917,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.CollectionOpenBracket4Or8SpacesFails8",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_CollectionOpenBracket8Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10931,7 +10935,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.OneLineCollectionAfterEquals0Or12SpacesFails12",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_OneLineCollectionAfterEquals12Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10949,7 +10953,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.CollectionElement0Or8SpacesFails8",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.Analyze_CollectionElement8Spaces_ReportsDiagnostic",
       "expectedDiagnostic": "SCR0009"
     },
     {
@@ -10967,7 +10971,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ThisQualificationAnalyzerTests.AnalyzeMethodCallReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ThisQualificationAnalyzerTests.Analyze_MethodCall_Reports",
       "expectedDiagnostic": "SCR0011"
     },
     {
@@ -10985,7 +10989,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ThisQualificationAnalyzerTests.AnalyzePropertyAndEventReport",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ThisQualificationAnalyzerTests.Analyze_PropertyAndEvent_Report",
       "expectedDiagnostic": "SCR0011"
     },
     {
@@ -11003,7 +11007,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ThisQualificationAnalyzerTests.AnalyzeConstructorChainingPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ThisQualificationAnalyzerTests.Analyze_ConstructorChaining_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -11021,7 +11025,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ThisQualificationAnalyzerTests.AnalyzeThisAsValuePasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ThisQualificationAnalyzerTests.Analyze_ThisAsValue_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -11039,7 +11043,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ThisQualificationAnalyzerTests.AnalyzeIndexerPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ThisQualificationAnalyzerTests.Analyze_Indexer_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -11057,7 +11061,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ThisQualificationAnalyzerTests.AnalyzeExtensionMethodParameterPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ThisQualificationAnalyzerTests.Analyze_ExtensionMethodParameter_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -11075,7 +11079,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ThisQualificationAnalyzerTests.ExtensionMethodCallOnThisPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ThisQualificationAnalyzerTests.ExtensionMethodCall_OnThis_Passes",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -11093,7 +11097,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ThisQualificationAnalyzerTests.ExtensionMemberOnThisPasses",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ThisQualificationAnalyzerTests.ExtensionMember_OnThis_Passes",
       "expectedDiagnostic": "SCR0011"
     },
     {
@@ -11111,7 +11115,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.ThisQualificationAnalyzerTests.AnalyzeGeneratedCodeIsSkipped",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.ThisQualificationAnalyzerTests.Analyze_GeneratedCode_IsSkipped",
       "expectedDiagnostic": "SCR0011"
     },
     {
@@ -11129,7 +11133,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LocalNewDeclarationAnalyzerTests.AnalyzeTargetTypedNewWithArgumentsAndInitializerReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LocalNewDeclarationAnalyzerTests.Analyze_TargetTypedNewWithArgumentsAndInitializer_Reports",
       "expectedDiagnostic": "SCR0012"
     },
     {
@@ -11147,7 +11151,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LocalNewDeclarationAnalyzerTests.AnalyzeTypedLocalWithExplicitNewIsNotReported",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LocalNewDeclarationAnalyzerTests.Analyze_TypedLocalWithExplicitNew_IsNotReported",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -11165,7 +11169,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LocalNewDeclarationAnalyzerTests.AnalyzeFieldAndPropertyPass",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LocalNewDeclarationAnalyzerTests.Analyze_FieldAndProperty_Pass",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -11183,7 +11187,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LocalNewDeclarationAnalyzerTests.AnalyzeArgumentAndReturnValuePass",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LocalNewDeclarationAnalyzerTests.Analyze_ArgumentAndReturnValue_Pass",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -11201,7 +11205,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LocalNewDeclarationAnalyzerTests.AnalyzeUsingAndAwaitUsingDeclarationsReport",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LocalNewDeclarationAnalyzerTests.Analyze_UsingAndAwaitUsingDeclarations_Report",
       "expectedDiagnostic": "SCR0012"
     },
     {
@@ -11219,7 +11223,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LocalNewDeclarationAnalyzerTests.AnalyzeForInitializerAndUsingStatementReport",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LocalNewDeclarationAnalyzerTests.Analyze_ForInitializerAndUsingStatement_Report",
       "expectedDiagnostic": "SCR0012"
     },
     {
@@ -11237,7 +11241,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LocalNewDeclarationAnalyzerTests.AnalyzeSeveralDeclaratorsPass",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LocalNewDeclarationAnalyzerTests.Analyze_SeveralDeclarators_Pass",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -11255,7 +11259,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LocalNewDeclarationAnalyzerTests.AnalyzeOtherInitializersPass",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LocalNewDeclarationAnalyzerTests.Analyze_OtherInitializers_Pass",
       "expectedDiagnostic": "ANALYZER_ACCEPTED"
     },
     {
@@ -11273,7 +11277,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LocalNewDeclarationAnalyzerTests.AnalyzeTopLevelStatementReports",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LocalNewDeclarationAnalyzerTests.Analyze_TopLevelStatement_Reports",
       "expectedDiagnostic": "SCR0012"
     },
     {
@@ -11291,7 +11295,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LocalNewDeclarationAnalyzerTests.AnalyzeMessageNamesLocalAndType",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LocalNewDeclarationAnalyzerTests.Analyze_Message_NamesLocalAndType",
       "expectedDiagnostic": "SCR0012"
     },
     {
@@ -11309,7 +11313,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.Analyzers.LocalNewDeclarationAnalyzerTests.AnalyzeGeneratedCodeIsSkipped",
+      "test": "KingdomZombies.Phase1.Tests.Analyzers.LocalNewDeclarationAnalyzerTests.Analyze_GeneratedCode_IsSkipped",
       "expectedDiagnostic": "SCR0012"
     },
     {
@@ -11327,7 +11331,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.GeneratedSyntaxAdapterTests.GeneratedSyntaxHasPinnedOrigin",
+      "test": "KingdomZombies.Phase1.Tests.GeneratedSyntaxAdapterTests.Check_GeneratedSyntax_HasPinnedOrigin",
       "expectedDiagnostic": "GENERATED_SYNTAX_ORIGIN_EXACT"
     },
     {
@@ -11345,7 +11349,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.GeneratedSyntaxAdapterTests.GeneratedSyntaxPermissionsAreBounded",
+      "test": "KingdomZombies.Phase1.Tests.GeneratedSyntaxAdapterTests.Check_GeneratedSyntaxPermissions_StayBounded",
       "expectedDiagnostic": "GENERATED_SYNTAX_BOUNDARY_REJECTED"
     },
     {
@@ -11363,7 +11367,7 @@
         "actual-test-report"
       ],
       "implementation": "csharp",
-      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.RealConsumerRejectsSixtyFirstBodyLine",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Build_SixtyFirstBodyLine_ReportsScr0006",
       "expectedDiagnostic": "REAL_BUILD_SCR0006"
     },
     {
