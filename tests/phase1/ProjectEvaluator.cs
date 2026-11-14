@@ -109,7 +109,8 @@ internal static class ProjectEvaluator
             }
 
             string[] expected = StringComparer.Ordinal.Equals(x: project, y: _expected[2])
-                    ? [_expected[0], _expected[1]] : [];
+                    ? [_expected[0], _expected[1]] : StringComparer.Ordinal.Equals(x: project, y: _expected[4])
+                            ? [_expected[0]] : [];
             if (item?.AsObject().Count != 3 || !edges.Order(comparer: StringComparer.Ordinal).SequenceEqual(
                     second: expected.Order(comparer: StringComparer.Ordinal), comparer: StringComparer.Ordinal))
             {

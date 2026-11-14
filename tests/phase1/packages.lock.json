@@ -202,6 +202,9 @@
           "xunit.v3.runner.common": "[4.0.2]"
         }
       },
+      "kingdomzombies.core": {
+        "type": "Project"
+      },
       "Microsoft.CodeAnalysis.Analyzers": {
         "type": "CentralTransitive",
         "requested": "[5.9.0, 5.9.0]",

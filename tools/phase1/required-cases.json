@@ -12313,6 +12313,96 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.GraphTests.Build_UndeclaredTransitiveEngineType_ReportsCs0012",
       "expectedDiagnostic": "CS0012"
+    },
+    {
+      "id": "state.inputs",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-10",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.StateInputTests.Advance_ControlledInputs_PreservesValuesAndIdentities",
+      "expectedDiagnostic": "CONTROLLED_ADVANCE"
+    },
+    {
+      "id": "state.numeric",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-10",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.StateInputTests.Advance_NumericNeighbors_PreservesOldRoot",
+      "expectedDiagnostic": "CHECKED_MILLISECONDS"
+    },
+    {
+      "id": "state.identities",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-10",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.StateInputTests.Identity_ExactUnicode_PreservesDistinctValues",
+      "expectedDiagnostic": "ORDINAL_UTF16"
+    },
+    {
+      "id": "state.ownership",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-10",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.StateInputTests.Construct_CandidateCollections_ValidatesAndDetaches",
+      "expectedDiagnostic": "DETACHED_VALIDATED_STATE"
+    },
+    {
+      "id": "state.repeat",
+      "group": "state",
+      "rule": "RULE-07",
+      "owner": "01-10",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.StateInputTests.Advance_IndependentRuns_ProducesExactState",
+      "expectedDiagnostic": "IDENTICAL_EXPLICIT_INPUTS"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."
