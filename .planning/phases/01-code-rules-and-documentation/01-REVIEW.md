@@ -1,9 +1,10 @@
 ---
 phase: 01-code-rules-and-documentation
-reviewed: 2026-11-14T17:33:08Z
-revision: 6d208727543eb462f3495515f9928acd8075a0e3
+reviewed: 2026-11-14T18:22:19Z
+revision: 5bb1a8d784f652fc05f0c768c93aa93645bcc3d4
 depth: standard
-files_reviewed: 182
+iteration: 1
+files_reviewed: 185
 files_reviewed_list:
   - .config/dotnet-tools.json
   - .editorconfig
@@ -95,6 +96,8 @@ files_reviewed_list:
   - tests/phase1/BoundaryFixture.cs
   - tests/phase1/BuildFixture.cs
   - tests/phase1/ConfigurationTests.cs
+  - tests/phase1/ConsumerCompilation.cs
+  - tests/phase1/ConsumerPolicyTests.cs
   - tests/phase1/ControlledElapsed.cs
   - tests/phase1/ControlledInputPolicy.cs
   - tests/phase1/ControlledRandom.cs
@@ -114,6 +117,7 @@ files_reviewed_list:
   - tests/phase1/EngineEvidencePolicy.cs
   - tests/phase1/EngineEvidenceTests.cs
   - tests/phase1/EngineGeneratedTests.cs
+  - tests/phase1/EngineOperationTests.cs
   - tests/phase1/EngineRun.cs
   - tests/phase1/ExemptionTests.cs
   - tests/phase1/ExemptionValidator.cs
@@ -188,127 +192,71 @@ files_reviewed_list:
   - tools/phase1/required-cases.json
   - tools/phase1/toolchain.json
 findings:
-  critical: 2
-  warning: 2
+  critical: 0
+  warning: 0
   info: 0
-  total: 4
+  total: 0
   necessity: 0
-status: issues_found
+status: clean
 ---
 
 # Phase 1: Code Review Report
 
-**Reviewed:** 2026-11-14T17:33:08Z
-**Revision:** `6d208727543eb462f3495515f9928acd8075a0e3`
-**Depth:** standard
-**Files Reviewed:** 182
-**Status:** issues_found
+**Reviewed:** 2026-11-14T18:22:19Z  
+**Revision:** `5bb1a8d784f652fc05f0c768c93aa93645bcc3d4`  
+**Depth:** standard  
+**Files Reviewed:** 185  
+**Status:** clean
 
 ## Summary
 
-The supplied scope contains 188 existing paths. This report covers its 182 reviewable source, configuration and documentation paths; the five dependency locks and immutable donor ZIP were inspected for dependency/provenance context and excluded from the source count. The historical deleted `src/godot-game/GeneratedLifecycleAdapters.cs` is not a current deliverable. The supplied explicit scope was used directly, rather than the narrower SDK phase evaluation.
+All four findings from the initial review are resolved. The independent followup inspected the actual four repair commits and the complete changes from `0276ea8` through the reviewed revision, read the three new source files, and traced the new compiler-input reader through its engine, suppression, random, service-locator and visibility callers. No remaining or new evidence-backed defect was found. All reviewed files meet quality standards. No issues found.
 
-The findings concern enforcement behavior: active conditional branches escape source-policy checks, method groups and implicit property references escape the engine operation scan, the visibility proof has an incomplete actual-source inventory, and the R-16 negative proof fails for an unrelated undefined type. These are defects in required checks, even though the current native fixture's ordinary calls are guarded. No current fixture crash, snapshot corruption, secret exposure or dependency-acquisition exploit was established.
+The 182-file initial standard review is retained for unchanged content. The exact scope above adds `ConsumerCompilation.cs`, `ConsumerPolicyTests.cs` and `EngineOperationTests.cs`, giving 185 reviewed source/configuration/documentation files. The original supplied 188 existing paths also included five dependency locks and an immutable donor ZIP, inspected as dependency/provenance context rather than counted as source. The historical deleted `src/godot-game/GeneratedLifecycleAdapters.cs` remains outside current deliverables. This followup reused the completed review of unchanged files instead of rereading unchanged large tables.
 
-Review followed the actual Core, Godot, analyzer, runner and policy call paths, inspected their configuration and declared fixture/permission inventories, and checked C# fixture syntax and asynchronous verification call structure. All 170 engine permission table entries were reconciled across their complete diagnostic/path/text-hash/span fields; all 85 current rule bindings, 678 case declarations and 151 captured-file metadata rows were inspected. The 670 implemented declarations map uniquely to their actual source trait/method identities, and the 290 Task-returning verification wrappers return their tasks. These inspections are review context rather than proof of overall correctness. Focused demonstrations invoked existing policy code through reflection and compiled independent subjects in memory using the actual .NET/Godot references. They changed no source or tests. No new full Windows or Linux suite was run. An apparent missing-import concern was rejected after the actual isolated locked solution restore succeeded in the permitted process context.
-
-The creator's 2026-11-14 acceptance amendment is respected. The eight named Phase 5 aggregate/coverage obligations, nine known Linux canonical timeouts, historical missing initial RED evidence, and fourteen Pending human components are separate recorded acceptance conditions, not new source findings here. This report supplies no human qualitative approval. Necessity was assessed using the repository rubric; no evidence-backed necessity defect was found. No structural pre-pass or external reviewer evidence was supplied.
+The original findings, exact locations and independent false-acceptance demonstrations are preserved in the committed initial report at `0276ea8:.planning/phases/01-code-rules-and-documentation/01-REVIEW.md`. The [repair report](01-REVIEW-FIX.md) preserves the applied fixes and their earlier focused RED/GREEN records. This report replaces the active finding counts after independent verification; it does not erase the initial evidence.
 
 ## Narrative Findings (AI reviewer)
 
-## Critical Issues
+No active findings. Necessity was assessed with the repository rubric; no evidence-backed necessity defect was found. No structural pre-pass or external reviewer lane was supplied.
 
-### CR-01: Active consumer preprocessor branches bypass engine and suppression policies
+## Verified dispositions of initial findings
 
-**Classification:** BLOCKER
-**File:** `D:/Work/Games/KingdomZombies/tests/phase1/EngineAccessPolicy.cs:17`
-**Related locations:** `D:/Work/Games/KingdomZombies/tests/phase1/EngineAccessPolicy.cs:116`; `D:/Work/Games/KingdomZombies/tests/phase1/ExemptionValidator.cs:20`; `D:/Work/Games/KingdomZombies/tests/phase1/EngineBoundaryTests.cs:36`
-**Issue:** Both the single-subject and repository paths reparse C# with default parse options. The real game consumer defines symbols including `DEBUG`, `GODOT_WINDOWS` and `TOOLS`; the checker supplies none of them. Consequently, code under an active consumer branch such as `#if DEBUG` becomes disabled text in the checker's tree and is never examined. A forbidden engine call can compile into the actual Debug game while the required engine source check reports no violation.
+| Original finding | Fix commit | Independent disposition |
+| --- | --- | --- |
+| CR-01: Active consumer branches bypass engine and suppression policies | `330a42750499090303c566eb10ed5152b981d725` | Resolved. Selected consumer evaluation supplies actual Debug symbols, language version, Compile inventory and resolved references. |
+| CR-02: Native method groups and implicit inherited member references escape the engine scan | `8ebbc1d030a7da1ba8d02583047b7cd5163ec373` | Resolved. Semantic operations include method references, bare properties and fields; native captures are rejected even after a capture-time guard. |
+| WR-01: Visibility proof checks only four fixed files | `3da7114f28875b6db9bcc0ab8528916ad409deee` | Resolved. R-34's actual positive invokes the repository scan over all three production consumers' evaluated authored Compile inputs. |
+| WR-02: Implicit-usings negative fails for an unrelated missing type | `5c52a20c9fdabe9fad085e97333ca65d1ec8b219` | Resolved. The negative uses real unqualified `Uri`; identical bytes change from rejected to compiled to rejected solely with the consumer's disable/enable/disable setting. |
 
-A concrete subject is:
+For CR-01, `ConsumerCompilation.Read` evaluates `ResolveReferences`, `DefineConstants`, `LangVersion`, `Compile` and `ReferencePath` in the selected consumer and explicit root. Context is local to one scan, with no global evaluation cache; source contents are read afresh by `Create`. Replacement and emitted companion trees use the same parse options. Compiler errors fail the engine scan closed before unresolved operations can disappear. The repository suppression path requires exactly one evaluated owner for each tracked checked C# file, and unresolved attribute identities fail closed. The new controls require the actual `DEBUG`, `TOOLS` and platform symbols, reject active forbidden calls, accept their inverse inactive branches, and demonstrate an active unregistered suppression silencing the actual analyzer while the source policy rejects it.
 
-```csharp
-#if DEBUG
-namespace KingdomZombies.Proofs;
-internal static class Subject
-{
-    internal static void Run(Godot.Node node)
-    {
-        node.QueueFree();
-    }
-}
-#endif
-```
+For CR-02, inspection confirmed the policy obtains native method/property/field identities from resolved Roslyn operations. A native method reference is rejected regardless of adapter permission, while a deferred authored wrapper remains subject to its own invocation-time guard. Direct-call permissions retain the exact path, namespace, type and method identities, preceding direct guard, and existing lambda/local-function/async exclusions. Fresh compiling subjects cover both captured and directly supplied `Task.Run` method groups, a capture inside the actual guarded adapter, a valid authored wrapper, a valid guarded direct call, bare inherited `Name` and `NotificationReady` references.
 
-The actual evaluated game `DefineConstants` includes `DEBUG`. In the focused demonstration, this subject had **zero compiler errors** with matching consumer parse symbols and **zero errors from `EngineAccessPolicy.Check`**. The same unwrapped call produced `ENGINE_ACCESS`. Passing the conditional tree parsed with the matching symbols to the existing `CheckTree` produced **one `ENGINE_ACCESS`**, independently isolating the parse-option mismatch. This is a concrete false acceptance, not a hypothesis about a future platform.
+For WR-01, the repository mechanism reads actual authored Compile items with each owner's explicit parse options; the exact three-type visibility registry remains unchanged. The fresh copied real consumer first compiles cleanly, then successfully compiles the existing `ExampleState.cs` made public under active `DEBUG` and receives the exact R-34 rejection. Its inverse inactive public declaration compiles semantically and is accepted. The register, matrix and independent binding definition point to `VisibilityRepository`.
 
-The same default-parser defect exists in `ExemptionValidator.CheckSource`. Wrapping an unregistered assembly `SuppressMessage` attribute in `#if DEBUG` hides it from the required suppression scan while the actual Debug compiler still applies it. A focused subject used this exact attribute inside the branch:
+For WR-02, the same subject bytes declare `Uri` at `Subject.cs(6,21)`. The new proof establishes the real copied Core consumer and subject-only inventory before its baseline; its analyzer bootstrap and severity settings remain enabled. It requires that exact CS0246 with implicit usings disabled, requires a successful build when only the Core XML setting enables them, and requires the same error after restoring disable. The positive explicitly qualifies `System.Uri`. The earlier unrelated IDE0005 attempt is not credited as behavior RED.
 
-```csharp
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage(
-    "Sebreiro.CodeRules", "SCR0001", Scope = "member",
-    Target = "~M:KingdomZombies.Core.Subject.Read",
-    Justification = "unregistered")]
-```
+## Independent focused verification
 
-Its `Subject.Read` returned `System.Math.Abs(-1)`. With `DEBUG` defined, the subject had **zero compiler errors**, **zero diagnostics from the actual NamedArgumentAnalyzer** because the suppression took effect, and **zero errors from `ExemptionValidator.CheckSource`**. Removing only the surrounding conditional directives made the same attribute produce **one unregistered-suppression error**. Thus an undeclared suppression can defeat both an enforced analyzer and its required source guard.
+All six existing regression cases were rerun through the canonical runner on Windows at revision `5bb1a8d784f652fc05f0c768c93aa93645bcc3d4`, input fingerprint `14ee4dbb6a303ab968e343bae54378606d2a951aaead8714b5f0ba42fae23359`. Each invocation accepted 1/1 selected obligation, reported no failure or skip, and had no nonzero/timed-out recorded command. The actual test reports and nonempty subject logs were inspected; their twelve SHA-256 entries were independently verified.
 
-**Fix:** Obtain the selected consumer's evaluated parse inputs, including its complete `DefineConstants` and language version, and use them consistently in the engine policy, suppression policy and other semantic source policies when parsing every actual handwritten and generated tree and every replacement subject. Prefer inspecting the actual consumer compilation rather than reconstructing a different one. Reject unresolved compilation prerequisites instead of accepting an incomplete semantic view. Add focused controls for an active `DEBUG` branch and an active evaluated Godot/platform symbol, alongside their inactive counterparts, including a conditional unregistered suppression that the actual analyzer would otherwise honor. Preserve existing exact generated permissions and the current test deadlines.
+| Exact case selector | Result | Canonical report |
+| --- | --- | --- |
+| `engine.consumer-branches` | Pass 1/1 | [de249278-a196-44f0-8c6d-3ac1d5a65127](../../../.phase1/runs/de249278-a196-44f0-8c6d-3ac1d5a65127/summary.json) |
+| `rules.suppression-conditional` | Pass 1/1 | [c1312a58-1e13-4749-91bd-5e83d723c6c9](../../../.phase1/runs/c1312a58-1e13-4749-91bd-5e83d723c6c9/summary.json) |
+| `engine.method-escape` | Pass 1/1 | [1c9ba8f3-0013-4a5d-a141-01295bf12970](../../../.phase1/runs/1c9ba8f3-0013-4a5d-a141-01295bf12970/summary.json) |
+| `engine.inherited-members` | Pass 1/1 | [9a7cf307-d56e-4841-9810-77e4f8937dd8](../../../.phase1/runs/9a7cf307-d56e-4841-9810-77e4f8937dd8/summary.json) |
+| `graph.visibility-inventory` | Pass 1/1 | [88042de4-9bb7-473b-9722-b7156dbcb680](../../../.phase1/runs/88042de4-9bb7-473b-9722-b7156dbcb680/summary.json) |
+| `rules.implicit-usings-control` | Pass 1/1 | [fb0cbb27-570e-4dbf-9736-0e3ea51bbf24](../../../.phase1/runs/fb0cbb27-570e-4dbf-9736-0e3ea51bbf24/summary.json) |
 
-### CR-02: Method groups and implicit native property references bypass the engine operation scan
+An independent complete-object comparison with `0276ea8` confirmed all 678 original manifest declarations are unchanged, with exactly these six additions. The current manifest therefore retains 676 required Phase 1 obligations and eight explicitly deferred Phase 5 cases, for 684 declarations. No permission registry, suppression allowance, deadline, threshold or previous case declaration was weakened by the repair diff.
 
-**Classification:** BLOCKER
-**File:** `D:/Work/Games/KingdomZombies/tests/phase1/EngineAccessPolicy.cs:30`
-**Related location:** `D:/Work/Games/KingdomZombies/tests/phase1/EngineAccessPolicy.cs:34`
-**Issue:** The checker examines only invocation, object creation and explicit member-access syntax, then explicitly skips member accesses whose symbol is a method. A Godot method converted into a delegate therefore escapes inspection. Invoking that delegate through `Task.Run` resolves to the System task API rather than to Godot, so neither the conversion nor the worker-thread native invocation is rejected.
-
-This compilable subject is accepted with no engine policy errors:
-
-```csharp
-namespace KingdomZombies.Proofs;
-internal static class Subject
-{
-    internal static System.Threading.Tasks.Task Run(Godot.Node node)
-    {
-        System.Action work = node.QueueFree;
-        return System.Threading.Tasks.Task.Run(action: work);
-    }
-}
-```
-
-The focused demonstration compiled this subject against the actual references with **zero compiler errors** and observed **zero `EngineAccessPolicy.Check` errors**; the equivalent direct `node.QueueFree()` call was rejected. The returned task executes an unguarded native operation on a worker and never passes through `MainThreadGateway`.
-
-The same restricted syntax inventory also misses inherited native property references written as bare identifiers. A `Godot.Node` subclass method returning `Name` compiled with **zero compiler errors** and produced **zero policy errors**, although it performs an unguarded Godot property read outside the declared adapters.
-
-**Fix:** Inspect semantic operations, including native `IMethodReferenceOperation`, `IPropertyReferenceOperation` and `IFieldReferenceOperation`, rather than relying on this limited syntax-node list. Reject escaping native method groups; checking the thread only when a delegate is captured would not protect its later execution. Require deferred work to call a wrapper that performs the existing guard at invocation/dispatch time. Add focused negative controls for a native method group handed to `Task.Run` and an unqualified inherited native property read, while retaining the valid guarded direct-call controls.
-
-## Warnings
-
-### WR-01: The visibility proof checks four fixed files instead of the production subject inventory
-
-**Classification:** WARNING
-**File:** `D:/Work/Games/KingdomZombies/tests/phase1/ArchitectureRuleTests.cs:16`
-**Related location:** `D:/Work/Games/KingdomZombies/tests/phase1/ArchitecturePolicy.cs:16`
-**Issue:** The actual R-34 positive proof sends only `ProofValue.cs`, `IProofService.cs`, `Phase1.cs` and the test `BoundaryEntity.cs` to the visibility checker. The only other visibility call is the isolated negative fixture. No repository-wide caller supplies the remaining production files. An undeclared public type in another existing production file therefore lies outside the required visibility proof, despite the exact three-type permission registry.
-
-For example, changing only `internal sealed class ExampleState` to `public sealed class ExampleState` is outside those four paths. An in-memory compilation of the actual Core sources with that change had **zero compiler errors**, and the existing R-63 model policy returned **zero errors**. Calling the visibility helper directly on that same source correctly returned `R-34: undeclared public type KingdomZombies.Core.ExampleState in src/core/ExampleState.cs`; the actual positive proof never makes that call. Thus the helper can identify the violation, but its repository invocation does not cover the source subject.
-
-**Fix:** Enumerate the selected production consumers' actual authored compile inputs and apply the exact visibility policy to every relevant type declaration. Keep tooling/test-public surfaces and genuine generated outputs under their existing explicit scopes rather than granting a blanket waiver. Add a controlled public-type mutation in an existing production file outside the current list and require the actual repository scan to reject it. The separate human judgment about whether a permitted API is necessary remains Pending.
-
-### WR-02: The implicit-usings negative proof succeeds for an unrelated missing type
-
-**Classification:** WARNING
-**File:** `D:/Work/Games/KingdomZombies/tests/phase1/EnforcementTests.cs:149`
-**Related locations:** `D:/Work/Games/KingdomZombies/docs/code/register.json:816`; `D:/Work/Games/KingdomZombies/tests/phase1/ConfigurationTests.cs:630`
-**Issue:** R-16 is bound to `<ImplicitUsings>disable</ImplicitUsings>`, but its independent negative proof returns the undefined type `Missing` and accepts CS0246 at that declaration. `Missing` is undefined regardless of whether SDK implicit usings are enabled. The test therefore passes after an unrelated missing-type failure and does not establish the claimed rule behavior.
-
-A focused compilation of the exact subject returned the same `Subject.cs(6,21): error CS0246` for `Missing` both without implicit globals and with the SDK's complete implicit global-using set. The existing effective-property configuration check still requires `ImplicitUsings=disable`; the defect is specifically the reliability and intended-subject meaning of this required negative case.
-
-**Fix:** Use an unqualified existing framework type, such as `Uri`, whose namespace is supplied by SDK implicit usings. Require that exact subject/location to fail with implicit usings disabled, and prove in an isolated consumer that enabling only implicit usings makes the same subject compile. Keep a compliant explicitly qualified/imported positive control. Do not use an invented type to supply the negative diagnostic.
+No new complete Windows or Linux suite was run by this reviewer. The prior full `f4658bb` reports are historical after these source repairs. Under the creator's latest platform instruction, final Phase 1 acceptance still requires fresh complete current-scope Windows and local Linux-VM runs for the stabilized implementation. The known historical Linux TCG timeouts establish no new source cause. The eight Phase 5 coverage/aggregate cases, inclusive 90/80 coverage targets, advanced certification, fourteen Pending human components and shared RULE requirements retain their recorded ownership/status. This code review provides no human qualitative sign-off and advances no phase-completion flag.
 
 ---
 
-_Reviewed: 2026-11-14T17:33:08Z_
-_Reviewer: the agent (gsd-code-reviewer)_
+_Reviewed: 2026-11-14T18:22:19Z_  
+_Reviewer: the agent (gsd-code-reviewer)_  
 _Depth: standard_
 
