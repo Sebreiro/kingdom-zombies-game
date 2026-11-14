@@ -1,0 +1,143 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+tab_width = 4
+
+[*.cs]
+
+# Indentation: 4 spaces, tab width 4, never tabs (D-84)
+indent_style = space
+indent_size = 4
+tab_width = 4
+
+# File-scoped namespaces
+csharp_style_namespace_declarations = file_scoped:error
+dotnet_diagnostic.IDE0161.severity = error
+
+# Braces always
+csharp_prefer_braces = true:error
+dotnet_diagnostic.IDE0011.severity = error
+
+# Usings: outside the namespace, System first, no unused usings
+csharp_using_directive_placement = outside_namespace:error
+dotnet_diagnostic.IDE0065.severity = error
+dotnet_sort_system_directives_first = true
+dotnet_diagnostic.IDE0005.severity = error
+
+# Formatting
+dotnet_diagnostic.IDE0055.severity = error
+
+# var only when the type is apparent; locals set with new use var (D-28)
+csharp_style_var_when_type_is_apparent = true:error
+csharp_style_var_for_built_in_types = false:error
+csharp_style_var_elsewhere = false:error
+dotnet_diagnostic.IDE0007.severity = error
+dotnet_diagnostic.IDE0008.severity = error
+
+# Target-typed new where var cannot be used (D-28)
+csharp_style_implicit_object_creation_when_type_is_apparent = true:error
+dotnet_diagnostic.IDE0090.severity = error
+
+# Collection expressions preferred
+dotnet_style_prefer_collection_expression = true:error
+dotnet_diagnostic.IDE0028.severity = error
+dotnet_diagnostic.IDE0300.severity = error
+dotnet_diagnostic.IDE0301.severity = error
+dotnet_diagnostic.IDE0302.severity = error
+dotnet_diagnostic.IDE0303.severity = error
+dotnet_diagnostic.IDE0304.severity = error
+dotnet_diagnostic.IDE0305.severity = error
+
+# Null checks use is null / is not null
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:error
+dotnet_diagnostic.IDE0041.severity = error
+dotnet_diagnostic.RCS1248.severity = error
+roslynator_null_check_style = pattern_matching
+
+# Block bodies for methods, constructors, operators and local functions
+csharp_style_expression_bodied_methods = false:error
+csharp_style_expression_bodied_constructors = false:error
+csharp_style_expression_bodied_operators = false:error
+csharp_style_expression_bodied_local_functions = false:error
+dotnet_diagnostic.IDE0021.severity = error
+dotnet_diagnostic.IDE0022.severity = error
+dotnet_diagnostic.IDE0023.severity = error
+dotnet_diagnostic.IDE0024.severity = error
+dotnet_diagnostic.IDE0061.severity = error
+
+# No this. qualification (not reported at build time; the custom rule covers it)
+dotnet_style_qualification_for_field = false:error
+dotnet_style_qualification_for_property = false:error
+dotnet_style_qualification_for_method = false:error
+dotnet_style_qualification_for_event = false:error
+dotnet_diagnostic.IDE0003.severity = error
+dotnet_diagnostic.IDE0009.severity = error
+
+# Naming: private fields (instance and static) are _camelCase, constants are PascalCase
+dotnet_diagnostic.IDE1006.severity = error
+
+dotnet_naming_rule.private_constants_are_pascal_case.symbols = private_constant_symbols
+dotnet_naming_rule.private_constants_are_pascal_case.style = pascal_case_style
+dotnet_naming_rule.private_constants_are_pascal_case.severity = error
+
+dotnet_naming_rule.constants_are_pascal_case.symbols = constant_symbols
+dotnet_naming_rule.constants_are_pascal_case.style = pascal_case_style
+dotnet_naming_rule.constants_are_pascal_case.severity = error
+
+dotnet_naming_rule.private_fields_are_underscore_camel_case.symbols = private_field_symbols
+dotnet_naming_rule.private_fields_are_underscore_camel_case.style = underscore_camel_case_style
+dotnet_naming_rule.private_fields_are_underscore_camel_case.severity = error
+
+dotnet_naming_symbols.private_constant_symbols.applicable_kinds = field
+dotnet_naming_symbols.private_constant_symbols.applicable_accessibilities = private
+dotnet_naming_symbols.private_constant_symbols.required_modifiers = const
+
+dotnet_naming_symbols.constant_symbols.applicable_kinds = field, local
+dotnet_naming_symbols.constant_symbols.applicable_accessibilities = *
+dotnet_naming_symbols.constant_symbols.required_modifiers = const
+
+dotnet_naming_symbols.private_field_symbols.applicable_kinds = field
+dotnet_naming_symbols.private_field_symbols.applicable_accessibilities = private
+
+dotnet_naming_style.pascal_case_style.capitalization = pascal_case
+
+dotnet_naming_style.underscore_camel_case_style.capitalization = camel_case
+dotnet_naming_style.underscore_camel_case_style.required_prefix = _
+
+# Classes sealed by default, public types included
+dotnet_diagnostic.MA0053.severity = error
+MA0053.public_class_should_be_sealed = true
+dotnet_diagnostic.CA1852.severity = error
+
+# One type per file, named after the file
+dotnet_diagnostic.MA0048.severity = error
+
+# ConfigureAwait(false) on every await; switched off for LangProject.Core.* below (D-29)
+dotnet_diagnostic.MA0004.severity = none
+
+# No underscores in member names; switched off for the three test projects below (D-33)
+dotnet_diagnostic.CA1707.severity = error
+
+# Logging only through [LoggerMessage] (D-30)
+dotnet_diagnostic.CA1848.severity = error
+dotnet_diagnostic.CA1873.severity = error
+
+# Exemption: superseded by the custom body-length rule (D-24)
+dotnet_diagnostic.MA0051.severity = none
+
+
+dotnet_diagnostic.RS0030.severity = error
+dotnet_diagnostic.MA0137.severity = none
+dotnet_diagnostic.MA0156.severity = none
+
+[src/{core,multiplayer-abstractions}/**.cs]
+dotnet_diagnostic.MA0004.severity = error
+
+[tests/phase1/**.cs]
+dotnet_diagnostic.CA1707.severity = none

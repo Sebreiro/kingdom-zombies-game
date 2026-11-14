@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "rule": "R-34",
+  "permissions": [
+    { "path": "src/core/ProofValue.cs", "type": "KingdomZombies.Core.ProofValue", "reason": "The game composition proof consumes this explicit immutable cross-assembly value contract." },
+    { "path": "src/multiplayer-abstractions/IProofService.cs", "type": "KingdomZombies.Multiplayer.Abstractions.IProofService", "reason": "An independent provider must implement this explicit cross-assembly service port." },
+    { "path": "src/godot-game/proofs/Phase1.cs", "type": "KingdomZombies.Proofs.Phase1", "reason": "The observed Godot scene script and its generated partial expose this exact engine-facing type. This grants no other script or generated source permission." }
+  ],
+  "positiveProof": "R-34.positive",
+  "negativeProof": "R-34.negative"
+}

@@ -1,0 +1,326 @@
+{
+  "schemaVersion": 1,
+  "plan": "01-14",
+  "status": "complete",
+  "mainHead": "a8ebbf6e37849919ca687a588b695b784c0dce8e",
+  "planHeadBefore": "e1f3e372b0ec5f6e9e9d54d47073904421682625",
+  "commits": 5,
+  "ownedTaskCommits": [
+    "8f46d27",
+    "a8ebbf6"
+  ],
+  "files": [
+    "docs/architecture/README.md",
+    "src/core/docs/README.md",
+    "src/godot-game/docs/README.md",
+    "src/multiplayer-abstractions/docs/README.md",
+    "tests/phase1/DocumentationProjectTests.cs",
+    "tests/phase1/DocumentationProjects.cs",
+    "tests/phase1/DocumentationValidator.cs",
+    "tests/phase1/docs/README.md",
+    "tools/code-rules/docs/README.md",
+    "tools/phase1/required-cases.json",
+    ".planning/phases/01-code-rules-and-documentation/01-HUMAN-CHECK.md",
+    "docs/architecture/boundaries.md",
+    "docs/architecture/decisions/0001-development-baseline.md",
+    "docs/architecture/decisions/0001-enforcement.md",
+    "docs/architecture/decisions/0002-boundaries.md",
+    "docs/architecture/decisions/0003-state-and-engine.md",
+    "docs/code/README.md",
+    "docs/code/register.json",
+    "docs/code/review-checklist.md",
+    "docs/code/review.md",
+    "docs/code/rule-matrix.md",
+    "docs/workflow/verification.md",
+    "tests/phase1/PinEdgeTests.cs",
+    "tests/phase1/RegisterTests.cs",
+    "tests/phase1/RegisterValidator.cs",
+    "tests/phase1/RuleBindingTests.cs",
+    "tests/phase1/RuleBindingValidator.cs",
+    "tests/phase1/RuleDefinitions.cs",
+    "tests/phase1/RuleMatrix.cs",
+    "tests/phase1/SuppressionPolicy.cs",
+    "tests/phase1/SuppressionTests.cs"
+  ],
+  "tokens": 58353,
+  "diffCharacters": 233411,
+  "sourceComparison": {
+    "fullInput": "faceec4629ccbff946e7952cde6e432216ff8204219c5e6b94b5bd25c902cc2e",
+    "currentMainInput": "bc50ad84fd6102143420f97b148a7dd0b7223fe1ad77015397f660295583dc01",
+    "changed": [
+      {
+        "path": ".planning/phases/01-code-rules-and-documentation/01-CONTEXT.md",
+        "sha256": "d75fabf9917653eced90d3554e846ed0938f97b2f8fe14b024728bbbcd818530",
+        "beforeSha256": "40db3ba804ca5d796fa17411ea6303fe3144be2759298589519953c162310e40"
+      },
+      {
+        "path": ".planning/phases/01-code-rules-and-documentation/01-SPEC.md",
+        "sha256": "7c19d7b67a86a8ab3abfc8947636d487448a85d91cb13d6e01e47677973d07f8",
+        "beforeSha256": "862eebf05d62288575966d6c47bdb881384a002432c5d40eaedd172a9a5c2d97"
+      },
+      {
+        "path": ".planning/PROJECT.md",
+        "sha256": "e41330f837e2e32a2d798972f60e76a9736ec880601eb8bf35ab4035010917a0",
+        "beforeSha256": "3fb44155690ee32a028dbdccdca79fc4b3602e8ca05a78a3856592756343eb21"
+      },
+      {
+        "path": ".planning/REQUIREMENTS.md",
+        "sha256": "0fe56e3ea70ee719afcfa39502446d5153ed055224b23b38fb401841548cf462",
+        "beforeSha256": "66e109b639ddd425a23c24a1a4d963d36fb208d0b124e26cd4a00b0c36ff7986"
+      },
+      {
+        "path": ".planning/ROADMAP.md",
+        "sha256": "27dced6af8561b0860df14d3cead8c162f196f0d021bf2bf9e20f2d19fa3994c",
+        "beforeSha256": "103f43b8a9c76fca3074d29c065f41454701f3c1722d7144cb85b63c6e3ee1eb"
+      }
+    ],
+    "removed": [],
+    "conclusion": "Historical preliminary comparison: implementation/docs/config matched the frozen candidate apart from these five authority files at this recorded input. The subsequently committed amendment and resumed metadata have distinct inputs.",
+    "status": "historical preliminary comparison before the complete authorized amendment"
+  },
+  "groups": {
+    "runner": 32,
+    "pins": 27,
+    "register": 46,
+    "rules": 447,
+    "docs": 36,
+    "graph": 26,
+    "engine": 19,
+    "state": 33
+  },
+  "closedControls": [
+    {
+      "id": "edge.rule-01.adjacency",
+      "status": "pass",
+      "diagnostic": "PINS_ADJACENCY",
+      "location": "tools/phase1/toolchain.json: complete actual manifest plus adjacent duplicate sdk keys",
+      "evidence": [
+        {
+          "path": "edge.rule-01.adjacency.subject.log",
+          "sha256": "bf92b586208e5e55e24fea7baf9ff99fa19d981b8bd5e0ff0e129c86b57a3e8f"
+        }
+      ],
+      "report": {
+        "path": "edge.rule-01.adjacency/tests.json",
+        "sha256": "a61f68df5b1e22d5d20928d21c09f19b36e7ec5b11d0ffcab34c1cb7c47d00b0"
+      }
+    },
+    {
+      "id": "edge.rule-01.empty",
+      "status": "pass",
+      "diagnostic": "MANIFEST_EMPTY",
+      "location": "D:\\Work\\Games\\KingdomZombies\\.phase1\\temp\\14-frozen-a8ebbf6\\.phase1\\runs\\45f70351-fca6-428e-bd8f-8f43ede2d665\\edge.rule-01.empty\\fixture-9b474d95-7f71-4213-b357-ae7eb21804f1\\tools/phase1/required-cases.json",
+      "evidence": [
+        {
+          "path": "edge.rule-01.empty.subject.log",
+          "sha256": "868becdbc387889e8681ce11824b731f4e62d74ff1959ff03f3208e7c1202013"
+        }
+      ],
+      "report": {
+        "path": "edge.rule-01.empty/tests.json",
+        "sha256": "c4e496a5fd8fb7a851b79b792c593949f470453c6352fa7e52541fc389e24ad3"
+      }
+    },
+    {
+      "id": "edge.rule-01.ordering",
+      "status": "pass",
+      "diagnostic": "PINS_ORDERING",
+      "location": "tools/phase1/toolchain.json, global.json, tool/project/feed actual declarations",
+      "evidence": [
+        {
+          "path": "edge.rule-01.ordering.subject.log",
+          "sha256": "d2493ef523a272142a372aaa96f76788b1c47c1a8112bacb8f07b46e67c46982"
+        }
+      ],
+      "report": {
+        "path": "edge.rule-01.ordering/tests.json",
+        "sha256": "e7b8caf47df7f915a2cb3f551f906245697abb859c20ea090b20b18234e16e1c"
+      }
+    },
+    {
+      "id": "edge.rule-01.idempotency",
+      "status": "pass",
+      "diagnostic": "PINS_FRESH_RERUNS",
+      "location": "D:\\Work\\Games\\KingdomZombies\\.phase1\\temp\\14-frozen-a8ebbf6\\.phase1\\runs\\45f70351-fca6-428e-bd8f-8f43ede2d665\\edge.rule-01.idempotency\\fixture-a0c0e26d-2918-40d9-9b64-841022647dfb\\tools/phase1/toolchain.json",
+      "evidence": [
+        {
+          "path": "edge.rule-01.idempotency.subject.log",
+          "sha256": "02de569b6d57cc390dada31a22c382c7564453cbe4adaf62228c314bf30bd9c7"
+        }
+      ],
+      "report": {
+        "path": "edge.rule-01.idempotency/tests.json",
+        "sha256": "10b18fd0b890126181962e77982685423770721195bbedd5a077f7b56ff58628"
+      }
+    },
+    {
+      "id": "edge.rule-01.concurrency",
+      "status": "pass",
+      "diagnostic": "PINS_CONCURRENT_ISOLATION",
+      "location": "D:\\Work\\Games\\KingdomZombies\\.phase1\\temp\\14-frozen-a8ebbf6\\.phase1\\runs\\45f70351-fca6-428e-bd8f-8f43ede2d665\\edge.rule-01.concurrency\\fixture-9d3e2966-53b6-43b9-9faa-9fadbf415b0c\\child.pid: competing coordinator CHECK_LOCKED, one complete fresh summary",
+      "evidence": [
+        {
+          "path": "edge.rule-01.concurrency.subject.log",
+          "sha256": "799ca756042d1f504bfba6227c0330acac97d4280a7800a3f5684a1eff7f12e6"
+        }
+      ],
+      "report": {
+        "path": "edge.rule-01.concurrency/tests.json",
+        "sha256": "36e4545f9a2f4622606ed117f771f840b7d72478880c91ed6e4fbbe6e92334fd"
+      }
+    },
+    {
+      "id": "R-67.positive",
+      "status": "pass",
+      "diagnostic": "SUPPRESSION_REPOSITORY_EXACT",
+      "location": "tracked C#, MSBuild, editor/global configuration, response and workflow inputs",
+      "evidence": [
+        {
+          "path": "R-67.positive.subject.log",
+          "sha256": "57e637560c2ac83e1b693223aa1915a9d532779a36b33a493d790e025708b92c"
+        }
+      ],
+      "report": {
+        "path": "R-67.positive/tests.json",
+        "sha256": "c023c86013e662831a261c79e22c405325758b3ca11073bfb03e524e1b45e0c2"
+      }
+    },
+    {
+      "id": "R-67.negative",
+      "status": "pass",
+      "diagnostic": "SUPPRESSION_ENTRY_POINTS_REJECTED",
+      "location": "Subject.cs(1,1), Subject.globalconfig(2,1), Subject.TARGETS:1, compiler.rsp:1, build.yml:1",
+      "evidence": [
+        {
+          "path": "R-67.negative.subject.log",
+          "sha256": "d591455fe325b2b00d9a1ac7b1dc8d98644dffc4c2659b90ece32ee39614289e"
+        }
+      ],
+      "report": {
+        "path": "R-67.negative/tests.json",
+        "sha256": "bf63fa3d1047ec0f4aec70968b108525a3eb114082961fc8aa7f3e980d8f2592"
+      }
+    }
+  ],
+  "full": {
+    "candidate": "a8ebbf6e37849919ca687a588b695b784c0dce8e",
+    "root": "D:\\Work\\Games\\KingdomZombies\\.phase1\\temp\\14-frozen-a8ebbf6",
+    "nonce": "45f70351-fca6-428e-bd8f-8f43ede2d665",
+    "input": "faceec4629ccbff946e7952cde6e432216ff8204219c5e6b94b5bd25c902cc2e",
+    "tool": "208c2f610cb0cb9b577660cc45af815b3668e3eaf5569a068f53bf11a96706e4",
+    "platform": "win32-x64-10.0.19044",
+    "accepted": 666,
+    "selected": 674,
+    "failedControls": 0,
+    "pending": [
+      {
+        "id": "ac-02.complete",
+        "status": "blocked",
+        "diagnostic": "IMPLEMENTATION_PENDING",
+        "owner": "01-17"
+      },
+      {
+        "id": "ac-06.complete",
+        "status": "blocked",
+        "diagnostic": "IMPLEMENTATION_PENDING",
+        "owner": "01-15"
+      },
+      {
+        "id": "ac-07.complete",
+        "status": "blocked",
+        "diagnostic": "IMPLEMENTATION_PENDING",
+        "owner": "01-15"
+      },
+      {
+        "id": "ac-09.complete",
+        "status": "blocked",
+        "diagnostic": "IMPLEMENTATION_PENDING",
+        "owner": "01-15"
+      },
+      {
+        "id": "R-49.positive",
+        "status": "blocked",
+        "diagnostic": "IMPLEMENTATION_PENDING",
+        "owner": "01-15"
+      },
+      {
+        "id": "R-49.negative",
+        "status": "blocked",
+        "diagnostic": "IMPLEMENTATION_PENDING",
+        "owner": "01-15"
+      },
+      {
+        "id": "R-82.positive",
+        "status": "blocked",
+        "diagnostic": "IMPLEMENTATION_PENDING",
+        "owner": "01-15"
+      },
+      {
+        "id": "R-82.negative",
+        "status": "blocked",
+        "diagnostic": "IMPLEMENTATION_PENDING",
+        "owner": "01-15"
+      }
+    ],
+    "exit": 1,
+    "report": "D:\\Work\\Games\\KingdomZombies\\.phase1\\temp\\14-frozen-a8ebbf6\\.phase1\\runs\\45f70351-fca6-428e-bd8f-8f43ede2d665\\summary.json",
+    "completed": "2026-11-14T13:18:58.073Z",
+    "commands": 671
+  },
+  "pendingSharedCloseout": [],
+  "focusedDocumentation": {
+    "status": "pass",
+    "accepted": 36,
+    "failed": 0,
+    "exit": 0,
+    "nonce": "af441443-c7cd-4c90-b0eb-c902b2496c95",
+    "revision": "85c64b8ade4ca2160aa66d63f984bbb9c635a6f8",
+    "input": "053d97e5344377ff4277cdb2372f7a8a2df039251773927c5ff90202dcde2853",
+    "tool": "1cf98decea2947b1f425efadcf974093deb1bc67b7484890345f7c21675f6c14",
+    "platform": "win32-x64-10.0.19044",
+    "report": ".phase1/runs/af441443-c7cd-4c90-b0eb-c902b2496c95/summary.json",
+    "completed": "2026-11-14T13:47:10.587Z",
+    "currentInputMatches": true,
+    "changedFromFrozen": [
+      ".planning/phases/01-code-rules-and-documentation/01-CONTEXT.md",
+      ".planning/phases/01-code-rules-and-documentation/01-SPEC.md",
+      ".planning/PROJECT.md",
+      ".planning/REQUIREMENTS.md",
+      ".planning/ROADMAP.md",
+      ".planning/STATE.md",
+      "docs/architecture/decisions/0001-development-baseline.md",
+      "docs/architecture/decisions/0001-enforcement.md",
+      "docs/architecture/decisions/0003-state-and-engine.md",
+      "docs/code/review.md",
+      "docs/code/rule-matrix.md",
+      "docs/workflow/setup.md",
+      "docs/workflow/verification.md"
+    ]
+  },
+  "evidenceKind": "derived-closeout-index; immutable source report remains unchanged",
+  "authorityAmendment": {
+    "authorization": "Parent verified the direct user instruction moving coverage and exhaustive platform/runner certification to Phase 5 while preserving working rules and checks.",
+    "status": "Authorized amendment stabilized and committed; resumption preserves it.",
+    "action": "Preserve the approved remaining-plan scope; retain the original frozen full result without a replacement full run for this timing amendment.",
+    "commit": "15870156eee42fa72b0f0588427e37865ab6aff2"
+  },
+  "metadataCloseout": {
+    "phasePlansCompleted": 15,
+    "phasePlansTotal": 18,
+    "nextPlan": "01-15",
+    "roadmapUpdatedBeforeState": true,
+    "metrics": { "duration": "101min", "tasks": 2, "ownedFiles": 31 },
+    "rulesPending": 7,
+    "humanComponentsPending": 14,
+    "phase2ContextPreserved": true,
+    "phase3ContextPreserved": true,
+    "sourceOrRunnerRepairs": false,
+    "replacementFullRun": false,
+    "linuxEnvironmentTouched": false,
+    "currentInputBeforeMetadataCommit": "053d97e5344377ff4277cdb2372f7a8a2df039251773927c5ff90202dcde2853"
+  },
+  "windows": {
+    "item9": "fixed at 2026-11-14T13:24:24.221Z from five distinct full-run controls",
+    "item1": "open; historical missing bootstrap RED is unchanged"
+  }
+}

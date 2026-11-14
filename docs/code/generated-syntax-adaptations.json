@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "scope": "Only exact diagnostic/path/complete Roslyn text hash/line/column/length. Raw UTF-8 BOM-bearing output and package payload hashes are independently verified.",
+  "local": [
+    {
+      "id": "KZ-EX-GODOT-SYNTAX-1",
+      "diagnostic": "SCR0009",
+      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.GodotPluginsInitializerGenerator/GodotPlugins.Game.generated.cs",
+      "sha256": "7870166b33f91817432f480e7b2707b22005838c67dfd6cec2256efa7b88975f",
+      "textSha256": "50df9e26e6d80ac8d94e8881618c71803e1f98a565e3e8e20c03479911792c66",
+      "suffix": "/Godot.SourceGenerators.GodotPluginsInitializerGenerator/GodotPlugins.Game.generated.cs",
+      "line": 12,
+      "column": 13,
+      "length": 6,
+      "package": ".phase1/feed/Godot.SourceGenerators.4.7.2.nupkg",
+      "packageSha256": "ce2beb0b75bfb81b94982bdaf7234fc681edd4cf024606c6baf6e40625e0ca4e",
+      "target": "~M:GodotPlugins.Game.Main.InitializeFromGameProject(System.IntPtr,System.IntPtr,System.IntPtr,System.Int32)",
+      "collisionSource": "namespace GodotPlugins.Game; internal static partial class Main { private static bool InitializeFromGameProject(System.IntPtr a, System.IntPtr b, System.IntPtr c, int d) { return false; } }",
+      "reason": "Pinned generator wraps a native initialization parameter by four spaces.",
+      "proofs": [
+        "rules.generated-syntax-origin",
+        "rules.generated-syntax-boundary"
+      ]
+    },
+    {
+      "id": "KZ-EX-GODOT-SYNTAX-5",
+      "diagnostic": "SCR0011",
+      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Proofs.Phase1_ScriptProperties.generated.cs",
+      "sha256": "b1e2255f7d871ee37c5654392a539e2ba08fb35f404a0c1d703bee763eec5a59",
+      "textSha256": "0096a903e684ab047368a57a308d2274f4c39899574b0177d3363fee3147ab40",
+      "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Proofs.Phase1_ScriptProperties.generated.cs",
+      "line": 23,
+      "column": 81,
+      "length": 12,
+      "package": ".phase1/feed/Godot.SourceGenerators.4.7.2.nupkg",
+      "packageSha256": "ce2beb0b75bfb81b94982bdaf7234fc681edd4cf024606c6baf6e40625e0ca4e",
+      "target": "~M:KingdomZombies.Proofs.Phase1.GetGodotClassPropertyValue(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.godot_variant@)",
+      "collisionSource": "namespace KingdomZombies.Proofs; public partial class Phase1 { protected override bool GetGodotClassPropertyValue(in Godot.NativeInterop.godot_string_name name, out Godot.NativeInterop.godot_variant value) { value = default; return false; } }",
+      "reason": "Pinned generator qualifies the nonce field in its property getter.",
+      "proofs": [
+        "rules.generated-syntax-origin",
+        "rules.generated-syntax-boundary"
+      ]
+    }
+  ]
+}

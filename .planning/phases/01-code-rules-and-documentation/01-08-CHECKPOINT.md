@@ -1,0 +1,246 @@
+# 01-08 execution checkpoint
+
+Status: complete; both owned tasks and final immutable-source reconciliation pass. See 01-08-SUMMARY.md. Phase 1 is 9/18, next 01-09; all RULE requirements remain Pending. Earlier sections below are historical continuation records.
+
+## Final closure
+
+Final report `.phase1/runs/ad285936-7755-4d08-a242-f882d2495ea9/summary.json`: **477 passed, zero failed controls, 107 IMPLEMENTATION_PENDING later-owner obligations, 584 declared**. Actual exit 1 is solely pending work. Tested HEAD `cc964c2ca3154d064429ee74c92351855cb39d8c`, input `7cde7c9c72a422541f89379dd2df4d2d05988174fed650aaa53db6838c65a35f`. Source remained immutable and clean. All 01-08-owned cases passed; no later-plan work or RULE completion is claimed. SUMMARY self-check passed; roadmap/state now point to 01-09 and preserve the independent Phase 2 annotation. WINDOWS23 is fixed after canonical rendering repaired only its pre-existing stale table row; other entries are preserved.
+
+## Previous continuation: all owned controls ready for immutable full closure
+
+**Empty-inventory RED `f78bd25` → aggregate GREEN `114f2c9`.** The compiled intended test demonstrated that clearing all ten local records and every backreference incorrectly returned `[]`. Fresh `08-empty-red.json` / `08-empty-red.xml` received `RED_EVIDENCE_OK`. The register now requires the exact ten-ID active inventory independently of backreferences; the original target passes `08-empty-green.xml` and canonical `aa21070a`.
+
+All remaining separately bound controls pass: overlap/adjacency `3aecfe02`; exact encoding/byte-probe neighbors `16682769`; input permutations `940da8d1`; real repeated immutable-input child runs `4b09f2a1`; real concurrent evidence isolation `45041562`; all numeric metadata overflow/fraction/type vectors `2af87f9d`; actual analyzer nearest neighbors `bb350253`. The latter executes UTF-16 119/120/121 using ASCII/Cyrillic/supplementary/combining text and LF/CRLF, body lines 59/60/61 and continuation offsets 7/8/9. Separate real formatter 3/4/5 controls remain required. Coverage and enum/state runtime obligations retain their later owners; metadata checks provide no measurement credit.
+
+Independent AC-08 case `b0fd8f80` performs its own fresh copied Godot restore/clean build and handwritten-only SCR0001 mutation while all eight genuine generated hashes remain unchanged, plus required current source/configuration/origin validation. The exact plan Task 2 command `node tools/phase1/check.cjs --case rules.exemptions` now has a distinct actual C# binding and passes `f39f925d`: a real compiler-accepted pragma bypass is rejected by the required source guard at `Subject.cs(1,1)`. It is not an alias or registry-only assertion. The one-shot aggregate/task2 binding utilities have run and must not be reapplied.
+
+Final cheap preflight: whole five-project solution zero warnings/errors (`08-final-preflight-build.log`); actual native bootstrap `d70acb20-9f33-40d4-8055-53ff70ea8b14` passes as raw compatibility evidence; all twelve analyzer sources as a real consumer `5dae576c`; current tracked source format `804d73ea`; every current unique actual test binding `ba02168a`; exact Task 1 tracer `34dbc5f9`; register class **36/36**, zero skipped (`08-final-preflight-register.xml`); diff check clean.
+
+All 01-08-owned cases are implemented. Current manifest: **584 declared, 477 implemented, 107 later-owner pending**. Complete-suite reconciliation is still required before task/plan completion. Source commit `114f2c91671a38071b8f49490922e3c03f07f5af` is ready for the immutable `--all` run. No SUMMARY/requirement completion or advancement beyond 8/18 yet. Shared Phase 2 annotations remain untouched.
+
+## Previous continuation: exact local dispositions and real engine companions
+
+| Verified increment | Commit | Result |
+| --- | --- | --- |
+| Numeric/generated-claim RED | `b971d01` | Compiled planned exact-rule/count assertions fail on actual missing boundaries |
+| Numeric/generated-claim GREEN | `673a0fc` | Canonical precision `df55f185`, generated claims `748e1026`, global baseline `4705ec09` pass |
+| Exact active donor/local scope alignment | `8afd176` | Five new exact local records, all 24 original donor IDs once each, gap 22 preserved |
+| Fresh Godot companions and async-stream permission | `16b12e5` | Four independent real consumer controls pass with intended exact locations |
+
+**Numeric RED correction:** raw JUnit showed generic `REGISTER: INVALID_STRUCTURE` without numeric rule identity, not an escaped FormatException. The original planned assertion required `R-07: NUMERIC_VALUE`; that actual missing rule identity is the valid RED. The corrected evidence record was reclassified `RED_EVIDENCE_OK`. Numeric conversion failures now preserve the exact rule. Additional generated-claim vectors cover `.g.cs`, `.g.i.cs`, `.Designer.cs`, `.generated.cs`, temporary generated names, both marker spellings, aliased attributes and nullable-disable directives. Genuine records and package bytes remain unchanged.
+
+`docs/code/exemptions.json` now has ten exact active records: five existing lock paths plus MA0051/SCR0006 replacement, engine/pure-library continuation policy, single proof-project test naming, exact xUnit executable identity, and analyzer bootstrap edge. Every source EX row has a specific reason. No donor EF migration, web-host, NU190x downgrade, blanket generated-Main severity or CI coverage filter is imported. Original coverage rules and measured 90/80 gates remain required and explicitly pending plan 15. The exact executable permission does not complete graph rules in plan 09. All local statuses remain pending final phase closure.
+
+Actual focused passes: executable five-project positive `256949f8`, three independent evaluated scope mutations `d543280a`; all twelve analyzer sources in the genuine separate consumer `c25c37d2`, plus its clean-before-violation SCR0006 `Subject.cs(6,25)` boundary `e7015eda`; updated register capture `6acf9ff1`; global source/origin validation `eb537a9b`. Final strict whole solution zero warnings/errors (`08-dispositions-final-build.log`), register **36/36**, zero skipped (`08-dispositions-register.xml`), and current unique naming bindings `d093be73` pass.
+
+Real async-stream permission: positive `6900c76c`, negative `cacbdb90` changes only MA0156 none → error and requires `Subject.cs(8,43)` after successful restore and valid clean/permission controls. Together with earlier MA0137 controls this proves both inherited suffix permissions. No forbidden suffix syntax was invented.
+
+Actual fresh copied Godot generation and compliant handwritten companion pass `dc14f76b`. Independent negative `bf97f30e` changes only the existing `_Ready` body and requires handwritten SCR0001 at `Phase1.cs` column 29. All eight actual generated-source hashes remain exactly equal before and after that body mutation. The fixture copies the real game/Core/ports/analyzer projects and canonical locks, excludes only runtime build caches from copying, and performs locked restore. Original project/cache/VM state is untouched. Final strict whole solution zero warnings/errors (`08-companion-final-build.log`), all current unique naming bindings `3538f903`, and diff check pass.
+
+The one-shot `08-boundary-bind.cjs`, `08-dispositions.cjs` and `08-companion-bind.cjs` have run once; do not reapply. Current declarations are 583 total, 468 implemented and 115 pending. These are declaration counts, not a fresh full-suite verdict. Remaining before 01-08 completion: seven numeric/edge aggregates (precision is implemented), AC-08 closure and an immutable-source full suite after all cheap prerequisites. A new empty-inventory control must reject removed active local records even when their backreferences are cleared. No SUMMARY/task/requirement completion or state advancement has occurred. Shared STATE/ROADMAP and independent Phase 2 annotations remain untouched.
+
+## Previous continuation: source and effective suppression enforcement
+
+**RED `2a066f1` → GREEN `3b6b683`.** Strictly compiled `Suppress_UnregisteredPragma_ReportsExactLocation` failed its planned Count assertion against the accepting stub (1 expected / 0 observed). `.phase1/temp/08-suppression-red.json` and `08-suppression-red.xml` received `RED_EVIDENCE_OK`; the original target is GREEN in `08-suppression-green.xml`.
+
+`ExemptionValidator` scans actual tracked C# syntax and semantic attribute identities. It rejects disabling pragmas, undeclared or unconditional suppression attributes (including aliases), duplicate exact member suppressions and fake generated source claims. Only eighteen existing exact assembly/member permissions are accepted, bound to current exact generated source/package bytes and declared proof references. Existing producer/hash/path/member/span records are unchanged. The required local check also rejects unregistered editorconfig severity weakening, generated-code scopes and duplicate settings, and checks actual evaluated suppression properties from all five projects. The pinned SDK's observed `NoWarn=1701;1702` is a two-identifier set; duplicates and every extra identifier fail. `WarningsNotAsErrors` must be empty; analyzer enablement properties cannot be false. No blanket SDK suppression permission was inferred.
+
+All seven canonical focused controls pass 1/1:
+
+| Control | Report under `.phase1/runs/` |
+| --- | --- |
+| Exact pragma at `Subject.cs(1,1)` | `b835d69a-45bb-4023-ba72-d27473efbca9` |
+| Aliased and unconditional semantic attributes at `(2,12)`; quoted samples inert | `2fc21d71-cda9-4a79-9112-389f544472c3` |
+| Four independently duplicated exact member attributes | `dca8a7da-9874-484e-9f57-f8c11cb5ce9e` |
+| Actual configuration, severity neighbors, fake generation and duplicate setting | `af2e1e0d-3c52-453a-b7b0-732fa714b43d` |
+| Five real effective baselines plus six independent property overrides | `3a5838c0-cf21-4d5c-9ac3-54a7ce93b2cc` |
+| Genuine generated output and compliant handwritten game build, then global source scan | `609a0c60-81d5-4f1a-800d-82103cbd98cb` |
+| Fake suffix and marker independently retain actual SCR0006 at `Subject.g.cs(6,25)` / `Subject.cs(7,25)` | `f4a01b9e-e637-488f-885f-58738adfd795` |
+
+Whole five-project strict build: zero warnings/errors (`08-suppression-final-build.log`). Updated register class: 36/36, zero skipped (`08-suppression-register.xml`). All current unique naming bindings pass canonical `e2f2b95d-1659-4496-867c-eb7090611471`; diff check passes. The ignored `08-suppression-bind.cjs` ran exactly once.
+
+Current declarations: **459 implemented / 116 pending of 575**, not a full-suite verdict. Donor disposition/local-record alignment, remaining genuine handwritten engine boundary controls and numeric/edge aggregation still require completion before final immutable-source full closure. No task/SUMMARY/requirement completion or advancement beyond 8/18 is claimed. Shared Phase 2 annotations remain untouched.
+
+## Previous continuation: logging and retained test names verified
+
+R-44 increment **`df231b8`** uses the installed SDK logging reference pack only in isolated actual Core consumers. Cached `LoggerMessage.Define` passes (`c93af0ed-798c-41bc-abb1-08cc27152d60`); the negative requires both actual CA1848 at `Subject.cs(10,9)` and CA1873 at `(10,83)` after successful locked restore and clean build (`632fcf50-388c-4799-8dff-f15ebb324513`). Final whole five-project build has zero warnings/errors (`.phase1/temp/08-logging-final-build.log`). No product/package reference changed.
+
+R-48 **RED `ddb3b80` → GREEN `2602d4e`** retains the captured exact three-part ASCII pattern. Strictly compiled intended runtime RED rejected the accepting stub through its planned `GetAll` assertion; `.phase1/temp/08-names-red.json` / `08-names-red.xml` received `RED_EVIDENCE_OK`. Roslyn discovers wrapped, qualified, suffixed and custom Fact/Theory attributes, static/generic/nested and explicit controls, and excludes quoted samples. Every implemented manifest binding must resolve to one actual discovered method; both methods and bindings must be unique and nonempty. The positive checks more than 400 real test declarations and bindings. Actual Core outside the test scope still rejects an underscore method with CA1707 at `Subject.cs(7,24)` after valid restore and clean build. Canonical pair: `bde12b3f-12f8-4eb8-85e6-183ba60d024c` / `db9f961a-4508-4a56-b29f-b7d5ec7f87fe`.
+
+The migration renamed 380 declaration identifiers and exact current method bindings, restoring captured donor names where available and assigning local behavior names elsewhere. Exact ordered case IDs are unchanged. `.phase1/temp/08-name-map.json` records mappings. Roslyn literal audit `.phase1/temp/08-name-literal-audit.json` confirms every analyzer/captured sample string is unchanged; literal changes are confined to actual runner selections/locations and new scanner/binding metadata. The ignored naming utility's `--apply` ran once and must not be reapplied.
+
+Register class: **36/36**, zero skipped (`08-names-register.xml`). Runner class: **32 controls passed**, one intentionally explicit failing fixture excluded by class selection; its parent assertion control passed (`08-names-runner.xml`). The broad analyzer class hit its explicit three-minute session deadline after 215 passes and no failed controls. Its partial JUnit was reconciled with focused runs of only the absent classes and incomplete UsingOrder class. All **274 unique analyzer cases** subsequently completed successfully; the partial run alone is not a passing suite. Reports: `08-names-analyzers.xml`, `08-names-LineLength.xml`, `08-names-NullForgiving.xml`, `08-names-PrimaryConstructor.xml`, `08-names-ThisQualification.xml`, `08-names-UsingOrder.xml`. Final strict five-project build has zero warnings/errors (`08-names-final-build.log`); diff check passes.
+
+Current declarations: **452 implemented / 118 pending of 570**. This is not a new full-suite verdict: the last complete suite remains 417/559 below. Both tasks remain incomplete pending the broader suppression/exemption/generated-boundary and numeric obligations, then an immutable-source full run. Graph 09 and measured coverage 15 remain pending. No SUMMARY, requirement completion or advancement beyond 8/18 is claimed. Shared STATE/ROADMAP and the independent Phase 2 context/session annotation are unchanged.
+
+## Previous continuation: authentic xUnit producer is checkout independent
+
+**RED `f93cef3` → GREEN `6df071f`.** R-30's two actual async-permission cases pass (`1563ed5d` / `20d64574`). The four actual relocated R-46/R-47 test-project cases initially failed their clean build: five SCR0001 and one SCR0007 on genuine xUnit output. Pinned xUnit 4.0.2 passed `MSBuildProjectFullPath` as its namespace suffix seed, so the original exact member permission was checkout-path bound. Fresh `.phase1/temp/08-producer-red.xml` / `08-producer-red.json` captured the compiled intended runtime assertion and received `RED_EVIDENCE_OK`; no failed clean control counted as a passing negative.
+
+`Directory.Xunit.targets`, imported from owned `Directory.Build.targets` after package targets, overrides only `_XunitGenerateEntryPoint` using the **same authentic task**. Evaluated import order was observed, and tests validate the last effective target's exact arguments and task binding. The logical seed is `KingdomZombies.Phase1.Tests/net10.0/xunit.v3.core.mtp-v2/4.0.2`, without an absolute path. Actual imported NuGet archive, package targets and netcore task DLL are SHA-256 guarded before execution. The owned policy hash participates in the producer cache identity; changed target arguments cannot reuse stale output. Generation remains enabled; no handwritten Main, alternate framework or severity reduction was introduced. Supported MSBuild override ordering is documented at https://learn.microsoft.com/en-us/visualstudio/msbuild/customize-by-directory . The unsupported custom-Main escape hatch was deliberately not selected (https://github.com/xunit/xunit/issues/3106).
+
+Observed deterministic output: `Xunit.AutoGenerated._IJb9g0oJ6`, raw SHA-256 `0b78284440412c06f587848208563ecdce6d91b85881c01bf6207d2bbd6c2c90`. Only the two existing xUnit Main call-site/layout identities and exact collision subject were updated to this output. Every other generated scope and all twelve analyzers remain intact. Both old records and exact old raw bytes are preserved in `docs/code/provenance/xunit-entrypoint-path-adaptation.json`. Receipts bind actual project/source paths, raw hash, task/version/seed and package/targets/task/owned-policy hashes. The new target is an independent declared fingerprint input and is copied by real consumer fixtures.
+
+Actual focused results (all canonical 1/1 passes):
+
+| Control | Report under `.phase1/runs/` |
+| --- | --- |
+| Normal checkout exact effective target and receipt | `2b6fa4d3-690d-4bea-9a4b-65daf4f26fd2/summary.json` |
+| Two distinct fresh project paths, identical raw source and distinct exact project receipts | `c1919db6-7d06-4b91-b74a-f763c558bbea/summary.json` |
+| Wrong logical seed and disabled generation | `04a25c8f-404b-4638-a0a0-718a359c7763/summary.json` |
+| Import bypass: wrong effective target and actual generated SCR0001 | `4b012ffc-eaf4-4345-9523-d0f56a66e735/summary.json` |
+| Target argument mutation: cache invalidation and actual generated SCR0001 | `2c35e573-3f93-4ffc-85b2-7ed8da0aa7e4/summary.json` |
+| Changed copied task payload: KZXUNIT004 before execution; real package unchanged | `1519ff6b-fc62-4b34-bb31-01ec21f16550/summary.json` |
+| Updated exact call-site origin / adjacent and both symbol collisions | `8de4ef28-79bb-4f7b-98b0-f469d728e303` / `a6aabadf-961a-430a-9c2b-64ae92ec24e9` |
+| Updated layout origin / handwritten boundaries | `54999674-3130-484e-93f6-bca0f7bb238d` / `d18c540d-6861-4567-8f61-a0f7aaaa6e5e` |
+
+The four previously failing real test consumers now pass: R-46 positive `fda6e1f3`, negative `a1fc7007` (exact SCR0001 `Subject.cs(8,21)`), R-47 positive `fb805f67`, negative `986021d0` (exact RS0030 `Subject.cs(8,9)`). Final whole five-project build has zero warnings/errors (`.phase1/temp/08-producer-final-root-build.log`); diff check passes. The normal verifier builds through this same global target; two Windows relocation paths are executed proof. Actual Linux and clean-checkout full acceptance remain required in 01-16/01-17, not claimed here.
+
+Current declarations: 448 implemented / 122 pending of 570. These are **not** a new full-suite verdict; last complete suite remains 417/559 below. Remaining R-44 logging, R-48 meaningful source naming/binding changes, broader suppression/exemption/generated-surface and numeric controls must finish before final immutable-source closure. Graph 09 / measured coverage 15 remain pending. No SUMMARY, requirement/task completion or plan advancement beyond 8/18 is claimed. `08-test-policy.cjs` and `08-xunit-bind.cjs` were one-shot applied; do not rerun them over the existing code.
+
+## Previous continuation: real formatter and tab-width boundaries verified
+
+Commit **`4c608a5`** adds four distinct R-07/R-08 proof bindings. Corrected real formatter positive: `.phase1/runs/0765120f-1632-4dde-ae4f-479bba56ea85/summary.json`. It requires exit 0 **and a nonzero selected file count**. Exact negative: `.phase1/runs/d32cf73f-c766-4bb7-a6d8-7da861be748e/summary.json`; both three-space and five-space subjects require actual `WHITESPACE` at `Subject.cs(6,4)` and `(6,5)` after successful locked restore and clean build. R-08 four-column permission and 3/5/missing-setting drift pass `.phase1/runs/d44b8c73-7d4a-4956-ac00-d417980e7c49/summary.json` and `.phase1/runs/9fc02651-8415-4d73-980d-62a6e258e774/summary.json`. The configuration guard reads actual root policy and matches property names case-insensitively; forbidden tab bytes remain the independent R-06 rule.
+
+**[Rule 1 - Bug] Formatter selection control:** the first absolute-path project/include invocation silently selected zero files and returned 0. The intended-negative assertion correctly failed, so that invocation provides no formatter acceptance. Raw diagnostic probes on the preserved unchanged three-space fixture prove relative project/include paths select `Subject.cs` and emit the intended location, while absolute paths report `Formatted 0 of 0 files`. Logs: `.phase1/temp/build-7da256c73aed46dfa709241dd56bb86d/formatter-diagnostic.log` and `formatter-absolute.log`. The fixture now uses controlled relative paths and diagnostic verbosity; the positive explicitly rejects zero selection. No formatter/analyzer severity or source rule changed.
+
+Final five-project strict build has zero warnings/errors (`.phase1/temp/08-indent-final-build.log`); diff check passes. These are focused verified increments; complete-suite closure remains pending until remaining 01-08 work is ready. Current manifest declarations are 436 implemented and 128 pending of 564, not a fresh full-suite verdict. Continue async-suffix permission, test-project/custom/banned-assertion controls, retained test-name scanning with meaningful binding renames, and broader suppression/generated-surface/numeric validation. Plan progress remains 8/18 with all RULE requirements Pending.
+
+## Previous continuation: source-format RED/GREEN and exact lock scopes
+
+Source-format RED **`6241e33`** compiled strictly, then the exact invalid UTF-8 target failed its planned Shouldly count assertion (1 expected, 0 actual). Fresh unchanged JUnit `.phase1/temp/08-source-red.xml` and record `.phase1/temp/08-source-red.json` received `RED_EVIDENCE_OK`. Earlier MA0002 setup feedback was not RED. GREEN **`d95e99e`** implements the byte checker, actual tracked-source scan, and 15 distinct fresh proof bindings; the original target passes `.phase1/temp/08-source-green.xml`.
+
+All **15 new format cases pass canonical fresh 1/1 reconciliation**: separate R-02–R-06 compliant/negative cases plus BOM, the exact 8000-byte Git NUL boundary, missing/unknown tracked text, actual tracked project text and actual five-project locked restore. Logs: `.phase1/temp/08-format-*.log`, `.phase1/temp/08-source-tracked.log`, `.phase1/temp/08-source-lock-restore.log`. Invalid representations are diagnosed by rule/path/raw-byte location without trimming or normalizing checker inputs.
+
+Actual five-lock restore preserves canonical LF bytes **byte-for-byte unchanged**: `.phase1/runs/0bb3725e-cf23-44f2-bd00-ebf3489f4342/summary.json`. Actual tracked project text passes `.phase1/runs/20828027-0953-4739-9962-ed0c2256fb28/summary.json`. The existing register mutation class passes **36/36**, zero skipped (`.phase1/temp/08-source-register.xml`). Whole five-project strict build has zero warnings/errors (`.phase1/temp/08-source-expanded-build3.log`); native bootstrap passes (`.phase1/runs/5e8b3acc-742b-4466-9057-163939053bb0/compatibility.json`). `git diff --check` passes.
+
+EX-11 and R-04 now reverse-map exactly `KZ-EX-LOCK-01` (tests), `KZ-EX-LOCK-CORE-01`, `KZ-EX-LOCK-GODOT-01`, `KZ-EX-LOCK-SERVICES-01`, and `KZ-EX-LOCK-ANALYZERS-01`. Each names one observed canonical path and permits only absent final LF. CRLF, tabs, BOM, invalid UTF-8 and trailing whitespace remain checked. The existing overlap fixture's `KZ-EX-LOCK-02` stays reserved. All 24 donor rows, gap 22, 85 IDs and 84 headings are preserved.
+
+Only the five working-tree canonical locks were normalized CRLF → LF. `.phase1/temp/08-source-lock-bytes.json` records real before/after SHA-256, CR counts and absent final LF. Git blobs already used LF, so `d95e99e` needed no dependency-lock content change; root `.gitattributes` already enforces `text=auto eol=lf`. Donor/archive bytes and versions are untouched. Ignored `08-source-bind.cjs` ran exactly once; never reapply it.
+
+**Complete-suite closure remains pending for this later code.** The last full run remains the earlier 417-pass/142-pending report below. Current declarations are 432 implemented and 132 pending of 564; those are declaration counts, not a new full-suite pass. Continue formatter/permission/test-project/configuration/R-48 and broader suppression/generated-surface/numeric work, then run the complete immutable-source suite before finishing 01-08. No SUMMARY, task/requirement completion or advancement beyond 8/18 is claimed.
+
+## Previous continuation: 21 real-build rule pairs verified
+
+| Increment | Commit | Verified result |
+| --- | --- | --- |
+| Active inherited policy and compliant proof sources | `dd59a77` | Complete run: 375 passed, zero failed controls, 184 pending |
+| 42 unique actual-build proofs for 21 rules | `f4d4d79` | Complete run: 417 passed, zero failed controls, 142 pending |
+
+The new separately bound compliant/negative cases cover R-01, R-11, R-12, R-13, R-15, R-16, R-17, R-19, R-20, R-21, R-22, R-27, R-29, R-31, R-32, R-35, R-39, R-40, R-41, R-42 and R-45. Each restores the actual copied Core consumer with its canonical lock, requires a clean build, then checks its own source. Negatives require the intended compiler/analyzer ID, `Subject.cs`, and exact line/column. Case IDs remain stable; all 42 new bindings are distinct C# methods. Raw child compiler logs and source remain under their unique ignored `.phase1/temp/build-*` directories.
+
+Focused class feedback genuinely executed 43 cases: 41 passed and two failed. R-22 expected IDE0022 at the wrong column; actual arrow location is `(6,32)`. R-19's non-apparent return expression produced no IDE0090, so its paired fixtures now use an explicitly typed field initialized with `new()` versus `new object()`; actual negative is IDE0090 at `(11,45)`. Canonical focused corrected reports: `.phase1/runs/3235c7b4-9d68-4e62-91cc-a16c5a0a9e67/summary.json`, `.phase1/runs/5111130c-5d0c-444d-bf53-2b71a2b611d5/summary.json`, and `.phase1/runs/da83118e-1762-4c7d-ab67-9af6ff349a99/summary.json`. Earlier unsupported reporter and missing-root launcher attempts were infrastructure failures, never RED evidence or passing rule proofs.
+
+Final strict solution build has zero warnings/errors: `.phase1/temp/08-expand-final-build.log`. Complete immutable-source `node tools/phase1/check.cjs --all` finished with **417 passed, zero failed controls, 142 explicitly pending, 559 declared**, actual exit **1** solely for pending obligations. Canonical report: `.phase1/runs/0d359120-54ec-4e77-a1d1-c5e3587c7f1a/summary.json`; raw console: `.phase1/temp/08-expand-all.log`; tested revision `dd59a7746808af2a83f89b8766bc5ad96c260682`; input identity `7a6089c8b8fd11cb22603acd8dd92e61754449aea33fe2ec33fb153fbdb4ee24`. `git diff --check` passes. Do not redundantly rerun this passing increment without a new change or concern.
+
+The original ignored `08-expand.cjs` remains unrun. Its inspected copy `08-expand-stage.cjs` ran exactly once to create these cases and was then corrected through actual compiler feedback; do not rerun it over the existing methods.
+
+Task 1 still requires source-format/formatting and permission/test-project/configuration controls, including retained R-48 syntax scanning plus meaningful test-method and manifest/proof-reference renames without changing stable case IDs. Task 2's global suppression/exemption/generated provenance and numeric contracts remain incomplete. Graph 01-09 and actual coverage 01-15 stay pending. No SUMMARY, task completion, requirement completion or advancement beyond 8/18 is claimed.
+
+A read-only preliminary format scan found CRLF in exactly the five canonical lock files. The remaining source-format work must enforce LF and restrict the final-newline exception to observed registered exact paths. It must prove clean locked restore preserves normalized canonical bytes rather than silently extending the exception to CRLF. Captured donor `SourceFileFormat.cs`, `TestSourceIndex.cs`, and `TestMethodNameTests.cs` were read from the immutable ZIP; they are reference inputs, not new implemented proofs.
+
+## Previous continuation: inherited policy activation verified
+
+The complete preserved 27-file policy/source increment is now verified under the active inherited policy. All three earlier activation regressions are fixed without changing rule severities, generated permissions, or captured sample content:
+
+- `pins.async-permission`: the clean `Read()` fixture now uses a block body; its intended MA0137 configuration mutation still fails. Fresh focused report: `.phase1/runs/c56e69a3-3aaf-412c-bb16-0f02bc6f9a15/summary.json`.
+- `rules.analyzer-source-consumer`: a tuple alias shortens the generated-syntax table declaration so ordinary collection layout satisfies both formatting and SCR0009. Every exact path/hash/line/column/length value remains intact. Focused report: `.phase1/runs/c0a093c2-fe03-497e-80ff-4229d48c9be8/summary.json`.
+- `rules.continuationindent.AgreedSamples_FormatterLeavesUnchanged_AndNotReported`: standalone emission appends an absent LF and compares the complete emitted file exactly. The captured `AgreedSamples` constant is unchanged. Focused report: `.phase1/runs/9d6b18ff-85b4-473a-aed4-444dcab8ef52/summary.json`.
+
+Final strict five-project solution build: `dotnet build KingdomZombies.slnx --no-restore -p:NuGetAudit=false -p:UseSharedCompilation=false -nodeReuse:false`, **zero warnings and zero errors**, `.phase1/temp/08-reconcile-final-baseline.log`. Actual twelve-analyzer source consumer passes. Native `node tools/phase1/bootstrap.cjs --probe engine` passes with fresh construction/ready/exit assertions; compatibility-only evidence is `.phase1/runs/c8fb6afc-9219-4a9b-8fa4-53debc8dd993/compatibility.json`. This is bootstrap evidence, not the later lifecycle/exports/thread acceptance.
+
+Exact generated syntax origin and boundary controls pass separately: `.phase1/runs/86d4acf5-14d3-45fd-8a00-dd523b7f2003/summary.json` and `.phase1/runs/cf4d56bd-0abb-48e2-897e-8b3ddddb53c3/summary.json`.
+
+The complete `node tools/phase1/check.cjs --all` run finished with **375 passed, zero failed controls, 184 explicitly pending, 559 declared**, actual exit **1** solely for pending obligations. Canonical report: `.phase1/runs/9ab3b049-7ae7-4ef5-9e84-9e4587ad491b/summary.json`; raw console: `.phase1/temp/08-reconcile-all.log`. Tested revision: `559b0c0e4951a01b0799b60929111bfae120796e`. All source inputs stayed unchanged throughout the run. `git diff --check` passes.
+
+This is an accepted activation increment, not Task 1 or Task 2 completion. Continue the required real-build/source-format/configuration expansion and exact exemption/generated-surface/numeric controls below. The ignored `08-expand.cjs` remains an unrun, unverified draft and must not be assumed valid. Do not rerun the one-shot `Continue08.cs`. No SUMMARY, requirement completion, or advancement beyond 8/18 is authorized by these results.
+
+## Previous continuation: strict solution green; three activation regressions
+
+All eight inherited prerequisite diagnostics are corrected. The complete five-project solution now builds with **zero warnings and zero errors** under the fully active inherited policy. Actual command: `dotnet build KingdomZombies.slnx --no-restore -p:NuGetAudit=false -p:UseSharedCompilation=false -nodeReuse:false`; raw output: `.phase1/temp/08-finish-baseline3.log`. Three bounded feedback passes produced eight → three → two → zero errors. No severity, analyzer edge, generated identity or exemption scope was weakened.
+
+The corrections preserve `source:` named-argument spelling and the PascalCase `Source` constant; extract the generator suffix without changing it; split `RunnerProcessFixture` setup into `CopyFixtureInputs` and `WriteFixtureManifest`, leaving constructor-only get-property assignment intact; and construct the register heading/source-ID array with compatible formatting. All 85 IDs, 84 headings and 24 source exemptions remain unchanged.
+
+The complete existing suite **finished**, actual command `node tools/phase1/check.cjs --all`, exit **1**. Final totals: **372 passed, 3 failed, 184 pending, 559 declared**. Canonical report: `.phase1/runs/66b8b9b1-e366-4dd3-a7ad-ebbe96025e23/summary.json`; console output: `.phase1/temp/08-finish-prerequisite-all.log`. Revision `7f58ecb38b106598b567329ca88c5ed89de926fc`; input fingerprint `ce613dda91f95ad5c715793166a98060c9ba867b28077ee5866a533497c940a1`. No source-changed failure occurred; the run is intact. The new real-build tracer adds one declared/implemented case to the historical 558-case baseline: `rules.build-wiring` **passes**, diagnostic `REAL_BUILD_SCR0006`, exact scratch `src/core/Subject.cs(6,25)`. Its successful locked restore and clean build precede the intended rejection.
+
+`pins.async-permission` / `ConfigurationTests.AsyncSuffixPermissionRejectsConfigurationDrift` fails its **clean control** because its expression-bodied `Read()` now triggers `Subject.cs(6,54): error IDE0022`. This is not the intended MA0137 negative and cannot count as a pass. The exact fresh child report/log are under that run's `pins.async-permission/` directory.
+
+The next executor must change this isolated clean fixture to a block-bodied method returning `System.Threading.Tasks.Task.CompletedTask`, preserving the no-Async-suffix behavior, then rerun that exact case. Do not change the rule or globally reformat fixtures. The current executor reached its three-repair limit while fixing the inherited prerequisites and cannot perform a fourth repair in Task 1.
+
+Two further independent failures were collected in the same complete run:
+
+| Case | Actual failure | Bounded continuation work |
+| --- | --- | --- |
+| `rules.analyzer-source-consumer` | `tools/code-rules/GeneratedSyntax.cs(37,5): error SCR0009`: collection bracket indented 4 spaces, expected 12 | Reconcile the `_spans` collection expression layout with the active formatter and custom continuation rule. Preserve every exact suffix, hash, line, column and length value. The ordinary analyzer project excludes its own analyzer edge, so the green whole-solution build does not replace this proof. |
+| `rules.continuationindent.AgreedSamples_FormatterLeavesUnchanged_AndNotReported` | formatter exit 2; scratch `Sample.cs(103,2): error FINALNEWLINE`: insert LF | Preserve the captured `AgreedSamples` constant. Adapt only emission/comparison of a standalone scratch source file to its now-active final-newline contract, then prove formatter leaves that complete file unchanged and the analyzer accepts it. |
+
+These are clean-control prerequisites, not valid intended-negative rule evidence. No further repair was attempted after the three-pass limit.
+
+`git diff --check` passes. No native Godot/lifecycle or Linux acceptance is claimed by this continuation. No package installation, generated permission change or donor-file mutation occurred.
+
+The GeneratedSyntax bracket is ordinary formatter-compatible layout in the current green solution, but its actual self-consumer proves the inherited continuation check rejects that C# collection-expression shape. A general language incompatibility is **not established** by this single failure. Prefer a source structure accepted by both rules. If investigation proves a real formatter/language conflict, any narrow adaptation needs its own corpus and regression proofs; no blanket skip or severity change is authorized.
+
+All source WIP remains uncommitted and preserved. `.phase1/temp/08-finish-preserved.patch` contains the exact current binary diff; do **not** apply it over the already edited checkout. The ignored `.phase1/temp/08-expand.cjs` is an **UNRUN draft** generator for 21 separate positive/negative actual-compiler rule pairs. It writes tracked sources/manifest if run, and is not verified or accepted work. Inspect it before use; some diagnostic/line expectations may need real-build feedback. It does not address all Task 1/Task 2 obligations. Never rerun the older one-shot `Continue08.cs` utility.
+
+The captured donor R-48 also requires `Method_State_Expected` syntax scanning; many existing authored methods currently lack that shape. Its retained disposition must be honored through deliberate source/manifest binding changes and proofs, not weakened. Broader compiler/configuration/exemption/generated-origin/threshold work remains required below. No SUMMARY, task completion, plan advancement or requirement completion is claimed.
+
+## Previous continuation: active policy retained, eight diagnostics
+
+The approved fresh continuation restored `08-policy-activation.patch` exactly once after `git apply --check`. The inherited policy is **currently active in the working tree**. Do not reapply that original patch, restore these sources, or mistake the earlier restored-baseline build for current acceptance.
+
+Three bounded strict-build feedback cycles reduced the saved 170 diagnostics to eight. Latest command: `dotnet build KingdomZombies.slnx --no-restore -p:NuGetAudit=false -p:UseSharedCompilation=false -nodeReuse:false`; actual exit 1. The analyzer project passes; the proof project is reached. Exact raw output: `.phase1/temp/08-continue-third.log`; unique diagnostic lines: `.phase1/temp/08-continue-third-errors.txt`; machine-readable counts and 27-file inventory: `.phase1/temp/08-continue-remaining.json`.
+
+| Diagnostic | Count | Exact remaining work |
+| --- | --- | --- |
+| CS1739 | 4 | `ConfigurationTests.cs` lines 74, 102, 106, 109: restore the external named argument spelling `source:`. The renamed local constant `Source` remains PascalCase. |
+| SCR0006 | 1 | `RunnerProcessFixture.cs(145,13)`: the private `RunnerProcessFixture(string mode)` constructor now occupies 79 body lines. Extract independent fixture setup work without changing mode/result semantics. |
+| SCR0007 | 1 | `ConfigurationTests.cs(382,121)`: the generator DLL suffix assertion is 176 UTF-16 units. Extract its suffix or predicate into a short local/helper and preserve the exact string value. |
+| SCR0009 | 2 | `RegisterValidator.cs(650,25)` and `(652,33)`: wrapped arguments in `CaptureHeadings` both require 28 spaces. Prefer a local JSON source-ID value over further nested wrapping. |
+
+Owned source WIP is deliberately **uncommitted and preserved**. A complete binary diff against committed HEAD is `.phase1/temp/08-continue-preserved.patch`; it was captured before this documentation update. `git diff --check` passes. Do not apply the saved diff over the already edited checkout. The ignored `.phase1/refactor06/Continue08.cs` helper records the syntax-based reflow/extraction approach, but it is a one-shot refactoring utility, **not safe to rerun**: mappings were already extracted and fixed-index extraction must not run twice.
+
+Changes include private-field symbol/reference renames, collection-expression fixes, literal-preserving syntax reflow, explicit ordinal-comparer calls, and extraction of `ValidateEffectiveProperties`, `VerifyChangedDependencyLock`, `ValidateNumericDescription`, `ValidateDispositionInventories`, `ValidateLocalExemptions`, and `ValidateRuleDisposition`. The exact generated layout/syntax hash/path/span values were retained. No diagnostic severity was weakened and no package, gameplay, branch, or later-plan capability was added. The default restricted branch query cannot verify metadata and returns fail-closed; use the authorized elevated guard with the existing default-branch override before the documentation commit.
+
+The repair limit requires a fresh executor before further fixes. No selected proof, native Godot, or full `--all` run was rerun against this failing WIP. Task 1 expansion and all Task 2 work below remain pending. Phase progress remains 8/18 and all RULE requirements remain Pending. A completed SUMMARY must wait for both tasks and their actual proof runs.
+
+## Committed work
+
+| Increment | Commit | Result |
+| --- | --- | --- |
+| Task 1 RED | b139948 | Compiling isolated real Core build test; actual expected recognizer assertion fails after successful locked restore and clean build |
+| Task 1 tracer GREEN | 3b45318 | Exact error ID, Subject.cs and start coordinates required; infrastructure diagnostics cannot satisfy the recognizer |
+
+The fixture copies the actual Core project, owned analyzer inputs, shared policy and canonical locks under `.phase1/temp/build-*`. It uses argument arrays, a controlled working directory, redirected output, no shared compiler/build servers/node reuse, stripped MSBuild/profiler settings, a 60-second child deadline and process-tree cleanup. Scratch inputs and raw process logs remain ignored local outputs.
+
+## Proven evidence
+
+- Genuine RED record: `.phase1/temp/08-red.json`; original JUnit `.phase1/temp/08-red.xml`. The final correctly configured invocation executed the intended test and failed its Shouldly assertion despite actual `Subject.cs(6,25): error SCR0006`. The classifier returned `RED_EVIDENCE_OK`; semantic inspection confirms successful locked restore and clean compilation preceded the intended assertion. Earlier incorrect reporter/root invocations are infrastructure failures and provide no RED credit.
+- First reconciled GREEN: `.phase1/runs/4b887617-de74-4cb2-a83c-830bd63e85c5/summary.json`, 1/1 pass.
+- Mandatory tracer repeat: `.phase1/runs/86e1c908-f3fc-4df8-aa98-1b651bb127e0/summary.json`, 1/1 pass.
+- Final restored-baseline repeat: `.phase1/runs/bcb53ffd-3858-4f35-b774-7d34c1e1e368/summary.json`, 1/1 pass.
+- Final whole five-project solution: `.phase1/temp/08-safe-solution.log`, zero warnings/errors. `git diff --check` passes.
+- Full `--all` was not rerun for this incomplete checkpoint. Prior 374/558 results are historical; current complete-suite acceptance is not claimed. WINDOWS entry 23 records the unfinished verification.
+
+## Why execution stopped
+
+Activating the captured donor `.editorconfig` exposes real prerequisites in previously authored proof code. Three bounded repair passes did not reconcile the inherited formatter with all twelve custom rules. The executor's three-attempt limit requires stopping instead of another repair/build cycle.
+
+Initial analyzer-project count: 15 distinct errors, IDE1006=2, IDE0011=3, IDE0008=4, IDE0055=6. Once the analyzer project passed, the proof project exposed 236 distinct errors. The final attempted activation leaves **170 distinct errors**: IDE0055=63, IDE1006=10, IDE0300=2, IDE0305=6, SCR0009=80, SCR0006=5, SCR0007=4.
+
+Exact final diagnostics: `.phase1/temp/08-remaining.json`; raw log `.phase1/temp/08-policy-third.log`. No warning/severity was lowered to pass these checks.
+
+## Safe continuation inputs
+
+- `.phase1/temp/08-policy-activation.patch` preserves all uncommitted activation/formatter changes; `.phase1/temp/08-policy-activation-files.json` lists its 27 owned files.
+- Only these uncommitted edits were restored to committed `3b45318`, leaving the checkout buildable with the preceding enforced policy. Donor originals, locks, adapter scopes and exact generated identities remain unchanged. The activation patch is a failed candidate, not an accepted implementation.
+- The captured donor settings are also in `.phase1/temp/donor.editorconfig` and immutable `docs/code/provenance/langproj-baseline.zip`.
+- Generic `dotnet format` can conflict with SCR0009's exact eight-space continuation rule. Apply layout changes deliberately. Do not reuse old line-number diagnostic fixes after wrapping changes line numbers.
+- Remaining oversized methods in the candidate: `ConfigurationTests.ValidateConfiguration`, `RegisterValidator.ValidateCapture`, `ValidateMappings`, `ValidateSourceRule`, and `ValidateProof`; use the exact source locations in the saved JSON to identify their current names before refactoring. Private static field names also need `_camelCase` without changing literals or register identities.
+
+## Required remaining work
+
+Task 1 still needs actual compiler/built-in/Meziantou/Roslynator/banned-API/test-policy and import/analyzer-edge controls, complete R-01 through R-85 mechanism binding within this plan's ownership, source encoding/layout/format checks, and a clean strict activated-policy solution. Graph/state/docs/coverage mechanisms keep their later owners and pending status.
+
+Task 2 is not started: suppression/exemption validators, exact generated provenance/scopes and collision controls, donor exemption dispositions, numeric boundary contracts and genuine Godot handwritten/generated controls still require implementation and executed proofs. No coverage measurement or Linux acceptance is claimed.
+
+Resume 01-08 Task 1 expansion with a fresh bounded correction window. Keep phase progress at 8/18 until both tasks pass; then create the actual complete SUMMARY and advance to 01-09.

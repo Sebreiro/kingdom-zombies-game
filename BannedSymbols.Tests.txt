@@ -1,0 +1,6 @@
+// Captured LangProj test policy adapted to the local bounded process-proof host.
+// Proof fixtures may coordinate blocking child lifetimes and observe process clocks;
+// they cannot replace Shouldly or bypass the explicit report adapter with Console.
+T:Xunit.Assert;Use Shouldly
+T:System.Console;Use ProofProtocol.Record or the test output helper
+T:System.IServiceProvider;Pass explicit test dependencies

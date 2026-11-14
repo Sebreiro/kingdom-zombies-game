@@ -1,0 +1,341 @@
+# Roadmap: KingdomZombies
+
+**Current Phase 1 closure boundary (creator instruction, 2026-11-14):** The [one-time exception](phases/01-code-rules-and-documentation/01-CLOSURE-EXCEPTION.md) accepts the retained complete Windows baseline plus actual focused Linux strict/native/rule/state/graph evidence without a host restart. The narrow GODOT_LINUXBSD test correction passed separately on both OSes. A complete Linux suite, its original graph capacity failure and fourteen individually unreviewed human components remain explicit [follow-ups](phases/01-code-rules-and-documentation/01-CLOSURE-FOLLOWUPS.md), not passes. The complete-other-OS-VM rule continues for later phases.
+
+## Overview
+
+Deliver the complete specified version 0.1: players build, equip, and defend one shared survivor camp through a solo or four-player LAN campaign, preserving their survivors, belongings, and progress. The creator approved all 133 requirements, the working-increment direction, and this detailed ten-phase roadmap on 2026-11-13. Phase 1 is complete under the focused Linux exception above. Its developer baseline is verified; playable game features remain future work.
+
+**Planning mode:** `mvp` means working, verifiable increments toward the full approved game; it does not reduce scope.
+**Granularity:** Standard configuration, with the creator's explicit ten-phase choice taking precedence over generic phase-count guidance.
+**Scope authority:** [PROJECT.md](PROJECT.md), [REQUIREMENTS.md](REQUIREMENTS.md), the [game specification](../specs/0.1/initial-spec.md), and the [asset/resource plan](../specs/0.1/assets-and-resources.md). [Research](research/SUMMARY.md) informs proofs and implementation choices; it retains initial candidate history; Phase 1 records the now-pinned and proven development baseline.
+**Approval:** Requirements, working-increment direction, and detailed roadmap approved by the creator on 2026-11-13.
+
+**Scope timing amendment, approved 2026-11-14:** Keep Phase 1's working rules, tests and clean two-platform baseline. Phase 5 now owns measured coverage, exhaustive platform execution/evidence reconciliation and unfinished aggregate runner certification. The ten-phase order, all 133 requirement IDs and their primary owners are unchanged; the [Phase 5 handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md) records the required certification work.
+
+## Milestones
+
+- 🚧 **v0.1 Complete playable LAN campaign** — Phases 1–10; roadmap approved, implementation not started.
+
+## v0.1 — Complete playable LAN campaign
+
+**Milestone goal:** Deliver the full approved solo/four-player campaign and all release evidence through the ten increments below.
+
+## Phases
+
+Integer phases execute in order. Decimal phases are reserved for explicitly inserted work.
+
+- [x] **Phase 1: Code rules and documentation** - Developers can use strict, proven Godot-compatible C# rules and focused documentation. (completed 2026-11-14)
+- [ ] **Phase 2: Playable foundation** - Players launch a menu, enter a small scene, and move one character left and right.
+- [ ] **Phase 3: Four-player LAN foundation** - A host and three guests independently control synchronized characters in the same scene.
+- [ ] **Phase 4: Asset production** - The complete required resource pack is reusable, self-contained, and inspectable in fixtures.
+- [ ] **Phase 5: CI and repeatable game testing** - Developers and AI agents run stored cases locally and in CI with trustworthy evidence.
+- [ ] **Phase 6: Survivors, inventory, and combat** - Players manage real belongings, fight, die, and continue through ordinary-survivor succession.
+- [ ] **Phase 7: Camp economy and development** - Players recruit, equip, feed, employ, and expand a functioning camp.
+- [ ] **Phase 8: Zombie campaign and outcomes** - Players face the full zombie campaign and assault six portals through victory or defeat.
+- [ ] **Phase 9: Persistence and complete player experience** - Players save, resume, reconnect, configure, and use the complete game reliably.
+- [ ] **Phase 10: Release validation and balancing** - Complete campaigns and measured desktop, LAN, performance, endurance, and pacing evidence establish release readiness.
+
+## Delivery and Ownership Rules
+
+Each requirement has exactly one primary owner in a phase's **Requirements** field and in the requirements traceability table. That owner delivers and verifies its complete approved behavior. Prerequisite work in earlier phases and regression/integration reruns in later phases do not create additional owners or mark a requirement complete early. All 133 requirements currently remain Pending. PLAT-01 and PLAT-02 are outside this milestone.
+
+Every feature includes its stable identities, host-authoritative validation and atomic ownership changes, configuration and field documentation, versioned saveable state and relevant legacy metadata, usable input/UI/feedback, and regression evidence. Snapshot capture/restore proofs accompany new state before the full player-facing save experience. Solo, host-local, and guest actions follow the same authority path. A failed or duplicated operation cannot change possessions, payments, or commitments.
+
+| Boundary | Required timing |
+| --- | --- |
+| Rule and foundation checks | Each phase uses development-OS checks during implementation and complete current phase-scope testing on that OS and a local VM running the other OS at phase end. Phase 1 runs the complete declared selection on Windows and Linux. Phase 5 retains measured 90%/80% coverage, advanced platform/report reconciliation and eight unfinished aggregate/coverage declarations. Phases 2 and 3 retain their launch, input, rendered-scene and connection checks before the comprehensive framework. |
+| Resource production versus integration | Phase 4 finishes all 180 resource obligations and content/combination fixtures, including data, text, audio bindings, and presentation metadata. Phases 6–9 connect those outputs to real gameplay, session, and save behavior; Phase 10 proves the integrated workload. |
+| Full catalog versus implemented cases | Phase 5 records A-01–A-47 and additional rule/foundation/content/regression cases, and requires cases for implemented foundations. Future feature cases are explicitly planned with owners, then activated during implementation. Planned cases never count as passed. |
+| Early world services | At the start of Phase 6, authoritative elapsed time, safety/danger, and reachability support recovery and access. At the start of Phase 7, day/night transitions, once-only resource-event identities, authored work areas/portal barriers, and live border/fallback rules support actual camp work. Full campaign scheduling remains Phase 8. |
+| Feature UI and exploration | Each increment includes its own usable UI, focus handling, feedback, and applicable content/audio. Independent cameras start with controlled actors; shared exploration/minimap works with the authored campaign in Phase 8. Phase 9 completes every interface and verifies map preservation through real save/load/late join. |
+| Persistence, sessions, and configuration | Stable player/run/content/item identities begin in the foundations. Feature snapshots, commitments, validation, and legacy inventory representation develop in Phases 6–8. Phase 9 owns full SESSION, SAVE, DATA, and UX acceptance plus complete dawn/save/join and continuous-play integration. |
+| Evidence environments | Rule/headless checks, rendered production-input checks, four local processes, actual mixed-OS LAN, creator-PC rendering, and real-duration endurance prove different things. Local process tests or hosted CI cannot replace physical LAN or reference-hardware evidence. |
+
+## Phase Details
+
+### Phase 1: Code rules and documentation
+
+**Goal:** Developers can build and extend the Godot game under strict, documented C# rules that permit correct engine integration and demonstrably reject violations.
+**Mode:** mvp
+**Depends on:** Nothing (first phase)
+**Requirements:** RULE-01, RULE-02, RULE-03, RULE-04, RULE-05, RULE-06, RULE-07
+**Success Criteria** (what must be TRUE):
+
+1. A developer can reproduce a pinned engine/SDK/compiler/analyzer build and run a representative Godot integration scene through construction, loading, callbacks, and teardown. The recorded proof covers handwritten/generated partials, exports, signals, nullability, and main-thread access.
+2. A developer can find every inherited LangProj rule classified as retained, adapted, or inapplicable, with a reason and narrowly scoped compatibility decision; normal Godot code passes without blanket suppression.
+3. Running the documented checks accepts compliant examples and rejects deliberate code, architecture, and exemption violations with actionable diagnostics.
+4. A developer or agent can navigate a short root `AGENTS.md` and focused indexes with valid, consistently cased links, and locate enforced gameplay/Godot/service boundaries plus rules for time, randomness, identities, and saveable authoritative state.
+
+**Earlier completion boundary (superseded for Phase 1 by the focused closure exception above):** Retain every working compiler/analyzer, boundary, exemption, runner, documentation, state and lifecycle check. Use focused development-OS feedback while repairing related findings, then clean setup and the complete declared Phase 1 scope on Windows and the local Linux VM for the same final implementation. Use hardware acceleration when available. Measured coverage, advanced certification/report reconciliation and the eight explicit pending declarations retain Phase 5 ownership and receive no pass/skip credit now. Separate actual qualitative review remains required. The revised [specification](phases/01-code-rules-and-documentation/01-SPEC.md) governs the final plan.
+
+**Plans:** 18/18 plans complete; current amended goal verified and phase closed on 2026-11-14.
+**Wave 1**
+- [x] 01-01-PLAN.md — Pinned native-host toolchain proof
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [x] 01-02-PLAN.md — Trustworthy required-case results
+
+**Wave 3** *(blocked on Wave 2 completion)*
+- [x] 01-03-PLAN.md — Complete donor capture and rule register
+
+**Wave 4** *(blocked on Wave 3 completion)*
+- [x] 01-04-PLAN.md — Minimal projects and strict configuration
+
+**Wave 5** *(blocked on Wave 4 completion)*
+- [x] 01-18-PLAN.md — Compiler verifier and evaluated configuration proofs
+
+**Wave 6** *(blocked on Wave 5 completion)*
+- [x] 01-05-PLAN.md — Construction and call-site analyzers
+
+**Wave 7** *(blocked on Wave 6 completion)*
+- [x] 01-06-PLAN.md — Null, size, length, and member-order analyzers
+
+**Wave 8** *(blocked on Wave 7 completion)*
+- [x] 01-07-PLAN.md — Continuation and declaration analyzers
+
+**Wave 9** *(blocked on Wave 8 completion)*
+- [x] 01-08-PLAN.md — Actual build and exemption proofs
+
+**Wave 10** *(blocked on Wave 9 completion)*
+- [x] 01-09-PLAN.md — Evaluated dependency and type boundaries
+
+**Wave 11** *(blocked on Wave 10 completion)*
+- [x] 01-10-PLAN.md — Controlled time, randomness, and identity
+
+**Wave 12** *(blocked on Wave 11 completion)*
+- [x] 01-11-PLAN.md — Strict snapshots and atomic restoration
+
+**Wave 13** *(blocked on Wave 12 completion)*
+- [x] 01-12-PLAN.md — Real engine lifecycle and thread boundary
+
+**Wave 14** *(blocked on Wave 13 completion)*
+- [x] 01-13-PLAN.md — Canonical guide and documentation checking
+
+**Wave 15** *(blocked on Wave 14 completion)*
+- [x] 01-14-PLAN.md — Project references and rule bindings
+
+**Wave 16** *(blocked on Wave 15 completion)*
+- [x] 01-15-PLAN.md — Explicit Phase 1 selection and Phase 5 certification handoff
+
+**Wave 17** *(blocked on Wave 16 completion)*
+- [x] 01-16-PLAN.md — Final clean Windows baseline and Linux preparation
+
+**Wave 18** *(blocked on Wave 17 completion)*
+- [x] 01-17-PLAN.md — Representative clean Linux checks and Phase 1 review
+
+**Cross-cutting constraints:** <!-- gsd:generated -->
+- A developer receives actionable inherited analyzer failures while compliant code is accepted (AC-07).
+- Applicable numeric and syntax boundaries preserve the donor's exact semantics (AC-09).
+
+**UI hint:** no
+
+**Delivery boundary:** Preserve the adopted LangProj conventions, analyzers, exact numeric semantics, bounded Godot permissions and five-project boundaries. Keep the selected toolchain pins and canonical `AGENTS.md`; no working checks are removed or weakened. Plans 01-15–17 separate explicit Phase 5 certification obligations from Phase 1's functional evidence. Final acceptance uses the retained Windows baseline plus actual focused Linux evidence and the targeted both-OS amendment under the creator exception; the original failed graph case, full Linux suite and individual human reviews remain explicit follow-ups. Reuse completed project/reference/decision pages rather than creating parallel documentation. Coverage and exhaustive certification are required in the [Phase 5 handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md).
+
+### Phase 2: Playable foundation
+
+**Goal:** A player can launch a visible menu, start a small scene with representative base assets, and move a character left and right using normal input.
+**Mode:** mvp
+**Depends on:** Phase 1
+**Requirements:** BASE-01, BASE-02, BASE-03
+**Success Criteria** (what must be TRUE):
+
+1. Launching the game displays a usable main menu, and choosing Start enters the small playable scene.
+2. The player sees representative base assets and a character responding to left/right input through the production controls and camera.
+3. A developer can repeat launch, menu selection, movement, and rendered-scene smoke checks, inspect current results, and see failure when an expected behavior or required image is missing.
+
+**Plans:** TBD
+**UI hint:** yes
+
+**Delivery boundary:** Keep this scene as the Phase 3 LAN foundation. Establish actor identity, input/focus routing, canonical local commands, and engine lifecycle checks here. Use a few representative resources; full pack acceptance stays in Phase 4. These small checks exist before Phase 5 automation and do not imply a complete campaign.
+
+### Phase 3: Four-player LAN foundation
+
+**Goal:** A host and three guests can share the foundation scene, independently control their characters, and observe consistent authoritative movement.
+**Mode:** mvp
+**Depends on:** Phase 2
+**Requirements:** LAN-01, LAN-02, LAN-03, LAN-04
+**Success Criteria** (what must be TRUE):
+
+1. A host and up to three guest game processes connect to the same scene with distinct player profiles and distinct controlled characters.
+2. Each participant's normal movement input affects only their own character, while every participant observes consistent resulting positions through their own camera.
+3. Solo, host-local, and guest actions produce one authoritative result per accepted action; repeated input/command delivery cannot execute the host action twice.
+4. A developer can repeat the connection/movement smoke checks and substitute the discovery, identity, or connection adapter without changing gameplay rules; player identity survives independently of a LAN address or transient peer number.
+
+**Plans:** TBD
+**UI hint:** yes
+
+**Delivery boundary:** Provide the minimal host/join controls and feedback needed for the increment. Establish revision/baseline, readiness, disconnect cleanup, and session lifetime contracts, while full discovery metadata, late-join recovery, reconnection, and host-loss/save behavior remain owned by Phase 9. Four local processes are a repeatable network proof; mixed-OS LAN on separate computers remains required release evidence.
+
+### Phase 4: Asset production
+
+**Goal:** Developers and players can inspect the complete required game content in a self-contained Godot resource pack, with reusable recovered material prioritized and every output traceable.
+**Mode:** mvp
+**Depends on:** Phase 3
+**Requirements:** ASSET-01, ASSET-02, ASSET-03, ASSET-04, ASSET-05
+**Success Criteria** (what must be TRUE):
+
+1. The production manifest maps all 180 CH/AN/IT/BL/EN/FX/UI/AU/DT/TXT obligations to actual outputs or explicit shared outputs. Selected donors and reused logic retain preserved-original identities, transformations, versions, stable output IDs, and validation evidence.
+2. Content fixtures show the survivor and all seven zombie families with required equipment, both hands/directions/actions, armor and backpack fits, bow/arrow states, and persistent corpse appearances; all 24 item definitions are identifiable.
+3. Fixtures show all main/wall/tower tiers and lifecycle states, standalone guard counts of 1/2/3, exactly two one-guard main attachments, permanent portal states, and the authored map/environment/wildlife/effect resources.
+4. A developer can inspect every required UI/text/data resource and error/legacy layout, test longer strings and supported scales, and audition all required sound/ambience categories through documented event bindings.
+5. The packaged content and inspection scenes import and run without the recovered-material folder or other absolute development paths; missing references and unfitted combinations are visible failures.
+
+**Plans:** TBD
+**UI hint:** yes
+
+**Delivery boundary:** Maximize suitable reuse from `D:/Work/Games/KindomCrown/recovered`, preserve originals, and adapt/generate remaining gaps. Catalog-only or decoded-metadata evidence is not production completion. Include the full baseline data, English text, provenance, save/content compatibility metadata, crowd/persistent-corpse fixtures, and desktop delivery resources required by the asset plan. Resource/state fixtures complete production acceptance here; later phases must verify actual gameplay event bindings, ownership-driven appearances, save/join reconstruction, and measured release performance. The 180 obligations are not a count of separate files.
+
+### Phase 5: CI and repeatable game testing
+
+**Goal:** Developers and AI agents can select, execute, inspect, and rerun trustworthy game checks locally and in Windows/Linux CI using stored, traceable cases.
+**Mode:** mvp
+**Depends on:** Phase 4
+**Requirements:** TEST-01, TEST-02, TEST-03, TEST-04, TEST-05, TEST-06, TEST-07, TEST-08, TEST-09, TEST-10
+**Success Criteria** (what must be TRUE):
+
+1. An agent can find readable repository cases for A-01–A-47 plus foundation/content/regression checks, each linked to requirements, owning phase, executable check or evidence procedure, environment, and required artifacts. Already implemented cases are required; future cases are visibly planned.
+2. The same documented entry points run locally and in GitHub Actions on Windows and Linux, covering controlled rule fixtures, actual keyboard/mouse/menu/focus/scene input, and a real host-plus-three-client scenario with independent profiles, bounded waits, isolated logs, and cleanup.
+3. An agent can follow the documented select/run/inspect/reproduce/fix/rerun procedure and diagnose a current-run failure using results, logs, state observations, and required rendered images.
+4. Deliberate missing-tool, bad-runner, zero-discovery, wrong-filter, skipped-required-case, crash, timeout, missing-peer, and missing-evidence trials fail visibly; a planned feature case cannot manufacture a pass or hide a currently required case.
+5. The catalog and activation procedure preserve separate rendered-input, actual mixed-OS LAN, reference-PC, and endurance records, and a newly implemented feature's cases become required alongside that feature. The [Phase 1 handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md) is activated: both real analyzer and production managed-code scopes meet 90% line / 80% branch coverage, and complete clean Windows/Linux suites plus the deferred aggregate runner/report checks have fresh passing evidence.
+
+**Plans:** TBD
+**UI hint:** yes
+
+**Delivery boundary:** Prove exact test-runner discovery, execution, exit status, and report reconciliation; the research's prerelease Godot runner and mixed MTP/VSTest candidates are not pre-certified. Use a bounded repository-owned scene harness if the selected candidate fails compatibility, keeping the same acceptance obligations. Automate the delivered rules/menu/LAN/content foundations now. Full feature and release cases are cataloged, not falsely certified before implementation. Test drivers exercise production input/commands, with observation separated from mutation and test-only authority controls excluded from release builds.
+
+**Required planning input:** Read [05-PHASE1-HANDOFF.md](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md) before discussing/planning Phase 5. Allocate coverage collection/threshold/report checks, exhaustive same-source Windows/Linux execution and deferred aggregate case IDs to concrete Phase 5 plans. Phase 1 completion does not satisfy or waive these Phase 5 obligations.
+
+### Phase 6: Survivors, inventory, and combat
+
+**Goal:** Players in solo and LAN play can control ordinary survivors, manage real belongings, fight with actual equipment, and recover from a player's death without duplication or loss.
+**Mode:** mvp
+**Depends on:** Phase 5
+**Requirements:** CHAR-01, CHAR-02, CHAR-03, CHAR-04, CHAR-05, CHAR-06, INV-01, INV-02, INV-03, INV-04, INV-05, INV-06, INV-07, INV-08, INV-09, INV-10, INV-11, INV-12, INV-13, COMBAT-01, COMBAT-02, COMBAT-03, COMBAT-05, COMBAT-06, COMBAT-08, RUN-01, RUN-02, RUN-03, RUN-04
+**Success Criteria** (what must be TRUE):
+
+1. A run has eight total survivors and one configured starting kit regardless of participant count. Players control unique crowned survivors, walk/sprint/jump with airborne control, and observe configured stamina, safe-camp health recovery, carried-food recovery/cooldown, and nested-load penalties.
+2. Players can use all 24 item definitions, eleven equipment slots, actual pockets/containers, rotation, exact stack splitting/merging, legal nesting, filled-container movement, and four quick food references. Invalid fits/cycles/depth fail safely, and living/corpse appearances track equipped belongings.
+3. Players can inspect permitted nearby NPC/corpse/loot contents and use the local unlimited paged/filterable shared stash while other controlled-player inventories remain private. Drag cancel, panel closure, lost access, and competing transfers preserve each item exactly once and provide corrected state and failure feedback.
+4. Players can fight with fists, one or two one-handed weapons, or a mouse-aimed bow consuming real opposite-hand arrows with manual refill. Costs/timing, armor, retained broken gear, no friendly damage, friendly arrow passthrough, and blocking-defense hits match the specification.
+5. Death leaves exactly the character's remaining belongings; nonempty corpses/piles persist and only empty ones expire. Random succession preserves the eligible survivor's state/location/gear, concurrent deaths never share a successor, and waiting spectators regain available survivors in the specified order without gaining loot from crowns.
+
+**Plans:** TBD
+**UI hint:** yes
+
+**Delivery boundary:** Begin with real authoritative elapsed-time, safety/danger, and reachable-access services needed for recovery, cooldowns, cleanup, and interaction; prove these with representative camp/defense/enemy fixtures before integrating the rest of the phase. Include the actual inventory/stash/loot/equipment/health/stamina/quick-slot/succession interfaces and feedback now. Snapshot round trips cover identity, ownership graphs, quantities, condition, cleanup, control eligibility, and saved layout dimensions/placements; legacy representation begins here. NPC/zombie ammunition consumers use the shared combat contract as they arrive, with complete cross-archetype automatic refill/fallback and spit/cosmetic-acid acceptance owned by Phase 8. Autonomous NPC economy and full world campaign remain later increments.
+
+### Phase 7: Camp economy and development
+
+**Goal:** Players can sustain and expand a working camp through physical-money transactions, recruitment, NPC jobs, food, hauling, and paid development that respects changing safe territory.
+**Mode:** mvp
+**Depends on:** Phase 6
+**Requirements:** WORLD-05, ECON-01, ECON-02, ECON-03, ECON-04, ECON-05, NPC-01, NPC-02, NPC-03, NPC-04, NPC-05, NPC-06, NPC-07, NPC-08, BUILD-01, BUILD-02, BUILD-03, BUILD-04, BUILD-05, BUILD-06, BUILD-07, BUILD-08
+**Success Criteria** (what must be TRUE):
+
+1. Players pay using accessible carried physical money, receive no charge for failed/duplicate actions, and sell only real shared-stash food into physical stash proceeds. Gatherers deplete/refill plants and hunters spend real arrows to recover rabbits' and deer's existing meat; daily wildlife identities/caps preserve animals from prior days.
+2. Players recruit only at the main building within completed-tier fireside/population limits, with the basic outfit and no extra starting supplies. They can assign the four paid roles, see equipment waiting, and exercise temporary-control overflow without deleting or forcibly changing survivors.
+3. NPCs acquire/upgrade/restock actual stash gear, food, and ammunition without losing replaced gear or nested contents. Eligible ordinary NPCs reserve and haul within capacity while retaining their role; interruptions, danger, and carrier death retain cargo in the correct inventory/corpse.
+4. Players purchase tree clearing, three-tier main/wall/tower construction/upgrades, bounded repair, and rebuilding at the last completed tier. Only unassigned workers perform paid work; interruptions preserve progress, unfinished frames give no completed benefit, old tiers function during upgrades, and damage/completion/destruction never grant free work.
+5. Living completed outer walls define borders and fall back to inner walls/refuge after destruction; civilians flee unsafe work with cargo, fight only when escape is blocked, and stop exterior work at night. Standalone towers field 1/2/3 structural archers and the tier-three main has exactly two one-archer attachments sharing its health, without ordinary survivor population, inventory, or loot.
+
+**Plans:** TBD
+**UI hint:** yes
+
+**Delivery boundary:** Establish authoritative day/night transitions and once-only plant/wildlife daily-event identities, authored work areas, portal-aware reachability, live border fallback, and danger checks before their dependent work systems. These prerequisites cannot wait for Phase 8. Implement the people/jobs/recruitment/sale/building interfaces and relevant sounds/feedback here. Snapshot and concurrency cases include payments, accepted work quantities, old-tier state, reservations, cargo, roles, and daily resource commitments. Basic warrior combat/equipment operates here; full allocation, paid rally assaults, and recall return behavior belong to Phase 8. Full dawn orchestration across actual saving and late joining is accepted in Phase 9.
+
+### Phase 8: Zombie campaign and outcomes
+
+**Goal:** Players can defend the developed camp against the complete zombie campaign and assault six permanent portals through correctly resolved victory, continued play, or defeat.
+**Mode:** mvp
+**Depends on:** Phase 7
+**Requirements:** COMBAT-04, COMBAT-07, RUN-05, RUN-06, RUN-07, WORLD-01, WORLD-02, WORLD-03, ZOMB-01, ZOMB-02, ZOMB-03, ZOMB-04, ZOMB-05, ZOMB-06, ZOMB-07, ZOMB-08, ARMY-01, ARMY-02, ARMY-03
+**Success Criteria** (what must be TRUE):
+
+1. Players traverse the complete authored map with six portals and every baseline site/clearing/plant/wildlife zone. Active portals block survivors even when jumping, allow zombies through, and become permanently passable when destroyed; default time uses 600-second days, 300-second nights, opening scheduled-wave grace, and three-day escalation.
+2. All seven zombie archetypes use their distinct behavior and legal real equipment/loot generated before death. NPCs and zombies spend real ammunition, refill from carried reserves, and fall back to usable gear/fists; spit stops at its first eligible hit and bloater acid remains cosmetic.
+3. Every surviving portal supplies eligible scheduled waves, provoked defenders obey warnings/cooldowns/stage/caps even during grace, and each destruction adds distinct retaliation at surviving sources. Queue priority/caps/dawn expiration/source cancellation preserve living enemies and their belongings; independently editable progression changes future generation without player-count scaling or inflating living enemies.
+4. Warriors defend allocated sides and fall back with borders; players pay a valid side rally squad to attack its next surviving portal, with invalid/duplicate requests uncharged. Free recall, success, or an obsolete target returns survivors without teleportation, refunds, or an automatic next assault.
+5. Either main destruction or loss of all living controlled/eligible survivors defeats the camp. Final-portal destruction immediately awards victory while zombies/possessions persist and further dawn retreat stops; simultaneous first victory/defeat resolves as defeat, and an earlier victory remains recorded after a later continuation defeat.
+
+**Plans:** TBD
+**UI hint:** yes
+
+**Delivery boundary:** Integrate produced map/roster/equipment/building resources, shared exploration/minimap, campaign time/HUD, rally controls, warnings, and outcome overlays into actual play now. Full persisted and late-join exploration acceptance remains Phase 9. Carry snapshot proofs for queues, generated loadouts/randomness, warnings, accepted assault orders, once-only event identities, portal destruction, exploration, and outcome precedence. Preserve the documented A-08 interpretation: remaining zombies stop dawn retreat after the final portal; civilian retreat rules remain unchanged. Proposed balance stays configurable and unproven until playtesting.
+
+### Phase 9: Persistence and complete player experience
+
+**Goal:** Players can reliably save, resume, join, reconnect, and use the complete campaign with safe configuration changes, consistent exploration, and finished presentation.
+**Mode:** mvp
+**Depends on:** Phase 8
+**Requirements:** WORLD-04, WORLD-06, WORLD-07, SESSION-01, SESSION-02, SESSION-03, SESSION-04, SESSION-05, SESSION-06, SAVE-01, SAVE-02, SAVE-03, SAVE-04, SAVE-05, SAVE-06, SAVE-07, SAVE-08, DATA-01, DATA-02, DATA-03, DATA-04, UX-01, UX-02, UX-03, UX-04, UX-05, UX-06, UX-07
+**Success Criteria** (what must be TRUE):
+
+1. The host can manually save, autosave at dawn, save on normal exit, and select multiple named runs with the specified retention. Coherent saves preserve all run/character/item/corpse/work/random/event/player/exploration state without healing, rerolls, or repeated dawn events after load/join. Active inventories/menus/saving/victory overlays keep play running; failure/corruption/interruption preserves prior/original data and exit failure offers retry, return, or explicit unsaved departure.
+2. Designers can edit the complete separately documented configuration baseline, including independent zombie progression, with stable references and field/unit/default/range/relationship documentation. Invalid values/content fail before start/load with file/field/value/reason; valid host changes apply only at start/load, preserving commitments, fractional time, possessions, and existing populations. Players can see and extract legacy-layout contents under current destination rules without forced relocation or silent loss.
+3. Windows/Linux players can discover sessions or use a manual address with metadata/capacity/compatibility feedback, join a continuing host without extra survivors/supplies, and gain control only after coherent catch-up. Equal camp permissions and host-only session controls hold; guest departures restore NPC roles/belongings, reconnection respects survivor availability, and host loss ends the session clearly with last-successful-save recovery.
+4. Players have independent cameras and shared explored minimap knowledge, preserved through actual save/load/late join, with identifiable teammates and no unexplored-threat leakage. Every required menu/HUD/people/sale/inventory/stash/loot/building/rally/map/spectator/save/outcome interaction is usable; panel priority, overlapping targets, access loss, and focus prevent background attacks/purchases, while spectators can follow and inspect permitted status without mutating the camp.
+5. Each player retains independent display/audio/binding preferences, can remap essential actions and restore defaults, and can use readable 1280x720/1920x1080 layouts and UI scales. Required effects/ambience work in play, critical warnings remain visible when muted, and the English catalog/layouts pass longer-string checks without gameplay text trapped in artwork.
+
+**Plans:** TBD
+**UI hint:** yes
+
+**Delivery boundary:** Consolidate the state, configuration, UI, audio, and session foundations already delivered; do not introduce stable identity, serialization, item ownership, or input usability for the first time. Test coherent capture/catch-up during concurrent gameplay, once-only dawn orchestration, both-platform save replacement/recovery, legacy extraction, and no replay of old one-shot audiovisual events. Full SESSION/SAVE/DATA/UX requirements and WORLD-04/WORLD-06/WORLD-07 reach complete acceptance here; earlier partial deliveries are prerequisites only.
+
+### Phase 10: Release validation and balancing
+
+**Goal:** Players receive a complete, runnable Windows/Linux v0.1 whose unaided campaigns, LAN behavior, default pacing, and measured performance/endurance satisfy the release gates.
+**Mode:** mvp
+**Depends on:** Phase 9
+**Requirements:** REL-01, REL-02, REL-03, REL-04, REL-05, REL-06
+**Success Criteria** (what must be TRUE):
+
+1. Fresh solo and four-player campaigns reach victory without development commands, injected supplies, or unfinished mandatory steps; recorded runs and tuning support approximately 2–3 hours and 8–12 in-game days at the default baseline.
+2. Packaged Windows and Linux builds launch without a development environment, and recorded actual mixed-OS LAN play on separate computers demonstrates the complete campaign/session behavior and tested systems.
+3. All required acceptance cases and environment-specific evidence are current and passing, including A-01–A-47 and the additional foundation/regression cases, with no known reproducible crash, corruption, duplication, persistent disagreement, or progression blocker.
+4. On the recorded creator reference PC at 1920x1080 with four players, approximately 100 survivors and 300 active zombies, ten minutes of full-behavior stress achieves at least 30 FPS in 95% of one-second samples, no sub-30 stretch over five seconds, and no active-play save/join freeze over 0.5 seconds.
+5. A real three-hour saved/resumed endurance run with recurring battles and at least 200 nonempty corpses/loot piles represented over its course preserves accessible belongings and consistent inventories without a progression block.
+
+**Plans:** TBD
+**UI hint:** yes
+
+**Delivery boundary:** Record actual CPU/GPU/RAM, OS, build/configuration, sampling method, raw measurements, and run evidence; hardware is not yet specified and no result is presumed. Preserve full AI, inventory, visible equipment, combat, persistent loot, and save/join behavior during performance work. Accelerated setups, headless throughput, and four loopback processes are useful diagnostics, not replacements for required real-duration, rendered-hardware, or physical LAN proofs. Tuning may revise proposed baselines with recorded evidence; mandatory behavior and exclusions remain binding.
+
+## Coverage
+
+| Phase | Primary requirements | Current status |
+| --- | ---: | --- |
+| 1. Code rules and documentation | 7 | Complete under focused closure exception |
+| 2. Playable foundation | 3 | Pending |
+| 3. Four-player LAN foundation | 4 | Pending |
+| 4. Asset production | 5 | Pending |
+| 5. CI and repeatable game testing | 10 | Pending |
+| 6. Survivors, inventory, and combat | 29 | Pending |
+| 7. Camp economy and development | 22 | Pending |
+| 8. Zombie campaign and outcomes | 19 | Pending |
+| 9. Persistence and complete player experience | 28 | Pending |
+| 10. Release validation and balancing | 6 | Pending |
+| **Total** | **133** | **7 complete / 126 pending** |
+
+Every approved version 0.1 ID is assigned exactly once; no unknown IDs, duplicate owners, or orphan requirements are allowed. The [requirements traceability table](REQUIREMENTS.md#traceability) is the per-ID ownership record. Its existing A-01–A-47 source crosswalk stays unchanged; Phase 5 expands it into executable/evidence cases and activation states.
+
+## Progress
+
+Execution order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10. Plans are created during phase planning; no plan count is invented here.
+
+| Phase | Plans Complete | Status | Completed |
+| --- | --- | --- | --- |
+| 1. Code rules and documentation | 18/18 | Complete    | 2026-11-14 |
+| 2. Playable foundation | 0/TBD | Not started | - |
+| 3. Four-player LAN foundation | 0/TBD | Not started | - |
+| 4. Asset production | 0/TBD | Not started | - |
+| 5. CI and repeatable game testing | 0/TBD | Not started | - |
+| 6. Survivors, inventory, and combat | 0/TBD | Not started | - |
+| 7. Camp economy and development | 0/TBD | Not started | - |
+| 8. Zombie campaign and outcomes | 0/TBD | Not started | - |
+| 9. Persistence and complete player experience | 0/TBD | Not started | - |
+| 10. Release validation and balancing | 0/TBD | Not started | - |
+
+---
+*Detailed roadmap created and approved: 2026-11-13 (Europe/Paris). Phase 1 is ready for discussion and planning.*

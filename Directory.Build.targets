@@ -1,0 +1,19 @@
+<Project>
+  <Import Project="$(MSBuildThisFileDirectory)Directory.Xunit.targets" Condition="'$(IsTestProject)' == 'true'" />
+  <PropertyGroup>
+    <CompilerGeneratedFilesOutputPath>$(IntermediateOutputPath)generated</CompilerGeneratedFilesOutputPath>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(MSBuildProjectName)' != 'Sebreiro.CodeRules.Analyzers'">
+    <ProjectReference Include="$(MSBuildThisFileDirectory)tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj"
+                      OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(IsTestProject)' == 'true'">
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)BannedSymbols.Tests.txt" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(IsTestProject)' != 'true'">
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)BannedSymbols.txt" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(MSBuildProjectName)' == 'KingdomZombies.Core' Or '$(MSBuildProjectName)' == 'KingdomZombies.Multiplayer.Abstractions'">
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)BannedSymbols.Pure.txt" />
+  </ItemGroup>
+</Project>
