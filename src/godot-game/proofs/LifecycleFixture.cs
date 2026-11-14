@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 namespace KingdomZombies.Proofs;
@@ -25,6 +26,11 @@ internal partial class LifecycleFixture : Node
         _lifetime.Events.Add(item: Name + ":ready");
         if (Name == "Parent")
         {
+            if (!ValidateExports())
+            {
+                return;
+            }
+
             Pulse += Receive;
         }
     }
@@ -59,7 +65,56 @@ internal partial class LifecycleFixture : Node
         EmitSignal(signal: SignalName.Pulse, args: [7]);
     }
 
+    /// <summary>Exercises distinct controlled missing-value and explicit-null pre-readiness inputs.</summary>
+    internal void ApplyMode(string mode)
+    {
+        ProofSequence.Gateway.RequireThread();
+        if (StringComparer.Ordinal.Equals(x: mode, y: "missing-value"))
+        {
+            RequiredValue = default;
+        }
+        else if (StringComparer.Ordinal.Equals(x: mode, y: "invalid-null"))
+        {
+            RequiredResource = null;
+        }
+    }
+
     private readonly LifetimeToken _lifetime;
+    [Export]
+    private ProofResource? RequiredResource { get; set; }
+    [Export]
+    private Variant RequiredValue { get; set; }
+    [Export]
+    private ProofResource? OptionalResource { get; set; }
+
+    private bool ValidateExports()
+    {
+        try
+        {
+            (ProofResource resource, int value) = CheckedExports();
+            if (resource.Read() != 13 || value != 37 || OptionalResource is not null)
+            {
+                throw new InvalidOperationException(message: "EXPORT_SERIALIZED_VALUE");
+            }
+
+            _lifetime.Uses++;
+            return true;
+        }
+        catch (InvalidOperationException error)
+        {
+            ProofSequence.Reject(fixture: this, diagnostic: error.Message, uses: _lifetime.Uses);
+            return false;
+        }
+    }
+
+    private (ProofResource Resource, int Value) CheckedExports()
+    {
+        ProofResource resource = RequiredResource
+                ?? throw new InvalidOperationException(message: "EXPORT_REQUIRED:RequiredResource");
+        int? staged = RequiredValue.VariantType == Variant.Type.Int ? RequiredValue.AsInt32() : null;
+        int value = staged ?? throw new InvalidOperationException(message: "EXPORT_REQUIRED:RequiredValue");
+        return (resource, value);
+    }
 
     private void Receive(int value)
     {

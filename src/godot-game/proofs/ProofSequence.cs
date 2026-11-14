@@ -14,6 +14,21 @@ internal static class ProofSequence
     /// <summary>Gets the generation selected before the engine instantiates its scripts.</summary>
     internal static LifetimeToken Current { get; private set; } = new();
 
+    /// <summary>Reports exact failed initialization before any serialized value-use counter advances.</summary>
+    internal static void Reject(Node fixture, string diagnostic, int uses)
+    {
+        Gateway.RequireThread();
+        GD.Print(what: ["PHASE1_EXPORT_REJECT " + JsonSerializer.Serialize(value: new
+        {
+            nonce = System.Environment.GetEnvironmentVariable(variable: "PHASE1_NONCE"),
+            mode = System.Environment.GetEnvironmentVariable(variable: "PHASE1_ENGINE_MODE"),
+            scene = fixture.SceneFilePath,
+            diagnostic,
+            uses
+        })]);
+        fixture.GetTree().Quit(exitCode: 2);
+    }
+
     /// <summary>Advances one bounded step on the captured engine thread.</summary>
     internal static void Tick(Node owner, string nonce)
     {
@@ -70,8 +85,12 @@ internal static class ProofSequence
 
     private static void Load(Node owner)
     {
-        using PackedScene scene = GD.Load<PackedScene>(path: "res://proofs/ValidFixture.tscn");
+        string mode = System.Environment.GetEnvironmentVariable(variable: "PHASE1_ENGINE_MODE") ?? "valid";
+        string path = StringComparer.Ordinal.Equals(x: mode, y: "missing-reference")
+                ? "res://proofs/InvalidFixture.tscn" : "res://proofs/ValidFixture.tscn";
+        using PackedScene scene = GD.Load<PackedScene>(path: path);
         _fixture = scene.Instantiate<LifecycleFixture>();
+        _fixture.ApplyMode(mode: mode);
         owner.AddChild(node: _fixture);
         _started = Time.GetTicksMsec();
     }
@@ -134,7 +153,8 @@ internal static class ProofSequence
         Require(condition: _worker?.IsCompletedSuccessfully == true, message: "WORKER_FAILED");
         Gateway.Drain();
         Require(condition: Current.Value == 41 && Current.Handlers == 1 && _first.Value == 7
-                && _first.Handlers == 1, message: "MAIN_THREAD_RESULT");
+                && _first.Handlers == 1 && _first.Resources + Current.Resources > 0,
+                message: "MAIN_THREAD_RESULT");
         Cleanup(owner: owner);
         Validate(lifetime: Current);
         _barrier.Dispose();
@@ -142,7 +162,8 @@ internal static class ProofSequence
         Current.Cancellation.Dispose();
         foreach (int cycle in new[] { 1, 2 })
         {
-            foreach (string surface in new[] { "construction", "callbacks", "process", "signals", "teardown" })
+            foreach (string surface in new[] { "construction", "callbacks", "process", "signals", "teardown",
+                    "resource", "exports", "null-validation", "binding" })
             {
                 Publish(nonce: nonce, surface: surface, cycle: cycle);
             }
@@ -176,7 +197,7 @@ internal static class ProofSequence
         string[] expected = ["Parent:enter", "Child:enter", "Child:ready", "Parent:ready", "Child:exit", "Parent:exit"];
         Require(condition: lifetime.Events.SequenceEqual(second: expected, comparer: StringComparer.Ordinal)
                 && lifetime.Constructions == 2 && lifetime.Processes > 0 && lifetime.Handlers == 1
-                && !lifetime.IsOpen, message: "LIFECYCLE_ORDER");
+                && lifetime.Uses == 1 && !lifetime.IsOpen, message: "LIFECYCLE_ORDER");
     }
 
     private static void Publish(string nonce, string surface, int cycle)

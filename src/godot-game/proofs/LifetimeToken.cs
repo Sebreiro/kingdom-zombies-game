@@ -18,6 +18,10 @@ internal sealed class LifetimeToken
     internal int Handlers { get; set; }
     /// <summary>Gets or sets the scene value changed only through main-thread work.</summary>
     internal int Value { get; set; }
+    /// <summary>Gets or sets the number of successfully checked serialized-value uses.</summary>
+    internal int Uses { get; set; }
+    /// <summary>Gets or sets genuine native resource construction observations.</summary>
+    internal int Resources { get; set; }
     /// <summary>Gets the cancellation source independently of the generation acceptance fence.</summary>
     internal CancellationTokenSource Cancellation { get; } = new();
 
