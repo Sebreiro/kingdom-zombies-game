@@ -1,6 +1,36 @@
 # Phase 1 platform baseline
 
-**Current final-acceptance requirement (creator instruction, 2026-11-14):** Complete the current 676-case Phase 1 selection on Windows and the local Linux VM for the same repaired source. The fresh final Windows run below accepts **676/676**. Complete Linux-VM execution and separate human judgment remain **Pending**. Earlier f4658bb runs are retained historical evidence, including nine genuine TCG timeouts; they do not certify the four repairs through 5c52a20. See the [repair report](../../.planning/phases/01-code-rules-and-documentation/01-REVIEW-FIX.md) and [verification reference](verification.md).
+**Latest creator authority (2026-11-14):** The [one-time Phase 1 closure exception](../../.planning/phases/01-code-rules-and-documentation/01-CLOSURE-EXCEPTION.md) requests important actual Linux checks without a Windows restart, retaining the complete Windows **676/676** result. The first seven-case focused Linux execution below has **five passes and two actual failures**, so its required checks are not yet all satisfied. Full Linux execution and the fourteen individually unreviewed human outcomes remain explicit follow-ups; no test or human pass is inferred. Later phases retain the complete development-OS/other-OS-VM rule. Earlier f4658bb runs remain historical and do not certify the review repairs.
+
+## Creator-authorized focused Linux smoke attempt
+
+The creator's exception predeclared seven existing cases, unchanged exact method filters/assertions, ordinary bounded strict setup, and direct software-emulated smoke execution with **8-minute MTP / 10-minute outer** case limits. The canonical runner's 45-second case limit and every internal source deadline remain unchanged. This is focused Linux smoke evidence, not canonical complete `--phase 1` acceptance.
+
+The existing owned Ubuntu 24.04.5 LTS / kernel `6.8.0-147-generic` / x86_64 guest was started explicitly with TCG after the creator declined a host restart. The clean source remained `59f032cf23340058eec91f12c5d240f585dfabdc`, matching the final Windows source and 203-file input `fe2bf549f20329633fd62cfeab796ca8fb2c5ce02da432346e8ee4c314873426`. Only authenticated official archive contents were extracted into the local tools/feed; four canonical managed payload hashes matched. No old build output was copied.
+
+| Actual setup | Outcome |
+| --- | --- |
+| Locked five-project restore, ordinary 1200-second outer bound | Exit 0; all five projects restored |
+| Strict whole-solution build with original flags and `-m:1`, 1200-second outer bound | Exit 0; **zero warnings/errors**, `00:06:07.66` |
+| Unchanged `node tools/phase1/bootstrap.cjs --probe engine` after ordinary build | Exit 0; nonce `c9059bcc-b8fa-499d-82e3-6612c20dfbe7`; original 60-second child limits unchanged |
+
+Fresh native evidence contains construction/ready/exit and 21 surface/cycle records across distinct instances `27279754708` / `27581744596` on captured managed thread `1`: callbacks, process, signals, teardown, resources, exports, null validation, binding, late-work fencing, prohibited-worker rejection and main-thread delivery were inspected. Observed tools match Node `24.22.1`, SDK `10.0.404`, compiler `5.9.0-1.26529.119 (2ab2854867733112c84ac12c4273d7970ac3afdf)`, Godot `4.7.2.stable.mono.official.ed1daf0bf`, and runtimes `8.0.16` / `10.0.15`. Actual executable/compiler/test-assembly hashes are retained in `tools.json` and the original receipt.
+
+| Predeclared case | Actual outcome | Process duration |
+| --- | --- | --- |
+| `R-38.positive` | PASS; exact 1 passed / 0 failed / 0 skipped, `ANALYZER_ACCEPTED`, exit 0 | 55.524s |
+| `R-38.negative` | PASS; exact 1 passed / 0 failed / 0 skipped, `SCR0001`, exit 0 | 53.774s |
+| `graph.allowed-and-direct` | FAIL; exact 1 failed / 0 passed / 0 skipped, exit 2 | 169.153s |
+| `state.snapshot` | PASS; exact 1 passed / 0 failed / 0 skipped, `STRICT_SNAPSHOT_ROUNDTRIP`, exit 0 | 15.160s |
+| `state.restore` | PASS; exact 1 passed / 0 failed / 0 skipped, `ATOMIC_ACCEPTED_ROOT`, exit 0 | 16.440s |
+| `engine.consumer-branches` | FAIL; exact 1 failed / 0 passed / 0 skipped, exit 2 | 44.025s |
+| `rules.suppression-conditional` | PASS; exact 1 passed / 0 failed / 0 skipped, `CONDITIONAL_SUPPRESSION_REJECTED`, exit 0 | 50.744s |
+
+The graph failure is `System.TimeoutException: Isolated compiler exceeded 60 seconds` in `BuildFixture.Run` line 184, through `GraphFixture` line 19. Its fresh clean fixture build failed the unchanged infrastructure prerequisite before the forbidden-edge subject. No deadline, shared-compiler setting or assertion was relaxed; no fixture build outputs were seeded. The branch regression failed with `Sequence contains no matching element` at `ConsumerPolicyTests.cs:23`: its `Single` assumes `GODOT_WINDOWS` or `GODOT_LINUX`. A bounded actual SDK evaluation confirms **`GODOT_LINUXBSD`**, `GodotTargetPlatform: linuxbsd`, `OS: Unix`, with `DEBUG` and `TOOLS`; the consumer supplied the genuine platform symbol. No technical source repair or blind rerun was made in this attempt.
+
+The original focused invocation is `55960e73-29ec-4d63-ad88-028f588e5e6d`, platform `linux-x64-6.8.0-147-generic`, observed tool hash `1b607aea3c49c937008cfeca23d8e9a7c8082516cd844155c5c2291ced86c8cc`. It ran `2026-11-14T20:21:29.529Z`–`20:38:23.523Z` including setup. Its receipt is `/home/phase1/phase1-final-17/.phase1/smoke/55960e73-29ec-4d63-ad88-028f588e5e6d/smoke-receipt.json`, SHA-256 `419cfed0bd80d579415317eef1407057098cad2cced33565c89716f2e4ffc5a8`. All seven original exact test reports were inspected: five passes have valid nonce/input/tool/platform-bound proofs and evidence hashes, while both failures remain failures. All 16 original command-log hashes match; only the two failed case processes have nonzero exits, neither outer process timed out. Git status and the post-run 203-file input remain unchanged.
+
+Original evidence is preserved in `/home/phase1/17-final-smoke-evidence.tar.gz` and copied/extracted under `.phase1/temp/17-linux-smoke/` on Windows. Matching SHA-256: `ed71610d06a12d0aafa5d0c292b9bb20c5d14af9886098fad4c3b6696e76ada9`. It includes original reports/proofs/subject logs/commands, native bootstrap records, the actual SDK-symbol diagnostic and failed graph-fixture logs/inventory. `.phase1/temp/17-linux-smoke/original-inspection.json` records independent inspection. No credential or old build output is included. The [plan summary](../../.planning/phases/01-code-rules-and-documentation/01-17-SUMMARY.md) retains the actual outcomes and limits. The failed required checks remain unresolved; this attempt does not establish closure or complete Linux acceptance.
 
 The [setup](setup.md) and [verification](verification.md) pages define the ordinary commands. Plan 01-17 owns fresh complete platform evidence after the review repairs. Its matching Linux checkout/tools/cache are verified and the owned old TCG guest is cleanly shut down; an active host hypervisor and actual WHPX startup await the creator's Windows restart. Preparation, exploratory feedback and separate longer diagnostics carry no acceptance credit. Coverage and the eight explicit later-phase declarations remain pending in the [Phase 5 handoff](../../.planning/phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md).
 
@@ -29,7 +59,7 @@ The original canonical report is `.phase1/temp/17-windows-59f032c/.phase1/runs/b
 
 Observed tools are Node `24.22.1`, SDK `10.0.404`, compiler `5.9.0-1.26529.119 (2ab2854867733112c84ac12c4273d7970ac3afdf)`, native Godot `4.7.2.stable.mono.official.ed1daf0bf`, editor runtime `8.0.16` and hosted application runtime `10.0.15`. The fresh raw native log includes construction/ready/exit and 21 surface/cycle records for two distinct instances, with callbacks, resources/exports/binding/null validation, teardown, late-work fencing, prohibited-worker rejection and captured main-thread delivery. Canonical engine cases separately passed within the complete run. No coverage or human judgment is inferred.
 
-## Matching Linux preparation and restart prerequisite
+## Historical complete-Linux preparation and restart prerequisite
 
 The new clean guest checkout `/home/phase1/phase1-final-17` is pinned to the exact revision and 203-file input above. Its tracked-source bundle `/home/phase1/phase1-tools/downloads/final-17.bundle` has matching Windows/Linux SHA-256 `334110bde21f2a983deb965d0d227e0872ed659309c8d170e3fd10e07f35f54b`. Guest inspection reverified all 41 package payloads against their raw hashes and current lock identities, both official Godot archives, all four retained tool archives and absence of old `bin`/`obj`/`.godot` outputs. Native archive identity and canonical common managed archive identity remain separate. No Linux restore, build, bootstrap or acceptance case has run on this candidate.
 

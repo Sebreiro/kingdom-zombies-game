@@ -42,7 +42,7 @@ status: halted
 
 # Phase 1 Plan 17: Linux baseline and qualitative review Summary
 
-**Latest continuation:** Fresh repaired-source Windows **676/676 ACCEPTED**; identical Linux source/tools/cache prepared and owned guest cleanly shut down. Active hypervisor/WHPX after the creator's Windows restart, complete Linux 676-case execution and all fourteen human judgments remain required. Plan status stays **halted**, with **0/2 accepted tasks**. The original representative-only evidence below is historical; see the latest continuation section at the end.
+**Latest continuation:** The creator's one-time no-restart closure exception now applies. Fresh repaired-source Windows **676/676 ACCEPTED** is retained. Actual strict Linux setup and native bootstrap pass, but the first seven-case smoke attempt has **five passes and two real failures** (isolated compiler capacity and an actual LinuxBSD symbol assumption). No source repair or pass was invented. Plan status stays **halted**, with formal closure awaiting the parent's resolution. Complete Linux scope and fourteen individually unreviewed human outcomes remain visible follow-ups under the exception. Earlier restart and representative-only records below are historical.
 
 **Clean genuine Linux setup and seven representative proofs pass; nine canonical timeouts and actual human judgment still block Phase 1.**
 

@@ -1,6 +1,18 @@
 # Phase 1 Execution Environment
 
-## Final repaired-source preparation and owned shutdown — 2026-11-14
+## Creator-authorized no-restart Linux smoke — 2026-11-14
+
+The [one-time closure exception](01-CLOSURE-EXCEPTION.md) supersedes the earlier restart closure gate for Phase 1 only. The parent restarted the positively owned VM explicitly with TCG at `2026-11-14T20:11:33.396Z`: launcher PID 28040, QEMU PID 31028, four virtual CPUs, 4096 MB, CPU `max`. Windows was not restarted and hardware acceleration is not claimed. The later-phase complete two-platform rule remains unchanged.
+
+The existing clean `/home/phase1/phase1-final-17` checkout remains at `59f032cf23340058eec91f12c5d240f585dfabdc`, with unchanged 203-file input `fe2bf549f20329633fd62cfeab796ca8fb2c5ce02da432346e8ee4c314873426`. It began without source/tests/tools `bin`, `obj` or `.godot` outputs. The authenticated official Windows/Linux ZIPs were extracted locally, and all four canonical Windows-managed payload hashes verified before populating `.phase1/feed`; no old outputs were copied. The ordinary locked five-project restore passed. The strict whole-solution build passed with zero warnings/errors in `00:06:07.66`, using original strict flags and `-m:1`, within an explicit 1200-second ordinary setup bound.
+
+The unchanged native bootstrap passed with nonce `c9059bcc-b8fa-499d-82e3-6612c20dfbe7`, retaining its original 60-second child deadlines. Actual Node/SDK/compiler/engine/runtimes and binary/assembly hashes were observed. Its real 21 surface/cycle records and construction/ready/exit assertions were inspected, including resources/exports, callbacks/signals, teardown and main-thread/lifetime fences.
+
+The seven predeclared direct smoke cases used 8-minute MTP and 10-minute outer bounds, without altering canonical 45-second limits or source assertions. Invocation `55960e73-29ec-4d63-ad88-028f588e5e6d` actually completed all seven: **five passed, two failed, none skipped**. The graph case fails its unchanged 60-second fresh isolated compiler prerequisite; the consumer-branch case assumes `GODOT_LINUX`, while actual pinned SDK evaluation supplies `GODOT_LINUXBSD` / `linuxbsd`. No source repair or blind retry was performed. The [platform record](../../../docs/workflow/platform-proof.md) owns exact outcomes and diagnostics; failed checks are not passes.
+
+Original setup/native/test evidence and SDK-symbol diagnostics are retained under the checkout's `.phase1/smoke/55960e73-29ec-4d63-ad88-028f588e5e6d/` and `.phase1/runs/c9059bcc-b8fa-499d-82e3-6612c20dfbe7/`. Archive `/home/phase1/17-final-smoke-evidence.tar.gz` was copied/extracted under ignored Windows `.phase1/temp/17-linux-smoke/`, with matching SHA-256 `ed71610d06a12d0aafa5d0c292b9bb20c5d14af9886098fad4c3b6696e76ada9`. Post-run source/Git checks remain clean and unchanged. The guest remains owned/live for the parent's narrow failure-resolution decision; its new current process identities are distinct from the earlier shutdown below. No unrelated process or host setting was changed.
+
+## Historical repaired-source preparation and owned shutdown — 2026-11-14
 
 The final candidate is `59f032cf23340058eec91f12c5d240f585dfabdc`, containing the four stabilized review repairs and current platform policy. The fresh Windows validation checkout is `.phase1/temp/17-windows-59f032c`; its 203-file frozen input is `fe2bf549f20329633fd62cfeab796ca8fb2c5ce02da432346e8ee4c314873426`. The matching Linux checkout is `/home/phase1/phase1-final-17`, prepared from `/home/phase1/phase1-tools/downloads/final-17.bundle`. SHA-256 of the exact bundle on both platforms is `334110bde21f2a983deb965d0d227e0872ed659309c8d170e3fd10e07f35f54b`. A bundle contains tracked source only; no donor, VM credentials, reports or old build outputs were transferred.
 
@@ -12,7 +24,7 @@ After matching the live QEMU executable, full owned disk/loopback command line, 
 
 The same host query still returned `HypervisorPresent: false`. The agent did not restart Windows or start another guest. After the creator's Windows restart, verify the active hypervisor and actual WHPX startup before running the complete Linux `--phase 1` selection from the frozen checkout. Source `/home/phase1/phase1-tools/env.sh`, establish the checkout-local isolation paths below, then run native bootstrap, clean locked five-project restore, strict whole-solution build and all 676 required cases with unchanged deadlines. Preserve the separate eight Phase 5 deferrals and fourteen pending human judgments. The [platform record](../../../docs/workflow/platform-proof.md) owns final executed outcomes.
 
-## Hardware-acceleration handoff — 2026-11-14
+## Historical hardware-acceleration handoff — 2026-11-14
 
 The creator now requires complete phase scope on the development OS and a local VM running the other OS. The creator confirmed manually enabling Windows Hypervisor Platform. A subsequent live host query still returned `HypervisorPresent: false`, so accelerated Linux acceptance awaits the Windows restart. The earlier administrator-helper launch was canceled before execution; no successful automated feature installation is claimed.
 

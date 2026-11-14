@@ -21,7 +21,7 @@ public sealed class ConsumerPolicyTests
         var consumer = ConsumerCompilation.Read(root: ProofProtocol.Root,
                 project: ProjectEvaluator.Expected[2]);
         string platform = consumer.Options.PreprocessorSymbolNames.Single(predicate: symbol =>
-                symbol is "GODOT_WINDOWS" or "GODOT_LINUX");
+                symbol is "GODOT_WINDOWS" or "GODOT_LINUX" or "GODOT_LINUXBSD");
         foreach (string symbol in new[] { "DEBUG", "TOOLS", platform })
         {
             consumer.Options.PreprocessorSymbolNames.ShouldContain(expected: symbol, comparer: StringComparer.Ordinal);
