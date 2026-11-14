@@ -17,7 +17,7 @@ Use `$gsd-progress` to inspect the project state and identify the next workflow 
 | `$gsd-execute-phase N` | Execute the phase's plans and record implementation results. |
 | `$gsd-verify-work N` | Check delivered behavior against the phase and user acceptance expectations. |
 
-Phase 1's requirements and context are captured; its next step is `$gsd-plan-phase 1`. Planning documents alone do not complete an implementation phase.
+Phase 1's requirements and context are captured and execution is in progress. [STATE.md](../../.planning/STATE.md) is the current next-action authority. Planning documents alone do not complete an implementation phase.
 
 ## Planning Artifacts
 
@@ -31,3 +31,5 @@ Phase 1's requirements and context are captured; its next step is `$gsd-plan-pha
 | [Research summary](../../.planning/research/SUMMARY.md) | Technical recommendations, sources, and unresolved implementation proofs. |
 
 The configured `mvp` phase mode means working increments toward the full version 0.1 scope. `$gsd-settings` changes workflow preferences. This page describes GSD; the project specifications and focused code/architecture documents define the game and repository conventions.
+
+The canonical [agent guide](../../AGENTS.md) selects focused references. Use [setup](setup.md) for prerequisites, [verification](verification.md) for focused/full proof commands and fresh evidence, [code](../code/README.md) for executable rules and [architecture](../architecture/README.md) for boundaries and decisions. Preserve the interactive question preferences above; `workflow.text_mode` remains `false`.

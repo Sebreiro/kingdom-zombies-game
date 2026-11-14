@@ -20,6 +20,10 @@ internal static class DocumentationLinks
             {
                 errors.Add(item: "DOC_REFERENCE " + path + ":" + Line(source: source, index: definition.Index));
             }
+
+            CheckTarget(path: path, line: Line(source: source, index: definition.Index),
+                    raw: definition.Groups[groupname: "url"].Value, documents: documents, inventory: inventory,
+                    errors: errors);
         }
 
         foreach (Match link in Matches(source: source,

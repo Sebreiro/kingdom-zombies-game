@@ -22,7 +22,7 @@ internal static class DocumentationValidator
             IReadOnlyList<string> required)
     {
         var errors = new List<string>();
-        string[] paths = [.. files.Keys];
+        string[] paths = [.. files.Keys.Where(predicate: IsInventory)];
         string[] segments = [.. paths.SelectMany(selector: path => path.Split(separator: '/')
                 .Select(selector: (_, index) => string.Join(separator: "/", values: path.Split(separator: '/')
                         .Take(count: index + 1)))).Distinct(comparer: StringComparer.Ordinal)];
@@ -57,6 +57,12 @@ internal static class DocumentationValidator
             {
                 errors.Add(item: "DOC_EMPTY " + path);
             }
+            else if (path is "AGENTS.md" or "docs/code/README.md" or "docs/architecture/README.md"
+                    && !DocumentationLinks.Matches(source: DocumentationLinks.WithoutFences(content: content),
+                            pattern: @"\[[^\]]+\](?:\([^)]+\)|\[[^\]]*\])").Any())
+            {
+                errors.Add(item: "DOC_INDEX " + path);
+            }
         }
 
         foreach ((string path, string content) in documents)
@@ -78,8 +84,27 @@ internal static class DocumentationValidator
                         || IsTreeDocument(path: path));
     }
 
+    /// <summary>Combines strict owned-document navigation with complete focused decision structure.</summary>
+    internal static IReadOnlyList<string> CheckDecisions(IReadOnlyDictionary<string, byte[]> files)
+    {
+        return [.. Check(files: files, required: Authored), .. DocumentationDecisions.Check(files: files)];
+    }
+
+    /// <summary>Rejects installed, vendor, generated and provenance archive inputs from authored inventory.</summary>
+    internal static bool IsInventory(string path)
+    {
+        string[] excluded =
+        [
+            ".codex", ".agents", ".claude", ".git", ".phase1", "vendor", "plugins",
+            "node_modules", "bin", "obj", ".godot"
+        ];
+        return !path.Split(separator: '/').Any(predicate: part => excluded.Contains(value: part,
+                comparer: StringComparer.OrdinalIgnoreCase)) && !path.EndsWith(value: ".zip",
+                        comparisonType: StringComparison.OrdinalIgnoreCase);
+    }
+
     /// <summary>Reads exact tracked paths plus explicitly declared authored pages; never stages any input.</summary>
-    internal static IReadOnlyDictionary<string, byte[]> ReadRepository()
+    internal static Dictionary<string, byte[]> ReadRepository()
     {
         string[] helpers =
         [
@@ -89,7 +114,8 @@ internal static class DocumentationValidator
         IEnumerable<string> authored = Authored.Concat(second: helpers);
         string[] paths = [..SourceFileFormat.ReadTrackedPaths().Concat(second: authored).Distinct(
                 comparer: StringComparer.Ordinal)];
-        return paths.Where(predicate: path => File.Exists(path: Path.Combine(path1: ProofProtocol.Root,
+        return paths.Where(predicate: IsInventory).Where(predicate: path => File.Exists(path: Path.Combine(
+                path1: ProofProtocol.Root,
                 path2: path))).ToDictionary(keySelector: path => path, elementSelector: path => IsOwned(path: path)
                         ? File.ReadAllBytes(path: Path.Combine(path1: ProofProtocol.Root, path2: path)) : [],
                         comparer: StringComparer.Ordinal);
@@ -100,8 +126,10 @@ internal static class DocumentationValidator
         return path.StartsWith(value: "docs/", comparisonType: StringComparison.Ordinal)
                 && !path.StartsWith(value: "docs/code/provenance/", comparisonType: StringComparison.Ordinal)
                 || path.StartsWith(value: "specs/", comparisonType: StringComparison.Ordinal)
-                || path.StartsWith(value: "src/", comparisonType: StringComparison.Ordinal)
-                        && path.Contains(value: "/docs/", comparisonType: StringComparison.Ordinal)
+                || path.StartsWith(value: "src/core/docs/", comparisonType: StringComparison.Ordinal)
+                || path.StartsWith(value: "src/multiplayer-abstractions/docs/", comparisonType:
+                        StringComparison.Ordinal)
+                || path.StartsWith(value: "src/godot-game/docs/", comparisonType: StringComparison.Ordinal)
                 || path.StartsWith(value: "tests/phase1/docs/", comparisonType: StringComparison.Ordinal)
                 || path.StartsWith(value: "tools/code-rules/docs/", comparisonType: StringComparison.Ordinal);
     }

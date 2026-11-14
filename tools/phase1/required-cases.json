@@ -23,7 +23,13 @@
     "BannedSymbols.txt",
     "BannedSymbols.Tests.txt",
     "BannedSymbols.Pure.txt",
-    ".editorconfig"
+    ".editorconfig",
+    ".planning/config.json",
+    ".planning/PROJECT.md",
+    ".planning/REQUIREMENTS.md",
+    ".planning/ROADMAP.md",
+    ".planning/STATE.md",
+    ".planning/research/SUMMARY.md"
   ],
   "acceptanceCriteria": [
     {
@@ -1823,7 +1829,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_FilesystemSubject_RejectsWrongCase",
+      "expectedDiagnostic": "DOC_CASE"
     },
     {
       "id": "ac-12.complete",
@@ -2333,7 +2341,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_CollidingSegments_RejectsAmbiguity",
+      "expectedDiagnostic": "DOC_COLLISION"
     },
     {
       "id": "edge.rule-04.empty",
@@ -2349,7 +2359,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_MissingDocument_ReportsRequired",
+      "expectedDiagnostic": "DOC_REQUIRED"
     },
     {
       "id": "edge.rule-04.encoding",
@@ -2365,7 +2377,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_UnicodeSpaces_PreservesExactIdentity",
+      "expectedDiagnostic": "DOC_NAVIGATION"
     },
     {
       "id": "edge.rule-04.ordering",
@@ -2381,7 +2395,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_PermutedLinks_PreservesVerdict",
+      "expectedDiagnostic": "DOC_NAVIGATION"
     },
     {
       "id": "edge.rule-04.concurrency",
@@ -2397,7 +2413,9 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_ConcurrentReads_PreservesInputs",
+      "expectedDiagnostic": "DOC_UNCHANGED"
     },
     {
       "id": "edge.rule-05.adjacency",
@@ -5710,8 +5728,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_RealRuleIndexes_AcceptsOperationalLinks",
+      "expectedDiagnostic": "DOC_NAVIGATION"
     },
     {
       "id": "R-83.negative",
@@ -5727,8 +5747,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_RemovedRuleIndex_RejectsRequiredAuthority",
+      "expectedDiagnostic": "DOC_REQUIRED"
     },
     {
       "id": "R-84.positive",
@@ -5744,8 +5766,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_RealDecisions_AcceptsCompleteStructure",
+      "expectedDiagnostic": "DOC_DECISIONS"
     },
     {
       "id": "R-84.negative",
@@ -5761,8 +5785,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_IncompleteDecision_ReportsMissingSection",
+      "expectedDiagnostic": "DOC_DECISION"
     },
     {
       "id": "R-85.register-resolution",
@@ -12941,6 +12967,366 @@
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_WrongCaseLink_ReportsExactTarget",
       "expectedDiagnostic": "DOC_CASE"
+    },
+    {
+      "id": "docs.portable",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-13",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_EmptyIndex_RejectsMissingEntries",
+      "expectedDiagnostic": "DOC_INDEX"
+    },
+    {
+      "id": "docs.empty",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-13",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_WhitespaceDocument_ReportsEmpty",
+      "expectedDiagnostic": "DOC_EMPTY"
+    },
+    {
+      "id": "docs.target",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-13",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_BrokenTarget_ReportsMissing",
+      "expectedDiagnostic": "DOC_TARGET"
+    },
+    {
+      "id": "docs.anchor",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-13",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_BrokenAnchor_ReportsMissing",
+      "expectedDiagnostic": "DOC_ANCHOR"
+    },
+    {
+      "id": "docs.ambiguous-anchor",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-13",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_DuplicateHeadings_RejectsAmbiguity",
+      "expectedDiagnostic": "DOC_ANCHOR"
+    },
+    {
+      "id": "docs.explicit-anchor",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-13",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_ExplicitDisambiguation_AcceptsUniqueAnchor",
+      "expectedDiagnostic": "DOC_NAVIGATION"
+    },
+    {
+      "id": "docs.ambiguous-reference",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-13",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_DuplicateReferences_RejectsAmbiguity",
+      "expectedDiagnostic": "DOC_REFERENCE"
+    },
+    {
+      "id": "docs.reference",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-13",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_CollapsedReference_AcceptsUniqueDefinition",
+      "expectedDiagnostic": "DOC_NAVIGATION"
+    },
+    {
+      "id": "docs.missing-reference",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-13",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_MissingReference_ReportsDefinition",
+      "expectedDiagnostic": "DOC_REFERENCE"
+    },
+    {
+      "id": "docs.invalid-utf8",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-13",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_InvalidUtf8_ReportsEncoding",
+      "expectedDiagnostic": "DOC_UTF8"
+    },
+    {
+      "id": "docs.percent",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-13",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_MalformedPercent_ReportsEncoding",
+      "expectedDiagnostic": "DOC_ENCODING"
+    },
+    {
+      "id": "docs.percent-utf8",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-13",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_InvalidEscapedUtf8_ReportsEncoding",
+      "expectedDiagnostic": "DOC_ENCODING"
+    },
+    {
+      "id": "docs.escape",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-13",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_EscapingLocalLink_ReportsBoundary",
+      "expectedDiagnostic": "DOC_ESCAPE"
+    },
+    {
+      "id": "docs.singleton",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-13",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_SingletonIndex_AcceptsSingleTarget",
+      "expectedDiagnostic": "DOC_NAVIGATION"
+    },
+    {
+      "id": "docs.scope",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-13",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_InstalledDocuments_ExcludesExternalScope",
+      "expectedDiagnostic": "DOC_NAVIGATION"
+    },
+    {
+      "id": "docs.workflow",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-13",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_InteractionPreference_PreservesApprovedContract",
+      "expectedDiagnostic": "DOC_WORKFLOW"
+    },
+    {
+      "id": "docs.directory-collision",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-13",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_DirectoryCollision_RejectsDistinctLeaves",
+      "expectedDiagnostic": "DOC_COLLISION"
+    },
+    {
+      "id": "docs.anchor-collision",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-13",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_DuplicateExplicitIds_RejectsAmbiguity",
+      "expectedDiagnostic": "DOC_ANCHOR"
+    },
+    {
+      "id": "docs.heading-suffix",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-13",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_ImplicitNumericSuffix_RequiresExplicitAnchor",
+      "expectedDiagnostic": "DOC_ANCHOR"
+    },
+    {
+      "id": "docs.unicode-distinct",
+      "group": "docs",
+      "rule": "RULE-04",
+      "owner": "01-13",
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_DistinctUnicodeTarget_RejectsNormalization",
+      "expectedDiagnostic": "DOC_TARGET"
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."

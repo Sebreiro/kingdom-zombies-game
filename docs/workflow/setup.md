@@ -1,6 +1,6 @@
 # Development setup
 
-The exact baseline is [toolchain.json](../../tools/phase1/toolchain.json). The existing [Godot project](../../src/godot-game/project.godot) hosts a minimal C# proof scene. These setup references introduce no gameplay. Phase 1 acceptance and coverage remain pending the later trusted proof runner and actual Linux execution.
+The exact baseline is [toolchain.json](../../tools/phase1/toolchain.json). The existing [Godot project](../../src/godot-game/project.godot) hosts a minimal C# proof scene. These setup references introduce no gameplay. The trusted proof runner is implemented; full Phase 1 acceptance, measured coverage and actual Linux execution remain required. [Verification](verification.md) owns proof commands and result interpretation.
 
 | Prerequisite | Exact version | Source |
 | --- | --- | --- |
@@ -51,4 +51,12 @@ export TMPDIR="$PWD/.phase1/temp" TEMP="$PWD/.phase1/temp" TMP="$PWD/.phase1/tem
 dotnet tool restore --configfile NuGet.config
 ```
 
-Tool restore uses only the declared official NuGet source. The bootstrap's initial engine slice needs only the four archive packages; additional phase tools are restored when their owning plans establish their proofs. Setup does not certify coverage, exports, rendered gameplay or a second operating system. Verification commands belong to the phase's later verification reference.
+Tool restore uses only the declared official NuGet source. The bootstrap's initial engine slice needs only the four archive packages; additional phase tools are restored when their owning plans establish their proofs. After the native bootstrap command in the [verification reference](verification.md) has populated the verified engine feed, restore exactly the five committed project lock files from the checkout root on either platform:
+
+```sh
+dotnet restore KingdomZombies.slnx --locked-mode --disable-parallel -p:NuGetAudit=false
+```
+
+Use the same source checkout and pinned prerequisites on each operating system. A clean checkout must not need LangProj, recovered donor folders or a Downloads cache. Keep each checkout's CLI home, package/feed/cache/temp paths local and retain the entire platform Godot archive directory. Acquisition failure, missing prerequisites or failed locked restore blocks the dependent build/proofs. Do not substitute an unverified package name or silently update a lock to bypass failure. Bootstrap native subprocesses have bounded deadlines; the full case coordinator records each case's own deadline and cleanup. The prepared workspace Linux VM belongs to later platform execution and must not be terminated by unrelated proof cleanup.
+
+Setup does not certify coverage, exports, rendered gameplay or a second operating system. Actual clean Windows and Linux suites and measured coverage retain their later Phase 1 owners. Verification commands and fresh evidence requirements live in [verification](verification.md); the focused entry point remains [AGENTS.md](../../AGENTS.md).
