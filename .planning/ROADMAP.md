@@ -327,7 +327,7 @@ Execution order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10. Plans
 | Phase | Plans Complete | Status | Completed |
 | --- | --- | --- | --- |
 | 1. Code rules and documentation | 18/18 | Complete    | 2026-11-14 |
-| 2. Playable foundation | 0/3 | In progress | - |
+| 2. Playable foundation | 1/3 | In progress | - |
 | 3. Four-player LAN foundation | 0/TBD | Not started | - |
 | 4. Asset production | 0/TBD | Not started | - |
 | 5. CI and repeatable game testing | 0/TBD | Not started | - |
