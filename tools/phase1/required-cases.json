@@ -4228,7 +4228,7 @@
       "id": "R-44.positive",
       "group": "rules",
       "rule": "R-44",
-      "owner": "01-05..01-09",
+      "owner": "01-08",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -4238,14 +4238,16 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "positive"
+      "implementation": "csharp",
+      "polarity": "positive",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Compile_CachedLoggerMessage_Accepted",
+      "expectedDiagnostic": "LOGGERMESSAGE_COMPILER_ACCEPTED"
     },
     {
       "id": "R-44.negative",
       "group": "rules",
       "rule": "R-44",
-      "owner": "01-05..01-09",
+      "owner": "01-08",
       "prerequisites": [
         "pinned-tools",
         "proof-build"
@@ -4255,8 +4257,10 @@
         "nonempty-log",
         "actual-test-report"
       ],
-      "implementation": "pending",
-      "polarity": "negative"
+      "implementation": "csharp",
+      "polarity": "negative",
+      "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Compile_DirectLoggerExtension_Rejected",
+      "expectedDiagnostic": "CA1848"
     },
     {
       "id": "R-45.positive",

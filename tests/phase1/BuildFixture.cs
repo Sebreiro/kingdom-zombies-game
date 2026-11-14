@@ -82,6 +82,15 @@ internal sealed class BuildFixture
         return File.ReadAllText(path: file);
     }
 
+    /// <summary>Uses the installed SDK logging reference pack in this isolated compiler consumer.</summary>
+    internal void AddLoggingReference()
+    {
+        string source = File.ReadAllText(path: _project);
+        File.WriteAllText(path: _project, contents: source.Replace(oldValue: "</Project>",
+                newValue: "<ItemGroup><FrameworkReference Include=\"Microsoft.AspNetCore.App\"/></ItemGroup></Project>",
+                comparisonType: StringComparison.Ordinal));
+    }
+
     /// <summary>Checks identity, subject, severity and exact start coordinates after infrastructure succeeds.</summary>
     internal static bool HasDiagnostic((int Exit, string Output) result, string id, int line, int column,
             string file = "Subject.cs")

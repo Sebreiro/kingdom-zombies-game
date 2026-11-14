@@ -783,6 +783,51 @@ public sealed class EnforcementTests
                 source: BannedTestAssertionSource, tests: true);
     }
 
+    /// <summary>The pinned actual compiler accepts cached LoggerMessage delegates under the logging rule.</summary>
+    [Fact, Trait("Case", "R-44.positive")]
+    public void Compile_CachedLoggerMessage_Accepted()
+    {
+        BuildFixture fixture = LoggingConsumer();
+        fixture.Write(source: LoggerMessageSource);
+        (int Exit, string Output) result = fixture.Build();
+        result.Exit.ShouldBe(expected: 0, customMessage: result.Output);
+        ProofProtocol.Record(id: "R-44.positive", diagnostic: "LOGGERMESSAGE_COMPILER_ACCEPTED",
+                location: fixture.DirectoryPath + "/src/core/Subject.cs");
+    }
+
+    /// <summary>The actual ILogger extension call is rejected at its exact handwritten source location.</summary>
+    [Fact, Trait("Case", "R-44.negative")]
+    public void Compile_DirectLoggerExtension_Rejected()
+    {
+        BuildFixture fixture = LoggingConsumer();
+        fixture.Write(source: DirectLoggerSource);
+        (int Exit, string Output) result = fixture.Build();
+        BuildFixture.HasDiagnostic(result: result, id: "CA1848", line: 10, column: 9).ShouldBeTrue(
+                customMessage: result.Output);
+        BuildFixture.HasDiagnostic(result: result, id: "CA1873", line: 10, column: 83).ShouldBeTrue(
+                customMessage: result.Output);
+        ProofProtocol.Record(id: "R-44.negative", diagnostic: "CA1848",
+                location: fixture.DirectoryPath + "/src/core/Subject.cs(10,9)");
+    }
+
+    private const string LoggerMessageSource = "using System;\nusing Microsoft.Extensions.Logging;\n\nname"
+            + "space KingdomZombies.Core;\n\n/// <summary>Actual logging "
+            + "compiler control.</summary>\ninternal static class Subject"
+            + "\n{\n    internal static void Read(ILogger logger, int val"
+            + "ue)\n    {\n        _write(logger, value, null);\n    }\n"
+            + "\n    private static readonly Action<ILogger, int, Excepti"
+            + "on?> _write = LoggerMessage.Define<int>(\n            logL"
+            + "evel: LogLevel.Information, eventId: new EventId(id: 1), f"
+            + "ormatString: \"Value {Value}\");\n}\n";
+    private const string DirectLoggerSource = "using Microsoft.Extensions.Logging;\n\nnamespace KingdomZo"
+            + "mbies.Core;\n\n/// <summary>Actual logging compiler negati"
+            + "ve.</summary>\ninternal static class Subject\n{\n    inter"
+            + "nal static void Read(ILogger logger)\n    {\n        Logge"
+            + "rExtensions.LogInformation(logger: logger, message: \"Valu"
+            + "e {Value}\", args: [CreateValue()]);\n    }\n\n    private"
+            + " static string CreateValue()\n    {\n        return new st"
+            + "ring(c: 'x', count: 10);\n    }\n}\n";
+
     private const string AsyncPermissionSource = "namespace KingdomZombies.Core;\n\n/// <summary>Awaitable p"
             + "ermission control.</summary>\npublic static class Subject"
             + "\n{\n    /// <summary>Permitted suffix omission.</summary>"
@@ -804,6 +849,16 @@ public sealed class EnforcementTests
             + "l test-project assertion control.</summary>\ninternal stat"
             + "ic class Subject\n{\n    internal static void Read()\n    "
             + "{\n        Xunit.Assert.True(condition: true);\n    }\n}\n";
+
+    private static BuildFixture LoggingConsumer()
+    {
+        var fixture = new BuildFixture();
+        fixture.AddLoggingReference();
+        fixture.Restore();
+        (int Exit, string Output) clean = fixture.Build();
+        clean.Exit.ShouldBe(expected: 0, customMessage: clean.Output);
+        return fixture;
+    }
 
     private static void RequireTabWidthFailure(string source)
     {
