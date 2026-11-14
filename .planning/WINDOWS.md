@@ -2,9 +2,9 @@
 schema_version: 1
 open_count: 1
 waived_count: 0
-fixed_count: 23
-total_count: 24
-last_updated: 2026-11-14T13:24:24.221Z
+fixed_count: 26
+total_count: 27
+last_updated: 2026-11-14T15:43:30.753Z
 ---
 
 # Broken Windows Ledger
@@ -39,6 +39,9 @@ last_updated: 2026-11-14T13:24:24.221Z
 | 22 | 01 | deviation | docs/code/generated-syntax-adaptations.json |  | Whole-solution build requires one Core qualification fix, handwritten Godot continuation layout fixes, and two exact Godot syntax permissions bounded by diagnostic, full content hash, path and span with actual origin, mutation, adjacency and impostor proofs. | fixed |  | 2026-11-13T20:56:19.761Z | 2026-11-13T21:12:33.814Z |
 | 23 | 01 | unrun-verify | tests/phase1/EnforcementTests.cs |  | 01-08 incomplete. Last full run remains 417 passed/zero failed/142 pending of 559. Later source-format, formatter/tab, async/test-project and authentic xUnit portability focused increments pass. Producer REDf93cef3/GREEN6df071f proves root/two-path exact generation, seed/hash/bypass/shape failures and handwritten call-site/layout boundaries with no broad suppression or disabled generation. Current declarations 448 implemented/122 pending of 570 are not a new full-suite verdict. Remaining R44/R48, broader exemptions/generated-surface/numeric and final immutable-source closure must finish. Exact evidence and one-shot cautions are in 01-08-CHECKPOINT.md. | fixed |  | 2026-11-13T21:25:19.535Z | 2026-11-14T02:15:17.940Z |
 | 24 | 01 | deviation | tests/phase1/KingdomZombies.Phase1.Tests.csproj |  | 01-10 required a direct internal Core test inspection edge, exact independent graph permissions, scoped friend assembly and regeneration of the existing canonical test lock; all product boundaries and five-project inventory remain enforced. Final full run db2fb6c5-f77d-4bbc-8d2f-e535f25e2d72 accepts all 563 implemented controls. | fixed |  | 2026-11-14T06:07:07.719Z | 2026-11-14T06:07:08.101Z |
+| 25 | 01 | deviation | tools/phase1/bootstrap.cjs |  | 01-16 clean setup required supported Windows ZIP extraction and exact canonical managed archive packages on both native platforms; verified by clean bootstrap, locked builds and final 670 accepted controls. | fixed |  | 2026-11-14T15:42:03.004Z | 2026-11-14T15:43:30.009Z |
+| 26 | 01 | deviation | tools/code-rules/GeneratedLayout.cs |  | 01-16 actual Linux SDK emits distinct exact assembly-attribute bytes; authenticated two Linux source variants and producer identity at unchanged suffix/line boundaries, with actual builds and passing origin/boundary controls. | fixed |  | 2026-11-14T15:42:03.428Z | 2026-11-14T15:43:30.385Z |
+| 27 | 01 | deviation | tests/phase1/ExemptionValidator.cs |  | 01-16 actual Linux testing-platform helper has one MSBuild-hook newline variant; authenticated its exact raw source at the same member/package scope, with actual permission reader and passing origin/collision controls. | fixed |  | 2026-11-14T15:42:03.803Z | 2026-11-14T15:43:30.753Z |
 
 ````json
 [
@@ -352,6 +355,45 @@ last_updated: 2026-11-14T13:24:24.221Z
     "reason": "",
     "recorded_at": "2026-11-14T06:07:07.719Z",
     "resolved_at": "2026-11-14T06:07:08.101Z",
+    "milestone": "v0.1"
+  },
+  {
+    "id": 25,
+    "kind": "deviation",
+    "phase": "01",
+    "file": "tools/phase1/bootstrap.cjs",
+    "line": null,
+    "description": "01-16 clean setup required supported Windows ZIP extraction and exact canonical managed archive packages on both native platforms; verified by clean bootstrap, locked builds and final 670 accepted controls.",
+    "status": "fixed",
+    "reason": "",
+    "recorded_at": "2026-11-14T15:42:03.004Z",
+    "resolved_at": "2026-11-14T15:43:30.009Z",
+    "milestone": "v0.1"
+  },
+  {
+    "id": 26,
+    "kind": "deviation",
+    "phase": "01",
+    "file": "tools/code-rules/GeneratedLayout.cs",
+    "line": null,
+    "description": "01-16 actual Linux SDK emits distinct exact assembly-attribute bytes; authenticated two Linux source variants and producer identity at unchanged suffix/line boundaries, with actual builds and passing origin/boundary controls.",
+    "status": "fixed",
+    "reason": "",
+    "recorded_at": "2026-11-14T15:42:03.428Z",
+    "resolved_at": "2026-11-14T15:43:30.385Z",
+    "milestone": "v0.1"
+  },
+  {
+    "id": 27,
+    "kind": "deviation",
+    "phase": "01",
+    "file": "tests/phase1/ExemptionValidator.cs",
+    "line": null,
+    "description": "01-16 actual Linux testing-platform helper has one MSBuild-hook newline variant; authenticated its exact raw source at the same member/package scope, with actual permission reader and passing origin/collision controls.",
+    "status": "fixed",
+    "reason": "",
+    "recorded_at": "2026-11-14T15:42:03.803Z",
+    "resolved_at": "2026-11-14T15:43:30.753Z",
     "milestone": "v0.1"
   }
 ]
