@@ -1,4 +1,8 @@
-# Plan 01-09 execution checkpoint — current continuation 4
+# Plan 01-09 execution history — superseded by completed SUMMARY
+
+**Resolved 2026-11-14:** Both tasks are complete. Final immutable run `3fa47e43-8147-43bb-b88b-46529437cfc6` accepted545 controls with zero failed controls and60 later-owner pending obligations. See [01-09-SUMMARY.md](01-09-SUMMARY.md). The continuation records below are preserved historical evidence, not the current resume point.
+
+## Historical continuation 4
 
 **Full closure remains incomplete: 0/2 entire tasks, no SUMMARY, no immutable full09 suite and no STATE/ROADMAP advancement.** Phase 1 stays9/18; all RULE requirements Pending. Preserve the independent Phase 2 annotation/artifacts. The eight WIP paths below remain intact; never reset/reapply prior changes.
 
