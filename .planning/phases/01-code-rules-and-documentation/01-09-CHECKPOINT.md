@@ -1,4 +1,73 @@
-# Plan 01-09 execution checkpoint — current continuation
+# Plan 01-09 execution checkpoint — current continuation 3
+
+**Full plan closure remains incomplete: no SUMMARY, no immutable full09 suite and no STATE/ROADMAP advancement.**
+The evaluated/compiled Task 1 foundation is now committed as `7e2a528`; final cross-rule register bindings and Task 2 proof activation are preserved WIP. Do not treat a foundation increment as both entire tasks complete. Phase 1 stays9/18; all RULE requirements Pending; independent Phase 2 annotation/artifacts remain untouched.
+
+## Immediate next action and exact blocking diagnostics
+
+The final strict whole-solution build currently fails with exactly three new convention errors, no runtime RED credit:
+
+```text
+tests/phase1/BoundaryFixture.cs(34,121): SCR0007: Line is123 characters long; limit120
+tests/phase1/BoundaryFixture.cs(73,121): SCR0007: Line is122 characters long; limit120
+tests/phase1/ProjectEvaluator.cs(298,21): SCR0009: Wrapped argument indented20 spaces; expected28
+```
+
+Wrap `ProofProtocol.Record` location at BoundaryFixture34; wrap the collection expression/ValidateProvider call at73 using compliant +8 continuation; indent the `comparisonType:` argument at ProjectEvaluator298 to28. Do not weaken any rule/severity/exemption. The source is preserved, not reset.
+
+This executor reached the bounded task-repair limit through the consolidated convention correction, canonical-root/locator prerequisite correction, and final semantic Core-to-provider/reusable-edge correction. These last three convention errors are handed to a fresh continuation rather than repaired beyond the limit. No permission decision or package installation is needed.
+
+## Verified progress in this continuation
+
+- `1ccde62` genuine compiled-type RED: strict harness0warnings/errors; clean fixture, Core-to-game edge and final typeof subject all build successfully; exact `GraphTests.Inspect_CoreEngineType_ReportsCompiledLeak` fails intended ShouldContain. Actual exit2, unchanged supported report `.phase1/temp/09-type-red.xml`, record `09-type-red.json` with report/run/modification timestamps; classifier **RED_EVIDENCE_OK**. Sandbox restore denial was infrastructure only, then successful elevated execution supplied real RED.
+- `c6280d4` compiled metadata GREEN: exact target1/1pass (~20.7s). Built-in PEReader/MetadataReader inspect trusted freshly compiled metadata without loading assemblies/constructing Nodes. Independent subject guards and full assembly/type token inventories catch body/generated dependencies. No package acquisition.
+- `c42201d` expansion RED: actual clean graph and compilable Core OutputType=Exe plus Entry.Main both build; exact `Evaluate_CoreExecutable_ReportsOutputKind` fails intended GRAPH_OUTPUT_KIND assertion. `.phase1/temp/09-expansion-red.xml/json`, exit2, **RED_EVIDENCE_OK**. Exact focused GREEN later1/1pass (~14.4s), report `09-expansion-green.xml`.
+- `7e2a528` verified evaluated/compiled foundation: independent five-project/type policy; tracked+new authored inventory; recursive real evaluated imports/origins; both analyzer metadata; output kinds; all compiled leak shapes; ports/providers/helper/locator mechanisms; concrete architecture Models and exact visibility registry. Source compiles strictly before subsequent WIP changes.
+- Canonical `node tools/phase1/check.cjs --group graph` **24/24pass, exit0**, report `.phase1/runs/40a8ea85-dcb0-4d1e-8a34-3d17d4353a94/summary.json`. Revision `c42201d761043d7d7716a4a35c0b36e5f8735d41` plus then-uncommitted foundation; input `c26ae20f686da75e458d404b5aba02cc77583bd196ff813d4f992055b0d3b11d`; tool `1bc1550a3487ad6bcfa66506ba802fe26ba79f3775fa104be4c76dc8708f1e32`; actual `win32-x64-10.0.19044`. This is NOT evidence for subsequent WIP.
+- Raw focused structure/evolution `.phase1/temp/09-structure-focused.xml`: **18/18pass**,0failed,~2m08s. Actual copied strict model compilations precede intentional private-mutation/mapping/enum/version/config failures.
+- Raw boundary `.phase1/temp/09-boundary-focused.xml`: **23/23pass**,0failed,~4m35s. Distinct R51–62/R78 methods (R52negative is the separate exact executable test).
+- Final affected direct targets **5/5pass** after adding real allowed Core+port composition, missing project file, policy+reference permutation, exact CS0246 coordinates and strict visibility registry fields. Source then strictly compiled0warnings/errors. Targets: Build_ExplicitCoreAndPortComposition_Accepted, Evaluate_MalformedPolicySelectors_ReportsRequired, Evaluate_PermutedReferences_PreservesVerdict, Rule53_CompilerViolation_Rejected, ArchitectureRuleTests.Rule34_DeclaredVisibility_Accepted.
+- Earlier first broad GraphTests run was stopped after repeated common safe-write prerequisite failures; it is not complete-suite evidence. Only its identified dotnet process27948 and descendants were stopped. The Linux VM shell was not touched.
+
+## Preserved WIP, including unverified final changes
+
+`git status --short` at handoff:
+
+```text
+ M docs/code/register.json
+ M tests/phase1/ArchitecturePolicy.cs
+ M tests/phase1/BoundaryFixture.cs
+ M tests/phase1/GraphTests.cs
+ M tests/phase1/ProjectEvaluator.cs
+ M tests/phase1/RegisterValidator.cs
+ M tools/phase1/required-cases.json
+?? tests/phase1/ArchitectureRuleTests.cs
+```
+
+Do not discard or redo this work. The untracked ArchitectureRuleTests file contains all18 already-passing structural/default-visibility/evolution proofs; it still needs Task2 commit. The JSON manifest currently declares **605 cases,545 csharp implementations,60 later-owner pending** (including the newly added, not-yet-run CS0012 proof). No full suite of that inventory has run.
+
+Final register WIP now points R34/R51–56/R58–66/R74/75/77/78/81 at actual ProjectEvaluator/TypeBoundaryScanner/ArchitecturePolicy/GraphTests methods and real GraphTests versus ArchitectureRuleTests proof paths. RegisterValidator has the independent `_architecture` mapping and matching expected proof paths. All register mechanism/proof status and qualitative-review status remain Pending; R57 stays inapplicable. This binding update has not yet passed the register mutation group.
+
+Two necessary semantic corrections also await verification after the three convention fixes:
+
+1. `R-59.negative` now calls `BoundaryFixture.CoreProvider`, compiling an actual **Core -> concrete provider type**. The earlier passing R59 test inspected provider->Core, which correctly tested provider isolation but did not exercise the intended R59 direction. New helper compiles a clean control/provider first, then the actual Core type use and expects TYPE_FORBIDDEN naming KingdomZombies.Provider.
+2. Isolated provider/reusable-helper proofs now require both actual evaluated graph verdict and compiled-type verdict. `ProjectEvaluator.ValidateProvider(..., reusable:true)` grants no product edges and evaluates actual PackageReference items, preventing an unused forbidden reference from disappearing during compilation. Product-named packages are rejected for the reusable analyzer/helper. Original five-project graph remains unchanged.
+
+The new actual `graph.transitive-compiler` method `Build_UndeclaredTransitiveEngineType_ReportsCs0012` has **not been compiled/run yet**. It uses the already verified clean+Core-to-game control then accesses Phase1's inherited Node member from Core without a direct GodotSharp reference, requiring intended CS0012 and no MSB/NU infrastructure failure. Inspect its real outcome; adjust only within the fresh bounded repair budget if needed. The existing CS0246 direct-absence case already passed exact Subject.cs(8,23).
+
+## Remaining closure procedure
+
+1. Fix only the three convention diagnostics, strict whole solution, then focused actual CS0012/Core-provider/reusable cases and full RegisterTests mutation group. Preserve genuine RED records/commits; no additional accepting scaffolds are needed.
+2. Verify unique manifest IDs/targets and Method_State_Expected; check tracked source/format, git diff, exact LF locks via affected restore check, native `node tools/phase1/bootstrap.cjs --probe engine`, and actual twelve-analyzer source consumer. The final strict solution prerequisite must pass. Do these prerequisites before the one full suite.
+3. Commit the remaining Task2 proof/manifest/register/wiring files with normal hooks, exact supplied-root pin and protected-branch override check. Source is intentionally WIP now. Avoid fabricated complete-task/SUMMARY claims before fresh checks.
+4. Run one immutable `node tools/phase1/check.cjs --all` per D10. Expected current inventory605 includes545 implemented +60 later-owner pending; counts are expectations only until executed. Collect actual console/exit/report and identities; no fingerprinted source/docs/spec/config edits during that run. Later pending obligations never count as passing. AC07 complete remains honestly later-owner pending while state/lifecycle/docs/etc mechanisms are unimplemented.
+5. On actual success of implemented controls, write01-09-SUMMARY to disk, self-check, update latest ROADMAP first and STATE to10/18/next10 while preserving exact Phase2 annotation/artifacts. All RULE requirements remain Pending. Ledger `.git/gsd-plan-head-before-01-09` remains authoritative `286fb681f356badc1c426ffca35f2770053702bb`; measure commits/diff actuals, do not narrate counts. Capture final docs commit normally. No Linux/coverage pass yet.
+
+Official API references and earlier provenance details below remain applicable. Newly authored visibility permissions are exact source/type entries in `docs/code/visibility-exemptions.json`; no original generator permission or donor archive was broadened/modified. R63/64/65/74/75/77/81 models are concrete compiled test-only Models; production ExampleState/ProofKind/SnapshotDto remain owned by10/11.
+
+---
+
+# Prior continuation 2 (superseded)
 
 **0/2 complete tasks.** The direct-edge tracer increment has genuine RED/GREEN commits; full Task 1 and all Task 2 remain incomplete. Do not create a complete SUMMARY or advance STATE/ROADMAP. Phase 1 stays 9/18, all RULE requirements Pending, with independent Phase 2 annotation/artifacts preserved.
 
