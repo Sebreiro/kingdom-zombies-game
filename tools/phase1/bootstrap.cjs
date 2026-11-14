@@ -129,7 +129,7 @@ async function command(label, executable, args, options = {}) {
 }
 
 function validateManifest(manifest) {
-  for (const key of ['engine', 'engineFullVersion', 'sdk', 'compiler', 'language', 'framework', 'node', 'runtime', 'editorRuntime', 'coverageTool']) {
+  for (const key of ['engine', 'engineFullVersion', 'sdk', 'compiler', 'language', 'framework', 'node', 'runtime', 'editorRuntime', 'coverageTool', 'managedPackageArchive']) {
     if (typeof manifest[key] !== 'string' || manifest[key].length === 0) fail('PINS_MISSING', key);
   }
   if (!Array.isArray(manifest.godotPackages)) fail('PINS_MISSING', 'four Godot packages required');
@@ -143,6 +143,7 @@ function validateManifest(manifest) {
   const required = ['Godot.NET.Sdk', 'Godot.SourceGenerators', 'GodotSharp', 'GodotSharpEditor'];
   if (manifest.godotPackages.length !== 4) fail('PINS_MISSING', 'four Godot packages required');
   if (required.some(id => !seen.has(id))) fail('PINS_MISSING', 'matching SDK/bindings/generator');
+  if (manifest.managedPackageArchive !== 'win32-x64' || !manifest.archives?.[manifest.managedPackageArchive]) fail('PINS_MISMATCH', 'canonical managed package archive');
   const supported = ['engine=4.7.2', 'engineFullVersion=4.7.2.stable.mono.official.ed1daf0bf', 'sdk=10.0.404', 'compiler=5.9.0-1.26529.119 (2ab2854867733112c84ac12c4273d7970ac3afdf)', 'language=14.0', 'framework=net10.0', 'node=24.22.1', 'runtime=10.0.15', 'editorRuntime=8.0.16', 'coverageTool=18.12.0'];
   for (const pair of supported) {
     const [key, value] = pair.split('=');
@@ -229,8 +230,8 @@ function download(url, destination, redirects = 0) {
   });
 }
 
-async function acquire(manifest) {
-  const archive = manifest.archives[`${process.platform}-${process.arch}`];
+async function acquireArchive(manifest, platform) {
+  const archive = manifest.archives[platform];
   if (!archive) fail('PLATFORM_UNAVAILABLE', `${process.platform}-${process.arch}`);
   const cache = path.join(home, 'cache', archive.file);
   if (!fs.existsSync(cache) || process.env.PHASE1_FORCE_DOWNLOAD === '1') {
@@ -252,22 +253,32 @@ async function acquire(manifest) {
   const executable = path.join(engineDirectory, archive.executable);
   if (!fs.existsSync(executable)) {
     if (process.platform === 'win32') {
-      await command('extract', 'powershell.exe', ['-NoProfile', '-NonInteractive', '-Command', 'Expand-Archive -LiteralPath $env:PHASE1_ZIP -DestinationPath $env:PHASE1_TOOLS -Force'],
+      await command('extract-' + platform, 'powershell.exe', ['-NoProfile', '-NonInteractive', '-Command', 'Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::ExtractToDirectory($env:PHASE1_ZIP, $env:PHASE1_TOOLS)'],
         { env: { PHASE1_ZIP: cache, PHASE1_TOOLS: path.join(home, 'tools') }, diagnostic: 'ARCHIVE_EXTRACT' });
     } else {
-      await command('extract', 'unzip', ['-o', cache, '-d', path.join(home, 'tools')], { diagnostic: 'ARCHIVE_EXTRACT' });
+      await command('extract-' + platform, 'unzip', ['-o', cache, '-d', path.join(home, 'tools')], { diagnostic: 'ARCHIVE_EXTRACT' });
       fs.chmodSync(executable, 0o755);
     }
   }
-  const source = path.join(engineDirectory, 'GodotSharp/Tools/nupkgs');
+  if (archive.executableSha256 && hash(executable) !== archive.executableSha256) fail('PINS_MISMATCH', 'Engine executable payload hash');
+  return { executable, engineDirectory };
+}
+
+async function acquire(manifest) {
+  const platform = `${process.platform}-${process.arch}`;
+  const native = await acquireArchive(manifest, platform);
+  // The common locks and generated-source provenance pin the same managed package bytes on both OSes.
+  // Native execution still uses the actual platform archive, never the package donor executable.
+  const managed = platform === manifest.managedPackageArchive ? native
+    : await acquireArchive(manifest, manifest.managedPackageArchive);
+  const source = path.join(managed.engineDirectory, 'GodotSharp/Tools/nupkgs');
   for (const pkg of manifest.godotPackages) {
     const file = `${pkg.id}.${pkg.version}.nupkg`;
     const input = path.join(source, file);
     if (!fs.existsSync(input) || hash(input) !== pkg.sha256) fail('PACKAGE_HASH', file);
     fs.copyFileSync(input, path.join(home, 'feed', file));
   }
-  if (archive.executableSha256 && hash(executable) !== archive.executableSha256) fail('PINS_MISMATCH', 'Engine executable payload hash');
-  return executable;
+  return native.executable;
 }
 
 function observedIdentity(name, actual, expected) {
