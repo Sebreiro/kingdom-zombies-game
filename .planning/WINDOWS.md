@@ -333,7 +333,7 @@ last_updated: 2026-11-13T21:25:19.535Z
     "phase": "01",
     "file": "tests/phase1/EnforcementTests.cs",
     "line": null,
-    "description": "01-08 remains incomplete. Last full run 0d359120 has 417 passed, zero failed controls, 142 pending of 559. Later source-format RED6241e33/GREENd95e99e has 15 canonical focused passes, 36/36 register controls, strict solution and native bootstrap passes. Five exact registered LF locks survive actual locked restore byte-for-byte unchanged; CRLF is not exempt. Current declarations are 432 implemented/132 pending of 564; later-code complete-suite closure remains unrun. Remaining formatter/permission/test-project/configuration/naming and broader suppression/generated-surface/numeric work must finish before 01-08 completion. Exact evidence and one-shot script cautions are in 01-08-CHECKPOINT.md.",
+    "description": "01-08 incomplete. Last full run remains 417 passed/zero failed/142 pending of 559. Later source-format, formatter/tab, async/test-project and authentic xUnit portability focused increments pass. Producer REDf93cef3/GREEN6df071f proves root/two-path exact generation, seed/hash/bypass/shape failures and handwritten call-site/layout boundaries with no broad suppression or disabled generation. Current declarations 448 implemented/122 pending of 570 are not a new full-suite verdict. Remaining R44/R48, broader exemptions/generated-surface/numeric and final immutable-source closure must finish. Exact evidence and one-shot cautions are in 01-08-CHECKPOINT.md.",
     "status": "open",
     "reason": "",
     "recorded_at": "2026-11-13T21:25:19.535Z",

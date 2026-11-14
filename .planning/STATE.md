@@ -6,10 +6,10 @@ current_phase: 1
 current_phase_name: Code rules and documentation
 current_plan: 8
 status: executing
-stopped_at: 01-08 formatter/tab-width focused controls verified; remaining rules/exemptions and full closure pending; Phase 2 context captured (02-CONTEXT.md)
-last_updated: "2026-11-13T23:51:22.464Z"
+stopped_at: 01-08 portable pinned producer verified; R44/R48/exemptions/thresholds and full closure pending
+last_updated: "2026-11-14T00:24:43.376Z"
 last_activity: "2026-11-13 (Europe/Paris) — Completed plan 01-07; 374 implemented proofs pass, with 184 future obligations blocked. Next: 01-08."
-state_head: eea13733e4f8cc8f1403f910f14e5829ed396a9f
+state_head: 6df071fab6cef32a2218104f3df537416a23acdd
 progress:
   total_phases: 10
   completed_phases: 0
@@ -107,14 +107,16 @@ Continue Phase 1 with plan 01-08; 01-14 must close the five distinct runner-edge
 
 ## Deferred Items
 
+01-08 later focused progress: real formatter/tab boundaries `4c608a5`, producer portability RED `f93cef3` → GREEN `6df071f`. Authentic hash-verified xUnit generation uses a stable logical seed; root/two-path/integrity and exact call-site/layout boundaries pass, strict five-project build is green. Current declarations 448 implemented/122 pending of 570 are not a new full-suite pass. Remaining R-44/R-48 and broader exemptions/thresholds plus final closure are recorded in 01-08-CHECKPOINT.md; 8/18 and all RULE statuses remain unchanged.
+
 | Category | Item | Status | Deferred At | Milestone |
 | --- | --- | --- | --- | --- |
 | Future platform work | PLAT-01 and PLAT-02 Steam/Epic implementations | Outside v0.1; no next-release commitment | Initial scope | v0.1 |
 
 ## Session Continuity
 
-Last session: 2026-11-13T23:51:22.427Z
-Stopped at: 01-08 formatter/tab-width focused controls verified; remaining rules/exemptions and full closure pending; Phase 2 context captured (02-CONTEXT.md)
+Last session: 2026-11-14T00:24:43.340Z
+Stopped at: 01-08 portable pinned producer verified; R44/R48/exemptions/thresholds and full closure pending
 Resume file: .planning/phases/01-code-rules-and-documentation/01-08-CHECKPOINT.md
 
 Next action: Execute 01-08-PLAN.md for wider enforcement, real-build, exemption and threshold validation. Plan 18 executed before 05 by dependency order. Remain in Phase 1; all RULE requirements are Pending.
