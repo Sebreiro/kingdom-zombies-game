@@ -1,10 +1,10 @@
 ---
 schema_version: 1
-open_count: 1
+open_count: 2
 waived_count: 0
 fixed_count: 26
-total_count: 27
-last_updated: 2026-11-14T15:43:30.753Z
+total_count: 28
+last_updated: 2026-11-14T16:47:55.807Z
 ---
 
 # Broken Windows Ledger
@@ -42,6 +42,7 @@ last_updated: 2026-11-14T15:43:30.753Z
 | 25 | 01 | deviation | tools/phase1/bootstrap.cjs |  | 01-16 clean setup required supported Windows ZIP extraction and exact canonical managed archive packages on both native platforms; verified by clean bootstrap, locked builds and final 670 accepted controls. | fixed |  | 2026-11-14T15:42:03.004Z | 2026-11-14T15:43:30.009Z |
 | 26 | 01 | deviation | tools/code-rules/GeneratedLayout.cs |  | 01-16 actual Linux SDK emits distinct exact assembly-attribute bytes; authenticated two Linux source variants and producer identity at unchanged suffix/line boundaries, with actual builds and passing origin/boundary controls. | fixed |  | 2026-11-14T15:42:03.428Z | 2026-11-14T15:43:30.385Z |
 | 27 | 01 | deviation | tests/phase1/ExemptionValidator.cs |  | 01-16 actual Linux testing-platform helper has one MSBuild-hook newline variant; authenticated its exact raw source at the same member/package scope, with actual permission reader and passing origin/collision controls. | fixed |  | 2026-11-14T15:42:03.803Z | 2026-11-14T15:43:30.753Z |
+| 28 | 01 | unmet-truth | docs/workflow/platform-proof.md |  | 01-17 actual same-source Linux selection accepts seven of sixteen cases; nine required analyzer/graph/project/native selectors hit unchanged 45-second limits on TCG. Clean locked restore, strict build and raw native bootstrap pass; a longer diagnostic is not acceptance. Linux capacity remains blocking. | open |  | 2026-11-14T16:47:55.807Z |  |
 
 ````json
 [
@@ -394,6 +395,19 @@ last_updated: 2026-11-14T15:43:30.753Z
     "reason": "",
     "recorded_at": "2026-11-14T15:42:03.803Z",
     "resolved_at": "2026-11-14T15:43:30.753Z",
+    "milestone": "v0.1"
+  },
+  {
+    "id": 28,
+    "kind": "unmet-truth",
+    "phase": "01",
+    "file": "docs/workflow/platform-proof.md",
+    "line": null,
+    "description": "01-17 actual same-source Linux selection accepts seven of sixteen cases; nine required analyzer/graph/project/native selectors hit unchanged 45-second limits on TCG. Clean locked restore, strict build and raw native bootstrap pass; a longer diagnostic is not acceptance. Linux capacity remains blocking.",
+    "status": "open",
+    "reason": "",
+    "recorded_at": "2026-11-14T16:47:55.807Z",
+    "resolved_at": null,
     "milestone": "v0.1"
   }
 ]

@@ -1,6 +1,6 @@
 # Phase 1 platform baseline
 
-The [setup](setup.md) and [verification](verification.md) pages define the ordinary commands. This record distinguishes the complete functional Windows baseline owned by 01-16 from the representative genuine Linux acceptance owned by 01-17. Preparation and exploratory setup/build feedback carry no Linux acceptance credit. Coverage and exhaustive certification remain pending in the [Phase 5 handoff](../../.planning/phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md).
+The [setup](setup.md) and [verification](verification.md) pages define the ordinary commands. This record distinguishes the complete functional Windows baseline owned by 01-16 from actual representative Linux execution owned by 01-17. The Linux baseline remains blocked by real canonical case timeouts on the emulated machine. Preparation, exploratory feedback and separate longer diagnostics carry no acceptance credit. Coverage and exhaustive certification remain pending in the [Phase 5 handoff](../../.planning/phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md).
 
 ## Same managed payloads and native platforms
 
@@ -50,31 +50,52 @@ These eight declarations remain pending with `acceptancePhase: 5` and owner `Pha
 | `R-82.positive` | Actual production/native-hosted managed coverage meets both targets |
 | `R-82.negative` | Actual production coverage rejects insufficient/invalid evidence |
 
-## Prepared same-source Linux checkout
+## Clean same-source Linux execution
 
-The genuine Ubuntu 24.04.5 LTS / kernel `6.8.0-147-generic` / x86_64 VM retains clean checkout `/home/phase1/phase1-baseline-16` at the same tested revision `f4658bb2872b6578b592a18475e58af04cd064d4`. Its independently computed 200-file input fingerprint matches the Windows input above. The source bundle is `/home/phase1/phase1-tools/downloads/baseline-16.bundle` (SHA-256 `246720cdcb7cdffad00e6bb3ec4bb497e9f22fede3914c7a0e1312ee90f95f82`). Pinned tools, both authenticated engine archives, the exact four-package feed and 41 lock-verified cache payloads are ready. The source has no old build outputs or acceptance reports. Access and ordinary commands are in the environment record below. This is preparation only; actual clean Linux acceptance remains pending for 01-17.
+On 2026-11-14, 01-17 verified the existing genuine Ubuntu 24.04.5 LTS / kernel `6.8.0-147-generic` / x86_64 VM and clean checkout `/home/phase1/phase1-baseline-16` at the same tested revision `f4658bb2872b6578b592a18475e58af04cd064d4`. Git status was clean, and source/tests/tools had no old `bin`, `obj` or `.godot` build outputs. Its independently computed 200-file input fingerprint matches the Windows input above. The source bundle is `/home/phase1/phase1-tools/downloads/baseline-16.bundle` (SHA-256 `246720cdcb7cdffad00e6bb3ec4bb497e9f22fede3914c7a0e1312ee90f95f82`). Only the declared 41 lock-verified package payloads, authenticated official archives/checksum and canonical managed feed were seeded; no old build outputs were copied.
+
+The actual environment is QEMU TCG with four virtual CPUs and 4096 MB RAM. Observed tools are Node `24.22.1`, SDK `10.0.404`, compiler `5.9.0-1.26529.119 (2ab2854867733112c84ac12c4273d7970ac3afdf)`, application runtime `10.0.15`, editor runtime `8.0.16` and native Linux Godot `4.7.2.stable.mono.official.ed1daf0bf`. All commands used the existing guest environment and checkout-local CLI/package/cache/temp paths from the [environment record](../../.planning/phases/01-code-rules-and-documentation/01-ENVIRONMENT.md). Linux access works; execution capacity within unchanged case deadlines is the unresolved prerequisite.
+
+| Actual command | Result and retained evidence |
+| --- | --- |
+| `PHASE1_IGNORE_DOWNLOADS=1 node tools/phase1/bootstrap.cjs --probe engine` (cold attempt) | Exit 1, `CHILD_TIMEOUT` at the existing 60-second game-build limit; nonce `4b95c9b1-ad41-485e-98c9-3ee05ed5f778`. Both restore steps passed. `/home/phase1/17-bootstrap.log` and `.exit` retain the failure. |
+| `timeout 900s dotnet restore KingdomZombies.slnx --locked-mode --disable-parallel -p:NuGetAudit=false` | Exit 0; all five projects restored with unchanged locks. `/home/phase1/17-restore.log` and `.exit`. |
+| `timeout 900s dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q -m:1` | Exit 0; zero warnings/errors, `00:05:10.06`. Single-node scheduling changes no strict property. `/home/phase1/17-build.log`, `.exit`, `.start` and `.end`. |
+| Unchanged native bootstrap command after ordinary build | Exit 0; raw compatibility nonce `0d50ef94-b2e3-4e38-b583-e9345283a7df`, game build `00:00:27.52`, zero warnings/errors. Actual native engine exit 0, runtime `10.0.15`, Linux/headless/`gl_compatibility`. `/home/phase1/17-bootstrap2.log` and `.exit`. |
+
+Both bootstrap invocation directories remain under the frozen checkout's `.phase1/runs/`. Inspection of the successful native `engine.json` finds fresh construction/ready/exit records and 21 actual surface/cycle records: construction, callbacks, process, signals, teardown, resources, exports, nullable validation and binding in two cycles, plus late-work rejection, prohibited worker rejection and main-thread result delivery. The cycles have distinct actual instances `27279754708` and `27581744596` and the single captured managed thread `1`. These are genuine observed native assertions, separately identified from the canonical case outcomes below. They do not turn a timed-out lifecycle/export selector into a pass.
+
+Three bounded environment-only trials of the failed `R-38.positive` selector also timed out at its unchanged 45-second child limit: software intrinsics disabled (`c56c47ad-da0c-4cf3-8813-d20c0d169852`), dynamic PGO disabled (`a6577982-cd19-4b9c-b5cd-ef5dad3d5674`) and single-processor runtime scheduling (`d445c64f-764d-449c-9bf7-ae4fb6fc3c6b`). The first worsened setup speed; all settings were process-local and the original environment was restored. Microsoft's [SIMD controls](https://learn.microsoft.com/en-us/dotnet/standard/simd), [compilation settings](https://learn.microsoft.com/en-us/dotnet/core/runtime-config/compilation) and [processor-count override](https://learn.microsoft.com/en-us/dotnet/core/compatibility/core-libraries/6.0/environment-processorcount-on-windows) document these controls. Source, pins, rule definitions, test selection, assertions and canonical deadlines never changed.
+
+A separate direct diagnostic used an explicit 180-second outer bound and 120-second test limit, receiving **no acceptance credit**. It ran the same named-argument proof under the normal environment, nonce `64865a1c-850f-4f4c-a18a-2b9bf04b5056`, and exited 0 with one passed, zero failed/skipped tests. The selected body took 39.724 seconds; the platform session took 49.08 seconds, exceeding the canonical outer 45 seconds. The [standard platform trace](https://learn.microsoft.com/en-us/dotnet/core/testing/microsoft-testing-platform-config) showed normal discovery followed by actual evaluated-reference/Roslyn work, with telemetry disabled. `/home/phase1/17-direct-default.*`, `17-direct-diagnostics/` and `.phase1/temp/17-direct-default/` retain its real records. This explains the observed capacity gap without waiving it or claiming a canonical pass.
 
 ## Predeclared Linux acceptance selection
 
 This selection is declared before 01-17 execution. Run each exact ID with `node tools/phase1/check.cjs --case <ID>` after the clean native bootstrap, locked whole-solution restore and strict build. Each invocation must publish its own fresh canonical report with one selected and accepted obligation, actual exit zero and no missing, failed, blocked or skipped result. Preserve the common vectors unchanged. No exhaustive Linux run or new wrapper is required.
 
-| Exact case ID | Representative obligation |
-| --- | --- |
-| `R-38.positive` | Compliant named argument analyzer subject |
-| `R-38.negative` | Positional argument rejected with exact SCR0001 evidence |
-| `ac-12.complete` | Allowed declared/evaluated five-project graph and compiled types |
-| `graph.allowed-and-direct` | Real forbidden Core-to-engine reference rejected |
-| `docs.portable` | Actual portable documentation contract and missing-entry rejection |
-| `docs.projects` | Five module pages match real evaluated project references |
-| `state.inputs` | Controlled time/random inputs and preserved identities |
-| `state.identities` | Exact ordinal Unicode identities remain distinct |
-| `state.golden-vectors` | Existing unchanged independently observed common seeds/vectors |
-| `state.numeric-and-random` | Restored random position continues the exact stream |
-| `state.snapshot` | Detached state serializes and round trips exactly |
-| `state.restore` | Accepted snapshot replaces one complete root |
-| `engine.lifecycle` | Actual construction, callbacks, process, signals, teardown, worker/main-thread and old-generation fences |
-| `engine.exports` | Real resource/export/binding values and required-null failure before use |
-| `engine.generated-origin` | All 170 actual generated spans and exact producer payload |
-| `engine.handwritten-partial` | Real handwritten companion retains exact SCR0001 boundary |
+| Exact case ID | Representative obligation | Actual result / exit | Invocation nonce |
+| --- | --- | --- | --- |
+| `R-38.positive` | Compliant named argument subject | CHILD_TIMEOUT / 1 | `e41c6f73-6238-4467-89cb-c3e886c047a3` |
+| `R-38.negative` | Exact positional SCR0001 rejection | CHILD_TIMEOUT / 1 | `6fbbb27c-e605-42b9-85a8-86f1359e980a` |
+| `ac-12.complete` | Allowed evaluated/compiled five-project graph | CHILD_TIMEOUT / 1 | `5a047ea9-f0e3-4651-8a26-49c0dd2f1026` |
+| `graph.allowed-and-direct` | Actual forbidden Core-to-engine reference | CHILD_TIMEOUT / 1 | `57d0b5bd-0c5e-4d32-9d7f-9d3dfe5c8276` |
+| `docs.portable` | Portable contract and missing-entry rejection | ACCEPTED 1/1 / 0 | `06fecf89-9880-47d0-a47e-c809869921e1` |
+| `docs.projects` | Five pages match evaluated references | CHILD_TIMEOUT / 1 | `b7c112e0-f5ce-4195-a60c-7bc2749bfbdb` |
+| `state.inputs` | Controlled time/random inputs and identities | ACCEPTED 1/1 / 0 | `fe2c487d-87e0-4a25-9519-681c8e5d9ff4` |
+| `state.identities` | Exact ordinal Unicode identities | ACCEPTED 1/1 / 0 | `96bd0110-fa21-41ab-befd-75feb5088dbf` |
+| `state.golden-vectors` | Unchanged common seeds/vectors | ACCEPTED 1/1 / 0 | `e6ddffc6-107d-477f-8914-16d491f03e9c` |
+| `state.numeric-and-random` | Restored exact random continuation | ACCEPTED 1/1 / 0 | `855b3b43-c361-49b0-8bb0-78d41c87a360` |
+| `state.snapshot` | Detached exact snapshot round trip | ACCEPTED 1/1 / 0 | `741f8a9f-a96f-4ca7-9950-38df7dbbb681` |
+| `state.restore` | One complete accepted root replacement | ACCEPTED 1/1 / 0 | `2c61fd47-7edb-4b31-968a-8f45b2482543` |
+| `engine.lifecycle` | Native cycles, callbacks, thread/lifetime fences | CHILD_TIMEOUT / 1 | `39a8ca9a-63e2-416a-84f3-f8935eeebdb1` |
+| `engine.exports` | Real resource/export/binding and required-null controls | CHILD_TIMEOUT / 1 | `ae667544-69bb-44ca-864d-06386ca7afb2` |
+| `engine.generated-origin` | All 170 actual spans and exact producer | CHILD_TIMEOUT / 1 | `6154f791-a0a1-47ef-a99c-7572b61fd572` |
+| `engine.handwritten-partial` | Exact handwritten companion SCR0001 boundary | CHILD_TIMEOUT / 1 | `43327fb4-abd2-48be-8410-79318b474e2e` |
 
-The Linux environment, access, prepared source and pinned prerequisite details are recorded in [01-ENVIRONMENT.md](../../.planning/phases/01-code-rules-and-documentation/01-ENVIRONMENT.md). The formal Linux results and separate qualitative review remain pending for 01-17.
+All sixteen original selectors executed sequentially once under the original environment, across `2026-11-14T16:07:13Z`–`2026-11-14T16:43:39Z`, with a clean between-case pause for the bounded diagnostics. Each selected exactly one obligation. **Seven were accepted and nine failed with CHILD_TIMEOUT**; no selector was skipped, unrun or credited from another invocation. All setup command exits were zero; each failed test command reached its unchanged 45-second outer deadline and was terminated with SIGKILL. No functional assertion failure or source change was observed, but these timeouts block the required Linux baseline.
+
+All sixteen reports record revision `f4658bb2872b6578b592a18475e58af04cd064d4`, input `23d1060bfbdb6b082624631c1e32f1cd31a9fe29287745072e364d9f56020071`, tool `7866ee43e38ed4100250b5f2fc452e16be5d35fda7bd5ee33d430a946156e206` and actual platform `linux-x64-6.8.0-147-generic`. Their original canonical paths are `/home/phase1/phase1-baseline-16/.phase1/runs/<nonce>/summary.json`. The seven accepted records each reconcile one passed test, zero skipped tests and matching hashes for all subject evidence and test reports. The nine failures have zero accepted results. Frozen Git status remains clean and all five locks unchanged.
+
+The exact retained archive is `/home/phase1/17-evidence.tar.gz`, copied to `.phase1/temp/17-linux-evidence/17-evidence.tar.gz` on Windows and extracted beside it. SHA-256 on both copies: `662ec21365f10271c1cfc5c06a984c11eac7422876102c663794cbcd218be037`. It contains original canonical reports, actual command/exits/logs, setup receipts and explicitly separate diagnostics; no key, old build outputs or donor content is included. The case exit receipts are `17-case-<ID>.exit`; the between-case pause receipt preserves the terminal child exit before its loop parent stopped. The VM remains available for root closeout and further environment assessment.
+
+The [validation record](../../.planning/phases/01-code-rules-and-documentation/01-VALIDATION.md) retains the resulting acceptance gaps. A sufficiently capable genuine Linux environment must complete the nine failed required selectors under the existing rules/deadlines before Phase 1 can close. The separate [human review](../../.planning/phases/01-code-rules-and-documentation/01-HUMAN-CHECK.md) and RULE-01–RULE-07 remain Pending. No coverage, exhaustive certification, gameplay/export/LAN/rendered/endurance result is claimed.
