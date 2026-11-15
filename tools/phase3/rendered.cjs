@@ -119,6 +119,8 @@ async function transition(context,input,peers,origin,key,pressed,action){
       imageBound:true,provenance:ack.method,eventAcknowledged:true,transformChanged:action==='stop'||action==='focus-stop'?true:current?.x!==baseline.x,
       image:picture.image,inputAcknowledgment:ack,acceptedIntent:accepted.input.lastAcceptedIntent,
       acceptedRevision:accepted.input.lastAcceptedRevision,authorityDrawFrame:accepted.drawFrame};
+    fs.writeFileSync(path.join(context.directory,'timing-'+origin.role+'-'+observer.role+'-'+action+'-'+sample.drawFrame+'.json'),
+      JSON.stringify(sample,null,2),{flag:'wx'});
     e.timing(sample);return sample;
   }));return {timings:results,ack,actor:{...own,minimumRevision:accepted.input.lastAcceptedRevision+1,
     authorityDrawFrame:accepted.drawFrame}};

@@ -19,6 +19,8 @@ async function text(input,peer,control,value){
   return require('./foreground.cjs').run(async()=>{
   await click(input,peer,control);await input.send(peer,{action:'key',method:'physical-SendInput',key:17,pressed:true});
   await tap(input,peer,65);await input.send(peer,{action:'key',method:'physical-SendInput',key:17,pressed:false});
+  await tap(input,peer,8);
+  await r.until([peer],()=>latest(peer)?.controls.find(row=>row.path===control)?.text==='','native clear '+control);
   await input.send(peer,{action:'text',method:'physical-SendInput',text:value});
   await r.until([peer],()=>latest(peer)?.controls.find(row=>row.path===control)?.text===value,'native text '+control);
   });

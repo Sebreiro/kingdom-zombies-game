@@ -1,6 +1,8 @@
 param([Parameter(Mandatory=$true)][string]$OwnedPids,
       [Parameter(Mandatory=$true)][string]$Nonce)
 $ErrorActionPreference = 'Stop'
+[Console]::InputEncoding = [System.Text.UTF8Encoding]::new($false)
+[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false)
 Add-Type -TypeDefinition @'
 using System;
 using System.Runtime.InteropServices;
@@ -31,6 +33,7 @@ public static class LanDesktop {
     [DllImport("user32.dll")] public static extern IntPtr WindowFromPoint(Point point);
     [DllImport("user32.dll")] public static extern IntPtr GetAncestor(IntPtr window,uint flags);
     [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr window,out Rect rect);
+    [DllImport("user32.dll")] public static extern bool SetWindowPos(IntPtr window,IntPtr after,int x,int y,int width,int height,uint flags);
     [DllImport("user32.dll",SetLastError=true)] public static extern IntPtr SetThreadDpiAwarenessContext(IntPtr context);
     [DllImport("user32.dll")] public static extern IntPtr GetThreadDpiAwarenessContext();
     [DllImport("user32.dll")] public static extern bool AreDpiAwarenessContextsEqual(IntPtr first,IntPtr second);
@@ -63,7 +66,11 @@ if ($allowed.Count -eq 0 -or -not [Guid]::TryParseExact($Nonce,'D',[ref]([Guid]:
 $held = @{}
 $mouseHeld = $false
 $sequence = 0
-$sink = $null
+Add-Type -AssemblyName System.Windows.Forms
+$sink = [System.Windows.Forms.Form]::new()
+$sink.Text = 'Owned LAN focus observation'
+$sink.TopMost = $true
+[void]$sink.Handle
 function Get-OwnedWindow([int]$SubjectId) {
     if (-not $allowed.ContainsKey($SubjectId)) { throw 'DRIVER_FOREIGN_PID' }
     $record = $allowed[$SubjectId]
@@ -96,6 +103,7 @@ function Focus-Owned([IntPtr]$Target) {
     if ([LanDesktop]::GetForegroundWindow() -eq $Target) { return }
     [void][LanDesktop]::SetForegroundWindow($Target)
     if (Wait-Foreground $Target 100) { return }
+    if (-not [LanDesktop]::SetWindowPos($Target,[IntPtr]::Zero,0,0,0,0,0x53)) { throw 'DRIVER_FOCUS_RAISE' }
     if ([LanDesktop]::GetForegroundWindow() -ne $Target) {
         [uint32]$foregroundId=0
         $foregroundThread=[LanDesktop]::GetWindowThreadProcessId([LanDesktop]::GetForegroundWindow(),[ref]$foregroundId)
@@ -154,7 +162,12 @@ try {
                 'key' { Deliver-Key $subjectId $window $method ([int]$request.key) ([bool]$request.pressed) }
                 'text' {
                     if ([LanDesktop]::GetForegroundWindow() -ne $window -or $method -ne 'physical-SendInput') { throw 'DRIVER_TEXT_FOCUS' }
-                    foreach ($character in ([string]$request.text).ToCharArray()) { [LanDesktop]::Key([int]$character,$true,$true); [LanDesktop]::Key([int]$character,$false,$true) }
+                    $typed=0
+                    foreach ($character in ([string]$request.text).ToCharArray()) {
+                        [LanDesktop]::Key([int]$character,$true,$true); [LanDesktop]::Key([int]$character,$false,$true)
+                        $typed++
+                        if ($typed % 4 -eq 0) { Start-Sleep -Milliseconds 16 }
+                    }
                 }
                 'click' {
                     if ([LanDesktop]::GetForegroundWindow() -ne $window) { throw 'DRIVER_MOUSE_FOCUS' }
@@ -170,8 +183,6 @@ try {
                     $mouseHeld=$false
                 }
                 'focus-sink' {
-                    Add-Type -AssemblyName System.Windows.Forms
-                    if ($null -eq $sink) { $sink=[System.Windows.Forms.Form]::new();$sink.Text='Owned LAN focus observation';$sink.TopMost=$true }
                     $sink.Show()
                     $sink.Activate();[System.Windows.Forms.Application]::DoEvents();Focus-Owned $sink.Handle
                 }
