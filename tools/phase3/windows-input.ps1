@@ -129,7 +129,9 @@ function Focus-Reachable([IntPtr]$Target) {
     if (-not [LanDesktop]::GetWindowRect($Target,[ref]$outer)) { throw 'DRIVER_FOCUS_RECT' }
     $clientOrigin=[LanDesktop+Point]::new()
     if (-not [LanDesktop]::ClientToScreen($Target,[ref]$clientOrigin) -or $clientOrigin.Y -le $outer.T) { throw 'DRIVER_FOCUS_CAPTION' }
-    $titlePoint=[LanDesktop+Point]::new();$titlePoint.X=$clientOrigin.X+50;$titlePoint.Y=$outer.T+[int](($clientOrigin.Y-$outer.T)/2)
+    $captionHeight=$clientOrigin.Y-$outer.T
+    $captionOffset=[Math]::Min(($outer.R-$outer.L)/3,[Math]::Max(50,$captionHeight*2))
+    $titlePoint=[LanDesktop+Point]::new();$titlePoint.X=$clientOrigin.X+[int]$captionOffset;$titlePoint.Y=$outer.T+[int]($captionHeight/2)
     $pointRoot=[LanDesktop]::GetAncestor([LanDesktop]::WindowFromPoint($titlePoint),2)
     if ($pointRoot -ne $Target) { throw "DRIVER_FOCUS_POINT_NOT_OWNED target=$Target actual=$pointRoot point=$($titlePoint.X),$($titlePoint.Y)" }
     if (-not [LanDesktop]::SetCursorPos($titlePoint.X,$titlePoint.Y)) { throw 'DRIVER_FOCUS_CURSOR' }
