@@ -1,8 +1,12 @@
 ---
 phase: 03-four-player-lan-foundation
-reviewed: 2026-11-15T16:40:08Z
+reviewed: 2026-11-15T19:32:02Z
 depth: standard
-files_reviewed: 89
+reviewed_revision: 166a32ad6a7541c4f5eed1378def0a86e9bea632
+build_revision: 166a32ad6a7541c4f5eed1378def0a86e9bea632
+diff_base: 87e0b44
+scope_files: 115
+files_reviewed: 112
 files_reviewed_list:
   - .gitignore
   - docs/code/engine-generated-spans.json
@@ -20,8 +24,11 @@ files_reviewed_list:
   - src/godot-game/foundation/DiscoveryCodec.cs
   - src/godot-game/foundation/EnetConnectionService.cs
   - src/godot-game/foundation/Foundation.tscn
+  - src/godot-game/foundation/FoundationActorNode.cs
+  - src/godot-game/foundation/FoundationAdmissionHistory.cs
   - src/godot-game/foundation/FoundationAutomation.cs
   - src/godot-game/foundation/FoundationBrowser.cs
+  - src/godot-game/foundation/FoundationCapturePublication.cs
   - src/godot-game/foundation/FoundationCoordinator.Admission.cs
   - src/godot-game/foundation/FoundationCoordinator.GuestPublication.cs
   - src/godot-game/foundation/FoundationCoordinator.Lifetime.cs
@@ -36,10 +43,12 @@ files_reviewed_list:
   - src/godot-game/foundation/FoundationHud.cs
   - src/godot-game/foundation/FoundationInput.cs
   - src/godot-game/foundation/FoundationMenu.cs
+  - src/godot-game/foundation/FoundationNativeRegression.cs
   - src/godot-game/foundation/FoundationObservationScope.cs
   - src/godot-game/foundation/FoundationPeerBinding.cs
   - src/godot-game/foundation/FoundationPresentation.cs
   - src/godot-game/foundation/FoundationProtocol.cs
+  - src/godot-game/foundation/FoundationRegressionDiscovery.cs
   - src/godot-game/foundation/FoundationRoot.cs
   - src/godot-game/foundation/FoundationRuntimeState.cs
   - src/godot-game/foundation/FoundationServices.cs
@@ -55,8 +64,12 @@ files_reviewed_list:
   - src/multiplayer-abstractions/PlayerProfile.cs
   - src/multiplayer-abstractions/SessionAdvertisement.cs
   - tests/phase1/ArchitecturePolicy.cs
+  - tests/phase1/BuildFixture.cs
   - tests/phase1/EngineAccessPolicy.cs
   - tests/phase1/EngineGeneratedTests.cs
+  - tests/phase1/ExemptionTests.cs
+  - tests/phase1/ExemptionValidator.cs
+  - tests/phase1/FoundationCapturePublicationTests.cs
   - tests/phase1/FoundationConnectionReplacement.cs
   - tests/phase1/FoundationDiscoveryReplacement.cs
   - tests/phase1/FoundationHarnessConnection.cs
@@ -70,19 +83,25 @@ files_reviewed_list:
   - tests/phase1/FoundationLanProtocolTests.cs
   - tests/phase1/FoundationLanRunnerTests.cs
   - tests/phase1/FoundationLanServicesTests.cs
+  - tests/phase1/FoundationLinkedSources.cs
   - tests/phase1/FoundationPermissionTests.cs
   - tests/phase1/FoundationScenarioClock.cs
   - tests/phase1/FoundationServiceSubstitutionProof.cs
   - tests/phase1/FoundationTestConnection.cs
   - tests/phase1/KingdomZombies.Phase1.Tests.csproj
+  - tests/phase1/SuppressionTests.cs
   - tools/code-rules/BodyLengthAnalyzer.cs
   - tools/code-rules/EngineGeneratedSyntax.cs
   - tools/phase2/check.cjs
+  - tools/phase2/menu-navigation.cjs
   - tools/phase2/rendered.cjs
   - tools/phase3/catalog.cjs
   - tools/phase3/check.cjs
   - tools/phase3/evidence.cjs
+  - tools/phase3/foreground.cjs
+  - tools/phase3/foreground.test.cjs
   - tools/phase3/inherited.cjs
+  - tools/phase3/navigation.test.cjs
   - tools/phase3/network.cjs
   - tools/phase3/png.cjs
   - tools/phase3/processes.cjs
@@ -90,155 +109,109 @@ files_reviewed_list:
   - tools/phase3/required-cases.json
   - tools/phase3/runner-fixture.cjs
   - tools/phase3/scenarios.cjs
+  - tools/phase3/selection-impact.cjs
   - tools/phase3/selection.test.cjs
+  - tools/phase3/stopped-fixture.cjs
+  - tools/phase3/stopped.cjs
+  - tools/phase3/terminal-fixture.cjs
+  - tools/phase3/terminal.cjs
   - tools/phase3/timing.test.cjs
   - tools/phase3/windows-input.ps1
+  - tools/phase3/revisions.cjs
+  - tools/phase3/revisions.test.cjs
+  - tools/phase3/inherited.test.cjs
+context_files_reviewed:
+  - .planning/phases/03-four-player-lan-foundation/03-SCENARIOS.md
+  - .planning/phases/03-four-player-lan-foundation/03-SELECTION.json
+  - .planning/phases/03-four-player-lan-foundation/03-04-CHECKPOINT.md
 findings:
-  critical: 6
-  warning: 4
+  critical: 0
+  warning: 0
   info: 0
-  total: 10
+  total: 0
   necessity: 0
-status: issues_found
+status: clean
 ---
 
 # Phase 03: Code Review Report
 
-**Reviewed:** 2026-11-15T16:40:08Z  
+**Reviewed:** 2026-11-15T19:32:02Z  
 **Depth:** standard  
-**Files Reviewed:** 89  
-**Status:** issues_found  
-**Reviewed revision:** `6dd2419c040aab990ccebac734e3c9a9df6101a6`  
+**Source files reviewed:** 112  
+**Explicit scope:** all 115 paths from `.phase3/review-fix-union.txt`, including the three planning-context paths listed separately above  
+**Status:** clean  
+**Reviewed source / pinned build revision:** `166a32ad6a7541c4f5eed1378def0a86e9bea632`  
 **Diff base:** `87e0b44`
 
 ## Summary
 
-Reviewed the complete explicit Phase 3 scope from `.phase3/review-files.txt`, including production C#, native scenes, independent service contracts, tests, exact generated/native/public permissions, the inherited runner adaptations, PowerShell driver and all Phase 3 runner modules. Reviewed the phase plans and acceptance/UI/validation/scenario/selection context against the current Windows 1280×720/no-VM testing policy. The 89-file list takes precedence over individual plan summaries.
+This independent re-review preserves the complete 115-path source/context union and all earlier assessments. The complete Phase 3 source review above is carried forward together with a direct recheck of the six-path repair diff from `a35bd6f` to `166a32ad6a7541c4f5eed1378def0a86e9bea632`: guest publication, native projection, native regression, protocol proof, independent catalog and saved scenarios. Every repair path was already inside the retained scope. Their production callers, trust boundaries and actual regression consumers were traced; the cumulative fix ledger was treated as a claim to confirm.
 
-There are six BLOCKER findings and four WARNING findings. The principal risks are browser refresh reentrancy, admission denial of service, untrusted actor IDs reaching native node paths, failure of rendered observation on ordinary discovery updates, and acceptance of unsupported convergence or failed-process evidence. The selected inherited navigation and analyzer regression coverage also need repair before rendered testing.
+**All fourteen prior findings are resolved. No new actionable defect or open finding remains.** CR-09's repair rejects continuing-actor elapsed regressions before publication or liveness mutation and makes camera interpolation use bounded local monotonic time with finite recovery. The preceding thirteen dispositions remain valid: the repair changes none of their admission/session fences, evidence-finalization helpers, inherited continuation paths, exact permission registries or generated metadata.
 
-This is a review at the deliberate Plan 4 checkpoint, not a completion or rendered-test certification. No source files, branches or commits were changed. No game window, VM, full test suite or physical input driver was launched. Small Node-only probes corroborated the convergence validator, partial capture publication, unexpected peer-exit handling and concurrent foreground-click race. Those probes are rejection/defect evidence only. Static native call-chain findings still need focused regression proofs after repair.
+This is a clean pre-window source review, not completed rendered acceptance. No real game window, VM, desktop input, broad test suite, build, branch operation or commit was executed by this reviewer. The renewed retained no-window report was reconciled through the current production validator and its source/tool tuple independently recomputed. The earlier .NET arithmetic probe remains defect-history evidence; the repair's actual coordinator and headless native projection executions are retained separately below. No rendered, physical-input, image-appearance, other-OS, physical mixed-computer LAN or release acceptance is granted.
 
-The generated permission changes were examined as exact policy changes: the current registry contains 220 diagnostic/source/hash/span rows, including the single SCR0006 body-length permission; new native/public inventories remain explicit. This review does not propose any blanket permission refresh or suppression. Necessity was assessed using the required rubric; no necessity finding is asserted.
+Necessity was assessed using the required rubric; no necessity finding is asserted. No structural pre-pass or external reviewer lane was supplied. The agent-skills query returned no additional configured reviewer skills.
 
 ## Narrative Findings (AI reviewer)
 
-## Critical Issues
+No open Critical/BLOCKER, Warning or Info findings remain at the reviewed source revision.
 
-### CR-01: Restoring row focus recursively rebuilds the browser
+## Disposition of all fourteen prior findings
 
-**Classification:** BLOCKER  
-**File:** `D:/Work/Games/KingdomZombies/src/godot-game/foundation/FoundationMenu.cs:387-403`  
-**Related locations:** `FoundationMenu.cs:449-454`, `FoundationMenu.cs:464-469`  
-**Issue:** When an advertisement changes while a session row has keyboard focus, `Rows()` removes the old rows and calls `AddRow()` to restore the focused session. `AddRow()` calls `GrabFocus()`, whose `FocusEntered` handler calls `Detail()`; `Detail()` immediately calls `Rows()` again. The outer call does not assign the new `_rowsKey` until after all `AddRow()` calls finish. The nested call therefore sees the same outstanding change and rebuilds/restores the row again. A normal occupancy change, arriving session or reordered list can cause unbounded reentrancy/stack overflow instead of preserving browser selection.
+The first report is retained in `03-REVIEW.iter2.md` and original review commit `624f37b`; the following review is retained in `03-REVIEW.iter3.md`. The cumulative `03-REVIEW-FIX.md` records all fourteen repairs without skips. CR-09 was raised in the preceding canonical review and fixed by atomic commit `166a32ad6a7541c4f5eed1378def0a86e9bea632`. These are resolved historical findings, not additional open findings or rendered acceptance claims.
 
-**Evidence:** The complete production chain is `Rows → AddRow → GrabFocus → FocusEntered → Detail → Rows`. No refresh/reentrancy guard or deferred focus restoration closes that chain. The service-only browser tests never instantiate these native handlers.
+| Prior ID | Disposition | Source/consumer checked |
+| --- | --- | --- |
+| CR-01 | Resolved | `FoundationMenu.Rows` commits its new key before focus signals, creates the complete row set before restoring focus, and `Detail` no longer rebuilds rows. `FoundationNativeRegression.Browser` exercises occupancy/reorder/focus and unchanged-node identity through the actual headless native subject. |
+| CR-02 | Resolved | `FoundationDrawObserver` enumerates actual existing row children and stored exact session identities; absent profiles serialize as null with their error preserved. The native observer regression covers hidden browser, pending discovery and corrupt-profile recovery. This does not supply rendered appearance credit. |
+| CR-03 | Resolved | `FoundationAdmissionHistory` bounds refusal outcomes per provider-authenticated connection to 32 / 30 seconds, separately from reservations. Connection generations fence queued/replaced connections; expired histories cannot reopen; disconnected histories retire without recreation. Actual coordinator controls include more than 128 refusals, freed-slot admission, expiry, reconnect and repeated disconnected-history cleanup. |
+| CR-04 | Resolved | `FoundationActorNode.Name` injectively encodes ordinal UTF-16 units into safe hex native names. Projection and observation use it without changing model/wire identities. Protocol/native controls cover traversal-shaped IDs, sanitizer collisions and canonically distinct Unicode. |
+| CR-05 | Resolved | `stopped.cjs` reconciles sampled records against actual peer draw histories, current origin profile/actor/session/binding, native release and accepted zero-direction authority. It derives positions/revisions from those records and checks fresh frames, post-release ordering, at most 1 ms uncertainty and inclusive 50-subunit/500-ms limits. The full-reconciler fixture mutates these references and scalar values. |
+| CR-06 | Resolved | Every owned rendered process has a terminal record. Normal Quit requires its handler acknowledgement, zero exit and closed streams; case/role-bound deliberate loss must be declared before termination. Unexpected exits invalidate all results sharing the process set. Real-child controls cover normal/expected loss, post-capture nonzero/crash and failure during Quit through `scenarios.close`. |
+| CR-07 | Resolved | `revisions.cjs` checks real commit identity/ancestry, every intervening path against a narrow metadata whitelist, both committed relevant-input trees, the live relevant fingerprint and dirty non-metadata state. Prelaunch binds the committed gate and original Markdown bytes, copies both immutably into the invocation, and completion checks those original bytes at the actual execution commit. `buildRevision` must equal the reviewed source revision while `revision` retains actual HEAD. The documented phase-scoped `SourceRevisionId` pin survives review/gate/closure commits and every rebuild/inherited build; exact DLL/tool hashes remain required. Actual isolated SDK controls reproduce unpinned drift, reject it and restore byte-identical pinned DLLs without rewriting execution/review reports. |
+| CR-08 | Resolved | The selected exact session ID travels from `FoundationMenu.JoinSelected → Submit → FoundationRoot.JoinAddress → FoundationCoordinator.Join` into the attempt's hello. Host mismatch rejection precedes reservation; guest mismatch rejection precedes baseline install/ack. Manual joining stays session-agnostic. Cancellation clears the pending target, and stale baselines/refusals cannot enter or close a new attempt. Coordinator controls cover selected A/A, retained A after rehost B, manual B, wrong offered baseline, cancel and stale/new attempts; the native row regression verifies the submitted ID and its scoped clearing. |
+| WR-01 | Resolved | `FoundationCapturePublication.Publish` writes/closes a unique same-directory temporary JSON before atomic move, after PNG completion. Capture's end bracket follows complete reads/validation/hashing. Actual C# helper and delayed consumer controls exercise the publication boundary. |
+| WR-02 | Resolved | Inherited keyboard procedures follow the actual seven Tab/Shift+Tab controls and Start/Host/Join/Quit arrow paths, preserve error/retry and movement regressions, and end with ordinary keyboard Space on Quit. The adjacency control checks the authored native scene. Real desktop execution remains pending. |
+| WR-03 | Resolved | Saved selection includes 433 affected Phase 1 cases, all 31 body-length-family cases, all six shared generated-permission analyzer families and affected register/generated/fixture consumers. Known affected omissions are rejected despite nonblank excuses. The exact 26 linked-source inventory, per-consumer ownership and copied compiler-fixture inputs are synchronized. The 243 active omissions and eight planned declarations remain explicit. |
+| WR-04 | Resolved | The shared foreground queue covers focus/click/text sequences across helpers. Final-slot contenders are prepared serially, then Enter is dispatched to their owned PIDs via native window messages with exact preparation frames, callbacks and driver records. Provenance remains separate from physical input. Actual desktop delivery feasibility is still pending. |
+| WR-05 | Resolved | `inherited.run` persists each attempted child process, stdout/stderr, outcome and original child report, including failure records. It continues independent commands, names prerequisite-specific blockers, returns all accumulated references and a failing aggregate, and `check.main` retains that aggregate in the outer summary even when independent native work runs. Completion rejects any non-passing inherited aggregate. Real controlled children exercise failing assertion followed by later success, integrity/setup blockers and missing reports; a separate control exercises the actual outer coordinator and immutable summary retention. |
+| CR-09 | Resolved | `RegressesActorTime` compares exact continuing actor IDs within the already-matched session and rejects decreasing elapsed values before any candidate installation, revision/readiness change, acknowledgement or liveness renewal. Fresh actors may start at zero; a fresh session has an independent baseline. `FoundationView.Project` uses local `Time.GetTicksMsec`, clamps its interpolation interval to 0–0.25 seconds, preserves the 0.15-second smoothing/initial snap and finite camera bounds, and recovers from a nonfinite prior transform. Actual coordinator controls and the nonce-scoped native projection regression exercise the repaired consumers. |
 
-**Fix:** Commit the refreshed model/key before emitting focus signals, finish creating the complete row collection before restoring focus, and prevent the focus-detail handler from reentering a rebuild. Keep selection styling/detail refresh separate from row construction. Add a native regression that focuses a row, changes its participant count and inserts/reorders another session, then verifies one rebuild and preserved selected identity.
+## CR-09 independent repair recheck
 
-### CR-02: Draw observation dereferences UI nodes that have never been created
+The production guest branch rejects a backwards elapsed value before `_remote = candidate` and `_lastResponse = Now()`. Its check also runs while an installed baseline is still unready. It uses actor identity rather than presentation slot, so an admitted replacement actor's zero origin remains valid. Session/revision/attempt validation still precedes publication, and ownership/readiness validation remains intact. No elapsed counter from the network is used as the camera's smoothing clock.
 
-**Classification:** BLOCKER  
-**File:** `D:/Work/Games/KingdomZombies/src/godot-game/foundation/FoundationDrawObserver.cs:115-126`  
-**Related locations:** `FoundationMenu.cs:103-117`, `FoundationDrawObserver.cs:177`, `LocalProfileService.cs:92-96`  
-**Issue:** The draw observer uses the number of service discovery rows to fetch `Browser/Scroll/Rows/SessionN` with mandatory `GetNode<Control>()`. Discovery updates continue while the main menu or game is visible, but `FoundationMenu.Tick()` returns before `Rows()` when the browser is hidden, and also skips row construction during joining. Thus a host's own looped-back advertisement, or another host appearing while a guest is at the menu, can produce discovery rows without corresponding native nodes. Observation then reports missing-node/native errors and fails before writing the current draw/capture. Existing headless proofs cannot expose this because the draw observer is disabled headlessly.
+The actual protocol control checks extreme/equal/advancing counters, regressions in each continuing actor, rejection before readiness, exact snapshot/revision/installed-revision/readiness/reply preservation, successful installation of a lower valid revision after a rejected revision 100, replacement actor identity and fresh-session baselines. It sends a rejected candidate at 9999 ms, then reaches the original 10000 ms response deadline, proving rejection does not extend liveness.
 
-The same observer also assumes `profile` is always an object at line 177. A documented profile-load failure deliberately publishes `Selected = null`; trying to observe that recoverable error instead throws from `GetProperty("PlayerId")`.
+The actual headless native regression invokes production `FoundationView.Project` with elapsed `long.MaxValue → 0 → 0 → long.MaxValue - 1 → long.MaxValue`, at position 1000. It requires finite player/world positions and the initial snapped world X of 624. It then supplies a NaN/infinite prior world transform and requires finite bounded recovery. The catalog and saved scenarios retain these obligations, all earlier IDs and the full affected selection. This is native numerical/projection proof, without a rendered timing or appearance claim.
 
-**Evidence:** `LanDiscoveryService` enables multicast loopback and `FoundationServices.Update()` publishes rows independently of the visible browser. `FoundationDiagnostics.Observe()` serializes the nullable selected profile. Both states are supported production states, not hypothetical invalid input.
+## Evidence inspected and limits
 
-**Fix:** Observe actual existing native row children, with their exact session identity, rather than manufacturing paths from an unrelated service-row count. Permit an absent profile in menu/error observations and retain its failure reason; require a profile only when validating a ready participant. Keep the observer read-only. Add rendered-observer regressions for a hidden browser receiving an advertisement, discovery changes during a pending join, and profile load failure/recovery.
+The retained repair-batch index `.phase3/iter3-final-1794770502320/summary.json` contains twelve passing jobs: eight policy cases, four Phase 2 core cases, three Phase 2 runner cases, a strict whole-solution build with zero warnings/errors, and twenty Phase 3 non-window cases. That is 35 case executions plus the strict build. The twelve original process records and referenced passing reports were inspected. This is retained execution evidence, not a newly executed reviewer suite.
 
-### CR-03: A small number of rejected hellos permanently disables session admission
+The final Phase 3 report `.phase3/runs/win32-x64/1be5faf3-4796-4650-8cfa-6316daecff8d/summary.json` records 20/20 passing results, duration 216980 ms, zero game windows, actual source HEAD and pinned build revision `166a32ad6a7541c4f5eed1378def0a86e9bea632`. The reviewer loaded it through the actual current `evidence.loadReport/reconcile` path: all twenty records and their required artifacts reconciled. Recomputing the relevant source manifest returned exactly `62c3866e7eb1819c7347a246bc2daab92b46b8228d60505a84139907366dd0d1`.
 
-**Classification:** BLOCKER  
-**File:** `D:/Work/Games/KingdomZombies/src/godot-game/foundation/FoundationCoordinator.Admission.cs:84-87`  
-**Related locations:** `FoundationCoordinator.Admission.cs:105-108`, `FoundationCoordinator.Admission.cs:144-149`, `FoundationCoordinator.Lifetime.cs:173-185`  
-**Issue:** Every Full or duplicate-profile refusal is retained in `_admissions`, and the dictionary is cleared only when the entire host coordinator closes. At 128 rows the host refuses every new attempt, even after all guest slots become free. One unadmitted LAN connection can send distinct attempt IDs against a full host, or repeatedly claim an already-active profile, and consume this global lifetime budget in two bounded receive batches. Disconnecting the attacker does not restore admission. Ordinary repeated unsuccessful joins can reach the same state.
+The exact recorded tool hash is `c91c021821910af08a06e5b8b744f8d86133fee6c057b6955ba0cbb2333fc651`. Recomputing its declared tuple from current Node v24.22.1, the pinned SDK 10.0.404, toolchain bytes and current proof DLL matched it; the current DLL SHA-256 is `6f35860475ad9136db561878ad7163a18e7b2b3e63a986c66f668533eff11607`. The retained report records Windows x64, Windows 10 Enterprise LTSC 2021 / 10.0.19044, OS fingerprint `4a3c7505cb92e1bb2f7412dd3207a435c55d5c78f2e7e8d11213ecfc2e8768db`. In the preceding review, a full `createIdentity` call did not complete at its nested dotnet probe (`DOTNET_MISSING`); no such execution is credited here. The present follow-up used read-only fingerprint/report reconciliation and launched no build. No DLL was rebuilt or modified by the reviewer.
 
-**Evidence:** `Refuse()` unconditionally adds a sender/attempt outcome. The global count check runs before current capacity/identity admission and there is no expiry, per-sender quota, connection cleanup or bounded eviction. This turns a memory bound into persistent application-level denial of service.
+The hash-bound integrity-control process log `.phase3/controls/9c31880d-e65a-42f2-bd05-5a0f802e7a12/integrity-controls.process.json` records eight successful Node controls, including actual metadata-closure and prelaunch rejection controls. The real SDK finalization fixture `.phase3/revision-control-xFECSZ` retains five successful build records: reviewed-source build, pinned rebuild after review/gate metadata commit, pinned closure rebuild, unpinned negative build, and repinned restoration. The fixture asserts exact DLL identity, rejects changed source/tool/selection/environment/build stamp, unrelated/missing commits, unapproved/reverted intervening paths, dirty relevant input and altered review bytes, and retains unchanged original report bytes. These isolated fixtures establish validator behavior, not rendered production execution.
 
-**Fix:** Bound and expire refusal/tombstone history without exhausting all future admission. Separate active reservations from replay outcomes, apply per-connection/per-sender limits, and retire closed-connection outcomes using a connection-generation fence. Preserve duplicate-outcome and stale-attempt protection when evicting. Prove that more than 128 rejected attempts cannot prevent a distinct legitimate guest from joining a subsequently free slot.
+All five changed code-policy JSON files and `EngineGeneratedSyntax.cs` remain unchanged from `624f37b`. Inspection found 220 exact registry rows and 220 unique authored diagnostic/path/hash/span tuples; the compiler-origin and adjacent-negative controls remain source/hash scoped. The existing fifteen public types include eight Phase 3 additions, and the exact Phase 3 native-method inventory remains 45, with compiler-valid positive/adjacent-negative consumers. No blanket permissions, package additions, new project/reference or generated hash refresh is introduced by the fixes.
 
-### CR-04: Opaque wire actor IDs are interpreted as native node paths
+Older auxiliary evidence with unpinned prebuild tool drift remains failure/history and receives no current credit. Earlier 66-case body/fixture results remain historical. The fresh full selected 433 Phase 1 + 16 Phase 2 + 32 Phase 3 pass is still Task 3 work.
 
-**Classification:** BLOCKER  
-**File:** `D:/Work/Games/KingdomZombies/src/godot-game/foundation/FoundationView.cs:35-41`  
-**Related locations:** `FoundationSnapshot.cs:64-77`, `FoundationProtocol.cs:103-126`, `FoundationCoordinator.GuestPublication.cs:53-57`  
-**Issue:** Snapshot validation allows any nonblank actor ID up to 128 characters, including slash, colon and parent-path syntax. The projection concatenates that untrusted value into both a Godot `NodePath` lookup and `Node.Name`. A structurally valid host publication can therefore be accepted atomically and then cause invalid native names, traversal to unrelated nodes, cast failures or repeated duplicate visual construction. For example, a ready remote actor `a` creates `Actor_a`; another ready remote ID `a/../../Menu` resolves `Actor_a/../../Menu` from World to the root Menu control, which cannot be read as `Node2D`.
+## Required handoff before a prelaunch gate
 
-**Evidence:** Exact uniqueness, ownership, content and numeric checks do not reject or encode these IDs. The unsafe use occurs after the guest has installed the complete candidate, outside the packet-decoding exception boundary.
+The source review is complete at `166a32ad6a7541c4f5eed1378def0a86e9bea632`; CR-09 and the preceding thirteen findings are resolved. The parent may now author the hash-bound review gate for this exact reviewed source/input/tool tuple, after the scratch cleanup below. Keep `SourceRevisionId` pinned to this reviewed source SHA through the gate metadata commit, mandatory strict rebuild and subsequent commands. A future source change requires renewed affected checks and independent review; old executions must retain their original identities.
 
-**Fix:** Keep exact opaque IDs as model/dictionary keys and map them to safe native node names, or encode them into an injective safe representation before any node-name/path operation. Do not normalize the identity itself or let labels/paths replace ownership. Reject or safely project malicious path-shaped IDs before touching unrelated native nodes; add detached-wire and projection controls for slash, colon, parent segments and sanitizer collisions.
+The parent confirmed that untracked `03-REVIEW.iter2.md`, `03-REVIEW.iter3.md`, `03-REVIEW-FIX.iter2.md` and `03-REVIEW-FIX.iter3.md` in the phase folder are temporary review-loop backups. Before gate authoring/commit, archive the required history under ignored `.phase3/review-history` and remove those untracked phase-folder scratch copies. They must not become intervening commits after the eventual reviewed source SHA. The narrow metadata whitelist intentionally rejects undeclared scratch; do not broaden it to accommodate them. Preserve the original review in Git and the cumulative final fix ledger.
 
-### CR-05: Stopped-position evidence is not bound to any actual stopped actor or peer draw
+Retain this review's exact `SourceRevisionId` pin through the mandatory metadata-descendant strict rebuild, fresh `--all`, image review and closure validation. True execution HEAD and reviewed-source stamp remain distinct. The parent owns report/gate/closure commits, shared phase state and publishing.
 
-**Classification:** BLOCKER  
-**File:** `D:/Work/Games/KingdomZombies/tools/phase3/evidence.cjs:34-40`  
-**Related locations:** `evidence.cjs:138-139`, `tools/phase3/rendered.cjs:118-128`  
-**Issue:** The stopped matrix checks role labels, then validates only self-declared scalar rows. `actor === expectedActor` and `session === expectedSession` compare fields supplied by that same row. Neither positions nor revision are reconciled with the required observer draw, the host draw, the origin's accepted stop, or the matching release acknowledgment. Changing all comparison rows to an obsolete/nonexistent subject and equal zero positions can retain pass status. Additionally, `STOP_TIME` adds uncertainty before checking nonnegative elapsed time, so an observation before release can be accepted when uncertainty cancels the negative interval.
-
-**Evidence:** A Node-only call to the actual `stopped()` accepted actor `nonexistent-actor`, session `obsolete-session`, revision/minimum 0, release `2000000000`, observed `1000000000`, uncertainty `1000000000`, and both positions zero. Its observation was one second before release with one second of uncertainty. `reconcile()` adds no subject/artifact validation for stopped rows beyond the exact role matrix. The collector writes no draw references for these comparisons.
-
-**Fix:** Record immutable observer/host draw references and frame IDs for every comparison, bind the exact origin actor/session to the accepted zero-direction intent and native release record, and derive positions/revisions from those referenced records. Require observation at or after release before adding conservative uncertainty, and keep the inclusive 50-subunit/500-ms bounds. Add full-reconciler negative controls for wrong actor/session, substituted host/observer positions, stale frame/revision, pre-release observation, and excessive uncertainty.
-
-### CR-06: A required rendered peer can exit nonzero after capture and still pass
-
-**Classification:** BLOCKER  
-**File:** `D:/Work/Games/KingdomZombies/tools/phase3/scenarios.cjs:273-280`  
-**Related locations:** `tools/phase3/network.cjs:82-85`, `tools/phase3/evidence.cjs:70-97`  
-**Issue:** Rendered cleanup skips every peer that has already exited, regardless of whether the termination was expected. It then calls `network.cleanup()`, which accepts any non-null exit record without checking exit code/signal or whether a normal Quit actually completed. Consequently, a peer that silently exits 7 or is killed after its last checkpoint can leave all its rendered scenario results passing. The reconciler checks launch/log/draw artifacts but has no required terminal process record. The separate `processes.cjs` failure controls exercise another command wrapper, so they do not close this actual rendered-peer gap.
-
-**Evidence:** A Node-only call to the actual `network.cleanup()` with an exited required peer `{code: 7, signal: null}` and an empty output log returned successfully. In `scenarios.close()` such a peer is skipped by the ordinary Quit loop. An empty or clean log does not establish a zero process exit.
-
-**Fix:** Persist and reconcile a terminal record for every owned game process. Normal peers must acknowledge ordinary Quit and exit zero without signal within the deadline; cleanup kills and unexpected prior exits must invalidate affected results. Allow deliberate host/guest-loss termination only through an explicit, case-bound expected-termination record declared before the kill. Add actual child-failure controls through the rendered peer lifecycle, including failure immediately after the last capture and during normal Quit.
-
-## Warnings
-
-### WR-01: Capture acknowledgment is published before its JSON is complete
-
-**Classification:** WARNING  
-**File:** `D:/Work/Games/KingdomZombies/src/godot-game/foundation/FoundationDrawObserver.cs:168-169`  
-**Related location:** `D:/Work/Games/KingdomZombies/tools/phase3/rendered.cjs:64-66`  
-**Issue:** The producer writes directly to the final checkpoint JSON path, while the consumer polls for existence every 2 ms and immediately parses it. File creation precedes completion of `WriteAllText()`, so a legitimate capture can fail with partial/empty JSON or a sharing error. This introduces avoidable flakiness across the many required captures. The inherited Phase 2 capture correctly uses a temporary JSON file and move, but the new observer does not.
-
-**Evidence:** A Node-only probe of the actual `r.capture()` published the expected file with `{` and completed the write 100 ms later. Capture immediately failed with `SyntaxError: Expected property name or '}' in JSON`, rather than waiting for publication.
-
-**Fix:** Write the complete JSON to a unique same-directory temporary file, close it, then atomically rename/move it to the final checkpoint path after the PNG is complete. Treat the rename as acknowledgment and retain the conservative external-clock end bracket. Add a delayed-publication control that cannot observe partial JSON.
-
-### WR-02: The selected inherited navigation tests still assume a two-button menu
-
-**Classification:** WARNING  
-**File:** `D:/Work/Games/KingdomZombies/tools/phase2/rendered.cjs:151-157`  
-**Related locations:** `tools/phase2/rendered.cjs:277-279`, `src/godot-game/foundation/Foundation.tscn:184-185`  
-**Issue:** `rendered.menu` and `rendered.quit` expect one Tab from Start to focus Quit; the menu test also expects Down from Start to focus Quit. The Phase 3 scene explicitly changes Start's next/down neighbor to Host and adds Host, Join and profile controls. Thus the still-required inherited cases fail against the intended current UI before checking their meaningful recoverable-entry and clean-Quit obligations. Only profile isolation was adapted in the inherited runner.
-
-**Fix:** Update the inherited procedures and observation fields for the actual current keyboard traversal. Preserve bidirectional navigation, fresh activation, hover/press/error-retry, complete movement regressions and final ordinary keyboard Quit. Navigate to Quit through the declared current controls rather than deleting the assertion, bypassing input, or removing either inherited case from selection.
-
-### WR-03: The saved selection omits regressions for an analyzer changed by this phase
-
-**Classification:** WARNING  
-**File:** `D:/Work/Games/KingdomZombies/tools/phase3/catalog.cjs:21-23`  
-**Related locations:** `tools/code-rules/BodyLengthAnalyzer.cs:53-54`, `.planning/phases/03-four-player-lan-foundation/03-SELECTION.json`  
-**Issue:** The prelaunch validator accepts the saved Phase 1 omissions merely because every ID is accounted for and has some nonblank reason. The actual selection omits `R-37.positive`, `R-37.negative` and all `rules.body*` regressions: 31 body-length-family IDs in total. Their omission reason says there were no analyzer implementation edits, although Phase 3 changes BodyLengthAnalyzer to consult generated permissions and replaces the EngineGeneratedSyntax permission data. These are affected regressions under the current testing policy, not unaffected isolated fixtures. Earlier Plan 1 executions are historical; the saved selection explicitly claims no evidence reuse.
-
-**Fix:** Recompute affected inherited selection from the complete phase diff, including the body-length positive/negative/boundary and generated-configuration controls and affected analyzer source-consumer/boundary checks. Reconcile changed generated-callsite/register inputs with their owning proofs as well. Update scenarios/counts/rationales and require the prelaunch validator to reject the known affected omissions. Keep genuinely unaffected omissions explicit; no complete Phase 5 certification is requested.
-
-### WR-04: Concurrent foreground clicks race for the single Windows foreground window
-
-**Classification:** WARNING  
-**File:** `D:/Work/Games/KingdomZombies/tools/phase3/scenarios.cjs:229`  
-**Related locations:** `scenarios.cjs:10-13`, `tools/phase3/windows-input.ps1:129-143`  
-**Issue:** The last-slot race invokes two `click()` operations concurrently using separate helper processes. Each helper first focuses its target, then sends a foreground physical click in a separate request. Another helper can take foreground between those operations, so the first click fails the helper's correct `DRIVER_MOUSE_FOCUS`/point-ownership check. This tests an uncontrolled desktop-focus race instead of reliably delivering two admission attempts.
-
-**Evidence:** A Node-only probe of the exported actual `scenarios.click()` used two valid control observations and one shared foreground owner, with both focus acknowledgments completing before the click requests. The exact Promise.all arrangement failed with `DRIVER_MOUSE_FOCUS`. No real desktop input was sent.
-
-**Fix:** Keep foreground focus-plus-click operations serialized. For the specifically concurrent contender test, prepare the two ordinary focused Join controls serially and use a controlled, PID-targeted native event dispatch that both helpers can deliver without foreground theft, recording its actual window-message provenance and native handler acknowledgments. Retain separate mandatory genuine foreground physical-input/focus tests. Do not weaken the helper's ownership checks or describe targeted/synthetic delivery as physical input.
+Actual native foreground physical input, sustained background/window-message feasibility, permitted synthetic fallback provenance, 48 conservative rendered timing rows, 16 stopped comparisons, every required image's appearance review and the entire final selected-set pass remain unproved. A future input/timing/image failure is an acceptance blocker, not a synthetic or state-only pass. No hosted/Linux, mixed-computer LAN, complete A-38/A-45 campaign, packaging, hardware, endurance or Phase 5 certification is claimed.
 
 ---
 
-All findings are open in this review. The orchestrator owns fixes, focused verification, re-review, review-gate creation and the eventual post-review selected rendered pass. This report supplies no rendered, Linux/hosted, mixed-computer LAN, campaign, export, hardware, endurance or Phase 5 certification credit.
-
+_Reviewed: 2026-11-15T19:32:02Z_  
 _Reviewer: the agent (gsd-code-reviewer)_  
 _Depth: standard_
-
