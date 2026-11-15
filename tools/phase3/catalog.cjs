@@ -30,11 +30,17 @@ function prelaunch(root,context){
   e.requireTrue(process.platform==='win32','DEVELOPMENT_WINDOWS_REQUIRED');
   const catalog=e.read(path.join(root,'tools/phase3/required-cases.json')),savedSelection=validate(root,catalog);
   const review=e.read(e.inside(root,reviewPath));
-  e.requireTrue(review.status==='complete'&&review.input===context.input&&review.tool===context.tool&&review.revision===context.revision,'WHOLE_PHASE_REVIEW_REQUIRED');
+  const reference=file=>({path:file,sha256:e.hash(fs.readFileSync(e.inside(root,file)))});
+  require('./revisions.cjs').review(root,review,reference(reviewPath),context);
   e.requireTrue(Array.isArray(review.findings)&&review.findings.every(row=>['critical','high','medium','low','info'].includes(row.severity)
     &&(row.disposition==='resolved'||!['critical','high'].includes(row.severity)&&row.disposition==='accepted')),'REVIEW_FINDINGS_UNRESOLVED');
   e.requireTrue(review.reviewedBy?.trim()&&review.report?.path&&review.report.sha256,'REVIEW_AUTHOR_REPORT');e.artifact({directory:root},review.report);
-  const reference=file=>({path:file,sha256:e.hash(fs.readFileSync(e.inside(root,file)))});
-  return {review:reference(reviewPath),selection:reference(selectionPath),savedSelection};
+  const copy=(source,name)=>{
+    const target=path.join(context.directory,name);fs.copyFileSync(e.inside(root,source),target,fs.constants.COPYFILE_EXCL);
+    return reference(path.relative(root,target).replaceAll('\\','/'));
+  };
+  const immutable=copy(reviewPath,'prelaunch-review.json');
+  immutable.report=copy(review.report.path,'prelaunch-review.md');
+  return {review:immutable,selection:reference(selectionPath),savedSelection};
 }
 module.exports={validate,prelaunch,selectionPath,reviewPath};

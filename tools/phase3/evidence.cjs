@@ -178,12 +178,20 @@ function verifyCompletion(root,index,cases,current){
   exact(cases.map(row=>row.id),selection.selected.phase3,'COMPLETION_SELECTION');
   requireTrue(index.finalReport&&Array.isArray(index.history),'COMPLETION_FINAL_REQUIRED');
   const final=loadReport(root,index.finalReport,cases);
-  for(const key of ['input','tool','platform','revision','osFingerprint'])requireTrue(final[key]===current[key],'COMPLETION_CURRENT '+key);
+  for(const key of ['input','tool','platform','osFingerprint'])requireTrue(final[key]===current[key],'COMPLETION_CURRENT '+key);
+  const revisionValidation=require('./revisions.cjs').relation(root,final.revision,current.revision,final.input);
   exact(selection.selected.phase3,final.selected,'final selection');
   requireTrue(final.selectionSha256===index.selection.sha256&&final.prelaunchReview?.sha256,'PRELAUNCH_BINDING');
-  requireTrue(final.prelaunchReview.path===require('./catalog.cjs').reviewPath,'PRELAUNCH_REVIEW_PATH');
-  const review=artifact({directory:root},final.prelaunchReview),reviewRecord=read(review);requireTrue(reviewRecord.status==='complete'&&reviewRecord.input===final.input&&reviewRecord.tool===final.tool&&reviewRecord.revision===final.revision,'PRELAUNCH_REVIEW');
-  artifact({directory:root},reviewRecord.report);
+  const runDirectory=path.dirname(index.finalReport.path).replaceAll('\\','/');
+  requireTrue(final.prelaunchReview.path===runDirectory+'/prelaunch-review.json'&&
+    final.prelaunchReview.report?.path===runDirectory+'/prelaunch-review.md','PRELAUNCH_REVIEW_PATH');
+  const reviewRecord=read(artifact({directory:root},final.prelaunchReview));
+  requireTrue(reviewRecord.status==='complete'&&reviewRecord.input===final.input&&reviewRecord.tool===final.tool,'PRELAUNCH_REVIEW');
+  require('./revisions.cjs').relation(root,reviewRecord.revision,current.revision,final.input);
+  require('./revisions.cjs').committedArtifact(root,final.revision,{path:require('./catalog.cjs').reviewPath,sha256:final.prelaunchReview.sha256});
+  require('./revisions.cjs').committedArtifact(root,final.revision,reviewRecord.report);
+  requireTrue(final.prelaunchReview.report.sha256===reviewRecord.report.sha256,'PRELAUNCH_REPORT_BINDING');
+  artifact({directory:root},final.prelaunchReview.report);
   for(const reference of index.history){const file=inside(root,reference.path);requireTrue(hash(fs.readFileSync(file))===reference.sha256,'HISTORY_HASH');const prior=read(file);requireTrue(prior.finishedAt<=final.startedAt&&prior.nonce!==final.nonce,'LATER_OR_DUPLICATE_REPORT');}
   const visualReport=fs.readFileSync(artifact({directory:root},index.visualReview),'utf8');
   for(const result of final.results)for(const peer of [...result.peers??[],...result.additionalPeers??[]])for(const picture of peer.images??[]){
@@ -192,7 +200,7 @@ function verifyCompletion(root,index,cases,current){
     requireTrue(visualReport.includes(picture.sha256),'VISUAL_REPORT_IMAGE_BINDING');
   }
   verifyInherited(root,final,selection,index.reviews??[]);
-  return {status:'pass',selected:final.selected,report:final.path};
+  return {status:'pass',selected:final.selected,report:final.path,...revisionValidation};
 }
 function verifyInherited(root,final,selection,reviews){
   requireTrue(final.inherited?.phase1?.length&&final.inherited?.phase2?.length,'INHERITED_EVIDENCE_REQUIRED');
@@ -204,7 +212,7 @@ function verifyInherited(root,final,selection,reviews){
       const process=read(artifact({directory:root},reference.process));
       requireTrue(process.code===0&&!process.signal&&!process.timedOut&&process.startedAt>=final.startedAt&&process.finishedAt<=final.finishedAt,'INHERITED_EXECUTION');
       const manifest=family==='phase1'?catalog:{inputs:['src','tests/phase1','tools/phase2','tools/phase1/toolchain.json','Directory.Build.props','Directory.Build.targets','Directory.Packages.props','.editorconfig','BannedSymbols.txt','BannedSymbols.Pure.txt','docs/code']};
-      requireTrue(baseline.snapshot(root,manifest).sha256===summary.input,'INHERITED_SOURCE_CHANGED');
+      requireTrue(require('./revisions.cjs').snapshotAt(root,final.revision,manifest).sha256===summary.input,'INHERITED_SOURCE_CHANGED');
       exact(summary.selected,summary.results.map(row=>row.id),'inherited report');seen.push(...summary.selected);
       if(family==='phase2'){
         require('../phase2/evidence.cjs').loadReport(root,reference.path,catalog.cases);
