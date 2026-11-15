@@ -70,8 +70,10 @@ internal sealed partial class FoundationCoordinator
         }
 
         _peers.Remove(key: sender);
-        FoundationAdmissionHistory history = AdmissionHistory(sender: sender);
-        if (!history.Expired && StringComparer.Ordinal.Equals(x: history.Generation, y: peer.ConnectionGeneration))
+        if (_admissions.TryGetValue(key: sender, value: out FoundationAdmissionHistory? history)
+                && !history.Expired && StringComparer.Ordinal.Equals(x: history.Generation,
+                        y: peer.ConnectionGeneration)
+                && StringComparer.Ordinal.Equals(x: history.Generation, y: _connection?.PeerGeneration(peer: sender)))
         {
             history.Outcomes[key: peer.Baseline.AttemptId] = new FoundationEnvelope(kind: "reject",
                     label: "This admission attempt is closed. Join again.", attemptId: peer.Baseline.AttemptId);

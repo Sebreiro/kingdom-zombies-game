@@ -42,6 +42,7 @@ public sealed class FoundationLanAdmissionTests
         CheckMovingBaseline();
         CheckRefusalFlood();
         CheckConnectionRetirement();
+        CheckDisconnectedHistoryCleanup();
         ProofProtocol.Record(id: "core.admission", diagnostic: "PENDING_CAPACITY_REPEAT_HELLO_DISTINCT_REASONS");
     }
 
@@ -114,6 +115,27 @@ public sealed class FoundationLanAdmissionTests
                 label: "Guest", attemptId: baseline.AttemptId));
         host.Update(elapsedMilliseconds: 0);
         port.Sent.Last().Envelope.Label.ShouldStartWith(expected: "This admission attempt is closed");
+    }
+
+    private static void CheckDisconnectedHistoryCleanup()
+    {
+        var clock = new FoundationScenarioClock();
+        var port = new FoundationHarnessConnection();
+        var host = new FoundationCoordinator(playerId: "host", label: "Host", connection: port,
+                nowMilliseconds: () => clock.Now);
+        host.Start(host: true);
+        for (int sender = 20; sender < 52; sender++)
+        {
+            port.Enqueue(sender: sender, envelope: new FoundationEnvelope(kind: "hello", playerId: "p" + sender,
+                    label: "Guest", attemptId: "join" + sender));
+            host.Update(elapsedMilliseconds: 0);
+            host.Snapshot?.Participants.Length.ShouldBe(expected: 2);
+            port.PeerGenerations[key: sender] = "";
+            clock.Now += 30000;
+            host.Update(elapsedMilliseconds: 0);
+            host.Snapshot?.Participants.Length.ShouldBe(expected: 1);
+            host.AdmissionHistoryCount.ShouldBe(expected: 0);
+        }
     }
 
     private static void CheckConnectionRetirement()

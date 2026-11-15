@@ -39,6 +39,7 @@ internal sealed partial class FoundationCoordinator
     internal FoundationMovementCommand? LastAcceptedIntent { get; private set; }
     internal long LastAcceptedRevision { get; private set; } = -1;
     internal long RejectedPackets { get; private set; }
+    internal int AdmissionHistoryCount => _admissions.Count;
     internal IReadOnlyList<string> Events => _events;
     internal bool Closed => _closed;
     internal bool Finished => _used && !_active;

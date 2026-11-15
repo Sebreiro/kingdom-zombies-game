@@ -187,7 +187,8 @@ internal sealed partial class FoundationCoordinator
     {
         foreach ((int sender, FoundationAdmissionHistory history) in _admissions.ToArray())
         {
-            if (!StringComparer.Ordinal.Equals(x: history.Generation, y: _connection?.PeerGeneration(peer: sender)))
+            if (history.Generation.Length == 0 || !StringComparer.Ordinal.Equals(x: history.Generation,
+                    y: _connection?.PeerGeneration(peer: sender)))
             {
                 _admissions.Remove(key: sender);
             }
