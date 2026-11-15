@@ -37,6 +37,7 @@ internal sealed class BuildFixture
         if (tests)
         {
             CopyTree(relative: "tests/phase1");
+            CopyFile(relative: "src/godot-game/foundation/FoundationInput.cs");
         }
 
         if (game)
@@ -138,11 +139,16 @@ internal sealed class BuildFixture
                 continue;
             }
 
-            string target = Path.Combine(path1: _directory, path2: relative, path3: local);
-            Directory.CreateDirectory(path: Path.GetDirectoryName(path: target)
-                    ?? throw new InvalidOperationException(message: "Missing fixture parent"));
-            File.Copy(sourceFileName: file, destFileName: target);
+            CopyFile(relative: Path.Combine(path1: relative, path2: local));
         }
+    }
+
+    private void CopyFile(string relative)
+    {
+        string target = Path.Combine(path1: _directory, path2: relative);
+        Directory.CreateDirectory(path: Path.GetDirectoryName(path: target)
+                ?? throw new InvalidOperationException(message: "Missing fixture parent"));
+        File.Copy(sourceFileName: Path.Combine(path1: ProofProtocol.Root, path2: relative), destFileName: target);
     }
 
     private (int Exit, string Output) Run(params string[] arguments)
