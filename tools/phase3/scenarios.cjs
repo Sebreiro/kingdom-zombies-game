@@ -344,7 +344,7 @@ async function run(context,items){
     }
   }finally{
     for(const state of states.filter(row=>row.group!=='G2'))try{await close(state);}catch(error){require('./terminal.cjs').invalidate(results,state,error);}
-    unlock();
+    try{await require('./png-worker.cjs').close();}finally{unlock();}
   }
   const artifact=file=>({path:path.relative(context.directory,file),sha256:e.hash(fs.readFileSync(file))});
   for(const result of results)if(result._state){result.nativeDrivers=result._state.allDrivers.map(input=>artifact(input.file));

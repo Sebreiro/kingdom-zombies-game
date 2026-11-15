@@ -1,6 +1,25 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict');
 const fs=require('node:fs');
+test('parallel PNG validation keeps observations responsive and preserves exact validation and hashes',async()=>{
+  const path=require('node:path'),crypto=require('node:crypto'),parallel=require('./png-worker.cjs');
+  const directory=fs.mkdtempSync(path.resolve(__dirname,'../../.phase3/png-worker-control-'));
+  const file=path.join(directory,'actual.png'),broken=path.join(directory,'broken.png');
+  fs.writeFileSync(file,require('./runner-fixture.cjs').png());
+  const bytes=fs.readFileSync(file),expected={...require('./png.cjs').validate(file),sha256:crypto.createHash('sha256').update(bytes).digest('hex')};
+  try{
+    let responsive=false;
+    const pending=Array.from({length:4},()=>parallel.validate(file));
+    setImmediate(()=>responsive=true);
+    for(const decoded of await Promise.all(pending))assert.deepEqual(decoded,expected);
+    assert.equal(responsive,true,'PNG reads, CRC, reconstruction and content checks must not block observation polling');
+    bytes[bytes.length-5]^=1;fs.writeFileSync(broken,bytes);
+    await assert.rejects(parallel.validate(broken),/PNG_CRC/);
+    assert.deepEqual(await parallel.validate(file),expected,'a rejected image must not contaminate later work');
+  }finally{await parallel.close();}
+  try{assert.deepEqual(await parallel.validate(file),expected,'closed workers can be created for a later invocation');}
+  finally{await parallel.close();}
+});
 test('draw timing requires an inclusive conservative external-clock bound',()=>{
   const moduleFile=__dirname+'/evidence.cjs';
   const evaluate=fs.existsSync(moduleFile)?require(moduleFile).timing:null;
