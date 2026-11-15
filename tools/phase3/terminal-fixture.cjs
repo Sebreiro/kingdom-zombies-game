@@ -16,6 +16,12 @@ async function run(directory){
     fs.writeFileSync(path.join(local,'draws.ndjson'),JSON.stringify({drawFrame:1,snapshot:null,controls:[{path:'Menu/Host',visible:true},{path:'Menu/Quit',visible:true,x:1,y:1}]})+'\n');
     const input={async send(subject,request){if(request.action==='click')child.stdin.write('quit');return {};},async close(){}};
     peer.driver=input;const state={peers:[peer],extra:[],input,drivers:[]};
+    const captured=require('./rendered.cjs').capture({nonce:'control',directory:local},peer,'final-control');
+    const checkpoint=JSON.parse(fs.readFileSync(path.join(local,'draw.request'),'utf8')).checkpoint;
+    fs.writeFileSync(path.join(local,checkpoint+'.png'),require('./runner-fixture.cjs').png());
+    fs.writeFileSync(path.join(local,checkpoint+'.json.tmp'),JSON.stringify({nonce:'control',pid:peer.pid,drawn:true,drawFrame:1}));
+    fs.renameSync(path.join(local,checkpoint+'.json.tmp'),path.join(local,checkpoint+'.json'));
+    await captured;
     if(['after-final-capture','crash'].includes(mode)){child.stdin.write('fail-after-capture');await peer.closed;}
     if(mode==='expected-loss'){await terminal.terminateExpected(peer,'control.expected-loss','Declared fixture loss before the owned kill');}
     if(['normal','expected-loss'].includes(mode))await scenarios.close(state);

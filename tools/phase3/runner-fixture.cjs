@@ -47,6 +47,13 @@ async function run(mode){
     bad(rows=>rows[0].peers.pop());bad(rows=>rows[0].peers[1]=rows[0].peers[0]);bad(rows=>rows[0].peers[1].pid=rows[0].peers[0].pid);
     bad(rows=>rows[0].peers[1].profile=rows[0].peers[0].profile);bad(rows=>rows[0].peers[0].images=[]);
     bad(rows=>rows[0].peers[0].images.push(rows[0].peers[0].images[0]));
+    bad(rows=>rows[0].peers[0].terminal=null);
+    const terminalFile=path.join(directory,'host.terminal.json'),originalTerminal=fs.readFileSync(terminalFile);
+    for(const delta of [{exit:{code:7,signal:null,observedAt:'2'}},{quitAck:null},{streamsClosed:false},{cleanupKill:true}]){
+      fs.writeFileSync(terminalFile,JSON.stringify({...JSON.parse(originalTerminal),...delta}));
+      bad(rows=>rows[0].peers[0].terminal.sha256=e.hash(fs.readFileSync(terminalFile)));
+    }
+    fs.writeFileSync(terminalFile,originalTerminal);
     bad(rows=>rows[0].peers[0].images[0].path='../foreign.png');
     bad(rows=>rows[0].peers[0].images[0].path='C:foreign.png');
     bad(rows=>rows[0].peers[0].images[0].stateSha256='0'.repeat(64));
