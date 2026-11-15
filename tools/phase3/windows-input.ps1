@@ -30,6 +30,15 @@ public static class LanDesktop {
     [DllImport("user32.dll")] public static extern bool SetCursorPos(int x,int y);
     [DllImport("user32.dll")] public static extern IntPtr WindowFromPoint(Point point);
     [DllImport("user32.dll")] public static extern IntPtr GetAncestor(IntPtr window,uint flags);
+    [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr window,out Rect rect);
+    [DllImport("user32.dll",SetLastError=true)] public static extern IntPtr SetThreadDpiAwarenessContext(IntPtr context);
+    [DllImport("user32.dll")] public static extern IntPtr GetThreadDpiAwarenessContext();
+    [DllImport("user32.dll")] public static extern bool AreDpiAwarenessContextsEqual(IntPtr first,IntPtr second);
+    public static void PhysicalCoordinates() {
+        var context=new IntPtr(-4);
+        if(SetThreadDpiAwarenessContext(context)==IntPtr.Zero ||
+            !AreDpiAwarenessContextsEqual(GetThreadDpiAwarenessContext(),context))throw new Exception("DRIVER_DPI_CONTEXT");
+    }
     public static void Key(ushort key,bool pressed,bool unicode=false) {
         var item=new Event {Type=1};
         item.Data.Keyboard=new Keyboard {Scan=unicode?key:(ushort)MapVirtualKey(key,0),
@@ -42,6 +51,7 @@ public static class LanDesktop {
     }
 }
 '@
+[LanDesktop]::PhysicalCoordinates()
 $allowed = @{}
 foreach ($text in $OwnedPids.Split(',')) {
     $ownedId = [int]$text
@@ -74,17 +84,37 @@ function Get-OwnedWindow([int]$SubjectId) {
     if ($record.window -eq [IntPtr]::Zero -or -not [LanDesktop]::IsWindow($record.window) -or $actualId -ne $SubjectId) { throw 'DRIVER_WINDOW_OWNERSHIP' }
     return $record.window
 }
+function Wait-Foreground([IntPtr]$Target,[int]$Milliseconds) {
+    $elapsed=[Diagnostics.Stopwatch]::StartNew()
+    do {
+        if ([LanDesktop]::GetForegroundWindow() -eq $Target) { return $true }
+        Start-Sleep -Milliseconds 10
+    } while ($elapsed.ElapsedMilliseconds -lt $Milliseconds)
+    return ([LanDesktop]::GetForegroundWindow() -eq $Target)
+}
 function Focus-Owned([IntPtr]$Target) {
+    if ([LanDesktop]::GetForegroundWindow() -eq $Target) { return }
     [void][LanDesktop]::SetForegroundWindow($Target)
+    if (Wait-Foreground $Target 100) { return }
     if ([LanDesktop]::GetForegroundWindow() -ne $Target) {
         [uint32]$foregroundId=0
         $foregroundThread=[LanDesktop]::GetWindowThreadProcessId([LanDesktop]::GetForegroundWindow(),[ref]$foregroundId)
         $currentThread=[LanDesktop]::GetCurrentThreadId()
-        if ([LanDesktop]::AttachThreadInput($currentThread,$foregroundThread,$true)) {
+        if ($foregroundThread -ne 0 -and $foregroundThread -ne $currentThread -and [LanDesktop]::AttachThreadInput($currentThread,$foregroundThread,$true)) {
             try { [void][LanDesktop]::SetForegroundWindow($Target) }
             finally { [void][LanDesktop]::AttachThreadInput($currentThread,$foregroundThread,$false) }
         }
     }
+    if (Wait-Foreground $Target 100) { return }
+    $outer=[LanDesktop+Rect]::new()
+    if (-not [LanDesktop]::GetWindowRect($Target,[ref]$outer)) { throw 'DRIVER_FOCUS_RECT' }
+    $titlePoint=[LanDesktop+Point]::new();$titlePoint.X=$outer.L+50;$titlePoint.Y=$outer.T+10
+    if ([LanDesktop]::GetAncestor([LanDesktop]::WindowFromPoint($titlePoint),2) -ne $Target) { throw 'DRIVER_FOCUS_POINT_NOT_OWNED' }
+    if (-not [LanDesktop]::SetCursorPos($titlePoint.X,$titlePoint.Y)) { throw 'DRIVER_FOCUS_CURSOR' }
+    $script:mouseHeld=$true
+    [LanDesktop]::MouseButton($true);[LanDesktop]::MouseButton($false)
+    $script:mouseHeld=$false
+    if (Wait-Foreground $Target 150) { return }
     if ([LanDesktop]::GetForegroundWindow() -ne $Target) { throw 'DRIVER_FOREGROUND_UNACKNOWLEDGED' }
 }
 function Deliver-Key([int]$SubjectId,[IntPtr]$Target,[string]$Method,[int]$Code,[bool]$Pressed) {
@@ -112,8 +142,11 @@ try {
             if ($request.nonce -cne $Nonce -or [int]$request.sequence -ne $sequence+1) { throw 'DRIVER_REQUEST_IDENTITY' }
             $sequence++
             if ($request.action -eq 'close') { break }
+            [LanDesktop]::PhysicalCoordinates()
             $subjectId=[int]$request.pid
             $window=Get-OwnedWindow $subjectId
+            $client=[LanDesktop+Rect]::new()
+            if (-not [LanDesktop]::GetClientRect($window,[ref]$client) -or $client.R-$client.L-ne1280 -or $client.B-$client.T-ne720) { throw 'DRIVER_PHYSICAL_CLIENT_RESOLUTION' }
             $method=[string]$request.method
             switch ($request.action) {
                 'probe' { }
@@ -144,7 +177,7 @@ try {
                 }
                 default { throw 'DRIVER_ACTION' }
             }
-            [Console]::Out.WriteLine((@{ok=$true;nonce=$Nonce;sequence=$sequence;pid=$subjectId;driverPid=$PID;window=$window.ToInt64();focused=([LanDesktop]::GetForegroundWindow()-eq$window);action=$request.action;method=$method;key=$request.key;pressed=$request.pressed;deliveryOnly=$true} | ConvertTo-Json -Compress))
+            [Console]::Out.WriteLine((@{ok=$true;nonce=$Nonce;sequence=$sequence;pid=$subjectId;driverPid=$PID;window=$window.ToInt64();focused=([LanDesktop]::GetForegroundWindow()-eq$window);action=$request.action;method=$method;key=$request.key;pressed=$request.pressed;deliveryOnly=$true;coordinateSpace='physical-pixels';dpiAwareness='per-monitor-v2';clientWidth=$client.R-$client.L;clientHeight=$client.B-$client.T} | ConvertTo-Json -Compress))
         } catch { [Console]::Out.WriteLine((@{ok=$false;nonce=$Nonce;sequence=$sequence;error=$_.Exception.Message} | ConvertTo-Json -Compress)) }
     }
 } finally {

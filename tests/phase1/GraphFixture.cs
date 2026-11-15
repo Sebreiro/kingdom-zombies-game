@@ -36,8 +36,7 @@ internal sealed class GraphFixture
         }
         else if (mutation is "transitive")
         {
-            RemoveReference(project: ProjectEvaluator.Expected[2], target:
-                    "../multiplayer-abstractions/KingdomZombies.Multiplayer.Abstractions.csproj");
+            RetainCleanPortsConsumer();
             Append(project: ProjectEvaluator.Expected[0], xml: "<ItemGroup><ProjectReference Include=\""
                     + "../multiplayer-abstractions/KingdomZombies.Multiplayer.Abstractions.csproj\"/></ItemGroup>");
             Append(project: ProjectEvaluator.Expected[1], xml: item);
@@ -188,6 +187,20 @@ internal sealed class GraphFixture
         Append(project: ProjectEvaluator.Expected[2], xml:
                 "<ItemGroup><Reference Include=\"KingdomZombies.Core\">"
                         + "<HintPath>../../.graph-baseline/KingdomZombies.Core.dll</HintPath>"
+                        + "<Private>false</Private></Reference></ItemGroup>");
+    }
+
+    private void RetainCleanPortsConsumer()
+    {
+        File.Copy(sourceFileName: Path.Combine(path1: Root, path2:
+                "src/multiplayer-abstractions/bin/Debug/net10.0/KingdomZombies.Multiplayer.Abstractions.dll"),
+                destFileName: Path.Combine(path1: Root,
+                        path2: ".graph-baseline/KingdomZombies.Multiplayer.Abstractions.dll"));
+        RemoveReference(project: ProjectEvaluator.Expected[2], target:
+                "../multiplayer-abstractions/KingdomZombies.Multiplayer.Abstractions.csproj");
+        Append(project: ProjectEvaluator.Expected[2], xml:
+                "<ItemGroup><Reference Include=\"KingdomZombies.Multiplayer.Abstractions\">"
+                        + "<HintPath>../../.graph-baseline/KingdomZombies.Multiplayer.Abstractions.dll</HintPath>"
                         + "<Private>false</Private></Reference></ItemGroup>");
     }
 

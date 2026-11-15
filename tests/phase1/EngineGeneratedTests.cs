@@ -43,7 +43,7 @@ public sealed class EngineGeneratedTests
         fixture.Restore();
         string subject = Path.Combine(path1: fixture.DirectoryPath, path2: "src/godot-game/Subject.cs");
         string companion = Path.Combine(path1: fixture.DirectoryPath,
-                path2: "src/godot-game/companion/LifecycleFixture.cs");
+                path2: "src/godot-game/proofs/companion/LifecycleFixture.cs");
         Directory.CreateDirectory(path: Path.GetDirectoryName(path: companion)
                 ?? throw new InvalidOperationException(message: "COMPANION_DIRECTORY"));
         const string Source = "namespace KingdomZombies.Proofs;\ninternal partial class LifecycleFixture\n{\n"
