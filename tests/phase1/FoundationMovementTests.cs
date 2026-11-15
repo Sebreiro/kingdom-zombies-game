@@ -1,5 +1,6 @@
 using System;
 using KingdomZombies.Core;
+using KingdomZombies.Foundation;
 using Shouldly;
 using Xunit;
 
@@ -8,6 +9,28 @@ namespace KingdomZombies.Phase1.Tests;
 /// <summary>Exercises identified production movement through the pure authority.</summary>
 public sealed class FoundationMovementTests
 {
+    /// <summary>Aliases cancel and release through the exact production input helper.</summary>
+    [Fact]
+    public void PhysicalAliasesCancelAndRelease()
+    {
+        var input = new FoundationInput();
+        input.Set(key: 65, pressed: true);
+        input.Direction.ShouldBe(expected: -1);
+        input.Set(key: 4194319, pressed: true);
+        input.Direction.ShouldBe(expected: -1);
+        input.Set(key: 65, pressed: true);
+        input.Direction.ShouldBe(expected: -1);
+        input.Set(key: 68, pressed: true);
+        input.Direction.ShouldBe(expected: 0);
+        input.Set(key: 65, pressed: false);
+        input.Direction.ShouldBe(expected: 0);
+        input.Set(key: 4194319, pressed: false);
+        input.Direction.ShouldBe(expected: 1);
+        input.Set(key: 68, pressed: false);
+        input.Direction.ShouldBe(expected: 0);
+        ProofProtocol.Record(id: "core.input", diagnostic: "PHYSICAL_ALIAS_CANCEL_RELEASE");
+    }
+
     /// <summary>A rightward command advances exactly three units and preserves ownership.</summary>
     [Fact]
     public void IdentifiedRightwardCommandAdvancesThreeUnits()

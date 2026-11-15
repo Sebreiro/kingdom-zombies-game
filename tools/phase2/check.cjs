@@ -62,12 +62,14 @@ async function main(root, args) {
       requireTrue(item.implementation !== 'pending','PENDING_OBLIGATION ' + item.id);
       let result;
       if (item.implementation === 'native') {
-        requireTrue(item.id === 'rendered.tracer','NATIVE_CASE_UNIMPLEMENTED');
-        const native = await tracer(context);
+        const caseDirectory=path.join(directory,item.id);
+        fs.mkdirSync(caseDirectory,{recursive:true});
+        const native = await tracer({...context,directory:caseDirectory},item.id);
         result = {id:item.id,status:'pass',nonce,input:context.input,tool:context.tool,platform,...native};
         for (const checkpoint of item.images) {
-          requireTrue(fs.existsSync(path.join(directory,checkpoint+'.png')),'IMAGE_MISSING');
-          result.images.find(image=>image.checkpoint===checkpoint).sha256=hash(fs.readFileSync(path.join(directory,checkpoint+'.png')));
+          const image=result.images.find(image=>image.checkpoint===checkpoint);
+          requireTrue(image && fs.existsSync(image.path),'IMAGE_MISSING');
+          image.sha256=hash(fs.readFileSync(image.path));
         }
       } else {
         const testEnv = {...env, PHASE1_ROOT:root,PHASE1_RESULT_DIRECTORY:directory,PHASE1_NONCE:nonce,PHASE1_INPUT:context.input,PHASE1_TOOL:context.tool,PHASE1_PLATFORM:platform};

@@ -37,7 +37,7 @@ public sealed class FoundationSession
         }
 
         long elapsed = checked(Actor.ElapsedMilliseconds + elapsedMilliseconds);
-        long distance = checked(elapsedMilliseconds * 3 * command.Direction);
+        long distance = Math.Min(val1: elapsedMilliseconds, val2: 40000) * 3 * command.Direction;
         long position = Math.Clamp(value: checked(Actor.PositionSubunits + distance), min: -59000, max: 59000);
         Actor = new FoundationActorState(sessionId: Actor.SessionId, playerId: Actor.PlayerId,
                 actorId: Actor.ActorId, positionSubunits: position,

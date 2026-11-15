@@ -175,7 +175,21 @@ public sealed partial class FoundationRoot : Control
             return;
         }
 
-        string checkpoint = File.ReadAllText(path: request).Trim();
+        string[] parts;
+        try
+        {
+            parts = File.ReadAllText(path: request).Trim().Split(separator: '@');
+        }
+        catch (IOException)
+        {
+            return;
+        }
+        string checkpoint = parts[0];
+        if (parts.Length == 2 && _session is not null && _session.Actor.ElapsedMilliseconds
+                < long.Parse(s: parts[1], provider: CultureInfo.InvariantCulture))
+        {
+            return;
+        }
         File.Delete(path: request);
         if (checkpoint.Length is < 1 or > 48 || checkpoint.IndexOfAny(anyOf: ['/', '\\', '.']) >= 0)
         {

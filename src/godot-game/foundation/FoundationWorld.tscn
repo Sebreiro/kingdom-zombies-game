@@ -36,6 +36,6 @@ polygon = PackedVector2Array(-8, -2, -8, -32, 8, -32, 8, -2)
 color = Color(0.941, 0.769, 0.416, 1)
 
 [node name="Facing" type="Polygon2D" parent="Player"]
-polygon = PackedVector2Array(12, -14, 20, -20, 12, -26)
+polygon = PackedVector2Array(11, -14, 15, -20, 11, -26)
 color = Color(0.941, 0.769, 0.416, 1)
 

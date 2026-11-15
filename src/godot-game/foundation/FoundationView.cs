@@ -16,6 +16,12 @@ internal static class FoundationView
         float x = actor.PositionSubunits * 16f / 1000;
         player.Position = new Vector2(x: x, y: 540);
         player.GetNode<Polygon2D>(path: "Facing").Scale = new Vector2(x: actor.Facing, y: 1);
-        world.Position = new Vector2(x: 640 - Math.Clamp(value: x, min: -320, max: 320), y: 0);
+        float target = Math.Clamp(value: x, min: -320, max: 320);
+        double previous = world.GetMeta(name: "elapsed", @default: -1).AsDouble();
+        double seconds = (actor.ElapsedMilliseconds - previous) / 1000;
+        float camera = previous < 0 ? target : (float)(640 - world.Position.X
+                + (target - (640 - world.Position.X)) * (1 - Math.Exp(d: -seconds / 0.15)));
+        world.Position = new Vector2(x: 640 - Math.Clamp(value: camera, min: -320, max: 320), y: 0);
+        world.SetMeta(name: "elapsed", value: actor.ElapsedMilliseconds);
     }
 }

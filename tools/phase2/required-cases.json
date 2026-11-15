@@ -1,21 +1,109 @@
 {
   "schemaVersion": 1,
   "cases": [
-    { "id": "core.authority", "group": "core", "implementation": "csharp", "test": "*FoundationMovementTests.IdentifiedRightwardCommandAdvancesThreeUnits" },
-    { "id": "core.input", "group": "core", "implementation": "pending" },
-    { "id": "core.lifecycle", "group": "core", "implementation": "pending" },
-    { "id": "core.permissions", "group": "core", "implementation": "csharp", "test": "*FoundationPermissionTests.ProductionEventAccessRequiresAuthenticPrecedingGuard" },
-    { "id": "rendered.tracer", "group": "rendered", "implementation": "native", "images": ["launch-menu", "initial-scene", "right-facing", "returned-menu"] },
-    { "id": "rendered.menu", "group": "rendered", "implementation": "pending" },
-    { "id": "rendered.directions", "group": "rendered", "implementation": "pending" },
-    { "id": "rendered.distance", "group": "rendered", "implementation": "pending" },
-    { "id": "rendered.world", "group": "rendered", "implementation": "pending" },
-    { "id": "rendered.lifecycle", "group": "rendered", "implementation": "pending" },
-    { "id": "rendered.focus", "group": "rendered", "implementation": "pending" },
-    { "id": "rendered.quit", "group": "rendered", "implementation": "pending" },
-    { "id": "rendered.resources", "group": "rendered", "implementation": "pending" },
-    { "id": "runner.integrity", "group": "runner", "implementation": "pending" },
-    { "id": "runner.processes", "group": "runner", "implementation": "pending" },
-    { "id": "runner.repeatability", "group": "runner", "implementation": "pending" }
+    {
+      "id": "core.authority",
+      "group": "core",
+      "implementation": "csharp",
+      "test": "*FoundationMovementTests.IdentifiedRightwardCommandAdvancesThreeUnits"
+    },
+    {
+      "id": "core.input",
+      "group": "core",
+      "implementation": "csharp",
+      "test": "*FoundationMovementTests.PhysicalAliasesCancelAndRelease"
+    },
+    {
+      "id": "core.lifecycle",
+      "group": "core",
+      "implementation": "pending"
+    },
+    {
+      "id": "core.permissions",
+      "group": "core",
+      "implementation": "csharp",
+      "test": "*FoundationPermissionTests.ProductionEventAccessRequiresAuthenticPrecedingGuard"
+    },
+    {
+      "id": "rendered.tracer",
+      "group": "rendered",
+      "implementation": "native",
+      "images": [
+        "launch-menu",
+        "initial-scene",
+        "right-facing",
+        "returned-menu"
+      ]
+    },
+    {
+      "id": "rendered.menu",
+      "group": "rendered",
+      "implementation": "pending"
+    },
+    {
+      "id": "rendered.directions",
+      "group": "rendered",
+      "implementation": "native",
+      "images": [
+        "launch-menu",
+        "initial-scene",
+        "returned-menu"
+      ]
+    },
+    {
+      "id": "rendered.distance",
+      "group": "rendered",
+      "implementation": "native",
+      "images": [
+        "launch-menu",
+        "initial-scene",
+        "returned-menu"
+      ]
+    },
+    {
+      "id": "rendered.world",
+      "group": "rendered",
+      "implementation": "native",
+      "images": [
+        "launch-menu",
+        "initial-scene",
+        "returned-menu"
+      ]
+    },
+    {
+      "id": "rendered.lifecycle",
+      "group": "rendered",
+      "implementation": "pending"
+    },
+    {
+      "id": "rendered.focus",
+      "group": "rendered",
+      "implementation": "pending"
+    },
+    {
+      "id": "rendered.quit",
+      "group": "rendered",
+      "implementation": "pending"
+    },
+    {
+      "id": "rendered.resources",
+      "group": "rendered",
+      "implementation": "pending"
+    },
+    {
+      "id": "runner.integrity",
+      "group": "runner",
+      "implementation": "pending"
+    },
+    {
+      "id": "runner.processes",
+      "group": "runner",
+      "implementation": "pending"
+    },
+    {
+      "id": "runner.repeatability",
+      "group": "runner",
+      "implementation": "pending"
+    }
   ]
 }

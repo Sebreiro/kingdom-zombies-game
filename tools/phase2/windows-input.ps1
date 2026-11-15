@@ -19,6 +19,8 @@ public static class FoundationDesktop {
     [DllImport("user32.dll")] public static extern void mouse_event(uint flags, uint x, uint y, uint data, UIntPtr extra);
     [DllImport("user32.dll")] public static extern void keybd_event(byte key, byte scan, uint flags, UIntPtr extra);
     [DllImport("user32.dll")] public static extern uint MapVirtualKey(uint key, uint mapType);
+    [DllImport("kernel32.dll")] public static extern uint GetCurrentThreadId();
+    [DllImport("user32.dll")] public static extern bool AttachThreadInput(uint from, uint to, bool attach);
 }
 '@
 $owned = Get-Process -Id $OwnedPid -ErrorAction Stop
@@ -35,6 +37,16 @@ $script:window = [IntPtr]::Zero
 if ($window -eq [IntPtr]::Zero) { throw 'OWNED_WINDOW_MISSING' }
 [void][FoundationDesktop]::SetForegroundWindow($window)
 Start-Sleep -Milliseconds 100
+if ([FoundationDesktop]::GetForegroundWindow() -ne $window) {
+    [uint32]$foregroundPid = 0
+    $foregroundThread = [FoundationDesktop]::GetWindowThreadProcessId([FoundationDesktop]::GetForegroundWindow(), [ref]$foregroundPid)
+    $currentThread = [FoundationDesktop]::GetCurrentThreadId()
+    if ($foregroundThread -ne $currentThread -and [FoundationDesktop]::AttachThreadInput($currentThread, $foregroundThread, $true)) {
+        try { [void][FoundationDesktop]::SetForegroundWindow($window) }
+        finally { [void][FoundationDesktop]::AttachThreadInput($currentThread, $foregroundThread, $false) }
+    }
+    Start-Sleep -Milliseconds 100
+}
 if ([FoundationDesktop]::GetForegroundWindow() -ne $window) { throw 'OWNED_FOCUS_UNACKNOWLEDGED' }
 [uint32]$verifiedPid = 0
 [void][FoundationDesktop]::GetWindowThreadProcessId($window, [ref]$verifiedPid)
@@ -52,8 +64,8 @@ switch ($Action) {
         Start-Sleep -Milliseconds 80
         [FoundationDesktop]::mouse_event(4, 0, 0, 0, [UIntPtr]::Zero)
     }
-    'down' { [FoundationDesktop]::keybd_event($Key, [byte][FoundationDesktop]::MapVirtualKey($Key, 0), 0, [UIntPtr]::Zero) }
-    'up' { [FoundationDesktop]::keybd_event($Key, [byte][FoundationDesktop]::MapVirtualKey($Key, 0), 2, [UIntPtr]::Zero) }
+    'down' { [FoundationDesktop]::keybd_event($Key, [byte][FoundationDesktop]::MapVirtualKey($Key, 0), [uint32]([int]($Key -ge 37 -and $Key -le 40)), [UIntPtr]::Zero) }
+    'up' { [FoundationDesktop]::keybd_event($Key, [byte][FoundationDesktop]::MapVirtualKey($Key, 0), [uint32](2 + [int]($Key -ge 37 -and $Key -le 40)), [UIntPtr]::Zero) }
     'tap' {
         [FoundationDesktop]::keybd_event($Key, [byte][FoundationDesktop]::MapVirtualKey($Key, 0), 0, [UIntPtr]::Zero)
         Start-Sleep -Milliseconds 80
