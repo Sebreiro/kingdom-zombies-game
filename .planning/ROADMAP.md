@@ -165,8 +165,21 @@ Every feature includes its stable identities, host-authoritative validation and 
 3. Solo, host-local, and guest actions produce one authoritative result per accepted action; repeated input/command delivery cannot execute the host action twice.
 4. A developer can repeat the connection/movement smoke checks and substitute the discovery, identity, or connection adapter without changing gameplay rules; player identity survives independently of a LAN address or transient peer number.
 
-**Plans:** TBD
+**Plans:** 4 plans
 **UI hint:** yes
+
+Plans:
+**Wave 1**
+- [ ] 03-01-PLAN.md — Prove the production host/manual-join ENet tracer and exact permissions without game windows.
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 03-02-PLAN.md — Complete four-participant admission, ordering, timeout and session-lifetime behavior.
+
+**Wave 3** *(blocked on Wave 2 completion)*
+- [ ] 03-03-PLAN.md — Complete discovery, stable profiles, native controls, independent cameras and service substitutions.
+
+**Wave 4** *(blocked on Wave 3 completion)*
+- [ ] 03-04-PLAN.md — Deliver strict per-peer evidence, review/fix the whole phase and run grouped selected scenarios.
 
 **Delivery boundary:** Provide the minimal host/join controls and feedback needed for the increment. Establish revision/baseline, readiness, disconnect cleanup, and session lifetime contracts, while full discovery metadata, late-join recovery, reconnection, and host-loss/save behavior remain owned by Phase 9. Four local processes are a repeatable network proof; mixed-OS LAN on separate computers remains required release evidence.
 
