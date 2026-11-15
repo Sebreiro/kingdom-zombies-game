@@ -1,12 +1,12 @@
 ---
 phase: 03-four-player-lan-foundation
-reviewed: 2026-11-15T21:59:26Z
+reviewed: 2026-11-15T22:38:07Z
 depth: standard
-reviewed_revision: 4ea54ca731c90de700480033f58d17fc5ae8e00b
-build_revision: 4ea54ca731c90de700480033f58d17fc5ae8e00b
+reviewed_revision: f32e0bd8911e0c185a6fa10b24c251f1d69494cd
+build_revision: f32e0bd8911e0c185a6fa10b24c251f1d69494cd
 diff_base: 87e0b44
-scope_files: 118
-files_reviewed: 115
+scope_files: 119
+files_reviewed: 116
 files_reviewed_list:
   - .gitignore
   - docs/code/engine-generated-spans.json
@@ -123,6 +123,7 @@ files_reviewed_list:
   - tools/phase3/reviewed-source.targets
   - tests/phase1/GraphFixture.cs
   - docs/code/rule-matrix.md
+  - tools/phase3/rendered-stream.test.cjs
 context_files_reviewed:
   - .planning/phases/03-four-player-lan-foundation/03-SCENARIOS.md
   - .planning/phases/03-four-player-lan-foundation/03-SELECTION.json
@@ -138,17 +139,17 @@ status: clean
 
 # Phase 03: Code Review Report
 
-**Reviewed:** 2026-11-15T21:59:26Z  
+**Reviewed:** 2026-11-15T22:38:07Z  
 **Depth:** standard  
-**Source files reviewed:** 115  
-**Explicit scope:** all 118 paths from `.phase3/review-fix-union.txt`, preserving the original scope, added SourceLink target and the two newly reviewed proof/document consumers; three planning-context paths are listed separately above  
+**Source files reviewed:** 116  
+**Explicit scope:** all 119 paths from `.phase3/review-fix-union.txt`, preserving the original scope, added SourceLink target and the two newly reviewed proof/document consumers; three planning-context paths are listed separately above  
 **Status:** clean  
-**Reviewed source / pinned build revision:** `4ea54ca731c90de700480033f58d17fc5ae8e00b`  
+**Reviewed source / pinned build revision:** `f32e0bd8911e0c185a6fa10b24c251f1d69494cd`  
 **Diff base:** `87e0b44`
 
 ## Summary
 
-This independent re-review preserves the complete original source/context union and all earlier assessments, adding the phase-only SourceLink target and the later graph-fixture/matrix consumers for a total of 118 paths / 115 source paths. The complete Phase 3 source review above is carried forward together with a direct recheck of the six-path repair diff from `a35bd6f` to `166a32ad6a7541c4f5eed1378def0a86e9bea632`: guest publication, native projection, native regression, protocol proof, independent catalog and saved scenarios. Every repair path was already inside the retained scope. Their production callers, trust boundaries and actual regression consumers were traced; the cumulative fix ledger was treated as a claim to confirm.
+This independent re-review preserves the complete original source/context union and all earlier assessments, adding the phase-only SourceLink target and the later graph-fixture/matrix consumers for a total of 119 paths / 116 source paths, including the new draw-stream control. The complete Phase 3 source review above is carried forward together with a direct recheck of the six-path repair diff from `a35bd6f` to `166a32ad6a7541c4f5eed1378def0a86e9bea632`: guest publication, native projection, native regression, protocol proof, independent catalog and saved scenarios. Every repair path was already inside the retained scope. Their production callers, trust boundaries and actual regression consumers were traced; the cumulative fix ledger was treated as a claim to confirm.
 
 The final focused integration recheck additionally examines committed source `e25a500d12006e256d84b8b241d0cee9c507f278`. Its only source changes since the prior clean review are `tools/phase3/revisions.cjs` and `revisions.test.cjs`, both already in the 115-path scope. The exact five added closure-report permissions and their actual Git/SDK fixture consumers introduce no new actionable finding; the existing fourteen resolved dispositions are preserved. Intervening canonical review/gate/fix/continuation and shared-state files are metadata, not additional changed game source.
 
@@ -160,7 +161,9 @@ The preceding bounded recheck covered the three-file native batch-2 repair at `a
 
 The latest bounded recheck covers native batch 3 at `4ea54ca731c90de700480033f58d17fc5ae8e00b` (commits `2902f7a` and `4ea54ca`): the existing PNG decoder and owned-window focus helper. Their changes preserve evidence semantics, all timing thresholds and strict ownership rejection. No new actionable defect was found; the scope remains 118 paths / 115 source paths and all fifteen earlier findings remain resolved. Historical failed native runs still require a successful focused retry followed by the entire selected pass.
 
-**All fifteen prior findings are resolved. No new actionable defect or open finding remains.** The reviewer independently applied the shared proof reader, read-only, to all 433 authentic passing records (428 retained first-run passes and five focused repairs), with original summary/report hashes intact. The original failed aggregate still rejects. No previous failure is changed into a pass or credited as a new execution. All preceding game, permission, driver, finalization and SourceLink dispositions remain intact.
+The preceding batch-4 recheck found CR-11 in ordinary browser cancellation. The current four-file repair at `f32e0bd8911e0c185a6fa10b24c251f1d69494cd` transfers cancellation to the Root-owned runtime retirement helper, retains older unfinished drains during rapid replacement and polls/disposes every retiring coordinator through its proper lifetime. The production Menu control uses that same retirement owner and passes its pending-connection, repeated-cancel and 249/250 ms assertions.
+
+**All sixteen prior findings are resolved. No new actionable defect or open finding remains.** The source scope remains 119 paths / 116 source paths. Previous passed/failed records keep their actual revision/tool identities; no failed native run or pending full selection is upgraded by this review. Actual no-window and rendered acceptance retain the limits below.
 
 This is an independent source re-review during the post-review repair cycle, not completed rendered acceptance. No real game window, VM, desktop input, broad test suite, build, branch operation or commit was executed by this reviewer. The renewed retained no-window report was reconciled through the current production validator and its source/tool tuple independently recomputed. The earlier .NET arithmetic probe remains defect-history evidence; the repair's actual coordinator and headless native projection executions are retained separately below. The first full selected execution now has real desktop results and retained failures, as recorded below; it is not accepted final completion. No new rendered, physical-input, image-appearance, other-OS, physical mixed-computer LAN or release acceptance is granted by this source review.
 
@@ -170,63 +173,23 @@ Necessity was assessed using the required rubric; no necessity finding is assert
 
 No open Critical/BLOCKER, Warning or Info findings remain at this reviewed source revision.
 
-## Native repair batch 3 independent recheck
+## CR-11 independent cancellation-owner repair recheck
 
-**Current reviewed source/build stamp:** `4ea54ca731c90de700480033f58d17fc5ae8e00b`. **Disposition:** clean on bounded source review; native acceptance remains pending.
+**Current reviewed source/build stamp:** `f32e0bd8911e0c185a6fa10b24c251f1d69494cd`. **Disposition:** resolved; prior fifteen resolutions retained.
 
-The retained retry `268a2e82-bb76-4138-8e79-6088cee21315` still has zero accepted passes among twelve native cases. The prior text overflow/deadline causes are reported cleared, while owned overlapping-window focus/cleanup and actual timing failures remain visible. Three immutable start timing rows have conservative upper bounds of about 283/435/589 ms; none meets the inclusive 250 ms target or receives a substituted passing result. Decoder time is part of the actual observation bracket.
+The original ordinary Cancel call chain immediately closed the transport in `FoundationMenu.CancelAttempt`, then dropped its coordinator through Root's replacement callback. The repair removes that immediate close. Root's actual replacement callback and existing `ReturnToMenu` now call the same `FoundationRuntimeState.Retire` method: close acceptance through `RequestClose`, retain the coordinator in `closing`, then clear current. Browser/error presentation and native Root method signatures are unchanged.
 
-The PNG change in `tools/phase2/rendered.cjs` retains every byte/filter reconstruction and validation branch. It evaluates the same Paeth predictor only for PNG filter 4, instead of computing unused Paeth distances for every other filter. RGB color identity uses the injective 24-bit integer `(R << 16) | (G << 8) | B`; all inputs are bytes, so there is no collision/sign overflow, and ignoring alpha is identical to the previous three-byte hexadecimal keys. Dimension/depth/color format, decompressed size, filter validity, reconstructed pixels, nonempty content and Phase 3's CRC/structure wrapper remain unchanged. No threshold, clock, bracket, uncertainty or required sample is removed.
+The runtime owner preserves every older unfinished `closing` coordinator in its instance retirement list before assigning a newer one. `TickRetired`, called on each Root process update after the current closing update, polls those inactive lifetimes and removes each only when closed. A null current is a no-op, so repeated Cancel or unrelated browser/menu navigation cannot terminate or duplicate an earlier drain. `CloseRetired` runs during Root teardown and disposes any still-owned lifetimes. Existing inactive-acceptance/lifetime fencing prevents late state from publishing while these transports drain. The bounded deadline and idempotent coordinator close remain unchanged.
 
-The retained `.phase3/png-before.json` and `.phase3/png-after.json` compare the same three actual captured images. The reviewer independently verified their image hashes and exact decoded result tuples: 1280×720, color counts 734/740/733, and 3686400 decoded bytes in both versions. Recorded decoder times change from 163.18/152.28/145.30 ms to 37.72/24.07/22.71 ms. These are parser measurements on retained artifacts, not new game/rendered passes or excluded measurement overhead.
+The native regression invokes the actual production Menu cancellation method with the same runtime retirement owner as the Root callback. Its connected pending provider asserts the menu has not already closed transport before ownership transfer, observes a cancel envelope, repeats Cancel idempotently, starts/cancels another immediate attempt, and checks both transports remain open at 249 ms and close exactly once at 250 ms. Older queued and newest closing lifetimes are both exercised. The existing direct ready-guest drain and native ENet lifecycle evidence remain separate checks of late-state fencing and actual timely transport departure.
 
-The focus change in `windows-input.ps1` may temporarily mark only its already-owned target topmost while trying to reach it. It reads the original extended style and restores non-topmost state in `finally` when appropriate, including after failures. An originally topmost owned focus sink retains its prior status. PID/start-time/window ownership, physical 1280×720/DPI checks, bounded foreground acknowledgement, physical SendInput and per-character text ownership remain unchanged. The fallback caption point is derived from physical window/client origins, uses a bounded offset in the first third clear of the system-menu area, and must resolve to exactly the intended root window before the physical click. Unexpected geometry/coverage remains a failing diagnostic, now with actual target/point values; the helper never accepts a foreign point to obtain focus. Parent-retained read-only geometry observations describe five non-minimized overlapping physical 1316×823 windows and supply no input/pass credit.
+The RED `609c752` production-Menu control compiled successfully and then failed the retained `CANCEL_CLOSED_TRANSPORT_BEFORE_ROOT_OWNER` assertion in `259797…`; the outer subject acknowledgement timeout was its consequence, not a bare timeout accepted as intended rejection. GREEN focused report `.phase3/runs/win32-x64/ff421f28-f317-494f-9c3f-a42109f37c91/summary.json` reconciles both `network.discovery-profile` and `core.lifecycle` as pass, with zero game windows. It retains original tested HEAD `609c7527e293498da6f4eb3cf959d709e6ef9033`, working input matching the final repair and the earlier tool identity `10132cfa…`; it is not relabelled as a post-commit f32 execution.
 
-The parent reports the three inherited Phase 2 runner cases passing at `a1fb0045…`, actual C#-to-Node Phase 3 integrity passing at `f8c44633…` on 2902, and three foreground/navigation controls passing. The reviewed final strict log `.phase3/batch3-final-strict.log` records zero warnings/errors, 10.79 seconds. `.phase3/batch3-driver-boot.json` records zero exit/no stderr and helper SHA-256 `83528f2b826b906e73a8a4c72eabe85a01df291f8e4510c3f2c764f7fd893b0d` for 2902, before the final caption-offset-only follow-up. It is explicitly not final 4ea input-delivery proof. The reviewer launched no build, test, helper, game window or desktop action.
+The retained `.phase3/cr11-pinned-strict.log` records zero warnings/errors, 10.85 seconds, after the final pinned commit. Current read-only recomputation matches input `32ecaa554e03ae76241fa28f8bc6f13bf5a6d49a20bb3d75043146978d30f054`, tool tuple `b9d77133755022d25abe06bd10aca9db8588c9602bdf37a1021717c09d907b31` and proof DLL SHA-256 `349e37e5223c92308f248a390ddc41a0876a572d197992ce88b529c302bdd310`. The exact native/public/generated permission registries and tuple-proof source remain unchanged; Root adds no field or method signature. No build, test, game window or input was launched by the reviewer.
 
-Current read-only recomputation matches source input `031160c38ba43d3843720a866328097ccea554df092aab4159091b404587c6e1`, exact tool tuple `b9a613eeb79961585ce2917da0ef0ab82a60b0a0b2dd9796daf0223a2141c669`, and proof DLL SHA-256 `ce673736d55c618edcb8ded244229ee09b08d7134687169a24dd5c3201c1e06f`. Renew the exact 4ea gate and matching metadata-descendant rebuild, retry the twelve failed native cases, collect/repair any remaining failures and obtain a fresh entire 481-case pass only after focused acceptance. Preserve all older failed reports and raw timing rows without relabelling them.
+The parent-owned full no-window selection finished during review: `.phase3/runs/win32-x64/018b00b6-5062-41f2-ae54-0cf50be4fa4a/summary.json` passes all 20 cases in 174596 ms, with zero game windows and exact f32 source/build/input/tool identity. The reviewer loaded this terminal report through the actual current reconciler. This closes the no-window prerequisite, while the focused native retry and fresh final 481-case selection remain outstanding.
 
-## Earlier paced-text ownership guard follow-up
-
-**Historical reviewed source/build stamp:** `d2d5a6106990aaf16b0b02a5f296fc7b11aa0f3e`. **Disposition:** the paced-text guard remains resolved; later focus/decoder changes are reviewed above.
-
-The sole source change since the clean af8 batch-2 review checks `GetForegroundWindow() == $window` before every paced Unicode `SendInput` press/release pair. A changed foreground throws `DRIVER_TEXT_FOCUS_CHANGED` before any remaining characters are sent. This closes the extended ownership gap introduced by multi-second pacing while preserving the original method, per-request PID/window/start-time fences, physical-input provenance and delivery/state validation. No timing threshold, observation, selection or cleanup check changes.
-
-The parent-provided identity at that d2d recheck was input `a74e7d915a09475911158d83f4469e48ebb43a369494a119d9a4ab6c0aaf2fad`, tool `4369ca3751b1c560123c6b35137a9114a589803ed1ef1ce078fdb930f163037f`, source/build d2d above. The retained `.phase3/batch2-guard-strict.log` records zero warnings/errors and 10.65 seconds. The reviewer inspected the one-line diff and this build log only; no build, test, helper, gate or desktop action was performed.
-
-The earlier `.phase3/batch1-driver-boot.json` remains unchanged and belongs to af8's helper bytes. It supplies no new d2d boot or input-delivery proof. The parent must bind the renewed gate to d2d and verify its exact metadata-descendant rebuild before the immediate twelve-case native retry; the final whole selected-set pass remains required afterward.
-
-## Earlier native repair batch 2 independent recheck
-
-**Historical reviewed source/build stamp:** `af8d4f26fcb220f1c18b1dc5b749b6bb219958a2`. **Disposition:** clean on source review; the one-line ownership follow-up is reviewed above.
-
-The retained focused retry `.phase3/runs/win32-x64/72f2d327-0ff1-40bf-83fd-72fbf90a4ab9/summary.json` has zero accepted passes among twelve selected native cases, duration 111163 ms. It retains native text failures, `TIMING_OVER_LIMIT`, covered-challenger focus/ordinary-Quit failure and invalidation of provisional shared-process passes. The diagnostic `.phase3/task3-batch1-focused-diagnosis.json` preserves the actual causes, including 906/891 Godot window-buffer errors during long Unicode input. It also establishes that the preceding DPI correction supplied physical 1280×720/per-monitor-v2 acknowledgments. Neither the provisional behavior nor that prior timing overrun receives passing credit.
-
-The three-file diff was read against its actual callers:
-
-- `windows-input.ps1` sets redirected console input/output to UTF-8 before protocol use and paces text every four UTF-16 code units by 16 ms. Characters still travel through the same actual `SendInput` Unicode press/release calls; no text-control assignment, synthetic input substitution or physical provenance upgrade is introduced.
-- The owned hidden WinForms focus sink and its handle are initialized before the helper sends readiness, moving assembly/form setup outside the later measured focus-stop action. Its actual Show/Activate/native focus observation still occurs at delivery, and ownership/disposal remain scoped to the helper.
-- Focus recovery may raise only its already-validated target with `SetWindowPos(HWND_TOP, flags 0x53)`: no resize, move or activation through that call. The existing PID/start identity, physical dimensions, foreground acknowledgement, owned title/client point checks, bounded polling and held-mouse cleanup remain enforced. Covered or foreign points continue to reject.
-- `scenarios.text` sends actual Backspace after Ctrl+A and requires the ordinary read-only draw to show an empty field before typing. Empty replacement values now perform an actual clear and are observed correctly. The shared foreground queue still owns the entire click/select/clear/type sequence.
-- `rendered.transition` writes each complete raw sample to an invocation-owned origin/observer/action/frame path with exclusive creation before calling the unchanged `e.timing` validator. A rejected over-limit sample remains inspectable. No bound, timing clock, uncertainty, observation bracket or failure classification is weakened; 250 ms remains inclusive and any overrun remains failure.
-
-At the af8 recheck, read-only recomputation matched source input `e13a47143e609e0368f4c9e1ab6b2ff69c6c529b936cb8ffc4293fad4fbcd89f`, exact tool tuple `2a6b4cba7ba35dde13cb418e908325b7d63bd994f5514776a576f35f9793c9ec`, and proof DLL SHA-256 `bcf78658b7e74a7e9541d18708686b6b5d4f51bc0817124c859c741e3823222a`. The then-current af8 helper SHA-256 `417b0c9dfc29193c09de7fc781cd9dc33002ba527a6b34935d94445af635c45d` matched `.phase3/batch1-driver-boot.json`, which records actual Windows PowerShell boot/DPI/close with zero exit and no stderr. That auxiliary boot record is explicitly af8's boot check; it supplies no d2d or game/input-delivery credit. `.phase3/batch2-strict.log` records zero warnings/errors and 10.96 seconds. The parent reports three passing foreground/navigation controls. No helper, test, build or desktop action was launched by this reviewer.
-
-The gate pin for the upcoming retry is superseded by d2d above; retain both build environment properties through its metadata commit/rebuild and retry the twelve failed native cases. Persist timing/focus/text failures, repair and re-review further source changes, then obtain the mandatory fresh entire 481-case selected pass. No full rerun is claimed here.
-
-## CR-10 independent repair recheck
-
-The original failure was real: inherited Phase 1 subject references use a case-relative base, while their CTRF references use the run root. The old Phase 3 consumer resolved both at the run root and rejected actual passing evidence with ENOENT. This is now repaired without relocating, copying or rewriting retained artifacts.
-
-`verifyInherited` calls the shared `verifyPhase1Proof` helper for every Phase 1 result. The caller first requires a known independent catalog case; the helper requires exact result/case identity, a passing result and the exact run-relative `<case-id>/tests.json` reference. It validates that report's hash and canonical run containment before deriving its parent directory. Subject references are then hash/containment checked within that independently verified case directory, and the actual CTRF report is checked against the required case/method through the existing Phase 1 verifier. Cross-case report substitution cannot supply a different evidence base; traversal, absolute/drive paths, altered or missing artifacts remain non-success. Aggregate status, exact selected membership, invocation/source/process validation and original failure retention are unchanged.
-
-The RED commit `8466836` first changed the closure fixture to the authentic nested producer layout and failed at the actual inherited reader's ENOENT. GREEN `7b140a2` adds the shared production helper and negative controls; the complete fixture now retains case-relative subject paths and run-relative CTRF paths. Its positive completion and actual-GitHub/five-build SDK sequence remain intact. Controls reject altered hashes, missing logs, absolute/drive/traversal paths, and cross-case report/evidence substitution. `.phase3/cr10-green.log` records 3/3 passing tests; `.phase3/cr10-strict.log` records zero warnings/errors, 10.68 seconds. No build or test suite was rerun by this reviewer.
-
-The retained `.phase3/cr10-real-reports.json` declares compatibility-only validation of 428 original passing records plus five focused repair records, with 1732 negative checks. Its ignored script was read: it uses the same production helper, verifies original hashes/bytes, preserves the first run's five Phase 1 failures, and explicitly requires the original failed aggregate to reject. The reviewer independently checked the index's original summary/full-report hashes and invoked the actual helper read-only for all 433 records across 321 authentic summaries. All passed the repaired reader; the original full aggregate still threw `INHERITED_AGGREGATE_FAILED`. This establishes producer/consumer compatibility, not new execution, evidence reuse, or final completion credit.
-
-The actual C#-to-Node `runner.integrity` report `.phase3/runs/win32-x64/5e25ec4e-d0d2-4f2c-bed0-4b73588c0b45/summary.json` reconciles at source/build `7b140a27e4f5556db12caed2b1614c52a1aad18a`, with zero game windows. Current read-only fingerprint recomputation matches input `c7de71c81c33616f8705fb745ef575b62dd5b3dbaea31a8d77e25e90ddbe1360`, tool tuple `92b23f579ea9813146e43d1db3ca1023342588c54a0421f984ca058084e545f3`, and proof DLL SHA-256 `93f36dbe902b3a8eb1ea78bca25baa66adcda0fab9c038f668567fa4ff7ec87c`. Prior run identities below remain historical.
-
-## Disposition of all fifteen prior findings
+## Disposition of all sixteen prior findings
 
 The first report is retained in `03-REVIEW.iter2.md` and original review commit `624f37b`; the following review is retained in `03-REVIEW.iter3.md`. The cumulative fix ledger preserves the earlier repairs without skips; CR-10 is independently resolved by the current two-file commit and controls above. CR-09 was raised in the preceding canonical review and fixed by atomic commit `166a32ad6a7541c4f5eed1378def0a86e9bea632`. These are resolved historical findings, not additional open findings or rendered acceptance claims.
 
@@ -247,6 +210,7 @@ The first report is retained in `03-REVIEW.iter2.md` and original review commit 
 | WR-05 | Resolved | `inherited.run` persists each attempted child process, stdout/stderr, outcome and original child report, including failure records. It continues independent commands, names prerequisite-specific blockers, returns all accumulated references and a failing aggregate, and `check.main` retains that aggregate in the outer summary even when independent native work runs. Completion rejects any non-passing inherited aggregate. Real controlled children exercise failing assertion followed by later success, integrity/setup blockers and missing reports; a separate control exercises the actual outer coordinator and immutable summary retention. |
 | CR-09 | Resolved | `RegressesActorTime` compares exact continuing actor IDs within the already-matched session and rejects decreasing elapsed values before any candidate installation, revision/readiness change, acknowledgement or liveness renewal. Fresh actors may start at zero; a fresh session has an independent baseline. `FoundationView.Project` uses local `Time.GetTicksMsec`, clamps its interpolation interval to 0–0.25 seconds, preserves the 0.15-second smoothing/initial snap and finite camera bounds, and recovers from a nonfinite prior transform. Actual coordinator controls and the nonce-scoped native projection regression exercise the repaired consumers. |
 | CR-10 | Resolved | `verifyInherited` now uses shared `verifyPhase1Proof`: exact known case/pass/report path, verified run-relative CTRF hash/containment, case-relative subject hash/containment, and actual CTRF case/method validation. The fixture uses the real nested Phase 1 layout and rejects cross-case/path/hash/missing substitutions. The reviewer independently read all 433 authentic passing records through this same helper and confirmed the original failed aggregate still rejects. |
+| CR-11 | Resolved | Ordinary Menu Cancel no longer closes/discards its coordinator. Root cancellation replacement and ReturnToMenu share runtime-owned RequestClose retirement; older unfinished drains are queued during rapid replacement, polled to deadline, and disposed at teardown. The actual production Menu/native regression uses the same owner and verifies no premature transport close, repeated cancellation, two rapid attempts and close-once at 250 ms. |
 
 ## CR-09 independent repair recheck
 
@@ -315,7 +279,7 @@ Older auxiliary evidence with unpinned prebuild tool drift remains failure/histo
 
 ## Required handoff before a prelaunch gate
 
-The source review is clean at `4ea54ca731c90de700480033f58d17fc5ae8e00b`, with all fifteen findings resolved and bounded batch-3 PNG/focus changes reviewed. The parent may renew/commit the hash-bound gate for this exact reviewed source/input/tool tuple and perform the mandatory metadata-descendant rebuild with both build environment properties. Preserve all failed/passing execution identities and raw timing samples. The parent owns gate/commit/publishing and the focused-twelve-native-then-full-481-selected execution cycle.
+The source review is clean at `f32e0bd8911e0c185a6fa10b24c251f1d69494cd`, with CR-11 and all fifteen earlier findings resolved. The current twenty-case no-window selection has now passed and reconciled; the parent may renew/commit the exact source/input/tool gate and perform the mandatory metadata-descendant rebuild with both build environment properties. Preserve all failed/passing execution identities and raw timing samples. The parent owns gate/commit/publishing and the focused-native-then-full-481-selected cycle.
 
 The parent hash-verified the four temporary iteration-2/3 review/fix scratch originals against their ignored `.phase3/review-history` archives and removed the untracked phase-folder copies. The focused recheck observed no remaining scratch paths in Git status. Preserve that ignored history and the original Git review/fix ledger; the whitelist remains limited to its explicitly enumerated phase metadata paths.
 
@@ -325,6 +289,6 @@ Phase 2 G1 now has its retained actual passing native results, while the twelve 
 
 ---
 
-_Reviewed: 2026-11-15T21:59:26Z_  
+_Reviewed: 2026-11-15T22:38:07Z_  
 _Reviewer: the agent (gsd-code-reviewer)_  
 _Depth: standard_
