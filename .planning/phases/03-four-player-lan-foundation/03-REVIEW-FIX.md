@@ -4,7 +4,7 @@ fixed_at: 2026-11-15T19:28:15.447Z
 review_path: .planning/phases/03-four-player-lan-foundation/03-REVIEW.md
 iteration: 3
 findings_in_scope: 14
-fixed: 14
+fixed: 15
 skipped: 0
 status: all_fixed
 iteration_findings: 1
@@ -296,3 +296,7 @@ Source `e25a500d12006e256d84b8b241d0cee9c507f278` adds only five exact phase-own
 ## Actual GitHub SourceLink rebuild correction
 
 The mandatory e25 metadata-descendant rebuild passed strict compilation but failed exact tool identity before any full run or window: SDK Git discovery independently stamped `SourceRoot.RevisionId` with metadata HEAD. Original mismatch/diagnosis remain `.phase3/task3-prelaunch-mismatch.json` and `.phase3/task3-build-drift-diagnosis.json`. RED `bc6b252` reproduces that real GitHub SourceLink failure; GREEN `cff08eb` supplies a phase-only target that pins only this repository source root while preserving real SourceLink. Three controls pass with five real SDK builds and an import-omitted/assembly-pinned negative that reproduces exact DLL drift. Actual `runner.integrity` passes (`77447059-c17a-4601-a2f2-ab952808dd22`); strict build passes zero warnings/errors. Independent complete-scope review is clean at source/build `cff08ebe7cc78c562fe370dcdc3718e116938905`, 116 paths / 113 source paths, with all fourteen findings resolved. All future builds must preserve both the source stamp and target import.
+
+## First rendered-run batch and CR-10 closure
+
+The first complete selected execution remains immutable and failed (`28bb1d55-5831-4510-b590-9f140e1689b2`, 464 pass / 17 fail). Repair `dc523e9` corrects two isolated compiler fixtures, one stale R-37 matrix cell and the physical desktop helper without relaxing generated permissions, resolution, ownership or focus requirements. All five inherited failed cases pass their focused reruns; driver boot/DPI APIs pass without input credit. RED `8466836` then reproduces CR-10 using genuine nested Phase 1 report shape; GREEN `7b140a2` verifies exact per-case report/hash/containment before resolving subject artifacts. Three closure/GitHub SDK controls and actual `runner.integrity` pass (`5e25ec4e-d0d2-4f2c-bed0-4b73588c0b45`); strict build has zero warnings/errors (`.phase3/cr10-strict.log`). Shared production-reader compatibility checks cover 428 retained passing and five focused repaired records with 1732 negatives; original reports and failed aggregate remain unchanged (`.phase3/cr10-real-reports.json`). Independent review is clean at source/build `7b140a27e4f5556db12caed2b1614c52a1aad18a`, 118 paths / 115 source paths, all fifteen findings resolved. Native focused retry and fresh whole selected-set acceptance remain required.

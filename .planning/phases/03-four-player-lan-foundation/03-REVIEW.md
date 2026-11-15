@@ -1,12 +1,12 @@
 ---
 phase: 03-four-player-lan-foundation
-reviewed: 2026-11-15T20:03:38Z
+reviewed: 2026-11-15T21:22:41Z
 depth: standard
-reviewed_revision: cff08ebe7cc78c562fe370dcdc3718e116938905
-build_revision: cff08ebe7cc78c562fe370dcdc3718e116938905
+reviewed_revision: 7b140a27e4f5556db12caed2b1614c52a1aad18a
+build_revision: 7b140a27e4f5556db12caed2b1614c52a1aad18a
 diff_base: 87e0b44
-scope_files: 116
-files_reviewed: 113
+scope_files: 118
+files_reviewed: 115
 files_reviewed_list:
   - .gitignore
   - docs/code/engine-generated-spans.json
@@ -121,6 +121,8 @@ files_reviewed_list:
   - tools/phase3/revisions.test.cjs
   - tools/phase3/inherited.test.cjs
   - tools/phase3/reviewed-source.targets
+  - tests/phase1/GraphFixture.cs
+  - docs/code/rule-matrix.md
 context_files_reviewed:
   - .planning/phases/03-four-player-lan-foundation/03-SCENARIOS.md
   - .planning/phases/03-four-player-lan-foundation/03-SELECTION.json
@@ -136,35 +138,49 @@ status: clean
 
 # Phase 03: Code Review Report
 
-**Reviewed:** 2026-11-15T20:03:38Z  
+**Reviewed:** 2026-11-15T21:22:41Z  
 **Depth:** standard  
-**Source files reviewed:** 113  
-**Explicit scope:** the original 115-path union from `.phase3/review-fix-union.txt` plus `tools/phase3/reviewed-source.targets`: 116 paths, including the three planning-context paths listed separately above  
+**Source files reviewed:** 115  
+**Explicit scope:** all 118 paths from `.phase3/review-fix-union.txt`, preserving the original scope, added SourceLink target and the two newly reviewed proof/document consumers; three planning-context paths are listed separately above  
 **Status:** clean  
-**Reviewed source / pinned build revision:** `cff08ebe7cc78c562fe370dcdc3718e116938905`  
+**Reviewed source / pinned build revision:** `7b140a27e4f5556db12caed2b1614c52a1aad18a`  
 **Diff base:** `87e0b44`
 
 ## Summary
 
-This independent re-review preserves the complete original source/context union and all earlier assessments, adding the new phase-only SourceLink target for a total of 116 paths / 113 source paths. The complete Phase 3 source review above is carried forward together with a direct recheck of the six-path repair diff from `a35bd6f` to `166a32ad6a7541c4f5eed1378def0a86e9bea632`: guest publication, native projection, native regression, protocol proof, independent catalog and saved scenarios. Every repair path was already inside the retained scope. Their production callers, trust boundaries and actual regression consumers were traced; the cumulative fix ledger was treated as a claim to confirm.
+This independent re-review preserves the complete original source/context union and all earlier assessments, adding the phase-only SourceLink target and the later graph-fixture/matrix consumers for a total of 118 paths / 115 source paths. The complete Phase 3 source review above is carried forward together with a direct recheck of the six-path repair diff from `a35bd6f` to `166a32ad6a7541c4f5eed1378def0a86e9bea632`: guest publication, native projection, native regression, protocol proof, independent catalog and saved scenarios. Every repair path was already inside the retained scope. Their production callers, trust boundaries and actual regression consumers were traced; the cumulative fix ledger was treated as a claim to confirm.
 
 The final focused integration recheck additionally examines committed source `e25a500d12006e256d84b8b241d0cee9c507f278`. Its only source changes since the prior clean review are `tools/phase3/revisions.cjs` and `revisions.test.cjs`, both already in the 115-path scope. The exact five added closure-report permissions and their actual Git/SDK fixture consumers introduce no new actionable finding; the existing fourteen resolved dispositions are preserved. Intervening canonical review/gate/fix/continuation and shared-state files are metadata, not additional changed game source.
 
 A final actual-SDK SourceLink recheck additionally examines source `cff08ebe7cc78c562fe370dcdc3718e116938905`. An actual metadata-HEAD rebuild exposed independent `SourceRoot.RevisionId` drift despite the assembly `SourceRevisionId` pin; exact tool validation stopped before any full run or window. The bounded repair adds an exact own-root SourceLink pin, passes it to Phase 3/inherited builds, and extends the real SDK fixture with a GitHub remote and an import-omitted negative control. This CR-07 follow-up is resolved. The source/game, native/public/generated permission and fourteen prior behavioral dispositions remain intact.
 
-**All fourteen prior findings are resolved. No new actionable defect or open finding remains.** CR-09's repair rejects continuing-actor elapsed regressions before publication or liveness mutation and makes camera interpolation use bounded local monotonic time with finite recovery. The preceding thirteen dispositions remain valid: the repair changes none of their admission/session fences, evidence-finalization helpers, inherited continuation paths, exact permission registries or generated metadata.
+The prior four-file real-run repair batch at `dc523e9` remains sound on inspection. Checking its authentic passing reports exposed CR-10's inherited evidence-base mismatch; the current focused recheck independently verifies its two-file repair at `7b140a27e4f5556db12caed2b1614c52a1aad18a`. The production inherited reader now shares the corrected exact case/report/evidence contract with controls using the real nested Phase 1 layout.
 
-This is a clean pre-window source review, not completed rendered acceptance. No real game window, VM, desktop input, broad test suite, build, branch operation or commit was executed by this reviewer. The renewed retained no-window report was reconciled through the current production validator and its source/tool tuple independently recomputed. The earlier .NET arithmetic probe remains defect-history evidence; the repair's actual coordinator and headless native projection executions are retained separately below. No rendered, physical-input, image-appearance, other-OS, physical mixed-computer LAN or release acceptance is granted.
+**All fifteen prior findings are resolved. No new actionable defect or open finding remains.** The reviewer independently applied the shared proof reader, read-only, to all 433 authentic passing records (428 retained first-run passes and five focused repairs), with original summary/report hashes intact. The original failed aggregate still rejects. No previous failure is changed into a pass or credited as a new execution. All preceding game, permission, driver, finalization and SourceLink dispositions remain intact.
+
+This is an independent source re-review during the post-review repair cycle, not completed rendered acceptance. No real game window, VM, desktop input, broad test suite, build, branch operation or commit was executed by this reviewer. The renewed retained no-window report was reconciled through the current production validator and its source/tool tuple independently recomputed. The earlier .NET arithmetic probe remains defect-history evidence; the repair's actual coordinator and headless native projection executions are retained separately below. The first full selected execution now has real desktop results and retained failures, as recorded below; it is not accepted final completion. No new rendered, physical-input, image-appearance, other-OS, physical mixed-computer LAN or release acceptance is granted by this source review.
 
 Necessity was assessed using the required rubric; no necessity finding is asserted. No structural pre-pass or external reviewer lane was supplied. The agent-skills query returned no additional configured reviewer skills.
 
 ## Narrative Findings (AI reviewer)
 
-No open Critical/BLOCKER, Warning or Info findings remain at the reviewed source revision.
+No open Critical/BLOCKER, Warning or Info findings remain at this reviewed source revision.
 
-## Disposition of all fourteen prior findings
+## CR-10 independent repair recheck
 
-The first report is retained in `03-REVIEW.iter2.md` and original review commit `624f37b`; the following review is retained in `03-REVIEW.iter3.md`. The cumulative `03-REVIEW-FIX.md` records all fourteen repairs without skips. CR-09 was raised in the preceding canonical review and fixed by atomic commit `166a32ad6a7541c4f5eed1378def0a86e9bea632`. These are resolved historical findings, not additional open findings or rendered acceptance claims.
+The original failure was real: inherited Phase 1 subject references use a case-relative base, while their CTRF references use the run root. The old Phase 3 consumer resolved both at the run root and rejected actual passing evidence with ENOENT. This is now repaired without relocating, copying or rewriting retained artifacts.
+
+`verifyInherited` calls the shared `verifyPhase1Proof` helper for every Phase 1 result. The caller first requires a known independent catalog case; the helper requires exact result/case identity, a passing result and the exact run-relative `<case-id>/tests.json` reference. It validates that report's hash and canonical run containment before deriving its parent directory. Subject references are then hash/containment checked within that independently verified case directory, and the actual CTRF report is checked against the required case/method through the existing Phase 1 verifier. Cross-case report substitution cannot supply a different evidence base; traversal, absolute/drive paths, altered or missing artifacts remain non-success. Aggregate status, exact selected membership, invocation/source/process validation and original failure retention are unchanged.
+
+The RED commit `8466836` first changed the closure fixture to the authentic nested producer layout and failed at the actual inherited reader's ENOENT. GREEN `7b140a2` adds the shared production helper and negative controls; the complete fixture now retains case-relative subject paths and run-relative CTRF paths. Its positive completion and actual-GitHub/five-build SDK sequence remain intact. Controls reject altered hashes, missing logs, absolute/drive/traversal paths, and cross-case report/evidence substitution. `.phase3/cr10-green.log` records 3/3 passing tests; `.phase3/cr10-strict.log` records zero warnings/errors, 10.68 seconds. No build or test suite was rerun by this reviewer.
+
+The retained `.phase3/cr10-real-reports.json` declares compatibility-only validation of 428 original passing records plus five focused repair records, with 1732 negative checks. Its ignored script was read: it uses the same production helper, verifies original hashes/bytes, preserves the first run's five Phase 1 failures, and explicitly requires the original failed aggregate to reject. The reviewer independently checked the index's original summary/full-report hashes and invoked the actual helper read-only for all 433 records across 321 authentic summaries. All passed the repaired reader; the original full aggregate still threw `INHERITED_AGGREGATE_FAILED`. This establishes producer/consumer compatibility, not new execution, evidence reuse, or final completion credit.
+
+The actual C#-to-Node `runner.integrity` report `.phase3/runs/win32-x64/5e25ec4e-d0d2-4f2c-bed0-4b73588c0b45/summary.json` reconciles at source/build `7b140a27e4f5556db12caed2b1614c52a1aad18a`, with zero game windows. Current read-only fingerprint recomputation matches input `c7de71c81c33616f8705fb745ef575b62dd5b3dbaea31a8d77e25e90ddbe1360`, tool tuple `92b23f579ea9813146e43d1db3ca1023342588c54a0421f984ca058084e545f3`, and proof DLL SHA-256 `93f36dbe902b3a8eb1ea78bca25baa66adcda0fab9c038f668567fa4ff7ec87c`. Prior run identities below remain historical.
+
+## Disposition of all fifteen prior findings
+
+The first report is retained in `03-REVIEW.iter2.md` and original review commit `624f37b`; the following review is retained in `03-REVIEW.iter3.md`. The cumulative fix ledger preserves the earlier repairs without skips; CR-10 is independently resolved by the current two-file commit and controls above. CR-09 was raised in the preceding canonical review and fixed by atomic commit `166a32ad6a7541c4f5eed1378def0a86e9bea632`. These are resolved historical findings, not additional open findings or rendered acceptance claims.
 
 | Prior ID | Disposition | Source/consumer checked |
 | --- | --- | --- |
@@ -182,6 +198,7 @@ The first report is retained in `03-REVIEW.iter2.md` and original review commit 
 | WR-04 | Resolved | The shared foreground queue covers focus/click/text sequences across helpers. Final-slot contenders are prepared serially, then Enter is dispatched to their owned PIDs via native window messages with exact preparation frames, callbacks and driver records. Provenance remains separate from physical input. Actual desktop delivery feasibility is still pending. |
 | WR-05 | Resolved | `inherited.run` persists each attempted child process, stdout/stderr, outcome and original child report, including failure records. It continues independent commands, names prerequisite-specific blockers, returns all accumulated references and a failing aggregate, and `check.main` retains that aggregate in the outer summary even when independent native work runs. Completion rejects any non-passing inherited aggregate. Real controlled children exercise failing assertion followed by later success, integrity/setup blockers and missing reports; a separate control exercises the actual outer coordinator and immutable summary retention. |
 | CR-09 | Resolved | `RegressesActorTime` compares exact continuing actor IDs within the already-matched session and rejects decreasing elapsed values before any candidate installation, revision/readiness change, acknowledgement or liveness renewal. Fresh actors may start at zero; a fresh session has an independent baseline. `FoundationView.Project` uses local `Time.GetTicksMsec`, clamps its interpolation interval to 0–0.25 seconds, preserves the 0.15-second smoothing/initial snap and finite camera bounds, and recovers from a nonfinite prior transform. Actual coordinator controls and the nonce-scoped native projection regression exercise the repaired consumers. |
+| CR-10 | Resolved | `verifyInherited` now uses shared `verifyPhase1Proof`: exact known case/pass/report path, verified run-relative CTRF hash/containment, case-relative subject hash/containment, and actual CTRF case/method validation. The fixture uses the real nested Phase 1 layout and rejects cross-case/path/hash/missing substitutions. The reviewer independently read all 433 authentic passing records through this same helper and confirmed the original failed aggregate still rejects. |
 
 ## CR-09 independent repair recheck
 
@@ -191,9 +208,26 @@ The actual protocol control checks extreme/equal/advancing counters, regressions
 
 The actual headless native regression invokes production `FoundationView.Project` with elapsed `long.MaxValue → 0 → 0 → long.MaxValue - 1 → long.MaxValue`, at position 1000. It requires finite player/world positions and the initial snapped world X of 624. It then supplies a NaN/infinite prior world transform and requires finite bounded recovery. The catalog and saved scenarios retain these obligations, all earlier IDs and the full affected selection. This is native numerical/projection proof, without a rendered timing or appearance claim.
 
-## Actual SDK SourceLink correction recheck
+## First real selected run and four-file repair recheck
 
-**Current reviewed source/build stamp:** `cff08ebe7cc78c562fe370dcdc3718e116938905`. **Disposition:** clean; no open finding.
+**Historical reviewed source/build stamp:** `dc523e9b07375a1a630982bfe1a6cfea924bbbc0`. **Disposition:** the four-file batch remains sound; the later discovered CR-10 is now resolved above.
+
+The immutable first full selected report `.phase3/runs/win32-x64/28bb1d55-5831-4510-b590-9f140e1689b2/summary.json` remains `fail`: 464 passing and 17 failing cases among 481 selected obligations. Phase 1 supplied 428/433 passing cases; Phase 2 supplied 16/16, including nine actual native G1 cases; Phase 3 supplied all twenty G0 cases passing and twelve native cases failing. The diagnostic `.phase3/task3-first-full-diagnosis.json` retains focus/DPI failures, cleanup/terminal records and the read-only matrix diff. Neither the overall failure nor emergency-cleanup terminations receive passing credit.
+
+- `EngineGeneratedTests` places its genuine handwritten companion under `proofs/companion`. It still requires a successful real consumer build before demanding SCR0001 at the exact handwritten call location. No generator permission, emitted hash, policy scope or diagnostic expectation was refreshed.
+- `GraphFixture` retains the freshly clean ports DLL as an explicit binary consumer in the isolated game project, matching its existing Core baseline pattern, then still creates the forbidden Core → ports → Game project edges. This prevents the fixture's setup dependency cycle/missing-contract failure while retaining successful subject compilation before the evaluated graph must reject the actual transitive boundary with source provenance.
+- The R-37 matrix row now includes its already-authoritative exact `engine-generated-spans.json` permission link. It matches the unchanged register-driven `RuleMatrix` render rather than weakening the register or consumer.
+- The Windows helper explicitly sets and verifies per-monitor-v2 DPI awareness on the executing thread, at boot and per request, so client/screen APIs and SendInput coordinates use physical pixels. It still requires physical 1280×720, actual PID/start-time/window ownership, point ownership, correct foreground and original SendInput/window-message provenance. Focus acquisition uses bounded 10 ms polls around the two native attempts and an owned-window title-point click fallback (100/100/150 ms bounds). Fallback mouse holds participate in the existing final cleanup. The timer uses Windows PowerShell 5.1-compatible Stopwatch APIs. Delivery acknowledgements include physical client dimensions and coordinate/DPI provenance; none replaces actual Godot callback/state observations.
+
+Five actual sequential focused reports now pass: `cf37e352-7f5a-470e-a34e-65fcc9825347` (handwritten partial), `67681743-5e7c-4673-8a8a-06e97a20ff8e` (transitive graph), and `b97b79e8-8a42-4c6c-a28a-8b5b3e9452fb`, `21a87174-2d35-405a-b0a2-d1e1f665bb43`, `b64671cf-5b3c-4fd3-952b-8286a9b132d8` (register binding controls). The reviewer verified their exact subject-log hashes with the correct case-relative base and their actual CTRF reports through the Phase 1 verifier. They retain tested HEAD `d5d6cf0e2bab3a5ff8b7171fad32723d3cbe69c4` with working input `b2073150918d987c0831e1cfe54aa10a9edfe3e29c55929ea06616e4fe7b5c73`, which independently matched the Phase 1 input manifest at the dc recheck. They are not relabelled as post-commit executions. Earlier parallel attempts that hit `CHECK_LOCKED` retain failure history and supply no case pass.
+
+The post-commit pinned strict log `.phase3/batch1-pinned-strict.log` records zero warnings/errors, 10.78 seconds. The hash-bound `.phase3/batch1-driver-boot.json` matches current helper SHA-256 `4f21871237d225c9e4f2f7aa90d75a246154c96771457e4edefeb20a5d0ad98a`, zero exit and empty stderr. It establishes actual Windows PowerShell boot/DPI API/close only, with no game window or input-delivery credit. No build, helper or desktop action was launched by this reviewer.
+
+At the dc recheck, read-only recomputation matched source input `2cbf1a00fe53498dcd9b671d496d8612eab9de44fba14e709fc9e035d6510900`, tool tuple `cb5cbaf54edb8bc2a212badee487e13a9b06b6a1cce0a8343507070f390c4502`, and proof DLL SHA-256 `3a756c2b46f3d7c9f973f3212a90af4c1b59c676e09e66e1f0e7dfeb0bc97e17`. CR-10 is now repaired and independently re-reviewed. Renew the source-bound gate at the current 7b reviewed source, first execute the twelve failed Phase 3 native cases, collect/repair any remaining failures, then obtain the required fresh entire 481-case selected pass. Prior passing pieces do not replace that final full pass.
+
+## Earlier actual SDK SourceLink correction recheck
+
+**Historical reviewed source/build stamp:** `cff08ebe7cc78c562fe370dcdc3718e116938905`. **Disposition:** SourceLink correction remains resolved; current batch and new finding are stated above.
 
 The actual prelaunch metadata-descendant rebuild exposed a gap in the earlier assembly-only pin. `.phase3/task3-build-drift-diagnosis.json` records matching source/build pin but changed proof DLL/tool bytes: Git `LocateRepository` populated `SourceRoot.RevisionId` from actual HEAD, independently of the pinned assembly property. SDK GitHub SourceLink consumed that item metadata. The failure was retained, no hash equivalence was accepted, and no full selected run or game window began. The earlier isolated fixture lacked an actual GitHub remote and did not prove this producer path; the new RED fixture fails its SourceLink-stamp assertion for that exact reason.
 
@@ -233,16 +267,16 @@ Older auxiliary evidence with unpinned prebuild tool drift remains failure/histo
 
 ## Required handoff before a prelaunch gate
 
-The source review is complete at `cff08ebe7cc78c562fe370dcdc3718e116938905`; CR-09 and the preceding thirteen findings are resolved. The parent may now author the hash-bound review gate for this exact reviewed source/input/tool tuple, with the archived history below preserved. Keep `SourceRevisionId` pinned to this reviewed source SHA and `CustomAfterMicrosoftCommonTargets` set to the reviewed phase target through the gate metadata commit, mandatory strict rebuild and subsequent commands. A future source change requires renewed affected checks and independent review; old executions must retain their original identities.
+The source review is clean at `7b140a27e4f5556db12caed2b1614c52a1aad18a`, with CR-10 and all fourteen earlier findings resolved. The parent may renew/commit the hash-bound gate for this exact reviewed source/input/tool tuple and perform the mandatory metadata-descendant rebuild with both build environment properties. Preserve all failed/passing execution identities. The parent owns gate/commit/publishing and the focused-twelve-native-then-full-481-selected execution cycle.
 
 The parent hash-verified the four temporary iteration-2/3 review/fix scratch originals against their ignored `.phase3/review-history` archives and removed the untracked phase-folder copies. The focused recheck observed no remaining scratch paths in Git status. Preserve that ignored history and the original Git review/fix ledger; the whitelist remains limited to its explicitly enumerated phase metadata paths.
 
-Retain this review's exact `SourceRevisionId` pin and `reviewed-source.targets` import through the mandatory metadata-descendant strict rebuild, fresh `--all`, image review and closure validation. True execution HEAD and reviewed-source stamp remain distinct. The parent owns report/gate/closure commits, shared phase state and publishing.
+Retain this clean review's exact `SourceRevisionId` pin and `reviewed-source.targets` import through the mandatory metadata-descendant strict rebuild, focused native retry, fresh `--all`, image review and closure validation. True execution HEAD and reviewed-source stamp remain distinct. The parent owns report/gate/closure commits, shared phase state and publishing.
 
-Actual native foreground physical input, sustained background/window-message feasibility, permitted synthetic fallback provenance, 48 conservative rendered timing rows, 16 stopped comparisons, every required image's appearance review and the entire final selected-set pass remain unproved. A future input/timing/image failure is an acceptance blocker, not a synthetic or state-only pass. No hosted/Linux, mixed-computer LAN, complete A-38/A-45 campaign, packaging, hardware, endurance or Phase 5 certification is claimed.
+Phase 2 G1 now has its retained actual passing native results, while the twelve Phase 3 native cases still need a passing repaired execution. Phase 3 foreground physical input, sustained background/window-message feasibility, permitted synthetic fallback provenance, 48 conservative rendered timing rows, 16 stopped comparisons, every required image's appearance review and the entire final repaired selected-set pass remain outstanding. A future input/timing/image failure is an acceptance blocker, not a synthetic or state-only pass. No hosted/Linux, mixed-computer LAN, complete A-38/A-45 campaign, packaging, hardware, endurance or Phase 5 certification is claimed.
 
 ---
 
-_Reviewed: 2026-11-15T20:03:38Z_  
+_Reviewed: 2026-11-15T21:22:41Z_  
 _Reviewer: the agent (gsd-code-reviewer)_  
 _Depth: standard_

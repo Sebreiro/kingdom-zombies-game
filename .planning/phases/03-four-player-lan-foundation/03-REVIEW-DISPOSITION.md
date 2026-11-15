@@ -1,8 +1,8 @@
 ---
 phase: 03-four-player-lan-foundation
 status: resolved
-source_revision: cff08ebe7cc78c562fe370dcdc3718e116938905
-fixed: 14
+source_revision: 7b140a27e4f5556db12caed2b1614c52a1aad18a
+fixed: 15
 skipped: 0
 open: 0
 ---
@@ -27,3 +27,7 @@ All findings were fixed in the atomic commits recorded in `03-REVIEW-FIX.md` and
 | WR-03 | medium | fixed | complete |
 | WR-04 | medium | fixed | complete |
 | WR-05 | medium | fixed | complete |
+
+| CR-10 | critical | fixed | complete |
+
+CR-10 was independently verified after committed repair `7b140a2`, using the unchanged authentic retained records and corrected real-layout fixture. Fifteen findings are now resolved; rendered acceptance remains independent.
