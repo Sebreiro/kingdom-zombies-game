@@ -20,6 +20,7 @@ function fixture(build=false){
     if(!fs.existsSync(path.join(root,input)))write(path.posix.basename(input).includes('.')?input:input+'/control.txt','CONTROL_ONLY');
   }
   if(build){
+    git('remote','add','origin','https://github.com/Sebreiro/kingdom-zombies-game');
     write('global.json',fs.readFileSync(path.join(project,'global.json'),'utf8'));
     write('NuGet.config','<configuration><packageSources><clear /></packageSources></configuration>');
     write('src/Subject.cs','internal sealed class Subject { internal int Value => 1; }\n');
@@ -86,6 +87,9 @@ function compile(root,stamp){
   const info=fs.readFileSync(path.join(root,'.phase3/build/obj/Debug/net10.0/Subject.AssemblyInfo.cs'),'utf8');
   const actual=stamp??spawnSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8',windowsHide:true}).stdout.trim();
   assert.ok(info.includes('0.1.0+'+actual),'actual SDK build must record the requested immutable source stamp');
+  const links=e.read(path.join(root,'.phase3/build/obj/Debug/net10.0/Subject.sourcelink.json'));
+  assert.ok(Object.values(links.documents).length>0,'real GitHub remote must produce source links');
+  assert.ok(Object.values(links.documents).every(url=>url.includes('/'+actual+'/')),'SourceLink must retain the reviewed source stamp independently of metadata HEAD');
   const file=path.join(root,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll');fs.mkdirSync(path.dirname(file),{recursive:true});
   fs.copyFileSync(path.join(root,'.phase3/build/bin/Debug/net10.0/Subject.dll'),file);return e.hash(fs.readFileSync(file));
 }
