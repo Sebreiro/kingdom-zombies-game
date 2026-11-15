@@ -46,7 +46,8 @@ public sealed class FoundationLifecycleTests
         var command = new FoundationMovementCommand(sessionId: "old", playerId: "local",
                 actorId: "old-actor", direction: 1);
         FoundationActorState before = old.Actor;
-        typeof(FoundationSession).GetMethod(name: "Close")?.Invoke(obj: old, parameters: null);
+        old.Close();
+        old.Close();
         Should.Throw<InvalidOperationException>(actual: () => old.Advance(command: command,
                 elapsedMilliseconds: 1000));
         old.Actor.ShouldBeSameAs(expected: before);

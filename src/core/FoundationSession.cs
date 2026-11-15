@@ -18,9 +18,21 @@ public sealed class FoundationSession
     /// <summary>Gets the current immutable actor publication.</summary>
     public FoundationActorState Actor { get; private set; }
 
+    /// <summary>Fences this lifetime before its native scene is disconnected or freed.</summary>
+    public void Close()
+    {
+        _active = false;
+    }
+
     /// <summary>Consumes identified direction and explicit elapsed time.</summary>
+    /// <remarks>Forty seconds spans the fixture; extra movement saturates while elapsed time remains exact.</remarks>
     public void Advance(FoundationMovementCommand command, long elapsedMilliseconds)
     {
+        if (!_active)
+        {
+            throw new InvalidOperationException(message: "FOUNDATION_CLOSED");
+        }
+
         ArgumentNullException.ThrowIfNull(argument: command);
         ArgumentOutOfRangeException.ThrowIfNegative(value: elapsedMilliseconds);
         if (!StringComparer.Ordinal.Equals(x: command.SessionId, y: Actor.SessionId)
@@ -43,4 +55,6 @@ public sealed class FoundationSession
                 actorId: Actor.ActorId, positionSubunits: position,
                 facing: command.Direction == 0 ? Actor.Facing : command.Direction, elapsedMilliseconds: elapsed);
     }
+
+    private bool _active = true;
 }

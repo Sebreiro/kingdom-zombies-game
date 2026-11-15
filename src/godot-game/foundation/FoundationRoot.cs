@@ -21,6 +21,12 @@ public sealed partial class FoundationRoot : Control
     public override void _Ready()
     {
         _gateway.RequireThread();
+        Label title = GetNode<Label>(path: "Menu/Title");
+        var headingFont = new FontVariation
+        {
+            BaseFont = title.GetThemeFont(name: "font"), VariationEmbolden = 0.8f,
+        };
+        title.AddThemeFontOverride(name: "font", font: headingFont);
         GetNode<Button>(path: "Menu/Start").Pressed += Start;
         GetNode<Button>(path: "Menu/Quit").Pressed += Quit;
         GetWindow().FocusExited += LoseFocus;
@@ -31,22 +37,37 @@ public sealed partial class FoundationRoot : Control
     public override void _Input(InputEvent @event)
     {
         _gateway.RequireThread();
-        if (@event is not InputEventKey key || key.Echo)
+        if (@event is not InputEventKey key)
         {
             return;
         }
 
         _inputEvents++;
-        if (_session is not null && key.Keycode == Key.Escape && key.Pressed)
+        if (!key.Echo)
+        {
+            _input.Set(key: (int)key.PhysicalKeycode, pressed: key.Pressed);
+        }
+        if (_session is not null && key.Keycode == Key.Escape && _input.FreshPress && !key.Echo)
         {
             ReturnToMenu();
             GetViewport().SetInputAsHandled();
             return;
         }
 
-        if (_session is not null)
+        if (_session is null && key.Keycode is Key.Enter or Key.Space or Key.KpEnter)
         {
-            _input.Set(key: (int)key.PhysicalKeycode, pressed: key.Pressed);
+            if (!key.Echo && _input.FreshPress)
+            {
+                if (GetNode<Button>(path: "Menu/Start").HasFocus())
+                {
+                    Start();
+                }
+                else
+                {
+                    Quit();
+                }
+            }
+            GetViewport().SetInputAsHandled();
         }
     }
 
@@ -54,6 +75,14 @@ public sealed partial class FoundationRoot : Control
     public override void _Process(double delta)
     {
         _gateway.RequireThread();
+        foreach (Key physical in new[] { Key.A, Key.D, Key.Left, Key.Right, Key.Escape,
+            Key.Enter, Key.Space, Key.KpEnter })
+        {
+            if (!Input.IsPhysicalKeyPressed(keycode: physical))
+            {
+                _input.Set(key: (int)physical, pressed: false);
+            }
+        }
         if (_session is not null)
         {
             double exact = delta * 1000 + _remainder;
@@ -73,6 +102,7 @@ public sealed partial class FoundationRoot : Control
     public override void _ExitTree()
     {
         _gateway.RequireThread();
+        _session?.Close();
         _session = null;
         _input.Clear();
         GetNode<Button>(path: "Menu/Start").Pressed -= Start;
@@ -108,12 +138,19 @@ public sealed partial class FoundationRoot : Control
             string generation = checked(++_generation).ToString(provider: CultureInfo.InvariantCulture);
             _session = new FoundationSession(sessionId: "local-session-" + generation, playerId: "local-player",
                     actorId: "local-actor-" + generation);
+            if (_generation == 1 && System.Environment.GetEnvironmentVariable(variable: "PHASE2_FAIL_ENTRY_ONCE")
+                    is string fault && StringComparer.Ordinal.Equals(x: fault,
+                            y: System.Environment.GetEnvironmentVariable(variable: "PHASE2_NONCE")))
+            {
+                throw new InvalidOperationException(message: "Scoped one-shot scene construction fixture");
+            }
             using PackedScene fixture = GD.Load<PackedScene>(path: "res://foundation/FoundationWorld.tscn");
             Node2D world = fixture.Instantiate<Node2D>();
             world.Name = "World";
             AddChild(node: world);
             MoveChild(childNode: world, toIndex: 1);
             _remainder = 0;
+            FoundationView.Project(world: world, actor: _session.Actor, gateway: _gateway);
             GetNode<Control>(path: "Menu/Error").Visible = false;
             GetNode<Control>(path: "Menu").Visible = false;
             GetNode<Control>(path: "Hint").Visible = true;
@@ -122,13 +159,14 @@ public sealed partial class FoundationRoot : Control
         {
             ReturnToMenu();
             GetNode<Control>(path: "Menu/Error").Visible = true;
-            GD.PushError(message: error.ToString());
+            GD.Print(what: "Recoverable scene entry: " + error.Message);
         }
     }
 
     private void ReturnToMenu()
     {
         _gateway.RequireThread();
+        _session?.Close();
         _session = null;
         _input.Clear();
         _remainder = 0;
@@ -148,6 +186,7 @@ public sealed partial class FoundationRoot : Control
     private void Quit()
     {
         _gateway.RequireThread();
+        _session?.Close();
         _session = null;
         _input.Clear();
         GetTree().Quit();
@@ -222,6 +261,15 @@ public sealed partial class FoundationRoot : Control
                     checkpoint, actors = GetTree().GetNodesInGroup(group: "foundation-actor").Count,
                     actor = _session?.Actor,
                     inputEvents = _inputEvents, direction = _input.Direction,
+                    startFocused = GetNode<Button>(path: "Menu/Start").HasFocus(),
+                    quitFocused = GetNode<Button>(path: "Menu/Quit").HasFocus(),
+                    startX = GetNode<Button>(path: "Menu/Start").GetGlobalRect().GetCenter().X,
+                    startY = GetNode<Button>(path: "Menu/Start").GetGlobalRect().GetCenter().Y,
+                    quitX = GetNode<Button>(path: "Menu/Quit").GetGlobalRect().GetCenter().X,
+                    quitY = GetNode<Button>(path: "Menu/Quit").GetGlobalRect().GetCenter().Y,
+                    errorVisible = GetNode<Control>(path: "Menu/Error").Visible,
+                    menuVisible = GetNode<Control>(path: "Menu").Visible,
+                    cameraX = _session is null ? 0 : 640 - GetNode<Node2D>(path: "World").Position.X,
                     focused = GetWindow().HasFocus(), width = image.GetWidth(), height = image.GetHeight(),
                 }));
         File.Move(sourceFileName: observation + ".tmp", destFileName: observation);
