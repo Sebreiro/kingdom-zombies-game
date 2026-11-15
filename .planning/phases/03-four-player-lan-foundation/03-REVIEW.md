@@ -1,12 +1,12 @@
 ---
 phase: 03-four-player-lan-foundation
-reviewed: 2026-11-15T19:50:03Z
+reviewed: 2026-11-15T20:03:38Z
 depth: standard
-reviewed_revision: e25a500d12006e256d84b8b241d0cee9c507f278
-build_revision: e25a500d12006e256d84b8b241d0cee9c507f278
+reviewed_revision: cff08ebe7cc78c562fe370dcdc3718e116938905
+build_revision: cff08ebe7cc78c562fe370dcdc3718e116938905
 diff_base: 87e0b44
-scope_files: 115
-files_reviewed: 112
+scope_files: 116
+files_reviewed: 113
 files_reviewed_list:
   - .gitignore
   - docs/code/engine-generated-spans.json
@@ -120,6 +120,7 @@ files_reviewed_list:
   - tools/phase3/revisions.cjs
   - tools/phase3/revisions.test.cjs
   - tools/phase3/inherited.test.cjs
+  - tools/phase3/reviewed-source.targets
 context_files_reviewed:
   - .planning/phases/03-four-player-lan-foundation/03-SCENARIOS.md
   - .planning/phases/03-four-player-lan-foundation/03-SELECTION.json
@@ -135,19 +136,21 @@ status: clean
 
 # Phase 03: Code Review Report
 
-**Reviewed:** 2026-11-15T19:50:03Z  
+**Reviewed:** 2026-11-15T20:03:38Z  
 **Depth:** standard  
-**Source files reviewed:** 112  
-**Explicit scope:** all 115 paths from `.phase3/review-fix-union.txt`, including the three planning-context paths listed separately above  
+**Source files reviewed:** 113  
+**Explicit scope:** the original 115-path union from `.phase3/review-fix-union.txt` plus `tools/phase3/reviewed-source.targets`: 116 paths, including the three planning-context paths listed separately above  
 **Status:** clean  
-**Reviewed source / pinned build revision:** `e25a500d12006e256d84b8b241d0cee9c507f278`  
+**Reviewed source / pinned build revision:** `cff08ebe7cc78c562fe370dcdc3718e116938905`  
 **Diff base:** `87e0b44`
 
 ## Summary
 
-This independent re-review preserves the complete 115-path source/context union and all earlier assessments. The complete Phase 3 source review above is carried forward together with a direct recheck of the six-path repair diff from `a35bd6f` to `166a32ad6a7541c4f5eed1378def0a86e9bea632`: guest publication, native projection, native regression, protocol proof, independent catalog and saved scenarios. Every repair path was already inside the retained scope. Their production callers, trust boundaries and actual regression consumers were traced; the cumulative fix ledger was treated as a claim to confirm.
+This independent re-review preserves the complete original source/context union and all earlier assessments, adding the new phase-only SourceLink target for a total of 116 paths / 113 source paths. The complete Phase 3 source review above is carried forward together with a direct recheck of the six-path repair diff from `a35bd6f` to `166a32ad6a7541c4f5eed1378def0a86e9bea632`: guest publication, native projection, native regression, protocol proof, independent catalog and saved scenarios. Every repair path was already inside the retained scope. Their production callers, trust boundaries and actual regression consumers were traced; the cumulative fix ledger was treated as a claim to confirm.
 
 The final focused integration recheck additionally examines committed source `e25a500d12006e256d84b8b241d0cee9c507f278`. Its only source changes since the prior clean review are `tools/phase3/revisions.cjs` and `revisions.test.cjs`, both already in the 115-path scope. The exact five added closure-report permissions and their actual Git/SDK fixture consumers introduce no new actionable finding; the existing fourteen resolved dispositions are preserved. Intervening canonical review/gate/fix/continuation and shared-state files are metadata, not additional changed game source.
+
+A final actual-SDK SourceLink recheck additionally examines source `cff08ebe7cc78c562fe370dcdc3718e116938905`. An actual metadata-HEAD rebuild exposed independent `SourceRoot.RevisionId` drift despite the assembly `SourceRevisionId` pin; exact tool validation stopped before any full run or window. The bounded repair adds an exact own-root SourceLink pin, passes it to Phase 3/inherited builds, and extends the real SDK fixture with a GitHub remote and an import-omitted negative control. This CR-07 follow-up is resolved. The source/game, native/public/generated permission and fourteen prior behavioral dispositions remain intact.
 
 **All fourteen prior findings are resolved. No new actionable defect or open finding remains.** CR-09's repair rejects continuing-actor elapsed regressions before publication or liveness mutation and makes camera interpolation use bounded local monotonic time with finite recovery. The preceding thirteen dispositions remain valid: the repair changes none of their admission/session fences, evidence-finalization helpers, inherited continuation paths, exact permission registries or generated metadata.
 
@@ -171,7 +174,7 @@ The first report is retained in `03-REVIEW.iter2.md` and original review commit 
 | CR-04 | Resolved | `FoundationActorNode.Name` injectively encodes ordinal UTF-16 units into safe hex native names. Projection and observation use it without changing model/wire identities. Protocol/native controls cover traversal-shaped IDs, sanitizer collisions and canonically distinct Unicode. |
 | CR-05 | Resolved | `stopped.cjs` reconciles sampled records against actual peer draw histories, current origin profile/actor/session/binding, native release and accepted zero-direction authority. It derives positions/revisions from those records and checks fresh frames, post-release ordering, at most 1 ms uncertainty and inclusive 50-subunit/500-ms limits. The full-reconciler fixture mutates these references and scalar values. |
 | CR-06 | Resolved | Every owned rendered process has a terminal record. Normal Quit requires its handler acknowledgement, zero exit and closed streams; case/role-bound deliberate loss must be declared before termination. Unexpected exits invalidate all results sharing the process set. Real-child controls cover normal/expected loss, post-capture nonzero/crash and failure during Quit through `scenarios.close`. |
-| CR-07 | Resolved | `revisions.cjs` checks real commit identity/ancestry, every intervening path against a narrow metadata whitelist, both committed relevant-input trees, the live relevant fingerprint and dirty non-metadata state. Prelaunch binds the committed gate and original Markdown bytes, copies both immutably into the invocation, and completion checks those original bytes at the actual execution commit. `buildRevision` must equal the reviewed source revision while `revision` retains actual HEAD. The documented phase-scoped `SourceRevisionId` pin survives review/gate/closure commits and every rebuild/inherited build; exact DLL/tool hashes remain required. Actual isolated SDK controls reproduce unpinned drift, reject it and restore byte-identical pinned DLLs without rewriting execution/review reports. |
+| CR-07 | Resolved | `revisions.cjs` checks real commit identity/ancestry, every intervening path against a narrow metadata whitelist, both committed relevant-input trees, the live relevant fingerprint and dirty non-metadata state. Prelaunch binds the committed gate and original Markdown bytes, copies both immutably into the invocation, and completion checks those original bytes at the actual execution commit. `buildRevision` must equal the reviewed source revision while `revision` retains actual HEAD. The documented phase-scoped `SourceRevisionId` pin survives review/gate/closure commits and every rebuild/inherited build; exact DLL/tool hashes remain required. The actual-GitHub SDK follow-up below pins own-root `SourceRoot.RevisionId` after discovery as well as the assembly property; its negative omits the reviewed import while retaining the assembly pin, reproduces SourceLink/DLL drift, rejects it and restores exact DLL bytes without rewriting reports. |
 | CR-08 | Resolved | The selected exact session ID travels from `FoundationMenu.JoinSelected → Submit → FoundationRoot.JoinAddress → FoundationCoordinator.Join` into the attempt's hello. Host mismatch rejection precedes reservation; guest mismatch rejection precedes baseline install/ack. Manual joining stays session-agnostic. Cancellation clears the pending target, and stale baselines/refusals cannot enter or close a new attempt. Coordinator controls cover selected A/A, retained A after rehost B, manual B, wrong offered baseline, cancel and stale/new attempts; the native row regression verifies the submitted ID and its scoped clearing. |
 | WR-01 | Resolved | `FoundationCapturePublication.Publish` writes/closes a unique same-directory temporary JSON before atomic move, after PNG completion. Capture's end bracket follows complete reads/validation/hashing. Actual C# helper and delayed consumer controls exercise the publication boundary. |
 | WR-02 | Resolved | Inherited keyboard procedures follow the actual seven Tab/Shift+Tab controls and Start/Host/Join/Quit arrow paths, preserve error/retry and movement regressions, and end with ordinary keyboard Space on Quit. The adjacency control checks the authored native scene. Real desktop execution remains pending. |
@@ -188,15 +191,31 @@ The actual protocol control checks extreme/equal/advancing counters, regressions
 
 The actual headless native regression invokes production `FoundationView.Project` with elapsed `long.MaxValue → 0 → 0 → long.MaxValue - 1 → long.MaxValue`, at position 1000. It requires finite player/world positions and the initial snapped world X of 624. It then supplies a NaN/infinite prior world transform and requires finite bounded recovery. The catalog and saved scenarios retain these obligations, all earlier IDs and the full affected selection. This is native numerical/projection proof, without a rendered timing or appearance claim.
 
-## Finalization integration recheck
+## Actual SDK SourceLink correction recheck
 
-**Reviewed source/build stamp:** `e25a500d12006e256d84b8b241d0cee9c507f278`. **Disposition:** clean; no new finding.
+**Current reviewed source/build stamp:** `cff08ebe7cc78c562fe370dcdc3718e116938905`. **Disposition:** clean; no open finding.
+
+The actual prelaunch metadata-descendant rebuild exposed a gap in the earlier assembly-only pin. `.phase3/task3-build-drift-diagnosis.json` records matching source/build pin but changed proof DLL/tool bytes: Git `LocateRepository` populated `SourceRoot.RevisionId` from actual HEAD, independently of the pinned assembly property. SDK GitHub SourceLink consumed that item metadata. The failure was retained, no hash equivalence was accepted, and no full selected run or game window began. The earlier isolated fixture lacked an actual GitHub remote and did not prove this producer path; the new RED fixture fails its SourceLink-stamp assertion for that exact reason.
+
+Reviewed the five-path repair: `check.cjs`, new `reviewed-source.targets`, `revisions.test.cjs`, LAN finalization documentation and the checkpoint. The imported target computes its repository root from its own file location, normalizes the trailing directory separator, and updates only `SourceRoot` items whose source control is Git and whose exact identity equals that own root. It changes only `RevisionId`, leaving foreign roots, repository URLs, mappings, SourceLink enablement and the actual Git HEAD untouched. With an empty source stamp its target does nothing; outside the Phase 3 environment/manual import, normal SDK import behavior is unchanged.
+
+The installed SDK 10.0.404 sources were inspected directly. `Microsoft.Common.CurrentVersion.targets` imports `CustomAfterMicrosoftCommonTargets`; Git discovery/URL translation occurs before `InitializeSourceControlInformation`; the new `AfterTargets="InitializeSourceControlInformation"` hook therefore runs after the actual source-root items exist and before `GenerateSourceLinkFile` invokes its URL initializers and passes SourceLink to the compiler. The Phase 3 environment supplies the absolute reviewed import to inherited child environments, while the documented strict-build procedure requires both that import and the immutable `SourceRevisionId` pin. No SDK file, global build policy or ordinary product build is modified.
+
+The real fixture copies the actual target into its own repository and adds an actual GitHub origin. It requires nonempty generated SourceLink documents pointing to the reviewed SHA. Five real successful SDK builds in `.phase3/revision-control-LAJhMZ/.phase3/build-records` cover source, review metadata descendant, closure metadata descendant, the negative case omitting only the import while retaining the assembly pin, and restored import. The negative case must expose actual HEAD in SourceLink, produce different DLL bytes and fail completion's exact tool check; restoration must reproduce the original DLL and validate original immutable reports. The retained raw RED `.phase3/task3-sourcelink-red.log` fails the intended SourceLink assertion. GREEN `.phase3/task3-sourcelink-green.log` records 3/3 passing controls; `.phase3/task3-sourcelink-strict.log` records zero warnings/errors, 10.75 seconds. No build or test was rerun by the reviewer.
+
+The actual C#-to-Node `runner.integrity` report `.phase3/runs/win32-x64/77447059-c17a-4601-a2f2-ab952808dd22/summary.json` passes current `loadReport/reconcile` at cff with zero game windows. It binds eight passing integrity controls and their hash-bound process record, including the strengthened SDK fixture. Current read-only fingerprint recomputation matches input `7a8ba8b5e6ad97aa2e5cb12f0b0ee6c0a23fc5a627891da41ba72c4916a0029a`, tool tuple `e7d70caf5dec826ddd4dd1f63a5cf481b5db6d2ad77bada8e4aabe1fd9c4607c` and proof DLL SHA-256 `a3586ca6b2d3adc3856f5e5f088338cceff835d9154cd3cb2ebec4d8715c2db3`. Actual current test/Core SourceLink JSON points to cff. The original 166 full no-window report and e25 focused controls below remain historical executions, not cff full-set evidence.
+
+The parent must refresh/commit the gate for cff, retain both build environment properties, and perform the actual mandatory metadata-descendant rebuild with exact current DLL/tool equality before the fresh `--all`. That real-repository integration check and all desktop acceptance remain pending; the isolated SDK result does not stand in for them. The gate and report continue to retain true execution HEAD separately from reviewed-source build stamp.
+
+## Earlier closure-report integration recheck
+
+**Historical reviewed source/build stamp:** `e25a500d12006e256d84b8b241d0cee9c507f278`. **Disposition:** clean for that focused change; subsequent real SourceLink gap/correction is recorded above.
 
 The exact metadata whitelist now permits only these five additional phase-owned report paths under `.planning/phases/03-four-player-lan-foundation/`: `03-VERIFICATION.md`, `03-VALIDATION.md`, `03-SECURITY.md`, `03-UI-REVIEW.md` and `03-REVIEW-DISPOSITION.md`. These are closure outputs needed by the owning phase workflow. No wildcard, source/tool/selection/scenario path, directory-wide allowance or unrelated report is added. Real commit/HEAD identity, ancestry and every intervening changed path remain checked. Both committed relevant-input trees, live relevant-input equality, dirty non-metadata rejection, exact source build stamp/DLL/tool equality and the original committed review/report byte hashes remain mandatory.
 
 The fixture creates all five named reports before its actual Git closure commit, then exercises the existing full completion validator. Its surrounding negative controls still reject changed source/tool/selection/environment/build stamps, unrelated/nonexistent commits, disallowed and reverted intervening paths, uncommitted relevant changes and altered review bytes. The real SDK control retains exact original execution/report bytes, rejects unpinned binary drift and verifies exact pinned restoration. The parent reports the focused `node --test tools/phase3/revisions.test.cjs` run passed 3/3; this reviewer inspected the test implementation and all five successful actual SDK build records in `.phase3/revision-control-IUOfzw/.phase3/build-records`. The retained strict pinned solution build log `.phase3/closure-integration-build.log` records zero warnings/errors and 10.67 seconds. Neither check was rerun by the reviewer.
 
-Read-only recomputation matches current input `a1f23903316f05961192ad385d780360f3e13382d255313a8830082ec5163089` and exact tool tuple `48a74c363799e4cff1c8c87906b220dbc59649953201b436b8189d52bd73c3aa`. The current proof DLL SHA-256 is `088ccd4740ac56a49dda5e4fd2ef1404bc06dda4897152e29f82b464cb15b21b`. The reviewed source/build pin is e25 above; the prior full no-window run below remains an original execution at 166 and is not relabelled as an e25 execution. The upcoming fresh `--all` must run with the new reviewed-source pin and exact gate inputs. Game code, native/public permissions, generated metadata, scene signatures and the saved case/selection membership are unchanged by this integration.
+The e25 recheck matched its then-current input `a1f23903316f05961192ad385d780360f3e13382d255313a8830082ec5163089` and exact tool tuple `48a74c363799e4cff1c8c87906b220dbc59649953201b436b8189d52bd73c3aa`. That e25 proof DLL SHA-256 was `088ccd4740ac56a49dda5e4fd2ef1404bc06dda4897152e29f82b464cb15b21b`. The historical source/build pin was e25; the prior full no-window run below remains an original execution at 166 and is not relabelled as an e25 execution. The upcoming fresh `--all` must use the current cff reviewed-source pin, SourceLink target import and exact gate inputs. Game code, native/public permissions, generated metadata, scene signatures and the saved case/selection membership are unchanged by this integration.
 
 ## Retained pre-integration evidence and limits
 
@@ -214,16 +233,16 @@ Older auxiliary evidence with unpinned prebuild tool drift remains failure/histo
 
 ## Required handoff before a prelaunch gate
 
-The source review is complete at `e25a500d12006e256d84b8b241d0cee9c507f278`; CR-09 and the preceding thirteen findings are resolved. The parent may now author the hash-bound review gate for this exact reviewed source/input/tool tuple, with the archived history below preserved. Keep `SourceRevisionId` pinned to this reviewed source SHA through the gate metadata commit, mandatory strict rebuild and subsequent commands. A future source change requires renewed affected checks and independent review; old executions must retain their original identities.
+The source review is complete at `cff08ebe7cc78c562fe370dcdc3718e116938905`; CR-09 and the preceding thirteen findings are resolved. The parent may now author the hash-bound review gate for this exact reviewed source/input/tool tuple, with the archived history below preserved. Keep `SourceRevisionId` pinned to this reviewed source SHA and `CustomAfterMicrosoftCommonTargets` set to the reviewed phase target through the gate metadata commit, mandatory strict rebuild and subsequent commands. A future source change requires renewed affected checks and independent review; old executions must retain their original identities.
 
 The parent hash-verified the four temporary iteration-2/3 review/fix scratch originals against their ignored `.phase3/review-history` archives and removed the untracked phase-folder copies. The focused recheck observed no remaining scratch paths in Git status. Preserve that ignored history and the original Git review/fix ledger; the whitelist remains limited to its explicitly enumerated phase metadata paths.
 
-Retain this review's exact `SourceRevisionId` pin through the mandatory metadata-descendant strict rebuild, fresh `--all`, image review and closure validation. True execution HEAD and reviewed-source stamp remain distinct. The parent owns report/gate/closure commits, shared phase state and publishing.
+Retain this review's exact `SourceRevisionId` pin and `reviewed-source.targets` import through the mandatory metadata-descendant strict rebuild, fresh `--all`, image review and closure validation. True execution HEAD and reviewed-source stamp remain distinct. The parent owns report/gate/closure commits, shared phase state and publishing.
 
 Actual native foreground physical input, sustained background/window-message feasibility, permitted synthetic fallback provenance, 48 conservative rendered timing rows, 16 stopped comparisons, every required image's appearance review and the entire final selected-set pass remain unproved. A future input/timing/image failure is an acceptance blocker, not a synthetic or state-only pass. No hosted/Linux, mixed-computer LAN, complete A-38/A-45 campaign, packaging, hardware, endurance or Phase 5 certification is claimed.
 
 ---
 
-_Reviewed: 2026-11-15T19:50:03Z_  
+_Reviewed: 2026-11-15T20:03:38Z_  
 _Reviewer: the agent (gsd-code-reviewer)_  
 _Depth: standard_
