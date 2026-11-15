@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using Shouldly;
 using Xunit;
 
@@ -7,6 +9,38 @@ namespace KingdomZombies.Phase1.Tests;
 /// <summary>Gives R-67 independent current repository and deliberately weakened-policy subjects.</summary>
 public sealed class SuppressionTests
 {
+    /// <summary>Checks both actual symbol branches and rejects drift in exact linked-source ownership.</summary>
+    [Fact]
+    public void Scan_SharedInput_ChecksEveryDeclaredConsumer()
+    {
+        const string Path = "src/godot-game/foundation/FoundationInput.cs";
+        var game = ConsumerCompilation.Read(root: ProofProtocol.Root,
+                project: "src/godot-game/KingdomZombies.csproj");
+        var tests = ConsumerCompilation.Read(root: ProofProtocol.Root,
+                project: "tests/phase1/KingdomZombies.Phase1.Tests.csproj");
+        string symbol = game.Options.PreprocessorSymbolNames.Except(second:
+                tests.Options.PreprocessorSymbolNames, comparer: StringComparer.Ordinal).First();
+        string source = "#if " + symbol + "\n[System.Diagnostics.CodeAnalysis.SuppressMessage(\"ApiDesign\","
+                + "\"SCR0006\")]\n#else\n[System.Diagnostics.CodeAnalysis.SuppressMessage(\"ApiDesign\","
+                + "\"SCR0007\")]\n#endif\nclass Subject {}\n";
+        IReadOnlyList<string> errors = ExemptionValidator.CheckOwnedSource(path: Path, content: source,
+                permissions: null, owners: [tests, game]);
+        errors.Count.ShouldBe(expected: 2);
+        errors.ShouldContain(elementPredicate: error => error.EndsWith(value: " SCR0006",
+                comparisonType: StringComparison.Ordinal));
+        errors.ShouldContain(elementPredicate: error => error.EndsWith(value: " SCR0007",
+                comparisonType: StringComparison.Ordinal));
+        foreach (string[] owners in new string[][] { [], [game.Project], [game.Project, game.Project],
+            [game.Project, "undeclared.csproj"], [game.Project, tests.Project, "undeclared.csproj"] })
+        {
+            Should.Throw<InvalidDataException>(actual: () => ExemptionValidator.RequireOwners(path: Path,
+                    projects: owners));
+        }
+
+        Should.Throw<InvalidDataException>(actual: () => ExemptionValidator.RequireOwners(path:
+                "src/core/Subject.cs", projects: [game.Project, tests.Project]));
+    }
+
     /// <summary>Checks tracked inputs and authentic generated permissions without importing donor escapes.</summary>
     [Fact, Trait("Case", "R-67.positive")]
     public void Scan_ActualRepository_AcceptsExactPermissions()
