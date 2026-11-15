@@ -51,8 +51,8 @@ function fixture(build=false){
   const p1=e.read(path.join(root,'tools/phase1/required-cases.json'));
   const p1Results=selection.selected.phase1.map(id=>{
     const item=p1.cases.find(row=>row.id===id),prefix='.phase1/runs/control/'+id;
-    write(prefix+'.log','CONTROL');write(prefix+'.json',{results:{tool:{version:'4.0.2'},summary:{tests:1,passed:1,failed:0},tests:[{name:item.test,status:'passed',labels:{Case:id}}]}});
-    return {id,status:'pass',evidence:[{path:id+'.log',sha256:ref(prefix+'.log').sha256}],report:{path:id+'.json',sha256:ref(prefix+'.json').sha256}};
+    write(prefix+'/'+id+'.subject.log','CONTROL');write(prefix+'/tests.json',{results:{tool:{version:'4.0.2'},summary:{tests:1,passed:1,failed:0},tests:[{name:item.test,status:'passed',labels:{Case:id}}]}});
+    return {id,status:'pass',evidence:[{path:id+'.subject.log',sha256:ref(prefix+'/'+id+'.subject.log').sha256}],report:{path:id+'/tests.json',sha256:ref(prefix+'/tests.json').sha256}};
   });
   inherited.phase1.push(record('phase1',{...identity,revision:tested,nonce:'p1',status:'pass',input:baseline.snapshot(root,p1).sha256,selected:selection.selected.phase1,results:p1Results}));
   const p2Manifest={inputs:['src','tests/phase1','tools/phase2','tools/phase1/toolchain.json','Directory.Build.props','Directory.Build.targets','Directory.Packages.props','.editorconfig','BannedSymbols.txt','BannedSymbols.Pure.txt','docs/code']};
