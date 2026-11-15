@@ -21,7 +21,11 @@ internal static class ArchitecturePolicy
                 ?? throw new InvalidDataException(message: "VISIBILITY_REGISTRY: missing object");
         string[] expected = ["src/core/ProofValue.cs|KingdomZombies.Core.ProofValue",
             "src/multiplayer-abstractions/IProofService.cs|KingdomZombies.Multiplayer.Abstractions.IProofService",
-            "src/godot-game/proofs/Phase1.cs|KingdomZombies.Proofs.Phase1"];
+            "src/godot-game/proofs/Phase1.cs|KingdomZombies.Proofs.Phase1",
+            "src/core/FoundationMovementCommand.cs|KingdomZombies.Core.FoundationMovementCommand",
+            "src/core/FoundationActorState.cs|KingdomZombies.Core.FoundationActorState",
+            "src/core/FoundationSession.cs|KingdomZombies.Core.FoundationSession",
+            "src/godot-game/foundation/FoundationRoot.cs|KingdomZombies.Foundation.FoundationRoot"];
         JsonArray rows = registry["permissions"]?.AsArray()
                 ?? throw new InvalidDataException(message: "VISIBILITY_REGISTRY: missing permissions");
         string[] permissions = [..rows.Select(selector: row => row?["path"]?.GetValue<string>() + "|"

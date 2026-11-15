@@ -18,7 +18,7 @@ public sealed class GeneratedCallSiteAdapterTests
         using var register = JsonDocument.Parse(json: File.ReadAllText(path: Path.Combine(path1: ProofProtocol
                 .Root, path2: "docs/code/generated-callsite-adaptations.json")));
         JsonElement[] rows = [.. register.RootElement.GetProperty(propertyName: "local").EnumerateArray()];
-        rows.Length.ShouldBe(expected: 10);
+        rows.Length.ShouldBe(expected: 18);
         foreach (JsonElement row in rows)
         {
             string adapters = File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: (row

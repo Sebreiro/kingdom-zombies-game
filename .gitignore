@@ -4,6 +4,7 @@
 
 # Workspace-local pinned tools, verified feeds, CLI state, runs and mutation outputs.
 /.phase1/
+/.phase2/
 **/bin/
 **/obj/
 **/.godot/

@@ -6,6 +6,8 @@
 <domain>
 ## Phase Boundary
 
+**Creator amendment, 2026-11-15:** Apply [02-TESTING-AMENDMENT.md](02-TESTING-AMENDMENT.md) and the canonical temporary policy. It overrides conflicting older testing text below: no VM, implement all code then review/fix before any game-window run, Windows 1280×720 only, shared sessions and failed-scenario reruns. This is explicit authority to amend testing, not a new design interview.
+
 Deliver the basic menu-to-scene walking loop defined in the Phase 2 specification: Start/Quit, one small decorative main building, colored background and ground, one direction-facing player walking left/right, direct Escape return, and repeatable Windows/Linux smoke evidence. Extend the existing Godot project so this same scene can become the Phase 3 LAN foundation.
 
 </domain>

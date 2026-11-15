@@ -34,6 +34,9 @@ public sealed class GraphTests
         ProjectEvaluator.Validate(root: ProofProtocol.Root).ShouldBeEmpty();
         var fixture = new GraphFixture();
         fixture.AddDirectEngineEdge();
+        TypeBoundaryScanner.RequireType(assembly: Path.Combine(path1: fixture.Root,
+                path2: "src/godot-game/.godot/mono/temp/bin/Debug/KingdomZombies.dll"),
+                expectedType: "KingdomZombies.Foundation.FoundationRoot").ShouldBeEmpty();
         IReadOnlyList<string> errors = ProjectEvaluator.Validate(root: fixture.Root);
         errors.ShouldContain(elementPredicate: error => IsDirectViolation(error: error));
         ProofProtocol.Record(id: "graph.allowed-and-direct", diagnostic: "GRAPH_FORBIDDEN",

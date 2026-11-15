@@ -63,9 +63,8 @@ internal static class ExemptionValidator
             {
                 ConsumerCompilation[] owners = [..consumers.Where(predicate: consumer => consumer.AuthoredPaths
                         .Contains(value: path, comparer: StringComparer.Ordinal))];
-                Require(value: owners.Length == 1, message: "SUPPRESSION_SOURCE_OWNERSHIP " + path);
-                errors.AddRange(collection: CheckSource(path: path, content: content, permissions: permissions,
-                        consumer: owners[0]));
+                errors.AddRange(collection: CheckOwnedSource(path: path, content: content,
+                        permissions: permissions, owners: owners));
             }
             else if (path.EndsWith(value: ".editorconfig", comparisonType: StringComparison.Ordinal)
                     || path.EndsWith(value: ".globalconfig", comparisonType: StringComparison.Ordinal))
@@ -76,6 +75,26 @@ internal static class ExemptionValidator
         }
 
         return errors;
+    }
+
+    /// <summary>Checks shared authored bytes in every declared actual compiler context.</summary>
+    internal static IReadOnlyList<string> CheckOwnedSource(string path, string content,
+            IReadOnlySet<string>? permissions, IReadOnlyList<ConsumerCompilation> owners)
+    {
+        RequireOwners(path: path, projects: [.. owners.Select(selector: owner => owner.Project)]);
+        return [..owners.SelectMany(selector: owner => CheckSource(path: path, content: content,
+                permissions: permissions, consumer: owner))];
+    }
+
+    /// <summary>Rejects missing, duplicate or undeclared compiler ownership, including shared-source drift.</summary>
+    internal static void RequireOwners(string path, IReadOnlyList<string> projects)
+    {
+        string[] expected = path is "src/godot-game/foundation/FoundationInput.cs"
+                ? ["src/godot-game/KingdomZombies.csproj", "tests/phase1/KingdomZombies.Phase1.Tests.csproj"]
+                : [SourceProject(path: path)];
+        Require(value: projects.Count == expected.Length && projects.Order(comparer: StringComparer.Ordinal)
+                .SequenceEqual(second: expected.Order(comparer: StringComparer.Ordinal),
+                        comparer: StringComparer.Ordinal), message: "SUPPRESSION_SOURCE_OWNERSHIP " + path);
     }
 
     /// <summary>Matches each active donor counterpart to one exact local setting or project edge.</summary>
@@ -199,13 +218,13 @@ internal static class ExemptionValidator
     internal static IReadOnlySet<string> ReadPermissions()
     {
         var permissions = new HashSet<string>(comparer: StringComparer.Ordinal);
-        AddRecords(relative: "docs/code/generated-callsite-adaptations.json", collection: "local", count: 10,
+        AddRecords(relative: "docs/code/generated-callsite-adaptations.json", collection: "local", count: 18,
                 permissions: permissions);
         AddRecords(relative: "docs/code/generated-layout-adaptations.json", collection: "members", count: 7,
                 permissions: permissions);
         AddRecords(relative: "docs/code/engine-adaptations.json", collection: "local", count: 1,
                 permissions: permissions);
-        Require(value: permissions.Count == 18, message: "SUPPRESSION_TOTAL_COUNT");
+        Require(value: permissions.Count == 26, message: "SUPPRESSION_TOTAL_COUNT");
         return permissions;
     }
 

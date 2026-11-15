@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 2,
+  "requiredEnvironment": "development-os",
+  "resolutions": [[1280, 720]],
+  "deferredToPhase5": ["other-supported-os", "1920x1080", "dependency-aware-reuse-certification"],
+  "cases": [
+    {
+      "id": "core.authority",
+      "group": "core",
+      "implementation": "csharp",
+      "test": "*FoundationMovementTests.IdentifiedRightwardCommandAdvancesThreeUnits"
+    },
+    {
+      "id": "core.input",
+      "group": "core",
+      "implementation": "csharp",
+      "test": "*FoundationMovementTests.PhysicalAliasesCancelAndRelease"
+    },
+    {
+      "id": "core.lifecycle",
+      "group": "core",
+      "implementation": "csharp",
+      "test": "*FoundationLifecycleTests.ClosedAuthorityAndHeldKeysCannotCrossLifetimes"
+    },
+    {
+      "id": "core.permissions",
+      "group": "core",
+      "implementation": "csharp",
+      "test": "*FoundationPermissionTests.ProductionEventAccessRequiresAuthenticPrecedingGuard"
+    },
+    {
+      "id": "rendered.tracer",
+      "group": "rendered",
+      "implementation": "native",
+      "images": [
+        "launch-menu",
+        "initial-scene",
+        "right-facing",
+        "returned-menu",
+        "left-facing"
+      ]
+    },
+    {
+      "id": "rendered.menu",
+      "group": "rendered",
+      "implementation": "native",
+      "images": [
+        "launch-menu",
+        "initial-scene",
+        "right-facing",
+        "returned-menu",
+        "recoverable-error",
+        "left-facing"
+      ]
+    },
+    {
+      "id": "rendered.directions",
+      "group": "rendered",
+      "implementation": "native",
+      "images": [
+        "launch-menu",
+        "initial-scene",
+        "returned-menu",
+        "left-facing",
+        "right-facing"
+      ]
+    },
+    {
+      "id": "rendered.distance",
+      "group": "rendered",
+      "implementation": "native",
+      "images": [
+        "launch-menu",
+        "initial-scene",
+        "returned-menu",
+        "left-facing",
+        "right-facing"
+      ]
+    },
+    {
+      "id": "rendered.world",
+      "group": "rendered",
+      "implementation": "native",
+      "images": [
+        "launch-menu",
+        "initial-scene",
+        "returned-menu",
+        "left-facing",
+        "right-facing",
+        "building-overlap",
+        "left-bound",
+        "right-bound"
+      ]
+    },
+    {
+      "id": "rendered.lifecycle",
+      "group": "rendered",
+      "implementation": "native",
+      "images": [
+        "launch-menu",
+        "initial-scene",
+        "right-facing",
+        "returned-menu",
+        "restart",
+        "left-facing"
+      ]
+    },
+    {
+      "id": "rendered.focus",
+      "group": "rendered",
+      "implementation": "native",
+      "images": [
+        "launch-menu",
+        "initial-scene",
+        "right-facing",
+        "returned-menu",
+        "left-facing"
+      ]
+    },
+    {
+      "id": "rendered.quit",
+      "group": "rendered",
+      "implementation": "native",
+      "images": [
+        "launch-menu",
+        "initial-scene",
+        "right-facing",
+        "returned-menu",
+        "left-facing"
+      ]
+    },
+    {
+      "id": "rendered.resources",
+      "group": "rendered",
+      "implementation": "native",
+      "images": [
+        "launch-menu",
+        "initial-scene",
+        "right-facing",
+        "returned-menu",
+        "left-facing"
+      ]
+    },
+    {
+      "id": "runner.integrity",
+      "group": "runner",
+      "implementation": "csharp",
+      "test": "*FoundationRunnerTests.InvalidEvidenceCannotPass"
+    },
+    {
+      "id": "runner.processes",
+      "group": "runner",
+      "implementation": "csharp",
+      "test": "*FoundationRunnerTests.FailingChildrenCannotPass"
+    },
+    {
+      "id": "runner.repeatability",
+      "group": "runner",
+      "implementation": "csharp",
+      "test": "*FoundationRunnerTests.RepairedEvidenceRetainsOriginalIdentity"
+    }
+  ]
+}

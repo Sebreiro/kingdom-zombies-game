@@ -10,6 +10,9 @@ namespace KingdomZombies.Phase1.Tests;
 /// <summary>Reads one selected consumer's evaluated compiler inputs for a bounded source-policy scan.</summary>
 internal sealed class ConsumerCompilation
 {
+    /// <summary>Gets the exact evaluated project identity used for source ownership.</summary>
+    internal string Project { get; }
+
     /// <summary>Gets every evaluated Compile input; emitted generator outputs are added separately.</summary>
     internal IReadOnlyList<string> AuthoredPaths => _authored;
 
@@ -94,6 +97,7 @@ internal sealed class ConsumerCompilation
 
     private ConsumerCompilation(string root, string project, CSharpParseOptions options, JsonObject evaluation)
     {
+        Project = project;
         _root = root;
         _assembly = Property(evaluation: evaluation, name: "AssemblyName");
         Options = options;

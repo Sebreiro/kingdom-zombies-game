@@ -1,32 +1,34 @@
 # Roadmap: KingdomZombies
 
-**Current Phase 1 closure boundary (creator instruction, 2026-11-14):** The [one-time exception](phases/01-code-rules-and-documentation/01-CLOSURE-EXCEPTION.md) accepts the retained complete Windows baseline plus actual focused Linux strict/native/rule/state/graph evidence without a host restart. The narrow GODOT_LINUXBSD test correction passed separately on both OSes. A complete Linux suite, its original graph capacity failure and fourteen individually unreviewed human components remain explicit [follow-ups](phases/01-code-rules-and-documentation/01-CLOSURE-FOLLOWUPS.md), not passes. The complete-other-OS-VM rule continues for later phases.
+**Current Phase 1 closure boundary (creator instruction, 2026-11-14):** The [one-time exception](phases/01-code-rules-and-documentation/01-CLOSURE-EXCEPTION.md) accepts the retained complete Windows baseline plus actual focused Linux strict/native/rule/state/graph evidence without a host restart. The narrow GODOT_LINUXBSD test correction passed separately on both OSes. A complete Linux suite, its original graph capacity failure and fourteen individually unreviewed human components remain explicit [follow-ups](phases/01-code-rules-and-documentation/01-CLOSURE-FOLLOWUPS.md), not passes. Historical evidence limits remain explicit; the current local strategy below supersedes the earlier VM rule.
 
 ## Overview
 
-Deliver the complete specified version 0.1: players build, equip, and defend one shared survivor camp through a solo or four-player LAN campaign, preserving their survivors, belongings, and progress. The creator approved all 133 requirements, the working-increment direction, and this detailed ten-phase roadmap on 2026-11-13. Phase 1 is complete under the focused Linux exception above. Its developer baseline is verified; playable game features remain future work.
+Deliver the complete specified version 0.1: players build, equip, and defend one shared survivor camp through a solo or four-player LAN campaign, preserving their survivors, belongings, and progress. The creator approved all 133 requirements, the working-increment direction, and this detailed ten-phase roadmap on 2026-11-13. Phase 1 is complete under the focused Linux exception above. Its developer baseline is verified; Phase 2 now delivers the menu and playable walking foundation.
 
 **Planning mode:** `mvp` means working, verifiable increments toward the full approved game; it does not reduce scope.
-**Granularity:** Standard configuration, with the creator's explicit ten-phase choice taking precedence over generic phase-count guidance.
+**Granularity:** Standard configuration, with the original ten-phase direction extended by creator-requested Phase 11 on 2026-11-15.
 **Scope authority:** [PROJECT.md](PROJECT.md), [REQUIREMENTS.md](REQUIREMENTS.md), the [game specification](../specs/0.1/initial-spec.md), and the [asset/resource plan](../specs/0.1/assets-and-resources.md). [Research](research/SUMMARY.md) informs proofs and implementation choices; it retains initial candidate history; Phase 1 records the now-pinned and proven development baseline.
 **Approval:** Requirements, working-increment direction, and detailed roadmap approved by the creator on 2026-11-13.
+
+**Current local testing amendment, approved 2026-11-15:** Apply [local testing strategy](../docs/workflow/local-testing.md) in every phase immediately: implement the whole phase, review/fix code, then grouped development-OS-only 1280×720 game runs without a VM. Always select active Critical cases plus new/changed cases and affected regressions. Collect failures, batch repairs, check failures, then rerun the entire selected set on the repaired build. Every phase saves reusable scenarios with importance and ordered run groups. Phase 11 adds nightly full tests under TEST-11; original requirement ownership, hosted compatibility and distinct release evidence remain explicit.
 
 **Scope timing amendment, approved 2026-11-14:** Keep Phase 1's working rules, tests and clean two-platform baseline. Phase 5 now owns measured coverage, exhaustive platform execution/evidence reconciliation and unfinished aggregate runner certification. The ten-phase order, all 133 requirement IDs and their primary owners are unchanged; the [Phase 5 handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md) records the required certification work.
 
 ## Milestones
 
-- 🚧 **v0.1 Complete playable LAN campaign** — Phases 1–10; roadmap approved, implementation not started.
+- 🚧 **v0.1 Complete playable LAN campaign** — Phases 1–11; Phase 1 complete, Phase 2 implementing; Phase 11 added 2026-11-15.
 
 ## v0.1 — Complete playable LAN campaign
 
-**Milestone goal:** Deliver the full approved solo/four-player campaign and all release evidence through the ten increments below.
+**Milestone goal:** Deliver the full approved solo/four-player campaign and release evidence, then establish sustainable nightly full regression testing across eleven increments.
 
 ## Phases
 
 Integer phases execute in order. Decimal phases are reserved for explicitly inserted work.
 
 - [x] **Phase 1: Code rules and documentation** - Developers can use strict, proven Godot-compatible C# rules and focused documentation. (completed 2026-11-14)
-- [ ] **Phase 2: Playable foundation** - Players launch a menu, enter a small scene, and move one character left and right.
+- [x] **Phase 2: Playable foundation** - Players launch a menu, enter a small scene, and move one character left and right. (completed 2026-11-15)
 - [ ] **Phase 3: Four-player LAN foundation** - A host and three guests independently control synchronized characters in the same scene.
 - [ ] **Phase 4: Asset production** - The complete required resource pack is reusable, self-contained, and inspectable in fixtures.
 - [ ] **Phase 5: CI and repeatable game testing** - Developers and AI agents run stored cases locally and in CI with trustworthy evidence.
@@ -35,10 +37,11 @@ Integer phases execute in order. Decimal phases are reserved for explicitly inse
 - [ ] **Phase 8: Zombie campaign and outcomes** - Players face the full zombie campaign and assault six portals through victory or defeat.
 - [ ] **Phase 9: Persistence and complete player experience** - Players save, resume, reconnect, configure, and use the complete game reliably.
 - [ ] **Phase 10: Release validation and balancing** - Complete campaigns and measured desktop, LAN, performance, endurance, and pacing evidence establish release readiness.
+- [ ] **Phase 11: Nightly full regression testing**
 
 ## Delivery and Ownership Rules
 
-Each requirement has exactly one primary owner in a phase's **Requirements** field and in the requirements traceability table. That owner delivers and verifies its complete approved behavior. Prerequisite work in earlier phases and regression/integration reruns in later phases do not create additional owners or mark a requirement complete early. All 133 requirements currently remain Pending. PLAT-01 and PLAT-02 are outside this milestone.
+Each requirement has exactly one primary owner in a phase's **Requirements** field and in the requirements traceability table. That owner delivers and verifies its complete approved behavior. Prerequisite work in earlier phases and regression/integration reruns in later phases do not create additional owners or mark a requirement complete early. Ten of the current 134 approved requirements are complete; the traceability table records each owner and status. PLAT-01 and PLAT-02 are outside this milestone.
 
 Every feature includes its stable identities, host-authoritative validation and atomic ownership changes, configuration and field documentation, versioned saveable state and relevant legacy metadata, usable input/UI/feedback, and regression evidence. Snapshot capture/restore proofs accompany new state before the full player-facing save experience. Solo, host-local, and guest actions follow the same authority path. A failed or duplicated operation cannot change possessions, payments, or commitments.
 
@@ -134,7 +137,7 @@ Every feature includes its stable identities, host-authoritative validation and 
 
 ### Phase 2: Playable foundation
 
-**Goal:** A player can launch a visible menu, start a small scene with representative base assets, and move a character left and right using normal input.
+**Goal:** As a player, I want to start a small scene from a visible menu and move my character left and right using normal input, so that I can explore the game's playable foundation.
 **Mode:** mvp
 **Depends on:** Phase 1
 **Requirements:** BASE-01, BASE-02, BASE-03
@@ -144,7 +147,7 @@ Every feature includes its stable identities, host-authoritative validation and 
 2. The player sees representative base assets and a character responding to left/right input through the production controls and camera.
 3. A developer can repeat launch, menu selection, movement, and rendered-scene smoke checks, inspect current results, and see failure when an expected behavior or required image is missing.
 
-**Plans:** TBD
+**Plans:** 3/3 plans complete; verified and closed 2026-11-15.
 **UI hint:** yes
 
 **Delivery boundary:** Keep this scene as the Phase 3 LAN foundation. Establish actor identity, input/focus routing, canonical local commands, and engine lifecycle checks here. Use a few representative resources; full pack acceptance stays in Phase 4. These small checks exist before Phase 5 automation and do not imply a complete campaign.
@@ -194,11 +197,11 @@ Every feature includes its stable identities, host-authoritative validation and 
 **Requirements:** TEST-01, TEST-02, TEST-03, TEST-04, TEST-05, TEST-06, TEST-07, TEST-08, TEST-09, TEST-10
 **Success Criteria** (what must be TRUE):
 
-1. An agent can find readable repository cases for A-01–A-47 plus foundation/content/regression checks, each linked to requirements, owning phase, executable check or evidence procedure, environment, and required artifacts. Already implemented cases are required; future cases are visibly planned.
+1. An agent can find readable repository cases for A-01–A-47 plus foundation/content/regression checks, each linked to requirements, owning phase, importance/rationale, dependencies, setup/actions/expected results, evidence procedure, environment/artifacts and ordered game-run groups. Existing phase scenarios are integrated; future cases remain planned.
 2. The same documented entry points run locally and in GitHub Actions on Windows and Linux, covering controlled rule fixtures, actual keyboard/mouse/menu/focus/scene input, and a real host-plus-three-client scenario with independent profiles, bounded waits, isolated logs, and cleanup.
 3. An agent can follow the documented select/run/inspect/reproduce/fix/rerun procedure and diagnose a current-run failure using results, logs, state observations, and required rendered images.
 4. Deliberate missing-tool, bad-runner, zero-discovery, wrong-filter, skipped-required-case, crash, timeout, missing-peer, and missing-evidence trials fail visibly; a planned feature case cannot manufacture a pass or hide a currently required case.
-5. The catalog and activation procedure preserve separate rendered-input, actual mixed-OS LAN, reference-PC, and endurance records, and a newly implemented feature's cases become required alongside that feature. The [Phase 1 handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md) is activated: both real analyzer and production managed-code scopes meet 90% line / 80% branch coverage, and complete clean Windows/Linux suites plus the deferred aggregate runner/report checks have fresh passing evidence.
+5. Importance/dependency selection always includes all active Critical cases, all new/changed cases and affected regressions, with explicit omissions and no false full-suite claim. The implementation → review/fix → grouped run/log → batch repair → failed-case checks → entire-selected-set pass is proven on the development OS at 1280×720 without a VM. Actual hosted Windows/Linux full compatibility, separate release procedures, unchanged 90% line / 80% branch coverage and all eight [handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md) certification IDs have authentic evidence.
 
 **Plans:** TBD
 **UI hint:** yes
@@ -302,12 +305,31 @@ Every feature includes its stable identities, host-authoritative validation and 
 
 **Delivery boundary:** Record actual CPU/GPU/RAM, OS, build/configuration, sampling method, raw measurements, and run evidence; hardware is not yet specified and no result is presumed. Preserve full AI, inventory, visible equipment, combat, persistent loot, and save/join behavior during performance work. Accelerated setups, headless throughput, and four loopback processes are useful diagnostics, not replacements for required real-duration, rendered-hardware, or physical LAN proofs. Tuning may revise proposed baselines with recorded evidence; mandatory behavior and exclusions remain binding.
 
+### Phase 11: Nightly full regression testing
+
+**Goal:** Developers receive scheduled full-regression results for the complete active catalog while routine phase-end testing continues to use the Critical/new/changed/affected selection introduced immediately in the 2026-11-15 policy.
+**Mode:** mvp
+**Depends on:** Phase 10
+**Requirements:** TEST-11
+**Success Criteria** (what must be TRUE):
+
+1. A scheduled nightly entry point executes the complete active case catalog across Critical, High, Normal and Low importance, using the saved scenarios and ordered compatible game-run groups; planned future cases receive no pass credit.
+2. The nightly and manual full entry points share the actual scenario definitions, environment declarations and pass/fail/evidence rules. Required builds and multiplayer roles are preserved, compatible scenarios share game runs and necessary extra launches have recorded reasons.
+3. Real scheduled execution publishes inspectable summaries, logs, state/image/review artifacts as declared, selected case/environment coverage and measured group/launch timings. Missing cases, crash, timeout, unavailable prerequisites and incomplete evidence produce visible non-success.
+4. An agent can identify the tested revision, reproduce failed scenarios, batch fixes and perform focused repair checks followed by the full selected-set regression pass, preserving original failures and attempts.
+5. Repository instructions distinguish reduced phase-end testing, nightly full regression and distinct release procedures. The configured schedule/environment and actual execution are recorded; scheduling configuration alone is not a passing nightly run.
+
+**Plans:** TBD
+**UI hint:** no
+
+**Delivery boundary:** Add scheduled full testing and its operational handoff on top of Phase 5's framework. Do not postpone immediate reduced selection, saved scenarios, importance metadata or run grouping until this phase. Exact schedule, runner availability/environment and publication details are decided during Phase 11 planning. Preserve the development-OS-only/no-VM routine local policy, manual full execution and separately required physical LAN, display, hardware and endurance release evidence.
+
 ## Coverage
 
 | Phase | Primary requirements | Current status |
 | --- | ---: | --- |
 | 1. Code rules and documentation | 7 | Complete under focused closure exception |
-| 2. Playable foundation | 3 | Pending |
+| 2. Playable foundation | 3 | Complete |
 | 3. Four-player LAN foundation | 4 | Pending |
 | 4. Asset production | 5 | Pending |
 | 5. CI and repeatable game testing | 10 | Pending |
@@ -316,18 +338,19 @@ Every feature includes its stable identities, host-authoritative validation and 
 | 8. Zombie campaign and outcomes | 19 | Pending |
 | 9. Persistence and complete player experience | 28 | Pending |
 | 10. Release validation and balancing | 6 | Pending |
-| **Total** | **133** | **7 complete / 126 pending** |
+| 11. Nightly full regression testing | 1 | Pending |
+| **Total** | **134** | **10 complete / 124 pending** |
 
 Every approved version 0.1 ID is assigned exactly once; no unknown IDs, duplicate owners, or orphan requirements are allowed. The [requirements traceability table](REQUIREMENTS.md#traceability) is the per-ID ownership record. Its existing A-01–A-47 source crosswalk stays unchanged; Phase 5 expands it into executable/evidence cases and activation states.
 
 ## Progress
 
-Execution order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10. Plans are created during phase planning; no plan count is invented here.
+Execution order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11. Plans are created during phase planning; no plan count is invented here.
 
 | Phase | Plans Complete | Status | Completed |
 | --- | --- | --- | --- |
 | 1. Code rules and documentation | 18/18 | Complete    | 2026-11-14 |
-| 2. Playable foundation | 0/TBD | Not started | - |
+| 2. Playable foundation | 3/3 | Complete    | 2026-11-15 |
 | 3. Four-player LAN foundation | 0/TBD | Not started | - |
 | 4. Asset production | 0/TBD | Not started | - |
 | 5. CI and repeatable game testing | 0/TBD | Not started | - |
@@ -336,6 +359,7 @@ Execution order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10. Plans
 | 8. Zombie campaign and outcomes | 0/TBD | Not started | - |
 | 9. Persistence and complete player experience | 0/TBD | Not started | - |
 | 10. Release validation and balancing | 0/TBD | Not started | - |
+| 11. Nightly full regression testing | 0/TBD | Not started | - |
 
 ---
-*Detailed roadmap created and approved: 2026-11-13 (Europe/Paris). Phase 1 is ready for discussion and planning.*
+*Detailed roadmap approved: 2026-11-13; local testing policy and Phase 11/TEST-11 added: 2026-11-15 (Europe/Paris). Phase 2 remains the active implementation.*

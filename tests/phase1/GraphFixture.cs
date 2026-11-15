@@ -26,7 +26,7 @@ internal sealed class GraphFixture
     /// <summary>Creates and compiles an evaluated edge from the requested real import or item form.</summary>
     internal void AddBoundaryMutation(string mutation)
     {
-        RemoveReference(project: ProjectEvaluator.Expected[2], target: "../core/KingdomZombies.Core.csproj");
+        RetainCleanCoreConsumer();
         string item = "<ItemGroup><ProjectReference Include=\"../godot-game/KingdomZombies.csproj\"/>"
                 + "</ItemGroup>";
         if (mutation is "props" or "targets")
@@ -96,20 +96,10 @@ internal sealed class GraphFixture
     /// <summary>Adds a compilable Core to engine reference without a dependency cycle.</summary>
     internal void AddDirectEngineEdge()
     {
-        string game = Path.Combine(path1: Root, path2: "src/godot-game/KingdomZombies.csproj");
-        string text = File.ReadAllText(path: game);
-        File.WriteAllText(path: game, contents: text.Replace(oldValue:
-                "    <ProjectReference Include=\"../core/KingdomZombies.Core.csproj\" />\n", newValue: "",
-                comparisonType: StringComparison.Ordinal));
-        string core = Path.Combine(path1: Root, path2: "src/core/KingdomZombies.Core.csproj");
-        File.WriteAllText(path: core, contents: File.ReadAllText(path: core).Replace(oldValue: "</Project>",
-                newValue: "<ItemGroup><ProjectReference Include=\"../godot-game/KingdomZombies.csproj\"/>"
-                        + "</ItemGroup></Project>", comparisonType: StringComparison.Ordinal));
-        Run("restore", core, "--force-evaluate", "-p:NuGetAudit=false").Exit.ShouldBe(expected: 0);
-        Run("restore", core, "--locked-mode", "-p:NuGetAudit=false").Exit.ShouldBe(expected: 0);
-        (int Exit, string Output) changed = Run("build", core, "--no-restore", "--disable-build-servers",
-                "-p:UseSharedCompilation=false", "-nodeReuse:false", "-p:NuGetAudit=false");
-        changed.Exit.ShouldBe(expected: 0, customMessage: "INFRASTRUCTURE_SUBJECT: " + changed.Output);
+        RetainCleanCoreConsumer();
+        Append(project: ProjectEvaluator.Expected[0], xml:
+                "<ItemGroup><ProjectReference Include=\"../godot-game/KingdomZombies.csproj\"/></ItemGroup>");
+        Compile(project: ProjectEvaluator.Expected[0], restore: true);
     }
 
     /// <summary>Runs only an owned child with captured logs and a bounded process-tree lifetime.</summary>
@@ -185,6 +175,20 @@ internal sealed class GraphFixture
         Write(relative: project, content: File.ReadAllText(path: path).Replace(oldValue:
                 "    <ProjectReference Include=\"" + target + "\" />\n", newValue: "",
                 comparisonType: StringComparison.Ordinal));
+    }
+
+    private void RetainCleanCoreConsumer()
+    {
+        string baseline = Path.Combine(path1: Root, path2: ".graph-baseline");
+        Directory.CreateDirectory(path: baseline);
+        File.Copy(sourceFileName: Path.Combine(path1: Root,
+                path2: "src/core/bin/Debug/net10.0/KingdomZombies.Core.dll"),
+                destFileName: Path.Combine(path1: baseline, path2: "KingdomZombies.Core.dll"));
+        RemoveReference(project: ProjectEvaluator.Expected[2], target: "../core/KingdomZombies.Core.csproj");
+        Append(project: ProjectEvaluator.Expected[2], xml:
+                "<ItemGroup><Reference Include=\"KingdomZombies.Core\">"
+                        + "<HintPath>../../.graph-baseline/KingdomZombies.Core.dll</HintPath>"
+                        + "<Private>false</Private></Reference></ItemGroup>");
     }
 
     private static string EdgeItem(string mutation, string item)
