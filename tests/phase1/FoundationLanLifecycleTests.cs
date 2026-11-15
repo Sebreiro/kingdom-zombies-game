@@ -28,6 +28,7 @@ public sealed class FoundationLanLifecycleTests
         CheckReplacement();
         CheckClosedCallbacks();
         CheckEndDrain();
+        CheckGuestDrain();
         CheckPendingBaselineDeadline();
         CheckCancelAndOutcome();
         ProofProtocol.Record(id: "core.lifecycle", diagnostic: "30000_10000_TRIPLETS_RESPONSE_FIRST_LIFETIME_FENCES");
@@ -203,6 +204,27 @@ public sealed class FoundationLanLifecycleTests
         host.Close();
         port.CloseCount.ShouldBe(expected: 1);
         baseline.SessionId.ShouldNotBeEmpty();
+    }
+
+    private static void CheckGuestDrain()
+    {
+        (FoundationCoordinator guest, FoundationHarnessConnection port, FoundationScenarioClock clock,
+                FoundationEnvelope state) = ReadyGuest();
+        guest.RequestClose();
+        guest.Snapshot.ShouldBeNull();
+        guest.Submit(direction: 1).ShouldBeFalse();
+        port.Sent.Last().Envelope.Kind.ShouldBe(expected: "bye");
+        port.CloseCount.ShouldBe(expected: 0);
+        clock.Now = 249;
+        port.Enqueue(sender: 1, envelope: state);
+        guest.Update(elapsedMilliseconds: 0);
+        guest.Snapshot.ShouldBeNull();
+        port.CloseCount.ShouldBe(expected: 0);
+        clock.Now = 250;
+        guest.Update(elapsedMilliseconds: 0);
+        port.CloseCount.ShouldBe(expected: 1);
+        guest.RequestClose();
+        port.CloseCount.ShouldBe(expected: 1);
     }
 
     private static void CheckPendingBaselineDeadline()
