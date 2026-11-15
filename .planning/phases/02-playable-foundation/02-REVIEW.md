@@ -59,9 +59,9 @@ status: clean
 
 # Phase 2: Code Review Report
 
-**Reviewed:** 2026-11-15T12:08:11Z  
-**Depth:** standard  
-**Files Reviewed:** 44 (41 original scope, 3 additional repair files)  
+**Reviewed:** 2026-11-15T12:08:11Z
+**Depth:** standard
+**Files Reviewed:** 44 (41 original scope, 3 additional repair files)
 **Status:** clean
 
 ## Summary
@@ -91,9 +91,9 @@ Re-review read the actual repair diffs and ran only the three Node pure controls
 
 ### CR-01: Linked production source violates the suppression scanner's sole-consumer assumption
 
-**Resolution:** Resolved by `96c9380`; original finding retained below.  
-**Classification:** BLOCKER  
-**File:** `D:/Work/Games/KingdomZombies/tests/phase1/KingdomZombies.Phase1.Tests.csproj:10`  
+**Resolution:** Resolved by `96c9380`; original finding retained below.
+**Classification:** BLOCKER
+**File:** `D:/Work/Games/KingdomZombies/tests/phase1/KingdomZombies.Phase1.Tests.csproj:10`
 **Related:** `tests/phase1/ExemptionValidator.cs:64-68`; `tests/phase1/ConsumerCompilation.cs:98-99`.
 
 **Issue:** The new `Compile Include` adds `FoundationInput.cs` to the test assembly while the game still compiles it normally. `ConsumerCompilation` resolves both inputs to the same repository-relative authored path. `ExemptionValidator.CheckRepository()` requires exactly one consumer and throws `SUPPRESSION_SOURCE_OWNERSHIP src/godot-game/foundation/FoundationInput.cs` when it reaches this file. Existing `ExemptionTests.Generate_ExactObservedPermissions_AcceptsOwnedSources()` and `SuppressionTests` call this scanner, so the phase breaks required rule checks even though ordinary compilation can succeed.
@@ -102,9 +102,9 @@ Re-review read the actual repair diffs and ran only the three Node pure controls
 
 ### CR-02: Isolated test-consumer fixtures omit their new linked compiler input
 
-**Resolution:** Resolved by `f8dc717`; original finding retained below.  
-**Classification:** BLOCKER  
-**File:** `D:/Work/Games/KingdomZombies/tests/phase1/KingdomZombies.Phase1.Tests.csproj:10`  
+**Resolution:** Resolved by `f8dc717`; original finding retained below.
+**Classification:** BLOCKER
+**File:** `D:/Work/Games/KingdomZombies/tests/phase1/KingdomZombies.Phase1.Tests.csproj:10`
 **Related:** `tests/phase1/BuildFixture.cs:35-45`; `tests/phase1/EnforcementTests.cs:786-811`; `tests/phase1/ExemptionTests.cs:354-355,528`; `tests/phase1/RestoreMutationProof.cs:17`.
 
 **Issue:** `BuildFixture(tests: true)` copies Core, the analyzer and the test project, but copies `src/godot-game` only for the mutually exclusive `game: true` mode. The copied test project now explicitly compiles `../../src/godot-game/foundation/FoundationInput.cs`, which is absent from that isolated fixture. Existing test-consumer clean controls therefore fail with a missing-source compiler error before their intended positive or negative subject can be tested. This affects test policy, exemption and restore controls, independently of CR-01.
@@ -113,9 +113,9 @@ Re-review read the actual repair diffs and ran only the three Node pure controls
 
 ### CR-03: One scenario's native diagnostic fails every later healthy scenario
 
-**Resolution:** Resolved by `e29f425`; original finding retained below.  
-**Classification:** BLOCKER  
-**File:** `D:/Work/Games/KingdomZombies/tools/phase2/rendered.cjs:257-269`  
+**Resolution:** Resolved by `e29f425`; original finding retained below.
+**Classification:** BLOCKER
+**File:** `D:/Work/Games/KingdomZombies/tools/phase2/rendered.cjs:257-269`
 **Related:** `tools/phase2/rendered.cjs:67-70,300-313`.
 
 **Issue:** Each scenario tests `/ERROR:|WARNING:|Unhandled exception/` against `session.log`, which accumulates output for the entire shared game process. After one scenario emits a diagnostic and fails, a successful reset does not remove that diagnostic. Every subsequent scenario reaches its own final check, sees the old message and fails too, including the special resources branch. This incorrectly expands the failed selection and defeats the amended requirement to collect independent outcomes and repair only failed/unexecuted scenarios.
@@ -126,9 +126,9 @@ Re-review read the actual repair diffs and ran only the three Node pure controls
 
 ### CR-04: A failed pressed-button observation leaves owned mouse input held
 
-**Resolution:** Resolved by `a710572` and `d087f15`; original finding and intermediate repair regression retained below.  
-**Classification:** BLOCKER  
-**File:** `D:/Work/Games/KingdomZombies/tools/phase2/rendered.cjs:76-84`  
+**Resolution:** Resolved by `a710572` and `d087f15`; original finding and intermediate repair regression retained below.
+**Classification:** BLOCKER
+**File:** `D:/Work/Games/KingdomZombies/tools/phase2/rendered.cjs:76-84`
 **Related:** `tools/phase2/rendered.cjs:105-115,140`.
 
 **Issue:** The session records possible held keyboard keys before dispatch and releases them during reset/close, but it never records mouse-button holds. The menu scenario sends `mouse-down`, then awaits the `start-pressed` capture before sending `mouse-up`. If that observation fails, or the mouse helper injects the press and fails its acknowledgement, control jumps to scenario recovery with the left mouse button still held. Neither `reset()` nor `close()` releases it. Later menu scenarios run with contaminated physical input, and final process termination can leave the user's mouse button held after the game closes.
@@ -141,6 +141,6 @@ Re-review read the actual repair diffs and ran only the three Node pure controls
 
 ---
 
-_Reviewed: 2026-11-15T11:51:43Z_  
-_Reviewer: the agent (gsd-code-reviewer)_  
+_Reviewed: 2026-11-15T11:51:43Z_
+_Reviewer: the agent (gsd-code-reviewer)_
 _Depth: standard_
