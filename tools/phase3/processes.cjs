@@ -18,8 +18,10 @@ async function run(executable,args,options={},milliseconds=12000){
   const timer=setTimeout(()=>{timedOut=true;try{terminate(child);}catch(error){cleanupError=error;}},milliseconds);
   let result;
   try{result=await Promise.race([closed,delay(milliseconds+6000).then(()=>{throw new Error('OWNED_CLEANUP_DEADLINE');})]);}
+  catch(error){throw Object.assign(error,{record:{executable,args,pid:child.pid,code:child.exitCode,signal:child.signalCode,
+    streamsClosed:false,timedOut,stdout,stderr,cleanupError:cleanupError?.message}});}
   finally{clearTimeout(timer);}
-  const record={executable,args,pid:child.pid,...result,timedOut,stdout,stderr,cleanupError:cleanupError?.message};
+  const record={executable,args,pid:child.pid,...result,streamsClosed:true,timedOut,stdout,stderr,spawnError:spawnError?.message,cleanupError:cleanupError?.message};
   if(spawnError||timedOut||cleanupError||result.code!==0||result.signal)throw Object.assign(new Error(spawnError?.code??(timedOut?'CHILD_TIMEOUT':'CHILD_EXIT '+result.code+'/'+result.signal)),{record});
   return record;
 }

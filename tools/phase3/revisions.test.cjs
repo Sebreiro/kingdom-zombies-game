@@ -33,7 +33,7 @@ function fixture(){
   write(catalog.reviewPath,review);const tested=commit(),context={...identity,revision:tested,root,directory:path.join(root,'.phase3/runs/control/final')};fs.mkdirSync(context.directory,{recursive:true});
   const gate=catalog.prelaunch(root,context),selection=gate.savedSelection;
   const record=(family,summary)=>{const prefix='.'+family+'/runs/control';write(prefix+'/summary.json',summary);write(prefix+'/process.json',{code:0,signal:null,timedOut:false,startedAt:10,finishedAt:20});return {...ref(prefix+'/summary.json'),process:ref(prefix+'/process.json')};};
-  const inherited={phase1:[],phase2:[]};
+  const inherited={phase1:[],phase2:[],status:'pass',nativeAllowed:true};
   const p1=e.read(path.join(root,'tools/phase1/required-cases.json'));
   const p1Results=selection.selected.phase1.map(id=>{
     const item=p1.cases.find(row=>row.id===id),prefix='.phase1/runs/control/'+id;
@@ -44,6 +44,11 @@ function fixture(){
   const p2Manifest={inputs:['src','tests/phase1','tools/phase2','tools/phase1/toolchain.json','Directory.Build.props','Directory.Build.targets','Directory.Packages.props','.editorconfig','BannedSymbols.txt','BannedSymbols.Pure.txt','docs/code']};
   const p2Identity={...identity,input:baseline.snapshot(root,p2Manifest).sha256,revision:tested,nonce:'p2'};
   inherited.phase2.push(record('phase2',{schemaVersion:2,...p2Identity,status:'pass',startedAt:10,finishedAt:20,failures:[],selected:selection.selected.phase2,results:selection.selected.phase2.map(id=>({...p2Identity,id,status:'pass'}))}));
+  inherited.commands=['phase1','phase2'].map(family=>{
+    const reference=inherited[family][0],prefix='.'+family+'/runs/control/command';write(prefix+'.json','{}');write(prefix+'.log','CONTROL');
+    return {family,executed:true,status:'pass',caseOutcomes:selection.selected[family].map(id=>({id,status:'pass'})),
+      report:reference,process:reference.process,record:ref(prefix+'.json'),logs:{stdout:ref(prefix+'.log'),stderr:ref(prefix+'.log')}};
+  });
   write('.phase3/runs/control/final/a.log','CONTROL');write('.phase3/runs/control/final/b.log','CONTROL');
   const artifacts=['a.log','b.log'].map(file=>({path:file,sha256:ref('.phase3/runs/control/final/'+file).sha256}));
   const final={schemaVersion:2,...identity,revision:tested,nonce:'final',status:'pass',startedAt:1,finishedAt:30,selected:selection.selected.phase3,

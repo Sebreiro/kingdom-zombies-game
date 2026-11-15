@@ -71,6 +71,7 @@ async function run(mode){
     require('./catalog.cjs').validate(root,e.read(path.join(root,'tools/phase3/required-cases.json')));
     console.log('PASS exact cases/roles, duplicate substitution, stale identities, images, corruption, unsafe paths and catalog controls; fixtures earn no execution credit');
   }else if(mode==='processes'){
+    await p.run(process.execPath,['--test',path.join(root,'tools/phase3/inherited.test.cjs')],{cwd:root},15000);
     await require('./terminal-fixture.cjs').run(directory);
     const positive=await p.run(process.execPath,['-e','process.stdout.write("real-positive")']);assert.equal(positive.stdout,'real-positive');
     for(const [name,args,pattern] of [['missing',[],/ENOENT/],['nonzero',['-e','process.exit(7)'],/CHILD_EXIT 7/],['crash',['-e','process.abort()'],/CHILD_EXIT/]]){

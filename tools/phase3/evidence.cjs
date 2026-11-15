@@ -203,6 +203,14 @@ function verifyCompletion(root,index,cases,current){
   return {status:'pass',selected:final.selected,report:final.path,...revisionValidation};
 }
 function verifyInherited(root,final,selection,reviews){
+  requireTrue(final.inherited?.status==='pass'&&final.inherited.nativeAllowed===true,'INHERITED_AGGREGATE_FAILED');
+  requireTrue(final.inherited.commands?.length&&final.inherited.commands.every(row=>row.executed===true&&row.status==='pass'
+    &&row.caseOutcomes?.length&&row.caseOutcomes.every(item=>item.status==='pass')),'INHERITED_COMMAND_FAILED');
+  for(const command of final.inherited.commands){
+    requireTrue(final.inherited[command.family]?.some(row=>row.path===command.report?.path&&row.sha256===command.report.sha256&&
+      row.process.sha256===command.process?.sha256),'INHERITED_COMMAND_REPORT');
+    artifact({directory:root},command.record);artifact({directory:root},command.logs.stdout);artifact({directory:root},command.logs.stderr);
+  }
   requireTrue(final.inherited?.phase1?.length&&final.inherited?.phase2?.length,'INHERITED_EVIDENCE_REQUIRED');
   for(const family of ['phase1','phase2']){
     const catalog=read(path.join(root,'tools',family,'required-cases.json')),seen=[],nonces=new Set();

@@ -77,17 +77,19 @@ async function main(root,args){
     requireTrue(results.every(row=>row.status==='pass'),'NONWINDOW_PREREQUISITE_FAILED');
     const gate=require('./catalog.cjs').prelaunch(root,context);prelaunchReview=gate.review;selectionSha256=gate.selection.sha256;
     if(selection.all)inherited=await require('./inherited.cjs').run(context,gate.savedSelection);
+    requireTrue(!inherited||inherited.nativeAllowed,'INHERITED_PREREQUISITE_FAILED '+inherited?.nativeBlockers.join(','));
     const rendered=await require('./scenarios.cjs').run(context,native);results.push(...rendered.results);launches=rendered.launches;
   }catch(error){for(const item of native)if(!results.some(row=>row.id===item.id))results.push({id:item.id,status:'blocked',...identity,nonce,message:error.message});}
   for(const result of results.filter(row=>row.status==='pass'))try{e.reconcile([catalog.cases.find(item=>item.id===result.id)],[result],context);}catch(error){result.status='fail';result.message=error.message;}
   if(baseline.snapshot(root,inputManifest()).sha256!==context.input)for(const result of results){result.status='fail';result.message='SOURCE_CHANGED';}
-  const status=results.length===selection.selected.length&&results.every(row=>row.status==='pass')?'pass':'fail';
+  const status=results.length===selection.selected.length&&results.every(row=>row.status==='pass')&&(!inherited||inherited.status==='pass')?'pass':'fail';
   const summary={schemaVersion:2,...identity,nonce,status,selected:selection.selected.map(row=>row.id),results,repairOf,prelaunchReview,selectionSha256,inherited,
     startedAt,finishedAt:Date.now(),launches,gameWindows:launches.length,scope:native.length?'Windows 1280x720 local; no VM':'headless diagnostics and pure proofs only'};
   for(const result of results)fs.writeFileSync(path.join(directory,result.id+'.result.json'),JSON.stringify(result,null,2),{flag:'wx'});
   fs.writeFileSync(path.join(directory,'summary.json'),JSON.stringify(summary,null,2),{flag:'wx'});
   console.log(status.toUpperCase()+' '+results.filter(row=>row.status==='pass').length+'/'+selection.selected.length+'; '+path.relative(root,path.join(directory,'summary.json')));
   for(const result of results.filter(row=>row.status!=='pass'))console.error(result.id+': '+result.message);
+  for(const result of inherited?.commands??[])if(result.status!=='pass')console.error('Inherited '+result.family+' '+result.args.join(' ')+': '+result.status+' '+result.reason);
   if(status!=='pass')process.exitCode=1;return summary;
 }
 module.exports={main,select,csharp,requireTrue,hash,inputManifest,createIdentity,environment};
