@@ -228,11 +228,16 @@ function verifyInherited(root,final,selection,reviews){
         for(const result of summary.results)for(const picture of result.images??[]){const matches=reviews.filter(row=>row.family==='phase2'&&row.id===result.id&&row.checkpoint===picture.checkpoint&&row.imageSha256===picture.sha256&&row.reportSha256===reference.sha256);requireTrue(matches.length===1&&matches[0].verdict==='pass'&&matches[0].reviewer?.trim()&&matches[0].notes?.trim(),'INHERITED_VISUAL_REVIEW');}
       }else for(const result of summary.results){
         const item=catalog.cases.find(row=>row.id===result.id);requireTrue(item,'INHERITED_UNKNOWN_CASE');
-        for(const record of result.evidence??[])artifact({directory},record);
-        requireTrue(result.evidence?.length>0&&result.report,'INHERITED_PROOF_REQUIRED');
-        baseline.verifyReport(read(artifact({directory},result.report)),[item]);
+        verifyPhase1Proof(directory,result,item);
       }
     }exact(selection.selected[family],seen,'inherited exact '+family);
   }
 }
-module.exports={hash,read,inside,requireTrue,exact,timing,stopped,identity,artifact,image,peers,reconcile,loadReport,verifyCompletion,verifyInherited};
+function verifyPhase1Proof(directory,result,item){
+  requireTrue(result.id===item.id&&result.status==='pass'&&result.report?.path===item.id+'/tests.json','INHERITED_CASE_REPORT');
+  const report=artifact({directory},result.report),caseDirectory=path.dirname(report);
+  requireTrue(result.evidence?.length>0,'INHERITED_PROOF_REQUIRED');
+  for(const record of result.evidence)artifact({directory:caseDirectory},record);
+  baseline.verifyReport(read(report),[item]);
+}
+module.exports={hash,read,inside,requireTrue,exact,timing,stopped,identity,artifact,image,peers,reconcile,loadReport,verifyCompletion,verifyInherited,verifyPhase1Proof};

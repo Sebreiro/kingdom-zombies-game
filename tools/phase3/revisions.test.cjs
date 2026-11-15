@@ -107,6 +107,18 @@ test('committed metadata closure validates original review and completion withou
   assert.equal(r.relation(f.root,f.reviewed,f.closure,f.identity.input).execution,'original');
   assert.deepEqual(fs.readFileSync(path.join(f.root,f.index.finalReport.path)),original);
   assert.deepEqual(fs.readFileSync(path.join(f.root,f.gate.review.report.path)),review);
+  const inherited=e.read(path.join(f.root,f.index.finalReport.path)).inherited.phase1[0];
+  const inheritedFile=path.join(f.root,inherited.path),subject=e.read(inheritedFile).results[0];
+  const directory=path.dirname(inheritedFile),item=e.read(path.join(f.root,'tools/phase1/required-cases.json')).cases.find(row=>row.id===subject.id);
+  const verify=value=>e.verifyPhase1Proof(directory,value,item),record=subject.evidence[0];
+  verify(subject);
+  assert.throws(()=>verify({...subject,evidence:[{...record,sha256:'0'.repeat(64)}]}),/ARTIFACT_HASH/);
+  for(const name of ['../foreign.log','C:foreign.log','/foreign.log'])assert.throws(()=>verify({...subject,evidence:[{...record,path:name}]}));
+  const other=e.read(inheritedFile).results[1];
+  assert.throws(()=>verify({...subject,report:other.report}),/INHERITED_CASE_REPORT/);
+  assert.throws(()=>verify({...subject,evidence:[{...other.evidence[0],path:'../'+other.id+'/'+other.evidence[0].path}]}));
+  const subjectFile=path.join(directory,subject.id,record.path),subjectBytes=fs.readFileSync(subjectFile);
+  fs.unlinkSync(subjectFile);assert.throws(()=>verify(subject),/ENOENT/);fs.writeFileSync(subjectFile,subjectBytes);
   for(const key of ['input','tool','platform','osFingerprint','buildRevision'])assert.throws(()=>e.verifyCompletion(f.root,f.index,f.cases,{...current,[key]:'changed'}));
   for(const revision of ['unknown','0'.repeat(40),f.closure.slice(0,8)])assert.throws(()=>e.verifyCompletion(f.root,f.index,f.cases,{...current,revision}));
   assert.throws(()=>r.relation(f.root,f.closure,f.tested,f.identity.input));
