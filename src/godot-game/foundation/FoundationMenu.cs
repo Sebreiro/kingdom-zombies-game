@@ -384,15 +384,20 @@ internal sealed class FoundationMenu
             }
 
             _rows.Clear();
+            _rowsKey = key;
             foreach (SessionAdvertisement advertisement in _services.Browser.Rows)
             {
-                AddRow(advertisement: advertisement, previous: previous);
+                AddRow(advertisement: advertisement);
             }
 
             bool restored = false;
             foreach (Button row in _rows)
             {
-                restored |= row.HasFocus();
+                if (StringComparer.Ordinal.Equals(x: previous, y: row.GetMeta(name: "session").AsString()))
+                {
+                    row.GrabFocus();
+                    restored = true;
+                }
             }
 
             if (previous.Length > 0 && !restored)
@@ -400,7 +405,6 @@ internal sealed class FoundationMenu
                 _root.GetNode<Control>(path: "Browser/Refresh").GrabFocus();
             }
 
-            _rowsKey = key;
         }
 
         foreach (Button row in _rows)
@@ -427,7 +431,7 @@ internal sealed class FoundationMenu
                 || _services.Browser.Selected.Occupied >= 4;
     }
 
-    private void AddRow(SessionAdvertisement advertisement, string previous)
+    private void AddRow(SessionAdvertisement advertisement)
     {
         _gateway.RequireThread();
         var row = new Button
@@ -449,10 +453,6 @@ internal sealed class FoundationMenu
         row.FocusEntered += () => Detail(advertisement: advertisement);
         _root.GetNode<Control>(path: "Browser/Scroll/Rows").AddChild(node: row);
         _rows.Add(item: row);
-        if (StringComparer.Ordinal.Equals(x: previous, y: advertisement.SessionId))
-        {
-            row.GrabFocus();
-        }
     }
 
     private void SelectRow(string session)
@@ -466,7 +466,6 @@ internal sealed class FoundationMenu
         _gateway.RequireThread();
         _input.Clear();
         _services.Browser.Select(sessionId: advertisement.SessionId);
-        Rows();
         _root.GetNode<Label>(path: "Browser/Detail").Visible = true;
         _root.GetNode<Label>(path: "Browser/Detail").Text = advertisement.SessionName + " · " + advertisement.Address
                 + ":" + advertisement.Port.ToString(provider: CultureInfo.InvariantCulture);

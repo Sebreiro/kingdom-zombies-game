@@ -135,6 +135,7 @@ async function discoveryProfile(context,item){
     unlock=acquireLock(context.root,context.nonce);const port=await allocatePort();
     const host=launch(context,'discovery-host',port);peers.push(host);
     await waitFor(peers,deadline,()=>frames(host).length>1,'host menu');
+    await input(host,context,deadline,{action:'regression-browser'});
     await activate(host,context,deadline,'Menu/Host');
     await waitFor(peers,deadline,()=>frames(host).at(-1)?.ready,'host ready');
     const original=launch(context,'profile-before-restart',port);peers.push(original);

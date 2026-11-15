@@ -70,6 +70,10 @@ internal static class FoundationAutomation
             root.GetNode<LineEdit>(path: "Browser/Address").Text = request.GetProperty(propertyName: "address")
                     .GetString() ?? "";
         }
+        else if (action is "regression-browser")
+        {
+            FoundationNativeRegression.Browser(root: root, gateway: gateway);
+        }
         else if (action is "key")
         {
             Key code = (Key)request.GetProperty(propertyName: "key").GetInt64();
