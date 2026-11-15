@@ -13,6 +13,7 @@ Before starting or finishing phase implementation, follow the [phase branch and 
 | Project boundaries and architecture decisions | [Architecture index](docs/architecture/README.md) |
 | Toolchain prerequisites and isolated setup | [Development setup](docs/workflow/setup.md) |
 | Selecting proofs and interpreting current evidence | [Verification](docs/workflow/verification.md) |
+| Local test selection, saved scenarios, run grouping, and the phase repair cycle | [Local testing strategy](docs/workflow/local-testing.md) |
 | Required game behavior, balance baseline, exclusions, and acceptance scenarios | [Version 0.1 specification](specs/0.1/initial-spec.md) |
 | Required assets, recovered donors, and production checks | [Asset and resource plan](specs/0.1/assets-and-resources.md) |
 | Project context and decisions | [PROJECT.md](.planning/PROJECT.md) |

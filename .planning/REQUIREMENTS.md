@@ -1,12 +1,12 @@
 # Requirements: KingdomZombies
 
-**Current Phase 1 closure boundary (creator instruction, 2026-11-14):** The [one-time exception](phases/01-code-rules-and-documentation/01-CLOSURE-EXCEPTION.md) accepts the retained complete Windows baseline plus actual focused Linux strict/native/rule/state/graph evidence without a host restart. The narrow GODOT_LINUXBSD test correction passed separately on both OSes. A complete Linux suite, its original graph capacity failure and fourteen individually unreviewed human components remain explicit [follow-ups](phases/01-code-rules-and-documentation/01-CLOSURE-FOLLOWUPS.md), not passes. The complete-other-OS-VM rule continues for later phases.
+**Current Phase 1 closure boundary (creator instruction, 2026-11-14):** The [one-time exception](phases/01-code-rules-and-documentation/01-CLOSURE-EXCEPTION.md) accepts the retained complete Windows baseline plus actual focused Linux strict/native/rule/state/graph evidence without a host restart. The narrow GODOT_LINUXBSD test correction passed separately on both OSes. A complete Linux suite, its original graph capacity failure and fourteen individually unreviewed human components remain explicit [follow-ups](phases/01-code-rules-and-documentation/01-CLOSURE-FOLLOWUPS.md), not passes. Historical evidence limits remain explicit; current routine local verification follows the development-OS-only strategy below.
 
-**Platform verification policy, latest 2026-11-14 amendment:** Use focused development-OS checks. Closure accounts for the complete required scope on that OS and the other OS in a local VM. Phase 5 implements validated reuse of unchanged groups and fresh execution of missing/invalidated groups plus dependents; unknown impact is a blocker. Ordinary PRs run only strict build/analyzers, current code/project boundaries and documentation/catalog validation, targeting about ten minutes per OS with dependencies cached and no game launch. See [Phase 5 context](phases/05-ci-and-repeatable-game-testing/05-CONTEXT.md). All 133 IDs/owners and eight deferred Phase 5 declarations remain unchanged; the separate Phase 1 exception above remains explicit.
+**Verification policy, latest 2026-11-15 amendment:** Follow the [local testing strategy](../docs/workflow/local-testing.md) immediately: implement, review/fix, then grouped 1280×720 development-OS game tests without a VM. Select all active Critical cases plus new/changed cases and affected regressions, regardless of importance. Collect failures, batch repairs, check failures, then rerun the entire selected set on the repaired build. Every phase saves reusable scenarios with importance and ordered run groups. Phase 5 implements the framework and actual hosted Windows/Linux compatibility. TEST-11 adds Phase 11 nightly full testing; original 133 IDs/owners and all eight Phase 5 certification IDs are preserved. Basic hosted PR checks remain build/repository-only with a ten-minute-per-OS target.
 
 **Defined:** 2026-11-13
 **Release:** Complete version 0.1
-**Status:** All 133 version 0.1 requirements and their ten-phase roadmap approved by the creator on 2026-11-13. Every requirement has one primary phase. RULE-01–RULE-07 are complete under the current Phase 1 exception; the other 126 requirements remain Pending.
+**Status:** Original 133 version 0.1 requirements approved on 2026-11-13; TEST-11 and Phase 11 added on 2026-11-15. All 134 requirements have one primary phase. RULE-01–RULE-07 are complete under the Phase 1 exception; 127 requirements remain Pending.
 **Core Value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
 
 ## Authority and Interpretation
@@ -74,6 +74,7 @@ Source: Creator Phase 5 direction; spec §14 and A-01–A-47.
 - [ ] **TEST-08**: Verification fails for missing dependencies, zero discovery, skipped required cases, crashes, timeouts, missing peer results, or missing required evidence.
 - [ ] **TEST-09**: Developers can prove the verification runner rejects deliberate failures and correctly distinguishes future planned cases from currently required cases.
 - [ ] **TEST-10**: Developers can activate new cases with each implemented feature and retain separate rendered, real mixed-OS LAN, reference-PC, and endurance evidence.
+- [ ] **TEST-11**: Developers receive scheduled nightly full-regression results across every active importance level, using saved scenarios and grouped game runs with inspectable failures/artifacts and manual replay. Phase 11 owns implementation; reduced phase-end selection begins immediately before this exists.
 
 Phase 5 also owns the [Phase 1 certification handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md): real analyzer/production coverage measurement and 90%/80% enforcement, exhaustive clean Windows/Linux suites and evidence reconciliation, and remaining aggregate runner/report checks. Existing Phase 1 tests and enforcement remain required regressions. This changes delivery timing without adding or deleting requirement IDs.
 
@@ -342,11 +343,11 @@ Additional cases must cover RULE-01–RULE-07, BASE-01–BASE-03, LAN-01–LAN-0
 
 ### Test-case lifecycle
 
-- Phase 1 proves the rules; Phases 2 and 3 have their own smoke checks.
+- Phase 1 proves the rules; Phases 2 and 3 have their own smoke checks. Every phase saves AI-readable scenarios with importance, reproducible setup/actions/expected outcomes, dependencies and ordered game-run groups.
 - Phase 5 registers the full catalog, implements the framework, and requires tests for already delivered foundations. Future feature cases have an explicit planned state and owning phase; they do not count as passed.
 - Ordinary PRs use the basic ten-minute-target selection above. Expensive behavior, rendered-input, LAN, checker-defect and coverage work remains available through focused/full verification; a basic PR pass does not certify that broader scope.
-- Phase 5 implements folder/dependency-aware selection and evidence reuse. Completion may combine fresh affected-group results with immutable matching prior results after validating relevant source/assets, dependencies, test/case definitions, tools and required environments. Identify reuse explicitly, rerun missing/invalidated groups and dependents, and block unknown impact. Every required obligation still needs valid evidence; broad shared changes can require the full scope again.
-- Feature implementation activates the corresponding required cases and supplies executable checks or an explicit repeatable evidence procedure as appropriate.
+- Phase 5 implements folder/dependency-aware selection and evidence reuse. Completion may combine fresh affected-group results with immutable matching prior results after validating relevant source/assets, dependencies, test/case definitions, tools and required environments. Identify reuse explicitly, rerun missing/invalidated groups and dependents, and block unknown impact. Every selected obligation needs valid evidence; omissions remain explicit without pass credit. The immediate phase-end minimum is all active Critical cases plus every new/changed case and affected regression. Repairs require focused checks followed by a fresh entire-selected-set rendered pass. Broad shared changes can select the full scope again.
+- Feature implementation activates the corresponding required cases and supplies executable checks or an explicit repeatable evidence procedure as appropriate. Phase 11 adds scheduled full active-catalog execution across all importance levels; manual full execution remains available.
 - Required checks cannot be silently skipped. Missing tools, incompatible runtimes, unavailable required environments, absent reports/images, and zero required-case execution are failures or reported blockers, not successful verification.
 - Headless state tests, rendered input/UI evidence, four local processes, actual mixed-OS LAN, and rendered reference-PC measurements establish different facts. A passing result in one does not substitute for the others.
 
@@ -360,7 +361,7 @@ The reference-PC stress procedure uses 1920x1080, four participants, approximate
 
 ## Traceability
 
-All 133 version 0.1 requirements have exactly one primary owning phase in [ROADMAP.md](ROADMAP.md). The creator approved these requirements, working-increment phase planning, and the detailed roadmap on 2026-11-13. The fixed first-five-phase order and accepted ten-phase direction are recorded in [PROJECT.md](PROJECT.md#agreed-delivery-direction). Earlier prerequisites and later integration/regression checks do not duplicate ownership: the assigned phase must deliver complete requirement acceptance. All implementation statuses remain Pending.
+All 134 version 0.1 requirements have exactly one primary owning phase in [ROADMAP.md](ROADMAP.md). The creator approved these requirements, working-increment phase planning, and the detailed roadmap on 2026-11-13. The fixed first-five-phase order and accepted ten-phase direction are recorded in [PROJECT.md](PROJECT.md#agreed-delivery-direction). Earlier prerequisites and later integration/regression checks do not duplicate ownership: the assigned phase must deliver complete requirement acceptance. All implementation statuses remain Pending.
 
 | Requirement | Phase | Status |
 | --- | --- | --- |
@@ -497,17 +498,18 @@ All 133 version 0.1 requirements have exactly one primary owning phase in [ROADM
 | REL-04 | Phase 10 | Pending |
 | REL-05 | Phase 10 | Pending |
 | REL-06 | Phase 10 | Pending |
+| TEST-11 | Phase 11 | Pending |
 
 **Coverage:**
-- Version 0.1 requirements: 133 total
-- Mapped to phases: 133 (exactly one primary owner each)
+- Version 0.1 requirements: 134 total
+- Mapped to phases: 134 (exactly one primary owner each)
 - Unmapped: 0
 - Duplicate primary owners: 0
 - Unknown version 0.1 IDs in roadmap: 0
-- Implementation statuses: 133 Pending; 0 complete
+- Implementation statuses: 127 Pending; 7 complete
 - Source acceptance scenarios linked: 47 of 47
 - Future platform requirements: 2 (outside the current roadmap)
 
 ---
 *Requirements defined: 2026-11-13*
-*Last updated: 2026-11-13 after creator approval of the complete ten-phase roadmap and requirement mapping*
+*Last updated: 2026-11-15 after the local testing discussion and Phase 11/TEST-11 addition*

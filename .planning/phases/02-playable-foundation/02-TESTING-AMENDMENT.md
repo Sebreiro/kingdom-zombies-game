@@ -1,5 +1,7 @@
 # Phase 2 Testing Amendment
 
+**Latest amendment from the Phase 5 discussion, 2026-11-15:** The permanent [local testing strategy](../../../docs/workflow/local-testing.md) supersedes the earlier temporary clauses below. Reduced selection applies immediately: all active Critical cases plus every new/changed case and affected regression. Save AI-readable scenarios with importance and ordered game-run groups. After batching repairs and passing failed/blocked/newly affected cases, rerun the whole selected set on the repaired build, preferably in one game run. Original passes plus focused repairs alone no longer close rendered acceptance. Routine local testing remains development-OS-only, no VM, 1280×720; Phase 5 must not reintroduce local VM/extra-resolution catch-up. Hosted and release evidence retains its distinct ownership.
+
 Creator instruction on 2026-11-15 supersedes the older testing clauses in 02-SPEC, 02-CONTEXT, 02-UI-SPEC, 02-VALIDATION and plans 02-01–03. Canonical policy: [testing before Phase 5](../../../docs/workflow/pre-phase5-testing.md).
 
 - Finish all Phase 2 implementation without opening a real game window. Non-rendered builds/tests remain allowed. Earlier per-task rendered tracer gates no longer apply.

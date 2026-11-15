@@ -3,6 +3,7 @@
 > **Audit trail only.** Do not use as planning/research/execution input. Current decisions are in CONTEXT.md; earlier selections below may be superseded.
 
 **Date:** 2026-11-14 (Europe/Paris)
+**Amended:** 2026-11-15 (Europe/Paris) — local testing discussion below supersedes older execution/closure choices where they conflict.
 **Phase:** 05-ci-and-repeatable-game-testing
 **Areas discussed:** Failure reports/reproduction; PR selection; visual-review handoff; test groups/feedback time.
 
@@ -222,3 +223,41 @@ No “you decide” product preference was selected. Research/planning chooses e
 ## Deferred Ideas
 
 None added; existing later feature and release-environment ownership is preserved.
+
+
+## Local testing strategy amendment — 2026-11-15
+
+The creator explicitly requested development-OS-only testing without a VM; whole-phase implementation before real game windows; code review/fixes before rendered testing; 1280×720 only; compatible scenarios in shared runs; collect errors before batched fixes; rerun failures, then the complete scenario selection; save reusable AI scenarios with importance and game-run grouping; and add Phase 11 for nightly full tests.
+
+These instructions supersede earlier local-VM/extra-resolution catch-up, per-task rendered gates, complete-catalog phase-end and failed-only closure decisions. Hosted Windows/Linux framework compatibility and distinct release procedures remain separate. The final pass covers the full **selected** set, which can be smaller than the whole catalog.
+
+### When reduced phase testing starts
+
+| Option | Description | Selected |
+| --- | --- | --- |
+| After Phase 11 | Keep the full applicable regression suite until nightly full tests exist. | |
+| Immediately | Use a smaller selection now, before nightly testing exists. | Yes |
+
+**User's choice:** “Use a smaller selection immediately, before nightly testing exists.”
+
+### Minimum reduced selection
+
+The question proposed four importance levels: Critical, High, Normal and Low.
+
+| Option | Description | Selected |
+| --- | --- | --- |
+| Critical plus impact | All Critical cases, every new/changed case and affected regressions, regardless of importance. | Yes |
+| Critical and High plus impact | All Critical and High cases, every new/changed case and affected regressions. | |
+| Impact only | Only affected cases, including new/changed cases. | |
+
+**User's choice:** “All Critical cases, plus every new or changed case and affected regressions, regardless of importance.”
+
+**Captured behavior:** Once feature cases are active, Critical cases are always selected. Dependency impact includes consumers and shared inputs. Unselected cases remain visible without pass credit. Failed/blocked/newly affected repair checks are followed by the entire-selected-set rendered pass on the repaired build, preferably one game run or explicit compatible groups. An initial clean selected-set pass needs no redundant second launch.
+
+### Saved scenarios and Phase 11
+
+Every phase stores stable IDs/source/requirement/owner, importance/rationale, dependencies/activation, reproducible setup/actions/expected results, evidence/replay procedure, ordered run-group membership, reset/recovery and required process roles. Pure checks declare no window; extra launches need a reason. Phase 5 integrates existing phase scenarios and proves selection/grouping/reporting. Phase 11, after Phase 10, owns TEST-11 scheduled full active-catalog testing across all importance levels. Exact schedule/environment and publication details are left for that phase's planning. No nightly automation or gameplay verification was executed during this discussion.
+
+### Documentation validation
+
+The roadmap validator and strict state validator passed. A focused consistency check found 134 distinct requirements, one matching primary owner per requirement, TEST-11 owned by Phase 11 and AC-01–AC-38 in Phase 5; active Phase 02 / plan 02-02 stayed unchanged. Current repository navigation passed in invocation `eb106758-1ff4-4c9c-83b9-7f821f35d5f2`; documentation portability passed in `e4ee9e1b-a4d0-40dc-b2e2-542d6ca131d4`. Reports remain under their original `.phase1/runs/<invocation>/summary.json` identities. The initial restricted navigation attempt `9d4734a9-6a48-4724-b9cf-f7b6c4172003` stopped during locked restore before any case executed; the same command passed with access to the existing local build tools, without source edits between attempts. Preserve that blocked report. No game window or VM was launched for these checks.

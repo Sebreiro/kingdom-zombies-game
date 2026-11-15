@@ -22,21 +22,22 @@ The [GSD configuration](../../.planning/config.json) uses phase branching, `feat
 
 ## Development and Phase-End Testing
 
-**Current rule for Phases 2–4:** The creator's 2026-11-15 [testing policy before Phase 5](pre-phase5-testing.md) overrides the general rules below: development OS only, no VM, finish implementation and code review/fixes before rendered tests, 1280×720 only, shared game sessions, collect errors, then rerun failed scenarios only. Preserve earlier passing scenarios with their original reports. Phase 5 retains deferred platform/resolution acceptance and its comprehensive testing/reuse work.
+**Current rule for every phase, effective immediately on 2026-11-15:** Follow the [local testing strategy](local-testing.md). It supersedes the earlier two-local-OS/VM, extra-resolution, per-task rendered gates and failed-only closure rules.
 
-- During implementation, run relevant checks on the operating system where the agent is developing.
-- Before finishing a phase, account for its complete required scope on that development OS and in a local VM running the other supported OS: Linux when developing on Windows, or Windows when developing on Linux.
-- Use hardware acceleration for the local VM when available. Record actual execution and results; a prepared VM or cross-build does not establish a pass.
-- Preserve explicitly deferred later-phase work and its ownership. A complete phase run selects the current phase's independently declared required scope, without crediting pending later-phase cases.
-- Batch related repairs with focused feedback. Under the Phase 5 reuse policy below, rerun missing/invalidated groups and their dependents after implementation stabilizes; retain valid unchanged evidence. Broad shared changes can require the full scope again.
+- Implement the whole phase using checks without a real game window, then review its code and fix findings before rendered testing.
+- Run routine local tests only on the development OS, without a VM, at 1280×720. Group compatible scenarios into shared game runs; explain necessary separate launches or multiplayer process sets.
+- Select every active Critical case, every new/changed case and every affected regression, regardless of importance. This reduced selection starts now, before nightly testing exists.
+- Log failures and continue independent scenarios, batch repairs, rerun failed/blocked and newly affected cases, then rerun the entire selected set on the repaired build. Use one game run where practical; otherwise retain explicit ordered run groups.
+- Every phase saves reusable AI-readable scenarios with importance, setup, actions, expected results, evidence and run-group order. Keep selected omissions and historical failures visible.
+- Hosted Windows/Linux CI and distinct physical LAN, supported-display, hardware and endurance release procedures keep their own evidence. Routine phase completion no longer requires a local other-OS VM. Phase 11 introduces nightly full testing across all active importance levels.
 
-The creator established these platform obligations on 2026-11-14 and subsequently approved the execution/reuse amendment below. Required environments remain distinct. See [verification](verification.md) for current commands and evidence requirements.
+See [verification](verification.md) for delivered commands. The older [pre-Phase-5 entry point](pre-phase5-testing.md) now redirects to the permanent strategy.
 
 ## Phase 5 Execution and Evidence Reuse Amendment
 
 - Ordinary Windows/Linux PRs target about ten minutes per OS with dependencies cached. Run the strict build with analyzers, current project/code boundary checks and documentation/catalog validation. Do not launch the game or include exhaustive deliberate-defect proofs, full LAN scenarios, coverage certification or AI screenshot review in this basic selection.
-- During feature work, select focused groups from changed folders plus their consumers, transitive dependencies and shared configuration/build inputs. An unchanged folder alone does not establish unaffected behavior. Uncertain impact is an explicit selection blocker.
-- At phase completion, reuse passing group evidence only when relevant code/assets, dependencies, test/case definitions, tools and required environment still match. Rerun missing/invalidated groups and dependents. Every required case/environment remains accounted for; planned cases receive no pass credit.
+- During feature work, run checks without a real game window. At the post-review game-test stage, select all active Critical cases plus new/changed cases and affected regressions, including consumers, transitive dependencies and shared inputs. An unchanged folder alone does not establish unaffected behavior. Uncertain impact is an explicit selection blocker.
+- Reuse eligible passing evidence only when relevant inputs and the required environment still match. Account for the declared selection and explicit omissions. Reuse cannot replace the fresh final selected-set rendered pass after repairs; the complete catalog is available manually and becomes scheduled in Phase 11.
 - Keep original reports, tested revisions and invocation identities immutable. Completion reports distinguish executed-now, explicitly reused and missing/invalidated evidence. Reuse validates an earlier result; it never supplies a newly executed pass or cross-platform substitution. An unresolved later failure prevents acceptance through an older pass.
 - Before/after screenshots are checkpoints within a selected scenario on the current build, not obligatory runs of old/new builds for every edit. Keep real input, fresh-run evidence and declared appearance/readability review.
 - Phase 5 must implement and prove dependency-aware selection and reuse validation. Until then, the current Phase 1 runner still executes selected cases afresh. This policy invents no reuse command or retroactive certification. Actual full/manual workflow compatibility still needs execution evidence.
