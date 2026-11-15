@@ -89,8 +89,8 @@ internal static class ExemptionValidator
     /// <summary>Rejects missing, duplicate or undeclared compiler ownership, including shared-source drift.</summary>
     internal static void RequireOwners(string path, IReadOnlyList<string> projects)
     {
-        string[] expected = path is "src/godot-game/foundation/FoundationInput.cs"
-                ? ["src/godot-game/KingdomZombies.csproj", "tests/phase1/KingdomZombies.Phase1.Tests.csproj"]
+        string[] expected = FoundationLinkedSources.Paths.Contains(value: path, comparer: StringComparer.Ordinal)
+                ? [SourceProject(path: path), "tests/phase1/KingdomZombies.Phase1.Tests.csproj"]
                 : [SourceProject(path: path)];
         Require(value: projects.Count == expected.Length && projects.Order(comparer: StringComparer.Ordinal)
                 .SequenceEqual(second: expected.Order(comparer: StringComparer.Ordinal),

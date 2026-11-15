@@ -2,13 +2,15 @@
 // Phase 3's explicit dependency assessment. This is not a general Phase 5 impact selector.
 const sources=['tools/code-rules/BodyLengthAnalyzer.cs','tools/code-rules/EngineGeneratedSyntax.cs',
   'docs/code/register.json','docs/code/engine-generated-spans.json','docs/code/generated-callsite-adaptations.json',
-  'docs/code/exemptions.json','docs/code/visibility-exemptions.json'];
+  'docs/code/exemptions.json','docs/code/visibility-exemptions.json','tests/phase1/KingdomZombies.Phase1.Tests.csproj',
+  'tests/phase1/BuildFixture.cs','tests/phase1/ExemptionValidator.cs','tests/phase1/ExemptionTests.cs'];
 const consumers=['BodyLengthAnalyzerTests','ContinuationIndentAnalyzerTests','LineLengthAnalyzerTests',
   'ThisQualificationAnalyzerTests','NamedArgumentAnalyzerTests','MemberOrderAnalyzerTests'];
 function affected(cases){
   return cases.filter(row=>(row.acceptancePhase??1)<=1&&(row.group==='register'||/^rules\.body/.test(row.id)||/^R-37\./.test(row.id)||
     consumers.some(consumer=>row.test?.includes('.'+consumer+'.'))||/^rules\.(analyzer-|generated-|godot-|suppression-)/.test(row.id)||
-    /^edge\.rule-0[23]\./.test(row.id)||/^R-(50|54)\./.test(row.id)||['ac-05.complete','ac-08.complete'].includes(row.id))).map(row=>row.id);
+    /^edge\.rule-0[23]\./.test(row.id)||/^R-(46|50|54|67)\./.test(row.id)||
+    row.test?.includes('.ExemptionTests.')||row.test?.includes('.SuppressionTests.')||['ac-05.complete','ac-08.complete'].includes(row.id))).map(row=>row.id);
 }
 function check(selection,cases,requireTrue){
   const required=affected(cases);

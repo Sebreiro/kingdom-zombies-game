@@ -131,11 +131,15 @@
       "R-38.positive",
       "R-38.negative",
       "R-43.register-resolution",
+      "R-46.positive",
+      "R-46.negative",
       "R-50.positive",
       "R-50.negative",
       "R-54.positive",
       "R-54.negative",
       "R-57.register-resolution",
+      "R-67.positive",
+      "R-67.negative",
       "R-76.register-resolution",
       "R-79.register-resolution",
       "R-80.register-resolution",
@@ -400,15 +404,24 @@
       "rules.generated-syntax-origin",
       "rules.generated-syntax-boundary",
       "rules.source-format",
+      "rules.xunit-producer-root",
+      "rules.xunit-producer-relocation",
+      "rules.xunit-producer-seed",
+      "rules.xunit-producer-bypass",
+      "rules.xunit-producer-shape",
+      "rules.xunit-producer-hash",
       "rules.suppression-pragma",
       "rules.suppression-semantic",
       "rules.suppression-duplicate",
       "rules.suppression-configuration",
       "rules.suppression-effective",
       "rules.generated-claims",
+      "rules.exemption-executable-positive",
+      "rules.exemption-executable-negative",
       "rules.analyzer-source-boundary",
       "rules.godot-companion-positive",
       "rules.godot-companion-negative",
+      "rules.exemptions",
       "graph.allowed-and-direct",
       "graph.props",
       "graph.targets",
@@ -482,7 +495,7 @@
   "reasons": {
     "phase3": "Every case is new or changed in Phase 3, including normal boundaries and runner controls.",
     "phase2": "All 16 cases selected because shared root, authority, input, projection, permission and evidence/lock paths changed.",
-    "phase1": "All active engine, state, graph and runner controls selected conservatively: native boundary tuples, Core roster publications, visibility/composition and inherited runner ownership changed. Existing Phase 1 rows do not encode importance; treat these integrity groups as Critical, selecting the whole affected active groups. Also select current source-format, canonical navigation, portable/module docs, native-callsite and live binding checks. Also select all 31 rules.body*/R-37 cases, the six shared generated-permission analyzer families, analyzer source/input/boundary and generated/callsite/companion consumers, all register and bounded-exemption controls. The phase changes BodyLengthAnalyzer, EngineGeneratedSyntax and their exact register/generated inputs; prior executions remain historical without reuse."
+    "phase1": "All active engine, state, graph and runner controls selected conservatively: native boundary tuples, Core roster publications, visibility/composition and inherited runner ownership changed. Existing Phase 1 rows do not encode importance; treat these integrity groups as Critical, selecting the whole affected active groups. Also select current source-format, canonical navigation, portable/module docs, native-callsite and live binding checks. Also select all 31 rules.body*/R-37 cases, the six shared generated-permission analyzer families, analyzer source/input/boundary and generated/callsite/companion consumers, all register and bounded-exemption controls. The phase changes BodyLengthAnalyzer, EngineGeneratedSyntax and their exact register/generated inputs; prior executions remain historical without reuse. Exact shared-source ownership and isolated test-consumer fixture repairs also affect all exemption/suppression fixture cases, test-consumer R-46 controls and xUnit producer controls; they are selected explicitly."
   },
   "omitted": {
     "phase3": [],
@@ -849,14 +862,6 @@
         "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
       },
       {
-        "id": "R-46.positive",
-        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
-      },
-      {
-        "id": "R-46.negative",
-        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
-      },
-      {
         "id": "R-47.positive",
         "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
       },
@@ -982,14 +987,6 @@
       },
       {
         "id": "R-66.negative",
-        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
-      },
-      {
-        "id": "R-67.positive",
-        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
-      },
-      {
-        "id": "R-67.negative",
         "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
       },
       {
@@ -1365,47 +1362,11 @@
         "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
       },
       {
-        "id": "rules.xunit-producer-root",
-        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
-      },
-      {
-        "id": "rules.xunit-producer-relocation",
-        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
-      },
-      {
-        "id": "rules.xunit-producer-seed",
-        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
-      },
-      {
-        "id": "rules.xunit-producer-bypass",
-        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
-      },
-      {
-        "id": "rules.xunit-producer-shape",
-        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
-      },
-      {
-        "id": "rules.xunit-producer-hash",
-        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
-      },
-      {
-        "id": "rules.exemption-executable-positive",
-        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
-      },
-      {
-        "id": "rules.exemption-executable-negative",
-        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
-      },
-      {
         "id": "rules.async-enumerable-positive",
         "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
       },
       {
         "id": "rules.async-enumerable-negative",
-        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
-      },
-      {
-        "id": "rules.exemptions",
         "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
       },
       {
@@ -1625,6 +1586,10 @@
     "docs/code/engine-generated-spans.json",
     "docs/code/generated-callsite-adaptations.json",
     "docs/code/exemptions.json",
-    "docs/code/visibility-exemptions.json"
+    "docs/code/visibility-exemptions.json",
+    "tests/phase1/KingdomZombies.Phase1.Tests.csproj",
+    "tests/phase1/BuildFixture.cs",
+    "tests/phase1/ExemptionValidator.cs",
+    "tests/phase1/ExemptionTests.cs"
   ]
 }
