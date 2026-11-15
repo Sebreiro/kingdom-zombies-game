@@ -48,7 +48,13 @@ test('capture waits for atomic JSON publication and brackets the complete PNG re
   const request=JSON.parse(fs.readFileSync(path.join(directory,'draw.request'),'utf8')),file=path.join(directory,request.checkpoint+'.json');
   fs.writeFileSync(file+'.tmp','{');await new Promise(resolve=>setTimeout(resolve,100));assert.equal(fs.existsSync(file),false);
   fs.writeFileSync(path.join(directory,request.checkpoint+'.png'),require('./runner-fixture.cjs').png());
-  fs.writeFileSync(file+'.tmp',JSON.stringify({nonce:context.nonce,pid:123,drawn:true,drawFrame:1}));
+  const state={nonce:context.nonce,pid:123,role:'control',profile:'profile',playerId:'profile',bindingId:'local',drawn:true,drawFrame:1,
+    checkpoint:request.checkpoint,width:1280,height:720,cameraX:0,
+    snapshot:{SessionId:'session',Revision:7,Participants:[{Ready:true,BindingId:'local',Actor:{ActorId:'actor',PlayerId:'profile',PositionSubunits:0,Facing:1}}]},
+    actors:[{actorId:'actor',playerId:'profile',bindingId:'local',x:0,y:540,screenX:640,facing:1,visible:true,insideCamera:true}]};
+  fs.writeFileSync(file+'.tmp',JSON.stringify(state));
   fs.renameSync(file+'.tmp',file);const published=r.now(),capture=await pending;
   assert.ok(BigInt(capture.after)>=published);assert.equal(capture.state.drawFrame,1);
+  assert.equal(capture.image.subject.minimumRevision,7);
+  require('./evidence.cjs').image(context,capture.image,{pid:123,role:'control',profile:'profile',session:'session',actor:'actor',binding:'local',minimumRevision:999});
 });

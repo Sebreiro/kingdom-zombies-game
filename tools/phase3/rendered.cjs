@@ -71,6 +71,8 @@ async function capture(context,peer,checkpoint){
   e.requireTrue(state.nonce===context.nonce&&state.pid===peer.pid&&state.drawn===true&&state.drawFrame>0,'DRAW_IDENTITY');
   const image={checkpoint,captureId,path:path.relative(context.directory,file),sha256:e.hash(fs.readFileSync(file)),
     statePath:path.relative(context.directory,stateFile),stateSha256:e.hash(fs.readFileSync(stateFile)),...decoded};
+  const own=state.snapshot?.Participants.find(participant=>participant.Ready&&participant.BindingId===state.bindingId);
+  if(own)image.subject={session:state.snapshot.SessionId,actor:own.Actor.ActorId,binding:own.BindingId,minimumRevision:state.snapshot.Revision};
   return {state,image,before:String(before),after:String(now())};
 }
 async function nativeKey(context,input,peer,key,pressed,method='physical-SendInput'){
