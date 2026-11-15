@@ -177,8 +177,8 @@ internal sealed class FoundationDrawObserver
         string record = Serialize(width: width, height: height, focused: _root.GetWindow().HasFocus(),
                 cameraX: _world is null ? 0 : 640 - _world.Position.X);
         File.AppendAllText(path: Path.Combine(path1: Directory, path2: "draws.ndjson"), contents: record + "\n");
-        if (_checkpoint is not null) { File.WriteAllText(path: Path.Combine(path1: Directory,
-                path2: _checkpoint + ".json"), contents: record); }
+        if (_checkpoint is not null) { FoundationCapturePublication.Publish(file: Path.Combine(path1: Directory,
+                path2: _checkpoint + ".json"), record: record); }
     }
 
     private string Serialize(int width, int height, bool focused, float cameraX)

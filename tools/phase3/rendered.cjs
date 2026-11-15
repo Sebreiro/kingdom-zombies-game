@@ -63,11 +63,12 @@ async function capture(context,peer,checkpoint){
   const before=now();fs.writeFileSync(request+'.tmp',JSON.stringify({nonce:context.nonce,checkpoint:captureId}),{flag:'wx'});fs.renameSync(request+'.tmp',request);
   const stateFile=path.join(peer.directory,captureId+'.json');
   await until([peer],()=>fs.existsSync(stateFile),'capture '+peer.role+'/'+checkpoint);
-  const after=now(),state=e.read(stateFile),file=path.join(peer.directory,captureId+'.png');
+  const state=e.read(stateFile),file=path.join(peer.directory,captureId+'.png');
   const decoded=require('./png.cjs').validate(file);
   e.requireTrue(state.nonce===context.nonce&&state.pid===peer.pid&&state.drawn===true&&state.drawFrame>0,'DRAW_IDENTITY');
-  return {state,image:{checkpoint,captureId,path:path.relative(context.directory,file),sha256:e.hash(fs.readFileSync(file)),
-    statePath:path.relative(context.directory,stateFile),stateSha256:e.hash(fs.readFileSync(stateFile)),...decoded},before:String(before),after:String(after)};
+  const image={checkpoint,captureId,path:path.relative(context.directory,file),sha256:e.hash(fs.readFileSync(file)),
+    statePath:path.relative(context.directory,stateFile),stateSha256:e.hash(fs.readFileSync(stateFile)),...decoded};
+  return {state,image,before:String(before),after:String(now())};
 }
 async function nativeKey(context,input,peer,key,pressed,method='physical-SendInput'){
   const previous=draws(peer).at(-1)?.input.inputEvents??0;

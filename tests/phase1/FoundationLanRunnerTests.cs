@@ -10,6 +10,7 @@ public sealed class FoundationLanRunnerTests
     [Fact]
     public void ExactEvidenceRejectsMalformedSubjects()
     {
+        FoundationCapturePublicationTests.Check();
         Check(mode: "integrity", id: "runner.integrity");
     }
 

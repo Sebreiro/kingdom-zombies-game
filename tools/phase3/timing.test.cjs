@@ -39,3 +39,16 @@ test('draw stream polling retains partial Unicode and refuses truncation',()=>{
 test('the full reconciler binds every stopped scalar to current release, authority and peer draws',()=>{
   require('./stopped-fixture.cjs').run();
 });
+
+test('capture waits for atomic JSON publication and brackets the complete PNG read',async()=>{
+  const path=require('node:path'),crypto=require('node:crypto'),r=require('./rendered.cjs');
+  const directory=path.resolve(__dirname,'../../.phase3/controls',crypto.randomUUID());fs.mkdirSync(directory,{recursive:true});
+  const context={directory,nonce:'atomic-control'},peer={directory,pid:123,role:'control',exit:null};
+  const pending=r.capture(context,peer,'atomic');
+  const request=JSON.parse(fs.readFileSync(path.join(directory,'draw.request'),'utf8')),file=path.join(directory,request.checkpoint+'.json');
+  fs.writeFileSync(file+'.tmp','{');await new Promise(resolve=>setTimeout(resolve,100));assert.equal(fs.existsSync(file),false);
+  fs.writeFileSync(path.join(directory,request.checkpoint+'.png'),require('./runner-fixture.cjs').png());
+  fs.writeFileSync(file+'.tmp',JSON.stringify({nonce:context.nonce,pid:123,drawn:true,drawFrame:1}));
+  fs.renameSync(file+'.tmp',file);const published=r.now(),capture=await pending;
+  assert.ok(BigInt(capture.after)>=published);assert.equal(capture.state.drawFrame,1);
+});
