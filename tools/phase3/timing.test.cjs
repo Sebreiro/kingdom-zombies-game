@@ -26,6 +26,19 @@ test('stopped agreement includes exact distance and time equality',()=>{
     {observerDraw:null},{hostDraw:null},{releaseAcknowledgment:null},
     {uncertaintyNanoseconds:'-1'},{actor:'other'},{session:'old'},{revision:1},{clock:'peer-uptime'},{positionSubunits:NaN}])assert.throws(()=>evaluate({...row,...delta}));
 });
+
+test('reversal requires later leftward drawn motion while still ahead of an older baseline',()=>{
+  const evaluate=require('./evidence.cjs').timing;
+  const row={clock:'coordinator-hrtime',action:'reversal',actor:'a',session:'s',revision:7,
+    expectedActor:'a',expectedSession:'s',minimumRevision:7,deliveryBefore:'1000000000',deliveryAfter:'1001000000',
+    observedBefore:'1100000000',observedAfter:'1120000000',uncertaintyNanoseconds:'1000000',drawFrame:12,baselineDrawFrame:8,
+    drawn:true,visible:true,insideCamera:true,imageBound:true,provenance:'physical-SendInput',eventAcknowledged:true,transformChanged:true,
+    reversalWitness:{beforeFrame:9,afterFrame:10,beforeX:6,afterX:5,afterFacing:-1}};
+  assert.equal(evaluate(row).upperNanoseconds,'121000000');
+  for(const delta of [{afterX:6},{afterX:7},{afterFacing:1},{beforeFrame:7},{afterFrame:9},{afterFrame:13}])
+    assert.throws(()=>evaluate({...row,reversalWitness:{...row.reversalWitness,...delta}}));
+  assert.throws(()=>evaluate({...row,reversalWitness:null}));
+});
 test('draw stream polling retains partial Unicode and refuses truncation',()=>{
   const path=require('node:path'),crypto=require('node:crypto'),{lines}=require('./rendered.cjs');
   const directory=path.resolve(__dirname,'../../.phase3/controls',crypto.randomUUID());fs.mkdirSync(directory,{recursive:true});
