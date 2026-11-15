@@ -185,7 +185,6 @@ internal sealed class FoundationMenu
     internal void CancelAttempt()
     {
         RequestedSessionId = "";
-        _coordinator()?.Close();
         _replace(obj: null);
         _input.Clear();
     }

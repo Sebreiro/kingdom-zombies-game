@@ -37,7 +37,11 @@ public sealed partial class FoundationRoot : Control
                         ?? Path.Combine(path1: OS.GetUserDataDir(), path2: "profiles")),
                 discovery: new LanDiscoveryService(), connection: () => new EnetConnectionService(gateway: _gateway));
         _menu = new FoundationMenu(root: this, gateway: _gateway, services: _services, join: JoinAddress,
-                back: ReturnToMenu, coordinator: () => _coordinator, replace: value => _coordinator = value,
+                back: ReturnToMenu, coordinator: () => _coordinator, replace: value =>
+                {
+                    _runtime.Retire(current: ref _coordinator, closing: ref _closing);
+                    _coordinator = value;
+                },
                 input: _input, runtime: _runtime);
         _menu.Attach();
         _diagnostics.Attach(root: this, gateway: _gateway);
@@ -97,6 +101,7 @@ public sealed partial class FoundationRoot : Control
         _remainder = exact - elapsed;
         _coordinator?.Update(elapsedMilliseconds: elapsed);
         _closing?.Update(elapsedMilliseconds: 0);
+        _runtime.TickRetired();
         if (_coordinator?.Finished == true)
         {
             string reason = _coordinator.Error;
@@ -140,6 +145,7 @@ public sealed partial class FoundationRoot : Control
         _gateway.RequireThread();
         _coordinator?.Close();
         _closing?.Close();
+        _runtime.CloseRetired();
         _diagnostics.Detach();
         _coordinator = null;
         _input.Clear();
@@ -336,13 +342,7 @@ public sealed partial class FoundationRoot : Control
     private void ReturnToMenu()
     {
         _gateway.RequireThread();
-        if (_coordinator is not null)
-        {
-            _closing?.Close();
-            _closing = _coordinator;
-            _closing.RequestClose();
-            _coordinator = null;
-        }
+        _runtime.Retire(current: ref _coordinator, closing: ref _closing);
         _services?.Discovery.Advertise(advertisement: null);
         _input.Clear();
         _input.SetContext(gameplay: false);

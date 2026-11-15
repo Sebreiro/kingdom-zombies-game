@@ -157,24 +157,34 @@ internal static class FoundationNativeRegression
         current.Join(address: "127.0.0.1", port: 47778);
         current.Update(elapsedMilliseconds: 0);
         FoundationCoordinator? closing = null;
+        var runtime = new FoundationRuntimeState();
         var menu = new FoundationMenu(root: root, gateway: gateway, services: services, join: () => { },
                 back: () => { }, coordinator: () => current, replace: value =>
                 {
-                    Require(value: current?.Closed == false && port.CloseCount == 0,
+                    Require(value: (current is null || current.Closed == false) && port.CloseCount == 0,
                             message: "CANCEL_CLOSED_TRANSPORT_BEFORE_ROOT_OWNER");
-                    closing = current;
+                    runtime.Retire(current: ref current, closing: ref closing);
                     current = value;
-                    closing?.RequestClose();
-                }, input: new FoundationInput(), runtime: new FoundationRuntimeState());
+                }, input: new FoundationInput(), runtime: runtime);
+        menu.CancelAttempt();
         menu.CancelAttempt();
         Require(value: current is null && closing?.Closed == false && port.Sent.Last().Kind is "cancel",
                 message: "CANCEL_MUST_RETAIN_CONNECTED_ATTEMPT");
+        var nextPort = new PendingConnection();
+        current = new FoundationCoordinator(playerId: "next-cancel", label: "Next", connection: nextPort,
+                nowMilliseconds: () => now);
+        current.Join(address: "127.0.0.1", port: 47778);
+        current.Update(elapsedMilliseconds: 0);
+        menu.CancelAttempt();
         now = 249;
         closing?.Update(elapsedMilliseconds: 0);
-        Require(value: port.CloseCount == 0, message: "CANCEL_DRAIN_CLOSED_EARLY");
+        runtime.TickRetired();
+        Require(value: port.CloseCount == 0 && nextPort.CloseCount == 0, message: "CANCEL_DRAIN_CLOSED_EARLY");
         now = 250;
         closing?.Update(elapsedMilliseconds: 0);
-        Require(value: port.CloseCount == 1, message: "CANCEL_DRAIN_NOT_CLOSED");
+        runtime.TickRetired();
+        Require(value: port.CloseCount == 1 && nextPort.CloseCount == 1, message: "CANCEL_DRAIN_NOT_CLOSED");
+        runtime.CloseRetired();
     }
 
     private static FoundationMenu SelectionMenu(Control root, MainThreadGateway gateway,
