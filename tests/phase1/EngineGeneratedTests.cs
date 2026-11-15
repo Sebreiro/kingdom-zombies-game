@@ -87,7 +87,8 @@ public sealed class EngineGeneratedTests
     internal static void VerifyAuthenticatedOrigin()
     {
         (int Exit, string Output) build = ConfigurationTests.Dotnet("build", ConfigurationTests.Projects[2],
-                "--no-restore", "-p:NuGetAudit=false");
+                "--no-restore", "--disable-build-servers", "-p:UseSharedCompilation=false", "-nodeReuse:false",
+                "-p:NuGetAudit=false");
         build.Exit.ShouldBe(expected: 0, customMessage: build.Output);
         using JsonDocument registry = Registry();
         JsonElement[] rows = [.. registry.RootElement.GetProperty(propertyName: "local").EnumerateArray()];
