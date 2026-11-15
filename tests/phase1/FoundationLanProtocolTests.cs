@@ -48,7 +48,26 @@ public sealed class FoundationLanProtocolTests
         guest.Update(elapsedMilliseconds: 0);
         ReferenceEquals(objA: before, objB: guest.Snapshot).ShouldBeTrue();
         guest.RejectedPackets.ShouldBeGreaterThanOrEqualTo(expected: 10);
+        CheckOpaqueActors();
         ProofProtocol.Record(id: "core.protocol", diagnostic: "DETACHED_SHAPE_CONTENT_OWNER_REVISION_ATOMICITY");
+    }
+
+    private static void CheckOpaqueActors()
+    {
+        string[] ids = ["a", "a/../../Menu", "a:b", "a/b", "a?b", "..", "é", "e\u0301"];
+        ids.Select(selector: FoundationActorNode.Name).Distinct(comparer: StringComparer.Ordinal).Count()
+                .ShouldBe(expected: ids.Length);
+        foreach (string id in ids)
+        {
+            var session = new FoundationSession(sessionId: "s", playerId: "host", actorId: "host-actor");
+            session.AddParticipant(bindingId: "guest", playerId: "guest", actorId: id, label: "Guest").ShouldBeTrue();
+            var state = new FoundationEnvelope(kind: "state", sessionId: "s", revision: session.Snapshot.Revision,
+                    snapshot: session.Snapshot);
+            FoundationProtocol.Decode(bytes: FoundationProtocol.Encode(envelope: state)).Snapshot?.Participants[1]
+                    .Actor.ActorId.ShouldBe(expected: id);
+            FoundationActorNode.Name(actorId: id).Skip(count: 6).All(predicate: character =>
+                    character is >= '0' and <= '9' or >= 'A' and <= 'F').ShouldBeTrue();
+        }
     }
 
     private static string[] InvalidDocuments(string json)

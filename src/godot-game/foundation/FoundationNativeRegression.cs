@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using Godot;
+using KingdomZombies.Core;
 using KingdomZombies.Multiplayer.Abstractions;
 using KingdomZombies.Proofs;
 
@@ -52,6 +53,46 @@ internal static class FoundationNativeRegression
         root.GetNode<Control>(path: "Menu/Start").GrabFocus();
     }
 
+    internal static void Projection(Control root, MainThreadGateway gateway)
+    {
+        gateway.RequireThread();
+        using PackedScene fixture = GD.Load<PackedScene>(path: "res://foundation/FoundationWorld.tscn");
+        Node2D world = fixture.Instantiate<Node2D>();
+        world.Name = "RegressionWorld";
+        root.AddChild(node: world);
+        ulong menu = root.GetNode<Control>(path: "Menu").GetInstanceId();
+        foreach (string[] ids in new[] { new[] { "a", "a/../../Menu", ".." }, new[] { "a:b", "a/b", "a?b" },
+            new[] { "é", "e\u0301", ":" } })
+        {
+            FoundationParticipantState[] participants = [Participant(id: "local", slot: 1),
+                ..ids.Select(selector: (id, index) => Participant(id: id, slot: index + 2))];
+            var snapshot = new FoundationSnapshot(sessionId: "native-regression", revision: 1,
+                    participants: participants);
+            FoundationView.ProjectRoster(world: world, snapshot: snapshot, bindingId: "local", gateway: gateway);
+            FoundationView.ProjectRoster(world: world, snapshot: snapshot, bindingId: "local", gateway: gateway);
+            int remoteCount = 0;
+            foreach (Node child in world.GetChildren())
+            {
+                if (child.Name.ToString().StartsWith(value: "Actor_", comparisonType: StringComparison.Ordinal))
+                {
+                    remoteCount++;
+                }
+            }
+
+            Require(value: remoteCount == 3, message: "OPAQUE_ACTOR_PROJECTION_COLLISION");
+            foreach (string id in ids)
+            {
+                Require(value: world.GetNode<Node2D>(path: FoundationActorNode.Name(actorId: id)).Position.Y == 540,
+                        message: "OPAQUE_ACTOR_PROJECTION");
+            }
+        }
+
+        Require(value: root.GetNode<Control>(path: "Menu").GetInstanceId() == menu,
+                message: "OPAQUE_ACTOR_TRAVERSAL");
+        root.RemoveChild(node: world);
+        world.QueueFree();
+    }
+
     private static void Observe(Control root, MainThreadGateway gateway, SessionAdvertisement[] rows,
             string expectedSession)
     {
@@ -81,6 +122,14 @@ internal static class FoundationNativeRegression
         }
 
         Require(value: identity.Create() && identity.Selected is not null, message: "PROFILE_ERROR_RECOVERY");
+    }
+
+    private static FoundationParticipantState Participant(string id, int slot)
+    {
+        return new FoundationParticipantState(bindingId: slot == 1 ? "local" : "binding" + slot,
+                label: "Actor", slot: slot, ready: true, actor: new FoundationActorState(
+                        sessionId: "native-regression", playerId: "player" + slot, actorId: id,
+                        positionSubunits: slot * 100, facing: 1, elapsedMilliseconds: 0));
     }
 
     private static SessionAdvertisement Advertisement(string id, string name, int occupied)

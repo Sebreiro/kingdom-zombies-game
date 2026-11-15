@@ -73,6 +73,7 @@ internal static class FoundationAutomation
         else if (action is "regression-browser")
         {
             FoundationNativeRegression.Browser(root: root, gateway: gateway);
+            FoundationNativeRegression.Projection(root: root, gateway: gateway);
         }
         else if (action is "key")
         {

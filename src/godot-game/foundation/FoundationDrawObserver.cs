@@ -93,10 +93,11 @@ internal sealed class FoundationDrawObserver
     {
         _gateway.RequireThread();
         JsonElement actor = participant.GetProperty(propertyName: "Actor");
-        string? actorId = actor.GetProperty(propertyName: "ActorId").GetString();
+        string actorId = actor.GetProperty(propertyName: "ActorId").GetString()
+                ?? throw new InvalidDataException(message: "DRAW_ACTOR_ID");
         bool local = IsLocal(participant: participant);
         Node2D world = _world ?? throw new InvalidDataException(message: "DRAW_WORLD");
-        Node2D node = world.GetNode<Node2D>(path: local ? "Player" : "Actor_" + actorId);
+        Node2D node = world.GetNode<Node2D>(path: local ? "Player" : FoundationActorNode.Name(actorId: actorId));
         Vector2 screen = node.GetGlobalTransformWithCanvas().Origin;
         _actors.Add(item: new { actorId, playerId = actor.GetProperty(propertyName: "PlayerId").GetString(),
             bindingId = participant.GetProperty(propertyName: "BindingId").GetString(), local,

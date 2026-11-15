@@ -91,7 +91,7 @@ internal static class EngineAccessPolicy
         ["FoundationHud"] = ["Project"],
         ["EnetConnectionService"] = ["Host", "Join", "Poll", "Send", "Close", "Check"],
         ["FoundationAutomation"] = ["Deliver"],
-        ["FoundationNativeRegression"] = ["Browser"],
+        ["FoundationNativeRegression"] = ["Browser", "Projection"],
         ["FoundationDrawObserver"] = ["Start", "Stop", "Draw", "ObserveActor", "ObserveControl", "ObserveControls",
             "Capture", "Write"],
         ["FoundationMenu"] = ["Attach", "Detach", "CommitName", "Browse", "Tick", "Attempt", "Recover", "Activate",

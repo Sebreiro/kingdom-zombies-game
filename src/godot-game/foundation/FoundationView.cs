@@ -22,7 +22,8 @@ internal static class FoundationView
             string childName = child.Name;
             if (childName.StartsWith(value: "Actor_", comparisonType: StringComparison.Ordinal)
                     && !snapshot.Participants.Any(predicate: p => p.Ready && p != local
-                            && StringComparer.Ordinal.Equals(x: "Actor_" + p.Actor.ActorId, y: childName)))
+                            && StringComparer.Ordinal.Equals(x: FoundationActorNode.Name(actorId: p.Actor.ActorId),
+                                    y: childName)))
             {
                 world.RemoveChild(node: child);
                 child.QueueFree();
@@ -33,7 +34,7 @@ internal static class FoundationView
                 participant.Ready))
         {
             bool own = participant == local;
-            string name = own ? "Player" : "Actor_" + participant.Actor.ActorId;
+            string name = own ? "Player" : FoundationActorNode.Name(actorId: participant.Actor.ActorId);
             Node2D? remote = world.GetNodeOrNull<Node2D>(path: name);
             if (remote is null)
             {
