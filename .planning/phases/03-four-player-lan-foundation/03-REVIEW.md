@@ -1,9 +1,9 @@
 ---
 phase: 03-four-player-lan-foundation
-reviewed: 2026-11-15T21:39:39Z
+reviewed: 2026-11-15T21:59:26Z
 depth: standard
-reviewed_revision: d2d5a6106990aaf16b0b02a5f296fc7b11aa0f3e
-build_revision: d2d5a6106990aaf16b0b02a5f296fc7b11aa0f3e
+reviewed_revision: 4ea54ca731c90de700480033f58d17fc5ae8e00b
+build_revision: 4ea54ca731c90de700480033f58d17fc5ae8e00b
 diff_base: 87e0b44
 scope_files: 118
 files_reviewed: 115
@@ -138,12 +138,12 @@ status: clean
 
 # Phase 03: Code Review Report
 
-**Reviewed:** 2026-11-15T21:39:39Z  
+**Reviewed:** 2026-11-15T21:59:26Z  
 **Depth:** standard  
 **Source files reviewed:** 115  
 **Explicit scope:** all 118 paths from `.phase3/review-fix-union.txt`, preserving the original scope, added SourceLink target and the two newly reviewed proof/document consumers; three planning-context paths are listed separately above  
 **Status:** clean  
-**Reviewed source / pinned build revision:** `d2d5a6106990aaf16b0b02a5f296fc7b11aa0f3e`  
+**Reviewed source / pinned build revision:** `4ea54ca731c90de700480033f58d17fc5ae8e00b`  
 **Diff base:** `87e0b44`
 
 ## Summary
@@ -158,6 +158,8 @@ The prior four-file real-run repair batch at `dc523e9` remains sound on inspecti
 
 The preceding bounded recheck covered the three-file native batch-2 repair at `af8d4f26fcb220f1c18b1dc5b749b6bb219958a2`: physical input helper, ordinary text-entry procedure and immutable raw timing capture. The current recheck additionally verifies the single per-character foreground guard at `d2d5a6106990aaf16b0b02a5f296fc7b11aa0f3e`, described below; no new actionable defect remains. All fifteen prior resolutions and the complete 118-path / 115-source scope are retained. The previous focused native run remains failed; source-review clearance does not certify its repaired behavior before another actual execution.
 
+The latest bounded recheck covers native batch 3 at `4ea54ca731c90de700480033f58d17fc5ae8e00b` (commits `2902f7a` and `4ea54ca`): the existing PNG decoder and owned-window focus helper. Their changes preserve evidence semantics, all timing thresholds and strict ownership rejection. No new actionable defect was found; the scope remains 118 paths / 115 source paths and all fifteen earlier findings remain resolved. Historical failed native runs still require a successful focused retry followed by the entire selected pass.
+
 **All fifteen prior findings are resolved. No new actionable defect or open finding remains.** The reviewer independently applied the shared proof reader, read-only, to all 433 authentic passing records (428 retained first-run passes and five focused repairs), with original summary/report hashes intact. The original failed aggregate still rejects. No previous failure is changed into a pass or credited as a new execution. All preceding game, permission, driver, finalization and SourceLink dispositions remain intact.
 
 This is an independent source re-review during the post-review repair cycle, not completed rendered acceptance. No real game window, VM, desktop input, broad test suite, build, branch operation or commit was executed by this reviewer. The renewed retained no-window report was reconciled through the current production validator and its source/tool tuple independently recomputed. The earlier .NET arithmetic probe remains defect-history evidence; the repair's actual coordinator and headless native projection executions are retained separately below. The first full selected execution now has real desktop results and retained failures, as recorded below; it is not accepted final completion. No new rendered, physical-input, image-appearance, other-OS, physical mixed-computer LAN or release acceptance is granted by this source review.
@@ -168,13 +170,29 @@ Necessity was assessed using the required rubric; no necessity finding is assert
 
 No open Critical/BLOCKER, Warning or Info findings remain at this reviewed source revision.
 
-## Paced-text ownership guard follow-up
+## Native repair batch 3 independent recheck
 
-**Current reviewed source/build stamp:** `d2d5a6106990aaf16b0b02a5f296fc7b11aa0f3e`. **Disposition:** clean; scope and all fifteen resolutions unchanged.
+**Current reviewed source/build stamp:** `4ea54ca731c90de700480033f58d17fc5ae8e00b`. **Disposition:** clean on bounded source review; native acceptance remains pending.
+
+The retained retry `268a2e82-bb76-4138-8e79-6088cee21315` still has zero accepted passes among twelve native cases. The prior text overflow/deadline causes are reported cleared, while owned overlapping-window focus/cleanup and actual timing failures remain visible. Three immutable start timing rows have conservative upper bounds of about 283/435/589 ms; none meets the inclusive 250 ms target or receives a substituted passing result. Decoder time is part of the actual observation bracket.
+
+The PNG change in `tools/phase2/rendered.cjs` retains every byte/filter reconstruction and validation branch. It evaluates the same Paeth predictor only for PNG filter 4, instead of computing unused Paeth distances for every other filter. RGB color identity uses the injective 24-bit integer `(R << 16) | (G << 8) | B`; all inputs are bytes, so there is no collision/sign overflow, and ignoring alpha is identical to the previous three-byte hexadecimal keys. Dimension/depth/color format, decompressed size, filter validity, reconstructed pixels, nonempty content and Phase 3's CRC/structure wrapper remain unchanged. No threshold, clock, bracket, uncertainty or required sample is removed.
+
+The retained `.phase3/png-before.json` and `.phase3/png-after.json` compare the same three actual captured images. The reviewer independently verified their image hashes and exact decoded result tuples: 1280×720, color counts 734/740/733, and 3686400 decoded bytes in both versions. Recorded decoder times change from 163.18/152.28/145.30 ms to 37.72/24.07/22.71 ms. These are parser measurements on retained artifacts, not new game/rendered passes or excluded measurement overhead.
+
+The focus change in `windows-input.ps1` may temporarily mark only its already-owned target topmost while trying to reach it. It reads the original extended style and restores non-topmost state in `finally` when appropriate, including after failures. An originally topmost owned focus sink retains its prior status. PID/start-time/window ownership, physical 1280×720/DPI checks, bounded foreground acknowledgement, physical SendInput and per-character text ownership remain unchanged. The fallback caption point is derived from physical window/client origins, uses a bounded offset in the first third clear of the system-menu area, and must resolve to exactly the intended root window before the physical click. Unexpected geometry/coverage remains a failing diagnostic, now with actual target/point values; the helper never accepts a foreign point to obtain focus. Parent-retained read-only geometry observations describe five non-minimized overlapping physical 1316×823 windows and supply no input/pass credit.
+
+The parent reports the three inherited Phase 2 runner cases passing at `a1fb0045…`, actual C#-to-Node Phase 3 integrity passing at `f8c44633…` on 2902, and three foreground/navigation controls passing. The reviewed final strict log `.phase3/batch3-final-strict.log` records zero warnings/errors, 10.79 seconds. `.phase3/batch3-driver-boot.json` records zero exit/no stderr and helper SHA-256 `83528f2b826b906e73a8a4c72eabe85a01df291f8e4510c3f2c764f7fd893b0d` for 2902, before the final caption-offset-only follow-up. It is explicitly not final 4ea input-delivery proof. The reviewer launched no build, test, helper, game window or desktop action.
+
+Current read-only recomputation matches source input `031160c38ba43d3843720a866328097ccea554df092aab4159091b404587c6e1`, exact tool tuple `b9a613eeb79961585ce2917da0ef0ab82a60b0a0b2dd9796daf0223a2141c669`, and proof DLL SHA-256 `ce673736d55c618edcb8ded244229ee09b08d7134687169a24dd5c3201c1e06f`. Renew the exact 4ea gate and matching metadata-descendant rebuild, retry the twelve failed native cases, collect/repair any remaining failures and obtain a fresh entire 481-case pass only after focused acceptance. Preserve all older failed reports and raw timing rows without relabelling them.
+
+## Earlier paced-text ownership guard follow-up
+
+**Historical reviewed source/build stamp:** `d2d5a6106990aaf16b0b02a5f296fc7b11aa0f3e`. **Disposition:** the paced-text guard remains resolved; later focus/decoder changes are reviewed above.
 
 The sole source change since the clean af8 batch-2 review checks `GetForegroundWindow() == $window` before every paced Unicode `SendInput` press/release pair. A changed foreground throws `DRIVER_TEXT_FOCUS_CHANGED` before any remaining characters are sent. This closes the extended ownership gap introduced by multi-second pacing while preserving the original method, per-request PID/window/start-time fences, physical-input provenance and delivery/state validation. No timing threshold, observation, selection or cleanup check changes.
 
-The parent-provided current identity is input `a74e7d915a09475911158d83f4469e48ebb43a369494a119d9a4ab6c0aaf2fad`, tool `4369ca3751b1c560123c6b35137a9114a589803ed1ef1ce078fdb930f163037f`, source/build d2d above. The retained `.phase3/batch2-guard-strict.log` records zero warnings/errors and 10.65 seconds. The reviewer inspected the one-line diff and this build log only; no build, test, helper, gate or desktop action was performed.
+The parent-provided identity at that d2d recheck was input `a74e7d915a09475911158d83f4469e48ebb43a369494a119d9a4ab6c0aaf2fad`, tool `4369ca3751b1c560123c6b35137a9114a589803ed1ef1ce078fdb930f163037f`, source/build d2d above. The retained `.phase3/batch2-guard-strict.log` records zero warnings/errors and 10.65 seconds. The reviewer inspected the one-line diff and this build log only; no build, test, helper, gate or desktop action was performed.
 
 The earlier `.phase3/batch1-driver-boot.json` remains unchanged and belongs to af8's helper bytes. It supplies no new d2d boot or input-delivery proof. The parent must bind the renewed gate to d2d and verify its exact metadata-descendant rebuild before the immediate twelve-case native retry; the final whole selected-set pass remains required afterward.
 
@@ -297,7 +315,7 @@ Older auxiliary evidence with unpinned prebuild tool drift remains failure/histo
 
 ## Required handoff before a prelaunch gate
 
-The source review is clean at `d2d5a6106990aaf16b0b02a5f296fc7b11aa0f3e`, with all fifteen findings resolved, the bounded native batch-2 changes reviewed and the per-character foreground guard checked. The parent may renew/commit the hash-bound gate for this exact reviewed source/input/tool tuple and perform the mandatory metadata-descendant rebuild with both build environment properties. Preserve all failed/passing execution identities. The parent owns gate/commit/publishing and the focused-twelve-native-then-full-481-selected execution cycle.
+The source review is clean at `4ea54ca731c90de700480033f58d17fc5ae8e00b`, with all fifteen findings resolved and bounded batch-3 PNG/focus changes reviewed. The parent may renew/commit the hash-bound gate for this exact reviewed source/input/tool tuple and perform the mandatory metadata-descendant rebuild with both build environment properties. Preserve all failed/passing execution identities and raw timing samples. The parent owns gate/commit/publishing and the focused-twelve-native-then-full-481-selected execution cycle.
 
 The parent hash-verified the four temporary iteration-2/3 review/fix scratch originals against their ignored `.phase3/review-history` archives and removed the untracked phase-folder copies. The focused recheck observed no remaining scratch paths in Git status. Preserve that ignored history and the original Git review/fix ledger; the whitelist remains limited to its explicitly enumerated phase metadata paths.
 
@@ -307,6 +325,6 @@ Phase 2 G1 now has its retained actual passing native results, while the twelve 
 
 ---
 
-_Reviewed: 2026-11-15T21:39:39Z_  
+_Reviewed: 2026-11-15T21:59:26Z_  
 _Reviewer: the agent (gsd-code-reviewer)_  
 _Depth: standard_
