@@ -42,12 +42,15 @@ internal sealed class FoundationDiagnostics
 
         string record = JsonSerializer.Serialize(value: new
         {
-            nonce, pid = Environment.ProcessId, provenance = "synthetic-native-ParseInputEvent", nowMilliseconds,
+            nonce, pid = Environment.ProcessId, provenance = "read-only-state-observation", nowMilliseconds,
+            inputDriver = Environment.GetEnvironmentVariable(variable: "PHASE3_INPUT_DRIVER"),
             frame = ++_frame, inputEvents, direction, nativeActors, polledRight, lastInput = _lastInput,
             focusLosses = _focusLosses, observationKind = "process-state-not-rendered",
             ready = coordinator?.Ready ?? false,
             playerId = coordinator?.PlayerId, bindingId = coordinator?.BindingId,
             installedRevision = coordinator?.InstalledRevision, acceptedIntents = coordinator?.AcceptedIntents,
+            lastAcceptedIntent = coordinator?.LastAcceptedIntent,
+            lastAcceptedRevision = coordinator?.LastAcceptedRevision,
             events = coordinator?.Events, error = coordinator?.Error ?? feedback, snapshot = coordinator?.Snapshot,
             profile = services?.Identity.Selected, profileError = services?.Identity.FailureReason,
             discoveryRows = services?.Browser.Rows, discoveryError = services?.Discovery.FailureReason,

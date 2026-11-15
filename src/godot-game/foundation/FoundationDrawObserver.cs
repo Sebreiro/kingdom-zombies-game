@@ -47,6 +47,11 @@ internal sealed class FoundationDrawObserver
     private JsonElement _sample;
     private Node2D? _world;
     private string? _checkpoint;
+    private static readonly string[] _controlPaths = ["Menu/Start", "Menu/Host", "Menu/Join", "Menu/Quit",
+        "Menu/Profiles", "Menu/Name", "Menu/NewProfile", "Menu/Error", "Browser/Refresh", "Browser/Address",
+        "Browser/JoinAddress", "Browser/Footer/JoinSession", "Browser/Footer/Cancel", "Browser/Footer/Back",
+        "Browser/Feedback", "Browser/Discovery", "Browser/Detail", "Browser/Summary", "Roster/Header",
+        "Roster/Player1", "Roster/Player2", "Roster/Player3", "Roster/Player4", "Roster/Waiting", "Hint"];
     private string Directory => _directory ?? throw new InvalidDataException(message: "DRAW_DIRECTORY");
 
     private void Draw()
@@ -81,8 +86,7 @@ internal sealed class FoundationDrawObserver
         _gateway.RequireThread();
         JsonElement actor = participant.GetProperty(propertyName: "Actor");
         string? actorId = actor.GetProperty(propertyName: "ActorId").GetString();
-        bool local = StringComparer.Ordinal.Equals(x: participant.GetProperty(propertyName: "BindingId").GetString(),
-                y: _sample.GetProperty(propertyName: "bindingId").GetString());
+        bool local = IsLocal(participant: participant);
         Node2D world = _world ?? throw new InvalidDataException(message: "DRAW_WORLD");
         Node2D node = world.GetNode<Node2D>(path: local ? "Player" : "Actor_" + actorId);
         Vector2 screen = node.GetGlobalTransformWithCanvas().Origin;
@@ -93,15 +97,25 @@ internal sealed class FoundationDrawObserver
             insideCamera = screen.X >= 16 && screen.X <= 1264 && screen.Y >= 112 && screen.Y <= 704 });
     }
 
+    private bool IsLocal(JsonElement participant)
+    {
+        return StringComparer.Ordinal.Equals(x: participant.GetProperty(propertyName: "BindingId").GetString(),
+                y: _sample.GetProperty(propertyName: "bindingId").GetString());
+    }
+
     private void ObserveControls()
     {
         _gateway.RequireThread();
         _controls.Clear();
-        foreach (string path in new[] { "Menu/Start", "Menu/Host", "Menu/Join", "Menu/Quit", "Menu/Profiles",
-            "Menu/Name", "Menu/NewProfile", "Browser/Refresh", "Browser/Address", "Browser/JoinAddress",
-            "Browser/Footer/JoinSession", "Browser/Footer/Cancel", "Browser/Footer/Back" })
+        foreach (string path in _controlPaths)
         {
             ObserveControl(path: path);
+        }
+
+        for (int index = 0; index < _sample.GetProperty(propertyName: "discoveryRows").GetArrayLength(); index++)
+        {
+            ObserveControl(path: "Browser/Scroll/Rows/Session" + index.ToString(
+                    provider: System.Globalization.CultureInfo.InvariantCulture));
         }
     }
 
@@ -124,7 +138,7 @@ internal sealed class FoundationDrawObserver
         string? nonce = request.RootElement.GetProperty(propertyName: "nonce").GetString();
         string checkpoint = request.RootElement.GetProperty(propertyName: "checkpoint").GetString() ?? "";
         if (!StringComparer.Ordinal.Equals(x: nonce, y: _sample.GetProperty(propertyName: "nonce").GetString())
-                || checkpoint.Length is < 1 or > 64 || checkpoint.IndexOfAny(anyOf: ['/', '\\', '.']) >= 0)
+                || !FoundationObservationScope.ValidCheckpoint(value: checkpoint, maximumLength: 64))
         {
             throw new InvalidDataException(message: "DRAW_REQUEST");
         }
@@ -148,18 +162,24 @@ internal sealed class FoundationDrawObserver
     private void Write(int width, int height)
     {
         _gateway.RequireThread();
-        string record = JsonSerializer.Serialize(value: new { nonce = _sample.GetProperty(propertyName: "nonce"),
+        string record = Serialize(width: width, height: height, focused: _root.GetWindow().HasFocus(),
+                cameraX: _world is null ? 0 : 640 - _world.Position.X);
+        File.AppendAllText(path: Path.Combine(path1: Directory, path2: "draws.ndjson"), contents: record + "\n");
+        if (_checkpoint is not null) { File.WriteAllText(path: Path.Combine(path1: Directory,
+                path2: _checkpoint + ".json"), contents: record); }
+    }
+
+    private string Serialize(int width, int height, bool focused, float cameraX)
+    {
+        return JsonSerializer.Serialize(value: new { nonce = _sample.GetProperty(propertyName: "nonce"),
             pid = System.Environment.ProcessId,
             role = System.Environment.GetEnvironmentVariable(variable: "PHASE3_ROLE"),
-            profile = _sample.GetProperty(propertyName: "playerId"),
+            profile = _sample.GetProperty(propertyName: "profile").GetProperty(propertyName: "PlayerId"),
             playerId = _sample.GetProperty(propertyName: "playerId"),
             bindingId = _sample.GetProperty(propertyName: "bindingId"),
             snapshot = _sample.GetProperty(propertyName: "snapshot"),
             input = _sample, drawn = true, drawFrame = _frame, drawMicroseconds = _drawMicroseconds,
             checkpoint = _checkpoint, width, height, actors = _actors, controls = _controls,
-            focused = _root.GetWindow().HasFocus(), cameraX = _world is null ? 0 : 640 - _world.Position.X });
-        File.AppendAllText(path: Path.Combine(path1: Directory, path2: "draws.ndjson"), contents: record + "\n");
-        if (_checkpoint is not null) { File.WriteAllText(path: Path.Combine(path1: Directory,
-                path2: _checkpoint + ".json"), contents: record); }
+            focused, cameraX });
     }
 }

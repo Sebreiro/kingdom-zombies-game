@@ -81,6 +81,7 @@ function createSession(context) {
   const width = 1280, height = 720;
   const game = spawn(engine, ['--path', path.join(root, 'src/godot-game'), '--rendering-method', 'gl_compatibility', '--resolution', `${width}x${height}`], {
     cwd: root, env: { ...env, PHASE2_NONCE: nonce, PHASE2_OUTPUT: directory,
+      PHASE3_PROFILE_ROOT:path.join(directory,'profiles'),
       ...(context.includeMenu?{PHASE2_FAIL_ENTRY_ONCE:nonce}:{}) }, shell: false, windowsHide: false, detached:process.platform !== 'win32',
   });
   let log = '', exited = false, exitCode;

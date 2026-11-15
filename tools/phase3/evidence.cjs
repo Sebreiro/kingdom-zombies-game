@@ -1,7 +1,7 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
 const baseline=require('../phase1/check.cjs');
-const {decodePng}=require('../phase2/rendered.cjs');
+const {validate:decodePng}=require('./png.cjs');
 const hash=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
 function requireTrue(value,message){if(!value)throw new Error(message);}
 function read(file){return JSON.parse(fs.readFileSync(file,'utf8'));}
@@ -34,10 +34,12 @@ function timing(row){
 function stopped(row){
   requireTrue(row.clock==='coordinator-hrtime'&&row.actor===row.expectedActor&&row.session===row.expectedSession,'STOP_SUBJECT_CLOCK');
   requireTrue([row.positionSubunits,row.hostPositionSubunits,row.revision,row.minimumRevision].every(Number.isSafeInteger)&&row.revision>=row.minimumRevision,'STOP_POSITION_REVISION');
+  requireTrue(['observedAfter','releaseBefore','uncertaintyNanoseconds'].every(key=>typeof row[key]==='string'&&/^\d+$/.test(row[key])),'STOP_CLOCK_INTEGER');
+  requireTrue(Math.abs(row.positionSubunits)<=59000&&Math.abs(row.hostPositionSubunits)<=59000,'STOP_POSITION_BOUNDS');
   requireTrue(BigInt(row.observedAfter)-BigInt(row.releaseBefore)+BigInt(row.uncertaintyNanoseconds)>=0n&&BigInt(row.observedAfter)-BigInt(row.releaseBefore)+BigInt(row.uncertaintyNanoseconds)<=500000000n,'STOP_TIME');
   requireTrue(Math.abs(row.positionSubunits-row.hostPositionSubunits)<=50,'STOP_DISTANCE');return row;
 }
-function identity(row,context){for(const key of ['nonce','input','tool','platform','revision'])requireTrue(typeof context[key]==='string'&&row[key]===context[key],'RESULT_IDENTITY '+key);}
+function identity(row,context){for(const key of ['nonce','input','tool','platform','revision','osFingerprint'])requireTrue(typeof context[key]==='string'&&row[key]===context[key],'RESULT_IDENTITY '+key);}
 function artifact(context,row){
   requireTrue(typeof row.path==='string'&&/^[a-f0-9]{64}$/.test(row.sha256),'ARTIFACT_DECLARATION');
   const file=inside(context.directory,row.path);requireTrue(hash(fs.readFileSync(file))===row.sha256,'ARTIFACT_HASH '+row.path);return file;
@@ -47,10 +49,20 @@ function image(context,row,peer){
   const state=read(artifact(context,{path:row.statePath,sha256:row.stateSha256}));
   requireTrue(state.nonce===context.nonce&&state.pid===peer.pid&&state.role===peer.role&&state.profile===peer.profile,'IMAGE_SUBJECT');
   requireTrue(state.drawn===true&&state.drawFrame>0&&state.checkpoint===row.captureId&&state.width===1280&&state.height===720,'IMAGE_DRAW');
-  requireTrue(state.snapshot?.SessionId===peer.session&&state.bindingId===peer.binding&&state.playerId===peer.profile,'IMAGE_BINDING');
-  requireTrue(state.snapshot.Revision>=peer.minimumRevision,'IMAGE_REVISION');
-  const visual=state.actors?.find(actor=>actor.actorId===peer.actor);
+  if(row.screen==='menu'||row.screen==='browser'){
+    requireTrue(state.snapshot===null,'IMAGE_SCREEN_LIFETIME');return state;
+  }
+  const subject=row.subject??peer;
+  requireTrue(state.snapshot?.SessionId===subject.session&&state.bindingId===subject.binding&&state.playerId===peer.profile,'IMAGE_BINDING');
+  requireTrue(state.snapshot.Revision>=subject.minimumRevision,'IMAGE_REVISION');
+  const visual=state.actors?.find(actor=>actor.actorId===subject.actor);
   requireTrue(visual&&visual.visible&&visual.insideCamera&&Number.isFinite(visual.screenX)&&Number.isFinite(visual.facing),'IMAGE_ACTOR');
+  for(const participant of state.snapshot.Participants.filter(row=>row.Ready)){
+    const actor=state.actors.find(row=>row.actorId===participant.Actor.ActorId);
+    requireTrue(actor&&actor.playerId===participant.Actor.PlayerId&&actor.bindingId===participant.BindingId,'IMAGE_ROSTER');
+    requireTrue(Math.abs(actor.x-participant.Actor.PositionSubunits*16/1000)<0.001&&actor.facing===participant.Actor.Facing,'IMAGE_TRANSFORM');
+    requireTrue(Math.abs(actor.screenX-(actor.x+640-state.cameraX))<0.001&&actor.y===540&&Number.isFinite(state.cameraX),'IMAGE_CAMERA');
+  }
   return state;
 }
 function peers(context,item,result){
@@ -67,10 +79,12 @@ function peers(context,item,result){
     const logs=fs.readFileSync(inside(context.directory,peer.log.path),'utf8');
     requireTrue(!/(?:SCRIPT ERROR:|ERROR:|Unhandled exception|FATAL)/.test(logs),'PEER_ERROR_LOG');
     if(item.needsGameWindow){
-      requireTrue(peer.session&&peer.actor&&peer.binding&&Number.isSafeInteger(peer.minimumRevision),'PEER_BINDING');
-      requireTrue(!actors.has(peer.actor)&&!bindings.has(peer.binding),'PEER_ACTOR_BINDING_DUPLICATE');actors.add(peer.actor);bindings.add(peer.binding);
-      exact(item.images,peer.images?.map(row=>row.checkpoint),'images '+item.id+'/'+peer.role);
-      for(const row of peer.images)image(context,row,peer);
+      if(item.group==='rendered')artifact(context,peer.draws);
+      if(peer.session){requireTrue(peer.actor&&peer.binding&&Number.isSafeInteger(peer.minimumRevision),'PEER_BINDING');
+        requireTrue(!actors.has(peer.actor)&&!bindings.has(peer.binding),'PEER_ACTOR_BINDING_DUPLICATE');actors.add(peer.actor);bindings.add(peer.binding);}
+      exact(item.imagesByRole?.[peer.role]??item.images,peer.images?.map(row=>row.checkpoint),'images '+item.id+'/'+peer.role);
+      for(const row of peer.images){const expected=item.screensByRole?.[peer.role]??item.imageScreens?.[row.checkpoint]??item.screen??'game';
+        requireTrue(Array.isArray(expected)?expected.includes(row.screen??'game'):(row.screen??'game')===expected,'IMAGE_EXPECTED_SCREEN');image(context,row,peer);}
     }else{
       requireTrue(!peer.images?.length&&result.noRenderedOrPhysicalInputCredit===true,'HEADLESS_CREDIT');
       const rows=fs.readFileSync(artifact(context,peer.frames),'utf8').trim().split('\n').map(JSON.parse);
@@ -93,10 +107,34 @@ function reconcile(selected,results,context){
         requireTrue(report.results.summary.tests===1&&report.results.summary.passed===1&&report.results.summary.failed===0,'TEST_EXECUTION_COUNT');
       }
     }
+    if(item.group==='rendered'){
+      requireTrue(result.nativeDrivers?.length>0,'NATIVE_DRIVER_LOG_REQUIRED');
+      for(const reference of result.nativeDrivers){const driver=read(artifact(context,reference));
+        requireTrue(driver.nonce===context.nonce&&driver.ended===true&&!driver.stderr&&driver.records.length>0&&driver.pid>0,'NATIVE_DRIVER_LOG');
+        requireTrue(driver.scriptSha256===hash(fs.readFileSync(path.join(context.root,'tools/phase3/windows-input.ps1'))),'NATIVE_DRIVER_TOOL');}
+    }
+    if(item.additionalRoles){
+      requireTrue(result.additionalPeers?.every(peer=>!result.peers.some(required=>required.pid===peer.pid)),'ADDITIONAL_PID_SUBSTITUTION');
+      peers(context,{...item,roles:item.additionalRoles,imagesByRole:item.additionalImagesByRole,screensByRole:item.additionalScreensByRole,profileRestart:true},{...result,peers:result.additionalPeers});
+      const raced=result.additionalPeers.filter(peer=>['capacity-challenger','race-challenger'].includes(peer.role)).map(peer=>peer.images.find(image=>image.checkpoint==='race-result'));
+      requireTrue(raced.length===2&&raced.filter(image=>image?.screen==='game').length===1,'RACE_IMAGE_MEMBERSHIP');
+    }
     if(item.id==='rendered.timing'){
       const expected=[];for(const origin of item.roles)for(const observer of item.roles.filter(role=>role!==origin))for(const action of ['start','reversal','stop','focus-stop'])expected.push(origin+'/'+observer+'/'+action);
       exact(expected,result.timings?.map(row=>row.origin+'/'+row.observer+'/'+row.action),'timing matrix');
-      for(const row of result.timings){requireTrue(row.provenance==='physical-SendInput','PHYSICAL_TIMING_REQUIRED');timing(row);}
+      for(const row of result.timings){
+        requireTrue(row.provenance==='physical-SendInput','PHYSICAL_TIMING_REQUIRED');timing(row);
+        const peer=result.peers.find(peer=>peer.role===row.observer),bound=peer.images.find(image=>image.sha256===row.image?.sha256&&image.path===row.image.path);
+        requireTrue(bound&&row.image.stateSha256===bound.stateSha256,'TIMING_IMAGE_BINDING');
+        const state=image(context,bound,peer),visible=state.actors.find(actor=>actor.actorId===row.actor);
+        requireTrue(state.snapshot.SessionId===row.session&&state.snapshot.Revision===row.revision&&state.drawFrame===row.drawFrame&&visible.insideCamera&&visible.visible,'TIMING_IMAGE_SUBJECT');
+        const ack=row.inputAcknowledgment;requireTrue(ack?.pid===result.peers.find(peer=>peer.role===row.origin).pid&&ack.method===row.provenance&&ack.deliveryBefore===row.deliveryBefore,'TIMING_DRIVER_SUBJECT');
+        const matched=result.nativeDrivers.flatMap(reference=>read(artifact(context,reference)).records).filter(record=>record.driverPid===ack.driverPid&&record.sequence===ack.sequence&&record.pid===ack.pid&&record.deliveryBefore===ack.deliveryBefore&&record.method===ack.method);
+        requireTrue(matched.length===1&&(row.action==='focus-stop'?matched[0].nativeFocusLosses>0:matched[0].nativeInputEvents>0),'TIMING_NATIVE_ACK_BINDING');
+        const host=result.peers.find(peer=>peer.role==='host'),authority=fs.readFileSync(artifact(context,host.draws),'utf8').trim().split('\n').map(JSON.parse).find(draw=>draw.drawFrame===row.authorityDrawFrame);
+        requireTrue(authority?.pid===host.pid&&authority.nonce===context.nonce&&authority.input.lastAcceptedRevision===row.acceptedRevision&&JSON.stringify(authority.input.lastAcceptedIntent)===JSON.stringify(row.acceptedIntent),'TIMING_AUTHORITY_BINDING');
+        requireTrue(row.acceptedIntent.ActorId===row.actor&&row.acceptedIntent.SessionId===row.session&&row.acceptedIntent.Direction===(row.action==='start'?1:row.action==='reversal'?-1:0)&&row.minimumRevision>row.acceptedRevision,'TIMING_ACCEPTED_INTENT');
+      }
       exact(item.roles.flatMap(origin=>item.roles.map(observer=>origin+'/'+observer)),result.stopped?.map(row=>row.origin+'/'+row.observer),'stopped matrix');
       for(const row of result.stopped)stopped(row);
     }
@@ -107,23 +145,54 @@ function loadReport(root,reference,cases){
   requireTrue(report.schemaVersion===2&&report.status==='pass'&&Number.isSafeInteger(report.startedAt)&&report.finishedAt>=report.startedAt,'REPORT_SCHEMA_STATUS');
   exact(report.selected,report.results.map(row=>row.id),'report');
   const selected=report.selected.map(id=>{const row=cases.find(item=>item.id===id);requireTrue(row,'REPORT_UNKNOWN');return row;});
-  reconcile(selected,report.results,{...report,directory:path.dirname(file)});return {...report,path:reference.path,sha256:reference.sha256};
+  reconcile(selected,report.results,{...report,root,directory:path.dirname(file)});return {...report,path:reference.path,sha256:reference.sha256};
 }
 function verifyCompletion(root,index,cases,current){
   requireTrue(index.schemaVersion===1&&index.scope==='Windows 1280x720 local; no VM'&&index.selection,'COMPLETION_SCHEMA');
+  requireTrue(index.selection.path===require('./catalog.cjs').selectionPath,'COMPLETION_SELECTION_PATH');
   const selectionFile=artifact({directory:root},index.selection),selection=read(selectionFile);
+  require('./catalog.cjs').validate(root,{schemaVersion:1,requiredEnvironment:'development-os',cases});
   exact(cases.map(row=>row.id),selection.selected.phase3,'COMPLETION_SELECTION');
   requireTrue(index.finalReport&&Array.isArray(index.history),'COMPLETION_FINAL_REQUIRED');
-  const final=loadReport(root,index.finalReport,cases);identity(final,current);exact(selection.selected.phase3,final.selected,'final selection');
+  const final=loadReport(root,index.finalReport,cases);
+  for(const key of ['input','tool','platform','revision','osFingerprint'])requireTrue(final[key]===current[key],'COMPLETION_CURRENT '+key);
+  exact(selection.selected.phase3,final.selected,'final selection');
   requireTrue(final.selectionSha256===index.selection.sha256&&final.prelaunchReview?.sha256,'PRELAUNCH_BINDING');
-  const review=artifact({directory:root},final.prelaunchReview);requireTrue(read(review).status==='complete','PRELAUNCH_REVIEW');
+  requireTrue(final.prelaunchReview.path===require('./catalog.cjs').reviewPath,'PRELAUNCH_REVIEW_PATH');
+  const review=artifact({directory:root},final.prelaunchReview),reviewRecord=read(review);requireTrue(reviewRecord.status==='complete'&&reviewRecord.input===final.input&&reviewRecord.tool===final.tool&&reviewRecord.revision===final.revision,'PRELAUNCH_REVIEW');
+  artifact({directory:root},reviewRecord.report);
   for(const reference of index.history){const file=inside(root,reference.path);requireTrue(hash(fs.readFileSync(file))===reference.sha256,'HISTORY_HASH');const prior=read(file);requireTrue(prior.finishedAt<=final.startedAt&&prior.nonce!==final.nonce,'LATER_OR_DUPLICATE_REPORT');}
-  for(const result of final.results)for(const peer of result.peers??[])for(const picture of peer.images??[]){
+  const visualReport=fs.readFileSync(artifact({directory:root},index.visualReview),'utf8');
+  for(const result of final.results)for(const peer of [...result.peers??[],...result.additionalPeers??[]])for(const picture of peer.images??[]){
     const reviews=(index.reviews??[]).filter(row=>row.id===result.id&&row.role===peer.role&&row.checkpoint===picture.checkpoint&&row.imageSha256===picture.sha256&&row.reportSha256===final.sha256);
     requireTrue(reviews.length===1&&reviews[0].verdict==='pass'&&reviews[0].reviewer?.trim()&&reviews[0].notes?.trim(),'APPEARANCE_REVIEW_REQUIRED');
+    requireTrue(visualReport.includes(picture.sha256),'VISUAL_REPORT_IMAGE_BINDING');
   }
-  requireTrue(index.inherited&&index.inherited.phase2&&index.inherited.phase1,'INHERITED_EVIDENCE_REQUIRED');
-  for(const family of ['phase1','phase2']){const required=selection.selected[family];exact(required,index.inherited[family].results?.map(row=>row.id),'inherited '+family);requireTrue(index.inherited[family].results.every(row=>row.status==='pass'&&row.executedNow===true&&row.report),'INHERITED_RESULT');}
+  verifyInherited(root,final,selection,index.reviews??[]);
   return {status:'pass',selected:final.selected,report:final.path};
 }
-module.exports={hash,read,inside,requireTrue,exact,timing,stopped,identity,artifact,image,peers,reconcile,loadReport,verifyCompletion};
+function verifyInherited(root,final,selection,reviews){
+  requireTrue(final.inherited?.phase1?.length&&final.inherited?.phase2?.length,'INHERITED_EVIDENCE_REQUIRED');
+  for(const family of ['phase1','phase2']){
+    const catalog=read(path.join(root,'tools',family,'required-cases.json')),seen=[],nonces=new Set();
+    for(const reference of final.inherited[family]){
+      const file=artifact({directory:root},reference),summary=read(file),directory=path.dirname(file);
+      requireTrue(summary.status==='pass'&&summary.platform.startsWith(final.platform)&&summary.revision===final.revision&&!nonces.has(summary.nonce),'INHERITED_IDENTITY');nonces.add(summary.nonce);
+      const process=read(artifact({directory:root},reference.process));
+      requireTrue(process.code===0&&!process.signal&&!process.timedOut&&process.startedAt>=final.startedAt&&process.finishedAt<=final.finishedAt,'INHERITED_EXECUTION');
+      const manifest=family==='phase1'?catalog:{inputs:['src','tests/phase1','tools/phase2','tools/phase1/toolchain.json','Directory.Build.props','Directory.Build.targets','Directory.Packages.props','.editorconfig','BannedSymbols.txt','BannedSymbols.Pure.txt','docs/code']};
+      requireTrue(baseline.snapshot(root,manifest).sha256===summary.input,'INHERITED_SOURCE_CHANGED');
+      exact(summary.selected,summary.results.map(row=>row.id),'inherited report');seen.push(...summary.selected);
+      if(family==='phase2'){
+        require('../phase2/evidence.cjs').loadReport(root,reference.path,catalog.cases);
+        for(const result of summary.results)for(const picture of result.images??[]){const matches=reviews.filter(row=>row.family==='phase2'&&row.id===result.id&&row.checkpoint===picture.checkpoint&&row.imageSha256===picture.sha256&&row.reportSha256===reference.sha256);requireTrue(matches.length===1&&matches[0].verdict==='pass'&&matches[0].reviewer?.trim()&&matches[0].notes?.trim(),'INHERITED_VISUAL_REVIEW');}
+      }else for(const result of summary.results){
+        const item=catalog.cases.find(row=>row.id===result.id);requireTrue(item,'INHERITED_UNKNOWN_CASE');
+        for(const record of result.evidence??[])artifact({directory},record);
+        requireTrue(result.evidence?.length>0&&result.report,'INHERITED_PROOF_REQUIRED');
+        baseline.verifyReport(read(artifact({directory},result.report)),[item]);
+      }
+    }exact(selection.selected[family],seen,'inherited exact '+family);
+  }
+}
+module.exports={hash,read,inside,requireTrue,exact,timing,stopped,identity,artifact,image,peers,reconcile,loadReport,verifyCompletion,verifyInherited};

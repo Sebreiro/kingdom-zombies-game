@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "requiredEnvironment": "development-os",
-  "scope": "phase-owned LAN proof and rendered acceptance",
+  "scope": "Small phase-owned LAN runner; no Phase 5 certification or Phase 10 release credit",
   "cases": [
     {
       "id": "core.authority",
@@ -26,7 +26,7 @@
         "connection"
       ],
       "status": "required",
-      "runGroup": "no-window-core",
+      "runGroup": "G0",
       "order": 1,
       "setup": "Build the restored five-project solution with strict analyzers.",
       "actions": [
@@ -39,7 +39,13 @@
         "CTRF one-test report",
         "nonce-bound subject log"
       ],
-      "needsGameWindow": false
+      "needsGameWindow": false,
+      "edges": [
+        "E09",
+        "E10",
+        "E13"
+      ],
+      "reset": "Fresh test state or invocation-owned headless processes; release only owned children, ports and profile roots."
     },
     {
       "id": "network.tracer",
@@ -67,7 +73,7 @@
         "baseline"
       ],
       "status": "required",
-      "runGroup": "headless-host-guest",
+      "runGroup": "G0",
       "order": 1,
       "setup": "Two separate owned pinned Godot processes use --headless and the ordinary project/main scene, fresh profile IDs and allocated UDP port.",
       "actions": [
@@ -96,7 +102,8 @@
       "roles": [
         "host",
         "guest"
-      ]
+      ],
+      "edges": []
     },
     {
       "id": "core.permissions",
@@ -121,7 +128,7 @@
         "visibility"
       ],
       "status": "required",
-      "runGroup": "no-window-core",
+      "runGroup": "G0",
       "order": 2,
       "setup": "Build strict solution and authenticate emitted generated spans.",
       "actions": [
@@ -134,7 +141,9 @@
         "CTRF one-test report",
         "nonce-bound subject log"
       ],
-      "needsGameWindow": false
+      "needsGameWindow": false,
+      "edges": [],
+      "reset": "Fresh test state or invocation-owned headless processes; release only owned children, ports and profile roots."
     },
     {
       "id": "core.admission",
@@ -159,7 +168,7 @@
         "connection"
       ],
       "status": "required",
-      "runGroup": "no-window-core",
+      "runGroup": "G0",
       "order": 4,
       "setup": "Strict build, controlled provider and actual coordinator wire mapping.",
       "actions": [
@@ -172,7 +181,13 @@
         "CTRF one-test report",
         "nonce-bound subject log"
       ],
-      "needsGameWindow": false
+      "needsGameWindow": false,
+      "edges": [
+        "E01",
+        "E06",
+        "E08"
+      ],
+      "reset": "Fresh test state or invocation-owned headless processes; release only owned children, ports and profile roots."
     },
     {
       "id": "core.ordering",
@@ -197,7 +212,7 @@
         "connection"
       ],
       "status": "required",
-      "runGroup": "no-window-core",
+      "runGroup": "G0",
       "order": 5,
       "setup": "Strict build, controlled provider and actual coordinator wire mapping.",
       "actions": [
@@ -210,7 +225,13 @@
         "CTRF one-test report",
         "nonce-bound subject log"
       ],
-      "needsGameWindow": false
+      "needsGameWindow": false,
+      "edges": [
+        "E11",
+        "E14",
+        "E19"
+      ],
+      "reset": "Fresh test state or invocation-owned headless processes; release only owned children, ports and profile roots."
     },
     {
       "id": "core.protocol",
@@ -235,7 +256,7 @@
         "connection"
       ],
       "status": "required",
-      "runGroup": "no-window-core",
+      "runGroup": "G0",
       "order": 6,
       "setup": "Strict build, controlled provider and actual coordinator wire mapping.",
       "actions": [
@@ -248,7 +269,9 @@
         "CTRF one-test report",
         "nonce-bound subject log"
       ],
-      "needsGameWindow": false
+      "needsGameWindow": false,
+      "edges": [],
+      "reset": "Fresh test state or invocation-owned headless processes; release only owned children, ports and profile roots."
     },
     {
       "id": "network.four-peer",
@@ -272,7 +295,7 @@
         "connection"
       ],
       "status": "required",
-      "runGroup": "no-window-core",
+      "runGroup": "G0",
       "order": 7,
       "setup": "Five ordinary headless game processes; two challengers compete for the last slot.",
       "actions": [
@@ -294,7 +317,9 @@
         "four-guest2",
         "challenger1",
         "challenger2"
-      ]
+      ],
+      "edges": [],
+      "reset": "Fresh test state or invocation-owned headless processes; release only owned children, ports and profile roots."
     },
     {
       "id": "core.lifecycle",
@@ -319,7 +344,7 @@
         "connection"
       ],
       "status": "required",
-      "runGroup": "no-window-core",
+      "runGroup": "G0",
       "order": 8,
       "setup": "Strict build; actual coordinator receives controlled monotonic time and wire values.",
       "actions": [
@@ -332,7 +357,13 @@
         "CTRF one-test report",
         "nonce-bound subject log"
       ],
-      "needsGameWindow": false
+      "needsGameWindow": false,
+      "edges": [
+        "E07",
+        "E12",
+        "E18"
+      ],
+      "reset": "Fresh test state or invocation-owned headless processes; release only owned children, ports and profile roots."
     },
     {
       "id": "network.lifecycle",
@@ -356,7 +387,7 @@
         "connection"
       ],
       "status": "required",
-      "runGroup": "network.lifecycle",
+      "runGroup": "G0",
       "order": 9,
       "setup": "Ordinary headless pinned Godot processes with invocation-owned cleanup.",
       "actions": [
@@ -377,7 +408,9 @@
         "life-guest1",
         "life-guest2",
         "life-replacement"
-      ]
+      ],
+      "edges": [],
+      "reset": "Fresh test state or invocation-owned headless processes; release only owned children, ports and profile roots."
     },
     {
       "id": "network.idle-poll",
@@ -401,7 +434,7 @@
         "connection"
       ],
       "status": "required",
-      "runGroup": "network.idle-poll",
+      "runGroup": "G0",
       "order": 10,
       "setup": "Ordinary headless pinned Godot processes with invocation-owned cleanup.",
       "actions": [
@@ -419,7 +452,9 @@
       "provenance": "No rendered, physical input or latency acceptance.",
       "roles": [
         "idle-host"
-      ]
+      ],
+      "edges": [],
+      "reset": "Fresh test state or invocation-owned headless processes; release only owned children, ports and profile roots."
     },
     {
       "id": "adapters.discovery",
@@ -443,7 +478,7 @@
         "profiles"
       ],
       "status": "required",
-      "runGroup": "no-window-adapters",
+      "runGroup": "G0",
       "order": 11,
       "setup": "Strict build; invocation-owned local sockets and profile root.",
       "actions": [
@@ -456,7 +491,14 @@
         "One-test CTRF",
         "Nonce-bound production proof"
       ],
-      "needsGameWindow": false
+      "needsGameWindow": false,
+      "edges": [
+        "E02",
+        "E03",
+        "E04",
+        "E05"
+      ],
+      "reset": "Fresh test state or invocation-owned headless processes; release only owned children, ports and profile roots."
     },
     {
       "id": "adapters.profiles",
@@ -480,7 +522,7 @@
         "profiles"
       ],
       "status": "required",
-      "runGroup": "no-window-adapters",
+      "runGroup": "G0",
       "order": 12,
       "setup": "Strict build; invocation-owned local sockets and profile root.",
       "actions": [
@@ -493,7 +535,14 @@
         "One-test CTRF",
         "Nonce-bound production proof"
       ],
-      "needsGameWindow": false
+      "needsGameWindow": false,
+      "edges": [
+        "E15",
+        "E16",
+        "E17",
+        "E20"
+      ],
+      "reset": "Fresh test state or invocation-owned headless processes; release only owned children, ports and profile roots."
     },
     {
       "id": "network.discovery-profile",
@@ -521,7 +570,7 @@
         "baseline"
       ],
       "status": "required",
-      "runGroup": "headless-discovery-profile",
+      "runGroup": "G0",
       "order": 5,
       "setup": "Two separate owned pinned Godot processes use --headless and the ordinary project/main scene, fresh profile IDs and allocated UDP port.",
       "actions": [
@@ -542,7 +591,7 @@
       "provenance": "Synthetic native events; no physical input, rendering, timing, or physical LAN credit.",
       "reset": "Fresh processes are required to prove independent host and guest native lifetimes; cleanup only owned children.",
       "processRoles": [
-        "host",
+        "discovery-host",
         "profile-before-restart",
         "profile-after-restart"
       ],
@@ -552,7 +601,8 @@
         "profile-before-restart",
         "profile-after-restart"
       ],
-      "profileRestart": true
+      "profileRestart": true,
+      "edges": []
     },
     {
       "id": "core.input",
@@ -578,7 +628,7 @@
         "projection"
       ],
       "status": "required",
-      "runGroup": "no-window-core",
+      "runGroup": "G0",
       "order": 8,
       "setup": "Strict build; actual coordinator receives controlled monotonic time and wire values.",
       "actions": [
@@ -592,7 +642,9 @@
         "CTRF one-test report",
         "nonce-bound subject log"
       ],
-      "needsGameWindow": false
+      "needsGameWindow": false,
+      "edges": [],
+      "reset": "Fresh test state or invocation-owned headless processes; release only owned children, ports and profile roots."
     },
     {
       "id": "adapters.substitutions",
@@ -619,7 +671,7 @@
         "permissions"
       ],
       "status": "required",
-      "runGroup": "no-window-adapters",
+      "runGroup": "G0",
       "order": 12,
       "setup": "Strict build; invocation-owned local sockets and profile root.",
       "actions": [
@@ -635,7 +687,9 @@
         "CTRF one-test report",
         "adapters.substitutions.core-hashes.json"
       ],
-      "needsGameWindow": false
+      "needsGameWindow": false,
+      "edges": [],
+      "reset": "Fresh test state or invocation-owned headless processes; release only owned children, ports and profile roots."
     },
     {
       "id": "runner.tracer",
@@ -678,7 +732,9 @@
       "roles": [
         "host",
         "guest"
-      ]
+      ],
+      "edges": [],
+      "reset": "Fresh test state or invocation-owned headless processes; release only owned children, ports and profile roots."
     },
     {
       "id": "runner.timing",
@@ -717,7 +773,890 @@
         "immutable subject logs",
         "exact case-role report"
       ],
+      "needsGameWindow": false,
+      "edges": [],
+      "reset": "Fresh test state or invocation-owned headless processes; release only owned children, ports and profile roots."
+    },
+    {
+      "id": "runner.integrity",
+      "group": "runner",
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.FoundationLanRunnerTests.ExactEvidenceRejectsMalformedSubjects",
+      "title": "Reject incomplete or forged exact evidence",
+      "importance": "Critical",
+      "rationale": "False acceptance or unsafe cleanup can hide broken essential control.",
+      "requirements": [
+        "LAN-01",
+        "LAN-02",
+        "LAN-03",
+        "LAN-04"
+      ],
+      "acceptance": [
+        "AC-16",
+        "AC-17",
+        "AC-18"
+      ],
+      "tags": [
+        "runner",
+        "evidence",
+        "ownership"
+      ],
+      "status": "required",
+      "runGroup": "G0",
+      "order": 22,
+      "setup": "Current compiled proof assembly; isolated control-only directories and child processes.",
+      "actions": [
+        "Execute the actual named control; preserve its real errors and reports."
+      ],
+      "expected": [
+        "Every deliberately invalid case is rejected, valid reordering works and only owned processes are cleaned."
+      ],
+      "evidence": [
+        "CTRF one-test result",
+        "control output and logs"
+      ],
+      "reset": "Each control owns a fresh directory and bounded children; no game window.",
       "needsGameWindow": false
+    },
+    {
+      "id": "runner.processes",
+      "group": "runner",
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.FoundationLanRunnerTests.ActualChildFailuresCannotPass",
+      "title": "Actual failing children and bounded owned cleanup",
+      "importance": "Critical",
+      "rationale": "False acceptance or unsafe cleanup can hide broken essential control.",
+      "requirements": [
+        "LAN-01",
+        "LAN-02",
+        "LAN-03",
+        "LAN-04"
+      ],
+      "acceptance": [
+        "AC-16",
+        "AC-17",
+        "AC-18"
+      ],
+      "tags": [
+        "runner",
+        "evidence",
+        "ownership"
+      ],
+      "status": "required",
+      "runGroup": "G0",
+      "order": 22,
+      "setup": "Current compiled proof assembly; isolated control-only directories and child processes.",
+      "actions": [
+        "Execute the actual named control; preserve its real errors and reports."
+      ],
+      "expected": [
+        "Every deliberately invalid case is rejected, valid reordering works and only owned processes are cleaned."
+      ],
+      "evidence": [
+        "CTRF one-test result",
+        "control output and logs"
+      ],
+      "reset": "Each control owns a fresh directory and bounded children; no game window.",
+      "needsGameWindow": false
+    },
+    {
+      "id": "runner.repeatability",
+      "group": "runner",
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.FoundationLanRunnerTests.FreshRunsRetainExactOwnership",
+      "title": "Immutable fresh repeat and shared desktop exclusion",
+      "importance": "Critical",
+      "rationale": "False acceptance or unsafe cleanup can hide broken essential control.",
+      "requirements": [
+        "LAN-01",
+        "LAN-02",
+        "LAN-03",
+        "LAN-04"
+      ],
+      "acceptance": [
+        "AC-16",
+        "AC-17",
+        "AC-18"
+      ],
+      "tags": [
+        "runner",
+        "evidence",
+        "ownership"
+      ],
+      "status": "required",
+      "runGroup": "G0",
+      "order": 22,
+      "setup": "Current compiled proof assembly; isolated control-only directories and child processes.",
+      "actions": [
+        "Execute the actual named control; preserve its real errors and reports."
+      ],
+      "expected": [
+        "Every deliberately invalid case is rejected, valid reordering works and only owned processes are cleaned."
+      ],
+      "evidence": [
+        "CTRF one-test result",
+        "control output and logs"
+      ],
+      "reset": "Each control owns a fresh directory and bounded children; no game window.",
+      "needsGameWindow": false
+    },
+    {
+      "id": "rendered.entry",
+      "title": "Host/join/cancel/back production lifetime",
+      "group": "rendered",
+      "implementation": "native-rendered",
+      "importance": "Critical",
+      "rationale": "Failure breaks session integrity or essential independent control.",
+      "requirements": [
+        "LAN-01",
+        "LAN-02",
+        "LAN-03",
+        "LAN-04"
+      ],
+      "acceptance": [
+        "AC-01"
+      ],
+      "tags": [
+        "native",
+        "input",
+        "rendering",
+        "profiles",
+        "lifetime"
+      ],
+      "status": "required",
+      "runGroup": "G2",
+      "order": 1,
+      "roles": [
+        "browser"
+      ],
+      "images": [
+        "scene",
+        "pending",
+        "cancelled"
+      ],
+      "screen": "browser",
+      "setup": "Windows 1280x720 only; completed whole-phase review; nonce-owned profiles and port; ordinary menu entry.",
+      "actions": [
+        "Follow the saved ordered production actions in 03-SCENARIOS.md for this exact ID."
+      ],
+      "expected": [
+        "Every declared numeric, ownership, input, lifetime and visible-copy assertion passes without exception or warning."
+      ],
+      "evidence": [
+        "actual per-role launch/PID/profile records",
+        "completed-draw state and PNG",
+        "native input acknowledgements",
+        "real process logs",
+        "hash-bound appearance review"
+      ],
+      "reset": "Use ordinary Escape then Host/Join; release owned keys before transitions; stop only invocation-owned children on exit.",
+      "needsGameWindow": true
+    },
+    {
+      "id": "rendered.browser",
+      "title": "Discovery and manual browser, Unicode and long detail",
+      "group": "rendered",
+      "implementation": "native-rendered",
+      "importance": "High",
+      "rationale": "Failure blocks supported discovery and readable host selection.",
+      "requirements": [
+        "LAN-01",
+        "LAN-02",
+        "LAN-03",
+        "LAN-04"
+      ],
+      "acceptance": [
+        "AC-02"
+      ],
+      "tags": [
+        "native",
+        "input",
+        "rendering",
+        "profiles",
+        "lifetime"
+      ],
+      "status": "required",
+      "runGroup": "G2",
+      "order": 2,
+      "roles": [
+        "browser"
+      ],
+      "images": [
+        "scene",
+        "empty",
+        "populated",
+        "focused-detail",
+        "manual-ready"
+      ],
+      "screen": "browser",
+      "setup": "Windows 1280x720 only; completed whole-phase review; nonce-owned profiles and port; ordinary menu entry.",
+      "actions": [
+        "Follow the saved ordered production actions in 03-SCENARIOS.md for this exact ID."
+      ],
+      "expected": [
+        "Every declared numeric, ownership, input, lifetime and visible-copy assertion passes without exception or warning."
+      ],
+      "evidence": [
+        "actual per-role launch/PID/profile records",
+        "completed-draw state and PNG",
+        "native input acknowledgements",
+        "real process logs",
+        "hash-bound appearance review"
+      ],
+      "reset": "Use ordinary Escape then Host/Join; release owned keys before transitions; stop only invocation-owned children on exit.",
+      "needsGameWindow": true,
+      "imageScreens": {
+        "manual-ready": "game"
+      }
+    },
+    {
+      "id": "rendered.join-errors",
+      "title": "Invalid, closed, cancelled and timed out joining",
+      "group": "rendered",
+      "implementation": "native-rendered",
+      "importance": "Critical",
+      "rationale": "Failure breaks session integrity or essential independent control.",
+      "requirements": [
+        "LAN-01",
+        "LAN-02",
+        "LAN-03",
+        "LAN-04"
+      ],
+      "acceptance": [
+        "AC-04"
+      ],
+      "tags": [
+        "native",
+        "input",
+        "rendering",
+        "profiles",
+        "lifetime"
+      ],
+      "status": "required",
+      "runGroup": "G2",
+      "order": 3,
+      "roles": [
+        "browser"
+      ],
+      "images": [
+        "scene",
+        "invalid-empty",
+        "invalid-malformed",
+        "invalid-port",
+        "pending",
+        "timeout"
+      ],
+      "screen": "browser",
+      "setup": "Windows 1280x720 only; completed whole-phase review; nonce-owned profiles and port; ordinary menu entry.",
+      "actions": [
+        "Follow the saved ordered production actions in 03-SCENARIOS.md for this exact ID."
+      ],
+      "expected": [
+        "Every declared numeric, ownership, input, lifetime and visible-copy assertion passes without exception or warning."
+      ],
+      "evidence": [
+        "actual per-role launch/PID/profile records",
+        "completed-draw state and PNG",
+        "native input acknowledgements",
+        "real process logs",
+        "hash-bound appearance review"
+      ],
+      "reset": "Use ordinary Escape then Host/Join; release owned keys before transitions; stop only invocation-owned children on exit.",
+      "needsGameWindow": true
+    },
+    {
+      "id": "rendered.profiles",
+      "title": "Persisted opaque profiles, equal Unicode names and real restart",
+      "group": "rendered",
+      "implementation": "native-rendered",
+      "importance": "Critical",
+      "rationale": "Failure breaks session integrity or essential independent control.",
+      "requirements": [
+        "LAN-01",
+        "LAN-02",
+        "LAN-03",
+        "LAN-04"
+      ],
+      "acceptance": [
+        "AC-14"
+      ],
+      "tags": [
+        "native",
+        "input",
+        "rendering",
+        "profiles",
+        "lifetime"
+      ],
+      "status": "required",
+      "runGroup": "G2",
+      "order": 4,
+      "roles": [
+        "browser",
+        "browser-restart"
+      ],
+      "images": [
+        "scene"
+      ],
+      "screen": "menu",
+      "setup": "Windows 1280x720 only; completed whole-phase review; nonce-owned profiles and port; ordinary menu entry.",
+      "actions": [
+        "Follow the saved ordered production actions in 03-SCENARIOS.md for this exact ID."
+      ],
+      "expected": [
+        "Every declared numeric, ownership, input, lifetime and visible-copy assertion passes without exception or warning."
+      ],
+      "evidence": [
+        "actual per-role launch/PID/profile records",
+        "completed-draw state and PNG",
+        "native input acknowledgements",
+        "real process logs",
+        "hash-bound appearance review"
+      ],
+      "reset": "Use ordinary Escape then Host/Join; release owned keys before transitions; stop only invocation-owned children on exit.",
+      "needsGameWindow": true,
+      "profileRestart": true,
+      "imagesByRole": {
+        "browser": [
+          "scene",
+          "unicode",
+          "equal-name"
+        ],
+        "browser-restart": [
+          "scene",
+          "restart"
+        ]
+      }
+    },
+    {
+      "id": "rendered.moving-join",
+      "title": "Current-state join while established players move",
+      "group": "rendered",
+      "implementation": "native-rendered",
+      "importance": "Critical",
+      "rationale": "Failure breaks session integrity or essential independent control.",
+      "requirements": [
+        "LAN-01",
+        "LAN-02",
+        "LAN-03",
+        "LAN-04"
+      ],
+      "acceptance": [
+        "AC-05"
+      ],
+      "tags": [
+        "native",
+        "input",
+        "rendering",
+        "profiles",
+        "lifetime"
+      ],
+      "status": "required",
+      "runGroup": "G3",
+      "order": 1,
+      "roles": [
+        "host",
+        "guest1",
+        "guest2",
+        "guest3"
+      ],
+      "images": [
+        "scene"
+      ],
+      "screen": "game",
+      "setup": "Windows 1280x720 only; completed whole-phase review; nonce-owned profiles and port; ordinary menu entry.",
+      "actions": [
+        "Follow the saved ordered production actions in 03-SCENARIOS.md for this exact ID."
+      ],
+      "expected": [
+        "Every declared numeric, ownership, input, lifetime and visible-copy assertion passes without exception or warning."
+      ],
+      "evidence": [
+        "actual per-role launch/PID/profile records",
+        "completed-draw state and PNG",
+        "native input acknowledgements",
+        "real process logs",
+        "hash-bound appearance review"
+      ],
+      "reset": "Use ordinary Escape then Host/Join; release owned keys before transitions; stop only invocation-owned children on exit.",
+      "needsGameWindow": true
+    },
+    {
+      "id": "rendered.walkers",
+      "title": "Four independent simultaneous actors and local cameras",
+      "group": "rendered",
+      "implementation": "native-rendered",
+      "importance": "Critical",
+      "rationale": "Failure breaks session integrity or essential independent control.",
+      "requirements": [
+        "LAN-01",
+        "LAN-02",
+        "LAN-03",
+        "LAN-04"
+      ],
+      "acceptance": [
+        "AC-06",
+        "AC-09",
+        "AC-10"
+      ],
+      "tags": [
+        "native",
+        "input",
+        "rendering",
+        "profiles",
+        "lifetime"
+      ],
+      "status": "required",
+      "runGroup": "G3",
+      "order": 2,
+      "roles": [
+        "host",
+        "guest1",
+        "guest2",
+        "guest3"
+      ],
+      "images": [
+        "scene"
+      ],
+      "screen": "game",
+      "setup": "Windows 1280x720 only; completed whole-phase review; nonce-owned profiles and port; ordinary menu entry.",
+      "actions": [
+        "Follow the saved ordered production actions in 03-SCENARIOS.md for this exact ID."
+      ],
+      "expected": [
+        "Every declared numeric, ownership, input, lifetime and visible-copy assertion passes without exception or warning."
+      ],
+      "evidence": [
+        "actual per-role launch/PID/profile records",
+        "completed-draw state and PNG",
+        "native input acknowledgements",
+        "real process logs",
+        "hash-bound appearance review"
+      ],
+      "reset": "Use ordinary Escape then Host/Join; release owned keys before transitions; stop only invocation-owned children on exit.",
+      "needsGameWindow": true
+    },
+    {
+      "id": "rendered.timing",
+      "title": "Every origin/observer rendered start/reversal/stop/focus stop",
+      "group": "rendered",
+      "implementation": "native-rendered",
+      "importance": "Critical",
+      "rationale": "Failure breaks session integrity or essential independent control.",
+      "requirements": [
+        "LAN-01",
+        "LAN-02",
+        "LAN-03",
+        "LAN-04"
+      ],
+      "acceptance": [
+        "AC-07"
+      ],
+      "tags": [
+        "native",
+        "input",
+        "rendering",
+        "profiles",
+        "lifetime"
+      ],
+      "status": "required",
+      "runGroup": "G3",
+      "order": 3,
+      "roles": [
+        "host",
+        "guest1",
+        "guest2",
+        "guest3"
+      ],
+      "images": [
+        "scene"
+      ],
+      "screen": "game",
+      "setup": "Windows 1280x720 only; completed whole-phase review; nonce-owned profiles and port; ordinary menu entry.",
+      "actions": [
+        "Follow the saved ordered production actions in 03-SCENARIOS.md for this exact ID."
+      ],
+      "expected": [
+        "Every declared numeric, ownership, input, lifetime and visible-copy assertion passes without exception or warning."
+      ],
+      "evidence": [
+        "actual per-role launch/PID/profile records",
+        "completed-draw state and PNG",
+        "native input acknowledgements",
+        "real process logs",
+        "hash-bound appearance review"
+      ],
+      "reset": "Use ordinary Escape then Host/Join; release owned keys before transitions; stop only invocation-owned children on exit.",
+      "needsGameWindow": true,
+      "imagesByRole": {
+        "host": [
+          "scene",
+          "timing-guest1-start",
+          "timing-guest1-reversal",
+          "timing-guest1-stop",
+          "timing-guest1-focus-stop",
+          "timing-guest2-start",
+          "timing-guest2-reversal",
+          "timing-guest2-stop",
+          "timing-guest2-focus-stop",
+          "timing-guest3-start",
+          "timing-guest3-reversal",
+          "timing-guest3-stop",
+          "timing-guest3-focus-stop"
+        ],
+        "guest1": [
+          "scene",
+          "timing-host-start",
+          "timing-host-reversal",
+          "timing-host-stop",
+          "timing-host-focus-stop",
+          "timing-guest2-start",
+          "timing-guest2-reversal",
+          "timing-guest2-stop",
+          "timing-guest2-focus-stop",
+          "timing-guest3-start",
+          "timing-guest3-reversal",
+          "timing-guest3-stop",
+          "timing-guest3-focus-stop"
+        ],
+        "guest2": [
+          "scene",
+          "timing-host-start",
+          "timing-host-reversal",
+          "timing-host-stop",
+          "timing-host-focus-stop",
+          "timing-guest1-start",
+          "timing-guest1-reversal",
+          "timing-guest1-stop",
+          "timing-guest1-focus-stop",
+          "timing-guest3-start",
+          "timing-guest3-reversal",
+          "timing-guest3-stop",
+          "timing-guest3-focus-stop"
+        ],
+        "guest3": [
+          "scene",
+          "timing-host-start",
+          "timing-host-reversal",
+          "timing-host-stop",
+          "timing-host-focus-stop",
+          "timing-guest1-start",
+          "timing-guest1-reversal",
+          "timing-guest1-stop",
+          "timing-guest1-focus-stop",
+          "timing-guest2-start",
+          "timing-guest2-reversal",
+          "timing-guest2-stop",
+          "timing-guest2-focus-stop"
+        ]
+      }
+    },
+    {
+      "id": "rendered.focus",
+      "title": "Real focus loss and fresh physical input recovery",
+      "group": "rendered",
+      "implementation": "native-rendered",
+      "importance": "Critical",
+      "rationale": "Failure breaks session integrity or essential independent control.",
+      "requirements": [
+        "LAN-01",
+        "LAN-02",
+        "LAN-03",
+        "LAN-04"
+      ],
+      "acceptance": [
+        "AC-08"
+      ],
+      "tags": [
+        "native",
+        "input",
+        "rendering",
+        "profiles",
+        "lifetime"
+      ],
+      "status": "required",
+      "runGroup": "G3",
+      "order": 4,
+      "roles": [
+        "host",
+        "guest1",
+        "guest2",
+        "guest3"
+      ],
+      "images": [
+        "scene"
+      ],
+      "screen": "game",
+      "setup": "Windows 1280x720 only; completed whole-phase review; nonce-owned profiles and port; ordinary menu entry.",
+      "actions": [
+        "Follow the saved ordered production actions in 03-SCENARIOS.md for this exact ID."
+      ],
+      "expected": [
+        "Every declared numeric, ownership, input, lifetime and visible-copy assertion passes without exception or warning."
+      ],
+      "evidence": [
+        "actual per-role launch/PID/profile records",
+        "completed-draw state and PNG",
+        "native input acknowledgements",
+        "real process logs",
+        "hash-bound appearance review"
+      ],
+      "reset": "Use ordinary Escape then Host/Join; release owned keys before transitions; stop only invocation-owned children on exit.",
+      "needsGameWindow": true
+    },
+    {
+      "id": "rendered.admission",
+      "title": "Exact capacity, last-slot race and duplicate identity refusal",
+      "group": "rendered",
+      "implementation": "native-rendered",
+      "importance": "Critical",
+      "rationale": "Failure breaks session integrity or essential independent control.",
+      "requirements": [
+        "LAN-01",
+        "LAN-02",
+        "LAN-03",
+        "LAN-04"
+      ],
+      "acceptance": [
+        "AC-03",
+        "AC-11",
+        "AC-14"
+      ],
+      "tags": [
+        "native",
+        "input",
+        "rendering",
+        "profiles",
+        "lifetime"
+      ],
+      "status": "required",
+      "runGroup": "G3",
+      "order": 5,
+      "roles": [
+        "host",
+        "guest1",
+        "guest2",
+        "guest3"
+      ],
+      "images": [
+        "scene"
+      ],
+      "screen": "game",
+      "setup": "Windows 1280x720 only; completed whole-phase review; nonce-owned profiles and port; ordinary menu entry.",
+      "actions": [
+        "Follow the saved ordered production actions in 03-SCENARIOS.md for this exact ID."
+      ],
+      "expected": [
+        "Every declared numeric, ownership, input, lifetime and visible-copy assertion passes without exception or warning."
+      ],
+      "evidence": [
+        "actual per-role launch/PID/profile records",
+        "completed-draw state and PNG",
+        "native input acknowledgements",
+        "real process logs",
+        "hash-bound appearance review"
+      ],
+      "reset": "Use ordinary Escape then Host/Join; release owned keys before transitions; stop only invocation-owned children on exit.",
+      "needsGameWindow": true,
+      "additionalRoles": [
+        "capacity-challenger",
+        "race-challenger",
+        "duplicate-identity"
+      ],
+      "additionalImagesByRole": {
+        "capacity-challenger": [
+          "full",
+          "race-result"
+        ],
+        "race-challenger": [
+          "race-result"
+        ],
+        "duplicate-identity": [
+          "duplicate"
+        ]
+      },
+      "additionalScreensByRole": {
+        "capacity-challenger": [
+          "browser",
+          "game"
+        ],
+        "race-challenger": [
+          "browser",
+          "game"
+        ],
+        "duplicate-identity": "browser"
+      }
+    },
+    {
+      "id": "rendered.guest-lifecycle",
+      "title": "Graceful departure, response loss and fresh slot replacement",
+      "group": "rendered",
+      "implementation": "native-rendered",
+      "importance": "Critical",
+      "rationale": "Failure breaks session integrity or essential independent control.",
+      "requirements": [
+        "LAN-01",
+        "LAN-02",
+        "LAN-03",
+        "LAN-04"
+      ],
+      "acceptance": [
+        "AC-12"
+      ],
+      "tags": [
+        "native",
+        "input",
+        "rendering",
+        "profiles",
+        "lifetime"
+      ],
+      "status": "required",
+      "runGroup": "G3",
+      "order": 6,
+      "roles": [
+        "host",
+        "guest1",
+        "guest2",
+        "guest3"
+      ],
+      "images": [
+        "scene"
+      ],
+      "screen": "game",
+      "setup": "Windows 1280x720 only; completed whole-phase review; nonce-owned profiles and port; ordinary menu entry.",
+      "actions": [
+        "Follow the saved ordered production actions in 03-SCENARIOS.md for this exact ID."
+      ],
+      "expected": [
+        "Every declared numeric, ownership, input, lifetime and visible-copy assertion passes without exception or warning."
+      ],
+      "evidence": [
+        "actual per-role launch/PID/profile records",
+        "completed-draw state and PNG",
+        "native input acknowledgements",
+        "real process logs",
+        "hash-bound appearance review"
+      ],
+      "reset": "Use ordinary Escape then Host/Join; release owned keys before transitions; stop only invocation-owned children on exit.",
+      "needsGameWindow": true
+    },
+    {
+      "id": "rendered.host-end",
+      "title": "Graceful host end and fresh ordinary rehost",
+      "group": "rendered",
+      "implementation": "native-rendered",
+      "importance": "Critical",
+      "rationale": "Failure breaks session integrity or essential independent control.",
+      "requirements": [
+        "LAN-01",
+        "LAN-02",
+        "LAN-03",
+        "LAN-04"
+      ],
+      "acceptance": [
+        "AC-13"
+      ],
+      "tags": [
+        "native",
+        "input",
+        "rendering",
+        "profiles",
+        "lifetime"
+      ],
+      "status": "required",
+      "runGroup": "G3",
+      "order": 7,
+      "roles": [
+        "host",
+        "guest1",
+        "guest2",
+        "guest3"
+      ],
+      "images": [
+        "scene"
+      ],
+      "screen": "menu",
+      "setup": "Windows 1280x720 only; completed whole-phase review; nonce-owned profiles and port; ordinary menu entry.",
+      "actions": [
+        "Follow the saved ordered production actions in 03-SCENARIOS.md for this exact ID."
+      ],
+      "expected": [
+        "Every declared numeric, ownership, input, lifetime and visible-copy assertion passes without exception or warning."
+      ],
+      "evidence": [
+        "actual per-role launch/PID/profile records",
+        "completed-draw state and PNG",
+        "native input acknowledgements",
+        "real process logs",
+        "hash-bound appearance review"
+      ],
+      "reset": "Use ordinary Escape then Host/Join; release owned keys before transitions; stop only invocation-owned children on exit.",
+      "needsGameWindow": true
+    },
+    {
+      "id": "rendered.host-loss",
+      "title": "Unexpected host loss last with usable guest menu",
+      "group": "rendered",
+      "implementation": "native-rendered",
+      "importance": "Critical",
+      "rationale": "Failure breaks session integrity or essential independent control.",
+      "requirements": [
+        "LAN-01",
+        "LAN-02",
+        "LAN-03",
+        "LAN-04"
+      ],
+      "acceptance": [
+        "AC-13",
+        "AC-18"
+      ],
+      "tags": [
+        "native",
+        "input",
+        "rendering",
+        "profiles",
+        "lifetime"
+      ],
+      "status": "required",
+      "runGroup": "G4",
+      "order": 1,
+      "roles": [
+        "host",
+        "guest1",
+        "guest2",
+        "guest3"
+      ],
+      "images": [
+        "scene"
+      ],
+      "screen": "menu",
+      "setup": "Windows 1280x720 only; completed whole-phase review; nonce-owned profiles and port; ordinary menu entry.",
+      "actions": [
+        "Follow the saved ordered production actions in 03-SCENARIOS.md for this exact ID."
+      ],
+      "expected": [
+        "Every declared numeric, ownership, input, lifetime and visible-copy assertion passes without exception or warning."
+      ],
+      "evidence": [
+        "actual per-role launch/PID/profile records",
+        "completed-draw state and PNG",
+        "native input acknowledgements",
+        "real process logs",
+        "hash-bound appearance review"
+      ],
+      "reset": "Use ordinary Escape then Host/Join; release owned keys before transitions; stop only invocation-owned children on exit.",
+      "needsGameWindow": true,
+      "screensByRole": {
+        "host": "game",
+        "guest1": "menu",
+        "guest2": "menu",
+        "guest3": "menu"
+      }
     }
+  ],
+  "resolutions": [
+    [
+      1280,
+      720
+    ]
   ]
 }

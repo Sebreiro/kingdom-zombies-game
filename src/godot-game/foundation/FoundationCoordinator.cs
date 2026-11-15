@@ -36,6 +36,8 @@ internal sealed partial class FoundationCoordinator
     internal string Error { get; private set; } = "";
     internal long InstalledRevision { get; private set; } = -1;
     internal long AcceptedIntents { get; private set; }
+    internal FoundationMovementCommand? LastAcceptedIntent { get; private set; }
+    internal long LastAcceptedRevision { get; private set; } = -1;
     internal long RejectedPackets { get; private set; }
     internal IReadOnlyList<string> Events => _events;
     internal bool Closed => _closed;
@@ -199,6 +201,8 @@ internal sealed partial class FoundationCoordinator
         if (accepted)
         {
             AcceptedIntents++;
+            LastAcceptedIntent = command;
+            LastAcceptedRevision = _session?.Snapshot.Revision ?? -1;
         }
         else
         {

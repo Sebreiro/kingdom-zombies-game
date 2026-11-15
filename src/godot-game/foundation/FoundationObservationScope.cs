@@ -6,6 +6,19 @@ namespace KingdomZombies.Foundation;
 /// <summary>Restricts diagnostic files to the invocation's existing nonce-owned directory.</summary>
 internal static class FoundationObservationScope
 {
+    internal static bool ValidCheckpoint(string value, int maximumLength)
+    {
+        if (value.Length > maximumLength || !(value.StartsWith(value: "draw-", comparisonType:
+                StringComparison.Ordinal) || value.StartsWith(value: "capture-", comparisonType:
+                        StringComparison.Ordinal))) { return false; }
+        foreach (char character in value)
+        {
+            if (!char.IsAsciiLetterOrDigit(c: character) && character is not '-' and not '_') { return false; }
+        }
+
+        return true;
+    }
+
     internal static string? Directory()
     {
         string? output = Environment.GetEnvironmentVariable(variable: "PHASE3_OUTPUT");

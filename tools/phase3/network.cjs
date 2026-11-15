@@ -29,13 +29,18 @@ function launch(context,role,port,retainedRoot=null){
   const profileFile=path.join(profileRoot,"profiles.json");
   if(!fs.existsSync(profileFile)){const id=crypto.randomUUID().replaceAll("-","");fs.writeFileSync(profileFile,JSON.stringify({schema:1,selected:id,profiles:[{id,name:"Player 1",ordinal:1}]}));}
   const profile=JSON.parse(fs.readFileSync(profileFile)).selected;
-  const child=spawn(engine,['--headless','--path',path.join(context.root,'src/godot-game')],{cwd:context.root,windowsHide:true,
+  const args=context.rendered?['--path',path.join(context.root,'src/godot-game'),'--rendering-method','gl_compatibility','--resolution','1280x720']
+    :['--headless','--path',path.join(context.root,'src/godot-game')];
+  const child=spawn(engine,args,{cwd:context.root,windowsHide:!context.rendered,
     env:{...context.env,PHASE3_NONCE:context.nonce,PHASE3_OUTPUT:directory,PHASE3_RUN_ROOT:context.runRoot??context.directory,
-      PHASE3_ROLE:role,PHASE3_PROFILE_ROOT:profileRoot,PHASE3_PORT:String(port)},stdio:['ignore','pipe','pipe']});
+      PHASE3_ROLE:role,PHASE3_INPUT_DRIVER:context.rendered?"declared-per-event-external-driver":"synthetic-native-ParseInputEvent",PHASE3_PROFILE_ROOT:profileRoot,PHASE3_PORT:String(port)},stdio:['ignore','pipe','pipe']});
   const peer={role,directory,profile,profileRoot,child,pid:child.pid,sequence:0,output:'',exit:null,error:null};
   child.stdout.on('data',bytes=>peer.output+=bytes);child.stderr.on('data',bytes=>peer.output+=bytes);
   child.once('error',error=>peer.error=error);child.once('exit',(code,signal)=>peer.exit={code,signal});
-  fs.writeFileSync(path.join(directory,'launch.json'),JSON.stringify({role,profile,pid:child.pid,port,headless:true,mainScene:'res://foundation/Foundation.tscn',engine,engineHash:digest,nonce:context.nonce},null,2));
+  fs.writeFileSync(path.join(directory,'launch.json'),JSON.stringify({role,profile,pid:child.pid,port,headless:!context.rendered,
+    inputDriver:context.rendered?'declared-per-event-external-driver':'synthetic-native-ParseInputEvent',
+    mainScene:'res://foundation/Foundation.tscn',engine,engineHash:crypto.createHash('sha256').update(fs.readFileSync(engine)).digest('hex'),
+    consoleEngineHash:digest,nonce:context.nonce},null,2));
   return peer;
 }
 async function waitFor(peers,deadline,predicate,message){
@@ -61,7 +66,7 @@ function coherent(peers,context){
     if(!match||!current.ready||!match.ready||current.nativeActors!==2||match.nativeActors!==2)continue;
     if(JSON.stringify(current.snapshot)!==JSON.stringify(match.snapshot))continue;
     if(!actor(current,peers[1].profile)||actor(current,peers[1].profile).PositionSubunits<=-7700)continue;
-    for(const row of [current,match])requireTrue(row.nonce===context.nonce&&row.provenance==='synthetic-native-ParseInputEvent','FRAME_IDENTITY');
+    for(const row of [current,match])requireTrue(row.nonce===context.nonce&&row.provenance==='read-only-state-observation','FRAME_IDENTITY');
     return {host:match,guest:current};
   }
   return null;
@@ -345,7 +350,7 @@ async function observed(context,item){
   const result=await tracer({...context,directory,runRoot:context.directory},item);
   const evidence=require('./evidence.cjs');
   const ref=file=>({path:path.relative(context.directory,file),sha256:evidence.hash(fs.readFileSync(file))});
-  return {...result,revision:context.revision,peers:result.peers.map(peer=>({...peer,
+  return {...result,revision:context.revision,osFingerprint:context.osFingerprint,peers:result.peers.map(peer=>({...peer,
     launch:ref(path.join(directory,peer.role,'launch.json')),log:ref(path.join(directory,peer.role,'console.log')),
     frames:ref(path.join(directory,peer.role,'frames.ndjson'))}))};
 }

@@ -16,6 +16,8 @@ Measure per-group and end-to-end times, separating cached/cold setup and environ
 
 ## Existing Phase 1 Commands and Evidence
 
+The delivered [LAN foundation commands](lan-foundation-checks.md) add exact Phase 3 selection, no-window native/runner proofs, saved G0–G4 scenarios and source-bound post-review Windows 1280×720 execution. Their independent catalog and saved selection preserve all inherited source IDs, current omissions and image-review obligations. Headless or synthetic-driver results receive no rendered or physical-input credit; actual rendered feasibility remains separate until executed.
+
 Use [setup](setup.md) for prerequisites and isolated tool configuration. Run from the checkout root on Windows PowerShell or Linux. The [required-case manifest](../../tools/phase1/required-cases.json) declares obligations independently from discovered tests; the [runner](../../tools/phase1/check.cjs) requires exact fresh results and actual subject evidence.
 
 | Need | Command |

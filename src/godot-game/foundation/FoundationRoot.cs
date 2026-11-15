@@ -407,7 +407,7 @@ public sealed partial class FoundationRoot : Control
             return;
         }
         File.Delete(path: request);
-        if (checkpoint.Length is < 1 or > 48 || checkpoint.IndexOfAny(anyOf: ['/', '\\', '.']) >= 0)
+        if (!FoundationObservationScope.ValidCheckpoint(value: checkpoint, maximumLength: 48))
         {
             throw new InvalidOperationException(message: "OBSERVATION_CHECKPOINT");
         }
