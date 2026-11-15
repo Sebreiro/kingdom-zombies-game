@@ -25,7 +25,13 @@ internal static class FoundationAutomation
             return;
         }
 
-        using JsonDocument document = JsonDocument.Parse(json: File.ReadAllText(path: file));
+        string? json = ReadRequest(file: file);
+        if (json is null)
+        {
+            return;
+        }
+
+        using JsonDocument document = JsonDocument.Parse(json: json);
         JsonElement request = document.RootElement;
         if (!StringComparer.Ordinal.Equals(x: request.GetProperty(propertyName: "nonce").GetString(), y: nonce))
         {
@@ -37,6 +43,18 @@ internal static class FoundationAutomation
         File.WriteAllText(path: Path.Combine(path1: directory, path2: "input.ack"), contents:
                 request.GetProperty(propertyName: "sequence").GetInt64().ToString(
                         provider: System.Globalization.CultureInfo.InvariantCulture));
+    }
+
+    private static string? ReadRequest(string file)
+    {
+        try
+        {
+            return File.ReadAllText(path: file);
+        }
+        catch (IOException)
+        {
+            return null;
+        }
     }
 
     private static void Deliver(Control root, JsonElement request, MainThreadGateway gateway)
