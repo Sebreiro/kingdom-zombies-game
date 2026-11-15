@@ -18,6 +18,18 @@ public sealed class FoundationSession
     /// <summary>Gets the current immutable actor publication.</summary>
     public FoundationActorState Actor { get; private set; }
 
+    /// <summary>Accepts owned intent separately from trusted elapsed stepping.</summary>
+    public bool TryAccept(FoundationMovementCommand command, string trustedBinding, string trustedPlayer,
+            string trustedActor)
+    {
+        if (!_active)
+        {
+            return false;
+        }
+
+        return false;
+    }
+
     /// <summary>Fences this lifetime before its native scene is disconnected or freed.</summary>
     public void Close()
     {
