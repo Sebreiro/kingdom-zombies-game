@@ -25,6 +25,8 @@ internal sealed class EnetConnectionService : IConnectionService, IDisposable
         _peer = new ENetMultiplayerPeer();
         Check(error: _peer.CreateServer(port: port, maxClients: 16, maxChannels: 1));
         _peer.TransferMode = MultiplayerPeer.TransferModeEnum.Reliable;
+        _peer.PeerConnected += ConnectedPeer;
+        _peer.PeerDisconnected += DisconnectedPeer;
         Connected = true;
     }
 
@@ -36,6 +38,8 @@ internal sealed class EnetConnectionService : IConnectionService, IDisposable
         _peer = new ENetMultiplayerPeer();
         Check(error: _peer.CreateClient(address: address, port: port, channelCount: 1));
         _peer.TransferMode = MultiplayerPeer.TransferModeEnum.Reliable;
+        _peer.PeerConnected += ConnectedPeer;
+        _peer.PeerDisconnected += DisconnectedPeer;
     }
 
     public IReadOnlyList<ConnectionPacket> Poll(int maximumPackets)
@@ -78,6 +82,11 @@ internal sealed class EnetConnectionService : IConnectionService, IDisposable
             throw new InvalidDataException(message: "TRANSPORT_PACKET");
         }
 
+        if (peer > 1 && !_connectedPeers.Contains(item: peer))
+        {
+            return;
+        }
+
         _peer.SetTargetPeer(id: peer);
         Check(error: _peer.PutPacket(buffer: payload.ToArray()));
     }
@@ -92,6 +101,13 @@ internal sealed class EnetConnectionService : IConnectionService, IDisposable
 
         _closed = true;
         Connected = false;
+        if (_peer is not null)
+        {
+            _peer.PeerConnected -= ConnectedPeer;
+            _peer.PeerDisconnected -= DisconnectedPeer;
+        }
+
+        _connectedPeers.Clear();
         _peer?.Close();
         _peer?.Dispose();
         _peer = null;
@@ -103,8 +119,22 @@ internal sealed class EnetConnectionService : IConnectionService, IDisposable
     }
 
     private readonly MainThreadGateway _gateway;
+    private readonly HashSet<long> _connectedPeers = [];
     private ENetMultiplayerPeer? _peer;
     private bool _closed;
+
+    private void ConnectedPeer(long peer)
+    {
+        if (!_closed)
+        {
+            _connectedPeers.Add(item: peer);
+        }
+    }
+
+    private void DisconnectedPeer(long peer)
+    {
+        _connectedPeers.Remove(item: peer);
+    }
 
     private void RequireUnused(int port)
     {
@@ -116,8 +146,9 @@ internal sealed class EnetConnectionService : IConnectionService, IDisposable
         }
     }
 
-    private static void Check(Error error)
+    private void Check(Error error)
     {
+        _gateway.RequireThread();
         if (error != Error.Ok)
         {
             throw new InvalidOperationException(message: "ENET_ERROR:" + error);

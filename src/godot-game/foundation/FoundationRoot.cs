@@ -156,7 +156,8 @@ public sealed partial class FoundationRoot : Control
         try
         {
             _generation = checked(_generation + 1);
-            string player = System.Environment.GetEnvironmentVariable(variable: "PHASE3_PROFILE") ?? "local-player";
+            string player = System.Environment.GetEnvironmentVariable(variable: "PHASE3_PROFILE")
+                    ?? FoundationEphemeralProfile.PlayerId;
             _coordinator = new FoundationCoordinator(playerId: player, label: "Player 1",
                     connection: host ? new EnetConnectionService(gateway: _gateway) : null);
             _coordinator.Start(host: host, port: Port());
@@ -208,7 +209,7 @@ public sealed partial class FoundationRoot : Control
         {
             _input.Clear();
             _coordinator = new FoundationCoordinator(playerId: System.Environment.GetEnvironmentVariable(
-                    variable: "PHASE3_PROFILE") ?? "local-player", label: "Player 2",
+                    variable: "PHASE3_PROFILE") ?? FoundationEphemeralProfile.PlayerId, label: "Player 2",
                     connection: new EnetConnectionService(gateway: _gateway));
             _coordinator.Join(address: host, port: port);
             _lastDirection = int.MinValue;

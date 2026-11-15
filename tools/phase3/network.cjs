@@ -103,12 +103,13 @@ async function tracer(context,item){
     result={id:item.id,status:'pass',nonce:context.nonce,input:context.input,tool:context.tool,platform:context.platform,
       port,peers:peers.map(peer=>({role:peer.role,pid:peer.pid,profile:peer.profile})),agreement,
       provenance:'synthetic-native-ParseInputEvent',noRenderedOrPhysicalInputCredit:true};
-    fs.writeFileSync(path.join(context.directory,'network.tracer.agreement.json'),JSON.stringify(result,null,2),{flag:'wx'});
+    fs.writeFileSync(path.join(context.directory,'network.tracer.agreement.json'),JSON.stringify({...result,status:'observation-pending-teardown'},null,2),{flag:'wx'});
     await stop(guest,context,deadline);await stop(host,context,deadline);
     while(peers.some(peer=>!peer.exit)&&Date.now()<deadline)await delay(25);
     for(const peer of peers)requireTrue(peer.exit?.code===0&&!peer.exit.signal,'CLEAN_EXIT '+peer.role+' '+JSON.stringify(peer.exit));
   }catch(failure){error=failure;}
   finally{for(const peer of peers){try{await cleanup(peer);}catch(failure){error??=failure;}}if(unlock)unlock();}
+  for(const peer of peers)if(/(?:SCRIPT ERROR:|ERROR:|Unhandled exception|FATAL)/.test(peer.output))error??=new Error('NATIVE_ERROR_LOG '+peer.role+' '+peer.output.slice(0,1600));
   if(error)throw error;
   requireTrue(Date.now()-started<=60000,'SUBJECT_DEADLINE');
   return {...result,durationMilliseconds:Date.now()-started,cleanup:'two owned children exited zero'};

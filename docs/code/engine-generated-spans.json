@@ -3245,11 +3245,11 @@
       "producer": "Godot.SourceGenerators/4.7.2",
       "package": ".phase1/feed/Godot.SourceGenerators.4.7.2.nupkg",
       "packageSha256": "ce2beb0b75bfb81b94982bdaf7234fc681edd4cf024606c6baf6e40625e0ca4e",
-      "symbol": "KingdomZombies.Foundation.FoundationRoot.GetGodotMethodList",
+      "symbol": "KingdomZombies.Foundation.FoundationRoot.InvokeGodotClassMethod",
       "reason": "Body is 91 lines long; the limit is 60",
       "positiveProof": "engine.generated-origin",
       "negativeProof": "engine.generated-boundary",
-      "member": "GetGodotMethodList"
+      "member": "InvokeGodotClassMethod"
     },
     {
       "id": "KZ-EX-ENGINE-SPAN-206",
@@ -3606,11 +3606,11 @@
       "producer": "Godot.SourceGenerators/4.7.2",
       "package": ".phase1/feed/Godot.SourceGenerators.4.7.2.nupkg",
       "packageSha256": "ce2beb0b75bfb81b94982bdaf7234fc681edd4cf024606c6baf6e40625e0ca4e",
-      "symbol": "KingdomZombies.Foundation.FoundationRoot.GetGodotMethodList",
+      "symbol": "KingdomZombies.Foundation.FoundationRoot.InvokeGodotClassMethod",
       "reason": "Line is 129 characters long; the limit is 120",
       "positiveProof": "engine.generated-origin",
       "negativeProof": "engine.generated-boundary",
-      "member": "GetGodotMethodList"
+      "member": "InvokeGodotClassMethod"
     },
     {
       "id": "KZ-EX-ENGINE-SPAN-225",
@@ -3625,11 +3625,11 @@
       "producer": "Godot.SourceGenerators/4.7.2",
       "package": ".phase1/feed/Godot.SourceGenerators.4.7.2.nupkg",
       "packageSha256": "ce2beb0b75bfb81b94982bdaf7234fc681edd4cf024606c6baf6e40625e0ca4e",
-      "symbol": "KingdomZombies.Foundation.FoundationRoot.InvokeGodotClassMethod",
+      "symbol": "KingdomZombies.Foundation.FoundationRoot.InvokeGodotClassStaticMethod",
       "reason": "Line is 136 characters long; the limit is 120",
       "positiveProof": "engine.generated-origin",
       "negativeProof": "engine.generated-boundary",
-      "member": "InvokeGodotClassMethod"
+      "member": "InvokeGodotClassStaticMethod"
     },
     {
       "id": "KZ-EX-ENGINE-SPAN-226",
@@ -3644,11 +3644,11 @@
       "producer": "Godot.SourceGenerators/4.7.2",
       "package": ".phase1/feed/Godot.SourceGenerators.4.7.2.nupkg",
       "packageSha256": "ce2beb0b75bfb81b94982bdaf7234fc681edd4cf024606c6baf6e40625e0ca4e",
-      "symbol": "KingdomZombies.Foundation.FoundationRoot.GetGodotClassPropertyValue",
+      "symbol": "KingdomZombies.Foundation.FoundationRoot.GetGodotPropertyList",
       "reason": "Line is 121 characters long; the limit is 120",
       "positiveProof": "engine.generated-origin",
       "negativeProof": "engine.generated-boundary",
-      "member": "GetGodotClassPropertyValue"
+      "member": "GetGodotPropertyList"
     },
     {
       "id": "KZ-EX-ENGINE-SPAN-227",
@@ -3758,11 +3758,11 @@
       "producer": "Godot.SourceGenerators/4.7.2",
       "package": ".phase1/feed/Godot.SourceGenerators.4.7.2.nupkg",
       "packageSha256": "ce2beb0b75bfb81b94982bdaf7234fc681edd4cf024606c6baf6e40625e0ca4e",
-      "symbol": "KingdomZombies.Foundation.FoundationRoot.AssemblyHasScriptsAttribute",
+      "symbol": "KingdomZombies.Foundation.FoundationRoot.GetGodotMethodList",
       "reason": "'GetGodotMethodList' (internal method) must come before 'MethodName' (nested type)",
       "positiveProof": "engine.generated-origin",
       "negativeProof": "engine.generated-boundary",
-      "member": "AssemblyHasScriptsAttribute"
+      "member": "GetGodotMethodList"
     },
     {
       "id": "KZ-EX-ENGINE-SPAN-233",
@@ -3777,11 +3777,11 @@
       "producer": "Godot.SourceGenerators/4.7.2",
       "package": ".phase1/feed/Godot.SourceGenerators.4.7.2.nupkg",
       "packageSha256": "ce2beb0b75bfb81b94982bdaf7234fc681edd4cf024606c6baf6e40625e0ca4e",
-      "symbol": "KingdomZombies.Foundation.FoundationRoot.AssemblyHasScriptsAttribute",
+      "symbol": "KingdomZombies.Foundation.FoundationRoot.SetGodotClassPropertyValue",
       "reason": "'SetGodotClassPropertyValue' (protected method) must come before 'PropertyName' (nested type)",
       "positiveProof": "engine.generated-origin",
       "negativeProof": "engine.generated-boundary",
-      "member": "AssemblyHasScriptsAttribute"
+      "member": "SetGodotClassPropertyValue"
     },
     {
       "id": "KZ-EX-ENGINE-SPAN-234",

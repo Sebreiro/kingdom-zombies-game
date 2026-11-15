@@ -11,6 +11,10 @@ namespace KingdomZombies.Phase1.Tests;
 /// <summary>Resolves engine symbols while restricting adapters to exact files, types and guarded methods.</summary>
 internal static class EngineAccessPolicy
 {
+    /// <summary>Exposes a detached exact tuple inventory for independent permission controls.</summary>
+    internal static IReadOnlyList<string> ProductionTuples => _production.SelectMany(selector: pair => pair.Value
+            .Select(selector: method => pair.Key + "." + method)).ToArray();
+
     /// <summary>Rejects direct engine operations outside declared guarded adapter methods.</summary>
     internal static IReadOnlyList<string> Check(string source, string path, ConsumerCompilation? consumer = null)
     {
@@ -78,6 +82,16 @@ internal static class EngineAccessPolicy
         return errors;
     }
 
+    private static readonly Dictionary<string, string[]> _production = new(comparer: StringComparer.Ordinal)
+    {
+        ["FoundationRoot"] = ["FoundationRoot", "_Ready", "_Input", "_Process", "_ExitTree", "Start", "ReturnToMenu",
+            "Quit", "LoseFocus", "Observe", "Capture", "Enter", "Browse", "JoinAddress", "ShowWorld",
+            "PollKeys", "ActivateFocused"],
+        ["FoundationView"] = ["Project", "ProjectRoster"],
+        ["EnetConnectionService"] = ["Host", "Join", "Poll", "Send", "Close", "Check"],
+        ["FoundationAutomation"] = ["Deliver"],
+    };
+
     private static readonly Dictionary<string, string[]> _adapters = new(comparer: StringComparer.Ordinal)
     {
         ["Phase1"] = ["Phase1", "_Ready", "_ExitTree", "WriteEvidence"],
@@ -97,14 +111,8 @@ internal static class EngineAccessPolicy
                 && StringComparer.Ordinal.Equals(x: node.Ancestors().OfType<BaseNamespaceDeclarationSyntax>()
                         .FirstOrDefault()?.Name.ToString(), y: "KingdomZombies.Foundation")
                 && node.Ancestors().OfType<TypeDeclarationSyntax>().Count() == 1
-                && (type is "FoundationRoot" && new[] { "FoundationRoot", "_Ready", "_Input", "_Process",
-                    "_ExitTree", "Start", "ReturnToMenu", "Quit", "LoseFocus", "Observe", "Capture", "Host", "Enter",
-                    "Browse", "JoinAddress", "ShowWorld",
-                    "PollKeys", "ActivateFocused" }
-                        .Contains(value: name, comparer: StringComparer.Ordinal)
-                        || type is "FoundationView" && name is "Project" or "ProjectRoster"
-                        || type is "EnetConnectionService" && name is "Host" or "Join" or "Poll" or "Send" or "Close"
-                        || type is "FoundationAutomation" && name is "Tick" or "Deliver");
+                && _production.TryGetValue(key: type, value: out string[]? productionMethods)
+                && productionMethods.Contains(value: name, comparer: StringComparer.Ordinal);
         bool adapter = production || StringComparer.Ordinal.Equals(x: path,
                 y: "src/godot-game/proofs/" + type + ".cs")
                 && StringComparer.Ordinal.Equals(x: node.Ancestors().OfType<BaseNamespaceDeclarationSyntax>()
@@ -120,7 +128,39 @@ internal static class EngineAccessPolicy
                                 && model.GetSymbolInfo(node: guard).Symbol is IMethodSymbol symbol
                                 && StringComparer.Ordinal.Equals(x: symbol.Name, y: "RequireThread")
                                 && StringComparer.Ordinal.Equals(x: symbol.ContainingType.ToDisplayString(),
-                                        y: "KingdomZombies.Proofs.MainThreadGateway")) ?? false);
+                                        y: "KingdomZombies.Proofs.MainThreadGateway")
+                                && CapturedGuard(guard: guard, method: method, model: model)) ?? false);
+    }
+
+    private static bool CapturedGuard(InvocationExpressionSyntax guard, BaseMethodDeclarationSyntax? method,
+            SemanticModel model)
+    {
+        if (guard.Expression is not MemberAccessExpressionSyntax access)
+        {
+            return false;
+        }
+
+        ISymbol? symbol = model.GetSymbolInfo(node: access.Expression).Symbol;
+        if (symbol is IPropertySymbol { IsStatic: true, Name: "Gateway", SetMethod: null } property
+                && StringComparer.Ordinal.Equals(x: property.ContainingType.ToDisplayString(),
+                        y: "KingdomZombies.Proofs.ProofSequence"))
+        {
+            return true;
+        }
+
+        if (access.Expression is not IdentifierNameSyntax)
+        {
+            return false;
+        }
+        if (symbol is IFieldSymbol { IsReadOnly: true, IsStatic: false, Name: "_gateway" })
+        {
+            return true;
+        }
+
+        return symbol is IParameterSymbol { Name: "gateway" } && method is not null
+                && !method.DescendantNodes().OfType<AssignmentExpressionSyntax>().Any(predicate: assignment =>
+                        SymbolEqualityComparer.Default.Equals(x: model.GetSymbolInfo(node: assignment.Left).Symbol,
+                                y: symbol));
     }
 
 }

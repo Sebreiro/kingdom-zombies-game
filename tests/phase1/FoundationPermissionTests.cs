@@ -22,7 +22,10 @@ public sealed class FoundationPermissionTests
                 + "namespace KingdomZombies.Foundation; internal static class FoundationView { "
                 + "internal static void Project(Node2D world, FoundationActorState actor, "
                 + "MainThreadGateway gateway) { ";
-        const string Suffix = " } private static void Changed() { } }";
+        const string Suffix = " }"
+                + " internal static void ProjectRoster(Node2D world, FoundationSnapshot snapshot, "
+                + "string bindingId, MainThreadGateway gateway) { } "
+                + " private static void Changed() { } }";
         const string Body = "world.VisibilityChanged += Changed;";
         EngineAccessPolicy.Check(source: Prefix + "gateway.RequireThread(); " + Body + Suffix, path: Path,
                 consumer: consumer).ShouldBeEmpty();
@@ -46,7 +49,10 @@ public sealed class FoundationPermissionTests
                 + "internal static void Project(Node2D world, FoundationActorState actor, "
                 + "MainThreadGateway gateway) { ";
         const string Guard = "gateway.RequireThread(); ";
-        const string Suffix = " } }";
+        const string Suffix = " }"
+                + " internal static void ProjectRoster(Node2D world, FoundationSnapshot snapshot, "
+                + "string bindingId, MainThreadGateway gateway) { } "
+                + " }";
         EngineAccessPolicy.Repository().ShouldBeEmpty();
         foreach (string body in new[] { "world.QueueFree();", "world.QueueFree(); " + Guard,
             "if (false) { " + Guard + "} world.QueueFree();", Guard + "System.Action action = world.QueueFree;",
@@ -69,12 +75,9 @@ public sealed class FoundationPermissionTests
         CSharpCompilation renamed = compilation.ReplaceSyntaxTree(oldTree: tree, newTree: wrongPath);
         ConsumerCompilation.RequireValid(compilation: renamed);
         EngineAccessPolicy.CheckTree(tree: wrongPath, compilation: renamed).ShouldNotBeEmpty();
-        string adjacent = valid.Replace(oldValue: "world.QueueFree();", newValue:
-                "Adjacent(world: world); } private static void Adjacent(Node2D world) { " + Guard
-                        + "world.QueueFree();", comparisonType: StringComparison.Ordinal)
-                .Replace(oldValue: Guard + "world.QueueFree(); } }", newValue:
-                        "new MainThreadGateway().RequireThread(); world.QueueFree(); } }",
-                        comparisonType: StringComparison.Ordinal);
+        string adjacent = Prefix + Guard + "Adjacent(world: world, gateway: gateway); } "
+                + "private static void Adjacent(Node2D world, MainThreadGateway gateway) { " + Guard
+                + "world.QueueFree();" + Suffix;
         EngineAccessPolicy.Check(source: adjacent, path: Path, consumer: consumer).ShouldNotBeEmpty();
         string async = valid.Replace(oldValue: "static void Project", newValue: "static async void Project",
                 comparisonType: StringComparison.Ordinal).Replace(oldValue: Guard, newValue: Guard
@@ -113,7 +116,7 @@ public sealed class FoundationPermissionTests
             int rejected = 0;
             foreach (MethodDeclarationSyntax method in original.GetRoot().DescendantNodes()
                     .OfType<MethodDeclarationSyntax>().Where(predicate: method => method.Identifier.ValueText
-                            is not "LoseFocus"))
+                            is not ("LoseFocus" or "Start" or "Host" or "Port")))
             {
                 string body = method.ToFullString();
                 string guard = path.EndsWith(value: "FoundationView.cs", comparisonType: StringComparison.Ordinal)
@@ -127,7 +130,7 @@ public sealed class FoundationPermissionTests
             }
 
             rejected.ShouldBe(expected: path.EndsWith(value: "FoundationView.cs",
-                    comparisonType: StringComparison.Ordinal) ? 1 : 9);
+                    comparisonType: StringComparison.Ordinal) ? 2 : 14);
             CSharpCompilation compilation = consumer.Create(source: source, path: path);
             SyntaxTree tree = compilation.SyntaxTrees.Single(predicate: candidate => StringComparer.Ordinal.Equals(
                     x: candidate.FilePath, y: path));
