@@ -5,10 +5,12 @@
 # Workspace-local pinned tools, verified feeds, CLI state, runs and mutation outputs.
 /.phase1/
 /.phase2/
+/.phase3/
 **/bin/
 **/obj/
 **/.godot/
 
 # Derived GSD state and local workflow probes.
 /.planning/state.json
+/.planning/milestone.lock
 /.planning/tmp/
