@@ -4,93 +4,120 @@ const path = require('node:path');
 const crypto = require('node:crypto');
 const { spawnSync } = require('node:child_process');
 const baseline = require('../phase1/check.cjs');
-const { tracer, command } = require('./rendered.cjs');
-const hash = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
-function requireTrue(value, message) { if (!value) throw new Error(message); }
+const { rendered, command } = require('./rendered.cjs');
+const evidence = require('./evidence.cjs');
+const {hash,requireTrue,inside,read,reconcile,loadReport,aggregate,verifyCompletion} = evidence;
 function select(catalog, args) {
-  requireTrue(Array.isArray(catalog.cases) && catalog.cases.length === 16, 'CATALOG_REQUIRED');
-  const ids = new Set();
-  for (const row of catalog.cases) {
-    requireTrue(typeof row.id === 'string' && !ids.has(row.id) && ['core','rendered','runner'].includes(row.group) && ['pending','csharp','native'].includes(row.implementation), 'CATALOG_INVALID');
-    ids.add(row.id);
-  }
-  if (args.length === 1 && args[0] === '--list') return { list: true, selected: catalog.cases };
-  requireTrue(args.length === 1 && args[0] === '--all' || args.length === 2 && ['--case','--group'].includes(args[0]), 'USAGE: --case ID | --group GROUP | --all | --list');
-  const selected = catalog.cases.filter(row => args[0] === '--all' || (args[0] === '--case' ? row.id === args[1] : row.group === args[1]));
+  requireTrue(args.length === 1 && ['--all','--list'].includes(args[0]) || args.length === 2 && ['--case','--group','--failed'].includes(args[0]), 'USAGE: --case ID | --group GROUP | --all | --failed REPORT | --list');
+  if(args[0]==='--failed') return {repair:args[1]};
+  const selected = catalog.cases.filter(row => ['--all','--list'].includes(args[0]) || (args[0] === '--case' ? row.id === args[1] : row.group === args[1]));
   requireTrue(selected.length > 0, 'SELECTION_EMPTY');
-  return { list: false, selected };
+  return {list:args[0]==='--list',selected};
 }
-function reconcile(selected, results, context) {
-  requireTrue(results.length > 0 && results.length === selected.length, 'RESULT_COUNT');
-  const expected = new Map(selected.map(row => [row.id,row])), seen = new Set();
-  for (const result of results) {
-    requireTrue(expected.has(result.id) && !seen.has(result.id), 'RESULT_UNKNOWN_DUPLICATE'); seen.add(result.id);
-    requireTrue(result.status === 'pass', 'RESULT_NOT_PASS ' + result.id);
-    for (const key of ['nonce','input','tool','platform']) requireTrue(result[key] === context[key], 'RESULT_IDENTITY ' + key);
-    for (const name of expected.get(result.id).images ?? []) requireTrue(result.images?.some(image => image.checkpoint === name), 'RESULT_IMAGE_MISSING ' + name);
-  }
-  return results;
+function acquireLock(root,nonce) {
+  const file=inside(root,'.phase2/desktop.lock');
+  fs.mkdirSync(path.dirname(file),{recursive:true});
+  let fd;
+  try { fd=fs.openSync(file,'wx'); } catch(error) {if(error.code==='EEXIST')throw new Error('DESKTOP_LOCKED: another run or interrupted-run lock; inspect recorded owner before removing');throw error;}
+  fs.writeFileSync(fd,JSON.stringify({pid:process.pid,nonce,at:new Date().toISOString()}));
+  return ()=>{fs.closeSync(fd);fs.unlinkSync(file);};
 }
-async function main(root, args) {
-  const catalog = JSON.parse(fs.readFileSync(path.join(root, 'tools/phase2/required-cases.json'), 'utf8'));
-  const selection = select(catalog,args);
-  if (selection.list) { console.log(JSON.stringify(selection.selected,null,2)); return; }
-  const nonce = crypto.randomUUID(), platform = process.platform + '-' + process.arch;
-  const directory = path.join(root,'.phase2/runs',platform,nonce);
-  fs.mkdirSync(directory,{recursive:true});
-  const started = Date.now(), results = [], failures = [];
-  const manifest = { inputs: ['src','tests/phase1','tools/phase2','tools/phase1/toolchain.json','Directory.Build.props','Directory.Build.targets','Directory.Packages.props','.editorconfig','BannedSymbols.txt','BannedSymbols.Pure.txt','docs/code'] };
-  const snapshot = baseline.snapshot(root,manifest);
-  const pins = JSON.parse(fs.readFileSync(path.join(root,'tools/phase1/toolchain.json'),'utf8'));
-  const archive = pins.archives[platform];
-  requireTrue(archive, 'PLATFORM_UNSUPPORTED');
-  const engine = path.join(root,'.phase1/tools',archive.directory,archive.executable);
-  const env = { ...process.env, DOTNET_CLI_HOME:path.join(root,'.phase1/cli-home'), NUGET_PACKAGES:path.join(root,'.phase1/packages'), NUGET_HTTP_CACHE_PATH:path.join(root,'.phase1/http-cache'), TEMP:path.join(root,'.phase1/temp'), TMP:path.join(root,'.phase1/temp') };
-  const nativeEngine = process.platform === 'win32' ? engine.replace('_console.exe','.exe') : engine;
-  const context = { root,directory,nonce,platform,input:snapshot.sha256,tool:null,engine:nativeEngine,env };
-  fs.writeFileSync(path.join(directory,'inputs.json'),JSON.stringify(snapshot,null,2));
+async function csharp(context,item) {
+  const env={...context.env,PHASE1_ROOT:context.root,PHASE1_RESULT_DIRECTORY:context.directory,PHASE1_NONCE:context.nonce,PHASE1_INPUT:context.input,PHASE1_TOOL:context.tool,PHASE1_PLATFORM:context.platform};
+  let run;
   try {
-    requireTrue(fs.existsSync(engine),'ENGINE_MISSING');
-    const executableHash = hash(fs.readFileSync(engine));
-    if (archive.executableSha256) requireTrue(executableHash === archive.executableSha256,'ENGINE_HASH');
-    if (process.platform === 'win32') requireTrue(hash(fs.readFileSync(nativeEngine)) === '45336315eb6f1a52a8923bc4f2ce8079a03dc4939dcb7d531047890f1f7cdfab','NATIVE_ENGINE_HASH');
-    const version = await command(engine,['--version'],{cwd:root,env});
-    requireTrue(version.stdout.trim() === pins.engineFullVersion,'ENGINE_VERSION');
-    context.tool = hash(JSON.stringify({engine:executableHash,nativeEngine:hash(fs.readFileSync(nativeEngine)),node:process.version,driver:hash(fs.readFileSync(path.join(root,process.platform === 'win32'?'tools/phase2/windows-input.ps1':'tools/phase2/linux-input.sh')))}));
-    for (const item of selection.selected) {
-      console.log('Checking ' + item.id);
-      requireTrue(item.implementation !== 'pending','PENDING_OBLIGATION ' + item.id);
-      let result;
-      if (item.implementation === 'native') {
-        const caseDirectory=path.join(directory,item.id);
-        fs.mkdirSync(caseDirectory,{recursive:true});
-        const native = await tracer({...context,directory:caseDirectory},item.id);
-        result = {id:item.id,status:'pass',nonce,input:context.input,tool:context.tool,platform,...native};
-        for (const checkpoint of item.images) {
-          const image=result.images.find(image=>image.checkpoint===checkpoint);
-          requireTrue(image && fs.existsSync(image.path),'IMAGE_MISSING');
-          image.sha256=hash(fs.readFileSync(image.path));
-        }
-      } else {
-        const testEnv = {...env, PHASE1_ROOT:root,PHASE1_RESULT_DIRECTORY:directory,PHASE1_NONCE:nonce,PHASE1_INPUT:context.input,PHASE1_TOOL:context.tool,PHASE1_PLATFORM:platform};
-        const run = await command('dotnet',[path.join(root,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll'),'--filter-method',item.test,'--report-xunit-ctrf','--report-xunit-ctrf-filename',item.id+'.ctrf.json','--results-directory',directory],{cwd:root,env:testEnv},180000);
-        fs.writeFileSync(path.join(directory,item.id+'.console.log'),run.stdout+run.stderr);
-        const report = JSON.parse(fs.readFileSync(path.join(directory,item.id+'.ctrf.json'),'utf8'));
-        requireTrue(report.results.summary.tests > 0 && report.results.summary.failed === 0 && report.results.summary.passed === report.results.summary.tests,'TEST_EXECUTION_COUNT');
-        result=JSON.parse(fs.readFileSync(path.join(directory,item.id+'.proof.json'),'utf8'));
-      }
-      fs.writeFileSync(path.join(directory,item.id+'.result.json'),JSON.stringify(result,null,2)); results.push(result);
-    }
-    reconcile(selection.selected,results,context);
-    requireTrue(baseline.snapshot(root,manifest).sha256===context.input,'SOURCE_CHANGED');
-  } catch (error) { failures.push({message:error.message,stack:error.stack}); }
-  const status=failures.length?'fail':'pass';
-  const summary={schemaVersion:1,nonce,platform,input:context.input,tool:context.tool,status,selected:selection.selected.map(row=>row.id),executed:results.length,results,failures,durationMilliseconds:Date.now()-started,revision:spawnSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8',windowsHide:true}).stdout.trim()};
-  fs.writeFileSync(path.join(directory,'summary.json'),JSON.stringify(summary,null,2),{flag:'wx'});
-  console.log(`${status.toUpperCase()} ${results.length}/${selection.selected.length} selected obligations; ${path.relative(root,path.join(directory,'summary.json'))}`);
-  for(const failure of failures) console.error(failure.message);
-  if(status!=='pass')process.exitCode=1;
-  return summary;
+    run=await command('dotnet',[path.join(context.root,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll'),'--filter-method',item.test,'--report-xunit-ctrf','--report-xunit-ctrf-filename',item.id+'.ctrf.json','--results-directory',context.directory],{cwd:context.root,env},180000);
+  } catch(error) {fs.writeFileSync(path.join(context.directory,item.id+'.console.log'),error.stack);throw error;}
+  fs.writeFileSync(path.join(context.directory,item.id+'.console.log'),run.stdout+run.stderr);
+  const report=read(path.join(context.directory,item.id+'.ctrf.json'));
+  requireTrue(report.results.summary.tests===1 && report.results.summary.failed===0 && report.results.summary.passed===1,'TEST_EXECUTION_COUNT');
+  const result=read(path.join(context.directory,item.id+'.proof.json'));
+  requireTrue(Array.isArray(result.evidence) && result.evidence.length>0,'SUBJECT_LOG_REQUIRED');
+  result.testReport=item.id+'.ctrf.json';
+  result.artifacts=[...result.evidence,result.testReport].map(file=>({path:file,sha256:hash(fs.readFileSync(inside(context.directory,file)))}));
+  return result;
 }
-module.exports={main,select,reconcile};
+async function main(root,args) {
+  const catalog=evidence.catalog(root);
+  if(args[0]==='--verify-completion' || args[0]==='--verify-platforms') {
+    requireTrue(args.length===2,'USAGE_COMPLETION');
+    const completion=verifyCompletion(root,read(inside(root,args[1])),catalog.cases);
+    console.log('PASS temporary development-OS completion; Phase5 platform/resolution acceptance deferred');return completion;
+  }
+  if(args[0]==='--complete') {
+    requireTrue(args.length>1,'COMPLETION_EMPTY');
+    const references=args.slice(1).map(relative=>({path:relative,sha256:hash(fs.readFileSync(inside(root,relative)))}));
+    const completion={schemaVersion:1,...aggregate(root,references,catalog.cases),reviews:[]};
+    const relative='.phase2/completions/'+crypto.randomUUID()+'.json',file=inside(root,relative);
+    fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,JSON.stringify(completion,null,2),{flag:'wx'});
+    console.log(completion.status.toUpperCase()+' '+relative+'; appearance review required separately');
+    if(completion.missing.length)process.exitCode=1;return completion;
+  }
+  const selection=select(catalog,args);
+  if(selection.list){console.log(JSON.stringify(selection.selected,null,2));return;}
+  let repairOf=null;
+  if(selection.repair) {
+    const original=loadReport(root,selection.repair,catalog.cases);
+    selection.selected=catalog.cases.filter(row=>original.summary.selected.includes(row.id) && !original.summary.results.some(result=>result.id===row.id && result.status==='pass'));
+    requireTrue(selection.selected.length>0,'NO_FAILED_CASES');
+    repairOf={path:original.path,sha256:original.sha256,revision:original.summary.revision};
+  }
+  const nonce=crypto.randomUUID(),platform=process.platform+'-'+process.arch;
+  const directory=inside(root,'.phase2/runs/'+platform+'/'+nonce);
+  fs.mkdirSync(directory,{recursive:true});
+  const started=Date.now(),results=[],failures=[];
+  const manifest={inputs:['src','tests/phase1','tools/phase2','tools/phase1/toolchain.json','Directory.Build.props','Directory.Build.targets','Directory.Packages.props','.editorconfig','BannedSymbols.txt','BannedSymbols.Pure.txt','docs/code']};
+  const env={...process.env,DOTNET_CLI_HOME:path.join(root,'.phase1/cli-home'),NUGET_PACKAGES:path.join(root,'.phase1/packages'),NUGET_HTTP_CACHE_PATH:path.join(root,'.phase1/http-cache'),TEMP:path.join(root,'.phase1/temp'),TMP:path.join(root,'.phase1/temp')};
+  const context={root,directory,nonce,platform,input:null,tool:null,env};
+  let unlock;
+  try {
+    const snapshot=baseline.snapshot(root,manifest);context.input=snapshot.sha256;
+    fs.writeFileSync(path.join(directory,'inputs.json'),JSON.stringify(snapshot,null,2));
+    // Pure checks need no native executable, display, VM or renderer probe.
+    const version=spawnSync('dotnet',['--version'],{cwd:root,env,encoding:'utf8',windowsHide:true,timeout:12000});
+    requireTrue(version.status===0,'DOTNET_MISSING');
+    context.tool=hash(JSON.stringify({node:process.version,dotnet:version.stdout.trim(),
+      pins:hash(fs.readFileSync(path.join(root,'tools/phase1/toolchain.json'))),
+      testBinary:hash(fs.readFileSync(path.join(root,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll')))}));
+    for(const item of selection.selected.filter(row=>row.implementation==='csharp')) {
+      console.log('Checking '+item.id);
+      try {const result=await csharp(context,item);reconcile([item],[result],context);results.push(result);}
+      catch(error){results.push({id:item.id,status:'fail',nonce,input:context.input,tool:context.tool,platform,message:error.message});}
+    }
+    const native=selection.selected.filter(row=>row.implementation==='native');
+    if(native.length) {
+      unlock=acquireLock(root,nonce);
+      const pins=read(path.join(root,'tools/phase1/toolchain.json')),archive=pins.archives[platform];
+      requireTrue(archive,'PLATFORM_UNSUPPORTED');
+      const engine=inside(root,'.phase1/tools/'+archive.directory+'/'+archive.executable);
+      requireTrue(fs.existsSync(engine),'ENGINE_MISSING');
+      const executableHash=hash(fs.readFileSync(engine));
+      if(archive.executableSha256)requireTrue(executableHash===archive.executableSha256,'ENGINE_HASH');
+      context.engine=process.platform==='win32'?engine.replace('_console.exe','.exe'):engine;
+      if(process.platform==='win32')requireTrue(hash(fs.readFileSync(context.engine))==='45336315eb6f1a52a8923bc4f2ce8079a03dc4939dcb7d531047890f1f7cdfab','NATIVE_ENGINE_HASH');
+      requireTrue((await command(engine,['--version'],{cwd:root,env})).stdout.trim()===pins.engineFullVersion,'ENGINE_VERSION');
+      const nativeDirectory=path.join(directory,'session');fs.mkdirSync(nativeDirectory);
+      const nativeResults=await rendered({...context,directory:nativeDirectory},native);
+      for(const result of nativeResults) {
+        if(result.images)for(const image of result.images){image.path='session/'+image.path;image.statePath='session/'+image.statePath;}
+        if(result.status==='pass')try{reconcile([catalog.cases.find(row=>row.id===result.id)],[result],context);}catch(error){result.status='fail';result.message=error.message;}
+        results.push(result);
+      }
+    }
+    requireTrue(baseline.snapshot(root,manifest).sha256===context.input,'SOURCE_CHANGED');
+  } catch(error){failures.push({message:error.message,stack:error.stack});}
+  finally {if(unlock)unlock();}
+  if(failures.length)for(const result of results)if(result.status==='pass'){result.status='fail';result.message='RUN_INVALID '+failures.at(-1).message;}
+  for(const item of selection.selected)if(!results.some(row=>row.id===item.id))results.push({id:item.id,status:'blocked',nonce,input:context.input,tool:context.tool,platform,message:failures.at(-1)?.message??'NOT_EXECUTED'});
+  const status=failures.length || results.some(row=>row.status!=='pass')?'fail':'pass';
+  const summary={schemaVersion:2,nonce,platform,input:context.input,tool:context.tool,status,selected:selection.selected.map(row=>row.id),executed:results.filter(row=>row.status!=='blocked').length,results,failures,repairOf,
+    policy:'creator-authorized-temporary-pre-phase5',resolution:[1280,720],dependencyAwareReuseCertified:false,startedAt:started,finishedAt:Date.now(),durationMilliseconds:Date.now()-started,revision:spawnSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8',windowsHide:true}).stdout.trim()};
+  for(const result of results)fs.writeFileSync(path.join(directory,result.id+'.result.json'),JSON.stringify(result,null,2),{flag:'wx'});
+  fs.writeFileSync(path.join(directory,'summary.json'),JSON.stringify(summary,null,2),{flag:'wx'});
+  console.log(`${status.toUpperCase()} ${results.filter(row=>row.status==='pass').length}/${selection.selected.length} selected obligations; ${path.relative(root,path.join(directory,'summary.json'))}`);
+  for(const result of results.filter(row=>row.status!=='pass'))console.error(result.status.toUpperCase()+' '+result.id+': '+result.message);
+  for(const failure of failures)console.error(failure.message);
+  if(status!=='pass')process.exitCode=1;return summary;
+}
+module.exports={main,select,reconcile,acquireLock};
 if(require.main===module)main(path.resolve(__dirname,'../..'),process.argv.slice(2)).catch(error=>{console.error(error.stack);process.exitCode=1;});

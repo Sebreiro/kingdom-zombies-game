@@ -13,12 +13,28 @@ test -n "$window"
 test "$(xdotool getwindowpid "$window")" = "$owned_pid"
 xdotool windowactivate --sync "$window"
 test "$(xdotool getwindowfocus)" = "$window"
+geometry=$(xdotool getwindowgeometry --shell "$window")
+width=$(printf '%s\n' "$geometry" | sed -n 's/^WIDTH=//p')
+height=$(printf '%s\n' "$geometry" | sed -n 's/^HEIGHT=//p')
+scaled_x=$((x * width / 1280))
+scaled_y=$((y * height / 720))
 case "$action" in
   probe) ;;
-  click) xdotool mousemove --window "$window" "$x" "$y" click 1 ;;
+  click) xdotool mousemove --window "$window" "$scaled_x" "$scaled_y" click 1 ;;
+  move) xdotool mousemove --window "$window" "$scaled_x" "$scaled_y" ;;
+  mouse-down) xdotool mousemove --window "$window" "$scaled_x" "$scaled_y" mousedown 1 ;;
+  mouse-up) xdotool mousemove --window "$window" "$scaled_x" "$scaled_y" mouseup 1 ;;
   down) xdotool keydown "$key" ;;
   up) xdotool keyup "$key" ;;
   tap) xdotool key "$key" ;;
+  focus-cycle)
+    xdotool windowminimize "$window"
+    sleep 0.5
+    test "$(xdotool getwindowfocus)" != "$window"
+    xdotool windowmap "$window"
+    xdotool windowactivate --sync "$window"
+    test "$(xdotool getwindowfocus)" = "$window"
+    ;;
   *) exit 2 ;;
 esac
-printf '{"pid":%s,"window":%s,"focused":true,"action":"%s"}\n' "$owned_pid" "$window" "$action"
+printf '{"pid":%s,"window":%s,"focused":true,"action":"%s","width":%s,"height":%s}\n' "$owned_pid" "$window" "$action" "$width" "$height"

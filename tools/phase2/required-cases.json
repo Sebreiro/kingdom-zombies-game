@@ -1,5 +1,8 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
+  "requiredEnvironment": "development-os",
+  "resolutions": [[1280, 720]],
+  "deferredToPhase5": ["other-supported-os", "1920x1080", "dependency-aware-reuse-certification"],
   "cases": [
     {
       "id": "core.authority",
@@ -16,7 +19,8 @@
     {
       "id": "core.lifecycle",
       "group": "core",
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "*FoundationLifecycleTests.ClosedAuthorityAndHeldKeysCannotCrossLifetimes"
     },
     {
       "id": "core.permissions",
@@ -32,13 +36,22 @@
         "launch-menu",
         "initial-scene",
         "right-facing",
-        "returned-menu"
+        "returned-menu",
+        "left-facing"
       ]
     },
     {
       "id": "rendered.menu",
       "group": "rendered",
-      "implementation": "pending"
+      "implementation": "native",
+      "images": [
+        "launch-menu",
+        "initial-scene",
+        "right-facing",
+        "returned-menu",
+        "recoverable-error",
+        "left-facing"
+      ]
     },
     {
       "id": "rendered.directions",
@@ -47,7 +60,9 @@
       "images": [
         "launch-menu",
         "initial-scene",
-        "returned-menu"
+        "returned-menu",
+        "left-facing",
+        "right-facing"
       ]
     },
     {
@@ -57,7 +72,9 @@
       "images": [
         "launch-menu",
         "initial-scene",
-        "returned-menu"
+        "returned-menu",
+        "left-facing",
+        "right-facing"
       ]
     },
     {
@@ -67,43 +84,80 @@
       "images": [
         "launch-menu",
         "initial-scene",
-        "returned-menu"
+        "returned-menu",
+        "left-facing",
+        "right-facing",
+        "building-overlap",
+        "left-bound",
+        "right-bound"
       ]
     },
     {
       "id": "rendered.lifecycle",
       "group": "rendered",
-      "implementation": "pending"
+      "implementation": "native",
+      "images": [
+        "launch-menu",
+        "initial-scene",
+        "right-facing",
+        "returned-menu",
+        "restart",
+        "left-facing"
+      ]
     },
     {
       "id": "rendered.focus",
       "group": "rendered",
-      "implementation": "pending"
+      "implementation": "native",
+      "images": [
+        "launch-menu",
+        "initial-scene",
+        "right-facing",
+        "returned-menu",
+        "left-facing"
+      ]
     },
     {
       "id": "rendered.quit",
       "group": "rendered",
-      "implementation": "pending"
+      "implementation": "native",
+      "images": [
+        "launch-menu",
+        "initial-scene",
+        "right-facing",
+        "returned-menu",
+        "left-facing"
+      ]
     },
     {
       "id": "rendered.resources",
       "group": "rendered",
-      "implementation": "pending"
+      "implementation": "native",
+      "images": [
+        "launch-menu",
+        "initial-scene",
+        "right-facing",
+        "returned-menu",
+        "left-facing"
+      ]
     },
     {
       "id": "runner.integrity",
       "group": "runner",
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "*FoundationRunnerTests.InvalidEvidenceCannotPass"
     },
     {
       "id": "runner.processes",
       "group": "runner",
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "*FoundationRunnerTests.FailingChildrenCannotPass"
     },
     {
       "id": "runner.repeatability",
       "group": "runner",
-      "implementation": "pending"
+      "implementation": "csharp",
+      "test": "*FoundationRunnerTests.RepairedEvidenceRetainsOriginalIdentity"
     }
   ]
 }
