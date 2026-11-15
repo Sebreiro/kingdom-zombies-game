@@ -4,9 +4,9 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 03
 current_phase_name: Four-player LAN foundation
-current_plan: 3
+current_plan: 4
 status: executing
-stopped_at: Phase 3 plans 03-01 and 03-02 complete; executing 03-03
+stopped_at: Phase 3 plans 03-01 through 03-03 complete; executing 03-04
 last_updated: "2026-11-15T13:17:50.541Z"
 last_activity: 2026-11-15
 last_activity_desc: Phase 03 execution started
@@ -31,7 +31,7 @@ Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUM
 ## Current Position
 
 Phase: 03 (Four-player LAN foundation) — EXECUTING
-Current Plan: 3
+Current Plan: 4
 Total Plans in Phase: 4
 Status: Executing Phase 03
 Last activity: 2026-11-15 — Phase 03 execution started
@@ -136,9 +136,9 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 ## Session Continuity
 
 Last session: 2026-11-15T11:54:34.106Z
-Stopped at: Phase 3 plans 03-01 and 03-02 complete; executing 03-03
+Stopped at: Phase 3 plans 03-01 through 03-03 complete; executing 03-04
 Resume file: .planning/phases/03-four-player-lan-foundation/03-CONTEXT.md
 
-Next action: Execute 03-03 and 03-04 under --only 3. Branch feature/03-four-player-lan-foundation and draft PR #4 are active. Complete implementation and review before Windows 1280×720 game runs; no VM.
+Next action: Implement 03-04 evidence tooling/scenarios, independently review and fix the whole phase, then execute the grouped Windows 1280×720 selected set under --only 3. Branch feature/03-four-player-lan-foundation and draft PR #4 are active. Complete implementation and review before Windows 1280×720 game runs; no VM.
 
 Parallel context resume: [Phase 4 context](phases/04-asset-production/04-CONTEXT.md). Its capture is preserved separately from this completed Phase 1 run.

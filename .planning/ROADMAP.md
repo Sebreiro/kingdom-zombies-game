@@ -165,7 +165,7 @@ Every feature includes its stable identities, host-authoritative validation and 
 3. Solo, host-local, and guest actions produce one authoritative result per accepted action; repeated input/command delivery cannot execute the host action twice.
 4. A developer can repeat the connection/movement smoke checks and substitute the discovery, identity, or connection adapter without changing gameplay rules; player identity survives independently of a LAN address or transient peer number.
 
-**Plans:** 2/4 plans executed
+**Plans:** 3/4 plans executed
 **UI hint:** yes
 
 Plans:
@@ -176,7 +176,7 @@ Plans:
 - [x] 03-02-PLAN.md — Complete four-participant admission, ordering, timeout and session-lifetime behavior.
 
 **Wave 3** *(blocked on Wave 2 completion)*
-- [ ] 03-03-PLAN.md — Complete discovery, stable profiles, native controls, independent cameras and service substitutions.
+- [x] 03-03-PLAN.md — Complete discovery, stable profiles, native controls, independent cameras and service substitutions.
 
 **Wave 4** *(blocked on Wave 3 completion)*
 - [ ] 03-04-PLAN.md — Deliver strict per-peer evidence, review/fix the whole phase and run grouped selected scenarios.
@@ -364,7 +364,7 @@ Execution order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11
 | --- | --- | --- | --- |
 | 1. Code rules and documentation | 18/18 | Complete    | 2026-11-14 |
 | 2. Playable foundation | 3/3 | Complete    | 2026-11-15 |
-| 3. Four-player LAN foundation | 2/4 | In Progress | - |
+| 3. Four-player LAN foundation | 3/4 | In Progress | - |
 | 4. Asset production | 0/TBD | Not started | - |
 | 5. CI and repeatable game testing | 0/TBD | Not started | - |
 | 6. Survivors, inventory, and combat | 0/TBD | Not started | - |
