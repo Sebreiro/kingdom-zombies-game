@@ -316,12 +316,25 @@ async function rendered(context,items) {
   const session=createSession({...context,includeMenu:items.some(row=>row.id==='rendered.menu')});
   const interrupted=()=>{killTree(session.game);};
   process.on('SIGINT',interrupted); process.on('SIGTERM',interrupted);
+  let results;
   try {
     await delay(1500);
-    return await runScenarios(context,items,session);
+    results=await runScenarios(context,items,session);
+    return results;
   } finally {
-    try {await session.close();}
+    try {await closeSession(session,results);}
     finally {process.removeListener('SIGINT',interrupted);process.removeListener('SIGTERM',interrupted);}
+  }
+}
+async function closeSession(session,results) {
+  try {await session.close();}
+  catch(error) {
+    if(!results?.length)throw error;
+    const affected=results.findLast(row=>row.status!=='blocked')??results.at(-1);
+    affected.scenarioStatus=affected.status;
+    affected.cleanupError={message:error.message,causes:(error.errors??[]).map(cause=>cause.message)};
+    if(affected.status==='pass')affected.status='fail';
+    affected.message=(affected.message?affected.message+'; ':'')+'SESSION_CLEANUP '+error.message;
   }
 }
 async function runScenarios(context,items,session) {
@@ -342,4 +355,4 @@ async function runScenarios(context,items,session) {
   }
   return results;
 }
-module.exports = { tracer, rendered, runScenarios, ownedInput, decodePng, command, killTree, validateResources };
+module.exports = { tracer, rendered, runScenarios, closeSession, ownedInput, decodePng, command, killTree, validateResources };

@@ -8,7 +8,7 @@ const zlib=require('node:zlib');
 const {spawn}=require('node:child_process');
 const assert=require('node:assert/strict');
 const e=require('./evidence.cjs');
-const {command,runScenarios,ownedInput}=require('./rendered.cjs');
+const {command,runScenarios,closeSession,ownedInput}=require('./rendered.cjs');
 const {acquireLock,select}=require('./check.cjs');
 const delay=milliseconds=>new Promise(resolve=>setTimeout(resolve,milliseconds));
 function rejects(action,pattern){assert.throws(action,pattern);}
@@ -34,7 +34,29 @@ async function run(mode) {
   const artifacts=['subject.log','tests.json'].map(file=>({path:file,sha256:e.hash(fs.readFileSync(path.join(directory,file)))}));
   const second={...first,id:selected[1].id,images:[],testReport:'tests.json',artifacts};
   const results=[first,second];
-  if(mode==='owned-input') {
+  if(mode==='session-cleanup') {
+    for(const failure of ['GAME_EXITED_BEFORE_INPUT','INPUT_ACKNOWLEDGEMENT']) {
+      const calls=[];
+      let closing=false;
+      const owned=ownedInput(async action=>{calls.push(action);if(closing)throw new Error(failure);});
+      await owned.input('down',0,0,65);await owned.input('mouse-down',400,280);
+      closing=true;
+      const outcomes=[{id:'earlier',status:'pass',observations:[{checkpoint:'retained'}]},
+        {id:'affected',status:failure==='GAME_EXITED_BEFORE_INPUT'?'fail':'pass',observations:[{checkpoint:'partial'}],
+          ...(failure==='GAME_EXITED_BEFORE_INPUT'?{message:'GAME_PROCESS_LOST'}:{})},
+        {id:'later',status:'blocked',message:'GAME_PROCESS_LOST'}];
+      const earlier=structuredClone(outcomes[0]),blocked=structuredClone(outcomes[2]);
+      await closeSession({close:()=>owned.release()},outcomes);
+      assert.deepEqual(outcomes[0],earlier);assert.deepEqual(outcomes[2],blocked);
+      assert.equal(outcomes[1].status,'fail');
+      assert.equal(outcomes[1].scenarioStatus,failure==='GAME_EXITED_BEFORE_INPUT'?'fail':'pass');
+      assert.deepEqual(outcomes[1].observations,[{checkpoint:'partial'}]);
+      assert.match(outcomes[1].message,/SESSION_CLEANUP OWNED_INPUT_RELEASE_FAILED/);
+      assert.deepEqual(outcomes[1].cleanupError.causes,[failure,failure]);
+      assert.deepEqual(calls,['down','mouse-down','up','mouse-up']);
+    }
+    console.log('PASS crash/held-key and failed release acknowledgements retain earlier passes, partial observations and blocked outcomes while surfacing cleanup failure');
+  } else if(mode==='owned-input') {
     for(const press of ['mouse-down','click']) {
       const calls=[];
       const owned=ownedInput(async (...args)=>{calls.push(args);if(args[0]===press)throw new Error('ACK_FAILED_AFTER_PRESS');});
@@ -144,6 +166,7 @@ async function run(mode) {
     const release=acquireLock(lockRoot,crypto.randomUUID());release();
     await run('scenario-diagnostics');
     await run('owned-input');
+    await run('session-cleanup');
     console.log('PASS reordered evidence, fresh repair nonce, changed fingerprint temporary aggregation, immutable baseline and actual concurrent lock refusal');
   } else throw new Error('UNKNOWN_CONTROL');
   return {directory,mode};
