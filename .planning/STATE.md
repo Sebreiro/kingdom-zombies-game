@@ -6,17 +6,16 @@ current_phase: 02
 current_phase_name: Playable foundation
 current_plan: 02-02
 status: executing
-stopped_at: Phase 2 resumed under creator-approved pre-Phase-5 testing policy
-last_updated: "2026-11-15T11:31:06.743Z"
+stopped_at: Phase 5 context amended and Phase 11 added; active Phase 02 implementation position preserved
+last_updated: "2026-11-15T11:58:21.334Z"
 last_activity: 2026-11-15
 last_activity_desc: Resume Phase 2 implementation, then code review/fixes, then Windows-only shared-session 1280x720 testing
-state_head: 9a9624087f0e9a9caf9b88cd8910357164e98c43
 progress:
-  total_phases: 10
+  total_phases: 11
   completed_phases: 1
-  total_plans: 18
-  completed_plans: 18
-  percent: 10
+  total_plans: 21
+  completed_plans: 19
+  percent: 9
 ---
 
 # Project State
@@ -27,7 +26,7 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase 2 — Playable foundation is implementing on `feature/02-playable-foundation`, draft PR #3. Plan 02-01 is complete, 02-02 Task 1 is committed, and remaining gameplay/runner implementation resumes under the [creator's testing amendment](phases/02-playable-foundation/02-TESTING-AMENDMENT.md). Finish all implementation, then code review/fixes, then Windows-only 1280×720 shared-session scenarios and failed-scenario reruns. Preserve Phase 1 follow-ups and later-phase ownership; Linux/additional-resolution acceptance is deferred explicitly to Phase 5, not passed.
+**Current focus:** Phase 2 is implementing on feature/02-playable-foundation, draft PR #3; plan 02-01 is complete and current plan remains 02-02. Follow [local testing strategy](../docs/workflow/local-testing.md): finish implementation, review/fix code, then development-OS-only 1280x720 grouped game tests without a VM. Select all active Critical/new/changed/affected cases immediately; after repair checks, rerun the whole selected set. Save reusable importance/run-group scenarios. Phase 5 supplies the framework and hosted compatibility; Phase 11 adds TEST-11 nightly full testing. This replaces earlier local VM/extra-resolution catch-up instructions without claiming missing historical or release evidence passed.
 
 ## Current Position
 
@@ -37,9 +36,9 @@ Total Plans in Phase: 3
 Status: Implementing all remaining Phase 2 code before code review and rendered tests; plan 02-01 complete; draft PR #3 targets dev
 Last activity: 2026-11-15 - Creator amended Phases 2–4 testing and resumed Phase 2; owned Linux VM shut down
 
-Progress: [█░░░░░░░░░] 10%
+Progress: [█░░░░░░░░░] 9%
 
-Phase 1 plan progress: 18/18 completed; Phase 1 and RULE-01–RULE-07 closed on 2026-11-14 after current passing verification. Milestone progress: 1/10 phases complete.
+Phase 1 plan progress: 18/18 completed; Phase 1 and RULE-01 through RULE-07 remain closed under the 2026-11-14 exception. Milestone progress: 1/11 phases complete.
 
 ## Performance Metrics
 
@@ -93,6 +92,8 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - Keep the complete Linux suite, original graph-case timeout and fourteen unreviewed human components as explicit follow-ups. Never convert them into passed cases or reviews.
 - Later phases must test on the development OS and complete their required scope in a local VM using the other OS. Phase 5 retains measured 90%/80% coverage and eight pending certification declarations.
 - Phase implementation uses `feature/<task-id>-<short-description>` branches and draft PRs to `dev` at the first implementation push; the same PR becomes ready for review after phase completion and required verification. Follow the [phase branch and PR rules](../docs/workflow/ai-collaboration.md#phase-branches-and-pull-requests).
+- [Phase 05]: Latest 2026-11-15 testing policy supersedes earlier VM and full-catalog phase-closure bullets: use development OS only, no VM, 1280x720, finish implementation and review/fixes before game windows. Select all active Critical cases plus every new/changed case and affected regression immediately. Save reusable scenarios with importance and ordered run groups; collect failures, batch repairs, check failures, then rerun the whole selected set. Phase 11 owns TEST-11 nightly full regression testing; hosted and distinct release evidence remains separate.
+- [Phase 11]: TEST-11 adds nightly full regression testing after Phase 10: the map now has 134 requirements and eleven phases, with original requirement IDs/owners preserved. RULE-01 through RULE-07 remain complete; 127 requirements remain pending. Phase 02 / plan 02-02 is still active.
 
 ### Pending Todos
 
@@ -102,6 +103,8 @@ No remaining Phase 1 closure gate under the current creator exception. Follow-up
 
 - 2026-11-14 — Creator approved Phase 1 simplification. Revised remaining plans 01-14–17 and Phase 1/5 acceptance boundaries. Coverage targets remain 90% lines / 80% branches; measured coverage, exhaustive platform/report reconciliation and unfinished aggregate certification have explicit Phase 5 ownership. Ten phases, 133 requirement IDs, primary owners and all working enforcement/tests are preserved. This is a plan change, not a passed implementation or platform check.
 - Phase 02 changed: Phase 5 discussion amended verification: basic build/repository-only PRs target about ten minutes per OS; dependency-aware focused groups and validated unchanged-group reuse replace mandatory full closure reruns. Complete case/environment evidence, eight handoff IDs and 90/80 coverage targets remain required. See phases/05-ci-and-repeatable-game-testing/05-CONTEXT.md and amended 05-SPEC.md.
+- Phase 11 added: Nightly full regression testing (TEST-11) after Phase 10; immediate reduced local testing and saved scenario/run-group metadata are not deferred.
+- Phase 05 edited: Creator local testing amendment: no VM, development OS/1280x720 only after whole implementation and review; Critical/new/changed/affected selection now; grouped repair checks followed by the full selected-set pass.
 
 ### Blockers/Concerns
 
@@ -131,10 +134,10 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 
 ## Session Continuity
 
-Last session: 2026-11-14T21:53:33.209Z
-Stopped at: Phase 5 context gathered; active Phase 02 planning position preserved
+Last session: 2026-11-15T11:54:34.106Z
+Stopped at: Phase 5 context amended and Phase 11 added; active Phase 02 implementation position preserved
 Resume file: .planning/phases/05-ci-and-repeatable-game-testing/05-CONTEXT.md
 
-Next action: Stop after completed Phase 1 as requested by --only 1. Phase 2 is ready for a later planning invocation; preserve its captured context and the explicit Phase 1 follow-ups.
+Next action: Continue Phase 2 implementation on its existing branch and draft PR, then code review/fixes and selected grouped local tests under docs/workflow/local-testing.md. Phase 5 context is amended for later planning; Phase 11 is added but unplanned. Preserve the active Phase 02 / plan 02-02 position.
 
 Parallel context resume: [Phase 4 context](phases/04-asset-production/04-CONTEXT.md). Its capture is preserved separately from this completed Phase 1 run.
