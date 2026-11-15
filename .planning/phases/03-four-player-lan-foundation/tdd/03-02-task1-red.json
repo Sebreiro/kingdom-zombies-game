@@ -1,0 +1,13 @@
+{
+  "targetFile": "tests/phase1/FoundationLanAdmissionTests.cs",
+  "reportPath": ".phase3/red-task1/task1-confirmed.xml",
+  "reportModifiedAt": "2026-11-15T14:08:31.5963575Z",
+  "exitCode": 2,
+  "targetTest": "KingdomZombies.Phase1.Tests.FoundationLanAdmissionTests#KingdomZombies.Phase1.Tests.FoundationLanAdmissionTests.PendingAdmissionIsIdempotentAndBounded",
+  "semanticAssessment": "Target executed and failed the planned repeated-baseline count assertion: expected 1, actual 0; strict compilation passed.",
+  "actual": "No repeated baseline is sent",
+  "runStartedAt": "2026-11-15T14:08:30.9522415Z",
+  "expected": "Repeated hello returns one original baseline",
+  "output": "<testsuites name=\"Test results\" tests=\"1\" failures=\"1\" errors=\"0\" disabled=\"0\" time=\"0.218000\" timestamp=\"2026-11-15T14:08:31\"><testsuite name=\"D:\\Work\\Games\\KingdomZombies\\tests\\phase1\\bin\\Debug\\net10.0\\KingdomZombies.Phase1.Tests.dll\" tests=\"1\" failures=\"1\" errors=\"0\" disabled=\"0\" skipped=\"0\" time=\"0.218000\" timestamp=\"2026-11-15T14:08:31\" hostname=\"MINI-WIN\"><testcase name=\"KingdomZombies.Phase1.Tests.FoundationLanAdmissionTests.PendingAdmissionIsIdempotentAndBounded\" time=\"0.094000\" classname=\"KingdomZombies.Phase1.Tests.FoundationLanAdmissionTests\"><failure message=\"Shouldly.ShouldAssertException : port.Sent.Count(predicate: row =&gt; row.Envelope.Kind is &quot;baseline&quot;)&#xD;&#xA;    should be&#xD;&#xA;1&#xD;&#xA;    but was&#xD;&#xA;0\">   at KingdomZombies.Phase1.Tests.FoundationLanAdmissionTests.PendingAdmissionIsIdempotentAndBounded() in D:\\Work\\Games\\KingdomZombies\\tests\\phase1\\FoundationLanAdmissionTests.cs:line 25\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</failure></testcase></testsuite></testsuites>",
+  "command": "dotnet tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll --filter-method KingdomZombies.Phase1.Tests.FoundationLanAdmissionTests.PendingAdmissionIsIdempotentAndBounded --report-xunit-junit --report-xunit-junit-filename task1-confirmed.xml --results-directory .phase3/red-task1"
+}
