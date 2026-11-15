@@ -2,7 +2,7 @@
 const fs=require('node:fs'),path=require('node:path'),e=require('./evidence.cjs');
 const selectionPath='.planning/phases/03-four-player-lan-foundation/03-SELECTION.json';
 const reviewPath='.planning/phases/03-four-player-lan-foundation/03-REVIEW.json';
-function validate(root,catalog){
+function validate(root,catalog,savedSelection=null){
   e.requireTrue(catalog.schemaVersion===1&&catalog.requiredEnvironment==='development-os','CATALOG_SCHEMA');
   e.exact(catalog.cases.map(row=>row.id),catalog.cases.map(row=>row.id),'catalog');
   const acceptance=new Set(),edges=new Set();
@@ -16,11 +16,12 @@ function validate(root,catalog){
   }
   e.exact(Array.from({length:18},(_,index)=>'AC-'+String(index+1).padStart(2,'0')),[...acceptance],'18 acceptance criteria');
   e.exact(Array.from({length:20},(_,index)=>'E'+String(index+1).padStart(2,'0')),[...edges],'20 edges');
-  const selection=e.read(e.inside(root,selectionPath));e.exact(catalog.cases.map(row=>row.id),selection.selected.phase3,'saved phase3 selection');
+  const selection=savedSelection??e.read(e.inside(root,selectionPath));e.exact(catalog.cases.map(row=>row.id),selection.selected.phase3,'saved phase3 selection');
   const inherited=e.read(path.join(root,'tools/phase2/required-cases.json'));e.exact(inherited.cases.map(row=>row.id),selection.selected.phase2,'all 16 inherited');
   const phase1=e.read(path.join(root,'tools/phase1/required-cases.json'));
   const active=phase1.cases.filter(row=>(row.acceptancePhase??1)<=1);e.exact(active.map(row=>row.id),[...selection.selected.phase1,...selection.omitted.phase1.map(row=>row.id)],'phase1 accounted');
   e.requireTrue(selection.omitted.phase1.every(row=>row.reason?.trim())&&selection.omitted.phase2.length===0&&selection.omitted.phase3.length===0,'OMISSION_RATIONALE');
+  require('./selection-impact.cjs').check(selection,phase1.cases,e.requireTrue);
   const scenarios=fs.readFileSync(path.join(root,'.planning/phases/03-four-player-lan-foundation/03-SCENARIOS.md'),'utf8');
   for(const row of catalog.cases)e.requireTrue(scenarios.includes('`'+row.id+'`'),'SAVED_SCENARIO_MISSING '+row.id);
   return selection;
