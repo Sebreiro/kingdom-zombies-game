@@ -36,6 +36,14 @@ internal sealed class FoundationDrawObserver
         _attached = false;
     }
 
+    internal string InspectControls(string sample)
+    {
+        using JsonDocument document = JsonDocument.Parse(json: sample);
+        _sample = document.RootElement;
+        ObserveControls();
+        return Serialize(width: 1280, height: 720, focused: false, cameraX: 0);
+    }
+
     private readonly Control _root;
     private readonly MainThreadGateway _gateway;
     private readonly List<object> _actors = [];
@@ -112,10 +120,12 @@ internal sealed class FoundationDrawObserver
             ObserveControl(path: path);
         }
 
-        for (int index = 0; index < _sample.GetProperty(propertyName: "discoveryRows").GetArrayLength(); index++)
+        foreach (Node child in _root.GetNode<Control>(path: "Browser/Scroll/Rows").GetChildren())
         {
-            ObserveControl(path: "Browser/Scroll/Rows/Session" + index.ToString(
-                    provider: System.Globalization.CultureInfo.InvariantCulture));
+            if (child is Control control)
+            {
+                ObserveControl(path: _root.GetPathTo(node: control).ToString());
+            }
         }
     }
 
@@ -125,6 +135,7 @@ internal sealed class FoundationDrawObserver
         Control control = _root.GetNode<Control>(path: path);
         Rect2 rect = control.GetGlobalRect();
         _controls.Add(item: new { path, x = rect.GetCenter().X, y = rect.GetCenter().Y,
+            session = control.GetMeta(name: "session", @default: "").AsString(),
             width = rect.Size.X, height = rect.Size.Y, visible = control.IsVisibleInTree(),
             focused = control.HasFocus(), text = control is Label label ? label.Text
                     : control is Button button ? button.Text : control is LineEdit edit ? edit.Text : "" });
@@ -174,11 +185,12 @@ internal sealed class FoundationDrawObserver
         return JsonSerializer.Serialize(value: new { nonce = _sample.GetProperty(propertyName: "nonce"),
             pid = System.Environment.ProcessId,
             role = System.Environment.GetEnvironmentVariable(variable: "PHASE3_ROLE"),
-            profile = _sample.GetProperty(propertyName: "profile").GetProperty(propertyName: "PlayerId"),
+            profile = _sample.GetProperty(propertyName: "profile").ValueKind is JsonValueKind.Null ? (string?)null
+                    : _sample.GetProperty(propertyName: "profile").GetProperty(propertyName: "PlayerId").GetString(),
             playerId = _sample.GetProperty(propertyName: "playerId"),
             bindingId = _sample.GetProperty(propertyName: "bindingId"),
             snapshot = _sample.GetProperty(propertyName: "snapshot"),
-            input = _sample, drawn = true, drawFrame = _frame, drawMicroseconds = _drawMicroseconds,
+            input = _sample, drawn = _frame > 0, drawFrame = _frame, drawMicroseconds = _drawMicroseconds,
             checkpoint = _checkpoint, width, height, actors = _actors, controls = _controls,
             focused, cameraX });
     }

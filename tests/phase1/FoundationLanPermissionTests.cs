@@ -34,7 +34,7 @@ public sealed class FoundationLanPermissionTests
         CheckPublicTypes();
         EngineAccessPolicy.Repository().ShouldBeEmpty();
         ProofProtocol.Record(id: "core.permissions",
-                diagnostic: "EXACT_LAN_PERMISSIONS:43_TUPLES_8_PUBLIC_TYPES_WITH_VALID_NEGATIVES");
+                diagnostic: "EXACT_LAN_PERMISSIONS:44_TUPLES_8_PUBLIC_TYPES_WITH_VALID_NEGATIVES");
     }
 
     private const string Native = " _ = Godot.Input.IsPhysicalKeyPressed(keycode: Godot.Key.D); ";
@@ -45,7 +45,8 @@ public sealed class FoundationLanPermissionTests
         ("EnetConnectionService", ["Host", "Join", "Poll", "Send", "Close", "Check"]),
         ("FoundationAutomation", ["Deliver"]),
         ("FoundationNativeRegression", ["Browser"]),
-        ("FoundationDrawObserver", ["Start", "Stop", "Draw", "ObserveActor", "ObserveControl", "Capture", "Write"]),
+        ("FoundationDrawObserver", ["Start", "Stop", "Draw", "ObserveActor", "ObserveControl", "ObserveControls",
+            "Capture", "Write"]),
         ("FoundationMenu", ["Attach", "Detach", "CommitName", "Browse", "Tick", "Attempt", "Recover", "Activate",
             "PopupOpen", "Escape", "Profiles", "Feedback", "Refresh", "Back", "Lock", "Rows", "AddRow", "Detail",
             "RowLabel", "HideDetail"]),
@@ -86,7 +87,7 @@ public sealed class FoundationLanPermissionTests
             }
         }
 
-        checkedMethods.ShouldBe(expected: 43);
+        checkedMethods.ShouldBe(expected: 44);
     }
 
     private static void CheckInventory()
