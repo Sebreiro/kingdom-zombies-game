@@ -56,6 +56,20 @@ public sealed class FoundationLanServicesTests
         ProofProtocol.Record(id: "adapters.profiles", diagnostic: "SCHEMA1_ATOMIC_LOCKED_EXACT_RESTART_RECOVERY");
     }
 
+    /// <summary>An unavailable selected provider cannot bind cached ownership into a new coordinator.</summary>
+    [Fact]
+    public void IndependentProvidersUseProductionComposition()
+    {
+        var identity = new FoundationIdentityReplacement(profile: new PlayerProfile(
+                playerId: Guid.NewGuid().ToString(format: "N"), displayName: "Equal", ordinal: 1),
+                failureReason: "Identity unavailable");
+        using var discovery = new LanDiscoveryService();
+        var services = new FoundationServices(identity: identity, discovery: discovery,
+                connection: () => new FoundationHarnessConnection());
+        Should.Throw<InvalidOperationException>(actual: () => services.Create(connected: true,
+                nowMilliseconds: () => 0)).Message.ShouldBe(expected: "Identity unavailable");
+    }
+
     internal static SessionAdvertisement Advertisement(string id)
     {
         return new SessionAdvertisement(sessionId: id, sessionName: "Equal 生存者", hostLabel: "Equal",
