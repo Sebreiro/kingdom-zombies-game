@@ -1,18 +1,19 @@
 ---
 phase: 03-four-player-lan-foundation
-reviewed: 2026-11-15T23:13:31Z
+reviewed: 2026-11-15T23:32:39Z
 depth: standard
-reviewed_revision: ba0b1b79499a1f9a17055bd3af61fedf8473d613
-build_revision: ba0b1b79499a1f9a17055bd3af61fedf8473d613
+reviewed_revision: 93e8552c1518a738af24a120ece8d99c5f0bfcab
+build_revision: 93e8552c1518a738af24a120ece8d99c5f0bfcab
 diff_base: 87e0b44
-scope_files: 119
-files_reviewed: 116
+scope_files: 120
+files_reviewed: 117
 files_reviewed_list:
   - .gitignore
   - docs/code/engine-generated-spans.json
   - docs/code/exemptions.json
   - docs/code/generated-callsite-adaptations.json
   - docs/code/register.json
+  - docs/code/rule-matrix.md
   - docs/code/visibility-exemptions.json
   - docs/workflow/lan-foundation-checks.md
   - docs/workflow/verification.md
@@ -30,9 +31,9 @@ files_reviewed_list:
   - src/godot-game/foundation/FoundationBrowser.cs
   - src/godot-game/foundation/FoundationCapturePublication.cs
   - src/godot-game/foundation/FoundationCoordinator.Admission.cs
+  - src/godot-game/foundation/FoundationCoordinator.cs
   - src/godot-game/foundation/FoundationCoordinator.GuestPublication.cs
   - src/godot-game/foundation/FoundationCoordinator.Lifetime.cs
-  - src/godot-game/foundation/FoundationCoordinator.cs
   - src/godot-game/foundation/FoundationCopy.cs
   - src/godot-game/foundation/FoundationDiagnostics.cs
   - src/godot-game/foundation/FoundationDisplay.cs
@@ -88,6 +89,7 @@ files_reviewed_list:
   - tests/phase1/FoundationScenarioClock.cs
   - tests/phase1/FoundationServiceSubstitutionProof.cs
   - tests/phase1/FoundationTestConnection.cs
+  - tests/phase1/GraphFixture.cs
   - tests/phase1/KingdomZombies.Phase1.Tests.csproj
   - tests/phase1/SuppressionTests.cs
   - tools/code-rules/BodyLengthAnalyzer.cs
@@ -101,12 +103,18 @@ files_reviewed_list:
   - tools/phase3/foreground.cjs
   - tools/phase3/foreground.test.cjs
   - tools/phase3/inherited.cjs
+  - tools/phase3/inherited.test.cjs
   - tools/phase3/navigation.test.cjs
   - tools/phase3/network.cjs
+  - tools/phase3/png-worker.cjs
   - tools/phase3/png.cjs
   - tools/phase3/processes.cjs
+  - tools/phase3/rendered-stream.test.cjs
   - tools/phase3/rendered.cjs
   - tools/phase3/required-cases.json
+  - tools/phase3/reviewed-source.targets
+  - tools/phase3/revisions.cjs
+  - tools/phase3/revisions.test.cjs
   - tools/phase3/runner-fixture.cjs
   - tools/phase3/scenarios.cjs
   - tools/phase3/selection-impact.cjs
@@ -117,13 +125,6 @@ files_reviewed_list:
   - tools/phase3/terminal.cjs
   - tools/phase3/timing.test.cjs
   - tools/phase3/windows-input.ps1
-  - tools/phase3/revisions.cjs
-  - tools/phase3/revisions.test.cjs
-  - tools/phase3/inherited.test.cjs
-  - tools/phase3/reviewed-source.targets
-  - tests/phase1/GraphFixture.cs
-  - docs/code/rule-matrix.md
-  - tools/phase3/rendered-stream.test.cjs
 context_files_reviewed:
   - .planning/phases/03-four-player-lan-foundation/03-SCENARIOS.md
   - .planning/phases/03-four-player-lan-foundation/03-SELECTION.json
@@ -139,17 +140,17 @@ status: clean
 
 # Phase 03: Code Review Report
 
-**Reviewed:** 2026-11-15T23:13:31Z  
+**Reviewed:** 2026-11-15T23:32:39Z  
 **Depth:** standard  
-**Source files reviewed:** 116  
-**Explicit scope:** all 119 paths from `.phase3/review-fix-union.txt`, preserving the original scope, added SourceLink target and the two newly reviewed proof/document consumers; three planning-context paths are listed separately above  
+**Source files reviewed:** 117  
+**Explicit scope:** all 120 paths from `.phase3/review-fix-union.txt`, preserving the complete original scope and subsequent helpers/consumers, including the new PNG worker; three planning-context paths are listed separately above  
 **Status:** clean  
-**Reviewed source / pinned build revision:** `ba0b1b79499a1f9a17055bd3af61fedf8473d613`  
+**Reviewed source / pinned build revision:** `93e8552c1518a738af24a120ece8d99c5f0bfcab`  
 **Diff base:** `87e0b44`
 
 ## Summary
 
-This independent re-review preserves the complete original source/context union and all earlier assessments, adding the phase-only SourceLink target and the later graph-fixture/matrix consumers for a total of 119 paths / 116 source paths, including the new draw-stream control. The complete Phase 3 source review above is carried forward together with a direct recheck of the six-path repair diff from `a35bd6f` to `166a32ad6a7541c4f5eed1378def0a86e9bea632`: guest publication, native projection, native regression, protocol proof, independent catalog and saved scenarios. Every repair path was already inside the retained scope. Their production callers, trust boundaries and actual regression consumers were traced; the cumulative fix ledger was treated as a claim to confirm.
+This independent re-review preserves the complete original source/context union and all earlier assessments, adding the phase-only SourceLink target and the later graph-fixture/matrix consumers for a total of 120 paths / 117 source paths, including the draw-stream control and PNG worker. The complete Phase 3 source review above is carried forward together with a direct recheck of the six-path repair diff from `a35bd6f` to `166a32ad6a7541c4f5eed1378def0a86e9bea632`: guest publication, native projection, native regression, protocol proof, independent catalog and saved scenarios. Every repair path was already inside the retained scope. Their production callers, trust boundaries and actual regression consumers were traced; the cumulative fix ledger was treated as a claim to confirm.
 
 The final focused integration recheck additionally examines committed source `e25a500d12006e256d84b8b241d0cee9c507f278`. Its only source changes since the prior clean review are `tools/phase3/revisions.cjs` and `revisions.test.cjs`, both already in the 115-path scope. The exact five added closure-report permissions and their actual Git/SDK fixture consumers introduce no new actionable finding; the existing fourteen resolved dispositions are preserved. Intervening canonical review/gate/fix/continuation and shared-state files are metadata, not additional changed game source.
 
@@ -163,9 +164,9 @@ The latest bounded recheck covers native batch 3 at `4ea54ca731c90de700480033f58
 
 The preceding batch-4 recheck found CR-11 in ordinary browser cancellation. The current four-file repair at `f32e0bd8911e0c185a6fa10b24c251f1d69494cd` transfers cancellation to the Root-owned runtime retirement helper, retains older unfinished drains during rapid replacement and polls/disposes every retiring coordinator through its proper lifetime. The production Menu control uses that same retirement owner and passes its pending-connection, repeated-cancel and 249/250 ms assertions.
 
-The latest bounded source recheck covers batch 6 at `ba0b1b79499a1f9a17055bd3af61fedf8473d613`: read-only popup highlight observation, bounded physical profile navigation and separating all-observer transform polling from PNG capture. No new actionable defect was found. All seventeen prior findings and the complete 119-path / 116-source scope remain resolved/preserved. Current native execution limits and pending affected checks are recorded below.
+The current bounded source recheck covers batch 7 at `93e8552c1518a738af24a120ece8d99c5f0bfcab`: the new three-worker PNG validation pool, its capture/timing integration, worker shutdown before scenario unlock and actual timing controls. The earlier batch-6 popup navigation remains intact; the all-peer pre-capture barrier is replaced by independent observer capture with CPU work off the polling thread. No new actionable defect was found. All seventeen prior findings and the complete 120-path / 117-source scope remain resolved/preserved. Current native execution limits and affected control evidence are recorded below.
 
-**All seventeen prior findings are resolved. No new actionable defect or open finding remains.** The source scope remains 119 paths / 116 source paths. Previous passed/failed records keep their actual revision/tool identities; no failed native run or pending full selection is upgraded by this review. Actual no-window and rendered acceptance retain the limits below.
+**All seventeen prior findings are resolved. No new actionable defect or open finding remains.** The source scope is 120 paths / 117 source paths. Previous passed/failed records keep their actual revision/tool identities; no failed native run or pending full selection is upgraded by this review. Actual no-window and rendered acceptance retain the limits below.
 
 This is an independent source re-review during the post-review repair cycle, not completed rendered acceptance. No real game window, VM, desktop input, broad test suite, build, branch operation or commit was executed by this reviewer. The renewed retained no-window report was reconciled through the current production validator and its source/tool tuple independently recomputed. The earlier .NET arithmetic probe remains defect-history evidence; the repair's actual coordinator and headless native projection executions are retained separately below. The first full selected execution now has real desktop results and retained failures, as recorded below; it is not accepted final completion. No new rendered, physical-input, image-appearance, other-OS, physical mixed-computer LAN or release acceptance is granted by this source review.
 
@@ -175,9 +176,27 @@ Necessity was assessed using the required rubric; no necessity finding is assert
 
 No open Critical/BLOCKER, Warning or Info findings remain at this reviewed source revision.
 
+## Native repair batch 7 bounded recheck
+
+**Current reviewed source/build stamp:** `93e8552c1518a738af24a120ece8d99c5f0bfcab`. **Disposition:** clean on source review; actual repaired native timing acceptance remains separate.
+
+The retained batch-6 native report `1d9430ed-2a69-4609-95c2-1eb66e94a625` accepts eleven of twelve cases. Its sole remaining host-start timing failure records conservative upper intervals of 254.4477, 280.1131 and 301.4942 ms. Profiles/restart passed; fourteen terminals comprise twelve normal exits and two declared losses, with no emergency cleanup. That failed aggregate and its original timing rows remain unchanged. Checkpoint `472b392` retains this failure.
+
+The four changed source paths were read through the capture, transition and scenario cleanup callers. The new `png-worker.cjs` owns three persistent Node worker threads. Each job carries a distinct ID and one assigned slot; unexpected replies fail the pool rather than being credited to another capture. Active jobs reference their workers, have an 8000 ms rejection timer, and release the reference on completion. Worker errors, unplanned exits, identity failures or timeout reject queued/in-flight jobs; late replies cannot resolve rejected work. An ordinary PNG validation error rejects its capture and leaves subsequent valid jobs independently checkable. Scenario cleanup awaits termination of all owned workers before releasing the shared scenario lock, and queued/in-flight jobs are rejected on close. A later invocation creates its own fresh pool.
+
+Each worker calls the unchanged full `png.validate` implementation and hashes the exact PNG bytes with SHA-256. CRC/structure, format, reconstruction, dimensions and content validation remain mandatory. The main capture awaits that result, validates capture/state identity and computes the state-file hash before recording its final timestamp. Job queueing, inter-thread communication, PNG validation/hash work and completion handling therefore remain inside the measured delivery-to-completion interval. Ordinary earlier captures warm the pool; no measured timing stage is subtracted or replaced with worker-reported time.
+
+Each observer now starts capture as soon as its own actual transform/stability/reversal predicate supplies its required witness. Worker CPU work does not synchronously block the other observer pollers, so the previous all-peer pre-capture barrier is unnecessary and removed. The original physical `deliveryBefore`, accepted host intent, immutable raw timing samples, inclusive 250 ms threshold, 1 ms uncertainty, exact draw/image identity binding, reversal witnesses and full stopped reconciliation remain unchanged. There is no hash normalization, validation bypass or synthetic timing credit.
+
+The retained intended RED `.phase3/batch7-png-red.log` fails because the newly required worker module was absent. GREEN `.phase3/batch7-controls-green.log` records ten passing controls. The added control compares four concurrent worker results against unchanged synchronous PNG metadata and exact SHA-256, checks main-loop progress, rejects a corrupt CRC, verifies later valid work, closes the workers and checks recreation. The real three-image benchmark `.phase3/batch7-png-benchmark.json` retains equal hashes/metadata and records about 68.65 ms serial versus 26.05 ms parallel, with a main-loop tick at about 6.76 ms; this is diagnostic evidence, not rendered acceptance. The strict pinned build log `.phase3/batch7-pinned-strict.log` records zero warnings/errors and 10.54 seconds.
+
+The current terminal `runner.timing` report `.phase3/runs/win32-x64/36d6cfa2-c716-4f71-bbc6-27a2452eed2f/summary.json` records pass with zero game windows, exact source/build stamp above, input `993436c8b6cba62d604754317b956e93a61ae007259d772cf6d7b041cc98ab40` and tool `ea0d2105693e044d40265f4bfe9f1e0f1f9f541bd44a64f2e762247c18573f99`. These are retained parent-owned executions inspected read-only; this reviewer ran no build, test, worker benchmark, gate, game window or desktop input during the follow-up.
+
+Renew the exact 93e gate and perform the matching metadata-descendant rebuild with both build properties, then obtain affected native acceptance before the fresh complete 481-case selection. Eleven-of-twelve history does not establish the repaired timing result.
+
 ## Native repair batch 6 bounded recheck
 
-**Current reviewed source/build stamp:** `ba0b1b79499a1f9a17055bd3af61fedf8473d613`. **Disposition:** clean on source review; affected no-window completion/native retry remain separate.
+**Historical reviewed source/build stamp:** `ba0b1b79499a1f9a17055bd3af61fedf8473d613`. **Disposition:** clean for that bounded review; its subsequent actual native failure and current timing repair are recorded above.
 
 The retained native report `7aaba10c…` accepts ten of twelve cases. Its remaining profile interaction did not change the selected second profile after Up/Enter; its host-to-guest1 stop interval was 299.0516 ms while the other two observers were about 174/197 ms. Native input acknowledgement took about 28 ms, but image work for another observer began while guest1 was still collecting its stability predicate. The original over-limit row remains a failure.
 
@@ -290,7 +309,7 @@ Older auxiliary evidence with unpinned prebuild tool drift remains failure/histo
 
 ## Required handoff before a prelaunch gate
 
-The source review is clean at `ba0b1b79499a1f9a17055bd3af61fedf8473d613`, with all seventeen findings resolved and the bounded popup/polling batch-6 changes reviewed. The three-case affected no-window run has now passed and reconciled; the parent may renew the exact source/input/tool gate and perform the matching metadata-descendant rebuild with both build properties. Then retry native failures and obtain the required fresh full selected-set pass. Preserve all original failed/passing reports, timing rows and invocation identities. The parent owns gate/rebuild/publishing and actual desktop execution.
+The source review is clean at `93e8552c1518a738af24a120ece8d99c5f0bfcab`, with all seventeen findings resolved and the four-path PNG worker/timing integration reviewed. The current retained runner.timing proof passes with zero game windows. The parent may renew the exact source/input/tool gate and perform the matching metadata-descendant rebuild with both build properties. Then obtain actual affected native acceptance before the required fresh full 481-case selected-set pass. Preserve the eleven-of-twelve failed aggregate, all original failed/passing reports, timing rows and invocation identities. This source review grants no repaired native timing or image-appearance acceptance. The parent owns gate/rebuild/publishing and actual desktop execution.
 
 The parent hash-verified the four temporary iteration-2/3 review/fix scratch originals against their ignored `.phase3/review-history` archives and removed the untracked phase-folder copies. The focused recheck observed no remaining scratch paths in Git status. Preserve that ignored history and the original Git review/fix ledger; the whitelist remains limited to its explicitly enumerated phase metadata paths.
 
@@ -300,6 +319,6 @@ Phase 2 G1 now has its retained actual passing native results, while the twelve 
 
 ---
 
-_Reviewed: 2026-11-15T23:13:31Z_  
+_Reviewed: 2026-11-15T23:32:39Z_  
 _Reviewer: the agent (gsd-code-reviewer)_  
 _Depth: standard_
