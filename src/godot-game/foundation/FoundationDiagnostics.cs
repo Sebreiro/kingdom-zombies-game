@@ -29,6 +29,18 @@ internal sealed class FoundationDiagnostics
         _focusLosses++;
     }
 
+    internal void Quitting()
+    {
+        string? directory = FoundationObservationScope.Directory();
+        if (directory is null) { return; }
+        string file = Path.Combine(path1: directory, path2: "quit.ack.json");
+        string record = JsonSerializer.Serialize(value: new { action = "ordinary-Quit", pid = Environment.ProcessId,
+            nonce = Environment.GetEnvironmentVariable(variable: "PHASE3_NONCE"),
+            role = Environment.GetEnvironmentVariable(variable: "PHASE3_ROLE"), frame = _frame });
+        File.WriteAllText(path: file + ".tmp", contents: record);
+        File.Move(sourceFileName: file + ".tmp", destFileName: file);
+    }
+
     internal void Observe(FoundationCoordinator? coordinator, long inputEvents, int direction,
             int nativeActors, bool polledRight, string? feedback = null, long nowMilliseconds = 0,
             FoundationServices? services = null)

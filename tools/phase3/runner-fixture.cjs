@@ -26,7 +26,8 @@ function fixture(directory){
     fs.writeFileSync(path.join(directory,role+'.json'),JSON.stringify(state));
     fs.writeFileSync(path.join(directory,role+'.launch.json'),JSON.stringify({...peer,nonce:context.nonce,headless:false}));
     fs.writeFileSync(path.join(directory,role+'.log'),'CONTROL_ONLY_NOT_PRODUCTION_EVIDENCE\n');
-    return {...peer,launch:artifact(role+'.launch.json'),log:artifact(role+'.log'),images:[{checkpoint:'scene',captureId:role,...artifact('image.png'),statePath:role+'.json',stateSha256:artifact(role+'.json').sha256}]};
+    fs.writeFileSync(path.join(directory,role+'.terminal.json'),JSON.stringify({nonce:context.nonce,pid:peer.pid,role,streamsClosed:true,exit:{code:0,signal:null,observedAt:'2'},quitRequested:{before:'1'},quitAck:{action:'ordinary-Quit',nonce:context.nonce,pid:peer.pid,role}}));
+    return {...peer,launch:artifact(role+'.launch.json'),log:artifact(role+'.log'),terminal:artifact(role+'.terminal.json'),images:[{checkpoint:'scene',captureId:role,...artifact('image.png'),statePath:role+'.json',stateSha256:artifact(role+'.json').sha256}]};
   });
   fs.writeFileSync(path.join(directory,'subject.log'),'CONTROL_ONLY');fs.writeFileSync(path.join(directory,'test.json'),JSON.stringify({results:{summary:{tests:1,passed:1,failed:0}}}));
   const first={...context,directory:undefined,id:selected[0].id,status:'pass',peers};
@@ -62,6 +63,7 @@ async function run(mode){
     require('./catalog.cjs').validate(root,e.read(path.join(root,'tools/phase3/required-cases.json')));
     console.log('PASS exact cases/roles, duplicate substitution, stale identities, images, corruption, unsafe paths and catalog controls; fixtures earn no execution credit');
   }else if(mode==='processes'){
+    await require('./terminal-fixture.cjs').run(directory);
     const positive=await p.run(process.execPath,['-e','process.stdout.write("real-positive")']);assert.equal(positive.stdout,'real-positive');
     for(const [name,args,pattern] of [['missing',[],/ENOENT/],['nonzero',['-e','process.exit(7)'],/CHILD_EXIT 7/],['crash',['-e','process.abort()'],/CHILD_EXIT/]]){
       try{await p.run(name==='missing'?path.join(directory,'absent'):process.execPath,args,{cwd:directory},1000);assert.fail('child should fail');}

@@ -36,7 +36,7 @@ function launch(context,role,port,retainedRoot=null){
       PHASE3_ROLE:role,PHASE3_INPUT_DRIVER:context.rendered?"declared-per-event-external-driver":"synthetic-native-ParseInputEvent",PHASE3_PROFILE_ROOT:profileRoot,PHASE3_PORT:String(port)},stdio:['ignore','pipe','pipe']});
   const peer={role,directory,profile,profileRoot,child,pid:child.pid,sequence:0,output:'',exit:null,error:null};
   child.stdout.on('data',bytes=>peer.output+=bytes);child.stderr.on('data',bytes=>peer.output+=bytes);
-  child.once('error',error=>peer.error=error);child.once('exit',(code,signal)=>peer.exit={code,signal});
+  child.once('error',error=>peer.error=error);require('./terminal.cjs').track(peer,context);
   fs.writeFileSync(path.join(directory,'launch.json'),JSON.stringify({role,profile,pid:child.pid,port,headless:!context.rendered,
     inputDriver:context.rendered?'declared-per-event-external-driver':'synthetic-native-ParseInputEvent',
     mainScene:'res://foundation/Foundation.tscn',engine,engineHash:crypto.createHash('sha256').update(fs.readFileSync(engine)).digest('hex'),
@@ -76,13 +76,12 @@ async function stop(peer,context,deadline){
   await input(peer,context,deadline,{action:'focus',control:'Menu/Quit'});
   // A press can synchronously exit before writing the driver ack; process exit is the expected acknowledgment.
   const file=path.join(peer.directory,'input.request');
+  require('./terminal.cjs').requestQuit(peer);
   fs.writeFileSync(file+'.tmp',JSON.stringify({nonce:context.nonce,sequence:++peer.sequence,action:'key',key:4194309,pressed:true}));
   fs.renameSync(file+'.tmp',file);
 }
 async function cleanup(peer){
-  if(!peer.exit){peer.child.kill();await Promise.race([new Promise(resolve=>peer.child.once('exit',resolve)),delay(3000)]);}
-  fs.writeFileSync(path.join(peer.directory,'console.log'),peer.output);
-  requireTrue(peer.exit!==null,'OWNED_PROCESS_CLEANUP '+peer.role);
+  return require('./terminal.cjs').cleanup(peer);
 }
 async function tracer(context,item){
   if(item.id==='network.discovery-profile')return discoveryProfile(context,item);
@@ -242,9 +241,7 @@ async function joinAgain(peer,context,deadline,port){
   await activate(peer,context,deadline,'Browser/JoinAddress');
 }
 async function terminateOwned(peer){
-  peer.expectedTermination=true;peer.child.kill();
-  await Promise.race([new Promise(resolve=>peer.child.once('exit',resolve)),delay(3000)]);
-  requireTrue(peer.exit!==null,'OWNED_TERMINATION');
+  await require('./terminal.cjs').terminateExpected(peer,'network.lifecycle','Deliberate owned peer loss');
 }
 async function readyCount(peers,deadline,host,count){
   return waitFor(peers.filter(peer=>!peer.expectedTermination),deadline,()=>{

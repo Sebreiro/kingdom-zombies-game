@@ -82,6 +82,9 @@ function peers(context,item,result){
     const logs=fs.readFileSync(inside(context.directory,peer.log.path),'utf8');
     requireTrue(!/(?:SCRIPT ERROR:|ERROR:|Unhandled exception|FATAL)/.test(logs),'PEER_ERROR_LOG');
     if(item.needsGameWindow){
+      const terminal=read(artifact(context,peer.terminal));
+      requireTrue(terminal.nonce===context.nonce&&terminal.pid===peer.pid&&terminal.role===peer.role,'PEER_TERMINAL_IDENTITY');
+      require('./terminal.cjs').validate(terminal,true);
       if(item.group==='rendered')artifact(context,peer.draws);
       if(peer.session){requireTrue(peer.actor&&peer.binding&&Number.isSafeInteger(peer.minimumRevision),'PEER_BINDING');
         requireTrue(!actors.has(peer.actor)&&!bindings.has(peer.binding),'PEER_ACTOR_BINDING_DUPLICATE');actors.add(peer.actor);bindings.add(peer.binding);}
@@ -111,6 +114,11 @@ function reconcile(selected,results,context){
       }
     }
     if(item.group==='rendered'){
+      requireTrue(result.ownedProcesses?.length>=result.peers.length,'OWNED_TERMINALS_REQUIRED');
+      exact(result.ownedProcesses.map(peer=>peer.pid),result.ownedProcesses.map(peer=>peer.pid),'owned process PIDs');
+      for(const peer of [...result.peers,...result.additionalPeers??[]])requireTrue(result.ownedProcesses.some(owned=>owned.pid===peer.pid&&owned.terminal.sha256===peer.terminal.sha256),'OWNED_TERMINAL_MEMBERSHIP');
+      for(const owned of result.ownedProcesses){const terminal=read(artifact(context,owned.terminal));
+        requireTrue(terminal.nonce===context.nonce&&terminal.pid===owned.pid&&terminal.role===owned.role,'OWNED_TERMINAL_IDENTITY');require('./terminal.cjs').validate(terminal,true);}
       requireTrue(result.nativeDrivers?.length>0,'NATIVE_DRIVER_LOG_REQUIRED');
       for(const reference of result.nativeDrivers){const driver=read(artifact(context,reference));
         requireTrue(driver.nonce===context.nonce&&driver.ended===true&&!driver.stderr&&driver.records.length>0&&driver.pid>0,'NATIVE_DRIVER_LOG');

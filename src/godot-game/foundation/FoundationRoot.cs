@@ -365,6 +365,7 @@ public sealed partial class FoundationRoot : Control
         _coordinator?.Close();
         _coordinator = null;
         _input.Clear();
+        _diagnostics.Quitting();
         GetTree().Quit();
     }
 

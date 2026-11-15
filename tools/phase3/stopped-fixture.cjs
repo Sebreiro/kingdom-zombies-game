@@ -46,6 +46,7 @@ function run(){
     const file=peer.role+'.ndjson';fs.writeFileSync(path.join(directory,file),histories.get(peer.role).map(JSON.stringify).join('\n')+'\n');peer.draws=ref(file);
     item.imagesByRole[peer.role]=peer.images.map(picture=>picture.checkpoint);}
   result.nativeDrivers=[write('driver.json',{nonce:context.nonce,pid:9000,ended:true,stderr:'',records,scriptSha256:e.hash(fs.readFileSync(path.join(root,'tools/phase3/windows-input.ps1')))})];
+  result.ownedProcesses=result.peers.map(peer=>({pid:peer.pid,role:peer.role,terminal:peer.terminal}));
   e.reconcile([item],[result],context);
   function reject(change){const copy=structuredClone(result);change(copy.stopped[0]);assert.throws(()=>e.reconcile([item],[copy],context));}
   for(const change of [row=>{row.actor=row.expectedActor='nonexistent';},row=>{row.session=row.expectedSession='obsolete';},row=>row.positionSubunits=1,

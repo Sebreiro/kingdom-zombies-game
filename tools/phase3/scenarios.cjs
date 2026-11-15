@@ -10,6 +10,7 @@ async function tap(input,peer,key){await input.send(peer,{action:'key',method:'p
 async function click(input,peer,control){
   await focus(input,peer);const node=latest(peer)?.controls.find(row=>row.path===control);
   e.requireTrue(node?.visible,'CONTROL_NOT_VISIBLE '+peer.role+'/'+control);
+  if(control==='Menu/Quit')require('./terminal.cjs').requestQuit(peer);
   await input.send(peer,{action:'click',method:'physical-SendInput',x:Math.round(node.x),y:Math.round(node.y)});await delay(60);
 }
 async function text(input,peer,control,value){
@@ -244,7 +245,7 @@ async function g3(state,item){
     const guest=state.peers[1],before=participant(guest).Actor.ActorId;
     await menu(state.input,guest);await roster(state.peers.filter(peer=>peer!==guest),3);await join(state.input,guest,state.port);await roster(state.peers,4);
     e.requireTrue(participant(guest).Actor.ActorId!==before,'REPLACEMENT_ACTOR_REUSED');
-    const lost=state.peers[2];await net.cleanup(lost);lost.expectedTermination=true;
+    const lost=state.peers[2];await require('./terminal.cjs').terminateExpected(lost,item.id,'Deliberate guest loss before replacement');state.extra.push(lost);
     await r.until(state.peers.filter(peer=>peer!==lost),()=>latest(state.host).snapshot.Participants.length===3,'guest loss default',13000);
     await state.input.close();const replacement=await extra(state,'guest2',null,'Deliberate guest process loss requires a fresh replacement process');
     state.peers[2]=replacement.peer;
@@ -262,7 +263,7 @@ async function g3(state,item){
   if(item.id==='rendered.host-loss'){
     if(!state.peers.every(peer=>latest(peer)?.input.ready))await resetFour(state);
     const before=await take(state,{...item,screen:'game'});
-    const host=state.host;await net.cleanup(host);host.expectedTermination=true;
+    const host=state.host;await require('./terminal.cjs').terminateExpected(host,item.id,'Deliberate final host-loss scenario');
     for(const peer of state.peers.slice(1))await r.until([peer],()=>!latest(peer)?.snapshot&&latest(peer)?.input.error?.startsWith('Connection lost'),'unexpected host-loss menu',13000);
     const guests=await take(state,{...item,roles:item.roles.filter(role=>role!=='host'),screen:'menu'});
     for(const peer of state.peers.slice(1)){await click(state.input,peer,'Menu/Start');await r.until([peer],()=>latest(peer).input.ready,'usable solo after host loss');await menu(state.input,peer);}
@@ -276,7 +277,7 @@ async function close(state){
     await menu(peer.driver,peer);await click(peer.driver,peer,'Menu/Quit');
   }catch(error){errors.push('normal quit '+peer.role+': '+error.message);}
   for(const input of [state.input,...state.drivers])try{await input.close();}catch(error){errors.push(error.message);}
-  for(const peer of [...state.peers,...state.extra])try{await net.cleanup(peer);}catch(error){errors.push(error.message);}
+  for(const peer of [...new Set([...state.peers,...state.extra])])try{await net.cleanup(peer);}catch(error){errors.push(error.message);}
   if(errors.length)throw new Error('OWNED_SCENARIO_CLEANUP '+errors.join('; '));
 }
 async function run(context,items){
@@ -293,15 +294,16 @@ async function run(context,items){
         try{const observed=group==='G2'?await g2(state,item):await g3(state,item);results.push({id:item.id,status:'pass',...identity,...observed,_state:state});}
         catch(error){results.push({id:item.id,status:'fail',...identity,message:error.message,stack:error.stack});fs.writeFileSync(path.join(context.directory,item.id+'.failure.log'),error.stack,{flag:'wx'});}
       }
-      if(group==='G2')try{await close(state);}catch(error){const affected=results.findLast(row=>row.status!=='blocked');if(affected){affected.status='fail';affected.cleanupError=error.message;}}
+      if(group==='G2')try{await close(state);}catch(error){require('./terminal.cjs').invalidate(results,state,error);}
     }
   }finally{
-    for(const state of states.filter(row=>row.group!=='G2'))try{await close(state);}catch(error){const affected=results.findLast(row=>row.status!=='blocked');if(affected){affected.status='fail';affected.cleanupError=error.message;}}
+    for(const state of states.filter(row=>row.group!=='G2'))try{await close(state);}catch(error){require('./terminal.cjs').invalidate(results,state,error);}
     unlock();
   }
   const artifact=file=>({path:path.relative(context.directory,file),sha256:e.hash(fs.readFileSync(file))});
-  for(const result of results)if(result._state){result.nativeDrivers=result._state.allDrivers.map(input=>artifact(input.file));delete result._state;}
-  for(const result of results)for(const peer of [...result.peers??[],...result.additionalPeers??[]]){peer.launch=artifact(path.join(peer._peer.directory,'launch.json'));peer.log=artifact(path.join(peer._peer.directory,'console.log'));peer.draws=artifact(path.join(peer._peer.directory,'draws.ndjson'));delete peer._peer;}
+  for(const result of results)if(result._state){result.nativeDrivers=result._state.allDrivers.map(input=>artifact(input.file));
+    result.ownedProcesses=[...new Set([...result._state.peers,...result._state.extra])].map(peer=>({role:peer.role,pid:peer.pid,terminal:artifact(path.join(peer.directory,'terminal.json'))}));delete result._state;}
+  for(const result of results)for(const peer of [...result.peers??[],...result.additionalPeers??[]]){peer.launch=artifact(path.join(peer._peer.directory,'launch.json'));peer.log=artifact(path.join(peer._peer.directory,'console.log'));peer.draws=artifact(path.join(peer._peer.directory,'draws.ndjson'));peer.terminal=artifact(path.join(peer._peer.directory,'terminal.json'));delete peer._peer;}
   return {results,launches};
 }
 module.exports={run,click,text,menu,host,browse,join,roster,resetFour,create,close};
