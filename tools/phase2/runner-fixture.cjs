@@ -8,7 +8,7 @@ const zlib=require('node:zlib');
 const {spawn}=require('node:child_process');
 const assert=require('node:assert/strict');
 const e=require('./evidence.cjs');
-const {command}=require('./rendered.cjs');
+const {command,runScenarios}=require('./rendered.cjs');
 const {acquireLock,select}=require('./check.cjs');
 const delay=milliseconds=>new Promise(resolve=>setTimeout(resolve,milliseconds));
 function rejects(action,pattern){assert.throws(action,pattern);}
@@ -34,7 +34,27 @@ async function run(mode) {
   const artifacts=['subject.log','tests.json'].map(file=>({path:file,sha256:e.hash(fs.readFileSync(path.join(directory,file)))}));
   const second={...first,id:selected[1].id,images:[],testReport:'tests.json',artifacts};
   const results=[first,second];
-  if(mode==='integrity') {
+  if(mode==='scenario-diagnostics') {
+    let log='WARNING: startup belongs to first scenario\n', resets=0, serial=0;
+    const session={game:{pid:123},exited:false,get log(){return log;},async input(){},
+      async reset(){resets++;},async capture(checkpoint){
+        const actor={ActorId:'actor',SessionId:'session',PositionSubunits:-8000,Facing:1,ElapsedMilliseconds:0};
+        const state={checkpoint,actors:0,actor:null,startFocused:true,inputEvents:0};
+        if(checkpoint==='initial-scene')Object.assign(state,{actors:1,actor});
+        if(checkpoint==='right-facing')Object.assign(state,{actors:1,actor:{...actor,PositionSubunits:-5000,ElapsedMilliseconds:1000},inputEvents:2});
+        if(checkpoint==='left-facing')Object.assign(state,{actors:1,actor:{...actor,Facing:-1},inputEvents:3});
+        return {state,image:{checkpoint,path:'fake-'+serial+++'.png'}};
+      }};
+    const outcomes=await runScenarios(context,[{id:'rendered.tracer'},{id:'control.independent'}],session);
+    assert.deepEqual(outcomes.map(row=>row.status),['fail','pass']);
+    assert.equal(resets,1);
+    assert.match(outcomes[0].message,/NATIVE_DIAGNOSTIC WARNING: startup/);
+    assert.equal(outcomes[0].nativeLog.includesStartup,true);
+    assert.equal(outcomes[1].nativeLog.start,log.length);
+    assert.equal(outcomes[1].nativeLog.includesStartup,false);
+    assert.equal(log,'WARNING: startup belongs to first scenario\n');
+    console.log('PASS earlier diagnostic fails first scenario, resets, and healthy independent scenario passes with full log retained');
+  } else if(mode==='integrity') {
     e.reconcile(selected,results,context);
     rejects(()=>e.reconcile(selected,[],context),/RESULT_COUNT/);
     rejects(()=>e.reconcile(selected,[first],context),/RESULT_COUNT/);
@@ -91,6 +111,7 @@ async function run(mode) {
       await assert.rejects(command(process.execPath,['-e','require(process.argv[1]).acquireLock(process.argv[2],"competitor")',modulePath,lockRoot]),/DESKTOP_LOCKED/);
     } finally {unlock();}
     const release=acquireLock(lockRoot,crypto.randomUUID());release();
+    await run('scenario-diagnostics');
     console.log('PASS reordered evidence, fresh repair nonce, changed fingerprint temporary aggregation, immutable baseline and actual concurrent lock refusal');
   } else throw new Error('UNKNOWN_CONTROL');
   return {directory,mode};

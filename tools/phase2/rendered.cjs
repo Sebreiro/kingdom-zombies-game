@@ -117,7 +117,7 @@ function createSession(context) {
   }
   return {input,capture,reset,close,game,inputs,get exited(){return exited;},get exitCode(){return exitCode;},get log(){return log;}};
 }
-async function tracer(context, scenario, session) {
+async function tracer(context, scenario, session, logStart = session.log.length) {
   const { input } = session, width = 1280, height = 720;
   const images = [], observations = [];
   async function observe(checkpoint,targetElapsed=null) {
@@ -253,7 +253,7 @@ async function tracer(context, scenario, session) {
     if (scenario === 'rendered.resources') {
       const ids=observations.find(row=>row.actor)?.actor;
       requireTrue(ids && ['FixtureId','GroundId','BuildingId','PlayerContentId'].every(key=>ids[key].startsWith('foundation.')),'RESOURCE_CONTENT_IDENTITIES');
-      requireTrue(!/ERROR:|WARNING:|Unhandled exception/.test(session.log),'NATIVE_DIAGNOSTIC '+session.log);
+      requireTrue(!/ERROR:|WARNING:|Unhandled exception/.test(session.log.slice(logStart)),'NATIVE_DIAGNOSTIC '+session.log.slice(logStart));
       return {...validateResources(context),contentIds:[ids.FixtureId,ids.GroundId,ids.BuildingId,ids.PlayerContentId],observations,images,intervals,pid:session.game.pid,width,height};
     }
     if (scenario === 'rendered.quit') {
@@ -263,7 +263,7 @@ async function tracer(context, scenario, session) {
       while (!session.exited && Date.now() < deadline) await delay(50);
       requireTrue(session.exited && session.exitCode === 0, 'QUIT_CLEAN_EXIT');
     }
-    requireTrue(!/ERROR:|WARNING:|Unhandled exception/.test(session.log), 'NATIVE_DIAGNOSTIC ' + session.log);
+    requireTrue(!/ERROR:|WARNING:|Unhandled exception/.test(session.log.slice(logStart)), 'NATIVE_DIAGNOSTIC ' + session.log.slice(logStart));
     return { observations, images, intervals, pid: session.game.pid,width,height,exitCode:session.exitCode,
       ...(scenario==='rendered.quit'?{quitActivation:'keyboard-space'}:{}),cleanExit:scenario==='rendered.quit' };
   } catch(error) {
@@ -296,24 +296,30 @@ function validateResources(context) {
   return {isolatedInputRoot:isolated,resources,donorInputs:[],validation:'declared-resource-closure-and-byte-identical-copy; shared live scene supplies runtime evidence'};
 }
 async function rendered(context,items) {
-  const ordered=[...items].sort((a,b)=>(a.id==='rendered.quit'?100:a.id==='rendered.menu'?-1:0)-(b.id==='rendered.quit'?100:b.id==='rendered.menu'?-1:0));
-  const results=[],session=createSession({...context,includeMenu:items.some(row=>row.id==='rendered.menu')});
+  const session=createSession({...context,includeMenu:items.some(row=>row.id==='rendered.menu')});
   const interrupted=()=>{killTree(session.game);};
   process.on('SIGINT',interrupted); process.on('SIGTERM',interrupted);
-  let blocked;
   try {
     await delay(1500);
-    for (const item of ordered) {
+    return await runScenarios(context,items,session);
+  } finally {await session.close();process.removeListener('SIGINT',interrupted);process.removeListener('SIGTERM',interrupted);}
+}
+async function runScenarios(context,items,session) {
+  const ordered=[...items].sort((a,b)=>(a.id==='rendered.quit'?100:a.id==='rendered.menu'?-1:0)-(b.id==='rendered.quit'?100:b.id==='rendered.menu'?-1:0));
+  const results=[];
+  let blocked;
+  for (const item of ordered) {
       const identity={id:item.id,nonce:context.nonce,input:context.input,tool:context.tool,platform:context.platform};
       if(blocked || session.exited) {results.push({...identity,status:'blocked',message:blocked??'GAME_PROCESS_LOST'});continue;}
-      try { results.push({...identity,status:'pass',...await tracer(context,item.id,session)}); }
+      // The first scenario owns startup output; later scenarios start after recovery.
+      const logStart=results.length===0?0:session.log.length;
+      try { results.push({...identity,status:'pass',...await tracer(context,item.id,session,logStart),nativeLog:{start:logStart,end:session.log.length,includesStartup:results.length===0}}); }
       catch(error) {
-        results.push({...identity,...error.partial,status:'fail',message:error.message});
+        results.push({...identity,...error.partial,status:'fail',message:error.message,nativeLog:{start:logStart,end:session.log.length,includesStartup:results.length===0}});
         if(!session.exited) try {await session.reset();} catch(resetError){blocked='SESSION_UNUSABLE '+resetError.message;}
         else blocked='GAME_PROCESS_LOST';
       }
-    }
-  } finally {await session.close();process.removeListener('SIGINT',interrupted);process.removeListener('SIGTERM',interrupted);}
+  }
   return results;
 }
-module.exports = { tracer, rendered, decodePng, command, killTree, validateResources };
+module.exports = { tracer, rendered, runScenarios, decodePng, command, killTree, validateResources };
