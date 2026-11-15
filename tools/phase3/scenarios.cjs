@@ -7,10 +7,11 @@ const latest=peer=>r.draws(peer).at(-1);
 function participant(peer,profile=peer.profile){return latest(peer)?.snapshot?.Participants.find(row=>row.Actor.PlayerId===profile);}
 async function focus(input,peer){return require('./foreground.cjs').run(()=>input.send(peer,{action:'focus',method:'physical-SendInput'}));}
 async function tap(input,peer,key){return require('./foreground.cjs').run(async()=>{await input.send(peer,{action:'key',method:'physical-SendInput',key,pressed:true});await delay(30);return input.send(peer,{action:'key',method:'physical-SendInput',key,pressed:false});});}
-async function click(input,peer,control){
+async function click(input,peer,control,expectedSession=null){
   return require('./foreground.cjs').run(async()=>{
   await focus(input,peer);const node=latest(peer)?.controls.find(row=>row.path===control);
   e.requireTrue(node?.visible,'CONTROL_NOT_VISIBLE '+peer.role+'/'+control);
+  if(expectedSession!==null)e.requireTrue(node.session===expectedSession,'CONTROL_SESSION_CHANGED '+control);
   if(control.startsWith('Browser/Scroll/Rows/'))e.requireTrue(insideScroll(node,latest(peer).controls.find(row=>row.path==='Browser/Scroll')),'CONTROL_CLIPPED '+control);
   if(control==='Menu/Quit')require('./terminal.cjs').requestQuit(peer);
   await input.send(peer,{action:'click',method:'physical-SendInput',x:Math.round(node.x),y:Math.round(node.y)});await delay(60);
@@ -22,8 +23,8 @@ async function focusSession(input,peer,session){
   await focus(input,peer);
   for(let index=0;index<40;index++){
     const state=latest(peer),row=state.controls.find(control=>control.session===session&&control.focused);
-    if(row){await r.until([peer],()=>{const controls=latest(peer).controls,target=controls.find(control=>control.session===session&&control.focused);
-      return target&&insideScroll(target,controls.find(control=>control.path==='Browser/Scroll'))?target:null;},'focused row scrolled into view');return row.path;}
+    if(row){const target=await r.until([peer],()=>{const controls=latest(peer).controls,current=controls.find(control=>control.session===session&&control.focused);
+      return current&&insideScroll(current,controls.find(control=>control.path==='Browser/Scroll'))?current:null;},'focused row scrolled into view');return target.path;}
     await tap(input,peer,9);await delay(35);
   }throw new Error('SESSION_KEYBOARD_FOCUS '+session);
 }
@@ -126,7 +127,9 @@ async function g2(state,item){
     const index=rows.findIndex(row=>row.SessionId===latest(state.host).snapshot.SessionId);e.requireTrue(index>=0,'HOST_ROW');
     images.push(await checkpoint(state,browser,'populated','browser'));
     const selected=await focusSession(input,browser,rows[index].SessionId);
-    await click(input,browser,selected);images.push(await checkpoint(state,browser,'focused-detail','browser'));
+    await click(input,browser,selected,rows[index].SessionId);
+    await r.until([browser],()=>latest(browser).controls.some(control=>control.session===rows[index].SessionId&&control.focused),'clicked exact discovered session');
+    images.push(await checkpoint(state,browser,'focused-detail','browser'));
     await click(input,browser,'Browser/Footer/JoinSession');await roster([state.host,browser],2);
     await menu(input,browser);await join(input,browser,state.port);images.push(await checkpoint(state,browser,'manual-ready','game'));
     await menu(input,browser);await browse(input,browser);
