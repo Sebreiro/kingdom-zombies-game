@@ -21,6 +21,7 @@ function fixture(build=false){
   }
   if(build){
     git('remote','add','origin','https://github.com/Sebreiro/kingdom-zombies-game');
+    write('tools/phase3/reviewed-source.targets',fs.readFileSync(path.join(project,'tools/phase3/reviewed-source.targets'),'utf8'));
     write('global.json',fs.readFileSync(path.join(project,'global.json'),'utf8'));
     write('NuGet.config','<configuration><packageSources><clear /></packageSources></configuration>');
     write('src/Subject.cs','internal sealed class Subject { internal int Value => 1; }\n');
@@ -75,21 +76,22 @@ function fixture(build=false){
     write('.planning/phases/03-four-player-lan-foundation/'+file,'CONTROL: closure metadata; no additional execution credit');
   const closure=commit();return {root,write,git,commit,reviewed,tested,closure,context,review,gate,identity,index,cases,ref};
 }
-function compile(root,stamp){
-  const env={...check.environment(project),SourceRevisionId:stamp??''};
+function compile(root,stamp,pinSourceRoot=true){
+  const env={...check.environment(project),SourceRevisionId:stamp??'',CustomAfterMicrosoftCommonTargets:pinSourceRoot?path.join(root,'tools/phase3/reviewed-source.targets'):''};
   const args=['build','.phase3/build/Subject.csproj','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'];
   const startedAt=Date.now(),result=spawnSync('dotnet',args,
     {cwd:root,env,encoding:'utf8',windowsHide:true,timeout:20000});
   const records=path.join(root,'.phase3/build-records');fs.mkdirSync(records,{recursive:true});
   fs.writeFileSync(path.join(records,'build-'+fs.readdirSync(records).length+'.json'),JSON.stringify({executable:'dotnet',args,
-    sourceRevisionId:stamp,startedAt,finishedAt:Date.now(),code:result.status,signal:result.signal,stdout:result.stdout,stderr:result.stderr,error:result.error?.message}),{flag:'wx'});
+    sourceRevisionId:stamp,pinSourceRoot,startedAt,finishedAt:Date.now(),code:result.status,signal:result.signal,stdout:result.stdout,stderr:result.stderr,error:result.error?.message}),{flag:'wx'});
   assert.equal(result.status,0,result.stdout+result.stderr);
   const info=fs.readFileSync(path.join(root,'.phase3/build/obj/Debug/net10.0/Subject.AssemblyInfo.cs'),'utf8');
   const actual=stamp??spawnSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8',windowsHide:true}).stdout.trim();
   assert.ok(info.includes('0.1.0+'+actual),'actual SDK build must record the requested immutable source stamp');
   const links=e.read(path.join(root,'.phase3/build/obj/Debug/net10.0/Subject.sourcelink.json'));
   assert.ok(Object.values(links.documents).length>0,'real GitHub remote must produce source links');
-  assert.ok(Object.values(links.documents).every(url=>url.includes('/'+actual+'/')),'SourceLink must retain the reviewed source stamp independently of metadata HEAD');
+  const linked=pinSourceRoot?actual:spawnSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8',windowsHide:true}).stdout.trim();
+  assert.ok(Object.values(links.documents).every(url=>url.includes('/'+linked+'/')),'SourceLink must retain the reviewed source stamp independently of metadata HEAD');
   const file=path.join(root,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll');fs.mkdirSync(path.dirname(file),{recursive:true});
   fs.copyFileSync(path.join(root,'.phase3/build/bin/Debug/net10.0/Subject.dll'),file);return e.hash(fs.readFileSync(file));
 }
@@ -142,8 +144,8 @@ test('real SDK commit-build-review-gate cycle preserves exact DLL bytes only wit
   console.log('SDK_FINALIZATION_CONTROL '+f.root+' source='+f.reviewed+' execution='+f.tested+' closure='+f.closure+' dll='+before);
   assert.equal(compile(f.root,f.reviewed),before);
   assert.equal(e.verifyCompletion(f.root,f.index,f.cases,pinnedIdentity(f.root,f.reviewed)).testedRevision,f.tested);
-  const unpinned=compile(f.root,null);assert.notEqual(unpinned,before,'negative control must reproduce HEAD-stamped DLL/tool drift');
-  assert.throws(()=>e.verifyCompletion(f.root,f.index,f.cases,pinnedIdentity(f.root,null)),/COMPLETION_CURRENT tool|COMPLETION_CURRENT buildRevision/);
+  const unpinned=compile(f.root,f.reviewed,false);assert.notEqual(unpinned,before,'negative control must reproduce SourceLink HEAD drift even while the assembly stamp stays pinned');
+  assert.throws(()=>e.verifyCompletion(f.root,f.index,f.cases,pinnedIdentity(f.root,f.reviewed)),/COMPLETION_CURRENT tool/);
   assert.equal(compile(f.root,f.reviewed),before,'pinned closure rebuild must restore the exact original DLL, without hash equivalence');
   e.verifyCompletion(f.root,f.index,f.cases,pinnedIdentity(f.root,f.reviewed));assert.deepEqual(fs.readFileSync(file),original);
 });

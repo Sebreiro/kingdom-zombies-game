@@ -20,7 +20,8 @@ function inputManifest(){return {inputs:['src','tests/phase1','tools/phase3','to
   'Directory.Packages.props','.editorconfig','BannedSymbols.txt','BannedSymbols.Pure.txt','docs/code','docs/architecture','tools/code-rules',
   'docs/workflow/local-testing.md','docs/workflow/ai-collaboration.md',
   '.planning/phases/03-four-player-lan-foundation/03-SCENARIOS.md','.planning/phases/03-four-player-lan-foundation/03-SELECTION.json']};}
-function environment(root){return {...process.env,DOTNET_CLI_HOME:path.join(root,'.phase1/cli-home'),NUGET_PACKAGES:path.join(root,'.phase1/packages'),
+function environment(root){return {...process.env,CustomAfterMicrosoftCommonTargets:path.join(root,'tools/phase3/reviewed-source.targets'),
+  DOTNET_CLI_HOME:path.join(root,'.phase1/cli-home'),NUGET_PACKAGES:path.join(root,'.phase1/packages'),
   NUGET_HTTP_CACHE_PATH:path.join(root,'.phase1/http-cache'),TEMP:path.join(root,'.phase1/temp'),TMP:path.join(root,'.phase1/temp')};}
 function createIdentity(root){
   const buildRevision=process.env.SourceRevisionId??null;
