@@ -105,6 +105,7 @@ internal sealed partial class FoundationCoordinator
         _lifetime = checked(_lifetime + 1);
         _session?.Close();
         SendDeparture();
+        _expectedSession = "";
         _draining = drain && IsHost && _peers.Count > 0;
         _closingAt = Now();
         _session = null;

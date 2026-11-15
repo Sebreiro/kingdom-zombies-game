@@ -60,7 +60,7 @@ Importance: **Critical** — Duplicate or foreign intent breaks ownership and mo
 
 Setup/seed/process roles: Strict build, controlled provider and actual coordinator wire mapping. No native window; isolated pure fixture.
 
-Ordered actions and expected results: Bounded repeated admission and final-slot race Expected: Bounded repeated admission and final-slot race
+Ordered actions and expected results: Bounded repeated admission and final-slot race. Retain selected session A, close it, and rehost B at the same endpoint through the actual coordinator. A-to-A selected joining succeeds; A-to-B selected joining fails visibly before reservation/readiness; intentional manual joining can enter B. A mismatched offered baseline is never installed or acknowledged and its reservation is cancelled. Deliver old baselines/refusals after cancellation and into a new attempt; they cannot close or enter the new attempt. Exact Unicode identities remain unchanged. Expected: no actor/control/slot/resource leak, usable fresh joining and the existing capacity/flood controls all pass.
 
 Evidence: CTRF one-test report; nonce-bound subject log. Fresh subject report and real diagnostic log; no invented rendered credit.
 
@@ -168,7 +168,7 @@ Importance: **Critical** — Actual native transport and input composition must 
 
 Setup/seed/process roles: Two separate owned pinned Godot processes use --headless and the ordinary project/main scene, fresh profile IDs and allocated UDP port. Exact roles: discovery-host, profile-before-restart, profile-after-restart.
 
-Ordered actions and expected results: Host through ordinary controls. Launch and quit a profile process; restart it with the same owned profile root. Select the actual multicast browser row and Join session. Expected: Different PIDs retain the same opaque identity; real discovery joins the current host and installs two ready actors.
+Ordered actions and expected results: Host through ordinary controls. Launch and quit a profile process; restart it with the same owned profile root. Select the actual multicast browser row and Join session. The native browser regression also invokes the production selected-row submission handler and checks its exact synchronous session/address request and subsequent clearing. Expected: Different PIDs retain the same opaque identity; real discovery joins the selected current host and installs two ready actors. Replacement-session refusal and stale-attempt ownership are exercised separately by `core.admission` without rendered credit.
 
 Evidence: per-role frames.ndjson; per-role console.log; owned process identities; matching current revision snapshot. Fresh subject report and real diagnostic log; no invented rendered credit.
 

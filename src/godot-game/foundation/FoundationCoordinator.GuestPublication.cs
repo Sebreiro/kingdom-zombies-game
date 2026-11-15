@@ -11,6 +11,12 @@ internal sealed partial class FoundationCoordinator
 
     private void ReceiveGuest(FoundationEnvelope envelope)
     {
+        if (envelope.AttemptId.Length > 0 && !StringComparer.Ordinal.Equals(x: envelope.AttemptId, y: _attempt))
+        {
+            RejectedPackets++;
+            return;
+        }
+
         if (envelope.Kind is "reject")
         {
             if (_remote is null)
@@ -66,6 +72,13 @@ internal sealed partial class FoundationCoordinator
 
     private void InstallBaseline(FoundationEnvelope envelope, FoundationSnapshot candidate)
     {
+        if (_expectedSession.Length > 0 && !StringComparer.Ordinal.Equals(x: _expectedSession,
+                y: candidate.SessionId))
+        {
+            Fail(reason: "The selected session is no longer available. Refresh the list or enter a host address.");
+            return;
+        }
+
         if (_remote is not null || !StringComparer.Ordinal.Equals(x: envelope.PlayerId, y: PlayerId)
                 || !candidate.Participants.Any(predicate: p => StringComparer.Ordinal.Equals(x: p.BindingId,
                         y: envelope.BindingId) && StringComparer.Ordinal.Equals(x: p.Actor.PlayerId, y: PlayerId)

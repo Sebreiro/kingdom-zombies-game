@@ -261,7 +261,7 @@ public sealed partial class FoundationRoot : Control
             _runtime.Hosting = false;
             _coordinator = (_services ?? throw new InvalidOperationException(message: "SERVICES_NOT_READY"))
                     .Create(connected: true, nowMilliseconds: () => _runtime.NowMilliseconds);
-            _coordinator.Join(address: host, port: port);
+            _coordinator.Join(address: host, port: port, expectedSessionId: _menu?.RequestedSessionId ?? "");
             _lastDirection = int.MinValue;
             GetNode<Label>(path: "Browser/Feedback").Text = "Connecting to " + host + "…";
             _menu?.Attempt(origin: GetViewport().GuiGetFocusOwner()?.GetPath().ToString()

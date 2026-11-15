@@ -115,6 +115,14 @@ internal sealed partial class FoundationCoordinator
             return;
         }
 
+        if (envelope.SessionId.Length > 0 && !StringComparer.Ordinal.Equals(x: envelope.SessionId,
+                y: _session.Snapshot.SessionId))
+        {
+            Refuse(sender: sender, hello: envelope, reason: "The selected session is no longer available. "
+                    + "Refresh the list or enter a host address.");
+            return;
+        }
+
         if (_session.Snapshot.Participants.Any(predicate: p => StringComparer.Ordinal.Equals(
                 x: p.Actor.PlayerId, y: envelope.PlayerId)))
         {

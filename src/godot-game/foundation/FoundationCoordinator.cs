@@ -60,9 +60,10 @@ internal sealed partial class FoundationCoordinator
         RecordEvent(value: host ? "host-start" : "solo-start");
     }
 
-    internal void Join(string address, int port)
+    internal void Join(string address, int port, string expectedSessionId = "")
     {
         RequireFresh();
+        _expectedSession = expectedSessionId;
         _used = true;
         _startedAt = Now();
         _lastResponse = _startedAt;
@@ -91,7 +92,7 @@ internal sealed partial class FoundationCoordinator
         if (_session is null && !_helloSent && _connection?.Connected == true)
         {
             Send(peer: 1, envelope: new FoundationEnvelope(kind: "hello", playerId: PlayerId, label: _label,
-                    attemptId: _attempt));
+                    attemptId: _attempt, sessionId: _expectedSession));
             _helloSent = true;
         }
 
@@ -149,6 +150,7 @@ internal sealed partial class FoundationCoordinator
     private FoundationSnapshot? _hostPublished;
     private bool _active;
     private bool _helloSent;
+    private string _expectedSession = "";
     private long _sequence;
     private long _publicationElapsed;
     private long _livenessElapsed;

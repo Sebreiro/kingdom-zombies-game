@@ -21,9 +21,8 @@ internal static class FoundationNativeRegression
                         ?? throw new InvalidDataException(message: "REGRESSION_PROFILE_ROOT")),
                 discovery: discovery, connection: () => throw new InvalidOperationException());
         FoundationCoordinator? coordinator = null;
-        var menu = new FoundationMenu(root: root, gateway: gateway, services: services, join: () => { },
-                back: () => { }, coordinator: () => coordinator, replace: value => { }, input: new FoundationInput(),
-                runtime: new FoundationRuntimeState());
+        FoundationMenu menu = SelectionMenu(root: root, gateway: gateway, services: services,
+                coordinator: () => coordinator);
         Observe(root: root, gateway: gateway, rows: [Advertisement(id: "hidden", name: "Hidden", occupied: 1)],
                 expectedSession: "");
         root.GetNode<Control>(path: "Browser").Visible = true;
@@ -41,6 +40,8 @@ internal static class FoundationNativeRegression
         menu.Tick(nowMilliseconds: 3);
         Require(value: rows.GetChild(idx: 1).GetInstanceId() == instance && selected.HasFocus(),
                 message: "BROWSER_REBUILT_WITHOUT_CHANGE");
+        menu.JoinSelected();
+        Require(value: menu.RequestedSessionId.Length == 0, message: "SELECTED_REQUEST_NOT_CLEARED");
         root.GetNode<Control>(path: "Browser").Visible = false;
         Observe(root: root, gateway: gateway, rows: [], expectedSession: "selected");
         coordinator = new FoundationCoordinator(playerId: "pending", label: "Pending");
@@ -130,6 +131,17 @@ internal static class FoundationNativeRegression
                 label: "Actor", slot: slot, ready: true, actor: new FoundationActorState(
                         sessionId: "native-regression", playerId: "player" + slot, actorId: id,
                         positionSubunits: slot * 100, facing: 1, elapsedMilliseconds: 0));
+    }
+
+    private static FoundationMenu SelectionMenu(Control root, MainThreadGateway gateway,
+            FoundationServices services, Func<FoundationCoordinator?> coordinator)
+    {
+        FoundationMenu? menu = null;
+        menu = new FoundationMenu(root: root, gateway: gateway, services: services, join: () =>
+                Require(value: menu?.RequestedSessionId is "selected" && menu.RequestedAddress is "127.0.0.1:47778",
+                        message: "SELECTED_ROW_REQUEST_IDENTITY"), back: () => { }, coordinator: coordinator,
+                replace: value => { }, input: new FoundationInput(), runtime: new FoundationRuntimeState());
+        return menu;
     }
 
     private static SessionAdvertisement Advertisement(string id, string name, int occupied)

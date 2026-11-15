@@ -74,6 +74,119 @@ public sealed class FoundationLanAdmissionTests
         FoundationSnapshot detached = baseline.Snapshot ?? throw new InvalidOperationException(message: "BASELINE");
         detached.Participants[0].Actor.PositionSubunits.ShouldBe(expected: -8000);
         detached.Participants[1].Ready.ShouldBeFalse();
+        CheckSelectedSession();
+    }
+
+    private static void CheckSelectedSession()
+    {
+        var port = new FoundationHarnessConnection();
+        var host = new FoundationCoordinator(playerId: "host", label: "Host", connection: port);
+        host.Start(host: true);
+        string selected = host.Snapshot?.SessionId ?? throw new InvalidOperationException(message: "HOST");
+        CheckSelectionAttempt(host: host, port: port, expected: selected, pass: true);
+        host.Close();
+        port = new FoundationHarnessConnection();
+        host = new FoundationCoordinator(playerId: "host", label: "Host", connection: port);
+        host.Start(host: true);
+        CheckSelectionAttempt(host: host, port: port, expected: selected, pass: false);
+        CheckSelectionAttempt(host: host, port: port, expected: "", pass: true);
+        CheckWrongBaseline(host: host, port: port, selected: selected);
+    }
+
+    private static void CheckSelectionAttempt(FoundationCoordinator host, FoundationHarnessConnection port,
+            string expected, bool pass)
+    {
+        var guestPort = new FoundationHarnessConnection();
+        var guest = new FoundationCoordinator(playerId: "é/guest", label: "e\u0301 camp", connection: guestPort);
+        guest.Join(address: "127.0.0.1", port: 47778, expectedSessionId: expected);
+        for (int step = 0; step < 4; step++)
+        {
+            Exchange(host: host, port: port, guest: guest, guestPort: guestPort);
+        }
+
+        guest.Ready.ShouldBe(expected: pass);
+        (guest.InstalledRevision >= 0).ShouldBe(expected: pass);
+        guest.Submit(direction: 1).ShouldBe(expected: pass);
+        if (!pass)
+        {
+            guest.Error.ShouldStartWith(expected: "The selected session is no longer available.");
+            guest.LocalActor.ShouldBeNull();
+            guest.Snapshot.ShouldBeNull();
+            guestPort.CloseCount.ShouldBe(expected: 1);
+        }
+
+        guest.Close();
+        Exchange(host: host, port: port, guest: guest, guestPort: guestPort);
+        host.Snapshot?.Participants.Length.ShouldBe(expected: 1);
+    }
+
+    private static void Exchange(FoundationCoordinator host, FoundationHarnessConnection port,
+            FoundationCoordinator guest, FoundationHarnessConnection guestPort)
+    {
+        guest.Update(elapsedMilliseconds: 0);
+        foreach ((int _, FoundationEnvelope envelope) in guestPort.Sent)
+        {
+            port.Enqueue(sender: 2, envelope: envelope);
+        }
+
+        guestPort.Sent.Clear();
+        host.Update(elapsedMilliseconds: 0);
+        foreach ((int _, FoundationEnvelope envelope) in port.Sent)
+        {
+            guestPort.Enqueue(sender: 1, envelope: envelope);
+        }
+
+        port.Sent.Clear();
+    }
+
+    private static void CheckWrongBaseline(FoundationCoordinator host, FoundationHarnessConnection port,
+            string selected)
+    {
+        var guestPort = new FoundationHarnessConnection();
+        var guest = new FoundationCoordinator(playerId: "guest", label: "Guest", connection: guestPort);
+        guest.Join(address: "127.0.0.1", port: 47778, expectedSessionId: selected);
+        guest.Update(elapsedMilliseconds: 0);
+        FoundationEnvelope hello = guestPort.Sent.Single().Envelope;
+        port.Enqueue(sender: 2, envelope: new FoundationEnvelope(kind: "hello", playerId: hello.PlayerId,
+                label: hello.Label, attemptId: hello.AttemptId));
+        host.Update(elapsedMilliseconds: 0);
+        FoundationEnvelope baseline = port.Sent.Last(predicate: row => row.Envelope.Kind is "baseline").Envelope;
+        guestPort.Sent.Clear();
+        guestPort.Enqueue(sender: 1, envelope: baseline);
+        guest.Update(elapsedMilliseconds: 0);
+        guest.Snapshot.ShouldBeNull();
+        guest.InstalledRevision.ShouldBe(expected: -1);
+        guestPort.Sent.Any(predicate: row => row.Envelope.Kind is "ack").ShouldBeFalse();
+        guestPort.CloseCount.ShouldBe(expected: 1);
+        Exchange(host: host, port: port, guest: guest, guestPort: guestPort);
+        host.Snapshot?.Participants.Length.ShouldBe(expected: 1);
+        CheckStaleSelection(host: host, port: port, baseline: baseline, hello: hello);
+    }
+
+    private static void CheckStaleSelection(FoundationCoordinator host, FoundationHarnessConnection port,
+            FoundationEnvelope baseline, FoundationEnvelope hello)
+    {
+        port.Sent.Clear();
+        var guestPort = new FoundationHarnessConnection();
+        var guest = new FoundationCoordinator(playerId: "guest", label: "Guest", connection: guestPort);
+        guest.Join(address: "127.0.0.1", port: 47778);
+        guestPort.Enqueue(sender: 1, envelope: baseline);
+        guestPort.Enqueue(sender: 1, envelope: new FoundationEnvelope(kind: "reject", label: "old failure",
+                attemptId: hello.AttemptId));
+        guest.Update(elapsedMilliseconds: 0);
+        guest.Error.ShouldBeEmpty();
+        guest.Snapshot.ShouldBeNull();
+        for (int step = 0; step < 4; step++)
+        {
+            Exchange(host: host, port: port, guest: guest, guestPort: guestPort);
+        }
+
+        guest.Ready.ShouldBeTrue();
+        guest.Close();
+        guestPort.Enqueue(sender: 1, envelope: baseline);
+        guest.Update(elapsedMilliseconds: 0);
+        guest.Snapshot.ShouldBeNull();
+        guestPort.CloseCount.ShouldBe(expected: 1);
     }
 
     private static void CheckRefusalFlood()

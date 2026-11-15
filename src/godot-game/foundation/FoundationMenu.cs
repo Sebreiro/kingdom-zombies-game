@@ -28,6 +28,18 @@ internal sealed class FoundationMenu
     }
 
     internal string? RequestedAddress { get; private set; }
+    internal string RequestedSessionId { get; private set; } = "";
+
+    internal void JoinSelected()
+    {
+        if (_services.Browser.Selected is SessionAdvertisement selected && selected.Availability is "Available"
+                && selected.Occupied < 4)
+        {
+            _origin = "Browser/Footer/JoinSession";
+            Submit(address: selected.Address + ":" + selected.Port.ToString(provider: CultureInfo.InvariantCulture),
+                    expectedSessionId: selected.SessionId);
+        }
+    }
 
     internal void Attach()
     {
@@ -172,6 +184,7 @@ internal sealed class FoundationMenu
 
     internal void CancelAttempt()
     {
+        RequestedSessionId = "";
         _coordinator()?.Close();
         _replace(obj: null);
         _input.Clear();
@@ -290,16 +303,6 @@ internal sealed class FoundationMenu
         HideDetail();
     }
 
-    private void JoinSelected()
-    {
-        if (_services.Browser.Selected is SessionAdvertisement selected && selected.Availability is "Available"
-                && selected.Occupied < 4)
-        {
-            _origin = "Browser/Footer/JoinSession";
-            Submit(address: selected.Address + ":" + selected.Port.ToString(provider: CultureInfo.InvariantCulture));
-        }
-    }
-
     private void Cancel()
     {
         CancelAttempt();
@@ -320,9 +323,10 @@ internal sealed class FoundationMenu
                 + profile.Ordinal.ToString(provider: CultureInfo.InvariantCulture);
     }
 
-    private void Submit(string address)
+    private void Submit(string address, string expectedSessionId = "")
     {
         RequestedAddress = address;
+        RequestedSessionId = expectedSessionId;
         try
         {
             _join();
@@ -330,6 +334,7 @@ internal sealed class FoundationMenu
         finally
         {
             RequestedAddress = null;
+            RequestedSessionId = "";
         }
     }
 
