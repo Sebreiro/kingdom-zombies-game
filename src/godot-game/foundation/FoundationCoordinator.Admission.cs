@@ -124,7 +124,7 @@ internal sealed partial class FoundationCoordinator
             return;
         }
 
-        FoundationSnapshot state = _session.Snapshot;
+        FoundationSnapshot state = HostPublication();
         var baseline = new FoundationEnvelope(kind: "baseline", sessionId: state.SessionId,
                 playerId: envelope.PlayerId, actorId: actor, bindingId: binding, revision: state.Revision,
                 snapshot: state, attemptId: envelope.AttemptId);

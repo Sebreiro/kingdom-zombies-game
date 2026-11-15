@@ -34,7 +34,7 @@ public sealed class FoundationLanPermissionTests
         CheckPublicTypes();
         EngineAccessPolicy.Repository().ShouldBeEmpty();
         ProofProtocol.Record(id: "core.permissions",
-                diagnostic: "EXACT_LAN_PERMISSIONS:14_TUPLES_4_PUBLIC_TYPES_WITH_VALID_NEGATIVES");
+                diagnostic: "EXACT_LAN_PERMISSIONS:34_TUPLES_8_PUBLIC_TYPES_WITH_VALID_NEGATIVES");
     }
 
     private const string Native = " _ = Godot.Input.IsPhysicalKeyPressed(keycode: Godot.Key.D); ";
@@ -44,6 +44,10 @@ public sealed class FoundationLanPermissionTests
         ("FoundationView", ["ProjectRoster"]),
         ("EnetConnectionService", ["Host", "Join", "Poll", "Send", "Close", "Check"]),
         ("FoundationAutomation", ["Deliver"]),
+        ("FoundationMenu", ["Attach", "Detach", "CommitName", "Browse", "Tick", "Attempt", "Recover", "Activate",
+            "PopupOpen", "Escape", "Profiles", "Feedback", "Refresh", "Back", "Lock", "Rows", "AddRow", "Detail",
+            "RowLabel"]),
+        ("FoundationHud", ["Project"]),
     ];
     private static readonly (string Path, string Type, int Project)[] _public =
     [
@@ -51,6 +55,10 @@ public sealed class FoundationLanPermissionTests
         ("src/core/FoundationParticipantState.cs", "FoundationParticipantState", 0),
         ("src/multiplayer-abstractions/IConnectionService.cs", "IConnectionService", 1),
         ("src/multiplayer-abstractions/ConnectionPacket.cs", "ConnectionPacket", 1),
+        ("src/multiplayer-abstractions/IDiscoveryService.cs", "IDiscoveryService", 1),
+        ("src/multiplayer-abstractions/IIdentityService.cs", "IIdentityService", 1),
+        ("src/multiplayer-abstractions/SessionAdvertisement.cs", "SessionAdvertisement", 1),
+        ("src/multiplayer-abstractions/PlayerProfile.cs", "PlayerProfile", 1),
     ];
 
     private static void CheckNativeTuples(ConsumerCompilation consumer)
@@ -67,14 +75,15 @@ public sealed class FoundationLanPermissionTests
                 MethodDeclarationSyntax method = tree.GetRoot().DescendantNodes().OfType<MethodDeclarationSyntax>()
                         .Single(predicate: candidate => StringComparer.Ordinal.Equals(x: candidate.Identifier.ValueText,
                                 y: name));
-                string guard = type is "FoundationView" or "FoundationAutomation" ? "gateway.RequireThread();"
+                string guard = type is "FoundationView" or "FoundationAutomation" or "FoundationHud"
+                        ? "gateway.RequireThread();"
                         : "_gateway.RequireThread();";
                 CheckTuple(consumer: consumer, source: source, path: path, method: method, guard: guard);
                 checkedMethods++;
             }
         }
 
-        checkedMethods.ShouldBe(expected: 14);
+        checkedMethods.ShouldBe(expected: 34);
     }
 
     private static void CheckInventory()
@@ -97,7 +106,8 @@ public sealed class FoundationLanPermissionTests
                 oldValue: guard, newValue: "", comparisonType: StringComparison.Ordinal),
                 comparisonType: StringComparison.Ordinal);
         EngineAccessPolicy.Check(source: removedGuard, path: path, consumer: consumer).ShouldNotBeEmpty();
-        string suffix = method.ReturnType.ToString() is "void" ? "" : " return []; ";
+        string suffix = method.ReturnType.ToString() is "void" ? ""
+                : method.ReturnType.ToString() is "bool" ? " return false; " : " return []; ";
         string positive = ReplaceBody(source: source, method: method, body: guard + Native + suffix);
         EngineAccessPolicy.Check(source: positive, path: path, consumer: consumer).ShouldBeEmpty();
         foreach (string body in new[] { Native + suffix, Native + guard + suffix,

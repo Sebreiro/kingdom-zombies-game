@@ -54,6 +54,7 @@ public sealed partial class FoundationRoot : Control
         }
 
         _inputEvents++;
+        _input.SetContext(gameplay: _coordinator?.Ready == true);
         if (_menu?.PopupOpen() == true)
         {
             return;
@@ -105,7 +106,7 @@ public sealed partial class FoundationRoot : Control
             else
             {
                 ReturnToMenu();
-                GetNode<Label>(path: "Menu/Error").Text = reason;
+                GetNode<Label>(path: "Menu/Error").Text = FoundationCopy.Error(reason: reason);
                 GetNode<Control>(path: "Menu/Error").Visible = true;
             }
 
@@ -210,7 +211,9 @@ public sealed partial class FoundationRoot : Control
         catch (Exception error)
         {
             ReturnToMenu();
-            GetNode<Label>(path: "Menu/Error").Text = "Could not start the scene. Try Start again.";
+            GetNode<Label>(path: "Menu/Error").Text = host
+                    ? "Could not host a session. Check your network and try Host session again."
+                    : "Could not start the scene. Try Start again.";
             GetNode<Control>(path: "Menu/Error").Visible = true;
             GD.Print(what: "Recoverable scene entry: " + error.Message);
         }
@@ -242,6 +245,7 @@ public sealed partial class FoundationRoot : Control
         if (!FoundationEndpoint.TryParse(value: address.Trim(), address: out string host, port: out int port))
         {
             GetNode<Label>(path: "Browser/Feedback").Text = "Enter a valid host address, then choose Join address.";
+            GetNode<LineEdit>(path: "Browser/Address").GrabFocus();
             return;
         }
 
@@ -250,6 +254,7 @@ public sealed partial class FoundationRoot : Control
             _runtime.NowMilliseconds = checked((long)Time.GetTicksMsec());
             _runtime.Feedback = "";
             _input.Clear();
+            _input.SetContext(gameplay: true);
             _runtime.Hosting = false;
             _coordinator = (_services ?? throw new InvalidOperationException(message: "SERVICES_NOT_READY"))
                     .Create(connected: true, nowMilliseconds: () => _runtime.NowMilliseconds);
@@ -293,6 +298,8 @@ public sealed partial class FoundationRoot : Control
         GetNode<Control>(path: "Menu").Visible = false;
         GetNode<Control>(path: "Browser").Visible = false;
         GetNode<Control>(path: "Hint").Visible = true;
+        FoundationHud.Project(root: this, snapshot: snapshot, bindingId: _coordinator.BindingId,
+                hosting: _runtime.Hosting, waitingForHost: _coordinator.WaitingForHost, gateway: _gateway);
     }
 
     private void PollKeys()
@@ -332,6 +339,7 @@ public sealed partial class FoundationRoot : Control
         _coordinator = null;
         _services?.Discovery.Advertise(advertisement: null);
         _input.Clear();
+        _input.SetContext(gameplay: false);
         _remainder = 0;
         Node2D? world = GetNodeOrNull<Node2D>(path: "World");
         if (world is not null)
@@ -341,6 +349,7 @@ public sealed partial class FoundationRoot : Control
         }
         GetNode<Control>(path: "Browser").Visible = false;
         GetNode<Control>(path: "Hint").Visible = false;
+        GetNode<Control>(path: "Roster").Visible = false;
         GetNode<Control>(path: "Menu").Visible = true;
         GetNode<Button>(path: "Menu/Start").Disabled = false;
         GetNode<Button>(path: "Menu/Quit").Disabled = false;

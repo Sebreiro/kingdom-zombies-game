@@ -41,6 +41,12 @@ internal sealed class FoundationMenu
         _root.GetNode<Button>(path: "Browser/Footer/JoinSession").Pressed += JoinSelected;
         _root.GetNode<Button>(path: "Browser/Footer/Cancel").Pressed += Cancel;
         _root.GetNode<Button>(path: "Browser/Footer/Back").Pressed += Back;
+        foreach (Control control in _root.FindChildren(pattern: "*", type: "Control", recursive: true,
+                owned: false).OfType<Control>())
+        {
+            control.FocusEntered += FocusChanged;
+            _focusControls.Add(item: control);
+        }
         _services.Identity.Load();
         Profiles();
     }
@@ -57,6 +63,12 @@ internal sealed class FoundationMenu
         _root.GetNode<Button>(path: "Browser/Footer/JoinSession").Pressed -= JoinSelected;
         _root.GetNode<Button>(path: "Browser/Footer/Cancel").Pressed -= Cancel;
         _root.GetNode<Button>(path: "Browser/Footer/Back").Pressed -= Back;
+        foreach (Control control in _focusControls)
+        {
+            control.FocusEntered -= FocusChanged;
+        }
+
+        _focusControls.Clear();
         _services.Discovery.Dispose();
     }
 
@@ -126,7 +138,7 @@ internal sealed class FoundationMenu
         _gateway.RequireThread();
         _attemptError = message.Length > 0;
         Lock(joining: false);
-        _root.GetNode<Label>(path: "Browser/Feedback").Text = message;
+        _root.GetNode<Label>(path: "Browser/Feedback").Text = FoundationCopy.Error(reason: message);
         Control focus = _root.GetNode<Control>(path: message.Contains(value: "profile",
                 comparisonType: StringComparison.OrdinalIgnoreCase) ? "Browser/Footer/Back" : _origin);
         if (focus is Button button && button.Disabled)
@@ -190,6 +202,7 @@ internal sealed class FoundationMenu
     private readonly FoundationInput _input;
     private readonly FoundationRuntimeState _runtime;
     private readonly List<Button> _rows = [];
+    private readonly List<Control> _focusControls = [];
     private string _rowsKey = "";
     private string _origin = "Browser/JoinAddress";
     private bool _attemptError;
@@ -251,6 +264,11 @@ internal sealed class FoundationMenu
         CommitName();
     }
 
+    private void FocusChanged()
+    {
+        _input.Clear();
+    }
+
     private void AddressSubmitted(string text)
     {
         Submit(address: text);
@@ -277,7 +295,7 @@ internal sealed class FoundationMenu
     private void Cancel()
     {
         CancelAttempt();
-        Recover(message: "");
+        Recover(message: "Join cancelled. Choose a session or enter a host address.");
     }
 
     private void Back()
@@ -362,7 +380,13 @@ internal sealed class FoundationMenu
                 AddRow(advertisement: advertisement, previous: previous);
             }
 
-            if (previous.Length > 0 && !_rows.Any(predicate: row => row.HasFocus()))
+            bool restored = false;
+            foreach (Button row in _rows)
+            {
+                restored |= row.HasFocus();
+            }
+
+            if (previous.Length > 0 && !restored)
             {
                 _root.GetNode<Control>(path: "Browser/Refresh").GrabFocus();
             }
@@ -425,6 +449,7 @@ internal sealed class FoundationMenu
     private void Detail(SessionAdvertisement advertisement)
     {
         _gateway.RequireThread();
+        _input.Clear();
         _services.Browser.Select(sessionId: advertisement.SessionId);
         Rows();
         _root.GetNode<Label>(path: "Browser/Detail").Text = advertisement.SessionName + " · " + advertisement.Address

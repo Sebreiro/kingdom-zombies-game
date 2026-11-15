@@ -88,6 +88,7 @@ internal static class EngineAccessPolicy
             "Quit", "LoseFocus", "Observe", "Capture", "Enter", "Browse", "JoinAddress", "ShowWorld",
             "PollKeys", "ActivateFocused"],
         ["FoundationView"] = ["Project", "ProjectRoster"],
+        ["FoundationHud"] = ["Project"],
         ["EnetConnectionService"] = ["Host", "Join", "Poll", "Send", "Close", "Check"],
         ["FoundationAutomation"] = ["Deliver"],
         ["FoundationMenu"] = ["Attach", "Detach", "CommitName", "Browse", "Tick", "Attempt", "Recover", "Activate",

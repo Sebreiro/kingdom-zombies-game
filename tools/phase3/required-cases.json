@@ -527,6 +527,46 @@
         "profile-after-restart"
       ],
       "freshProcessReason": "Actual persisted identity restart requires distinct process IDs with one retained storage root."
+    },
+    {
+      "id": "core.input",
+      "group": "core",
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.FoundationLanInputTests.ScreenFocusAndLocalProjectionStayIndependent",
+      "title": "Screen-owned input and exact local projection",
+      "importance": "Critical",
+      "rationale": "Duplicate or foreign intent breaks ownership and movement.",
+      "requirements": [
+        "LAN-02",
+        "LAN-03"
+      ],
+      "acceptance": [
+        "AC-01",
+        "AC-06",
+        "AC-08"
+      ],
+      "tags": [
+        "input",
+        "focus",
+        "camera",
+        "projection"
+      ],
+      "status": "required",
+      "runGroup": "no-window-core",
+      "order": 8,
+      "setup": "Strict build; actual coordinator receives controlled monotonic time and wire values.",
+      "actions": [
+        "Exercise menu-held keys, aliases, repeat, opposition and release barriers.",
+        "Select a ready local binding and actor-keyed label offsets across departure/replacement."
+      ],
+      "expected": [
+        "Menu input never becomes gameplay movement; exact ready local binding alone chooses camera; reused slots do not reuse actors."
+      ],
+      "evidence": [
+        "CTRF one-test report",
+        "nonce-bound subject log"
+      ],
+      "needsGameWindow": false
     }
   ]
 }

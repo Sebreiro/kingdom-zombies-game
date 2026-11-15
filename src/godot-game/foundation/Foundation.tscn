@@ -338,3 +338,43 @@ text = "Cancel join"
 [node name="Back" type="Button" parent="Browser/Footer"]
 custom_minimum_size = Vector2(144, 48)
 text = "Back"
+
+[node name="Roster" type="VBoxContainer" parent="."]
+visible = false
+offset_left = 936.0
+offset_top = 24.0
+offset_right = 1256.0
+offset_bottom = 168.0
+mouse_filter = 2
+theme_override_constants/separation = 0
+theme_override_font_sizes/font_size = 16
+
+[node name="Header" type="Label" parent="Roster"]
+custom_minimum_size = Vector2(320, 24)
+mouse_filter = 2
+
+[node name="Player1" type="Label" parent="Roster"]
+custom_minimum_size = Vector2(320, 24)
+text_overrun_behavior = 3
+mouse_filter = 2
+
+[node name="Player2" type="Label" parent="Roster"]
+custom_minimum_size = Vector2(320, 24)
+text_overrun_behavior = 3
+mouse_filter = 2
+
+[node name="Player3" type="Label" parent="Roster"]
+custom_minimum_size = Vector2(320, 24)
+text_overrun_behavior = 3
+mouse_filter = 2
+
+[node name="Player4" type="Label" parent="Roster"]
+custom_minimum_size = Vector2(320, 24)
+text_overrun_behavior = 3
+mouse_filter = 2
+
+[node name="Waiting" type="Label" parent="Roster"]
+visible = false
+custom_minimum_size = Vector2(320, 24)
+text = "Waiting for host…"
+mouse_filter = 2

@@ -25,13 +25,14 @@ internal sealed partial class FoundationCoordinator
 
     internal string PlayerId { get; }
     internal string BindingId { get; private set; } = "local";
-    internal FoundationSnapshot? Snapshot => _session?.Snapshot ?? _remote;
+    internal FoundationSnapshot? Snapshot => _session is null ? _remote : HostPublication();
     internal bool Ready => _active && Snapshot?.Participants.Any(predicate: p => p.Ready
             && StringComparer.Ordinal.Equals(x: p.BindingId, y: BindingId)
             && StringComparer.Ordinal.Equals(x: p.Actor.PlayerId, y: PlayerId)) == true;
     internal FoundationActorState? LocalActor => Ready ? Snapshot?.Participants.First(predicate: p =>
             StringComparer.Ordinal.Equals(x: p.BindingId, y: BindingId)).Actor : null;
     internal bool IsHost => _session is not null;
+    internal bool WaitingForHost => Ready && !IsHost && _connection?.Connected != true;
     internal string Error { get; private set; } = "";
     internal long InstalledRevision { get; private set; } = -1;
     internal long AcceptedIntents { get; private set; }
@@ -213,7 +214,7 @@ internal sealed partial class FoundationCoordinator
             return;
         }
 
-        FoundationSnapshot state = _session.Snapshot;
+        FoundationSnapshot state = HostPublication();
         foreach ((int sender, FoundationPeerBinding peer) in _peers)
         {
             Send(peer: sender, envelope: new FoundationEnvelope(kind: "state", sessionId: state.SessionId,
@@ -265,5 +266,15 @@ internal sealed partial class FoundationCoordinator
         {
             throw new InvalidOperationException(message: "COORDINATOR_ALREADY_USED");
         }
+    }
+
+    private FoundationSnapshot HostPublication()
+    {
+        FoundationSnapshot snapshot = (_session ?? throw new InvalidOperationException(message: "HOST_REQUIRED"))
+                .Snapshot;
+        return new FoundationSnapshot(sessionId: snapshot.SessionId, revision: snapshot.Revision,
+                participants: snapshot.Participants.Select(selector: p => p.Slot == 1
+                        ? new FoundationParticipantState(bindingId: p.BindingId, label: _label, slot: p.Slot,
+                                ready: p.Ready, actor: p.Actor) : p));
     }
 }

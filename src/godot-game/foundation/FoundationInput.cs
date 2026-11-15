@@ -6,16 +6,20 @@ namespace KingdomZombies.Foundation;
 internal sealed class FoundationInput
 {
     /// <summary>Gets the normalized direction, treating aliases as one direction.</summary>
-    internal int Direction => (_held.Contains(item: 68) || _held.Contains(item: 4194321) ? 1 : 0)
-            - (_held.Contains(item: 65) || _held.Contains(item: 4194319) ? 1 : 0);
+    internal int Direction => _gameplay ? (_held.Contains(item: 68) || _held.Contains(item: 4194321) ? 1 : 0)
+            - (_held.Contains(item: 65) || _held.Contains(item: 4194319) ? 1 : 0) : 0;
 
     /// <summary>Gets whether the last physical transition was a fresh unblocked press.</summary>
     internal bool FreshPress { get; private set; }
 
-    /// <summary>Defines the owning input screen without changing the RED subject's existing holds.</summary>
+    /// <summary>Closes held commands whenever a different screen takes input ownership.</summary>
     internal void SetContext(bool gameplay)
     {
-        _ = gameplay && _held.Count > 0;
+        if (_gameplay != gameplay)
+        {
+            Clear();
+            _gameplay = gameplay;
+        }
     }
 
     /// <summary>Records a fresh physical key transition.</summary>
@@ -43,4 +47,5 @@ internal sealed class FoundationInput
 
     private readonly HashSet<int> _held = [];
     private readonly HashSet<int> _blocked = [];
+    private bool _gameplay = true;
 }

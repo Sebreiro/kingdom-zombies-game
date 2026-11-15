@@ -15,25 +15,25 @@ internal static class FoundationView
             MainThreadGateway gateway)
     {
         gateway.RequireThread();
-        FoundationParticipantState local = snapshot.Participants.First(predicate: participant => participant.Ready
-                && StringComparer.Ordinal.Equals(x: participant.BindingId, y: bindingId));
-        Project(world: world, actor: local.Actor, gateway: gateway);
-        for (int slot = 1; slot <= 4; slot++)
+        FoundationParticipantState local = FoundationPresentation.Local(snapshot: snapshot, bindingId: bindingId)
+                ?? throw new InvalidOperationException(message: "PRESENTATION_LOCAL_NOT_READY");
+        foreach (Node child in world.GetChildren())
         {
-            string name = "Participant" + slot.ToString(provider: CultureInfo.InvariantCulture);
-            Node2D? obsolete = world.GetNodeOrNull<Node2D>(path: name);
-            if (obsolete is not null && !snapshot.Participants.Any(predicate: p => p.Ready && p != local
-                    && p.Slot == slot))
+            string childName = child.Name;
+            if (childName.StartsWith(value: "Actor_", comparisonType: StringComparison.Ordinal)
+                    && !snapshot.Participants.Any(predicate: p => p.Ready && p != local
+                            && StringComparer.Ordinal.Equals(x: "Actor_" + p.Actor.ActorId, y: childName)))
             {
-                world.RemoveChild(node: obsolete);
-                obsolete.QueueFree();
+                world.RemoveChild(node: child);
+                child.QueueFree();
             }
         }
 
         foreach (FoundationParticipantState participant in snapshot.Participants.Where(predicate: participant =>
-                participant.Ready && participant != local))
+                participant.Ready))
         {
-            string name = "Participant" + participant.Slot.ToString(provider: CultureInfo.InvariantCulture);
+            bool own = participant == local;
+            string name = own ? "Player" : "Actor_" + participant.Actor.ActorId;
             Node2D? remote = world.GetNodeOrNull<Node2D>(path: name);
             if (remote is null)
             {
@@ -44,9 +44,19 @@ internal static class FoundationView
 
             remote.Position = new Vector2(x: participant.Actor.PositionSubunits * 16f / 1000, y: 540);
             remote.GetNode<Polygon2D>(path: "Facing").Scale = new Vector2(x: participant.Actor.Facing, y: 1);
-            remote.GetNode<Polygon2D>(path: "Body").Color = new Color(r: 0.957f, g: 0.949f, b: 0.91f);
-            remote.GetNode<Polygon2D>(path: "Facing").Color = new Color(r: 0.957f, g: 0.949f, b: 0.91f);
+            var color = own ? new Color(r: 0.941f, g: 0.769f, b: 0.416f)
+                    : new Color(r: 0.957f, g: 0.949f, b: 0.91f);
+            remote.GetNode<Polygon2D>(path: "Body").Color = color;
+            remote.GetNode<Polygon2D>(path: "Facing").Color = color;
+            Label marker = remote.GetNode<Label>(path: "Marker");
+            marker.Text = "P" + participant.Slot.ToString(provider: CultureInfo.InvariantCulture)
+                    + (own ? " · You" : "");
+            marker.Modulate = color;
+            marker.Position = new Vector2(x: -48, y: -112 - FoundationPresentation.LabelOffset(snapshot: snapshot,
+                    participant: participant));
         }
+
+        Project(world: world, actor: local.Actor, gateway: gateway);
     }
 
     /// <summary>Reads position and facing, then projects them at sixteen logical pixels per unit.</summary>
