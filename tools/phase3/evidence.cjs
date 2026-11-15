@@ -34,9 +34,12 @@ function timing(row){
 function stopped(row){
   requireTrue(row.clock==='coordinator-hrtime'&&row.actor===row.expectedActor&&row.session===row.expectedSession,'STOP_SUBJECT_CLOCK');
   requireTrue([row.positionSubunits,row.hostPositionSubunits,row.revision,row.minimumRevision].every(Number.isSafeInteger)&&row.revision>=row.minimumRevision,'STOP_POSITION_REVISION');
-  requireTrue(['observedAfter','releaseBefore','uncertaintyNanoseconds'].every(key=>typeof row[key]==='string'&&/^\d+$/.test(row[key])),'STOP_CLOCK_INTEGER');
+  requireTrue(['observedBefore','observedAfter','releaseBefore','releaseAfter','uncertaintyNanoseconds'].every(key=>typeof row[key]==='string'&&/^\d+$/.test(row[key])),'STOP_CLOCK_INTEGER');
   requireTrue(Math.abs(row.positionSubunits)<=59000&&Math.abs(row.hostPositionSubunits)<=59000,'STOP_POSITION_BOUNDS');
-  requireTrue(BigInt(row.observedAfter)-BigInt(row.releaseBefore)+BigInt(row.uncertaintyNanoseconds)>=0n&&BigInt(row.observedAfter)-BigInt(row.releaseBefore)+BigInt(row.uncertaintyNanoseconds)<=500000000n,'STOP_TIME');
+  requireTrue(BigInt(row.releaseAfter)>=BigInt(row.releaseBefore)&&BigInt(row.observedBefore)>=BigInt(row.releaseAfter)&&BigInt(row.observedAfter)>=BigInt(row.observedBefore),'STOP_ORDER');
+  requireTrue(BigInt(row.uncertaintyNanoseconds)<=1000000n,'STOP_UNCERTAINTY');
+  requireTrue(row.observerDraw?.sha256&&row.hostDraw?.sha256&&row.releaseAcknowledgment?.nativeDrawFrame>0&&row.authorityDrawFrame>0,'STOP_REFERENCES');
+  requireTrue(BigInt(row.observedAfter)-BigInt(row.releaseBefore)+BigInt(row.uncertaintyNanoseconds)<=500000000n,'STOP_TIME');
   requireTrue(Math.abs(row.positionSubunits-row.hostPositionSubunits)<=50,'STOP_DISTANCE');return row;
 }
 function identity(row,context){for(const key of ['nonce','input','tool','platform','revision','osFingerprint'])requireTrue(typeof context[key]==='string'&&row[key]===context[key],'RESULT_IDENTITY '+key);}
@@ -136,7 +139,7 @@ function reconcile(selected,results,context){
         requireTrue(row.acceptedIntent.ActorId===row.actor&&row.acceptedIntent.SessionId===row.session&&row.acceptedIntent.Direction===(row.action==='start'?1:row.action==='reversal'?-1:0)&&row.minimumRevision>row.acceptedRevision,'TIMING_ACCEPTED_INTENT');
       }
       exact(item.roles.flatMap(origin=>item.roles.map(observer=>origin+'/'+observer)),result.stopped?.map(row=>row.origin+'/'+row.observer),'stopped matrix');
-      for(const row of result.stopped)stopped(row);
+      require('./stopped.cjs').reconcile(context,result);
     }
   }return results;
 }

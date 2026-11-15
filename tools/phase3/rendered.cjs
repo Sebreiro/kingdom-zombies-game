@@ -109,27 +109,39 @@ async function transition(context,input,peers,origin,key,pressed,action){
       observedBefore:picture.before,observedAfter:picture.after,uncertaintyNanoseconds:'1000000',
       uncertaintyPolicy:'External before-delivery to after-complete-draw-PNG-read brackets include all polling, driver, draw, capture and scheduler delays; no peer clocks subtracted.',
       drawFrame:picture.state.drawFrame,drawn:picture.state.drawn,visible:current?.visible,insideCamera:current?.insideCamera,
+      baselineDrawFrame:baselines.get(observer.role).drawFrame,
       imageBound:true,provenance:ack.method,eventAcknowledged:true,transformChanged:action==='stop'||action==='focus-stop'?true:current?.x!==baseline.x,
       image:picture.image,inputAcknowledgment:ack,acceptedIntent:accepted.input.lastAcceptedIntent,
       acceptedRevision:accepted.input.lastAcceptedRevision,authorityDrawFrame:accepted.drawFrame};
     e.timing(sample);return sample;
-  }));return {timings:results,ack,actor:{...own,minimumRevision:accepted.input.lastAcceptedRevision+1}};
+  }));return {timings:results,ack,actor:{...own,minimumRevision:accepted.input.lastAcceptedRevision+1,
+    authorityDrawFrame:accepted.drawFrame}};
 }
 async function stopAgreement(context,peers,origin,release,own){
   const rows=[];
-  await until(peers,()=>peers.every(peer=>{const draw=draws(peer).at(-1);return draw?.snapshot?.SessionId===own.SessionId;}),'stop sessions');
   const host=peers.find(peer=>peer.role==='host');
+  const position=draw=>draw?.snapshot?.Participants.find(row=>row.Ready&&row.Actor.ActorId===own.ActorId)?.Actor.PositionSubunits;
+  await until(peers,()=>peers.every(peer=>{const draw=draws(peer).at(-1),authority=draws(host).at(-1);
+    return draw?.snapshot?.SessionId===own.SessionId&&draw.snapshot.Revision>=own.minimumRevision&&
+      Number.isSafeInteger(position(draw))&&Math.abs(position(draw)-position(authority))<=50;}),'current stopped actor at every peer',500);
+  function sample(peer){
+    const observedBefore=String(now()),draw=draws(peer).at(-1),observedAfter=String(now());
+    const file=path.join(peer.directory,'stopped-'+origin.role+'-'+peer.role+'-'+(peer.stopSequence=(peer.stopSequence??0)+1)+'.json');
+    fs.writeFileSync(file,JSON.stringify({draw,observedBefore,observedAfter}),{flag:'wx'});
+    return {draw,observedBefore,observedAfter,reference:{path:path.relative(context.directory,file),sha256:e.hash(fs.readFileSync(file))}};
+  }
   for(const observer of peers){
-    const draw=draws(observer).at(-1),authority=draws(host).at(-1);
-    const position=snapshot=>snapshot.Participants.find(row=>row.Actor.ActorId===own.ActorId).Actor.PositionSubunits;
+    const authority=sample(host),current=sample(observer),draw=current.draw;
     const row={clock:'coordinator-hrtime',origin:origin.role,observer:observer.role,actor:own.ActorId,expectedActor:own.ActorId,
       session:draw.snapshot.SessionId,expectedSession:own.SessionId,revision:draw.snapshot.Revision,minimumRevision:own.minimumRevision??0,
-      positionSubunits:position(draw.snapshot),hostPositionSubunits:position(authority.snapshot),releaseBefore:release.deliveryBefore,
-      observedAfter:String(now()),uncertaintyNanoseconds:'0'};e.stopped(row);rows.push(row);
+      positionSubunits:position(draw),hostPositionSubunits:position(authority.draw),releaseBefore:release.deliveryBefore,releaseAfter:release.deliveryAfter,
+      observedBefore:current.observedBefore,observedAfter:current.observedAfter,uncertaintyNanoseconds:'1000000',
+      observerDraw:current.reference,hostDraw:authority.reference,authorityDrawFrame:own.authorityDrawFrame,
+      releaseAcknowledgment:release};e.stopped(row);rows.push(row);
   }return rows;
 }
 async function timingControl(context,item){
-  const result=await command(process.execPath,['--test','--test-reporter=tap',path.join(context.root,'tools/phase3/timing.test.cjs')],{cwd:context.root,env:context.env},12000);
+  const result=await command(process.execPath,['--test','--test-reporter=tap',path.join(context.root,'tools/phase3/timing.test.cjs')],{cwd:context.root,env:context.env},60000);
   const output=item.id+'.tap';fs.writeFileSync(path.join(context.directory,output),result.stdout,{flag:'wx'});
   const control=item.id+'.control.json';fs.writeFileSync(path.join(context.directory,control),JSON.stringify({status:'pass',subject:'inclusive conservative draw timing rejection controls; no rendered or physical-input credit'}),{flag:'wx'});
   return {id:item.id,status:'pass',nonce:context.nonce,input:context.input,tool:context.tool,platform:context.platform,revision:context.revision,osFingerprint:context.osFingerprint,

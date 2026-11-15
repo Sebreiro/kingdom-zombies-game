@@ -18,9 +18,12 @@ test('draw timing requires an inclusive conservative external-clock bound',()=>{
 test('stopped agreement includes exact distance and time equality',()=>{
   const evaluate=require('./evidence.cjs').stopped;
   const row={clock:'coordinator-hrtime',actor:'a',expectedActor:'a',session:'s',expectedSession:'s',revision:2,minimumRevision:2,
-    positionSubunits:50,hostPositionSubunits:0,releaseBefore:'1000000000',observedAfter:'1500000000',uncertaintyNanoseconds:'0'};
+    positionSubunits:50,hostPositionSubunits:0,releaseBefore:'1000000000',releaseAfter:'1000000000',observedBefore:'1500000000',observedAfter:'1500000000',uncertaintyNanoseconds:'0',
+    observerDraw:{sha256:'fixture'},hostDraw:{sha256:'fixture'},releaseAcknowledgment:{nativeDrawFrame:1},authorityDrawFrame:1};
   assert.equal(evaluate(row).positionSubunits,50);
   for(const delta of [{positionSubunits:51},{observedAfter:'1500000001'},{uncertaintyNanoseconds:'1'},
+    {observedBefore:'999999999'},{observedAfter:'999999999'},{uncertaintyNanoseconds:'1000001'},
+    {observerDraw:null},{hostDraw:null},{releaseAcknowledgment:null},
     {uncertaintyNanoseconds:'-1'},{actor:'other'},{session:'old'},{revision:1},{clock:'peer-uptime'},{positionSubunits:NaN}])assert.throws(()=>evaluate({...row,...delta}));
 });
 test('draw stream polling retains partial Unicode and refuses truncation',()=>{
@@ -31,4 +34,8 @@ test('draw stream polling retains partial Unicode and refuses truncation',()=>{
   fs.appendFileSync(file,row.subarray(split));assert.deepEqual(lines(file),[{frame:1,label:'雪'}]);
   fs.appendFileSync(file,JSON.stringify({frame:2})+'\n');assert.equal(lines(file).at(-1).frame,2);
   fs.writeFileSync(file,'');assert.throws(()=>lines(file),/TRUNCATED/);
+});
+
+test('the full reconciler binds every stopped scalar to current release, authority and peer draws',()=>{
+  require('./stopped-fixture.cjs').run();
 });
