@@ -7,6 +7,8 @@
 
 ## Goal
 
+**Testing amended 2026-11-15:** The creator's [testing amendment](02-TESTING-AMENDMENT.md) supersedes older platform, resolution, per-task rendered-gate and rerun requirements in this document. Current completion is development-OS-only, 1280×720, after complete implementation and code review/fixes; retain passing scenarios and rerun failures only. Deferred platform/resolution obligations belong to Phase 5 without pass credit. Gameplay behavior remains binding.
+
 A player can launch a Start/Quit menu, enter a basic scene containing a small decorative main building, colored background, ground, and one player, walk left and right, and return to the menu with Escape, with repeatable passing smoke checks on Windows and Linux.
 
 ## Background

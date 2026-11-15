@@ -6,6 +6,8 @@
 <domain>
 ## Phase Boundary
 
+**Deferred verification from creator's 2026-11-15 policy:** Phases 2–4 use [testing before Phase 5](../../../docs/workflow/pre-phase5-testing.md): development OS only/no VM, implementation then review/fix before rendered testing, 1280×720 shared sessions, and failed-scenario reruns. Phase 5 must account for deferred other-OS and 1920×1080 acceptance alongside its framework/reuse obligations. Temporary scenario carry-forward is expressly permitted but is not Phase 5 dependency-aware reuse certification; preserve original evidence and missing obligations.
+
 Provide traceable, repeatable verification of the delivered code-rule, playable-scene, LAN and content foundations, shared local/Windows/Linux CI entry points, diagnosis/replay, authentic native-hosted coverage and complete case/environment accounting. Ordinary PRs are a small build/repository selection. Feature checks select affected groups; phase completion may reuse validated unchanged evidence instead of repeating every group.
 
 The creator explicitly amended the earlier PR breadth and fresh-full closure rules during this discussion. The current `05-SPEC.md` and decisions below govern those execution details wherever older roadmap wording implies a new exhaustive same-global-revision run at every closure. Required case membership, environments, coverage thresholds and later gameplay/release ownership remain binding.

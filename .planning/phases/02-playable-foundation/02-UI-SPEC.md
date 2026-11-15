@@ -10,6 +10,8 @@ reviewed_at: "2026-11-14T22:52:52Z"
 
 # Phase 02 — UI Design Contract
 
+**Testing amended 2026-11-15:** Follow [02-TESTING-AMENDMENT.md](02-TESTING-AMENDMENT.md). The current rendered acceptance scope is Windows 1280×720 after all implementation and code review/fixes; no VM or per-task game-window gates. Older extra-resolution/platform verification text is deferred to Phase 5. Visual/interaction design remains unchanged.
+
 This contract supplies the smallest usable presentation for BASE-01–BASE-03. Locked behavior comes from [02-SPEC.md](02-SPEC.md); [02-CONTEXT.md](02-CONTEXT.md) D-01 authorizes routine choices without another interview. Palette, layout, typography and placeholder dimensions below are agent defaults under D-02, not creator-approved aesthetic decisions. User-facing copy is English (D-03). No Phase 2 technical research existed when this contract was authored.
 
 ## Design System

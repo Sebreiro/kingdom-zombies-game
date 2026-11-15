@@ -22,6 +22,8 @@ The [GSD configuration](../../.planning/config.json) uses phase branching, `feat
 
 ## Development and Phase-End Testing
 
+**Current rule for Phases 2–4:** The creator's 2026-11-15 [testing policy before Phase 5](pre-phase5-testing.md) overrides the general rules below: development OS only, no VM, finish implementation and code review/fixes before rendered tests, 1280×720 only, shared game sessions, collect errors, then rerun failed scenarios only. Preserve earlier passing scenarios with their original reports. Phase 5 retains deferred platform/resolution acceptance and its comprehensive testing/reuse work.
+
 - During implementation, run relevant checks on the operating system where the agent is developing.
 - Before finishing a phase, account for its complete required scope on that development OS and in a local VM running the other supported OS: Linux when developing on Windows, or Windows when developing on Linux.
 - Use hardware acceleration for the local VM when available. Record actual execution and results; a prepared VM or cross-build does not establish a pass.

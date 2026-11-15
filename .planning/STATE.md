@@ -6,10 +6,10 @@ current_phase: 02
 current_phase_name: Playable foundation
 current_plan: 02-02
 status: executing
-stopped_at: Phase 5 context gathered; active Phase 02 planning position preserved
-last_updated: "2026-11-14T22:40:13.199Z"
-last_activity: 2026-11-14
-last_activity_desc: Completed quick task 261114-we2 - phase feature branches and draft PR lifecycle
+stopped_at: Phase 2 resumed under creator-approved pre-Phase-5 testing policy
+last_updated: "2026-11-15T11:31:06.743Z"
+last_activity: 2026-11-15
+last_activity_desc: Resume Phase 2 implementation, then code review/fixes, then Windows-only shared-session 1280x720 testing
 state_head: 9a9624087f0e9a9caf9b88cd8910357164e98c43
 progress:
   total_phases: 10
@@ -27,15 +27,15 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase 1 is complete under the creator-authorized no-restart exception. Phase 2 — Playable foundation is ready to plan, with [captured context](phases/02-playable-foundation/02-CONTEXT.md); this --only 1 run stops here. Preserve [closure follow-ups](phases/01-code-rules-and-documentation/01-CLOSURE-FOLLOWUPS.md), individual human outcomes Pending, eight Phase 5 declarations and the separately captured [Phase 3](phases/03-four-player-lan-foundation/03-CONTEXT.md) / [Phase 4](phases/04-asset-production/04-CONTEXT.md) context.
+**Current focus:** Phase 2 — Playable foundation is implementing on `feature/02-playable-foundation`, draft PR #3. Plan 02-01 is complete, 02-02 Task 1 is committed, and remaining gameplay/runner implementation resumes under the [creator's testing amendment](phases/02-playable-foundation/02-TESTING-AMENDMENT.md). Finish all implementation, then code review/fixes, then Windows-only 1280×720 shared-session scenarios and failed-scenario reruns. Preserve Phase 1 follow-ups and later-phase ownership; Linux/additional-resolution acceptance is deferred explicitly to Phase 5, not passed.
 
 ## Current Position
 
 Phase: 02 — Playable foundation
 Current Plan: 02-02
 Total Plans in Phase: 3
-Status: Executing Phase 2 plan 02-02; plan 02-01 complete; draft PR #3 targets dev
-Last activity: 2026-11-14 - Completed quick task 261114-we2: phase feature branches and draft PR lifecycle
+Status: Implementing all remaining Phase 2 code before code review and rendered tests; plan 02-01 complete; draft PR #3 targets dev
+Last activity: 2026-11-15 - Creator amended Phases 2–4 testing and resumed Phase 2; owned Linux VM shut down
 
 Progress: [█░░░░░░░░░] 10%
 

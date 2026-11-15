@@ -1,5 +1,7 @@
 # Phase 2 Continuation
 
+**Resumed under creator-approved 2026-11-15 policy:** [Testing before Phase 5](../../../docs/workflow/pre-phase5-testing.md). Finish all implementation without opening a real game window, then code review/fix, then Windows-only 1280×720 scenarios in a shared process where practical. Log errors/continue independent scenarios; fix in a batch and rerun failures only. This supersedes older two-platform/two-resolution/per-task rendered gates below. Stop the owned VM; do not migrate to VMware. Plan 02-02 Task 1 GREEN is `68e39da`, Task 2 RED `6a9b5f0`; Task 2 source changes are preserved and implementation resumes before testing. Required graph fixture regression repair remains Phase 2 scope.
+
 - Branch: `feature/02-playable-foundation`, created from fresh `origin/dev` at `d1bed40`.
 - Pull request: [#3 — Phase 2: playable foundation](https://github.com/Sebreiro/kingdom-zombies-game/pull/3), targeting `dev`, draft.
 - First implementation push includes `1a28a7b` (authority RED) and `cefca0a` (identified movement authority); Windows strict build and focused authority test passed for that slice.

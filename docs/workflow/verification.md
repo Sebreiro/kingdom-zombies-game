@@ -1,5 +1,7 @@
 # Verification reference
 
+**Phases 2–4 use the creator's 2026-11-15 [temporary testing policy](pre-phase5-testing.md).** Complete implementation, code review and fixes before opening a real game window. Test on the development OS only without a VM; rendered checks use 1280×720, sharing a game process where practical, collecting all scenario errors, and rerunning only failures/unexecuted scenarios after repairs. Link earlier passes and repair results without rewriting their identities. This supersedes conflicting older phase/platform/rerun text below for these phases; deferred other-OS/1920×1080 acceptance remains Phase 5 work, not a pass.
+
 **Current Phase 1 closure boundary (creator instruction, 2026-11-14):** The [one-time exception](../../.planning/phases/01-code-rules-and-documentation/01-CLOSURE-EXCEPTION.md) accepts the retained complete Windows baseline plus actual focused Linux strict/native/rule/state/graph evidence without a host restart. The narrow GODOT_LINUXBSD test correction passed separately on both OSes. A complete Linux suite, its original graph capacity failure and fourteen individually unreviewed human components remain explicit [follow-ups](../../.planning/phases/01-code-rules-and-documentation/01-CLOSURE-FOLLOWUPS.md), not passes. The complete-other-OS-VM rule continues for later phases.
 
 ## Phase 5 Execution and Reuse Policy
