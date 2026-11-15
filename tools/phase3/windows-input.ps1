@@ -34,6 +34,7 @@ public static class LanDesktop {
     [DllImport("user32.dll")] public static extern IntPtr GetAncestor(IntPtr window,uint flags);
     [DllImport("user32.dll")] public static extern bool GetWindowRect(IntPtr window,out Rect rect);
     [DllImport("user32.dll")] public static extern bool SetWindowPos(IntPtr window,IntPtr after,int x,int y,int width,int height,uint flags);
+    [DllImport("user32.dll")] public static extern IntPtr GetWindowLongPtr(IntPtr window,int index);
     [DllImport("user32.dll",SetLastError=true)] public static extern IntPtr SetThreadDpiAwarenessContext(IntPtr context);
     [DllImport("user32.dll")] public static extern IntPtr GetThreadDpiAwarenessContext();
     [DllImport("user32.dll")] public static extern bool AreDpiAwarenessContextsEqual(IntPtr first,IntPtr second);
@@ -101,9 +102,19 @@ function Wait-Foreground([IntPtr]$Target,[int]$Milliseconds) {
 }
 function Focus-Owned([IntPtr]$Target) {
     if ([LanDesktop]::GetForegroundWindow() -eq $Target) { return }
+    $wasTopmost=([LanDesktop]::GetWindowLongPtr($Target,-20).ToInt64() -band 8) -ne 0
+    try { Focus-Reachable $Target }
+    finally {
+        if (-not $wasTopmost -and ([LanDesktop]::GetWindowLongPtr($Target,-20).ToInt64() -band 8) -ne 0) {
+            if (-not [LanDesktop]::SetWindowPos($Target,[IntPtr]::new(-2),0,0,0,0,0x13)) { throw 'DRIVER_FOCUS_ORDER_RESTORE' }
+        }
+    }
+}
+function Focus-Reachable([IntPtr]$Target) {
+    if ([LanDesktop]::GetForegroundWindow() -eq $Target) { return }
     [void][LanDesktop]::SetForegroundWindow($Target)
     if (Wait-Foreground $Target 100) { return }
-    if (-not [LanDesktop]::SetWindowPos($Target,[IntPtr]::Zero,0,0,0,0,0x53)) { throw 'DRIVER_FOCUS_RAISE' }
+    if (-not [LanDesktop]::SetWindowPos($Target,[IntPtr]::new(-1),0,0,0,0,0x53)) { throw 'DRIVER_FOCUS_RAISE' }
     if ([LanDesktop]::GetForegroundWindow() -ne $Target) {
         [uint32]$foregroundId=0
         $foregroundThread=[LanDesktop]::GetWindowThreadProcessId([LanDesktop]::GetForegroundWindow(),[ref]$foregroundId)
@@ -116,8 +127,11 @@ function Focus-Owned([IntPtr]$Target) {
     if (Wait-Foreground $Target 100) { return }
     $outer=[LanDesktop+Rect]::new()
     if (-not [LanDesktop]::GetWindowRect($Target,[ref]$outer)) { throw 'DRIVER_FOCUS_RECT' }
-    $titlePoint=[LanDesktop+Point]::new();$titlePoint.X=$outer.L+50;$titlePoint.Y=$outer.T+10
-    if ([LanDesktop]::GetAncestor([LanDesktop]::WindowFromPoint($titlePoint),2) -ne $Target) { throw 'DRIVER_FOCUS_POINT_NOT_OWNED' }
+    $clientOrigin=[LanDesktop+Point]::new()
+    if (-not [LanDesktop]::ClientToScreen($Target,[ref]$clientOrigin) -or $clientOrigin.Y -le $outer.T) { throw 'DRIVER_FOCUS_CAPTION' }
+    $titlePoint=[LanDesktop+Point]::new();$titlePoint.X=$clientOrigin.X+50;$titlePoint.Y=$outer.T+[int](($clientOrigin.Y-$outer.T)/2)
+    $pointRoot=[LanDesktop]::GetAncestor([LanDesktop]::WindowFromPoint($titlePoint),2)
+    if ($pointRoot -ne $Target) { throw "DRIVER_FOCUS_POINT_NOT_OWNED target=$Target actual=$pointRoot point=$($titlePoint.X),$($titlePoint.Y)" }
     if (-not [LanDesktop]::SetCursorPos($titlePoint.X,$titlePoint.Y)) { throw 'DRIVER_FOCUS_CURSOR' }
     $script:mouseHeld=$true
     [LanDesktop]::MouseButton($true);[LanDesktop]::MouseButton($false)

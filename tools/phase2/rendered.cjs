@@ -31,13 +31,16 @@ function decodePng(file, width = 1280, height = 720) {
       const a = x >= channels ? pixels[y * stride + x - channels] : 0;
       const b = y ? pixels[(y - 1) * stride + x] : 0;
       const c = y && x >= channels ? pixels[(y - 1) * stride + x - channels] : 0;
-      const p = a + b - c, pa = Math.abs(p - a), pb = Math.abs(p - b), pc = Math.abs(p - c);
-      const predictor = filter === 1 ? a : filter === 2 ? b : filter === 3 ? Math.floor((a+b)/2) : filter === 4 ? pa <= pb && pa <= pc ? a : pb <= pc ? b : c : 0;
+      let predictor = filter === 1 ? a : filter === 2 ? b : filter === 3 ? Math.floor((a+b)/2) : 0;
+      if (filter === 4) {
+        const p = a + b - c, pa = Math.abs(p - a), pb = Math.abs(p - b), pc = Math.abs(p - c);
+        predictor = pa <= pb && pa <= pc ? a : pb <= pc ? b : c;
+      }
       pixels[y * stride + x] = (raw[y * (stride + 1) + 1 + x] + predictor) & 255;
     }
   }
   const colors = new Set();
-  for (let i = 0; i < pixels.length; i += channels) colors.add(pixels.subarray(i, i + 3).toString('hex'));
+  for (let i = 0; i < pixels.length; i += channels) colors.add((pixels[i] << 16) | (pixels[i + 1] << 8) | pixels[i + 2]);
   requireTrue(colors.size > 3, 'PNG_EMPTY_CONTENT');
   return { width, height, colors: colors.size, decodedBytes: pixels.length };
 }
