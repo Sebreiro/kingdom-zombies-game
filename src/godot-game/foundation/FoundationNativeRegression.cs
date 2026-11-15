@@ -79,7 +79,6 @@ internal static class FoundationNativeRegression
                     remoteCount++;
                 }
             }
-
             Require(value: remoteCount == 3, message: "OPAQUE_ACTOR_PROJECTION_COLLISION");
             foreach (string id in ids)
             {
@@ -90,6 +89,20 @@ internal static class FoundationNativeRegression
 
         Require(value: root.GetNode<Control>(path: "Menu").GetInstanceId() == menu,
                 message: "OPAQUE_ACTOR_TRAVERSAL");
+        world.RemoveMeta(name: "projection_tick");
+        foreach (long elapsed in new[] { long.MaxValue, 0, 0, long.MaxValue - 1, long.MaxValue })
+        {
+            var actor = new FoundationActorState(sessionId: "native-regression", playerId: "player1",
+                    actorId: "local", positionSubunits: 1000, facing: 1, elapsedMilliseconds: elapsed);
+            FoundationView.Project(world: world, actor: actor, gateway: gateway);
+            Require(value: world.Position.IsFinite() && world.GetNode<Node2D>(path: "Player").Position.IsFinite()
+                    && world.Position.X == 624, message: "HOSTILE_TIME_FINITE_CAMERA");
+        }
+
+        world.Position = new Vector2(x: float.NaN, y: float.PositiveInfinity);
+        FoundationView.Project(world: world, actor: Participant(id: "local", slot: 1).Actor, gateway: gateway);
+        Require(value: world.Position.IsFinite() && world.Position.X is >= 320 and <= 960,
+                message: "FINITE_CAMERA_RECOVERY");
         root.RemoveChild(node: world);
         world.QueueFree();
     }

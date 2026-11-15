@@ -260,10 +260,10 @@
       "order": 6,
       "setup": "Strict build, controlled provider and actual coordinator wire mapping.",
       "actions": [
-        "Detached atomic snapshot validation"
+        "Validate detached snapshot shape, ownership and revision, then reject higher-revision backwards elapsed time for each continuing actor before readiness, acknowledgment, installed-state or liveness mutation."
       ],
       "expected": [
-        "Detached atomic snapshot validation"
+        "Rejected candidates preserve the exact publication and revision; equal or huge advancing time, fresh actor identities and fresh sessions remain valid; rejected packets cannot renew response timeout."
       ],
       "evidence": [
         "CTRF one-test report",
@@ -574,11 +574,13 @@
       "order": 5,
       "setup": "Two separate owned pinned Godot processes use --headless and the ordinary project/main scene, fresh profile IDs and allocated UDP port.",
       "actions": [
+        "Run nonce-scoped native browser and projection regressions, including hostile elapsed counters and recovery from a nonfinite camera transform.",
         "Host through ordinary controls.",
         "Launch and quit a profile process; restart it with the same owned profile root.",
         "Select the actual multicast browser row and Join session."
       ],
       "expected": [
+        "Native actor/world transforms remain finite through long.MaxValue to zero, repeated and huge advancing counters; camera uses bounded local monotonic time.",
         "Different PIDs retain the same opaque identity; real discovery joins the current host and installs two ready actors."
       ],
       "evidence": [

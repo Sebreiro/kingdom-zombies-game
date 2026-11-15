@@ -86,7 +86,7 @@ Importance: **Critical** — Duplicate or foreign intent breaks ownership and mo
 
 Setup/seed/process roles: Strict build, controlled provider and actual coordinator wire mapping. No native window; isolated pure fixture.
 
-Ordered actions and expected results: Detached atomic snapshot validation Expected: Detached atomic snapshot validation
+Ordered actions and expected results: Validate detached shape, ownership and revision through the production coordinator. Install late baselines with huge or fresh-zero elapsed origins, then send higher-revision candidates with backwards elapsed time for each continuing actor before and after readiness. Expected: exact installed snapshot, revision, readiness and acknowledgment count remain unchanged; a lower subsequent valid revision still installs, equal and huge advancing counters are accepted, and replacement actor identities can start at zero. Send a rejected candidate at 9999 ms and reach the original 10000 ms response deadline; rejection must not renew liveness. Repeat with a fresh session lifetime.
 
 Evidence: CTRF one-test report; nonce-bound subject log. Fresh subject report and real diagnostic log; no invented rendered credit.
 
@@ -171,6 +171,8 @@ Importance: **Critical** — Actual native transport and input composition must 
 Setup/seed/process roles: Two separate owned pinned Godot processes use --headless and the ordinary project/main scene, fresh profile IDs and allocated UDP port. Exact roles: discovery-host, profile-before-restart, profile-after-restart.
 
 Ordered actions and expected results: Host through ordinary controls. Launch and quit a profile process; restart it with the same owned profile root. Select the actual multicast browser row and Join session. The native browser regression also invokes the production selected-row submission handler and checks its exact synchronous session/address request and subsequent clearing. Expected: Different PIDs retain the same opaque identity; real discovery joins the selected current host and installs two ready actors. Replacement-session refusal and stale-attempt ownership are exercised separately by `core.admission` without rendered credit.
+
+The same nonce-scoped headless native regression calls actual production projection with position 1000 and elapsed `long.MaxValue → 0 → 0 → long.MaxValue - 1 → long.MaxValue`. World/camera and player transforms must stay finite at the initial snapped target, independently of hostile static or huge counters. It then injects a nonfinite prior camera transform and requires finite bounded recovery. These native assertions supply no rendered, timing or physical-input credit. Existing `core.protocol`, `network.discovery-profile`, inherited Phase 2 camera/core/runner cases and all affected source/permission checks remain selected for the final run; no case IDs or omissions are removed.
 
 Evidence: per-role frames.ndjson; per-role console.log; owned process identities; matching current revision snapshot. Fresh subject report and real diagnostic log; no invented rendered credit.
 

@@ -66,14 +66,17 @@ internal static class FoundationView
         gateway.RequireThread();
         Node2D player = world.GetNode<Node2D>(path: "Player");
         float x = actor.PositionSubunits * 16f / 1000;
+        x = float.IsFinite(f: x) ? x : 0;
         player.Position = new Vector2(x: x, y: 540);
         player.GetNode<Polygon2D>(path: "Facing").Scale = new Vector2(x: actor.Facing, y: 1);
         float target = Math.Clamp(value: x, min: -320, max: 320);
-        double previous = world.GetMeta(name: "elapsed", @default: -1).AsDouble();
-        double seconds = (actor.ElapsedMilliseconds - previous) / 1000;
+        double now = Time.GetTicksMsec();
+        double previous = world.GetMeta(name: "projection_tick", @default: -1).AsDouble();
+        double seconds = Math.Clamp(value: (now - previous) / 1000, min: 0, max: 0.25);
         float camera = previous < 0 ? target : (float)(640 - world.Position.X
                 + (target - (640 - world.Position.X)) * (1 - Math.Exp(d: -seconds / 0.15)));
+        camera = float.IsFinite(f: camera) ? camera : target;
         world.Position = new Vector2(x: 640 - Math.Clamp(value: camera, min: -320, max: 320), y: 0);
-        world.SetMeta(name: "elapsed", value: actor.ElapsedMilliseconds);
+        world.SetMeta(name: "projection_tick", value: now);
     }
 }

@@ -51,7 +51,7 @@ internal sealed partial class FoundationCoordinator
         }
 
         if (_remote is not null && (!StringComparer.Ordinal.Equals(x: candidate.SessionId, y: _remote.SessionId)
-                || candidate.Revision <= _remote.Revision))
+                || candidate.Revision <= _remote.Revision || RegressesActorTime(candidate: candidate)))
         {
             RejectedPackets++;
             return;
@@ -68,6 +68,13 @@ internal sealed partial class FoundationCoordinator
             _remote = candidate;
             _lastResponse = Now();
         }
+    }
+
+    private bool RegressesActorTime(FoundationSnapshot candidate)
+    {
+        return _remote?.Participants.Any(predicate: previous => candidate.Participants.Any(predicate: current =>
+                StringComparer.Ordinal.Equals(x: previous.Actor.ActorId, y: current.Actor.ActorId)
+                        && current.Actor.ElapsedMilliseconds < previous.Actor.ElapsedMilliseconds)) == true;
     }
 
     private void InstallBaseline(FoundationEnvelope envelope, FoundationSnapshot candidate)

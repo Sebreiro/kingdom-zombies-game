@@ -49,7 +49,94 @@ public sealed class FoundationLanProtocolTests
         ReferenceEquals(objA: before, objB: guest.Snapshot).ShouldBeTrue();
         guest.RejectedPackets.ShouldBeGreaterThanOrEqualTo(expected: 10);
         CheckOpaqueActors();
+        CheckActorTime();
         ProofProtocol.Record(id: "core.protocol", diagnostic: "DETACHED_SHAPE_CONTENT_OWNER_REVISION_ATOMICITY");
+    }
+
+    private static void CheckActorTime()
+    {
+        foreach (string sessionId in new[] { "clock-session", "fresh-session" })
+        {
+            var clock = new FoundationScenarioClock();
+            var port = new FoundationHarnessConnection();
+            var guest = new FoundationCoordinator(playerId: "guest", label: "Guest", connection: port,
+                    nowMilliseconds: () => clock.Now);
+            guest.Join(address: "test", port: 24680);
+            guest.Update(elapsedMilliseconds: 0);
+            string attempt = port.Sent.Single().Envelope.AttemptId;
+            long initial = sessionId is "fresh-session" ? 0 : long.MaxValue - 1;
+            FoundationSnapshot baseline = TimedSnapshot(sessionId: sessionId, revision: 0, host: initial,
+                    local: initial, ready: false);
+            port.Enqueue(sender: 1, envelope: new FoundationEnvelope(kind: "baseline", sessionId: sessionId,
+                    playerId: "guest", actorId: "a2", bindingId: "b2", revision: 0, snapshot: baseline,
+                    attemptId: attempt));
+            guest.Update(elapsedMilliseconds: 0);
+            guest.InstalledRevision.ShouldBe(expected: 0);
+            guest.Ready.ShouldBeFalse();
+            port.Sent.Count(predicate: row => row.Envelope.Kind is "ack").ShouldBe(expected: 1);
+            if (initial > 0)
+            {
+                RejectTime(guest: guest, port: port, attempt: attempt, host: 0, local: initial);
+            }
+
+            PublishTime(guest: guest, port: port, attempt: attempt, snapshot: TimedSnapshot(sessionId: sessionId,
+                    revision: 1, host: long.MaxValue, local: long.MaxValue, ready: true));
+            guest.Ready.ShouldBeTrue();
+            guest.Snapshot?.Revision.ShouldBe(expected: 1);
+            RejectTime(guest: guest, port: port, attempt: attempt, host: 0, local: long.MaxValue);
+            RejectTime(guest: guest, port: port, attempt: attempt, host: long.MaxValue, local: 0);
+            PublishTime(guest: guest, port: port, attempt: attempt, snapshot: TimedSnapshot(sessionId: sessionId,
+                    revision: 2, host: long.MaxValue, local: long.MaxValue, ready: true));
+            guest.Snapshot?.Revision.ShouldBe(expected: 2);
+            PublishTime(guest: guest, port: port, attempt: attempt, snapshot: TimedSnapshot(sessionId: sessionId,
+                    revision: 3, host: 0, local: long.MaxValue, ready: true, hostActor: "replacement"));
+            guest.Snapshot?.Participants[0].Actor.ActorId.ShouldBe(expected: "replacement");
+            clock.Now = 9999;
+            RejectTime(guest: guest, port: port, attempt: attempt, host: 0, local: 0);
+            clock.Now = 10000;
+            guest.Update(elapsedMilliseconds: 0);
+            guest.Error.ShouldStartWith(expected: "Connection lost:");
+            guest.Snapshot.ShouldBeNull();
+        }
+    }
+
+    private static void RejectTime(FoundationCoordinator guest, FoundationHarnessConnection port, string attempt,
+            long host, long local)
+    {
+        FoundationSnapshot before = guest.Snapshot ?? throw new InvalidOperationException(message: "BASELINE");
+        long installed = guest.InstalledRevision;
+        bool ready = guest.Ready;
+        int replies = port.Sent.Count;
+        long rejected = guest.RejectedPackets;
+        PublishTime(guest: guest, port: port, attempt: attempt, snapshot: TimedSnapshot(sessionId: before.SessionId,
+                revision: 100, host: host, local: local, ready: true,
+                hostActor: before.Participants[0].Actor.ActorId));
+        guest.Snapshot.ShouldBeSameAs(expected: before);
+        guest.Snapshot?.Revision.ShouldBe(expected: before.Revision);
+        guest.InstalledRevision.ShouldBe(expected: installed);
+        guest.Ready.ShouldBe(expected: ready);
+        port.Sent.Count.ShouldBe(expected: replies);
+        guest.RejectedPackets.ShouldBe(expected: rejected + 1);
+    }
+
+    private static void PublishTime(FoundationCoordinator guest, FoundationHarnessConnection port, string attempt,
+            FoundationSnapshot snapshot)
+    {
+        port.Enqueue(sender: 1, envelope: new FoundationEnvelope(kind: "state", sessionId: snapshot.SessionId,
+                revision: snapshot.Revision, snapshot: snapshot, attemptId: attempt));
+        guest.Update(elapsedMilliseconds: 0);
+    }
+
+    private static FoundationSnapshot TimedSnapshot(string sessionId, long revision, long host, long local,
+            bool ready, string hostActor = "a1")
+    {
+        return new FoundationSnapshot(sessionId: sessionId, revision: revision, participants:
+                [new FoundationParticipantState(bindingId: "local", label: "Host", slot: 1, ready: true,
+                        actor: new FoundationActorState(sessionId: sessionId, playerId: "host", actorId: hostActor,
+                                positionSubunits: 1000, facing: 1, elapsedMilliseconds: host)),
+                    new FoundationParticipantState(bindingId: "b2", label: "Guest", slot: 2, ready: ready,
+                            actor: new FoundationActorState(sessionId: sessionId, playerId: "guest", actorId: "a2",
+                                    positionSubunits: 1000, facing: 1, elapsedMilliseconds: local))]);
     }
 
     private static void CheckOpaqueActors()
