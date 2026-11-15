@@ -107,7 +107,7 @@ async function transition(context,input,peers,origin,key,pressed,action){
   const direction=action==='start'?1:action==='reversal'?-1:0;
   const accepted=await until([host],()=>{const draw=draws(host).at(-1),intent=draw?.input.lastAcceptedIntent;
     return draw?.input.acceptedIntents>acceptedBefore&&intent?.ActorId===own.ActorId&&intent.SessionId===own.SessionId&&intent.Direction===direction?draw:null;},'host accepted exact '+action,1000);
-  const results=await Promise.all(peers.filter(peer=>peer!==origin).map(async observer=>{
+  const observations=await Promise.all(peers.filter(peer=>peer!==origin).map(async observer=>{
     const baseline=actor(baselines.get(observer.role),own.ActorId);
     e.requireTrue(baseline?.insideCamera&&baseline.visible,'TIMING_INITIAL_CAMERA');
     const witness=await until([observer],()=>{
@@ -119,6 +119,9 @@ async function transition(context,input,peers,origin,key,pressed,action){
         ?{beforeFrame:last.frame,afterFrame:draw.drawFrame,beforeX:last.x,afterX:current.x,afterFacing:current.facing}:null;
       return current.x>baseline.x;
     },'visible transition '+origin.role+'/'+observer.role+'/'+action,1000);
+    return {observer,baseline,witness};
+  }));
+  const results=await Promise.all(observations.map(async({observer,baseline,witness})=>{
     const picture=await capture(context,observer,'timing-'+origin.role+'-'+action);
     const current=actor(picture.state,own.ActorId);
     const sample={clock:'coordinator-hrtime',origin:origin.role,observer:observer.role,action,actor:own.ActorId,

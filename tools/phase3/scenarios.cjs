@@ -153,7 +153,15 @@ async function g2(state,item){
     await text(input,browser,'Menu/Name',unicode);await tap(input,browser,13);
     await click(input,browser,'Menu/Profiles');
     await r.until([browser],()=>latest(browser).controls.find(control=>control.path==='Menu/Profiles')?.popupVisible,'native profile popup');
-    await tap(input,browser,38);await tap(input,browser,13);
+    for(let attempts=0;attempts<8;attempts++){
+      const popup=latest(browser).controls.find(control=>control.path==='Menu/Profiles');
+      e.requireTrue(popup?.popupVisible,'PROFILE_POPUP_CLOSED_BEFORE_SELECTION');
+      if(popup.popupFocusedIndex===0)break;
+      const before=popup.popupFocusedIndex;await tap(input,browser,before<0?40:38);
+      await r.until([browser],()=>latest(browser).controls.find(control=>control.path==='Menu/Profiles')?.popupFocusedIndex!==before,'native profile highlight change');
+    }
+    e.requireTrue(latest(browser).controls.find(control=>control.path==='Menu/Profiles')?.popupFocusedIndex===0,'PROFILE_ORIGINAL_NOT_HIGHLIGHTED');
+    await tap(input,browser,13);
     await r.until([browser],()=>latest(browser).input.profile.PlayerId===original,'select persisted original');
     images.push(await checkpoint(state,browser,'equal-name','menu'));
     const originalEvidence=(await take(state,{...item,roles:['browser']},[browser]))[0];originalEvidence.images.push(...images);

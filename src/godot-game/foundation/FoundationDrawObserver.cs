@@ -140,6 +140,7 @@ internal sealed class FoundationDrawObserver
             width = rect.Size.X, height = rect.Size.Y, visible = control.IsVisibleInTree(),
             selectedIndex = control is OptionButton selector ? selector.Selected : -1,
             popupVisible = control is OptionButton popup ? popup.GetPopup().Visible : false,
+            popupFocusedIndex = control is OptionButton highlight ? highlight.GetPopup().GetFocusedItem() : -1,
             focused = control.HasFocus(), text = control is Label label ? label.Text
                     : control is Button button ? button.Text : control is LineEdit edit ? edit.Text : "" });
     }
