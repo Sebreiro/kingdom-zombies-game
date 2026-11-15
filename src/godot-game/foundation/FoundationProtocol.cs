@@ -36,7 +36,7 @@ internal static class FoundationProtocol
                 new JsonDocumentOptions { MaxDepth = 16 });
         JsonElement root = document.RootElement;
         Shape(value: root, names: ["Kind", "SessionId", "PlayerId", "ActorId", "BindingId", "Label", "Sequence",
-            "Direction", "Revision", "Snapshot", "ProtocolVersion", "ContentId"]);
+            "Direction", "Revision", "Snapshot", "ProtocolVersion", "ContentId", "AttemptId"]);
         Compatible(value: root, version: "ProtocolVersion");
         var envelope = new FoundationEnvelope(kind: Text(value: root, name: "Kind"),
                 sessionId: Text(value: root, name: "SessionId"), playerId: Text(value: root, name: "PlayerId"),
@@ -46,7 +46,8 @@ internal static class FoundationProtocol
                 direction: root.GetProperty(propertyName: "Direction").GetInt32(),
                 revision: root.GetProperty(propertyName: "Revision").GetInt64(),
                 snapshot: root.GetProperty(propertyName: "Snapshot").ValueKind == JsonValueKind.Null ? null
-                        : ReadSnapshot(value: root.GetProperty(propertyName: "Snapshot")));
+                        : ReadSnapshot(value: root.GetProperty(propertyName: "Snapshot")),
+                attemptId: Text(value: root, name: "AttemptId"));
         Validate(envelope: envelope);
         return envelope;
     }
@@ -58,7 +59,8 @@ internal static class FoundationProtocol
         if (envelope.Kind is not ("hello" or "baseline" or "ack" or "state" or "intent" or "ping" or "bye"
                 or "end" or "reject") || envelope.Sequence < 0 || envelope.Revision < 0
                 || envelope.Direction is < -1 or > 1 || envelope.Label.EnumerateRunes().Count() > 256
-                || new[] { envelope.SessionId, envelope.PlayerId, envelope.ActorId, envelope.BindingId }
+                || new[] { envelope.SessionId, envelope.PlayerId, envelope.ActorId, envelope.BindingId,
+                    envelope.AttemptId }
                         .Any(predicate: value => value.Length > 128))
         {
             throw new InvalidDataException(message: "WIRE_VALUE");

@@ -9,7 +9,7 @@ using KingdomZombies.Multiplayer.Abstractions;
 namespace KingdomZombies.Foundation;
 
 /// <summary>Composes replaceable transport, detached protocol and pure host authority.</summary>
-internal sealed class FoundationCoordinator
+internal sealed partial class FoundationCoordinator
 {
     internal FoundationCoordinator(string playerId, string label, IConnectionService? connection = null)
     {
@@ -71,7 +71,8 @@ internal sealed class FoundationCoordinator
         Receive();
         if (_session is null && !_helloSent && _connection?.Connected == true)
         {
-            Send(peer: 1, envelope: new FoundationEnvelope(kind: "hello", playerId: PlayerId, label: _label));
+            Send(peer: 1, envelope: new FoundationEnvelope(kind: "hello", playerId: PlayerId, label: _label,
+                    attemptId: _attempt));
             _helloSent = true;
         }
 
@@ -108,7 +109,7 @@ internal sealed class FoundationCoordinator
 
         Send(peer: 1, envelope: new FoundationEnvelope(kind: "intent", sessionId: command.SessionId,
                 playerId: command.PlayerId, actorId: command.ActorId, bindingId: command.BindingId,
-                sequence: command.Sequence, direction: command.Direction));
+                sequence: command.Sequence, direction: command.Direction, attemptId: _attempt));
         return true;
     }
 
@@ -116,7 +117,6 @@ internal sealed class FoundationCoordinator
     {
         if (!_active)
         {
-            _connection?.Close();
             return;
         }
 
@@ -127,7 +127,10 @@ internal sealed class FoundationCoordinator
             if (_connection?.Connected == true)
             {
                 Send(peer: IsHost ? 0 : 1, envelope: new FoundationEnvelope(kind: IsHost ? "end" : "bye",
-                        sessionId: Snapshot?.SessionId ?? ""));
+                        sessionId: Snapshot?.SessionId ?? "", bindingId: BindingId, playerId: PlayerId,
+                        actorId: Snapshot?.Participants.FirstOrDefault(predicate: p =>
+                                StringComparer.Ordinal.Equals(x: p.BindingId, y: BindingId))?.Actor.ActorId ?? "",
+                        attemptId: _attempt));
             }
         }
         finally
@@ -140,6 +143,7 @@ internal sealed class FoundationCoordinator
     private readonly IConnectionService? _connection;
     private readonly string _generation;
     private readonly string _label;
+    private readonly string _attempt = Guid.NewGuid().ToString(format: "N");
     private readonly Dictionary<int, FoundationPeerBinding> _peers = [];
     private readonly List<string> _events = [];
     private FoundationSession? _session;
@@ -172,120 +176,16 @@ internal sealed class FoundationCoordinator
                 }
             }
             catch (Exception error) when (error is JsonException or InvalidDataException or ArgumentException
-                    or InvalidOperationException or KeyNotFoundException or OverflowException)
+                    or InvalidOperationException or KeyNotFoundException or OverflowException or FormatException)
             {
                 RejectedPackets++;
-                RecordEvent(value: "packet-rejected:" + error.GetType().Name);
+                RecordEvent(value: "packet-rejected:" + error.Message);
+                if (IsHost && error is InvalidDataException && error.Message is "WIRE_INCOMPATIBLE")
+                {
+                    Reject(sender: packet.Sender, reason: "Incompatible protocol or content.");
+                }
             }
         }
-    }
-
-    private void ReceiveHost(int sender, FoundationEnvelope envelope)
-    {
-        if (envelope.Kind is "hello")
-        {
-            Admit(sender: sender, envelope: envelope);
-            return;
-        }
-
-        if (!_peers.TryGetValue(key: sender, value: out FoundationPeerBinding? peer)
-                || !StringComparer.Ordinal.Equals(x: envelope.SessionId, y: _session?.Snapshot.SessionId))
-        {
-            RejectedPackets++;
-            return;
-        }
-
-        if (envelope.Kind is "ack" && Bound(envelope: envelope, peer: peer)
-                && envelope.Revision == peer.BaselineRevision)
-        {
-            _session?.MarkReady(bindingId: peer.BindingId);
-            RecordEvent(value: "ready:" + peer.BindingId);
-            BroadcastState();
-        }
-        else if (envelope.Kind is "intent")
-        {
-            var command = new FoundationMovementCommand(sessionId: envelope.SessionId, playerId: envelope.PlayerId,
-                    actorId: envelope.ActorId, direction: envelope.Direction, bindingId: envelope.BindingId,
-                    sequence: envelope.Sequence);
-            Accept(command: command, binding: peer.BindingId, player: peer.PlayerId, actor: peer.ActorId);
-        }
-    }
-
-    private void Admit(int sender, FoundationEnvelope envelope)
-    {
-        if (sender <= 1 || _peers.ContainsKey(key: sender))
-        {
-            return;
-        }
-
-        string binding = Guid.NewGuid().ToString(format: "N");
-        string actor = Guid.NewGuid().ToString(format: "N");
-        if (_session?.AddParticipant(bindingId: binding, playerId: envelope.PlayerId, actorId: actor,
-                label: envelope.Label) != true)
-        {
-            Send(peer: sender, envelope: new FoundationEnvelope(kind: "reject", label:
-                    "This session is full or this profile is already connected. Choose another session or profile."));
-            return;
-        }
-
-        FoundationSnapshot state = _session.Snapshot;
-        _peers.Add(key: sender, value: new FoundationPeerBinding(bindingId: binding, playerId: envelope.PlayerId,
-                actorId: actor, baselineRevision: state.Revision));
-        Send(peer: sender, envelope: new FoundationEnvelope(kind: "baseline", sessionId: state.SessionId,
-                playerId: envelope.PlayerId, actorId: actor, bindingId: binding, revision: state.Revision,
-                snapshot: state));
-        RecordEvent(value: "baseline-offered:" + binding);
-    }
-
-    private void ReceiveGuest(FoundationEnvelope envelope)
-    {
-        if (envelope.Kind is "reject" or "end")
-        {
-            Error = envelope.Kind is "end" ? "The host ended the session. Host or join another session."
-                    : envelope.Label;
-            return;
-        }
-
-        if (envelope.Kind is not ("baseline" or "state") || envelope.Snapshot is not FoundationSnapshot candidate)
-        {
-            return;
-        }
-
-        if (_remote is not null && (!StringComparer.Ordinal.Equals(x: candidate.SessionId, y: _remote.SessionId)
-                || candidate.Revision <= _remote.Revision))
-        {
-            RejectedPackets++;
-            return;
-        }
-
-        if (envelope.Kind is "baseline")
-        {
-            InstallBaseline(envelope: envelope, candidate: candidate);
-        }
-        else if (_remote is not null && candidate.Participants.Any(predicate: p => StringComparer.Ordinal.Equals(
-                x: p.BindingId, y: BindingId) && StringComparer.Ordinal.Equals(x: p.Actor.PlayerId, y: PlayerId)))
-        {
-            _remote = candidate;
-        }
-    }
-
-    private void InstallBaseline(FoundationEnvelope envelope, FoundationSnapshot candidate)
-    {
-        if (_remote is not null || !StringComparer.Ordinal.Equals(x: envelope.PlayerId, y: PlayerId)
-                || !candidate.Participants.Any(predicate: p => StringComparer.Ordinal.Equals(x: p.BindingId,
-                        y: envelope.BindingId) && StringComparer.Ordinal.Equals(x: p.Actor.PlayerId, y: PlayerId)
-                        && StringComparer.Ordinal.Equals(x: p.Actor.ActorId, y: envelope.ActorId) && !p.Ready))
-        {
-            throw new InvalidDataException(message: "BASELINE_OWNERSHIP");
-        }
-
-        _remote = candidate;
-        BindingId = envelope.BindingId;
-        InstalledRevision = candidate.Revision;
-        RecordEvent(value: "baseline-installed:" + BindingId);
-        Send(peer: 1, envelope: new FoundationEnvelope(kind: "ack", sessionId: candidate.SessionId,
-                playerId: PlayerId, actorId: envelope.ActorId, bindingId: BindingId, revision: candidate.Revision));
-        RecordEvent(value: "baseline-acknowledged:" + BindingId);
     }
 
     private bool Accept(FoundationMovementCommand command, string binding, string player, string actor)
@@ -299,6 +199,7 @@ internal sealed class FoundationCoordinator
         else
         {
             RejectedPackets++;
+            RecordEvent(value: "intent-rejected:ownership-readiness-sequence");
         }
 
         return accepted;
@@ -312,25 +213,21 @@ internal sealed class FoundationCoordinator
         }
 
         FoundationSnapshot state = _session.Snapshot;
-        foreach (int peer in _peers.Keys)
+        foreach ((int sender, FoundationPeerBinding peer) in _peers)
         {
-            Send(peer: peer, envelope: new FoundationEnvelope(kind: "state", sessionId: state.SessionId,
-                    revision: state.Revision, snapshot: state));
+            Send(peer: sender, envelope: new FoundationEnvelope(kind: "state", sessionId: state.SessionId,
+                    revision: state.Revision, snapshot: state, attemptId: peer.Baseline.AttemptId));
         }
     }
 
     private void SendLiveness()
     {
-        if (IsHost)
+        if (!IsHost && _remote is not null)
         {
-            foreach (int peer in _peers.Keys)
-            {
-                Send(peer: peer, envelope: new FoundationEnvelope(kind: "ping", sessionId: Snapshot?.SessionId ?? ""));
-            }
-        }
-        else
-        {
-            Send(peer: 1, envelope: new FoundationEnvelope(kind: "ping", sessionId: Snapshot?.SessionId ?? ""));
+            FoundationParticipantState local = _remote.Participants.First(predicate: p =>
+                    StringComparer.Ordinal.Equals(x: p.BindingId, y: BindingId));
+            Send(peer: 1, envelope: new FoundationEnvelope(kind: "ping", sessionId: _remote.SessionId,
+                    bindingId: BindingId, playerId: PlayerId, actorId: local.Actor.ActorId, attemptId: _attempt));
         }
     }
 
@@ -343,7 +240,8 @@ internal sealed class FoundationCoordinator
     {
         return StringComparer.Ordinal.Equals(x: envelope.BindingId, y: peer.BindingId)
                 && StringComparer.Ordinal.Equals(x: envelope.PlayerId, y: peer.PlayerId)
-                && StringComparer.Ordinal.Equals(x: envelope.ActorId, y: peer.ActorId);
+                && StringComparer.Ordinal.Equals(x: envelope.ActorId, y: peer.ActorId)
+                && StringComparer.Ordinal.Equals(x: envelope.AttemptId, y: peer.Baseline.AttemptId);
     }
 
     private void RecordEvent(string value)

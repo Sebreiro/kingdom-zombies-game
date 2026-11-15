@@ -131,6 +131,159 @@
         "nonce-bound subject log"
       ],
       "needsGameWindow": false
+    },
+    {
+      "id": "core.admission",
+      "group": "core",
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.FoundationLanAdmissionTests.PendingAdmissionIsIdempotentAndBounded",
+      "title": "Bounded repeated admission and final-slot race",
+      "importance": "Critical",
+      "rationale": "Duplicate or foreign intent breaks ownership and movement.",
+      "requirements": [
+        "LAN-02",
+        "LAN-03"
+      ],
+      "acceptance": [
+        "AC-05",
+        "AC-09"
+      ],
+      "tags": [
+        "authority",
+        "roster",
+        "protocol",
+        "connection"
+      ],
+      "status": "required",
+      "runGroup": "no-window-core",
+      "order": 4,
+      "setup": "Strict build, controlled provider and actual coordinator wire mapping.",
+      "actions": [
+        "Bounded repeated admission and final-slot race"
+      ],
+      "expected": [
+        "Bounded repeated admission and final-slot race"
+      ],
+      "evidence": [
+        "CTRF one-test report",
+        "nonce-bound subject log"
+      ],
+      "needsGameWindow": false
+    },
+    {
+      "id": "core.ordering",
+      "group": "core",
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.FoundationLanOrderingTests.RejectedCommandsLeaveIntentAndHighWaterUnchanged",
+      "title": "Owned input and sequence rejection",
+      "importance": "Critical",
+      "rationale": "Duplicate or foreign intent breaks ownership and movement.",
+      "requirements": [
+        "LAN-02",
+        "LAN-03"
+      ],
+      "acceptance": [
+        "AC-05",
+        "AC-09"
+      ],
+      "tags": [
+        "authority",
+        "roster",
+        "protocol",
+        "connection"
+      ],
+      "status": "required",
+      "runGroup": "no-window-core",
+      "order": 5,
+      "setup": "Strict build, controlled provider and actual coordinator wire mapping.",
+      "actions": [
+        "Owned input and sequence rejection"
+      ],
+      "expected": [
+        "Owned input and sequence rejection"
+      ],
+      "evidence": [
+        "CTRF one-test report",
+        "nonce-bound subject log"
+      ],
+      "needsGameWindow": false
+    },
+    {
+      "id": "core.protocol",
+      "group": "core",
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.FoundationLanProtocolTests.DetachedSnapshotValidationPrecedesPublication",
+      "title": "Detached atomic snapshot validation",
+      "importance": "Critical",
+      "rationale": "Duplicate or foreign intent breaks ownership and movement.",
+      "requirements": [
+        "LAN-02",
+        "LAN-03"
+      ],
+      "acceptance": [
+        "AC-05",
+        "AC-09"
+      ],
+      "tags": [
+        "authority",
+        "roster",
+        "protocol",
+        "connection"
+      ],
+      "status": "required",
+      "runGroup": "no-window-core",
+      "order": 6,
+      "setup": "Strict build, controlled provider and actual coordinator wire mapping.",
+      "actions": [
+        "Detached atomic snapshot validation"
+      ],
+      "expected": [
+        "Detached atomic snapshot validation"
+      ],
+      "evidence": [
+        "CTRF one-test report",
+        "nonce-bound subject log"
+      ],
+      "needsGameWindow": false
+    },
+    {
+      "id": "network.four-peer",
+      "group": "network",
+      "implementation": "native-headless",
+      "title": "Four peers and simultaneous final-slot challengers",
+      "importance": "Critical",
+      "rationale": "Duplicate or foreign intent breaks ownership and movement.",
+      "requirements": [
+        "LAN-02",
+        "LAN-03"
+      ],
+      "acceptance": [
+        "AC-05",
+        "AC-09"
+      ],
+      "tags": [
+        "authority",
+        "roster",
+        "protocol",
+        "connection"
+      ],
+      "status": "required",
+      "runGroup": "no-window-core",
+      "order": 7,
+      "setup": "Five ordinary headless game processes; two challengers compete for the last slot.",
+      "actions": [
+        "Join two guests while the host moves, then simultaneously join two fresh challengers."
+      ],
+      "expected": [
+        "Exactly four ready distinct owners agree on a complete revision; loser receives Full."
+      ],
+      "evidence": [
+        "per-role frames.ndjson",
+        "per-role console.log",
+        "exact matching roster revisions"
+      ],
+      "needsGameWindow": false,
+      "provenance": "Synthetic native events; no rendered, timing or physical input acceptance."
     }
   ]
 }

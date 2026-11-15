@@ -1,4 +1,6 @@
+using System;
 using System.Linq;
+using KingdomZombies.Core;
 using KingdomZombies.Foundation;
 using Shouldly;
 using Xunit;
@@ -37,6 +39,37 @@ public sealed class FoundationLanAdmissionTests
         host.Update(elapsedMilliseconds: 0);
         (host.Snapshot?.Participants.Length ?? 0).ShouldBe(expected: 4);
         port.Sent.Last().Envelope.Label.ShouldStartWith(expected: "Full");
+        CheckMovingBaseline();
         ProofProtocol.Record(id: "core.admission", diagnostic: "PENDING_CAPACITY_REPEAT_HELLO_DISTINCT_REASONS");
+    }
+
+    private static void CheckMovingBaseline()
+    {
+        var port = new FoundationHarnessConnection();
+        var host = new FoundationCoordinator(playerId: "host", label: "Host", connection: port);
+        host.Start(host: true);
+        host.Submit(direction: 1).ShouldBeTrue();
+        port.Enqueue(sender: 2, envelope: new FoundationEnvelope(kind: "hello", playerId: "p2", label: "Guest"));
+        host.Update(elapsedMilliseconds: 1000);
+        FoundationEnvelope baseline = port.Sent.First(predicate: p => p.Envelope.Kind is "baseline").Envelope;
+        host.LocalActor?.PositionSubunits.ShouldBe(expected: -5000);
+        var ack = new FoundationEnvelope(kind: "ack", sessionId: baseline.SessionId, playerId: baseline.PlayerId,
+                bindingId: baseline.BindingId, actorId: baseline.ActorId, revision: baseline.Revision);
+        port.Enqueue(sender: 2, envelope: new FoundationEnvelope(kind: "ack", sessionId: baseline.SessionId,
+                playerId: baseline.PlayerId, bindingId: baseline.BindingId, actorId: baseline.ActorId,
+                revision: baseline.Revision + 1));
+        host.Update(elapsedMilliseconds: 0);
+        host.Snapshot?.Participants[1].Ready.ShouldBeFalse();
+        port.Enqueue(sender: 2, envelope: ack);
+        host.Update(elapsedMilliseconds: 0);
+        FoundationEnvelope ready = port.Sent.Last(predicate: p => p.Envelope.Kind is "state").Envelope;
+        ready.Snapshot?.Participants[0].Actor.PositionSubunits.ShouldBe(expected: -5000);
+        ready.Snapshot?.Participants[1].Ready.ShouldBeTrue();
+        port.Enqueue(sender: 2, envelope: ack);
+        host.Update(elapsedMilliseconds: 0);
+        host.Snapshot?.Participants.Length.ShouldBe(expected: 2);
+        FoundationSnapshot detached = baseline.Snapshot ?? throw new InvalidOperationException(message: "BASELINE");
+        detached.Participants[0].Actor.PositionSubunits.ShouldBe(expected: -8000);
+        detached.Participants[1].Ready.ShouldBeFalse();
     }
 }

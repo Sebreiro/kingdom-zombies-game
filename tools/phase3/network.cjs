@@ -66,7 +66,9 @@ async function stop(peer,context,deadline){
   await key(peer,context,deadline,4194305,true);await key(peer,context,deadline,4194305,false);
   await input(peer,context,deadline,{action:'focus',control:'Menu/Quit'});
   // A press can synchronously exit before writing the driver ack; process exit is the expected acknowledgment.
-  const file=path.join(peer.directory,'input.request');fs.writeFileSync(file,JSON.stringify({nonce:context.nonce,sequence:++peer.sequence,action:'key',key:4194309,pressed:true}));
+  const file=path.join(peer.directory,'input.request');
+  fs.writeFileSync(file+'.tmp',JSON.stringify({nonce:context.nonce,sequence:++peer.sequence,action:'key',key:4194309,pressed:true}));
+  fs.renameSync(file+'.tmp',file);
 }
 async function cleanup(peer){
   if(!peer.exit){peer.child.kill();await Promise.race([new Promise(resolve=>peer.child.once('exit',resolve)),delay(3000)]);}
@@ -74,6 +76,7 @@ async function cleanup(peer){
   requireTrue(peer.exit!==null,'OWNED_PROCESS_CLEANUP '+peer.role);
 }
 async function tracer(context,item){
+  if(item.id==='network.four-peer')return fourPeer(context,item);
   const started=Date.now(),deadline=started+60000,peers=[];let unlock,result,error;
   try{
     unlock=acquireLock(context.root,context.nonce);const port=await allocatePort();
@@ -113,5 +116,66 @@ async function tracer(context,item){
   if(error)throw error;
   requireTrue(Date.now()-started<=60000,'SUBJECT_DEADLINE');
   return {...result,durationMilliseconds:Date.now()-started,cleanup:'two owned children exited zero'};
+}
+async function joinPeer(context,peers,deadline,role,port){
+  const peer=launch(context,role,port);peers.push(peer);
+  await waitFor(peers,deadline,()=>frames(peer).length>1,role+' main scene');
+  await activate(peer,context,deadline,'Menu/Join');
+  await input(peer,context,deadline,{action:'address',address:'127.0.0.1:'+port});
+  return peer;
+}
+function matchingRoster(peers,count){
+  const rows=peers.map(peer=>frames(peer));
+  const histories=rows.map(history=>new Map(history.filter(row=>row.ready&&row.snapshot?.Participants.length===count
+    &&row.snapshot.Participants.every(p=>p.Ready)).map(row=>[row.snapshot.Revision,row])));
+  for(const [revision,first] of [...histories[0]].reverse()){
+    const matches=histories.map(history=>history.get(revision));
+    if(matches.every(row=>row&&JSON.stringify(row.snapshot)===JSON.stringify(first.snapshot)))return matches;
+  }
+  return null;
+}
+async function fourPeer(context,item){
+  const started=Date.now(),deadline=started+60000,peers=[];let unlock,result,error;
+  try{
+    unlock=acquireLock(context.root,context.nonce);const port=await allocatePort();
+    const host=launch(context,'four-host',port);peers.push(host);
+    await waitFor(peers,deadline,()=>frames(host).length>1,'host scene');
+    await activate(host,context,deadline,'Menu/Host');
+    await waitFor(peers,deadline,()=>frames(host).at(-1)?.ready,'host ready');
+    await key(host,context,deadline,68,true);
+    const initial=actor(frames(host).at(-1),host.profile).PositionSubunits;
+    for(let index=1;index<=2;index++){
+      const guest=await joinPeer(context,peers,deadline,'four-guest'+index,port);
+      await activate(guest,context,deadline,'Browser/JoinAddress');
+      await waitFor(peers,deadline,()=>frames(guest).at(-1)?.ready,'guest '+index+' ready');
+      requireTrue(actor(frames(host).at(-1),host.profile).PositionSubunits>initial,'HOST_MOVES_DURING_JOIN');
+    }
+    const challengers=[];
+    for(let index=1;index<=2;index++)challengers.push(await joinPeer(context,peers,deadline,'challenger'+index,port));
+    await Promise.all(challengers.map(peer=>activate(peer,context,deadline,'Browser/JoinAddress')));
+    await waitFor(peers,deadline,()=>challengers.filter(peer=>frames(peer).at(-1)?.ready).length===1
+      &&challengers.filter(peer=>frames(peer).some(row=>row.error?.startsWith('Full'))).length===1,'last-slot race');
+    const winner=challengers.find(peer=>frames(peer).at(-1)?.ready);
+    const admitted=[...peers.slice(0,3),winner];
+    await key(host,context,deadline,68,false);
+    const agreement=await waitFor(peers,deadline,()=>matchingRoster(admitted,4),'complete four-peer agreement');
+    const roster=agreement[0].snapshot.Participants;
+    for(const field of [p=>p.BindingId,p=>p.Actor.ActorId,p=>p.Actor.PlayerId,p=>p.Slot])
+      requireTrue(new Set(roster.map(field)).size===4,'FOUR_DISTINCT_OWNERS');
+    requireTrue(new Set(peers.map(peer=>peer.pid)).size===5,'FIVE_REAL_PROCESSES');
+    requireTrue(frames(host).every(row=>!row.snapshot||row.snapshot.Participants.length<=4),'CAPACITY_NEVER_EXCEEDED');
+    result={id:item.id,status:'pass',nonce:context.nonce,input:context.input,tool:context.tool,platform:context.platform,
+      port,peers:peers.map(peer=>({role:peer.role,pid:peer.pid,profile:peer.profile})),agreement,
+      noRenderedOrPhysicalInputCredit:true,simultaneousFinalSlot:true};
+    for(const peer of peers.slice().reverse())await stop(peer,context,deadline);
+    while(peers.some(peer=>!peer.exit)&&Date.now()<deadline)await delay(25);
+    for(const peer of peers)requireTrue(peer.exit?.code===0&&!peer.exit.signal,'CLEAN_EXIT '+peer.role);
+  }catch(failure){error=failure;}
+  finally{for(const peer of peers){try{await cleanup(peer);}catch(failure){error??=failure;}}if(unlock)unlock();}
+  for(const peer of peers)if(/(?:SCRIPT ERROR:|ERROR:|Unhandled exception|FATAL)/.test(peer.output))
+    error??=new Error('NATIVE_ERROR_LOG '+peer.role+' '+peer.output.slice(0,1600));
+  if(error)throw error;
+  requireTrue(Date.now()-started<=60000,'SUBJECT_DEADLINE');
+  return {...result,durationMilliseconds:Date.now()-started,cleanup:'five owned children exited zero'};
 }
 module.exports={tracer,frames,coherent};

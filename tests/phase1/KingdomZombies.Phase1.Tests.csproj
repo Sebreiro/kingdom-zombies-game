@@ -9,6 +9,10 @@
   <ItemGroup>
     <Compile Include="../../src/godot-game/foundation/FoundationInput.cs" Link="FoundationInput.cs" />
     <Compile Include="../../src/godot-game/foundation/FoundationCoordinator.cs" Link="FoundationCoordinator.cs" />
+    <Compile Include="../../src/godot-game/foundation/FoundationCoordinator.Admission.cs"
+             Link="FoundationCoordinator.Admission.cs" />
+    <Compile Include="../../src/godot-game/foundation/FoundationCoordinator.GuestPublication.cs"
+             Link="FoundationCoordinator.GuestPublication.cs" />
     <Compile Include="../../src/godot-game/foundation/FoundationProtocol.cs" Link="FoundationProtocol.cs" />
     <Compile Include="../../src/godot-game/foundation/FoundationEnvelope.cs" Link="FoundationEnvelope.cs" />
     <Compile Include="../../src/godot-game/foundation/FoundationPeerBinding.cs" Link="FoundationPeerBinding.cs" />
