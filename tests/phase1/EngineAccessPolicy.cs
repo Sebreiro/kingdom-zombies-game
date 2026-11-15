@@ -98,9 +98,13 @@ internal static class EngineAccessPolicy
                         .FirstOrDefault()?.Name.ToString(), y: "KingdomZombies.Foundation")
                 && node.Ancestors().OfType<TypeDeclarationSyntax>().Count() == 1
                 && (type is "FoundationRoot" && new[] { "FoundationRoot", "_Ready", "_Input", "_Process",
-                    "_ExitTree", "Start", "ReturnToMenu", "Quit", "LoseFocus", "Observe", "Capture" }
+                    "_ExitTree", "Start", "ReturnToMenu", "Quit", "LoseFocus", "Observe", "Capture", "Host", "Enter",
+                    "Browse", "JoinAddress", "ShowWorld",
+                    "PollKeys", "ActivateFocused" }
                         .Contains(value: name, comparer: StringComparer.Ordinal)
-                        || type is "FoundationView" && name is "Project");
+                        || type is "FoundationView" && name is "Project" or "ProjectRoster"
+                        || type is "EnetConnectionService" && name is "Host" or "Join" or "Poll" or "Send" or "Close"
+                        || type is "FoundationAutomation" && name is "Tick" or "Deliver");
         bool adapter = production || StringComparer.Ordinal.Equals(x: path,
                 y: "src/godot-game/proofs/" + type + ".cs")
                 && StringComparer.Ordinal.Equals(x: node.Ancestors().OfType<BaseNamespaceDeclarationSyntax>()

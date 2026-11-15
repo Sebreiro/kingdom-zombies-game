@@ -8,6 +8,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="../../src/godot-game/foundation/FoundationInput.cs" Link="FoundationInput.cs" />
+    <Compile Include="../../src/godot-game/foundation/FoundationCoordinator.cs" Link="FoundationCoordinator.cs" />
+    <Compile Include="../../src/godot-game/foundation/FoundationProtocol.cs" Link="FoundationProtocol.cs" />
+    <Compile Include="../../src/godot-game/foundation/FoundationEnvelope.cs" Link="FoundationEnvelope.cs" />
+    <Compile Include="../../src/godot-game/foundation/FoundationPeerBinding.cs" Link="FoundationPeerBinding.cs" />
+    <Compile Include="../../src/godot-game/foundation/FoundationEndpoint.cs" Link="FoundationEndpoint.cs" />
+    <Compile Include="../../src/multiplayer-abstractions/IConnectionService.cs" Link="IConnectionService.cs" />
+    <Compile Include="../../src/multiplayer-abstractions/ConnectionPacket.cs" Link="ConnectionPacket.cs" />
     <ProjectReference Include="../../src/core/KingdomZombies.Core.csproj" />
     <PackageReference Include="xunit.v3" />
     <PackageReference Include="Shouldly" />

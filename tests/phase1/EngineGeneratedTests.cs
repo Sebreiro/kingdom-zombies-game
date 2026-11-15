@@ -23,7 +23,7 @@ public sealed class EngineGeneratedTests
     {
         VerifyAuthenticatedOrigin();
         ProofProtocol.Record(id: "engine.generated-origin", diagnostic: "ENGINE_GENERATED_ORIGIN",
-                location: "docs/code/engine-generated-spans.json:204 exact spans; actual emitted files and package");
+                location: "docs/code/engine-generated-spans.json:220 exact spans; actual emitted files and package");
     }
 
     /// <summary>Rejects changed bytes, adjacent spans and handwritten impostors for every permission.</summary>
@@ -32,7 +32,7 @@ public sealed class EngineGeneratedTests
     {
         VerifyGeneratedBoundaries();
         ProofProtocol.Record(id: "engine.generated-boundary", diagnostic: "ENGINE_GENERATED_BOUNDARY",
-                location: "204 exact changed-source/path/span boundaries; adjacent Subject.cs CA1852");
+                location: "220 exact changed-source/path/span boundaries; adjacent Subject.cs CA1852");
     }
 
     /// <summary>Builds a genuine companion before rejecting a handwritten partial call at its exact location.</summary>
@@ -92,7 +92,7 @@ public sealed class EngineGeneratedTests
         build.Exit.ShouldBe(expected: 0, customMessage: build.Output);
         using JsonDocument registry = Registry();
         JsonElement[] rows = [.. registry.RootElement.GetProperty(propertyName: "local").EnumerateArray()];
-        rows.Length.ShouldBe(expected: 204);
+        rows.Length.ShouldBe(expected: 220);
         foreach (JsonElement row in rows)
         {
             string file = Local(path: Text(row: row, name: "surface"));

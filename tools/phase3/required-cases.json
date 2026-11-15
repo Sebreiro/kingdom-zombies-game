@@ -1,0 +1,136 @@
+{
+  "schemaVersion": 1,
+  "requiredEnvironment": "development-os",
+  "scope": "no-window-tracer",
+  "cases": [
+    {
+      "id": "core.authority",
+      "group": "core",
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.FoundationLanAuthorityTests.OwnedIntentIsAcceptedBeforeAnyElapsedStep",
+      "title": "Identified intent and host stepping",
+      "importance": "Critical",
+      "rationale": "Duplicate or foreign intent breaks ownership and movement.",
+      "requirements": [
+        "LAN-02",
+        "LAN-03"
+      ],
+      "acceptance": [
+        "AC-05",
+        "AC-09"
+      ],
+      "tags": [
+        "authority",
+        "roster",
+        "protocol",
+        "connection"
+      ],
+      "status": "required",
+      "runGroup": "no-window-core",
+      "order": 1,
+      "setup": "Build the restored five-project solution with strict analyzers.",
+      "actions": [
+        "Execute named C# production-authority expectations with exact one-test report."
+      ],
+      "expected": [
+        "Owned intent accepts without stepping; wrong owner, unready and replayed intent reject; solo/host/guest agree."
+      ],
+      "evidence": [
+        "CTRF one-test report",
+        "nonce-bound subject log"
+      ],
+      "needsGameWindow": false
+    },
+    {
+      "id": "network.tracer",
+      "group": "network",
+      "implementation": "native-headless",
+      "title": "Host and one guest through ordinary main scene",
+      "importance": "Critical",
+      "rationale": "Actual native transport and input composition must work together.",
+      "requirements": [
+        "LAN-01",
+        "LAN-02",
+        "LAN-03",
+        "LAN-04"
+      ],
+      "acceptance": [
+        "AC-01",
+        "AC-04",
+        "AC-05",
+        "AC-09"
+      ],
+      "tags": [
+        "enet",
+        "native",
+        "input",
+        "baseline"
+      ],
+      "status": "required",
+      "runGroup": "headless-host-guest",
+      "order": 1,
+      "setup": "Two separate owned pinned Godot processes use --headless and the ordinary project/main scene, fresh profile IDs and allocated UDP port.",
+      "actions": [
+        "Synthetic native Enter activates Host session.",
+        "Synthetic native input opens Join LAN, fills manual address and activates Join address.",
+        "Wait for installed baseline and ready state.",
+        "Synthetic D press and release pass through native _Input and physical polling.",
+        "Observe guest movement and coherent matching publication on both peers.",
+        "Escape and Quit through ordinary input."
+      ],
+      "expected": [
+        "Two distinct ready player/actor/binding owners in same session.",
+        "Guest cannot act before installed baseline; ack follows install.",
+        "Movement affects only the guest at host and guest.",
+        "Both owned processes exit zero within 60-second subject deadline."
+      ],
+      "evidence": [
+        "per-role frames.ndjson",
+        "per-role console.log",
+        "owned process identities",
+        "matching current revision snapshot"
+      ],
+      "needsGameWindow": false,
+      "provenance": "Synthetic native events; no physical input, rendering, timing, or physical LAN credit.",
+      "reset": "Fresh processes are required to prove independent host and guest native lifetimes; cleanup only owned children."
+    },
+    {
+      "id": "core.permissions",
+      "group": "core",
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.FoundationLanPermissionTests.ExactLanPermissionsRejectAdjacentMisuse",
+      "title": "Exact LAN public and native permission boundaries",
+      "importance": "Critical",
+      "rationale": "Expanded native or public permissions undermine architecture enforcement.",
+      "requirements": [
+        "LAN-03",
+        "LAN-04"
+      ],
+      "acceptance": [
+        "AC-09",
+        "AC-15"
+      ],
+      "tags": [
+        "architecture",
+        "native",
+        "generated",
+        "visibility"
+      ],
+      "status": "required",
+      "runGroup": "no-window-core",
+      "order": 2,
+      "setup": "Build strict solution and authenticate emitted generated spans.",
+      "actions": [
+        "Compile exact positive subjects and adjacent unauthorized variants through the actual scanner."
+      ],
+      "expected": [
+        "Each new native tuple and public type has valid positive and intended boundary rejection."
+      ],
+      "evidence": [
+        "CTRF one-test report",
+        "nonce-bound subject log"
+      ],
+      "needsGameWindow": false
+    }
+  ]
+}

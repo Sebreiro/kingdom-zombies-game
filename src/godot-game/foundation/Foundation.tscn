@@ -101,9 +101,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -240.0
-offset_top = -96.0
+offset_top = -176.0
 offset_right = 240.0
-offset_bottom = 96.0
+offset_bottom = 176.0
 theme_override_constants/separation = 16
 
 [node name="Title" type="Label" parent="Menu"]
@@ -122,18 +122,28 @@ size_flags_horizontal = 4
 text = "Start"
 theme_override_styles/normal = SubResource("Start")
 focus_neighbor_top = NodePath("../Quit")
-focus_neighbor_bottom = NodePath("../Quit")
-focus_next = NodePath("../Quit")
+focus_neighbor_bottom = NodePath("../Host")
+focus_next = NodePath("../Host")
 focus_previous = NodePath("../Quit")
+
+[node name="Host" type="Button" parent="Menu"]
+custom_minimum_size = Vector2(240, 48)
+size_flags_horizontal = 4
+text = "Host session"
+
+[node name="Join" type="Button" parent="Menu"]
+custom_minimum_size = Vector2(240, 48)
+size_flags_horizontal = 4
+text = "Join LAN"
 
 [node name="Quit" type="Button" parent="Menu"]
 custom_minimum_size = Vector2(240, 48)
 size_flags_horizontal = 4
 text = "Quit"
-focus_neighbor_top = NodePath("../Start")
+focus_neighbor_top = NodePath("../Join")
 focus_neighbor_bottom = NodePath("../Start")
 focus_next = NodePath("../Start")
-focus_previous = NodePath("../Start")
+focus_previous = NodePath("../Join")
 
 [node name="Error" type="Label" parent="Menu"]
 visible = false
@@ -142,3 +152,41 @@ theme_override_font_sizes/font_size = 16
 text = "Could not start the scene. Try Start again."
 horizontal_alignment = 1
 autowrap_mode = 2
+
+[node name="Browser" type="VBoxContainer" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = -168.0
+offset_right = 320.0
+offset_bottom = 168.0
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="Browser"]
+text = "LAN sessions"
+theme_override_font_sizes/font_size = 32
+
+[node name="AddressLabel" type="Label" parent="Browser"]
+text = "Host address"
+theme_override_font_sizes/font_size = 16
+
+[node name="Address" type="LineEdit" parent="Browser"]
+custom_minimum_size = Vector2(640, 48)
+placeholder_text = "192.168.1.20"
+
+[node name="JoinAddress" type="Button" parent="Browser"]
+custom_minimum_size = Vector2(240, 48)
+text = "Join address"
+
+[node name="Feedback" type="Label" parent="Browser"]
+custom_minimum_size = Vector2(640, 48)
+text = "Enter a host address to join."
+autowrap_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="Back" type="Button" parent="Browser"]
+custom_minimum_size = Vector2(240, 48)
+text = "Back"
