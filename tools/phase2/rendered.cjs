@@ -150,11 +150,7 @@ async function tracer(context, scenario, session, logStart = session.log.length)
     const send = (action,name) => input(action,0,0,key(name));
     if (scenario === 'rendered.menu') {
       await input('move',menu.startX,menu.startY); await observe('start-hover-focus');
-      await send('tap','Tab'); requireTrue((await observe('tab-quit')).quitFocused,'TAB_QUIT');
-      await send('down','Shift_L'); await send('tap','Tab'); await send('up','Shift_L');
-      requireTrue((await observe('shift-tab-start')).startFocused,'SHIFT_TAB_START');
-      await send('tap','Down'); requireTrue((await observe('down-quit')).quitFocused,'DOWN_QUIT');
-      await send('tap','Up'); requireTrue((await observe('up-start')).startFocused,'UP_START');
+      await require('./menu-navigation.cjs').check(send,observe,requireTrue);
       await input('mouse-down',menu.startX,menu.startY); await observe('start-pressed'); await input('mouse-up',menu.startX,menu.startY);
       const error=await observe('recoverable-error');
       requireTrue(error.actors===0 && error.errorVisible && error.startFocused && error.menuVisible,'RECOVERABLE_MENU');
@@ -275,7 +271,9 @@ async function tracer(context, scenario, session, logStart = session.log.length)
       return {...validateResources(context),contentIds:[ids.FixtureId,ids.GroundId,ids.BuildingId,ids.PlayerContentId],observations,images,intervals,pid:session.game.pid,width,height};
     }
     if (scenario === 'rendered.quit') {
-      await send('tap','Tab'); requireTrue((await observe('quit-keyboard-focused')).quitFocused,'QUIT_KEYBOARD_FOCUS');
+      for(const control of ['Host','Join','Quit']){
+        await send('tap','Tab');requireTrue((await observe('quit-keyboard-'+control.toLowerCase())).focusedControl===control,'QUIT_KEYBOARD_FOCUS '+control);
+      }
       await send('tap','space');
       const deadline = Date.now() + 8000;
       while (!session.exited && Date.now() < deadline) await delay(50);

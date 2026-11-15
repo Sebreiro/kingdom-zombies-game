@@ -441,6 +441,7 @@ public sealed partial class FoundationRoot : Control
                     inputEvents = _inputEvents, direction = _input.Direction,
                     startFocused = GetNode<Button>(path: "Menu/Start").HasFocus(),
                     quitFocused = GetNode<Button>(path: "Menu/Quit").HasFocus(),
+                    focusedControl = GetViewport().GuiGetFocusOwner()?.Name.ToString(),
                     startX = GetNode<Button>(path: "Menu/Start").GetGlobalRect().GetCenter().X,
                     startY = GetNode<Button>(path: "Menu/Start").GetGlobalRect().GetCenter().Y,
                     quitX = GetNode<Button>(path: "Menu/Quit").GetGlobalRect().GetCenter().X,

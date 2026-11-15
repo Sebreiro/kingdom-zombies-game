@@ -37,6 +37,7 @@ function fixture(directory){
 async function run(mode){
   const root=path.resolve(__dirname,'../..'),directory=path.join(root,'.phase3/controls',crypto.randomUUID());fs.mkdirSync(directory,{recursive:true});
   if(mode==='integrity'){
+    await require('./processes.cjs').run(process.execPath,['--test',path.join(root,'tools/phase3/navigation.test.cjs')],{cwd:root},12000);
     const {context,selected,results}=fixture(directory),[first,second]=results;
     e.reconcile(selected,results,context);e.reconcile(selected,[second,{...first,peers:[...first.peers].reverse()}],context);
     const bad=mutation=>{const clone=structuredClone(results);mutation(clone);assert.throws(()=>e.reconcile(selected,clone,context));};
