@@ -92,6 +92,11 @@ internal sealed class LocalProfileStorage
                     id = p.PlayerId, name = p.DisplayName, ordinal = p.Ordinal,
                 }),
             });
+            if (bytes.Length > 1048576)
+            {
+                throw new InvalidDataException(message: "PROFILE_SIZE");
+            }
+
             using (var stream = new FileStream(path: temporary, mode: FileMode.CreateNew, access: FileAccess.Write,
                     share: FileShare.None))
             {

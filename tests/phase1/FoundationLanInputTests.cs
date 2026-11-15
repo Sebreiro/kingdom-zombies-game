@@ -1,3 +1,4 @@
+using System.Linq;
 using KingdomZombies.Core;
 using KingdomZombies.Foundation;
 using Shouldly;
@@ -53,5 +54,19 @@ public sealed class FoundationLanInputTests
         FoundationPresentation.Local(snapshot: session.Snapshot, bindingId: "guest-binding").ShouldBeNull();
         FoundationPresentation.Local(snapshot: session.Snapshot, bindingId: "replacement")?.Actor.ActorId
                 .ShouldBe(expected: "new-actor");
+        CheckChainedOverlap();
+    }
+
+    private static void CheckChainedOverlap()
+    {
+        FoundationParticipantState[] actors = [.. Enumerable.Range(start: 1, count: 3).Select(
+                selector: slot => new FoundationParticipantState(bindingId: slot == 1 ? "local" : "binding" + slot,
+                        label: "Player", slot: slot, ready: true, actor: new FoundationActorState(sessionId: "s",
+                                playerId: "player" + slot, actorId: "actor" + slot,
+                                positionSubunits: slot * 5000, facing: 1, elapsedMilliseconds: 0)))];
+        var snapshot = new FoundationSnapshot(sessionId: "s", revision: 1, participants: actors);
+        FoundationPresentation.LabelOffset(snapshot: snapshot, participant: actors[0]).ShouldBe(expected: 0);
+        FoundationPresentation.LabelOffset(snapshot: snapshot, participant: actors[1]).ShouldBe(expected: 28);
+        FoundationPresentation.LabelOffset(snapshot: snapshot, participant: actors[2]).ShouldBe(expected: 0);
     }
 }

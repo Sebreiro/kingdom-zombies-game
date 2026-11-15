@@ -19,6 +19,7 @@ internal sealed class FoundationBrowser
         _generation = service.Generation;
         SelectedId = "";
         Rows = [];
+        _vanished = false;
     }
 
     internal bool Publish(string generation, IReadOnlyList<SessionAdvertisement> rows, string error)
@@ -35,9 +36,10 @@ internal sealed class FoundationBrowser
         if (vanished)
         {
             SelectedId = "";
+            _vanished = true;
         }
 
-        Feedback = vanished ? "This session is no longer available. Refresh or enter a host address."
+        Feedback = _vanished ? "This session is no longer available. Refresh or enter a host address."
                 : error.Length > 0 ? error : Rows.Count == 0
                         ? "No LAN sessions found\nRefresh to search again, or enter a host address below."
                         : Rows.Count == 1 ? "1 session" : Rows.Count + " sessions";
@@ -46,9 +48,16 @@ internal sealed class FoundationBrowser
 
     internal void Select(string sessionId)
     {
+        _vanished = false;
         SelectedId = Rows.Any(predicate: row => StringComparer.Ordinal.Equals(x: row.SessionId, y: sessionId))
                 ? sessionId : "";
     }
 
+    internal void Refresh()
+    {
+        _vanished = false;
+    }
+
     private string _generation = "";
+    private bool _vanished;
 }

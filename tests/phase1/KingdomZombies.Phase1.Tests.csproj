@@ -7,6 +7,7 @@
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="../../src/godot-game/foundation/FoundationDisplay.cs" Link="FoundationDisplay.cs" />
     <Compile Include="../../src/godot-game/foundation/FoundationPresentation.cs" Link="FoundationPresentation.cs" />
     <Compile Include="../../src/godot-game/foundation/LocalProfileService.cs" Link="LocalProfileService.cs" />
     <Compile Include="../../src/godot-game/foundation/LocalProfileStorage.cs" Link="LocalProfileStorage.cs" />

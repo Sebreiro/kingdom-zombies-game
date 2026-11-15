@@ -142,6 +142,8 @@ internal sealed partial class FoundationCoordinator
     private readonly List<string> _events = [];
     private FoundationSession? _session;
     private FoundationSnapshot? _remote;
+    private FoundationSnapshot? _hostSource;
+    private FoundationSnapshot? _hostPublished;
     private bool _active;
     private bool _helloSent;
     private long _sequence;
@@ -272,9 +274,16 @@ internal sealed partial class FoundationCoordinator
     {
         FoundationSnapshot snapshot = (_session ?? throw new InvalidOperationException(message: "HOST_REQUIRED"))
                 .Snapshot;
-        return new FoundationSnapshot(sessionId: snapshot.SessionId, revision: snapshot.Revision,
+        if (ReferenceEquals(objA: snapshot, objB: _hostSource) && _hostPublished is not null)
+        {
+            return _hostPublished;
+        }
+
+        _hostSource = snapshot;
+        _hostPublished = new FoundationSnapshot(sessionId: snapshot.SessionId, revision: snapshot.Revision,
                 participants: snapshot.Participants.Select(selector: p => p.Slot == 1
                         ? new FoundationParticipantState(bindingId: p.BindingId, label: _label, slot: p.Slot,
                                 ready: p.Ready, actor: p.Actor) : p));
+        return _hostPublished;
     }
 }

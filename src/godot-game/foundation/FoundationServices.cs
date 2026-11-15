@@ -21,9 +21,15 @@ internal sealed class FoundationServices
 
     internal FoundationCoordinator Create(bool connected, Func<long> nowMilliseconds)
     {
+        if (Identity.FailureReason.Length > 0)
+        {
+            throw new InvalidOperationException(message: Identity.FailureReason);
+        }
+
         PlayerProfile profile = Identity.Selected
                 ?? throw new InvalidOperationException(message: Identity.FailureReason);
-        return new FoundationCoordinator(playerId: profile.PlayerId, label: profile.DisplayName,
+        return new FoundationCoordinator(playerId: profile.PlayerId, label: FoundationDisplay.Label(
+                value: profile.DisplayName),
                 connection: connected ? _connection() : null, nowMilliseconds: nowMilliseconds);
     }
 

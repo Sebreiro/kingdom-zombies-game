@@ -93,7 +93,7 @@ internal static class EngineAccessPolicy
         ["FoundationAutomation"] = ["Deliver"],
         ["FoundationMenu"] = ["Attach", "Detach", "CommitName", "Browse", "Tick", "Attempt", "Recover", "Activate",
             "PopupOpen", "Escape", "Profiles", "Feedback", "Refresh", "Back", "Lock", "Rows", "AddRow", "Detail",
-            "RowLabel"],
+            "RowLabel", "HideDetail"],
     };
 
     private static readonly Dictionary<string, string[]> _adapters = new(comparer: StringComparer.Ordinal)

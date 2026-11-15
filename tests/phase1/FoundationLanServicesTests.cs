@@ -48,10 +48,16 @@ public sealed class FoundationLanServicesTests
         restarted.Selected?.DisplayName.ShouldBe(expected: "Élodie 生存者");
         restarted.Create().ShouldBeTrue();
         restarted.Rename(displayName: "Élodie 生存者").ShouldBeTrue();
+        string fullName = string.Concat(values: Enumerable.Repeat(element: "生存者😀", count: 128));
+        restarted.Rename(displayName: fullName).ShouldBeTrue();
+        var longRestart = new LocalProfileService(directory: directory);
+        longRestart.Load().ShouldBeTrue();
+        longRestart.Selected?.DisplayName.ShouldBe(expected: fullName);
         restarted.Selected?.PlayerId.ShouldNotBe(expected: first, comparer: StringComparer.Ordinal);
         restarted.Choose(playerId: first.ToUpperInvariant()).ShouldBeFalse();
         restarted.Choose(playerId: first).ShouldBeTrue();
         restarted.Rename(displayName: " \t").ShouldBeFalse();
+        restarted.Rename(displayName: "Élodie 生存者").ShouldBeTrue();
         CheckProfileFailures(directory: directory, first: first);
         ProofProtocol.Record(id: "adapters.profiles", diagnostic: "SCHEMA1_ATOMIC_LOCKED_EXACT_RESTART_RECOVERY");
     }
@@ -68,6 +74,7 @@ public sealed class FoundationLanServicesTests
                 connection: () => new FoundationHarnessConnection());
         Should.Throw<InvalidOperationException>(actual: () => services.Create(connected: true,
                 nowMilliseconds: () => 0)).Message.ShouldBe(expected: "Identity unavailable");
+        FoundationServiceSubstitutionProof.Run();
     }
 
     internal static SessionAdvertisement Advertisement(string id)
@@ -131,10 +138,22 @@ public sealed class FoundationLanServicesTests
         browser.Publish(generation: discovery.Generation, rows: [one], error: "");
         browser.Selected.ShouldBeNull();
         browser.Feedback.ShouldStartWith(expected: "This session is no longer available.");
+        browser.Publish(generation: discovery.Generation, rows: [one], error: "");
+        browser.Feedback.ShouldStartWith(expected: "This session is no longer available.");
+        browser.Refresh();
+        browser.Publish(generation: discovery.Generation, rows: [one], error: "");
+        browser.Feedback.ShouldBe(expected: "1 session");
         DiscoveryCodec.Decode(bytes: DiscoveryCodec.Encode(advertisement: one), address: "192.168.1.2")
                 ?.Address.ShouldBe(expected: "192.168.1.2");
         DiscoveryCodec.Decode(bytes: new byte[4097], address: "127.0.0.1").ShouldBeNull();
         DiscoveryCodec.Decode(bytes: "{}"u8.ToArray(), address: "127.0.0.1").ShouldBeNull();
+        string longName = string.Concat(values: Enumerable.Repeat(element: "生存者😀", count: 128));
+        FoundationDisplay.Label(value: longName).EndsWith(value: '…')
+                .ShouldBeTrue();
+        var longAdvertisement = new SessionAdvertisement(sessionId: "long", sessionName: FoundationDisplay.Label(
+                value: longName), hostLabel: FoundationDisplay.Label(value: longName), address: "127.0.0.1",
+                port: 47778, occupied: 4, availability: "Full", protocol: 1, content: FoundationProtocol.Content);
+        DiscoveryCodec.Encode(advertisement: longAdvertisement).Length.ShouldBeLessThanOrEqualTo(expected: 4096);
     }
 
     private static void CheckProfileFailures(string directory, string first)
@@ -146,6 +165,10 @@ public sealed class FoundationLanServicesTests
         failed.Load().ShouldBeTrue();
         failed.Rename(displayName: "Changed").ShouldBeFalse();
         failed.Selected?.PlayerId.ShouldBe(expected: first);
+        File.ReadAllBytes(path: path).ShouldBe(expected: before);
+        var bounded = new LocalProfileService(directory: directory);
+        bounded.Load().ShouldBeTrue();
+        bounded.Rename(displayName: new string(c: '界', count: 1048576)).ShouldBeFalse();
         File.ReadAllBytes(path: path).ShouldBe(expected: before);
         using (var writer = new FileStream(path: Path.Combine(path1: directory, path2: "profiles.lock"),
                 mode: FileMode.Open, access: FileAccess.ReadWrite, share: FileShare.None))

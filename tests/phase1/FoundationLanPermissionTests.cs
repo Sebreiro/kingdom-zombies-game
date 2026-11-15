@@ -34,7 +34,7 @@ public sealed class FoundationLanPermissionTests
         CheckPublicTypes();
         EngineAccessPolicy.Repository().ShouldBeEmpty();
         ProofProtocol.Record(id: "core.permissions",
-                diagnostic: "EXACT_LAN_PERMISSIONS:34_TUPLES_8_PUBLIC_TYPES_WITH_VALID_NEGATIVES");
+                diagnostic: "EXACT_LAN_PERMISSIONS:35_TUPLES_8_PUBLIC_TYPES_WITH_VALID_NEGATIVES");
     }
 
     private const string Native = " _ = Godot.Input.IsPhysicalKeyPressed(keycode: Godot.Key.D); ";
@@ -46,7 +46,7 @@ public sealed class FoundationLanPermissionTests
         ("FoundationAutomation", ["Deliver"]),
         ("FoundationMenu", ["Attach", "Detach", "CommitName", "Browse", "Tick", "Attempt", "Recover", "Activate",
             "PopupOpen", "Escape", "Profiles", "Feedback", "Refresh", "Back", "Lock", "Rows", "AddRow", "Detail",
-            "RowLabel"]),
+            "RowLabel", "HideDetail"]),
         ("FoundationHud", ["Project"]),
     ];
     private static readonly (string Path, string Type, int Project)[] _public =
@@ -83,7 +83,7 @@ public sealed class FoundationLanPermissionTests
             }
         }
 
-        checkedMethods.ShouldBe(expected: 34);
+        checkedMethods.ShouldBe(expected: 35);
     }
 
     private static void CheckInventory()
@@ -121,6 +121,7 @@ public sealed class FoundationLanPermissionTests
         }
 
         CheckMethodAndPath(consumer: consumer, source: positive, path: path, methodName: method.Identifier.ValueText);
+        CheckNamespaceAndAsync(consumer: consumer, source: positive, path: path, method: method, guard: guard);
     }
 
     private static string ReplaceBody(string source, MethodDeclarationSyntax method, string body)
@@ -171,5 +172,29 @@ public sealed class FoundationLanPermissionTests
             ArchitecturePolicy.Visibility(root: ProofProtocol.Root, source: source, path: wrongPath,
                     options: consumer.Options).ShouldNotBeEmpty();
         }
+    }
+
+    private static void CheckNamespaceAndAsync(ConsumerCompilation consumer, string source, string path,
+            MethodDeclarationSyntax method, string guard)
+    {
+        CSharpCompilation compilation = consumer.Create(source: source, path: path);
+        string clone = "using KingdomZombies.Foundation;\n" + source.Replace(
+                oldValue: "namespace KingdomZombies.Foundation;",
+                newValue: "namespace KingdomZombies.Foundation.Adjacent;", comparisonType: StringComparison.Ordinal);
+        SyntaxTree cloneTree = consumer.Parse(source: clone, path: path);
+        CSharpCompilation wrongNamespace = compilation.AddSyntaxTrees(cloneTree);
+        ConsumerCompilation.RequireValid(compilation: wrongNamespace);
+        EngineAccessPolicy.CheckTree(tree: cloneTree, compilation: wrongNamespace).ShouldNotBeEmpty();
+        SyntaxTree original = compilation.SyntaxTrees.Single(predicate: tree => StringComparer.Ordinal.Equals(
+                x: tree.FilePath, y: path));
+        TypeDeclarationSyntax type = original.GetRoot().DescendantNodes().OfType<TypeDeclarationSyntax>().First();
+        string qualifiers = method.Modifiers.Any(kind: SyntaxKind.StaticKeyword) ? "private static" : "private";
+        MemberDeclarationSyntax async = SyntaxFactory.ParseMemberDeclaration(text: qualifiers
+                + " async System.Threading.Tasks.Task " + method.Identifier.ValueText
+                + "(KingdomZombies.Proofs.MainThreadGateway gateway, string proofAsync, int proofNumber) { "
+                + guard + Native + " await System.Threading.Tasks.Task.Delay(millisecondsDelay: 1); }")
+                ?? throw new InvalidDataException(message: "ASYNC_CONTROL");
+        string changed = original.GetRoot().ReplaceNode(oldNode: type, newNode: type.AddMembers(async)).ToFullString();
+        EngineAccessPolicy.Check(source: changed, path: path, consumer: consumer).ShouldNotBeEmpty();
     }
 }

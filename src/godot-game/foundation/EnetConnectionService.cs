@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using Godot;
 using KingdomZombies.Multiplayer.Abstractions;
@@ -35,8 +36,15 @@ internal sealed class EnetConnectionService : IConnectionService, IDisposable
         _gateway.RequireThread();
         RequireUnused(port: port);
         ArgumentException.ThrowIfNullOrWhiteSpace(argument: address);
+        if (!FoundationEndpoint.TryParse(value: address + ":" + port.ToString(provider: CultureInfo.InvariantCulture),
+                address: out string parsed, port: out int parsedPort) || parsedPort != port)
+        {
+            throw new ArgumentException(message: "A numeric IPv4 host address is required.",
+                    paramName: nameof(address));
+        }
+
         _peer = new ENetMultiplayerPeer();
-        Check(error: _peer.CreateClient(address: address, port: port, channelCount: 1));
+        Check(error: _peer.CreateClient(address: parsed, port: port, channelCount: 1));
         _peer.TransferMode = MultiplayerPeer.TransferModeEnum.Reliable;
         _peer.PeerConnected += ConnectedPeer;
         _peer.PeerDisconnected += DisconnectedPeer;

@@ -1,4 +1,5 @@
 using System;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using KingdomZombies.Multiplayer.Abstractions;
 
@@ -15,7 +16,7 @@ internal static class DiscoveryCodec
             host = advertisement.HostLabel, port = advertisement.Port, occupied = advertisement.Occupied,
             availability = advertisement.Availability, protocol = advertisement.Protocol,
             content = advertisement.Content,
-        });
+        }, options: _options);
     }
 
     internal static SessionAdvertisement? Decode(ReadOnlyMemory<byte> bytes, string address)
@@ -55,6 +56,11 @@ internal static class DiscoveryCodec
             return null;
         }
     }
+
+    private static readonly JsonSerializerOptions _options = new()
+    {
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+    };
 
     private static string Text(JsonElement root, string property, int maximum)
     {

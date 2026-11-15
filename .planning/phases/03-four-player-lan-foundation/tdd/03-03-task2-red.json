@@ -7,5 +7,8 @@
   "reportPath": ".phase3/task2-red.xml",
   "expected": "Menu D direction zero",
   "command": "dotnet tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll --filter-method KingdomZombies.Phase1.Tests.FoundationLanInputTests.ScreenFocusAndLocalProjectionStayIndependent --report-xunit-junit --report-xunit-junit-filename task2-red.xml --results-directory .phase3",
-  "exitCode": 1
+  "exitCode": 1,
+  "runStartedAt": "2026-11-15T14:59:55Z",
+  "timestampSource": "Unmodified JUnit reporter run timestamp",
+  "reportModifiedAt": "2026-11-15T14:59:55.9675853Z"
 }

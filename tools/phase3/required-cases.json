@@ -567,6 +567,49 @@
         "nonce-bound subject log"
       ],
       "needsGameWindow": false
+    },
+    {
+      "id": "adapters.substitutions",
+      "group": "adapters",
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.FoundationLanServicesTests.IndependentProvidersUseProductionComposition",
+      "title": "Three independent production service substitutions",
+      "importance": "Critical",
+      "rationale": "Ordinary independent service ownership must survive failure and replacement.",
+      "requirements": [
+        "LAN-01",
+        "LAN-04"
+      ],
+      "acceptance": [
+        "AC-14",
+        "AC-15",
+        "AC-18"
+      ],
+      "tags": [
+        "composition",
+        "identity",
+        "discovery",
+        "connection",
+        "permissions"
+      ],
+      "status": "required",
+      "runGroup": "no-window-adapters",
+      "order": 12,
+      "setup": "Strict build; invocation-owned local sockets and profile root.",
+      "actions": [
+        "Replace discovery alone and use its selected endpoint in actual coordinator admission.",
+        "Replace identity alone and preserve persisted ownership across a changed endpoint and peer number.",
+        "Replace connection alone and complete production baseline/ack/ready/intent/step publication.",
+        "Reject unavailable identity, old provider generations and duplicate connected identity; retain equal-name distinct ownership."
+      ],
+      "expected": [
+        "All three actual compositions reach ready movement without any Core source change; exact before/after Core hashes are recorded."
+      ],
+      "evidence": [
+        "CTRF one-test report",
+        "adapters.substitutions.core-hashes.json"
+      ],
+      "needsGameWindow": false
     }
   ]
 }

@@ -37,7 +37,9 @@ internal sealed class FoundationMenu
         _root.GetNode<LineEdit>(path: "Menu/Name").TextSubmitted += NameSubmitted;
         _root.GetNode<LineEdit>(path: "Menu/Name").FocusExited += NameFocusLost;
         _root.GetNode<LineEdit>(path: "Browser/Address").TextSubmitted += AddressSubmitted;
+        _root.GetNode<LineEdit>(path: "Browser/Address").FocusEntered += HideDetail;
         _root.GetNode<Button>(path: "Browser/Refresh").Pressed += Refresh;
+        _root.GetNode<Button>(path: "Browser/Refresh").FocusEntered += HideDetail;
         _root.GetNode<Button>(path: "Browser/Footer/JoinSession").Pressed += JoinSelected;
         _root.GetNode<Button>(path: "Browser/Footer/Cancel").Pressed += Cancel;
         _root.GetNode<Button>(path: "Browser/Footer/Back").Pressed += Back;
@@ -59,7 +61,9 @@ internal sealed class FoundationMenu
         _root.GetNode<LineEdit>(path: "Menu/Name").TextSubmitted -= NameSubmitted;
         _root.GetNode<LineEdit>(path: "Menu/Name").FocusExited -= NameFocusLost;
         _root.GetNode<LineEdit>(path: "Browser/Address").TextSubmitted -= AddressSubmitted;
+        _root.GetNode<LineEdit>(path: "Browser/Address").FocusEntered -= HideDetail;
         _root.GetNode<Button>(path: "Browser/Refresh").Pressed -= Refresh;
+        _root.GetNode<Button>(path: "Browser/Refresh").FocusEntered -= HideDetail;
         _root.GetNode<Button>(path: "Browser/Footer/JoinSession").Pressed -= JoinSelected;
         _root.GetNode<Button>(path: "Browser/Footer/Cancel").Pressed -= Cancel;
         _root.GetNode<Button>(path: "Browser/Footer/Back").Pressed -= Back;
@@ -77,7 +81,8 @@ internal sealed class FoundationMenu
         _gateway.RequireThread();
         string value = _root.GetNode<LineEdit>(path: "Menu/Name").Text;
         bool valid = _services.Identity.Selected is not null && (StringComparer.Ordinal.Equals(
-                x: value, y: _services.Identity.Selected.DisplayName) || _services.Identity.Rename(displayName: value));
+                x: value, y: _services.Identity.Selected.DisplayName) && _services.Identity.FailureReason.Length == 0
+                || _services.Identity.Rename(displayName: value));
         Feedback(message: valid ? "" : _services.Identity.FailureReason);
         if (valid)
         {
@@ -128,6 +133,7 @@ internal sealed class FoundationMenu
     {
         _gateway.RequireThread();
         _origin = origin;
+        HideDetail();
         _attemptError = false;
         Lock(joining: true);
         _root.GetNode<Control>(path: "Browser/Footer/Cancel").GrabFocus();
@@ -279,7 +285,9 @@ internal sealed class FoundationMenu
         _gateway.RequireThread();
         _attemptError = false;
         _root.GetNode<Label>(path: "Browser/Feedback").Text = "";
+        _services.Browser.Refresh();
         _services.Discovery.Refresh();
+        HideDetail();
     }
 
     private void JoinSelected()
@@ -335,7 +343,8 @@ internal sealed class FoundationMenu
             int port = configuredPort is null ? 47778 : int.Parse(s: configuredPort,
                     provider: CultureInfo.InvariantCulture);
             _services.Discovery.Advertise(advertisement: new SessionAdvertisement(sessionId: snapshot.SessionId,
-                    sessionName: profile.DisplayName + "'s camp", hostLabel: profile.DisplayName, address: "",
+                    sessionName: FoundationDisplay.Label(value: profile.DisplayName + "'s camp"),
+                    hostLabel: FoundationDisplay.Label(value: profile.DisplayName), address: "",
                     port: port, occupied: count, availability: count >= 4 ? "Full" : "Available", protocol: 1,
                     content: FoundationProtocol.Content));
         }
@@ -398,6 +407,12 @@ internal sealed class FoundationMenu
         {
             bool selected = StringComparer.Ordinal.Equals(x: row.GetMeta(name: "session").AsString(),
                     y: _services.Browser.SelectedId);
+            if (row.GetMeta(name: "selected", @default: !selected).AsBool() == selected)
+            {
+                continue;
+            }
+
+            row.SetMeta(name: "selected", value: selected);
             var style = (StyleBoxFlat)row.GetThemeStylebox(name: "normal").Duplicate();
             style.BorderColor = selected ? new Color(r: 0.941f, g: 0.769f, b: 0.416f)
                     : new Color(r: 0.957f, g: 0.949f, b: 0.91f);
@@ -452,10 +467,17 @@ internal sealed class FoundationMenu
         _input.Clear();
         _services.Browser.Select(sessionId: advertisement.SessionId);
         Rows();
+        _root.GetNode<Label>(path: "Browser/Detail").Visible = true;
         _root.GetNode<Label>(path: "Browser/Detail").Text = advertisement.SessionName + " · " + advertisement.Address
                 + ":" + advertisement.Port.ToString(provider: CultureInfo.InvariantCulture);
         _root.GetNode<ScrollContainer>(path: "Browser/Scroll").EnsureControlVisible(control:
                 _root.GetViewport().GuiGetFocusOwner());
+    }
+
+    private void HideDetail()
+    {
+        _gateway.RequireThread();
+        _root.GetNode<Label>(path: "Browser/Detail").Visible = false;
     }
 
     private void RowLabel(Button row, string text, int top, int size, bool right)

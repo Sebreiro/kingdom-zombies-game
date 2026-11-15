@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using KingdomZombies.Core;
 
@@ -15,7 +16,26 @@ internal static class FoundationPresentation
 
     internal static int LabelOffset(FoundationSnapshot snapshot, FoundationParticipantState participant)
     {
-        return snapshot.Participants.Count(predicate: p => p.Ready && p.Slot < participant.Slot
-                && Math.Abs(value: p.Actor.PositionSubunits - participant.Actor.PositionSubunits) < 6000) * 28;
+        var placed = new List<(long Position, int Level)>();
+        foreach (FoundationParticipantState current in snapshot.Participants.Where(predicate: p => p.Ready)
+                .OrderBy(keySelector: p => p.Slot))
+        {
+            int level = 0;
+            while (placed.Any(predicate: previous => previous.Level == level
+                    && Math.Abs(value: previous.Position - current.Actor.PositionSubunits) < 6000))
+            {
+                level++;
+            }
+
+            if (StringComparer.Ordinal.Equals(x: current.Actor.ActorId, y: participant.Actor.ActorId))
+            {
+                return level * 28;
+            }
+
+            placed.Add(item: (current.Actor.PositionSubunits, level));
+        }
+
+        throw new ArgumentException(message: "Marker actor is not a ready participant.",
+                paramName: nameof(participant));
     }
 }
