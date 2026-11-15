@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -52,6 +53,7 @@ internal static class FoundationNativeRegression
         foreach (Node child in rows.GetChildren()) { rows.RemoveChild(node: child); child.QueueFree(); }
         root.GetNode<Control>(path: "Browser").Visible = false;
         root.GetNode<Control>(path: "Menu/Start").GrabFocus();
+        CheckCancellation(root: root, gateway: gateway, services: services);
     }
 
     internal static void Projection(Control root, MainThreadGateway gateway)
@@ -146,6 +148,35 @@ internal static class FoundationNativeRegression
                         positionSubunits: slot * 100, facing: 1, elapsedMilliseconds: 0));
     }
 
+    private static void CheckCancellation(Control root, MainThreadGateway gateway, FoundationServices services)
+    {
+        long now = 0;
+        var port = new PendingConnection();
+        FoundationCoordinator? current = new FoundationCoordinator(playerId: "cancel-profile", label: "Cancel",
+                connection: port, nowMilliseconds: () => now);
+        current.Join(address: "127.0.0.1", port: 47778);
+        current.Update(elapsedMilliseconds: 0);
+        FoundationCoordinator? closing = null;
+        var menu = new FoundationMenu(root: root, gateway: gateway, services: services, join: () => { },
+                back: () => { }, coordinator: () => current, replace: value =>
+                {
+                    Require(value: current?.Closed == false && port.CloseCount == 0,
+                            message: "CANCEL_CLOSED_TRANSPORT_BEFORE_ROOT_OWNER");
+                    closing = current;
+                    current = value;
+                    closing?.RequestClose();
+                }, input: new FoundationInput(), runtime: new FoundationRuntimeState());
+        menu.CancelAttempt();
+        Require(value: current is null && closing?.Closed == false && port.Sent.Last().Kind is "cancel",
+                message: "CANCEL_MUST_RETAIN_CONNECTED_ATTEMPT");
+        now = 249;
+        closing?.Update(elapsedMilliseconds: 0);
+        Require(value: port.CloseCount == 0, message: "CANCEL_DRAIN_CLOSED_EARLY");
+        now = 250;
+        closing?.Update(elapsedMilliseconds: 0);
+        Require(value: port.CloseCount == 1, message: "CANCEL_DRAIN_NOT_CLOSED");
+    }
+
     private static FoundationMenu SelectionMenu(Control root, MainThreadGateway gateway,
             FoundationServices services, Func<FoundationCoordinator?> coordinator)
     {
@@ -167,5 +198,25 @@ internal static class FoundationNativeRegression
     private static void Require(bool value, string message)
     {
         if (!value) { throw new InvalidDataException(message: message); }
+    }
+
+    private sealed class PendingConnection : IConnectionService
+    {
+        public string Generation => "cancel-regression";
+        public bool Connected { get; private set; }
+        public string PeerGeneration(int peer) => "cancel-peer";
+        public void Host(int port) => throw new InvalidOperationException(message: "Guest-only regression");
+        public void Join(string address, int port) => Connected = true;
+        public IReadOnlyList<ConnectionPacket> Poll(int maximumPackets) => [];
+        public void Send(int peer, ReadOnlyMemory<byte> payload) => Sent.Add(
+                item: FoundationProtocol.Decode(bytes: payload));
+        public void Close()
+        {
+            CloseCount++;
+            Connected = false;
+        }
+
+        internal int CloseCount { get; private set; }
+        internal List<FoundationEnvelope> Sent { get; } = [];
     }
 }
