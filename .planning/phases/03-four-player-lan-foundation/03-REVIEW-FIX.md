@@ -288,3 +288,7 @@ The independent final code recheck is complete and clean at source/build revisio
 | WR-05 | medium | fixed | complete |
 
 The advisory per-finding ledger is mirrored in `.phase3/review-history/03-REVIEW-DISPOSITION.json` with the exact review/fix hashes. Review-loop scratch copies are archived there before removal from the phase folder; original review commit `624f37b` and the cumulative commit/evidence ledger above preserve the history. The phase-owned immutable-metadata contract keeps this complete tracked disposition inside this report.
+
+## Final closure integration recheck
+
+Source `e25a500d12006e256d84b8b241d0cee9c507f278` adds only five exact phase-owned final verification/report paths to the closure contract and writes them in the existing real Git/SDK fixture. The three focused controls pass, including the real five-build SDK cycle; strict build has zero warnings/errors (`.phase3/closure-integration-build.log`). Independent reviewer `/root/phase3_re_review_3` rechecked this integration and retained clean complete-scope review with all fourteen findings resolved. Prior 166 proof remains historical; the fresh full selection uses this new source/build pin.

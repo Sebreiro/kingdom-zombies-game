@@ -1,9 +1,9 @@
 ---
 phase: 03-four-player-lan-foundation
-reviewed: 2026-11-15T19:32:02Z
+reviewed: 2026-11-15T19:50:03Z
 depth: standard
-reviewed_revision: 166a32ad6a7541c4f5eed1378def0a86e9bea632
-build_revision: 166a32ad6a7541c4f5eed1378def0a86e9bea632
+reviewed_revision: e25a500d12006e256d84b8b241d0cee9c507f278
+build_revision: e25a500d12006e256d84b8b241d0cee9c507f278
 diff_base: 87e0b44
 scope_files: 115
 files_reviewed: 112
@@ -135,17 +135,19 @@ status: clean
 
 # Phase 03: Code Review Report
 
-**Reviewed:** 2026-11-15T19:32:02Z  
+**Reviewed:** 2026-11-15T19:50:03Z  
 **Depth:** standard  
 **Source files reviewed:** 112  
 **Explicit scope:** all 115 paths from `.phase3/review-fix-union.txt`, including the three planning-context paths listed separately above  
 **Status:** clean  
-**Reviewed source / pinned build revision:** `166a32ad6a7541c4f5eed1378def0a86e9bea632`  
+**Reviewed source / pinned build revision:** `e25a500d12006e256d84b8b241d0cee9c507f278`  
 **Diff base:** `87e0b44`
 
 ## Summary
 
 This independent re-review preserves the complete 115-path source/context union and all earlier assessments. The complete Phase 3 source review above is carried forward together with a direct recheck of the six-path repair diff from `a35bd6f` to `166a32ad6a7541c4f5eed1378def0a86e9bea632`: guest publication, native projection, native regression, protocol proof, independent catalog and saved scenarios. Every repair path was already inside the retained scope. Their production callers, trust boundaries and actual regression consumers were traced; the cumulative fix ledger was treated as a claim to confirm.
+
+The final focused integration recheck additionally examines committed source `e25a500d12006e256d84b8b241d0cee9c507f278`. Its only source changes since the prior clean review are `tools/phase3/revisions.cjs` and `revisions.test.cjs`, both already in the 115-path scope. The exact five added closure-report permissions and their actual Git/SDK fixture consumers introduce no new actionable finding; the existing fourteen resolved dispositions are preserved. Intervening canonical review/gate/fix/continuation and shared-state files are metadata, not additional changed game source.
 
 **All fourteen prior findings are resolved. No new actionable defect or open finding remains.** CR-09's repair rejects continuing-actor elapsed regressions before publication or liveness mutation and makes camera interpolation use bounded local monotonic time with finite recovery. The preceding thirteen dispositions remain valid: the repair changes none of their admission/session fences, evidence-finalization helpers, inherited continuation paths, exact permission registries or generated metadata.
 
@@ -186,13 +188,23 @@ The actual protocol control checks extreme/equal/advancing counters, regressions
 
 The actual headless native regression invokes production `FoundationView.Project` with elapsed `long.MaxValue → 0 → 0 → long.MaxValue - 1 → long.MaxValue`, at position 1000. It requires finite player/world positions and the initial snapped world X of 624. It then supplies a NaN/infinite prior world transform and requires finite bounded recovery. The catalog and saved scenarios retain these obligations, all earlier IDs and the full affected selection. This is native numerical/projection proof, without a rendered timing or appearance claim.
 
-## Evidence inspected and limits
+## Finalization integration recheck
+
+**Reviewed source/build stamp:** `e25a500d12006e256d84b8b241d0cee9c507f278`. **Disposition:** clean; no new finding.
+
+The exact metadata whitelist now permits only these five additional phase-owned report paths under `.planning/phases/03-four-player-lan-foundation/`: `03-VERIFICATION.md`, `03-VALIDATION.md`, `03-SECURITY.md`, `03-UI-REVIEW.md` and `03-REVIEW-DISPOSITION.md`. These are closure outputs needed by the owning phase workflow. No wildcard, source/tool/selection/scenario path, directory-wide allowance or unrelated report is added. Real commit/HEAD identity, ancestry and every intervening changed path remain checked. Both committed relevant-input trees, live relevant-input equality, dirty non-metadata rejection, exact source build stamp/DLL/tool equality and the original committed review/report byte hashes remain mandatory.
+
+The fixture creates all five named reports before its actual Git closure commit, then exercises the existing full completion validator. Its surrounding negative controls still reject changed source/tool/selection/environment/build stamps, unrelated/nonexistent commits, disallowed and reverted intervening paths, uncommitted relevant changes and altered review bytes. The real SDK control retains exact original execution/report bytes, rejects unpinned binary drift and verifies exact pinned restoration. The parent reports the focused `node --test tools/phase3/revisions.test.cjs` run passed 3/3; this reviewer inspected the test implementation and all five successful actual SDK build records in `.phase3/revision-control-IUOfzw/.phase3/build-records`. The retained strict pinned solution build log `.phase3/closure-integration-build.log` records zero warnings/errors and 10.67 seconds. Neither check was rerun by the reviewer.
+
+Read-only recomputation matches current input `a1f23903316f05961192ad385d780360f3e13382d255313a8830082ec5163089` and exact tool tuple `48a74c363799e4cff1c8c87906b220dbc59649953201b436b8189d52bd73c3aa`. The current proof DLL SHA-256 is `088ccd4740ac56a49dda5e4fd2ef1404bc06dda4897152e29f82b464cb15b21b`. The reviewed source/build pin is e25 above; the prior full no-window run below remains an original execution at 166 and is not relabelled as an e25 execution. The upcoming fresh `--all` must run with the new reviewed-source pin and exact gate inputs. Game code, native/public permissions, generated metadata, scene signatures and the saved case/selection membership are unchanged by this integration.
+
+## Retained pre-integration evidence and limits
 
 The retained repair-batch index `.phase3/iter3-final-1794770502320/summary.json` contains twelve passing jobs: eight policy cases, four Phase 2 core cases, three Phase 2 runner cases, a strict whole-solution build with zero warnings/errors, and twenty Phase 3 non-window cases. That is 35 case executions plus the strict build. The twelve original process records and referenced passing reports were inspected. This is retained execution evidence, not a newly executed reviewer suite.
 
-The final Phase 3 report `.phase3/runs/win32-x64/1be5faf3-4796-4650-8cfa-6316daecff8d/summary.json` records 20/20 passing results, duration 216980 ms, zero game windows, actual source HEAD and pinned build revision `166a32ad6a7541c4f5eed1378def0a86e9bea632`. The reviewer loaded it through the actual current `evidence.loadReport/reconcile` path: all twenty records and their required artifacts reconciled. Recomputing the relevant source manifest returned exactly `62c3866e7eb1819c7347a246bc2daab92b46b8228d60505a84139907366dd0d1`.
+The retained pre-integration Phase 3 report `.phase3/runs/win32-x64/1be5faf3-4796-4650-8cfa-6316daecff8d/summary.json` records 20/20 passing results, duration 216980 ms, zero game windows, actual source HEAD and pinned build revision `166a32ad6a7541c4f5eed1378def0a86e9bea632`. The reviewer loaded it through the actual current `evidence.loadReport/reconcile` path: all twenty records and their required artifacts reconciled. At that prior review, recomputing its relevant source manifest returned exactly `62c3866e7eb1819c7347a246bc2daab92b46b8228d60505a84139907366dd0d1`; the e25 integration fingerprint is stated separately above.
 
-The exact recorded tool hash is `c91c021821910af08a06e5b8b744f8d86133fee6c057b6955ba0cbb2333fc651`. Recomputing its declared tuple from current Node v24.22.1, the pinned SDK 10.0.404, toolchain bytes and current proof DLL matched it; the current DLL SHA-256 is `6f35860475ad9136db561878ad7163a18e7b2b3e63a986c66f668533eff11607`. The retained report records Windows x64, Windows 10 Enterprise LTSC 2021 / 10.0.19044, OS fingerprint `4a3c7505cb92e1bb2f7412dd3207a435c55d5c78f2e7e8d11213ecfc2e8768db`. In the preceding review, a full `createIdentity` call did not complete at its nested dotnet probe (`DOTNET_MISSING`); no such execution is credited here. The present follow-up used read-only fingerprint/report reconciliation and launched no build. No DLL was rebuilt or modified by the reviewer.
+At the prior 166 source review, the exact recorded tool hash was `c91c021821910af08a06e5b8b744f8d86133fee6c057b6955ba0cbb2333fc651`. Recomputing its then-current declared tuple from Node v24.22.1, the pinned SDK 10.0.404, toolchain bytes and the then-current proof DLL matched it; that prior DLL SHA-256 was `6f35860475ad9136db561878ad7163a18e7b2b3e63a986c66f668533eff11607`. The retained report records Windows x64, Windows 10 Enterprise LTSC 2021 / 10.0.19044, OS fingerprint `4a3c7505cb92e1bb2f7412dd3207a435c55d5c78f2e7e8d11213ecfc2e8768db`. In the preceding review, a full `createIdentity` call did not complete at its nested dotnet probe (`DOTNET_MISSING`); no such execution is credited here. The present follow-up used read-only fingerprint/report reconciliation and launched no build. No DLL was rebuilt or modified by the reviewer.
 
 The hash-bound integrity-control process log `.phase3/controls/9c31880d-e65a-42f2-bd05-5a0f802e7a12/integrity-controls.process.json` records eight successful Node controls, including actual metadata-closure and prelaunch rejection controls. The real SDK finalization fixture `.phase3/revision-control-xFECSZ` retains five successful build records: reviewed-source build, pinned rebuild after review/gate metadata commit, pinned closure rebuild, unpinned negative build, and repinned restoration. The fixture asserts exact DLL identity, rejects changed source/tool/selection/environment/build stamp, unrelated/missing commits, unapproved/reverted intervening paths, dirty relevant input and altered review bytes, and retains unchanged original report bytes. These isolated fixtures establish validator behavior, not rendered production execution.
 
@@ -202,9 +214,9 @@ Older auxiliary evidence with unpinned prebuild tool drift remains failure/histo
 
 ## Required handoff before a prelaunch gate
 
-The source review is complete at `166a32ad6a7541c4f5eed1378def0a86e9bea632`; CR-09 and the preceding thirteen findings are resolved. The parent may now author the hash-bound review gate for this exact reviewed source/input/tool tuple, after the scratch cleanup below. Keep `SourceRevisionId` pinned to this reviewed source SHA through the gate metadata commit, mandatory strict rebuild and subsequent commands. A future source change requires renewed affected checks and independent review; old executions must retain their original identities.
+The source review is complete at `e25a500d12006e256d84b8b241d0cee9c507f278`; CR-09 and the preceding thirteen findings are resolved. The parent may now author the hash-bound review gate for this exact reviewed source/input/tool tuple, with the archived history below preserved. Keep `SourceRevisionId` pinned to this reviewed source SHA through the gate metadata commit, mandatory strict rebuild and subsequent commands. A future source change requires renewed affected checks and independent review; old executions must retain their original identities.
 
-The parent confirmed that untracked `03-REVIEW.iter2.md`, `03-REVIEW.iter3.md`, `03-REVIEW-FIX.iter2.md` and `03-REVIEW-FIX.iter3.md` in the phase folder are temporary review-loop backups. Before gate authoring/commit, archive the required history under ignored `.phase3/review-history` and remove those untracked phase-folder scratch copies. They must not become intervening commits after the eventual reviewed source SHA. The narrow metadata whitelist intentionally rejects undeclared scratch; do not broaden it to accommodate them. Preserve the original review in Git and the cumulative final fix ledger.
+The parent hash-verified the four temporary iteration-2/3 review/fix scratch originals against their ignored `.phase3/review-history` archives and removed the untracked phase-folder copies. The focused recheck observed no remaining scratch paths in Git status. Preserve that ignored history and the original Git review/fix ledger; the whitelist remains limited to its explicitly enumerated phase metadata paths.
 
 Retain this review's exact `SourceRevisionId` pin through the mandatory metadata-descendant strict rebuild, fresh `--all`, image review and closure validation. True execution HEAD and reviewed-source stamp remain distinct. The parent owns report/gate/closure commits, shared phase state and publishing.
 
@@ -212,6 +224,6 @@ Actual native foreground physical input, sustained background/window-message fea
 
 ---
 
-_Reviewed: 2026-11-15T19:32:02Z_  
+_Reviewed: 2026-11-15T19:50:03Z_  
 _Reviewer: the agent (gsd-code-reviewer)_  
 _Depth: standard_

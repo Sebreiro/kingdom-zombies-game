@@ -1,11 +1,11 @@
 {
   "status": "complete",
-  "input": "62c3866e7eb1819c7347a246bc2daab92b46b8228d60505a84139907366dd0d1",
-  "tool": "c91c021821910af08a06e5b8b744f8d86133fee6c057b6955ba0cbb2333fc651",
-  "revision": "166a32ad6a7541c4f5eed1378def0a86e9bea632",
-  "buildRevision": "166a32ad6a7541c4f5eed1378def0a86e9bea632",
+  "input": "a1f23903316f05961192ad385d780360f3e13382d255313a8830082ec5163089",
+  "tool": "48a74c363799e4cff1c8c87906b220dbc59649953201b436b8189d52bd73c3aa",
+  "revision": "e25a500d12006e256d84b8b241d0cee9c507f278",
+  "buildRevision": "e25a500d12006e256d84b8b241d0cee9c507f278",
   "reviewedBy": "Independent gsd-code-reviewer /root/phase3_re_review_3",
-  "reviewedAt": "2026-11-15T19:32:02Z",
+  "reviewedAt": "2026-11-15T19:50:03Z",
   "findings": [
     {
       "id": "CR-01",
@@ -80,7 +80,7 @@
   ],
   "report": {
     "path": ".planning/phases/03-four-player-lan-foundation/03-REVIEW.md",
-    "sha256": "0c20dd3046a385ce25b6c8a7e791f2995495b35da63dfb9da1b85d2af3018b82"
+    "sha256": "3374192af104d010d9b4695e8c2650ac1daaaf5b360baacdac465fb48d87587d"
   },
-  "scope": "Complete Phase 3 source and tooling; 115 paths / 112 source paths. Desktop/rendered acceptance remains separate."
+  "scope": "Complete Phase 3 source and tooling; 115 paths / 112 source paths, including exact closure-report integration recheck. Desktop/rendered acceptance remains separate."
 }
