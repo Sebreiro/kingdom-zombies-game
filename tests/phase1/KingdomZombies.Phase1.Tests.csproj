@@ -7,6 +7,16 @@
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="../../src/godot-game/foundation/LocalProfileService.cs" Link="LocalProfileService.cs" />
+    <Compile Include="../../src/godot-game/foundation/LocalProfileStorage.cs" Link="LocalProfileStorage.cs" />
+    <Compile Include="../../src/godot-game/foundation/LanDiscoveryService.cs" Link="LanDiscoveryService.cs" />
+    <Compile Include="../../src/godot-game/foundation/DiscoveryCodec.cs" Link="DiscoveryCodec.cs" />
+    <Compile Include="../../src/godot-game/foundation/FoundationBrowser.cs" Link="FoundationBrowser.cs" />
+    <Compile Include="../../src/godot-game/foundation/FoundationServices.cs" Link="FoundationServices.cs" />
+    <Compile Include="../../src/multiplayer-abstractions/IIdentityService.cs" Link="IIdentityService.cs" />
+    <Compile Include="../../src/multiplayer-abstractions/IDiscoveryService.cs" Link="IDiscoveryService.cs" />
+    <Compile Include="../../src/multiplayer-abstractions/PlayerProfile.cs" Link="PlayerProfile.cs" />
+    <Compile Include="../../src/multiplayer-abstractions/SessionAdvertisement.cs" Link="SessionAdvertisement.cs" />
     <Compile Include="../../src/godot-game/foundation/FoundationInput.cs" Link="FoundationInput.cs" />
     <Compile Include="../../src/godot-game/foundation/FoundationCoordinator.cs" Link="FoundationCoordinator.cs" />
     <Compile Include="../../src/godot-game/foundation/FoundationCoordinator.Admission.cs"

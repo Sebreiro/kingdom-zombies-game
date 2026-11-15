@@ -14,7 +14,7 @@ function frames(peer){
   const text=fs.readFileSync(file,'utf8'),lines=text.split('\n');lines.pop();
   return lines.filter(Boolean).map(line=>JSON.parse(line));
 }
-function launch(context,role,port){
+function launch(context,role,port,retainedRoot=null){
   const directory=path.join(context.directory,role);fs.mkdirSync(directory);
   const pins=JSON.parse(fs.readFileSync(path.join(context.root,'tools/phase1/toolchain.json'),'utf8'));
   const archive=pins.archives[context.platform];requireTrue(archive,'ENGINE_PLATFORM');
@@ -25,10 +25,13 @@ function launch(context,role,port){
   const engine=process.platform==='win32'?consoleEngine.replace('_console.exe','.exe'):consoleEngine;
   if(process.platform==='win32')requireTrue(crypto.createHash('sha256').update(fs.readFileSync(engine)).digest('hex')===
     '45336315eb6f1a52a8923bc4f2ce8079a03dc4939dcb7d531047890f1f7cdfab','ENGINE_NATIVE_HASH');
-  const profile=crypto.randomUUID();
+  const profileRoot=retainedRoot??path.join(directory,"profiles");fs.mkdirSync(profileRoot,{recursive:true});
+  const profileFile=path.join(profileRoot,"profiles.json");
+  if(!fs.existsSync(profileFile)){const id=crypto.randomUUID().replaceAll("-","");fs.writeFileSync(profileFile,JSON.stringify({schema:1,selected:id,profiles:[{id,name:"Player 1",ordinal:1}]}));}
+  const profile=JSON.parse(fs.readFileSync(profileFile)).selected;
   const child=spawn(engine,['--headless','--path',path.join(context.root,'src/godot-game')],{cwd:context.root,windowsHide:true,
-    env:{...context.env,PHASE3_NONCE:context.nonce,PHASE3_OUTPUT:directory,PHASE3_PROFILE:profile,PHASE3_PORT:String(port)},stdio:['ignore','pipe','pipe']});
-  const peer={role,directory,profile,child,pid:child.pid,sequence:0,output:'',exit:null,error:null};
+    env:{...context.env,PHASE3_NONCE:context.nonce,PHASE3_OUTPUT:directory,PHASE3_PROFILE_ROOT:profileRoot,PHASE3_PORT:String(port)},stdio:['ignore','pipe','pipe']});
+  const peer={role,directory,profile,profileRoot,child,pid:child.pid,sequence:0,output:'',exit:null,error:null};
   child.stdout.on('data',bytes=>peer.output+=bytes);child.stderr.on('data',bytes=>peer.output+=bytes);
   child.once('error',error=>peer.error=error);child.once('exit',(code,signal)=>peer.exit={code,signal});
   fs.writeFileSync(path.join(directory,'launch.json'),JSON.stringify({role,profile,pid:child.pid,port,headless:true,mainScene:'res://foundation/Foundation.tscn',engine,engineHash:digest,nonce:context.nonce},null,2));
@@ -76,6 +79,7 @@ async function cleanup(peer){
   requireTrue(peer.exit!==null,'OWNED_PROCESS_CLEANUP '+peer.role);
 }
 async function tracer(context,item){
+  if(item.id==='network.discovery-profile')return discoveryProfile(context,item);
   if(item.id==='network.four-peer')return fourPeer(context,item);
   if(item.id==='network.lifecycle'||item.id==='network.idle-poll')return lifetime(context,item);
   const started=Date.now(),deadline=started+60000,peers=[];let unlock,result,error;
@@ -117,6 +121,49 @@ async function tracer(context,item){
   if(error)throw error;
   requireTrue(Date.now()-started<=60000,'SUBJECT_DEADLINE');
   return {...result,durationMilliseconds:Date.now()-started,cleanup:'two owned children exited zero'};
+}
+
+async function discoveryProfile(context,item){
+  const started=Date.now(),deadline=started+60000,peers=[];let unlock,result,error;
+  try{
+    unlock=acquireLock(context.root,context.nonce);const port=await allocatePort();
+    const host=launch(context,'discovery-host',port);peers.push(host);
+    await waitFor(peers,deadline,()=>frames(host).length>1,'host menu');
+    await activate(host,context,deadline,'Menu/Host');
+    await waitFor(peers,deadline,()=>frames(host).at(-1)?.ready,'host ready');
+    const original=launch(context,'profile-before-restart',port);peers.push(original);
+    await waitFor(peers,deadline,()=>frames(original).at(-1)?.profile?.PlayerId===original.profile,'original persisted profile');
+    const profileRoot=original.profileRoot,profile=original.profile;
+    await stop(original,context,deadline);
+    while(!original.exit&&Date.now()<deadline)await delay(25);
+    requireTrue(original.exit?.code===0,'RESTART_ORIGINAL_EXIT');original.expectedTermination=true;
+    const guest=launch(context,'profile-after-restart',port,profileRoot);peers.push(guest);
+    await waitFor(peers,deadline,()=>frames(guest).at(-1)?.profile?.PlayerId===profile,'restarted exact profile');
+    requireTrue(guest.pid!==original.pid&&guest.profile===profile,'ACTUAL_PROFILE_RESTART');
+    await activate(guest,context,deadline,'Menu/Join');
+    const selected=await waitFor(peers,deadline,()=>{
+      const h=frames(host).at(-1),g=frames(guest).at(-1);
+      const index=g?.discoveryRows?.findIndex(row=>row.SessionId===h?.snapshot?.SessionId);
+      return index>=0?{index,row:g.discoveryRows[index]}:null;
+    },'ordinary multicast browser row');
+    requireTrue(selected.row.Port===port&&selected.row.Address,'SENDER_DERIVED_DISCOVERY_ENDPOINT');
+    await activate(guest,context,deadline,'Browser/Scroll/Rows/Session'+selected.index);
+    await activate(guest,context,deadline,'Browser/Footer/JoinSession');
+    const ready=await waitFor(peers,deadline,()=>{
+      const row=frames(guest).at(-1);return row?.ready&&row.nativeActors===2?row:null;
+    },'discovered ordinary join ready');
+    requireTrue(ready.playerId===profile&&ready.snapshot.Participants.some(row=>row.Actor.PlayerId===profile),'PERSISTED_PROFILE_OWNS_READY_ACTOR');
+    result={id:item.id,status:'pass',nonce:context.nonce,input:context.input,tool:context.tool,platform:context.platform,
+      peers:peers.map(peer=>({role:peer.role,pid:peer.pid,profile:peer.profile,profileRoot:peer.profileRoot})),selected,ready,
+      provenance:'synthetic-native-ParseInputEvent',noRenderedOrPhysicalInputCredit:true};
+    await stop(guest,context,deadline);await stop(host,context,deadline);
+    while(peers.some(peer=>!peer.exit)&&Date.now()<deadline)await delay(25);
+    for(const peer of peers)requireTrue(peer.exit?.code===0,'CLEAN_EXIT '+peer.role);
+  }catch(failure){error=failure;}
+  finally{for(const peer of peers){try{await cleanup(peer);}catch(failure){error??=failure;}}if(unlock)unlock();}
+  for(const peer of peers)if(/(?:SCRIPT ERROR:|ERROR:|Unhandled exception|FATAL)/.test(peer.output))error??=new Error('NATIVE_ERROR_LOG '+peer.role+' '+peer.output.slice(0,1600));
+  if(error)throw error;
+  return {...result,durationMilliseconds:Date.now()-started,cleanup:'three owned children exited zero; same ordinary profile root retained'};
 }
 async function joinPeer(context,peers,deadline,role,port){
   const peer=launch(context,role,port);peers.push(peer);

@@ -86,7 +86,7 @@ color = Color(0.094, 0.145, 0.169, 1)
 visible = false
 offset_left = 24.0
 offset_top = 24.0
-offset_right = 900.0
+offset_right = 744.0
 offset_bottom = 64.0
 mouse_filter = 2
 autowrap_mode = 2
@@ -94,99 +94,247 @@ theme_override_colors/font_color = Color(0.957, 0.949, 0.91, 1)
 theme_override_font_sizes/font_size = 16
 text = "Move: A / D or Left / Right arrows. Esc: Main menu."
 
-[node name="Menu" type="VBoxContainer" parent="."]
-layout_mode = 1
+[node name="Menu" type="Control" parent="."]
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -240.0
-offset_top = -176.0
-offset_right = 240.0
-offset_bottom = 176.0
-theme_override_constants/separation = 16
+offset_left = -320.0
+offset_right = 320.0
+offset_top = 24.0
+offset_bottom = 696.0
+theme_override_constants/separation = 8
 
 [node name="Title" type="Label" parent="Menu"]
-custom_minimum_size = Vector2(480, 48)
-theme_override_colors/font_color = Color(0.957, 0.949, 0.91, 1)
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 640.0
+offset_bottom = 48.0
 theme_override_font_sizes/font_size = 32
 text = "KingdomZombies"
 horizontal_alignment = 1
 
 [node name="TitleGap" type="Control" parent="Menu"]
+offset_left = 0.0
+offset_top = 48.0
+offset_right = 640.0
+offset_bottom = 80.0
+mouse_filter = 2
+
+[node name="ProfileLabel" type="Label" parent="Menu"]
+offset_left = 0.0
+offset_top = 80.0
+offset_right = 640.0
+offset_bottom = 104.0
+theme_override_font_sizes/font_size = 16
+text = "Local profile"
+
+[node name="Profiles" type="OptionButton" parent="Menu"]
+offset_left = 0.0
+offset_top = 112.0
+offset_right = 640.0
+offset_bottom = 160.0
+fit_to_longest_item = false
+clip_text = true
+
+[node name="NameLabel" type="Label" parent="Menu"]
+offset_left = 0.0
+offset_top = 168.0
+offset_right = 640.0
+offset_bottom = 192.0
+theme_override_font_sizes/font_size = 16
+text = "Display name"
+
+[node name="Name" type="LineEdit" parent="Menu"]
+offset_left = 0.0
+offset_top = 200.0
+offset_right = 480.0
+offset_bottom = 248.0
+keep_editing_on_text_submit = true
+
+[node name="NewProfile" type="Button" parent="Menu"]
+offset_left = 496.0
+offset_top = 200.0
+offset_right = 640.0
+offset_bottom = 248.0
+size_flags_horizontal = 8
+text = "New profile"
+
+[node name="ActionGap" type="Control" parent="Menu"]
+offset_left = 0.0
+offset_top = 248.0
+offset_right = 640.0
+offset_bottom = 264.0
 mouse_filter = 2
 
 [node name="Start" type="Button" parent="Menu"]
-custom_minimum_size = Vector2(240, 48)
+offset_left = 200.0
+offset_top = 280.0
+offset_right = 440.0
+offset_bottom = 328.0
 size_flags_horizontal = 4
 text = "Start"
 theme_override_styles/normal = SubResource("Start")
 focus_neighbor_top = NodePath("../Quit")
 focus_neighbor_bottom = NodePath("../Host")
 focus_next = NodePath("../Host")
-focus_previous = NodePath("../Quit")
+focus_previous = NodePath("../NewProfile")
 
 [node name="Host" type="Button" parent="Menu"]
-custom_minimum_size = Vector2(240, 48)
+offset_left = 200.0
+offset_top = 344.0
+offset_right = 440.0
+offset_bottom = 392.0
 size_flags_horizontal = 4
 text = "Host session"
 
 [node name="Join" type="Button" parent="Menu"]
-custom_minimum_size = Vector2(240, 48)
+offset_left = 200.0
+offset_top = 408.0
+offset_right = 440.0
+offset_bottom = 456.0
 size_flags_horizontal = 4
 text = "Join LAN"
 
 [node name="Quit" type="Button" parent="Menu"]
-custom_minimum_size = Vector2(240, 48)
+offset_left = 200.0
+offset_top = 472.0
+offset_right = 440.0
+offset_bottom = 520.0
 size_flags_horizontal = 4
 text = "Quit"
-focus_neighbor_top = NodePath("../Join")
-focus_neighbor_bottom = NodePath("../Start")
-focus_next = NodePath("../Start")
-focus_previous = NodePath("../Join")
+focus_next = NodePath("../Profiles")
 
 [node name="Error" type="Label" parent="Menu"]
-visible = false
-custom_minimum_size = Vector2(480, 56)
+offset_left = 0.0
+offset_top = 528.0
+offset_right = 640.0
+offset_bottom = 600.0
 theme_override_font_sizes/font_size = 16
-text = "Could not start the scene. Try Start again."
+text = ""
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="Browser" type="VBoxContainer" parent="."]
+[node name="Browser" type="Control" parent="."]
 visible = false
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -320.0
-offset_top = -168.0
-offset_right = 320.0
-offset_bottom = 168.0
-theme_override_constants/separation = 16
+offset_left = -560.0
+offset_right = 560.0
+offset_top = 24.0
+offset_bottom = 696.0
+theme_override_constants/separation = 8
 
 [node name="Title" type="Label" parent="Browser"]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 480.0
+offset_bottom = 48.0
 text = "LAN sessions"
 theme_override_font_sizes/font_size = 32
 
+[node name="Summary" type="Label" parent="Browser"]
+offset_left = 560.0
+offset_top = 0.0
+offset_right = 1120.0
+offset_bottom = 48.0
+theme_override_font_sizes/font_size = 16
+text = "Playing as"
+text_overrun_behavior = 3
+
+[node name="Refresh" type="Button" parent="Browser"]
+offset_left = 976.0
+offset_top = 64.0
+offset_right = 1120.0
+offset_bottom = 112.0
+size_flags_horizontal = 0
+text = "Refresh"
+
+[node name="ListHeading" type="Label" parent="Browser"]
+offset_left = 0.0
+offset_top = 64.0
+offset_right = 800.0
+offset_bottom = 112.0
+theme_override_font_sizes/font_size = 16
+text = "Available sessions"
+
+[node name="Scroll" type="ScrollContainer" parent="Browser"]
+offset_left = 0.0
+offset_top = 120.0
+offset_right = 1120.0
+offset_bottom = 312.0
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+follow_focus = true
+
+[node name="Rows" type="VBoxContainer" parent="Browser/Scroll"]
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="Detail" type="Label" parent="Browser"]
+offset_left = 0.0
+offset_top = 560.0
+offset_right = 1120.0
+offset_bottom = 600.0
+theme_override_font_sizes/font_size = 16
+text_overrun_behavior = 3
+
 [node name="AddressLabel" type="Label" parent="Browser"]
+offset_left = 0.0
+offset_top = 328.0
+offset_right = 1120.0
+offset_bottom = 352.0
 text = "Host address"
 theme_override_font_sizes/font_size = 16
 
 [node name="Address" type="LineEdit" parent="Browser"]
-custom_minimum_size = Vector2(640, 48)
+offset_left = 0.0
+offset_top = 360.0
+offset_right = 864.0
+offset_bottom = 408.0
 placeholder_text = "192.168.1.20"
+keep_editing_on_text_submit = true
 
 [node name="JoinAddress" type="Button" parent="Browser"]
-custom_minimum_size = Vector2(240, 48)
+offset_left = 880.0
+offset_top = 360.0
+offset_right = 1120.0
+offset_bottom = 408.0
+size_flags_horizontal = 0
 text = "Join address"
 
-[node name="Feedback" type="Label" parent="Browser"]
-custom_minimum_size = Vector2(640, 48)
-text = "Enter a host address to join."
+[node name="Discovery" type="Label" parent="Browser"]
+offset_left = 0.0
+offset_top = 424.0
+offset_right = 1120.0
+offset_bottom = 472.0
+text = "Searching for LAN sessions…"
 autowrap_mode = 2
 theme_override_font_sizes/font_size = 16
 
-[node name="Back" type="Button" parent="Browser"]
+[node name="Feedback" type="Label" parent="Browser"]
+offset_left = 0.0
+offset_top = 480.0
+offset_right = 1120.0
+offset_bottom = 552.0
+autowrap_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="Footer" type="HBoxContainer" parent="Browser"]
+offset_left = 0.0
+offset_top = 608.0
+offset_right = 1120.0
+offset_bottom = 656.0
+theme_override_constants/separation = 16
+
+[node name="JoinSession" type="Button" parent="Browser/Footer"]
 custom_minimum_size = Vector2(240, 48)
+text = "Join session"
+disabled = true
+
+[node name="Cancel" type="Button" parent="Browser/Footer"]
+visible = false
+custom_minimum_size = Vector2(240, 48)
+text = "Cancel join"
+
+[node name="Back" type="Button" parent="Browser/Footer"]
+custom_minimum_size = Vector2(144, 48)
 text = "Back"

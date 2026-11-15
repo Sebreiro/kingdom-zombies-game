@@ -142,7 +142,7 @@ internal sealed class EnetConnectionService : IConnectionService, IDisposable
 
     private void RequireUnused(int port)
     {
-        ArgumentOutOfRangeException.ThrowIfLessThan(value: port, other: 1024);
+        ArgumentOutOfRangeException.ThrowIfLessThan(value: port, other: 1);
         ArgumentOutOfRangeException.ThrowIfGreaterThan(value: port, other: 65535);
         if (_closed || _peer is not null)
         {

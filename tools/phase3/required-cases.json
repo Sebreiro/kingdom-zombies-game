@@ -400,6 +400,133 @@
       ],
       "needsGameWindow": false,
       "provenance": "No rendered, physical input or latency acceptance."
+    },
+    {
+      "id": "adapters.discovery",
+      "group": "adapters",
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.FoundationLanServicesTests.DiscoveryAndManualEndpointContract",
+      "title": "Real two-host two-browser multicast and exact selection",
+      "importance": "Critical",
+      "rationale": "Ordinary independent service ownership must survive failure and replacement.",
+      "requirements": [
+        "LAN-01",
+        "LAN-04"
+      ],
+      "acceptance": [
+        "AC-02",
+        "AC-14",
+        "AC-18"
+      ],
+      "tags": [
+        "discovery",
+        "profiles"
+      ],
+      "status": "required",
+      "runGroup": "no-window-adapters",
+      "order": 11,
+      "setup": "Strict build; invocation-owned local sockets and profile root.",
+      "actions": [
+        "Run named production adapter assertions."
+      ],
+      "expected": [
+        "Exact identity, multicast fanout and failure-safe publication pass."
+      ],
+      "evidence": [
+        "One-test CTRF",
+        "Nonce-bound production proof"
+      ],
+      "needsGameWindow": false
+    },
+    {
+      "id": "adapters.profiles",
+      "group": "adapters",
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.FoundationLanServicesTests.PersistedProfilesAreAtomicAndExact",
+      "title": "Atomic profile restart and recovery",
+      "importance": "Critical",
+      "rationale": "Ordinary independent service ownership must survive failure and replacement.",
+      "requirements": [
+        "LAN-01",
+        "LAN-04"
+      ],
+      "acceptance": [
+        "AC-02",
+        "AC-14",
+        "AC-18"
+      ],
+      "tags": [
+        "discovery",
+        "profiles"
+      ],
+      "status": "required",
+      "runGroup": "no-window-adapters",
+      "order": 12,
+      "setup": "Strict build; invocation-owned local sockets and profile root.",
+      "actions": [
+        "Run named production adapter assertions."
+      ],
+      "expected": [
+        "Exact identity, multicast fanout and failure-safe publication pass."
+      ],
+      "evidence": [
+        "One-test CTRF",
+        "Nonce-bound production proof"
+      ],
+      "needsGameWindow": false
+    },
+    {
+      "id": "network.discovery-profile",
+      "group": "network",
+      "implementation": "native-headless",
+      "title": "Ordinary discovery join after exact profile process restart",
+      "importance": "Critical",
+      "rationale": "Actual native transport and input composition must work together.",
+      "requirements": [
+        "LAN-01",
+        "LAN-02",
+        "LAN-03",
+        "LAN-04"
+      ],
+      "acceptance": [
+        "AC-01",
+        "AC-04",
+        "AC-05",
+        "AC-09"
+      ],
+      "tags": [
+        "enet",
+        "native",
+        "input",
+        "baseline"
+      ],
+      "status": "required",
+      "runGroup": "headless-discovery-profile",
+      "order": 5,
+      "setup": "Two separate owned pinned Godot processes use --headless and the ordinary project/main scene, fresh profile IDs and allocated UDP port.",
+      "actions": [
+        "Host through ordinary controls.",
+        "Launch and quit a profile process; restart it with the same owned profile root.",
+        "Select the actual multicast browser row and Join session."
+      ],
+      "expected": [
+        "Different PIDs retain the same opaque identity; real discovery joins the current host and installs two ready actors."
+      ],
+      "evidence": [
+        "per-role frames.ndjson",
+        "per-role console.log",
+        "owned process identities",
+        "matching current revision snapshot"
+      ],
+      "needsGameWindow": false,
+      "provenance": "Synthetic native events; no physical input, rendering, timing, or physical LAN credit.",
+      "reset": "Fresh processes are required to prove independent host and guest native lifetimes; cleanup only owned children.",
+      "processRoles": [
+        "host",
+        "profile-before-restart",
+        "profile-after-restart"
+      ],
+      "freshProcessReason": "Actual persisted identity restart requires distinct process IDs with one retained storage root."
     }
   ]
 }

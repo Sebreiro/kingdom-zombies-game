@@ -32,7 +32,14 @@ public sealed partial class FoundationRoot : Control
         GetNode<Button>(path: "Menu/Host").Pressed += Host;
         GetNode<Button>(path: "Menu/Join").Pressed += Browse;
         GetNode<Button>(path: "Browser/JoinAddress").Pressed += JoinAddress;
-        GetNode<Button>(path: "Browser/Back").Pressed += ReturnToMenu;
+        _services = new FoundationServices(identity: new LocalProfileService(directory:
+                System.Environment.GetEnvironmentVariable(variable: "PHASE3_PROFILE_ROOT")
+                        ?? Path.Combine(path1: OS.GetUserDataDir(), path2: "profiles")),
+                discovery: new LanDiscoveryService(), connection: () => new EnetConnectionService(gateway: _gateway));
+        _menu = new FoundationMenu(root: this, gateway: _gateway, services: _services, join: JoinAddress,
+                back: ReturnToMenu, coordinator: () => _coordinator, replace: value => _coordinator = value,
+                input: _input, runtime: _runtime);
+        _menu.Attach();
         GetWindow().FocusExited += LoseFocus;
         ReturnToMenu();
     }
@@ -47,24 +54,24 @@ public sealed partial class FoundationRoot : Control
         }
 
         _inputEvents++;
+        if (_menu?.PopupOpen() == true)
+        {
+            return;
+        }
+
         if (!key.Echo)
         {
             _input.Set(key: (int)key.PhysicalKeycode, pressed: key.Pressed);
         }
-        if (_coordinator is not null && key.Keycode == Key.Escape && _input.FreshPress && !key.Echo)
+        if (key.Keycode == Key.Escape && _input.FreshPress && !key.Echo
+                && !(GetViewport().GuiGetFocusOwner() is LineEdit edit && edit.IsEditing()))
         {
-            ReturnToMenu();
+            _menu?.Escape();
             GetViewport().SetInputAsHandled();
             return;
         }
-
-        if (_coordinator is null && key.Keycode is Key.Escape && key.Pressed && !key.Echo)
-        {
-            ReturnToMenu();
-            GetViewport().SetInputAsHandled();
-        }
-        else if (_coordinator is null && key.Keycode is Key.Enter or Key.Space or Key.KpEnter
-                && GetViewport().GuiGetFocusOwner() is Button)
+        if (_coordinator?.Ready != true && key.Keycode is Key.Enter or Key.Space or Key.KpEnter
+                && GetViewport().GuiGetFocusOwner() is Button and not OptionButton)
         {
             if (!key.Echo && _input.FreshPress)
             {
@@ -90,10 +97,19 @@ public sealed partial class FoundationRoot : Control
         if (_coordinator?.Finished == true)
         {
             string reason = _coordinator.Error;
-            ReturnToMenu();
+            if (GetNode<Control>(path: "Browser").Visible)
+            {
+                _menu?.CancelAttempt();
+                _menu?.Recover(message: reason);
+            }
+            else
+            {
+                ReturnToMenu();
+                GetNode<Label>(path: "Menu/Error").Text = reason;
+                GetNode<Control>(path: "Menu/Error").Visible = true;
+            }
+
             _runtime.Feedback = reason;
-            GetNode<Label>(path: "Menu/Error").Text = reason;
-            GetNode<Control>(path: "Menu/Error").Visible = true;
         }
         if (_coordinator?.Ready == true)
         {
@@ -106,10 +122,12 @@ public sealed partial class FoundationRoot : Control
             ShowWorld();
         }
 
+        _menu?.Tick(nowMilliseconds: _runtime.NowMilliseconds);
+
         _diagnostics.Observe(coordinator: _coordinator, inputEvents: _inputEvents, direction: _input.Direction,
                 nativeActors: GetTree().GetNodesInGroup(group: "foundation-actor").Count,
                 polledRight: Input.IsPhysicalKeyPressed(keycode: Key.D), feedback: _runtime.Feedback,
-                nowMilliseconds: _runtime.NowMilliseconds);
+                nowMilliseconds: _runtime.NowMilliseconds, services: _services);
         Observe();
     }
 
@@ -126,7 +144,7 @@ public sealed partial class FoundationRoot : Control
         GetNode<Button>(path: "Menu/Host").Pressed -= Host;
         GetNode<Button>(path: "Menu/Join").Pressed -= Browse;
         GetNode<Button>(path: "Browser/JoinAddress").Pressed -= JoinAddress;
-        GetNode<Button>(path: "Browser/Back").Pressed -= ReturnToMenu;
+        _menu?.Detach();
         GetWindow().FocusExited -= LoseFocus;
         if (_capture is not null)
         {
@@ -140,6 +158,8 @@ public sealed partial class FoundationRoot : Control
     private FoundationCoordinator? _closing;
     private readonly FoundationRuntimeState _runtime = new();
     private readonly FoundationDiagnostics _diagnostics = new();
+    private FoundationServices? _services;
+    private FoundationMenu? _menu;
     private int _lastDirection = int.MinValue;
     private long _generation;
     private long _inputEvents;
@@ -161,7 +181,7 @@ public sealed partial class FoundationRoot : Control
     private void Enter(bool host)
     {
         _gateway.RequireThread();
-        if (_coordinator is not null)
+        if (_coordinator is not null || _menu?.CommitName() != true)
         {
             return;
         }
@@ -172,11 +192,9 @@ public sealed partial class FoundationRoot : Control
             _runtime.NowMilliseconds = checked((long)Time.GetTicksMsec());
             _runtime.Feedback = "";
             _generation = checked(_generation + 1);
-            string player = System.Environment.GetEnvironmentVariable(variable: "PHASE3_PROFILE")
-                    ?? FoundationEphemeralProfile.PlayerId;
-            _coordinator = new FoundationCoordinator(playerId: player, label: "Player 1",
-                    connection: host ? new EnetConnectionService(gateway: _gateway) : null,
-                    nowMilliseconds: () => _runtime.NowMilliseconds);
+            _runtime.Hosting = host;
+            _coordinator = (_services ?? throw new InvalidOperationException(message: "SERVICES_NOT_READY"))
+                    .Create(connected: host, nowMilliseconds: () => _runtime.NowMilliseconds);
             _coordinator.Start(host: host, port: Port());
             if (_generation == 1 && System.Environment.GetEnvironmentVariable(variable: "PHASE2_FAIL_ENTRY_ONCE")
                     is string fault && StringComparer.Ordinal.Equals(x: fault,
@@ -201,10 +219,15 @@ public sealed partial class FoundationRoot : Control
     private void Browse()
     {
         _gateway.RequireThread();
+        if (_coordinator is not null || _menu?.CommitName() != true)
+        {
+            return;
+        }
+
         _input.Clear();
         GetNode<Control>(path: "Menu").Visible = false;
         GetNode<Control>(path: "Browser").Visible = true;
-        GetNode<Control>(path: "Browser/Address").GrabFocus();
+        _menu.Browse();
     }
 
     private void JoinAddress()
@@ -215,10 +238,10 @@ public sealed partial class FoundationRoot : Control
             return;
         }
 
-        string address = GetNode<LineEdit>(path: "Browser/Address").Text.Trim();
-        if (!FoundationEndpoint.TryParse(value: address, address: out string host, port: out int port))
+        string address = _menu?.RequestedAddress ?? GetNode<LineEdit>(path: "Browser/Address").Text;
+        if (!FoundationEndpoint.TryParse(value: address.Trim(), address: out string host, port: out int port))
         {
-            GetNode<Label>(path: "Browser/Feedback").Text = "Enter a valid host address, such as 192.168.1.20.";
+            GetNode<Label>(path: "Browser/Feedback").Text = "Enter a valid host address, then choose Join address.";
             return;
         }
 
@@ -227,19 +250,20 @@ public sealed partial class FoundationRoot : Control
             _runtime.NowMilliseconds = checked((long)Time.GetTicksMsec());
             _runtime.Feedback = "";
             _input.Clear();
-            _coordinator = new FoundationCoordinator(playerId: System.Environment.GetEnvironmentVariable(
-                    variable: "PHASE3_PROFILE") ?? FoundationEphemeralProfile.PlayerId, label: "Player 2",
-                    connection: new EnetConnectionService(gateway: _gateway),
-                    nowMilliseconds: () => _runtime.NowMilliseconds);
+            _runtime.Hosting = false;
+            _coordinator = (_services ?? throw new InvalidOperationException(message: "SERVICES_NOT_READY"))
+                    .Create(connected: true, nowMilliseconds: () => _runtime.NowMilliseconds);
             _coordinator.Join(address: host, port: port);
             _lastDirection = int.MinValue;
             GetNode<Label>(path: "Browser/Feedback").Text = "Connecting to " + host + "…";
+            _menu?.Attempt(origin: GetViewport().GuiGetFocusOwner()?.GetPath().ToString()
+                    .EndsWith(value: "JoinSession", comparisonType: StringComparison.Ordinal) == true
+                    ? "Browser/Footer/JoinSession" : "Browser/JoinAddress");
         }
         catch (Exception error)
         {
-            ReturnToMenu();
-            GetNode<Label>(path: "Menu/Error").Text = "Could not join this session. Check the address and try again.";
-            GetNode<Control>(path: "Menu/Error").Visible = true;
+            _menu?.CancelAttempt();
+            _menu?.Recover(message: "LAN connection is unavailable. Try again after checking your network.");
             GD.Print(what: "Recoverable join: " + error.Message);
         }
     }
@@ -287,36 +311,16 @@ public sealed partial class FoundationRoot : Control
     private void ActivateFocused()
     {
         _gateway.RequireThread();
-        if (GetNode<Button>(path: "Menu/Start").HasFocus())
+        if (GetViewport().GuiGetFocusOwner() is Button button && button is not OptionButton)
         {
-            Start();
-        }
-        else if (GetNode<Button>(path: "Menu/Host").HasFocus())
-        {
-            Host();
-        }
-        else if (GetNode<Button>(path: "Menu/Join").HasFocus())
-        {
-            Browse();
-        }
-        else if (GetNode<Button>(path: "Menu/Quit").HasFocus())
-        {
-            Quit();
-        }
-        else if (GetNode<Button>(path: "Browser/JoinAddress").HasFocus())
-        {
-            JoinAddress();
-        }
-        else if (GetNode<Button>(path: "Browser/Back").HasFocus())
-        {
-            ReturnToMenu();
+            _menu?.Activate(button: button);
         }
     }
 
     private static int Port()
     {
         string? value = System.Environment.GetEnvironmentVariable(variable: "PHASE3_PORT");
-        return value is null ? 24680 : int.Parse(s: value, provider: CultureInfo.InvariantCulture);
+        return value is null ? 47778 : int.Parse(s: value, provider: CultureInfo.InvariantCulture);
     }
 
     private void ReturnToMenu()
@@ -326,6 +330,7 @@ public sealed partial class FoundationRoot : Control
         _closing = _coordinator;
         _closing?.RequestClose();
         _coordinator = null;
+        _services?.Discovery.Advertise(advertisement: null);
         _input.Clear();
         _remainder = 0;
         Node2D? world = GetNodeOrNull<Node2D>(path: "World");

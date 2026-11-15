@@ -56,6 +56,26 @@
       "path": "src/multiplayer-abstractions/ConnectionPacket.cs",
       "type": "KingdomZombies.Multiplayer.Abstractions.ConnectionPacket",
       "reason": "Explicit immutable roster or independent framework-value connection contract consumed by production composition."
+    },
+    {
+      "path": "src/multiplayer-abstractions/IDiscoveryService.cs",
+      "type": "KingdomZombies.Multiplayer.Abstractions.IDiscoveryService",
+      "reason": "Exact independent framework-only discovery or local identity contract consumed by production composition."
+    },
+    {
+      "path": "src/multiplayer-abstractions/IIdentityService.cs",
+      "type": "KingdomZombies.Multiplayer.Abstractions.IIdentityService",
+      "reason": "Exact independent framework-only discovery or local identity contract consumed by production composition."
+    },
+    {
+      "path": "src/multiplayer-abstractions/SessionAdvertisement.cs",
+      "type": "KingdomZombies.Multiplayer.Abstractions.SessionAdvertisement",
+      "reason": "Exact independent framework-only discovery or local identity contract consumed by production composition."
+    },
+    {
+      "path": "src/multiplayer-abstractions/PlayerProfile.cs",
+      "type": "KingdomZombies.Multiplayer.Abstractions.PlayerProfile",
+      "reason": "Exact independent framework-only discovery or local identity contract consumed by production composition."
     }
   ],
   "positiveProof": "R-34.positive",

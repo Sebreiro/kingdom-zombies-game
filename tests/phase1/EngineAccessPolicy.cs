@@ -90,6 +90,9 @@ internal static class EngineAccessPolicy
         ["FoundationView"] = ["Project", "ProjectRoster"],
         ["EnetConnectionService"] = ["Host", "Join", "Poll", "Send", "Close", "Check"],
         ["FoundationAutomation"] = ["Deliver"],
+        ["FoundationMenu"] = ["Attach", "Detach", "CommitName", "Browse", "Tick", "Attempt", "Recover", "Activate",
+            "PopupOpen", "Escape", "Profiles", "Feedback", "Refresh", "Back", "Lock", "Rows", "AddRow", "Detail",
+            "RowLabel"],
     };
 
     private static readonly Dictionary<string, string[]> _adapters = new(comparer: StringComparer.Ordinal)

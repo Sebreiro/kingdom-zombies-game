@@ -31,7 +31,15 @@ internal static class ArchitecturePolicy
             "src/multiplayer-abstractions/IConnectionService.cs|"
                     + "KingdomZombies.Multiplayer.Abstractions.IConnectionService",
             "src/multiplayer-abstractions/ConnectionPacket.cs|"
-                    + "KingdomZombies.Multiplayer.Abstractions.ConnectionPacket"];
+                    + "KingdomZombies.Multiplayer.Abstractions.ConnectionPacket",
+            "src/multiplayer-abstractions/IDiscoveryService.cs|"
+                    + "KingdomZombies.Multiplayer.Abstractions.IDiscoveryService",
+            "src/multiplayer-abstractions/IIdentityService.cs|"
+                    + "KingdomZombies.Multiplayer.Abstractions.IIdentityService",
+            "src/multiplayer-abstractions/SessionAdvertisement.cs|"
+                    + "KingdomZombies.Multiplayer.Abstractions.SessionAdvertisement",
+            "src/multiplayer-abstractions/PlayerProfile.cs|"
+                    + "KingdomZombies.Multiplayer.Abstractions.PlayerProfile"];
         JsonArray rows = registry["permissions"]?.AsArray()
                 ?? throw new InvalidDataException(message: "VISIBILITY_REGISTRY: missing permissions");
         string[] permissions = [..rows.Select(selector: row => row?["path"]?.GetValue<string>() + "|"
