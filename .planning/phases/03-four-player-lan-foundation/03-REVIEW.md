@@ -1,9 +1,9 @@
 ---
 phase: 03-four-player-lan-foundation
-reviewed: 2026-11-15T23:01:27Z
+reviewed: 2026-11-15T23:13:31Z
 depth: standard
-reviewed_revision: df07eba7e978401ce9e8d83b42d03bc4b3848447
-build_revision: df07eba7e978401ce9e8d83b42d03bc4b3848447
+reviewed_revision: ba0b1b79499a1f9a17055bd3af61fedf8473d613
+build_revision: ba0b1b79499a1f9a17055bd3af61fedf8473d613
 diff_base: 87e0b44
 scope_files: 119
 files_reviewed: 116
@@ -139,12 +139,12 @@ status: clean
 
 # Phase 03: Code Review Report
 
-**Reviewed:** 2026-11-15T23:01:27Z  
+**Reviewed:** 2026-11-15T23:13:31Z  
 **Depth:** standard  
 **Source files reviewed:** 116  
 **Explicit scope:** all 119 paths from `.phase3/review-fix-union.txt`, preserving the original scope, added SourceLink target and the two newly reviewed proof/document consumers; three planning-context paths are listed separately above  
 **Status:** clean  
-**Reviewed source / pinned build revision:** `df07eba7e978401ce9e8d83b42d03bc4b3848447`  
+**Reviewed source / pinned build revision:** `ba0b1b79499a1f9a17055bd3af61fedf8473d613`  
 **Diff base:** `87e0b44`
 
 ## Summary
@@ -163,6 +163,8 @@ The latest bounded recheck covers native batch 3 at `4ea54ca731c90de700480033f58
 
 The preceding batch-4 recheck found CR-11 in ordinary browser cancellation. The current four-file repair at `f32e0bd8911e0c185a6fa10b24c251f1d69494cd` transfers cancellation to the Root-owned runtime retirement helper, retains older unfinished drains during rapid replacement and polls/disposes every retiring coordinator through its proper lifetime. The production Menu control uses that same retirement owner and passes its pending-connection, repeated-cancel and 249/250 ms assertions.
 
+The latest bounded source recheck covers batch 6 at `ba0b1b79499a1f9a17055bd3af61fedf8473d613`: read-only popup highlight observation, bounded physical profile navigation and separating all-observer transform polling from PNG capture. No new actionable defect was found. All seventeen prior findings and the complete 119-path / 116-source scope remain resolved/preserved. Current native execution limits and pending affected checks are recorded below.
+
 **All seventeen prior findings are resolved. No new actionable defect or open finding remains.** The source scope remains 119 paths / 116 source paths. Previous passed/failed records keep their actual revision/tool identities; no failed native run or pending full selection is upgraded by this review. Actual no-window and rendered acceptance retain the limits below.
 
 This is an independent source re-review during the post-review repair cycle, not completed rendered acceptance. No real game window, VM, desktop input, broad test suite, build, branch operation or commit was executed by this reviewer. The renewed retained no-window report was reconciled through the current production validator and its source/tool tuple independently recomputed. The earlier .NET arithmetic probe remains defect-history evidence; the repair's actual coordinator and headless native projection executions are retained separately below. The first full selected execution now has real desktop results and retained failures, as recorded below; it is not accepted final completion. No new rendered, physical-input, image-appearance, other-OS, physical mixed-computer LAN or release acceptance is granted by this source review.
@@ -173,9 +175,23 @@ Necessity was assessed using the required rubric; no necessity finding is assert
 
 No open Critical/BLOCKER, Warning or Info findings remain at this reviewed source revision.
 
+## Native repair batch 6 bounded recheck
+
+**Current reviewed source/build stamp:** `ba0b1b79499a1f9a17055bd3af61fedf8473d613`. **Disposition:** clean on source review; affected no-window completion/native retry remain separate.
+
+The retained native report `7aaba10c…` accepts ten of twelve cases. Its remaining profile interaction did not change the selected second profile after Up/Enter; its host-to-guest1 stop interval was 299.0516 ms while the other two observers were about 174/197 ms. Native input acknowledgement took about 28 ms, but image work for another observer began while guest1 was still collecting its stability predicate. The original over-limit row remains a failure.
+
+The three changed paths were read through their immediate callers. `FoundationDrawObserver.ObserveControl` adds `popupFocusedIndex` via the read-only native `GetPopup().GetFocusedItem()` getter inside the existing guarded permission tuple. No action/selection setter, new native tuple or model mutation is introduced. The profile procedure requires the actual popup to remain open, sends physical Down when nothing is highlighted or physical Up while above the original index, waits for the observed highlight to change and permits at most eight attempts. It requires highlight zero before physical Enter, then still requires the exact original profile identity. Missing/closed/wrong selection remains a failure.
+
+`rendered.transition` now first awaits the existing actual transform/stability predicates for every observer and retains their baselines/witnesses. Only after all predicates have completed does it start the required image captures/decodes. This prevents one observer's synchronous PNG work from postponing another observer's predicate polling. It does not subtract or exclude that delay: every sample retains the original before-all-delivery `ack.deliveryBefore`, and its end remains after complete capture/state/image validation. Waiting for the slowest peer, all capture scheduling/read/decode work and the 1 ms uncertainty remain included. The original inclusive 250 ms validator, draw/image/identity binding, reversal witnesses, accepted host intent and terminal/cleanup rules are unchanged.
+
+`.phase3/batch6-pinned-strict.log` records zero warnings/errors, 10.85 seconds. `.phase3/batch6-controls.log` records nine passing existing timing, full stopped reconciliation, capture, navigation and foreground controls. The current parent-provided identity is input `39cca8844ef6ac39d761fc47f23ce4aadd85e2d5b8d1bc8de1b5761b25dfcf6e`, tool `be97ef6731b533dc578706678d5990dc806cad9f990e0cac6584ed56b9e51926`, source/build ba0 above. The parent-owned affected selection finished during review: `.phase3/runs/win32-x64/a5a5c564-5d85-4514-919e-bb842f3419af/summary.json` passes all three cases (`runner.timing`, `network.discovery-profile`, `core.permissions`), with zero game windows and exact ba0 source/build/input/tool identity. The reviewer loaded that terminal report through the current actual reconciler. The reviewer ran no build, test, gate, game window or desktop input.
+
+Require the affected selection's successful terminal result, renew the exact ba0 gate and matching metadata-descendant rebuild, then retry native cases and obtain the fresh entire selected-set pass only after focused acceptance. Older ten-of-twelve results and timing overruns remain immutable history, not final acceptance.
+
 ## WR-06 bounded exact-session interaction recheck
 
-**Current reviewed source/build stamp:** `df07eba7e978401ce9e8d83b42d03bc4b3848447`. **Disposition:** resolved; preceding sixteen fixes and 119-path / 116-source scope unchanged.
+**Historical reviewed source/build stamp:** `df07eba7e978401ce9e8d83b42d03bc4b3848447`. **Disposition:** resolved; the exact-session guards remain in the current source.
 
 The one-file follow-up returns the actual target produced by the awaited exact-session/scroll lookup, replacing the pre-wait captured path. The browser caller passes its expected exact session ID into the physical click helper. After foreground acquisition and current-node lookup, that helper rejects any changed session metadata before sending the click. The browser then requires the observed focused row to carry the expected exact session before recording focused detail and submitting Join session. Vanished/reused/clipped paths remain non-success. Physical Tab/follow-focus scrolling and mouse interaction are preserved.
 
@@ -274,7 +290,7 @@ Older auxiliary evidence with unpinned prebuild tool drift remains failure/histo
 
 ## Required handoff before a prelaunch gate
 
-The source review is clean at `df07eba7e978401ce9e8d83b42d03bc4b3848447`, with WR-06 and all sixteen earlier findings resolved. The parent may renew/commit the exact source/input/tool gate and perform the mandatory metadata-descendant rebuild with both build properties, then retry all twelve native cases before the required fresh full 481-case selected pass. Preserve every original failed/passing report and timing row. The parent owns gate/rebuild/publishing and actual desktop execution.
+The source review is clean at `ba0b1b79499a1f9a17055bd3af61fedf8473d613`, with all seventeen findings resolved and the bounded popup/polling batch-6 changes reviewed. The three-case affected no-window run has now passed and reconciled; the parent may renew the exact source/input/tool gate and perform the matching metadata-descendant rebuild with both build properties. Then retry native failures and obtain the required fresh full selected-set pass. Preserve all original failed/passing reports, timing rows and invocation identities. The parent owns gate/rebuild/publishing and actual desktop execution.
 
 The parent hash-verified the four temporary iteration-2/3 review/fix scratch originals against their ignored `.phase3/review-history` archives and removed the untracked phase-folder copies. The focused recheck observed no remaining scratch paths in Git status. Preserve that ignored history and the original Git review/fix ledger; the whitelist remains limited to its explicitly enumerated phase metadata paths.
 
@@ -284,6 +300,6 @@ Phase 2 G1 now has its retained actual passing native results, while the twelve 
 
 ---
 
-_Reviewed: 2026-11-15T23:01:27Z_  
+_Reviewed: 2026-11-15T23:13:31Z_  
 _Reviewer: the agent (gsd-code-reviewer)_  
 _Depth: standard_
