@@ -13,7 +13,7 @@ internal static class FoundationAutomation
     {
         gateway.RequireThread();
         string? nonce = System.Environment.GetEnvironmentVariable(variable: "PHASE3_NONCE");
-        string? directory = System.Environment.GetEnvironmentVariable(variable: "PHASE3_OUTPUT");
+        string? directory = FoundationObservationScope.Directory();
         if (nonce is null || directory is null)
         {
             return;

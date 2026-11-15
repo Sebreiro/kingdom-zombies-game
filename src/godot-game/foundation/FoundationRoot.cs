@@ -40,6 +40,7 @@ public sealed partial class FoundationRoot : Control
                 back: ReturnToMenu, coordinator: () => _coordinator, replace: value => _coordinator = value,
                 input: _input, runtime: _runtime);
         _menu.Attach();
+        _diagnostics.Attach(root: this, gateway: _gateway);
         GetWindow().FocusExited += LoseFocus;
         ReturnToMenu();
     }
@@ -54,6 +55,7 @@ public sealed partial class FoundationRoot : Control
         }
 
         _inputEvents++;
+        _diagnostics.RecordInput(key: (int)key.PhysicalKeycode, pressed: key.Pressed, echo: key.Echo);
         _input.SetContext(gameplay: _coordinator?.Ready == true);
         if (_menu?.PopupOpen() == true)
         {
@@ -138,6 +140,7 @@ public sealed partial class FoundationRoot : Control
         _gateway.RequireThread();
         _coordinator?.Close();
         _closing?.Close();
+        _diagnostics.Detach();
         _coordinator = null;
         _input.Clear();
         GetNode<Button>(path: "Menu/Start").Pressed -= Start;
@@ -368,6 +371,7 @@ public sealed partial class FoundationRoot : Control
     private void LoseFocus()
     {
         _gateway.RequireThread();
+        _diagnostics.LostFocus();
         _input.Clear();
     }
 

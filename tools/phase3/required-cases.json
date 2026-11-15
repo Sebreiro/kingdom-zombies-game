@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "requiredEnvironment": "development-os",
-  "scope": "no-window-tracer",
+  "scope": "phase-owned LAN proof and rendered acceptance",
   "cases": [
     {
       "id": "core.authority",
@@ -92,7 +92,11 @@
       ],
       "needsGameWindow": false,
       "provenance": "Synthetic native events; no physical input, rendering, timing, or physical LAN credit.",
-      "reset": "Fresh processes are required to prove independent host and guest native lifetimes; cleanup only owned children."
+      "reset": "Fresh processes are required to prove independent host and guest native lifetimes; cleanup only owned children.",
+      "roles": [
+        "host",
+        "guest"
+      ]
     },
     {
       "id": "core.permissions",
@@ -283,7 +287,14 @@
         "exact matching roster revisions"
       ],
       "needsGameWindow": false,
-      "provenance": "Synthetic native events; no rendered, timing or physical input acceptance."
+      "provenance": "Synthetic native events; no rendered, timing or physical input acceptance.",
+      "roles": [
+        "four-host",
+        "four-guest1",
+        "four-guest2",
+        "challenger1",
+        "challenger2"
+      ]
     },
     {
       "id": "core.lifecycle",
@@ -360,7 +371,13 @@
         "owned identities and current state observations"
       ],
       "needsGameWindow": false,
-      "provenance": "No rendered, physical input or latency acceptance."
+      "provenance": "No rendered, physical input or latency acceptance.",
+      "roles": [
+        "life-host",
+        "life-guest1",
+        "life-guest2",
+        "life-replacement"
+      ]
     },
     {
       "id": "network.idle-poll",
@@ -399,7 +416,10 @@
         "owned identities and current state observations"
       ],
       "needsGameWindow": false,
-      "provenance": "No rendered, physical input or latency acceptance."
+      "provenance": "No rendered, physical input or latency acceptance.",
+      "roles": [
+        "idle-host"
+      ]
     },
     {
       "id": "adapters.discovery",
@@ -526,7 +546,13 @@
         "profile-before-restart",
         "profile-after-restart"
       ],
-      "freshProcessReason": "Actual persisted identity restart requires distinct process IDs with one retained storage root."
+      "freshProcessReason": "Actual persisted identity restart requires distinct process IDs with one retained storage root.",
+      "roles": [
+        "discovery-host",
+        "profile-before-restart",
+        "profile-after-restart"
+      ],
+      "profileRestart": true
     },
     {
       "id": "core.input",
@@ -608,6 +634,88 @@
       "evidence": [
         "CTRF one-test report",
         "adapters.substitutions.core-hashes.json"
+      ],
+      "needsGameWindow": false
+    },
+    {
+      "id": "runner.tracer",
+      "title": "Real headless observations reach strict evidence reconciliation",
+      "group": "runner",
+      "implementation": "native-headless",
+      "importance": "Critical",
+      "rationale": "False evidence can hide broken ownership and visible controls.",
+      "requirements": [
+        "LAN-01",
+        "LAN-02",
+        "LAN-03",
+        "LAN-04"
+      ],
+      "acceptance": [
+        "AC-07",
+        "AC-16",
+        "AC-17"
+      ],
+      "status": "required",
+      "tags": [
+        "runner",
+        "evidence",
+        "timing"
+      ],
+      "runGroup": "G0",
+      "order": 20,
+      "setup": "Current strict build and isolated nonce-owned directories; no game window.",
+      "actions": [
+        "Run the actual named subject and validate strict evidence."
+      ],
+      "expected": [
+        "Actual observations reconcile; wrong identity or any strictly over-limit timing fails."
+      ],
+      "evidence": [
+        "immutable subject logs",
+        "exact case-role report"
+      ],
+      "needsGameWindow": false,
+      "roles": [
+        "host",
+        "guest"
+      ]
+    },
+    {
+      "id": "runner.timing",
+      "title": "Inclusive external-clock rendered timing boundaries",
+      "group": "runner",
+      "implementation": "node",
+      "importance": "Critical",
+      "rationale": "False evidence can hide broken ownership and visible controls.",
+      "requirements": [
+        "LAN-01",
+        "LAN-02",
+        "LAN-03",
+        "LAN-04"
+      ],
+      "acceptance": [
+        "AC-07",
+        "AC-16",
+        "AC-17"
+      ],
+      "status": "required",
+      "tags": [
+        "runner",
+        "evidence",
+        "timing"
+      ],
+      "runGroup": "G0",
+      "order": 20,
+      "setup": "Current strict build and isolated nonce-owned directories; no game window.",
+      "actions": [
+        "Run the actual named subject and validate strict evidence."
+      ],
+      "expected": [
+        "Actual observations reconcile; wrong identity or any strictly over-limit timing fails."
+      ],
+      "evidence": [
+        "immutable subject logs",
+        "exact case-role report"
       ],
       "needsGameWindow": false
     }

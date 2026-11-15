@@ -3,7 +3,8 @@ const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypt
 const {spawnSync}=require('node:child_process');
 const baseline=require('../phase1/check.cjs');
 const {command}=require('../phase2/rendered.cjs');
-const {tracer}=require('./network.cjs');
+const {observed}=require('./network.cjs');
+const evidence=require('./evidence.cjs');
 const hash=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
 function requireTrue(value,message){if(!value)throw new Error(message);}
 function select(catalog,args){
@@ -32,13 +33,14 @@ async function csharp(context,item){
   const proof=JSON.parse(fs.readFileSync(path.join(context.directory,item.id+'.proof.json'),'utf8'));
   for(const key of ['nonce','input','tool','platform'])requireTrue(proof[key]===context[key],'PROOF_IDENTITY '+key);
   requireTrue(proof.id===item.id&&proof.status==='pass'&&proof.evidence.length>0,'PROOF_SUBJECT');
-  return {...proof,artifacts:[...proof.evidence,item.id+'.ctrf.json'].map(file=>({path:file,sha256:hash(fs.readFileSync(baseline.inside(context.directory,file)))}))};
+  return {...proof,revision:context.revision,testReport:item.id+'.ctrf.json',artifacts:[...proof.evidence,item.id+'.ctrf.json'].map(file=>({path:file,sha256:hash(fs.readFileSync(baseline.inside(context.directory,file)))}))};
 }
 async function main(root,args){
   const catalog=JSON.parse(fs.readFileSync(path.join(root,'tools/phase3/required-cases.json'),'utf8'));
   const selection=select(catalog,args);if(selection.list){console.log(JSON.stringify(selection.selected,null,2));return;}
   const nonce=crypto.randomUUID(),platform=process.platform+'-'+process.arch;
   const directory=baseline.inside(root,'.phase3/runs/'+platform+'/'+nonce);fs.mkdirSync(directory,{recursive:true});
+  fs.writeFileSync(path.join(directory,'observation.owner'),nonce,{flag:'wx'});
   const env={...process.env,DOTNET_CLI_HOME:path.join(root,'.phase1/cli-home'),NUGET_PACKAGES:path.join(root,'.phase1/packages'),
     NUGET_HTTP_CACHE_PATH:path.join(root,'.phase1/http-cache'),TEMP:path.join(root,'.phase1/temp'),TMP:path.join(root,'.phase1/temp')};
   const inputs={inputs:['src','tests/phase1','tools/phase3','tools/phase1/toolchain.json','Directory.Build.props','Directory.Build.targets',
@@ -46,19 +48,20 @@ async function main(root,args){
   const snapshot=baseline.snapshot(root,inputs);fs.writeFileSync(path.join(directory,'inputs.json'),JSON.stringify(snapshot,null,2));
   const version=spawnSync('dotnet',['--version'],{cwd:root,env,encoding:'utf8',windowsHide:true,timeout:12000});
   requireTrue(version.status===0,'DOTNET_MISSING');
-  const context={root,directory,nonce,platform,input:snapshot.sha256,env,
+  const revision=spawnSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8',windowsHide:true});requireTrue(revision.status===0,'REVISION_UNAVAILABLE');
+  const context={root,directory,nonce,platform,input:snapshot.sha256,env,revision:revision.stdout.trim(),
     tool:hash(JSON.stringify({node:process.version,dotnet:version.stdout.trim(),pins:hash(fs.readFileSync(path.join(root,'tools/phase1/toolchain.json'))),
       testBinary:hash(fs.readFileSync(path.join(root,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll')))}))};
   const startedAt=Date.now(),results=[];
   for(const item of selection.selected){console.log('Checking '+item.id);try{
-    const result=item.implementation==='csharp'?await csharp(context,item):await tracer(context,item);
+    const result=item.implementation==='csharp'?await csharp(context,item):item.id==='runner.timing'?await require('./rendered.cjs').timingControl(context,item):await observed(context,item);
+    evidence.reconcile([item],[result],context);
     results.push(result);
   }catch(error){results.push({id:item.id,status:'fail',nonce,input:context.input,tool:context.tool,platform,message:error.message,stack:error.stack});}}
   const unchanged=baseline.snapshot(root,inputs).sha256===context.input;
   if(!unchanged)for(const result of results){result.status='fail';result.message='SOURCE_CHANGED';}
   const status=results.length===selection.selected.length&&results.every(row=>row.status==='pass')?'pass':'fail';
-  const revision=spawnSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8',windowsHide:true});requireTrue(revision.status===0,'REVISION_UNAVAILABLE');
-  const summary={schemaVersion:1,...context,env:undefined,root:undefined,directory:undefined,status,selected:selection.selected.map(row=>row.id),
+  const summary={schemaVersion:2,...context,env:undefined,root:undefined,directory:undefined,status,selected:selection.selected.map(row=>row.id),
     results,startedAt,finishedAt:Date.now(),revision:revision.stdout.trim(),gameWindows:0,scope:'headless diagnostics and pure proofs only'};
   fs.writeFileSync(path.join(directory,'summary.json'),JSON.stringify(summary,null,2),{flag:'wx'});
   console.log(status.toUpperCase()+' '+results.filter(row=>row.status==='pass').length+'/'+selection.selected.length+'; '+path.relative(root,path.join(directory,'summary.json')));

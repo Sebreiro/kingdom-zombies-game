@@ -30,7 +30,8 @@ function launch(context,role,port,retainedRoot=null){
   if(!fs.existsSync(profileFile)){const id=crypto.randomUUID().replaceAll("-","");fs.writeFileSync(profileFile,JSON.stringify({schema:1,selected:id,profiles:[{id,name:"Player 1",ordinal:1}]}));}
   const profile=JSON.parse(fs.readFileSync(profileFile)).selected;
   const child=spawn(engine,['--headless','--path',path.join(context.root,'src/godot-game')],{cwd:context.root,windowsHide:true,
-    env:{...context.env,PHASE3_NONCE:context.nonce,PHASE3_OUTPUT:directory,PHASE3_PROFILE_ROOT:profileRoot,PHASE3_PORT:String(port)},stdio:['ignore','pipe','pipe']});
+    env:{...context.env,PHASE3_NONCE:context.nonce,PHASE3_OUTPUT:directory,PHASE3_RUN_ROOT:context.runRoot??context.directory,
+      PHASE3_ROLE:role,PHASE3_PROFILE_ROOT:profileRoot,PHASE3_PORT:String(port)},stdio:['ignore','pipe','pipe']});
   const peer={role,directory,profile,profileRoot,child,pid:child.pid,sequence:0,output:'',exit:null,error:null};
   child.stdout.on('data',bytes=>peer.output+=bytes);child.stderr.on('data',bytes=>peer.output+=bytes);
   child.once('error',error=>peer.error=error);child.once('exit',(code,signal)=>peer.exit={code,signal});
@@ -339,4 +340,13 @@ async function lifetime(context,item){
   requireTrue(Date.now()-started<=60000,'SUBJECT_DEADLINE');
   return {...result,durationMilliseconds:Date.now()-started,cleanup:'all invocation-owned children exited'};
 }
-module.exports={tracer,frames,coherent};
+async function observed(context,item){
+  const directory=path.join(context.directory,item.id);fs.mkdirSync(directory);
+  const result=await tracer({...context,directory,runRoot:context.directory},item);
+  const evidence=require('./evidence.cjs');
+  const ref=file=>({path:path.relative(context.directory,file),sha256:evidence.hash(fs.readFileSync(file))});
+  return {...result,revision:context.revision,peers:result.peers.map(peer=>({...peer,
+    launch:ref(path.join(directory,peer.role,'launch.json')),log:ref(path.join(directory,peer.role,'console.log')),
+    frames:ref(path.join(directory,peer.role,'frames.ndjson'))}))};
+}
+module.exports={tracer,observed,frames,coherent,allocatePort,launch,waitFor,input,key,activate,actor,cleanup,stop,matchingRoster};

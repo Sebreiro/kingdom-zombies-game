@@ -1,0 +1,114 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),{spawn}=require('node:child_process');
+const e=require('./evidence.cjs');
+const {command,killTree}=require('../phase2/rendered.cjs');
+const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+const now=()=>process.hrtime.bigint();
+function lines(file){if(!fs.existsSync(file))return [];const rows=fs.readFileSync(file,'utf8').split('\n');rows.pop();return rows.filter(Boolean).map(JSON.parse);}
+function draws(peer){return lines(path.join(peer.directory,'draws.ndjson'));}
+function actor(draw,id){return draw?.actors?.find(row=>row.actorId===id);}
+async function until(peers,predicate,label,milliseconds=12000){
+  const deadline=now()+BigInt(milliseconds)*1000000n;
+  while(now()<deadline){for(const peer of peers)e.requireTrue(!peer.error&&!peer.exit,'RENDERED_PROCESS_LOST '+peer.role+' '+peer.output?.slice(-1000));
+    const result=predicate();if(result)return result;await delay(2);}
+  throw new Error('RENDERED_DEADLINE '+label);
+}
+function driver(context,peers){
+  e.requireTrue(process.platform==='win32','WINDOWS_ONLY');
+  const child=spawn('powershell.exe',['-NoProfile','-ExecutionPolicy','Bypass','-File',path.join(context.root,'tools/phase3/windows-input.ps1'),
+    '-OwnedPids',peers.map(row=>row.pid).join(','),'-Nonce',context.nonce],{cwd:context.root,env:context.env,windowsHide:true,stdio:['pipe','pipe','pipe']});
+  let buffer='',stderr='',sequence=0,ended=false,error;const pending=new Map(),records=[];
+  let readyResolve;const ready=new Promise(resolve=>readyResolve=resolve);
+  child.stdout.on('data',bytes=>{buffer+=bytes;let boundary;while((boundary=buffer.indexOf('\n'))>=0){const line=buffer.slice(0,boundary);buffer=buffer.slice(boundary+1);try{
+    const row=JSON.parse(line);if(row.ready){readyResolve(row);continue;}const request=pending.get(row.sequence);if(request){pending.delete(row.sequence);request.resolve({...row,observedAfter:String(now())});}
+  }catch(failure){error=failure;}}});
+  child.stderr.on('data',bytes=>stderr+=bytes);child.once('error',failure=>error=failure);child.once('exit',()=>ended=true);
+  async function send(peer,request){
+    const start=now(),index=++sequence;const ackPromise=new Promise(resolve=>pending.set(index,{resolve}));
+    child.stdin.write(JSON.stringify({nonce:context.nonce,sequence:index,pid:peer.pid,...request})+'\n');
+    const row=await Promise.race([ackPromise,delay(8000).then(()=>{throw new Error('DRIVER_ACK_TIMEOUT '+stderr);})]);
+    e.requireTrue(!error&&!ended&&row.ok&&row.nonce===context.nonce&&row.pid===peer.pid&&row.driverPid===child.pid,'DRIVER_ACK '+JSON.stringify(row));
+    const record={...row,deliveryBefore:String(start),deliveryAfter:String(now()),clock:'coordinator-hrtime'};records.push(record);return record;
+  }
+  async function start(){const row=await Promise.race([ready,delay(10000).then(()=>{throw new Error('DRIVER_START_TIMEOUT '+stderr);})]);
+    e.requireTrue(row.nonce===context.nonce&&row.pid===child.pid,'DRIVER_READY');e.exact(peers.map(row=>row.pid),row.owned,'driver owned PIDs');return row;}
+  async function close(){
+    if(!ended){child.stdin.end(JSON.stringify({nonce:context.nonce,sequence:++sequence,action:'close'})+'\n');
+      await Promise.race([new Promise(resolve=>child.once('exit',resolve)),delay(3000)]);if(!ended)killTree(child);}
+    fs.writeFileSync(path.join(context.directory,'native-input-'+child.pid+'.json'),JSON.stringify({pid:child.pid,records,stderr,ended},null,2),{flag:'wx'});
+    e.requireTrue(!stderr&&!error,'DRIVER_CLEANUP '+stderr);
+  }
+  return {start,send,close,child,records};
+}
+async function capture(context,peer,checkpoint){
+  const captureId='draw-'+checkpoint+'-'+(++peer.captureSequence|| (peer.captureSequence=1));
+  const request=path.join(peer.directory,'draw.request');e.requireTrue(!fs.existsSync(request),'DRAW_ALREADY_PENDING');
+  const before=now();fs.writeFileSync(request+'.tmp',JSON.stringify({nonce:context.nonce,checkpoint:captureId}),{flag:'wx'});fs.renameSync(request+'.tmp',request);
+  const stateFile=path.join(peer.directory,captureId+'.json');
+  await until([peer],()=>fs.existsSync(stateFile),'capture '+peer.role+'/'+checkpoint);
+  const after=now(),state=e.read(stateFile),file=path.join(peer.directory,captureId+'.png');
+  const decoded=require('../phase2/rendered.cjs').decodePng(file,1280,720);
+  e.requireTrue(state.nonce===context.nonce&&state.pid===peer.pid&&state.drawn===true&&state.drawFrame>0,'DRAW_IDENTITY');
+  return {state,image:{checkpoint,captureId,path:path.relative(context.directory,file),sha256:e.hash(fs.readFileSync(file)),
+    statePath:path.relative(context.directory,stateFile),stateSha256:e.hash(fs.readFileSync(stateFile)),...decoded},before:String(before),after:String(after)};
+}
+async function nativeKey(context,input,peer,key,pressed,method='physical-SendInput'){
+  const previous=draws(peer).at(-1)?.input.inputEvents??0;
+  const ack=await input.send(peer,{action:'key',method,key,pressed});
+  const native=await until([peer],()=>{const row=draws(peer).at(-1);const event=row?.input.lastInput;
+    return row?.input.inputEvents>previous&&event?.key===({37:4194321,39:4194323}[key]??key)&&event.pressed===pressed?row:null;},'native event '+peer.role+'/'+key+'/'+pressed);
+  return {...ack,nativeInputEvents:native.input.inputEvents,nativeDrawFrame:native.drawFrame,nativeAcknowledgedAfter:String(now())};
+}
+async function transition(context,input,peers,origin,key,pressed,action){
+  const initial=draws(origin).at(-1),own=initial.snapshot.Participants.find(row=>row.BindingId===initial.bindingId).Actor;
+  const baselines=new Map(peers.map(peer=>[peer.role,draws(peer).at(-1)]));
+  const previous=new Map();let ack;
+  if(action==='focus-stop'){
+    ack=await input.send(origin,{action:'focus-sink',method:'physical-SendInput'});
+    await until([origin],()=>draws(origin).at(-1)?.input.focusLosses>initial.input.focusLosses,'real focus loss');
+  }else ack=await nativeKey(context,input,origin,key,pressed);
+  const results=[];
+  for(const observer of peers.filter(peer=>peer!==origin)){
+    const baseline=actor(baselines.get(observer.role),own.ActorId);
+    e.requireTrue(baseline?.insideCamera&&baseline.visible,'TIMING_INITIAL_CAMERA');
+    await until([observer],()=>{
+      const draw=draws(observer).at(-1),current=actor(draw,own.ActorId);if(!current)return false;
+      const last=previous.get(observer.role);previous.set(observer.role,{x:current.x,frame:draw.drawFrame});
+      if(draw.snapshot?.Revision<=initial.snapshot.Revision)return false;
+      if(action==='stop'||action==='focus-stop')return last&&draw.drawFrame>last.frame&&current.x===last.x;
+      return action==='reversal'?current.facing!==baseline.facing&&current.x<baseline.x:current.x>baseline.x;
+    },'visible transition '+origin.role+'/'+observer.role+'/'+action,1000);
+    const picture=await capture(context,observer,'timing-'+origin.role+'-'+action);
+    const current=actor(picture.state,own.ActorId);
+    const sample={clock:'coordinator-hrtime',origin:origin.role,observer:observer.role,action,actor:own.ActorId,
+      expectedActor:own.ActorId,session:own.SessionId,expectedSession:own.SessionId,minimumRevision:initial.snapshot.Revision+1,
+      revision:picture.state.snapshot.Revision,deliveryBefore:ack.deliveryBefore,deliveryAfter:ack.deliveryAfter,
+      observedBefore:picture.before,observedAfter:picture.after,uncertaintyNanoseconds:'0',
+      uncertaintyPolicy:'External before-delivery to after-complete-draw-PNG-read brackets include all polling, driver, draw, capture and scheduler delays; no peer clocks subtracted.',
+      drawFrame:picture.state.drawFrame,drawn:picture.state.drawn,visible:current?.visible,insideCamera:current?.insideCamera,
+      imageBound:true,provenance:ack.method,eventAcknowledged:true,transformChanged:action==='stop'||action==='focus-stop'?true:current?.x!==baseline.x,
+      image:picture.image,inputAcknowledgment:ack};
+    e.timing(sample);results.push(sample);
+  }return {timings:results,ack,actor:own};
+}
+async function stopAgreement(context,peers,origin,release,own){
+  const rows=[];
+  await until(peers,()=>peers.every(peer=>{const draw=draws(peer).at(-1);return draw?.snapshot?.SessionId===own.SessionId;}),'stop sessions');
+  const host=peers.find(peer=>peer.role==='host');
+  for(const observer of peers){
+    const draw=draws(observer).at(-1),authority=draws(host).at(-1);
+    const position=snapshot=>snapshot.Participants.find(row=>row.Actor.ActorId===own.ActorId).Actor.PositionSubunits;
+    const row={clock:'coordinator-hrtime',origin:origin.role,observer:observer.role,actor:own.ActorId,expectedActor:own.ActorId,
+      session:draw.snapshot.SessionId,expectedSession:own.SessionId,revision:draw.snapshot.Revision,minimumRevision:own.minimumRevision??0,
+      positionSubunits:position(draw.snapshot),hostPositionSubunits:position(authority.snapshot),releaseBefore:release.deliveryBefore,
+      observedAfter:String(now()),uncertaintyNanoseconds:'0'};e.stopped(row);rows.push(row);
+  }return rows;
+}
+async function timingControl(context,item){
+  const result=await command(process.execPath,['--test','--test-reporter=tap',path.join(context.root,'tools/phase3/timing.test.cjs')],{cwd:context.root,env:context.env},12000);
+  const output=item.id+'.tap';fs.writeFileSync(path.join(context.directory,output),result.stdout,{flag:'wx'});
+  const control=item.id+'.control.json';fs.writeFileSync(path.join(context.directory,control),JSON.stringify({status:'pass',subject:'inclusive conservative draw timing rejection controls; no rendered or physical-input credit'}),{flag:'wx'});
+  return {id:item.id,status:'pass',nonce:context.nonce,input:context.input,tool:context.tool,platform:context.platform,revision:context.revision,
+    artifacts:[output,control].map(file=>({path:file,sha256:e.hash(fs.readFileSync(path.join(context.directory,file)))}))};
+}
+module.exports={now,draws,actor,until,driver,capture,nativeKey,transition,stopAgreement,timingControl};

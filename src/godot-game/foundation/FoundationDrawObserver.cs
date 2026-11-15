@@ -1,0 +1,165 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
+using Godot;
+using KingdomZombies.Proofs;
+
+namespace KingdomZombies.Foundation;
+
+/// <summary>Observes completed native draws without changing controls, sessions or authoritative state.</summary>
+internal sealed class FoundationDrawObserver
+{
+    internal FoundationDrawObserver(Control root, MainThreadGateway gateway)
+    {
+        _root = root;
+        _gateway = gateway;
+    }
+
+    internal string Sample { get; set; } = "{}";
+
+    internal void Start()
+    {
+        _gateway.RequireThread();
+        _directory = FoundationObservationScope.Directory();
+        if (_directory is not null && !OS.HasFeature(tagName: "headless"))
+        {
+            RenderingServer.FramePostDraw += Draw;
+            _attached = true;
+        }
+    }
+
+    internal void Stop()
+    {
+        _gateway.RequireThread();
+        if (_attached) { RenderingServer.FramePostDraw -= Draw; }
+        _attached = false;
+    }
+
+    private readonly Control _root;
+    private readonly MainThreadGateway _gateway;
+    private readonly List<object> _actors = [];
+    private readonly List<object> _controls = [];
+    private string? _directory;
+    private bool _attached;
+    private long _frame;
+    private ulong _drawMicroseconds;
+    private JsonElement _sample;
+    private Node2D? _world;
+    private string? _checkpoint;
+    private string Directory => _directory ?? throw new InvalidDataException(message: "DRAW_DIRECTORY");
+
+    private void Draw()
+    {
+        _gateway.RequireThread();
+        _drawMicroseconds = Time.GetTicksUsec();
+        _frame++;
+        using JsonDocument document = JsonDocument.Parse(json: Sample);
+        _sample = document.RootElement;
+        _world = _root.GetNodeOrNull<Node2D>(path: "World");
+        ObserveActors();
+        ObserveControls();
+        _checkpoint = Request();
+        if (_checkpoint is not null) { Capture(); }
+        Write(width: 1280, height: 720);
+    }
+
+    private void ObserveActors()
+    {
+        _gateway.RequireThread();
+        _actors.Clear();
+        if (_world is null || !_sample.TryGetProperty(propertyName: "snapshot", value: out JsonElement snapshot)
+                || snapshot.ValueKind is JsonValueKind.Null) { return; }
+        foreach (JsonElement participant in snapshot.GetProperty(propertyName: "Participants").EnumerateArray())
+        {
+            if (participant.GetProperty(propertyName: "Ready").GetBoolean()) { ObserveActor(participant: participant); }
+        }
+    }
+
+    private void ObserveActor(JsonElement participant)
+    {
+        _gateway.RequireThread();
+        JsonElement actor = participant.GetProperty(propertyName: "Actor");
+        string? actorId = actor.GetProperty(propertyName: "ActorId").GetString();
+        bool local = StringComparer.Ordinal.Equals(x: participant.GetProperty(propertyName: "BindingId").GetString(),
+                y: _sample.GetProperty(propertyName: "bindingId").GetString());
+        Node2D world = _world ?? throw new InvalidDataException(message: "DRAW_WORLD");
+        Node2D node = world.GetNode<Node2D>(path: local ? "Player" : "Actor_" + actorId);
+        Vector2 screen = node.GetGlobalTransformWithCanvas().Origin;
+        _actors.Add(item: new { actorId, playerId = actor.GetProperty(propertyName: "PlayerId").GetString(),
+            bindingId = participant.GetProperty(propertyName: "BindingId").GetString(), local,
+            x = node.Position.X, y = node.Position.Y, screenX = screen.X, screenY = screen.Y,
+            facing = node.GetNode<Node2D>(path: "Facing").Scale.X, visible = node.IsVisibleInTree(),
+            insideCamera = screen.X >= 16 && screen.X <= 1264 && screen.Y >= 112 && screen.Y <= 704 });
+    }
+
+    private void ObserveControls()
+    {
+        _gateway.RequireThread();
+        _controls.Clear();
+        foreach (string path in new[] { "Menu/Start", "Menu/Host", "Menu/Join", "Menu/Quit", "Menu/Profiles",
+            "Menu/Name", "Menu/NewProfile", "Browser/Refresh", "Browser/Address", "Browser/JoinAddress",
+            "Browser/Footer/JoinSession", "Browser/Footer/Cancel", "Browser/Footer/Back" })
+        {
+            ObserveControl(path: path);
+        }
+    }
+
+    private void ObserveControl(string path)
+    {
+        _gateway.RequireThread();
+        Control control = _root.GetNode<Control>(path: path);
+        Rect2 rect = control.GetGlobalRect();
+        _controls.Add(item: new { path, x = rect.GetCenter().X, y = rect.GetCenter().Y,
+            width = rect.Size.X, height = rect.Size.Y, visible = control.IsVisibleInTree(),
+            focused = control.HasFocus(), text = control is Label label ? label.Text
+                    : control is Button button ? button.Text : control is LineEdit edit ? edit.Text : "" });
+    }
+
+    private string? Request()
+    {
+        string file = Path.Combine(path1: Directory, path2: "draw.request");
+        if (!File.Exists(path: file)) { return null; }
+        using JsonDocument request = JsonDocument.Parse(json: File.ReadAllText(path: file));
+        string? nonce = request.RootElement.GetProperty(propertyName: "nonce").GetString();
+        string checkpoint = request.RootElement.GetProperty(propertyName: "checkpoint").GetString() ?? "";
+        if (!StringComparer.Ordinal.Equals(x: nonce, y: _sample.GetProperty(propertyName: "nonce").GetString())
+                || checkpoint.Length is < 1 or > 64 || checkpoint.IndexOfAny(anyOf: ['/', '\\', '.']) >= 0)
+        {
+            throw new InvalidDataException(message: "DRAW_REQUEST");
+        }
+
+        File.Delete(path: file);
+        return checkpoint;
+    }
+
+    private void Capture()
+    {
+        _gateway.RequireThread();
+        using Image image = _root.GetViewport().GetTexture().GetImage();
+        string file = Path.Combine(path1: Directory, path2: _checkpoint + ".png");
+        if (File.Exists(path: file) || image.GetWidth() != 1280 || image.GetHeight() != 720
+                || image.SavePng(path: file) != Error.Ok)
+        {
+            throw new InvalidDataException(message: "DRAW_IMAGE");
+        }
+    }
+
+    private void Write(int width, int height)
+    {
+        _gateway.RequireThread();
+        string record = JsonSerializer.Serialize(value: new { nonce = _sample.GetProperty(propertyName: "nonce"),
+            pid = System.Environment.ProcessId,
+            role = System.Environment.GetEnvironmentVariable(variable: "PHASE3_ROLE"),
+            profile = _sample.GetProperty(propertyName: "playerId"),
+            playerId = _sample.GetProperty(propertyName: "playerId"),
+            bindingId = _sample.GetProperty(propertyName: "bindingId"),
+            snapshot = _sample.GetProperty(propertyName: "snapshot"),
+            input = _sample, drawn = true, drawFrame = _frame, drawMicroseconds = _drawMicroseconds,
+            checkpoint = _checkpoint, width, height, actors = _actors, controls = _controls,
+            focused = _root.GetWindow().HasFocus(), cameraX = _world is null ? 0 : 640 - _world.Position.X });
+        File.AppendAllText(path: Path.Combine(path1: Directory, path2: "draws.ndjson"), contents: record + "\n");
+        if (_checkpoint is not null) { File.WriteAllText(path: Path.Combine(path1: Directory,
+                path2: _checkpoint + ".json"), contents: record); }
+    }
+}
