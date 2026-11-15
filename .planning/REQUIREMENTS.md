@@ -37,9 +37,9 @@ Source: Creator direction; PROJECT.md; LangProj rule and documentation reference
 
 Source: Creator Phase 2 direction.
 
-- [ ] **BASE-01**: Players can launch the game into a visible main menu and start a small playable scene.
-- [ ] **BASE-02**: Players can see a few representative base assets and move one character left and right through normal gameplay input.
-- [ ] **BASE-03**: Developers can repeat launch, menu, movement, and rendered-scene smoke checks for the playable foundation.
+- [x] **BASE-01**: Players can launch the game into a visible main menu and start a small playable scene.
+- [x] **BASE-02**: Players can see a few representative base assets and move one character left and right through normal gameplay input.
+- [x] **BASE-03**: Developers can repeat launch, menu, movement, and rendered-scene smoke checks for the playable foundation.
 
 ### LAN movement foundation
 
@@ -372,9 +372,9 @@ All 134 version 0.1 requirements have exactly one primary owning phase in [ROADM
 | RULE-05 | Phase 1 | Complete |
 | RULE-06 | Phase 1 | Complete |
 | RULE-07 | Phase 1 | Complete |
-| BASE-01 | Phase 2 | Pending |
-| BASE-02 | Phase 2 | Pending |
-| BASE-03 | Phase 2 | Pending |
+| BASE-01 | Phase 2 | Complete |
+| BASE-02 | Phase 2 | Complete |
+| BASE-03 | Phase 2 | Complete |
 | LAN-01 | Phase 3 | Pending |
 | LAN-02 | Phase 3 | Pending |
 | LAN-03 | Phase 3 | Pending |

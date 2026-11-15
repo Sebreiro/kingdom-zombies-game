@@ -2,20 +2,21 @@
 gsd_state_version: "1.0"
 milestone: v0.1
 milestone_name: Complete playable LAN campaign
-current_phase: 02
-current_phase_name: Playable foundation
-current_plan: 02-02
-status: executing
-stopped_at: Phase 5 context amended and Phase 11 added; active Phase 02 implementation position preserved
-last_updated: "2026-11-15T11:58:21.334Z"
+current_phase: 03
+current_phase_name: Four-player LAN foundation
+current_plan: Not started
+status: planning
+stopped_at: Phase 2 complete, ready to plan Phase 03
+last_updated: "2026-11-15T12:37:39.491Z"
 last_activity: 2026-11-15
-last_activity_desc: Resume Phase 2 implementation, then code review/fixes, then Windows-only shared-session 1280x720 testing
+last_activity_desc: Phase 2 complete, transitioned to Phase 03
+state_head: 9789e6f57828e6fc9298148a31aae450db764062
 progress:
   total_phases: 11
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 21
-  completed_plans: 19
-  percent: 9
+  completed_plans: 21
+  percent: 18
 ---
 
 # Project State
@@ -26,24 +27,24 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase 2 is implementing on feature/02-playable-foundation, draft PR #3; plan 02-01 is complete and current plan remains 02-02. Follow [local testing strategy](../docs/workflow/local-testing.md): finish implementation, review/fix code, then development-OS-only 1280x720 grouped game tests without a VM. Select all active Critical/new/changed/affected cases immediately; after repair checks, rerun the whole selected set. Save reusable importance/run-group scenarios. Phase 5 supplies the framework and hosted compatibility; Phase 11 adds TEST-11 nightly full testing. This replaces earlier local VM/extra-resolution catch-up instructions without claiming missing historical or release evidence passed.
+**Current focus:** Phase 2 — Playable foundation is complete: 3/3 plans, BASE-01–BASE-03 accepted, 16/16 selected cases and clean code review. All nine rendered cases passed in one Windows 1280×720 process. PR #3 targets dev; the creator will merge it. This --only 2 run stops here; Phase 3 has not started. Follow the current local testing strategy for future work.
 
 ## Current Position
 
-Phase: 02 — Playable foundation
-Current Plan: 02-02
-Total Plans in Phase: 3
-Status: Implementing all remaining Phase 2 code before code review and rendered tests; plan 02-01 complete; draft PR #3 targets dev
-Last activity: 2026-11-15 - Creator amended Phases 2–4 testing and resumed Phase 2; owned Linux VM shut down
+Phase: 03 — Four-player LAN foundation
+Current Plan: Not started
+Total Plans in Phase: TBD (Phase 3 has not been planned)
+Status: Ready to plan
+Last activity: 2026-11-15 — Phase 2 complete, transitioned to Phase 03
 
-Progress: [█░░░░░░░░░] 9%
+Progress: [██░░░░░░░░] 18%
 
-Phase 1 plan progress: 18/18 completed; Phase 1 and RULE-01 through RULE-07 remain closed under the 2026-11-14 exception. Milestone progress: 1/11 phases complete.
+Phase 1 plan progress: 18/18 completed; Phase 1 and RULE-01 through RULE-07 remain closed under the 2026-11-14 exception. Milestone progress: 2/11 phases complete.
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 18
+- Total plans completed: 21
 - Average duration: 75min recorded windows (rounded)
 - Total execution time: 1352min recorded windows; Plan 01-17 contributes 155min across three recorded execution windows; plans 01-08/01-09 include continuation/verification wall time, 01-12 includes diagnostic and replacement full runs, and 01-13/01-14 include their immutable full runs. Plan 01-14's 101min excludes later authority-reconciliation waiting and metadata resumption; 01-15 records an 11min focused window and 01-16 an 84min implementation/verification window before metadata closeout.
 
@@ -52,6 +53,7 @@ Phase 1 plan progress: 18/18 completed; Phase 1 and RULE-01 through RULE-07 rema
 | Phase | Plans | Total | Avg/Plan |
 | --- | --- | --- | --- |
 | 1 | 18 | 1352min | 75min |
+| 2 | 3 | - | - |
 
 **Recent Trend:**
 - Last 5 plans: 01-13 (69min), 01-14 (101min), 01-15 (11min), 01-16 (84min), 01-17 (155min across three windows)
@@ -135,9 +137,9 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 ## Session Continuity
 
 Last session: 2026-11-15T11:54:34.106Z
-Stopped at: Phase 5 context amended and Phase 11 added; active Phase 02 implementation position preserved
-Resume file: .planning/phases/05-ci-and-repeatable-game-testing/05-CONTEXT.md
+Stopped at: Phase 2 complete, ready to plan Phase 03
+Resume file: .planning/phases/03-four-player-lan-foundation/03-CONTEXT.md
 
-Next action: Continue Phase 2 implementation on its existing branch and draft PR, then code review/fixes and selected grouped local tests under docs/workflow/local-testing.md. Phase 5 context is amended for later planning; Phase 11 is added but unplanned. Preserve the active Phase 02 / plan 02-02 position.
+Next action: Stop after completed Phase 2 as requested by --only 2. The creator will merge PR #3. Phase 3 is ready for a future planning invocation; preserve its captured context and all historical Phase 1 follow-ups.
 
 Parallel context resume: [Phase 4 context](phases/04-asset-production/04-CONTEXT.md). Its capture is preserved separately from this completed Phase 1 run.

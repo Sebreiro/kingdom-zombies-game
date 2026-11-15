@@ -4,7 +4,7 @@
 
 ## Overview
 
-Deliver the complete specified version 0.1: players build, equip, and defend one shared survivor camp through a solo or four-player LAN campaign, preserving their survivors, belongings, and progress. The creator approved all 133 requirements, the working-increment direction, and this detailed ten-phase roadmap on 2026-11-13. Phase 1 is complete under the focused Linux exception above. Its developer baseline is verified; playable game features remain future work.
+Deliver the complete specified version 0.1: players build, equip, and defend one shared survivor camp through a solo or four-player LAN campaign, preserving their survivors, belongings, and progress. The creator approved all 133 requirements, the working-increment direction, and this detailed ten-phase roadmap on 2026-11-13. Phase 1 is complete under the focused Linux exception above. Its developer baseline is verified; Phase 2 now delivers the menu and playable walking foundation.
 
 **Planning mode:** `mvp` means working, verifiable increments toward the full approved game; it does not reduce scope.
 **Granularity:** Standard configuration, with the original ten-phase direction extended by creator-requested Phase 11 on 2026-11-15.
@@ -28,7 +28,7 @@ Deliver the complete specified version 0.1: players build, equip, and defend one
 Integer phases execute in order. Decimal phases are reserved for explicitly inserted work.
 
 - [x] **Phase 1: Code rules and documentation** - Developers can use strict, proven Godot-compatible C# rules and focused documentation. (completed 2026-11-14)
-- [ ] **Phase 2: Playable foundation** - Players launch a menu, enter a small scene, and move one character left and right.
+- [x] **Phase 2: Playable foundation** - Players launch a menu, enter a small scene, and move one character left and right. (completed 2026-11-15)
 - [ ] **Phase 3: Four-player LAN foundation** - A host and three guests independently control synchronized characters in the same scene.
 - [ ] **Phase 4: Asset production** - The complete required resource pack is reusable, self-contained, and inspectable in fixtures.
 - [ ] **Phase 5: CI and repeatable game testing** - Developers and AI agents run stored cases locally and in CI with trustworthy evidence.
@@ -41,7 +41,7 @@ Integer phases execute in order. Decimal phases are reserved for explicitly inse
 
 ## Delivery and Ownership Rules
 
-Each requirement has exactly one primary owner in a phase's **Requirements** field and in the requirements traceability table. That owner delivers and verifies its complete approved behavior. Prerequisite work in earlier phases and regression/integration reruns in later phases do not create additional owners or mark a requirement complete early. All 133 requirements currently remain Pending. PLAT-01 and PLAT-02 are outside this milestone.
+Each requirement has exactly one primary owner in a phase's **Requirements** field and in the requirements traceability table. That owner delivers and verifies its complete approved behavior. Prerequisite work in earlier phases and regression/integration reruns in later phases do not create additional owners or mark a requirement complete early. Ten of the current 134 approved requirements are complete; the traceability table records each owner and status. PLAT-01 and PLAT-02 are outside this milestone.
 
 Every feature includes its stable identities, host-authoritative validation and atomic ownership changes, configuration and field documentation, versioned saveable state and relevant legacy metadata, usable input/UI/feedback, and regression evidence. Snapshot capture/restore proofs accompany new state before the full player-facing save experience. Solo, host-local, and guest actions follow the same authority path. A failed or duplicated operation cannot change possessions, payments, or commitments.
 
@@ -137,7 +137,7 @@ Every feature includes its stable identities, host-authoritative validation and 
 
 ### Phase 2: Playable foundation
 
-**Goal:** A player can launch a visible menu, start a small scene with representative base assets, and move a character left and right using normal input.
+**Goal:** As a player, I want to start a small scene from a visible menu and move my character left and right using normal input, so that I can explore the game's playable foundation.
 **Mode:** mvp
 **Depends on:** Phase 1
 **Requirements:** BASE-01, BASE-02, BASE-03
@@ -147,7 +147,7 @@ Every feature includes its stable identities, host-authoritative validation and 
 2. The player sees representative base assets and a character responding to left/right input through the production controls and camera.
 3. A developer can repeat launch, menu selection, movement, and rendered-scene smoke checks, inspect current results, and see failure when an expected behavior or required image is missing.
 
-**Plans:** TBD
+**Plans:** 3/3 plans complete; verified and closed 2026-11-15.
 **UI hint:** yes
 
 **Delivery boundary:** Keep this scene as the Phase 3 LAN foundation. Establish actor identity, input/focus routing, canonical local commands, and engine lifecycle checks here. Use a few representative resources; full pack acceptance stays in Phase 4. These small checks exist before Phase 5 automation and do not imply a complete campaign.
@@ -329,7 +329,7 @@ Every feature includes its stable identities, host-authoritative validation and 
 | Phase | Primary requirements | Current status |
 | --- | ---: | --- |
 | 1. Code rules and documentation | 7 | Complete under focused closure exception |
-| 2. Playable foundation | 3 | Pending |
+| 2. Playable foundation | 3 | Complete |
 | 3. Four-player LAN foundation | 4 | Pending |
 | 4. Asset production | 5 | Pending |
 | 5. CI and repeatable game testing | 10 | Pending |
@@ -339,7 +339,7 @@ Every feature includes its stable identities, host-authoritative validation and 
 | 9. Persistence and complete player experience | 28 | Pending |
 | 10. Release validation and balancing | 6 | Pending |
 | 11. Nightly full regression testing | 1 | Pending |
-| **Total** | **134** | **7 complete / 127 pending** |
+| **Total** | **134** | **10 complete / 124 pending** |
 
 Every approved version 0.1 ID is assigned exactly once; no unknown IDs, duplicate owners, or orphan requirements are allowed. The [requirements traceability table](REQUIREMENTS.md#traceability) is the per-ID ownership record. Its existing A-01–A-47 source crosswalk stays unchanged; Phase 5 expands it into executable/evidence cases and activation states.
 
@@ -350,7 +350,7 @@ Execution order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11
 | Phase | Plans Complete | Status | Completed |
 | --- | --- | --- | --- |
 | 1. Code rules and documentation | 18/18 | Complete    | 2026-11-14 |
-| 2. Playable foundation | 1/3 | In progress | - |
+| 2. Playable foundation | 3/3 | Complete    | 2026-11-15 |
 | 3. Four-player LAN foundation | 0/TBD | Not started | - |
 | 4. Asset production | 0/TBD | Not started | - |
 | 5. CI and repeatable game testing | 0/TBD | Not started | - |
