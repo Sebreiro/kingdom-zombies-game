@@ -37,7 +37,9 @@ function fixture(directory){
 async function run(mode){
   const root=path.resolve(__dirname,'../..'),directory=path.join(root,'.phase3/controls',crypto.randomUUID());fs.mkdirSync(directory,{recursive:true});
   if(mode==='integrity'){
-    await require('./processes.cjs').run(process.execPath,['--test',path.join(root,'tools/phase3/navigation.test.cjs'),path.join(root,'tools/phase3/selection.test.cjs'),path.join(root,'tools/phase3/foreground.test.cjs'),path.join(root,'tools/phase3/revisions.test.cjs')],{cwd:root},30000);
+    const controls=await require('./processes.cjs').run(process.execPath,['--test',path.join(root,'tools/phase3/navigation.test.cjs'),path.join(root,'tools/phase3/selection.test.cjs'),path.join(root,'tools/phase3/foreground.test.cjs'),path.join(root,'tools/phase3/revisions.test.cjs')],{cwd:root},35000);
+    const controlFile=path.join(directory,'integrity-controls.process.json');fs.writeFileSync(controlFile,JSON.stringify(controls,null,2),{flag:'wx'});
+    console.log(controls.stdout+'\nCONTROL_PROCESS '+controlFile+' SHA256 '+e.hash(fs.readFileSync(controlFile)));
     const {context,selected,results}=fixture(directory),[first,second]=results;
     e.reconcile(selected,results,context);e.reconcile(selected,[second,{...first,peers:[...first.peers].reverse()}],context);
     const bad=mutation=>{const clone=structuredClone(results);mutation(clone);assert.throws(()=>e.reconcile(selected,clone,context));};
@@ -71,7 +73,9 @@ async function run(mode){
     require('./catalog.cjs').validate(root,e.read(path.join(root,'tools/phase3/required-cases.json')));
     console.log('PASS exact cases/roles, duplicate substitution, stale identities, images, corruption, unsafe paths and catalog controls; fixtures earn no execution credit');
   }else if(mode==='processes'){
-    await p.run(process.execPath,['--test',path.join(root,'tools/phase3/inherited.test.cjs')],{cwd:root},15000);
+    const controls=await p.run(process.execPath,['--test',path.join(root,'tools/phase3/inherited.test.cjs')],{cwd:root},15000);
+    const controlFile=path.join(directory,'inherited-controls.process.json');fs.writeFileSync(controlFile,JSON.stringify(controls,null,2),{flag:'wx'});
+    console.log(controls.stdout+'\nCONTROL_PROCESS '+controlFile+' SHA256 '+e.hash(fs.readFileSync(controlFile)));
     await require('./terminal-fixture.cjs').run(directory);
     const positive=await p.run(process.execPath,['-e','process.stdout.write("real-positive")']);assert.equal(positive.stdout,'real-positive');
     for(const [name,args,pattern] of [['missing',[],/ENOENT/],['nonzero',['-e','process.exit(7)'],/CHILD_EXIT 7/],['crash',['-e','process.abort()'],/CHILD_EXIT/]]){

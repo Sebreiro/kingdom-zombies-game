@@ -3,13 +3,13 @@ const test=require('node:test'),assert=require('node:assert/strict'),fs=require(
 const {spawnSync}=require('node:child_process'),e=require('./evidence.cjs'),r=require('./revisions.cjs');
 const catalog=require('./catalog.cjs'),baseline=require('../phase1/check.cjs'),check=require('./check.cjs');
 const project=path.resolve(__dirname,'../..');
-function fixture(){
+function fixture(build=false){
   const root=fs.mkdtempSync(path.join(project,'.phase3/revision-control-'));
   const write=(file,value)=>{fs.mkdirSync(path.dirname(path.join(root,file)),{recursive:true});fs.writeFileSync(path.join(root,file),typeof value==='string'?value:JSON.stringify(value));};
   const git=(...args)=>{const result=spawnSync('git',args,{cwd:root,encoding:'utf8',windowsHide:true});assert.equal(result.status,0,result.stderr);return result.stdout.trim();};
   const commit=()=>{git('add','.');git('commit','-qm','control');return git('rev-parse','HEAD');};
   git('init','-q');git('config','user.email','control@example.invalid');git('config','user.name','Control');git('config','core.autocrlf','false');
-  write('.gitignore','.phase1/\n.phase2/\n.phase3/\n');
+  write('.gitignore','.phase1/\n.phase2/\n.phase3/\n**/bin/\n**/obj/\n');
   for(const input of check.inputManifest().inputs){
     const isFile=path.posix.basename(input).includes('.')||input.endsWith('.editorconfig');
     write(isFile?input:input+'/control.txt','CONTROL_ONLY');
@@ -19,6 +19,15 @@ function fixture(){
   for(const input of e.read(path.join(root,'tools/phase1/required-cases.json')).inputs){
     if(!fs.existsSync(path.join(root,input)))write(path.posix.basename(input).includes('.')?input:input+'/control.txt','CONTROL_ONLY');
   }
+  if(build){
+    write('global.json',fs.readFileSync(path.join(project,'global.json'),'utf8'));
+    write('NuGet.config','<configuration><packageSources><clear /></packageSources></configuration>');
+    write('src/Subject.cs','internal sealed class Subject { internal int Value => 1; }\n');
+    write('.phase3/build/Directory.Build.props','<Project />');write('.phase3/build/Directory.Build.targets','<Project />');
+    write('.phase3/build/Directory.Packages.props','<Project />');
+    write('.phase3/build/NuGet.Config','<configuration><packageSources><clear /></packageSources></configuration>');
+    write('.phase3/build/Subject.csproj','<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><TargetFramework>net10.0</TargetFramework><VersionPrefix>0.1.0</VersionPrefix></PropertyGroup><ItemGroup><Compile Include="../../src/Subject.cs" /></ItemGroup></Project>');
+  }
   // These records exercise validators, never claim game/test execution credit.
   const cases=e.read(path.join(root,'tools/phase3/required-cases.json')).cases.map(row=>({...row,id:row.id==='rendered.timing'?'runner.control-timing':row.id,needsGameWindow:false,roles:undefined,additionalRoles:undefined,group:'runner',implementation:'control'}));
   const savedSelection=e.read(path.join(root,catalog.selectionPath));savedSelection.selected.phase3=cases.map(row=>row.id);write(catalog.selectionPath,savedSelection);
@@ -26,11 +35,14 @@ function fixture(){
   const phase2=e.read(path.join(root,'tools/phase2/required-cases.json'));phase2.cases=phase2.cases.map(row=>({...row,implementation:'control',images:undefined}));write('tools/phase2/required-cases.json',phase2);
   write('tools/phase3/required-cases.json',{schemaVersion:1,requiredEnvironment:'development-os',cases});
   const reviewed=commit(),input=baseline.snapshot(root,check.inputManifest()).sha256;
-  const identity={input,tool:'control-tool',platform:process.platform+'-'+process.arch,osFingerprint:'control-os'};
+  if(build)compile(root,reviewed);
+  const identity=build?pinnedIdentity(root,reviewed):{input,tool:'control-tool',platform:process.platform+'-'+process.arch,osFingerprint:'control-os',buildRevision:reviewed};
   write(catalog.reviewPath.replace('.json','.md'),'Immutable original review.');
   const ref=file=>({path:file,sha256:e.hash(fs.readFileSync(path.join(root,file)))});
   const review={status:'complete',...identity,revision:reviewed,reviewedBy:'Control',findings:[],report:ref(catalog.reviewPath.replace('.json','.md'))};
-  write(catalog.reviewPath,review);const tested=commit(),context={...identity,revision:tested,root,directory:path.join(root,'.phase3/runs/control/final')};fs.mkdirSync(context.directory,{recursive:true});
+  write(catalog.reviewPath,review);const tested=commit();
+  if(build){compile(root,reviewed);assert.equal(pinnedIdentity(root,reviewed).tool,identity.tool,'metadata commit and strict rebuild must preserve the exact tool bytes');}
+  const context={...identity,revision:tested,root,directory:path.join(root,'.phase3/runs/control/final')};fs.mkdirSync(context.directory,{recursive:true});
   const gate=catalog.prelaunch(root,context),selection=gate.savedSelection;
   const record=(family,summary)=>{const prefix='.'+family+'/runs/control';write(prefix+'/summary.json',summary);write(prefix+'/process.json',{code:0,signal:null,timedOut:false,startedAt:10,finishedAt:20});return {...ref(prefix+'/summary.json'),process:ref(prefix+'/process.json')};};
   const inherited={phase1:[],phase2:[],status:'pass',nativeAllowed:true};
@@ -60,6 +72,26 @@ function fixture(){
   write(catalog.reviewPath.replace('.json','.md'),'Later canonical review metadata; immutable original still bound.');
   const closure=commit();return {root,write,git,commit,reviewed,tested,closure,context,review,gate,identity,index,cases,ref};
 }
+function compile(root,stamp){
+  const env={...check.environment(project),SourceRevisionId:stamp??''};
+  const args=['build','.phase3/build/Subject.csproj','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'];
+  const startedAt=Date.now(),result=spawnSync('dotnet',args,
+    {cwd:root,env,encoding:'utf8',windowsHide:true,timeout:20000});
+  const records=path.join(root,'.phase3/build-records');fs.mkdirSync(records,{recursive:true});
+  fs.writeFileSync(path.join(records,'build-'+fs.readdirSync(records).length+'.json'),JSON.stringify({executable:'dotnet',args,
+    sourceRevisionId:stamp,startedAt,finishedAt:Date.now(),code:result.status,signal:result.signal,stdout:result.stdout,stderr:result.stderr,error:result.error?.message}),{flag:'wx'});
+  assert.equal(result.status,0,result.stdout+result.stderr);
+  const info=fs.readFileSync(path.join(root,'.phase3/build/obj/Debug/net10.0/Subject.AssemblyInfo.cs'),'utf8');
+  const actual=stamp??spawnSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8',windowsHide:true}).stdout.trim();
+  assert.ok(info.includes('0.1.0+'+actual),'actual SDK build must record the requested immutable source stamp');
+  const file=path.join(root,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll');fs.mkdirSync(path.dirname(file),{recursive:true});
+  fs.copyFileSync(path.join(root,'.phase3/build/bin/Debug/net10.0/Subject.dll'),file);return e.hash(fs.readFileSync(file));
+}
+function pinnedIdentity(root,stamp){
+  const prior=process.env.SourceRevisionId;
+  try{if(stamp)process.env.SourceRevisionId=stamp;else delete process.env.SourceRevisionId;return check.createIdentity(root);}
+  finally{if(prior===undefined)delete process.env.SourceRevisionId;else process.env.SourceRevisionId=prior;}
+}
 test('committed metadata closure validates original review and completion without rewriting bytes',()=>{
   const f=fixture(),original=fs.readFileSync(path.join(f.root,f.index.finalReport.path)),review=fs.readFileSync(path.join(f.root,f.gate.review.report.path));
   const current={...f.identity,revision:f.closure};
@@ -67,7 +99,7 @@ test('committed metadata closure validates original review and completion withou
   assert.equal(r.relation(f.root,f.reviewed,f.closure,f.identity.input).execution,'original');
   assert.deepEqual(fs.readFileSync(path.join(f.root,f.index.finalReport.path)),original);
   assert.deepEqual(fs.readFileSync(path.join(f.root,f.gate.review.report.path)),review);
-  for(const key of ['input','tool','platform','osFingerprint'])assert.throws(()=>e.verifyCompletion(f.root,f.index,f.cases,{...current,[key]:'changed'}));
+  for(const key of ['input','tool','platform','osFingerprint','buildRevision'])assert.throws(()=>e.verifyCompletion(f.root,f.index,f.cases,{...current,[key]:'changed'}));
   for(const revision of ['unknown','0'.repeat(40),f.closure.slice(0,8)])assert.throws(()=>e.verifyCompletion(f.root,f.index,f.cases,{...current,revision}));
   assert.throws(()=>r.relation(f.root,f.closure,f.tested,f.identity.input));
   const unrelated=f.git('commit-tree',f.git('rev-parse','HEAD^{tree}'),'-m','unrelated');
@@ -91,8 +123,21 @@ test('committed metadata closure validates original review and completion withou
 test('prelaunch requires committed matching review inputs and exact original report hash',()=>{
   const f=fixture();f.git('checkout','--detach',f.tested);
   const context={...f.context,directory:path.join(f.root,'.phase3/other')};fs.mkdirSync(context.directory);
+  assert.throws(()=>catalog.prelaunch(f.root,{...context,buildRevision:null}),/REVIEW_BUILD_REVISION_REQUIRED/);
+  assert.throws(()=>catalog.prelaunch(f.root,{...context,buildRevision:f.tested}),/REVIEW_BUILD_REVISION_REQUIRED/);
   catalog.prelaunch(f.root,context);
   const file=catalog.reviewPath;f.write(file,{...f.review,revision:'0'.repeat(40)});assert.throws(()=>catalog.prelaunch(f.root,context));
   f.git('checkout','--',file);f.write(f.review.report.path,'tampered');assert.throws(()=>catalog.prelaunch(f.root,context));
   f.git('checkout','--',f.review.report.path);f.write('src/control.txt','dirty');assert.throws(()=>catalog.prelaunch(f.root,context));
+});
+test('real SDK commit-build-review-gate cycle preserves exact DLL bytes only with the reviewed source stamp',()=>{
+  const f=fixture(true),file=path.join(f.root,f.index.finalReport.path),original=fs.readFileSync(file);
+  const before=e.hash(fs.readFileSync(path.join(f.root,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll')));
+  console.log('SDK_FINALIZATION_CONTROL '+f.root+' source='+f.reviewed+' execution='+f.tested+' closure='+f.closure+' dll='+before);
+  assert.equal(compile(f.root,f.reviewed),before);
+  assert.equal(e.verifyCompletion(f.root,f.index,f.cases,pinnedIdentity(f.root,f.reviewed)).testedRevision,f.tested);
+  const unpinned=compile(f.root,null);assert.notEqual(unpinned,before,'negative control must reproduce HEAD-stamped DLL/tool drift');
+  assert.throws(()=>e.verifyCompletion(f.root,f.index,f.cases,pinnedIdentity(f.root,null)),/COMPLETION_CURRENT tool|COMPLETION_CURRENT buildRevision/);
+  assert.equal(compile(f.root,f.reviewed),before,'pinned closure rebuild must restore the exact original DLL, without hash equivalence');
+  e.verifyCompletion(f.root,f.index,f.cases,pinnedIdentity(f.root,f.reviewed));assert.deepEqual(fs.readFileSync(file),original);
 });

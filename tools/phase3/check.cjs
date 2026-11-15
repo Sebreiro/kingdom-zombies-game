@@ -23,11 +23,13 @@ function inputManifest(){return {inputs:['src','tests/phase1','tools/phase3','to
 function environment(root){return {...process.env,DOTNET_CLI_HOME:path.join(root,'.phase1/cli-home'),NUGET_PACKAGES:path.join(root,'.phase1/packages'),
   NUGET_HTTP_CACHE_PATH:path.join(root,'.phase1/http-cache'),TEMP:path.join(root,'.phase1/temp'),TMP:path.join(root,'.phase1/temp')};}
 function createIdentity(root){
+  const buildRevision=process.env.SourceRevisionId??null;
+  requireTrue(buildRevision===null||/^[a-f0-9]{40}$/.test(buildRevision),'BUILD_REVISION_MALFORMED');
   const env=environment(root),version=spawnSync('dotnet',['--version'],{cwd:root,env,encoding:'utf8',windowsHide:true,timeout:12000});requireTrue(version.status===0,'DOTNET_MISSING');
   const revision=spawnSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8',windowsHide:true});requireTrue(revision.status===0,'REVISION_UNAVAILABLE');
   const operatingSystem={platform:process.platform,architecture:process.arch,release:os.release(),version:os.version()};
   return {platform:process.platform+'-'+process.arch,os:operatingSystem,osFingerprint:hash(JSON.stringify(operatingSystem)),
-    input:baseline.snapshot(root,inputManifest()).sha256,revision:revision.stdout.trim(),
+    input:baseline.snapshot(root,inputManifest()).sha256,revision:revision.stdout.trim(),buildRevision,
     tool:hash(JSON.stringify({node:process.version,dotnet:version.stdout.trim(),pins:hash(fs.readFileSync(path.join(root,'tools/phase1/toolchain.json'))),
       testBinary:hash(fs.readFileSync(path.join(root,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll')))}))};
 }

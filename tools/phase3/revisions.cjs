@@ -4,7 +4,7 @@ const fs=require('node:fs');
 const {spawnSync}=require('node:child_process'),e=require('./evidence.cjs'),baseline=require('../phase1/check.cjs');
 const phase='.planning/phases/03-four-player-lan-foundation/';
 const metadata=new Set(['.planning/STATE.md','.planning/ROADMAP.md','.planning/REQUIREMENTS.md',
-  ...['03-REVIEW.md','03-REVIEW.json','03-REVIEW-FIX.md','03-EVIDENCE.json','03-VISUAL-REVIEW.md',
+  ...['03-REVIEW.md','03-REVIEW.json','03-REVIEW-FIX.md','03-REVIEW.iter2.md','03-REVIEW-FIX.iter2.md','03-EVIDENCE.json','03-VISUAL-REVIEW.md',
     '03-04-SUMMARY.md','03-04-CHECKPOINT.md','03-CONTINUATION.md','COVERAGE.md'].map(file=>phase+file)]);
 function git(root,args,encoding='utf8'){
   const result=spawnSync('git',args,{cwd:root,encoding,windowsHide:true,timeout:15000,maxBuffer:32*1024*1024});
@@ -56,6 +56,7 @@ function committedArtifact(root,revision,reference){
 }
 function review(root,record,reference,context){
   e.requireTrue(record.status==='complete'&&record.input===context.input&&record.tool===context.tool,'WHOLE_PHASE_REVIEW_REQUIRED');
+  e.requireTrue(context.buildRevision===record.revision,'REVIEW_BUILD_REVISION_REQUIRED');
   relation(root,record.revision,context.revision,context.input);
   committedArtifact(root,context.revision,reference);committedArtifact(root,context.revision,record.report);
 }

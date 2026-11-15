@@ -178,7 +178,7 @@ function verifyCompletion(root,index,cases,current){
   exact(cases.map(row=>row.id),selection.selected.phase3,'COMPLETION_SELECTION');
   requireTrue(index.finalReport&&Array.isArray(index.history),'COMPLETION_FINAL_REQUIRED');
   const final=loadReport(root,index.finalReport,cases);
-  for(const key of ['input','tool','platform','osFingerprint'])requireTrue(final[key]===current[key],'COMPLETION_CURRENT '+key);
+  for(const key of ['input','tool','platform','osFingerprint','buildRevision'])requireTrue(final[key]===current[key],'COMPLETION_CURRENT '+key);
   const revisionValidation=require('./revisions.cjs').relation(root,final.revision,current.revision,final.input);
   exact(selection.selected.phase3,final.selected,'final selection');
   requireTrue(final.selectionSha256===index.selection.sha256&&final.prelaunchReview?.sha256,'PRELAUNCH_BINDING');
@@ -187,6 +187,7 @@ function verifyCompletion(root,index,cases,current){
     final.prelaunchReview.report?.path===runDirectory+'/prelaunch-review.md','PRELAUNCH_REVIEW_PATH');
   const reviewRecord=read(artifact({directory:root},final.prelaunchReview));
   requireTrue(reviewRecord.status==='complete'&&reviewRecord.input===final.input&&reviewRecord.tool===final.tool,'PRELAUNCH_REVIEW');
+  requireTrue(final.buildRevision===reviewRecord.revision,'PRELAUNCH_BUILD_REVISION');
   require('./revisions.cjs').relation(root,reviewRecord.revision,current.revision,final.input);
   require('./revisions.cjs').committedArtifact(root,final.revision,{path:require('./catalog.cjs').reviewPath,sha256:final.prelaunchReview.sha256});
   require('./revisions.cjs').committedArtifact(root,final.revision,reviewRecord.report);

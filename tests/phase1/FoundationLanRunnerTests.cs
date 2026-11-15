@@ -58,11 +58,11 @@ public sealed class FoundationLanRunnerTests
                 ?? throw new InvalidOperationException(message: "Node failed to start");
         Task<string> output = child.StandardOutput.ReadToEndAsync();
         Task<string> error = child.StandardError.ReadToEndAsync();
-        if (!child.WaitForExit(milliseconds: 30000))
+        if (!child.WaitForExit(milliseconds: 40000))
         {
             child.Kill(entireProcessTree: true);
             child.WaitForExit();
-            throw new TimeoutException(message: "Phase 3 isolated Git and child controls exceeded 30 seconds");
+            throw new TimeoutException(message: "Phase 3 isolated Git and SDK/child controls exceeded 40 seconds");
         }
 
         return (child.ExitCode, output.GetAwaiter().GetResult() + error.GetAwaiter().GetResult());
