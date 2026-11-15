@@ -260,8 +260,10 @@ async function lifecycleSubject(context,peers,deadline,port){
   const firstSession=frames(host).at(-1).snapshot.SessionId;
   const firstGuest=actor(frames(host).at(-1),guests[0].profile);
   const survivor=actor(frames(host).at(-1),guests[1].profile);
-  await escape(guests[0],context,deadline);
+  const guestLeftAt=Date.now();await escape(guests[0],context,deadline);
   const departed=await readyCount(peers,deadline,host,2);
+  const guestLeaveMilliseconds=Date.now()-guestLeftAt;
+  requireTrue(guestLeaveMilliseconds<1000,'GRACEFUL_GUEST_DEPARTURE_MUST_NOT_WAIT_FOR_LOSS_TIMEOUT');
   await waitFor(peers,deadline,()=>[host,guests[1]].every(peer=>frames(peer).at(-1)?.nativeActors===2),
     'departed placeholder removed on remaining peers');
   requireTrue(actor(departed,guests[1].profile).PositionSubunits===survivor.PositionSubunits,'SURVIVOR_PRESERVED');
@@ -305,7 +307,7 @@ async function lifecycleSubject(context,peers,deadline,port){
     await waitFor(active.slice(1),deadline,()=>frames(guest).at(-1)?.ready,'usable solo after loss');
     requireTrue(actor(frames(guest).at(-1),guest.profile).PositionSubunits===-8000,'FRESH_INPUT_AFTER_RETURN');
   }
-  return {firstSession,secondSession,firstGuest,secondGuest,guestLossMilliseconds,hostLossMilliseconds,
+  return {firstSession,secondSession,firstGuest,secondGuest,guestLeaveMilliseconds,guestLossMilliseconds,hostLossMilliseconds,
     outcomes:['graceful guest leave','same-profile replacement','guest loss','fresh replacement',
       'graceful host end','fresh rehost','host loss','usable solo controls']};
 }

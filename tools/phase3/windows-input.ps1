@@ -46,7 +46,7 @@ public static class LanDesktop {
     public static void Key(ushort key,bool pressed,bool unicode=false) {
         var item=new Event {Type=1};
         item.Data.Keyboard=new Keyboard {Scan=unicode?key:(ushort)MapVirtualKey(key,0),
-            Flags=(unicode?4u:8u)|(pressed?0u:2u)|(!unicode&&key>=37&&key<=40?1u:0u)};
+            Flags=(unicode?4u:8u)|(pressed?0u:2u)|(!unicode&&((key>=33&&key<=40)||key==45||key==46)?1u:0u)};
         if(SendInput(1,new[]{item},Marshal.SizeOf<Event>())!=1)throw new Exception("SENDINPUT_REJECTED");
     }
     public static void MouseButton(bool pressed) {
@@ -151,7 +151,7 @@ function Deliver-Key([int]$SubjectId,[IntPtr]$Target,[string]$Method,[int]$Code,
         [LanDesktop]::Key($Code,$Pressed)
     } elseif ($Method -eq 'window-message') {
         [long]$parameter=1 -bor ([long][LanDesktop]::MapVirtualKey($Code,0) -shl 16)
-        if ($Code -ge 37 -and $Code -le 40) { $parameter=$parameter -bor (1L -shl 24) }
+        if (($Code -ge 33 -and $Code -le 40) -or $Code -eq 45 -or $Code -eq 46) { $parameter=$parameter -bor (1L -shl 24) }
         if (-not $Pressed) { $parameter=$parameter -bor (1L -shl 30) -bor (1L -shl 31) }
         $message=if ($Pressed) { 0x100 } else { 0x101 }
         if (-not [LanDesktop]::PostMessage($Target,$message,[UIntPtr]::new($Code),[IntPtr]::new($parameter))) { throw 'DRIVER_POSTMESSAGE_REJECTED' }
@@ -176,6 +176,11 @@ try {
                 'probe' { }
                 'focus' { if ($null -ne $sink) { $sink.Hide() }; Focus-Owned $window }
                 'key' { Deliver-Key $subjectId $window $method ([int]$request.key) ([bool]$request.pressed) }
+                'reversal' {
+                    if ($method -ne 'physical-SendInput' -or [LanDesktop]::GetForegroundWindow() -ne $window) { throw 'DRIVER_REVERSAL_FOCUS' }
+                    Deliver-Key $subjectId $window $method ([int]$request.releaseKey) $false
+                    Deliver-Key $subjectId $window $method ([int]$request.key) $true
+                }
                 'text' {
                     if ([LanDesktop]::GetForegroundWindow() -ne $window -or $method -ne 'physical-SendInput') { throw 'DRIVER_TEXT_FOCUS' }
                     $typed=0
@@ -205,7 +210,7 @@ try {
                 }
                 default { throw 'DRIVER_ACTION' }
             }
-            [Console]::Out.WriteLine((@{ok=$true;nonce=$Nonce;sequence=$sequence;pid=$subjectId;driverPid=$PID;window=$window.ToInt64();focused=([LanDesktop]::GetForegroundWindow()-eq$window);action=$request.action;method=$method;key=$request.key;pressed=$request.pressed;deliveryOnly=$true;coordinateSpace='physical-pixels';dpiAwareness='per-monitor-v2';clientWidth=$client.R-$client.L;clientHeight=$client.B-$client.T} | ConvertTo-Json -Compress))
+            [Console]::Out.WriteLine((@{ok=$true;nonce=$Nonce;sequence=$sequence;pid=$subjectId;driverPid=$PID;window=$window.ToInt64();focused=([LanDesktop]::GetForegroundWindow()-eq$window);action=$request.action;method=$method;key=$request.key;pressed=$request.pressed;releaseKey=$request.releaseKey;deliveryOnly=$true;coordinateSpace='physical-pixels';dpiAwareness='per-monitor-v2';clientWidth=$client.R-$client.L;clientHeight=$client.B-$client.T} | ConvertTo-Json -Compress))
         } catch { [Console]::Out.WriteLine((@{ok=$false;nonce=$Nonce;sequence=$sequence;error=$_.Exception.Message} | ConvertTo-Json -Compress)) }
     }
 } finally {

@@ -11,13 +11,16 @@ function lines(file){
   const stat=fs.statSync(file);let stream=streams.get(file);
   if(!stream){stream={offset:0,inode:stat.ino,decoder:new StringDecoder('utf8'),carry:'',rows:[]};streams.set(file,stream);}
   e.requireTrue(stat.ino===stream.inode&&stat.size>=stream.offset,'DRAW_STREAM_REPLACED_OR_TRUNCATED');
-  const size=stat.size-stream.offset;e.requireTrue(size<=16*1024*1024,'DRAW_STREAM_BACKLOG');if(!size)return stream.rows;
-  const descriptor=fs.openSync(file,'r'),buffer=Buffer.alloc(size);let read;
-  try{read=fs.readSync(descriptor,buffer,0,size,stream.offset);}finally{fs.closeSync(descriptor);}
-  stream.offset+=read;stream.carry+=stream.decoder.write(buffer.subarray(0,read));
-  const complete=stream.carry.split('\n');stream.carry=complete.pop();
-  for(const line of complete.filter(Boolean))stream.rows.push(JSON.parse(line));
-  if(stream.rows.length>256)stream.rows.splice(0,stream.rows.length-256);return stream.rows;
+  if(stat.size===stream.offset)return stream.rows;
+  const descriptor=fs.openSync(file,'r'),buffer=Buffer.alloc(Math.min(stat.size-stream.offset,1024*1024));
+  try{while(stream.offset<stat.size){
+    const read=fs.readSync(descriptor,buffer,0,Math.min(buffer.length,stat.size-stream.offset),stream.offset);
+    e.requireTrue(read>0,'DRAW_STREAM_READ');stream.offset+=read;stream.carry+=stream.decoder.write(buffer.subarray(0,read));
+    const complete=stream.carry.split('\n');stream.carry=complete.pop();
+    e.requireTrue(stream.carry.length<=16*1024*1024,'DRAW_RECORD_BOUNDS');
+    for(const line of complete.filter(Boolean)){e.requireTrue(line.length<=16*1024*1024,'DRAW_RECORD_BOUNDS');stream.rows.push(JSON.parse(line));}
+    if(stream.rows.length>256)stream.rows.splice(0,stream.rows.length-256);
+  }}finally{fs.closeSync(descriptor);}return stream.rows;
 }
 function draws(peer){return lines(path.join(peer.directory,'draws.ndjson'));}
 function actor(draw,id){return draw?.actors?.find(row=>row.actorId===id);}
@@ -82,6 +85,13 @@ async function nativeKey(context,input,peer,key,pressed,method='physical-SendInp
     return row?.input.inputEvents>previous&&event?.key===({13:4194309,27:4194305,9:4194306,37:4194319,39:4194321}[key]??key)&&event.pressed===pressed?row:null;},'native event '+peer.role+'/'+key+'/'+pressed);
   Object.assign(ack,{nativeInputEvents:native.input.inputEvents,nativeDrawFrame:native.drawFrame,nativeAcknowledgedAfter:String(now())});return ack;
 }
+async function nativeReversal(input,peer){
+  const previous=draws(peer).at(-1)?.input.inputEvents??0;
+  const ack=await input.send(peer,{action:'reversal',method:'physical-SendInput',releaseKey:68,key:65});
+  const native=await until([peer],()=>{const row=draws(peer).at(-1),event=row?.input.lastInput;
+    return row?.input.inputEvents>=previous+2&&event?.key===65&&event.pressed===true?row:null;},'native reversal pair '+peer.role);
+  Object.assign(ack,{nativeInputEvents:native.input.inputEvents,nativeDrawFrame:native.drawFrame,nativeAcknowledgedAfter:String(now())});return ack;
+}
 async function transition(context,input,peers,origin,key,pressed,action){
   const initial=draws(origin).at(-1),own=initial.snapshot.Participants.find(row=>row.BindingId===initial.bindingId).Actor;
   const host=peers.find(peer=>peer.role==='host'),acceptedBefore=draws(host).at(-1).input.acceptedIntents;
@@ -92,7 +102,7 @@ async function transition(context,input,peers,origin,key,pressed,action){
     await until([origin],()=>draws(origin).at(-1)?.input.focusLosses>initial.input.focusLosses,'real focus loss');
     Object.assign(ack,{nativeFocusLosses:draws(origin).at(-1).input.focusLosses,nativeAcknowledgedAfter:String(now())});
   }else if(action==='reversal'){
-    const release=await nativeKey(context,input,origin,68,false);ack=await nativeKey(context,input,origin,key,pressed);ack.deliveryBefore=release.deliveryBefore;
+    ack=await nativeReversal(input,origin);
   }else ack=await nativeKey(context,input,origin,key,pressed);
   const direction=action==='start'?1:action==='reversal'?-1:0;
   const accepted=await until([host],()=>{const draw=draws(host).at(-1),intent=draw?.input.lastAcceptedIntent;

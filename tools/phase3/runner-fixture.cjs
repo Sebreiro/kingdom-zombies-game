@@ -37,7 +37,7 @@ function fixture(directory){
 async function run(mode){
   const root=path.resolve(__dirname,'../..'),directory=path.join(root,'.phase3/controls',crypto.randomUUID());fs.mkdirSync(directory,{recursive:true});
   if(mode==='integrity'){
-    const controls=await require('./processes.cjs').run(process.execPath,['--test',path.join(root,'tools/phase3/navigation.test.cjs'),path.join(root,'tools/phase3/selection.test.cjs'),path.join(root,'tools/phase3/foreground.test.cjs'),path.join(root,'tools/phase3/revisions.test.cjs')],{cwd:root},35000);
+    const controls=await require('./processes.cjs').run(process.execPath,['--test',path.join(root,'tools/phase3/navigation.test.cjs'),path.join(root,'tools/phase3/selection.test.cjs'),path.join(root,'tools/phase3/foreground.test.cjs'),path.join(root,'tools/phase3/revisions.test.cjs'),path.join(root,'tools/phase3/rendered-stream.test.cjs')],{cwd:root},35000);
     const controlFile=path.join(directory,'integrity-controls.process.json');fs.writeFileSync(controlFile,JSON.stringify(controls,null,2),{flag:'wx'});
     console.log(controls.stdout+'\nCONTROL_PROCESS '+controlFile+' SHA256 '+e.hash(fs.readFileSync(controlFile)));
     const {context,selected,results}=fixture(directory),[first,second]=results;

@@ -20,6 +20,7 @@ internal sealed partial class FoundationCoordinator
     private bool _used;
     private bool _closed;
     private bool _draining;
+    private bool _drainingGuest;
     private long _lifetime;
     private long _startedAt;
     private long _lastResponse;
@@ -106,7 +107,8 @@ internal sealed partial class FoundationCoordinator
         _session?.Close();
         SendDeparture();
         _expectedSession = "";
-        _draining = drain && IsHost && _peers.Count > 0;
+        _drainingGuest = drain && !IsHost && _connection?.Connected == true;
+        _draining = _drainingGuest || (drain && IsHost && _peers.Count > 0);
         _closingAt = Now();
         _session = null;
         _remote = null;
@@ -167,7 +169,7 @@ internal sealed partial class FoundationCoordinator
             }
         }
 
-        if (_peers.Count == 0 || Now() - _closingAt >= 250)
+        if ((!_drainingGuest && _peers.Count == 0) || Now() - _closingAt >= 250)
         {
             FinishClose();
         }
@@ -188,6 +190,7 @@ internal sealed partial class FoundationCoordinator
 
         _closed = true;
         _draining = false;
+        _drainingGuest = false;
         _peers.Clear();
         _admissions.Clear();
         _connection?.Close();

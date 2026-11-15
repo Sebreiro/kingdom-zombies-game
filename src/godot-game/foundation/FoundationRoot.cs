@@ -336,10 +336,13 @@ public sealed partial class FoundationRoot : Control
     private void ReturnToMenu()
     {
         _gateway.RequireThread();
-        _closing?.Close();
-        _closing = _coordinator;
-        _closing?.RequestClose();
-        _coordinator = null;
+        if (_coordinator is not null)
+        {
+            _closing?.Close();
+            _closing = _coordinator;
+            _closing.RequestClose();
+            _coordinator = null;
+        }
         _services?.Discovery.Advertise(advertisement: null);
         _input.Clear();
         _input.SetContext(gameplay: false);
