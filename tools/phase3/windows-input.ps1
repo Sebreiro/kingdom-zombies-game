@@ -164,6 +164,7 @@ try {
                     if ([LanDesktop]::GetForegroundWindow() -ne $window -or $method -ne 'physical-SendInput') { throw 'DRIVER_TEXT_FOCUS' }
                     $typed=0
                     foreach ($character in ([string]$request.text).ToCharArray()) {
+                        if ([LanDesktop]::GetForegroundWindow() -ne $window) { throw 'DRIVER_TEXT_FOCUS_CHANGED' }
                         [LanDesktop]::Key([int]$character,$true,$true); [LanDesktop]::Key([int]$character,$false,$true)
                         $typed++
                         if ($typed % 4 -eq 0) { Start-Sleep -Milliseconds 16 }
