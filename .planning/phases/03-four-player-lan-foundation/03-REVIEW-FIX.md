@@ -4,7 +4,7 @@ fixed_at: 2026-11-15T19:28:15.447Z
 review_path: .planning/phases/03-four-player-lan-foundation/03-REVIEW.md
 iteration: 3
 findings_in_scope: 14
-fixed: 16
+fixed: 17
 skipped: 0
 status: all_fixed
 iteration_findings: 1
@@ -316,3 +316,9 @@ Native focused `669773ed-ba58-4619-a9e7-a140c4112c28` retains six accepted runne
 Independent review then found CR-11: browser Cancel still closed before Root ownership. RED `609c752` uses the production native Menu handler and retains `CANCEL_CLOSED_TRANSPORT_BEFORE_ROOT_OWNER` in actual native logs (25979701...). GREEN `f32e0bd` routes Cancel and Return to Menu through one Root-owned lifetime helper, retains rapid successive drains, ticks them, and disposes all at teardown. The production Menu/control uses the same helper, checks repeated cancellation and two pending transports at 249/250 ms. All 20 current non-window cases pass (`018b00b6-5062-41f2-ae54-0cf50be4fa4a`, 174596 ms, zero windows), and strict pinned build has zero warnings/errors. All 45 native tuples, eight public types and 220 generated permissions remain exact. Independent review is clean at source/build f32e0bd8911e0c185a6fa10b24c251f1d69494cd, 119/116 scope, sixteen resolved findings.
 
 Next: rebuild committed gate metadata with both pinned properties; run all twelve native cases (`--group rendered`) because Root/lifetime changes also affect the six previously accepted cases. Preserve all earlier failed/focused/diagnostic reports. Only after focused acceptance run the fresh complete 481 selected cases, actual image review, evidence completion, 03-04 summary and phase verification. No merge.
+
+## Visible interaction and reversal witness repair
+
+Focused `84bec56e-1e82-4a93-ab21-b87e8fcea96a` retains nine accepted runner cases and three failures, with all 13 processes closed normally or by declared loss and no appearance credit. Actual screenshot inspection shows the fourth target row was clipped below the scroll viewport; Home/Enter did not select the original profile; raw reversal traces showed actual left movement well before the obsolete pre-input position baseline was crossed. RED `b9a38e5` proves absent reversal-witness rejection. GREEN `4b83280` adds read-only scroll/popup/selection observations, requires native Tab focus/actual follow-focus scrolling before row clicks, uses observed popup Up/Enter navigation and records first observed leftward/facing-reversed frame pairs. Completion binds those pairs to the exact hashed observer trace and captured image; invalid or forged coordinates reject. The original inclusive 250 ms clock and proof costs remain unchanged. Nine timing/navigation/foreground controls pass, and affected no-window checks pass 4/4 (`1b0197c7-7122-44a1-8378-716547f7779d`).
+
+WR-06 then identified stale row-path return after discovery reordering. `df07eba` returns the awaited current row, verifies the exact session before the physical click and observes the same focused session afterward before Join. Strict build passes zero warnings/errors (`.phase3/wr06-strict.log`), and three navigation/foreground controls pass. Independent source review is clean at df07eba7e978401ce9e8d83b42d03bc4b3848447, 119/116 scope, all seventeen findings resolved. Next run all twelve native cases on the renewed committed gate; only after focused acceptance start the fresh full 481 selected set, inspect required actual images and complete evidence/phase verification. Preserve all earlier failures.

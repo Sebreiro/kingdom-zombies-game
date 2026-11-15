@@ -1,9 +1,9 @@
 ---
 phase: 03-four-player-lan-foundation
-reviewed: 2026-11-15T22:38:07Z
+reviewed: 2026-11-15T23:01:27Z
 depth: standard
-reviewed_revision: f32e0bd8911e0c185a6fa10b24c251f1d69494cd
-build_revision: f32e0bd8911e0c185a6fa10b24c251f1d69494cd
+reviewed_revision: df07eba7e978401ce9e8d83b42d03bc4b3848447
+build_revision: df07eba7e978401ce9e8d83b42d03bc4b3848447
 diff_base: 87e0b44
 scope_files: 119
 files_reviewed: 116
@@ -139,12 +139,12 @@ status: clean
 
 # Phase 03: Code Review Report
 
-**Reviewed:** 2026-11-15T22:38:07Z  
+**Reviewed:** 2026-11-15T23:01:27Z  
 **Depth:** standard  
 **Source files reviewed:** 116  
 **Explicit scope:** all 119 paths from `.phase3/review-fix-union.txt`, preserving the original scope, added SourceLink target and the two newly reviewed proof/document consumers; three planning-context paths are listed separately above  
 **Status:** clean  
-**Reviewed source / pinned build revision:** `f32e0bd8911e0c185a6fa10b24c251f1d69494cd`  
+**Reviewed source / pinned build revision:** `df07eba7e978401ce9e8d83b42d03bc4b3848447`  
 **Diff base:** `87e0b44`
 
 ## Summary
@@ -163,7 +163,7 @@ The latest bounded recheck covers native batch 3 at `4ea54ca731c90de700480033f58
 
 The preceding batch-4 recheck found CR-11 in ordinary browser cancellation. The current four-file repair at `f32e0bd8911e0c185a6fa10b24c251f1d69494cd` transfers cancellation to the Root-owned runtime retirement helper, retains older unfinished drains during rapid replacement and polls/disposes every retiring coordinator through its proper lifetime. The production Menu control uses that same retirement owner and passes its pending-connection, repeated-cancel and 249/250 ms assertions.
 
-**All sixteen prior findings are resolved. No new actionable defect or open finding remains.** The source scope remains 119 paths / 116 source paths. Previous passed/failed records keep their actual revision/tool identities; no failed native run or pending full selection is upgraded by this review. Actual no-window and rendered acceptance retain the limits below.
+**All seventeen prior findings are resolved. No new actionable defect or open finding remains.** The source scope remains 119 paths / 116 source paths. Previous passed/failed records keep their actual revision/tool identities; no failed native run or pending full selection is upgraded by this review. Actual no-window and rendered acceptance retain the limits below.
 
 This is an independent source re-review during the post-review repair cycle, not completed rendered acceptance. No real game window, VM, desktop input, broad test suite, build, branch operation or commit was executed by this reviewer. The renewed retained no-window report was reconciled through the current production validator and its source/tool tuple independently recomputed. The earlier .NET arithmetic probe remains defect-history evidence; the repair's actual coordinator and headless native projection executions are retained separately below. The first full selected execution now has real desktop results and retained failures, as recorded below; it is not accepted final completion. No new rendered, physical-input, image-appearance, other-OS, physical mixed-computer LAN or release acceptance is granted by this source review.
 
@@ -173,23 +173,17 @@ Necessity was assessed using the required rubric; no necessity finding is assert
 
 No open Critical/BLOCKER, Warning or Info findings remain at this reviewed source revision.
 
-## CR-11 independent cancellation-owner repair recheck
+## WR-06 bounded exact-session interaction recheck
 
-**Current reviewed source/build stamp:** `f32e0bd8911e0c185a6fa10b24c251f1d69494cd`. **Disposition:** resolved; prior fifteen resolutions retained.
+**Current reviewed source/build stamp:** `df07eba7e978401ce9e8d83b42d03bc4b3848447`. **Disposition:** resolved; preceding sixteen fixes and 119-path / 116-source scope unchanged.
 
-The original ordinary Cancel call chain immediately closed the transport in `FoundationMenu.CancelAttempt`, then dropped its coordinator through Root's replacement callback. The repair removes that immediate close. Root's actual replacement callback and existing `ReturnToMenu` now call the same `FoundationRuntimeState.Retire` method: close acceptance through `RequestClose`, retain the coordinator in `closing`, then clear current. Browser/error presentation and native Root method signatures are unchanged.
+The one-file follow-up returns the actual target produced by the awaited exact-session/scroll lookup, replacing the pre-wait captured path. The browser caller passes its expected exact session ID into the physical click helper. After foreground acquisition and current-node lookup, that helper rejects any changed session metadata before sending the click. The browser then requires the observed focused row to carry the expected exact session before recording focused detail and submitting Join session. Vanished/reused/clipped paths remain non-success. Physical Tab/follow-focus scrolling and mouse interaction are preserved.
 
-The runtime owner preserves every older unfinished `closing` coordinator in its instance retirement list before assigning a newer one. `TickRetired`, called on each Root process update after the current closing update, polls those inactive lifetimes and removes each only when closed. A null current is a no-op, so repeated Cancel or unrelated browser/menu navigation cannot terminate or duplicate an earlier drain. `CloseRetired` runs during Root teardown and disposes any still-owned lifetimes. Existing inactive-acceptance/lifetime fencing prevents late state from publishing while these transports drain. The bounded deadline and idempotent coordinator close remain unchanged.
+The reviewer inspected the bounded `scenarios.cjs` diff and the three guards through their caller. The previous six-path reversal/clip/popup review is retained unchanged. `.phase3/wr06-strict.log` records zero warnings/errors, 11.30 seconds; `.phase3/wr06-controls.log` records all three foreground/navigation controls passing. The current parent-provided identity is input `d49dd2398af1e1d89291605ef268cee464789baf1a33f2c2e17739339a2547d8`, exact tool `fde3f87242dcb3f2c4de0fcd0cc729095d9091439d6dbf4ccd38f457112caf77`, source/build df07 above. This follow-up launched no reviewer build, test, gate, game window or desktop action.
 
-The native regression invokes the actual production Menu cancellation method with the same runtime retirement owner as the Root callback. Its connected pending provider asserts the menu has not already closed transport before ownership transfer, observes a cancel envelope, repeats Cancel idempotently, starts/cancels another immediate attempt, and checks both transports remain open at 249 ms and close exactly once at 250 ms. Older queued and newest closing lifetimes are both exercised. The existing direct ready-guest drain and native ENet lifecycle evidence remain separate checks of late-state fencing and actual timely transport departure.
+The parent may renew the exact df07 gate and matching metadata-descendant rebuild, then retry all twelve native cases. Actual interaction/timing/appearance acceptance and the final full 481-case selected pass remain outstanding; existing failed reports and timing rows retain their original identities.
 
-The RED `609c752` production-Menu control compiled successfully and then failed the retained `CANCEL_CLOSED_TRANSPORT_BEFORE_ROOT_OWNER` assertion in `259797…`; the outer subject acknowledgement timeout was its consequence, not a bare timeout accepted as intended rejection. GREEN focused report `.phase3/runs/win32-x64/ff421f28-f317-494f-9c3f-a42109f37c91/summary.json` reconciles both `network.discovery-profile` and `core.lifecycle` as pass, with zero game windows. It retains original tested HEAD `609c7527e293498da6f4eb3cf959d709e6ef9033`, working input matching the final repair and the earlier tool identity `10132cfa…`; it is not relabelled as a post-commit f32 execution.
-
-The retained `.phase3/cr11-pinned-strict.log` records zero warnings/errors, 10.85 seconds, after the final pinned commit. Current read-only recomputation matches input `32ecaa554e03ae76241fa28f8bc6f13bf5a6d49a20bb3d75043146978d30f054`, tool tuple `b9d77133755022d25abe06bd10aca9db8588c9602bdf37a1021717c09d907b31` and proof DLL SHA-256 `349e37e5223c92308f248a390ddc41a0876a572d197992ce88b529c302bdd310`. The exact native/public/generated permission registries and tuple-proof source remain unchanged; Root adds no field or method signature. No build, test, game window or input was launched by the reviewer.
-
-The parent-owned full no-window selection finished during review: `.phase3/runs/win32-x64/018b00b6-5062-41f2-ae54-0cf50be4fa4a/summary.json` passes all 20 cases in 174596 ms, with zero game windows and exact f32 source/build/input/tool identity. The reviewer loaded this terminal report through the actual current reconciler. This closes the no-window prerequisite, while the focused native retry and fresh final 481-case selection remain outstanding.
-
-## Disposition of all sixteen prior findings
+## Disposition of all seventeen prior findings
 
 The first report is retained in `03-REVIEW.iter2.md` and original review commit `624f37b`; the following review is retained in `03-REVIEW.iter3.md`. The cumulative fix ledger preserves the earlier repairs without skips; CR-10 is independently resolved by the current two-file commit and controls above. CR-09 was raised in the preceding canonical review and fixed by atomic commit `166a32ad6a7541c4f5eed1378def0a86e9bea632`. These are resolved historical findings, not additional open findings or rendered acceptance claims.
 
@@ -211,6 +205,7 @@ The first report is retained in `03-REVIEW.iter2.md` and original review commit 
 | CR-09 | Resolved | `RegressesActorTime` compares exact continuing actor IDs within the already-matched session and rejects decreasing elapsed values before any candidate installation, revision/readiness change, acknowledgement or liveness renewal. Fresh actors may start at zero; a fresh session has an independent baseline. `FoundationView.Project` uses local `Time.GetTicksMsec`, clamps its interpolation interval to 0–0.25 seconds, preserves the 0.15-second smoothing/initial snap and finite camera bounds, and recovers from a nonfinite prior transform. Actual coordinator controls and the nonce-scoped native projection regression exercise the repaired consumers. |
 | CR-10 | Resolved | `verifyInherited` now uses shared `verifyPhase1Proof`: exact known case/pass/report path, verified run-relative CTRF hash/containment, case-relative subject hash/containment, and actual CTRF case/method validation. The fixture uses the real nested Phase 1 layout and rejects cross-case/path/hash/missing substitutions. The reviewer independently read all 433 authentic passing records through this same helper and confirmed the original failed aggregate still rejects. |
 | CR-11 | Resolved | Ordinary Menu Cancel no longer closes/discards its coordinator. Root cancellation replacement and ReturnToMenu share runtime-owned RequestClose retirement; older unfinished drains are queued during rapid replacement, polled to deadline, and disposed at teardown. The actual production Menu/native regression uses the same owner and verifies no premature transport close, repeated cancellation, two rapid attempts and close-once at 250 ms. |
+| WR-06 | Resolved | `focusSession` returns the awaited current exact-session target path. The caller supplies the expected session to `click`, which rejects changed metadata after foreground/current-node lookup and before physical delivery; the browser also requires the post-click observed focused row to retain that session before Join submission. No physical interaction, visibility or identity check was removed. |
 
 ## CR-09 independent repair recheck
 
@@ -279,7 +274,7 @@ Older auxiliary evidence with unpinned prebuild tool drift remains failure/histo
 
 ## Required handoff before a prelaunch gate
 
-The source review is clean at `f32e0bd8911e0c185a6fa10b24c251f1d69494cd`, with CR-11 and all fifteen earlier findings resolved. The current twenty-case no-window selection has now passed and reconciled; the parent may renew/commit the exact source/input/tool gate and perform the mandatory metadata-descendant rebuild with both build environment properties. Preserve all failed/passing execution identities and raw timing samples. The parent owns gate/commit/publishing and the focused-native-then-full-481-selected cycle.
+The source review is clean at `df07eba7e978401ce9e8d83b42d03bc4b3848447`, with WR-06 and all sixteen earlier findings resolved. The parent may renew/commit the exact source/input/tool gate and perform the mandatory metadata-descendant rebuild with both build properties, then retry all twelve native cases before the required fresh full 481-case selected pass. Preserve every original failed/passing report and timing row. The parent owns gate/rebuild/publishing and actual desktop execution.
 
 The parent hash-verified the four temporary iteration-2/3 review/fix scratch originals against their ignored `.phase3/review-history` archives and removed the untracked phase-folder copies. The focused recheck observed no remaining scratch paths in Git status. Preserve that ignored history and the original Git review/fix ledger; the whitelist remains limited to its explicitly enumerated phase metadata paths.
 
@@ -289,6 +284,6 @@ Phase 2 G1 now has its retained actual passing native results, while the twelve 
 
 ---
 
-_Reviewed: 2026-11-15T22:38:07Z_  
+_Reviewed: 2026-11-15T23:01:27Z_  
 _Reviewer: the agent (gsd-code-reviewer)_  
 _Depth: standard_
