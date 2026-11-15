@@ -12,6 +12,12 @@ internal sealed class FoundationInput
     /// <summary>Gets whether the last physical transition was a fresh unblocked press.</summary>
     internal bool FreshPress { get; private set; }
 
+    /// <summary>Defines the owning input screen without changing the RED subject's existing holds.</summary>
+    internal void SetContext(bool gameplay)
+    {
+        _ = gameplay && _held.Count > 0;
+    }
+
     /// <summary>Records a fresh physical key transition.</summary>
     internal void Set(int key, bool pressed)
     {
