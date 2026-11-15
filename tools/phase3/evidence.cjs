@@ -23,6 +23,13 @@ function timing(row){
   requireTrue(row.actor===row.expectedActor&&row.session===row.expectedSession&&Number.isSafeInteger(row.revision)&&row.revision>=row.minimumRevision,'TIMING_SUBJECT');
   requireTrue(row.drawn===true&&row.drawFrame>0&&row.visible===true&&row.insideCamera===true&&row.imageBound===true,'TIMING_DRAW');
   requireTrue(row.eventAcknowledged===true&&row.transformChanged===true,'TIMING_EVENT_TRANSFORM');
+  if(row.action==='reversal'){
+    const witness=row.reversalWitness;
+    requireTrue(witness&&[witness.beforeX,witness.afterX].every(Number.isFinite)&&
+      [witness.beforeFrame,witness.afterFrame].every(Number.isSafeInteger)&&witness.beforeFrame>=row.baselineDrawFrame&&
+      witness.afterFrame>witness.beforeFrame&&witness.afterFrame<=row.drawFrame&&witness.afterX<witness.beforeX&&
+      witness.afterFacing===-1,'TIMING_REVERSAL_DRAW');
+  }
   requireTrue(['physical-SendInput','window-message','synthetic-native-ParseInputEvent'].includes(row.provenance),'TIMING_PROVENANCE');
   const values=['deliveryBefore','deliveryAfter','observedBefore','observedAfter','uncertaintyNanoseconds'];
   requireTrue(values.every(key=>typeof row[key]==='string'&&/^\d+$/.test(row[key])),'TIMING_INTEGER');
@@ -157,6 +164,15 @@ function reconcile(selected,results,context){
         const host=result.peers.find(peer=>peer.role==='host'),authority=fs.readFileSync(artifact(context,host.draws),'utf8').trim().split('\n').map(JSON.parse).find(draw=>draw.drawFrame===row.authorityDrawFrame);
         requireTrue(authority?.pid===host.pid&&authority.nonce===context.nonce&&authority.input.lastAcceptedRevision===row.acceptedRevision&&JSON.stringify(authority.input.lastAcceptedIntent)===JSON.stringify(row.acceptedIntent),'TIMING_AUTHORITY_BINDING');
         requireTrue(row.acceptedIntent.ActorId===row.actor&&row.acceptedIntent.SessionId===row.session&&row.acceptedIntent.Direction===(row.action==='start'?1:row.action==='reversal'?-1:0)&&row.minimumRevision>row.acceptedRevision,'TIMING_ACCEPTED_INTENT');
+        if(row.action==='reversal'){
+          const witness=row.reversalWitness,draws=fs.readFileSync(artifact(context,peer.draws),'utf8').trim().split('\n').map(JSON.parse);
+          const before=draws.find(draw=>draw.drawFrame===witness.beforeFrame),after=draws.find(draw=>draw.drawFrame===witness.afterFrame);
+          const previous=before?.actors.find(actor=>actor.actorId===row.actor),current=after?.actors.find(actor=>actor.actorId===row.actor);
+          requireTrue(before?.pid===peer.pid&&after?.pid===peer.pid&&before.nonce===context.nonce&&after.nonce===context.nonce&&
+            before.snapshot?.SessionId===row.session&&after.snapshot?.SessionId===row.session&&after.snapshot.Revision>=row.minimumRevision&&
+            previous?.x===witness.beforeX&&current?.x===witness.afterX&&current.facing===witness.afterFacing&&
+            previous.visible&&previous.insideCamera&&current.visible&&current.insideCamera&&visible.facing===-1&&visible.x<=current.x,'TIMING_REVERSAL_DRAW_BINDING');
+        }
       }
       exact(item.roles.flatMap(origin=>item.roles.map(observer=>origin+'/'+observer)),result.stopped?.map(row=>row.origin+'/'+row.observer),'stopped matrix');
       require('./stopped.cjs').reconcile(context,result);

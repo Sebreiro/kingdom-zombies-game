@@ -110,12 +110,14 @@ async function transition(context,input,peers,origin,key,pressed,action){
   const results=await Promise.all(peers.filter(peer=>peer!==origin).map(async observer=>{
     const baseline=actor(baselines.get(observer.role),own.ActorId);
     e.requireTrue(baseline?.insideCamera&&baseline.visible,'TIMING_INITIAL_CAMERA');
-    await until([observer],()=>{
+    const witness=await until([observer],()=>{
       const draw=draws(observer).at(-1),current=actor(draw,own.ActorId);if(!current)return false;
       const last=previous.get(observer.role);previous.set(observer.role,{x:current.x,frame:draw.drawFrame});
       if(draw.snapshot?.Revision<=accepted.input.lastAcceptedRevision)return false;
       if(action==='stop'||action==='focus-stop')return last&&draw.drawFrame>last.frame&&current.x===last.x;
-      return action==='reversal'?current.facing!==baseline.facing&&current.x<baseline.x:current.x>baseline.x;
+      if(action==='reversal')return last&&draw.drawFrame>last.frame&&current.facing!==baseline.facing&&current.x<last.x
+        ?{beforeFrame:last.frame,afterFrame:draw.drawFrame,beforeX:last.x,afterX:current.x,afterFacing:current.facing}:null;
+      return current.x>baseline.x;
     },'visible transition '+origin.role+'/'+observer.role+'/'+action,1000);
     const picture=await capture(context,observer,'timing-'+origin.role+'-'+action);
     const current=actor(picture.state,own.ActorId);
@@ -126,7 +128,9 @@ async function transition(context,input,peers,origin,key,pressed,action){
       uncertaintyPolicy:'External before-delivery to after-complete-draw-PNG-read brackets include all polling, driver, draw, capture and scheduler delays; no peer clocks subtracted.',
       drawFrame:picture.state.drawFrame,drawn:picture.state.drawn,visible:current?.visible,insideCamera:current?.insideCamera,
       baselineDrawFrame:baselines.get(observer.role).drawFrame,
-      imageBound:true,provenance:ack.method,eventAcknowledged:true,transformChanged:action==='stop'||action==='focus-stop'?true:current?.x!==baseline.x,
+      reversalWitness:action==='reversal'?witness:undefined,
+      imageBound:true,provenance:ack.method,eventAcknowledged:true,transformChanged:action==='reversal'
+        ?current?.facing===-1&&current?.x<=witness.afterX:action==='stop'||action==='focus-stop'?true:current?.x!==baseline.x,
       image:picture.image,inputAcknowledgment:ack,acceptedIntent:accepted.input.lastAcceptedIntent,
       acceptedRevision:accepted.input.lastAcceptedRevision,authorityDrawFrame:accepted.drawFrame};
     fs.writeFileSync(path.join(context.directory,'timing-'+origin.role+'-'+observer.role+'-'+action+'-'+sample.drawFrame+'.json'),

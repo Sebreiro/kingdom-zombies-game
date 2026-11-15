@@ -23,12 +23,22 @@ function run(){
       const intent={ActorId:origin.actor,SessionId:origin.session,PlayerId:origin.profile,BindingId:origin.binding,Direction:action==='start'?1:action==='reversal'?-1:0,Sequence:sequence};
       const authority=draw(host,{lastAcceptedIntent:intent,lastAcceptedRevision:6},7);
       for(const observer of result.peers.filter(peer=>peer!==origin)){
+        let reversalWitness;
+        if(action==='reversal'){
+          const previous=draw(observer,{},7),actor=previous.actors.find(row=>row.actorId===origin.actor);
+          actor.x=2;actor.screenX=642;previous.snapshot.Participants.find(row=>row.Actor.ActorId===origin.actor).Actor.PositionSubunits=125;
+          reversalWitness={beforeFrame:previous.drawFrame,beforeX:2,afterX:0,afterFacing:-1};
+        }
         const state=draw(observer,{},7),file=observer.role+'-'+origin.role+'-'+action+'.json';state.checkpoint=file;
+        if(reversalWitness){
+          reversalWitness.afterFrame=state.drawFrame;state.actors.find(row=>row.actorId===origin.actor).facing=-1;
+          state.snapshot.Participants.find(row=>row.Actor.ActorId===origin.actor).Actor.Facing=-1;
+        }
         fs.copyFileSync(path.join(directory,'image.png'),path.join(directory,file+'.png'));
         const stateReference=write(file,state),picture={...observer.images[0],...ref(file+'.png'),checkpoint:'timing-'+origin.role+'-'+action,captureId:file,statePath:stateReference.path,stateSha256:stateReference.sha256};observer.images.push(picture);
         result.timings.push({clock:'coordinator-hrtime',origin:origin.role,observer:observer.role,action,actor:origin.actor,expectedActor:origin.actor,session:origin.session,expectedSession:origin.session,
           revision:7,minimumRevision:7,deliveryBefore:ack.deliveryBefore,deliveryAfter:ack.deliveryAfter,observedBefore:String(before+3000000n),observedAfter:String(before+4000000n),uncertaintyNanoseconds:'1000000',
-          drawFrame:state.drawFrame,baselineDrawFrame:1,drawn:true,visible:true,insideCamera:true,imageBound:true,provenance:ack.method,eventAcknowledged:true,transformChanged:true,
+          drawFrame:state.drawFrame,baselineDrawFrame:1,reversalWitness,drawn:true,visible:true,insideCamera:true,imageBound:true,provenance:ack.method,eventAcknowledged:true,transformChanged:true,
           image:picture,inputAcknowledgment:ack,acceptedIntent:intent,acceptedRevision:6,authorityDrawFrame:authority.drawFrame});
       }
       if(action==='stop')stop={ack,authority,before};
@@ -48,6 +58,8 @@ function run(){
   result.nativeDrivers=[write('driver.json',{nonce:context.nonce,pid:9000,ended:true,stderr:'',records,scriptSha256:e.hash(fs.readFileSync(path.join(root,'tools/phase3/windows-input.ps1')))})];
   result.ownedProcesses=result.peers.map(peer=>({pid:peer.pid,role:peer.role,terminal:peer.terminal}));
   e.reconcile([item],[result],context);
+  const forgedReversal=structuredClone(result);forgedReversal.timings.find(row=>row.action==='reversal').reversalWitness.beforeX++;
+  assert.throws(()=>e.reconcile([item],[forgedReversal],context),/TIMING_REVERSAL_DRAW_BINDING/);
   function reject(change){const copy=structuredClone(result);change(copy.stopped[0]);assert.throws(()=>e.reconcile([item],[copy],context));}
   for(const change of [row=>{row.actor=row.expectedActor='nonexistent';},row=>{row.session=row.expectedSession='obsolete';},row=>row.positionSubunits=1,
     row=>row.hostPositionSubunits=1,row=>row.revision=6,row=>row.authorityDrawFrame=1,row=>row.observedBefore='1',row=>row.observedAfter='1',

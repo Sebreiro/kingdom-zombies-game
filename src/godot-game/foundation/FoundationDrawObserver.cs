@@ -58,7 +58,7 @@ internal sealed class FoundationDrawObserver
     private static readonly string[] _controlPaths = ["Menu/Start", "Menu/Host", "Menu/Join", "Menu/Quit",
         "Menu/Profiles", "Menu/Name", "Menu/NewProfile", "Menu/Error", "Browser/Refresh", "Browser/Address",
         "Browser/JoinAddress", "Browser/Footer/JoinSession", "Browser/Footer/Cancel", "Browser/Footer/Back",
-        "Browser/Feedback", "Browser/Discovery", "Browser/Detail", "Browser/Summary", "Roster/Header",
+        "Browser/Feedback", "Browser/Discovery", "Browser/Detail", "Browser/Summary", "Browser/Scroll", "Roster/Header",
         "Roster/Player1", "Roster/Player2", "Roster/Player3", "Roster/Player4", "Roster/Waiting", "Hint"];
     private string Directory => _directory ?? throw new InvalidDataException(message: "DRAW_DIRECTORY");
 
@@ -138,6 +138,8 @@ internal sealed class FoundationDrawObserver
         _controls.Add(item: new { path, x = rect.GetCenter().X, y = rect.GetCenter().Y,
             session = control.GetMeta(name: "session", @default: "").AsString(),
             width = rect.Size.X, height = rect.Size.Y, visible = control.IsVisibleInTree(),
+            selectedIndex = control is OptionButton selector ? selector.Selected : -1,
+            popupVisible = control is OptionButton popup ? popup.GetPopup().Visible : false,
             focused = control.HasFocus(), text = control is Label label ? label.Text
                     : control is Button button ? button.Text : control is LineEdit edit ? edit.Text : "" });
     }

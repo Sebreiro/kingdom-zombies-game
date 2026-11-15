@@ -11,9 +11,21 @@ async function click(input,peer,control){
   return require('./foreground.cjs').run(async()=>{
   await focus(input,peer);const node=latest(peer)?.controls.find(row=>row.path===control);
   e.requireTrue(node?.visible,'CONTROL_NOT_VISIBLE '+peer.role+'/'+control);
+  if(control.startsWith('Browser/Scroll/Rows/'))e.requireTrue(insideScroll(node,latest(peer).controls.find(row=>row.path==='Browser/Scroll')),'CONTROL_CLIPPED '+control);
   if(control==='Menu/Quit')require('./terminal.cjs').requestQuit(peer);
   await input.send(peer,{action:'click',method:'physical-SendInput',x:Math.round(node.x),y:Math.round(node.y)});await delay(60);
   });
+}
+function insideScroll(node,clip){return clip&&node.x>=clip.x-clip.width/2&&node.x<=clip.x+clip.width/2&&
+  node.y-node.height/2>=clip.y-clip.height/2&&node.y+node.height/2<=clip.y+clip.height/2;}
+async function focusSession(input,peer,session){
+  await focus(input,peer);
+  for(let index=0;index<40;index++){
+    const state=latest(peer),row=state.controls.find(control=>control.session===session&&control.focused);
+    if(row){await r.until([peer],()=>{const controls=latest(peer).controls,target=controls.find(control=>control.session===session&&control.focused);
+      return target&&insideScroll(target,controls.find(control=>control.path==='Browser/Scroll'))?target:null;},'focused row scrolled into view');return row.path;}
+    await tap(input,peer,9);await delay(35);
+  }throw new Error('SESSION_KEYBOARD_FOCUS '+session);
 }
 async function text(input,peer,control,value){
   return require('./foreground.cjs').run(async()=>{
@@ -113,7 +125,8 @@ async function g2(state,item){
     e.requireTrue(rows.length>=4&&new Set(rows.map(row=>row.SessionName)).size<rows.length&&rows.some(row=>row.SessionName.includes('雪')),'EQUAL_UNICODE_DISTINCT_SESSIONS');
     const index=rows.findIndex(row=>row.SessionId===latest(state.host).snapshot.SessionId);e.requireTrue(index>=0,'HOST_ROW');
     images.push(await checkpoint(state,browser,'populated','browser'));
-    await click(input,browser,'Browser/Scroll/Rows/Session'+index);images.push(await checkpoint(state,browser,'focused-detail','browser'));
+    const selected=await focusSession(input,browser,rows[index].SessionId);
+    await click(input,browser,selected);images.push(await checkpoint(state,browser,'focused-detail','browser'));
     await click(input,browser,'Browser/Footer/JoinSession');await roster([state.host,browser],2);
     await menu(input,browser);await join(input,browser,state.port);images.push(await checkpoint(state,browser,'manual-ready','game'));
     await menu(input,browser);await browse(input,browser);
@@ -135,7 +148,9 @@ async function g2(state,item){
     images.push(await checkpoint(state,browser,'unicode','menu'));
     await click(input,browser,'Menu/NewProfile');e.requireTrue(latest(browser).input.profile.PlayerId!==original,'NEW_PROFILE_ID');
     await text(input,browser,'Menu/Name',unicode);await tap(input,browser,13);
-    await click(input,browser,'Menu/Profiles');await tap(input,browser,36);await tap(input,browser,13);
+    await click(input,browser,'Menu/Profiles');
+    await r.until([browser],()=>latest(browser).controls.find(control=>control.path==='Menu/Profiles')?.popupVisible,'native profile popup');
+    await tap(input,browser,38);await tap(input,browser,13);
     await r.until([browser],()=>latest(browser).input.profile.PlayerId===original,'select persisted original');
     images.push(await checkpoint(state,browser,'equal-name','menu'));
     const originalEvidence=(await take(state,{...item,roles:['browser']},[browser]))[0];originalEvidence.images.push(...images);
