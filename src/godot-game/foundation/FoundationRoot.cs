@@ -79,12 +79,22 @@ public sealed partial class FoundationRoot : Control
     public override void _Process(double delta)
     {
         _gateway.RequireThread();
+        _runtime.NowMilliseconds = checked((long)Time.GetTicksMsec());
         FoundationAutomation.Tick(root: this, gateway: _gateway);
         PollKeys();
         double exact = delta * 1000 + _remainder;
         long elapsed = checked((long)exact);
         _remainder = exact - elapsed;
         _coordinator?.Update(elapsedMilliseconds: elapsed);
+        _closing?.Update(elapsedMilliseconds: 0);
+        if (_coordinator?.Finished == true)
+        {
+            string reason = _coordinator.Error;
+            ReturnToMenu();
+            _runtime.Feedback = reason;
+            GetNode<Label>(path: "Menu/Error").Text = reason;
+            GetNode<Control>(path: "Menu/Error").Visible = true;
+        }
         if (_coordinator?.Ready == true)
         {
             if (_lastDirection != _input.Direction)
@@ -98,7 +108,8 @@ public sealed partial class FoundationRoot : Control
 
         _diagnostics.Observe(coordinator: _coordinator, inputEvents: _inputEvents, direction: _input.Direction,
                 nativeActors: GetTree().GetNodesInGroup(group: "foundation-actor").Count,
-                polledRight: Input.IsPhysicalKeyPressed(keycode: Key.D));
+                polledRight: Input.IsPhysicalKeyPressed(keycode: Key.D), feedback: _runtime.Feedback,
+                nowMilliseconds: _runtime.NowMilliseconds);
         Observe();
     }
 
@@ -107,6 +118,7 @@ public sealed partial class FoundationRoot : Control
     {
         _gateway.RequireThread();
         _coordinator?.Close();
+        _closing?.Close();
         _coordinator = null;
         _input.Clear();
         GetNode<Button>(path: "Menu/Start").Pressed -= Start;
@@ -125,6 +137,8 @@ public sealed partial class FoundationRoot : Control
     private readonly MainThreadGateway _gateway = new();
     private readonly FoundationInput _input = new();
     private FoundationCoordinator? _coordinator;
+    private FoundationCoordinator? _closing;
+    private readonly FoundationRuntimeState _runtime = new();
     private readonly FoundationDiagnostics _diagnostics = new();
     private int _lastDirection = int.MinValue;
     private long _generation;
@@ -155,11 +169,14 @@ public sealed partial class FoundationRoot : Control
         _input.Clear();
         try
         {
+            _runtime.NowMilliseconds = checked((long)Time.GetTicksMsec());
+            _runtime.Feedback = "";
             _generation = checked(_generation + 1);
             string player = System.Environment.GetEnvironmentVariable(variable: "PHASE3_PROFILE")
                     ?? FoundationEphemeralProfile.PlayerId;
             _coordinator = new FoundationCoordinator(playerId: player, label: "Player 1",
-                    connection: host ? new EnetConnectionService(gateway: _gateway) : null);
+                    connection: host ? new EnetConnectionService(gateway: _gateway) : null,
+                    nowMilliseconds: () => _runtime.NowMilliseconds);
             _coordinator.Start(host: host, port: Port());
             if (_generation == 1 && System.Environment.GetEnvironmentVariable(variable: "PHASE2_FAIL_ENTRY_ONCE")
                     is string fault && StringComparer.Ordinal.Equals(x: fault,
@@ -207,10 +224,13 @@ public sealed partial class FoundationRoot : Control
 
         try
         {
+            _runtime.NowMilliseconds = checked((long)Time.GetTicksMsec());
+            _runtime.Feedback = "";
             _input.Clear();
             _coordinator = new FoundationCoordinator(playerId: System.Environment.GetEnvironmentVariable(
                     variable: "PHASE3_PROFILE") ?? FoundationEphemeralProfile.PlayerId, label: "Player 2",
-                    connection: new EnetConnectionService(gateway: _gateway));
+                    connection: new EnetConnectionService(gateway: _gateway),
+                    nowMilliseconds: () => _runtime.NowMilliseconds);
             _coordinator.Join(address: host, port: port);
             _lastDirection = int.MinValue;
             GetNode<Label>(path: "Browser/Feedback").Text = "Connecting to " + host + "…";
@@ -302,7 +322,9 @@ public sealed partial class FoundationRoot : Control
     private void ReturnToMenu()
     {
         _gateway.RequireThread();
-        _coordinator?.Close();
+        _closing?.Close();
+        _closing = _coordinator;
+        _closing?.RequestClose();
         _coordinator = null;
         _input.Clear();
         _remainder = 0;

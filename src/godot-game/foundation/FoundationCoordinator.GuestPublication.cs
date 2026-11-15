@@ -13,13 +13,29 @@ internal sealed partial class FoundationCoordinator
     {
         if (envelope.Kind is "reject")
         {
-            Error = envelope.Label;
+            if (_remote is null)
+            {
+                Fail(reason: envelope.Label);
+            }
+
             return;
         }
 
         if (!StringComparer.Ordinal.Equals(x: envelope.AttemptId, y: _attempt))
         {
             RejectedPackets++;
+            return;
+        }
+
+        if (envelope.Kind is "end" && _remote is not null
+                && StringComparer.Ordinal.Equals(x: envelope.SessionId, y: _remote.SessionId)
+                && StringComparer.Ordinal.Equals(x: envelope.BindingId, y: BindingId)
+                && StringComparer.Ordinal.Equals(x: envelope.PlayerId, y: PlayerId)
+                && StringComparer.Ordinal.Equals(x: envelope.ActorId, y: _localActor))
+        {
+            Send(peer: 1, envelope: new FoundationEnvelope(kind: "end-ack", sessionId: _remote.SessionId,
+                    bindingId: BindingId, playerId: PlayerId, actorId: _localActor, attemptId: _attempt));
+            Fail(reason: "The host ended the session. Host or join another session.");
             return;
         }
 
@@ -41,9 +57,10 @@ internal sealed partial class FoundationCoordinator
         }
         else if (_remote is not null && candidate.Participants.Any(predicate: p => StringComparer.Ordinal.Equals(
                 x: p.BindingId, y: BindingId) && StringComparer.Ordinal.Equals(x: p.Actor.PlayerId, y: PlayerId)
-                && StringComparer.Ordinal.Equals(x: p.Actor.ActorId, y: _localActor)))
+                && StringComparer.Ordinal.Equals(x: p.Actor.ActorId, y: _localActor) && (!Ready || p.Ready)))
         {
             _remote = candidate;
+            _lastResponse = Now();
         }
     }
 
@@ -61,6 +78,7 @@ internal sealed partial class FoundationCoordinator
         BindingId = envelope.BindingId;
         _localActor = envelope.ActorId;
         InstalledRevision = candidate.Revision;
+        _lastResponse = Now();
         RecordEvent(value: "baseline-installed:" + BindingId);
         Send(peer: 1, envelope: new FoundationEnvelope(kind: "ack", sessionId: candidate.SessionId,
                 playerId: PlayerId, actorId: envelope.ActorId, bindingId: BindingId, revision: candidate.Revision,

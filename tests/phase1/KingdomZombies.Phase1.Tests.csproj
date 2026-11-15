@@ -11,6 +11,8 @@
     <Compile Include="../../src/godot-game/foundation/FoundationCoordinator.cs" Link="FoundationCoordinator.cs" />
     <Compile Include="../../src/godot-game/foundation/FoundationCoordinator.Admission.cs"
              Link="FoundationCoordinator.Admission.cs" />
+    <Compile Include="../../src/godot-game/foundation/FoundationCoordinator.Lifetime.cs"
+             Link="FoundationCoordinator.Lifetime.cs" />
     <Compile Include="../../src/godot-game/foundation/FoundationCoordinator.GuestPublication.cs"
              Link="FoundationCoordinator.GuestPublication.cs" />
     <Compile Include="../../src/godot-game/foundation/FoundationProtocol.cs" Link="FoundationProtocol.cs" />

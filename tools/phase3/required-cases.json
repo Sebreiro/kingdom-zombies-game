@@ -284,6 +284,122 @@
       ],
       "needsGameWindow": false,
       "provenance": "Synthetic native events; no rendered, timing or physical input acceptance."
+    },
+    {
+      "id": "core.lifecycle",
+      "group": "core",
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.FoundationLanLifecycleTests.LifetimeCleanupAndDeadlineBoundaries",
+      "title": "Deterministic lifetime and exact deadline boundaries",
+      "importance": "Critical",
+      "rationale": "Duplicate or foreign intent breaks ownership and movement.",
+      "requirements": [
+        "LAN-02",
+        "LAN-03"
+      ],
+      "acceptance": [
+        "AC-05",
+        "AC-09"
+      ],
+      "tags": [
+        "authority",
+        "roster",
+        "protocol",
+        "connection"
+      ],
+      "status": "required",
+      "runGroup": "no-window-core",
+      "order": 8,
+      "setup": "Strict build; actual coordinator receives controlled monotonic time and wire values.",
+      "actions": [
+        "Deterministic lifetime and exact deadline boundaries"
+      ],
+      "expected": [
+        "All below/equal/above 30000/10000ms controls, valid boundary responses and stale-lifetime controls pass."
+      ],
+      "evidence": [
+        "CTRF one-test report",
+        "nonce-bound subject log"
+      ],
+      "needsGameWindow": false
+    },
+    {
+      "id": "network.lifecycle",
+      "group": "network",
+      "implementation": "native-headless",
+      "title": "Guest departure loss replacement and host rehosting",
+      "importance": "Critical",
+      "rationale": "Duplicate or foreign intent breaks ownership and movement.",
+      "requirements": [
+        "LAN-02",
+        "LAN-03"
+      ],
+      "acceptance": [
+        "AC-05",
+        "AC-09"
+      ],
+      "tags": [
+        "authority",
+        "roster",
+        "protocol",
+        "connection"
+      ],
+      "status": "required",
+      "runGroup": "network.lifecycle",
+      "order": 9,
+      "setup": "Ordinary headless pinned Godot processes with invocation-owned cleanup.",
+      "actions": [
+        "Guest departure loss replacement and host rehosting"
+      ],
+      "expected": [
+        "Guest departure loss replacement and host rehosting"
+      ],
+      "evidence": [
+        "per-role frames.ndjson",
+        "per-role console.log",
+        "owned identities and current state observations"
+      ],
+      "needsGameWindow": false,
+      "provenance": "No rendered, physical input or latency acceptance."
+    },
+    {
+      "id": "network.idle-poll",
+      "group": "network",
+      "implementation": "native-headless",
+      "title": "Bounded idle updates with actual native ENet provider",
+      "importance": "Critical",
+      "rationale": "Duplicate or foreign intent breaks ownership and movement.",
+      "requirements": [
+        "LAN-02",
+        "LAN-03"
+      ],
+      "acceptance": [
+        "AC-05",
+        "AC-09"
+      ],
+      "tags": [
+        "authority",
+        "roster",
+        "protocol",
+        "connection"
+      ],
+      "status": "required",
+      "runGroup": "network.idle-poll",
+      "order": 10,
+      "setup": "Ordinary headless pinned Godot processes with invocation-owned cleanup.",
+      "actions": [
+        "Bounded idle updates with actual native ENet provider"
+      ],
+      "expected": [
+        "Bounded idle updates with actual native ENet provider"
+      ],
+      "evidence": [
+        "per-role frames.ndjson",
+        "per-role console.log",
+        "owned identities and current state observations"
+      ],
+      "needsGameWindow": false,
+      "provenance": "No rendered, physical input or latency acceptance."
     }
   ]
 }

@@ -57,7 +57,7 @@ internal static class FoundationProtocol
     private static void Validate(FoundationEnvelope envelope)
     {
         if (envelope.Kind is not ("hello" or "baseline" or "ack" or "state" or "intent" or "ping" or "bye"
-                or "end" or "reject") || envelope.Sequence < 0 || envelope.Revision < 0
+                or "end" or "end-ack" or "cancel" or "reject") || envelope.Sequence < 0 || envelope.Revision < 0
                 || envelope.Direction is < -1 or > 1 || envelope.Label.EnumerateRunes().Count() > 256
                 || new[] { envelope.SessionId, envelope.PlayerId, envelope.ActorId, envelope.BindingId,
                     envelope.AttemptId }

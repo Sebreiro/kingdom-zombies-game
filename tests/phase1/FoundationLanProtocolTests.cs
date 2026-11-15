@@ -58,7 +58,12 @@ public sealed class FoundationLanProtocolTests
         JsonNode roster = duplicate["Snapshot"]?["Participants"]
                 ?? throw new InvalidOperationException(message: "JSON_ROSTER");
         roster[1] = roster[0]?.DeepClone();
+        string duplicatePlayer = DuplicateField(json: json, field: "PlayerId");
+        string duplicateActor = DuplicateField(json: json, field: "ActorId");
+        JsonNode missingHost = root.DeepClone();
+        (missingHost["Snapshot"]?["Participants"] as JsonArray)?.RemoveAt(index: 0);
         return [json[..^1], new string(c: ' ', count: 32769), duplicate.ToJsonString(),
+            duplicatePlayer, duplicateActor, missingHost.ToJsonString(),
             json.Replace(oldValue: "foundation.fixture.v1", newValue: "other",
                     comparisonType: StringComparison.Ordinal),
             json.Replace(oldValue: "-8000", newValue: "NaN", comparisonType: StringComparison.Ordinal),
@@ -72,5 +77,15 @@ public sealed class FoundationLanProtocolTests
             json.Replace(oldValue: "\"Revision\":2", newValue: "\"Revision\":1",
                     comparisonType: StringComparison.Ordinal),
             "{\"nested\":" + new string(c: '[', count: 20) + "0" + new string(c: ']', count: 20) + "}"];
+    }
+
+    private static string DuplicateField(string json, string field)
+    {
+        JsonNode root = JsonNode.Parse(json: json) ?? throw new InvalidOperationException(message: "JSON_ROOT");
+        JsonNode roster = root["Snapshot"]?["Participants"]
+                ?? throw new InvalidOperationException(message: "JSON_ROSTER");
+        JsonNode actor = roster[1]?["Actor"] ?? throw new InvalidOperationException(message: "JSON_ACTOR");
+        actor[field] = roster[0]?["Actor"]?[field]?.DeepClone();
+        return root.ToJsonString();
     }
 }

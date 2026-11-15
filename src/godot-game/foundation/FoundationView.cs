@@ -18,6 +18,18 @@ internal static class FoundationView
         FoundationParticipantState local = snapshot.Participants.First(predicate: participant => participant.Ready
                 && StringComparer.Ordinal.Equals(x: participant.BindingId, y: bindingId));
         Project(world: world, actor: local.Actor, gateway: gateway);
+        for (int slot = 1; slot <= 4; slot++)
+        {
+            string name = "Participant" + slot.ToString(provider: CultureInfo.InvariantCulture);
+            Node2D? obsolete = world.GetNodeOrNull<Node2D>(path: name);
+            if (obsolete is not null && !snapshot.Participants.Any(predicate: p => p.Ready && p != local
+                    && p.Slot == slot))
+            {
+                world.RemoveChild(node: obsolete);
+                obsolete.QueueFree();
+            }
+        }
+
         foreach (FoundationParticipantState participant in snapshot.Participants.Where(predicate: participant =>
                 participant.Ready && participant != local))
         {

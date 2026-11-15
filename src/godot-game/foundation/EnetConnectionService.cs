@@ -48,13 +48,14 @@ internal sealed class EnetConnectionService : IConnectionService, IDisposable
         ArgumentOutOfRangeException.ThrowIfLessThan(value: maximumPackets, other: 1);
         ArgumentOutOfRangeException.ThrowIfGreaterThan(value: maximumPackets, other: 64);
         var packets = new List<ConnectionPacket>();
-        if (_peer is null || _closed)
+        if (_peer is null || _closed || _transportLost)
         {
             return packets;
         }
 
         _peer.Poll();
         Connected = _peer.GetConnectionStatus() == MultiplayerPeer.ConnectionStatus.Connected;
+        _transportLost = _peer.GetConnectionStatus() == MultiplayerPeer.ConnectionStatus.Disconnected;
         for (int index = 0; index < maximumPackets && _peer.GetAvailablePacketCount() > 0; index++)
         {
             int sender = _peer.GetPacketPeer();
@@ -89,6 +90,8 @@ internal sealed class EnetConnectionService : IConnectionService, IDisposable
 
         _peer.SetTargetPeer(id: peer);
         Check(error: _peer.PutPacket(buffer: payload.ToArray()));
+        using ENetConnection host = _peer.GetHost();
+        host.Flush();
     }
 
     public void Close()
@@ -122,6 +125,7 @@ internal sealed class EnetConnectionService : IConnectionService, IDisposable
     private readonly HashSet<long> _connectedPeers = [];
     private ENetMultiplayerPeer? _peer;
     private bool _closed;
+    private bool _transportLost;
 
     private void ConnectedPeer(long peer)
     {

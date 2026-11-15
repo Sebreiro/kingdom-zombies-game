@@ -11,7 +11,8 @@ namespace KingdomZombies.Foundation;
 /// <summary>Composes replaceable transport, detached protocol and pure host authority.</summary>
 internal sealed partial class FoundationCoordinator
 {
-    internal FoundationCoordinator(string playerId, string label, IConnectionService? connection = null)
+    internal FoundationCoordinator(string playerId, string label, IConnectionService? connection = null,
+            Func<long>? nowMilliseconds = null)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(argument: playerId);
         ArgumentException.ThrowIfNullOrWhiteSpace(argument: label);
@@ -19,6 +20,7 @@ internal sealed partial class FoundationCoordinator
         _label = label;
         _connection = connection;
         _generation = connection?.Generation ?? "solo";
+        _nowMilliseconds = nowMilliseconds ?? (() => 0);
     }
 
     internal string PlayerId { get; }
@@ -35,10 +37,14 @@ internal sealed partial class FoundationCoordinator
     internal long AcceptedIntents { get; private set; }
     internal long RejectedPackets { get; private set; }
     internal IReadOnlyList<string> Events => _events;
+    internal bool Closed => _closed;
+    internal bool Finished => _used && !_active;
 
     internal void Start(bool host, int port = 24680)
     {
         RequireFresh();
+        _used = true;
+        _startedAt = Now();
         if (host)
         {
             (_connection ?? throw new InvalidOperationException(message: "CONNECTION_UNAVAILABLE")).Host(port: port);
@@ -53,6 +59,9 @@ internal sealed partial class FoundationCoordinator
     internal void Join(string address, int port)
     {
         RequireFresh();
+        _used = true;
+        _startedAt = Now();
+        _lastResponse = _startedAt;
         (_connection ?? throw new InvalidOperationException(message: "CONNECTION_UNAVAILABLE"))
                 .Join(address: address, port: port);
         BindingId = "";
@@ -65,10 +74,16 @@ internal sealed partial class FoundationCoordinator
         ArgumentOutOfRangeException.ThrowIfNegative(value: elapsedMilliseconds);
         if (!_active)
         {
+            DrainEnd();
             return;
         }
 
         Receive();
+        Expire();
+        if (!_active)
+        {
+            return;
+        }
         if (_session is null && !_helloSent && _connection?.Connected == true)
         {
             Send(peer: 1, envelope: new FoundationEnvelope(kind: "hello", playerId: PlayerId, label: _label,
@@ -115,29 +130,7 @@ internal sealed partial class FoundationCoordinator
 
     internal void Close()
     {
-        if (!_active)
-        {
-            return;
-        }
-
-        _active = false;
-        _session?.Close();
-        try
-        {
-            if (_connection?.Connected == true)
-            {
-                Send(peer: IsHost ? 0 : 1, envelope: new FoundationEnvelope(kind: IsHost ? "end" : "bye",
-                        sessionId: Snapshot?.SessionId ?? "", bindingId: BindingId, playerId: PlayerId,
-                        actorId: Snapshot?.Participants.FirstOrDefault(predicate: p =>
-                                StringComparer.Ordinal.Equals(x: p.BindingId, y: BindingId))?.Actor.ActorId ?? "",
-                        attemptId: _attempt));
-            }
-        }
-        finally
-        {
-            _connection?.Close();
-            RecordEvent(value: "closed");
-        }
+        BeginClose(drain: false);
     }
 
     private readonly IConnectionService? _connection;
@@ -153,12 +146,15 @@ internal sealed partial class FoundationCoordinator
     private long _sequence;
     private long _publicationElapsed;
     private long _livenessElapsed;
+    private long _heartbeatSequence;
 
     private void Receive()
     {
+        long lifetime = _lifetime;
         foreach (ConnectionPacket packet in _connection?.Poll(maximumPackets: 64) ?? [])
         {
-            if (!_active || !StringComparer.Ordinal.Equals(x: packet.Generation, y: _generation))
+            if (!_active || lifetime != _lifetime
+                    || !StringComparer.Ordinal.Equals(x: packet.Generation, y: _generation))
             {
                 continue;
             }
@@ -183,6 +179,11 @@ internal sealed partial class FoundationCoordinator
                 if (IsHost && error is InvalidDataException && error.Message is "WIRE_INCOMPATIBLE")
                 {
                     Reject(sender: packet.Sender, reason: "Incompatible protocol or content.");
+                }
+                else if (!IsHost && _remote is null && error is InvalidDataException
+                        && error.Message is "WIRE_INCOMPATIBLE")
+                {
+                    Fail(reason: "Incompatible protocol or content. Choose another session.");
                 }
             }
         }
@@ -227,13 +228,17 @@ internal sealed partial class FoundationCoordinator
             FoundationParticipantState local = _remote.Participants.First(predicate: p =>
                     StringComparer.Ordinal.Equals(x: p.BindingId, y: BindingId));
             Send(peer: 1, envelope: new FoundationEnvelope(kind: "ping", sessionId: _remote.SessionId,
-                    bindingId: BindingId, playerId: PlayerId, actorId: local.Actor.ActorId, attemptId: _attempt));
+                    bindingId: BindingId, playerId: PlayerId, actorId: local.Actor.ActorId, attemptId: _attempt,
+                    sequence: checked(++_heartbeatSequence)));
         }
     }
 
     private void Send(int peer, FoundationEnvelope envelope)
     {
-        _connection?.Send(peer: peer, payload: FoundationProtocol.Encode(envelope: envelope));
+        if (_connection?.Connected == true)
+        {
+            _connection.Send(peer: peer, payload: FoundationProtocol.Encode(envelope: envelope));
+        }
     }
 
     private static bool Bound(FoundationEnvelope envelope, FoundationPeerBinding peer)
@@ -256,7 +261,7 @@ internal sealed partial class FoundationCoordinator
 
     private void RequireFresh()
     {
-        if (_active || _session is not null || _helloSent)
+        if (_used)
         {
             throw new InvalidOperationException(message: "COORDINATOR_ALREADY_USED");
         }

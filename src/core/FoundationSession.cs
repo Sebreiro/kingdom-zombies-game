@@ -52,6 +52,24 @@ public sealed class FoundationSession
                         slot: current.Slot, ready: true, actor: current.Actor) : current));
     }
 
+    /// <summary>Removes exactly one remote binding and its held intent, preserving remaining actors.</summary>
+    public bool RemoveParticipant(string bindingId)
+    {
+        FoundationParticipantState? participant = Find(bindingId: bindingId);
+        if (!_active || participant is null || bindingId is "local")
+        {
+            return false;
+        }
+
+        bool removed = TryPublish(participants: _snapshot.Participants.Where(predicate: p => p != participant));
+        if (removed)
+        {
+            _intents.Remove(key: bindingId);
+        }
+
+        return removed;
+    }
+
     /// <summary>Accepts a unique owned intent without advancing time or position.</summary>
     public bool TryAccept(FoundationMovementCommand command, string trustedBinding, string trustedPlayer,
             string trustedActor)

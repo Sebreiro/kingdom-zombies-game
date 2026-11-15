@@ -50,7 +50,8 @@ public sealed class FoundationSnapshot
         bool uniqueActors = Participants.Select(selector: p => p.Actor.ActorId)
                 .Distinct(comparer: StringComparer.Ordinal).Count() == Participants.Length;
         bool uniqueSlots = Participants.Select(selector: p => p.Slot).Distinct().Count() == Participants.Length;
-        if (!uniqueBindings || !uniquePlayers || !uniqueActors || !uniqueSlots)
+        bool host = Participants.Any(predicate: p => p.BindingId is "local" && p.Slot == 1 && p.Ready);
+        if (!uniqueBindings || !uniquePlayers || !uniqueActors || !uniqueSlots || !host)
         {
             throw new InvalidDataException(message: "FOUNDATION_DUPLICATE");
         }

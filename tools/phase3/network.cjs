@@ -35,7 +35,7 @@ function launch(context,role,port){
   return peer;
 }
 async function waitFor(peers,deadline,predicate,message){
-  while(Date.now()<deadline){for(const peer of peers){if(peer.error)throw peer.error;if(peer.exit)throw new Error('CHILD_EXIT '+peer.role+' '+JSON.stringify(peer.exit)+' '+peer.output.slice(-1500));}
+  while(Date.now()<deadline){for(const peer of peers){if(peer.error)throw peer.error;if(peer.exit&&!peer.expectedTermination)throw new Error('CHILD_EXIT '+peer.role+' '+JSON.stringify(peer.exit)+' '+peer.output.slice(-1500));}
     const result=predicate();if(result)return result;await delay(25);}
   throw new Error('SUBJECT_TIMEOUT '+message);
 }
@@ -77,6 +77,7 @@ async function cleanup(peer){
 }
 async function tracer(context,item){
   if(item.id==='network.four-peer')return fourPeer(context,item);
+  if(item.id==='network.lifecycle'||item.id==='network.idle-poll')return lifetime(context,item);
   const started=Date.now(),deadline=started+60000,peers=[];let unlock,result,error;
   try{
     unlock=acquireLock(context.root,context.nonce);const port=await allocatePort();
@@ -177,5 +178,118 @@ async function fourPeer(context,item){
   if(error)throw error;
   requireTrue(Date.now()-started<=60000,'SUBJECT_DEADLINE');
   return {...result,durationMilliseconds:Date.now()-started,cleanup:'five owned children exited zero'};
+}
+async function escape(peer,context,deadline){
+  await key(peer,context,deadline,4194305,true);await key(peer,context,deadline,4194305,false);
+}
+async function joinAgain(peer,context,deadline,port){
+  await activate(peer,context,deadline,'Menu/Join');
+  await input(peer,context,deadline,{action:'address',address:'127.0.0.1:'+port});
+  await activate(peer,context,deadline,'Browser/JoinAddress');
+}
+async function terminateOwned(peer){
+  peer.expectedTermination=true;peer.child.kill();
+  await Promise.race([new Promise(resolve=>peer.child.once('exit',resolve)),delay(3000)]);
+  requireTrue(peer.exit!==null,'OWNED_TERMINATION');
+}
+async function readyCount(peers,deadline,host,count){
+  return waitFor(peers.filter(peer=>!peer.expectedTermination),deadline,()=>{
+    const row=frames(host).at(-1);return row?.snapshot?.Participants.length===count
+      &&row.snapshot.Participants.every(p=>p.Ready)?row:null;
+  },'ready count '+count);
+}
+async function lifecycleSubject(context,peers,deadline,port){
+  const host=peers[0];const guests=[];
+  for(let index=1;index<=2;index++){
+    const guest=await joinPeer(context,peers,deadline,'life-guest'+index,port);guests.push(guest);
+    await activate(guest,context,deadline,'Browser/JoinAddress');
+    await waitFor(peers,deadline,()=>frames(guest).at(-1)?.ready,'lifecycle guest ready');
+  }
+  await readyCount(peers,deadline,host,3);
+  const firstSession=frames(host).at(-1).snapshot.SessionId;
+  const firstGuest=actor(frames(host).at(-1),guests[0].profile);
+  const survivor=actor(frames(host).at(-1),guests[1].profile);
+  await escape(guests[0],context,deadline);
+  const departed=await readyCount(peers,deadline,host,2);
+  await waitFor(peers,deadline,()=>[host,guests[1]].every(peer=>frames(peer).at(-1)?.nativeActors===2),
+    'departed placeholder removed on remaining peers');
+  requireTrue(actor(departed,guests[1].profile).PositionSubunits===survivor.PositionSubunits,'SURVIVOR_PRESERVED');
+  await joinAgain(guests[0],context,deadline,port);
+  const replaced=await readyCount(peers,deadline,host,3);
+  const secondGuest=actor(replaced,guests[0].profile);
+  requireTrue(secondGuest.ActorId!==firstGuest.ActorId,'FRESH_REPLACEMENT_ACTOR');
+  requireTrue(replaced.snapshot.Participants.find(p=>p.Actor.PlayerId===guests[0].profile).Slot===2,'SLOT_REUSED');
+  const lostAt=Date.now();await terminateOwned(guests[0]);
+  await readyCount(peers,deadline,host,2);
+  const guestLossMilliseconds=Date.now()-lostAt;
+  requireTrue(guestLossMilliseconds>=9000&&guestLossMilliseconds<13000,'GUEST_RESPONSE_LOSS_BOUND');
+  const replacement=await joinPeer(context,peers,deadline,'life-replacement',port);
+  await activate(replacement,context,deadline,'Browser/JoinAddress');
+  await readyCount(peers,deadline,host,3);
+  const active=[host,guests[1],replacement];
+  await escape(host,context,deadline);
+  await waitFor(active,deadline,()=>active.slice(1).every(peer=>frames(peer).at(-1)?.error?.startsWith('The host ended')),
+    'graceful host-ended feedback');
+  requireTrue(active.slice(1).every(peer=>frames(peer).at(-1)?.nativeActors===0),'END_REMOVES_PROJECTION');
+  await waitFor(active,deadline,()=>frames(host).at(-1)?.nowMilliseconds-frames(host).find(row=>
+    row.snapshot?.SessionId===firstSession)?.nowMilliseconds>1000,'host drain');
+  await delay(300);
+  await activate(host,context,deadline,'Menu/Host');
+  await waitFor(active,deadline,()=>frames(host).at(-1)?.ready,'fresh host');
+  const secondSession=frames(host).at(-1).snapshot.SessionId;
+  requireTrue(secondSession!==firstSession,'FRESH_SESSION_ID');
+  for(const guest of active.slice(1)){
+    await joinAgain(guest,context,deadline,port);
+    await waitFor(active,deadline,()=>frames(guest).at(-1)?.ready,'rehost guest');
+  }
+  await readyCount(active,deadline,host,3);
+  const hostLostAt=Date.now();await terminateOwned(host);
+  await waitFor(active.slice(1),deadline,()=>active.slice(1).every(peer=>
+    frames(peer).at(-1)?.error?.startsWith('Connection lost')),'unexpected host-lost feedback');
+  const hostLossMilliseconds=Date.now()-hostLostAt;
+  requireTrue(hostLossMilliseconds>=9000&&hostLossMilliseconds<13000,'HOST_RESPONSE_LOSS_BOUND');
+  for(const guest of active.slice(1)){
+    requireTrue(frames(guest).at(-1).nativeActors===0,'LOSS_REMOVES_PROJECTION');
+    await activate(guest,context,deadline,'Menu/Start');
+    await waitFor(active.slice(1),deadline,()=>frames(guest).at(-1)?.ready,'usable solo after loss');
+    requireTrue(actor(frames(guest).at(-1),guest.profile).PositionSubunits===-8000,'FRESH_INPUT_AFTER_RETURN');
+  }
+  return {firstSession,secondSession,firstGuest,secondGuest,guestLossMilliseconds,hostLossMilliseconds,
+    outcomes:['graceful guest leave','same-profile replacement','guest loss','fresh replacement',
+      'graceful host end','fresh rehost','host loss','usable solo controls']};
+}
+async function lifetime(context,item){
+  const started=Date.now(),deadline=started+60000,peers=[];let unlock,result,error;
+  try{
+    unlock=acquireLock(context.root,context.nonce);const port=await allocatePort();
+    const host=launch(context,item.id==='network.idle-poll'?'idle-host':'life-host',port);peers.push(host);
+    await waitFor(peers,deadline,()=>frames(host).length>1,'main scene');
+    await activate(host,context,deadline,'Menu/Host');
+    await waitFor(peers,deadline,()=>frames(host).at(-1)?.ready,'host ready');
+    let observations;
+    if(item.id==='network.idle-poll'){
+      const first=frames(host).at(-1);
+      const last=await waitFor(peers,deadline,()=>{const row=frames(host).at(-1);
+        return row?.nowMilliseconds-first.nowMilliseconds>=2000?row:null;},'two seconds idle ENet');
+      const rows=frames(host).filter(row=>row.frame>=first.frame&&row.frame<=last.frame);
+      const gaps=rows.slice(1).map((row,index)=>row.nowMilliseconds-rows[index].nowMilliseconds);
+      requireTrue(rows.length>=60&&Math.max(...gaps)<=250,'IDLE_POLL_STALLED_UPDATES');
+      observations={frames:rows.length,elapsedMilliseconds:last.nowMilliseconds-first.nowMilliseconds,
+        maximumUpdateGapMilliseconds:Math.max(...gaps),actualProvider:'pinned ENetMultiplayerPeer'};
+    }else observations=await lifecycleSubject(context,peers,deadline,port);
+    result={id:item.id,status:'pass',nonce:context.nonce,input:context.input,tool:context.tool,platform:context.platform,
+      port,observations,peers:peers.map(peer=>({role:peer.role,pid:peer.pid,profile:peer.profile,
+        expectedTermination:peer.expectedTermination??false})),noRenderedOrPhysicalInputCredit:true};
+    for(const peer of peers.filter(peer=>!peer.expectedTermination))await stop(peer,context,deadline);
+    while(peers.some(peer=>!peer.exit)&&Date.now()<deadline)await delay(25);
+    for(const peer of peers.filter(peer=>!peer.expectedTermination))
+      requireTrue(peer.exit?.code===0&&!peer.exit.signal,'CLEAN_EXIT '+peer.role);
+  }catch(failure){error=failure;}
+  finally{for(const peer of peers){try{await cleanup(peer);}catch(failure){error??=failure;}}if(unlock)unlock();}
+  for(const peer of peers)if(/(?:SCRIPT ERROR:|ERROR:|Unhandled exception|FATAL)/.test(peer.output))
+    error??=new Error('NATIVE_ERROR_LOG '+peer.role+' '+peer.output.slice(0,1600));
+  if(error)throw error;
+  requireTrue(Date.now()-started<=60000,'SUBJECT_DEADLINE');
+  return {...result,durationMilliseconds:Date.now()-started,cleanup:'all invocation-owned children exited'};
 }
 module.exports={tracer,frames,coherent};
