@@ -165,12 +165,12 @@ Every feature includes its stable identities, host-authoritative validation and 
 3. Solo, host-local, and guest actions produce one authoritative result per accepted action; repeated input/command delivery cannot execute the host action twice.
 4. A developer can repeat the connection/movement smoke checks and substitute the discovery, identity, or connection adapter without changing gameplay rules; player identity survives independently of a LAN address or transient peer number.
 
-**Plans:** 4 plans
+**Plans:** 1/4 plans executed
 **UI hint:** yes
 
 Plans:
 **Wave 1**
-- [ ] 03-01-PLAN.md — Prove the production host/manual-join ENet tracer and exact permissions without game windows.
+- [x] 03-01-PLAN.md — Prove the production host/manual-join ENet tracer and exact permissions without game windows.
 
 **Wave 2** *(blocked on Wave 1 completion)*
 - [ ] 03-02-PLAN.md — Complete four-participant admission, ordering, timeout and session-lifetime behavior.
@@ -364,7 +364,7 @@ Execution order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11
 | --- | --- | --- | --- |
 | 1. Code rules and documentation | 18/18 | Complete    | 2026-11-14 |
 | 2. Playable foundation | 3/3 | Complete    | 2026-11-15 |
-| 3. Four-player LAN foundation | 0/TBD | Not started | - |
+| 3. Four-player LAN foundation | 1/4 | In Progress | - |
 | 4. Asset production | 0/TBD | Not started | - |
 | 5. CI and repeatable game testing | 0/TBD | Not started | - |
 | 6. Survivors, inventory, and combat | 0/TBD | Not started | - |
