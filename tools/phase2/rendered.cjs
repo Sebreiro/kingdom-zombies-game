@@ -57,6 +57,25 @@ function killTree(child) {
   if (process.platform === 'win32') spawnSync('taskkill.exe', ['/PID',String(child.pid),'/T','/F'], {windowsHide:true,timeout:5000});
   else { try { process.kill(-child.pid, 'SIGKILL'); } catch {} }
 }
+function ownedInput(dispatch) {
+  const heldKeys=new Set();
+  let heldMouse=null;
+  async function input(action,x=0,y=0,key=0) {
+    // Dispatch can inject a press before its acknowledgement fails.
+    if(action==='down' || action==='tap')heldKeys.add(key);
+    if(action==='mouse-down' || action==='click')heldMouse={x,y};
+    await dispatch(action,x,y,key);
+    if(action==='up' || action==='tap')heldKeys.delete(key);
+    if(action==='mouse-up' || action==='click')heldMouse=null;
+  }
+  async function release() {
+    const errors=[];
+    for(const key of [...heldKeys])try {await input('up',0,0,key);}catch(error){errors.push(error);}
+    if(heldMouse)try {await input('mouse-up',heldMouse.x,heldMouse.y);}catch(error){errors.push(error);}
+    if(errors.length)throw new AggregateError(errors,'OWNED_INPUT_RELEASE_FAILED');
+  }
+  return {input,release};
+}
 function createSession(context) {
   const { root, directory, nonce, engine, env } = context;
   const width = 1280, height = 720;
@@ -68,12 +87,9 @@ function createSession(context) {
   game.stdout.on('data', chunk => { log += chunk; }); game.stderr.on('data', chunk => { log += chunk; });
   game.on('error', error => { log += error.stack; exited = true; });
   game.on('exit', code => { exited = true; exitCode = code; });
-  const inputs = [], heldKeys = new Set();
-  async function input(action, x = 0, y = 0, key = 0) {
+  const inputs = [];
+  const {input,release}=ownedInput(async (action,x,y,key) => {
     requireTrue(!exited, 'GAME_EXITED_BEFORE_INPUT');
-    // Track a possible press before dispatch: a helper can inject it and then fail
-    // acknowledgement. Recovery must still release that owned physical key.
-    if (action==='down' || action==='tap') heldKeys.add(key);
     const windows = process.platform === 'win32';
     const result = await command(windows ? 'powershell.exe' : '/bin/sh', windows
       ? ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', path.join(root, 'tools/phase2/windows-input.ps1'), '-OwnedPid', String(game.pid), '-Action', action, '-X', String(x), '-Y', String(y), '-Key', String(key)]
@@ -81,8 +97,7 @@ function createSession(context) {
     const acknowledgement = JSON.parse(result.stdout.trim());
     requireTrue(acknowledgement.pid === game.pid && acknowledgement.focused === true && acknowledgement.action === action, 'INPUT_ACKNOWLEDGEMENT');
     inputs.push(acknowledgement);
-    if (action==='up' || action==='tap') heldKeys.delete(key);
-  }
+  });
   let sequence = 0;
   async function capture(checkpoint, targetElapsed = null) {
     const requestId = 'capture-' + (++sequence);
@@ -102,7 +117,6 @@ function createSession(context) {
       statePath:requestId+'.json',stateSha256:crypto.createHash('sha256').update(fs.readFileSync(target)).digest('hex'),
       sha256:crypto.createHash('sha256').update(fs.readFileSync(path.join(directory,requestId+'.png'))).digest('hex'),...decodePng(path.join(directory,requestId+'.png'),width,height)}};
   }
-  async function release() { for (const key of heldKeys) await input('up',0,0,key); }
   async function reset() {
     requireTrue(!exited,'GAME_PROCESS_LOST');
     await release();
@@ -111,9 +125,12 @@ function createSession(context) {
     requireTrue((await capture('reset-menu')).state.actors === 0,'RESET_MENU');
   }
   async function close() {
-    if (!exited) { await release().catch(()=>{}); killTree(game); }
-    fs.writeFileSync(path.join(directory,'game.log'),log);
-    fs.writeFileSync(path.join(directory,'native-input.json'),JSON.stringify(inputs,null,2));
+    try {await release();}
+    finally {
+      killTree(game);
+      fs.writeFileSync(path.join(directory,'game.log'),log);
+      fs.writeFileSync(path.join(directory,'native-input.json'),JSON.stringify(inputs,null,2));
+    }
   }
   return {input,capture,reset,close,game,inputs,get exited(){return exited;},get exitCode(){return exitCode;},get log(){return log;}};
 }
@@ -302,7 +319,10 @@ async function rendered(context,items) {
   try {
     await delay(1500);
     return await runScenarios(context,items,session);
-  } finally {await session.close();process.removeListener('SIGINT',interrupted);process.removeListener('SIGTERM',interrupted);}
+  } finally {
+    try {await session.close();}
+    finally {process.removeListener('SIGINT',interrupted);process.removeListener('SIGTERM',interrupted);}
+  }
 }
 async function runScenarios(context,items,session) {
   const ordered=[...items].sort((a,b)=>(a.id==='rendered.quit'?100:a.id==='rendered.menu'?-1:0)-(b.id==='rendered.quit'?100:b.id==='rendered.menu'?-1:0));
@@ -322,4 +342,4 @@ async function runScenarios(context,items,session) {
   }
   return results;
 }
-module.exports = { tracer, rendered, runScenarios, decodePng, command, killTree, validateResources };
+module.exports = { tracer, rendered, runScenarios, ownedInput, decodePng, command, killTree, validateResources };

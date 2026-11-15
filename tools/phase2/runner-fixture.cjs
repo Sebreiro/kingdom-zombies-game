@@ -8,7 +8,7 @@ const zlib=require('node:zlib');
 const {spawn}=require('node:child_process');
 const assert=require('node:assert/strict');
 const e=require('./evidence.cjs');
-const {command,runScenarios}=require('./rendered.cjs');
+const {command,runScenarios,ownedInput}=require('./rendered.cjs');
 const {acquireLock,select}=require('./check.cjs');
 const delay=milliseconds=>new Promise(resolve=>setTimeout(resolve,milliseconds));
 function rejects(action,pattern){assert.throws(action,pattern);}
@@ -34,7 +34,38 @@ async function run(mode) {
   const artifacts=['subject.log','tests.json'].map(file=>({path:file,sha256:e.hash(fs.readFileSync(path.join(directory,file)))}));
   const second={...first,id:selected[1].id,images:[],testReport:'tests.json',artifacts};
   const results=[first,second];
-  if(mode==='scenario-diagnostics') {
+  if(mode==='owned-input') {
+    for(const press of ['mouse-down','click']) {
+      const calls=[];
+      const owned=ownedInput(async (...args)=>{calls.push(args);if(args[0]===press)throw new Error('ACK_FAILED_AFTER_PRESS');});
+      await assert.rejects(owned.input(press,450,300),/ACK_FAILED_AFTER_PRESS/);
+      await owned.release();
+      assert.deepEqual(calls.map(row=>row[0]),[press,'mouse-up']);
+      assert.deepEqual(calls[1].slice(1,3),[450,300]);
+      await owned.release();assert.equal(calls.length,2);
+    }
+    const observationCalls=[];
+    const observationInput=ownedInput(async action=>{observationCalls.push(action);});
+    await assert.rejects(async ()=>{
+      try {await observationInput.input('mouse-down',400,280);throw new Error('OBSERVATION_FAILED');}
+      finally {await observationInput.release();}
+    },/OBSERVATION_FAILED/);
+    assert.deepEqual(observationCalls,['mouse-down','mouse-up']);
+    const calls=[];
+    let failRelease=true;
+    const owned=ownedInput(async (...args)=>{calls.push(args);if(args[0]==='up' && args[3]===65 && failRelease)throw new Error('KEY_RELEASE_FAILED');});
+    await owned.input('down',0,0,65);await owned.input('down',0,0,68);
+    await assert.rejects(async ()=>{
+      try {await owned.input('mouse-down',400,280);throw new Error('OBSERVATION_FAILED');}
+      finally {await owned.release();}
+    },/OWNED_INPUT_RELEASE_FAILED/);
+    assert.deepEqual(calls.slice(3).map(row=>[row[0],row[3]]),[['up',65],['up',68],['mouse-up',0]]);
+    failRelease=false;await owned.release();
+    assert.deepEqual(calls.at(-1),['up',0,0,65]);
+    await owned.input('click',10,20);const count=calls.length;
+    await owned.release();assert.equal(calls.length,count);
+    console.log('PASS failed mouse-down/click acknowledgements and observation cleanup release owned mouse; failed key release cannot block remaining releases and retries retain ownership');
+  } else if(mode==='scenario-diagnostics') {
     let log='WARNING: startup belongs to first scenario\n', resets=0, serial=0;
     const session={game:{pid:123},exited:false,get log(){return log;},async input(){},
       async reset(){resets++;},async capture(checkpoint){
@@ -112,6 +143,7 @@ async function run(mode) {
     } finally {unlock();}
     const release=acquireLock(lockRoot,crypto.randomUUID());release();
     await run('scenario-diagnostics');
+    await run('owned-input');
     console.log('PASS reordered evidence, fresh repair nonce, changed fingerprint temporary aggregation, immutable baseline and actual concurrent lock refusal');
   } else throw new Error('UNKNOWN_CONTROL');
   return {directory,mode};
