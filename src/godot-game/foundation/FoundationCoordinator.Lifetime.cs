@@ -41,6 +41,7 @@ internal sealed partial class FoundationCoordinator
     private void Expire()
     {
         long now = Now();
+        ExpireAdmissions(now: now);
         if (_session is not null)
         {
             foreach ((int sender, FoundationPeerBinding peer) in _peers.ToArray())
@@ -69,8 +70,12 @@ internal sealed partial class FoundationCoordinator
         }
 
         _peers.Remove(key: sender);
-        _admissions[(sender, peer.Baseline.AttemptId)] = new FoundationEnvelope(kind: "reject",
-                label: "This admission attempt is closed. Join again.", attemptId: peer.Baseline.AttemptId);
+        FoundationAdmissionHistory history = AdmissionHistory(sender: sender);
+        if (!history.Expired && StringComparer.Ordinal.Equals(x: history.Generation, y: peer.ConnectionGeneration))
+        {
+            history.Outcomes[key: peer.Baseline.AttemptId] = new FoundationEnvelope(kind: "reject",
+                    label: "This admission attempt is closed. Join again.", attemptId: peer.Baseline.AttemptId);
+        }
         _session?.RemoveParticipant(bindingId: peer.BindingId);
         RecordEvent(value: "departed:" + peer.BindingId + ":" + reason);
         BroadcastState();

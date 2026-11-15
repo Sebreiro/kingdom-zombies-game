@@ -7,10 +7,11 @@ namespace KingdomZombies.Foundation;
 
 internal sealed partial class FoundationCoordinator
 {
-    private readonly Dictionary<(int Sender, string Attempt), FoundationEnvelope> _admissions = [];
+    private readonly Dictionary<int, FoundationAdmissionHistory> _admissions = [];
 
     private void ReceiveHost(int sender, FoundationEnvelope envelope)
     {
+        RetireReplacedConnection(sender: sender);
         if (envelope.Kind is "hello")
         {
             Admit(sender: sender, envelope: envelope);
@@ -68,22 +69,20 @@ internal sealed partial class FoundationCoordinator
         }
     }
 
+    private void RetireReplacedConnection(int sender)
+    {
+        if (_peers.TryGetValue(key: sender, value: out FoundationPeerBinding? obsolete)
+                && !StringComparer.Ordinal.Equals(x: obsolete.ConnectionGeneration,
+                        y: _connection?.PeerGeneration(peer: sender)))
+        {
+            RemovePeer(sender: sender, peer: obsolete, reason: "connection-replaced");
+        }
+    }
+
     private void Admit(int sender, FoundationEnvelope envelope)
     {
         if (sender <= 1 || _session is null)
         {
-            return;
-        }
-
-        if (_admissions.TryGetValue(key: (sender, envelope.AttemptId), value: out FoundationEnvelope? outcome))
-        {
-            Send(peer: sender, envelope: outcome);
-            return;
-        }
-
-        if (_admissions.Count >= 128)
-        {
-            Reject(sender: sender, reason: "Admission attempt limit reached. Choose another session.");
             return;
         }
 
@@ -99,6 +98,20 @@ internal sealed partial class FoundationCoordinator
                 Reject(sender: sender, reason: "Duplicate active connection attempt.");
             }
 
+            return;
+        }
+
+        FoundationAdmissionHistory history = AdmissionHistory(sender: sender);
+        if (!history.Expired && history.Outcomes.TryGetValue(key: envelope.AttemptId,
+                value: out FoundationEnvelope? outcome))
+        {
+            Send(peer: sender, envelope: outcome);
+            return;
+        }
+
+        if (history.Expired || history.Outcomes.Count >= 32)
+        {
+            Reject(sender: sender, reason: "This connection's admission window is closed. Reconnect to join again.");
             return;
         }
 
@@ -129,8 +142,9 @@ internal sealed partial class FoundationCoordinator
                 playerId: envelope.PlayerId, actorId: actor, bindingId: binding, revision: state.Revision,
                 snapshot: state, attemptId: envelope.AttemptId);
         _peers.Add(key: sender, value: new FoundationPeerBinding(bindingId: binding, playerId: envelope.PlayerId,
-                actorId: actor, baselineRevision: state.Revision, baseline: baseline, startedAt: Now()));
-        _admissions.Add(key: (sender, envelope.AttemptId), value: baseline);
+                actorId: actor, baselineRevision: state.Revision, baseline: baseline, startedAt: Now(),
+                connectionGeneration: _connection?.PeerGeneration(peer: sender) ?? ""));
+        AdmissionHistory(sender: sender).Outcomes.Add(key: envelope.AttemptId, value: baseline);
         Send(peer: sender, envelope: baseline);
         RecordEvent(value: "baseline-offered:" + binding);
     }
@@ -145,8 +159,43 @@ internal sealed partial class FoundationCoordinator
     {
         var outcome = new FoundationEnvelope(kind: "reject", label: reason, attemptId: hello.AttemptId,
                 playerId: hello.PlayerId);
-        _admissions.Add(key: (sender, hello.AttemptId), value: outcome);
+        AdmissionHistory(sender: sender).Outcomes.Add(key: hello.AttemptId, value: outcome);
         Send(peer: sender, envelope: outcome);
         RecordEvent(value: "admission-rejected:" + reason);
+    }
+
+    private FoundationAdmissionHistory AdmissionHistory(int sender)
+    {
+        string generation = _connection?.PeerGeneration(peer: sender) ?? "";
+        if (!_admissions.TryGetValue(key: sender, value: out FoundationAdmissionHistory? history)
+                || !StringComparer.Ordinal.Equals(x: generation, y: history.Generation))
+        {
+            history = new FoundationAdmissionHistory(generation: generation, startedAt: Now());
+            _admissions[key: sender] = history;
+        }
+
+        if (Now() - history.StartedAt >= 30000)
+        {
+            history.Outcomes.Clear();
+            history.Expired = true;
+        }
+
+        return history;
+    }
+
+    private void ExpireAdmissions(long now)
+    {
+        foreach ((int sender, FoundationAdmissionHistory history) in _admissions.ToArray())
+        {
+            if (!StringComparer.Ordinal.Equals(x: history.Generation, y: _connection?.PeerGeneration(peer: sender)))
+            {
+                _admissions.Remove(key: sender);
+            }
+            else if (now - history.StartedAt >= 30000)
+            {
+                history.Outcomes.Clear();
+                history.Expired = true;
+            }
+        }
     }
 }

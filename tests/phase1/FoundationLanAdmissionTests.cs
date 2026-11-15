@@ -40,6 +40,8 @@ public sealed class FoundationLanAdmissionTests
         (host.Snapshot?.Participants.Length ?? 0).ShouldBe(expected: 4);
         port.Sent.Last().Envelope.Label.ShouldStartWith(expected: "Full");
         CheckMovingBaseline();
+        CheckRefusalFlood();
+        CheckConnectionRetirement();
         ProofProtocol.Record(id: "core.admission", diagnostic: "PENDING_CAPACITY_REPEAT_HELLO_DISTINCT_REASONS");
     }
 
@@ -71,5 +73,72 @@ public sealed class FoundationLanAdmissionTests
         FoundationSnapshot detached = baseline.Snapshot ?? throw new InvalidOperationException(message: "BASELINE");
         detached.Participants[0].Actor.PositionSubunits.ShouldBe(expected: -8000);
         detached.Participants[1].Ready.ShouldBeFalse();
+    }
+
+    private static void CheckRefusalFlood()
+    {
+        var port = new FoundationHarnessConnection();
+        var host = new FoundationCoordinator(playerId: "host", label: "Host", connection: port);
+        host.Start(host: true);
+        for (int attempt = 0; attempt < 160; attempt++)
+        {
+            port.Enqueue(sender: 9, envelope: new FoundationEnvelope(kind: "hello", playerId: "host", label: "Flood",
+                    attemptId: "duplicate-" + attempt));
+            host.Update(elapsedMilliseconds: 0);
+        }
+
+        for (int sender = 2; sender <= 4; sender++)
+        {
+            port.Enqueue(sender: sender, envelope: new FoundationEnvelope(kind: "hello", playerId: "p" + sender,
+                    label: "Guest", attemptId: "join-" + sender));
+        }
+
+        host.Update(elapsedMilliseconds: 0);
+        host.Snapshot?.Participants.Length.ShouldBe(expected: 4);
+        FoundationEnvelope baseline = port.Sent.Last(predicate: row => row.Peer == 4
+                && row.Envelope.Kind is "baseline").Envelope;
+        for (int attempt = 0; attempt < 160; attempt++)
+        {
+            port.Enqueue(sender: 10, envelope: new FoundationEnvelope(kind: "hello", playerId: "flood" + attempt,
+                    label: "Flood", attemptId: "full-" + attempt));
+            host.Update(elapsedMilliseconds: 0);
+        }
+
+        port.Enqueue(sender: 4, envelope: new FoundationEnvelope(kind: "cancel", playerId: baseline.PlayerId,
+                attemptId: baseline.AttemptId));
+        port.Enqueue(sender: 11, envelope: new FoundationEnvelope(kind: "hello", playerId: "legitimate",
+                label: "Guest", attemptId: "legitimate"));
+        host.Update(elapsedMilliseconds: 0);
+        host.Snapshot?.Participants.Any(predicate: p => p.Actor.PlayerId is "legitimate").ShouldBeTrue();
+        port.Enqueue(sender: 4, envelope: new FoundationEnvelope(kind: "hello", playerId: baseline.PlayerId,
+                label: "Guest", attemptId: baseline.AttemptId));
+        host.Update(elapsedMilliseconds: 0);
+        port.Sent.Last().Envelope.Label.ShouldStartWith(expected: "This admission attempt is closed");
+    }
+
+    private static void CheckConnectionRetirement()
+    {
+        var clock = new FoundationScenarioClock();
+        var port = new FoundationHarnessConnection();
+        var host = new FoundationCoordinator(playerId: "host", label: "Host", connection: port,
+                nowMilliseconds: () => clock.Now);
+        host.Start(host: true);
+        var refused = new FoundationEnvelope(kind: "hello", playerId: "host", label: "Flood", attemptId: "old");
+        port.Enqueue(sender: 9, envelope: refused);
+        host.Update(elapsedMilliseconds: 0);
+        clock.Now = 30000;
+        host.Update(elapsedMilliseconds: 0);
+        port.Enqueue(sender: 9, envelope: new FoundationEnvelope(kind: "hello", playerId: "new",
+                label: "Guest", attemptId: "new"));
+        host.Update(elapsedMilliseconds: 0);
+        host.Snapshot?.Participants.Length.ShouldBe(expected: 1);
+        port.Enqueue(sender: 9, envelope: refused);
+        port.PeerGenerations[key: 9] = "reconnected";
+        host.Update(elapsedMilliseconds: 0);
+        host.Snapshot?.Participants.Length.ShouldBe(expected: 1);
+        port.Enqueue(sender: 9, envelope: new FoundationEnvelope(kind: "hello", playerId: "new",
+                label: "Guest", attemptId: "new"));
+        host.Update(elapsedMilliseconds: 0);
+        host.Snapshot?.Participants.Length.ShouldBe(expected: 2);
     }
 }

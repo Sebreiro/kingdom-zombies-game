@@ -6,10 +6,11 @@ namespace KingdomZombies.Multiplayer.Abstractions;
 public sealed class ConnectionPacket
 {
     /// <summary>Copies packet bytes while preserving the actual sender and adapter lifetime.</summary>
-    public ConnectionPacket(int sender, string generation, ReadOnlyMemory<byte> payload)
+    public ConnectionPacket(int sender, string generation, ReadOnlyMemory<byte> payload, string? peerGeneration = null)
     {
         Sender = sender;
         Generation = generation;
+        PeerGeneration = peerGeneration ?? generation;
         Payload = payload.ToArray();
     }
 
@@ -17,6 +18,8 @@ public sealed class ConnectionPacket
     public int Sender { get; }
     /// <summary>Gets the trusted transport lifetime.</summary>
     public string Generation { get; }
+    /// <summary>Gets the sender connection lifetime captured before consuming this packet.</summary>
+    public string PeerGeneration { get; }
     /// <summary>Gets the detached packet bytes.</summary>
     public ReadOnlyMemory<byte> Payload { get; }
 }

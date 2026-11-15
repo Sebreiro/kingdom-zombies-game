@@ -4,7 +4,7 @@ namespace KingdomZombies.Foundation;
 internal sealed class FoundationPeerBinding
 {
     internal FoundationPeerBinding(string bindingId, string playerId, string actorId, long baselineRevision,
-            FoundationEnvelope baseline, long startedAt)
+            FoundationEnvelope baseline, long startedAt, string connectionGeneration)
     {
         BindingId = bindingId;
         PlayerId = playerId;
@@ -13,9 +13,11 @@ internal sealed class FoundationPeerBinding
         Baseline = baseline;
         StartedAt = startedAt;
         LastResponse = startedAt;
+        ConnectionGeneration = connectionGeneration;
     }
 
     internal string BindingId { get; }
+    internal string ConnectionGeneration { get; }
     internal string PlayerId { get; }
     internal string ActorId { get; }
     internal long BaselineRevision { get; }

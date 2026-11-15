@@ -10,6 +10,10 @@ internal sealed class FoundationHarnessConnection : IConnectionService
 {
     public string Generation { get; } = Guid.NewGuid().ToString(format: "N");
     public bool Connected { get; private set; }
+    public string PeerGeneration(int peer)
+    {
+        return PeerGenerations.GetValueOrDefault(key: peer, defaultValue: Generation);
+    }
     public void Host(int port) { Connected = true; }
     public void Join(string address, int port) { Connected = true; }
     public void Send(int peer, ReadOnlyMemory<byte> payload)
@@ -30,6 +34,7 @@ internal sealed class FoundationHarnessConnection : IConnectionService
 
     public void Close() { Connected = false; CloseCount++; }
     internal int CloseCount { get; private set; }
+    internal Dictionary<int, string> PeerGenerations { get; } = [];
     internal List<(int Peer, FoundationEnvelope Envelope)> Sent { get; } = [];
     internal void Enqueue(int sender, FoundationEnvelope envelope, string? generation = null)
     {
@@ -39,7 +44,7 @@ internal sealed class FoundationHarnessConnection : IConnectionService
     internal void Raw(int sender, ReadOnlyMemory<byte> payload, string? generation = null)
     {
         _incoming.Enqueue(item: new ConnectionPacket(sender: sender, generation: generation ?? Generation,
-                payload: payload));
+                payload: payload, peerGeneration: PeerGeneration(peer: sender)));
     }
 
     private readonly Queue<ConnectionPacket> _incoming = new();

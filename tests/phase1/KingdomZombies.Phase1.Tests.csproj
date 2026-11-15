@@ -30,6 +30,7 @@
     <Compile Include="../../src/godot-game/foundation/FoundationProtocol.cs" Link="FoundationProtocol.cs" />
     <Compile Include="../../src/godot-game/foundation/FoundationEnvelope.cs" Link="FoundationEnvelope.cs" />
     <Compile Include="../../src/godot-game/foundation/FoundationPeerBinding.cs" Link="FoundationPeerBinding.cs" />
+    <Compile Include="../../src/godot-game/foundation/FoundationAdmissionHistory.cs" Link="FoundationAdmissionHistory.cs" />
     <Compile Include="../../src/godot-game/foundation/FoundationEndpoint.cs" Link="FoundationEndpoint.cs" />
     <Compile Include="../../src/multiplayer-abstractions/IConnectionService.cs" Link="IConnectionService.cs" />
     <Compile Include="../../src/multiplayer-abstractions/ConnectionPacket.cs" Link="ConnectionPacket.cs" />

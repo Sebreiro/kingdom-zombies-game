@@ -10,6 +10,8 @@ public interface IConnectionService
     string Generation { get; }
     /// <summary>Gets whether the connection can send reliable packets.</summary>
     bool Connected { get; }
+    /// <summary>Gets the current trusted connection lifetime, or empty after this peer disconnects.</summary>
+    string PeerGeneration(int peer);
     /// <summary>Starts a host with bounded transport capacity, separate from admission.</summary>
     void Host(int port);
     /// <summary>Starts one asynchronous connection to an explicit endpoint.</summary>

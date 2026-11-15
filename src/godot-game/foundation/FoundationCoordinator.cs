@@ -159,7 +159,9 @@ internal sealed partial class FoundationCoordinator
         foreach (ConnectionPacket packet in _connection?.Poll(maximumPackets: 64) ?? [])
         {
             if (!_active || lifetime != _lifetime
-                    || !StringComparer.Ordinal.Equals(x: packet.Generation, y: _generation))
+                    || !StringComparer.Ordinal.Equals(x: packet.Generation, y: _generation)
+                    || packet.PeerGeneration.Length == 0 || !StringComparer.Ordinal.Equals(x: packet.PeerGeneration,
+                            y: _connection?.PeerGeneration(peer: packet.Sender)))
             {
                 continue;
             }

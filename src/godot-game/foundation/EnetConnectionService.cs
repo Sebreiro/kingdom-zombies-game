@@ -19,6 +19,11 @@ internal sealed class EnetConnectionService : IConnectionService, IDisposable
     public string Generation { get; } = Guid.NewGuid().ToString(format: "N");
     public bool Connected { get; private set; }
 
+    public string PeerGeneration(int peer)
+    {
+        return _connectedPeers.GetValueOrDefault(key: peer, defaultValue: "");
+    }
+
     public void Host(int port)
     {
         _gateway.RequireThread();
@@ -69,9 +74,11 @@ internal sealed class EnetConnectionService : IConnectionService, IDisposable
             int sender = _peer.GetPacketPeer();
             byte[] bytes = _peer.GetPacket();
             Check(error: _peer.GetPacketError());
-            if (bytes.Length <= FoundationProtocol.MaximumBytes)
+            if (bytes.Length <= FoundationProtocol.MaximumBytes && PeerGeneration(peer: sender) is string generation
+                    && generation.Length > 0)
             {
-                packets.Add(item: new ConnectionPacket(sender: sender, generation: Generation, payload: bytes));
+                packets.Add(item: new ConnectionPacket(sender: sender, generation: Generation, payload: bytes,
+                        peerGeneration: generation));
             }
         }
 
@@ -91,7 +98,7 @@ internal sealed class EnetConnectionService : IConnectionService, IDisposable
             throw new InvalidDataException(message: "TRANSPORT_PACKET");
         }
 
-        if (peer > 1 && !_connectedPeers.Contains(item: peer))
+        if (peer > 1 && !_connectedPeers.ContainsKey(key: peer))
         {
             return;
         }
@@ -130,7 +137,7 @@ internal sealed class EnetConnectionService : IConnectionService, IDisposable
     }
 
     private readonly MainThreadGateway _gateway;
-    private readonly HashSet<long> _connectedPeers = [];
+    private readonly Dictionary<long, string> _connectedPeers = [];
     private ENetMultiplayerPeer? _peer;
     private bool _closed;
     private bool _transportLost;
@@ -139,13 +146,13 @@ internal sealed class EnetConnectionService : IConnectionService, IDisposable
     {
         if (!_closed)
         {
-            _connectedPeers.Add(item: peer);
+            _connectedPeers[key: peer] = Guid.NewGuid().ToString(format: "N");
         }
     }
 
     private void DisconnectedPeer(long peer)
     {
-        _connectedPeers.Remove(item: peer);
+        _connectedPeers.Remove(key: peer);
     }
 
     private void RequireUnused(int port)

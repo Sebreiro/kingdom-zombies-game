@@ -15,6 +15,8 @@ internal sealed class FoundationTestConnection : IConnectionService
     public string Generation { get; } = Guid.NewGuid().ToString(format: "N");
     public bool Connected { get; private set; }
 
+    public string PeerGeneration(int peer) { return Generation; }
+
     public void Host(int port)
     {
         Connected = true;

@@ -9,6 +9,7 @@ internal sealed class FoundationConnectionReplacement : IConnectionService
 {
     public string Generation => Subject.Generation;
     public bool Connected => Subject.Connected;
+    public string PeerGeneration(int peer) { return Subject.PeerGeneration(peer: peer); }
     public void Host(int port) { Subject.Host(port: port); }
     public void Join(string address, int port) { Subject.Join(address: address, port: port); }
     public void Send(int peer, ReadOnlyMemory<byte> payload) { Subject.Send(peer: peer, payload: payload); }
