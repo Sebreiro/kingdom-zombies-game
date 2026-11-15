@@ -5,7 +5,8 @@ const {spawnSync}=require('node:child_process'),e=require('./evidence.cjs'),base
 const phase='.planning/phases/03-four-player-lan-foundation/';
 const metadata=new Set(['.planning/STATE.md','.planning/ROADMAP.md','.planning/REQUIREMENTS.md',
   ...['03-REVIEW.md','03-REVIEW.json','03-REVIEW-FIX.md','03-REVIEW.iter2.md','03-REVIEW-FIX.iter2.md','03-EVIDENCE.json','03-VISUAL-REVIEW.md',
-    '03-04-SUMMARY.md','03-04-CHECKPOINT.md','03-CONTINUATION.md','COVERAGE.md'].map(file=>phase+file)]);
+    '03-04-SUMMARY.md','03-04-CHECKPOINT.md','03-CONTINUATION.md','03-VERIFICATION.md','03-VALIDATION.md',
+    '03-SECURITY.md','03-UI-REVIEW.md','03-REVIEW-DISPOSITION.md','COVERAGE.md'].map(file=>phase+file)]);
 function git(root,args,encoding='utf8'){
   const result=spawnSync('git',args,{cwd:root,encoding,windowsHide:true,timeout:15000,maxBuffer:32*1024*1024});
   e.requireTrue(!result.error&&result.status===0,'GIT_VALIDATION_UNAVAILABLE '+args[0]);return result.stdout;

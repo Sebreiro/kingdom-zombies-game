@@ -70,6 +70,8 @@ function fixture(build=false){
   const index={schemaVersion:1,scope:'Windows 1280x720 local; no VM',selection:gate.selection,finalReport:ref('.phase3/runs/control/final/summary.json'),history:[],reviews:[],visualReview:ref('.planning/phases/03-four-player-lan-foundation/03-VISUAL-REVIEW.md')};
   write('.planning/phases/03-four-player-lan-foundation/03-EVIDENCE.json',index);
   write(catalog.reviewPath.replace('.json','.md'),'Later canonical review metadata; immutable original still bound.');
+  for(const file of ['03-VERIFICATION.md','03-VALIDATION.md','03-SECURITY.md','03-UI-REVIEW.md','03-REVIEW-DISPOSITION.md'])
+    write('.planning/phases/03-four-player-lan-foundation/'+file,'CONTROL: closure metadata; no additional execution credit');
   const closure=commit();return {root,write,git,commit,reviewed,tested,closure,context,review,gate,identity,index,cases,ref};
 }
 function compile(root,stamp){
