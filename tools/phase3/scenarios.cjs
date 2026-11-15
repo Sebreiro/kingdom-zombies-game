@@ -5,19 +5,23 @@ const {acquireLock}=require('../phase2/check.cjs');
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 const latest=peer=>r.draws(peer).at(-1);
 function participant(peer,profile=peer.profile){return latest(peer)?.snapshot?.Participants.find(row=>row.Actor.PlayerId===profile);}
-async function focus(input,peer){return input.send(peer,{action:'focus',method:'physical-SendInput'});}
-async function tap(input,peer,key){await input.send(peer,{action:'key',method:'physical-SendInput',key,pressed:true});await delay(30);return input.send(peer,{action:'key',method:'physical-SendInput',key,pressed:false});}
+async function focus(input,peer){return require('./foreground.cjs').run(()=>input.send(peer,{action:'focus',method:'physical-SendInput'}));}
+async function tap(input,peer,key){return require('./foreground.cjs').run(async()=>{await input.send(peer,{action:'key',method:'physical-SendInput',key,pressed:true});await delay(30);return input.send(peer,{action:'key',method:'physical-SendInput',key,pressed:false});});}
 async function click(input,peer,control){
+  return require('./foreground.cjs').run(async()=>{
   await focus(input,peer);const node=latest(peer)?.controls.find(row=>row.path===control);
   e.requireTrue(node?.visible,'CONTROL_NOT_VISIBLE '+peer.role+'/'+control);
   if(control==='Menu/Quit')require('./terminal.cjs').requestQuit(peer);
   await input.send(peer,{action:'click',method:'physical-SendInput',x:Math.round(node.x),y:Math.round(node.y)});await delay(60);
+  });
 }
 async function text(input,peer,control,value){
+  return require('./foreground.cjs').run(async()=>{
   await click(input,peer,control);await input.send(peer,{action:'key',method:'physical-SendInput',key:17,pressed:true});
   await tap(input,peer,65);await input.send(peer,{action:'key',method:'physical-SendInput',key:17,pressed:false});
   await input.send(peer,{action:'text',method:'physical-SendInput',text:value});
   await r.until([peer],()=>latest(peer)?.controls.find(row=>row.path===control)?.text===value,'native text '+control);
+  });
 }
 async function menu(input,peer){
   if(latest(peer)?.snapshot){await focus(input,peer);await tap(input,peer,27);}
@@ -196,6 +200,20 @@ async function timed(state,item){
   for(const row of timings)peers.find(peer=>peer.role===row.observer).images.push({...row.image,checkpoint:'timing-'+row.origin+'-'+row.action,screen:'game'});
   return {peers,timings,stopped};
 }
+async function raceJoins(context,values){
+  const prepared=[];
+  for(const value of values){
+    await click(value.input,value.peer,'Browser/Address');await tap(value.input,value.peer,9);
+    const draw=await r.until([value.peer],()=>latest(value.peer)?.controls.some(control=>control.path==='Browser/JoinAddress'&&control.focused)?latest(value.peer):null,'ordinary focused Join control');
+    prepared.push({value,frame:draw.drawFrame});
+  }
+  const acknowledgments=await Promise.all(prepared.map(async({value,frame})=>{
+    const ack=await r.nativeKey(context,value.input,value.peer,13,true,'window-message');
+    Object.assign(ack,{preparedControl:'Browser/JoinAddress',preparedControlDrawFrame:frame});return ack;
+  }));
+  await Promise.all(prepared.map(({value})=>r.nativeKey(context,value.input,value.peer,13,false,'window-message')));
+  return {method:'window-message',physicalInputCredit:false,acknowledgments};
+}
 async function g3(state,item){
   if(item.id==='rendered.moving-join'){
     await host(state.input,state.host);
@@ -227,7 +245,7 @@ async function g3(state,item){
     const leaving=state.peers.at(-1);await menu(state.input,leaving);await roster(state.peers.slice(0,3),3);
     const sixth=await extra(state,'race-challenger',null,'Two actual final-slot contenders prove serialized capacity');
     for(const value of [fifth,sixth]){await browse(value.input,value.peer);await text(value.input,value.peer,'Browser/Address','127.0.0.1:'+state.port);}
-    await Promise.all([fifth,sixth].map(value=>click(value.input,value.peer,'Browser/JoinAddress')));
+    const raceDelivery=await raceJoins(state.outer,[fifth,sixth]);
     await r.until([fifth.peer,sixth.peer],()=>[fifth.peer,sixth.peer].filter(peer=>latest(peer).input.ready).length===1&&[fifth.peer,sixth.peer].some(peer=>latest(peer).input.error?.startsWith('Full')),'last-slot race');
     const racePictures=[];
     for(const value of [fifth,sixth])racePictures.push(await checkpoint(state,value.peer,'race-result',latest(value.peer).snapshot?'game':'browser'));
@@ -239,7 +257,7 @@ async function g3(state,item){
     const duplicatePicture=await checkpoint(state,duplicate.peer,'duplicate','browser');await join(state.input,leaving,state.port);await roster(state.peers,4);
     const additionalPeers=[fifth,sixth,duplicate].map((value,index)=>({role:value.peer.role,pid:value.peer.pid,profile:value.peer.profile,
       session:null,actor:null,binding:null,minimumRevision:0,images:index===0?[full,racePictures[0]]:index===1?[racePictures[1]]:[duplicatePicture],_peer:value.peer}));
-    return {peers:await take(state,item),additionalPeers};
+    return {peers:await take(state,item),additionalPeers,raceDelivery};
   }
   if(item.id==='rendered.guest-lifecycle'){
     const guest=state.peers[1],before=participant(guest).Actor.ActorId;
@@ -306,4 +324,4 @@ async function run(context,items){
   for(const result of results)for(const peer of [...result.peers??[],...result.additionalPeers??[]]){peer.launch=artifact(path.join(peer._peer.directory,'launch.json'));peer.log=artifact(path.join(peer._peer.directory,'console.log'));peer.draws=artifact(path.join(peer._peer.directory,'draws.ndjson'));peer.terminal=artifact(path.join(peer._peer.directory,'terminal.json'));delete peer._peer;}
   return {results,launches};
 }
-module.exports={run,click,text,menu,host,browse,join,roster,resetFour,create,close};
+module.exports={run,click,text,menu,host,browse,join,roster,resetFour,create,close,raceJoins};

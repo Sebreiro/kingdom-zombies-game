@@ -37,12 +37,15 @@ function driver(context,peers){
     const row=JSON.parse(line);if(row.ready){readyResolve(row);continue;}const request=pending.get(row.sequence);if(request){pending.delete(row.sequence);request.resolve({...row,observedAfter:String(now())});}
   }catch(failure){error=failure;}}});
   child.stderr.on('data',bytes=>stderr+=bytes);child.once('error',failure=>error=failure);child.once('exit',()=>ended=true);
-  async function send(peer,request){
+  async function deliver(peer,request){
     const start=now(),index=++sequence;const ackPromise=new Promise(resolve=>pending.set(index,{resolve}));
     child.stdin.write(JSON.stringify({nonce:context.nonce,sequence:index,pid:peer.pid,...request})+'\n');
     const row=await Promise.race([ackPromise,delay(8000).then(()=>{throw new Error('DRIVER_ACK_TIMEOUT '+stderr);})]);
     e.requireTrue(!error&&!ended&&row.ok&&row.nonce===context.nonce&&row.pid===peer.pid&&row.driverPid===child.pid,'DRIVER_ACK '+JSON.stringify(row));
     const record={...row,deliveryBefore:String(start),deliveryAfter:String(now()),clock:'coordinator-hrtime'};records.push(record);return record;
+  }
+  async function send(peer,request){
+    return request.method==='physical-SendInput'?require('./foreground.cjs').run(()=>deliver(peer,request)):deliver(peer,request);
   }
   async function start(){const row=await Promise.race([ready,delay(10000).then(()=>{throw new Error('DRIVER_START_TIMEOUT '+stderr);})]);
     e.requireTrue(row.nonce===context.nonce&&row.pid===child.pid,'DRIVER_READY');e.exact(peers.map(row=>row.pid),row.owned,'driver owned PIDs');return row;}

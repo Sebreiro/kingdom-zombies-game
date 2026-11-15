@@ -129,6 +129,18 @@ function reconcile(selected,results,context){
       peers(context,{...item,roles:item.additionalRoles,imagesByRole:item.additionalImagesByRole,screensByRole:item.additionalScreensByRole,profileRestart:true},{...result,peers:result.additionalPeers});
       const raced=result.additionalPeers.filter(peer=>['capacity-challenger','race-challenger'].includes(peer.role)).map(peer=>peer.images.find(image=>image.checkpoint==='race-result'));
       requireTrue(raced.length===2&&raced.filter(image=>image?.screen==='game').length===1,'RACE_IMAGE_MEMBERSHIP');
+      const delivery=result.raceDelivery,contenders=result.additionalPeers.filter(peer=>['capacity-challenger','race-challenger'].includes(peer.role));
+      requireTrue(delivery?.method==='window-message'&&delivery.physicalInputCredit===false,'RACE_TARGETED_PROVENANCE');
+      exact(contenders.map(peer=>peer.pid),delivery.acknowledgments?.map(ack=>ack.pid),'race native acknowledgments');
+      const records=result.nativeDrivers.flatMap(reference=>read(artifact(context,reference)).records);
+      for(const ack of delivery.acknowledgments){
+        const peer=contenders.find(peer=>peer.pid===ack.pid),draws=fs.readFileSync(artifact(context,peer.draws),'utf8').trim().split('\n').map(JSON.parse);
+        const preparation=draws.find(draw=>draw.drawFrame===ack.preparedControlDrawFrame),native=draws.find(draw=>draw.drawFrame===ack.nativeDrawFrame);
+        requireTrue(ack.method==='window-message'&&ack.action==='key'&&ack.key===13&&ack.pressed===true&&ack.nativeInputEvents>0&&
+          ack.preparedControl==='Browser/JoinAddress'&&preparation?.controls.some(control=>control.path===ack.preparedControl&&control.focused)&&
+          native?.input.lastInput?.key===4194309&&native.input.lastInput.pressed===true&&native.input.inputEvents===ack.nativeInputEvents&&
+          records.filter(record=>record.driverPid===ack.driverPid&&record.sequence===ack.sequence&&JSON.stringify(record)===JSON.stringify(ack)).length===1,'RACE_NATIVE_HANDLER_ACK');
+      }
     }
     if(item.id==='rendered.timing'){
       const expected=[];for(const origin of item.roles)for(const observer of item.roles.filter(role=>role!==origin))for(const action of ['start','reversal','stop','focus-stop'])expected.push(origin+'/'+observer+'/'+action);
