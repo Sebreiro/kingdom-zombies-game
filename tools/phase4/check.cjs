@@ -445,4 +445,5 @@ async function main(args){
   if(failed)process.exitCode=1;
 }
 module.exports={main,registerCase,cases,runTracer,validate,hash,inside,document,command,environment};
+require('./cases/provenance.cjs');
 if(require.main===module)main(process.argv.slice(2)).catch(error=>{console.error(error.stack);process.exitCode=1;});

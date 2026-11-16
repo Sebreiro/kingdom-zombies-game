@@ -1,0 +1,353 @@
+{
+  "schemaVersion": 1,
+  "id": "kingdom-zombies.v0.1",
+  "version": 1,
+  "status": "incomplete",
+  "acceptanceOwner": "04-32/04-33",
+  "shards": [
+    {
+      "id": "tracer",
+      "ownerPlan": "04-01",
+      "status": "selected",
+      "version": 1,
+      "path": "src/godot-game/content/packs/tracer.json",
+      "bytes": 2430,
+      "sha256": "e21c933b36bacd5f81206b33f7a9680bedd89bd5e580b12f5004ab212895d1f4"
+    },
+    {
+      "id": "audio-actions",
+      "ownerPlan": "04-21",
+      "status": "pending",
+      "path": "src/godot-game/content/packs/audio-actions.json"
+    },
+    {
+      "id": "audio-interface-ambience",
+      "ownerPlan": "04-21",
+      "status": "pending",
+      "path": "src/godot-game/content/packs/audio-interface-ambience.json"
+    },
+    {
+      "id": "bodies-a",
+      "ownerPlan": "04-06",
+      "status": "pending",
+      "path": "src/godot-game/content/packs/bodies-a.json"
+    },
+    {
+      "id": "bodies-b",
+      "ownerPlan": "04-07",
+      "status": "pending",
+      "path": "src/godot-game/content/packs/bodies-b.json"
+    },
+    {
+      "id": "bodies-c",
+      "ownerPlan": "04-07",
+      "status": "pending",
+      "path": "src/godot-game/content/packs/bodies-c.json"
+    },
+    {
+      "id": "camp-access",
+      "ownerPlan": "04-11",
+      "status": "pending",
+      "path": "src/godot-game/content/packs/camp-access.json"
+    },
+    {
+      "id": "common",
+      "ownerPlan": "04-04",
+      "status": "pending",
+      "path": "src/godot-game/content/packs/common.json"
+    },
+    {
+      "id": "compatibility",
+      "ownerPlan": "04-22",
+      "status": "pending",
+      "path": "src/godot-game/content/packs/compatibility.json"
+    },
+    {
+      "id": "corpses-wildlife",
+      "ownerPlan": "04-10",
+      "status": "pending",
+      "path": "src/godot-game/content/packs/corpses-wildlife.json"
+    },
+    {
+      "id": "defenses",
+      "ownerPlan": "04-12",
+      "status": "pending",
+      "path": "src/godot-game/content/packs/defenses.json"
+    },
+    {
+      "id": "delivery",
+      "ownerPlan": "04-31",
+      "status": "pending",
+      "path": "src/godot-game/content/packs/delivery.json"
+    },
+    {
+      "id": "effects-portals",
+      "ownerPlan": "04-13",
+      "status": "pending",
+      "path": "src/godot-game/content/packs/effects-portals.json"
+    },
+    {
+      "id": "guards",
+      "ownerPlan": "04-12",
+      "status": "pending",
+      "path": "src/godot-game/content/packs/guards.json"
+    },
+    {
+      "id": "items-01-10",
+      "ownerPlan": "04-05",
+      "status": "pending",
+      "path": "src/godot-game/content/packs/items-01-10.json"
+    },
+    {
+      "id": "items-11-24",
+      "ownerPlan": "04-05",
+      "status": "pending",
+      "path": "src/godot-game/content/packs/items-11-24.json"
+    },
+    {
+      "id": "main-buildings",
+      "ownerPlan": "04-11",
+      "status": "pending",
+      "path": "src/godot-game/content/packs/main-buildings.json"
+    },
+    {
+      "id": "player-identities",
+      "ownerPlan": "04-10",
+      "status": "pending",
+      "path": "src/godot-game/content/packs/player-identities.json"
+    },
+    {
+      "id": "scale-pilot",
+      "ownerPlan": "04-04",
+      "status": "pending",
+      "path": "src/godot-game/content/packs/scale-pilot.json"
+    },
+    {
+      "id": "text-data",
+      "ownerPlan": "04-22",
+      "status": "pending",
+      "path": "src/godot-game/content/packs/text-data.json"
+    },
+    {
+      "id": "ui-camp",
+      "ownerPlan": "04-16",
+      "status": "pending",
+      "path": "src/godot-game/content/packs/ui-camp.json"
+    },
+    {
+      "id": "ui-identity",
+      "ownerPlan": "04-28",
+      "status": "pending",
+      "path": "src/godot-game/content/packs/ui-identity.json"
+    },
+    {
+      "id": "ui-inventory",
+      "ownerPlan": "04-15",
+      "status": "pending",
+      "path": "src/godot-game/content/packs/ui-inventory.json"
+    },
+    {
+      "id": "ui-kit",
+      "ownerPlan": "04-14",
+      "status": "pending",
+      "path": "src/godot-game/content/packs/ui-kit.json"
+    },
+    {
+      "id": "ui-legacy-stash",
+      "ownerPlan": "04-15",
+      "status": "pending",
+      "path": "src/godot-game/content/packs/ui-legacy-stash.json"
+    },
+    {
+      "id": "ui-map-warnings",
+      "ownerPlan": "04-16",
+      "status": "pending",
+      "path": "src/godot-game/content/packs/ui-map-warnings.json"
+    },
+    {
+      "id": "ui-session",
+      "ownerPlan": "04-17",
+      "status": "pending",
+      "path": "src/godot-game/content/packs/ui-session.json"
+    },
+    {
+      "id": "ui-settings",
+      "ownerPlan": "04-17",
+      "status": "pending",
+      "path": "src/godot-game/content/packs/ui-settings.json"
+    },
+    {
+      "id": "world",
+      "ownerPlan": "04-13",
+      "status": "pending",
+      "path": "src/godot-game/content/packs/world.json"
+    }
+  ],
+  "origins": [
+    {
+      "owner": "sharedassets0.assets",
+      "type": "Sprite",
+      "objectId": 7008,
+      "name": "tools_bow",
+      "ownerSha256": "3648658d475170661517c4907e50977a4ab932441b404a681cd0ce485592f3ff",
+      "rawSha256": "12a7303fa0815fb8cd0ac10630e934dd91b87777c041838ada7cfa8259fa4023",
+      "streams": [
+        {
+          "path": "sharedassets0.assets.resS",
+          "offset": 280718128,
+          "bytes": 4194304,
+          "sha256": "2efccae88002a02ca85f050a6d6dc2e5fe894c32de80e36f30cd12f8c7ffb5c2",
+          "rangeSha256": "620d3a6fd3f441ea4e02f07bef8479f118d451076e29917d292797babb3bad53"
+        }
+      ],
+      "dependencies": [
+        {
+          "owner": "sharedassets0.assets",
+          "type": "SpriteAtlas",
+          "objectId": 25376,
+          "name": "objects"
+        },
+        {
+          "owner": "sharedassets0.assets",
+          "type": "Texture2D",
+          "objectId": 178,
+          "name": "sactx-0-1024x1024-Uncompressed-objects-07654c7b"
+        }
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "id": "common.bow",
+      "name": "Bow (partial master)",
+      "version": 1,
+      "shard": "tracer",
+      "path": "src/godot-game/assets/common/bow.png",
+      "bytes": 135,
+      "sha256": "08b53699e459d71cf73f3e7be84af19d04805d5a7a488121e39a514a81701999",
+      "route": "reuse",
+      "origins": [
+        {
+          "owner": "sharedassets0.assets",
+          "type": "Sprite",
+          "objectId": 7008,
+          "name": "tools_bow",
+          "ownerSha256": "3648658d475170661517c4907e50977a4ab932441b404a681cd0ce485592f3ff",
+          "rawSha256": "12a7303fa0815fb8cd0ac10630e934dd91b87777c041838ada7cfa8259fa4023",
+          "streams": [
+            {
+              "path": "sharedassets0.assets.resS",
+              "offset": 280718128,
+              "bytes": 4194304,
+              "sha256": "2efccae88002a02ca85f050a6d6dc2e5fe894c32de80e36f30cd12f8c7ffb5c2",
+              "rangeSha256": "620d3a6fd3f441ea4e02f07bef8479f118d451076e29917d292797babb3bad53"
+            }
+          ],
+          "dependencies": [
+            {
+              "owner": "sharedassets0.assets",
+              "type": "SpriteAtlas",
+              "objectId": 25376,
+              "name": "objects"
+            },
+            {
+              "owner": "sharedassets0.assets",
+              "type": "Texture2D",
+              "objectId": 178,
+              "name": "sactx-0-1024x1024-Uncompressed-objects-07654c7b"
+            }
+          ]
+        }
+      ],
+      "production": {
+        "path": "production/phase4/tracer-source.json",
+        "bytes": 14541,
+        "sha256": "03673e2f892369263a54fca6aee26684bc5f3f0b9aee540f3c001d190bd45fac"
+      },
+      "dependencies": [
+        {
+          "id": "inspection.bow",
+          "path": "src/godot-game/inspection/Inspection.tscn",
+          "bytes": 993,
+          "sha256": "66702efb9bf9390f6454316ce0ec5bc7808cb5f439addf0430d46abccb589739"
+        }
+      ],
+      "metadata": {
+        "kind": "image",
+        "width": 16,
+        "height": 18,
+        "rgbaSha256": "88b8e7062f0eb9cfb788ef3658028ba58a6f62d408d3e39ae2e1228bfa6c8905",
+        "registration": {
+          "logicalRect": {
+            "x": 0,
+            "y": 0,
+            "width": 16,
+            "height": 18
+          },
+          "pivotNormalizedBottomLeft": {
+            "x": 0.375,
+            "y": 0.5
+          },
+          "sourcePixelsPerUnit": 32,
+          "sourceOffset": {
+            "x": -2,
+            "y": 0
+          },
+          "trimOffset": {
+            "x": 0,
+            "y": 0
+          },
+          "atlasRectOffset": {
+            "x": 576,
+            "y": 526
+          },
+          "atlasTextureRect": {
+            "x": 578,
+            "y": 526,
+            "width": 16,
+            "height": 18
+          },
+          "atlasSettingsRaw": 67,
+          "alphaTextureId": 0,
+          "display": {
+            "centered": false,
+            "offsetTopLeft": [
+              -6,
+              -9
+            ],
+            "scale": [
+              1,
+              1
+            ],
+            "filter": "nearest"
+          }
+        }
+      },
+      "applicability": {
+        "obligations": "IT-07 partial master only; icon/drawn/released/fits/corpse still required",
+        "listening": "not-applicable"
+      },
+      "inspection": {
+        "route": "res://inspection/Inspection.tscn",
+        "dependency": "inspection.bow"
+      },
+      "evidence": {
+        "source": "pending",
+        "native": "pending",
+        "listening": "not-applicable",
+        "judgment": "pending",
+        "records": []
+      },
+      "historicalInputEvidence": {
+        "level": "V",
+        "credit": "No current production/native/visual acceptance credit"
+      },
+      "obligations": [
+        {
+          "id": "IT-07",
+          "coverage": "partial"
+        }
+      ]
+    }
+  ]
+}
