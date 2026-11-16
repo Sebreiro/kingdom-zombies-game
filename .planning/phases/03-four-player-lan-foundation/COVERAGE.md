@@ -1,3 +1,3 @@
 # API Coverage — Phase 03
 
-No external API integration: this phase uses existing Godot/.NET built-in ENet, local multicast sockets and owned profile files behind replaceable local service ports; it integrates no external service, account, SDK package or hosted API.
+No external API integration: Phase 3 uses built-in Godot/.NET ENet, local multicast and owned files; no external service, account, SDK package or hosted API.

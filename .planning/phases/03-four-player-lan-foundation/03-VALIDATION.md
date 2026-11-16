@@ -1,15 +1,15 @@
 ---
 phase: "03"
 slug: "four-player-lan-foundation"
-status: draft
-nyquist_compliant: false
-wave_0_complete: false
+status: validated
+nyquist_compliant: true
+wave_0_complete: true
 created: "2026-11-15"
 ---
 
 # Phase 03 — Validation Strategy
 
-> Based on the GSD VALIDATION template and 03-RESEARCH.md Validation Architecture. All execution statuses remain pending.
+> Based on the GSD VALIDATION template and 03-RESEARCH.md Validation Architecture. Execution audited against all four completed plans, the immutable current full report and exact completion validation.
 
 ## Test Infrastructure
 
@@ -38,30 +38,30 @@ New phase3 commands are deliverables. Exact comma-separated phase3 case selectio
 
 | Task ID | Plan | Wave | Requirement | Threat Ref | Secure Behavior | Test Type | Automated Command | File Exists | Status |
 |---|---|---|---|---|---|---|---|---|---|
-| 03-01-01 | 01 | 1 | LAN-01–04 | T-03-01/02/03 | Sender-bound ready authority, bounded wire | unit/headless | strict build; `--case core.authority`; `--case network.tracer` | ❌ W0 | ⬜ pending |
-| 03-01-02 | 01 | 1 | LAN-03/04 | T-03-04 | Exact native/public positive and adjacent rejection | scanner/compile | `--case core.permissions`; inherited focused checks | ❌ W0 | ⬜ pending |
-| 03-02-01 | 02 | 2 | LAN-01–04 | T-03-05/06/07 | Capacity/readiness/replay/revision fences | unit/headless | `--case core.admission,core.ordering,core.protocol`; `--case network.four-peer` | ❌ W0 | ⬜ pending |
-| 03-02-02 | 02 | 2 | LAN-01–04 | T-03-06/07 | Threshold and closed/replaced lifetime safety | unit/headless | `--case core.lifecycle,network.lifecycle,network.idle-poll` | ❌ W0 | ⬜ pending |
-| 03-03-01 | 03 | 3 | LAN-01/04 | T-03-08/09/10 | Discovery revalidation, atomic exact profiles | socket/file/headless | `--case adapters.discovery,adapters.profiles,network.discovery-profile` | ❌ W0 | ⬜ pending |
-| 03-03-02 | 03 | 3 | LAN-01/02 | T-03-10 | Context-owned input and local camera | unit | `--case core.input`; inherited core group | ❌ W0 | ⬜ pending |
-| 03-03-03 | 03 | 3 | LAN-04 | T-03-11 | Individual actual service swaps, exact permissions | composition/scanner | `--case adapters.substitutions,core.permissions` | ❌ W0 | ⬜ pending |
-| 03-04-01 | 04 | 4 | LAN-01–04 | T-03-12/13 | Actual observation, provenance, conservative timing | headless/unit | `--case runner.tracer,runner.timing` | ❌ W0 | ⬜ pending |
-| 03-04-02 | 04 | 4 | LAN-01–04 | T-03-13/14/15 | Exact membership, real child failures, owned cleanup | runner | `--group runner`; `--list`; docs.navigation | ❌ W0 | ⬜ pending |
-| 03-04-03 | 04 | 4 | LAN-01–04 | T-03-01–15 | Review first, fresh full selected-set evidence | rendered/review | strict build; `--all`; `--verify-completion .../03-EVIDENCE.json` | ❌ W0 | ⬜ pending |
+| 03-01-01 | 01 | 1 | LAN-01–04 | T-03-01/02/03 | Sender-bound ready authority, bounded wire | unit/headless | strict build; `--case core.authority`; `--case network.tracer` | ✅ exists | ✅ green |
+| 03-01-02 | 01 | 1 | LAN-03/04 | T-03-04 | Exact native/public positive and adjacent rejection | scanner/compile | `--case core.permissions`; inherited focused checks | ✅ exists | ✅ green |
+| 03-02-01 | 02 | 2 | LAN-01–04 | T-03-05/06/07 | Capacity/readiness/replay/revision fences | unit/headless | `--case core.admission,core.ordering,core.protocol`; `--case network.four-peer` | ✅ exists | ✅ green |
+| 03-02-02 | 02 | 2 | LAN-01–04 | T-03-06/07 | Threshold and closed/replaced lifetime safety | unit/headless | `--case core.lifecycle,network.lifecycle,network.idle-poll` | ✅ exists | ✅ green |
+| 03-03-01 | 03 | 3 | LAN-01/04 | T-03-08/09/10 | Discovery revalidation, atomic exact profiles | socket/file/headless | `--case adapters.discovery,adapters.profiles,network.discovery-profile` | ✅ exists | ✅ green |
+| 03-03-02 | 03 | 3 | LAN-01/02 | T-03-10 | Context-owned input and local camera | unit | `--case core.input`; inherited core group | ✅ exists | ✅ green |
+| 03-03-03 | 03 | 3 | LAN-04 | T-03-11 | Individual actual service swaps, exact permissions | composition/scanner | `--case adapters.substitutions,core.permissions` | ✅ exists | ✅ green |
+| 03-04-01 | 04 | 4 | LAN-01–04 | T-03-12/13 | Actual observation, provenance, conservative timing | headless/unit | `--case runner.tracer,runner.timing` | ✅ exists | ✅ green |
+| 03-04-02 | 04 | 4 | LAN-01–04 | T-03-13/14/15 | Exact membership, real child failures, owned cleanup | runner | `--group runner`; `--list`; docs.navigation | ✅ exists | ✅ green |
+| 03-04-03 | 04 | 4 | LAN-01–04 | T-03-01–15 | Review first, fresh full selected-set evidence | rendered/review | strict build; `--all`; `--verify-completion .../03-EVIDENCE.json` | ✅ exists | ✅ green |
 
-All abbreviated phase3 selectors above use `node tools/phase3/check.cjs`. Status: pending/green/red/flaky; no pass is assigned at planning time. Shared T-03-SC preserves the audited dependency baseline; no new package install.
+All abbreviated phase3 selectors above use `node tools/phase3/check.cjs`. All ten task rows are covered by actual passing execution. Planning-time pending rows have been audited rather than presumed. Shared T-03-SC preserves the audited dependency baseline; no new package install.
 
 ## Wave 0 Requirements
 
 Wave 0 is embedded test-first work inside each feature task, not a separate horizontal plan or real game launch.
 
-- [ ] 03-01: create check.cjs, required-cases.json, network.cjs, FoundationLanAuthorityTests.cs and FoundationLanPermissionTests.cs before consuming them; actual failing assertions precede implementation.
-- [ ] 03-02: create FoundationLanLifecycleTests.cs / FoundationLanProtocolTests.cs and register exact named cases before expansion.
-- [ ] 03-03: create FoundationLanServicesTests.cs / FoundationLanInputTests.cs with exact linked engine-free Compile inputs; no sixth project or new reference edge.
-- [ ] 03-04: create FoundationLanRunnerTests.cs, evidence.cjs, runner-fixture.cjs, rendered.cjs, persistent owned windows-input.ps1, strict catalog and saved scenarios/selection.
-- [ ] Implement every new selector/completion command before its consuming task. A missing binding/test/tool is failure/blocker, never empty success.
-- [ ] Every new public/native tuple has exact positive and adjacent-negative proof; generated spans come only from actual authenticated strict-build output.
-- [ ] No framework/package install. Calibration factor 1, samples 0, confidence low; plan estimates raw/calibrated 58000/40000/50000/55000 tokens.
+- [x] 03-01: create check.cjs, required-cases.json, network.cjs, FoundationLanAuthorityTests.cs and FoundationLanPermissionTests.cs before consuming them; actual failing assertions precede implementation.
+- [x] 03-02: create FoundationLanLifecycleTests.cs / FoundationLanProtocolTests.cs and register exact named cases before expansion.
+- [x] 03-03: create FoundationLanServicesTests.cs / FoundationLanInputTests.cs with exact linked engine-free Compile inputs; no sixth project or new reference edge.
+- [x] 03-04: create FoundationLanRunnerTests.cs, evidence.cjs, runner-fixture.cjs, rendered.cjs, persistent owned windows-input.ps1, strict catalog and saved scenarios/selection.
+- [x] Implement every new selector/completion command before its consuming task. A missing binding/test/tool is failure/blocker, never empty success.
+- [x] Every new public/native tuple has exact positive and adjacent-negative proof; generated spans come only from actual authenticated strict-build output.
+- [x] No framework/package install. Calibration factor 1, samples 0, confidence low; plan estimates raw/calibrated 58000/40000/50000/55000 tokens.
 
 ## Acceptance Coverage
 
@@ -166,12 +166,31 @@ No Deferred Ideas were added. Campaign/save/reconnect/succession, broad Phase 5 
 
 ## Validation Sign-Off
 
-- [ ] Every task has automated checks and immediate fails_when; no three tasks without automated feedback.
-- [ ] Wave 0 creates every new command/test before consumption; no watch-mode or empty execution passes.
-- [ ] 18/18 AC and 20/20 edges have executable catalog/scenario mappings.
-- [ ] Entire phase reviewed/fixed before first window; selected/omitted IDs and groups saved.
-- [ ] Input provenance, conservative timing and exact peer/image coverage validated.
-- [ ] Entire final selected set passes after repairs with actual image review and immutable historical failures.
-- [ ] Set nyquist_compliant/wave_0_complete only after actual implementation/checks justify them.
+- [x] Every task has automated checks and immediate fails_when; no three tasks without automated feedback.
+- [x] Wave 0 creates every new command/test before consumption; no watch-mode or empty execution passes.
+- [x] 18/18 AC and 20/20 edges have executable catalog/scenario mappings.
+- [x] Entire phase reviewed/fixed before first window; selected/omitted IDs and groups saved.
+- [x] Input provenance, conservative timing and exact peer/image coverage validated.
+- [x] Entire final selected set passes after repairs with actual image review and immutable historical failures.
+- [x] Set nyquist_compliant/wave_0_complete only after actual implementation/checks justify them.
 
-**Approval:** pending execution and independent plan verification.
+**Approval:** validated on 2026-11-16 from actual source-bound execution and recorded agent-operated image judgments.
+
+## Current execution audit
+
+- Source/build `c69442148c975de974ebbb1d8ef409380940ecb0`; original tested HEAD `6ea600953be031bf2b467a50d35090a94e44f802`.
+- Full report `.phase3/runs/win32-x64/841e10b1-f825-4527-865b-4703382f51eb/summary.json`: 481/481 passing in 3363558 ms (433 Phase 1, 16 Phase 2, 32 Phase 3).
+- All 18 acceptance criteria and 20 raised edges retain executable catalog/scenario mappings. Requirements LAN-01 through LAN-04 have behavioral, adversarial, actual native and evidence-integrity coverage.
+- Actual four-peer physical response: 48 samples, maximum 197.8586 ms under the inclusive 250 ms bound. All 16 stopped comparisons match host positions exactly within the 500 ms limit.
+- All 319 current image bindings pass: 221 contents directly inspected in this final review and 34 exact-byte prior passing inspections reconciled to current context. Both repaired browser feedback and world-edge markers were inspected in fresh full-run images.
+- Completion validation passed at metadata closure `fb158d572653f7541394ce7171957f8a784c5274`; original reports and historical runtime/visual failures remain immutable in `03-EVIDENCE.json`.
+- No coverage gap was found; no additional test or game execution was needed for this audit. Actual judgment-only appearance checks are completed in `03-VISUAL-REVIEW.md`, not inferred from pixels or state.
+- Scope is development Windows 1280×720 without a VM. Hosted Linux, physical mixed-computer/mixed-OS LAN, other displays, full campaign, hardware and endurance retain their separate owners and receive no current execution credit.
+
+## Validation Audit 2026-11-16
+
+| Metric | Count |
+|---|---|
+| Gaps found | 0 |
+| Resolved | 0 |
+| Escalated | 0 |
