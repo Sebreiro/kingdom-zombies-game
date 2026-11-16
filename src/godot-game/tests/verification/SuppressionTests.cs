@@ -88,10 +88,13 @@ public sealed class SuppressionTests
     {
         string project = Path.Combine(path1: ProofProtocol.Root,
                 path2: "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj");
+        string directory = Path.GetDirectoryName(path: project)
+                ?? throw new InvalidDataException(message: "Linked-source project directory required");
         string[] actual = [..System.Xml.Linq.XDocument.Load(uri: project).Descendants(name: "Compile")
                 .Select(selector: item => item.Attribute(name: "Include")?.Value ?? "")
-                .Select(selector: path => path.StartsWith(value: "../../", comparisonType: StringComparison.Ordinal)
-                        ? path[6..] : path)];
+                .Select(selector: path => Path.GetRelativePath(relativeTo: ProofProtocol.Root,
+                        path: Path.GetFullPath(path: Path.Combine(path1: directory, path2: path)))
+                                .Replace(oldChar: '\\', newChar: '/'))];
         actual.Order(comparer: StringComparer.Ordinal).ShouldBe(expected: FoundationLinkedSources.Paths
                 .Order(comparer: StringComparer.Ordinal));
         foreach (string path in FoundationLinkedSources.Paths)

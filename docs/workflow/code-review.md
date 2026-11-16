@@ -6,7 +6,7 @@ Use this document as the entry point for an external PR review tool or a contrib
 
 | Review subject | Authority |
 | --- | --- |
-| Required game behavior and exclusions | [Version 0.1 specification](../../specs/0.1/initial-spec.md), [asset/resource plan](../../specs/0.1/assets-and-resources.md), relevant accepted requirement and phase context |
+| Required game behavior and exclusions | [Version 0.1 specification](../../specs/0.1/initial-spec.md), [asset/resource plan](../../specs/0.1/assets-and-resources.md), [approved requirements](../../.planning/REQUIREMENTS.md), relevant phase context |
 | C# formatting, naming, APIs and executable rules | [Code index](../code/README.md), [rule register](../code/register.json), [current mechanism/proof matrix](../code/rule-matrix.md) |
 | Compiler/analyzer policy and banned APIs | [Workspace build policy](../../src/godot-game/build/README.md), [shared properties](../../src/godot-game/Directory.Build.props), [targets](../../src/godot-game/Directory.Build.targets), [editor configuration](../../.editorconfig) |
 | Exact permitted exceptions | [Exemptions](../code/exemptions.json), generated/engine permission references selected by the [code index](../code/README.md) |

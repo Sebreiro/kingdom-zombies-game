@@ -14,6 +14,12 @@ Reviewed inline against origin/dev on 2026-11-16. Automated/AI review only; no h
 - API-input tests compare filenames, while file-reading rules use complete paths. Keep the former as filenames and the latter as new workspace paths.
 - NuGet local feed metadata now has a different config-relative spelling but resolves to the same checkout-owned feed. Update the independent declaration alongside config.
 - Keep .NET-formatting changes outside this task out of unchanged gameplay sources. Game C# and runtime resources remain byte-identical moves.
+- A concatenated Node script in the pin permutation test still read the former tool-manifest path. Rebind the script constant, retaining its declaration/permutation assertions.
+- The linked-source ownership control stripped a fixed `../../` prefix instead of resolving Include paths from the project directory. Resolve each actual Include to a checkout-relative path and retain the exact declared-owner comparison.
+
+## Required final selection after test-path repairs
+
+Run strict locked restore/whole-solution build, the 36 documentation and 27 compiler-policy cases, actual evaluated/compiled boundaries (`ac-12.complete`, `ac-13.complete`), captured register and current bindings, source format, positive/negative suppression and conditional ownership, native lifecycle and generated origin. These 73 current obligations plus 23 tool self-tests form the final required repository/build selection. The broader pre-repair run remains diagnostic evidence with its original source revision and failures; do not relabel it as current or as a successful complete run. `ac-06.complete` remains a separately declared Phase 5 coverage item outside this task.
 
 ## Scope and evidence
 

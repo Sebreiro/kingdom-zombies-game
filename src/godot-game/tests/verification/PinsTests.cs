@@ -113,7 +113,7 @@ public sealed class PinsTests
                         + "Packages].reverse();if(b.validateManifest(m)!==b.valida"
                         + "teManifest(p))process.exitCode=1;const i={global:fs.rea"
                         + "dFileSync('src/godot-game/global.json','utf8'),tools:fs.readFileSync('"
-                        + ".config/dotnet-tools.json','utf8'),project:fs.readFileS"
+                        + "src/godot-game/.config/dotnet-tools.json','utf8'),project:fs.readFileS"
                         + "ync('src/godot-game/game/KingdomZombies.csproj','utf8'),nuge"
                         + "t:fs.readFileSync('src/godot-game/NuGet.config','utf8')};b.declaration"
                         + "s(m,i);i.global=JSON.stringify({sdk:{allowPrerelease:fa"
