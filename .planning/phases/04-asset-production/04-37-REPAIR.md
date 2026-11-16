@@ -1,6 +1,6 @@
 # 04-37 Task 2 — bounded node repair
 
-Status: authorized, not yet implemented. Recorded after checkpoint `6883fdd` under `$gsd-autonomous --only 4`.
+Status: checkpoint — R2 repair budget exhausted; source WIP preserved. Recorded after checkpoint `6883fdd` under `$gsd-autonomous --only 4`.
 
 ## Decision and retained state
 
@@ -30,6 +30,20 @@ This inline repair may reopen consumers already owned by Task 1 and therefore ex
 - All source/headless implementation and independent whole-phase review/fixes precede real game windows. No window, listening or judgment credit; all ASSET requirements remain pending.
 
 ## Retry accounting and closeout
+
+- R1 attempt 1 passed: restored-current build now precedes semantic inventory validation after the adjacent-source injection. Actual `rules.godot-callsite-boundary` invocation `5a7d412b-a228-4036-aabd-ee8eebdd752f` passes all original/current collisions and the final restored positive. Budget remaining: 2 (no failed repair attempt). Earlier sandbox invocation `4fee326b-c55d-4a92-819c-bef9a0732662` blocked on restore; the authorized native rerun succeeded. No collision or semantic validity check was weakened.
+- R2 new controls genuinely failed before validation fixes: `aa2bea89-590f-4834-afcc-eb5fa1420143` accepts an extra unobserved row, and `9add11ec-98bd-442b-9fa3-424d4d5e6336` accepts missing observations. Preparation run `af16d6c1-5346-492c-a4f8-43f6a9c5d050` found a test line-format error and supplied no RED assertion credit.
+- R2 attempt 1 compilation failed on three MA0006 ordinal string comparisons and one IDE0055 formatting issue in the new helper. Budget remaining: 1. Preserve these failures; the next correction must satisfy all R2 gates or checkpoint.
+- R2 attempt 2 compilation failed: `EngineGeneratedTests.cs(618,20)` MA0002 (dictionary removal overload), `(247,35)` IDE0055, `(504,25)` SCR0006 (66-line mutation method). Actual strict test-project command returned exit 1, zero warnings and three errors at approximately 2026-11-16T18:44Z. These are current repair-source defects, not baseline failures and not assertion RED credit. **R2 budget remaining: 0.** Stop source corrections and return to the coordinator. R1 remains passing with budget 2; R3 remains unstarted with budget 2.
+- R3: not yet executed; initial budget 2.
+
+The two independent pre-fix rejection assertions executed as actual compiled tests. The earlier malformed-test preparation and both implementation compiler failures remain disclosed separately. No second full selected-suite attempt, post-repair restored native/solution/Core pass, Task 2 implementation commit, SUMMARY or progress update occurred.
+
+Current source checkpoint: `.phase4/checkpoints/04-37-repair-r2-exhausted-711c7010-9239-42c5-b741-419cbd9dd509/manifest.json`. It preserves six uncommitted implementation files; the original five-file backup remains untouched. R1 adds only `GodotCallSiteAdapterTests.cs`; R2 edits only `EngineGeneratedTests.cs` and the two existing JSONs. No extra implementation path was introduced.
+
+R2 WIP introduces bidirectional exact observation coverage, mandatory observations for nonbaseline inventories, frozen177 checks scoped to the named frozen cohort, original-subject hash matching for overlapping real inputs, and tracked authenticated compiler snapshots plus bounded isolated replay. The persistent input recipe comprises all 43 authored Godot C# compilation files excluding the two suppression adapters, plus the actual Godot csproj (44 snapshots / 201,112 raw bytes); the baseline recipe excludes the separately authenticated InspectionRoot. Current suppression adapters remain the existing proof mechanism. Test/hub/scene are retained immutable observation subjects, not permanent live generator-input gates. Snapshot hashes are preserved rather than relabeled; no ignored historical folder is required by the new replay path. The new nonproducer-change and historical-reproduction controls are written but **not executed**, because the test project currently fails compilation. Extra member rejection is likewise written but unexecuted; the two original new row/missing-observation REDs do not certify those controls. Future-cohort admission and replay require further assessment and execution before acceptance.
+
+All five frozen03 source hashes were checked again after preserving this WIP and remain exact. The original 66 syntax spans/eight attributes, generator package, original observations and four retained raw outputs were not edited by this repair. No new window, source-policy/visibility, asset or requirement acceptance is supplied.
 
 The prior three direct corrections are preserved history. This is the first structured node repair; budgets above must not be silently reset. Record each concrete failed attempt and remaining budget here. If a subtask exhausts its budget, return an honest checkpoint with the attempted changes, exact remaining blocker and source/evidence identities.
 
