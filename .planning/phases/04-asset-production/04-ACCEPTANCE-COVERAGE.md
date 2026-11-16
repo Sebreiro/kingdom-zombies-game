@@ -218,3 +218,11 @@ Coverage source rows, acceptance owners, distinct H/UI backstop statements and f
 Revision1 closes the concrete current proof-consumer gap without adding a plan or changing waves.03 preserves the actual Inspection/Bow/Summary identity paths and naturally selected common.bow/current resource-status/expected-count180 bindings inside its full hub.31 Task1 owns check.cjs, export.cjs, native-observer.cjs and export-profile.cjs current-production closure/explicit hub observation, plus export-portability.cjs's new Critical export.hub-consumer case.31 Task2 finishes portable docs and performs the mandatory whole export group only after those adaptations.31 now has9 files,5 per task; total36/72/30 and222 distinct paths remain unchanged. Actual natural packaged current-hub PID/path/resource/status/register/category positives and independent negatives are required; arbitrary-tree acceptance, old tracer substitutes and supporting editor-mounted PCK credit are rejected.
 
 No acceptance/backstop/decision/prohibition statement changes. AC-15/16/17 explicitly include31 Task2's final delivery gate alongsideTask1's current consumer proof; H31 retainsTask2. Actual acceptance remains32/33 and unchecked.
+
+
+
+## Frozen generated-authentication prerequisite —37
+
+37(wave7,depends completed36) authenticates the frozen partial03 producer without requiring a completed03 SUMMARY.03 resumes retained REDf23117f/partial08035ba after37 atwave8;26 moves towave9 with exact future observed generated ownership.37 has9files/2tasks (five proof consumers first, then four permission files/full native suite);03 now7files and26 now9files. Counts37plans/74tasks/31waves, six completed plans,229 distinct planned paths. All180 obligations/24AC/32D/104 exact backstops/4judgments remain unchanged and unchecked; no new source/native/window/Linux/listening acceptance is claimed. See04-GENERATED-AUTHENTICATION-PREREQUISITE.md.
+
+No source identity, primary obligation/AC/H/UI/D owner or prohibition judgment changes.37 supports existing ASSET-05 and the existing03/26/31 contracts, preserving genuine RED/partial/current evidence boundaries; all product acceptance remains pending.

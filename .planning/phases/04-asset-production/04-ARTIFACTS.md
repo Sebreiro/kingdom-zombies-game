@@ -18,14 +18,14 @@
 | .planning/phases/04-asset-production/04-SELECTION.json | 04-24 | Actual resource/data/document/evidence identity and applicable metadata |
 | .planning/phases/04-asset-production/04-SOURCE-AUDIT.md | 04-33 | Actual resource/data/document/evidence identity and applicable metadata |
 | .planning/phases/04-asset-production/04-VALIDATION.md | 04-33 | Actual resource/data/document/evidence identity and applicable metadata |
-| docs/code/engine-generated-spans.json | 04-03 | Actual resource/data/document/evidence identity and applicable metadata |
-| docs/code/generated-callsite-adaptations.json | 04-03 | Actual resource/data/document/evidence identity and applicable metadata |
+| docs/code/engine-generated-spans.json | 04-37 -> 04-26 | Actual resource/data/document/evidence identity and applicable metadata |
+| docs/code/generated-callsite-adaptations.json | 04-37 -> 04-26 | Actual resource/data/document/evidence identity and applicable metadata |
 | docs/code/generated-layout-adaptations.json | 04-34 | Exact SDK export path/source/producer/line provenance or required-case identity |
 | docs/code/visibility-exemptions.json | 04-03 -> 04-23 | Actual resource/data/document/evidence identity and applicable metadata |
+| docs/content/README.md | 04-31 | Actual resource/data/document/evidence identity and applicable metadata |
 | docs/content/fields.md | 04-22 | Actual resource/data/document/evidence identity and applicable metadata |
 | docs/content/known-issues.md | 04-32 | Actual resource/data/document/evidence identity and applicable metadata |
 | docs/content/production.md | 04-25 -> 04-36 | Actual resource/data/document/evidence identity and applicable metadata |
-| docs/content/README.md | 04-31 | Actual resource/data/document/evidence identity and applicable metadata |
 | docs/content/windows-inspection.md | 04-31 | Actual resource/data/document/evidence identity and applicable metadata |
 | production/phase4/audio-actions.zip | 04-21 | Retained selected/generated originals, expanded prompts/references and exact recipes |
 | production/phase4/audio-feasibility.json | 04-02 | Actual resource/data/document/evidence identity and applicable metadata |
@@ -50,6 +50,7 @@
 | src/core/AppearanceState.cs | 04-10 | AppearanceState type; exact actual members in execution SUMMARY |
 | src/core/CharacterPresentation.cs | 04-08 -> 04-09 | CharacterPresentation type; exact actual members in execution SUMMARY |
 | src/core/ContentPack.cs | 04-03 | ContentPack type; exact actual members in execution SUMMARY |
+| src/godot-game/GeneratedCallSiteAdapters.cs | 04-37 | Actual exact generated-authentication type/member/tuple/cohort proof; complete signatures in37 SUMMARY |
 | src/godot-game/assets/audio/actions.wav | 04-21 | Actual resource/data/document/evidence identity and applicable metadata |
 | src/godot-game/assets/audio/interface-ambience.wav | 04-21 | Actual resource/data/document/evidence identity and applicable metadata |
 | src/godot-game/assets/buildings/defenses.png | 04-12 | Actual resource/data/document/evidence identity and applicable metadata |
@@ -67,11 +68,11 @@
 | src/godot-game/assets/equipment/items-01-10.png | 04-05 | Actual resource/data/document/evidence identity and applicable metadata |
 | src/godot-game/assets/equipment/items-11-24.png | 04-05 | Actual resource/data/document/evidence identity and applicable metadata |
 | src/godot-game/assets/ui/Fallback.ttf | 04-14 | Actual resource/data/document/evidence identity and applicable metadata |
-| src/godot-game/assets/ui/identity-symbols.png | 04-28 | Actual resource/data/document/evidence identity and applicable metadata |
 | src/godot-game/assets/ui/InspectionTheme.tres | 04-14 | Actual resource/data/document/evidence identity and applicable metadata |
-| src/godot-game/assets/ui/kingdom-zombies.ico | 04-28 | Actual resource/data/document/evidence identity and applicable metadata |
 | src/godot-game/assets/ui/LiberationSans.ttf | 04-14 | Actual resource/data/document/evidence identity and applicable metadata |
 | src/godot-game/assets/ui/PerfectDOSVGA437.ttf | 04-14 | Actual resource/data/document/evidence identity and applicable metadata |
+| src/godot-game/assets/ui/identity-symbols.png | 04-28 | Actual resource/data/document/evidence identity and applicable metadata |
+| src/godot-game/assets/ui/kingdom-zombies.ico | 04-28 | Actual resource/data/document/evidence identity and applicable metadata |
 | src/godot-game/assets/world/environment.png | 04-13 | Actual resource/data/document/evidence identity and applicable metadata |
 | src/godot-game/content/animation/bow.json | 04-09 | Actual resource/data/document/evidence identity and applicable metadata |
 | src/godot-game/content/animation/fits-a.json | 04-06 | Actual resource/data/document/evidence identity and applicable metadata |
@@ -178,11 +179,17 @@
 | tests/phase1/ContentInspectorTests.cs | 04-03 -> 04-26 | ContentInspectorTests type; exact actual members in execution SUMMARY |
 | tests/phase1/ContentNativePermissionTests.cs | 04-23 | ContentNativePermissionTests type; exact actual members in execution SUMMARY |
 | tests/phase1/EngineAccessPolicy.cs | 04-03 -> 04-26 -> 04-23 | EngineAccessPolicy type; exact actual members in execution SUMMARY |
+| tests/phase1/EngineGeneratedTests.cs | 04-37 | Actual exact generated-authentication type/member/tuple/cohort proof; complete signatures in37 SUMMARY |
+| tests/phase1/ExemptionTests.cs | 04-37 | Actual exact generated-authentication type/member/tuple/cohort proof; complete signatures in37 SUMMARY |
+| tests/phase1/ExemptionValidator.cs | 04-37 | Actual exact generated-authentication type/member/tuple/cohort proof; complete signatures in37 SUMMARY |
+| tests/phase1/GeneratedCallSiteAdapterTests.cs | 04-37 | Actual exact generated-authentication type/member/tuple/cohort proof; complete signatures in37 SUMMARY |
 | tests/phase1/GeneratedExportLayoutTests.cs | 04-34 | Actual named source/test class and exact member signatures; see04-34 SUMMARY |
+| tests/phase1/GodotCallSiteAdapterTests.cs | 04-37 | Actual exact generated-authentication type/member/tuple/cohort proof; complete signatures in37 SUMMARY |
 | tests/phase1/InventoryLayoutTests.cs | 04-15 | InventoryLayoutTests type; exact actual members in execution SUMMARY |
 | tests/phase1/SessionLayoutTests.cs | 04-17 | SessionLayoutTests type; exact actual members in execution SUMMARY |
 | tests/phase1/ThemeLayoutTests.cs | 04-14 | ThemeLayoutTests type; exact actual members in execution SUMMARY |
 | tests/phase1/WorldInspectorTests.cs | 04-27 | WorldInspectorTests type; exact actual members in execution SUMMARY |
+| tools/code-rules/EngineGeneratedSyntax.cs | 04-37 -> 04-26 | Actual exact generated-authentication type/member/tuple/cohort proof; complete signatures in37 SUMMARY |
 | tools/code-rules/GeneratedLayout.cs | 04-34 | Actual named source/test class and exact member signatures; see04-34 SUMMARY |
 | tools/phase1/required-cases.json | 04-34 | Exact SDK export path/source/producer/line provenance or required-case identity |
 | tools/phase4/case-discovery.cjs | 04-36 | createCaseRegistry/loadCaseModules; bounded canonical module and strict metadata registration |
@@ -227,7 +234,7 @@
 | tools/phase4/reviewed-source.targets | 04-24 | Actual resource/data/document/evidence identity and applicable metadata |
 | tools/phase4/scenarios.cjs | 04-30 | Actual named CLI/case/evidence exports and stable identities |
 
-Current planned files: 222. Generated execution reports/ignored payloads retain immutable source/media/invocation identities. Export caches are not game dependencies. Parent-owned04-CONTINUATION.md and existing original checker/research evidence stay outside executor edit ownership. Source-gating code is finished by04-30 before review;04-24/32/33 write current review/evidence data only except explicitly reviewed repairs.
+Current planned files: 229. Generated execution reports/ignored payloads retain immutable source/media/invocation identities. Export caches are not game dependencies. Parent-owned04-CONTINUATION.md and existing original checker/research evidence stay outside executor edit ownership. Source-gating code is finished by04-30 before review;04-24/32/33 write current review/evidence data only except explicitly reviewed repairs.
 
 
 04-34 adds the exact SDK export-layout prerequisite before unfinished02 Task1. New symbols/proofs: GeneratedExportLayoutTests.Check_ExportLayouts_HavePinnedOrigin / Check_ExportLayoutPermissions_StayBounded; rules.export-layout-origin / rules.export-layout-boundary; source-only export.layout. GeneratedLayout.IsPermitted/_entries and the original sources/members/proof IDs remain existing contracts. The separate exportSources/origin record is Windows-only observed provenance, never guessed Linux/export bytes. Preserve the original failed run and partial export files; parent owns checkpoint/STATE/commit reconciliation.
@@ -246,3 +253,9 @@ Current planned files: 222. Generated execution reports/ignored payloads retain 
 Revision1 closes the concrete current proof-consumer gap without adding a plan or changing waves.03 preserves the actual Inspection/Bow/Summary identity paths and naturally selected common.bow/current resource-status/expected-count180 bindings inside its full hub.31 Task1 owns check.cjs, export.cjs, native-observer.cjs and export-profile.cjs current-production closure/explicit hub observation, plus export-portability.cjs's new Critical export.hub-consumer case.31 Task2 finishes portable docs and performs the mandatory whole export group only after those adaptations.31 now has9 files,5 per task; total36/72/30 and222 distinct paths remain unchanged. Actual natural packaged current-hub PID/path/resource/status/register/category positives and independent negatives are required; arbitrary-tree acceptance, old tracer substitutes and supporting editor-mounted PCK credit are rejected.
 
 31 adds no new path: native-observer.cjs/check.cjs gain an explicit later owner; its existing export-portability.cjs is created inTask1 for export.hub-consumer and expanded inTask2 for final portability. Actual observer/consumer/helper/case symbols and exact native negative/current run identities enter31 SUMMARY. The required-case metadata addition remains30-owned in its existing file budget.
+
+
+
+37(wave7,depends completed36) authenticates the frozen partial03 producer without requiring a completed03 SUMMARY.03 resumes retained REDf23117f/partial08035ba after37 atwave8;26 moves towave9 with exact future observed generated ownership.37 has9files/2tasks (five proof consumers first, then four permission files/full native suite);03 now7files and26 now9files. Counts37plans/74tasks/31waves, six completed plans,229 distinct planned paths. All180 obligations/24AC/32D/104 exact backstops/4judgments remain unchanged and unchecked; no new source/native/window/Linux/listening acceptance is claimed. See04-GENERATED-AUTHENTICATION-PREREQUISITE.md.
+
+37 adds seven previously unowned exact source/proof paths and takes both generated JSONs from03. Existing GeneratedSyntax/GeneratedSurfaceScanner/RuleMatrix/FoundationPermissionTests require no edit ownership.26 adds only three exact code/register paths; real attributes stay inside its already owned producer files. Every actual37/26 tuple/member/attribute/cohort/helper and retained source/negative observation is inventoried in its SUMMARY. Frozen03's five existing paths remain unchanged during37.

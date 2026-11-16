@@ -9,9 +9,9 @@
     "ui": "04-UI-SPEC.md"
   },
   "counts": {
-    "plans": 36,
-    "tasks": 72,
-    "waves": 30,
+    "plans": 37,
+    "tasks": 74,
+    "waves": 31,
     "obligations": 180,
     "acceptance": 24,
     "heldout": 34,
@@ -75,6 +75,25 @@
           "order": 361
         }
       ]
+    },
+    {
+      "plan": "04-37",
+      "kind": "frozen partial03 generated authentication",
+      "requirements": [
+        "ASSET-05"
+      ],
+      "depends_on": [
+        "04-36"
+      ],
+      "precondition": "Frozen08035ba five-subject/checkpoint hashes; no completed03 SUMMARY",
+      "precedes_unfinished": "04-03 remainingTask1 beforeTask2",
+      "source": "04-GENERATED-AUTHENTICATION-PREREQUISITE.md",
+      "newAcceptanceIdentity": false,
+      "status": "Not executed",
+      "tasks": {
+        "1": "Five proof consumers compile/pure regression only",
+        "2": "Four permission files then full genuine native/origin/boundary/exemption suite"
+      }
     }
   ],
   "obligations": [

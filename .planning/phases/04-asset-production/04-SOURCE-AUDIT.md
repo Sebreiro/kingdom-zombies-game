@@ -4,7 +4,7 @@ Revision1 preserves all GOAL/REQ/RESEARCH/CONTEXT scope and every180/24AC/32D/34
 
 | Source | ID | Required feature or constraint | Implementing plans | Status |
 | --- | --- | --- | --- | --- |
-| GOAL | Phase4 | Developers and players inspect complete required game content in a self-contained pack, suitable reuse first and every output traceable | All36 plans | COVERED in plan; [ ] execution |
+| GOAL | Phase4 | Developers and players inspect complete required game content in a self-contained pack, suitable reuse first and every output traceable | All37 plans | COVERED in plan; [ ] execution |
 | REQ | ASSET-01 | Exact preserved originals, selected dependencies/transforms, stable outputs/versions and honest evidence | 04-01/04–07/11–14/21/23/25/28/31–33 | COVERED in plan; [ ] execution |
 | REQ | ASSET-02 | All180 actual resource obligations, donor-first adaptation/generation | 04-01/04–23/25–31; complete180-row ownership map | COVERED in plan; [ ] execution |
 | REQ | ASSET-03 | All body/equipment/hand/facing/action/corpse/building/portal live/content inspection | 04-03–13/15/22/23/26/27/29/32 | COVERED in plan; [ ] execution |
@@ -29,9 +29,9 @@ Revision1 preserves all GOAL/REQ/RESEARCH/CONTEXT scope and every180/24AC/32D/34
 | RESEARCH | R17 | Genuine authenticated matching4.7.2.NET templates/net10 self-contained dependency/export proof; preserve pin | 04-02/31/32 | COVERED in plan; [ ] execution |
 | RESEARCH | R18 | Pack-relative inclusion of JSON/text/fonts/docs/media; clean isolated actual export, independent bad-entry diagnostics and relaunch | 04-02/31/32 | COVERED in plan; [ ] execution |
 | RESEARCH | R19 | Exact inspection native path/namespace/type/member permissions and actual generated visibility/origin proof; no broad suppression | 04-03/26/23 | COVERED in plan; [ ] execution |
-| RESEARCH | R20 | No-window whole implementation -> independent review/fixes -> groupedWindows1280x720, noVM; activeCritical+new+changed+affected selection | All36 plans;04-24 review,04-32 actual selected run | COVERED in plan; [ ] execution |
+| RESEARCH | R20 | No-window whole implementation -> independent review/fixes -> groupedWindows1280x720, noVM; activeCritical+new+changed+affected selection | All37 plans;04-24 review,04-32 actual selected run | COVERED in plan; [ ] execution |
 | RESEARCH | R21 | Phase-owned current review/selection/runner; immutable old proof identities; exact outcomes and complete repair/fresh selected-set accounting | 04-24/30/32/33 | COVERED in plan; [ ] execution |
-| RESEARCH | R22 | 34 independent H source intents, 24AC,70UI surface/category checks and four actual judgment prohibitions | 04-ACCEPTANCE-COVERAGE.md; all36 plans | COVERED in plan; [ ] execution |
+| RESEARCH | R22 | 34 independent H source intents, 24AC,70UI surface/category checks and four actual judgment prohibitions | 04-ACCEPTANCE-COVERAGE.md; all37 plans | COVERED in plan; [ ] execution |
 | RESEARCH | R23 | File/parser/resource/lifetime/evidence integrity controls, bounded children, read-only original root and atomic staged publication | Every plan threat_model;04-01/02/03/23/25/26/29–31 | COVERED in plan; [ ] execution |
 | RESEARCH | R24 | No new npm/pip/cargo package installation; installed UnityPy1.23.0/Pillow13.0.0 SUS status retained; checkpoints before any future install | 04-02; every T-04-SC | COVERED in plan; [ ] execution |
 | RESEARCH | R25 | Do not hand-roll atlas/FSB decoder, layout engine, application deployment or generic Phase5 selector | 04-02–04/14–17/21/26–31 | COVERED in plan; [ ] execution |
@@ -103,3 +103,11 @@ Coverage source rows, acceptance owners, distinct H/UI backstop statements and f
 Revision1 closes the concrete current proof-consumer gap without adding a plan or changing waves.03 preserves the actual Inspection/Bow/Summary identity paths and naturally selected common.bow/current resource-status/expected-count180 bindings inside its full hub.31 Task1 owns check.cjs, export.cjs, native-observer.cjs and export-profile.cjs current-production closure/explicit hub observation, plus export-portability.cjs's new Critical export.hub-consumer case.31 Task2 finishes portable docs and performs the mandatory whole export group only after those adaptations.31 now has9 files,5 per task; total36/72/30 and222 distinct paths remain unchanged. Actual natural packaged current-hub PID/path/resource/status/register/category positives and independent negatives are required; arbitrary-tree acceptance, old tracer substitutes and supporting editor-mounted PCK credit are rejected.
 
 This directly satisfies the retained checker invariant for existing GOAL/ASSET-05 and AC-15/16/17, without reducing any source obligation. The source-tracer dependency closure, supporting PCK probe and exact current read-only native observer have concrete31 Task1 owners before their next mandatory gates. Final documented delivery and whole export closure run31 Task2;30 saves new-case metadata. No source work or current native proof was performed by this planning revision.
+
+
+
+## Frozen generated-authentication prerequisite —37
+
+37(wave7,depends completed36) authenticates the frozen partial03 producer without requiring a completed03 SUMMARY.03 resumes retained REDf23117f/partial08035ba after37 atwave8;26 moves towave9 with exact future observed generated ownership.37 has9files/2tasks (five proof consumers first, then four permission files/full native suite);03 now7files and26 now9files. Counts37plans/74tasks/31waves, six completed plans,229 distinct planned paths. All180 obligations/24AC/32D/104 exact backstops/4judgments remain unchanged and unchecked; no new source/native/window/Linux/listening acceptance is claimed. See04-GENERATED-AUTHENTICATION-PREREQUISITE.md.
+
+No source identity, primary obligation/AC/H/UI/D owner or prohibition judgment changes.37 supports existing ASSET-05 and the existing03/26/31 contracts, preserving genuine RED/partial/current evidence boundaries; all product acceptance remains pending.

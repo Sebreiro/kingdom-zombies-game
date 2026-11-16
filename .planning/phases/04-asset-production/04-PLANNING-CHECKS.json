@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
   "phase": "04",
-  "status": "Integration revision1 current-production proof consumer ownership addressed; fresh36-plan metadata/projection probes pass; independent typed recheck pending",
+  "status": "Frozen03 generated-authentication prerequisite planned; all37 schema/structure/decision/identity/ownership/frozen-source probes pass; independent typed checker pending",
   "checks": {
     "frontmatter": {
-      "plans": 36,
-      "valid": 36
+      "plans": 37,
+      "valid": 37
     },
     "planStructure": {
-      "plans": 36,
-      "valid": 36,
+      "plans": 37,
+      "valid": 37,
       "errors": 0,
       "warnings": 0
     },
@@ -23,22 +23,22 @@
       "structuredBackstopTruths": 104
     },
     "ownership": {
-      "plans": 36,
-      "tasks": 72,
-      "waves": 30,
+      "plans": 37,
+      "tasks": 74,
+      "waves": 31,
       "maximumFilesPerPlan": 9,
       "maximumFilesPerTask": 5,
       "sameWaveFileOverlap": 0,
-      "plannedDistinctPaths": 222
+      "plannedDistinctPaths": 229
     },
     "security": {
-      "uniqueThreatIds": 108,
+      "uniqueThreatIds": 111,
       "supplyChainId": "T-04-SC reserved/repeated",
       "asvsLevel": 1,
       "blockOn": "high"
     },
     "canonicalFileTails": {
-      "closedOutputTag": 36,
+      "closedOutputTag": 37,
       "continuationSentinel": 0
     },
     "research": {
@@ -104,9 +104,18 @@
       "record": "04-INTEGRATION-PLANNING-CHECKS.json",
       "index": "04-INTEGRATION-PLAN-INDEX.json",
       "report": "04-PLAN-CHECK-INTEGRATION-PREREQUISITE.md"
+    },
+    {
+      "kind": "before-frozen03-generated-authentication",
+      "plans": 36,
+      "tasks": 72,
+      "waves": 30,
+      "record": "04-INTEGRATION-REVISION-1-CHECKS.json",
+      "completedSourcePlans": 6,
+      "partial03": "04-03-GENERATED-CHECKPOINT.md"
     }
   ],
-  "prerequisite": "04-36",
+  "prerequisite": "04-37",
   "exportPrerequisiteCheck": {
     "newPlan": "04-34",
     "tasks": 2,
@@ -200,5 +209,38 @@
       "04-36"
     ],
     "scopeIdentityChanges": 0
+  },
+  "generatedAuthenticationPrerequisite": {
+    "plan": "04-37",
+    "depends_on": [
+      "04-36"
+    ],
+    "partialSubject": "08035ba frozen five-path precondition; no03 SUMMARY dependency",
+    "files": 9,
+    "tasks": 2,
+    "taskFileCounts": [
+      5,
+      4
+    ],
+    "nativeGateTask": 2,
+    "plan03Files": 7,
+    "plan26Files": 9,
+    "record": "04-GENERATED-PLANNING-CHECKS.json",
+    "inputs": "04-GENERATED-PLANNING-INPUTS.json",
+    "probe": "04-GENERATED-PLAN-PROBE.cjs",
+    "index": "04-GENERATED-PLAN-INDEX.json",
+    "readyPlans": [
+      "04-37"
+    ],
+    "allSixCoverageArraysUnchanged": {
+      "obligations": true,
+      "acceptance": true,
+      "heldout": true,
+      "ui": true,
+      "decisions": true,
+      "prohibitions": true
+    },
+    "productionEdited": false,
+    "newAcceptanceIdentities": 0
   }
 }

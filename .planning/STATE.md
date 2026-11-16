@@ -4,16 +4,16 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 04
 current_phase_name: Asset production
-current_plan: 03
+current_plan: 37
 status: executing
-stopped_at: 04-03 Task1 partial subject08035ba frozen; exact generated authentication prerequisite required;0/2 tasks complete
-last_updated: "2026-11-16T17:30:56.069Z"
+stopped_at: 04-37 independently approved; execute exact generated authentication against frozen03 subject08035ba, then resume03 actual native gates
+last_updated: "2026-11-16T17:58:59.868Z"
 last_activity: 2026-11-16
-last_activity_desc: Completed 04-36 strict discovery and authenticated packaged expectations; 6/36 plans complete; resume 04-03 Task 1
+last_activity_desc: Independently approved 04-37 generated authentication; 26 frozen Core controls pass; 6/37 plans complete
 progress:
   total_phases: 11
   completed_phases: 3
-  total_plans: 61
+  total_plans: 62
   completed_plans: 31
   percent: 27
 ---
@@ -26,19 +26,19 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase 04 asset production is executing on feature/04-asset-production with [draft PR #5](https://github.com/Sebreiro/kingdom-zombies-game/pull/5) to dev. Plans 04-01, 04-25, 04-34, 04-35, 04-02 and 04-36 are summarized: 6/36. Strict case discovery and the authenticated packaged 180-row register now pass current source/headless controls. Resume 04-03 Task 1; 04-31 owns later current-hub proof-consumer adaptations. Original packaged Inspection feasibility and three blocked-listening audio candidates remain preserved. All ASSET requirements and rendered/listening/judgment acceptance remain pending 04-32/04-33 after whole implementation and independent review/fixes.
+**Current focus:** Phase 04 asset production is executing on feature/04-asset-production with [draft PR #5](https://github.com/Sebreiro/kingdom-zombies-game/pull/5) to dev. Plans 04-01, 04-25, 04-34, 04-35, 04-02 and 04-36 are summarized: 6/37. Strict case discovery and the authenticated packaged 180-row register now pass current source/headless controls. Partial 04-03 Task 1 is frozen at 08035ba: 26 compiled Core controls pass, but exact native generated authentication remains blocked. Independently approved prerequisite 04-37 is next; 04-03 remains 0/2 tasks. Plan 04-31 owns later current-hub proof-consumer adaptations. Original packaged Inspection feasibility and three blocked-listening audio candidates remain preserved. All ASSET requirements and rendered/listening/judgment acceptance remain pending 04-32/04-33 after whole implementation and independent review/fixes.
 
 ## Current Position
 
 Phase: 04 — Asset production
-Current Plan: 03
-Total Plans in Phase: 36
+Current Plan: 37
+Total Plans in Phase: 37
 Status: Executing
-Last activity: 2026-11-16 — Completed 04-36 strict discovery and authenticated packaged expectations; 6/36 plans complete; resume 04-03 Task 1
+Last activity: 2026-11-16 — Independently approved 04-37 generated authentication; 26 frozen Core controls pass; 6/37 plans complete
 
 Progress: [███░░░░░░░] 27%
 
-Milestone progress: 3/11 phases complete; 31/61 currently planned plans summarized; fourteen of 134 requirements complete. Phase 4 has 6/36 plans complete. No ASSET requirement completion is claimed.
+Milestone progress: 3/11 phases complete; 31/62 currently planned plans summarized; fourteen of 134 requirements complete. Phase 4 has 6/37 plans complete. No ASSET requirement completion is claimed.
 
 ## Performance Metrics
 
@@ -161,9 +161,9 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 ## Session Continuity
 
 Last session: 2026-11-16T17:30:55.738Z
-Stopped at: 04-03 Task1 partial subject08035ba frozen; exact generated authentication prerequisite required;0/2 tasks complete
+Stopped at: 04-37 independently approved; execute exact generated authentication against frozen03 subject08035ba, then resume03 actual native gates
 Resume file: .planning/phases/04-asset-production/04-03-GENERATED-CHECKPOINT.md
 
-Next action: Resume 04-03 at Task 1 after completed 04-36. Stay on feature/04-asset-production and retain draft PR #5 to dev, all historical checkpoint/failure records and completed 04-02/04-34/04-35 evidence. Six of 36 Phase 4 plans are summarized; actual listening, all ASSET requirements and whole-phase acceptance remain pending.
+Next action: Execute independently approved 04-37 against frozen 08035ba, then resume 04-03 actual native proof and Task 2. Stay on feature/04-asset-production and retain draft PR #5 to dev, all historical checkpoint/failure records and completed 04-02/04-34/04-35 evidence. Six of 36 Phase 4 plans are summarized; actual listening, all ASSET requirements and whole-phase acceptance remain pending.
 
 Preserved future context: [Phase 4 context](phases/04-asset-production/04-CONTEXT.md) remains authoritative. Plan 04-01 has source/headless evidence only; complete resource and actual acceptance responsibilities remain with later Phase 4 plans.

@@ -1,6 +1,6 @@
 # Phase 04 — Executable dependency and command map
 
-Revision1: **36 plans /72 tasks /30 waves**. Each plan has2–3 tasks and fewer than10 exact modified files (maximum9); each task modifies at most5. The whole real production donor-to-native tracer remains04-01 Task1; its later census/publication expansion is04-25. Appended plan numbers identify slices; execute frontmatter waves/dependencies rather than numeric order. Same-wave file ownership is disjoint.
+Revision1: **37 plans /74 tasks /31 waves**. Each plan has2–3 tasks and fewer than10 exact modified files (maximum9); each task modifies at most5. The whole real production donor-to-native tracer remains04-01 Task1; its later census/publication expansion is04-25. Appended plan numbers identify slices; execute frontmatter waves/dependencies rather than numeric order. Same-wave file ownership is disjoint.
 
 | Wave | Plans | Resulting capability |
 | --- | --- | --- |
@@ -10,36 +10,37 @@ Revision1: **36 plans /72 tasks /30 waves**. Each plan has2–3 tasks and fewer 
 | 4 | 04-35 (2tasks/5files) | Permanent inspection export-feature profile |
 | 5 | 04-02 (2tasks/8files) | Early portable-export and audio feasibility |
 | 6 | 04-36 (2tasks/7files) | Discoverable saved cases and portable independent expectations |
-| 7 | 04-03 (2tasks/9files) | Live inspection shell, validated loader and exact native permissions |
-| 8 | 04-26 (2tasks/6files) | Inspection input/lifetime expansion with immediate exact native permission proofs |
-| 9 | 04-04 (2tasks/9files) | Reusable donor kit, exact animation conversion and assembled scale proof |
-| 10 | 04-05 (2tasks/7files); 04-11 (2tasks/8files) | All 24 item identities and reusable wearable/held masters; Three actual main-building tiers and shared camp resources |
-| 11 | 04-06 (2tasks/8files); 04-14 (2tasks/8files); 04-18 (2tasks/9files) | Survivor and first three zombie body fits; Native UI kit, packaged fonts and reusable theme; Complete run, time, survivor, item, combat and inventory baseline |
-| 12 | 04-07 (2tasks/9files); 04-28 (2tasks/5files) | Complete armored, wide and specialist zombie silhouettes/fits; Canonical status/input/player symbols and retained desktop identity art |
-| 13 | 04-08 (2tasks/5files) | Concurrent locomotion, melee and coherent logical hands |
-| 14 | 04-09 (2tasks/8files) | Bow, work, food and specialist action composition |
-| 15 | 04-10 (2tasks/9files) | Persistent corpses, wildlife, identities and real crowd resources |
-| 16 | 04-12 (2tasks/8files); 04-15 (2tasks/7files) | Walls, independent guards and complete defense lifecycle; Reusable inventory, legacy, stash and target layout states |
-| 17 | 04-13 (2tasks/9files) | Complete authored world, portal and environmental effect inspection |
-| 18 | 04-27 (2tasks/5files) | World/item navigation, replacement and held-out preview states |
-| 19 | 04-16 (2tasks/7files); 04-19 (2tasks/8files) | People, economy, construction, map, rally and warning layouts; Complete economy, food, map, structure and tower baseline |
-| 20 | 04-17 (2tasks/7files) | Session, save, outcome, settings and error layout resources |
-| 21 | 04-20 (2tasks/9files) | Complete zombies, progression, portals, sessions and preferences |
-| 22 | 04-21 (2tasks/8files) | All 30 real sound categories and complete event-bank resources |
-| 23 | 04-29 (2tasks/5files) | Native audio audition, exact current-loop ownership and backstops |
-| 24 | 04-22 (2tasks/9files) | Complete English text, compatibility and data/text inspection |
-| 25 | 04-23 (2tasks/5files) | Complete source census and final exact native-policy reconciliation |
-| 26 | 04-30 (2tasks/5files) | Saved scenario/evidence runner and prelaunch/acceptance validation code |
-| 27 | 04-31 (2tasks/9files) | Complete portable Windows inspection export and clean failure/relaunch proof |
-| 28 | 04-24 (2tasks/5files) | Independent whole-phase review and exact prelaunch selection |
-| 29 | 04-32 (2tasks/5files) | Actual selected native/listening run and separate named judgments |
-| 30 | 04-33 (2tasks/5files) | Exact acceptance/artifact/evidence completion reconciliation |
+| 7 | 04-37 (2tasks/9files) | Exact frozen inspection generated-authentication prerequisite |
+| 8 | 04-03 (2tasks/7files) | Live inspection shell, validated loader and exact native permissions |
+| 9 | 04-26 (2tasks/9files) | Inspection input/lifetime expansion with immediate exact native permission proofs |
+| 10 | 04-04 (2tasks/9files) | Reusable donor kit, exact animation conversion and assembled scale proof |
+| 11 | 04-05 (2tasks/7files); 04-11 (2tasks/8files) | All 24 item identities and reusable wearable/held masters; Three actual main-building tiers and shared camp resources |
+| 12 | 04-06 (2tasks/8files); 04-14 (2tasks/8files); 04-18 (2tasks/9files) | Survivor and first three zombie body fits; Native UI kit, packaged fonts and reusable theme; Complete run, time, survivor, item, combat and inventory baseline |
+| 13 | 04-07 (2tasks/9files); 04-28 (2tasks/5files) | Complete armored, wide and specialist zombie silhouettes/fits; Canonical status/input/player symbols and retained desktop identity art |
+| 14 | 04-08 (2tasks/5files) | Concurrent locomotion, melee and coherent logical hands |
+| 15 | 04-09 (2tasks/8files) | Bow, work, food and specialist action composition |
+| 16 | 04-10 (2tasks/9files) | Persistent corpses, wildlife, identities and real crowd resources |
+| 17 | 04-12 (2tasks/8files); 04-15 (2tasks/7files) | Walls, independent guards and complete defense lifecycle; Reusable inventory, legacy, stash and target layout states |
+| 18 | 04-13 (2tasks/9files) | Complete authored world, portal and environmental effect inspection |
+| 19 | 04-27 (2tasks/5files) | World/item navigation, replacement and held-out preview states |
+| 20 | 04-16 (2tasks/7files); 04-19 (2tasks/8files) | People, economy, construction, map, rally and warning layouts; Complete economy, food, map, structure and tower baseline |
+| 21 | 04-17 (2tasks/7files) | Session, save, outcome, settings and error layout resources |
+| 22 | 04-20 (2tasks/9files) | Complete zombies, progression, portals, sessions and preferences |
+| 23 | 04-21 (2tasks/8files) | All 30 real sound categories and complete event-bank resources |
+| 24 | 04-29 (2tasks/5files) | Native audio audition, exact current-loop ownership and backstops |
+| 25 | 04-22 (2tasks/9files) | Complete English text, compatibility and data/text inspection |
+| 26 | 04-23 (2tasks/5files) | Complete source census and final exact native-policy reconciliation |
+| 27 | 04-30 (2tasks/5files) | Saved scenario/evidence runner and prelaunch/acceptance validation code |
+| 28 | 04-31 (2tasks/9files) | Complete portable Windows inspection export and clean failure/relaunch proof |
+| 29 | 04-24 (2tasks/5files) | Independent whole-phase review and exact prelaunch selection |
+| 30 | 04-32 (2tasks/5files) | Actual selected native/listening run and separate named judgments |
+| 31 | 04-33 (2tasks/5files) | Exact acceptance/artifact/evidence completion reconciliation |
 
 | Plan | Needs | Creates / user-visible refinement | Checkpoint |
 | --- | --- | --- | --- |
 | 04-01 | Pinned foundation/preserved inputs | Production donor-to-inspector tracer and exact provenance | Autonomous source work; existing actual acceptance gates remain |
 | 04-02 | 04-35 | Early portable-export and audio feasibility | Autonomous source work; existing actual acceptance gates remain |
-| 04-03 | 04-36 | Live inspection shell, validated loader and exact native permissions | Autonomous source work; existing actual acceptance gates remain |
+| 04-03 | 04-37 | Live inspection shell, validated loader and exact native permissions | Autonomous source work; existing actual acceptance gates remain |
 | 04-04 | 04-26 | Reusable donor kit, exact animation conversion and assembled scale proof | Autonomous source work; existing actual acceptance gates remain |
 | 04-05 | 04-04 | All 24 item identities and reusable wearable/held masters | Autonomous source work; existing actual acceptance gates remain |
 | 04-06 | 04-05, 04-26 | Survivor and first three zombie body fits | Autonomous source work; existing actual acceptance gates remain |
@@ -76,6 +77,7 @@ Revision1: **36 plans /72 tasks /30 waves**. Each plan has2–3 tasks and fewer 
 Exact native gates:04-03 authorizes its real root/loader and compiled negative controls before engine.source-policy. Only afterward04-26 creates Input/Shell, then updates actual exact path/namespace/type/member permissions and compiled positive/negative controls before its own source-policy gate. Tuple metadata never authorizes native calls.04-23 reconciles remaining completed body/world/UI/audio native members and runs the final policy gate before independent review.04-30 implements all runner/prelaunch/acceptance validation code before04-24 actual independent whole-phase review/fixes;04-31 supplies actual full export proof;04-32 actual selected native/listening/judgment evidence;04-33 exact closure. No runner/native source implementation is scheduled after review except repairs requiring renewed review.
 
 04-18 runs before animation consumers04-08/09. The single main guard in04-11 uses actual common K15/K20 pixels/timing;04-12 expands independent counts. Same-wave authoring writes only owned bundles/shards. Isolate process temp/output roots and serialize a mutation of a common Godot import/build cache. Recovered originals stay read-only.
+| 04-37 | 04-36 plus exact frozen08035ba precondition | Authenticated actual generated permissions and preserved baseline/current compiler proofs | No user checkpoint; source-only technical prerequisite |
 
 ## New commands and creating tasks
 
@@ -202,3 +204,11 @@ Revision1 closes the concrete current proof-consumer gap without adding a plan o
 | node tools/phase4/check.cjs --group export | 31 Task2 | Actual adapted export.feasibility/new hub consumer and final docs/runtime/resource/portable failure closure |
 
 DT-27 final delivery/docs ownership is31 Task2; existing AC-15/16/17 retain their statements and gain31 Task2 alongside actual consumer proof inTask1. H31 remains31 Task2. The report04-PLAN-CHECK-INTEGRATION-PREREQUISITE.md and all prior planning/evidence records remain historical and unmodified.
+
+
+
+## Frozen generated-authentication prerequisite —37
+
+37(wave7,depends completed36) authenticates the frozen partial03 producer without requiring a completed03 SUMMARY.03 resumes retained REDf23117f/partial08035ba after37 atwave8;26 moves towave9 with exact future observed generated ownership.37 has9files/2tasks (five proof consumers first, then four permission files/full native suite);03 now7files and26 now9files. Counts37plans/74tasks/31waves, six completed plans,229 distinct planned paths. All180 obligations/24AC/32D/104 exact backstops/4judgments remain unchanged and unchecked; no new source/native/window/Linux/listening acceptance is claimed. See04-GENERATED-AUTHENTICATION-PREREQUISITE.md.
+
+37 Task1 compiles migrated EngineGeneratedTests/GeneratedCallSiteAdapterTests/GodotCallSiteAdapterTests/ExemptionValidator/ExemptionTests and preserves the26 frozen pure-loader controls only.37 Task2 adds actual baked syntax/exact adapter/two JSON permission changes, then requires fresh full native and all original/current generated/exemption positive/negative gates. New proof IDs/CLI are unnecessary: engine.generated-origin/boundary, rules.generated-callsite-origin/boundary, rules.godot-callsite-boundary, R-50.positive, ac-08.complete and rules.exemptions retain their actual manifest identities.03 native hub proof and engine.source-policy remain its later tasks;31 current-hub export consumers remain unchanged.26 Task2 owns actual future baked tuples/two JSONs after observed input, before native/policy gates.
