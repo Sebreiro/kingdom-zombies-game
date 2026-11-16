@@ -42,7 +42,7 @@ async function discovery(context){
   const meta={...definition,runGroup:'G-fixture',order:1};
   const registry=()=>helper.createCaseRegistry();
   const fixture=(name,files)=>{const directory=path.join(context.directory,name);fs.mkdirSync(directory);
-    for(const [file,value]of Object.entries(files))write(directory,file,value);return directory;};
+    for(const [file,value]of Object.entries(files))fs.writeFileSync(path.join(directory,file),value,{flag:'wx'});return directory;};
   const body=(id,order)=>`module.exports=register=>register(${JSON.stringify(id)},${JSON.stringify({...meta,order})},()=>{throw new Error('CASE_BODY_EXECUTED')});`;
   const valid=fixture('valid',{'zeta.cjs':body('fixture.zeta',2),'alpha.cjs':body('fixture.alpha',1)});
   const load=(file,r)=>require(file)(r.registerCase);

@@ -2,6 +2,7 @@
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
 const {spawn,spawnSync}=require('node:child_process');
 const {TextDecoder,isDeepStrictEqual:equal}=require('node:util');
+const {createCaseRegistry,loadCaseModules}=require('./case-discovery.cjs');
 const ROOT='D:/Work/Games/KingdomZombies';
 const PYTHON='C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe';
 const DONOR='D:/Work/Games/KindomCrown/recovered/resources';
@@ -199,7 +200,8 @@ function createRun(caseId){
   if(revision.status!==0){save(directory,'setup-failure.json',{caseId,nonce,status:'fail',code:'REVISION_UNAVAILABLE',error:revision.error?.message,stderr:revision.stderr});
     need(false,'REVISION_UNAVAILABLE',revision.error?.message??revision.stderr);}
   const context={directory,nonce,caseId,revision:revision.stdout.trim(),startedAt:new Date().toISOString()};
-  save(directory,'invocation.json',{...context,node:process.version,platform:process.platform,scope:'source/headless; zero game windows'});
+  save(directory,'invocation.json',{...context,node:process.version,platform:process.platform,caseModules,
+    scope:'source/headless; zero game windows'});
   return context;
 }
 function engine(){
@@ -414,11 +416,10 @@ async function tracerFailures(context){
   return {outcomes,expectedRejected:trials.length,restored:{nonce:restored.nonce,...restoredResult},
     production:{nonce:production.nonce,...productionResult},originalsUnchanged:true};
 }
-const cases=new Map();
-function registerCase(id,definition,run){
-  need(typeof id==='string'&&!cases.has(id)&&typeof run==='function','CASE_REGISTRATION',id);
-  cases.set(id,{id,...definition,run});
-}
+const registry=createCaseRegistry(),{cases,registerCase}=registry;
+let caseModules;
+const ordinal=(a,b)=>a<b?-1:a>b?1:0;
+const caseOrder=(a,b)=>ordinal(a.runGroup,b.runGroup)||a.order-b.order||ordinal(a.id,b.id);
 registerCase('source.tracer',{group:'source',title:'Exact recovered bow reaches native scene',importance:'High',
   rationale:'Incorrect media/origin/native binding invalidates the production slice',needsGameWindow:false,runGroup:'G0',order:1,
   requirements:['ASSET-01','ASSET-02','ASSET-05'],acceptance:['AC-02','AC-03','AC-16','AC-20'],
@@ -440,12 +441,13 @@ registerCase('source.tracer-failures',{group:'source',title:'Bad real tracer sub
 async function main(args){
   need(fs.realpathSync.native(ROOT).toLowerCase()===fs.realpathSync.native(path.resolve(__dirname,'../..')).toLowerCase(),'PROJECT_ROOT_PIN');
   if(args.length===1&&args[0]==='--export-tracer')return exportTracer();
-  if(args.length===1&&args[0]==='--list'){console.log(JSON.stringify([...cases.values()].map(({run,...item})=>item),null,2));return;}
+  caseModules??=loadCaseModules(path.join(__dirname,'cases'),registry);
+  if(args.length===1&&args[0]==='--list'){console.log(JSON.stringify([...cases.values()].sort(caseOrder).map(({run,...item})=>item),null,2));return;}
   need(args.length===2&&['--case','--group'].includes(args[0]),'USAGE','--case ID | --group GROUP | --list | --export-tracer');
   const selected=args[0]==='--case'?[cases.get(args[1])]:[...cases.values()].filter(item=>item.group===args[1]);
   need(selected.length>0&&selected.every(Boolean),'CASE_PENDING_OR_UNKNOWN',args[1]);
   let failed=false;
-  for(const item of selected){
+  for(const item of selected.sort(caseOrder)){
     const context=createRun(item.id);let result;
     try{result={status:'pass',observations:await item.run(context)};}
     catch(error){result={status:'fail',message:error.message,stack:error.stack};failed=true;}
@@ -455,9 +457,4 @@ async function main(args){
   if(failed)process.exitCode=1;
 }
 module.exports={main,registerCase,cases,runTracer,validate,hash,inside,document,command,environment};
-require('./cases/provenance.cjs');
-require('./cases/audio-feasibility.cjs');
-require('./cases/export-layout.cjs');
-require('./cases/export-profile.cjs');
-require('./cases/export-feasibility.cjs');
 if(require.main===module)main(process.argv.slice(2)).catch(error=>{console.error(error.stack);process.exitCode=1;});
