@@ -96,8 +96,8 @@ function createSession(context) {
     requireTrue(!exited, 'GAME_EXITED_BEFORE_INPUT');
     const windows = process.platform === 'win32';
     const result = await command(windows ? 'powershell.exe' : '/bin/sh', windows
-      ? ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', path.join(root, 'tools/phase2/windows-input.ps1'), '-OwnedPid', String(game.pid), '-Action', action, '-X', String(x), '-Y', String(y), '-Key', String(key)]
-      : [path.join(root, 'tools/phase2/linux-input.sh'), String(game.pid), action, String(x), String(y), String(key)], { cwd: root, env });
+      ? ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', path.join(root, 'src/godot-game/tools/gameplay-checks/windows-input.ps1'), '-OwnedPid', String(game.pid), '-Action', action, '-X', String(x), '-Y', String(y), '-Key', String(key)]
+      : [path.join(root, 'src/godot-game/tools/gameplay-checks/linux-input.sh'), String(game.pid), action, String(x), String(y), String(key)], { cwd: root, env });
     const acknowledgement = JSON.parse(result.stdout.trim());
     requireTrue(acknowledgement.pid === game.pid && acknowledgement.focused === true && acknowledgement.action === action, 'INPUT_ACKNOWLEDGEMENT');
     inputs.push(acknowledgement);
@@ -297,7 +297,7 @@ function validateResources(context) {
   fs.mkdirSync(isolated,{recursive:true});
   const inputs=['src/godot-game/game/project.godot','src/godot-game/game/icon.svg',
     ...fs.readdirSync(path.join(context.root,'src/godot-game/game/foundation')).filter(name=>/\.(cs|tscn)$/.test(name)).map(name=>'src/godot-game/game/foundation/'+name),
-    'tools/phase2/windows-input.ps1','tools/phase2/linux-input.sh'];
+    'src/godot-game/tools/gameplay-checks/windows-input.ps1','src/godot-game/tools/gameplay-checks/linux-input.sh'];
   const resources=[];
   for(const file of inputs) {
     const bytes=fs.readFileSync(path.join(context.root,file));

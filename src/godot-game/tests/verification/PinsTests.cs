@@ -82,9 +82,9 @@ public sealed class PinsTests
     public void ValidatePins_PermutedCandidates_PreservesSelection()
     {
         (int Exit, string Output) closure = ProofProtocol.Node(
-                script: ("const b=require('./tools/phase1/bootstrap.cjs'),fs=requ"
-                        + "ire('node:fs');const m=JSON.parse(fs.readFileSync('tool"
-                        + "s/phase1/toolchain.json'));const expected=[...m.godotPa"
+                script: ("const b=require('./src/godot-game/tools/verification/bootstrap.cjs'),fs=requ"
+                        + "ire('node:fs');const m=JSON.parse(fs.readFileSync('src/godot-game/"
+                        + "tools/verification/toolchain.json'));const expected=[...m.godotPa"
                         + "ckages.filter(x=>x.id!=='Godot.NET.Sdk'),{id:'Meziantou"
                         + ".Analyzer',version:'3.0.312'},{id:'Roslynator.Analyzers"
                         + "',version:'5.0.1'},{id:'Microsoft.CodeAnalysis.BannedAp"
@@ -106,9 +106,9 @@ public sealed class PinsTests
         closure.Exit.ShouldBe(expected: 0);
         closure.Output.ShouldContain(expected: "CLOSURE_EXACT");
         (int Exit, string Output) result = ProofProtocol.Node(
-                script: ("const b=require('./tools/phase1/bootstrap.cjs'),fs=requ"
-                        + "ire('node:fs');const m=JSON.parse(fs.readFileSync('tool"
-                        + "s/phase1/toolchain.json'));const p=Object.fromEntries(O"
+                script: ("const b=require('./src/godot-game/tools/verification/bootstrap.cjs'),fs=requ"
+                        + "ire('node:fs');const m=JSON.parse(fs.readFileSync('src/godot-game/"
+                        + "tools/verification/toolchain.json'));const p=Object.fromEntries(O"
                         + "bject.entries(m).reverse());p.godotPackages=[...m.godot"
                         + "Packages].reverse();if(b.validateManifest(m)!==b.valida"
                         + "teManifest(p))process.exitCode=1;const i={global:fs.rea"
@@ -127,9 +127,10 @@ public sealed class PinsTests
 
     private static void Reject(string id, string mutation, string diagnostic)
     {
-        string script = ("const b=require('./tools/phase1/bootstrap.cjs'),fs=requ"
+        string script = ("const b=require('./src/godot-game/tools/verification/bootstrap.cjs'),fs=requ"
                 + "ire('node:fs'),cp=require('node:child_process'),p=requi" + "re('node:path'); ")
-                + "const m=JSON.parse(fs.readFileSync('tools/phase1/toolchain.json')); " + "try { " + mutation
+                + "const m=JSON.parse(fs.readFileSync('src/godot-game/tools/verification/toolchain.json')); " +
+                "try { " + mutation
                 + ("; console.log('ACCEPTED'); } catch(e) { console.log(e.d" + "iagnostic); process.exitCode=1; }");
         (int Exit, string Output) result = ProofProtocol.Node(script: script);
         result.Exit.ShouldBe(expected: 1);

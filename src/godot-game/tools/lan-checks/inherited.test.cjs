@@ -2,15 +2,15 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const e=require('./evidence.cjs'),inherited=require('./inherited.cjs');
 function fixture(mode){
-  fs.mkdirSync(path.resolve(__dirname,'../../.phase3'),{recursive:true});
-  const root=fs.mkdtempSync(path.resolve(__dirname,'../../.phase3/inherited-control-'));
+  fs.mkdirSync(path.resolve(__dirname,'../../../../.phase3'),{recursive:true});
+  const root=fs.mkdtempSync(path.resolve(__dirname,'../../../../.phase3/inherited-control-'));
   const write=(file,value)=>{fs.mkdirSync(path.dirname(path.join(root,file)),{recursive:true});fs.writeFileSync(path.join(root,file),typeof value==='string'?value:JSON.stringify(value));};
   const phase1=[{id:'ordinary.failure',group:'rules'},{id:'ordinary.success',group:'rules'},{id:'engine.source-policy',group:'engine'}];
   const phase2=[{id:'core.control',group:'core'},{id:'runner.control',group:'runner'},{id:'rendered.control',group:'rendered'}];
-  write('tools/phase1/required-cases.json',{cases:phase1});write('tools/phase2/required-cases.json',{cases:phase2});
+  write('src/godot-game/tools/verification/required-cases.json',{cases:phase1});write('src/godot-game/tools/gameplay-checks/required-cases.json',{cases:phase2});
   const script=`'use strict';
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
-const family=path.basename(__dirname),catalog=require('./required-cases.json').cases,args=process.argv.slice(2);
+const family=({verification:'phase1','gameplay-checks':'phase2'})[path.basename(__dirname)],catalog=require('./required-cases.json').cases,args=process.argv.slice(2);
 const selected=catalog.filter(row=>args[0]==='--group'?row.group===args[1]:row.id===args[1]).map(row=>row.id);
 const mode=process.env.CONTROL_MODE;const directory='.'+family+'/runs/'+family+'-'+args[1];
 fs.mkdirSync(directory,{recursive:true});fs.appendFileSync('children.log',family+'/'+args.join(' ')+'\\n');
@@ -24,11 +24,13 @@ if(mode==='missing-report'&&selected.includes('ordinary.failure')){console.error
 fs.writeFileSync(directory+'/summary.json',JSON.stringify({status,selected,results,failures,nonce:directory}));
 console.log(status.toUpperCase()+' '+directory+'/summary.json');process.exitCode=status==='pass'?0:1;
 `;
-  write('tools/phase1/check.cjs',script);write('tools/phase2/check.cjs',script);
+  write('src/godot-game/tools/verification/check.cjs',script);write('src/godot-game/tools/gameplay-checks/check.cjs',script);
   for(const input of require('./check.cjs').inputManifest().inputs){
     if(!fs.existsSync(path.join(root,input)))write(path.posix.basename(input).includes('.')?input:input+'/control.txt','CONTROL_ONLY');
   }
   write('src/godot-game/tests/verification/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll','CONTROL_IDENTITY_ONLY_NEVER_EXECUTED');
+  write('src/godot-game/tools/verification/toolchain.json','CONTROL_TOOL_IDENTITY_ONLY');
+  fs.mkdirSync(path.join(root,'src/godot-game/tools/lan-checks'),{recursive:true});
   const directory=path.join(root,'.phase3/run');fs.mkdirSync(directory,{recursive:true});
   return {root,context:{root,directory,env:{...process.env,CONTROL_MODE:mode}},selection:{selected:{phase1:phase1.map(row=>row.id),phase2:phase2.map(row=>row.id)}}};
 }
@@ -51,7 +53,7 @@ test('actual outer coordinator preserves inherited references and fails after an
   const f=fixture('ordinary'),catalog=require('./catalog.cjs'),scenarios=require('./scenarios.cjs'),check=require('./check.cjs');
   const originalGate=catalog.prelaunch,originalNative=scenarios.run,originalExit=process.exitCode;
   const cases=[{id:'rendered.control',needsGameWindow:true,group:'control',implementation:'control'}];
-  fs.writeFileSync(path.join(f.root,'tools/phase3/required-cases.json'),JSON.stringify({cases}));let nativeRuns=0;
+  fs.writeFileSync(path.join(f.root,'src/godot-game/tools/lan-checks/required-cases.json'),JSON.stringify({cases}));let nativeRuns=0;
   catalog.prelaunch=()=>({review:{path:'CONTROL_ONLY',sha256:'CONTROL_ONLY'},selection:{sha256:'CONTROL_ONLY'},savedSelection:f.selection});
   scenarios.run=async context=>{
     nativeRuns++;const artifacts=['one.log','two.log'].map(name=>{

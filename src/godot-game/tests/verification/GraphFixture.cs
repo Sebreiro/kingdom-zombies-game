@@ -157,7 +157,8 @@ internal sealed class GraphFixture
 
     private void CopyInventory()
     {
-        foreach (string relative in new[] { "src/godot-game/KingdomZombies.slnx", "tools/phase1/projects.json",
+        foreach (string relative in new[] { "src/godot-game/KingdomZombies.slnx",
+                "src/godot-game/tools/verification/projects.json",
             "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj" })
         {
             string target = Path.Combine(path1: Root, path2: relative);

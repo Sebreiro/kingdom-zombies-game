@@ -1,7 +1,7 @@
 'use strict';
 // Ordinary menu/native-input scenarios. Importing this module never launches a process or sends input.
 const fs=require('node:fs'),path=require('node:path'),e=require('./evidence.cjs'),net=require('./network.cjs'),r=require('./rendered.cjs');
-const {acquireLock}=require('../phase2/check.cjs');
+const {acquireLock}=require('../gameplay-checks/check.cjs');
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 const latest=peer=>r.draws(peer).at(-1);
 function participant(peer,profile=peer.profile){return latest(peer)?.snapshot?.Participants.find(row=>row.Actor.PlayerId===profile);}

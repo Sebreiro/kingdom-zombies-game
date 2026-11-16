@@ -129,7 +129,7 @@ Phase 3 has no blocking acceptance item. Its independent [UI audit](phases/03-fo
 | # | Description | Date | Commit | Status | Directory |
 | --- | --- | --- | --- | --- | --- |
 | 261114-we2 | Require phase feature branches and draft-to-ready PRs targeting dev | 2026-11-14 | 9a96240 | — | [261114-we2-define-phase-feature-branches-and-draft-](quick/261114-we2-define-phase-feature-branches-and-draft-/261114-we2-SUMMARY.md) |
-| 261116-k3u | Consolidate the game workspace; explain tooling and add the PR review entry point | 2026-11-16 | de5f40f | Verified | [261116-k3u-consolidate-the-game-workspace-and-docum](./quick/261116-k3u-consolidate-the-game-workspace-and-docum/261116-k3u-SUMMARY.md) |
+| 261116-k3u | Consolidate the game workspace; explain tooling and add the PR review entry point | 2026-11-16 | de5f40f | Verified | [261116-k3u-consolidate-the-game-workspace-and-docum](quick/261116-k3u-consolidate-the-game-workspace-and-docum/261116-k3u-SUMMARY.md) |
 
 ## Deferred Items
 
@@ -149,7 +149,7 @@ Last session: 2026-11-16
 Stopped at: Phase 3 verified complete; requested --only 3 boundary reached
 Resume file: .planning/phases/03-four-player-lan-foundation/03-CONTINUATION.md
 
-Next action: Review PR #4; the creator owns the merge decision. Preserve reviewed source `c69442148c975de974ebbb1d8ef409380940ecb0` and `tools/phase3/reviewed-source.targets` for any metadata-only evidence reconciliation. Phase 4 awaits a separate request; this --only 3 run does not plan or execute it.
+Next action: Review PR #4; the creator owns the merge decision. Preserve reviewed source `c69442148c975de974ebbb1d8ef409380940ecb0` and `src/godot-game/tools/lan-checks/reviewed-source.targets` for any metadata-only evidence reconciliation. Phase 4 awaits a separate request; this --only 3 run does not plan or execute it.
 
 Preserved future context: [Phase 4 context](phases/04-asset-production/04-CONTEXT.md). No Phase 4 work was executed by this run.
 

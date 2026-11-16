@@ -1,6 +1,6 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
-const baseline=require('../phase1/check.cjs');
+const baseline=require('../verification/check.cjs');
 const {validate:decodePng}=require('./png.cjs');
 const hash=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
 function requireTrue(value,message){if(!value)throw new Error(message);}
@@ -129,7 +129,7 @@ function reconcile(selected,results,context){
       requireTrue(result.nativeDrivers?.length>0,'NATIVE_DRIVER_LOG_REQUIRED');
       for(const reference of result.nativeDrivers){const driver=read(artifact(context,reference));
         requireTrue(driver.nonce===context.nonce&&driver.ended===true&&!driver.stderr&&driver.records.length>0&&driver.pid>0,'NATIVE_DRIVER_LOG');
-        requireTrue(driver.scriptSha256===hash(fs.readFileSync(path.join(context.root,'tools/phase3/windows-input.ps1'))),'NATIVE_DRIVER_TOOL');}
+        requireTrue(driver.scriptSha256===hash(fs.readFileSync(path.join(context.root,'src/godot-game/tools/lan-checks/windows-input.ps1'))),'NATIVE_DRIVER_TOOL');}
     }
     if(item.additionalRoles){
       requireTrue(result.additionalPeers?.every(peer=>!result.peers.some(required=>required.pid===peer.pid)),'ADDITIONAL_PID_SUBSTITUTION');
@@ -230,17 +230,18 @@ function verifyInherited(root,final,selection,reviews){
   }
   requireTrue(final.inherited?.phase1?.length&&final.inherited?.phase2?.length,'INHERITED_EVIDENCE_REQUIRED');
   for(const family of ['phase1','phase2']){
-    const catalog=read(path.join(root,'tools',family,'required-cases.json')),seen=[],nonces=new Set();
+    const folder={phase1:'verification',phase2:'gameplay-checks'}[family];
+    const catalog=read(path.join(root,'src/godot-game/tools',folder,'required-cases.json')),seen=[],nonces=new Set();
     for(const reference of final.inherited[family]){
       const file=artifact({directory:root},reference),summary=read(file),directory=path.dirname(file);
       requireTrue(summary.status==='pass'&&summary.platform.startsWith(final.platform)&&summary.revision===final.revision&&!nonces.has(summary.nonce),'INHERITED_IDENTITY');nonces.add(summary.nonce);
       const process=read(artifact({directory:root},reference.process));
       requireTrue(process.code===0&&!process.signal&&!process.timedOut&&process.startedAt>=final.startedAt&&process.finishedAt<=final.finishedAt,'INHERITED_EXECUTION');
-      const manifest=family==='phase1'?catalog:{inputs:['src','tools/phase2','tools/phase1/toolchain.json','tools/dotnet.cjs','.editorconfig','docs/code']};
+      const manifest=family==='phase1'?catalog:{inputs:['src','.editorconfig','docs/code']};
       requireTrue(require('./revisions.cjs').snapshotAt(root,final.revision,manifest).sha256===summary.input,'INHERITED_SOURCE_CHANGED');
       exact(summary.selected,summary.results.map(row=>row.id),'inherited report');seen.push(...summary.selected);
       if(family==='phase2'){
-        require('../phase2/evidence.cjs').loadReport(root,reference.path,catalog.cases);
+        require('../gameplay-checks/evidence.cjs').loadReport(root,reference.path,catalog.cases);
         for(const result of summary.results)for(const picture of result.images??[]){const matches=reviews.filter(row=>row.family==='phase2'&&row.id===result.id&&row.checkpoint===picture.checkpoint&&row.imageSha256===picture.sha256&&row.reportSha256===reference.sha256);requireTrue(matches.length===1&&matches[0].verdict==='pass'&&matches[0].reviewer?.trim()&&matches[0].notes?.trim(),'INHERITED_VISUAL_REVIEW');}
       }else for(const result of summary.results){
         const item=catalog.cases.find(row=>row.id===result.id);requireTrue(item,'INHERITED_UNKNOWN_CASE');

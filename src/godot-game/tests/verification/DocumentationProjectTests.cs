@@ -17,7 +17,8 @@ public sealed class DocumentationProjectTests
         DocumentationProjects.Check(files: files, root: ProofProtocol.Root).ShouldBeEmpty();
         ProjectEvaluator.Validate(root: ProofProtocol.Root).ShouldBeEmpty();
         ProofProtocol.Record(id: "docs.projects", diagnostic: "DOC_PROJECTS",
-                location: Core + " -> tools/phase1/projects.json -> five evaluated MSBuild projects");
+                location: Core + " -> src/godot-game/tools/verification/"
+                        + "projects.json -> five evaluated MSBuild projects");
     }
 
     /// <summary>Rejects an absent module page even with all project/configuration inputs present.</summary>

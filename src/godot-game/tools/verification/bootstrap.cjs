@@ -8,7 +8,7 @@ const https = require('node:https');
 const crypto = require('node:crypto');
 const { spawn } = require('node:child_process');
 const {launch}=require('../dotnet.cjs');
-const root = path.resolve(__dirname, '../..');
+const root = path.resolve(__dirname, '../../../..');
 const home = path.join(root, '.phase1');
 const project = path.join(root, 'src/godot-game/game');
 const nonce = crypto.randomUUID();
@@ -377,7 +377,7 @@ async function main() {
   for (const directory of ['tools', 'cache', 'cli-home', 'packages', 'http-cache', 'temp', 'feed']) fs.mkdirSync(path.join(home, directory), { recursive: true });
   fs.mkdirSync(runDirectory, { recursive: true });
   const args = process.argv.slice(2);
-  if (args.length !== 2 || args[0] !== '--probe' || !['engine', 'pins', 'boundaries'].includes(args[1])) fail('USAGE', 'node tools/phase1/bootstrap.cjs --probe engine|pins|boundaries');
+  if (args.length !== 2 || args[0] !== '--probe' || !['engine', 'pins', 'boundaries'].includes(args[1])) fail('USAGE', 'node src/godot-game/tools/verification/bootstrap.cjs --probe engine|pins|boundaries');
   const manifest = readJson(manifestPath);
   validateManifest(manifest);
   if (args[1] === 'boundaries') await boundariesProbe();

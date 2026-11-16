@@ -42,7 +42,7 @@ internal static class RuleDefinitions
             47 => ("src/godot-game/build/BannedSymbols.Tests.txt", "T:Xunit.Assert;Use Shouldly"),
             48 => ("src/godot-game/tests/verification/TestSourceIndex.cs",
                     "TestSourceIndex.FollowsMethodStateExpected"),
-            49 or 82 => ("tools/phase1/coverage-policy.json", id),
+            49 or 82 => ("src/godot-game/tools/verification/coverage-policy.json", id),
             50 => ("src/godot-game/tests/verification/ExemptionValidator.cs", "ExemptionValidator.CheckRepository"),
             53 => ("src/godot-game/Directory.Build.props",
                 "<DisableTransitiveProjectReferences>true</DisableTransitiveProjectReferences>"),

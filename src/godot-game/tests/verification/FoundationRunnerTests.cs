@@ -30,7 +30,7 @@ public sealed class FoundationRunnerTests
     private static void Check(string mode, string id)
     {
         (int Exit, string Output) result = ProofProtocol.Node(script:
-                "require('./tools/phase2/runner-fixture.cjs').run('" + mode + "')"
+                "require('./src/godot-game/tools/gameplay-checks/runner-fixture.cjs').run('" + mode + "')"
                         + ".catch(error=>{console.error(error.stack);process.exitCode=1;});");
         result.Exit.ShouldBe(expected: 0, customMessage: result.Output);
         result.Output.ShouldContain(expected: "PASS");

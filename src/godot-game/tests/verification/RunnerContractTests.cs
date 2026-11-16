@@ -284,7 +284,7 @@ public sealed class RunnerContractTests
     public void Reconcile_MissingRequiredResult_Rejected()
     {
         (int Exit, string Output) result = ProofProtocol.Node(
-                script: ("const c=require('./tools/phase1/check.cjs'); try { c.re"
+                script: ("const c=require('./src/godot-game/tools/verification/check.cjs'); try { c.re"
                         + "concile([{id:'required'}], [], {}); process.exitCode=0;"
                         + " } catch(e) { console.log(e.diagnostic); process.exitCo" + "de=1; }"));
         result.Exit.ShouldBe(expected: 1, customMessage: "missing required evidence must reject acceptance");
@@ -396,8 +396,8 @@ public sealed class RunnerContractTests
     [Fact, Trait("Case", "runner.selection")]
     public void Reconcile_WrongAndEmptySelections_Rejected()
     {
-        string script = ("const c=require('./tools/phase1/check.cjs');const m=req"
-                + "uire('./tools/phase1/required-cases.json');const rows=["
+        string script = ("const c=require('./src/godot-game/tools/verification/check.cjs');const m=req"
+                + "uire('./src/godot-game/tools/verification/required-cases.json');const rows=["
                 + "['--group','unknown'],['--case','unknown'],['--case'],["
                 + "'--unknown'],['--all','--case','runner.assertion-pass']"
                 + ",['--phase'],['--phase','0'],['--phase','-1'],['--phase','1.5'],"
@@ -418,8 +418,10 @@ public sealed class RunnerContractTests
     [Fact, Trait("Case", "runner.phase-membership")]
     public void Select_DeclaredPhases_RetainsImplementedCases()
     {
-        string script = "const c=require('./tools/phase1/check.cjs'),a=require('node:assert/strict');"
-                + "const m=require('./tools/phase1/required-cases.json'),s=c.select(m,['--phase','1']);"
+        string script = "const c=require('./src/godot-game/tools/verification/"
+                + "check.cjs'),a=require('node:assert/strict');"
+                + "const m=require('./src/godot-game/tools/verification/"
+                + "required-cases.json'),s=c.select(m,['--phase','1']);"
                 + "const ids=['ac-02.complete','ac-06.complete','ac-07.complete','ac-09.complete',"
                 + "'R-49.positive','R-49.negative','R-82.positive','R-82.negative'].sort();"
                 + "a.deepEqual(s.deferred.map(r=>r.id).sort(),ids);a.equal(s.selected.length,676);"
@@ -442,8 +444,9 @@ public sealed class RunnerContractTests
     [Fact, Trait("Case", "runner.phase-declarations")]
     public void Select_InvalidDeclaredPhase_RejectsUnselectedCorruption()
     {
-        string script = "const c=require('./tools/phase1/check.cjs'),a=require('node:assert/strict');"
-                + "const m=require('./tools/phase1/required-cases.json'),row=m.cases[0];"
+        string script = "const c=require('./src/godot-game/tools/verification/"
+                + "check.cjs'),a=require('node:assert/strict');"
+                + "const m=require('./src/godot-game/tools/verification/required-cases.json'),row=m.cases[0];"
                 + "for(const value of [null,0,-1,1.5,'5',true,{},[],9007199254740992]){"
                 + "const bad={...m,cases:[row,{...row,id:'fixture.bad',acceptancePhase:value}]};"
                 + "a.throws(()=>c.select(bad,['--phase','1']),e=>e.diagnostic==='MANIFEST_PHASE')}"
@@ -511,7 +514,7 @@ public sealed class RunnerContractTests
 
     private static void AddPendingDeclaration(RunnerProcessFixture fixture, int? phase)
     {
-        string path = Path.Combine(path1: fixture.Root, path2: "tools/phase1/required-cases.json");
+        string path = Path.Combine(path1: fixture.Root, path2: "src/godot-game/tools/verification/required-cases.json");
         JsonObject manifest = RegisterValidator.Parse(bytes: File.ReadAllBytes(path: path));
         JsonArray cases = manifest["cases"]?.AsArray() ?? throw new InvalidDataException(message: "CASES_REQUIRED");
         JsonNode pending = cases[0]?.DeepClone() ?? throw new InvalidDataException(message: "CASE_REQUIRED");
@@ -613,7 +616,7 @@ public sealed class RunnerContractTests
 
     private static void RejectMutation(string id, string mutation, string expected)
     {
-        string script = ("const c=require('./tools/phase1/check.cjs'); const fs=r"
+        string script = ("const c=require('./src/godot-game/tools/verification/check.cjs'); const fs=r"
                 + "equire('node:fs'); const os=require('node:os'); const p" + "ath=require('node:path'); ")
                 + ("const directory=fs.mkdtempSync(path.join(process.env.TE"
                         + "MP||os.tmpdir(),'reconcile-')); fs.writeFileSync(path.j"

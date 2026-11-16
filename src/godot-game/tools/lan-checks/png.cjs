@@ -1,6 +1,6 @@
 'use strict';
 const fs=require('node:fs');
-const {decodePng}=require('../phase2/rendered.cjs');
+const {decodePng}=require('../gameplay-checks/rendered.cjs');
 function crc(bytes){let value=0xffffffff;for(const byte of bytes){value^=byte;for(let bit=0;bit<8;bit++)value=(value>>>1)^((value&1)?0xedb88320:0);}return (value^0xffffffff)>>>0;}
 function validate(file){
   const bytes=fs.readFileSync(file);let offset=8,header=0,data=0,end=0;

@@ -2,7 +2,7 @@
 // Counterfeit records below prove rejection only. Actual tracer/process cases execute their subjects separately.
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),zlib=require('node:zlib');
 const assert=require('node:assert/strict'),e=require('./evidence.cjs'),p=require('./processes.cjs');
-const {acquireLock}=require('../phase2/check.cjs'),{select}=require('./check.cjs');
+const {acquireLock}=require('../gameplay-checks/check.cjs'),{select}=require('./check.cjs');
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 function png(){
   const {crc}=require('./png.cjs');
@@ -35,9 +35,9 @@ function fixture(directory){
   return {context,selected,results:[first,second],artifact};
 }
 async function run(mode){
-  const root=path.resolve(__dirname,'../..'),directory=path.join(root,'.phase3/controls',crypto.randomUUID());fs.mkdirSync(directory,{recursive:true});
+  const root=path.resolve(__dirname,'../../../..'),directory=path.join(root,'.phase3/controls',crypto.randomUUID());fs.mkdirSync(directory,{recursive:true});
   if(mode==='integrity'){
-    const controls=await require('./processes.cjs').run(process.execPath,['--test',path.join(root,'tools/phase3/navigation.test.cjs'),path.join(root,'tools/phase3/selection.test.cjs'),path.join(root,'tools/phase3/foreground.test.cjs'),path.join(root,'tools/phase3/revisions.test.cjs'),path.join(root,'tools/phase3/rendered-stream.test.cjs')],{cwd:root},35000);
+    const controls=await require('./processes.cjs').run(process.execPath,['--test',path.join(root,'src/godot-game/tools/lan-checks/navigation.test.cjs'),path.join(root,'src/godot-game/tools/lan-checks/selection.test.cjs'),path.join(root,'src/godot-game/tools/lan-checks/foreground.test.cjs'),path.join(root,'src/godot-game/tools/lan-checks/revisions.test.cjs'),path.join(root,'src/godot-game/tools/lan-checks/rendered-stream.test.cjs')],{cwd:root},35000);
     const controlFile=path.join(directory,'integrity-controls.process.json');fs.writeFileSync(controlFile,JSON.stringify(controls,null,2),{flag:'wx'});
     console.log(controls.stdout+'\nCONTROL_PROCESS '+controlFile+' SHA256 '+e.hash(fs.readFileSync(controlFile)));
     const {context,selected,results}=fixture(directory),[first,second]=results;
@@ -70,10 +70,10 @@ async function run(mode){
     assert.throws(()=>e.reconcile(selected,results,context));assert.throws(()=>require('./png.cjs').validate(path.join(directory,'image.png')),/PNG_CRC/);
     fs.unlinkSync(path.join(directory,'image.png'));assert.throws(()=>e.reconcile(selected,results,context));
     assert.throws(()=>e.verifyCompletion(root,{schemaVersion:1,scope:'Windows 1280x720 local; no VM'},selected,context));
-    require('./catalog.cjs').validate(root,e.read(path.join(root,'tools/phase3/required-cases.json')));
+    require('./catalog.cjs').validate(root,e.read(path.join(root,'src/godot-game/tools/lan-checks/required-cases.json')));
     console.log('PASS exact cases/roles, duplicate substitution, stale identities, images, corruption, unsafe paths and catalog controls; fixtures earn no execution credit');
   }else if(mode==='processes'){
-    const controls=await p.run(process.execPath,['--test',path.join(root,'tools/phase3/inherited.test.cjs')],{cwd:root},15000);
+    const controls=await p.run(process.execPath,['--test',path.join(root,'src/godot-game/tools/lan-checks/inherited.test.cjs')],{cwd:root},15000);
     const controlFile=path.join(directory,'inherited-controls.process.json');fs.writeFileSync(controlFile,JSON.stringify(controls,null,2),{flag:'wx'});
     console.log(controls.stdout+'\nCONTROL_PROCESS '+controlFile+' SHA256 '+e.hash(fs.readFileSync(controlFile)));
     await require('./terminal-fixture.cjs').run(directory);
@@ -94,7 +94,7 @@ async function run(mode){
     const second=path.join(directory,'repeat');fs.mkdirSync(second);const fresh=fixture(second);assert.notEqual(fresh.context.nonce,context.nonce);e.reconcile(fresh.selected,fresh.results,fresh.context);
     assert.equal(e.hash(fs.readFileSync(file)),original);
     const lockRoot=path.join(directory,'desktop');fs.mkdirSync(lockRoot);const unlock=acquireLock(lockRoot,context.nonce);
-    try{await assert.rejects(p.run(process.execPath,['-e','require(process.argv[1]).acquireLock(process.argv[2],"competitor")',path.join(root,'tools/phase2/check.cjs'),lockRoot],{cwd:root},1000),/CHILD_EXIT/);}
+    try{await assert.rejects(p.run(process.execPath,['-e','require(process.argv[1]).acquireLock(process.argv[2],"competitor")',path.join(root,'src/godot-game/tools/gameplay-checks/check.cjs'),lockRoot],{cwd:root},1000),/CHILD_EXIT/);}
     finally{unlock();}
     const release=acquireLock(lockRoot,crypto.randomUUID()),lockFile=path.join(lockRoot,'.phase2/desktop.lock');
     fs.writeFileSync(lockFile,'foreign-owner');assert.throws(release,/OWNERSHIP_CHANGED/);assert.equal(fs.readFileSync(lockFile,'utf8'),'foreign-owner');

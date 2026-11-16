@@ -66,7 +66,7 @@ public sealed class TestMethodNameTests
 
     private static void RequireCurrentBindings(IReadOnlyList<string> methods)
     {
-        JsonObject manifest = RegisterValidator.Read(relative: "tools/phase1/required-cases.json");
+        JsonObject manifest = RegisterValidator.Read(relative: "src/godot-game/tools/verification/required-cases.json");
         JsonArray cases = manifest["cases"]?.AsArray()
                 ?? throw new System.IO.InvalidDataException(message: "NAMING_CASES_REQUIRED");
         var bindings = new HashSet<string>(comparer: System.StringComparer.Ordinal);

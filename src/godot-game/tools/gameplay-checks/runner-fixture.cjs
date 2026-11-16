@@ -20,7 +20,7 @@ function png() {
   return Buffer.concat([Buffer.from([137,80,78,71,13,10,26,10]),chunk('IHDR',header),chunk('IDAT',zlib.deflateSync(raw)),chunk('IEND',Buffer.alloc(0))]);
 }
 async function run(mode) {
-  const root=path.resolve(__dirname,'../..'),directory=path.join(root,'.phase2/controls',crypto.randomUUID());
+  const root=path.resolve(__dirname,'../../../..'),directory=path.join(root,'.phase2/controls',crypto.randomUUID());
   fs.mkdirSync(directory,{recursive:true});
   const context={directory,nonce:crypto.randomUUID(),input:'input',tool:'tool',platform:process.platform+'-'+process.arch};
   const selected=[{id:'rendered.tracer',implementation:'native',images:['launch-menu']},{id:'core.authority',implementation:'csharp'}];
@@ -160,7 +160,7 @@ async function run(mode) {
     const lockRoot=path.join(directory,'lock-root');fs.mkdirSync(lockRoot);
     const unlock=acquireLock(lockRoot,context.nonce);
     try {
-      const modulePath=path.join(root,'tools/phase2/check.cjs');
+      const modulePath=path.join(root,'src/godot-game/tools/gameplay-checks/check.cjs');
       await assert.rejects(command(process.execPath,['-e','require(process.argv[1]).acquireLock(process.argv[2],"competitor")',modulePath,lockRoot]),/DESKTOP_LOCKED/);
     } finally {unlock();}
     const release=acquireLock(lockRoot,crypto.randomUUID());release();

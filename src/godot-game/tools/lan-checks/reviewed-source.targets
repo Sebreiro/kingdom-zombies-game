@@ -1,7 +1,7 @@
 <Project>
-  <!-- Imported only by Phase 3 proof builds. Preserve real GitHub SourceLink with the same reviewed source as assembly metadata. -->
+  <!-- Imported only by LAN proof builds. Preserve real GitHub SourceLink with the same reviewed source as assembly metadata. -->
   <PropertyGroup>
-    <_Phase3ReviewedSourceRoot>$([MSBuild]::NormalizeDirectory('$(MSBuildThisFileDirectory)', '..', '..'))</_Phase3ReviewedSourceRoot>
+    <_Phase3ReviewedSourceRoot>$([MSBuild]::NormalizeDirectory('$(MSBuildThisFileDirectory)', '..', '..', '..', '..'))</_Phase3ReviewedSourceRoot>
   </PropertyGroup>
   <Target Name="PinPhase3ReviewedSourceRoot" AfterTargets="InitializeSourceControlInformation" Condition="'$(SourceRevisionId)' != ''">
     <ItemGroup>

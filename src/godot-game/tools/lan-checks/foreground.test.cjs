@@ -2,7 +2,7 @@
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),test=require('node:test'),assert=require('node:assert/strict');
 const scenarios=require('./scenarios.cjs'),delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 function fixture(){
-  const directory=path.resolve(__dirname,'../../.phase3/controls',crypto.randomUUID());fs.mkdirSync(directory,{recursive:true});
+  const directory=path.resolve(__dirname,'../../../../.phase3/controls',crypto.randomUUID());fs.mkdirSync(directory,{recursive:true});
   let foreground=null;const trace=[],pending=[];
   const values=[1,2].map(pid=>{
     const local=path.join(directory,String(pid));fs.mkdirSync(local);

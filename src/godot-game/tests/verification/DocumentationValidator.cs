@@ -11,6 +11,7 @@ internal static class DocumentationValidator
     /// <summary>Names required pages explicitly, including pages authored before their first commit.</summary>
     internal static IReadOnlyList<string> Authored =>
     [
+        "src/godot-game/tools/README.md",
         "README.md", "tools/README.md", "src/godot-game/README.md", "src/godot-game/build/README.md",
         "docs/architecture/repository-layout.md", "docs/workflow/code-review.md",
         "AGENTS.md", "docs/code/README.md", "docs/architecture/README.md", "docs/code/review-checklist.md",
@@ -86,7 +87,8 @@ internal static class DocumentationValidator
     internal static bool IsOwned(string path)
     {
         return path.EndsWith(value: ".md", comparisonType: StringComparison.Ordinal)
-                && (path is "README.md" or "tools/README.md" or "src/godot-game/README.md"
+                && (path is "src/godot-game/tools/README.md" or "README.md" or "tools/README.md" or
+                        "src/godot-game/README.md"
                         or "src/godot-game/build/README.md" or "AGENTS.md" or ".planning/PROJECT.md" or
                         ".planning/REQUIREMENTS.md"
                         or ".planning/ROADMAP.md" or ".planning/STATE.md" or ".planning/research/SUMMARY.md"

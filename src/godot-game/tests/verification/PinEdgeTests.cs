@@ -14,8 +14,8 @@ public sealed class PinEdgeTests
     [Fact, Trait("Case", "edge.rule-01.adjacency")]
     public void Pins_AdjacentCompleteDeclarations_RejectsAmbiguity()
     {
-        string script = "const b=require('./tools/phase1/bootstrap.cjs'),fs=require('node:fs');"
-                + "const raw=fs.readFileSync('tools/phase1/toolchain.json','utf8');"
+        string script = "const b=require('./src/godot-game/tools/verification/bootstrap.cjs'),fs=require('node:fs');"
+                + "const raw=fs.readFileSync('src/godot-game/tools/verification/toolchain.json','utf8');"
                 + "b.validateManifest(b.parseJson(raw));for(const value of ['10.0.404','8.0.100']){"
                 + "const bad=raw.replace('{','{\"sdk\":\"'+value+'\",');let rejected=false;"
                 + "try{b.validateManifest(b.parseJson(bad))}catch(e){if(e.diagnostic!=='PINS_CONFLICT')throw e;"
@@ -24,7 +24,8 @@ public sealed class PinEdgeTests
         result.Exit.ShouldBe(expected: 0, customMessage: result.Output);
         result.Output.Trim().ShouldBe(expected: "PINS_ADJACENCY");
         ProofProtocol.Record(id: "edge.rule-01.adjacency", diagnostic: "PINS_ADJACENCY",
-                location: "tools/phase1/toolchain.json: complete actual manifest plus adjacent duplicate sdk keys");
+                location: "src/godot-game/tools/verification/"
+                        + "toolchain.json: complete actual manifest plus adjacent duplicate sdk keys");
     }
 
     /// <summary>Runs an actual isolated coordinator with an empty required inventory and rejects discovery.</summary>
@@ -32,7 +33,7 @@ public sealed class PinEdgeTests
     public void Pins_EmptyRequiredInventory_RejectsVacuousRun()
     {
         using var fixture = RunnerProcessFixture.Create(mode: "pass");
-        string path = Path.Combine(path1: fixture.Root, path2: "tools/phase1/required-cases.json");
+        string path = Path.Combine(path1: fixture.Root, path2: "src/godot-game/tools/verification/required-cases.json");
         JsonObject manifest = RegisterValidator.Parse(bytes: File.ReadAllBytes(path: path));
         manifest["cases"] = new JsonArray();
         File.WriteAllText(path: path, contents: manifest.ToJsonString());
@@ -47,8 +48,8 @@ public sealed class PinEdgeTests
     [Fact, Trait("Case", "edge.rule-01.ordering")]
     public void Pins_ActualInputPermutation_PreservesSelection()
     {
-        string script = "const b=require('./tools/phase1/bootstrap.cjs'),fs=require('node:fs');"
-                + "const m=b.parseJson(fs.readFileSync('tools/phase1/toolchain.json','utf8'));"
+        string script = "const b=require('./src/godot-game/tools/verification/bootstrap.cjs'),fs=require('node:fs');"
+                + "const m=b.parseJson(fs.readFileSync('src/godot-game/tools/verification/toolchain.json','utf8'));"
                 + "const p=Object.fromEntries(Object.entries(m).reverse());"
                 + "p.godotPackages=[...m.godotPackages].reverse();"
                 + "const a=b.validateManifest(m),c=b.validateManifest(p);if(a!==c)throw Error('selection drift');"
@@ -62,7 +63,8 @@ public sealed class PinEdgeTests
         result.Exit.ShouldBe(expected: 0, customMessage: result.Output);
         result.Output.ShouldStartWith(expected: "PINS_ORDERING ");
         ProofProtocol.Record(id: "edge.rule-01.ordering", diagnostic: "PINS_ORDERING",
-                location: "tools/phase1/toolchain.json, global.json, tool/project/feed actual declarations");
+                location: "src/godot-game/tools/verification/toolchain.json, global.json, tool/"
+                        + "project/feed actual declarations");
     }
 
     /// <summary>Executes two real runs with unique invocation identities and unchanged declared input bytes.</summary>
@@ -70,7 +72,7 @@ public sealed class PinEdgeTests
     public void Pins_RepeatedActualRuns_PreservesInputs()
     {
         using var fixture = RunnerProcessFixture.Create(mode: "pass");
-        string path = Path.Combine(path1: fixture.Root, path2: "tools/phase1/toolchain.json");
+        string path = Path.Combine(path1: fixture.Root, path2: "src/godot-game/tools/verification/toolchain.json");
         string hash = RunnerProcessFixture.Hash(file: path);
         fixture.Run().Exit.ShouldBe(expected: 0);
         JsonNode first = fixture.Summary();

@@ -3,14 +3,14 @@ const fs=require('node:fs'),path=require('node:path'),e=require('./evidence.cjs'
 const integrity=['engine.source-policy','engine.generated-origin','engine.generated-boundary','rules.godot-callsite-boundary',
   'graph.visibility-inventory','graph.allowed-composition','rules.source-format'];
 function plan(root,selection){
-  const phase1=e.read(path.join(root,'tools/phase1/required-cases.json'));
+  const phase1=e.read(path.join(root,'src/godot-game/tools/verification/required-cases.json'));
   const covered=new Set(),commands=[];
   for(const group of ['engine','graph','state','runner']){
     const ids=phase1.cases.filter(row=>row.group===group).map(row=>row.id);
     if(ids.length&&ids.every(id=>selection.selected.phase1.includes(id))){commands.push({family:'phase1',args:['--group',group],selected:ids,dependsOn:[]});for(const id of ids)covered.add(id);}
   }
   for(const id of selection.selected.phase1.filter(id=>!covered.has(id)))commands.push({family:'phase1',args:['--case',id],selected:[id],dependsOn:[]});
-  const phase2=e.read(path.join(root,'tools/phase2/required-cases.json'));
+  const phase2=e.read(path.join(root,'src/godot-game/tools/gameplay-checks/required-cases.json'));
   const prerequisites=integrity.filter(id=>selection.selected.phase1.includes(id)).map(id=>'phase1/'+id);
   for(const group of ['core','runner','rendered']){
     const selected=phase2.cases.filter(row=>row.group===group&&selection.selected.phase2.includes(row.id)).map(row=>row.id);
@@ -21,7 +21,10 @@ function plan(root,selection){
 }
 async function execute(context,command,index){
   const startedAt=Date.now();let record,error;
-  try{record=await p.run(process.execPath,[path.join(context.root,'tools',command.family,'check.cjs'),...command.args],
+  try{
+    const script={phase1:'src/godot-game/tools/verification/check.cjs',phase2:'src/godot-game/tools/gameplay-checks/check.cjs'}[command.family];
+    e.requireTrue(typeof script==='string','INHERITED_FAMILY_UNKNOWN');
+    record=await p.run(process.execPath,[path.join(context.root,script),...command.args],
     {cwd:context.root,env:context.env,onOutput:bytes=>process.stdout.write(bytes)},900000);}
   catch(failure){error=failure;record=failure.record??{executable:process.execPath,args:command.args,code:null,stdout:'',stderr:'',error:failure.stack};}
   const finishedAt=Date.now(),prefix='inherited-'+index;

@@ -53,7 +53,8 @@ public sealed class RunnerProcessFixture : IDisposable
             UseShellExecute = false,
             CreateNoWindow = true,
         };
-        start.ArgumentList.Add(item: Path.Combine(path1: Root, path2: "tools", path3: "phase1", path4: "check.cjs"));
+        start.ArgumentList.Add(item: Path.Combine(path1: Root, path2: "src/godot-game/tools", path3:
+                "verification", path4: "check.cjs"));
         foreach (string arg in args.Length == 0 ? ["--all"] : args)
         {
             start.ArgumentList.Add(item: arg);
@@ -154,7 +155,8 @@ public sealed class RunnerProcessFixture : IDisposable
 
     private void CopyFixtureInputs()
     {
-        Directory.CreateDirectory(path: Path.Combine(path1: Root, path2: "tools", path3: "phase1"));
+        Directory.CreateDirectory(path: Path.Combine(path1: Root, path2: "src/godot-game/tools", path3:
+                "verification"));
         foreach (string? file in new[]
         {
             "check.cjs",
@@ -164,14 +166,16 @@ public sealed class RunnerProcessFixture : IDisposable
 
         )
         {
-            File.Copy(sourceFileName: Path.Combine(path1: ProofProtocol.Root, path2: "tools", path3: "phase1",
-                    path4: file), destFileName: Path.Combine(path1: Root, path2: "tools", path3: "phase1",
+            File.Copy(sourceFileName: Path.Combine(path1: ProofProtocol.Root, path2: "src/godot-game/tools",
+                    path3: "verification",
+                    path4: file), destFileName: Path.Combine(path1: Root, path2: "src/godot-game/tools", path3:
+                            "verification",
                             path4: file));
         }
 
         Directory.CreateDirectory(path: Path.Combine(path1: Root, path2: "src/godot-game"));
-        File.Copy(sourceFileName: Path.Combine(path1: ProofProtocol.Root, path2: "tools/dotnet.cjs"),
-                destFileName: Path.Combine(path1: Root, path2: "tools/dotnet.cjs"));
+        File.Copy(sourceFileName: Path.Combine(path1: ProofProtocol.Root, path2: "src/godot-game/tools/dotnet.cjs"),
+                destFileName: Path.Combine(path1: Root, path2: "src/godot-game/tools/dotnet.cjs"));
         File.Copy(sourceFileName: Path.Combine(path1: ProofProtocol.Root, path2: "src/godot-game/global.json"),
                 destFileName: Path.Combine(path1: Root, path2: "src/godot-game/global.json"));
         Directory.CreateDirectory(path: Path.Combine(path1: Root, path2: "fixture"));
@@ -207,7 +211,7 @@ public sealed class RunnerProcessFixture : IDisposable
             childTimeoutMs = 1800,
             inputs = new[]
             {
-                "tools/phase1",
+                "src/godot-game/tools/verification",
                 "fixture",
                 "src/godot-game/global.json",
                 "approved.cs",
@@ -235,7 +239,7 @@ public sealed class RunnerProcessFixture : IDisposable
                 }
             },
         };
-        File.WriteAllText(path: Path.Combine(path1: Root, path2: "tools", path3: "phase1",
+        File.WriteAllText(path: Path.Combine(path1: Root, path2: "src/godot-game/tools", path3: "verification",
                 path4: "required-cases.json"), contents: JsonSerializer.Serialize(value: manifest));
     }
 

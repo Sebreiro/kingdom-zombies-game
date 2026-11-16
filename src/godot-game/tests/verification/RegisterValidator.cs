@@ -151,7 +151,7 @@ public static class RegisterValidator
             >= 68 and <= 78 => "src/godot-game/core/SnapshotCodec.cs",
             48 => "src/godot-game/tests/verification/TestSourceIndex.cs",
             50 => "src/godot-game/tests/verification/ExemptionValidator.cs",
-            49 or 82 => "tools/phase1/coverage-policy.json",
+            49 or 82 => "src/godot-game/tools/verification/coverage-policy.json",
             >= 83 => "src/godot-game/tests/verification/DocumentationValidator.cs",
             >= 51 => "src/godot-game/tests/verification/ArchitectureRuleTests.cs",
             <= 8 => "src/godot-game/tests/verification/EnforcementTests.cs",
@@ -192,7 +192,7 @@ public static class RegisterValidator
     private static void ValidateMappings(JsonObject manifest, JsonObject register, JsonObject exemptions,
             bool implemented, List<string> errors)
     {
-        JsonArray cases = (Read(relative: "tools/phase1/required-cases.json")["cases"]
+        JsonArray cases = (Read(relative: "src/godot-game/tools/verification/required-cases.json")["cases"]
                 ?? throw new System.InvalidOperationException(message: "Required proof value is null")).AsArray();
         Dictionary<string, JsonNode> declarations = Unique(rows: cases, key: n => Text(node: n["id"]),
                 diagnostic: "PROOF_DECLARATION", errors: errors);

@@ -164,7 +164,7 @@ function verifyReport(report, items) {
 }
 async function main(root, args) {
   root = fs.realpathSync(root);
-  const manifest = read(path.join(root, 'tools/phase1/required-cases.json'));
+  const manifest = read(path.join(root, 'src/godot-game/tools/verification/required-cases.json'));
   const selection = select(manifest, args);
   if (selection.list) { console.log(JSON.stringify(selection.selected, null, 2)); return; }
   const nonce = crypto.randomUUID(), home = path.join(root, '.phase1');
@@ -195,7 +195,7 @@ async function main(root, args) {
     const executableCases = selection.selected.filter(item => item.implementation === 'csharp');
     if (executableCases.length) {
       try {
-        const pins = read(path.join(root, 'tools/phase1/toolchain.json'));
+        const pins = read(path.join(root, 'src/godot-game/tools/verification/toolchain.json'));
         if (process.versions.node !== pins.node) reject('TOOL_MISMATCH', 'Node version');
         const sdk = await command('dotnet', ['--version'], context, 'sdk');
         if (sdk.code !== 0 || sdk.output.trim() !== pins.sdk) reject('TOOL_MISMATCH', 'SDK identity');
@@ -257,6 +257,6 @@ async function main(root, args) {
   if (status !== 'pass') process.exitCode = 1;
 }
 module.exports = { reconcile, select, snapshot, verifyReport, inside, main };
-if (require.main === module) main(path.resolve(__dirname, '../..'), process.argv.slice(2)).catch(error => {
+if (require.main === module) main(path.resolve(__dirname, '../../../..'), process.argv.slice(2)).catch(error => {
   console.error(`${error.diagnostic ?? 'CHECK_ERROR'}: ${error.message}`); process.exitCode = 1;
 });

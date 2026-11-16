@@ -11,9 +11,9 @@ test('exact all-selection preserves the independent required case set',()=>{
 });
 
 test('prelaunch rejects every known affected analyzer, generated and register omission with a nonblank excuse',()=>{
-  const path=require('node:path'),root=path.resolve(__dirname,'../..'),e=require('./evidence.cjs'),catalog=require('./catalog.cjs');
-  const cases=e.read(path.join(root,'tools/phase1/required-cases.json')).cases,required=require('./selection-impact.cjs').affected(cases);
-  const definition=e.read(path.join(root,'tools/phase3/required-cases.json')),saved=catalog.validate(root,definition);
+  const path=require('node:path'),root=path.resolve(__dirname,'../../../..'),e=require('./evidence.cjs'),catalog=require('./catalog.cjs');
+  const cases=e.read(path.join(root,'src/godot-game/tools/verification/required-cases.json')).cases,required=require('./selection-impact.cjs').affected(cases);
+  const definition=e.read(path.join(root,'src/godot-game/tools/lan-checks/required-cases.json')),saved=catalog.validate(root,definition);
   assert.ok(required.length>=31);
   for(const id of required){const changed=structuredClone(saved);changed.selected.phase1=changed.selected.phase1.filter(value=>value!==id);
     changed.omitted.phase1.push({id,reason:'This nonblank excuse must not bypass known changed consumers.'});

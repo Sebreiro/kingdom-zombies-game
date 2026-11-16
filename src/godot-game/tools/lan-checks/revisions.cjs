@@ -1,7 +1,7 @@
 'use strict';
 // Phase-owned finalization only: original executions and review bytes remain immutable.
 const fs=require('node:fs');
-const {spawnSync}=require('node:child_process'),e=require('./evidence.cjs'),baseline=require('../phase1/check.cjs');
+const {spawnSync}=require('node:child_process'),e=require('./evidence.cjs'),baseline=require('../verification/check.cjs');
 const phase='.planning/phases/03-four-player-lan-foundation/';
 const metadata=new Set(['.planning/STATE.md','.planning/ROADMAP.md','.planning/REQUIREMENTS.md',
   ...['03-REVIEW.md','03-REVIEW.json','03-REVIEW-FIX.md','03-REVIEW.iter2.md','03-REVIEW-FIX.iter2.md','03-EVIDENCE.json','03-VISUAL-REVIEW.md',

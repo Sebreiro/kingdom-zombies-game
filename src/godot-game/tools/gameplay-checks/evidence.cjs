@@ -2,7 +2,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
-const baseline = require('../phase1/check.cjs');
+const baseline = require('../verification/check.cjs');
 const { decodePng } = require('./rendered.cjs');
 const hash = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 function requireTrue(value, message) { if (!value) throw new Error(message); }
@@ -12,7 +12,7 @@ function inside(root, relative) {
   catch(error) {throw new Error((error.diagnostic??'PATH_INVALID')+': '+error.message);}
 }
 function catalog(root) {
-  const value = read(path.join(root, 'tools/phase2/required-cases.json'));
+  const value = read(path.join(root, 'src/godot-game/tools/gameplay-checks/required-cases.json'));
   requireTrue(value.requiredEnvironment==='development-os' && JSON.stringify(value.resolutions)==='[[1280,720]]','CATALOG_ENVIRONMENT');
   requireTrue(Array.isArray(value.cases) && value.cases.length === 16, 'CATALOG_REQUIRED');
   const ids = new Set();

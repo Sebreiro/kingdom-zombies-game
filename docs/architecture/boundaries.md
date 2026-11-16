@@ -1,6 +1,6 @@
 # Project boundary reference
 
-The [executable five-project policy](../../tools/phase1/projects.json) is the single allowed-edge authority. [ProjectEvaluator](../../src/godot-game/tests/verification/ProjectEvaluator.cs) reads actual evaluated MSBuild items and recursive closure; [TypeBoundaryScanner](../../src/godot-game/tests/verification/TypeBoundaryScanner.cs) inspects actual compiled metadata/IL, including generated async/lambda surfaces. Missing selectors and subjects fail. [ArchitecturePolicy](../../src/godot-game/tests/verification/ArchitecturePolicy.cs) owns structural type, mapping, enum and version checks.
+The [executable five-project policy](../../src/godot-game/tools/verification/projects.json) is the single allowed-edge authority. [ProjectEvaluator](../../src/godot-game/tests/verification/ProjectEvaluator.cs) reads actual evaluated MSBuild items and recursive closure; [TypeBoundaryScanner](../../src/godot-game/tests/verification/TypeBoundaryScanner.cs) inspects actual compiled metadata/IL, including generated async/lambda surfaces. Missing selectors and subjects fail. [ArchitecturePolicy](../../src/godot-game/tests/verification/ArchitecturePolicy.cs) owns structural type, mapping, enum and version checks.
 
 | Responsibility | Project reference |
 | --- | --- |

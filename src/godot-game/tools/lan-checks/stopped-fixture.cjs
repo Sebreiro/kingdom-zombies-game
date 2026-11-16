@@ -3,7 +3,7 @@
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),assert=require('node:assert/strict');
 const e=require('./evidence.cjs');
 function run(){
-  const root=path.resolve(__dirname,'../..'),directory=path.join(root,'.phase3/controls',crypto.randomUUID());fs.mkdirSync(directory,{recursive:true});
+  const root=path.resolve(__dirname,'../../../..'),directory=path.join(root,'.phase3/controls',crypto.randomUUID());fs.mkdirSync(directory,{recursive:true});
   const fixture=require('./runner-fixture.cjs').fixture(directory),context={...fixture.context,root},result=fixture.results[0];
   result.id='rendered.timing';result.timings=[];result.stopped=[];
   const roles=result.peers.map(peer=>peer.role),item={id:result.id,group:'rendered',implementation:'native-rendered',needsGameWindow:true,roles,imagesByRole:{}};
@@ -55,7 +55,7 @@ function run(){
   for(const peer of result.peers){peer.draws=write(peer.role+'.draws.json',histories.get(peer.role));
     const file=peer.role+'.ndjson';fs.writeFileSync(path.join(directory,file),histories.get(peer.role).map(JSON.stringify).join('\n')+'\n');peer.draws=ref(file);
     item.imagesByRole[peer.role]=peer.images.map(picture=>picture.checkpoint);}
-  result.nativeDrivers=[write('driver.json',{nonce:context.nonce,pid:9000,ended:true,stderr:'',records,scriptSha256:e.hash(fs.readFileSync(path.join(root,'tools/phase3/windows-input.ps1')))})];
+  result.nativeDrivers=[write('driver.json',{nonce:context.nonce,pid:9000,ended:true,stderr:'',records,scriptSha256:e.hash(fs.readFileSync(path.join(root,'src/godot-game/tools/lan-checks/windows-input.ps1')))})];
   result.ownedProcesses=result.peers.map(peer=>({pid:peer.pid,role:peer.role,terminal:peer.terminal}));
   e.reconcile([item],[result],context);
   const forgedReversal=structuredClone(result);forgedReversal.timings.find(row=>row.action==='reversal').reversalWitness.beforeX++;

@@ -17,8 +17,8 @@ function validate(root,catalog,savedSelection=null){
   e.exact(Array.from({length:18},(_,index)=>'AC-'+String(index+1).padStart(2,'0')),[...acceptance],'18 acceptance criteria');
   e.exact(Array.from({length:20},(_,index)=>'E'+String(index+1).padStart(2,'0')),[...edges],'20 edges');
   const selection=savedSelection??e.read(e.inside(root,selectionPath));e.exact(catalog.cases.map(row=>row.id),selection.selected.phase3,'saved phase3 selection');
-  const inherited=e.read(path.join(root,'tools/phase2/required-cases.json'));e.exact(inherited.cases.map(row=>row.id),selection.selected.phase2,'all 16 inherited');
-  const phase1=e.read(path.join(root,'tools/phase1/required-cases.json'));
+  const inherited=e.read(path.join(root,'src/godot-game/tools/gameplay-checks/required-cases.json'));e.exact(inherited.cases.map(row=>row.id),selection.selected.phase2,'all 16 inherited');
+  const phase1=e.read(path.join(root,'src/godot-game/tools/verification/required-cases.json'));
   const active=phase1.cases.filter(row=>(row.acceptancePhase??1)<=1);e.exact(active.map(row=>row.id),[...selection.selected.phase1,...selection.omitted.phase1.map(row=>row.id)],'phase1 accounted');
   e.requireTrue(selection.omitted.phase1.every(row=>row.reason?.trim())&&selection.omitted.phase2.length===0&&selection.omitted.phase3.length===0,'OMISSION_RATIONALE');
   require('./selection-impact.cjs').check(selection,phase1.cases,e.requireTrue);
@@ -28,7 +28,7 @@ function validate(root,catalog,savedSelection=null){
 }
 function prelaunch(root,context){
   e.requireTrue(process.platform==='win32','DEVELOPMENT_WINDOWS_REQUIRED');
-  const catalog=e.read(path.join(root,'tools/phase3/required-cases.json')),savedSelection=validate(root,catalog);
+  const catalog=e.read(path.join(root,'src/godot-game/tools/lan-checks/required-cases.json')),savedSelection=validate(root,catalog);
   const review=e.read(e.inside(root,reviewPath));
   const reference=file=>({path:file,sha256:e.hash(fs.readFileSync(e.inside(root,file)))});
   require('./revisions.cjs').review(root,review,reference(reviewPath),context);

@@ -1,7 +1,7 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),dgram=require('node:dgram');
 const {spawn}=require('node:child_process');
-const {acquireLock}=require('../phase2/check.cjs');
+const {acquireLock}=require('../gameplay-checks/check.cjs');
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 function requireTrue(value,message){if(!value)throw new Error(message);}
 async function allocatePort(){
@@ -16,7 +16,7 @@ function frames(peer){
 }
 function launch(context,role,port,retainedRoot=null){
   const directory=path.join(context.directory,role);fs.mkdirSync(directory);
-  const pins=JSON.parse(fs.readFileSync(path.join(context.root,'tools/phase1/toolchain.json'),'utf8'));
+  const pins=JSON.parse(fs.readFileSync(path.join(context.root,'src/godot-game/tools/verification/toolchain.json'),'utf8'));
   const archive=pins.archives[context.platform];requireTrue(archive,'ENGINE_PLATFORM');
   const consoleEngine=path.join(context.root,'.phase1/tools',archive.directory,archive.executable);
   requireTrue(fs.existsSync(consoleEngine),'ENGINE_MISSING');

@@ -4,7 +4,6 @@
   "project": "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj",
   "assembly": "src/godot-game/tests/verification/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll",
   "inputs": [
-    "tools/phase1",
     "tools/code-rules",
     "src",
     "docs",
@@ -19,8 +18,6 @@
     ".planning/ROADMAP.md",
     ".planning/STATE.md",
     ".planning/research/SUMMARY.md",
-    "tools/dotnet.cjs",
-    "tools/repository-layout.test.cjs",
     "README.md",
     "tools/README.md"
   ],

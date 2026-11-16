@@ -25,7 +25,7 @@ internal static class DocumentationProjects
         return errors.Order(comparer: StringComparer.Ordinal).ToArray();
     }
 
-    private const string Policy = "tools/phase1/projects.json";
+    private const string Policy = "src/godot-game/tools/verification/projects.json";
     private const string Analyzer = "tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj";
     private static void CheckPage(IReadOnlyDictionary<string, byte[]> files, string root, JsonArray policy,
             string project, string page, List<string> errors)

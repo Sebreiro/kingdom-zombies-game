@@ -436,7 +436,7 @@ public sealed class GraphTests
     public void Evaluate_MalformedPolicySelectors_ReportsRequired()
     {
         var fixture = new GraphFixture();
-        string path = Path.Combine(path1: fixture.Root, path2: "tools/phase1/projects.json");
+        string path = Path.Combine(path1: fixture.Root, path2: "src/godot-game/tools/verification/projects.json");
         string original = File.ReadAllText(path: path);
         foreach (string mutation in new[] { "missing", "null", "empty", "duplicate" })
         {
@@ -488,7 +488,7 @@ public sealed class GraphTests
         string ports = "../multiplayer-abstractions/KingdomZombies.Multiplayer.Abstractions.csproj";
         File.WriteAllText(path: core, contents: File.ReadAllText(path: core).Replace(oldValue: game + ";" + ports,
                 newValue: ports + ";" + game, comparisonType: System.StringComparison.Ordinal));
-        string path = Path.Combine(path1: fixture.Root, path2: "tools/phase1/projects.json");
+        string path = Path.Combine(path1: fixture.Root, path2: "src/godot-game/tools/verification/projects.json");
         System.Text.Json.Nodes.JsonObject policy = System.Text.Json.Nodes.JsonNode.Parse(json:
                 File.ReadAllText(path: path))?.AsObject()
                 ?? throw new InvalidDataException(message: "Missing policy");

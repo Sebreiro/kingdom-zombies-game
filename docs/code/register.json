@@ -2460,7 +2460,7 @@
         "symbol": "R-49"
       },
       "mechanism": {
-        "path": "tools/phase1/coverage-policy.json",
+        "path": "src/godot-game/tools/verification/coverage-policy.json",
         "symbol": "R-49",
         "diagnostics": [],
         "severity": "error",
@@ -2496,7 +2496,7 @@
       "binding": {
         "status": "pending",
         "owner": "Phase 5",
-        "path": "tools/phase1/coverage-policy.json",
+        "path": "src/godot-game/tools/verification/coverage-policy.json",
         "symbol": "R-49",
         "scope": "Real repository-owned analyzer managed modules; fresh measured line/branch evidence required from Phase 5.",
         "positiveMethod": "",
@@ -3988,7 +3988,7 @@
         "symbol": "R-82"
       },
       "mechanism": {
-        "path": "tools/phase1/coverage-policy.json",
+        "path": "src/godot-game/tools/verification/coverage-policy.json",
         "symbol": "R-82",
         "diagnostics": [],
         "severity": "error",
@@ -4024,7 +4024,7 @@
       "binding": {
         "status": "pending",
         "owner": "Phase 5",
-        "path": "tools/phase1/coverage-policy.json",
+        "path": "src/godot-game/tools/verification/coverage-policy.json",
         "symbol": "R-82",
         "scope": "Real Core, ports and native-hosted Godot managed production modules; fresh measured line/branch evidence required from Phase 5.",
         "positiveMethod": "",

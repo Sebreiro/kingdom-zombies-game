@@ -4,7 +4,7 @@
 | --- | --- |
 | Repository layout, file ownership and migration map | [Layout policy](repository-layout.md), [game workspace](../../src/godot-game/README.md) |
 | Pull request review process and linked authorities | [Code review](../workflow/code-review.md) |
-| Exact five-project inventory and allowed references | [Project graph](../../tools/phase1/projects.json), [evaluated graph policy](../../src/godot-game/tests/verification/ArchitecturePolicy.cs) |
+| Exact five-project inventory and allowed references | [Project graph](../../src/godot-game/tools/verification/projects.json), [evaluated graph policy](../../src/godot-game/tests/verification/ArchitecturePolicy.cs) |
 | Boundary rationale and proven baseline | [Boundaries](boundaries.md), [development baseline](decisions/0001-development-baseline.md) |
 | Each project's purpose and checked reference declaration | [Core](../../src/godot-game/core/docs/README.md), [service ports](../../src/godot-game/multiplayer-abstractions/docs/README.md), [Godot](../../src/godot-game/game/docs/README.md), [analyzer](../../tools/code-rules/docs/README.md), [proofs](../../src/godot-game/tests/verification/docs/README.md) |
 | Compiled public/type boundaries and engine access | [Type scanner](../../src/godot-game/tests/verification/TypeBoundaryScanner.cs), [engine access policy](../../src/godot-game/tests/verification/EngineAccessPolicy.cs) |

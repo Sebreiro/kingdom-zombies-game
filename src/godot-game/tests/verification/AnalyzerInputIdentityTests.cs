@@ -20,7 +20,7 @@ public sealed class AnalyzerInputIdentityTests
         string copy = Path.Combine(path1: directory, path2: "tools/code-rules/NamedArgumentAnalyzer.cs");
         File.Copy(sourceFileName: source, destFileName: copy);
         string script = ("const fs=require('fs'),path=require('path'),c=require('"
-                + "./tools/phase1/check.cjs'),m=require('./tools/phase1/re"
+                + "./src/godot-game/tools/verification/check.cjs'),m=require('./src/godot-game/tools/verification/re"
                 + "quired-cases.json');if(!m.inputs.includes('tools/code-r"
                 + "ules'))throw Error('ANALYZER_SCOPE_MISSING');const root"
                 + "=fs.realpathSync(process.env.PHASE1_IDENTITY_COPY),befo"

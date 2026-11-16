@@ -2,7 +2,7 @@
 const fs=require('node:fs'),path=require('node:path'),{spawn}=require('node:child_process');
 const {StringDecoder}=require('node:string_decoder');
 const e=require('./evidence.cjs');
-const {command,killTree}=require('../phase2/rendered.cjs');
+const {command,killTree}=require('../gameplay-checks/rendered.cjs');
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 const now=()=>process.hrtime.bigint();
 const streams=new Map();
@@ -32,7 +32,7 @@ async function until(peers,predicate,label,milliseconds=12000){
 }
 function driver(context,peers){
   e.requireTrue(process.platform==='win32','WINDOWS_ONLY');
-  const child=spawn('powershell.exe',['-NoProfile','-ExecutionPolicy','Bypass','-File',path.join(context.root,'tools/phase3/windows-input.ps1'),
+  const child=spawn('powershell.exe',['-NoProfile','-ExecutionPolicy','Bypass','-File',path.join(context.root,'src/godot-game/tools/lan-checks/windows-input.ps1'),
     '-OwnedPids',peers.map(row=>row.pid).join(','),'-Nonce',context.nonce],{cwd:context.root,env:context.env,windowsHide:true,stdio:['pipe','pipe','pipe']});
   let buffer='',stderr='',sequence=0,ended=false,error,closed=false;const pending=new Map(),records=[];
   let readyResolve;const ready=new Promise(resolve=>readyResolve=resolve);
@@ -57,7 +57,7 @@ function driver(context,peers){
     if(!ended){child.stdin.end(JSON.stringify({nonce:context.nonce,sequence:++sequence,action:'close'})+'\n');
       await Promise.race([new Promise(resolve=>child.once('exit',resolve)),delay(3000)]);if(!ended){killTree(child);await Promise.race([new Promise(resolve=>child.once('exit',resolve)),delay(1000)]);}}
     fs.writeFileSync(path.join(context.directory,'native-input-'+child.pid+'.json'),JSON.stringify({pid:child.pid,nonce:context.nonce,
-      ownedPids:peers.map(peer=>peer.pid),scriptSha256:e.hash(fs.readFileSync(path.join(context.root,'tools/phase3/windows-input.ps1'))),records,stderr,ended},null,2),{flag:'wx'});
+      ownedPids:peers.map(peer=>peer.pid),scriptSha256:e.hash(fs.readFileSync(path.join(context.root,'src/godot-game/tools/lan-checks/windows-input.ps1'))),records,stderr,ended},null,2),{flag:'wx'});
     e.requireTrue(ended&&!stderr&&!error,'DRIVER_CLEANUP '+stderr);
   }
   return {start,send,close,child,records,file:path.join(context.directory,'native-input-'+child.pid+'.json')};
@@ -163,7 +163,7 @@ async function stopAgreement(context,peers,origin,release,own){
   }return rows;
 }
 async function timingControl(context,item){
-  const result=await command(process.execPath,['--test','--test-reporter=tap',path.join(context.root,'tools/phase3/timing.test.cjs')],{cwd:context.root,env:context.env},60000);
+  const result=await command(process.execPath,['--test','--test-reporter=tap',path.join(context.root,'src/godot-game/tools/lan-checks/timing.test.cjs')],{cwd:context.root,env:context.env},60000);
   const output=item.id+'.tap';fs.writeFileSync(path.join(context.directory,output),result.stdout,{flag:'wx'});
   const control=item.id+'.control.json';fs.writeFileSync(path.join(context.directory,control),JSON.stringify({status:'pass',subject:'inclusive conservative draw timing rejection controls; no rendered or physical-input credit'}),{flag:'wx'});
   return {id:item.id,status:'pass',nonce:context.nonce,input:context.input,tool:context.tool,platform:context.platform,revision:context.revision,osFingerprint:context.osFingerprint,

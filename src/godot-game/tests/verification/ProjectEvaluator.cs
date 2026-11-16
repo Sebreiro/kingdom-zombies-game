@@ -72,7 +72,7 @@ internal static class ProjectEvaluator
         "Sebreiro.CodeRules.Analyzers.NamedArgumentAnalyzer", "KingdomZombies.Phase1.Tests.GraphTests"];
     private static Dictionary<string, string[]> ReadPolicy(string root, List<string> errors)
     {
-        string path = Path.Combine(path1: root, path2: "tools/phase1/projects.json");
+        string path = Path.Combine(path1: root, path2: "src/godot-game/tools/verification/projects.json");
         if (new FileInfo(fileName: path).Length is 0 or > 32768)
         {
             throw new InvalidDataException(message: "GRAPH_POLICY: bounded nonempty policy required " + path);

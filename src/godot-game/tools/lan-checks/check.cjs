@@ -2,7 +2,7 @@
 const {launch:dotnetLaunch}=require('../dotnet.cjs');
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),os=require('node:os');
 const {spawnSync}=require('node:child_process');
-const baseline=require('../phase1/check.cjs'),e=require('./evidence.cjs');
+const baseline=require('../verification/check.cjs'),e=require('./evidence.cjs');
 const {run:command}=require('./processes.cjs');
 const {observed}=require('./network.cjs');
 const {hash,requireTrue}=e;
@@ -17,11 +17,8 @@ function select(catalog,args){
   const ids=args[1].split(',');requireTrue(new Set(ids).size===ids.length,'SELECTION_DUPLICATE');
   requireTrue(ids.every(id=>id.length>0&&known.has(id)),'SELECTION_EMPTY_OR_UNKNOWN');return {selected:ids.map(id=>known.get(id))};
 }
-function inputManifest(){return {inputs:['src','tools/phase3','tools/phase2','tools/phase1/toolchain.json','tools/dotnet.cjs',
-  '.editorconfig','docs/code','docs/architecture','tools/code-rules',
-  'docs/workflow/local-testing.md','docs/workflow/ai-collaboration.md',
-  '.planning/phases/03-four-player-lan-foundation/03-SCENARIOS.md','.planning/phases/03-four-player-lan-foundation/03-SELECTION.json']};}
-function environment(root){return {...process.env,CustomAfterMicrosoftCommonTargets:path.join(root,'tools/phase3/reviewed-source.targets'),
+function inputManifest(){return {inputs:['src','.editorconfig','docs/code','docs/architecture','tools/code-rules','docs/workflow/local-testing.md','docs/workflow/ai-collaboration.md','.planning/phases/03-four-player-lan-foundation/03-SCENARIOS.md','.planning/phases/03-four-player-lan-foundation/03-SELECTION.json']};}
+function environment(root){return {...process.env,CustomAfterMicrosoftCommonTargets:path.join(root,'src/godot-game/tools/lan-checks/reviewed-source.targets'),
   DOTNET_CLI_HOME:path.join(root,'.phase1/cli-home'),NUGET_PACKAGES:path.join(root,'.phase1/packages'),
   NUGET_HTTP_CACHE_PATH:path.join(root,'.phase1/http-cache'),TEMP:path.join(root,'.phase1/temp'),TMP:path.join(root,'.phase1/temp')};}
 function createIdentity(root){
@@ -32,7 +29,7 @@ function createIdentity(root){
   const operatingSystem={platform:process.platform,architecture:process.arch,release:os.release(),version:os.version()};
   return {platform:process.platform+'-'+process.arch,os:operatingSystem,osFingerprint:hash(JSON.stringify(operatingSystem)),
     input:baseline.snapshot(root,inputManifest()).sha256,revision:revision.stdout.trim(),buildRevision,
-    tool:hash(JSON.stringify({node:process.version,dotnet:version.stdout.trim(),pins:hash(fs.readFileSync(path.join(root,'tools/phase1/toolchain.json'))),
+    tool:hash(JSON.stringify({node:process.version,dotnet:version.stdout.trim(),pins:hash(fs.readFileSync(path.join(root,'src/godot-game/tools/verification/toolchain.json'))),
       testBinary:hash(fs.readFileSync(path.join(root,'src/godot-game/tests/verification/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll')))}))};
 }
 async function csharp(context,item){
@@ -51,7 +48,7 @@ async function csharp(context,item){
   return {...proof,revision:context.revision,osFingerprint:context.osFingerprint,testReport:item.id+'.ctrf.json',artifacts:[...proof.evidence,item.id+'.ctrf.json'].map(file=>({path:file,sha256:hash(fs.readFileSync(e.inside(context.directory,file)))}))};
 }
 async function main(root,args){
-  const catalog=e.read(path.join(root,'tools/phase3/required-cases.json'));
+  const catalog=e.read(path.join(root,'src/godot-game/tools/lan-checks/required-cases.json'));
   if(args[0]==='--verify-completion'){
     requireTrue(args.length===2,'USAGE_COMPLETION');const index=e.read(e.inside(root,args[1]));
     const current=createIdentity(root);const result=e.verifyCompletion(root,index,catalog.cases,current);console.log(JSON.stringify(result));return result;
@@ -97,4 +94,4 @@ async function main(root,args){
   if(status!=='pass')process.exitCode=1;return summary;
 }
 module.exports={main,select,csharp,requireTrue,hash,inputManifest,createIdentity,environment};
-if(require.main===module)main(path.resolve(__dirname,'../..'),process.argv.slice(2)).catch(error=>{console.error(error.stack);process.exitCode=1;});
+if(require.main===module)main(path.resolve(__dirname,'../../../..'),process.argv.slice(2)).catch(error=>{console.error(error.stack);process.exitCode=1;});

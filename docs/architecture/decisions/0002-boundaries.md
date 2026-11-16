@@ -8,7 +8,7 @@ The game requires replaceable multiplayer services and rules independent of Godo
 
 ## Decision
 
-Keep exactly the [five declared projects](../../../tools/phase1/projects.json). Core holds pure state contracts; Multiplayer.Abstractions holds service ports; the existing Godot project composes them. The analyzer and Phase1.Tests projects provide tooling and proof. Enforce evaluated direct/transitive references and compiled type surfaces with the [architecture policy](../../../src/godot-game/tests/verification/ArchitecturePolicy.cs) and [type scanner](../../../src/godot-game/tests/verification/TypeBoundaryScanner.cs). The test-only Core inspection edge does not grant product dependencies.
+Keep exactly the [five declared projects](../../../src/godot-game/tools/verification/projects.json). Core holds pure state contracts; Multiplayer.Abstractions holds service ports; the existing Godot project composes them. The analyzer and Phase1.Tests projects provide tooling and proof. Enforce evaluated direct/transitive references and compiled type surfaces with the [architecture policy](../../../src/godot-game/tests/verification/ArchitecturePolicy.cs) and [type scanner](../../../src/godot-game/tests/verification/TypeBoundaryScanner.cs). The test-only Core inspection edge does not grant product dependencies.
 
 ## Consequences
 

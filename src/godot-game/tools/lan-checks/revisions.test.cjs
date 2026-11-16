@@ -1,8 +1,8 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const {spawnSync}=require('node:child_process'),e=require('./evidence.cjs'),r=require('./revisions.cjs');
-const catalog=require('./catalog.cjs'),baseline=require('../phase1/check.cjs'),check=require('./check.cjs');
-const project=path.resolve(__dirname,'../..');
+const catalog=require('./catalog.cjs'),baseline=require('../verification/check.cjs'),check=require('./check.cjs');
+const project=path.resolve(__dirname,'../../../..');
 function fixture(build=false){
   const root=fs.mkdtempSync(path.join(project,'.phase3/revision-control-'));
   const write=(file,value)=>{fs.mkdirSync(path.dirname(path.join(root,file)),{recursive:true});fs.writeFileSync(path.join(root,file),typeof value==='string'?value:JSON.stringify(value));};
@@ -14,14 +14,16 @@ function fixture(build=false){
     const isFile=path.posix.basename(input).includes('.')||input.endsWith('.editorconfig');
     write(isFile?input:input+'/control.txt','CONTROL_ONLY');
   }
-  for(const file of ['tools/phase1/required-cases.json','tools/phase2/required-cases.json','tools/phase3/required-cases.json',catalog.selectionPath,
+  for(const file of ['src/godot-game/tools/verification/required-cases.json','src/godot-game/tools/gameplay-checks/required-cases.json','src/godot-game/tools/lan-checks/required-cases.json',catalog.selectionPath,
     '.planning/phases/03-four-player-lan-foundation/03-SCENARIOS.md'])write(file,fs.readFileSync(path.join(project,file),'utf8'));
-  for(const input of e.read(path.join(root,'tools/phase1/required-cases.json')).inputs){
+  for(const input of e.read(path.join(root,'src/godot-game/tools/verification/required-cases.json')).inputs){
     if(!fs.existsSync(path.join(root,input)))write(path.posix.basename(input).includes('.')?input:input+'/control.txt','CONTROL_ONLY');
   }
+  write('src/godot-game/tools/lan-checks/control.txt','CONTROL_ONLY');
+  write('src/godot-game/tools/verification/toolchain.json',fs.readFileSync(path.join(project,'src/godot-game/tools/verification/toolchain.json'),'utf8'));
   if(build){
     git('remote','add','origin','https://github.com/Sebreiro/kingdom-zombies-game');
-    write('tools/phase3/reviewed-source.targets',fs.readFileSync(path.join(project,'tools/phase3/reviewed-source.targets'),'utf8'));
+    write('src/godot-game/tools/lan-checks/reviewed-source.targets',fs.readFileSync(path.join(project,'src/godot-game/tools/lan-checks/reviewed-source.targets'),'utf8'));
     write('src/godot-game/global.json',fs.readFileSync(path.join(project,'src/godot-game/global.json'),'utf8'));
     write('src/godot-game/NuGet.config','<configuration><packageSources><clear /></packageSources></configuration>');
     write('src/Subject.cs','internal sealed class Subject { internal int Value => 1; }\n');
@@ -31,11 +33,11 @@ function fixture(build=false){
     write('.phase3/build/Subject.csproj','<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><TargetFramework>net10.0</TargetFramework><VersionPrefix>0.1.0</VersionPrefix></PropertyGroup><ItemGroup><Compile Include="../../src/Subject.cs" /></ItemGroup></Project>');
   }
   // These records exercise validators, never claim game/test execution credit.
-  const cases=e.read(path.join(root,'tools/phase3/required-cases.json')).cases.map(row=>({...row,id:row.id==='rendered.timing'?'runner.control-timing':row.id,needsGameWindow:false,roles:undefined,additionalRoles:undefined,group:'runner',implementation:'control'}));
+  const cases=e.read(path.join(root,'src/godot-game/tools/lan-checks/required-cases.json')).cases.map(row=>({...row,id:row.id==='rendered.timing'?'runner.control-timing':row.id,needsGameWindow:false,roles:undefined,additionalRoles:undefined,group:'runner',implementation:'control'}));
   const savedSelection=e.read(path.join(root,catalog.selectionPath));savedSelection.selected.phase3=cases.map(row=>row.id);write(catalog.selectionPath,savedSelection);
   fs.appendFileSync(path.join(root,'.planning/phases/03-four-player-lan-foundation/03-SCENARIOS.md'),'\n`runner.control-timing` control only\n');
-  const phase2=e.read(path.join(root,'tools/phase2/required-cases.json'));phase2.cases=phase2.cases.map(row=>({...row,implementation:'control',images:undefined}));write('tools/phase2/required-cases.json',phase2);
-  write('tools/phase3/required-cases.json',{schemaVersion:1,requiredEnvironment:'development-os',cases});
+  const phase2=e.read(path.join(root,'src/godot-game/tools/gameplay-checks/required-cases.json'));phase2.cases=phase2.cases.map(row=>({...row,implementation:'control',images:undefined}));write('src/godot-game/tools/gameplay-checks/required-cases.json',phase2);
+  write('src/godot-game/tools/lan-checks/required-cases.json',{schemaVersion:1,requiredEnvironment:'development-os',cases});
   const reviewed=commit(),input=baseline.snapshot(root,check.inputManifest()).sha256;
   if(build)compile(root,reviewed);
   const identity=build?pinnedIdentity(root,reviewed):{input,tool:'control-tool',platform:process.platform+'-'+process.arch,osFingerprint:'control-os',buildRevision:reviewed};
@@ -48,14 +50,14 @@ function fixture(build=false){
   const gate=catalog.prelaunch(root,context),selection=gate.savedSelection;
   const record=(family,summary)=>{const prefix='.'+family+'/runs/control';write(prefix+'/summary.json',summary);write(prefix+'/process.json',{code:0,signal:null,timedOut:false,startedAt:10,finishedAt:20});return {...ref(prefix+'/summary.json'),process:ref(prefix+'/process.json')};};
   const inherited={phase1:[],phase2:[],status:'pass',nativeAllowed:true};
-  const p1=e.read(path.join(root,'tools/phase1/required-cases.json'));
+  const p1=e.read(path.join(root,'src/godot-game/tools/verification/required-cases.json'));
   const p1Results=selection.selected.phase1.map(id=>{
     const item=p1.cases.find(row=>row.id===id),prefix='.phase1/runs/control/'+id;
     write(prefix+'/'+id+'.subject.log','CONTROL');write(prefix+'/tests.json',{results:{tool:{version:'4.0.2'},summary:{tests:1,passed:1,failed:0},tests:[{name:item.test,status:'passed',labels:{Case:id}}]}});
     return {id,status:'pass',evidence:[{path:id+'.subject.log',sha256:ref(prefix+'/'+id+'.subject.log').sha256}],report:{path:id+'/tests.json',sha256:ref(prefix+'/tests.json').sha256}};
   });
   inherited.phase1.push(record('phase1',{...identity,revision:tested,nonce:'p1',status:'pass',input:baseline.snapshot(root,p1).sha256,selected:selection.selected.phase1,results:p1Results}));
-  const p2Manifest={inputs:['src','tools/phase2','tools/phase1/toolchain.json','tools/dotnet.cjs','.editorconfig','docs/code']};
+  const p2Manifest={inputs:['src','.editorconfig','docs/code']};
   const p2Identity={...identity,input:baseline.snapshot(root,p2Manifest).sha256,revision:tested,nonce:'p2'};
   inherited.phase2.push(record('phase2',{schemaVersion:2,...p2Identity,status:'pass',startedAt:10,finishedAt:20,failures:[],selected:selection.selected.phase2,results:selection.selected.phase2.map(id=>({...p2Identity,id,status:'pass'}))}));
   inherited.commands=['phase1','phase2'].map(family=>{
@@ -77,7 +79,7 @@ function fixture(build=false){
   const closure=commit();return {root,write,git,commit,reviewed,tested,closure,context,review,gate,identity,index,cases,ref};
 }
 function compile(root,stamp,pinSourceRoot=true){
-  const env={...check.environment(project),SourceRevisionId:stamp??'',CustomAfterMicrosoftCommonTargets:pinSourceRoot?path.join(root,'tools/phase3/reviewed-source.targets'):''};
+  const env={...check.environment(project),SourceRevisionId:stamp??'',CustomAfterMicrosoftCommonTargets:pinSourceRoot?path.join(root,'src/godot-game/tools/lan-checks/reviewed-source.targets'):''};
   const args=['build','.phase3/build/Subject.csproj','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'];
   const configured=require('../dotnet.cjs').launch(root,'dotnet',args);
   const startedAt=Date.now(),result=spawnSync('dotnet',configured.args,
@@ -110,7 +112,7 @@ test('committed metadata closure validates original review and completion withou
   assert.deepEqual(fs.readFileSync(path.join(f.root,f.gate.review.report.path)),review);
   const inherited=e.read(path.join(f.root,f.index.finalReport.path)).inherited.phase1[0];
   const inheritedFile=path.join(f.root,inherited.path),subject=e.read(inheritedFile).results[0];
-  const directory=path.dirname(inheritedFile),item=e.read(path.join(f.root,'tools/phase1/required-cases.json')).cases.find(row=>row.id===subject.id);
+  const directory=path.dirname(inheritedFile),item=e.read(path.join(f.root,'src/godot-game/tools/verification/required-cases.json')).cases.find(row=>row.id===subject.id);
   const verify=value=>e.verifyPhase1Proof(directory,value,item),record=subject.evidence[0];
   verify(subject);
   assert.throws(()=>verify({...subject,evidence:[{...record,sha256:'0'.repeat(64)}]}),/ARTIFACT_HASH/);
@@ -125,12 +127,12 @@ test('committed metadata closure validates original review and completion withou
   assert.throws(()=>r.relation(f.root,f.closure,f.tested,f.identity.input));
   const unrelated=f.git('commit-tree',f.git('rev-parse','HEAD^{tree}'),'-m','unrelated');
   assert.throws(()=>r.relation(f.root,unrelated,f.closure,f.identity.input));
-  for(const file of ['src/control.txt','tools/phase3/control.txt',catalog.selectionPath]){
+  for(const file of ['src/control.txt','src/godot-game/tools/lan-checks/control.txt',catalog.selectionPath]){
     const bytes=fs.readFileSync(path.join(f.root,file));f.write(file,'changed');
     assert.throws(()=>e.verifyCompletion(f.root,f.index,f.cases,current));
     fs.writeFileSync(path.join(f.root,file),bytes);
   }
-  for(const file of ['src/control.txt','tools/phase3/control.txt',catalog.selectionPath]){
+  for(const file of ['src/control.txt','src/godot-game/tools/lan-checks/control.txt',catalog.selectionPath]){
     f.git('checkout','--detach',f.closure);fs.appendFileSync(path.join(f.root,file),'\n');const changed=f.commit();
     assert.throws(()=>r.relation(f.root,f.tested,changed,f.identity.input),/REVISION_NON_METADATA/);
     assert.throws(()=>catalog.prelaunch(f.root,{...f.context,revision:changed}));

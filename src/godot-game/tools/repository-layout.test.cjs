@@ -1,8 +1,9 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict');
 const fs=require('node:fs'),path=require('node:path'),os=require('node:os');
+const {spawnSync}=require('node:child_process');
 const {launch}=require('./dotnet.cjs');
-const root=path.resolve(__dirname,'..'),workspace=path.join(root,'src/godot-game');
+const root=path.resolve(__dirname,'../../..'),workspace=path.join(root,'src/godot-game');
 
 test('solution resolves exactly the five projects from its own directory',()=>{
   const expected=['core/KingdomZombies.Core.csproj','multiplayer-abstractions/KingdomZombies.Multiplayer.Abstractions.csproj',
@@ -49,4 +50,23 @@ test('authored C# and game resources stay in the workspace, with the reusable an
   visit(root);
   assert.ok(authored.some(file=>file.startsWith('src/godot-game/references/')),'reference artwork is checked');
   for(const file of authored)assert.ok(file.startsWith('src/godot-game/')||file.startsWith('tools/code-rules/'),file);
+});
+
+test('game-only tools use purpose names in the workspace without old forwarding entry points',()=>{
+  for(const folder of ['verification','gameplay-checks','lan-checks'])
+    assert.ok(fs.existsSync(path.join(workspace,'tools',folder,'check.cjs')),folder);
+  for(const folder of ['phase1','phase2','phase3'])
+    assert.equal(fs.existsSync(path.join(root,'tools',folder,'check.cjs')),false,folder);
+  for(const file of ['dotnet.cjs','repository-layout.test.cjs'])
+    assert.equal(fs.existsSync(path.join(root,'tools',file)),false,file);
+});
+
+test('check entry points resolve the current game catalogs from an unrelated working directory',()=>{
+  for(const folder of ['verification','gameplay-checks','lan-checks']){
+    const script=path.join(workspace,'tools',folder,'check.cjs');
+    const run=spawnSync(process.execPath,[script,'--list'],{cwd:os.tmpdir(),encoding:'utf8',windowsHide:true,timeout:15000});
+    assert.equal(run.status,0,folder+': '+run.stderr);
+    const catalog=JSON.parse(fs.readFileSync(path.join(path.dirname(script),'required-cases.json'),'utf8'));
+    assert.equal(JSON.parse(run.stdout).length,catalog.cases.length,folder);
+  }
 });

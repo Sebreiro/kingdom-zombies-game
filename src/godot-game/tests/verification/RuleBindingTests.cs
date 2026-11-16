@@ -155,7 +155,7 @@ public sealed class RuleBindingTests
 
     private static JsonObject Cases()
     {
-        return RegisterValidator.Read(relative: "tools/phase1/required-cases.json");
+        return RegisterValidator.Read(relative: "src/godot-game/tools/verification/required-cases.json");
     }
 
     private static string Matrix()

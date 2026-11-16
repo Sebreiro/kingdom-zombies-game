@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const { spawnSync } = require('node:child_process');
-const baseline = require('../phase1/check.cjs');
+const baseline = require('../verification/check.cjs');
 const { rendered, command } = require('./rendered.cjs');
 const evidence = require('./evidence.cjs');
 const {hash,requireTrue,inside,read,reconcile,loadReport,aggregate,verifyCompletion} = evidence;
@@ -72,7 +72,7 @@ async function main(root,args) {
   const directory=inside(root,'.phase2/runs/'+platform+'/'+nonce);
   fs.mkdirSync(directory,{recursive:true});
   const started=Date.now(),results=[],failures=[];
-  const manifest={inputs:['src','tools/phase2','tools/phase1/toolchain.json','tools/dotnet.cjs','.editorconfig','docs/code']};
+  const manifest={inputs:['src','.editorconfig','docs/code']};
   const env={...process.env,DOTNET_CLI_HOME:path.join(root,'.phase1/cli-home'),NUGET_PACKAGES:path.join(root,'.phase1/packages'),NUGET_HTTP_CACHE_PATH:path.join(root,'.phase1/http-cache'),TEMP:path.join(root,'.phase1/temp'),TMP:path.join(root,'.phase1/temp')};
   const context={root,directory,nonce,platform,input:null,tool:null,env};
   let unlock;
@@ -83,7 +83,7 @@ async function main(root,args) {
     const version=spawnSync('dotnet',['--version'],{cwd:dotnetLaunch(root,'dotnet',[]).cwd,env,encoding:'utf8',windowsHide:true,timeout:12000});
     requireTrue(version.status===0,'DOTNET_MISSING');
     context.tool=hash(JSON.stringify({node:process.version,dotnet:version.stdout.trim(),
-      pins:hash(fs.readFileSync(path.join(root,'tools/phase1/toolchain.json'))),
+      pins:hash(fs.readFileSync(path.join(root,'src/godot-game/tools/verification/toolchain.json'))),
       testBinary:hash(fs.readFileSync(path.join(root,'src/godot-game/tests/verification/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll')))}));
     for(const item of selection.selected.filter(row=>row.implementation==='csharp')) {
       console.log('Checking '+item.id);
@@ -93,7 +93,7 @@ async function main(root,args) {
     const native=selection.selected.filter(row=>row.implementation==='native');
     if(native.length) {
       unlock=acquireLock(root,nonce);
-      const pins=read(path.join(root,'tools/phase1/toolchain.json')),archive=pins.archives[platform];
+      const pins=read(path.join(root,'src/godot-game/tools/verification/toolchain.json')),archive=pins.archives[platform];
       requireTrue(archive,'PLATFORM_UNSUPPORTED');
       const engine=inside(root,'.phase1/tools/'+archive.directory+'/'+archive.executable);
       requireTrue(fs.existsSync(engine),'ENGINE_MISSING');
@@ -126,4 +126,4 @@ async function main(root,args) {
   if(status!=='pass')process.exitCode=1;return summary;
 }
 module.exports={main,select,reconcile,acquireLock};
-if(require.main===module)main(path.resolve(__dirname,'../..'),process.argv.slice(2)).catch(error=>{console.error(error.stack);process.exitCode=1;});
+if(require.main===module)main(path.resolve(__dirname,'../../../..'),process.argv.slice(2)).catch(error=>{console.error(error.stack);process.exitCode=1;});
