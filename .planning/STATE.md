@@ -4,17 +4,18 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 04
 current_phase_name: Asset production
-current_plan: 4
+current_plan: 5
 status: executing
-stopped_at: Completed 04-34-PLAN.md; exact SDK export layout prerequisite verified; next resume preserved 04-02 Task1; no ASSET requirement complete
-last_updated: "2026-11-16T15:18:16.242Z"
+stopped_at: Completed 04-35-PLAN.md; permanent profile verified; next resume preserved 04-02 Task1 for actual packaged Inspection entry; all ASSET requirements pending
+last_updated: "2026-11-16T15:37:47.424Z"
 last_activity: 2026-11-16
 last_activity_desc: Completed 04-34 exact SDK export layout prerequisite; resume preserved 04-02 Task1; all ASSET requirements pending
+state_head: cba08124697b82a27a2c0059b069d04b688b4fea
 progress:
   total_phases: 11
   completed_phases: 3
   total_plans: 60
-  completed_plans: 28
+  completed_plans: 29
   percent: 27
 ---
 
@@ -31,7 +32,7 @@ Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUM
 ## Current Position
 
 Phase: 04 (Asset production) — READY TO EXECUTE
-Current Plan: 4
+Current Plan: 5
 Total Plans in Phase: 35
 Status: Ready to execute
 Last activity: 2026-11-16 — Completed 04-34 exact SDK export layout prerequisite; resume preserved 04-02 Task 1; all ASSET requirements pending
@@ -86,6 +87,7 @@ Milestone progress: 3/11 phases complete; 28/59 currently planned plans summariz
 | Phase 04 P01 | 10min | 2 tasks | 5 files |
 | Phase 04 P25 | 12min | 2 tasks | 6 files |
 | Phase 04 P34 | 20min | 2 tasks | 7 files |
+| Phase 04 P35 | 13min | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -109,6 +111,8 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - [Phase 04]: Retain immutable output identities and generations; replace only the validated current manifest pointer under an exclusive lock.
 - [Phase 04]: 04-34 permits only six authenticated Windows SDK export path/hash/line tuples; original Debug/source/member permissions and IDs remain unchanged.
 - [Phase 04]: 04-34 completes only the ASSET-05 managed export layout prerequisite; all ASSET requirements remain pending and preserved 04-02 Task1 resumes without repeating committed audio Task2.
+- [Phase 04]: 04-35 permanently selects Inspection through asset_inspection export feature and qualified main; ordinary Foundation configuration remains exact.
+- [Phase 04]: 04-35 source/headless configuration/resource proof supplies no packaged Inspection startup credit; resume preserved 04-02 Task1 for fresh actual native consumer proof, without repeating committed audio Task2; all ASSET requirements remain pending.
 
 ### Pending Todos
 
@@ -152,8 +156,8 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 
 ## Session Continuity
 
-Last session: 2026-11-16T14:25:07.267Z
-Stopped at: Completed 04-34-PLAN.md; exact SDK export layout prerequisite verified; next resume preserved 04-02 Task1; no ASSET requirement complete
+Last session: 2026-11-16T15:37:46.862Z
+Stopped at: Completed 04-35-PLAN.md; permanent profile verified; next resume preserved 04-02 Task1 for actual packaged Inspection entry; all ASSET requirements pending
 Resume file: None
 
 Next action: Resume preserved 04-02 Task 1 on feature/04-asset-production after completed 04-34; retain draft PR #5 targeting dev and committed audio Task 2. Three of 34 Phase 4 plans are summarized; all ASSET requirements and actual phase acceptance remain pending.
