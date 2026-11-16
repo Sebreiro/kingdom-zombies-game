@@ -78,7 +78,7 @@ public sealed class ConsumerPolicyTests
                         outputKind: OutputKind.DynamicallyLinkedLibrary));
         ConsumerCompilation.RequireValid(compilation: compilation);
         var assembly = Assembly.Load(rawAssembly: File.ReadAllBytes(path: Path.Combine(path1: ProofProtocol.Root,
-                path2: "tools/code-rules/bin/Debug/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll")));
+                path2: "src/godot-game/tools/code-rules/bin/Debug/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll")));
         Type type = assembly.GetType(name: "Sebreiro.CodeRules.Analyzers.NamedArgumentAnalyzer", throwOnError: true)
                 ?? throw new InvalidDataException(message: "Actual analyzer type required");
         DiagnosticAnalyzer analyzer = Activator.CreateInstance(type: type) as DiagnosticAnalyzer

@@ -1,11 +1,4 @@
-<Project>
-  <PropertyGroup>
-    <DirectoryBuildPropsPath>$(MSBuildThisFileDirectory)../../src/godot-game/Directory.Build.props</DirectoryBuildPropsPath>
-    <DirectoryBuildTargetsPath>$(MSBuildThisFileDirectory)../../src/godot-game/Directory.Build.targets</DirectoryBuildTargetsPath>
-    <DirectoryPackagesPropsPath>$(MSBuildThisFileDirectory)../../src/godot-game/Directory.Packages.props</DirectoryPackagesPropsPath>
-    <RestoreConfigFile>$(MSBuildThisFileDirectory)../../src/godot-game/NuGet.config</RestoreConfigFile>
-  </PropertyGroup>
-  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
@@ -21,5 +14,4 @@
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" PrivateAssets="all" />
   </ItemGroup>
-  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
 </Project>

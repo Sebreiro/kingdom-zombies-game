@@ -17,7 +17,7 @@ function select(catalog,args){
   const ids=args[1].split(',');requireTrue(new Set(ids).size===ids.length,'SELECTION_DUPLICATE');
   requireTrue(ids.every(id=>id.length>0&&known.has(id)),'SELECTION_EMPTY_OR_UNKNOWN');return {selected:ids.map(id=>known.get(id))};
 }
-function inputManifest(){return {inputs:['src','.editorconfig','docs/code','docs/architecture','tools/code-rules','docs/workflow/local-testing.md','docs/workflow/ai-collaboration.md','.planning/phases/03-four-player-lan-foundation/03-SCENARIOS.md','.planning/phases/03-four-player-lan-foundation/03-SELECTION.json']};}
+function inputManifest(){return {inputs:['src','.editorconfig','docs/code','docs/architecture','docs/workflow/local-testing.md','docs/workflow/ai-collaboration.md','.planning/phases/03-four-player-lan-foundation/03-SCENARIOS.md','.planning/phases/03-four-player-lan-foundation/03-SELECTION.json']};}
 function environment(root){return {...process.env,CustomAfterMicrosoftCommonTargets:path.join(root,'src/godot-game/tools/lan-checks/reviewed-source.targets'),
   DOTNET_CLI_HOME:path.join(root,'.phase1/cli-home'),NUGET_PACKAGES:path.join(root,'.phase1/packages'),
   NUGET_HTTP_CACHE_PATH:path.join(root,'.phase1/http-cache'),TEMP:path.join(root,'.phase1/temp'),TMP:path.join(root,'.phase1/temp')};}

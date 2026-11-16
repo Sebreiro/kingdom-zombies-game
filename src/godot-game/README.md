@@ -12,7 +12,7 @@ All game runtime projects, resources, reference artwork and game verification te
 | [build](build/README.md) | Banned API lists and the specialized generated xUnit entry-point policy |
 | [tools](tools/README.md) | Game-specific verification, local gameplay and LAN programs, shared launch helpers and their self-tests |
 
-The separate assemblies keep their existing dependency boundaries. Moving them beneath one workspace does not permit Core or service contracts to depend on Godot. The reusable analyzer is the fifth solution project and remains in [tools/code-rules](../../tools/code-rules/docs/README.md).
+The separate assemblies keep their existing dependency boundaries. Moving them beneath one workspace does not permit Core or service contracts to depend on Godot. The configured analyzer is the fifth solution project in [tools/code-rules](tools/code-rules/docs/README.md). Its core rules are reusable, while this copy also contains exact KingdomZombies/Godot generated-code permissions, so it belongs with the game's tools.
 
 ## Build configuration
 

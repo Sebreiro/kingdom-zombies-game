@@ -12,8 +12,9 @@ These programs prepare, inspect and test KingdomZombies. They are game-specific,
 | [lan-checks](lan-checks/check.cjs) | Multiplayer scenarios, process coordination, timing, input and image evidence, and inherited-check orchestration |
 | [dotnet.cjs](dotnet.cjs) | Select the workspace SDK configuration while preserving explicit subject paths; an internal launch helper |
 | [repository-layout.test.cjs](repository-layout.test.cjs) | Check workspace/tool ownership, project placement and command root discovery |
+| [code-rules](code-rules/docs/README.md) | Twelve C# syntax/style analyzers plus this repository's exact Godot/KingdomZombies generated-code permissions |
 
-The reusable [C# analyzer package](../../../tools/code-rules/docs/README.md) remains at the repository tools root because it has no game dependency. Game C# tests live in [tests/verification](../tests/verification/docs/README.md); Node self-tests stay beside their tools here.
+The analyzer's core rules are reusable, but this repository's configured copy includes game-specific generated-source permissions. It therefore lives here too, without introducing any game assembly dependency into the analyzer. Game C# tests live in [tests/verification](../tests/verification/docs/README.md); Node self-tests stay beside their tools here. No current tool folder remains at the repository root.
 
 ## Commands
 

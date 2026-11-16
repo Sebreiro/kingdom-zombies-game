@@ -1,6 +1,6 @@
 # Game tools - Focused research
 
-The phase-named runners are coupled to this game's project inventory, case catalogs, native scenes and evidence contracts. They are game-specific. The C# analyzer implementation has no game dependency and stays reusable tooling outside the game workspace.
+The phase-named runners are coupled to this game's project inventory, case catalogs, native scenes and evidence contracts. They are game-specific. Deeper inspection also found exact KingdomZombies/Godot generated-source permissions embedded in two analyzer helpers. Its core rules have no game assembly dependency, but the configured package is game-specific and should move into the workspace too. Its shared compiler/package policy can then use normal directory inheritance instead of external-project import overrides.
 
 Moving runners two levels deeper changes `__dirname`-based checkout-root discovery, cross-folder require paths, native driver locations, C# child-process fixtures and test-generated programs. Some fixtures infer protocol families from directory basenames; decouple that inference while retaining original report family names. Treat `path.resolve(__dirname, ...)` separately from root-relative data paths and module-relative require paths.
 

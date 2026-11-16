@@ -8,7 +8,7 @@ The [agent guide](../../AGENTS.md) selects focused references. Executable defini
 | Workspace placement and compiler-policy file purposes | [Layout policy](../architecture/repository-layout.md), [build policy guide](../../src/godot-game/build/README.md) |
 | Source format, naming and severity | [.editorconfig](../../.editorconfig), [source checker](../../src/godot-game/tests/verification/SourceFileFormat.cs) |
 | Compiler policy and analyzer integration | [Shared properties](../../src/godot-game/Directory.Build.props), [shared targets](../../src/godot-game/Directory.Build.targets), [central pins](../../src/godot-game/Directory.Packages.props), [banned symbols](../../src/godot-game/build/BannedSymbols.txt) |
-| Twelve inherited syntax analyzers | [Analyzer project](../../tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj), [named arguments](../../tools/code-rules/NamedArgumentAnalyzer.cs), [body length](../../tools/code-rules/BodyLengthAnalyzer.cs) |
+| Twelve inherited syntax analyzers | [Analyzer project](../../src/godot-game/tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj), [named arguments](../../src/godot-game/tools/code-rules/NamedArgumentAnalyzer.cs), [body length](../../src/godot-game/tools/code-rules/BodyLengthAnalyzer.cs) |
 | All 85 source rule dispositions and exact positive/negative bindings | [Rule register](register.json) |
 | Current source symbols/settings, scopes and distinct proof methods | [Rule mechanism index](rule-matrix.md) |
 | Exact compatibility permissions | [Exemptions](exemptions.json), [permission checker](../../src/godot-game/tests/verification/ExemptionValidator.cs), [engine spans](engine-generated-spans.json) |

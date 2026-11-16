@@ -88,7 +88,7 @@ public sealed class GeneratedSyntaxAdapterTests
                 endLine: Number(row: row, name: "line"), endColumn: Number(row: row, name: "column") + Number(
                         row: row, name: "length"));
         var assembly = Assembly.Load(rawAssembly: File.ReadAllBytes(path: Local(
-                path: "tools/code-rules/bin/Debug/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll")));
+                path: "src/godot-game/tools/code-rules/bin/Debug/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll")));
         string name = StringComparer.Ordinal.Equals(x: diagnostic, y: "SCR0009") ? "ContinuationIndentAnalyzer"
                 : "ThisQualificationAnalyzer";
         Type type = assembly.GetType(name: "Sebreiro.CodeRules.Analyzers." + name)
@@ -115,7 +115,7 @@ public sealed class GeneratedSyntaxAdapterTests
     private static bool Permitted(JsonElement row, SyntaxTree tree, TextSpan span)
     {
         var assembly = Assembly.Load(rawAssembly: File.ReadAllBytes(path: Local(
-                path: "tools/code-rules/bin/Debug/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll")));
+                path: "src/godot-game/tools/code-rules/bin/Debug/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll")));
         MethodInfo method = assembly.GetType(name: "Sebreiro.CodeRules.Analyzers.GeneratedSyntax")?.GetMethod(
                 name: "IsPermitted", bindingAttr: BindingFlags.Static | BindingFlags.NonPublic)
                 ?? throw new InvalidOperationException(message: "Missing syntax permission mechanism");

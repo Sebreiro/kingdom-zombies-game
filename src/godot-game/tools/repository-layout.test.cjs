@@ -8,7 +8,7 @@ const root=path.resolve(__dirname,'../../..'),workspace=path.join(root,'src/godo
 test('solution resolves exactly the five projects from its own directory',()=>{
   const expected=['core/KingdomZombies.Core.csproj','multiplayer-abstractions/KingdomZombies.Multiplayer.Abstractions.csproj',
     'game/KingdomZombies.csproj','tests/verification/KingdomZombies.Phase1.Tests.csproj',
-    '../../tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj'];
+    'tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj'];
   const projects=[...fs.readFileSync(path.join(workspace,'KingdomZombies.slnx'),'utf8').matchAll(/<Project Path="([^"]+)"/g)].map(x=>x[1]);
   assert.deepEqual([...projects].sort(),[...expected].sort());
   for(const project of projects)assert.ok(fs.statSync(path.resolve(workspace,project)).isFile(),project);
@@ -37,7 +37,7 @@ test('fixture roots without workspace policy retain their own working directory'
   }finally{fs.rmdirSync(fixture);}
 });
 
-test('authored C# and game resources stay in the workspace, with the reusable analyzer exception',()=>{
+test('authored C# and game resources stay in the workspace',()=>{
   const authored=[];
   function visit(directory,relative=''){
     for(const entry of fs.readdirSync(directory,{withFileTypes:true})){
@@ -49,7 +49,7 @@ test('authored C# and game resources stay in the workspace, with the reusable an
   }
   visit(root);
   assert.ok(authored.some(file=>file.startsWith('src/godot-game/references/')),'reference artwork is checked');
-  for(const file of authored)assert.ok(file.startsWith('src/godot-game/')||file.startsWith('tools/code-rules/'),file);
+  for(const file of authored)assert.ok(file.startsWith('src/godot-game/'),file);
 });
 
 test('game-only tools use purpose names in the workspace without old forwarding entry points',()=>{

@@ -76,7 +76,7 @@ public sealed class GeneratedLayoutAdapterTests
         using JsonDocument registry = ReadRegistry();
         MetadataReference[] references = PackageReferences();
         var assembly = Assembly.Load(rawAssembly: File.ReadAllBytes(path: Local(
-                path: "tools/code-rules/bin/Debug/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll")));
+                path: "src/godot-game/tools/code-rules/bin/Debug/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll")));
         Type type = assembly.GetType(name: "Sebreiro.CodeRules.Analyzers.LineLengthAnalyzer")
                 ?? throw new InvalidOperationException(message: "Missing LineLength analyzer");
         DiagnosticAnalyzer analyzer = Activator.CreateInstance(type: type) as DiagnosticAnalyzer

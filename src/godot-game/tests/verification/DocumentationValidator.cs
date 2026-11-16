@@ -12,14 +12,14 @@ internal static class DocumentationValidator
     internal static IReadOnlyList<string> Authored =>
     [
         "src/godot-game/tools/README.md",
-        "README.md", "tools/README.md", "src/godot-game/README.md", "src/godot-game/build/README.md",
+        "README.md", "src/godot-game/README.md", "src/godot-game/build/README.md",
         "docs/architecture/repository-layout.md", "docs/workflow/code-review.md",
         "AGENTS.md", "docs/code/README.md", "docs/architecture/README.md", "docs/code/review-checklist.md",
         "docs/architecture/decisions/0001-enforcement.md", "docs/architecture/decisions/0002-boundaries.md",
         "docs/architecture/decisions/0003-state-and-engine.md", "docs/workflow/setup.md",
         "docs/workflow/ai-collaboration.md", "docs/workflow/gsd.md", "docs/workflow/verification.md",
         "src/godot-game/core/docs/README.md", "src/godot-game/multiplayer-abstractions/docs/README.md",
-        "src/godot-game/game/docs/README.md", "tools/code-rules/docs/README.md",
+        "src/godot-game/game/docs/README.md", "src/godot-game/tools/code-rules/docs/README.md",
         "src/godot-game/tests/verification/docs/README.md",
         "docs/code/rule-matrix.md", "docs/code/review.md", "docs/architecture/boundaries.md",
         "docs/architecture/decisions/0001-development-baseline.md"
@@ -87,7 +87,7 @@ internal static class DocumentationValidator
     internal static bool IsOwned(string path)
     {
         return path.EndsWith(value: ".md", comparisonType: StringComparison.Ordinal)
-                && (path is "src/godot-game/tools/README.md" or "README.md" or "tools/README.md" or
+                && (path is "src/godot-game/tools/README.md" or "README.md" or
                         "src/godot-game/README.md"
                         or "src/godot-game/build/README.md" or "AGENTS.md" or ".planning/PROJECT.md" or
                         ".planning/REQUIREMENTS.md"
@@ -149,6 +149,7 @@ internal static class DocumentationValidator
                 || path.StartsWith(value: "src/godot-game/game/docs/", comparisonType: StringComparison.Ordinal)
                 || path.StartsWith(value: "src/godot-game/tests/verification/docs/", comparisonType:
                         StringComparison.Ordinal)
-                || path.StartsWith(value: "tools/code-rules/docs/", comparisonType: StringComparison.Ordinal);
+                || path.StartsWith(value: "src/godot-game/tools/code-rules/docs/", comparisonType:
+                        StringComparison.Ordinal);
     }
 }

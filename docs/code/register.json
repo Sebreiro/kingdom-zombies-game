@@ -422,7 +422,7 @@
         "symbol": "R-09"
       },
       "mechanism": {
-        "path": "tools/code-rules/ContinuationIndentAnalyzer.cs",
+        "path": "src/godot-game/tools/code-rules/ContinuationIndentAnalyzer.cs",
         "symbol": "ContinuationIndentAnalyzer",
         "diagnostics": [
           "SCR0009"
@@ -457,7 +457,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tools/code-rules/ContinuationIndentAnalyzer.cs",
+        "path": "src/godot-game/tools/code-rules/ContinuationIndentAnalyzer.cs",
         "symbol": "ContinuationIndentAnalyzer.Initialize",
         "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
         "positiveMethod": "KingdomZombies.Phase1.Tests.Analyzers.ContinuationIndentAnalyzerTests.WrappedArgument_8Spaces_Passes",
@@ -477,7 +477,7 @@
         "symbol": "R-10"
       },
       "mechanism": {
-        "path": "tools/code-rules/LineLengthAnalyzer.cs",
+        "path": "src/godot-game/tools/code-rules/LineLengthAnalyzer.cs",
         "symbol": "LineLengthAnalyzer",
         "diagnostics": [
           "SCR0007"
@@ -512,7 +512,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tools/code-rules/LineLengthAnalyzer.cs",
+        "path": "src/godot-game/tools/code-rules/LineLengthAnalyzer.cs",
         "symbol": "LineLengthAnalyzer.Initialize",
         "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
         "positiveMethod": "KingdomZombies.Phase1.Tests.Analyzers.LineLengthAnalyzerTests.Line_120Characters_Passes",
@@ -682,7 +682,7 @@
         "symbol": "R-14"
       },
       "mechanism": {
-        "path": "tools/code-rules/UsingOrderAnalyzer.cs",
+        "path": "src/godot-game/tools/code-rules/UsingOrderAnalyzer.cs",
         "symbol": "UsingOrderAnalyzer",
         "diagnostics": [
           "SCR0010"
@@ -712,7 +712,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tools/code-rules/UsingOrderAnalyzer.cs",
+        "path": "src/godot-game/tools/code-rules/UsingOrderAnalyzer.cs",
         "symbol": "UsingOrderAnalyzer.Initialize",
         "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
         "positiveMethod": "KingdomZombies.Phase1.Tests.Analyzers.UsingOrderAnalyzerTests.Analyze_SystemFirstThenAlphabetical_Passes",
@@ -883,7 +883,7 @@
         "symbol": "R-18"
       },
       "mechanism": {
-        "path": "tools/code-rules/LocalNewDeclarationAnalyzer.cs",
+        "path": "src/godot-game/tools/code-rules/LocalNewDeclarationAnalyzer.cs",
         "symbol": "LocalNewDeclarationAnalyzer",
         "diagnostics": [
           "IDE0007",
@@ -914,7 +914,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tools/code-rules/LocalNewDeclarationAnalyzer.cs",
+        "path": "src/godot-game/tools/code-rules/LocalNewDeclarationAnalyzer.cs",
         "symbol": "LocalNewDeclarationAnalyzer.Initialize",
         "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
         "positiveMethod": "KingdomZombies.Phase1.Tests.Analyzers.LocalNewDeclarationAnalyzerTests.Analyze_VarWithNew_Passes",
@@ -1145,7 +1145,7 @@
         "symbol": "R-23"
       },
       "mechanism": {
-        "path": "tools/code-rules/PrimaryConstructorAnalyzer.cs",
+        "path": "src/godot-game/tools/code-rules/PrimaryConstructorAnalyzer.cs",
         "symbol": "PrimaryConstructorAnalyzer",
         "diagnostics": [
           "SCR0003"
@@ -1175,7 +1175,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tools/code-rules/PrimaryConstructorAnalyzer.cs",
+        "path": "src/godot-game/tools/code-rules/PrimaryConstructorAnalyzer.cs",
         "symbol": "PrimaryConstructorAnalyzer.Initialize",
         "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
         "positiveMethod": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.Analyze_OrdinaryConstructor_Passes",
@@ -1195,7 +1195,7 @@
         "symbol": "R-24"
       },
       "mechanism": {
-        "path": "tools/code-rules/PrimaryConstructorAnalyzer.cs",
+        "path": "src/godot-game/tools/code-rules/PrimaryConstructorAnalyzer.cs",
         "symbol": "PrimaryConstructorAnalyzer",
         "diagnostics": [
           "SCR0003"
@@ -1226,7 +1226,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tools/code-rules/PrimaryConstructorAnalyzer.cs",
+        "path": "src/godot-game/tools/code-rules/PrimaryConstructorAnalyzer.cs",
         "symbol": "PrimaryConstructorAnalyzer.Initialize",
         "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
         "positiveMethod": "KingdomZombies.Phase1.Tests.Analyzers.PrimaryConstructorAnalyzerTests.Analyze_NonPositionalRecord_Passes",
@@ -1246,7 +1246,7 @@
         "symbol": "R-25"
       },
       "mechanism": {
-        "path": "tools/code-rules/RegionDirectiveAnalyzer.cs",
+        "path": "src/godot-game/tools/code-rules/RegionDirectiveAnalyzer.cs",
         "symbol": "RegionDirectiveAnalyzer",
         "diagnostics": [
           "SCR0004"
@@ -1276,7 +1276,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tools/code-rules/RegionDirectiveAnalyzer.cs",
+        "path": "src/godot-game/tools/code-rules/RegionDirectiveAnalyzer.cs",
         "symbol": "RegionDirectiveAnalyzer.Initialize",
         "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
         "positiveMethod": "KingdomZombies.Phase1.Tests.Analyzers.RegionDirectiveAnalyzerTests.Analyze_OtherDirectives_Pass",
@@ -1296,7 +1296,7 @@
         "symbol": "R-26"
       },
       "mechanism": {
-        "path": "tools/code-rules/NullForgivingAnalyzer.cs",
+        "path": "src/godot-game/tools/code-rules/NullForgivingAnalyzer.cs",
         "symbol": "NullForgivingAnalyzer",
         "diagnostics": [
           "SCR0005"
@@ -1326,7 +1326,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tools/code-rules/NullForgivingAnalyzer.cs",
+        "path": "src/godot-game/tools/code-rules/NullForgivingAnalyzer.cs",
         "symbol": "NullForgivingAnalyzer.Initialize",
         "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
         "positiveMethod": "KingdomZombies.Phase1.Tests.Analyzers.NullForgivingAnalyzerTests.Analyze_LogicalNotAndNotEquals_Pass",
@@ -1396,7 +1396,7 @@
         "symbol": "R-28"
       },
       "mechanism": {
-        "path": "tools/code-rules/ThisQualificationAnalyzer.cs",
+        "path": "src/godot-game/tools/code-rules/ThisQualificationAnalyzer.cs",
         "symbol": "ThisQualificationAnalyzer",
         "diagnostics": [
           "SCR0011",
@@ -1428,7 +1428,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tools/code-rules/ThisQualificationAnalyzer.cs",
+        "path": "src/godot-game/tools/code-rules/ThisQualificationAnalyzer.cs",
         "symbol": "ThisQualificationAnalyzer.Initialize",
         "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
         "positiveMethod": "KingdomZombies.Phase1.Tests.Analyzers.ThisQualificationAnalyzerTests.Analyze_Unqualified_Passes",
@@ -1647,7 +1647,7 @@
         "symbol": "R-33"
       },
       "mechanism": {
-        "path": "tools/code-rules/MemberOrderAnalyzer.cs",
+        "path": "src/godot-game/tools/code-rules/MemberOrderAnalyzer.cs",
         "symbol": "MemberOrderAnalyzer",
         "diagnostics": [
           "SCR0008"
@@ -1677,7 +1677,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tools/code-rules/MemberOrderAnalyzer.cs",
+        "path": "src/godot-game/tools/code-rules/MemberOrderAnalyzer.cs",
         "symbol": "MemberOrderAnalyzer.Initialize",
         "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
         "positiveMethod": "KingdomZombies.Phase1.Tests.Analyzers.MemberOrderAnalyzerTests.AllSixAccessLevels_InOrder_Pass",
@@ -1798,7 +1798,7 @@
         "symbol": "R-36"
       },
       "mechanism": {
-        "path": "tools/code-rules/BodyCommentAnalyzer.cs",
+        "path": "src/godot-game/tools/code-rules/BodyCommentAnalyzer.cs",
         "symbol": "BodyCommentAnalyzer",
         "diagnostics": [
           "SCR0002"
@@ -1828,7 +1828,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tools/code-rules/BodyCommentAnalyzer.cs",
+        "path": "src/godot-game/tools/code-rules/BodyCommentAnalyzer.cs",
         "symbol": "BodyCommentAnalyzer.Initialize",
         "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
         "positiveMethod": "KingdomZombies.Phase1.Tests.Analyzers.BodyCommentAnalyzerTests.Analyze_CommentsOutsideBodies_Pass",
@@ -1849,7 +1849,7 @@
         "symbol": "R-37"
       },
       "mechanism": {
-        "path": "tools/code-rules/BodyLengthAnalyzer.cs",
+        "path": "src/godot-game/tools/code-rules/BodyLengthAnalyzer.cs",
         "symbol": "BodyLengthAnalyzer",
         "diagnostics": [
           "SCR0006",
@@ -1912,7 +1912,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tools/code-rules/BodyLengthAnalyzer.cs",
+        "path": "src/godot-game/tools/code-rules/BodyLengthAnalyzer.cs",
         "symbol": "BodyLengthAnalyzer.Initialize",
         "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
         "positiveMethod": "KingdomZombies.Phase1.Tests.Analyzers.BodyLengthAnalyzerTests.Analyze_EmptyBody_Passes",
@@ -1933,7 +1933,7 @@
         "symbol": "R-38"
       },
       "mechanism": {
-        "path": "tools/code-rules/NamedArgumentAnalyzer.cs",
+        "path": "src/godot-game/tools/code-rules/NamedArgumentAnalyzer.cs",
         "symbol": "NamedArgumentAnalyzer",
         "diagnostics": [
           "SCR0001"
@@ -1963,7 +1963,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tools/code-rules/NamedArgumentAnalyzer.cs",
+        "path": "src/godot-game/tools/code-rules/NamedArgumentAnalyzer.cs",
         "symbol": "NamedArgumentAnalyzer.Initialize",
         "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
         "positiveMethod": "KingdomZombies.Phase1.Tests.Analyzers.NamedArgumentAnalyzerTests.Invocation_NamedArgument_Passes",

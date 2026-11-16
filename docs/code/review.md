@@ -8,7 +8,7 @@ Status: Pending. This is the phase-end human checklist required by D-04 and plan
 | --- | --- | --- |
 | R-24 | Class-based DTO/engine initialization expresses required values and suitable semantics | [Snapshot DTO](../../src/godot-game/core/SnapshotDto.cs), [engine scene](../../src/godot-game/game/proofs/Phase1.cs) |
 | R-34 | Every public API is necessary and minimal | [Exact visibility permissions](visibility-exemptions.json), public C# surfaces |
-| R-62 | Reusable tooling/package content is product-independent in intent | [Analyzer project](../../tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj), [compiled isolation](../../src/godot-game/tests/verification/GraphTests.cs) |
+| R-62 | Reusable tooling/package content is product-independent in intent | [Analyzer project](../../src/godot-game/tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj), [compiled isolation](../../src/godot-game/tests/verification/GraphTests.cs) |
 | R-63 | Invariants and state-changing methods preserve intended domain meaning | [Example state](../../src/godot-game/core/ExampleState.cs), [structural model policy](../../src/godot-game/tests/verification/ArchitecturePolicy.cs) |
 | R-65 | Handwritten mappings preserve semantic intent | [Mapping policy/proofs](../../src/godot-game/tests/verification/ArchitectureRuleTests.cs), changed mapping methods |
 | R-72 | Strict snapshot contract covers actual call sites and justified HTTP divergence | [Snapshot codec](../../src/godot-game/core/SnapshotCodec.cs), [baseline decision](../architecture/decisions/0001-development-baseline.md) |

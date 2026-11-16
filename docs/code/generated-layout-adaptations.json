@@ -64,7 +64,7 @@
       ]
     },
     {
-      "surface": "tools/code-rules/obj/Debug/netstandard2.0/.NETStandard,Version=v2.0.AssemblyAttributes.cs",
+      "surface": "src/godot-game/tools/code-rules/obj/Debug/netstandard2.0/.NETStandard,Version=v2.0.AssemblyAttributes.cs",
       "suffix": "/obj/Debug/netstandard2.0/.NETStandard,Version=v2.0.AssemblyAttributes.cs",
       "sha256": "024d53b28a9ade66887280d5dc398a1e1b10c3172df3573f01c67fda2d7b673b",
       "linuxSha256": "7300a46b63ecd250f168f446b4864848453c4b655fb6f317d1530d7ca963ebc5",

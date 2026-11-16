@@ -428,7 +428,8 @@ public sealed class ConfigurationTests
 
     internal static readonly string[] Projects = ["src/godot-game/core/KingdomZombies.Core.csproj",
         "src/godot-game/multiplayer-abstractions/KingdomZombies.Multiplayer.Abstractions.csproj",
-        "src/godot-game/game/KingdomZombies.csproj", "tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj",
+        "src/godot-game/game/KingdomZombies.csproj",
+        "src/godot-game/tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj",
         "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"];
     internal static (int Exit, string Output) Dotnet(params string[] arguments)
     {

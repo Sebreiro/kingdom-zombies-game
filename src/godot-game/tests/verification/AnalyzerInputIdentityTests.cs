@@ -15,17 +15,18 @@ public sealed class AnalyzerInputIdentityTests
     {
         string directory = Path.Combine(path1: ProofProtocol.Root, path2: ".phase1/temp/analyzer-identity-"
                 + Guid.NewGuid().ToString(format: "N"));
-        Directory.CreateDirectory(path: Path.Combine(path1: directory, path2: "tools/code-rules"));
-        string source = Path.Combine(path1: ProofProtocol.Root, path2: "tools/code-rules/NamedArgumentAnalyzer.cs");
-        string copy = Path.Combine(path1: directory, path2: "tools/code-rules/NamedArgumentAnalyzer.cs");
+        Directory.CreateDirectory(path: Path.Combine(path1: directory, path2: "src/godot-game/tools/code-rules"));
+        string source = Path.Combine(path1: ProofProtocol.Root, path2:
+                "src/godot-game/tools/code-rules/NamedArgumentAnalyzer.cs");
+        string copy = Path.Combine(path1: directory, path2: "src/godot-game/tools/code-rules/NamedArgumentAnalyzer.cs");
         File.Copy(sourceFileName: source, destFileName: copy);
         string script = ("const fs=require('fs'),path=require('path'),c=require('"
                 + "./src/godot-game/tools/verification/check.cjs'),m=require('./src/godot-game/tools/verification/re"
                 + "quired-cases.json');if(!m.inputs.includes('tools/code-r"
                 + "ules'))throw Error('ANALYZER_SCOPE_MISSING');const root"
                 + "=fs.realpathSync(process.env.PHASE1_IDENTITY_COPY),befo"
-                + "re=c.snapshot(root,{inputs:['tools/code-rules']}),file="
-                + "path.join(root,'tools/code-rules/NamedArgumentAnalyzer."
+                + "re=c.snapshot(root,{inputs:['src/godot-game/tools/code-rules']}),file="
+                + "path.join(root,'src/godot-game/tools/code-rules/NamedArgumentAnalyzer."
                 + "cs');fs.appendFileSync(file,'\\n// isolated source mutat"
                 + "ion\\n');const after=c.snapshot(root,{inputs:['tools/cod"
                 + "e-rules']});if(before.sha256===after.sha256)throw Error"
@@ -36,7 +37,7 @@ public sealed class AnalyzerInputIdentityTests
                 + "TCH')throw e;rejected=true}if(!rejected)throw Error('ST"
                 + "ALE_SOURCE_ACCEPTED');fs.mkdirSync(path.join(root,'tool"
                 + "s/code-rules/obj'),{recursive:true});fs.writeFileSync(p"
-                + "ath.join(root,'tools/code-rules/obj/cache.cs'),'untrust"
+                + "ath.join(root,'src/godot-game/tools/code-rules/obj/cache.cs'),'untrust"
                 + "ed output');if(c.snapshot(root,{inputs:['tools/code-rul"
                 + "es']}).sha256!==after.sha256)throw Error('CACHE_SCOPE_L"
                 + "EAK');console.log('ANALYZER_INPUT_CHANGED')");

@@ -4,7 +4,7 @@ Reviewed inline, 2026-11-16. No separate human qualitative acceptance is claimed
 
 ## Repairs and checks
 
-- Moved 43 game-specific tool/helper files without compatibility stubs; reusable analyzer sources remain outside the game workspace.
+- Moved the game-specific tool/helper files without compatibility stubs. Source inspection found exact game-specific generated allowances in the configured analyzer; moved that package too while preserving its source and lock bytes and assembly boundaries. All current tools now live in the game workspace.
 - Rebased entry-point __dirname roots, cross-folder requires, driver/catalog paths and C# fixture program locations. Added command tests launched from an unrelated working directory.
 - Decoupled historical evidence family IDs from current folder basenames in inherited execution and validation; retained fail-closed family selection.
 - Removed overlapping source fingerprint prefixes after all game tools moved under src. Seeded actual toolchain metadata and fixture directories explicitly instead of depending on incidental fingerprint placeholders.

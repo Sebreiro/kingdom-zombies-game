@@ -16,7 +16,6 @@ A Godot/C# side-view survival and camp-management game for solo or up to four co
 | Location | Purpose |
 | --- | --- |
 | [src/godot-game](src/godot-game/README.md) | Complete game workspace: runtime projects, scenes, assets, references, tests, game-specific tools, solution and .NET configuration |
-| [tools](tools/README.md) | Reusable development infrastructure, currently the game-independent C# analyzer package |
 | [docs](docs/architecture/README.md) | Code rules, architecture, development and review guidance |
 | [specs](specs/0.1/initial-spec.md) | Approved game behavior and resource requirements |
 | [.planning](.planning/STATE.md) | Delivery plans, decisions, progress and historical evidence references |

@@ -26,7 +26,7 @@ internal static class DocumentationProjects
     }
 
     private const string Policy = "src/godot-game/tools/verification/projects.json";
-    private const string Analyzer = "tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj";
+    private const string Analyzer = "src/godot-game/tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj";
     private static void CheckPage(IReadOnlyDictionary<string, byte[]> files, string root, JsonArray policy,
             string project, string page, List<string> errors)
     {

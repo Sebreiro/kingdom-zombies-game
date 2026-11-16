@@ -62,10 +62,11 @@ internal static class ProjectEvaluator
         return Discover(root: root, pattern: pattern);
     }
 
-    private const string Analyzer = "tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj";
+    private const string Analyzer = "src/godot-game/tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj";
     private static readonly string[] _expected = ["src/godot-game/core/KingdomZombies.Core.csproj",
         "src/godot-game/multiplayer-abstractions/KingdomZombies.Multiplayer.Abstractions.csproj",
-        "src/godot-game/game/KingdomZombies.csproj", "tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj",
+        "src/godot-game/game/KingdomZombies.csproj",
+        "src/godot-game/tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj",
         "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"];
     private static readonly string[] _types = ["KingdomZombies.Core.ProofValue",
         "KingdomZombies.Multiplayer.Abstractions.IProofService", "KingdomZombies.Proofs.Phase1",

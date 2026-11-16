@@ -7,7 +7,7 @@ The [executable five-project policy](../../src/godot-game/tools/verification/pro
 | Pure state/identity/time/random/snapshot contracts | [Core](../../src/godot-game/core/docs/README.md) |
 | Independent replaceable service contracts | [Multiplayer ports](../../src/godot-game/multiplayer-abstractions/docs/README.md) |
 | Engine ownership and Core/ports composition | [Godot integration](../../src/godot-game/game/docs/README.md) |
-| Product-independent Roslyn enforcement | [Code rules](../../tools/code-rules/docs/README.md) |
+| Product-independent Roslyn enforcement | [Code rules](../../src/godot-game/tools/code-rules/docs/README.md) |
 | Actual compiled/native/document proof inspection | [Phase 1 tests](../../src/godot-game/tests/verification/docs/README.md) |
 
 The checked module declarations separate direct production references, the test-only internal Core inspection edge, and analyzer-only build metadata. Both `OutputItemType=Analyzer` and `ReferenceOutputAssembly=false` are required. Loading analyzer bytes, inspecting built assemblies and starting native processes are test tooling operations; they create no reverse production dependency. Core and ports remain independent of Godot/concrete services; providers must consume ports rather than put implementations inside the contract assembly. No sixth project, LAN provider or gameplay system is introduced.

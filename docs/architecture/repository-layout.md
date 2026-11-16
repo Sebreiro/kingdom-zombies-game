@@ -6,7 +6,7 @@ All authored game runtime code, scenes, shipped assets, reference artwork and C#
 
 Game-specific verification, gameplay, LAN and asset-production programs belong under [src/godot-game/tools](../../src/godot-game/tools/README.md), beside their self-tests. Name folders by responsibility: `verification`, `gameplay-checks`, `lan-checks`, and `asset-pipeline` when unfinished Phase 4 tooling integrates. Keep these outside the Godot runtime resource tree. Phase numbers belong to delivery records and historical evidence, not current tool-folder names.
 
-Only reusable, product-independent tools belong under the repository [tools](../../tools/README.md) root. The C# analyzer package stays there because its implementation has no game dependency. Game behavior tests belong in the game workspace. Put explanatory rules, architecture and workflow documents under `docs/`, approved game specifications under `specs/`, and delivery records under `.planning/`.
+All current tools belong in the game workspace. The analyzer's generic rules are reusable, but its configured copy embeds exact KingdomZombies/Godot generated-source permissions and therefore lives in `src/godot-game/tools/code-rules` too. It still has no game assembly references. A future product-independent package extraction would need to remove that configuration coupling before earning a separate repository-level home. Game behavior tests also belong in the workspace. Put explanatory rules, architecture and workflow documents under `docs/`, approved game specifications under `specs/`, and delivery records under `.planning/`.
 
 The root contains the repository map, agent instructions and repository-wide Git/editor configuration. Do not add a root game solution, C# project, banned-symbol list, package manifest or shared .NET build policy. The solution, SDK pin, NuGet sources, local tool manifest and conventional `Directory.*` files belong at the game workspace root; specialized policy belongs in its [build folder](../../src/godot-game/build/README.md).
 
@@ -14,7 +14,7 @@ The [layout regression checks](../../src/godot-game/tools/repository-layout.test
 
 ## Commands and generated state
 
-Open [game/project.godot](../../src/godot-game/game/project.godot) in Godot and [KingdomZombies.slnx](../../src/godot-game/KingdomZombies.slnx) in the C# IDE. Node runners start from the repository root. Direct .NET commands start from `src/godot-game`; SDK selection begins at the process working directory. The analyzer outside that workspace explicitly imports the shared build and package settings.
+Open [game/project.godot](../../src/godot-game/game/project.godot) in Godot and [KingdomZombies.slnx](../../src/godot-game/KingdomZombies.slnx) in the C# IDE. Node runners start from the repository root. Direct .NET commands start from `src/godot-game`; SDK selection begins at the process working directory. All five C# projects inherit the workspace's shared build and package settings.
 
 Existing ignored `.phase1/`, `.phase2/` and `.phase3/` cache/report locations remain stable. This cleanup moves authored content and configuration, not historical execution evidence. Do not commit generated `bin/`, `obj/`, `.godot/`, caches or local reports. See [setup](../workflow/setup.md) and [verification](../workflow/verification.md).
 
@@ -35,6 +35,7 @@ Completed phase summaries, review records, captured donor provenance and immutab
 | `tools/phase1/` | `src/godot-game/tools/verification/` |
 | `tools/phase2/` | `src/godot-game/tools/gameplay-checks/` |
 | `tools/phase3/` | `src/godot-game/tools/lan-checks/` |
+| `tools/code-rules/` | `src/godot-game/tools/code-rules/` |
 | `tools/dotnet.cjs`, `tools/repository-layout.test.cjs` | Same names under `src/godot-game/tools/` |
 | Unfinished Phase 4 asset tools | `src/godot-game/tools/asset-pipeline/` when integrated |
 

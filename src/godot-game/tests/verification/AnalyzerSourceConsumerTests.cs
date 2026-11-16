@@ -19,7 +19,8 @@ public sealed class AnalyzerSourceConsumerTests
     public void Analyze_OwnedAnalyzerSources_PassesAllTwelveRules()
     {
         var assembly = Assembly.Load(rawAssembly: File.ReadAllBytes(path: Path.Combine(path1: ProofProtocol
-                .Root, path2: "tools/code-rules/bin/Debug/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll")));
+                .Root, path2: "src/godot-game/tools/code-rules/bin/Debug/netstandard2.0/"
+                        + "Sebreiro.CodeRules.Analyzers.dll")));
         IEnumerable<Type> types = assembly.GetTypes().Where(predicate: type => type
                 .GetCustomAttribute<DiagnosticAnalyzerAttribute>() is not null);
         DiagnosticDescriptor[] descriptors = [..types.SelectMany(selector: type => LoadAnalyzer(type: type)
@@ -77,7 +78,7 @@ public sealed class AnalyzerSourceConsumerTests
                 .NewGuid().ToString(format: "N"));
         Directory.CreateDirectory(path: directory);
         string project = Path.Combine(path1: directory, path2: "AnalyzerConsumer.csproj");
-        string sources = Path.Combine(path1: ProofProtocol.Root, path2: "tools/code-rules").Replace(
+        string sources = Path.Combine(path1: ProofProtocol.Root, path2: "src/godot-game/tools/code-rules").Replace(
                 oldChar: '\\', newChar: '/');
         string xml = "<Project Sdk=\"Microsoft.NET.Sdk\"><PropertyGroup>"
                 + "<TargetFramework>netstandard2.0</TargetFramework><EnforceExtendedAnalyzerRules>true"

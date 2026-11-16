@@ -171,7 +171,7 @@ public sealed class EngineGeneratedTests
     private static MethodInfo PermissionMethod()
     {
         var assembly = Assembly.Load(rawAssembly: File.ReadAllBytes(path: Local(
-                path: "tools/code-rules/bin/Debug/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll")));
+                path: "src/godot-game/tools/code-rules/bin/Debug/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll")));
         return assembly.GetType(name: "Sebreiro.CodeRules.Analyzers.GeneratedSyntax")?.GetMethod(name: "IsPermitted",
                 bindingAttr: BindingFlags.NonPublic | BindingFlags.Static)
                 ?? throw new InvalidOperationException(message: "ENGINE_PERMISSION_METHOD");

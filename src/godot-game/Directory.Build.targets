@@ -4,7 +4,7 @@
     <CompilerGeneratedFilesOutputPath>$(IntermediateOutputPath)generated</CompilerGeneratedFilesOutputPath>
   </PropertyGroup>
   <ItemGroup Condition="'$(MSBuildProjectName)' != 'Sebreiro.CodeRules.Analyzers'">
-    <ProjectReference Include="$(MSBuildThisFileDirectory)../../tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj"
+    <ProjectReference Include="$(MSBuildThisFileDirectory)tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj"
                       OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
   <ItemGroup Condition="'$(IsTestProject)' == 'true'">

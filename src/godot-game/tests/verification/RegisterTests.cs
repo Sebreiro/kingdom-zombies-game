@@ -90,7 +90,7 @@ public sealed class RegisterTests
         ((row["mechanism"] ?? throw new System.InvalidOperationException(
                 message: "Required proof value is null"))["path"] ?? throw new System.InvalidOperationException(
                         message: "Required proof value is null")).GetValue<string>().ShouldBe(
-                                expected: "tools/code-rules/BodyLengthAnalyzer.cs");
+                                expected: "src/godot-game/tools/code-rules/BodyLengthAnalyzer.cs");
         ((row["mechanism"] ?? throw new System.InvalidOperationException(
                 message: "Required proof value is null"))["diagnostics"]
                 ?? throw new System.InvalidOperationException(message: "Required proof value is null"))
@@ -318,7 +318,7 @@ public sealed class RegisterTests
                 ?? throw new System.InvalidOperationException(message: "Required proof value is null"))[
                         "mechanism"] ?? throw new System.InvalidOperationException(
                                 message: "Required proof value is null"))[
-                                        "path"] = "tools/code-rules/bodyLengthAnalyzer.cs",
+                                        "path"] = "src/godot-game/tools/code-rules/bodyLengthAnalyzer.cs",
                 expected: "R-37: MECHANISM_REFERENCE");
     }
 
@@ -375,7 +375,7 @@ public sealed class RegisterTests
                     message: "Required proof value is null"))[36] ?? throw new System.InvalidOperationException(
                             message: "Required proof value is null"))["mechanism"]
                     ?? throw new System.InvalidOperationException(message: "Required proof value is null"))[
-                            "path"] = "tools/code-rules/" + spelling;
+                            "path"] = "src/godot-game/tools/code-rules/" + spelling;
             RegisterValidator.Validate(manifest: input.Manifest, register: input.Register, exemptions: input
                     .Exemptions).ShouldContain(expected: "R-37: MECHANISM_REFERENCE", comparer: StringComparer.Ordinal);
         }

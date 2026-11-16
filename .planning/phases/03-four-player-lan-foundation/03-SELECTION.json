@@ -1580,8 +1580,8 @@
   ],
   "omissionScope": "No hosted/Linux, physical mixed-computer LAN, full A-38/A-45 campaign, packaging, hardware or endurance claim. Phases 5, 10 and 11 retain their obligations.",
   "impactSources": [
-    "tools/code-rules/BodyLengthAnalyzer.cs",
-    "tools/code-rules/EngineGeneratedSyntax.cs",
+    "src/godot-game/tools/code-rules/BodyLengthAnalyzer.cs",
+    "src/godot-game/tools/code-rules/EngineGeneratedSyntax.cs",
     "docs/code/register.json",
     "docs/code/engine-generated-spans.json",
     "docs/code/generated-callsite-adaptations.json",

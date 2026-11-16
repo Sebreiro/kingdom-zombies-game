@@ -59,7 +59,8 @@ internal static class InheritedAnalyzerVerifier
         }
 
         var assembly = Assembly.Load(rawAssembly: File.ReadAllBytes(path: Path.Combine(path1: ProofProtocol
-                .Root, path2: "tools/code-rules/bin/Debug/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll")));
+                .Root, path2: "src/godot-game/tools/code-rules/bin/Debug/netstandard2.0/"
+                        + "Sebreiro.CodeRules.Analyzers.dll")));
         Type? type = assembly.GetType(name: "Sebreiro.CodeRules.Analyzers." + analyzerType);
         DiagnosticAnalyzer? analyzer = type is null ? null : (DiagnosticAnalyzer?)Activator.CreateInstance(type: type);
         if (analyzer is null && expected.Count == 0)

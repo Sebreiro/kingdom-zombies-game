@@ -244,7 +244,7 @@
       "sourceId": "EX-11",
       "rule": "R-04",
       "diagnostic": "FORMAT_FINAL_NEWLINE",
-      "path": "tools/code-rules/packages.lock.json",
+      "path": "src/godot-game/tools/code-rules/packages.lock.json",
       "surface": "NuGet-generated lock file",
       "subject": "no final newline",
       "reason": "Observed canonical NuGet lock output omits final LF; only this exact path receives that single permission.",

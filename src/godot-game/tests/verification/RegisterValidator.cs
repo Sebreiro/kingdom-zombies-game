@@ -135,7 +135,7 @@ public static class RegisterValidator
     {
         if (_analyzers.TryGetValue(key: id, value: out string? name))
         {
-            return "tools/code-rules/" + name + "Analyzer.cs";
+            return "src/godot-game/tools/code-rules/" + name + "Analyzer.cs";
         }
 
         if (_architecture.TryGetValue(key: id, value: out (string File, string Symbol) actual))

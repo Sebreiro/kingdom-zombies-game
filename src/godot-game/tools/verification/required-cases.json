@@ -4,7 +4,6 @@
   "project": "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj",
   "assembly": "src/godot-game/tests/verification/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll",
   "inputs": [
-    "tools/code-rules",
     "src",
     "docs",
     "specs",
@@ -18,8 +17,7 @@
     ".planning/ROADMAP.md",
     ".planning/STATE.md",
     ".planning/research/SUMMARY.md",
-    "README.md",
-    "tools/README.md"
+    "README.md"
   ],
   "acceptanceCriteria": [
     {

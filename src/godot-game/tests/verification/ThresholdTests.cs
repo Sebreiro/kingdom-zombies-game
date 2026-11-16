@@ -151,7 +151,7 @@ public sealed class ThresholdTests
     private static DiagnosticAnalyzer Load(string name)
     {
         var assembly = Assembly.Load(rawAssembly: File.ReadAllBytes(path: Path.Combine(path1: ProofProtocol.Root,
-                path2: "tools/code-rules/bin/Debug/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll")));
+                path2: "src/godot-game/tools/code-rules/bin/Debug/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll")));
         Type type = assembly.GetType(name: "Sebreiro.CodeRules.Analyzers." + name + "Analyzer")
                 ?? throw new InvalidOperationException(message: "NUMERIC_ANALYZER_REQUIRED " + name);
         return Activator.CreateInstance(type: type) as DiagnosticAnalyzer

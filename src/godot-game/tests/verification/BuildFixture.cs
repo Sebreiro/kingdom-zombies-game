@@ -32,7 +32,7 @@ internal sealed class BuildFixture
         }
 
         CopyTree(relative: "src/godot-game/core");
-        CopyTree(relative: "tools/code-rules");
+        CopyTree(relative: "src/godot-game/tools/code-rules");
         if (tests)
         {
             CopyTree(relative: "src/godot-game/tests/verification");

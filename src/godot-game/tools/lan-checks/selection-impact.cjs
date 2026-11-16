@@ -1,6 +1,6 @@
 'use strict';
 // Phase 3's explicit dependency assessment. This is not a general Phase 5 impact selector.
-const sources=['tools/code-rules/BodyLengthAnalyzer.cs','tools/code-rules/EngineGeneratedSyntax.cs',
+const sources=['src/godot-game/tools/code-rules/BodyLengthAnalyzer.cs','src/godot-game/tools/code-rules/EngineGeneratedSyntax.cs',
   'docs/code/register.json','docs/code/engine-generated-spans.json','docs/code/generated-callsite-adaptations.json',
   'docs/code/exemptions.json','docs/code/visibility-exemptions.json','src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj',
   'src/godot-game/tests/verification/BuildFixture.cs','src/godot-game/tests/verification/ExemptionValidator.cs','src/godot-game/tests/verification/ExemptionTests.cs'];

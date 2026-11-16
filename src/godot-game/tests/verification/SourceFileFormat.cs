@@ -167,7 +167,7 @@ internal static class SourceFileFormat
         ["KZ-EX-LOCK-CORE-01"] = "src/godot-game/core/packages.lock.json",
         ["KZ-EX-LOCK-GODOT-01"] = "src/godot-game/game/packages.lock.json",
         ["KZ-EX-LOCK-SERVICES-01"] = "src/godot-game/multiplayer-abstractions/packages.lock.json",
-        ["KZ-EX-LOCK-ANALYZERS-01"] = "tools/code-rules/packages.lock.json"
+        ["KZ-EX-LOCK-ANALYZERS-01"] = "src/godot-game/tools/code-rules/packages.lock.json"
     };
     private static readonly string[] _skippedFolders = [".claude/", ".codex/", ".agents/", ".planning/"];
     private static readonly HashSet<string> _binaryExtensions = new(comparer: StringComparer.OrdinalIgnoreCase)

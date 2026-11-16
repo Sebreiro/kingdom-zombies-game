@@ -12,4 +12,6 @@ Keep existing case/protocol identities and immutable report/cache locations. Do 
 
 ## Discretion and references
 
+Classification amendment after source inspection: `GeneratedSyntax.cs` and `EngineGeneratedSyntax.cs` embed exact KingdomZombies/Godot generated-source permissions. The core analyzer rules are reusable, but this configured copy is game-specific. Under the creator's ownership rule, it also moves to `src/godot-game/tools/code-rules`; no current root tools folder remains. This supersedes the provisional analyzer exception above, without changing its assembly identity or runtime dependencies.
+
 Resolve module/entry-point roots, fixture program paths, fingerprint scopes, live declarations and documentation together. Do not leave forwarding scripts at the old phase-named paths. Preserve original reports and completed phase/quick-task artifacts rather than rewriting their evidence. See AGENTS.md, docs/workflow/ai-collaboration.md, docs/workflow/verification.md, and docs/architecture/repository-layout.md.
