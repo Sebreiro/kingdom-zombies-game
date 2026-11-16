@@ -1,9 +1,9 @@
 ---
 phase: 03-four-player-lan-foundation
-reviewed: 2026-11-15T23:32:39Z
+reviewed: 2026-11-16T00:40:42Z
 depth: standard
-reviewed_revision: 93e8552c1518a738af24a120ece8d99c5f0bfcab
-build_revision: 93e8552c1518a738af24a120ece8d99c5f0bfcab
+reviewed_revision: 551d7c6f379f701c5271508bf68ca2730efe9057
+build_revision: 551d7c6f379f701c5271508bf68ca2730efe9057
 diff_base: 87e0b44
 scope_files: 120
 files_reviewed: 117
@@ -140,12 +140,12 @@ status: clean
 
 # Phase 03: Code Review Report
 
-**Reviewed:** 2026-11-15T23:32:39Z  
+**Reviewed:** 2026-11-16T00:40:42Z  
 **Depth:** standard  
 **Source files reviewed:** 117  
 **Explicit scope:** all 120 paths from `.phase3/review-fix-union.txt`, preserving the complete original scope and subsequent helpers/consumers, including the new PNG worker; three planning-context paths are listed separately above  
 **Status:** clean  
-**Reviewed source / pinned build revision:** `93e8552c1518a738af24a120ece8d99c5f0bfcab`  
+**Reviewed source / pinned build revision:** `551d7c6f379f701c5271508bf68ca2730efe9057`  
 **Diff base:** `87e0b44`
 
 ## Summary
@@ -164,7 +164,7 @@ The latest bounded recheck covers native batch 3 at `4ea54ca731c90de700480033f58
 
 The preceding batch-4 recheck found CR-11 in ordinary browser cancellation. The current four-file repair at `f32e0bd8911e0c185a6fa10b24c251f1d69494cd` transfers cancellation to the Root-owned runtime retirement helper, retains older unfinished drains during rapid replacement and polls/disposes every retiring coordinator through its proper lifetime. The production Menu control uses that same retirement owner and passes its pending-connection, repeated-cancel and 249/250 ms assertions.
 
-The current bounded source recheck covers batch 7 at `93e8552c1518a738af24a120ece8d99c5f0bfcab`: the new three-worker PNG validation pool, its capture/timing integration, worker shutdown before scenario unlock and actual timing controls. The earlier batch-6 popup navigation remains intact; the all-peer pre-capture barrier is replaced by independent observer capture with CPU work off the polling thread. No new actionable defect was found. All seventeen prior findings and the complete 120-path / 117-source scope remain resolved/preserved. Current native execution limits and affected control evidence are recorded below.
+The current bounded source recheck covers batch 8 at `551d7c6f379f701c5271508bf68ca2730efe9057`: production input-before-update ordering, bounded ordinary publication and one pending publication after accepted intent has passed through the actual host Step, plus their authority proof. No new actionable defect was found. All seventeen prior findings and the complete 120-path / 117-source scope remain resolved/preserved. A prior focused native pass was followed by a 480/481 full-selection failure; that acceptance gap and current retained proof identities are recorded below.
 
 **All seventeen prior findings are resolved. No new actionable defect or open finding remains.** The source scope is 120 paths / 117 source paths. Previous passed/failed records keep their actual revision/tool identities; no failed native run or pending full selection is upgraded by this review. Actual no-window and rendered acceptance retain the limits below.
 
@@ -176,9 +176,27 @@ Necessity was assessed using the required rubric; no necessity finding is assert
 
 No open Critical/BLOCKER, Warning or Info findings remain at this reviewed source revision.
 
+## Native repair batch 8 bounded production-publication recheck
+
+**Current reviewed source/build stamp:** `551d7c6f379f701c5271508bf68ca2730efe9057`. **Disposition:** clean on source review; repaired native timing and full-selection acceptance remain separate.
+
+The prior focused native invocation `12951d61…` passed twelve of twelve cases, all 48 timing samples (maximum conservative upper interval 212.5111 ms) and sixteen stopped comparisons. The subsequent fresh full selection `30ebcea8-34d2-4659-bc94-1ac112b82622` ran about 53.7243 minutes and retained a failed aggregate: 480/481 selected cases passed, including all 433 Phase 1 and sixteen Phase 2 cases; only Phase 3 rendered timing failed. Its host-to-guest2 stop upper interval was 296.5992 ms. Fourteen terminal records comprise twelve normal exits and two declared losses, with no emergency cleanup; eleven helpers ended and the lock was absent. Checkpoint `ae0aae6` preserves this failure. Neither the focused success nor this source review converts the later full-selection failure into a pass.
+
+The retained raw stop trace records about 2.0168 ms physical delivery, 42.2695 ms native acknowledgement, capture request at 228.3797 ms and completion at 295.5992 ms (67.2195 ms capture duration before uncertainty). `.phase3/batch8-stop-trace.json` preserves actual per-peer frame/position observations. The host's earlier update/step/publication at revision 144 occurred before local stop acceptance at that same revision; guest2 could already repeat the final position there, while the required newer authoritative publication arrived at revision 150 under the old cadence. This diagnosis uses each stream's own ordering and positions, without assuming synchronized cross-process clocks.
+
+The three changed paths were read with their immediate input, readiness, admission, expiry and lifetime consumers. `FoundationRoot._Process` still polls released physical keys first, but now submits a changed direction while the coordinator is already ready before its `Update`. Thus local host intent is accepted before that frame's simulation step instead of immediately after it. A joining guest does not submit before readiness; a newly installed world still clears held input, and subsequent frames use the existing direction-change path. Focus loss, menu/scene transitions and cancellation continue clearing input and retiring the current coordinator through their existing owners. The moved block adds no Root field or method signature and leaves completed/inactive handling fenced.
+
+`FoundationCoordinator.Accept` marks one pending publication only after the existing ownership, binding, readiness and sequence validation succeeds. `Update` still receives and expires first, returns if the lifetime became inactive, then invokes the actual session Step before consuming that flag. A pending accepted intent therefore causes one full post-Step broadcast in that update, including a revision newer than the acceptance revision, without advancing position inside Submit. Multiple accepted commands before one step coalesce; rejected commands do not request publication. Ordinary publication is due after 16 accumulated simulation milliseconds and broadcasts at most once per update, preserving the remainder with modulo 16 rather than running an unbounded catch-up loop. Guest coordinators do not broadcast host state. Admission and departure publications retain their separate existing paths; close/retirement does not reactivate pending simulation.
+
+The authority control proves no ordinary broadcast after 15 ms, one after the next 1 ms, and prompt 1 ms post-Step publication for local-host and remote-guest start, reverse and stop. It checks unchanged position immediately after Submit, exact published position/elapsed increments and a full revision newer than `LastAcceptedRevision`. The intended RED report `c5d2272b-61c1-4e1c-baef-edf399f740d3` fails core.authority before the repair. The repaired working-tree seven-core report `d25f9886-0ef7-4545-906c-f9205edf8508` passes all seven, including permissions, but its immutable actual HEAD is `ae0aae6aebbf843cb7c045f0c6fe932e4712123a`, build stamp is the previous 93e source and tool is `29eb1dc1263e061b42e0b6b85892aaec0644d9a23902b803f65b9e35dcad05cb`. Its input matches the current repaired tree; it is working-tree repair evidence and is not relabelled as a committed 551d execution.
+
+The final pinned strict build `.phase3/batch8-pinned-strict.log` records zero warnings/errors and 11.07 seconds. The affected network selection completed during review: `.phase3/runs/win32-x64/c4759f76-68fe-4663-af75-b139832664e4/summary.json` passes all five checks (tracer, four-peer, lifecycle, idle polling and discovery/profile), with zero game windows and exact current source/build stamp above, input `a3062a7df72114a81c5494e37e6b97fe42a12cbb2844b463ae8cfac92c157714` and tool `56d2627f5e0e2d917b35acf98200210b0695918a2db1ff702c65f756bd426026`. Its lifecycle record retains graceful guest leave at 69 ms and unexpected loss timeouts around ten seconds. These retained results were inspected read-only; the reviewer ran no build, proof, game window, gate or desktop input.
+
+This repair changes production response/publication order and cadence, leaving the timing clocks, conservative 250 ms threshold, PNG/state validation, stopped proof, native provenance and acceptance reconciler unchanged. It adds no core-model change, native/public permission, generated-span refresh, Root signature, project or package reference. The previous 45 native permissions, eight added public types and 220 exact generated registry entries remain within the carried-forward review scope. Actual desktop margin still requires a successful affected native execution and fresh entire selected-set pass.
+
 ## Native repair batch 7 bounded recheck
 
-**Current reviewed source/build stamp:** `93e8552c1518a738af24a120ece8d99c5f0bfcab`. **Disposition:** clean on source review; actual repaired native timing acceptance remains separate.
+**Historical reviewed source/build stamp:** `93e8552c1518a738af24a120ece8d99c5f0bfcab`. **Disposition:** clean for that bounded review; subsequent native/full-selection evidence and the production publication repair are recorded above.
 
 The retained batch-6 native report `1d9430ed-2a69-4609-95c2-1eb66e94a625` accepts eleven of twelve cases. Its sole remaining host-start timing failure records conservative upper intervals of 254.4477, 280.1131 and 301.4942 ms. Profiles/restart passed; fourteen terminals comprise twelve normal exits and two declared losses, with no emergency cleanup. That failed aggregate and its original timing rows remain unchanged. Checkpoint `472b392` retains this failure.
 
@@ -309,7 +327,7 @@ Older auxiliary evidence with unpinned prebuild tool drift remains failure/histo
 
 ## Required handoff before a prelaunch gate
 
-The source review is clean at `93e8552c1518a738af24a120ece8d99c5f0bfcab`, with all seventeen findings resolved and the four-path PNG worker/timing integration reviewed. The current retained runner.timing proof passes with zero game windows. The parent may renew the exact source/input/tool gate and perform the matching metadata-descendant rebuild with both build properties. Then obtain actual affected native acceptance before the required fresh full 481-case selected-set pass. Preserve the eleven-of-twelve failed aggregate, all original failed/passing reports, timing rows and invocation identities. This source review grants no repaired native timing or image-appearance acceptance. The parent owns gate/rebuild/publishing and actual desktop execution.
+The source review is clean at `551d7c6f379f701c5271508bf68ca2730efe9057`, with all seventeen findings resolved and the three-path production-publication repair reviewed. The exact current five-network proof passes with zero game windows; the earlier seven-core working-tree proof retains its actual HEAD/build/tool identity. The parent may renew the exact source/input/tool gate and perform the matching metadata-descendant rebuild with both build properties. Then obtain actual affected native acceptance before the required fresh full 481-case selected-set pass. Preserve the failed 480/481 aggregate, prior focused successes, all raw timing rows and original invocation identities. This source review grants no repaired native timing, image-appearance or completed selected-set acceptance. The parent owns gate/rebuild/publishing and actual desktop execution.
 
 The parent hash-verified the four temporary iteration-2/3 review/fix scratch originals against their ignored `.phase3/review-history` archives and removed the untracked phase-folder copies. The focused recheck observed no remaining scratch paths in Git status. Preserve that ignored history and the original Git review/fix ledger; the whitelist remains limited to its explicitly enumerated phase metadata paths.
 
@@ -319,6 +337,6 @@ Phase 2 G1 now has its retained actual passing native results, while the twelve 
 
 ---
 
-_Reviewed: 2026-11-15T23:32:39Z_  
+_Reviewed: 2026-11-16T00:40:42Z_  
 _Reviewer: the agent (gsd-code-reviewer)_  
 _Depth: standard_
