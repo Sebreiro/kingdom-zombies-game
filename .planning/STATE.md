@@ -4,17 +4,17 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 04
 current_phase_name: Asset production
-current_plan: 4
+current_plan: 5
 status: executing
-stopped_at: Completed04-26;9/37 summarized; graph-ready04-04; allASSET/actual04-32/33 pending
-last_updated: "2026-11-16T22:37:40.008Z"
-last_activity: 2026-11-16
-last_activity_desc: Completed04-26 source/headless input/lifetime and exact generated/policy proof;9/37 summarized; graph-next04-04
+stopped_at: Completed04-04;10/37 summarized; ready04-05/11; source provenance entry29 active before final review
+last_updated: "2026-11-16T23:39:56.024Z"
+last_activity: 2026-11-17
+last_activity_desc: Completed04-04 donor conversion and scale pilots;10/37 summarized; ready04-05/11; inherited tracer binding remains open
 progress:
   total_phases: 11
   completed_phases: 3
   total_plans: 62
-  completed_plans: 34
+  completed_plans: 35
   percent: 27
 ---
 
@@ -26,19 +26,19 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase04 asset production continues on feature/04-asset-production with draftPR#5 todev. Nine of37 plans are summarized:04-01/25/34/35/02/36/37/03/26. Completed26 source/headless owned input, transport and lifecycle with fresh29-operation selected proof plus post-commit tracer; both hub suites execute44 real methods/63 framework cases, and lifecycle observes50 native outcomes with all12 headless backstops. Fresh dependency graph identifies04-04 as the sole ready plan.04-31 owns current-hub tracer/export/profile/PCK/native-observer adaptations. AllASSET and04-32/33 actual rendering/listening/judgments remain pending.
+**Current focus:** Phase04 asset production continues on feature/04-asset-production with draftPR#5 todev. Ten of37 plans are summarized:04-01/25/34/35/02/36/37/03/26/04. Completed04 retains725 donor sprites,35 exact clips and four generated scale pilots with source/headless conversion/scale/discovery proof. Graph-ready04-05 and04-11 execute sequentially. Active WINDOWS29/source.provenance inherited stale tracer binding must be repaired by04-23/31 before final review. AllASSET and actual04-32/33 acceptance remain pending.
 
 ## Current Position
 
 Phase: 04 — Asset production
-Current Plan: 4
+Current Plan: 5
 Total Plans in Phase: 37
 Status: Executing
-Last activity: 2026-11-16 — Completed04-26 source/headless input/lifetime and exact generated/policy proof;9/37 summarized; graph-next04-04
+Last activity: 2026-11-17 — Completed04-04 donor conversion/scale pilots;10/37 plans summarized; ready04-05/11
 
 Progress: [███░░░░░░░] 27%
 
-Milestone progress: 3/11 phases complete;34/62 currently planned plans summarized;fourteen of134 requirements complete. Phase4 has9/37 plans complete. NoASSET requirement completion is claimed.
+Milestone progress: 3/11 phases complete;35/62 currently planned plans summarized;fourteen of134 requirements complete. Phase4 has10/37 plans complete. NoASSET requirement completion is claimed.
 
 ## Performance Metrics
 
@@ -127,6 +127,8 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - [Phase 04]: 04-03 bounded visibility amendment appends only ContentPack and InspectionRoot to independent original15 public identities; graph-next04-26 owns future input/lifetime expansion.
 - [Phase 04]: 04-26 proves source/headless owned input/transport/lifetimes and exact32 authored signatures with fresh complete29-operation proof plus tracer; all ASSET and04-32/33 acceptance remain pending.
 - [Phase 04]: Retain exact reviewed per-case capacity: ac08 75000 and companion-negative60000 alongside existing boundary120000; positive/default45s,686 IDs and original220/18/16/26 contracts unchanged.
+
+- [Phase 04]: 04-04 retains725 sprites/35 clips/2434 ZIP members and source-side density1; conversion/scale/discovery pass, final appearance/listening pending. WINDOWS29 tracks inherited current-hub tracer/index binding for04-23/31 before review.
 
 ### Pending Todos
 
