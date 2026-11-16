@@ -4,17 +4,17 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 04
 current_phase_name: Asset production
-current_plan: 03
+current_plan: 26
 status: executing
-stopped_at: Completed04-37-PLAN.md; graph-next04-03 retains partial native hub and policy work
-last_updated: "2026-11-16T19:46:03.689Z"
+stopped_at: Completed04-03-PLAN.md; graph-next04-26 input/lifetime expansion
+last_updated: "2026-11-16T20:20:39.520Z"
 last_activity: 2026-11-16
-last_activity_desc: Completed04-37 generated authentication and full fresh54-case selection;7/37 plans complete; resume04-03 native hub proof
+last_activity_desc: Completed04-03 source/headless hub and exact policy;8/37 plans summarized; graph-next04-26
 progress:
   total_phases: 11
   completed_phases: 3
   total_plans: 62
-  completed_plans: 32
+  completed_plans: 33
   percent: 27
 ---
 
@@ -26,19 +26,19 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase 04 asset production continues on feature/04-asset-production with draft PR #5 to dev. Seven of37 plans are summarized:04-01/25/34/35/02/36/37. Generated authentication for frozen08035ba now passes54 selected Phase1 obligations, strict native/solution builds and26 Core controls. Resume partial04-03 actual native hub/source/tracer and exact engine/source-policy/visibility work;03 remains0/2 tasks.04-31 retains later current-hub tracer/export/profile/native-observer adaptations. All ASSET requirements and04-32/33 rendered/listening/judgment acceptance remain pending.
+**Current focus:** Phase04 asset production continues on feature/04-asset-production with draftPR#5 todev. Eight of37 plans are summarized:04-01/25/34/35/02/36/37/03. Completed03 actual native hub/source/tracer proof and exact engine/source-policy/visibility controls:28 compiled cases,25 native observations, current required gates pass. Graph-next04-26 input/lifetime expansion.04-31 owns current-hub tracer/export/profile/PCK/native-observer adaptations. AllASSET and04-32/33 actual rendering/listening/judgments remain pending.
 
 ## Current Position
 
 Phase: 04 — Asset production
-Current Plan: 03
+Current Plan: 26
 Total Plans in Phase: 37
 Status: Executing
-Last activity: 2026-11-16 — Completed04-37 generated authentication and full fresh54-case selection;7/37 plans complete; resume04-03 native hub proof
+Last activity: 2026-11-16 — Completed04-03 source/headless hub and exact policy;8/37 plans summarized; graph-next04-26
 
 Progress: [███░░░░░░░] 27%
 
-Milestone progress: 3/11 phases complete;32/62 currently planned plans summarized;fourteen of134 requirements complete. Phase4 has7/37 plans complete. No ASSET requirement completion is claimed.
+Milestone progress: 3/11 phases complete;33/62 currently planned plans summarized;fourteen of134 requirements complete. Phase4 has8/37 plans complete. NoASSET requirement completion is claimed.
 
 ## Performance Metrics
 
@@ -90,6 +90,7 @@ Milestone progress: 3/11 phases complete;32/62 currently planned plans summarize
 | Phase 04 P02 | 157min | 2 tasks | 9 files |
 | Phase 04 P36 | 12min | 2 tasks | 7 files |
 | Phase 04 P37 | 99min | 2 tasks | 12 files |
+| Phase 04 P03 | 20min | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -121,6 +122,8 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - [Phase 04]: Preserve original220/18/16/26 generated contracts; authenticate exact current observations in both directions and retain raw producer snapshots for historical regeneration.
 - [Phase 04]: Only engine.generated-boundary receives validated120000ms case capacity with a122000ms outer deadline; all other defaults and original case identities remain unchanged.
 - [Phase 04]: 04-37 completes generated proof only. All ASSET requirements stay pending, and04-03 resumes actual native hub/source-policy/visibility before later current-hub delivery and04-32/33 acceptance.
+- [Phase 04]: 04-03 proves actual compiled CSharp native hub semantics and exact16-signature authored policy; rendering, physical input, clipboard round-trip, final packaging and allASSET acceptance remain separate pending work.
+- [Phase 04]: 04-03 bounded visibility amendment appends only ContentPack and InspectionRoot to independent original15 public identities; graph-next04-26 owns future input/lifetime expansion.
 
 ### Pending Todos
 
@@ -164,10 +167,10 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 
 ## Session Continuity
 
-Last session: 2026-11-16T19:46:02.396Z
-Stopped at: Completed04-37-PLAN.md; graph-next04-03 retains partial native hub and policy work
-Resume file: .planning/phases/04-asset-production/04-03-GENERATED-CHECKPOINT.md
+Last session: 2026-11-16T20:20:37.143Z
+Stopped at: Completed04-03-PLAN.md; graph-next04-26 input/lifetime expansion
+Resume file: .planning/phases/04-asset-production/04-26-PLAN.md
 
-Next action: Resume04-03 from its retained RED/frozen08035ba checkpoint after completed04-37. Finish actual native hub/source/tracer proof and exact engine/source-policy/visibility controls. Stay on feature/04-asset-production and draft PR #5 to dev. Seven of37 Phase4 plans are summarized; all ASSET and actual04-32/33 acceptance remain pending.
+Next action: Execute graph-next04-26 input/lifetime expansion from completed04-03. Stay on feature/04-asset-production and draftPR#5 todev. Eight of37 Phase4 plans are summarized; allASSET and actual04-32/33 acceptance remain pending.
 
 Preserved future context: [Phase 4 context](phases/04-asset-production/04-CONTEXT.md) remains authoritative. Plan 04-01 has source/headless evidence only; complete resource and actual acceptance responsibilities remain with later Phase 4 plans.
