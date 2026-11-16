@@ -26,6 +26,8 @@ The official templates authenticate and the self-contained win-x64 restore succe
 
 ## Resume
 
-Parent adds and independently checks a bounded prerequisite plan for actual export generated-layout support, immutable SDK/source/line pins and positive/adjacent-negative proofs. Preserve all existing code rules, hashes, original tests and exact permissions. No broad permission, analyzer disablement, configuration renaming, engine/framework change or false platform claim is authorized.
+Prerequisite 04-34 is complete. Its exact six observed Windows SDK path/hash/line tuples, separate origin/boundary proofs, original layout regressions, strict Debug build and genuine self-contained ExportDebug/ExportRelease managed publishes passed. Final layout invocation: `.phase4/runs/d8504bcf-69ab-4a7a-ab5b-5a490143b334/`, source revision `e3ae7c0`. Summary/progress commits are `0eca588` and `0260c8d`. All four partial export hashes remain unchanged. This resolves the SDK layout prerequisite only; packaged Windows export/clean launch still need completion in Task 1.
+
+The parent added and independently checked bounded prerequisite 04-34 for actual export generated-layout support, immutable SDK/source/line pins and positive/adjacent-negative proofs. Existing code rules, original tests and prior exact permissions are preserved. Broad permissions, analyzer disablement, configuration renaming, engine/framework changes and false platform claims remain outside the approved fix.
 
 After that prerequisite passes, resume the existing 04-02 executor at Task 1 using these four partial files and completed Task 2 commit. Restore export registry loading only when usable, obtain actual publish/export/clean portable headless execution and negative controls, then write the real completion SUMMARY/progress. No real game window is allowed before whole-phase implementation and independent review/fixes.
