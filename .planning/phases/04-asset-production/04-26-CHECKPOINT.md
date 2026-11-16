@@ -1,5 +1,11 @@
 # Phase 04 Plan 26 compiled-proof capacity checkpoint
 
+## C1 compiler cleanup checkpoint — 2026-11-16
+
+Continuation from coordinator1956d6e performed only the authorized constant-array lift in EngineGeneratedTests.cs. Its single strict proof build failed: actual session98259, chunks b892ef/b8a0e2, exit1,9.74s,0 warnings,4 IDE0055 errors on lines283–286 (anonymous-object body indentation after shortening the Select expression). No further source repair or runtime gate ran. C1 is exhausted; R2 remains0 and R3 remains2/unstarted. Both tasks remain0/2; no task/SUMMARY/progress/ASSET completion.
+
+All eleven pre-C1 WIP hashes matched `.phase4/checkpoints/04-26-r2-9e326e4bca8b4959b202e28285c1819e/manifest.json`; the ten other paths remain unchanged. Current EngineGeneratedTests.cs SHA256 is `8bfc7f642f3bc0ee42586b8296a187e9dc2e4c84640b8d13f2aa6cd641ab98e2`. The original manifest stays immutable. Required next step: coordinator direction for the exact indentation correction and fresh strict build before the still-pending focused/canonical acceptance gates. Preserve all original failures and intermediate superseded passes. See the actual C1 ledger in [04-26-REPAIR.md](04-26-REPAIR.md).
+
 ## Updated bounded continuation checkpoint — 2026-11-16
 
 The original checkpoint below remains historical. Resume now from the following state, with both plan tasks still 0/2 complete and no implementation commit.
