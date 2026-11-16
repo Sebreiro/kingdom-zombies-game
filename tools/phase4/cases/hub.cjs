@@ -159,7 +159,10 @@ func run() -> void:
 	await process_frame
 	quit(1 if failed else 0)
 `;
-async function native(context){
+const LIFECYCLE=String.raw`
+	check_case("preview-transport-exists", hub.has_node("Shell/Workspace/Preview/Transport/Play"), "The current preview owns explicit play/pause, speed, step and reset Controls")
+`;
+async function native(context,lifecycle=false){
   const game=path.join(ROOT,'src/godot-game'),project=path.join(context.directory,'native-project');
   fs.mkdirSync(project,{recursive:true});
   const build=await runner.command(context,'native-build','dotnet',['build',path.join(game,'KingdomZombies.csproj'),
@@ -172,7 +175,7 @@ async function native(context){
   const closure=Object.fromEntries(fs.readdirSync(path.join(game,binaries)).filter(x=>/\.(dll|json)$/.test(x))
     .map(x=>[x,runner.hash(fs.readFileSync(path.join(game,binaries,x)))]));
   fs.writeFileSync(path.join(context.directory,'native-assemblies.json'),JSON.stringify(closure,null,2));
-  fs.writeFileSync(path.join(project,'probe.gd'),DRIVER);
+  fs.writeFileSync(path.join(project,'probe.gd'),lifecycle?DRIVER.replace('\tvar result = {',LIFECYCLE+'\tvar result = {'):DRIVER);
   const pins=JSON.parse(fs.readFileSync(path.join(ROOT,'tools/phase1/toolchain.json'),'utf8'));
   const pin=pins.archives[process.platform+'-'+process.arch];
   const console=path.join(ROOT,'.phase1/tools',pin.directory,pin.executable);
@@ -219,6 +222,27 @@ runner.registerCase('hub.source',{group:'hub',title:'Independent portable regist
     return {compiled:true,discovered:Number(discovered[1]),native:observed.outcomes.length,pid:observed.pid,
       scope:'actual compiled pure loader and C# native hub behavior; exact source policy Task2; no rendered acceptance'};
   });
+runner.registerCase('hub.lifecycle',{group:'hub',title:'Inspection input, transport and owned generation lifecycle',importance:'Critical',
+  rationale:'Stale callbacks or duplicated input must not replace the selected preview or accumulate native owners',needsGameWindow:false,
+  runGroup:'G0-hub',order:2,requirements:['ASSET-02','ASSET-03','ASSET-04','ASSET-05'],acceptance:['AC-04','AC-16','AC-20'],
+  setup:'Actual compiled production CSharp scene and native Controls in an isolated headless project',
+  actions:['Inspect explicit preview transport','Drive owned keys, category restoration and repeated reset','Observe late generation rejection and teardown'],
+  expected:'One current preview; text and popups own input; paused stepping uses actual authored samples; obsolete results are rejected',
+  reset:'Close acceptance, cancel work, disconnect handlers and retire every owned preview; no game window',
+  evidence:['native-observation.json','native-build.command.json','native-assemblies.json','native-hub.command.json','result.json']},async context=>{
+    const result=await native(context,true);return {native:result.outcomes.length,pid:result.pid,scope:result.scope};
+  });
+if(require.main===module&&process.argv.includes('--self-test-lifecycle')){
+  require('node:test').test('inspection preview owns explicit transport and lifetime',async()=>{
+    const directory=path.join(ROOT,'.phase4/lifecycle-red',require('node:crypto').randomUUID());
+    fs.mkdirSync(directory,{recursive:true});
+    try{await native({directory},true);}catch(error){
+      if(!error.message.includes('CHILD_FAILED common.bow native-hub {"code":1}'))throw error;
+    }
+    const result=JSON.parse(fs.readFileSync(path.join(directory,'native-project/native-results.json'),'utf8'));
+    for(const outcome of result.outcomes)assert.equal(outcome.pass,true,outcome.id+': '+JSON.stringify(outcome.observed));
+  });
+}
 if(require.main===module&&process.argv.includes('--self-test')){
   require('node:test').test('valid bow survives incomplete independent register',()=>{
     const result=compiled();assert.equal(result.status,0,result.stdout+'\n'+result.stderr);
