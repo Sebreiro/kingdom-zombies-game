@@ -1,0 +1,14 @@
+{
+  "command": "dotnet tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll --filter-method KingdomZombies.Phase1.Tests.FoundationLanServicesTests.DiscoveryAndManualEndpointContract --report-xunit-junit --report-xunit-junit-filename task1-red.xml --results-directory .phase3",
+  "expected": "Numeric IPv4 port 1 accepts",
+  "exitCode": 1,
+  "output": "<testsuites name=\"Test results\" tests=\"1\" failures=\"1\" errors=\"0\" disabled=\"0\" time=\"0.165000\" timestamp=\"2026-11-15T14:41:30\"><testsuite name=\"D:\\Work\\Games\\KingdomZombies\\tests\\phase1\\bin\\Debug\\net10.0\\KingdomZombies.Phase1.Tests.dll\" tests=\"1\" failures=\"1\" errors=\"0\" disabled=\"0\" skipped=\"0\" time=\"0.165000\" timestamp=\"2026-11-15T14:41:30\" hostname=\"MINI-WIN\"><testcase name=\"KingdomZombies.Phase1.Tests.FoundationLanServicesTests.DiscoveryAndManualEndpointContract\" time=\"0.041000\" classname=\"KingdomZombies.Phase1.Tests.FoundationLanServicesTests\"><failure message=\"Shouldly.ShouldAssertException : FoundationEndpoint.TryParse(value: &quot;127.0.0.1:1&quot;, address: out string address, port: out int port)&#xD;&#xA;    should be&#xD;&#xA;True&#xD;&#xA;    but was&#xD;&#xA;False\">   at KingdomZombies.Phase1.Tests.FoundationLanServicesTests.DiscoveryAndManualEndpointContract() in D:\\Work\\Games\\KingdomZombies\\tests\\phase1\\FoundationLanServicesTests.cs:line 14\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</failure></testcase></testsuite></testsuites>",
+  "targetTest": "KingdomZombies.Phase1.Tests.FoundationLanServicesTests.DiscoveryAndManualEndpointContract",
+  "reportPath": ".phase3/task1-red.xml",
+  "semanticAssessment": "Named target compiled, ran once and failed the planned allowed-port assertion; initial sandbox build/zero-test attempt is invalid and authorizes nothing.",
+  "actual": "False",
+  "targetFile": "tests/phase1/FoundationLanServicesTests.cs",
+  "runStartedAt": "2026-11-15T14:41:30Z",
+  "timestampSource": "Unmodified JUnit reporter run timestamp",
+  "reportModifiedAt": "2026-11-15T14:41:31.0117206Z"
+}

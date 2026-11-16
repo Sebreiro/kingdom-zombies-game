@@ -45,6 +45,7 @@ public sealed class SuppressionTests
     [Fact, Trait("Case", "R-67.positive")]
     public void Scan_ActualRepository_AcceptsExactPermissions()
     {
+        CheckLinkedOwnership();
         SuppressionPolicy.CheckRepository().ShouldBeEmpty();
         ProofProtocol.Record(id: "R-67.positive", diagnostic: "SUPPRESSION_REPOSITORY_EXACT",
                 location: "tracked C#, MSBuild, editor/global configuration, response and workflow inputs");
@@ -82,5 +83,34 @@ public sealed class SuppressionTests
 
         ProofProtocol.Record(id: "R-67.negative", diagnostic: "SUPPRESSION_ENTRY_POINTS_REJECTED",
                 location: "Subject.cs(1,1), Subject.globalconfig(2,1), Subject.TARGETS:1, compiler.rsp:1, build.yml:1");
+    }
+    private static void CheckLinkedOwnership()
+    {
+        string project = Path.Combine(path1: ProofProtocol.Root,
+                path2: "tests/phase1/KingdomZombies.Phase1.Tests.csproj");
+        string[] actual = [..System.Xml.Linq.XDocument.Load(uri: project).Descendants(name: "Compile")
+                .Select(selector: item => item.Attribute(name: "Include")?.Value ?? "")
+                .Select(selector: path => path.StartsWith(value: "../../", comparisonType: StringComparison.Ordinal)
+                        ? path[6..] : path)];
+        actual.Order(comparer: StringComparer.Ordinal).ShouldBe(expected: FoundationLinkedSources.Paths
+                .Order(comparer: StringComparer.Ordinal));
+        foreach (string path in FoundationLinkedSources.Paths)
+        {
+            string primary = path.StartsWith(value: "src/godot-game/", comparisonType: StringComparison.Ordinal)
+                    ? "src/godot-game/KingdomZombies.csproj"
+                    : "src/multiplayer-abstractions/KingdomZombies.Multiplayer.Abstractions.csproj";
+            const string Tests = "tests/phase1/KingdomZombies.Phase1.Tests.csproj";
+            ExemptionValidator.RequireOwners(path: path, projects: [primary, Tests]);
+            foreach (string[] owners in new string[][] { [], [primary], [Tests], [primary, primary],
+                [primary, Tests, "adjacent.csproj"], [primary, "adjacent.csproj"] })
+            {
+                Should.Throw<InvalidDataException>(actual: () => ExemptionValidator.RequireOwners(path: path,
+                        projects: owners));
+            }
+        }
+
+        Should.Throw<InvalidDataException>(actual: () => ExemptionValidator.RequireOwners(
+                path: "src/godot-game/foundation/Adjacent.cs", projects:
+                ["src/godot-game/KingdomZombies.csproj", "tests/phase1/KingdomZombies.Phase1.Tests.csproj"]));
     }
 }

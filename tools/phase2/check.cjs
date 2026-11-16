@@ -20,7 +20,12 @@ function acquireLock(root,nonce) {
   let fd;
   try { fd=fs.openSync(file,'wx'); } catch(error) {if(error.code==='EEXIST')throw new Error('DESKTOP_LOCKED: another run or interrupted-run lock; inspect recorded owner before removing');throw error;}
   fs.writeFileSync(fd,JSON.stringify({pid:process.pid,nonce,at:new Date().toISOString()}));
-  return ()=>{fs.closeSync(fd);fs.unlinkSync(file);};
+  const ownership=fs.readFileSync(file),identity=fs.fstatSync(fd);let released=false;
+  return ()=>{
+    if(released)return;released=true;fs.closeSync(fd);
+    requireTrue(fs.existsSync(file)&&fs.readFileSync(file).equals(ownership)&&fs.statSync(file).ino===identity.ino,'DESKTOP_LOCK_OWNERSHIP_CHANGED');
+    fs.unlinkSync(file);
+  };
 }
 async function csharp(context,item) {
   const env={...context.env,PHASE1_ROOT:context.root,PHASE1_RESULT_DIRECTORY:context.directory,PHASE1_NONCE:context.nonce,PHASE1_INPUT:context.input,PHASE1_TOOL:context.tool,PHASE1_PLATFORM:context.platform};

@@ -2,21 +2,20 @@
 gsd_state_version: "1.0"
 milestone: v0.1
 milestone_name: Complete playable LAN campaign
-current_phase: 03
-current_phase_name: Four-player LAN foundation
+current_phase: 04
+current_phase_name: Asset production
 current_plan: Not started
 status: planning
-stopped_at: Phase 2 complete, ready to plan Phase 03
-last_updated: "2026-11-15T12:37:39.491Z"
-last_activity: 2026-11-15
-last_activity_desc: Phase 2 complete, transitioned to Phase 03
-state_head: 9789e6f57828e6fc9298148a31aae450db764062
+stopped_at: Phase 3 verified complete; requested --only 3 boundary reached
+last_updated: "2026-11-16T05:57:44.786Z"
+last_activity: 2026-11-16
+last_activity_desc: Phase 3 verified complete; Phase 4 not started
 progress:
   total_phases: 11
-  completed_phases: 2
-  total_plans: 21
-  completed_plans: 21
-  percent: 18
+  completed_phases: 3
+  total_plans: 25
+  completed_plans: 25
+  percent: 27
 ---
 
 # Project State
@@ -27,37 +26,40 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase 2 — Playable foundation is complete: 3/3 plans, BASE-01–BASE-03 accepted, 16/16 selected cases and clean code review. All nine rendered cases passed in one Windows 1280×720 process. PR #3 targets dev; the creator will merge it. This --only 2 run stops here; Phase 3 has not started. Follow the current local testing strategy for future work.
+**Current focus:** Phase 03 — Four-player LAN foundation is verified complete: all four plans, LAN-01–LAN-04 and 21/21 must-haves. Independent code review is clean with eighteen findings resolved. The fresh Windows 1280×720 selection passed 481/481 and all 319 current image bindings passed visual review. PR [#4](https://github.com/Sebreiro/kingdom-zombies-game/pull/4) is the phase's review handoff on `feature/03-four-player-lan-foundation`; the creator owns the merge decision. The requested `--only 3` run ends here.
 
 ## Current Position
 
-Phase: 03 — Four-player LAN foundation
+Phase: 04 — Asset production
 Current Plan: Not started
-Total Plans in Phase: TBD (Phase 3 has not been planned)
+Total Plans in Phase: TBD
 Status: Ready to plan
-Last activity: 2026-11-15 — Phase 2 complete, transitioned to Phase 03
+Last activity: 2026-11-16 — Phase 3 verified complete; Phase 4 not started
 
-Progress: [██░░░░░░░░] 18%
+Progress: [███░░░░░░░] 27%
 
-Phase 1 plan progress: 18/18 completed; Phase 1 and RULE-01 through RULE-07 remain closed under the 2026-11-14 exception. Milestone progress: 2/11 phases complete.
+Milestone progress: 3/11 phases complete, 25/25 currently planned plans complete, fourteen of 134 requirements complete. Phase 1's 18/18 plans remain closed under the 2026-11-14 exception; Phase 2 is 3/3 and Phase 3 is 4/4. Future phases have no invented plan counts.
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 21
-- Average duration: 75min recorded windows (rounded)
-- Total execution time: 1352min recorded windows; Plan 01-17 contributes 155min across three recorded execution windows; plans 01-08/01-09 include continuation/verification wall time, 01-12 includes diagnostic and replacement full runs, and 01-13/01-14 include their immutable full runs. Plan 01-14's 101min excludes later authority-reconciliation waiting and metadata resumption; 01-15 records an 11min focused window and 01-16 an 84min implementation/verification window before metadata closeout.
+- Total plans completed: 25
+- Phase 1 recorded windows: 1352min, 75min average (rounded); historical per-plan scopes remain below.
+- Phase 3 recorded plan windows: 944min total, 236min average. Plan 03-04's 833min includes reviews, failed attempts and five fresh full attempts; it is not the final selected-run duration.
+- Final Phase 3 selected execution: 3,363,558ms / 56.06min, 481/481. No overall execution-time total is inferred for plans without recorded duration metadata.
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 | --- | --- | --- | --- |
 | 1 | 18 | 1352min | 75min |
-| 2 | 3 | - | - |
+| 2 | 3 | Partial duration metadata | - |
+| 3 | 4 | 944min | 236min |
+| 3 | 4 | - | - |
 
 **Recent Trend:**
-- Last 5 plans: 01-13 (69min), 01-14 (101min), 01-15 (11min), 01-16 (84min), 01-17 (155min across three windows)
-- Trend: Eighteen plans recorded; immutable complete runs retain their original identities. Plan 01-17 includes the retained Windows 676 baseline and focused Linux amendments, with earlier failed attempts preserved.
+- Latest completed phase: 03-01 (39min), 03-02 (29min), 03-03 (43min), 03-04 (833min).
+- Trend: Genuine failures drove bounded repair batches, focused acceptance and a fresh entire selection. The final full pass and image review retain their original execution identities; earlier failed runs remain preserved.
 
 **Per-Plan Metrics:**
 
@@ -88,18 +90,22 @@ Phase 1 plan progress: 18/18 completed; Phase 1 and RULE-01 through RULE-07 rema
 
 Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 implementation history and immutable report identities remain in its eighteen plan summaries.
 
-- All 133 v0.1 requirements and ten sequential working-increment phases remain approved. RULE-01–RULE-07 are complete; the other 126 remain Pending.
-- Phase 1 establishes the pinned Godot/C# five-project baseline, twelve inherited analyzers, bounded generated permissions, controlled state/snapshots and real native lifecycle/thread proofs. No player-facing feature is delivered yet.
+- The approved v0.1 scope now contains 134 requirements and eleven sequential phases. RULE-01–RULE-07, BASE-01–BASE-03 and LAN-01–LAN-04 are complete; 120 requirements remain Pending.
+- Phase 1 establishes the pinned Godot/C# five-project baseline, twelve inherited analyzers, bounded generated permissions, controlled state/snapshots and real native lifecycle/thread proofs. Phases 2–3 add the playable menu/walking scene and four-player LAN foundation.
 - Accept Phase 1 through the creator-authorized Windows 676 baseline plus actual focused Linux strict/native/rule/state/graph evidence and one platform-name test correction checked on both OSes. No host restart occurred.
 - Keep the complete Linux suite, original graph-case timeout and fourteen unreviewed human components as explicit follow-ups. Never convert them into passed cases or reviews.
-- Later phases must test on the development OS and complete their required scope in a local VM using the other OS. Phase 5 retains measured 90%/80% coverage and eight pending certification declarations.
+- The latest 2026-11-15 local policy supersedes earlier other-OS VM requirements: routine phase closure uses development Windows at 1280×720 without a VM. Phase 5 retains hosted Windows/Linux compatibility, measured 90%/80% coverage and eight pending certification declarations.
 - Phase implementation uses `feature/<task-id>-<short-description>` branches and draft PRs to `dev` at the first implementation push; the same PR becomes ready for review after phase completion and required verification. Follow the [phase branch and PR rules](../docs/workflow/ai-collaboration.md#phase-branches-and-pull-requests).
 - [Phase 05]: Latest 2026-11-15 testing policy supersedes earlier VM and full-catalog phase-closure bullets: use development OS only, no VM, 1280x720, finish implementation and review/fixes before game windows. Select all active Critical cases plus every new/changed case and affected regression immediately. Save reusable scenarios with importance and ordered run groups; collect failures, batch repairs, check failures, then rerun the whole selected set. Phase 11 owns TEST-11 nightly full regression testing; hosted and distinct release evidence remains separate.
-- [Phase 11]: TEST-11 adds nightly full regression testing after Phase 10: the map now has 134 requirements and eleven phases, with original requirement IDs/owners preserved. RULE-01 through RULE-07 remain complete; 127 requirements remain pending. Phase 02 / plan 02-02 is still active.
+- [Phase 11]: TEST-11 adds nightly full regression testing after Phase 10; original requirement IDs/owners remain preserved.
+- [Phase 03]: Independent verification passed 21/21 must-haves, all four roadmap criteria and LAN-01–LAN-04. Source/build remains `c69442148c975de974ebbb1d8ef409380940ecb0`; original full execution HEAD is `6ea600953be031bf2b467a50d35090a94e44f802`. Metadata closure must retain both the assembly revision and reviewed SourceLink target.
+- [Phase 03]: Final full `841e10b1-f825-4527-865b-4703382f51eb` passed 481/481 in 56.06min: 433 Phase 1, sixteen Phase 2 and 32 Phase 3. All 48 physical timing rows meet 250ms (maximum 197.8586ms); all sixteen stopped comparisons agree with host. Current visual review accepts 319 bindings / 255 distinct contents. This is local Windows proof, with separate physical LAN, supported-display, hardware and endurance release owners.
 
 ### Pending Todos
 
 No remaining Phase 1 closure gate under the current creator exception. Follow-up work is recorded in the [closure register](phases/01-code-rules-and-documentation/01-CLOSURE-FOLLOWUPS.md); it remains unperformed or unaccepted. The old restart checkpoint is historical and is not the next action.
+
+Phase 3 has no blocking acceptance item. Its independent [UI audit](phases/03-four-player-lan-foundation/03-UI-REVIEW.md) retains eight advisory warnings (19/24, zero blockers), including focus styling, roster typography and full-text disclosure. No exact UI-contract compliance is claimed.
 
 ### Roadmap Evolution
 
@@ -115,6 +121,7 @@ No remaining Phase 1 closure gate under the current creator exception. Follow-up
 - [Phase 5] Measured analyzer/production coverage, advanced reconciliation and eight certification cases remain pending at the unchanged inclusive 90% line / 80% branch targets.
 - [Process history] WINDOWS item 1 retains the missing original bootstrap RED record; later successful evidence does not recreate it. All original plan reports and failed attempts remain historical records. One-shot refactoring/binding utilities must not be reapplied.
 - [Release] Reference-PC hardware and required real mixed-OS LAN/endurance environments need actual recording and measurements before release acceptance.
+- [Phase 3 diagnostics] The completion CLI reports six supposed missing file references in 03-01-SUMMARY: four are executable command strings, and two are phase-relative `tdd/03-01-task*-red.json` paths. Both actual phase-local RED files exist. Independent verification checked the real artifacts and source links; the generic summary-path diagnostic remains disclosed without changing immutable summary metadata.
 
 ### Quick Tasks Completed
 
@@ -126,7 +133,7 @@ No remaining Phase 1 closure gate under the current creator exception. Follow-up
 
 The [Phase 5 handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md) retains measured analyzer/production coverage, advanced reconciliation and eight aggregate/coverage cases. The unchanged manifest contains 684 declarations: 676 Phase 1 cases and eight separately pending Phase 5 cases. The Windows 676 baseline and focused both-OS amendment remain distinct from the limited composed Linux evidence.
 
-Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-documentation/01-CLOSURE-EXCEPTION.md). Its [follow-ups](phases/01-code-rules-and-documentation/01-CLOSURE-FOLLOWUPS.md) remain unperformed/unaccepted. For later phases, complete testing on the development OS and a local VM using the other OS remains required. Preserve immutable reports and distinct identities for changed code and documentation.
+Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-documentation/01-CLOSURE-EXCEPTION.md). Its [follow-ups](phases/01-code-rules-and-documentation/01-CLOSURE-FOLLOWUPS.md) remain unperformed/unaccepted. Current routine local verification follows the development-OS-only, 1280×720, no-VM policy. Preserve immutable reports and distinct identities for changed code and metadata.
 
 | Category | Item | Status | Deferred At | Milestone |
 | --- | --- | --- | --- | --- |
@@ -136,10 +143,10 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 
 ## Session Continuity
 
-Last session: 2026-11-15T11:54:34.106Z
-Stopped at: Phase 2 complete, ready to plan Phase 03
-Resume file: .planning/phases/03-four-player-lan-foundation/03-CONTEXT.md
+Last session: 2026-11-16
+Stopped at: Phase 3 verified complete; requested --only 3 boundary reached
+Resume file: .planning/phases/03-four-player-lan-foundation/03-CONTINUATION.md
 
-Next action: Stop after completed Phase 2 as requested by --only 2. The creator will merge PR #3. Phase 3 is ready for a future planning invocation; preserve its captured context and all historical Phase 1 follow-ups.
+Next action: Review PR #4; the creator owns the merge decision. Preserve reviewed source `c69442148c975de974ebbb1d8ef409380940ecb0` and `tools/phase3/reviewed-source.targets` for any metadata-only evidence reconciliation. Phase 4 awaits a separate request; this --only 3 run does not plan or execute it.
 
-Parallel context resume: [Phase 4 context](phases/04-asset-production/04-CONTEXT.md). Its capture is preserved separately from this completed Phase 1 run.
+Preserved future context: [Phase 4 context](phases/04-asset-production/04-CONTEXT.md). No Phase 4 work was executed by this run.

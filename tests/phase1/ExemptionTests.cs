@@ -32,7 +32,7 @@ public sealed class ExemptionTests
         build.Exit.ShouldBe(expected: 0, customMessage: build.Output);
         ExemptionValidator.CheckRepository().ShouldBeEmpty();
         ProofProtocol.Record(id: "R-50.positive", diagnostic: "EXEMPTIONS_EXACT",
-                location: "tracked handwritten sources and eighteen exact genuine generated members");
+                location: "tracked handwritten sources and twenty-six exact genuine generated members");
     }
 
     /// <summary>A generated suffix and a marker independently cannot hide a real custom-rule violation.</summary>
@@ -244,7 +244,7 @@ public sealed class ExemptionTests
     public void Validate_BoundedExemptions_RequiresActualEngineBoundary()
     {
         ExemptionValidator.CheckRepository().ShouldBeEmpty();
-        ExemptionValidator.ReadPermissions().Count.ShouldBe(expected: 18);
+        ExemptionValidator.ReadPermissions().Count.ShouldBe(expected: 26);
         SourceFileFormat.ReadFinalNewlineExemptions().Count.ShouldBe(expected: 5);
         (string File, int Line) result = VerifyGameCompanion(violate: true);
         ProofProtocol.Record(id: "ac-08.complete", diagnostic: "EXEMPTIONS_BOUNDED_VALIDATED",
@@ -491,7 +491,13 @@ public sealed class ExemptionTests
             count++;
         }
 
-        count.ShouldBe(expected: 8);
+        count.ShouldBe(expected: 16);
+        rows.Where(predicate: row => row?["surface"]?.GetValue<string>().StartsWith(
+                value: "src/godot-game/", comparisonType: StringComparison.Ordinal) == true)
+                .Select(selector: row => row?["id"]?.GetValue<string>()).Order(comparer: StringComparer.Ordinal)
+                .ShouldBe(expected: Enumerable.Range(start: 1, count: 16).Select(selector: number =>
+                        "KZ-EX-GODOT-CALLS-" + number.ToString(provider: System.Globalization.CultureInfo
+                                .InvariantCulture)).Order(comparer: StringComparer.Ordinal));
     }
 
     private static (string File, int Line) VerifyGameCompanion(bool violate)

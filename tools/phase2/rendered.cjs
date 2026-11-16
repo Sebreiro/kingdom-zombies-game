@@ -31,13 +31,16 @@ function decodePng(file, width = 1280, height = 720) {
       const a = x >= channels ? pixels[y * stride + x - channels] : 0;
       const b = y ? pixels[(y - 1) * stride + x] : 0;
       const c = y && x >= channels ? pixels[(y - 1) * stride + x - channels] : 0;
-      const p = a + b - c, pa = Math.abs(p - a), pb = Math.abs(p - b), pc = Math.abs(p - c);
-      const predictor = filter === 1 ? a : filter === 2 ? b : filter === 3 ? Math.floor((a+b)/2) : filter === 4 ? pa <= pb && pa <= pc ? a : pb <= pc ? b : c : 0;
+      let predictor = filter === 1 ? a : filter === 2 ? b : filter === 3 ? Math.floor((a+b)/2) : 0;
+      if (filter === 4) {
+        const p = a + b - c, pa = Math.abs(p - a), pb = Math.abs(p - b), pc = Math.abs(p - c);
+        predictor = pa <= pb && pa <= pc ? a : pb <= pc ? b : c;
+      }
       pixels[y * stride + x] = (raw[y * (stride + 1) + 1 + x] + predictor) & 255;
     }
   }
   const colors = new Set();
-  for (let i = 0; i < pixels.length; i += channels) colors.add(pixels.subarray(i, i + 3).toString('hex'));
+  for (let i = 0; i < pixels.length; i += channels) colors.add((pixels[i] << 16) | (pixels[i + 1] << 8) | pixels[i + 2]);
   requireTrue(colors.size > 3, 'PNG_EMPTY_CONTENT');
   return { width, height, colors: colors.size, decodedBytes: pixels.length };
 }
@@ -81,6 +84,7 @@ function createSession(context) {
   const width = 1280, height = 720;
   const game = spawn(engine, ['--path', path.join(root, 'src/godot-game'), '--rendering-method', 'gl_compatibility', '--resolution', `${width}x${height}`], {
     cwd: root, env: { ...env, PHASE2_NONCE: nonce, PHASE2_OUTPUT: directory,
+      PHASE3_PROFILE_ROOT:path.join(directory,'profiles'),
       ...(context.includeMenu?{PHASE2_FAIL_ENTRY_ONCE:nonce}:{}) }, shell: false, windowsHide: false, detached:process.platform !== 'win32',
   });
   let log = '', exited = false, exitCode;
@@ -149,11 +153,7 @@ async function tracer(context, scenario, session, logStart = session.log.length)
     const send = (action,name) => input(action,0,0,key(name));
     if (scenario === 'rendered.menu') {
       await input('move',menu.startX,menu.startY); await observe('start-hover-focus');
-      await send('tap','Tab'); requireTrue((await observe('tab-quit')).quitFocused,'TAB_QUIT');
-      await send('down','Shift_L'); await send('tap','Tab'); await send('up','Shift_L');
-      requireTrue((await observe('shift-tab-start')).startFocused,'SHIFT_TAB_START');
-      await send('tap','Down'); requireTrue((await observe('down-quit')).quitFocused,'DOWN_QUIT');
-      await send('tap','Up'); requireTrue((await observe('up-start')).startFocused,'UP_START');
+      await require('./menu-navigation.cjs').check(send,observe,requireTrue);
       await input('mouse-down',menu.startX,menu.startY); await observe('start-pressed'); await input('mouse-up',menu.startX,menu.startY);
       const error=await observe('recoverable-error');
       requireTrue(error.actors===0 && error.errorVisible && error.startFocused && error.menuVisible,'RECOVERABLE_MENU');
@@ -274,7 +274,9 @@ async function tracer(context, scenario, session, logStart = session.log.length)
       return {...validateResources(context),contentIds:[ids.FixtureId,ids.GroundId,ids.BuildingId,ids.PlayerContentId],observations,images,intervals,pid:session.game.pid,width,height};
     }
     if (scenario === 'rendered.quit') {
-      await send('tap','Tab'); requireTrue((await observe('quit-keyboard-focused')).quitFocused,'QUIT_KEYBOARD_FOCUS');
+      for(const control of ['Host','Join','Quit']){
+        await send('tap','Tab');requireTrue((await observe('quit-keyboard-'+control.toLowerCase())).focusedControl===control,'QUIT_KEYBOARD_FOCUS '+control);
+      }
       await send('tap','space');
       const deadline = Date.now() + 8000;
       while (!session.exited && Date.now() < deadline) await delay(50);

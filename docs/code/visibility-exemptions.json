@@ -2,13 +2,81 @@
   "schemaVersion": 1,
   "rule": "R-34",
   "permissions": [
-    { "path": "src/godot-game/foundation/FoundationRoot.cs", "type": "KingdomZombies.Foundation.FoundationRoot", "reason": "The ordinary authored main scene requires this exact Godot engine-facing root and its authenticated generated partial." },
-    { "path": "src/core/FoundationMovementCommand.cs", "type": "KingdomZombies.Core.FoundationMovementCommand", "reason": "The game adapter submits immutable identified movement requests across the Core assembly boundary." },
-    { "path": "src/core/FoundationActorState.cs", "type": "KingdomZombies.Core.FoundationActorState", "reason": "The game view reads the immutable identified actor publication across the Core assembly boundary." },
-    { "path": "src/core/FoundationSession.cs", "type": "KingdomZombies.Core.FoundationSession", "reason": "The game composition owns this pure authoritative local session across the Core assembly boundary." },
-    { "path": "src/core/ProofValue.cs", "type": "KingdomZombies.Core.ProofValue", "reason": "The game composition proof consumes this explicit immutable cross-assembly value contract." },
-    { "path": "src/multiplayer-abstractions/IProofService.cs", "type": "KingdomZombies.Multiplayer.Abstractions.IProofService", "reason": "An independent provider must implement this explicit cross-assembly service port." },
-    { "path": "src/godot-game/proofs/Phase1.cs", "type": "KingdomZombies.Proofs.Phase1", "reason": "The observed Godot scene script and its generated partial expose this exact engine-facing type. This grants no other script or generated source permission." }
+    {
+      "path": "src/godot-game/foundation/FoundationRoot.cs",
+      "type": "KingdomZombies.Foundation.FoundationRoot",
+      "reason": "The ordinary authored main scene requires this exact Godot engine-facing root and its authenticated generated partial."
+    },
+    {
+      "path": "src/core/FoundationMovementCommand.cs",
+      "type": "KingdomZombies.Core.FoundationMovementCommand",
+      "reason": "The game adapter submits immutable identified movement requests across the Core assembly boundary."
+    },
+    {
+      "path": "src/core/FoundationActorState.cs",
+      "type": "KingdomZombies.Core.FoundationActorState",
+      "reason": "The game view reads the immutable identified actor publication across the Core assembly boundary."
+    },
+    {
+      "path": "src/core/FoundationSession.cs",
+      "type": "KingdomZombies.Core.FoundationSession",
+      "reason": "The game composition owns this pure authoritative local session across the Core assembly boundary."
+    },
+    {
+      "path": "src/core/ProofValue.cs",
+      "type": "KingdomZombies.Core.ProofValue",
+      "reason": "The game composition proof consumes this explicit immutable cross-assembly value contract."
+    },
+    {
+      "path": "src/multiplayer-abstractions/IProofService.cs",
+      "type": "KingdomZombies.Multiplayer.Abstractions.IProofService",
+      "reason": "An independent provider must implement this explicit cross-assembly service port."
+    },
+    {
+      "path": "src/godot-game/proofs/Phase1.cs",
+      "type": "KingdomZombies.Proofs.Phase1",
+      "reason": "The observed Godot scene script and its generated partial expose this exact engine-facing type. This grants no other script or generated source permission."
+    },
+    {
+      "path": "src/core/FoundationSnapshot.cs",
+      "type": "KingdomZombies.Core.FoundationSnapshot",
+      "reason": "Explicit immutable roster or independent framework-value connection contract consumed by production composition."
+    },
+    {
+      "path": "src/core/FoundationParticipantState.cs",
+      "type": "KingdomZombies.Core.FoundationParticipantState",
+      "reason": "Explicit immutable roster or independent framework-value connection contract consumed by production composition."
+    },
+    {
+      "path": "src/multiplayer-abstractions/IConnectionService.cs",
+      "type": "KingdomZombies.Multiplayer.Abstractions.IConnectionService",
+      "reason": "Explicit immutable roster or independent framework-value connection contract consumed by production composition."
+    },
+    {
+      "path": "src/multiplayer-abstractions/ConnectionPacket.cs",
+      "type": "KingdomZombies.Multiplayer.Abstractions.ConnectionPacket",
+      "reason": "Explicit immutable roster or independent framework-value connection contract consumed by production composition."
+    },
+    {
+      "path": "src/multiplayer-abstractions/IDiscoveryService.cs",
+      "type": "KingdomZombies.Multiplayer.Abstractions.IDiscoveryService",
+      "reason": "Exact independent framework-only discovery or local identity contract consumed by production composition."
+    },
+    {
+      "path": "src/multiplayer-abstractions/IIdentityService.cs",
+      "type": "KingdomZombies.Multiplayer.Abstractions.IIdentityService",
+      "reason": "Exact independent framework-only discovery or local identity contract consumed by production composition."
+    },
+    {
+      "path": "src/multiplayer-abstractions/SessionAdvertisement.cs",
+      "type": "KingdomZombies.Multiplayer.Abstractions.SessionAdvertisement",
+      "reason": "Exact independent framework-only discovery or local identity contract consumed by production composition."
+    },
+    {
+      "path": "src/multiplayer-abstractions/PlayerProfile.cs",
+      "type": "KingdomZombies.Multiplayer.Abstractions.PlayerProfile",
+      "reason": "Exact independent framework-only discovery or local identity contract consumed by production composition."
+    }
   ],
   "positiveProof": "R-34.positive",
   "negativeProof": "R-34.negative"

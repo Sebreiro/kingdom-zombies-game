@@ -4,7 +4,7 @@
 
 ## Overview
 
-Deliver the complete specified version 0.1: players build, equip, and defend one shared survivor camp through a solo or four-player LAN campaign, preserving their survivors, belongings, and progress. The creator approved all 133 requirements, the working-increment direction, and this detailed ten-phase roadmap on 2026-11-13. Phase 1 is complete under the focused Linux exception above. Its developer baseline is verified; Phase 2 now delivers the menu and playable walking foundation.
+Deliver the complete specified version 0.1: players build, equip, and defend one shared survivor camp through a solo or four-player LAN campaign, preserving their survivors, belongings, and progress. The creator approved the original 133 requirements, working-increment direction and ten-phase roadmap on 2026-11-13; TEST-11 extended this to 134 requirements and eleven phases. Phases 1–3 are complete, including the playable menu/walking scene and four-player LAN foundation. Phase 1 retains its focused closure exception and disclosed follow-ups.
 
 **Planning mode:** `mvp` means working, verifiable increments toward the full approved game; it does not reduce scope.
 **Granularity:** Standard configuration, with the original ten-phase direction extended by creator-requested Phase 11 on 2026-11-15.
@@ -17,7 +17,7 @@ Deliver the complete specified version 0.1: players build, equip, and defend one
 
 ## Milestones
 
-- 🚧 **v0.1 Complete playable LAN campaign** — Phases 1–11; Phase 1 complete, Phase 2 implementing; Phase 11 added 2026-11-15.
+- 🚧 **v0.1 Complete playable LAN campaign** — Phases 1–3 complete; Phases 4–11 not started. Phase 11 added 2026-11-15.
 
 ## v0.1 — Complete playable LAN campaign
 
@@ -29,7 +29,7 @@ Integer phases execute in order. Decimal phases are reserved for explicitly inse
 
 - [x] **Phase 1: Code rules and documentation** - Developers can use strict, proven Godot-compatible C# rules and focused documentation. (completed 2026-11-14)
 - [x] **Phase 2: Playable foundation** - Players launch a menu, enter a small scene, and move one character left and right. (completed 2026-11-15)
-- [ ] **Phase 3: Four-player LAN foundation** - A host and three guests independently control synchronized characters in the same scene.
+- [x] **Phase 3: Four-player LAN foundation** - A host and three guests independently control synchronized characters in the same scene. (completed 2026-11-16)
 - [ ] **Phase 4: Asset production** - The complete required resource pack is reusable, self-contained, and inspectable in fixtures.
 - [ ] **Phase 5: CI and repeatable game testing** - Developers and AI agents run stored cases locally and in CI with trustworthy evidence.
 - [ ] **Phase 6: Survivors, inventory, and combat** - Players manage real belongings, fight, die, and continue through ordinary-survivor succession.
@@ -154,7 +154,7 @@ Every feature includes its stable identities, host-authoritative validation and 
 
 ### Phase 3: Four-player LAN foundation
 
-**Goal:** A host and three guests can share the foundation scene, independently control their characters, and observe consistent authoritative movement.
+**Goal:** As a LAN player, I want to host or join a foundation scene for one host and three guests and independently control my character, so that all four players observe consistent authoritative movement.
 **Mode:** mvp
 **Depends on:** Phase 2
 **Requirements:** LAN-01, LAN-02, LAN-03, LAN-04
@@ -165,8 +165,21 @@ Every feature includes its stable identities, host-authoritative validation and 
 3. Solo, host-local, and guest actions produce one authoritative result per accepted action; repeated input/command delivery cannot execute the host action twice.
 4. A developer can repeat the connection/movement smoke checks and substitute the discovery, identity, or connection adapter without changing gameplay rules; player identity survives independently of a LAN address or transient peer number.
 
-**Plans:** TBD
+**Plans:** 4/4 plans complete
 **UI hint:** yes
+
+Plans:
+**Wave 1**
+- [x] 03-01-PLAN.md — Prove the production host/manual-join ENet tracer and exact permissions without game windows.
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [x] 03-02-PLAN.md — Complete four-participant admission, ordering, timeout and session-lifetime behavior.
+
+**Wave 3** *(blocked on Wave 2 completion)*
+- [x] 03-03-PLAN.md — Complete discovery, stable profiles, native controls, independent cameras and service substitutions.
+
+**Wave 4** *(blocked on Wave 3 completion)*
+- [x] 03-04-PLAN.md — Deliver strict per-peer evidence, review/fix the whole phase and run grouped selected scenarios.
 
 **Delivery boundary:** Provide the minimal host/join controls and feedback needed for the increment. Establish revision/baseline, readiness, disconnect cleanup, and session lifetime contracts, while full discovery metadata, late-join recovery, reconnection, and host-loss/save behavior remain owned by Phase 9. Four local processes are a repeatable network proof; mixed-OS LAN on separate computers remains required release evidence.
 
@@ -330,7 +343,7 @@ Every feature includes its stable identities, host-authoritative validation and 
 | --- | ---: | --- |
 | 1. Code rules and documentation | 7 | Complete under focused closure exception |
 | 2. Playable foundation | 3 | Complete |
-| 3. Four-player LAN foundation | 4 | Pending |
+| 3. Four-player LAN foundation | 4 | Complete |
 | 4. Asset production | 5 | Pending |
 | 5. CI and repeatable game testing | 10 | Pending |
 | 6. Survivors, inventory, and combat | 29 | Pending |
@@ -339,7 +352,7 @@ Every feature includes its stable identities, host-authoritative validation and 
 | 9. Persistence and complete player experience | 28 | Pending |
 | 10. Release validation and balancing | 6 | Pending |
 | 11. Nightly full regression testing | 1 | Pending |
-| **Total** | **134** | **10 complete / 124 pending** |
+| **Total** | **134** | **14 complete / 120 pending** |
 
 Every approved version 0.1 ID is assigned exactly once; no unknown IDs, duplicate owners, or orphan requirements are allowed. The [requirements traceability table](REQUIREMENTS.md#traceability) is the per-ID ownership record. Its existing A-01–A-47 source crosswalk stays unchanged; Phase 5 expands it into executable/evidence cases and activation states.
 
@@ -351,7 +364,7 @@ Execution order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11
 | --- | --- | --- | --- |
 | 1. Code rules and documentation | 18/18 | Complete    | 2026-11-14 |
 | 2. Playable foundation | 3/3 | Complete    | 2026-11-15 |
-| 3. Four-player LAN foundation | 0/TBD | Not started | - |
+| 3. Four-player LAN foundation | 4/4 | Complete    | 2026-11-16 |
 | 4. Asset production | 0/TBD | Not started | - |
 | 5. CI and repeatable game testing | 0/TBD | Not started | - |
 | 6. Survivors, inventory, and combat | 0/TBD | Not started | - |
@@ -362,4 +375,4 @@ Execution order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11
 | 11. Nightly full regression testing | 0/TBD | Not started | - |
 
 ---
-*Detailed roadmap approved: 2026-11-13; local testing policy and Phase 11/TEST-11 added: 2026-11-15 (Europe/Paris). Phase 2 remains the active implementation.*
+*Detailed roadmap approved: 2026-11-13; local testing policy and Phase 11/TEST-11 added: 2026-11-15 (Europe/Paris). Phase 3 verified complete: 2026-11-16. The requested --only 3 run ends here; Phase 4 has not started.*

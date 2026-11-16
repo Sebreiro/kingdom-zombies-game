@@ -50,7 +50,8 @@ public sealed class BodyLengthAnalyzer : DiagnosticAnalyzer
         foreach ((SyntaxNode body, TextSpan span) in MemberBodies.Find(root: root))
         {
             int lines = CountLines(text: text, body: body, span: span);
-            if (lines > MaxLines)
+            if (lines > MaxLines && !GeneratedSyntax.IsPermitted(diagnostic: DiagnosticId, tree: context.Tree,
+                    span: NameToken(body: body).Span))
             {
                 context.ReportDiagnostic(diagnostic: Diagnostic.Create(
                         descriptor: Rule,

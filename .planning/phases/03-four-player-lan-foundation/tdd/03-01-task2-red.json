@@ -1,0 +1,13 @@
+{
+  "reportPath": ".phase3/tdd/task2-red-valid.xml",
+  "actual": "Scanner accepted a fresh gateway after valid equivalent production subject passed",
+  "command": "dotnet tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll --filter-method '*ExactLanPermissionsRejectAdjacentMisuse' --report-xunit-junit --report-xunit-junit-filename task2-red-valid.xml --results-directory .phase3/tdd",
+  "semanticAssessment": "The original production Root compiled and scanner accepted it. The forged replacement compiled, then the explicit ShouldNotBeEmpty assertion failed because it returned an empty error set.",
+  "runStartedAt": "2026-11-15T13:43:10.9552572Z",
+  "expected": "Exact positive compiles and passes; newly constructed gateway guard is rejected",
+  "targetTest": "KingdomZombies.Phase1.Tests.FoundationLanPermissionTests#KingdomZombies.Phase1.Tests.FoundationLanPermissionTests.ExactLanPermissionsRejectAdjacentMisuse",
+  "targetFile": "tests/phase1/FoundationLanPermissionTests.cs",
+  "output": "<testsuites name=\"Test results\" tests=\"1\" failures=\"1\" errors=\"0\" disabled=\"0\" time=\"2.959000\" timestamp=\"2026-11-15T13:43:11\"><testsuite name=\"D:\\Work\\Games\\KingdomZombies\\tests\\phase1\\bin\\Debug\\net10.0\\KingdomZombies.Phase1.Tests.dll\" tests=\"1\" failures=\"1\" errors=\"0\" disabled=\"0\" skipped=\"0\" time=\"2.959000\" timestamp=\"2026-11-15T13:43:11\" hostname=\"MINI-WIN\"><testcase name=\"KingdomZombies.Phase1.Tests.FoundationLanPermissionTests.ExactLanPermissionsRejectAdjacentMisuse\" time=\"2.832000\" classname=\"KingdomZombies.Phase1.Tests.FoundationLanPermissionTests\"><failure message=\"Shouldly.ShouldAssertException : EngineAccessPolicy.Check(source: forged, path: Path, consumer: consumer)&#xD;&#xA;    should not be empty but was&#xD;&#xA;&#xD;&#xA;Additional Info:&#xD;&#xA;    A fresh gateway would capture a worker thread instead of the original engine thread.\">   at KingdomZombies.Phase1.Tests.FoundationLanPermissionTests.ExactLanPermissionsRejectAdjacentMisuse() in D:\\Work\\Games\\KingdomZombies\\tests\\phase1\\FoundationLanPermissionTests.cs:line 30\r\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\r\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)</failure></testcase></testsuite></testsuites>",
+  "reportModifiedAt": "2026-11-15T13:43:14.3822978Z",
+  "exitCode": 2
+}

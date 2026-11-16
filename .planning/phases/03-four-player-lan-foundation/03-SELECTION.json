@@ -1,0 +1,1595 @@
+{
+  "schemaVersion": 1,
+  "declaredAt": "2026-11-15",
+  "policy": "Critical plus all new/changed/affected; no evidence reuse; no VM; Windows 1280x720",
+  "status": "declared-before-first-window",
+  "selected": {
+    "phase3": [
+      "core.authority",
+      "network.tracer",
+      "core.permissions",
+      "core.admission",
+      "core.ordering",
+      "core.protocol",
+      "network.four-peer",
+      "core.lifecycle",
+      "network.lifecycle",
+      "network.idle-poll",
+      "adapters.discovery",
+      "adapters.profiles",
+      "network.discovery-profile",
+      "core.input",
+      "adapters.substitutions",
+      "runner.tracer",
+      "runner.timing",
+      "runner.integrity",
+      "runner.processes",
+      "runner.repeatability",
+      "rendered.entry",
+      "rendered.browser",
+      "rendered.join-errors",
+      "rendered.profiles",
+      "rendered.moving-join",
+      "rendered.walkers",
+      "rendered.timing",
+      "rendered.focus",
+      "rendered.admission",
+      "rendered.guest-lifecycle",
+      "rendered.host-end",
+      "rendered.host-loss"
+    ],
+    "phase2": [
+      "core.authority",
+      "core.input",
+      "core.lifecycle",
+      "core.permissions",
+      "rendered.tracer",
+      "rendered.menu",
+      "rendered.directions",
+      "rendered.distance",
+      "rendered.world",
+      "rendered.lifecycle",
+      "rendered.focus",
+      "rendered.quit",
+      "rendered.resources",
+      "runner.integrity",
+      "runner.processes",
+      "runner.repeatability"
+    ],
+    "phase1": [
+      "graph.visibility-inventory",
+      "engine.method-escape",
+      "engine.inherited-members",
+      "engine.consumer-branches",
+      "rules.suppression-conditional",
+      "runner.missing-result",
+      "runner.assertion-pass",
+      "runner.duplicate-result",
+      "runner.unknown-result",
+      "runner.wrong-nonce",
+      "runner.changed-input",
+      "runner.wrong-tool",
+      "runner.wrong-platform",
+      "runner.skipped-result",
+      "runner.blocked-result",
+      "runner.empty-evidence",
+      "runner.escaping-evidence",
+      "runner.unrelated-diagnostic",
+      "runner.missing-prerequisite",
+      "runner.selection",
+      "ac-05.complete",
+      "ac-08.complete",
+      "ac-12.complete",
+      "ac-13.complete",
+      "ac-14.complete",
+      "ac-15.complete",
+      "ac-16.complete",
+      "ac-17.complete",
+      "ac-18.complete",
+      "ac-19.complete",
+      "ac-20.complete",
+      "ac-21.complete",
+      "ac-22.complete",
+      "edge.rule-02.adjacency",
+      "edge.rule-02.empty",
+      "edge.rule-02.encoding",
+      "edge.rule-02.ordering",
+      "edge.rule-03.boundary",
+      "edge.rule-03.adjacency",
+      "edge.rule-03.empty",
+      "edge.rule-03.encoding",
+      "edge.rule-03.ordering",
+      "edge.rule-03.precision",
+      "edge.rule-03.idempotency",
+      "edge.rule-03.concurrency",
+      "edge.rule-05.adjacency",
+      "edge.rule-05.empty",
+      "edge.rule-05.ordering",
+      "edge.rule-06.adjacency",
+      "edge.rule-06.empty",
+      "edge.rule-06.ordering",
+      "edge.rule-06.idempotency",
+      "edge.rule-06.concurrency",
+      "edge.rule-07.boundary",
+      "edge.rule-07.adjacency",
+      "edge.rule-07.empty",
+      "edge.rule-07.encoding",
+      "edge.rule-07.ordering",
+      "edge.rule-07.precision",
+      "edge.rule-07.idempotency",
+      "edge.rule-07.concurrency",
+      "R-09.positive",
+      "R-09.negative",
+      "R-10.positive",
+      "R-10.negative",
+      "R-28.positive",
+      "R-28.negative",
+      "R-33.positive",
+      "R-33.negative",
+      "R-37.positive",
+      "R-37.negative",
+      "R-38.positive",
+      "R-38.negative",
+      "R-43.register-resolution",
+      "R-46.positive",
+      "R-46.negative",
+      "R-50.positive",
+      "R-50.negative",
+      "R-54.positive",
+      "R-54.negative",
+      "R-57.register-resolution",
+      "R-67.positive",
+      "R-67.negative",
+      "R-76.register-resolution",
+      "R-79.register-resolution",
+      "R-80.register-resolution",
+      "R-85.register-resolution",
+      "runner.process.missing-executable",
+      "runner.process.zero-discovery",
+      "runner.process.wrong-filter",
+      "runner.process.skip",
+      "runner.process.crash",
+      "runner.process.timeout",
+      "runner.process.deleted-log",
+      "runner.process.deleted-result",
+      "runner.process.duplicate",
+      "runner.process.nonce",
+      "runner.process.source",
+      "runner.process.document",
+      "runner.process.repeat",
+      "runner.process.stale",
+      "runner.process.concurrent",
+      "runner.process.interrupted",
+      "runner.process.assertion",
+      "register.capture",
+      "register.omit-heading",
+      "register.omit-matrix",
+      "register.omit-exemption",
+      "register.duplicate",
+      "register.r37-trace",
+      "register.schema",
+      "register.reference-case",
+      "register.reference-unicode",
+      "register.proof-reverse",
+      "register.severity",
+      "register.diagnostic",
+      "register.documentation",
+      "register.numeric",
+      "register.review",
+      "register.exemption-duplicate",
+      "register.exemption-overlap",
+      "register.exemption-broad",
+      "register.pending",
+      "rules.body.59",
+      "rules.body.60",
+      "rules.body.61",
+      "register.symbol",
+      "register.source-field",
+      "register.proof-path",
+      "register.numeric-semantics",
+      "register.boundary-proof",
+      "register.missing-relation-field",
+      "rules.namedargument.Construction_PositionalArgument_Reports",
+      "rules.namedargument.Params_Elements_AreExempt",
+      "rules.namedargument.Analyze_ExtensionReceiver_IsExempt",
+      "rules.namedargument.Analyze_ExtensionMemberReceiver_IsExempt",
+      "rules.namedargument.Analyze_AttributeArguments_AreExempt",
+      "rules.namedargument.Analyze_IndexerArguments_AreExempt",
+      "rules.namedargument.Analyze_DelegateInvocation_IsExempt",
+      "rules.namedargument.FunctionPointerInvocation_PositionalArgument_IsExempt",
+      "rules.namedargument.Analyze_NameofTupleTypeofDefault_AreExempt",
+      "rules.namedargument.Analyze_NameofAsArgumentValue_Reports",
+      "rules.namedargument.GeneratedConfigurationCannotExemptHandwrittenCode",
+      "rules.namedargument.Analyze_ImplicitArguments_AreSkipped",
+      "rules.namedargument.Analyze_SingleLambdaArgument_Reports",
+      "rules.namedargument.Analyze_SingleParameterMethod_Reports",
+      "rules.namedargument.Analyze_IdentifierEqualToParameterName_Reports",
+      "rules.bodycomment.Method_TrailingComment_Reports",
+      "rules.bodycomment.ConstructorAndDestructor_Comments_Report",
+      "rules.bodycomment.Accessors_Comments_Report",
+      "rules.bodycomment.Operators_Comments_Report",
+      "rules.bodycomment.LocalFunctionAndLambda_Comments_Report",
+      "rules.bodycomment.FieldInitializerLambda_Comment_Reports",
+      "rules.bodycomment.Method_DocumentationComment_Reports",
+      "rules.bodycomment.PreprocessorDirectives_InBody_Pass",
+      "rules.bodycomment.GlobalStatements_Comments_Report",
+      "rules.bodycomment.GlobalStatements_CommentBeforeType_Passes",
+      "rules.bodycomment.GeneratedConfigurationCannotExemptHandwrittenCode",
+      "rules.generated-callsite-origin",
+      "rules.generated-callsite-boundary",
+      "rules.namedargument.explicit-params-ref",
+      "rules.bodycomment.block-doc-anonymous",
+      "rules.analyzer-input-identity",
+      "rules.godot-callsite-boundary",
+      "rules.bodylength.ExpressionBody_60Lines_Passes",
+      "rules.bodylength.ExpressionBody_61Lines_Fails",
+      "rules.bodylength.ExpressionBodyAfterArrow_60Lines_Passes",
+      "rules.bodylength.LambdaAfterArrow_60Lines_Passes",
+      "rules.bodylength.LambdaAfterArrow_61Lines_Fails",
+      "rules.bodylength.Constructor_61Lines_Fails",
+      "rules.bodylength.Accessor_61Lines_Fails",
+      "rules.bodylength.Operator_61Lines_Fails",
+      "rules.bodylength.LocalFunction_61Lines_Fails",
+      "rules.bodylength.Analyze_LocalFunction_CountsTowardEnclosingMember",
+      "rules.bodylength.GlobalStatements_60Lines_Passes",
+      "rules.bodylength.GlobalStatements_61Lines_Fails",
+      "rules.bodylength.Analyze_GeneratedCode_IsSkipped",
+      "rules.body.40",
+      "rules.linelength.Line_120CyrillicLetters_Passes",
+      "rules.linelength.Line_121CyrillicLetters_Fails",
+      "rules.linelength.CommentLine_121Characters_Fails",
+      "rules.linelength.Analyze_CrLfTerminator_IsNotCounted",
+      "rules.linelength.Analyze_GeneratedCode_IsSkipped",
+      "rules.memberorder.Analyze_FullOrder_Passes",
+      "rules.memberorder.Analyze_PublicPropertyAfterPublicMethod_Reports",
+      "rules.memberorder.ConstructorAfterProperty_SameAccess_Reports",
+      "rules.memberorder.Analyze_NestedTypeBeforeMember_Reports",
+      "rules.memberorder.NestedTypes_AnyAccessOrder_PassAndAreCheckedThemselves",
+      "rules.memberorder.Analyze_ProtectedInternalAfterProtected_Reports",
+      "rules.memberorder.Analyze_ProtectedAfterPrivateProtected_Reports",
+      "rules.memberorder.Analyze_NoModifierInClass_IsPrivate",
+      "rules.memberorder.Analyze_ExplicitInterfaceImplementation_RanksAsPublic",
+      "rules.memberorder.Analyze_ExplicitInterfaceImplementationAfterInternal_Reports",
+      "rules.memberorder.Analyze_InterfaceMembers_ArePublicAndChecked",
+      "rules.memberorder.Analyze_StructAndRecords_AreChecked",
+      "rules.memberorder.Analyze_StaticConstructor_RanksAsPrivateConstructor",
+      "rules.memberorder.Analyze_PartialParts_AreCheckedOnTheirOwn",
+      "rules.memberorder.Analyze_SeveralViolations_OnlyTheFirstIsReported",
+      "rules.memberorder.Analyze_Message_NamesBothMembers",
+      "rules.memberorder.ExtensionBlock_BetweenMembers_Passes",
+      "rules.memberorder.ExtensionBlock_PrivateBeforePublic_Reports",
+      "rules.memberorder.ExtensionBlock_NoModifier_RanksAsPrivate",
+      "rules.memberorder.Analyze_GeneratedCode_IsSkipped",
+      "rules.line.ascii.119",
+      "rules.line.ascii.120",
+      "rules.line.ascii.121",
+      "rules.line.cyrillic.119",
+      "rules.line.cyrillic.120",
+      "rules.line.cyrillic.121",
+      "rules.line.surrogate.119",
+      "rules.line.surrogate.120",
+      "rules.line.surrogate.121",
+      "rules.line.combining.119",
+      "rules.line.combining.120",
+      "rules.line.combining.121",
+      "rules.generated-layout-origin",
+      "rules.generated-layout-boundary",
+      "rules.analyzer-source-consumer",
+      "rules.continuationindent.WrappedAttributeArgument_8Spaces_Passes",
+      "rules.continuationindent.WrappedAttributeArgument_4Or12Spaces_Fails4",
+      "rules.continuationindent.WrappedParameter_8Spaces_Passes",
+      "rules.continuationindent.WrappedParameter_4Or12Spaces_Fails4",
+      "rules.continuationindent.FluentChain_8Spaces_Passes",
+      "rules.continuationindent.FluentChain_4Or12Spaces_Fails4",
+      "rules.continuationindent.ConditionalAccessChain_8Spaces_Passes",
+      "rules.continuationindent.ConditionalAccessChain_4Or12Spaces_Fails4",
+      "rules.continuationindent.ConditionalAccessSteps_8Spaces_Passes",
+      "rules.continuationindent.ConditionalAccessSteps_4Or12Spaces_Fails4",
+      "rules.continuationindent.MixedChain_8Spaces_Passes",
+      "rules.continuationindent.MixedChain_4Or12Spaces_Fails4",
+      "rules.continuationindent.LeadingBinaryOperator_8Spaces_Passes",
+      "rules.continuationindent.LeadingBinaryOperator_4Or12Spaces_Fails4",
+      "rules.continuationindent.TrailingBinaryOperator_8Spaces_Passes",
+      "rules.continuationindent.TrailingBinaryOperator_4Or12Spaces_Fails4",
+      "rules.continuationindent.WrappedIfCondition_8Spaces_Passes",
+      "rules.continuationindent.WrappedIfCondition_4Or12Spaces_Fails4",
+      "rules.continuationindent.ConditionalOperator_8Spaces_Passes",
+      "rules.continuationindent.ConditionalOperator_4Or12Spaces_Fails4",
+      "rules.continuationindent.ConstructorInitializer_8Spaces_Passes",
+      "rules.continuationindent.ConstructorInitializer_4Or12Spaces_Fails4",
+      "rules.continuationindent.WhereClause_8Spaces_Passes",
+      "rules.continuationindent.WhereClause_4Or12Spaces_Fails4",
+      "rules.continuationindent.ValueAfterEquals_8Spaces_Passes",
+      "rules.continuationindent.ValueAfterEquals_4Or12Spaces_Fails4",
+      "rules.continuationindent.ValueAfterAssignment_8Spaces_Passes",
+      "rules.continuationindent.ValueAfterAssignment_4Or12Spaces_Fails4",
+      "rules.continuationindent.ValueAfterReturn_8Spaces_Passes",
+      "rules.continuationindent.ValueAfterReturn_4Or12Spaces_Fails4",
+      "rules.continuationindent.ExpressionBodyArrow_8Spaces_Passes",
+      "rules.continuationindent.ExpressionBodyArrow_4Or12Spaces_Fails4",
+      "rules.continuationindent.BaseList_8Spaces_Passes",
+      "rules.continuationindent.BaseList_4Or12Spaces_Fails4",
+      "rules.continuationindent.LambdaExpressionBody_8Spaces_Passes",
+      "rules.continuationindent.LambdaExpressionBody_4Or12Spaces_Fails4",
+      "rules.continuationindent.BlockLambdaBraces_AtLambdaLineIndent_Passes",
+      "rules.continuationindent.BlockLambdaBraces_4Or8Spaces_Fails4",
+      "rules.continuationindent.CollectionOpenBracket_AtEqualsLineIndent_Passes",
+      "rules.continuationindent.CollectionOpenBracket_4Or8Spaces_Fails4",
+      "rules.continuationindent.OneLineCollectionAfterEquals_8Spaces_Passes",
+      "rules.continuationindent.OneLineCollectionAfterEquals_0Or12Spaces_Fails0",
+      "rules.continuationindent.CollectionElement_4Spaces_Passes",
+      "rules.continuationindent.CollectionElement_0Or8Spaces_Fails0",
+      "rules.continuationindent.CollectionCloseBracket_AtOpenLineIndent_Passes",
+      "rules.continuationindent.CollectionCloseBracket_4Spaces_Fails",
+      "rules.continuationindent.NestedContinuations_8SpacesPastTheirOwnLine_Pass",
+      "rules.continuationindent.NestedArgument_AtOuterIndent_Fails",
+      "rules.continuationindent.Initializers_AnyIndent_NotReported",
+      "rules.continuationindent.SwitchExpressionAndQuery_AnyIndent_NotReported",
+      "rules.continuationindent.StringLiteralLines_AnyIndent_NotReported",
+      "rules.continuationindent.OtherKinds_AnyIndent_NotReported",
+      "rules.continuationindent.AgreedSamples_FormatterLeavesUnchanged_AndNotReported",
+      "rules.continuationindent.Analyze_GeneratedCode_IsSkipped",
+      "rules.continuationindent.WrappedArgumentOffset7Fails",
+      "rules.continuationindent.WrappedArgumentOffset9Fails",
+      "rules.continuationindent.WrappedAttributeArgumentOffset7Fails",
+      "rules.continuationindent.WrappedAttributeArgumentOffset9Fails",
+      "rules.continuationindent.WrappedParameterOffset7Fails",
+      "rules.continuationindent.WrappedParameterOffset9Fails",
+      "rules.continuationindent.FluentChainOffset7Fails",
+      "rules.continuationindent.FluentChainOffset9Fails",
+      "rules.continuationindent.ConditionalAccessChainOffset7Fails",
+      "rules.continuationindent.ConditionalAccessChainOffset9Fails",
+      "rules.continuationindent.ConditionalAccessStepsOffset7Fails",
+      "rules.continuationindent.ConditionalAccessStepsOffset9Fails",
+      "rules.continuationindent.MixedChainOffset7Fails",
+      "rules.continuationindent.MixedChainOffset9Fails",
+      "rules.continuationindent.LeadingBinaryOperatorOffset7Fails",
+      "rules.continuationindent.LeadingBinaryOperatorOffset9Fails",
+      "rules.continuationindent.TrailingBinaryOperatorOffset7Fails",
+      "rules.continuationindent.TrailingBinaryOperatorOffset9Fails",
+      "rules.continuationindent.WrappedIfConditionOffset7Fails",
+      "rules.continuationindent.WrappedIfConditionOffset9Fails",
+      "rules.continuationindent.ConditionalOperatorOffset7Fails",
+      "rules.continuationindent.ConditionalOperatorOffset9Fails",
+      "rules.continuationindent.ConstructorInitializerOffset7Fails",
+      "rules.continuationindent.ConstructorInitializerOffset9Fails",
+      "rules.continuationindent.WhereClauseOffset7Fails",
+      "rules.continuationindent.WhereClauseOffset9Fails",
+      "rules.continuationindent.ValueAfterEqualsOffset7Fails",
+      "rules.continuationindent.ValueAfterEqualsOffset9Fails",
+      "rules.continuationindent.ValueAfterAssignmentOffset7Fails",
+      "rules.continuationindent.ValueAfterAssignmentOffset9Fails",
+      "rules.continuationindent.ValueAfterReturnOffset7Fails",
+      "rules.continuationindent.ValueAfterReturnOffset9Fails",
+      "rules.continuationindent.ExpressionBodyArrowOffset7Fails",
+      "rules.continuationindent.ExpressionBodyArrowOffset9Fails",
+      "rules.continuationindent.BaseListOffset7Fails",
+      "rules.continuationindent.BaseListOffset9Fails",
+      "rules.continuationindent.LambdaExpressionBodyOffset7Fails",
+      "rules.continuationindent.LambdaExpressionBodyOffset9Fails",
+      "rules.continuationindent.OneLineCollectionOffset7Fails",
+      "rules.continuationindent.OneLineCollectionOffset9Fails",
+      "rules.continuationindent.WrappedArgument_4Or12Spaces_Fails12",
+      "rules.continuationindent.WrappedAttributeArgument_4Or12Spaces_Fails12",
+      "rules.continuationindent.WrappedParameter_4Or12Spaces_Fails12",
+      "rules.continuationindent.FluentChain_4Or12Spaces_Fails12",
+      "rules.continuationindent.ConditionalAccessChain_4Or12Spaces_Fails12",
+      "rules.continuationindent.ConditionalAccessSteps_4Or12Spaces_Fails12",
+      "rules.continuationindent.MixedChain_4Or12Spaces_Fails12",
+      "rules.continuationindent.LeadingBinaryOperator_4Or12Spaces_Fails12",
+      "rules.continuationindent.TrailingBinaryOperator_4Or12Spaces_Fails12",
+      "rules.continuationindent.WrappedIfCondition_4Or12Spaces_Fails12",
+      "rules.continuationindent.ConditionalOperator_4Or12Spaces_Fails12",
+      "rules.continuationindent.ConstructorInitializer_4Or12Spaces_Fails12",
+      "rules.continuationindent.WhereClause_4Or12Spaces_Fails12",
+      "rules.continuationindent.ValueAfterEquals_4Or12Spaces_Fails12",
+      "rules.continuationindent.ValueAfterAssignment_4Or12Spaces_Fails12",
+      "rules.continuationindent.ValueAfterReturn_4Or12Spaces_Fails12",
+      "rules.continuationindent.ExpressionBodyArrow_4Or12Spaces_Fails12",
+      "rules.continuationindent.BaseList_4Or12Spaces_Fails12",
+      "rules.continuationindent.LambdaExpressionBody_4Or12Spaces_Fails12",
+      "rules.continuationindent.BlockLambdaBraces_4Or8Spaces_Fails8",
+      "rules.continuationindent.CollectionOpenBracket_4Or8Spaces_Fails8",
+      "rules.continuationindent.OneLineCollectionAfterEquals_0Or12Spaces_Fails12",
+      "rules.continuationindent.CollectionElement_0Or8Spaces_Fails8",
+      "rules.thisqualification.Analyze_MethodCall_Reports",
+      "rules.thisqualification.Analyze_PropertyAndEvent_Report",
+      "rules.thisqualification.Analyze_ConstructorChaining_Passes",
+      "rules.thisqualification.Analyze_ThisAsValue_Passes",
+      "rules.thisqualification.Analyze_Indexer_Passes",
+      "rules.thisqualification.Analyze_ExtensionMethodParameter_Passes",
+      "rules.thisqualification.ExtensionMethodCall_OnThis_Passes",
+      "rules.thisqualification.ExtensionMember_OnThis_Passes",
+      "rules.thisqualification.Analyze_GeneratedCode_IsSkipped",
+      "rules.generated-syntax-origin",
+      "rules.generated-syntax-boundary",
+      "rules.source-format",
+      "rules.xunit-producer-root",
+      "rules.xunit-producer-relocation",
+      "rules.xunit-producer-seed",
+      "rules.xunit-producer-bypass",
+      "rules.xunit-producer-shape",
+      "rules.xunit-producer-hash",
+      "rules.suppression-pragma",
+      "rules.suppression-semantic",
+      "rules.suppression-duplicate",
+      "rules.suppression-configuration",
+      "rules.suppression-effective",
+      "rules.generated-claims",
+      "rules.exemption-executable-positive",
+      "rules.exemption-executable-negative",
+      "rules.analyzer-source-boundary",
+      "rules.godot-companion-positive",
+      "rules.godot-companion-negative",
+      "rules.exemptions",
+      "graph.allowed-and-direct",
+      "graph.props",
+      "graph.targets",
+      "graph.wildcard",
+      "graph.semicolon",
+      "graph.transitive",
+      "graph.undeclared",
+      "graph.duplicate",
+      "graph.type-base",
+      "graph.type-interface",
+      "graph.type-generic",
+      "graph.type-attribute",
+      "graph.type-signature",
+      "graph.type-field",
+      "graph.type-body",
+      "graph.type-lambda",
+      "graph.type-async",
+      "graph.type-iterator",
+      "graph.policy-selectors",
+      "graph.allowed-composition",
+      "graph.transitive-compiler",
+      "state.inputs",
+      "state.numeric",
+      "state.identities",
+      "state.ownership",
+      "state.repeat",
+      "state.numeric-and-random",
+      "state.golden-vectors",
+      "state.random-limits",
+      "state.numeric-text",
+      "state.kind",
+      "state.random-scope",
+      "state.uncontrolled",
+      "state.enum-evolution",
+      "state.snapshot",
+      "state.snapshot-shape",
+      "state.restore",
+      "state.restore-interrupted",
+      "state.restore-cancellation",
+      "state.restore-invalid",
+      "state.restore-mutation",
+      "engine.lifecycle",
+      "engine.exports",
+      "engine.evidence-integrity",
+      "engine.gateway-bypass",
+      "engine.source-policy",
+      "engine.core-independence",
+      "engine.generated-origin",
+      "engine.generated-boundary",
+      "engine.handwritten-partial",
+      "engine.fake-generated",
+      "docs.navigation",
+      "docs.portable",
+      "docs.projects",
+      "register.binding-precoverage",
+      "register.binding-missing",
+      "register.binding-reversed",
+      "register.binding-ambiguous",
+      "register.binding-config",
+      "register.binding-symbol",
+      "register.binding-scope",
+      "register.binding-pending",
+      "register.binding-index",
+      "register.binding-order",
+      "runner.phase-membership",
+      "runner.phase-declarations",
+      "runner.phase-summary",
+      "runner.phase-required"
+    ]
+  },
+  "reasons": {
+    "phase3": "Every case is new or changed in Phase 3, including normal boundaries and runner controls.",
+    "phase2": "All 16 cases selected because shared root, authority, input, projection, permission and evidence/lock paths changed.",
+    "phase1": "All active engine, state, graph and runner controls selected conservatively: native boundary tuples, Core roster publications, visibility/composition and inherited runner ownership changed. Existing Phase 1 rows do not encode importance; treat these integrity groups as Critical, selecting the whole affected active groups. Also select current source-format, canonical navigation, portable/module docs, native-callsite and live binding checks. Also select all 31 rules.body*/R-37 cases, the six shared generated-permission analyzer families, analyzer source/input/boundary and generated/callsite/companion consumers, all register and bounded-exemption controls. The phase changes BodyLengthAnalyzer, EngineGeneratedSyntax and their exact register/generated inputs; prior executions remain historical without reuse. Exact shared-source ownership and isolated test-consumer fixture repairs also affect all exemption/suppression fixture cases, test-consumer R-46 controls and xUnit producer controls; they are selected explicitly."
+  },
+  "omitted": {
+    "phase3": [],
+    "phase2": [],
+    "phase1": [
+      {
+        "id": "rules.implicit-usings-control",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "ac-01.complete",
+        "reason": "Unchanged isolated pins fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "ac-10.complete",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "ac-11.complete",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "edge.rule-01.adjacency",
+        "reason": "Unchanged isolated pins fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "edge.rule-01.empty",
+        "reason": "Unchanged isolated pins fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "edge.rule-01.ordering",
+        "reason": "Unchanged isolated pins fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "edge.rule-01.idempotency",
+        "reason": "Unchanged isolated pins fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "edge.rule-01.concurrency",
+        "reason": "Unchanged isolated pins fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "edge.rule-04.adjacency",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "edge.rule-04.empty",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "edge.rule-04.encoding",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "edge.rule-04.ordering",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "edge.rule-04.concurrency",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-01.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-01.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-02.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-02.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-03.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-03.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-04.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-04.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-05.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-05.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-06.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-06.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-07.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-07.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-08.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-08.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-11.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-11.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-12.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-12.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-13.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-13.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-14.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-14.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-15.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-15.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-16.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-16.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-17.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-17.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-18.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-18.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-19.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-19.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-20.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-20.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-21.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-21.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-22.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-22.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-23.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-23.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-24.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-24.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-25.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-25.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-26.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-26.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-27.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-27.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-29.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-29.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-30.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-30.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-31.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-31.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-32.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-32.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-34.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-34.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-35.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-35.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-36.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-36.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-39.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-39.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-40.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-40.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-41.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-41.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-42.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-42.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-44.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-44.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-45.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-45.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-47.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-47.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-48.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-48.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-51.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-51.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-52.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-52.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-53.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-53.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-55.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-55.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-56.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-56.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-58.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-58.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-59.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-59.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-60.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-60.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-61.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-61.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-62.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-62.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-63.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-63.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-64.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-64.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-65.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-65.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-66.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-66.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-68.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-68.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-69.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-69.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-70.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-70.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-71.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-71.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-72.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-72.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-73.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-73.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-74.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-74.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-75.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-75.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-77.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-77.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-78.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-78.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-81.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-81.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-83.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-83.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-84.positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "R-84.negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "pins.missing",
+        "reason": "Unchanged isolated pins fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "pins.duplicate-identical",
+        "reason": "Unchanged isolated pins fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "pins.duplicate-conflicting",
+        "reason": "Unchanged isolated pins fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "pins.duplicate-candidate",
+        "reason": "Unchanged isolated pins fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "pins.generator",
+        "reason": "Unchanged isolated pins fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "pins.observed-engine",
+        "reason": "Unchanged isolated pins fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "pins.observed-compiler",
+        "reason": "Unchanged isolated pins fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "pins.observed-generator",
+        "reason": "Unchanged isolated pins fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "pins.permutation",
+        "reason": "Unchanged isolated pins fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "pins.composition",
+        "reason": "Unchanged isolated pins fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "pins.consumer",
+        "reason": "Unchanged isolated pins fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "pins.verifier",
+        "reason": "Unchanged isolated pins fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "pins.banned-inputs",
+        "reason": "Unchanged isolated pins fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "pins.evaluated",
+        "reason": "Unchanged isolated pins fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "pins.configuration-drift",
+        "reason": "Unchanged isolated pins fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "pins.banned-production",
+        "reason": "Unchanged isolated pins fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "pins.banned-tests",
+        "reason": "Unchanged isolated pins fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "pins.banned-severity",
+        "reason": "Unchanged isolated pins fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "pins.async-permission",
+        "reason": "Unchanged isolated pins fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "pins.generated-report",
+        "reason": "Unchanged isolated pins fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "pins.generated-report-boundary",
+        "reason": "Unchanged isolated pins fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.primaryconstructor.Class_EmptyPrimaryConstructor_Reports",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.primaryconstructor.Struct_PrimaryConstructor_Reports",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.primaryconstructor.Analyze_PositionalRecordStruct_Reports",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.primaryconstructor.ExtensionBlock_ReceiverParameter_Passes",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.regiondirective.Analyze_InsideBody_Reports",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.regiondirective.Analyze_FileLevelAndNested_Report",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.primaryconstructor.generated-nested",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.regiondirective.generated-inactive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.nullforgiving.Analyze_BeforeMemberAccess_Reports",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.nullforgiving.Analyze_NullLiteral_Reports",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.null.generated",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.line.invalid-utf8",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.usingorder.Analyze_MicrosoftBeforeSystem_Reports",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.usingorder.Analyze_NonSystemOutOfOrder_Reports",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.usingorder.SystemPrefixWithoutDot_SortsWithOthers_Passes",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.usingorder.Analyze_CaseIgnored_Passes",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.usingorder.Analyze_CaseIgnored_Reports",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.usingorder.StaticAfterPlain_AliasesLast_Passes",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.usingorder.Analyze_StaticBeforePlain_Reports",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.usingorder.Analyze_AliasBeforeStatic_Reports",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.usingorder.Analyze_StaticGroupOutOfOrder_Reports",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.usingorder.Analyze_AliasesOutOfOrder_Reports",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.usingorder.Analyze_GlobalUsingsFirst_Pass",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.usingorder.Analyze_GlobalUsingsOutOfOrder_Report",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.usingorder.Analyze_OnlyFirstViolation_Reports",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.usingorder.NamespaceBlock_CheckedOnItsOwn_Passes",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.usingorder.Analyze_NamespaceBlockOutOfOrder_Reports",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.usingorder.Analyze_FileScopedNamespaceOutOfOrder_Reports",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.usingorder.Analyze_Message_NamesBothDirectives",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.usingorder.Analyze_GeneratedCode_IsSkipped",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.localnewdeclaration.Analyze_TargetTypedNewWithArgumentsAndInitializer_Reports",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.localnewdeclaration.Analyze_TypedLocalWithExplicitNew_IsNotReported",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.localnewdeclaration.Analyze_FieldAndProperty_Pass",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.localnewdeclaration.Analyze_ArgumentAndReturnValue_Pass",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.localnewdeclaration.Analyze_UsingAndAwaitUsingDeclarations_Report",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.localnewdeclaration.Analyze_ForInitializerAndUsingStatement_Report",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.localnewdeclaration.Analyze_SeveralDeclarators_Pass",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.localnewdeclaration.Analyze_OtherInitializers_Pass",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.localnewdeclaration.Analyze_TopLevelStatement_Reports",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.localnewdeclaration.Analyze_Message_NamesLocalAndType",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.localnewdeclaration.Analyze_GeneratedCode_IsSkipped",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.build-wiring",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.source-format.bom",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.source-format.binary-boundary",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.source-format.tracked-missing",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.source-format.lock-restore",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.async-enumerable-positive",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "rules.async-enumerable-negative",
+        "reason": "Unchanged isolated rules fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "docs.empty",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "docs.target",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "docs.anchor",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "docs.ambiguous-anchor",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "docs.explicit-anchor",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "docs.ambiguous-reference",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "docs.reference",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "docs.missing-reference",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "docs.invalid-utf8",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "docs.percent",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "docs.percent-utf8",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "docs.escape",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "docs.singleton",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "docs.scope",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "docs.workflow",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "docs.directory-collision",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "docs.anchor-collision",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "docs.heading-suffix",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "docs.unicode-distinct",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "docs.projects.missing",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "docs.projects.empty",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "docs.projects.unreachable",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "docs.projects.edges",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "docs.projects.output-item",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "docs.projects.reference-output",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      },
+      {
+        "id": "docs.projects.ambiguous",
+        "reason": "Unchanged isolated docs fixture does not consume the changed body-length rule, generated-permission table/register or gameplay/native/evidence paths; no pass/reuse credit."
+      }
+    ]
+  },
+  "planned": [
+    {
+      "id": "ac-02.complete",
+      "owner": "Phase 5",
+      "reason": "Future Phase 5 certification remains planned; no pass/skip credit."
+    },
+    {
+      "id": "ac-06.complete",
+      "owner": "Phase 5",
+      "reason": "Future Phase 5 certification remains planned; no pass/skip credit."
+    },
+    {
+      "id": "ac-07.complete",
+      "owner": "Phase 5",
+      "reason": "Future Phase 5 certification remains planned; no pass/skip credit."
+    },
+    {
+      "id": "ac-09.complete",
+      "owner": "Phase 5",
+      "reason": "Future Phase 5 certification remains planned; no pass/skip credit."
+    },
+    {
+      "id": "R-49.positive",
+      "owner": "Phase 5",
+      "reason": "Future Phase 5 certification remains planned; no pass/skip credit."
+    },
+    {
+      "id": "R-49.negative",
+      "owner": "Phase 5",
+      "reason": "Future Phase 5 certification remains planned; no pass/skip credit."
+    },
+    {
+      "id": "R-82.positive",
+      "owner": "Phase 5",
+      "reason": "Future Phase 5 certification remains planned; no pass/skip credit."
+    },
+    {
+      "id": "R-82.negative",
+      "owner": "Phase 5",
+      "reason": "Future Phase 5 certification remains planned; no pass/skip credit."
+    }
+  ],
+  "groups": [
+    {
+      "id": "G0",
+      "roles": [],
+      "order": 0,
+      "windows": 0,
+      "reset": "Independent pure fixtures or fresh owned headless subjects.",
+      "exit": "Release only owned processes and locks."
+    },
+    {
+      "id": "G1",
+      "roles": [
+        "solo"
+      ],
+      "order": 1,
+      "windows": 1,
+      "source": "phase2",
+      "reset": "Ordinary Escape/Start between the nine inherited rendered scenarios; Quit last.",
+      "exit": "Normal menu Quit; bounded owned cleanup."
+    },
+    {
+      "id": "G2",
+      "roles": [
+        "browser",
+        "discovery-host"
+      ],
+      "order": 2,
+      "windows": 2,
+      "reset": "Back/Cancel/Escape through ordinary menu; retain host/browser where usable.",
+      "extraProcesses": "One actual profile restart is required to demonstrate persisted identity with a distinct PID; additional equal-name hosts only for discovery identity/overflow.",
+      "exit": "Close browser and unused diagnostic hosts through ordinary Quit."
+    },
+    {
+      "id": "G3",
+      "roles": [
+        "host",
+        "guest1",
+        "guest2",
+        "guest3"
+      ],
+      "order": 3,
+      "windows": 4,
+      "reset": "Reuse exact four-peer set for movement, timing and focus; ordinary guest leave/rejoin and host end/rehost.",
+      "extraProcesses": "Bounded fifth challengers for Full and duplicate identity; two concurrent contenders only after freeing one slot; one replacement after deliberate guest loss.",
+      "exit": "Retain the final intact four-peer set for G4."
+    },
+    {
+      "id": "G4",
+      "roles": [
+        "host",
+        "guest1",
+        "guest2",
+        "guest3"
+      ],
+      "order": 4,
+      "windows": 0,
+      "reset": "Unexpected host loss is destructive and last; use the intact G3 set where available.",
+      "extraProcesses": "Fresh four-peer setup only for an isolated focused host-loss rerun; reason recorded in launch manifest.",
+      "exit": "Unexpectedly terminate only the owned host; guests observe Connection lost and recover via ordinary solo/menu; Quit survivors."
+    }
+  ],
+  "omissionScope": "No hosted/Linux, physical mixed-computer LAN, full A-38/A-45 campaign, packaging, hardware or endurance claim. Phases 5, 10 and 11 retain their obligations.",
+  "impactSources": [
+    "tools/code-rules/BodyLengthAnalyzer.cs",
+    "tools/code-rules/EngineGeneratedSyntax.cs",
+    "docs/code/register.json",
+    "docs/code/engine-generated-spans.json",
+    "docs/code/generated-callsite-adaptations.json",
+    "docs/code/exemptions.json",
+    "docs/code/visibility-exemptions.json",
+    "tests/phase1/KingdomZombies.Phase1.Tests.csproj",
+    "tests/phase1/BuildFixture.cs",
+    "tests/phase1/ExemptionValidator.cs",
+    "tests/phase1/ExemptionTests.cs"
+  ]
+}

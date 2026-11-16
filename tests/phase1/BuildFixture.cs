@@ -37,7 +37,8 @@ internal sealed class BuildFixture
         if (tests)
         {
             CopyTree(relative: "tests/phase1");
-            CopyFile(relative: "src/godot-game/foundation/FoundationInput.cs");
+            CopyFile(relative: "src/godot-game/.editorconfig");
+            foreach (string path in FoundationLinkedSources.Paths) { CopyFile(relative: path); }
         }
 
         if (game)

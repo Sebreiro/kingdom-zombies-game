@@ -321,7 +321,7 @@
   "engineProofPermissions": {
     "spans": "docs/code/engine-generated-spans.json",
     "producerAdaptations": "docs/code/engine-adaptations.json",
-    "exactSpanCount": 204,
+    "exactSpanCount": 220,
     "positiveProof": "engine.generated-origin",
     "negativeProof": "engine.generated-boundary",
     "scope": "Exact diagnostic, member, authentic producer/package, full source identity, path and span; all handwritten companions remain analyzed"

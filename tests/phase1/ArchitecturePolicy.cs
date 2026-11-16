@@ -25,7 +25,21 @@ internal static class ArchitecturePolicy
             "src/core/FoundationMovementCommand.cs|KingdomZombies.Core.FoundationMovementCommand",
             "src/core/FoundationActorState.cs|KingdomZombies.Core.FoundationActorState",
             "src/core/FoundationSession.cs|KingdomZombies.Core.FoundationSession",
-            "src/godot-game/foundation/FoundationRoot.cs|KingdomZombies.Foundation.FoundationRoot"];
+            "src/godot-game/foundation/FoundationRoot.cs|KingdomZombies.Foundation.FoundationRoot",
+            "src/core/FoundationSnapshot.cs|KingdomZombies.Core.FoundationSnapshot",
+            "src/core/FoundationParticipantState.cs|KingdomZombies.Core.FoundationParticipantState",
+            "src/multiplayer-abstractions/IConnectionService.cs|"
+                    + "KingdomZombies.Multiplayer.Abstractions.IConnectionService",
+            "src/multiplayer-abstractions/ConnectionPacket.cs|"
+                    + "KingdomZombies.Multiplayer.Abstractions.ConnectionPacket",
+            "src/multiplayer-abstractions/IDiscoveryService.cs|"
+                    + "KingdomZombies.Multiplayer.Abstractions.IDiscoveryService",
+            "src/multiplayer-abstractions/IIdentityService.cs|"
+                    + "KingdomZombies.Multiplayer.Abstractions.IIdentityService",
+            "src/multiplayer-abstractions/SessionAdvertisement.cs|"
+                    + "KingdomZombies.Multiplayer.Abstractions.SessionAdvertisement",
+            "src/multiplayer-abstractions/PlayerProfile.cs|"
+                    + "KingdomZombies.Multiplayer.Abstractions.PlayerProfile"];
         JsonArray rows = registry["permissions"]?.AsArray()
                 ?? throw new InvalidDataException(message: "VISIBILITY_REGISTRY: missing permissions");
         string[] permissions = [..rows.Select(selector: row => row?["path"]?.GetValue<string>() + "|"
