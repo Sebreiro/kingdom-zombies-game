@@ -2,6 +2,20 @@
 
 **Planned inventory only; no output/symbol existence or acceptance is claimed.** Each plan SUMMARY enumerates every actual new type/member/export/resource/subresource signature, native tuple and retained selected/generated master/prompt/reference/recipe member.04-33 reconciles actual tree/compiled declarations and inventories. Exact additional tracked paths require a bounded amendment before editing. The checker report04-PLAN-CHECK.md remains immutable revision history.
 
+## Execution amendments
+
+Completed 04-37 expanded its nine planned implementation paths to twelve existing paths under the independently reviewed [C2 capacity amendment](04-37-CASE-CAPACITY.md). The [actual summary](04-37-SUMMARY.md) inventories all twelve APIs/contracts, 44 authenticated source snapshots, 66 exact syntax tuples and eight member targets. Add the following ownership to the planned table below; the original planning/probe records remain historical facts.
+
+| Additional or shared actual path | Execution owner | Actual responsibility |
+| --- | --- | --- |
+| tools/phase1/check.cjs | 04-37 C2 | Validated per-case test capacity, bounded MTP/outer deadlines and retained default/cleanup behavior |
+| tools/phase1/required-cases.json | 04-34; 04-37 C2 | Original two export-layout declarations, plus explicit capacity on existing engine.generated-boundary |
+| tests/phase1/RunnerContractTests.cs | 04-37 C2/C3 | Actual budget/nonleak/cleanup controls and exact 686/676/8/2 catalog partitions |
+
+The two newly inventoried distinct paths are check.cjs and RunnerContractTests.cs; required-cases.json was already planned. The reconciled inventory is 231 distinct paths before later amendments, compared with 229 in the preserved planning probe. This amendment supplies compiler/runner evidence only; actual native hub behavior, rendered resources and judgments remain with their declared owners.
+
+## Original planned inventory
+
 | Exact planned file | Owning plan(s), execution order | Planned symbol/resource responsibility |
 | --- | --- | --- |
 | .planning/phases/04-asset-production/04-ACCEPTANCE-COVERAGE.md | 04-33 | Actual resource/data/document/evidence identity and applicable metadata |
