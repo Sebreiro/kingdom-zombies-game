@@ -9,6 +9,12 @@ internal static class FoundationDrawRequest
 {
     internal static string? Consume(string file, string nonce)
     {
+        try { return ReadAndConsume(file: file, nonce: nonce); }
+        catch (IOException error) when ((error.HResult & 0xFFFF) is 32 or 33) { return null; }
+    }
+
+    private static string? ReadAndConsume(string file, string nonce)
+    {
         if (!File.Exists(path: file)) { return null; }
         using JsonDocument request = JsonDocument.Parse(json: File.ReadAllText(path: file));
         string? actual = request.RootElement.GetProperty(propertyName: "nonce").GetString();
