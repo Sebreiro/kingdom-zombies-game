@@ -157,7 +157,15 @@ function terminate(child){
   }else try{process.kill(-child.pid,'SIGKILL');}catch(error){if(error.code!=='ESRCH')throw error;}
 }
 async function command(context,name,executable,args,{timeout=60000,interruptMarker,env,cwd}={}){
-  const startedAt=new Date().toISOString(),child=spawn(executable,args,{cwd:cwd??context.directory,env:env??environment(context.directory),
+  need(Number.isInteger(timeout)&&timeout>0&&timeout<=60000,'COMMAND_TIMEOUT_RANGE',name);
+  const childCwd=cwd??context.directory,base=path.resolve(context.directory),resolved=path.resolve(childCwd);
+  need(resolved===base||resolved.startsWith(base+path.sep),'COMMAND_CWD_OWNERSHIP',name);
+  if(resolved!==base)inside(base,path.relative(base,resolved).replaceAll(path.sep,'/'));
+  need(fs.statSync(resolved).isDirectory(),'COMMAND_CWD_DIRECTORY',name);
+  need(env===undefined||(env!==null&&typeof env==='object'&&!Array.isArray(env)&&
+    Object.values(env).every(value=>typeof value==='string'||value===undefined)),'COMMAND_ENV_INVALID',name);
+  const childEnv=env??environment(context.directory);
+  const startedAt=new Date().toISOString(),child=spawn(executable,args,{cwd:childCwd,env:childEnv,
     windowsHide:true,shell:false,detached:process.platform!=='win32'});
   let stdout='',stderr='',spawnError,reason,cleanupError;
   function stop(code){if(reason)return;reason=code;try{terminate(child);}catch(error){cleanupError=error.message;}}
@@ -172,7 +180,8 @@ async function command(context,name,executable,args,{timeout=60000,interruptMark
     new Promise(resolve=>{emergency=setTimeout(()=>resolve({code:null,signal:null,streamsClosed:false}),timeout+8000);})
   ]);
   clearTimeout(timer);clearTimeout(emergency);
-  const record={name,executable,args,pid:child.pid,startedAt,finishedAt:new Date().toISOString(),...result,
+  const record={name,executable,args,pid:child.pid,cwd:childCwd,environmentKeys:Object.keys(childEnv).sort(),timeout,
+    startedAt,finishedAt:new Date().toISOString(),...result,
     reason,spawnError,cleanupError,stdout,stderr};
   save(context.directory,name+'.command.json',record);save(context.directory,name+'.stdout.log',stdout);save(context.directory,name+'.stderr.log',stderr);
   need(!spawnError&&!reason&&!cleanupError&&result.streamsClosed&&result.code===0&&!result.signal,

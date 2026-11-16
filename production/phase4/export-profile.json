@@ -43,6 +43,16 @@
     "resourceProof": "Owned temporary GDScript SceneTree queries actual bound APIs and loads the copied production Inspection PackedScene and bow texture through the pinned importer/resource loader. No production autoload or main rewrite.",
     "consumer": "Fresh natural startup of the actual packaged Inspection binary/PCK/runtime remains 04-02 Task 1; prior Foundation frames, editor-mounted pack and this source probe cannot substitute."
   },
+  "proofContract": {
+    "positiveCase": "export.profile",
+    "boundaryCase": "export.profile-boundaries",
+    "runGroup": "G0-export-profile",
+    "orders": [350, 351],
+    "nativeQueries": ["base", "qualified", "actual", "empty", "ordinary", "inspection", "wrongCase", "active", "foundationExists"],
+    "controls": "Independent missing/wrong/duplicate/case/path/profile/setting/scene/resource/preset/options/global activation copies; actual native normalization branches; bounded child env/cwd/default/deadline/output/exit/spawn/descendant controls; original case subsets and unique positions",
+    "evidence": "Fresh ignored run directories retain inputs, exact mutations/diagnostics, nonce, revision, engine/probe/source/config hashes, native command streams, ordered cases and all failed attempts.",
+    "nativeEntry": "Unfinished 04-02 Task 1 must consume this permanent profile and prove actual packaged Inspection natural startup with fresh binary/PCK/runtime identities."
+  },
   "documentation": [
     "https://docs.godotengine.org/en/stable/tutorials/export/feature_tags.html",
     "https://raw.githubusercontent.com/godotengine/godot/4.7.2-stable/core/config/project_settings.cpp",
