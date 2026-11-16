@@ -94,7 +94,7 @@ public sealed class SuppressionTests
                 .Select(selector: item => item.Attribute(name: "Include")?.Value ?? "")
                 .Select(selector: path => Path.GetRelativePath(relativeTo: ProofProtocol.Root,
                         path: Path.GetFullPath(path: Path.Combine(path1: directory, path2: path)))
-                                .Replace(oldChar: '\\', newChar: '/'))];
+                        .Replace(oldChar: '\\', newChar: '/'))];
         actual.Order(comparer: StringComparer.Ordinal).ShouldBe(expected: FoundationLinkedSources.Paths
                 .Order(comparer: StringComparer.Ordinal));
         foreach (string path in FoundationLinkedSources.Paths)
