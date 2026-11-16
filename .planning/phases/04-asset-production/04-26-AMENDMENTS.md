@@ -1,5 +1,9 @@
 # Phase 04 Plan 26 bounded execution amendment
 
+## C3 proof-only scope authorization
+
+After the frozen C2 origin pass `0a52008c-08f1-4dc6-a029-c361fcfd5731`, the coordinator authorizes explicit warmed deterministic replay controls in already-owned EngineGeneratedTests.cs. Authenticate each original registry independently, assert a genuine historical replay is cached, then reject altered, missing and borrowed/mismatched producerSources snapshots despite the warm cache. Run input/package/cohort mutation controls after warm-up in each register. This authorization precedes source editing, adds no path and changes no production/cache behavior, original baseline, permission, suppression or deadline. C3 has two strict-build/focused verification attempts; R2 stays zero, C1 stays exhausted, and R3 retains two frozen-selection attempts. Full current/historical/mutation/collision/exemption/native/policy/lifecycle verification remains required after freezing the resulting inputs.
+
 Coordinator authorization received 2026-11-16 before editing the additional implementation path.
 
 The original nine-path plan needs exactly one additional existing proof consumer:
