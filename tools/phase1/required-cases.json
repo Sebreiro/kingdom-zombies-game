@@ -13007,6 +13007,7 @@
     },
     {
       "id": "engine.generated-boundary",
+      "childTimeoutMs": 120000,
       "group": "engine",
       "rule": "RULE-06",
       "owner": "01-12",

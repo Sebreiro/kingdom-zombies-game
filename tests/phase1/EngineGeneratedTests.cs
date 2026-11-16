@@ -160,6 +160,8 @@ public sealed class EngineGeneratedTests
 
         RejectSealingNeighbor();
         RejectInventoryMutations(registry: registry.RootElement);
+        RejectCallInventoryMutations();
+        VerifyReproduction(registry: registry.RootElement);
     }
 
     /// <summary>Preserves immutable baseline rows and authenticates each explicitly bounded producer cohort.</summary>
@@ -175,7 +177,7 @@ public sealed class EngineGeneratedTests
         var seen = new HashSet<string>(comparer: StringComparer.Ordinal);
         foreach (JsonElement inventory in inventories)
         {
-            VerifyProducer(inventory: inventory);
+            VerifyProducer(inventory: inventory, registry: registry);
             foreach (JsonElement id in inventory.GetProperty(propertyName: "rowIds").EnumerateArray())
             {
                 string key = id.GetString() ?? throw new InvalidDataException(message: "COHORT_ROW_ID");
@@ -209,10 +211,10 @@ public sealed class EngineGeneratedTests
                         .Any(predicate: value => StringComparer.Ordinal.Equals(x: value.GetString(), y: id)));
         string path = Text(row: row, name: "surface");
         string selected = root ?? ProofProtocol.Root;
-        if (root is null && StringComparer.Ordinal.Equals(x: Text(row: inventory, name: "id"), y: "phase1-baseline")
-                && path.EndsWith(value: "/AssemblyScriptTypes.generated.cs", comparisonType: StringComparison.Ordinal))
+        if (root is null && StringComparer.Ordinal.Equals(x: Text(row: inventory, name: "producer"),
+                y: "Godot.SourceGenerators/4.7.2"))
         {
-            selected = BaselineRoot();
+            selected = ProducerRoot(inventory: inventory, registry: registry);
         }
 
         return SafePath(root: selected, path: path);
@@ -231,29 +233,82 @@ public sealed class EngineGeneratedTests
     {
         Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
     };
-    private static string? _baselineRoot;
+    private static readonly Dictionary<string, string> _producerRoots = new(comparer: StringComparer.Ordinal);
 
-    private static string BaselineRoot()
+    private static string ProducerRoot(JsonElement inventory, JsonElement registry, string? liveRoot = null)
     {
-        if (_baselineRoot is not null)
+        string selected = liveRoot ?? ProofProtocol.Root;
+        string key = selected + CanonicalHash(value: inventory);
+        if (_producerRoots.TryGetValue(key: key, value: out string? cached))
         {
-            return _baselineRoot;
+            return cached;
         }
 
+        JsonElement[] inputs = [.. inventory.GetProperty(propertyName: "sourceInputs").EnumerateArray()];
+        string[] actual = [..Directory.EnumerateFiles(path: SafePath(root: selected, path: "src/godot-game"),
+                searchPattern: "*.cs",
+                searchOption: SearchOption.AllDirectories).Select(selector: path => Path.GetRelativePath(
+                        relativeTo: selected, path: path).Replace(oldChar: '\\', newChar: '/'))
+                .Where(predicate: path => !path.Split(separator: '/').Any(predicate: part => part is ".godot"
+                        or "bin" or "obj") && !IsAdapter(path: path))];
+        string[] expected = [..inputs.Select(selector: input => Text(row: input, name: "path"))
+                .Where(predicate: path => path.EndsWith(value: ".cs", comparisonType: StringComparison.Ordinal))];
+        if (actual.Order(comparer: StringComparer.Ordinal).SequenceEqual(second: expected.Order(
+                comparer: StringComparer.Ordinal), comparer: StringComparer.Ordinal) && inputs.All(predicate: input =>
+                        StringComparer.Ordinal.Equals(x: Hash(bytes: File.ReadAllBytes(path: SafePath(root: selected,
+                                path: Text(row: input, name: "path")))), y: Text(row: input, name: "sha256"))))
+        {
+            _producerRoots.Add(key: key, value: selected);
+            return selected;
+        }
+
+        return ReplayProducer(inventory: inventory, registry: registry, key: key, expected: expected);
+    }
+
+    private static string ReplayProducer(JsonElement inventory, JsonElement registry, string key, string[] expected)
+    {
         var fixture = new BuildFixture(game: true);
         string project = Path.Combine(path1: fixture.DirectoryPath, path2: ConfigurationTests.Projects[2]);
+        foreach (JsonElement input in inventory.GetProperty(propertyName: "sourceInputs").EnumerateArray())
+        {
+            string path = SafePath(root: fixture.DirectoryPath, path: Text(row: input, name: "path"));
+            Directory.CreateDirectory(path: Path.GetDirectoryName(path: path)
+                    ?? throw new InvalidDataException(message: "PRODUCER_INPUT_DIRECTORY"));
+            File.WriteAllBytes(path: path, bytes: InputBytes(input: input, registry: registry));
+        }
+
         string source = File.ReadAllText(path: project);
+        string includes = string.Join(separator: "", values: expected.Select(selector: path =>
+                "<Compile Include=\"" + path["src/godot-game/".Length..] + "\"/>"));
         File.WriteAllText(path: project, contents: source.Replace(oldValue: "</Project>",
-                newValue: "<ItemGroup><Compile Remove=\"inspection/InspectionRoot.cs\"/></ItemGroup></Project>",
+                newValue: "<ItemGroup><Compile Remove=\"**/*.cs\"/>" + includes
+                        + "<Compile Include=\"GeneratedCallSiteAdapters.cs;GeneratedReportAdapter.cs\"/>"
+                        + "</ItemGroup></Project>",
                 comparisonType: StringComparison.Ordinal));
         fixture.Restore();
         (int Exit, string Output) build = fixture.Build();
         build.Exit.ShouldBe(expected: 0, customMessage: build.Output);
-        _baselineRoot = fixture.DirectoryPath;
-        return _baselineRoot;
+        _producerRoots.Add(key: key, value: fixture.DirectoryPath);
+        return fixture.DirectoryPath;
     }
 
-    private static void VerifyProducer(JsonElement inventory)
+    private static bool IsAdapter(string path)
+    {
+        return path is "src/godot-game/GeneratedCallSiteAdapters.cs" or "src/godot-game/GeneratedReportAdapter.cs";
+    }
+
+    private static byte[] InputBytes(JsonElement input, JsonElement registry)
+    {
+        JsonElement snapshot = registry.GetProperty(propertyName: "producerSources").EnumerateArray().Single(
+                predicate: row => StringComparer.Ordinal.Equals(x: Text(row: row, name: "path"),
+                        y: Text(row: input, name: "path")) && StringComparer.Ordinal.Equals(
+                                x: Text(row: row, name: "sha256"), y: Text(row: input, name: "sha256")));
+        byte[] bytes = Convert.FromBase64String(s: Text(row: snapshot, name: "contentBase64"));
+        Hash(bytes: bytes).ShouldBe(expected: Text(row: input, name: "sha256"));
+        return bytes;
+    }
+
+    private static void VerifyProducer(JsonElement inventory, JsonElement registry)
     {
         string producer = Text(row: inventory, name: "producer");
         string package = SafePath(root: ProofProtocol.Root, path: Text(row: inventory, name: "package"));
@@ -265,18 +320,33 @@ public sealed class EngineGeneratedTests
         }
 
         JsonElement[] inputs = [.. inventory.GetProperty(propertyName: "sourceInputs").EnumerateArray()];
+        CanonicalHash(value: inventory.GetProperty(propertyName: "sourceInputs")).ShouldBe(
+                expected: Text(row: inventory, name: "sourceInputsSha256"));
         (inputs.Length is >= 1 and <= 128).ShouldBeTrue();
         inputs.Select(selector: row => Text(row: row, name: "path")).Distinct(comparer: StringComparer.Ordinal)
                 .Count().ShouldBe(expected: inputs.Length);
         foreach (JsonElement input in inputs)
         {
-            string path = SafePath(root: ProofProtocol.Root, path: Text(row: input, name: "path"));
-            Hash(bytes: File.ReadAllBytes(path: path)).ShouldBe(expected: Text(row: input, name: "sha256"));
+            _ = SafePath(root: ProofProtocol.Root, path: Text(row: input, name: "path"));
+            if (StringComparer.Ordinal.Equals(x: producer, y: "Godot.SourceGenerators/4.7.2"))
+            {
+                _ = InputBytes(input: input, registry: registry);
+            }
+            else
+            {
+                Hash(bytes: File.ReadAllBytes(path: Local(path: Text(row: input, name: "path")))).ShouldBe(
+                        expected: Text(row: input, name: "sha256"));
+            }
         }
 
         if (inventory.TryGetProperty(propertyName: "observations", value: out JsonElement observations))
         {
-            VerifyObservations(inventory: inventory, observations: observations);
+            VerifyObservations(inventory: inventory, observations: observations, registry: registry);
+        }
+        else
+        {
+            Text(row: inventory, name: "id").ShouldBeOneOf("phase1-baseline", "phase1-baseline-mtp",
+                    "phase1-baseline-xunit");
         }
     }
 
@@ -299,42 +369,67 @@ public sealed class EngineGeneratedTests
         }
     }
 
-    private static void VerifyObservations(JsonElement inventory, JsonElement observations)
+    private static void VerifyObservations(JsonElement inventory, JsonElement observations, JsonElement registry)
     {
-        observations.GetProperty(propertyName: "diagnosticCount").GetInt32().ShouldBe(expected: 177);
-        Text(row: inventory, name: "observationInventorySha256").ShouldBe(
-                expected: "3f118fc3de9adaff9410466a4fcbfb7591b11ca1c089cab3018654efb894c75f");
-        CanonicalHash(value: observations).ShouldBe(expected: ObservationHash);
-        foreach (JsonElement input in observations.GetProperty(propertyName: "subjects").EnumerateArray())
+        if (StringComparer.Ordinal.Equals(x: Text(row: inventory, name: "id"), y: "inspection03-08035ba"))
         {
-            JsonElement subject = inventory.GetProperty(propertyName: "sourceInputs").EnumerateArray().Single(
-                    predicate: row => StringComparer.Ordinal.Equals(x: Text(row: row, name: "path"),
-                            y: Text(row: input, name: "path")));
-            Text(row: subject, name: "sha256").ShouldBe(expected: Text(row: input, name: "sha256"));
+            observations.GetProperty(propertyName: "diagnosticCount").GetInt32().ShouldBe(expected: 177);
+            Text(row: inventory, name: "observationInventorySha256").ShouldBe(
+                    expected: "3f118fc3de9adaff9410466a4fcbfb7591b11ca1c089cab3018654efb894c75f");
+            CanonicalHash(value: observations).ShouldBe(expected: ObservationHash);
         }
 
+        CanonicalHash(value: observations).ShouldBe(expected: Text(row: inventory, name: "observationsSha256"));
+        foreach (JsonElement input in inventory.GetProperty(propertyName: "sourceInputs").EnumerateArray())
+        {
+            foreach (JsonElement subject in observations.GetProperty(propertyName: "subjects").EnumerateArray()
+                    .Where(predicate: row => StringComparer.Ordinal.Equals(x: Text(row: row, name: "path"),
+                            y: Text(row: input, name: "path"))))
+            {
+                Text(row: input, name: "sha256").ShouldBe(expected: Text(row: subject, name: "sha256"));
+            }
+        }
+
+        Text(row: observations, name: "producer").ShouldBe(expected: Text(row: inventory, name: "producer"));
+        Text(row: observations, name: "packageSha256").ShouldBe(
+                expected: Text(row: inventory, name: "packageSha256"));
+        string root = ProducerRoot(inventory: inventory, registry: registry);
+        int count = 0;
         foreach (JsonElement file in observations.GetProperty(propertyName: "generatedFiles").EnumerateArray())
         {
-            string path = SafePath(root: ProofProtocol.Root, path: Text(row: file, name: "path"));
+            JsonElement surface = inventory.GetProperty(propertyName: "surfaces").EnumerateArray().Single(
+                    predicate: row => StringComparer.Ordinal.Equals(x: Text(row: row, name: "path"),
+                            y: Text(row: file, name: "path")));
+            Text(row: surface, name: "sha256").ShouldBe(expected: Text(row: file, name: "sha256"));
+            Text(row: surface, name: "textSha256").ShouldBe(expected: Text(row: file, name: "textSha256"));
+            string path = SafePath(root: root, path: Text(row: file, name: "path"));
             Hash(bytes: File.ReadAllBytes(path: path)).ShouldBe(expected: Text(row: file, name: "sha256"));
             Hash(bytes: Encoding.UTF8.GetBytes(s: File.ReadAllText(path: path))).ShouldBe(
                     expected: Text(row: file, name: "textSha256"));
+            count += file.GetProperty(propertyName: "diagnostics").GetArrayLength();
         }
 
-        VerifyCurrentCoverage(observations: observations);
+        count.ShouldBeGreaterThan(expected: 0);
+        count.ShouldBe(expected: observations.GetProperty(propertyName: "diagnosticCount").GetInt32());
+        VerifyCurrentCoverage(inventory: inventory, observations: observations, registry: registry, root: root);
     }
 
-    private static void VerifyCurrentCoverage(JsonElement observations)
+    private static void VerifyCurrentCoverage(JsonElement inventory, JsonElement observations, JsonElement registry,
+            string root)
     {
         using JsonDocument syntax = Registry();
         using var calls = JsonDocument.Parse(json: File.ReadAllText(
                 path: Local(path: "docs/code/generated-callsite-adaptations.json")));
-        JsonElement[] spans = [.. syntax.RootElement.GetProperty(propertyName: "local").EnumerateArray()];
-        JsonElement[] members = [.. calls.RootElement.GetProperty(propertyName: "local").EnumerateArray()];
-        var consumer = ConsumerCompilation.Read(root: ProofProtocol.Root,
-                project: ConfigurationTests.Projects[2]);
+        bool isSyntax = registry.GetProperty(propertyName: "local")[0].TryGetProperty(
+                propertyName: "length", value: out _);
+        JsonElement spanRegistry = isSyntax ? registry : syntax.RootElement;
+        JsonElement callRegistry = isSyntax ? calls.RootElement : registry;
+        JsonElement[] spans = CohortRows(registry: spanRegistry, inventory: inventory, observations: observations);
+        JsonElement[] members = CohortRows(registry: callRegistry, inventory: inventory, observations: observations);
+        var consumer = ConsumerCompilation.Read(root: root, project: ConfigurationTests.Projects[2]);
         CSharpCompilation compilation = consumer.Create();
         ConsumerCompilation.RequireValid(compilation: compilation);
+        var covered = new HashSet<string>(comparer: StringComparer.Ordinal);
         foreach (JsonElement file in observations.GetProperty(propertyName: "generatedFiles").EnumerateArray())
         {
             string path = Text(row: file, name: "path");
@@ -342,13 +437,31 @@ public sealed class EngineGeneratedTests
                     x: item.FilePath, y: path));
             foreach (JsonElement diagnostic in file.GetProperty(propertyName: "diagnostics").EnumerateArray())
             {
-                VerifyObservation(diagnostic: diagnostic, tree: tree, compilation: compilation,
-                        spans: spans, members: members);
+                covered.Add(item: VerifyObservation(diagnostic: diagnostic, tree: tree, compilation: compilation,
+                        spans: spans, members: members));
             }
         }
+
+        covered.SetEquals(other: spans.Concat(second: members).Select(selector: row => Text(row: row, name: "id")))
+                .ShouldBeTrue(customMessage: "COHORT_UNOBSERVED_PERMISSION");
     }
 
-    private static void VerifyObservation(JsonElement diagnostic, SyntaxTree tree, CSharpCompilation compilation,
+    private static JsonElement[] CohortRows(JsonElement registry, JsonElement inventory, JsonElement observations)
+    {
+        JsonElement cohort = registry.GetProperty(propertyName: "producerInventories").EnumerateArray().Single(
+                predicate: row => StringComparer.Ordinal.Equals(x: Text(row: row, name: "id"),
+                        y: Text(row: inventory, name: "id")));
+        CanonicalHash(value: cohort.GetProperty(propertyName: "observations")).ShouldBe(
+                expected: CanonicalHash(value: observations));
+        CanonicalHash(value: cohort.GetProperty(propertyName: "sourceInputs")).ShouldBe(
+                expected: CanonicalHash(value: inventory.GetProperty(propertyName: "sourceInputs")));
+        var ids = new HashSet<string>(collection: cohort.GetProperty(propertyName: "rowIds").EnumerateArray()
+                .Select(selector: row => row.GetString() ?? ""), comparer: StringComparer.Ordinal);
+        return [..registry.GetProperty(propertyName: "local").EnumerateArray().Where(predicate: row =>
+                ids.Contains(item: Text(row: row, name: "id")))];
+    }
+
+    private static string VerifyObservation(JsonElement diagnostic, SyntaxTree tree, CSharpCompilation compilation,
             JsonElement[] spans, JsonElement[] members)
     {
         int line = diagnostic.GetProperty(propertyName: "line").GetInt32();
@@ -363,15 +476,17 @@ public sealed class EngineGeneratedTests
             string target = "~" + compilation.GetSemanticModel(syntaxTree: tree)
                     .GetDeclaredSymbol(declaration: method)
                     ?.GetDocumentationCommentId();
-            members.Count(predicate: row => StringComparer.Ordinal.Equals(x: Text(row: row, name: "surface"),
+            JsonElement member = members.Single(predicate: row => StringComparer.Ordinal.Equals(
+                    x: Text(row: row, name: "surface"),
                     y: tree.FilePath) && StringComparer.Ordinal.Equals(x: Text(row: row, name: "target"), y: target)
-                    && StringComparer.Ordinal.Equals(x: Text(row: row, name: "diagnostic"), y: id))
-                    .ShouldBe(expected: 1, customMessage: target);
-            return;
+                    && StringComparer.Ordinal.Equals(x: Text(row: row, name: "diagnostic"), y: id));
+            return Text(row: member, name: "id");
         }
 
         JsonElement span = spans.Single(predicate: row => StringComparer.Ordinal.Equals(
                 x: Text(row: row, name: "surface"), y: tree.FilePath)
+                && StringComparer.Ordinal.Equals(x: Text(row: row, name: "textSha256"),
+                        y: Hash(bytes: Encoding.UTF8.GetBytes(s: tree.GetText().ToString())))
                 && StringComparer.Ordinal.Equals(x: Text(row: row, name: "diagnostic"), y: id)
                 && row.GetProperty(propertyName: "line").GetInt32() == line
                 && row.GetProperty(propertyName: "column").GetInt32() == column);
@@ -383,21 +498,137 @@ public sealed class EngineGeneratedTests
             _ => throw new InvalidDataException(message: "OBSERVATION_DIAGNOSTIC " + id)
         };
         span.GetProperty(propertyName: "length").GetInt32().ShouldBe(expected: length);
+        return Text(row: span, name: "id");
     }
 
     private static void RejectInventoryMutations(JsonElement registry)
     {
-        foreach (string field in new[] { "sha256", "packageSha256", "surface", "member", "diagnostic" })
+        foreach (string field in new[] { "missing-observations", "extra-row", "sha256", "packageSha256",
+                "surface", "member", "diagnostic",
+                "line", "column", "length", "missing-row", "source-input", "missing-source", "package",
+                "missing-package", "borrowed-row", "wrong-case" })
         {
             JsonObject changed = JsonNode.Parse(json: registry.GetRawText())?.AsObject()
                     ?? throw new InvalidDataException(message: "COHORT_MUTATION_ROOT");
             JsonArray rows = changed["local"]?.AsArray()
                     ?? throw new InvalidDataException(message: "COHORT_MUTATION_ROWS");
-            (rows[^1] ?? throw new InvalidDataException(message: "COHORT_MUTATION_ROW"))[field] = "wrong";
+            JsonNode row = rows[^1] ?? throw new InvalidDataException(message: "COHORT_MUTATION_ROW");
+            JsonNode inventory = changed["producerInventories"]?.AsArray()[^1]
+                    ?? throw new InvalidDataException(message: "COHORT_MUTATION_INVENTORY");
+            MutateInventory(field: field, row: row, rows: rows, inventory: inventory);
             using var document = JsonDocument.Parse(json: changed.ToJsonString());
-            Should.Throw<Exception>(actual: () => VerifyInventories(registry: document.RootElement, baselineCount: 220,
+            Exception failure = Should.Throw<Exception>(actual: () => VerifyInventories(
+                    registry: document.RootElement, baselineCount: 220,
                     baselineHash: "de69b0e421ada4acfd8d512fe3b47395f5198bd8220de16a4afffb010aa4d62f"));
+            if (field is "extra-row")
+            {
+                failure.Message.ShouldContain(expected: "COHORT_UNOBSERVED_PERMISSION");
+            }
         }
+    }
+
+    private static void MutateInventory(string field, JsonNode row, JsonArray rows, JsonNode inventory)
+    {
+        if (field is "extra-row")
+        {
+            JsonNode extra = row.DeepClone();
+            extra["id"] = "UNOBSERVED_EXTRA_PERMISSION";
+            extra["diagnostic"] = "SCR0999";
+            rows.Add(item: extra);
+            inventory["rowIds"]?.AsArray().Add(value: "UNOBSERVED_EXTRA_PERMISSION");
+        }
+        else if (field is "missing-observations")
+        {
+            inventory.AsObject().Remove(propertyName: "observations");
+        }
+        else if (field is "line" or "column" or "length")
+        {
+            row[field] = (row[field]?.GetValue<int>() ?? 0) + 1;
+        }
+        else if (field is "missing-row")
+        {
+            rows.RemoveAt(index: rows.Count - 1);
+        }
+        else if (field is "source-input" or "missing-source")
+        {
+            JsonArray inputs = inventory["sourceInputs"]?.AsArray()
+                    ?? throw new InvalidDataException(message: "COHORT_MUTATION_INPUTS");
+            if (StringComparer.Ordinal.Equals(x: field, y: "missing-source"))
+            {
+                inputs.RemoveAt(index: 0);
+            }
+            else
+            {
+                (inputs[0] ?? throw new InvalidDataException(message: "COHORT_MUTATION_INPUT"))["sha256"] = "wrong";
+            }
+        }
+        else if (field is "package" or "missing-package")
+        {
+            inventory["package"] = field;
+        }
+        else if (field is "borrowed-row")
+        {
+            inventory["rowIds"]?[0] = rows[0]?["id"]?.GetValue<string>();
+        }
+        else
+        {
+            row[StringComparer.Ordinal.Equals(x: field, y: "wrong-case") ? "surface" : field] = "wrong";
+        }
+    }
+
+    private static void RejectCallInventoryMutations()
+    {
+        JsonObject register = RegisterValidator.Read(relative: "docs/code/generated-callsite-adaptations.json");
+        JsonArray rows = register["local"]?.AsArray() ?? throw new InvalidDataException(message: "CALL_ROWS");
+        JsonNode extra = rows[^1]?.DeepClone() ?? throw new InvalidDataException(message: "CALL_ROW");
+        extra["id"] = "UNOBSERVED_EXTRA_MEMBER";
+        extra["target"] = "~M:KingdomZombies.Inspection.InspectionRoot.Unobserved";
+        rows.Add(item: extra);
+        register["producerInventories"]?.AsArray()[^1]?["rowIds"]?.AsArray().Add(
+                value: "UNOBSERVED_EXTRA_MEMBER");
+        using var document = JsonDocument.Parse(json: register.ToJsonString());
+        Exception failure = Should.Throw<Exception>(actual: () => VerifyInventories(
+                registry: document.RootElement, baselineCount: 18,
+                baselineHash: "ef8ea1e0be872146bcf1f81a2079733bb37be5c2b9718fbf0faa47b164c08d8f"));
+        failure.Message.ShouldContain(expected: "COHORT_UNOBSERVED_PERMISSION");
+    }
+
+    private static void VerifyReproduction(JsonElement registry)
+    {
+        JsonElement inventory = registry.GetProperty(propertyName: "producerInventories").EnumerateArray()
+                .Single(predicate: row => StringComparer.Ordinal.Equals(x: Text(row: row, name: "id"),
+                        y: "inspection03-08035ba"));
+        var fixture = new BuildFixture(game: true);
+        File.Delete(path: SafePath(root: fixture.DirectoryPath, path: "src/godot-game/Subject.cs"));
+        foreach (string relative in new[] { "tests/phase1/ContentInspectorTests.cs", "tools/phase4/cases/hub.cjs",
+                "src/godot-game/inspection/Inspection.tscn" })
+        {
+            string path = SafePath(root: fixture.DirectoryPath, path: relative);
+            Directory.CreateDirectory(path: Path.GetDirectoryName(path: path)
+                    ?? throw new InvalidDataException(message: "NONPRODUCER_DIRECTORY"));
+            File.WriteAllText(path: path, contents: "changed nonproducer subject\n");
+        }
+
+        fixture.Restore();
+        (int Exit, string Output) build = fixture.Build();
+        build.Exit.ShouldBe(expected: 0, customMessage: build.Output);
+        string current = ProducerRoot(inventory: inventory, registry: registry, liveRoot: fixture.DirectoryPath);
+        current.ShouldBe(expected: fixture.DirectoryPath);
+        VerifyCurrentCoverage(inventory: inventory, observations: inventory.GetProperty(propertyName: "observations"),
+                registry: registry, root: current);
+        File.AppendAllText(path: SafePath(root: fixture.DirectoryPath,
+                path: "src/godot-game/inspection/InspectionRoot.cs"), contents: "\n// changed producer bytes\n");
+        _producerRoots.Remove(key: fixture.DirectoryPath + CanonicalHash(value: inventory));
+        string historical = ProducerRoot(inventory: inventory, registry: registry, liveRoot: fixture.DirectoryPath);
+        StringComparer.Ordinal.Equals(x: historical, y: fixture.DirectoryPath).ShouldBe(expected: false);
+        foreach (JsonElement surface in inventory.GetProperty(propertyName: "surfaces").EnumerateArray())
+        {
+            Hash(bytes: File.ReadAllBytes(path: SafePath(root: historical, path: Text(row: surface, name: "path"))))
+                    .ShouldBe(expected: Text(row: surface, name: "sha256"));
+        }
+
+        VerifyCurrentCoverage(inventory: inventory, observations: inventory.GetProperty(propertyName: "observations"),
+                registry: registry, root: historical);
     }
 
     private static void VerifyBakedRows(JsonElement[] rows)

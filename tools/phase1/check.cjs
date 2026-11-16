@@ -59,6 +59,7 @@ function select(manifest, args) {
         || !['csharp', 'pending'].includes(row.implementation)
         || (row.implementation === 'csharp' && (typeof row.test !== 'string' || !row.test.trim()))) reject('MANIFEST_INVALID', row.id);
     if (Object.hasOwn(row, 'acceptancePhase') && (!Number.isSafeInteger(row.acceptancePhase) || row.acceptancePhase < 1)) reject('MANIFEST_PHASE', row.id);
+    caseTimeout(row, manifest);
   }
   let mode, value, list = false;
   for (let i = 0; i < args.length; i++) {
@@ -79,6 +80,13 @@ function select(manifest, args) {
     ? (row.acceptancePhase ?? 1) <= Number(value) : mode === '--group' ? row.group === value : row.id === value));
   if (!selected.length) reject('SELECTION_EMPTY', String(value));
   return { selected, deferred, list };
+}
+function caseTimeout(item, manifest) {
+  if (!Object.hasOwn(item, 'childTimeoutMs')) return { argument: '45s', outerMs: manifest.childTimeoutMs ?? 45_000 };
+  const value = item.childTimeoutMs;
+  if (!Number.isSafeInteger(value) || value < 1 || value > 120_000) reject('MANIFEST_TIMEOUT', item.id);
+  const seconds = Math.ceil(value / 1000);
+  return { argument: `${seconds}s`, outerMs: seconds * 1000 + 2000 };
 }
 function evidence(root, name) {
   const file = inside(root, name);
@@ -131,7 +139,7 @@ async function command(executable, args, context, label, timeoutMs = 60_000, ext
     context.children.add(child);
     child.once('error', error => { spawnError = error.code; });
     timer = setTimeout(() => { timedOut = true; killTree(child); }, timeoutMs);
-    child.once('close', (code, signal) => resolve({ executable, args, pid: child.pid, code, signal, timedOut, spawnError, started, ended: new Date().toISOString() }));
+    child.once('close', (code, signal) => resolve({ executable, args, pid: child.pid, code, signal, timedOut, timeoutMs, spawnError, started, ended: new Date().toISOString() }));
   });
   clearTimeout(timer); context.children.delete(child); fs.closeSync(fd);
   fs.writeFileSync(path.join(context.directory, label + '.command.json'), JSON.stringify(result, null, 2));
@@ -217,8 +225,9 @@ async function main(root, args) {
           try {
             console.log(`Checking ${item.id}`);
             const childContext = { ...context, directory: caseDir };
+            const timeout = caseTimeout(item, manifest);
             const result = await command(executable, [assembly, '--filter-method', item.test, '--report-xunit-ctrf', '--report-xunit-ctrf-filename', 'tests.json', '--results-directory', caseDir,
-              '--no-ansi', '--progress', 'off', '--parallel', 'none', '--explicit', 'on', '--timeout', '45s'], childContext, 'test', manifest.childTimeoutMs ?? 45_000,
+              '--no-ansi', '--progress', 'off', '--parallel', 'none', '--explicit', 'on', '--timeout', timeout.argument], childContext, 'test', timeout.outerMs,
             { PHASE1_NONCE: nonce, PHASE1_INPUT: context.input, PHASE1_TOOL: context.tool, PHASE1_PLATFORM: context.platform, PHASE1_RESULT_DIRECTORY: caseDir });
             const reportFile = path.join(caseDir, 'tests.json');
             if (!fs.existsSync(reportFile)) reject('REPORT_MISSING', item.id + ': child exit ' + result.code);
@@ -253,7 +262,7 @@ async function main(root, args) {
   console.log(`${status.toUpperCase()} ${accepted.length}/${selection.selected.length} selected obligations; [summary](${path.relative(root, path.join(directory, 'summary.json')).replaceAll('\\', '/')})`);
   if (status !== 'pass') process.exitCode = 1;
 }
-module.exports = { reconcile, select, snapshot, verifyReport, inside, main };
+module.exports = { reconcile, select, snapshot, verifyReport, inside, caseTimeout, main };
 if (require.main === module) main(path.resolve(__dirname, '../..'), process.argv.slice(2)).catch(error => {
   console.error(`${error.diagnostic ?? 'CHECK_ERROR'}: ${error.message}`); process.exitCode = 1;
 });

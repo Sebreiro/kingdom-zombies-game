@@ -29,6 +29,10 @@ public sealed class GodotCallSiteAdapterTests
                         + "hase1 { private static int AdjacentCallSite() => System" + ".Math.Abs(-1); }"));
         adjacent.ShouldContain(expected: "error SCR0001:");
         adjacent.ShouldContain(expected: "Main.cs(");
+        (int Exit, string Output) restored = ConfigurationTests.Dotnet("build", ConfigurationTests.Projects[2],
+                "--no-restore", "--disable-build-servers", "-p:UseSharedCompilation=false", "-nodeReuse:false",
+                "-p:NuGetAudit=false");
+        restored.Exit.ShouldBe(expected: 0, customMessage: restored.Output);
         using var registry = JsonDocument.Parse(json: File.ReadAllText(path: Path.Combine(path1: ProofProtocol
                 .Root, path2: "docs/code/generated-callsite-adaptations.json")));
         JsonElement[] rows = [..registry.RootElement.GetProperty(propertyName: "local").EnumerateArray().Where(
