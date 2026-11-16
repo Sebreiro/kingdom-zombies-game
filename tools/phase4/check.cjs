@@ -17,6 +17,10 @@ const EXPECTED={owner:'sharedassets0.assets',type:'Sprite',objectId:7008,name:'t
 const IMAGE={width:16,height:18,mode:'RGBA',alphaBBox:[6,1,10,17],visiblePixels:42,
   rgbaSha256:'88b8e7062f0eb9cfb788ef3658028ba58a6f62d408d3e39ae2e1228bfa6c8905',
   pngSha256:'08b53699e459d71cf73f3e7be84af19d04805d5a7a488121e39a514a81701999',pngBytes:135};
+const REGISTRATION={logicalRect:{x:0,y:0,width:16,height:18},pivotNormalizedBottomLeft:{x:0.375,y:0.5},
+  sourcePixelsPerUnit:32,sourceOffset:{x:-2,y:0},trimOffset:{x:0,y:0},atlasRectOffset:{x:576,y:526},
+  atlasTextureRect:{x:578,y:526,width:16,height:18},atlasSettingsRaw:67,alphaTextureId:0,
+  display:{centered:false,offsetTopLeft:[-6,-9],scale:[1,1],filter:'nearest'}};
 const RECIPE=String.raw`import base64, hashlib, io, json, pathlib, sys
 sys.dont_write_bytecode = True
 sys.path.insert(0, 'D:/Work/Games/KindomCrown/.tools/resource-python')
@@ -110,6 +114,17 @@ function document(root,relative){
   const text=new TextDecoder('utf-8',{fatal:true}).decode(bytes(root,relative));
   need(!text.startsWith('\ufeff'),'UTF8_BOM',relative);
   let result;try{result=JSON.parse(text);}catch{throw new Error('JSON_INVALID '+ID+' '+relative);}
+  const stack=[];
+  for(const token of text.match(/"(?:[^"\\]|\\.)*"|[{}\[\]:,]/g)??[]){
+    if(token==='{')stack.push({keys:new Set(),key:true});
+    else if(token==='[')stack.push({});
+    else if(token==='}'||token===']')stack.pop();
+    else if(token===','&&stack.at(-1)?.keys)stack.at(-1).key=true;
+    else if(token===':'&&stack.at(-1)?.keys)stack.at(-1).key=false;
+    else if(token.startsWith('"')&&stack.at(-1)?.key){
+      const key=JSON.parse(token),frame=stack.at(-1);need(!frame.keys.has(key),'JSON_DUPLICATE_KEY',relative+' '+key);frame.keys.add(key);
+    }
+  }
   function walk(value,depth){
     need(depth<=24,'DOCUMENT_DEPTH',relative);
     if(typeof value==='number')need(Number.isFinite(value),'DOCUMENT_NUMBER',relative);
@@ -186,6 +201,8 @@ function engine(){
 }
 function validate(root){
   const source=document(root,FILES.source),pack=document(root,FILES.pack);
+  need(source&&source.preservation&&source.recipe&&source.bundle&&source.image&&source.registration,
+    'SOURCE_RECORD_INVALID',FILES.source);
   need(source.schemaVersion===1&&source.id===ID&&source.version===1&&equal(source.source,EXPECTED),
     'SOURCE_IDENTITY_MISMATCH',FILES.source);
   need(equal(source.preservation.originals,ORIGINALS),'SOURCE_IDENTITY_MISMATCH','originals');
@@ -194,11 +211,13 @@ function validate(root){
     source.preservation.rawSpriteSha256==='12a7303fa0815fb8cd0ac10630e934dd91b87777c041838ada7cfa8259fa4023',
     'SOURCE_IDENTITY_MISMATCH','retained-source-hashes');
   need(equal(source.image,IMAGE),'MEDIA_IDENTITY_MISMATCH',FILES.media);
+  need(equal(source.registration,REGISTRATION),'REGISTRATION_MISMATCH',FILES.source);
   need(source.recipe.code===RECIPE&&source.recipe.sha256===hash(RECIPE),'SOURCE_RECIPE_MISMATCH',FILES.source);
   const png=bytes(root,FILES.media,65536),retained=Buffer.from(source.bundle.originalExportPngBase64,'base64');
   need(hash(png)===source.image.pngSha256&&png.equals(retained),'MEDIA_HASH_MISMATCH',FILES.media);
   need(hash(Buffer.from(source.bundle.rawSpriteBase64,'base64'))===source.preservation.rawSpriteSha256,'SOURCE_IDENTITY_MISMATCH','rawSprite');
-  need(pack.schemaVersion===1&&pack.id==='tracer'&&pack.version===1&&pack.resources.length===1,'PACK_INVALID',FILES.pack);
+  need(pack&&pack.schemaVersion===1&&pack.id==='tracer'&&pack.version===1&&Array.isArray(pack.resources)&&
+    pack.resources.length===1&&pack.resources[0],'PACK_INVALID',FILES.pack);
   const entry=pack.resources[0];
   need(entry.id===ID&&entry.path==='assets/common/bow.png'&&entry.scene==='inspection/Inspection.tscn'&&entry.version===1,
     'PACK_BINDING_MISMATCH',FILES.pack);
@@ -280,8 +299,10 @@ async function runTracer(root,context,{interrupt=false}={}){
   save(project,'probe.gd',probeScript(context.nonce,source.image,interrupt));
   const imported=await command(context,'native-import',tool.executable,['--headless','--path',project,'--editor','--import']);
   need(!/ERROR:|SCRIPT ERROR:|Failed to load|Error importing/i.test(imported.stdout+imported.stderr),'NATIVE_IMPORT_ERROR',FILES.scene);
-  const loaded=await command(context,'native-loader',tool.executable,['--headless','--path',project,'--script','res://probe.gd'],
-    {timeout:15000,interruptMarker:interrupt?'TRACER_LOADED '+context.nonce:undefined});
+  let loaded;
+  try{loaded=await command(context,'native-loader',tool.executable,['--headless','--path',project,'--script','res://probe.gd'],
+    {timeout:15000,interruptMarker:interrupt?'TRACER_LOADED '+context.nonce:undefined});}
+  catch(error){if(error.message.startsWith('CHILD_FAILED '))throw new Error('NATIVE_LOAD_ERROR '+ID+' '+FILES.scene+' '+error.message);throw error;}
   need(!/ERROR:|SCRIPT ERROR:|Failed to load/i.test(loaded.stdout+loaded.stderr),'NATIVE_LOAD_ERROR',FILES.scene);
   need(loaded.stdout.includes('TRACER_COMPLETE '+context.nonce+' '+ID),'NATIVE_COMPLETION_MISSING',FILES.scene);
   need(JSON.stringify(initial)===JSON.stringify(fingerprint(root)),'SOURCE_CHANGED');
@@ -310,6 +331,79 @@ async function exportTracer(){
     console.log('EXPORTED '+source.image.pngSha256+' '+context.directory);
   }catch(error){save(context.directory,'result.json',{status:'fail',nonce:context.nonce,message:error.message});throw error;}
 }
+async function originalIdentities(){
+  const rows=[];
+  for(const expected of ORIGINALS){
+    const file=inside(DONOR,'KingdomTwoCrowns_Data/'+expected.path),stat=fs.statSync(file);
+    need(stat.isFile()&&stat.size===expected.bytes,'ORIGINAL_SIZE',expected.path);
+    const digest=crypto.createHash('sha256');
+    for await(const part of fs.createReadStream(file))digest.update(part);
+    const row={path:expected.path,bytes:stat.size,sha256:digest.digest('hex')};
+    need(equal(row,expected),'ORIGINAL_CHANGED',expected.path);rows.push(row);
+  }
+  return rows;
+}
+function copySubject(directory){
+  const root=inside(directory,'subject');fs.mkdirSync(root);
+  for(const file of [...Object.values(FILES),'tools/phase4/check.cjs','tools/phase1/toolchain.json','src/godot-game/project.godot'])
+    save(root,file,bytes(ROOT,file));
+  return root;
+}
+async function tracerFailures(context){
+  const initial=fingerprint(ROOT),originalsBefore=await originalIdentities(),outcomes=[];
+  save(context.directory,'inputs.json',initial);save(context.directory,'originals-before.json',originalsBefore);
+  const trials=[
+    {name:'missing-media',file:FILES.media,code:'RESOURCE_MISSING',remove:true},
+    {name:'corrupt-media',file:FILES.media,code:'MEDIA_HASH_MISMATCH',payload:Buffer.from('not a PNG')},
+    {name:'missing-manifest',file:FILES.pack,code:'RESOURCE_MISSING',remove:true},
+    {name:'corrupt-manifest',file:FILES.pack,code:'JSON_INVALID',payload:Buffer.from('{"invalid":')},
+    {name:'duplicate-manifest-key',file:FILES.pack,code:'JSON_DUPLICATE_KEY',payload:Buffer.from('{"id":"tracer","id":"other"}')},
+    {name:'origin-id',file:FILES.pack,code:'SOURCE_IDENTITY_MISMATCH',edit:value=>{value.resources[0].source.objectId=7009;}},
+    {name:'origin-hash',file:FILES.source,code:'SOURCE_IDENTITY_MISMATCH',edit:value=>{value.preservation.originals[0].sha256='0'.repeat(64);}},
+    {name:'missing-scene',file:FILES.scene,code:'RESOURCE_MISSING',remove:true},
+    {name:'corrupt-scene',file:FILES.scene,code:'NATIVE_IMPORT_ERROR',payload:Buffer.from('[gd_scene format=3]\n[node name="broken" type=\n')},
+    {name:'native-missing-texture',file:FILES.scene,code:'NATIVE_LOAD_ERROR',
+      payload:Buffer.from(bytes(ROOT,FILES.scene).toString('utf8').replace('res://assets/common/bow.png','res://assets/common/absent-bow.png'))},
+    {name:'interrupted-loader',file:FILES.scene,code:'LOADER_INTERRUPTED',interrupt:true}
+  ];
+  let missingSubject;
+  for(const trial of trials){
+    const invocation=createRun('source.tracer-failures/'+trial.name),subject=copySubject(invocation.directory),file=inside(subject,trial.file);
+    if(trial.remove)fs.unlinkSync(file);
+    if(trial.payload)fs.writeFileSync(file,trial.payload);
+    if(trial.edit){const value=document(subject,trial.file);trial.edit(value);fs.writeFileSync(file,JSON.stringify(value,null,2)+'\n');}
+    const mutation={id:ID,trial:trial.name,path:trial.file,expectedCode:trial.code,
+      originalSha256:initial[trial.file],mutatedSha256:fs.existsSync(file)?hash(fs.readFileSync(file)):null};
+    if(fs.existsSync(file))save(invocation.directory,'mutation.bin',fs.readFileSync(file));
+    save(invocation.directory,'mutation.json',mutation);
+    let failure;
+    try{await runTracer(subject,invocation,{interrupt:trial.interrupt});}
+    catch(error){failure=error;}
+    save(invocation.directory,'result.json',{...invocation,status:failure?'fail':'pass',
+      message:failure?.message,stack:failure?.stack,mutation,finishedAt:new Date().toISOString()});
+    need(failure&&failure.message.startsWith(trial.code+' '+ID+' '),'NEGATIVE_CONTROL_WRONG_RESULT',trial.name+' '+failure?.message);
+    if(trial.interrupt){
+      const native=document(invocation.directory,'native-loader.command.json');
+      need(native.reason==='LOADER_INTERRUPTED'&&native.streamsClosed&&!native.cleanupError&&
+        native.stdout.includes('TRACER_LOADED '+invocation.nonce+' '+ID)&&
+        !native.stdout.includes('TRACER_COMPLETE '+invocation.nonce),'INTERRUPTION_NOT_OBSERVED',trial.name);
+    }else need(failure.message.includes(trial.file)||trial.name==='origin-hash','DIAGNOSTIC_PATH_MISSING',trial.name);
+    outcomes.push({trial:trial.name,nonce:invocation.nonce,directory:invocation.directory,
+      subjectStatus:'fail',expectedRejectionObserved:true,diagnostic:failure.message,mutation});
+    if(trial.name==='missing-media')missingSubject=subject;
+  }
+  need(missingSubject,'RESTORE_SUBJECT_MISSING');
+  save(missingSubject,FILES.media,bytes(ROOT,FILES.media));
+  need(equal(fingerprint(missingSubject),initial),'RESTORE_INPUT_MISMATCH');
+  const restored=createRun('source.tracer-failures/restored-control'),restoredResult=await runTracer(missingSubject,restored);
+  save(restored.directory,'result.json',{...restored,status:'pass',observations:restoredResult,restoredFrom:outcomes[0].nonce});
+  const production=createRun('source.tracer-failures/production-control'),productionResult=await runTracer(ROOT,production);
+  save(production.directory,'result.json',{...production,status:'pass',observations:productionResult});
+  const originalsAfter=await originalIdentities();save(context.directory,'originals-after.json',originalsAfter);
+  need(equal(originalsBefore,originalsAfter)&&equal(fingerprint(ROOT),initial),'ORIGINAL_CHANGED','production-or-donor');
+  return {outcomes,expectedRejected:trials.length,restored:{nonce:restored.nonce,...restoredResult},
+    production:{nonce:production.nonce,...productionResult},originalsUnchanged:true};
+}
 const cases=new Map();
 function registerCase(id,definition,run){
   need(typeof id==='string'&&!cases.has(id)&&typeof run==='function','CASE_REGISTRATION',id);
@@ -323,6 +417,16 @@ registerCase('source.tracer',{group:'source',title:'Exact recovered bow reaches 
   expected:'Current nonempty source-bound texture loads; native errors/timeout/missing completion fail',
   reset:'Fresh owned no-window project per invocation; bounded descendant cleanup',evidence:['inputs.json','engine.json','native-import.command.json','native-loader.command.json','result.json']},
   context=>runTracer(ROOT,context));
+registerCase('source.tracer-failures',{group:'source',title:'Bad real tracer subjects fail with fresh exact diagnostics',importance:'High',
+  rationale:'Missing/corrupt/origin-mismatched/interrupted content must never inherit success',needsGameWindow:false,runGroup:'G0',order:2,
+  requirements:['ASSET-01','ASSET-02','ASSET-05'],acceptance:['AC-02','AC-03','AC-16','AC-20'],
+  setup:'Passing source.tracer prerequisites plus read-only preserved donor archive/stream for before/after identity observation',
+  actions:['Hash original donor and production inputs','Mutate owned media/manifest/origin/scene copies independently',
+    'Run the same production validator/importer/loader and require exact failed invocations','Interrupt only after native texture load is observed',
+    'Restore the owned missing-media subject and load it afresh','Load unchanged production and rehash originals'],
+  expected:'Eleven fresh deliberate failures; fresh restored and production passes; original bytes unchanged',
+  reset:'Copies are run-owned; restore only missing media in its disposable copy; preserve all failure records; bounded descendant cleanup',
+  evidence:['inputs.json','originals-before.json','originals-after.json','mutation.json','mutation.bin','native-loader.command.json','result.json']},tracerFailures);
 async function main(args){
   need(fs.realpathSync.native(ROOT).toLowerCase()===fs.realpathSync.native(path.resolve(__dirname,'../..')).toLowerCase(),'PROJECT_ROOT_PIN');
   if(args.length===1&&args[0]==='--export-tracer')return exportTracer();
