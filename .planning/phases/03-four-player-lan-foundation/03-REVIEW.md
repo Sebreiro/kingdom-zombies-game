@@ -1,9 +1,9 @@
 ---
 phase: 03-four-player-lan-foundation
-reviewed: 2026-11-16T00:40:42Z
+reviewed: 2026-11-16T01:54:34Z
 depth: standard
-reviewed_revision: 551d7c6f379f701c5271508bf68ca2730efe9057
-build_revision: 551d7c6f379f701c5271508bf68ca2730efe9057
+reviewed_revision: 2f20e72fec4156322f2b3646d08977b5eb52d675
+build_revision: 2f20e72fec4156322f2b3646d08977b5eb52d675
 diff_base: 87e0b44
 scope_files: 120
 files_reviewed: 117
@@ -140,12 +140,12 @@ status: clean
 
 # Phase 03: Code Review Report
 
-**Reviewed:** 2026-11-16T00:40:42Z  
+**Reviewed:** 2026-11-16T01:54:34Z  
 **Depth:** standard  
 **Source files reviewed:** 117  
 **Explicit scope:** all 120 paths from `.phase3/review-fix-union.txt`, preserving the complete original scope and subsequent helpers/consumers, including the new PNG worker; three planning-context paths are listed separately above  
 **Status:** clean  
-**Reviewed source / pinned build revision:** `551d7c6f379f701c5271508bf68ca2730efe9057`  
+**Reviewed source / pinned build revision:** `2f20e72fec4156322f2b3646d08977b5eb52d675`  
 **Diff base:** `87e0b44`
 
 ## Summary
@@ -164,7 +164,7 @@ The latest bounded recheck covers native batch 3 at `4ea54ca731c90de700480033f58
 
 The preceding batch-4 recheck found CR-11 in ordinary browser cancellation. The current four-file repair at `f32e0bd8911e0c185a6fa10b24c251f1d69494cd` transfers cancellation to the Root-owned runtime retirement helper, retains older unfinished drains during rapid replacement and polls/disposes every retiring coordinator through its proper lifetime. The production Menu control uses that same retirement owner and passes its pending-connection, repeated-cancel and 249/250 ms assertions.
 
-The current bounded source recheck covers batch 8 at `551d7c6f379f701c5271508bf68ca2730efe9057`: production input-before-update ordering, bounded ordinary publication and one pending publication after accepted intent has passed through the actual host Step, plus their authority proof. No new actionable defect was found. All seventeen prior findings and the complete 120-path / 117-source scope remain resolved/preserved. A prior focused native pass was followed by a 480/481 full-selection failure; that acceptance gap and current retained proof identities are recorded below.
+The current bounded source recheck covers batch 9 at `2f20e72fec4156322f2b3646d08977b5eb52d675`: explicit framework-only delivery semantics, reliable control traffic and replaceable ordered complete-state publication, their provider/substitute consumers and authority controls. No new actionable defect was found. All seventeen prior findings and the complete 120-path / 117-source scope remain resolved/preserved. The latest full-selection result remains 480/481 with a real delivered-state timing failure; current headless proofs do not establish repaired desktop acceptance.
 
 **All seventeen prior findings are resolved. No new actionable defect or open finding remains.** The source scope is 120 paths / 117 source paths. Previous passed/failed records keep their actual revision/tool identities; no failed native run or pending full selection is upgraded by this review. Actual no-window and rendered acceptance retain the limits below.
 
@@ -176,9 +176,29 @@ Necessity was assessed using the required rubric; no necessity finding is assert
 
 No open Critical/BLOCKER, Warning or Info findings remain at this reviewed source revision.
 
+## Native repair batch 9 bounded production-delivery recheck
+
+**Current reviewed source/build stamp:** `2f20e72fec4156322f2b3646d08977b5eb52d675`. **Disposition:** clean on source review; actual repaired native delivery/timing and full-selection acceptance remain separate.
+
+The latest full-selection invocation `f736803d-5062-450b-a5b7-b29ca0d36f4a` remains failed at 480/481 after about 53.6032 minutes. All 449 inherited cases passed. Its sole failure is rendered timing: the first host-to-guest2 start conservative upper interval is 487.0861 ms, versus about 116.24/135.31 ms for the other two guests. Native acknowledgement is about 29.31 ms; guest2 capture request/completion are about 416.9253/486.0861 ms. The immutable report retains actual execution HEAD `9226cd5e8e41ebdb878f4ee69396010803cb1ab2` and prior 551d build stamp/tool, with fourteen game windows. It is not a pass at the current source.
+
+The retained `.phase3/batch9-start-trace.json` uses actual per-peer draw/revision/position streams. Guest2 continues drawing near 60 Hz while receiving newer host snapshots slowly, eventually reaching the host's first changed revision 112 much later. This identifies a delivered-state delay rather than attributing all latency to PNG CPU work. It does not subtract cross-process clocks or change the timing predicate/threshold.
+
+The eleven changed paths were reviewed through their provider, coordinator, baseline installation, readiness and lifetime consumers. `IConnectionService.Send` gains an optional framework-only reliable flag defaulting to true. Every implementation accepts the same default; the replacement forwards it, and the harness records it. Existing callers preserve reliable delivery. The coordinator explicitly selects false only for complete `state` envelopes. Baseline, admission acknowledgements/refusals, intent, liveness, departure and end acknowledgement remain reliable. No protocol schema or core movement model changes.
+
+The authentic ENet provider sets Reliable or UnreliableOrdered immediately before its existing target, PutPacket and flush operations under the same native-thread/connection/size/peer fences. The default channel remains zero. Godot documents that this channel separates the transfer modes; ordered non-retransmitted state therefore does not share reliable control ordering. This matches the provider's intended use of replaceable movement snapshots. [Godot MultiplayerPeer delivery/channel contract](https://docs.godotengine.org/en/latest/classes/class_multiplayerpeer.html#class-multiplayerpeer-property-transfer-channel).
+
+The guest does not assume relative order between the two delivery modes. A state received before the reliable baseline is ignored while no remote binding exists. After the baseline establishes ownership and sends its reliable acknowledgement, a later complete matching state can establish readiness; dropping an intermediate state does not require delta recovery. A candidate must retain exact session/attempt/local binding/player/actor identity, increasing revision and non-regressing actor elapsed counters, and cannot remove an already-ready local readiness flag. Late older states reject without rewinding the installed snapshot or refreshing liveness. Reliable baseline/end ordering is retained within the control stream, and closed/draining lifetime fences prevent late state from reviving a retired coordinator. Loss of all later publications remains subject to the existing bounded join/response timeouts.
+
+The new authority control executes the production handshake, asserts state uses the replaceable mode and every observed control envelope remains reliable, drops an intermediate complete publication, installs a later one and rejects the late older one. It also asserts reliable bye/end cleanup. Admission exchange tuple consumers were updated for the recorded delivery flag without changing their envelope semantics. The intended RED report `b7055e81-cb67-4b47-8396-2d37ef42af18` captures the pre-repair reliable-state assertion failure; the earlier analyzer-failing attempt remains separate history. The seven-core working-tree repair report `17612f9f-03a4-4bd5-94bc-0823d5c409a1` passes at actual HEAD `fb506c04763df75ae461fa53b751543ca7cd0339`, prior 551d build stamp, input `1cad92445525c7117baac34bbf0c1ca1bcc0761a27579805d738c49a8f87c602` and tool `8543e1e2d679aa2689774ea01816c98523190bf381643b9e780832670bff3765`. Those identities remain unchanged and are not relabelled as a committed current run.
+
+The final pinned strict log `.phase3/batch9-pinned-strict.log` records zero warnings/errors and 11.28 seconds. The committed affected report `.phase3/runs/win32-x64/64d4beaf-a878-42d8-bf3c-86a701639244/summary.json` passes six checks: network tracer, four-peer, lifecycle, idle polling, discovery/profile and adapter substitution. It records zero game windows, exact current source/build stamp above, input `244f027f2093de29cd07a2646a2eac4a3256dd15dad949354b95a2bf6497cd47` and tool `fa2bcb23a87728914fa1e26ddd9e5efd346b1fb980f1d63ac2eef9a9f58c27dd`. Retained reports and source were inspected read-only; this reviewer ran no test, build, native window, gate or desktop input.
+
+No new native/public permission, generated-span refresh, Root signature/field, package/project reference, timing threshold, clock subtraction, PNG validation or acceptance reconciliation change appears in this diff. The exact existing 45 native permissions, eight added public types and 220 generated entries remain within the carried-forward scope. Renew the exact gate and matching metadata-descendant rebuild, obtain affected native acceptance, then rerun the fresh entire 481-case selection. Existing failed full aggregates remain failed.
+
 ## Native repair batch 8 bounded production-publication recheck
 
-**Current reviewed source/build stamp:** `551d7c6f379f701c5271508bf68ca2730efe9057`. **Disposition:** clean on source review; repaired native timing and full-selection acceptance remain separate.
+**Historical reviewed source/build stamp:** `551d7c6f379f701c5271508bf68ca2730efe9057`. **Disposition:** clean for that bounded review; the subsequent full-selection failure and delivery repair are recorded above.
 
 The prior focused native invocation `12951d61…` passed twelve of twelve cases, all 48 timing samples (maximum conservative upper interval 212.5111 ms) and sixteen stopped comparisons. The subsequent fresh full selection `30ebcea8-34d2-4659-bc94-1ac112b82622` ran about 53.7243 minutes and retained a failed aggregate: 480/481 selected cases passed, including all 433 Phase 1 and sixteen Phase 2 cases; only Phase 3 rendered timing failed. Its host-to-guest2 stop upper interval was 296.5992 ms. Fourteen terminal records comprise twelve normal exits and two declared losses, with no emergency cleanup; eleven helpers ended and the lock was absent. Checkpoint `ae0aae6` preserves this failure. Neither the focused success nor this source review converts the later full-selection failure into a pass.
 
@@ -327,7 +347,7 @@ Older auxiliary evidence with unpinned prebuild tool drift remains failure/histo
 
 ## Required handoff before a prelaunch gate
 
-The source review is clean at `551d7c6f379f701c5271508bf68ca2730efe9057`, with all seventeen findings resolved and the three-path production-publication repair reviewed. The exact current five-network proof passes with zero game windows; the earlier seven-core working-tree proof retains its actual HEAD/build/tool identity. The parent may renew the exact source/input/tool gate and perform the matching metadata-descendant rebuild with both build properties. Then obtain actual affected native acceptance before the required fresh full 481-case selected-set pass. Preserve the failed 480/481 aggregate, prior focused successes, all raw timing rows and original invocation identities. This source review grants no repaired native timing, image-appearance or completed selected-set acceptance. The parent owns gate/rebuild/publishing and actual desktop execution.
+The source review is clean at `2f20e72fec4156322f2b3646d08977b5eb52d675`, with all seventeen findings resolved and the eleven-path delivery-contract/provider repair reviewed. The exact current six-check headless proof passes with zero game windows; the earlier seven-core working-tree proof retains its actual HEAD/build/input/tool identity. The parent may renew the exact source/input/tool gate and perform the matching metadata-descendant rebuild with both build properties. Then obtain actual affected native acceptance before the required fresh full 481-case selected-set pass. Preserve every failed 480/481 aggregate, prior focused successes, all raw timing rows and original invocation identities. This source review grants no repaired native delivery/timing, image-appearance or completed selected-set acceptance. The parent owns gate/rebuild/publishing and actual desktop execution.
 
 The parent hash-verified the four temporary iteration-2/3 review/fix scratch originals against their ignored `.phase3/review-history` archives and removed the untracked phase-folder copies. The focused recheck observed no remaining scratch paths in Git status. Preserve that ignored history and the original Git review/fix ledger; the whitelist remains limited to its explicitly enumerated phase metadata paths.
 
@@ -337,6 +357,6 @@ Phase 2 G1 now has its retained actual passing native results, while the twelve 
 
 ---
 
-_Reviewed: 2026-11-16T00:40:42Z_  
+_Reviewed: 2026-11-16T01:54:34Z_  
 _Reviewer: the agent (gsd-code-reviewer)_  
 _Depth: standard_

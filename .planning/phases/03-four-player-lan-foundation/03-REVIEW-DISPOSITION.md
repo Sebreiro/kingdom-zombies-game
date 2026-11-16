@@ -1,7 +1,7 @@
 ---
 phase: 03-four-player-lan-foundation
 status: resolved
-source_revision: 551d7c6f379f701c5271508bf68ca2730efe9057
+source_revision: 2f20e72fec4156322f2b3646d08977b5eb52d675
 fixed: 17
 skipped: 0
 open: 0
