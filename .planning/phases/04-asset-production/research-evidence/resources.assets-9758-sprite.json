@@ -1,0 +1,265 @@
+{
+  "m_Name": "wall_2",
+  "m_Rect": {
+    "x": 0.0,
+    "y": 0.0,
+    "width": 32.0,
+    "height": 88.0
+  },
+  "m_Offset": {
+    "x": 0.0,
+    "y": -44.0
+  },
+  "m_Border": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0,
+    "w": 0.0
+  },
+  "m_PixelsToUnits": 32.0,
+  "m_Pivot": {
+    "x": 0.5,
+    "y": 0.0
+  },
+  "m_Extrude": 1,
+  "m_IsPolygon": false,
+  "m_RenderDataKey": [
+    {
+      "data[0]": 286784216,
+      "data[1]": 827223696,
+      "data[2]": 1635944577,
+      "data[3]": 1078600199
+    },
+    21300000
+  ],
+  "m_AtlasTags": [
+    "buildings-oak&birch"
+  ],
+  "m_SpriteAtlas": {
+    "m_FileID": 0,
+    "m_PathID": 73424
+  },
+  "m_RD": {
+    "texture": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "alphaTexture": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "secondaryTextures": [],
+    "m_SubMeshes": [
+      {
+        "firstByte": 0,
+        "indexCount": 18,
+        "topology": 0,
+        "baseVertex": 0,
+        "firstVertex": 0,
+        "vertexCount": 8,
+        "localAABB": {
+          "m_Center": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "m_Extent": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          }
+        }
+      }
+    ],
+    "m_IndexBuffer": [
+      7,
+      0,
+      6,
+      0,
+      1,
+      0,
+      5,
+      0,
+      1,
+      0,
+      6,
+      0,
+      4,
+      0,
+      1,
+      0,
+      5,
+      0,
+      3,
+      0,
+      1,
+      0,
+      4,
+      0,
+      0,
+      0,
+      1,
+      0,
+      3,
+      0,
+      2,
+      0,
+      1,
+      0,
+      0,
+      0
+    ],
+    "m_VertexData": {
+      "m_VertexCount": 8,
+      "m_Channels": [
+        {
+          "stream": 0,
+          "offset": 0,
+          "format": 0,
+          "dimension": 3
+        },
+        {
+          "stream": 0,
+          "offset": 0,
+          "format": 0,
+          "dimension": 0
+        },
+        {
+          "stream": 0,
+          "offset": 0,
+          "format": 0,
+          "dimension": 0
+        },
+        {
+          "stream": 0,
+          "offset": 0,
+          "format": 0,
+          "dimension": 0
+        },
+        {
+          "stream": 1,
+          "offset": 0,
+          "format": 0,
+          "dimension": 2
+        },
+        {
+          "stream": 0,
+          "offset": 0,
+          "format": 0,
+          "dimension": 0
+        },
+        {
+          "stream": 0,
+          "offset": 0,
+          "format": 0,
+          "dimension": 0
+        },
+        {
+          "stream": 0,
+          "offset": 0,
+          "format": 0,
+          "dimension": 0
+        },
+        {
+          "stream": 0,
+          "offset": 0,
+          "format": 0,
+          "dimension": 0
+        },
+        {
+          "stream": 0,
+          "offset": 0,
+          "format": 0,
+          "dimension": 0
+        },
+        {
+          "stream": 0,
+          "offset": 0,
+          "format": 0,
+          "dimension": 0
+        },
+        {
+          "stream": 0,
+          "offset": 0,
+          "format": 0,
+          "dimension": 0
+        },
+        {
+          "stream": 0,
+          "offset": 0,
+          "format": 0,
+          "dimension": 0
+        },
+        {
+          "stream": 0,
+          "offset": 0,
+          "format": 0,
+          "dimension": 0
+        }
+      ],
+      "m_DataSize": {
+        "binaryBytes": 160
+      }
+    },
+    "m_Bindpose": [],
+    "textureRect": {
+      "x": 0.0,
+      "y": 26.076120376586914,
+      "width": 31.923879623413086,
+      "height": 42.897132873535156
+    },
+    "textureRectOffset": {
+      "x": 0.0,
+      "y": 26.076120376586914
+    },
+    "atlasRectOffset": {
+      "x": -1.0,
+      "y": -1.0
+    },
+    "settingsRaw": 64,
+    "uvTransform": {
+      "x": 32.0,
+      "y": 16.0,
+      "z": 32.0,
+      "w": 0.0
+    },
+    "downscaleMultiplier": 1.0
+  },
+  "m_PhysicsShape": [
+    [
+      {
+        "x": 0.3125,
+        "y": 2.15625
+      },
+      {
+        "x": -0.28125,
+        "y": 2.15625
+      },
+      {
+        "x": -0.375,
+        "y": 2.03125
+      },
+      {
+        "x": -0.5,
+        "y": 1.28125
+      },
+      {
+        "x": -0.5,
+        "y": 0.8125
+      },
+      {
+        "x": 0.4375,
+        "y": 0.8125
+      },
+      {
+        "x": 0.5,
+        "y": 0.875
+      },
+      {
+        "x": 0.5,
+        "y": 2.03125
+      }
+    ]
+  ],
+  "m_Bones": []
+}
