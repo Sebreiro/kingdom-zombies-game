@@ -1,9 +1,9 @@
 ---
 phase: 03-four-player-lan-foundation
-reviewed: 2026-11-16T02:32:40Z
+reviewed: 2026-11-16T04:05:07Z
 depth: standard
-reviewed_revision: 8a7f3a70c1f5bb8fae0f4811cf051b30df8abdc3
-build_revision: 8a7f3a70c1f5bb8fae0f4811cf051b30df8abdc3
+reviewed_revision: c69442148c975de974ebbb1d8ef409380940ecb0
+build_revision: c69442148c975de974ebbb1d8ef409380940ecb0
 diff_base: 87e0b44
 scope_files: 123
 files_reviewed: 120
@@ -143,12 +143,12 @@ status: clean
 
 # Phase 03: Code Review Report
 
-**Reviewed:** 2026-11-16T02:32:40Z  
+**Reviewed:** 2026-11-16T04:05:07Z  
 **Depth:** standard  
 **Source files reviewed:** 120  
 **Explicit scope:** all 123 paths from `.phase3/review-fix-union.txt`, preserving the complete original scope and subsequent helpers/consumers, including the draw-request and wire-frame helpers and codec controls; three planning-context paths are listed separately above  
 **Status:** clean  
-**Reviewed source / pinned build revision:** `8a7f3a70c1f5bb8fae0f4811cf051b30df8abdc3`  
+**Reviewed source / pinned build revision:** `c69442148c975de974ebbb1d8ef409380940ecb0`  
 **Diff base:** `87e0b44`
 
 ## Summary
@@ -167,7 +167,7 @@ The latest bounded recheck covers native batch 3 at `4ea54ca731c90de700480033f58
 
 The preceding batch-4 recheck found CR-11 in ordinary browser cancellation. The current four-file repair at `f32e0bd8911e0c185a6fa10b24c251f1d69494cd` transfers cancellation to the Root-owned runtime retirement helper, retains older unfinished drains during rapid replacement and polls/disposes every retiring coordinator through its proper lifetime. The production Menu control uses that same retirement owner and passes its pending-connection, repeated-cancel and 249/250 ms assertions.
 
-The current bounded source recheck resolves WR-07 at `8a7f3a70c1f5bb8fae0f4811cf051b30df8abdc3` by inspecting the one-file test change since the c9 batch-10 review. Windows sharing/deletion-denial controls are now explicitly scoped to Windows, while portable validation and one-time consumption remain unconditional. Production request/codec source is unchanged. No new actionable defect was found. All eighteen cumulative findings are resolved; scope remains 123 paths / 120 source paths, with actual native acceptance separate.
+The current bounded source recheck covers the seven-path visual repair at `c69442148c975de974ebbb1d8ef409380940ecb0`: readiness/fresh-entry feedback clearing, marker placement against actual projected viewport geometry, native/pure controls and scenario documentation. No new actionable defect was found. All eighteen cumulative code-review findings remain resolved; scope remains 123 paths / 120 source paths. The prior 481/481 behavioral result and failed appearance review retain their original identities; current structural proof does not replace fresh native and image acceptance.
 
 **All eighteen cumulative findings are resolved. No new actionable defect or open finding remains.** The source scope is 123 paths / 120 source paths. Previous passed/failed records keep their actual revision/tool identities; no failed native run or pending full selection is upgraded by this review. Actual no-window and rendered acceptance retain the limits below.
 
@@ -179,9 +179,27 @@ Necessity was assessed using the required rubric; no necessity finding is assert
 
 No open Critical/BLOCKER, Warning or Info finding remains at this reviewed source revision.
 
+## Bounded visual-repair source recheck
+
+**Current reviewed source/build stamp:** `c69442148c975de974ebbb1d8ef409380940ecb0`. **Disposition:** clean on source review; current rendered appearance acceptance is pending.
+
+The retained full invocation `b0f89396-39de-4eb6-b082-3e6647700782` passes 481/481 selected cases in 3241461 ms (about 54.02 minutes), including 48 physical timing samples with maximum conservative upper interval 192.6904 ms and sixteen stopped comparisons. It retains actual HEAD `c9b83d3d9bac54e689a513d578e0fde1e6b18fcc`, prior 8a7 source/build pin and original report SHA-256 `a039bc343932cb161674590f80f2dc677fc31d1e42d2c01eb77f34c8897f3f58`. The separate tracked `03-VISUAL-REVIEW.md` at `446dbd1` records actual viewing of 256 distinct image contents bound to all 319 required rows and a failed appearance verdict: seven failed bindings across five contents. V1 is stale receiving-progress feedback in an enabled idle browser after readiness/return/browse; V2 is clipped P1/You text at the inherited world edges. Those original images, judgments and report bytes remain history; a behavioral pass does not supersede the appearance failures. This reviewer read that retained visual report and did not independently re-view its images.
+
+The seven changed paths were read with their immediate production and control consumers. `FoundationMenu.Tick` clears progress and its attempt-error flag whenever the actual coordinator is ready, before the hidden-browser early return. Fresh Browse explicitly clears them as an ordinary navigation action. An idle coordinator-free error remains retained because Tick does not clear it; explicit browse/refresh/another attempt retains its existing recovery semantics. Readiness, cancel/retirement ownership and Root return handling are unchanged. The native control installs a genuine baseline, transitions the actual coordinator to ready, ticks while hidden, invokes the production Escape/back callback, browses again and checks empty feedback; it also retains idle Full feedback until explicit navigation.
+
+`FoundationView.ProjectRoster` now projects the local actor/camera before computing marker placement. Each marker uses the actor's current canvas-transformed X, actual native Label width and logical viewport width. The managed horizontal helper centers ordinary in-view labels and clamps their rectangle within the viewport near either edge; actor centers already outside the viewport retain the centered offset rather than turning into edge indicators. It changes no actor position/facing/identity/color, vertical stack order, simulation value or camera target/smoothing/clamp. Existing finite camera recovery completes before marker geometry is evaluated. Authored world/actor transforms and supported logical viewport sizes keep these inputs finite, positive and in the same coordinate space.
+
+Pure controls cover edge/center positions, multiple label widths and 640/1280/1920 logical viewport widths. Actual native projection controls snap at both world limits with each of four local bindings and require every native P1–P4/You marker rectangle to fit, with exact marker identities. The native regression refactor moves scenario generation into managed yield helpers while keeping engine operations directly inside the existing guarded Browser/Projection methods. Opaque-ID collision/traversal, hostile elapsed/nonfinite camera recovery and cancellation controls remain exercised. No permission allowance, generated-span registry, Root signature, public type inventory, package/project reference or acceptance threshold was changed.
+
+The authentic RED records in `.phase3/visual-repair-red-records.json` retain the pure left-edge assertion (-24 versus minimum zero), actual `READY_RETURN_BROWSER_STALE_JOIN_PROGRESS` and subsequent `WORLD_EDGE_MARKER_CLIPPED` native assertions. Their original source/build/input/tool identities remain preserved. The earlier permission failure `00db55a0…` is retained separately and is not substituted for a behavior RED or waived; the final helper refactor leaves policy untouched.
+
+The final pinned strict log `.phase3/visual-repair-final-pinned-strict-build.log` records zero warnings/errors and 14.93 seconds. The exact current report `.phase3/runs/win32-x64/2e946266-74fe-49c6-a8f6-aa0a74cd8cb6/summary.json` passes core.input, core.lifecycle, core.permissions and network.discovery-profile in 92176 ms with zero game windows. It records the current source/build above, input `9e98ad7b705fbc417b371da7a48ad3c3713f635fa9672c4de2afe6f7221c5d32` and tool `9e911416e13c7c81e38f0f9883062d1310cfaa085e9b2e571c8b64336b5621b9`. The reviewer inspected retained code/reports without executing a build, test, gate, window or desktop input.
+
+Renew the exact current gate and perform the matching metadata-descendant rebuild. Obtain focused native acceptance plus the affected inherited rendered.world execution, then a fresh complete 481-case pass with current image judgments. The old passed behavioral report and source controls do not grant appearance acceptance to the repaired browser/markers. All eighteen prior code-review resolutions and complete 123-path / 120-source scope remain preserved.
+
 ## WR-07 bounded resolution recheck
 
-**Current reviewed source/build stamp:** `8a7f3a70c1f5bb8fae0f4811cf051b30df8abdc3`. **Disposition:** resolved; all eighteen findings are now closed.
+**Historical reviewed source/build stamp:** `8a7f3a70c1f5bb8fae0f4811cf051b30df8abdc3`. **Disposition:** resolved; all eighteen findings remain closed in current source.
 
 The only changed source since the c9 review is `FoundationCapturePublicationTests.cs`. `CheckWindowsLocks` returns immediately outside Windows, so both actual FileStream sharing assertions run only where their sharing/lock semantics apply. The ReadOnly deletion-denial assertion and attribute restoration are likewise inside an explicit Windows branch. Linux no longer executes those Windows deletion assumptions.
 
@@ -391,16 +409,16 @@ Older auxiliary evidence with unpinned prebuild tool drift remains failure/histo
 
 ## Required handoff before a prelaunch gate
 
-The source review is clean at `8a7f3a70c1f5bb8fae0f4811cf051b30df8abdc3`, with all eighteen cumulative findings resolved (eleven Critical/BLOCKER and seven Warnings) and the complete 123-path / 120-source scope preserved. The exact current Windows runner.integrity proof passes with zero game windows; the c9 eleven-case report keeps its original identity. The parent may update the fix/disposition ledger, renew the exact source/input/tool gate and perform the matching metadata-descendant rebuild with both build properties. Then obtain actual affected native acceptance before the fresh full 481-case selected-set pass. Preserve every failed native/full aggregate, successful sample, raw log and original invocation identity. This source review grants no Linux execution, repaired native timing, image-appearance or completed selected-set acceptance. The parent owns ledger/gate/rebuild/publishing and actual desktop execution.
+The source review is clean at `c69442148c975de974ebbb1d8ef409380940ecb0`, with all eighteen cumulative code-review findings resolved and the complete 123-path / 120-source scope preserved. The exact current four-check headless proof passes with zero game windows. Preserve the prior 481/481 behavioral report, its failed visual review, all earlier failed aggregates, raw images/judgments and invocation identities. Renew the exact source/input/tool gate and perform the matching metadata-descendant rebuild with both build properties. Then obtain focused native acceptance and affected inherited rendered.world execution before the fresh full 481-case selected-set pass and current complete image judgments. This source review grants no Linux execution or repaired rendered appearance acceptance. The parent owns gate/rebuild/publishing and actual desktop/visual acceptance.
 
 The parent hash-verified the four temporary iteration-2/3 review/fix scratch originals against their ignored `.phase3/review-history` archives and removed the untracked phase-folder copies. The focused recheck observed no remaining scratch paths in Git status. Preserve that ignored history and the original Git review/fix ledger; the whitelist remains limited to its explicitly enumerated phase metadata paths.
 
 Retain this clean review's exact `SourceRevisionId` pin and `reviewed-source.targets` import through the mandatory metadata-descendant strict rebuild, focused native retry, fresh `--all`, image review and closure validation. True execution HEAD and reviewed-source stamp remain distinct. The parent owns report/gate/closure commits, shared phase state and publishing.
 
-Phase 2 G1 now has its retained actual passing native results, while the twelve Phase 3 native cases still need a passing repaired execution. Phase 3 foreground physical input, sustained background/window-message feasibility, permitted synthetic fallback provenance, 48 conservative rendered timing rows, 16 stopped comparisons, every required image's appearance review and the entire final repaired selected-set pass remain outstanding. A future input/timing/image failure is an acceptance blocker, not a synthetic or state-only pass. No hosted/Linux, mixed-computer LAN, complete A-38/A-45 campaign, packaging, hardware, endurance or Phase 5 certification is claimed.
+Earlier actual Phase 2/3 native and 481-case behavioral passes retain their tested source identities. After the current visual source repair, the affected native/inherited-world execution, fresh entire selected-set pass and complete current image review remain required. The retained seven failed appearance bindings cannot be cleared by source assertions or older images. A future input/timing/image failure is an acceptance blocker, not a synthetic or state-only pass. No hosted/Linux, mixed-computer LAN, complete A-38/A-45 campaign, packaging, hardware, endurance or Phase 5 certification is claimed.
 
 ---
 
-_Reviewed: 2026-11-16T02:32:40Z_  
+_Reviewed: 2026-11-16T04:05:07Z_  
 _Reviewer: the agent (gsd-code-reviewer)_  
 _Depth: standard_
