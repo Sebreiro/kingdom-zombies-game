@@ -5,7 +5,7 @@
     {
       "id": "KZ-EX-GODOT-SYNTAX-1",
       "diagnostic": "SCR0009",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.GodotPluginsInitializerGenerator/GodotPlugins.Game.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.GodotPluginsInitializerGenerator/GodotPlugins.Game.generated.cs",
       "sha256": "7870166b33f91817432f480e7b2707b22005838c67dfd6cec2256efa7b88975f",
       "textSha256": "50df9e26e6d80ac8d94e8881618c71803e1f98a565e3e8e20c03479911792c66",
       "suffix": "/Godot.SourceGenerators.GodotPluginsInitializerGenerator/GodotPlugins.Game.generated.cs",
@@ -25,7 +25,7 @@
     {
       "id": "KZ-EX-GODOT-SYNTAX-5",
       "diagnostic": "SCR0011",
-      "surface": "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Proofs.Phase1_ScriptProperties.generated.cs",
+      "surface": "src/godot-game/game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Proofs.Phase1_ScriptProperties.generated.cs",
       "sha256": "b1e2255f7d871ee37c5654392a539e2ba08fb35f404a0c1d703bee763eec5a59",
       "textSha256": "0096a903e684ab047368a57a308d2274f4c39899574b0177d3363fee3147ab40",
       "suffix": "/Godot.SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Proofs.Phase1_ScriptProperties.generated.cs",

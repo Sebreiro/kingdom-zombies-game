@@ -18,28 +18,30 @@ Measure per-group and end-to-end times, separating cached/cold setup and environ
 
 The delivered [LAN foundation commands](lan-foundation-checks.md) add exact Phase 3 selection, no-window native/runner proofs, saved G0–G4 scenarios and source-bound post-review Windows 1280×720 execution. Their independent catalog and saved selection preserve all inherited source IDs, current omissions and image-review obligations. Headless or synthetic-driver results receive no rendered or physical-input credit; actual rendered feasibility remains separate until executed.
 
-Use [setup](setup.md) for prerequisites and isolated tool configuration. Run from the checkout root on Windows PowerShell or Linux. The [required-case manifest](../../tools/phase1/required-cases.json) declares obligations independently from discovered tests; the [runner](../../tools/phase1/check.cjs) requires exact fresh results and actual subject evidence.
+Use [setup](setup.md) for prerequisites and isolated tool configuration. Run from the checkout root on Windows PowerShell or Linux. The [required-case manifest](../../src/godot-game/tools/verification/required-cases.json) declares obligations independently from discovered tests; the [runner](../../src/godot-game/tools/verification/check.cjs) requires exact fresh results and actual subject evidence.
 
 | Need | Command |
 | --- | --- |
-| List declared exact IDs and current owners | `node tools/phase1/check.cjs --list` |
-| Focused feedback while editing documentation | `node tools/phase1/check.cjs --group docs` |
-| Focused code, graph, state or engine feedback | `node tools/phase1/check.cjs --group rules` (or `graph`, `state`, `engine`) |
-| Canonical navigation tracer | `node tools/phase1/check.cjs --case docs.navigation` |
-| Portable documentation contract | `node tools/phase1/check.cjs --case docs.portable` |
-| Complete independently declared Phase 1 obligations | `node tools/phase1/check.cjs --phase 1` |
-| Exhaustive manifest, including pending later certification | `node tools/phase1/check.cjs --all` |
-| Raw toolchain/native bootstrap compatibility | `node tools/phase1/bootstrap.cjs --probe engine` |
+| List declared exact IDs and current owners | `node src/godot-game/tools/verification/check.cjs --list` |
+| Focused feedback while editing documentation | `node src/godot-game/tools/verification/check.cjs --group docs` |
+| Focused code, graph, state or engine feedback | `node src/godot-game/tools/verification/check.cjs --group rules` (or `graph`, `state`, `engine`) |
+| Canonical navigation tracer | `node src/godot-game/tools/verification/check.cjs --case docs.navigation` |
+| Portable documentation contract | `node src/godot-game/tools/verification/check.cjs --case docs.portable` |
+| Complete independently declared Phase 1 obligations | `node src/godot-game/tools/verification/check.cjs --phase 1` |
+| Exhaustive manifest, including pending later certification | `node src/godot-game/tools/verification/check.cjs --all` |
+| Raw toolchain/native bootstrap compatibility | `node src/godot-game/tools/verification/bootstrap.cjs --probe engine` |
 
 The original two-local-OS/VM policy is superseded for routine local testing by the current strategy above. Hosted full-workflow compatibility and distinct release procedures retain their own actual-evidence requirements. Planning/prose-only changes use focused docs and consistency checks (D-11). Failures, skips, empty execution selection, stale evidence and missing results remain failures. Groups are `pins`, `runner`, `register`, `rules`, `graph`, `state`, `engine`, `docs`, `coverage` and `platform`.
 
 `--phase N` selects independently declared cases with `acceptancePhase <= N`; an absent phase means 1. Explicit phases must be positive integers. Selection and deferred ownership use each case declaration, never implementation status or prior results. The older `acceptanceCriteria` allocation table retains its original implementation meaning; current complete two-platform Phase 1 execution belongs to 01-17, while original aggregate certification wrappers retain Phase 5 ownership. The current 684 declarations contain 676 Phase 1 obligations: all 666 original implemented cases, four selector controls and six review regression controls. The eight explicit Phase 5 IDs, phases and owners are listed separately outside the selected denominator with no pass/skip credit. Unresolved selected cases fail. Use `--phase 1 --list` for exact membership. Phase, case, group and exhaustive selectors cannot be combined; `--list` can accompany one selector. `--all` selects all 684 declarations and remains non-success while later certification is pending. Exact `--case` and `--group` retain their pending declarations. The [Phase 5 handoff](../../.planning/phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md) defines all eight transferred identities.
 
-After applying the isolation settings in setup, the strict whole-solution build command is identical on both platforms:
+After applying the isolation settings in setup, run direct .NET commands from the game workspace so its SDK pin applies. Node runners still run from the checkout root. The strict whole-solution build command is identical on both platforms:
 
 ```sh
+cd src/godot-game
 dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q
-node tools/phase1/check.cjs --phase 1
+cd ../..
+node src/godot-game/tools/verification/check.cjs --phase 1
 ```
 
 The canonical runner performs locked restore and proof-project build itself. Whole-solution build also checks the game project. Each clean checkout needs the authenticated engine feed and locked restore in setup. To request the original complete Phase 1 baseline, run clean restore, strict solution build, native bootstrap and `--phase 1` on both environments. Current Phase 1 closure instead follows the explicit exception above; unperformed full-Linux obligations remain follow-ups. Existing analyzer/graph/docs/state/engine and implemented failure variants remain declared. Inspect reports and subject evidence, not exit zero alone. Use acceleration when available. Coverage and unfinished aggregate/advanced certification remain Phase 5 work. Keep tested inputs fixed and historical evidence intact.
@@ -48,7 +50,7 @@ Each run publishes an immutable `.phase1/runs/<nonce>/summary.json`, per-case `t
 
 Relay concise completed/pass/fail counts and the active case during long verification, then give the final accepted/failed/blocked counts, report identity and relevant failure-log links (D-12). Preserve diagnostic runs, batch related repairs and verify affected controls. Under the current local policy, renew selected failed/blocked/newly affected cases, then obtain a fresh entire-selected-set rendered pass after repairs. Validate eligible unchanged evidence separately; broad impact can select the full scope. Do not mix records within an invocation, manually edit reports, stage files from a checker or silently replace failed controls.
 
-Earlier summaries preserve historical identities rather than certifying changed inputs. The pre-review f4658bb Windows 670-case pass and sixteen Linux outcomes are historical. Phase 1's current exception accepts its retained 676-case Windows baseline and explicitly scoped Linux/amendment evidence; complete Linux execution and individual human outcomes remain named follow-ups, not synthetic passes. Consult current STATE.md and the exception for closure status. Module-reference validation is `node tools/phase1/check.cjs --case docs.projects`; current functional linkage is `node tools/phase1/check.cjs --case register.binding-precoverage`. Coverage and qualitative judgment remain distinct.
+Earlier summaries preserve historical identities rather than certifying changed inputs. The pre-review f4658bb Windows 670-case pass and sixteen Linux outcomes are historical. Phase 1's current exception accepts its retained 676-case Windows baseline and explicitly scoped Linux/amendment evidence; complete Linux execution and individual human outcomes remain named follow-ups, not synthetic passes. Consult current STATE.md and the exception for closure status. Module-reference validation is `node src/godot-game/tools/verification/check.cjs --case docs.projects`; current functional linkage is `node src/godot-game/tools/verification/check.cjs --case register.binding-precoverage`. Coverage and qualitative judgment remain distinct.
 
 Phase 5 owns genuine measured line/branch coverage from the real analyzer and native-hosted managed production scopes, with unchanged inclusive 90% line / 80% branch targets and no silent exclusions. Collection/instrumentation, exact threshold/report checks and complete platform/runner certification remain required. No accepted measured coverage report exists yet; do not invent a pass or collection command. Environment preparation alone supplies no executed result; actual focused Linux evidence establishes only its recorded scope. Reuse requires the validated Phase 5 mechanism and complete matching module/environment inputs described above.
 

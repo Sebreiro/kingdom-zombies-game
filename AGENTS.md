@@ -8,6 +8,9 @@ Before starting or finishing phase implementation, follow the [phase branch and 
 
 | Need | Read |
 | --- | --- |
+| Repository layout, game workspace and file ownership | [Repository map](README.md), [layout policy](docs/architecture/repository-layout.md) |
+| Pull request review entry point, rules and evidence | [Code review](docs/workflow/code-review.md) |
+| Game development tools and generated output | [Game tools](src/godot-game/tools/README.md) |
 | AI collaboration, phase branches/PRs, testing platforms, and decisions | [AI collaboration](docs/workflow/ai-collaboration.md) |
 | C# rules, executable definitions, exemptions, and qualitative review | [Code index](docs/code/README.md) |
 | Project boundaries and architecture decisions | [Architecture index](docs/architecture/README.md) |

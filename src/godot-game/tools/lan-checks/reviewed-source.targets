@@ -1,0 +1,13 @@
+<Project>
+  <!-- Imported only by LAN proof builds. Preserve real GitHub SourceLink with the same reviewed source as assembly metadata. -->
+  <PropertyGroup>
+    <_Phase3ReviewedSourceRoot>$([MSBuild]::NormalizeDirectory('$(MSBuildThisFileDirectory)', '..', '..', '..', '..'))</_Phase3ReviewedSourceRoot>
+  </PropertyGroup>
+  <Target Name="PinPhase3ReviewedSourceRoot" AfterTargets="InitializeSourceControlInformation" Condition="'$(SourceRevisionId)' != ''">
+    <ItemGroup>
+      <SourceRoot Update="@(SourceRoot)" Condition="'%(SourceRoot.SourceControl)' == 'git' and '%(SourceRoot.Identity)' == '$(_Phase3ReviewedSourceRoot)'">
+        <RevisionId>$(SourceRevisionId)</RevisionId>
+      </SourceRoot>
+    </ItemGroup>
+  </Target>
+</Project>

@@ -1,0 +1,1300 @@
+{
+  "taskId": "261116-m0w",
+  "recordedAt": "2026-11-16T15:25:41.360Z",
+  "sourceRevision": "4ea92b5a849df34e695da23746ba6f09605096f5",
+  "branch": "feature/quick-repository-layout",
+  "pullRequest": {
+    "url": "https://github.com/Sebreiro/kingdom-zombies-game/pull/6",
+    "base": "dev",
+    "readyObserved": true,
+    "merged": false
+  },
+  "environment": {
+    "platform": "win32",
+    "architecture": "x64",
+    "release": "10.0.19044",
+    "node": "v24.22.1",
+    "cache": "existing verified package/engine caches"
+  },
+  "required": {
+    "status": "pass",
+    "counts": {
+      "selected": 107,
+      "passed": 107,
+      "failures": 0
+    },
+    "durationMilliseconds": 265937,
+    "selectionLog": ".phase1/maintenance/verification-1a44611f-1b6d-4a9e-bd54-b3e1c3f536ef/selection.json",
+    "sha256": "05652e6c772dfe9a20aa7e270f5c38210de76dbf0a5866e5a65d598797abd995",
+    "reports": [
+      {
+        "path": ".phase1/runs/5fc0cbf5-a784-41f5-b3c7-7eefab6b0dfa/summary.json",
+        "sha256": "a341c97da47b175a008ea8ac7a912dc501695224434535c01ec32d8e23d2ea98",
+        "revision": "4ea92b5a849df34e695da23746ba6f09605096f5",
+        "input": "21f015ea71e6b200fd3d2558aaa916ac18efaf726cab33286263ee4f9c980e6c",
+        "tool": "bb3467ed5e8c1a7a0c46570cbc714841e2024ee25fb1dc3977d0d46195010101",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "ac-10.complete",
+          "ac-11.complete",
+          "edge.rule-04.adjacency",
+          "edge.rule-04.empty",
+          "edge.rule-04.encoding",
+          "edge.rule-04.ordering",
+          "edge.rule-04.concurrency",
+          "docs.navigation",
+          "docs.portable",
+          "docs.empty",
+          "docs.target",
+          "docs.anchor",
+          "docs.ambiguous-anchor",
+          "docs.explicit-anchor",
+          "docs.ambiguous-reference",
+          "docs.reference",
+          "docs.missing-reference",
+          "docs.invalid-utf8",
+          "docs.percent",
+          "docs.percent-utf8",
+          "docs.escape",
+          "docs.singleton",
+          "docs.scope",
+          "docs.workflow",
+          "docs.directory-collision",
+          "docs.anchor-collision",
+          "docs.heading-suffix",
+          "docs.unicode-distinct",
+          "docs.projects",
+          "docs.projects.missing",
+          "docs.projects.empty",
+          "docs.projects.unreachable",
+          "docs.projects.edges",
+          "docs.projects.output-item",
+          "docs.projects.reference-output",
+          "docs.projects.ambiguous"
+        ],
+        "passed": [
+          "ac-10.complete",
+          "ac-11.complete",
+          "edge.rule-04.adjacency",
+          "edge.rule-04.empty",
+          "edge.rule-04.encoding",
+          "edge.rule-04.ordering",
+          "edge.rule-04.concurrency",
+          "docs.navigation",
+          "docs.portable",
+          "docs.empty",
+          "docs.target",
+          "docs.anchor",
+          "docs.ambiguous-anchor",
+          "docs.explicit-anchor",
+          "docs.ambiguous-reference",
+          "docs.reference",
+          "docs.missing-reference",
+          "docs.invalid-utf8",
+          "docs.percent",
+          "docs.percent-utf8",
+          "docs.escape",
+          "docs.singleton",
+          "docs.scope",
+          "docs.workflow",
+          "docs.directory-collision",
+          "docs.anchor-collision",
+          "docs.heading-suffix",
+          "docs.unicode-distinct",
+          "docs.projects",
+          "docs.projects.missing",
+          "docs.projects.empty",
+          "docs.projects.unreachable",
+          "docs.projects.edges",
+          "docs.projects.output-item",
+          "docs.projects.reference-output",
+          "docs.projects.ambiguous"
+        ],
+        "failures": [],
+        "command": [
+          "src/godot-game/tools/verification/check.cjs",
+          "--group",
+          "docs"
+        ],
+        "durationMilliseconds": 63721
+      },
+      {
+        "path": ".phase1/runs/e73a64ac-caf8-4f21-b7b2-6c6fed084d51/summary.json",
+        "sha256": "764467b7e97c0a8435afea6763edc8c88ff55a538d3040a805b1d04038ceb896",
+        "revision": "4ea92b5a849df34e695da23746ba6f09605096f5",
+        "input": "21f015ea71e6b200fd3d2558aaa916ac18efaf726cab33286263ee4f9c980e6c",
+        "tool": "bb3467ed5e8c1a7a0c46570cbc714841e2024ee25fb1dc3977d0d46195010101",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "ac-01.complete",
+          "edge.rule-01.adjacency",
+          "edge.rule-01.empty",
+          "edge.rule-01.ordering",
+          "edge.rule-01.idempotency",
+          "edge.rule-01.concurrency",
+          "pins.missing",
+          "pins.duplicate-identical",
+          "pins.duplicate-conflicting",
+          "pins.duplicate-candidate",
+          "pins.generator",
+          "pins.observed-engine",
+          "pins.observed-compiler",
+          "pins.observed-generator",
+          "pins.permutation",
+          "pins.composition",
+          "pins.consumer",
+          "pins.verifier",
+          "pins.banned-inputs",
+          "pins.evaluated",
+          "pins.configuration-drift",
+          "pins.banned-production",
+          "pins.banned-tests",
+          "pins.banned-severity",
+          "pins.async-permission",
+          "pins.generated-report",
+          "pins.generated-report-boundary"
+        ],
+        "passed": [
+          "ac-01.complete",
+          "edge.rule-01.adjacency",
+          "edge.rule-01.empty",
+          "edge.rule-01.ordering",
+          "edge.rule-01.idempotency",
+          "edge.rule-01.concurrency",
+          "pins.missing",
+          "pins.duplicate-identical",
+          "pins.duplicate-conflicting",
+          "pins.duplicate-candidate",
+          "pins.generator",
+          "pins.observed-engine",
+          "pins.observed-compiler",
+          "pins.observed-generator",
+          "pins.permutation",
+          "pins.composition",
+          "pins.consumer",
+          "pins.verifier",
+          "pins.banned-inputs",
+          "pins.evaluated",
+          "pins.configuration-drift",
+          "pins.banned-production",
+          "pins.banned-tests",
+          "pins.banned-severity",
+          "pins.async-permission",
+          "pins.generated-report",
+          "pins.generated-report-boundary"
+        ],
+        "failures": [],
+        "command": [
+          "src/godot-game/tools/verification/check.cjs",
+          "--group",
+          "pins"
+        ],
+        "durationMilliseconds": 73616
+      },
+      {
+        "path": ".phase1/runs/9c6f4a4c-d323-4a45-8af8-faf95a319dc3/summary.json",
+        "sha256": "4b237b12653d6b18dc53451ba32c8b3b31cb274d0fd5d23ec48f2098a216f111",
+        "revision": "4ea92b5a849df34e695da23746ba6f09605096f5",
+        "input": "21f015ea71e6b200fd3d2558aaa916ac18efaf726cab33286263ee4f9c980e6c",
+        "tool": "bb3467ed5e8c1a7a0c46570cbc714841e2024ee25fb1dc3977d0d46195010101",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "runner.missing-result",
+          "runner.assertion-pass",
+          "runner.duplicate-result",
+          "runner.unknown-result",
+          "runner.wrong-nonce",
+          "runner.changed-input",
+          "runner.wrong-tool",
+          "runner.wrong-platform",
+          "runner.skipped-result",
+          "runner.blocked-result",
+          "runner.empty-evidence",
+          "runner.escaping-evidence",
+          "runner.unrelated-diagnostic",
+          "runner.missing-prerequisite",
+          "runner.selection",
+          "runner.process.missing-executable",
+          "runner.process.zero-discovery",
+          "runner.process.wrong-filter",
+          "runner.process.skip",
+          "runner.process.crash",
+          "runner.process.timeout",
+          "runner.process.deleted-log",
+          "runner.process.deleted-result",
+          "runner.process.duplicate",
+          "runner.process.nonce",
+          "runner.process.source",
+          "runner.process.document",
+          "runner.process.repeat",
+          "runner.process.stale",
+          "runner.process.concurrent",
+          "runner.process.interrupted",
+          "runner.process.assertion",
+          "runner.phase-membership",
+          "runner.phase-declarations",
+          "runner.phase-summary",
+          "runner.phase-required"
+        ],
+        "passed": [
+          "runner.missing-result",
+          "runner.assertion-pass",
+          "runner.duplicate-result",
+          "runner.unknown-result",
+          "runner.wrong-nonce",
+          "runner.changed-input",
+          "runner.wrong-tool",
+          "runner.wrong-platform",
+          "runner.skipped-result",
+          "runner.blocked-result",
+          "runner.empty-evidence",
+          "runner.escaping-evidence",
+          "runner.unrelated-diagnostic",
+          "runner.missing-prerequisite",
+          "runner.selection",
+          "runner.process.missing-executable",
+          "runner.process.zero-discovery",
+          "runner.process.wrong-filter",
+          "runner.process.skip",
+          "runner.process.crash",
+          "runner.process.timeout",
+          "runner.process.deleted-log",
+          "runner.process.deleted-result",
+          "runner.process.duplicate",
+          "runner.process.nonce",
+          "runner.process.source",
+          "runner.process.document",
+          "runner.process.repeat",
+          "runner.process.stale",
+          "runner.process.concurrent",
+          "runner.process.interrupted",
+          "runner.process.assertion",
+          "runner.phase-membership",
+          "runner.phase-declarations",
+          "runner.phase-summary",
+          "runner.phase-required"
+        ],
+        "failures": [],
+        "command": [
+          "src/godot-game/tools/verification/check.cjs",
+          "--group",
+          "runner"
+        ],
+        "durationMilliseconds": 59239
+      },
+      {
+        "path": ".phase1/runs/2f8f5fac-a9ea-4692-a6ac-67b811d1aa34/summary.json",
+        "sha256": "af24d3a871ec53e120112ae568e61303b7be72857410be95df572d5dec27e629",
+        "revision": "4ea92b5a849df34e695da23746ba6f09605096f5",
+        "input": "21f015ea71e6b200fd3d2558aaa916ac18efaf726cab33286263ee4f9c980e6c",
+        "tool": "bb3467ed5e8c1a7a0c46570cbc714841e2024ee25fb1dc3977d0d46195010101",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "ac-12.complete"
+        ],
+        "passed": [
+          "ac-12.complete"
+        ],
+        "failures": [],
+        "command": [
+          "src/godot-game/tools/verification/check.cjs",
+          "--case",
+          "ac-12.complete"
+        ],
+        "durationMilliseconds": 8915
+      },
+      {
+        "path": ".phase1/runs/b12734b0-7d91-427a-897a-af0c304cfdbc/summary.json",
+        "sha256": "e33c8ffe8f719c78f1feaff5ca7371668abaa5821d06da2bc6ce42487caefe7b",
+        "revision": "4ea92b5a849df34e695da23746ba6f09605096f5",
+        "input": "21f015ea71e6b200fd3d2558aaa916ac18efaf726cab33286263ee4f9c980e6c",
+        "tool": "bb3467ed5e8c1a7a0c46570cbc714841e2024ee25fb1dc3977d0d46195010101",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "graph.allowed-and-direct"
+        ],
+        "passed": [
+          "graph.allowed-and-direct"
+        ],
+        "failures": [],
+        "command": [
+          "src/godot-game/tools/verification/check.cjs",
+          "--case",
+          "graph.allowed-and-direct"
+        ],
+        "durationMilliseconds": 27062
+      },
+      {
+        "path": ".phase1/runs/cbfcca7f-9530-408a-8183-d1c8bb6d1d18/summary.json",
+        "sha256": "b385c8c5d363f08be0c338a9a701de41261a1e6320daf41e44ef1e6e964d32ac",
+        "revision": "4ea92b5a849df34e695da23746ba6f09605096f5",
+        "input": "21f015ea71e6b200fd3d2558aaa916ac18efaf726cab33286263ee4f9c980e6c",
+        "tool": "bb3467ed5e8c1a7a0c46570cbc714841e2024ee25fb1dc3977d0d46195010101",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "register.capture"
+        ],
+        "passed": [
+          "register.capture"
+        ],
+        "failures": [],
+        "command": [
+          "src/godot-game/tools/verification/check.cjs",
+          "--case",
+          "register.capture"
+        ],
+        "durationMilliseconds": 3471
+      },
+      {
+        "path": ".phase1/runs/cc1438d0-d08e-4dd4-b6c3-18381ec7b377/summary.json",
+        "sha256": "19dfc8210eb3dd92bbecd7f3022edad3ad6f6d28c2bf1fd61fe882e1cfe5fbdd",
+        "revision": "4ea92b5a849df34e695da23746ba6f09605096f5",
+        "input": "21f015ea71e6b200fd3d2558aaa916ac18efaf726cab33286263ee4f9c980e6c",
+        "tool": "bb3467ed5e8c1a7a0c46570cbc714841e2024ee25fb1dc3977d0d46195010101",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "register.binding-precoverage"
+        ],
+        "passed": [
+          "register.binding-precoverage"
+        ],
+        "failures": [],
+        "command": [
+          "src/godot-game/tools/verification/check.cjs",
+          "--case",
+          "register.binding-precoverage"
+        ],
+        "durationMilliseconds": 6140
+      },
+      {
+        "path": ".phase1/runs/dee83ba8-4ef7-4bf9-aa29-1c2cc206665c/summary.json",
+        "sha256": "5a6e587439faf914aa46ddb208b7efb3091405795a7f76afad9c2520d911cd2f",
+        "revision": "4ea92b5a849df34e695da23746ba6f09605096f5",
+        "input": "21f015ea71e6b200fd3d2558aaa916ac18efaf726cab33286263ee4f9c980e6c",
+        "tool": "bb3467ed5e8c1a7a0c46570cbc714841e2024ee25fb1dc3977d0d46195010101",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "rules.source-format"
+        ],
+        "passed": [
+          "rules.source-format"
+        ],
+        "failures": [],
+        "command": [
+          "src/godot-game/tools/verification/check.cjs",
+          "--case",
+          "rules.source-format"
+        ],
+        "durationMilliseconds": 3359
+      },
+      {
+        "path": ".phase1/runs/938cf83d-cd95-435e-92d4-b345d1f4639f/summary.json",
+        "sha256": "8eff3ff573af47b5ada497ce9a75857fd5a94961e0b4c1f24109a91e646528fd",
+        "revision": "4ea92b5a849df34e695da23746ba6f09605096f5",
+        "input": "21f015ea71e6b200fd3d2558aaa916ac18efaf726cab33286263ee4f9c980e6c",
+        "tool": "bb3467ed5e8c1a7a0c46570cbc714841e2024ee25fb1dc3977d0d46195010101",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "R-67.positive"
+        ],
+        "passed": [
+          "R-67.positive"
+        ],
+        "failures": [],
+        "command": [
+          "src/godot-game/tools/verification/check.cjs",
+          "--case",
+          "R-67.positive"
+        ],
+        "durationMilliseconds": 9833
+      },
+      {
+        "path": ".phase1/runs/4d49c6d5-a69e-4258-ab03-870b0d078281/summary.json",
+        "sha256": "bb323b4f1d4b39a589cb561d10a7e62770d508cfadef77c95ea5a8b6d69d8abd",
+        "revision": "4ea92b5a849df34e695da23746ba6f09605096f5",
+        "input": "21f015ea71e6b200fd3d2558aaa916ac18efaf726cab33286263ee4f9c980e6c",
+        "tool": "bb3467ed5e8c1a7a0c46570cbc714841e2024ee25fb1dc3977d0d46195010101",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "R-67.negative"
+        ],
+        "passed": [
+          "R-67.negative"
+        ],
+        "failures": [],
+        "command": [
+          "src/godot-game/tools/verification/check.cjs",
+          "--case",
+          "R-67.negative"
+        ],
+        "durationMilliseconds": 5776
+      },
+      {
+        "path": ".phase1/runs/8d99c8a8-d68a-4836-97eb-4543909600ca/summary.json",
+        "sha256": "5c5529567236342659b71385a6b9caf6127468e7089b428a3012c80e6452735a",
+        "revision": "4ea92b5a849df34e695da23746ba6f09605096f5",
+        "input": "21f015ea71e6b200fd3d2558aaa916ac18efaf726cab33286263ee4f9c980e6c",
+        "tool": "bb3467ed5e8c1a7a0c46570cbc714841e2024ee25fb1dc3977d0d46195010101",
+        "platform": "win32-x64-10.0.19044",
+        "status": "pass",
+        "selected": [
+          "engine.lifecycle"
+        ],
+        "passed": [
+          "engine.lifecycle"
+        ],
+        "failures": [],
+        "command": [
+          "src/godot-game/tools/verification/check.cjs",
+          "--case",
+          "engine.lifecycle"
+        ],
+        "durationMilliseconds": 4782
+      }
+    ]
+  },
+  "strict": {
+    "revision": "4ea92b5a849df34e695da23746ba6f09605096f5",
+    "started": "2026-11-16T15:14:30.9353025+00:00",
+    "finished": "2026-11-16T15:14:43.6013233+00:00",
+    "durationMilliseconds": 12668.1678,
+    "restoreExit": 0,
+    "buildExit": 0,
+    "cache": "existing verified packages and engine"
+  },
+  "tooling": {
+    "selected": 25,
+    "passed": 25,
+    "failed": 0,
+    "durationMilliseconds": 31091.4018,
+    "log": ".phase1/maintenance/tools-final-node.log",
+    "sha256": "111d3b73250f3d391f3e4be42b096108a2e23a897380888b87aedc4099aa9914"
+  },
+  "bootstrap": {
+    "started": "2026-11-16T15:21:00.2988450+00:00",
+    "finished": "2026-11-16T15:21:05.5318490+00:00",
+    "durationMilliseconds": 5234.5707,
+    "exitCode": 0,
+    "revision": "4ea92b5a849df34e695da23746ba6f09605096f5",
+    "nonce": "cc5fe471-6f3e-423c-87df-dbfcf8f194c0",
+    "probe": "engine",
+    "status": "pass",
+    "evidenceKind": "raw-compatibility-only",
+    "logs": ".phase1\\runs\\cc5fe471-6f3e-423c-87df-dbfcf8f194c0",
+    "log": ".phase1/maintenance/tools-bootstrap.log",
+    "sha256": "9d8604a89fa7efdd7e53ed7b25dbb39b646fe120f5a1b7cef838304e264720c0"
+  },
+  "preservation": {
+    "base": "ac53f2c",
+    "status": "pass",
+    "counts": {
+      "game-source-resource": 104,
+      "package-lock": 5,
+      "analyzer-implementation": 16,
+      "native-input-driver": 3
+    },
+    "rows": [
+      {
+        "old": "src/godot-game/core/ExampleState.cs",
+        "current": "src/godot-game/core/ExampleState.cs",
+        "category": "game-source-resource",
+        "sha256": "5ee4c321766f0e045df33c10068966a34f5696ea24ba41233e9dfabcb875812b"
+      },
+      {
+        "old": "src/godot-game/core/ExampleStateStore.cs",
+        "current": "src/godot-game/core/ExampleStateStore.cs",
+        "category": "game-source-resource",
+        "sha256": "18d0c3808e8fb149d77bb2646a2ffe816c6e34528e676f9b3a6d2a9e21e26724"
+      },
+      {
+        "old": "src/godot-game/core/FoundationActorState.cs",
+        "current": "src/godot-game/core/FoundationActorState.cs",
+        "category": "game-source-resource",
+        "sha256": "ca4eeb34f1ea4f5aa467cc29a7c29515a54d19ad04bfcfa919beea35af39eb33"
+      },
+      {
+        "old": "src/godot-game/core/FoundationHeldIntent.cs",
+        "current": "src/godot-game/core/FoundationHeldIntent.cs",
+        "category": "game-source-resource",
+        "sha256": "86297a536f69c6bcc4dcc8e750bfaa543990ccc2b4bccdf44f4c99536bd43444"
+      },
+      {
+        "old": "src/godot-game/core/FoundationMovementCommand.cs",
+        "current": "src/godot-game/core/FoundationMovementCommand.cs",
+        "category": "game-source-resource",
+        "sha256": "73e2e09d4b90a05e702f8e9e4b6ad0b975a29907875ef438e402d05e70e55bc9"
+      },
+      {
+        "old": "src/godot-game/core/FoundationParticipantState.cs",
+        "current": "src/godot-game/core/FoundationParticipantState.cs",
+        "category": "game-source-resource",
+        "sha256": "69bbdc8370457a50d87198e9d47899074c6732adf58a29361de52cb5764f5b03"
+      },
+      {
+        "old": "src/godot-game/core/FoundationSession.cs",
+        "current": "src/godot-game/core/FoundationSession.cs",
+        "category": "game-source-resource",
+        "sha256": "38a514aeebd08c485c84e4eb2bff4738a780bea72765abac828730a29d710e0f"
+      },
+      {
+        "old": "src/godot-game/core/FoundationSnapshot.cs",
+        "current": "src/godot-game/core/FoundationSnapshot.cs",
+        "category": "game-source-resource",
+        "sha256": "3e1b0299a5d9de621e29a28f9a0be48a568ab2a0f961091f251fae5e8bb5a380"
+      },
+      {
+        "old": "src/godot-game/core/IElapsedInput.cs",
+        "current": "src/godot-game/core/IElapsedInput.cs",
+        "category": "game-source-resource",
+        "sha256": "f3cd8955435f6927ab22f9d10893de2b59f054535efca475f4ecf6410417dcd1"
+      },
+      {
+        "old": "src/godot-game/core/IRandomInput.cs",
+        "current": "src/godot-game/core/IRandomInput.cs",
+        "category": "game-source-resource",
+        "sha256": "dc33899daa78e9ddb58be4113f021c3e03bfbdf83d84e2d869578e619b63971d"
+      },
+      {
+        "old": "src/godot-game/core/KingdomZombies.Core.csproj",
+        "current": "src/godot-game/core/KingdomZombies.Core.csproj",
+        "category": "game-source-resource",
+        "sha256": "37d063bac96508d8a027c0dc1196bfed0b7d837a4c6bf6850cf76b839690c30f"
+      },
+      {
+        "old": "src/godot-game/core/ProofKind.cs",
+        "current": "src/godot-game/core/ProofKind.cs",
+        "category": "game-source-resource",
+        "sha256": "e2d53c17758c56c94d90d99373444c4a1f6733f1645e3d1093a679196d47a43f"
+      },
+      {
+        "old": "src/godot-game/core/ProofValue.cs",
+        "current": "src/godot-game/core/ProofValue.cs",
+        "category": "game-source-resource",
+        "sha256": "901b4be6139869da971f4d58e933665ad66d683995c798f07c7c1a04f3ba6492"
+      },
+      {
+        "old": "src/godot-game/core/ReplayRandom.cs",
+        "current": "src/godot-game/core/ReplayRandom.cs",
+        "category": "game-source-resource",
+        "sha256": "d946bb2bceecbec44f5a2b23e5fbde0f8d41a57969e8b93affff59c78f975226"
+      },
+      {
+        "old": "src/godot-game/core/SnapshotCodec.cs",
+        "current": "src/godot-game/core/SnapshotCodec.cs",
+        "category": "game-source-resource",
+        "sha256": "e07d37b802a99bfdc73367f291444e3f58616b6cfcb79a448315dc888a63e255"
+      },
+      {
+        "old": "src/godot-game/core/SnapshotDto.cs",
+        "current": "src/godot-game/core/SnapshotDto.cs",
+        "category": "game-source-resource",
+        "sha256": "541fbd54ed08c261fb4219a3d7fde25ffdc9d1824893c84b98b35d5af4058247"
+      },
+      {
+        "old": "src/godot-game/core/SnapshotJson.cs",
+        "current": "src/godot-game/core/SnapshotJson.cs",
+        "category": "game-source-resource",
+        "sha256": "c468ba979b0a0651f3beb9a72d5f684775d3e38373ca2b4806c5eb3ba717f290"
+      },
+      {
+        "old": "src/godot-game/core/SnapshotWriter.cs",
+        "current": "src/godot-game/core/SnapshotWriter.cs",
+        "category": "game-source-resource",
+        "sha256": "01a634338af626da192116ee59cb83a30b056e29e9c3a61cd1ff10f48b07f2af"
+      },
+      {
+        "old": "src/godot-game/core/StableIdentity.cs",
+        "current": "src/godot-game/core/StableIdentity.cs",
+        "category": "game-source-resource",
+        "sha256": "36afb0a57398b9ef2972db41281520e8aaf4c18d95e7cc37dc43a3cb0aa5df0a"
+      },
+      {
+        "old": "src/godot-game/core/packages.lock.json",
+        "current": "src/godot-game/core/packages.lock.json",
+        "category": "package-lock",
+        "sha256": "544c78b555d97fd9b1a26d0e047518a2482ebd0ea44c84c562be6ed4ddf98df1"
+      },
+      {
+        "old": "src/godot-game/game/GeneratedCallSiteAdapters.cs",
+        "current": "src/godot-game/game/GeneratedCallSiteAdapters.cs",
+        "category": "game-source-resource",
+        "sha256": "caa6e00d944754ce4cf487c52f9c0057901c8e748051b78754ea98f960198d7a"
+      },
+      {
+        "old": "src/godot-game/game/GeneratedReportAdapter.cs",
+        "current": "src/godot-game/game/GeneratedReportAdapter.cs",
+        "category": "game-source-resource",
+        "sha256": "eb320d524bab395c1a774fe9837afa20f7733ab4bf806b93d7fd7460a57c0a7b"
+      },
+      {
+        "old": "src/godot-game/game/KingdomZombies.csproj",
+        "current": "src/godot-game/game/KingdomZombies.csproj",
+        "category": "game-source-resource",
+        "sha256": "3ca7b050cd7cd3642771e295e4229ea57da3813119d5ef7921f711859df3871b"
+      },
+      {
+        "old": "src/godot-game/game/foundation/DiscoveryCodec.cs",
+        "current": "src/godot-game/game/foundation/DiscoveryCodec.cs",
+        "category": "game-source-resource",
+        "sha256": "72857d3b68db6e13f1c6050cf4c5d59cfa04dc8c2e5c16e894e518ef94eb68c6"
+      },
+      {
+        "old": "src/godot-game/game/foundation/EnetConnectionService.cs",
+        "current": "src/godot-game/game/foundation/EnetConnectionService.cs",
+        "category": "game-source-resource",
+        "sha256": "172d8aeb844ef6ce3b3877f27daccf9fc02a08399e66bd50bac7de5205135805"
+      },
+      {
+        "old": "src/godot-game/game/foundation/Foundation.tscn",
+        "current": "src/godot-game/game/foundation/Foundation.tscn",
+        "category": "game-source-resource",
+        "sha256": "d4ed284d8bf53503fe560060527fbfc85d998c607750555fc905008177bf346e"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationActorNode.cs",
+        "current": "src/godot-game/game/foundation/FoundationActorNode.cs",
+        "category": "game-source-resource",
+        "sha256": "1660a842a73628c3ae0ec910516442a124c689d07756b12217942d7d97069756"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationAdmissionHistory.cs",
+        "current": "src/godot-game/game/foundation/FoundationAdmissionHistory.cs",
+        "category": "game-source-resource",
+        "sha256": "8c502be32d853f84bd1a7367bd17268db32864542e1da364c971ac2a36059f25"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationAutomation.cs",
+        "current": "src/godot-game/game/foundation/FoundationAutomation.cs",
+        "category": "game-source-resource",
+        "sha256": "f08fd4ab9b7e0b5db493d1ec1ca794c559b219bf81d81ea13fe94a0e325df338"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationBrowser.cs",
+        "current": "src/godot-game/game/foundation/FoundationBrowser.cs",
+        "category": "game-source-resource",
+        "sha256": "bd2de94bf7df9924edaef2473846cfa9d318ea6e0a812f0383b3b3cc13b65117"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationCapturePublication.cs",
+        "current": "src/godot-game/game/foundation/FoundationCapturePublication.cs",
+        "category": "game-source-resource",
+        "sha256": "40631cd1678cea9d74e3e91d24c5cb70a48c36e190b5858090db2a4b9f00be87"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationCoordinator.Admission.cs",
+        "current": "src/godot-game/game/foundation/FoundationCoordinator.Admission.cs",
+        "category": "game-source-resource",
+        "sha256": "2663a9811ebf6c58c5e063906006c3ff0ac542fba8d54861048d6527bc60ffc5"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationCoordinator.GuestPublication.cs",
+        "current": "src/godot-game/game/foundation/FoundationCoordinator.GuestPublication.cs",
+        "category": "game-source-resource",
+        "sha256": "d35c8a3178ffe95d3f1310a9f625abaacee52a30d9cd941ba88a7df139983a54"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationCoordinator.Lifetime.cs",
+        "current": "src/godot-game/game/foundation/FoundationCoordinator.Lifetime.cs",
+        "category": "game-source-resource",
+        "sha256": "0c2338fc168043a838254c8c6dd1f4b2ff1aed4a5037fa1732957b5fe3c5fc73"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationCoordinator.cs",
+        "current": "src/godot-game/game/foundation/FoundationCoordinator.cs",
+        "category": "game-source-resource",
+        "sha256": "22888110aeda742bbed897384aa4e4fef5904422706f49ad86663024e1ee9297"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationCopy.cs",
+        "current": "src/godot-game/game/foundation/FoundationCopy.cs",
+        "category": "game-source-resource",
+        "sha256": "0044b494115a9d4eaa30dc0503c4490ae86f937e0b9999ff300e67ef869ed21e"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationDiagnostics.cs",
+        "current": "src/godot-game/game/foundation/FoundationDiagnostics.cs",
+        "category": "game-source-resource",
+        "sha256": "ccf43cd946e547c87ed41f39eb078c166fb4c5534e68c683d7d0778fc512cba3"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationDisplay.cs",
+        "current": "src/godot-game/game/foundation/FoundationDisplay.cs",
+        "category": "game-source-resource",
+        "sha256": "d27504cc202552f2a6075532818d8182272e3ecad885e03869c8aa0914a1e572"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationDrawObserver.cs",
+        "current": "src/godot-game/game/foundation/FoundationDrawObserver.cs",
+        "category": "game-source-resource",
+        "sha256": "a6dc2c920c57c1a40e0c78109fbebd565608e551199f53ff48b358a207030e73"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationDrawRequest.cs",
+        "current": "src/godot-game/game/foundation/FoundationDrawRequest.cs",
+        "category": "game-source-resource",
+        "sha256": "7c2eda11f400c0c91cafee1df5c4ac7101f110af9d45b43bb97b77bf755ff3d1"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationEndpoint.cs",
+        "current": "src/godot-game/game/foundation/FoundationEndpoint.cs",
+        "category": "game-source-resource",
+        "sha256": "b7a198d1e12079a51456503d5d2df6efa065c76f06310989a1b8bdabd564a7fb"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationEnvelope.cs",
+        "current": "src/godot-game/game/foundation/FoundationEnvelope.cs",
+        "category": "game-source-resource",
+        "sha256": "0bf12d1d94212dc30a1e8e57f665e79ca8c3eb2180d62d472860caac77e9a4a6"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationEphemeralProfile.cs",
+        "current": "src/godot-game/game/foundation/FoundationEphemeralProfile.cs",
+        "category": "game-source-resource",
+        "sha256": "cb29d363e9fab9d5887ab1675ccd7421664498da80e9f518438bcc47741b49eb"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationHud.cs",
+        "current": "src/godot-game/game/foundation/FoundationHud.cs",
+        "category": "game-source-resource",
+        "sha256": "f59a5e31b8aed2f7b1d267c34c90c7478ca9cb69aae08bee46c24e78090ec63d"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationInput.cs",
+        "current": "src/godot-game/game/foundation/FoundationInput.cs",
+        "category": "game-source-resource",
+        "sha256": "caed7f7b5cd0eca46813aa7a0909f99307cf33d155407a063263cf3fca528b63"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationMenu.cs",
+        "current": "src/godot-game/game/foundation/FoundationMenu.cs",
+        "category": "game-source-resource",
+        "sha256": "71c5cf2f909a6849d768abc0109ae0fd34a35a57cc860ad119e782320d28328d"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationNativeRegression.cs",
+        "current": "src/godot-game/game/foundation/FoundationNativeRegression.cs",
+        "category": "game-source-resource",
+        "sha256": "9bfbd09eaf77d280d10c631f22a4528f00eaf19babe6a6687eb8fc7f34c60416"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationObservationScope.cs",
+        "current": "src/godot-game/game/foundation/FoundationObservationScope.cs",
+        "category": "game-source-resource",
+        "sha256": "ab9972b6888c0cedce0ac374421cb0554ef45e8b5596cd0b18e4fe149dcd425b"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationPeerBinding.cs",
+        "current": "src/godot-game/game/foundation/FoundationPeerBinding.cs",
+        "category": "game-source-resource",
+        "sha256": "4c0749cc0221f2d5dc5f7ed479be67ffa78b660e0a3e55f86871f66cd52ef153"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationPresentation.cs",
+        "current": "src/godot-game/game/foundation/FoundationPresentation.cs",
+        "category": "game-source-resource",
+        "sha256": "df4a59a0f74055375fce7b671b8fd4d1db98f3697f397ab3cdfe2045452f6928"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationProtocol.cs",
+        "current": "src/godot-game/game/foundation/FoundationProtocol.cs",
+        "category": "game-source-resource",
+        "sha256": "185359ce9cefb0296b946665aefe35f6d37929a363497130111bb20a8e9c9f78"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationRegressionDiscovery.cs",
+        "current": "src/godot-game/game/foundation/FoundationRegressionDiscovery.cs",
+        "category": "game-source-resource",
+        "sha256": "42f45ef67cd60cdc4e9e37b6c49d9a8fb6a951e8122477dc69ecac9b068f65d2"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationRoot.cs",
+        "current": "src/godot-game/game/foundation/FoundationRoot.cs",
+        "category": "game-source-resource",
+        "sha256": "530adae080b9d0811c9f48af7d1c92f3006f6e2bbabf01bd8303ec328040f8f8"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationRuntimeState.cs",
+        "current": "src/godot-game/game/foundation/FoundationRuntimeState.cs",
+        "category": "game-source-resource",
+        "sha256": "783e69efc179f5dfab2906c3e53ffaa22ff6d257d7248e744e0e2627ab717442"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationServices.cs",
+        "current": "src/godot-game/game/foundation/FoundationServices.cs",
+        "category": "game-source-resource",
+        "sha256": "d5e6dbd4148027feacbee4bfdfb332171e8fc48ab1a3709a3b8d23a238f3a444"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationView.cs",
+        "current": "src/godot-game/game/foundation/FoundationView.cs",
+        "category": "game-source-resource",
+        "sha256": "ad0bad27bee096ccbc13add9135bfd2347dc183ede6dfe325d088c85c92eb9bc"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationWireFrame.cs",
+        "current": "src/godot-game/game/foundation/FoundationWireFrame.cs",
+        "category": "game-source-resource",
+        "sha256": "8fde7f8dbf7288915ff9dfcf1e606a5e4bd85f4ad937c8a0ee8db53a9a56d144"
+      },
+      {
+        "old": "src/godot-game/game/foundation/FoundationWorld.tscn",
+        "current": "src/godot-game/game/foundation/FoundationWorld.tscn",
+        "category": "game-source-resource",
+        "sha256": "25012bd1d98dd0af3dce445ff9f84aed50a41663b9ffbd7a4f601c105b7ea89d"
+      },
+      {
+        "old": "src/godot-game/game/foundation/LanDiscoveryService.cs",
+        "current": "src/godot-game/game/foundation/LanDiscoveryService.cs",
+        "category": "game-source-resource",
+        "sha256": "1b92977b0071f157cdabef27417910f6272be1347e9a59034c064690acf51fac"
+      },
+      {
+        "old": "src/godot-game/game/foundation/LocalProfileService.cs",
+        "current": "src/godot-game/game/foundation/LocalProfileService.cs",
+        "category": "game-source-resource",
+        "sha256": "bcba74a53d69d7912b7af509f54e0beaa3e2fa7a9b69047794c42b125bf2b444"
+      },
+      {
+        "old": "src/godot-game/game/foundation/LocalProfileStorage.cs",
+        "current": "src/godot-game/game/foundation/LocalProfileStorage.cs",
+        "category": "game-source-resource",
+        "sha256": "bef4ab51e6fb6f7d1bc5e4cfbe699d3df1ed04cf9d44207e49dbd6c7c04869ce"
+      },
+      {
+        "old": "src/godot-game/game/icon.svg",
+        "current": "src/godot-game/game/icon.svg",
+        "category": "game-source-resource",
+        "sha256": "6c80384360a5b269d1054bfb27241258154e2cc8167c522016fdc1820e84e0f8"
+      },
+      {
+        "old": "src/godot-game/game/packages.lock.json",
+        "current": "src/godot-game/game/packages.lock.json",
+        "category": "package-lock",
+        "sha256": "acd696bafb0f3f9bfb560e65cf10e77f98bf8632a74e28147b7906bb53693bba"
+      },
+      {
+        "old": "src/godot-game/game/proofs/InvalidFixture.tscn",
+        "current": "src/godot-game/game/proofs/InvalidFixture.tscn",
+        "category": "game-source-resource",
+        "sha256": "6050564eeef1164211dd9e2660a8c48b68afd525ccb4da18bb846fc0873e5aaa"
+      },
+      {
+        "old": "src/godot-game/game/proofs/LifecycleFixture.cs",
+        "current": "src/godot-game/game/proofs/LifecycleFixture.cs",
+        "category": "game-source-resource",
+        "sha256": "dd78f93caa8fc443da1a87818a60bc9f0005778720f9c68b65a3c6246235aa1b"
+      },
+      {
+        "old": "src/godot-game/game/proofs/LifetimeToken.cs",
+        "current": "src/godot-game/game/proofs/LifetimeToken.cs",
+        "category": "game-source-resource",
+        "sha256": "1370aa0786f4c0451402f67ac8e183676fc3b2d4bedc582c7eae44ccdd704750"
+      },
+      {
+        "old": "src/godot-game/game/proofs/MainThreadGateway.cs",
+        "current": "src/godot-game/game/proofs/MainThreadGateway.cs",
+        "category": "game-source-resource",
+        "sha256": "1f51d27e0b9fcec988dff88d1895cb05dd17cf9f8eeb13f68ab17743c67c182a"
+      },
+      {
+        "old": "src/godot-game/game/proofs/Phase1.cs",
+        "current": "src/godot-game/game/proofs/Phase1.cs",
+        "category": "game-source-resource",
+        "sha256": "24cd0f38eb493bd2909176691c05a866833797238cca57b35cdcefd4af3dbbeb"
+      },
+      {
+        "old": "src/godot-game/game/proofs/Phase1.tscn",
+        "current": "src/godot-game/game/proofs/Phase1.tscn",
+        "category": "game-source-resource",
+        "sha256": "81818f9ae39d10e861707a0dcbae9d4244351fcbc50c94a717e3e9ed106f8b60"
+      },
+      {
+        "old": "src/godot-game/game/proofs/ProofResource.cs",
+        "current": "src/godot-game/game/proofs/ProofResource.cs",
+        "category": "game-source-resource",
+        "sha256": "acb1ff36821a5300369e8b38e869ddc05f993d7c09a879ee8c19c43bf9474dde"
+      },
+      {
+        "old": "src/godot-game/game/proofs/ProofResource.tres",
+        "current": "src/godot-game/game/proofs/ProofResource.tres",
+        "category": "game-source-resource",
+        "sha256": "f277b647be2ccbe1fb1dd940efada13d55979fe6c257b1372833520939c570a8"
+      },
+      {
+        "old": "src/godot-game/game/proofs/ProofSequence.cs",
+        "current": "src/godot-game/game/proofs/ProofSequence.cs",
+        "category": "game-source-resource",
+        "sha256": "eea9be87a9f9007a818de45360e3424c734d7c5526ab83a057e2cf885045a7a8"
+      },
+      {
+        "old": "src/godot-game/game/proofs/ValidFixture.tscn",
+        "current": "src/godot-game/game/proofs/ValidFixture.tscn",
+        "category": "game-source-resource",
+        "sha256": "db7b170c40846a1bb40803530f9cc6aa0cf2be665f2eab0a964d449727176162"
+      },
+      {
+        "old": "src/godot-game/multiplayer-abstractions/ConnectionPacket.cs",
+        "current": "src/godot-game/multiplayer-abstractions/ConnectionPacket.cs",
+        "category": "game-source-resource",
+        "sha256": "6eb92b6a8ee1c5dd71728a2f8bb9c4f01535cddb874e6946d279354fecd07474"
+      },
+      {
+        "old": "src/godot-game/multiplayer-abstractions/IConnectionService.cs",
+        "current": "src/godot-game/multiplayer-abstractions/IConnectionService.cs",
+        "category": "game-source-resource",
+        "sha256": "c132da48c7553434f9eff10e0f8c59b716e414b53df4eaad2534b03ad91cdbe8"
+      },
+      {
+        "old": "src/godot-game/multiplayer-abstractions/IDiscoveryService.cs",
+        "current": "src/godot-game/multiplayer-abstractions/IDiscoveryService.cs",
+        "category": "game-source-resource",
+        "sha256": "7489ca52540f98fe515fa0c3f673c8034e95a87da7b71637295079c9b8471e99"
+      },
+      {
+        "old": "src/godot-game/multiplayer-abstractions/IIdentityService.cs",
+        "current": "src/godot-game/multiplayer-abstractions/IIdentityService.cs",
+        "category": "game-source-resource",
+        "sha256": "63db5b760f90b10e3347fc8becd1a5f6a9548d06e857eea552dbb4f3ebd7c007"
+      },
+      {
+        "old": "src/godot-game/multiplayer-abstractions/IProofService.cs",
+        "current": "src/godot-game/multiplayer-abstractions/IProofService.cs",
+        "category": "game-source-resource",
+        "sha256": "a52c23d962bd0398dfca192b79873b260b2ebc3b6341bfd5396b10d62d8c01d7"
+      },
+      {
+        "old": "src/godot-game/multiplayer-abstractions/KingdomZombies.Multiplayer.Abstractions.csproj",
+        "current": "src/godot-game/multiplayer-abstractions/KingdomZombies.Multiplayer.Abstractions.csproj",
+        "category": "game-source-resource",
+        "sha256": "95c6ee6b5762b89b257c527531ed5b9a433a55f12c06b8d100b1b92da98574d9"
+      },
+      {
+        "old": "src/godot-game/multiplayer-abstractions/PlayerProfile.cs",
+        "current": "src/godot-game/multiplayer-abstractions/PlayerProfile.cs",
+        "category": "game-source-resource",
+        "sha256": "89af7ba495ef4433c6ddd39b81e85f0325260da406e719d3fcc0450ee6adcf96"
+      },
+      {
+        "old": "src/godot-game/multiplayer-abstractions/SessionAdvertisement.cs",
+        "current": "src/godot-game/multiplayer-abstractions/SessionAdvertisement.cs",
+        "category": "game-source-resource",
+        "sha256": "2a459fc9294fb977cc10baef4b13e029aef011828b30b84f0417524bfb33561d"
+      },
+      {
+        "old": "src/godot-game/multiplayer-abstractions/packages.lock.json",
+        "current": "src/godot-game/multiplayer-abstractions/packages.lock.json",
+        "category": "package-lock",
+        "sha256": "544c78b555d97fd9b1a26d0e047518a2482ebd0ea44c84c562be6ed4ddf98df1"
+      },
+      {
+        "old": "src/godot-game/references/bases/main-base-tier-1.png",
+        "current": "src/godot-game/references/bases/main-base-tier-1.png",
+        "category": "game-source-resource",
+        "sha256": "98b25b78a6368c16cc5868dc13e432b78cef1965148b6dc3f7c9a845633fb419"
+      },
+      {
+        "old": "src/godot-game/references/bases/main-base-tier-2.png",
+        "current": "src/godot-game/references/bases/main-base-tier-2.png",
+        "category": "game-source-resource",
+        "sha256": "afa249b87f0e8cbab4adea0357f168aa254ca02e9a7646b0bcd8446d178a5fcb"
+      },
+      {
+        "old": "src/godot-game/references/bases/main-base-tier-3.png",
+        "current": "src/godot-game/references/bases/main-base-tier-3.png",
+        "category": "game-source-resource",
+        "sha256": "57a2c0381eab583591a6a606395076936cce9671a1690fc6ff14cbaae02fab74"
+      },
+      {
+        "old": "src/godot-game/references/zombie/attack-frames/attack-01.png",
+        "current": "src/godot-game/references/zombie/attack-frames/attack-01.png",
+        "category": "game-source-resource",
+        "sha256": "e4112cb5c94a832e6404739e3602482ddd64591dc5db4b7c5a8849e32a182ab4"
+      },
+      {
+        "old": "src/godot-game/references/zombie/attack-frames/attack-02.png",
+        "current": "src/godot-game/references/zombie/attack-frames/attack-02.png",
+        "category": "game-source-resource",
+        "sha256": "d2fb74ec82d7fc9381a2ceb59a52e46098d18111da36c41a4aac921bc9f29ca8"
+      },
+      {
+        "old": "src/godot-game/references/zombie/attack-frames/attack-03.png",
+        "current": "src/godot-game/references/zombie/attack-frames/attack-03.png",
+        "category": "game-source-resource",
+        "sha256": "45d5f5a60ad1263f858df7036622528ae7244758af23a0c04f66407f7619fa2a"
+      },
+      {
+        "old": "src/godot-game/references/zombie/attack-frames/attack-04.png",
+        "current": "src/godot-game/references/zombie/attack-frames/attack-04.png",
+        "category": "game-source-resource",
+        "sha256": "19ac2806c14964a3ab9fffaf98a4d062a251519f6ab7b96a3fe21743ecfe0c2f"
+      },
+      {
+        "old": "src/godot-game/references/zombie/attack-frames/attack-05.png",
+        "current": "src/godot-game/references/zombie/attack-frames/attack-05.png",
+        "category": "game-source-resource",
+        "sha256": "be70522455362b9abf60a4456e0d6ed333568f22134b0a293c8af55c88b0b4cc"
+      },
+      {
+        "old": "src/godot-game/references/zombie/attack-frames/attack-06.png",
+        "current": "src/godot-game/references/zombie/attack-frames/attack-06.png",
+        "category": "game-source-resource",
+        "sha256": "ef1b6c9687abbe847423301f4ec7b2669ffbad302374a03e2d5de49242108752"
+      },
+      {
+        "old": "src/godot-game/references/zombie/attack-frames/attack-07.png",
+        "current": "src/godot-game/references/zombie/attack-frames/attack-07.png",
+        "category": "game-source-resource",
+        "sha256": "b5a49b39bdec940c281f20be9887954f9fa6150fa89a15f7f8a53a68b53c0079"
+      },
+      {
+        "old": "src/godot-game/references/zombie/attack-frames/attack-08.png",
+        "current": "src/godot-game/references/zombie/attack-frames/attack-08.png",
+        "category": "game-source-resource",
+        "sha256": "edf203ebf2ff1d19ddd711a160a29041efd1c644da009e9efcd2c13161899669"
+      },
+      {
+        "old": "src/godot-game/references/zombie/walk-frames/walk-01.png",
+        "current": "src/godot-game/references/zombie/walk-frames/walk-01.png",
+        "category": "game-source-resource",
+        "sha256": "aee65805d815d1c0a77f473ef8a1e7c00382b60ca1e78fa153ba914ad9769264"
+      },
+      {
+        "old": "src/godot-game/references/zombie/walk-frames/walk-02.png",
+        "current": "src/godot-game/references/zombie/walk-frames/walk-02.png",
+        "category": "game-source-resource",
+        "sha256": "3334285d459a826151e11de4f7a24cf3782eea04b42b396427079ca317701f0f"
+      },
+      {
+        "old": "src/godot-game/references/zombie/walk-frames/walk-03.png",
+        "current": "src/godot-game/references/zombie/walk-frames/walk-03.png",
+        "category": "game-source-resource",
+        "sha256": "da2cf671cf42af688dc8387e21410041c297784e76dfae63918c8aff81aa5ff4"
+      },
+      {
+        "old": "src/godot-game/references/zombie/walk-frames/walk-04.png",
+        "current": "src/godot-game/references/zombie/walk-frames/walk-04.png",
+        "category": "game-source-resource",
+        "sha256": "666fc33df12cbf11cafd615800b13ef22462d69b1c6efc040c334113dc305dc1"
+      },
+      {
+        "old": "src/godot-game/references/zombie/walk-frames/walk-05.png",
+        "current": "src/godot-game/references/zombie/walk-frames/walk-05.png",
+        "category": "game-source-resource",
+        "sha256": "476f7116bcf844ae1e73625e45d1c5572ae4421ea04e200547e6b1c9e796bcf9"
+      },
+      {
+        "old": "src/godot-game/references/zombie/walk-frames/walk-06.png",
+        "current": "src/godot-game/references/zombie/walk-frames/walk-06.png",
+        "category": "game-source-resource",
+        "sha256": "59ccc86c27478d16856dde5e404989278ca125191adad0df78e4865a6dd7fffc"
+      },
+      {
+        "old": "src/godot-game/references/zombie/walk-frames/walk-07.png",
+        "current": "src/godot-game/references/zombie/walk-frames/walk-07.png",
+        "category": "game-source-resource",
+        "sha256": "1ccb82756865b97e3e6040ddec6d59c8a9f15ec76e362710c17bc9ebc82dea48"
+      },
+      {
+        "old": "src/godot-game/references/zombie/walk-frames/walk-08.png",
+        "current": "src/godot-game/references/zombie/walk-frames/walk-08.png",
+        "category": "game-source-resource",
+        "sha256": "0346ea23c412da86ca8acd100ef3db49176487df33773783344459dec26106b6"
+      },
+      {
+        "old": "src/godot-game/references/zombie/zombie-attack-sheet.png",
+        "current": "src/godot-game/references/zombie/zombie-attack-sheet.png",
+        "category": "game-source-resource",
+        "sha256": "5e295ad745b9657b992c3bc1365ee7302303e38a3402c2c6d4ae93e77e92b73e"
+      },
+      {
+        "old": "src/godot-game/references/zombie/zombie-attack-strip.png",
+        "current": "src/godot-game/references/zombie/zombie-attack-strip.png",
+        "category": "game-source-resource",
+        "sha256": "0c948ee77a14002cd434de53b3d96bd840524db0ee70bd0d21a594b4f68a1975"
+      },
+      {
+        "old": "src/godot-game/references/zombie/zombie-idle-original-size.png",
+        "current": "src/godot-game/references/zombie/zombie-idle-original-size.png",
+        "category": "game-source-resource",
+        "sha256": "4ee3de061acfde95a0c92f36c42167b19b4a4c7a1eac716ba73c039a6289b26f"
+      },
+      {
+        "old": "src/godot-game/references/zombie/zombie-idle.png",
+        "current": "src/godot-game/references/zombie/zombie-idle.png",
+        "category": "game-source-resource",
+        "sha256": "d4c7e90ca7eada9f99e39cae51625390dcabbce06ddc063eebf6798457c69b89"
+      },
+      {
+        "old": "src/godot-game/references/zombie/zombie-walk-sheet.png",
+        "current": "src/godot-game/references/zombie/zombie-walk-sheet.png",
+        "category": "game-source-resource",
+        "sha256": "ca8778cc5e5ebfebbb31439900f51f08a19ee7356237a1386eded32e56374c2d"
+      },
+      {
+        "old": "src/godot-game/references/zombie/zombie-walk-strip.png",
+        "current": "src/godot-game/references/zombie/zombie-walk-strip.png",
+        "category": "game-source-resource",
+        "sha256": "4e164aef66674bc63b6f75e4d31059b87955fc1fd7afffa864a49e3ccfb2e380"
+      },
+      {
+        "old": "src/godot-game/tests/verification/packages.lock.json",
+        "current": "src/godot-game/tests/verification/packages.lock.json",
+        "category": "package-lock",
+        "sha256": "c4bcdea95c967010c66aedf8ee10a5631f8824ceae85e36b98b6ae77175e4cf4"
+      },
+      {
+        "old": "tools/code-rules/BodyCommentAnalyzer.cs",
+        "current": "src/godot-game/tools/code-rules/BodyCommentAnalyzer.cs",
+        "category": "analyzer-implementation",
+        "sha256": "520474ef49f26f6ad41faec9c68a643c1f168e660b77957aaa82f3ef47e72c43"
+      },
+      {
+        "old": "tools/code-rules/BodyLengthAnalyzer.cs",
+        "current": "src/godot-game/tools/code-rules/BodyLengthAnalyzer.cs",
+        "category": "analyzer-implementation",
+        "sha256": "e2529897a76639b7ebc527473b01cebd3d3d505bf9d69459bde63652d9ff3216"
+      },
+      {
+        "old": "tools/code-rules/ContinuationIndentAnalyzer.cs",
+        "current": "src/godot-game/tools/code-rules/ContinuationIndentAnalyzer.cs",
+        "category": "analyzer-implementation",
+        "sha256": "c4e2d527c86ca7de9d9748ec5fcf3f491caa8780a0dbe422dbe7a26e875a6a1c"
+      },
+      {
+        "old": "tools/code-rules/EngineGeneratedSyntax.cs",
+        "current": "src/godot-game/tools/code-rules/EngineGeneratedSyntax.cs",
+        "category": "analyzer-implementation",
+        "sha256": "3a75973072d20a741fdaedba878ba918d475e3e1a285606afc6b310381056097"
+      },
+      {
+        "old": "tools/code-rules/GeneratedLayout.cs",
+        "current": "src/godot-game/tools/code-rules/GeneratedLayout.cs",
+        "category": "analyzer-implementation",
+        "sha256": "a3d1a5944cea49d3ece28b6f5f770a655b67db43c0fe8d917a3c09e7b20a088a"
+      },
+      {
+        "old": "tools/code-rules/GeneratedSyntax.cs",
+        "current": "src/godot-game/tools/code-rules/GeneratedSyntax.cs",
+        "category": "analyzer-implementation",
+        "sha256": "0bf6362f41c141f29a0e0a221977f571e6092211a9b2162983da05e1d3e352b2"
+      },
+      {
+        "old": "tools/code-rules/LineLengthAnalyzer.cs",
+        "current": "src/godot-game/tools/code-rules/LineLengthAnalyzer.cs",
+        "category": "analyzer-implementation",
+        "sha256": "a153333433ed355e7577080f0963e517271659c466ada24e3211bcee157fb495"
+      },
+      {
+        "old": "tools/code-rules/LocalNewDeclarationAnalyzer.cs",
+        "current": "src/godot-game/tools/code-rules/LocalNewDeclarationAnalyzer.cs",
+        "category": "analyzer-implementation",
+        "sha256": "45a9948b474b1c9f88148ab28d651ef607e8243aefed4552cf65d4466024848b"
+      },
+      {
+        "old": "tools/code-rules/MemberBodies.cs",
+        "current": "src/godot-game/tools/code-rules/MemberBodies.cs",
+        "category": "analyzer-implementation",
+        "sha256": "dee54e6fa3949cf089535cb154ab75117a07237fe39d608b32235246eba393a3"
+      },
+      {
+        "old": "tools/code-rules/MemberOrderAnalyzer.cs",
+        "current": "src/godot-game/tools/code-rules/MemberOrderAnalyzer.cs",
+        "category": "analyzer-implementation",
+        "sha256": "a04b4b0d7e4355bfd570203a26224edd658716f4293027458ff986b307d3ce53"
+      },
+      {
+        "old": "tools/code-rules/NamedArgumentAnalyzer.cs",
+        "current": "src/godot-game/tools/code-rules/NamedArgumentAnalyzer.cs",
+        "category": "analyzer-implementation",
+        "sha256": "9588d3878da40f488fd74a0f9edb42b62e3428d98bfcc836e26689e34e9e317e"
+      },
+      {
+        "old": "tools/code-rules/NullForgivingAnalyzer.cs",
+        "current": "src/godot-game/tools/code-rules/NullForgivingAnalyzer.cs",
+        "category": "analyzer-implementation",
+        "sha256": "419109380c8c431ab0a098f739bdf264cd04d6819b7e64476664b9b14947e475"
+      },
+      {
+        "old": "tools/code-rules/PrimaryConstructorAnalyzer.cs",
+        "current": "src/godot-game/tools/code-rules/PrimaryConstructorAnalyzer.cs",
+        "category": "analyzer-implementation",
+        "sha256": "d4ddc8d0d6340318ff560dd56d5f9cd5094958407fa50352fea386a95b346958"
+      },
+      {
+        "old": "tools/code-rules/RegionDirectiveAnalyzer.cs",
+        "current": "src/godot-game/tools/code-rules/RegionDirectiveAnalyzer.cs",
+        "category": "analyzer-implementation",
+        "sha256": "a61f28a6e112cca2b5d6d6c3fe2f5aa1d5746b9c5bcfecc89e88a910db05089f"
+      },
+      {
+        "old": "tools/code-rules/ThisQualificationAnalyzer.cs",
+        "current": "src/godot-game/tools/code-rules/ThisQualificationAnalyzer.cs",
+        "category": "analyzer-implementation",
+        "sha256": "563cbec691b318d00f21ecf47bc52d81dc767f8a562907f9e466a803a5fa733c"
+      },
+      {
+        "old": "tools/code-rules/UsingOrderAnalyzer.cs",
+        "current": "src/godot-game/tools/code-rules/UsingOrderAnalyzer.cs",
+        "category": "analyzer-implementation",
+        "sha256": "9e8b537286e292c6d9d1fda9487c46a33a71799e644036e2e04fe56f32c4f9f0"
+      },
+      {
+        "old": "tools/code-rules/packages.lock.json",
+        "current": "src/godot-game/tools/code-rules/packages.lock.json",
+        "category": "package-lock",
+        "sha256": "ff4d9b96e5ecac77f1a06142c467f27389bfa4183250c92f4fa2dffeea2e1496"
+      },
+      {
+        "old": "tools/phase2/linux-input.sh",
+        "current": "src/godot-game/tools/gameplay-checks/linux-input.sh",
+        "category": "native-input-driver",
+        "sha256": "ba799ce1c70c8197a0d2155cd504e61a8128d5a2f3fe41d71a69ede28a5e870d"
+      },
+      {
+        "old": "tools/phase2/windows-input.ps1",
+        "current": "src/godot-game/tools/gameplay-checks/windows-input.ps1",
+        "category": "native-input-driver",
+        "sha256": "bfa2abd2fc19a8a0e9a2048d1e30032795b1f8bc605aa05f151de40db364ffd0"
+      },
+      {
+        "old": "tools/phase3/windows-input.ps1",
+        "current": "src/godot-game/tools/lan-checks/windows-input.ps1",
+        "category": "native-input-driver",
+        "sha256": "980233cb271376ccf552c9a1abbf518a0c3ac5393f2f44ebde4155eaf697142d"
+      }
+    ]
+  },
+  "repairedAttempts": [
+    ".phase1/maintenance/tools-node-initial.log",
+    ".phase1/maintenance/tools-node-second.log",
+    ".phase1/maintenance/tools-node-third.log",
+    ".phase1/maintenance/tools-build-first.log",
+    ".phase1/maintenance/tools-all-build.log"
+  ],
+  "scopeLimits": [
+    "No gameplay/resource/analyzer implementation bytes changed",
+    "No rendered-game, full-LAN, Linux, coverage or human qualitative acceptance",
+    "Original evidence/protocol identities and cache/report locations retained",
+    "Separate active Phase 4 checkout untouched; future asset-pipeline migration documented"
+  ],
+  "metadataNavigation": {
+    "path": ".phase1/runs/a591c840-0af3-4a9d-90d6-9f46807b7406/summary.json",
+    "sha256": "d0d3d3712f0bb35ccc2ca7f1eeb901cf39c33d766229f37869516487844aea5e",
+    "status": "pass",
+    "revision": "4ea92b5a849df34e695da23746ba6f09605096f5",
+    "input": "ece4ca7276514eb18ac4b5ed19f7fc48a8eaf9771d32e03634fa4cd6aa4da215",
+    "selected": [
+      "docs.navigation"
+    ]
+  }
+}

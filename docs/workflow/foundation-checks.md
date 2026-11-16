@@ -6,9 +6,9 @@ Use the pinned tools and workspace-local environment in [setup](setup.md). Build
 
 ```sh
 dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q
-node tools/phase2/check.cjs --list
-node tools/phase2/check.cjs --group core
-node tools/phase2/check.cjs --group runner
+node src/godot-game/tools/gameplay-checks/check.cjs --list
+node src/godot-game/tools/gameplay-checks/check.cjs --group core
+node src/godot-game/tools/gameplay-checks/check.cjs --group runner
 ```
 
 These commands never launch the game, including native version or renderer probes. Pure C# checks use the existing test executable with exact method filters, one passing executed test and a nonce-bound proof result. The runner controls use real Node children for missing executable, nonzero exit, crash, deadline and descendant cleanup tests; they do not send desktop input.
@@ -16,16 +16,16 @@ These commands never launch the game, including native version or renderer probe
 After the phase code review and its fixes, execute the final rendered selection:
 
 ```sh
-node tools/phase2/check.cjs --group rendered
+node src/godot-game/tools/gameplay-checks/check.cjs --group rendered
 ```
 
 All nine cases share one native game process. Menu runs first to exercise the scoped one-shot entry error; each successful case returns through Escape, and the next starts through ordinary menu controls. Quit runs last, using Tab then Space; the report records that activation method. Start exercises mouse and keyboard activation. A separate mouse Quit exit is not executed in this selection. Resource isolation validates the declared resource closure and byte-identical repository copies, using the shared live scene for runtime behavior rather than starting another game. Keyboard and mouse actions go through verified owned foreground windows. On Windows the input helper confirms the owned PID/HWND; the focus case uses its own temporary focus sink. The retained Linux helper is portable preparation and is not required to run under the temporary policy.
 
-`--case ID` runs one exact catalog case. `--all` runs the seven pure cases and the nine rendered cases, with one shared game session. Use it only after implementation and review. For ordinary manual play, launch the pinned native Godot executable with `--path src/godot-game --rendering-method gl_compatibility --resolution 1280x720`; the main menu is the entry point.
+`--case ID` runs one exact catalog case. `--all` runs the seven pure cases and the nine rendered cases, with one shared game session. Use it only after implementation and review. For ordinary manual play, launch the pinned native Godot executable with `--path src/godot-game/game --rendering-method gl_compatibility --resolution 1280x720`; the main menu is the entry point.
 
 ## Required case catalog
 
-Required membership comes from [required-cases.json](../../tools/phase2/required-cases.json), independently of discovered/passing tests. No pending catalog entry earns credit.
+Required membership comes from [required-cases.json](../../src/godot-game/tools/gameplay-checks/required-cases.json), independently of discovered/passing tests. No pending catalog entry earns credit.
 
 | Case | Required behavior / specification criteria |
 | --- | --- |
@@ -57,7 +57,7 @@ Scenario assertions are collected. When safe, the runner releases owned held key
 After collecting errors, batch repairs and rerun only failed or blocked cases from the printed report path:
 
 ```sh
-node tools/phase2/check.cjs --failed .phase2/runs/win32-x64/BASELINE-NONCE/summary.json
+node src/godot-game/tools/gameplay-checks/check.cjs --failed .phase2/runs/win32-x64/BASELINE-NONCE/summary.json
 ```
 
 A repair run keeps its own revision, fingerprint, nonce and images and binds the original report path/hash/revision in `repairOf`. If a repair still fails, use its report as the next `--failed` baseline. Earlier passes remain tied to their original reports even when repairs changed source fingerprints; this is the creator-authorized temporary policy, without Phase 5 reuse certification.
@@ -65,7 +65,7 @@ A repair run keeps its own revision, fingerprint, nonce and images and binds the
 Link the pure reports, initial rendered report and each focused repair in chronological order:
 
 ```sh
-node tools/phase2/check.cjs --complete CORE-REPORT RUNNER-REPORT RENDERED-REPORT REPAIR-REPORT
+node src/godot-game/tools/gameplay-checks/check.cjs --complete CORE-REPORT RUNNER-REPORT RENDERED-REPORT REPAIR-REPORT
 ```
 
 The command writes a new `.phase2/completions/<nonce>.json` with immutable report references, hashes, latest per-case outcomes and missing cases. It requires all 16 distinct catalog cases for `coverage-complete`. A later failure supersedes an earlier pass; reordered/duplicate reports, missing repair baselines or wrong repair selections are rejected. Source fingerprints are preserved but are not required to match between authorized repair runs. This coverage record does not imply appearance approval.
@@ -87,7 +87,7 @@ Copy the generated completion JSON into a new review record, preserve its `repor
 Review actual saved images for readable English labels/hint/error, focus and hover distinction, complete player and facing marker over the building and at bounds, camera/ground continuity and clipping. Record defects and repair affected cases before accepting their images. Do not invent a reviewer or approve from PNG decoding alone. Validate the new completion/review record:
 
 ```sh
-node tools/phase2/check.cjs --verify-completion PATH-TO-REVIEW-RECORD.json
+node src/godot-game/tools/gameplay-checks/check.cjs --verify-completion PATH-TO-REVIEW-RECORD.json
 ```
 
 Validation reopens the original reports and images, verifies hashes, case/environment coverage and exact image review bindings. Missing evidence, nonzero/crash/deadline, stale identities, duplicate substitutions, corrupt images, unreviewed appearance and incomplete scope produce non-success. `--verify-platforms` is a compatibility alias for this temporary development-OS gate; it does not certify Linux or additional resolutions. Keep those deferred obligations explicit in the phase's completion record and draft PR.

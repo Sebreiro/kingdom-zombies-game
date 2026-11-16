@@ -8,7 +8,7 @@ The [phase context](../../../.planning/phases/01-code-rules-and-documentation/01
 
 ## Decision
 
-Use the [shared build](../../../Directory.Build.targets), twelve real Roslyn analyzers and C# structural checks indexed by the [rule register](../../code/register.json). Require distinct compliant and intended-negative proofs. Authenticate generated permissions against exact producer, source, path, member and span identities; retain only [registered exemptions](../../code/exemptions.json). Qualitative obligations stay separately Pending in the [review checklist](../../code/review-checklist.md).
+Use the [shared build](../../../src/godot-game/Directory.Build.targets), twelve real Roslyn analyzers and C# structural checks indexed by the [rule register](../../code/register.json). Require distinct compliant and intended-negative proofs. Authenticate generated permissions against exact producer, source, path, member and span identities; retain only [registered exemptions](../../code/exemptions.json). Qualitative obligations stay separately Pending in the [review checklist](../../code/review-checklist.md).
 
 ## Consequences
 
