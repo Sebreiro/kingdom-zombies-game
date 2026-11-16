@@ -30,6 +30,7 @@ internal static class FoundationLinkedSources
         "src/godot-game/foundation/FoundationCoordinator.Lifetime.cs",
         "src/godot-game/foundation/FoundationCoordinator.GuestPublication.cs",
         "src/godot-game/foundation/FoundationProtocol.cs",
+        "src/godot-game/foundation/FoundationWireFrame.cs",
         "src/godot-game/foundation/FoundationEnvelope.cs",
         "src/godot-game/foundation/FoundationPeerBinding.cs",
         "src/godot-game/foundation/FoundationAdmissionHistory.cs",

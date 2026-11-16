@@ -16,6 +16,7 @@ public sealed class FoundationLanProtocolTests
     [Fact]
     public void DetachedSnapshotValidationPrecedesPublication()
     {
+        FoundationWireFrameTests.Check();
         var port = new FoundationHarnessConnection();
         var guest = new FoundationCoordinator(playerId: "guest", label: "Guest", connection: port);
         guest.Join(address: "test", port: 24680);

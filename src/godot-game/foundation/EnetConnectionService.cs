@@ -74,11 +74,16 @@ internal sealed class EnetConnectionService : IConnectionService, IDisposable
             int sender = _peer.GetPacketPeer();
             byte[] bytes = _peer.GetPacket();
             Check(error: _peer.GetPacketError());
-            if (bytes.Length <= FoundationProtocol.MaximumBytes && PeerGeneration(peer: sender) is string generation
+            if (bytes.Length <= FoundationWireFrame.MaximumEncodedBytes
+                    && PeerGeneration(peer: sender) is string generation
                     && generation.Length > 0)
             {
-                packets.Add(item: new ConnectionPacket(sender: sender, generation: Generation, payload: bytes,
-                        peerGeneration: generation));
+                try
+                {
+                    packets.Add(item: new ConnectionPacket(sender: sender, generation: Generation,
+                            payload: FoundationWireFrame.Decode(frame: bytes), peerGeneration: generation));
+                }
+                catch (InvalidDataException) { continue; }
             }
         }
 
@@ -106,7 +111,7 @@ internal sealed class EnetConnectionService : IConnectionService, IDisposable
         _peer.TransferMode = reliable ? MultiplayerPeer.TransferModeEnum.Reliable
                 : MultiplayerPeer.TransferModeEnum.UnreliableOrdered;
         _peer.SetTargetPeer(id: peer);
-        Check(error: _peer.PutPacket(buffer: payload.ToArray()));
+        Check(error: _peer.PutPacket(buffer: FoundationWireFrame.Encode(payload: payload)));
         using ENetConnection host = _peer.GetHost();
         host.Flush();
     }
