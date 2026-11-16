@@ -34,6 +34,17 @@ internal static class FoundationCapturePublicationTests
         string file = Path.Combine(path1: directory, path2: "draw.request");
         const string Record = "{\"nonce\":\"owned\",\"checkpoint\":\"draw-one\"}";
         File.WriteAllText(path: file, contents: Record);
+        CheckWindowsLocks(file: file, record: Record);
+        File.ReadAllText(path: file).ShouldBe(expected: Record);
+        FoundationDrawRequest.Consume(file: file, nonce: "owned").ShouldBe(expected: "draw-one");
+        File.Exists(path: file).ShouldBeFalse();
+        FoundationDrawRequest.Consume(file: file, nonce: "owned").ShouldBeNull();
+        CheckRejectedRequest(file: file);
+    }
+
+    private static void CheckWindowsLocks(string file, string record)
+    {
+        if (!OperatingSystem.IsWindows()) { return; }
         using (var locked = new FileStream(path: file, mode: FileMode.Open, access: FileAccess.ReadWrite,
                 share: FileShare.None))
         {
@@ -41,19 +52,14 @@ internal static class FoundationCapturePublicationTests
                     .ShouldBeNull();
         }
 
-        File.ReadAllText(path: file).ShouldBe(expected: Record);
+        File.ReadAllText(path: file).ShouldBe(expected: record);
         using (var locked = new FileStream(path: file, mode: FileMode.Open, access: FileAccess.Read,
                 share: FileShare.Read))
         {
             Should.NotThrow(action: () => FoundationDrawRequest.Consume(file: file, nonce: "owned"))
                     .ShouldBeNull();
-            File.ReadAllText(path: file).ShouldBe(expected: Record);
+            File.ReadAllText(path: file).ShouldBe(expected: record);
         }
-
-        FoundationDrawRequest.Consume(file: file, nonce: "owned").ShouldBe(expected: "draw-one");
-        File.Exists(path: file).ShouldBeFalse();
-        FoundationDrawRequest.Consume(file: file, nonce: "owned").ShouldBeNull();
-        CheckRejectedRequest(file: file);
     }
 
     private static void CheckRejectedRequest(string file)
@@ -73,14 +79,18 @@ internal static class FoundationCapturePublicationTests
         File.ReadAllText(path: file).ShouldBe(expected: "{");
         File.Delete(path: file);
         File.WriteAllText(path: file, contents: "{\"nonce\":\"owned\",\"checkpoint\":\"draw-one\"}");
-        File.SetAttributes(path: file, fileAttributes: FileAttributes.ReadOnly);
-        try
+        if (OperatingSystem.IsWindows())
         {
-            Should.Throw<UnauthorizedAccessException>(actual: () => FoundationDrawRequest.Consume(file: file,
-                    nonce: "owned"));
-            File.Exists(path: file).ShouldBeTrue();
+            File.SetAttributes(path: file, fileAttributes: FileAttributes.ReadOnly);
+            try
+            {
+                Should.Throw<UnauthorizedAccessException>(actual: () => FoundationDrawRequest.Consume(file: file,
+                        nonce: "owned"));
+                File.Exists(path: file).ShouldBeTrue();
+            }
+            finally { File.SetAttributes(path: file, fileAttributes: FileAttributes.Normal); }
         }
-        finally { File.SetAttributes(path: file, fileAttributes: FileAttributes.Normal); }
+
         File.Delete(path: file);
     }
 }
