@@ -7,6 +7,9 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json.Nodes;
 using KingdomZombies.Core;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Shouldly;
 using Xunit;
 
@@ -15,6 +18,58 @@ namespace KingdomZombies.Phase1.Tests;
 /// <summary>Exercises the real portable pack loader independently of a native game window.</summary>
 public sealed class ContentInspectorTests
 {
+    /// <summary>Every actual inspection member needs its own synchronous captured guard and exact signature.</summary>
+    [Fact]
+    public void Authorize_Inspection_RequiresExactInvocationTuples()
+    {
+        var consumer = ConsumerCompilation.Read(root: ProofProtocol.Root, project: ProjectEvaluator.Expected[2]);
+        string source = File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: InspectionPath));
+        EngineAccessPolicy.Check(source: source, path: InspectionPath, consumer: consumer).ShouldBeEmpty();
+        string[] signatures = ["InspectionRoot()", "_Ready()", "_Process(double)", "_ExitTree()", "Recheck()",
+            "Cancel()", "Read(string)", "ChangeCategory(long)", "ChangeStatus(long)", "Filter(string)",
+            "Select(long)", "Details()", "Copy()", "Project()", "Rows()", "Selection()"];
+        EngineAccessPolicy.InspectionTuples.ShouldBe(expected: signatures.Select(selector: signature =>
+                InspectionPath + "|KingdomZombies.Inspection|InspectionRoot|" + signature));
+        SyntaxTree tree = consumer.Parse(source: source, path: InspectionPath);
+        BaseMethodDeclarationSyntax[] methods = [.. tree.GetRoot(cancellationToken:
+                TestContext.Current.CancellationToken).DescendantNodes()
+                .OfType<BaseMethodDeclarationSyntax>()];
+        methods.Length.ShouldBe(expected: signatures.Length);
+        foreach (BaseMethodDeclarationSyntax method in methods)
+        {
+            CheckInvocation(consumer: consumer, source: source, method: method);
+        }
+
+        CheckOwnership(consumer: consumer, source: source);
+    }
+
+    /// <summary>Only the actual cross-assembly immutable contract and engine scene script are public.</summary>
+    [Fact]
+    public void Authorize_PublicContracts_RejectsAdjacentTypesAndPaths()
+    {
+        foreach ((string path, string type, int project) in new[]
+        {
+            ("src/core/ContentPack.cs", "ContentPack", 0),
+            (InspectionPath, "InspectionRoot", 2),
+        })
+        {
+            var consumer = ConsumerCompilation.Read(root: ProofProtocol.Root,
+                    project: ProjectEvaluator.Expected[project]);
+            string source = File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: path));
+            ConsumerCompilation.RequireValid(compilation: consumer.Create(source: source, path: path));
+            ArchitecturePolicy.Visibility(root: ProofProtocol.Root, source: source, path: path,
+                    options: consumer.Options).ShouldBeEmpty();
+            string adjacent = source + "\npublic sealed class " + type + "Adjacent { }\n";
+            ConsumerCompilation.RequireValid(compilation: consumer.Create(source: adjacent, path: path));
+            ArchitecturePolicy.Visibility(root: ProofProtocol.Root, source: adjacent, path: path,
+                    options: consumer.Options).Single().ShouldContain(expected: "R-34: undeclared public type");
+            ArchitecturePolicy.Visibility(root: ProofProtocol.Root, source: source,
+                    path: path.Replace(oldValue: type + ".cs", newValue: "AdjacentInspection.cs",
+                            comparisonType: StringComparison.Ordinal), options: consumer.Options).ShouldNotBeEmpty();
+            CheckVisibilityRegistry(consumer: consumer, source: source, path: path, type: type);
+        }
+    }
+
     /// <summary>A missing independent shard cannot hide the exact valid bow or independent census.</summary>
     [Fact]
     public void Load_PartialPack_PreservesBowAndCensus()
@@ -209,6 +264,113 @@ public sealed class ContentInspectorTests
         pack.Entries.Keys.ShouldBe(expected: ["common.bow"]);
         pack.Diagnostics.Any(predicate: error => error.Contains(value: "field outputs",
                 comparisonType: StringComparison.Ordinal)).ShouldBeTrue();
+    }
+
+    private const string InspectionPath = "src/godot-game/inspection/InspectionRoot.cs";
+    private const string Native = "Godot.GD.Print(what: [1]);";
+
+    private static void CheckInvocation(ConsumerCompilation consumer, string source,
+            BaseMethodDeclarationSyntax method)
+    {
+        string suffix = method is MethodDeclarationSyntax ordinary && ordinary.Identifier.ValueText is "Read"
+                ? "return null;" : "";
+        const string Guard = "_gateway.RequireThread();";
+        string positive = Body(source: source, method: method, body: Guard + Native + suffix);
+        EngineAccessPolicy.Check(source: positive, path: InspectionPath, consumer: consumer).ShouldBeEmpty();
+        foreach (string body in new[]
+        {
+            Native + suffix,
+            Native + Guard + suffix,
+            "if (false) { " + Guard + " }" + Native + suffix,
+            "goto Skip; " + Guard + " Skip: " + Native + suffix,
+            "new KingdomZombies.Proofs.MainThreadGateway().RequireThread();" + Native + suffix,
+            Guard + "System.Action misuse = new Godot.Node().QueueFree;" + suffix,
+            Guard + "System.Action misuse = () => { " + Native + " }; misuse();" + suffix,
+            Guard + "System.Threading.Tasks.Task.Run(action: () => { " + Native + " });" + suffix,
+            Guard + "System.Threading.Tasks.Task.CompletedTask.ContinueWith(continuationAction: task => { "
+                    + Native + " });" + suffix,
+        })
+        {
+            EngineAccessPolicy.Check(source: Body(source: source, method: method, body: body),
+                    path: InspectionPath, consumer: consumer).ShouldNotBeEmpty(
+                            customMessage: "Exact invocation boundary: " + method.ToString());
+        }
+
+        EngineAccessPolicy.Check(source: positive.Replace(oldValue: "readonly MainThreadGateway _gateway",
+                newValue: "MainThreadGateway _gateway", comparisonType: StringComparison.Ordinal),
+                path: InspectionPath, consumer: consumer).ShouldNotBeEmpty();
+    }
+
+    private static string Body(string source, BaseMethodDeclarationSyntax method, string body)
+    {
+        BlockSyntax block = method.Body ?? throw new InvalidOperationException();
+        return source[..block.SpanStart] + "{" + body + "}" + source[block.Span.End..];
+    }
+
+    private static void CheckVisibilityRegistry(ConsumerCompilation consumer, string source, string path, string type)
+    {
+        string root = Path.Combine(path1: ProofProtocol.Root, path2: ".phase4/hub-policy-controls/"
+                + Guid.NewGuid().ToString(format: "N"));
+        string directory = Path.Combine(path1: root, path2: "docs/code");
+        Directory.CreateDirectory(path: directory);
+        string file = Path.Combine(path1: directory, path2: "visibility-exemptions.json");
+        JsonObject registry = JsonNode.Parse(json: File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root,
+                path2: "docs/code/visibility-exemptions.json")))?.AsObject() ?? throw new InvalidOperationException();
+        File.WriteAllText(path: file, contents: registry.ToJsonString());
+        ArchitecturePolicy.Visibility(root: root, source: source, path: path, options: consumer.Options)
+                .ShouldBeEmpty();
+        string adjacent = source + "\npublic sealed class " + type + "Adjacent { }\n";
+        ConsumerCompilation.RequireValid(compilation: consumer.Create(source: adjacent, path: path));
+        string space = StringComparer.Ordinal.Equals(x: path, y: InspectionPath)
+                ? "KingdomZombies.Inspection" : "KingdomZombies.Core";
+        registry["permissions"]?.AsArray().Add(item: new JsonObject
+        {
+            ["path"] = path,
+            ["type"] = space + "." + type + "Adjacent",
+            ["reason"] = "A forged extra exact-looking permission must not expand the independent authority.",
+        });
+        File.WriteAllText(path: file, contents: registry.ToJsonString());
+        ArchitecturePolicy.Visibility(root: root, source: adjacent, path: path, options: consumer.Options)
+                .ShouldBe(expected: ["R-34: invalid or expanded exact visibility registry"]);
+        string clone = source.Replace(oldValue: "namespace " + space + ";",
+                newValue: "namespace " + space + ".Adjacent;", comparisonType: StringComparison.Ordinal);
+        CSharpCompilation compilation = consumer.Create();
+        ConsumerCompilation.RequireValid(compilation: compilation.AddSyntaxTrees(consumer.Parse(source: clone,
+                path: path)));
+        ArchitecturePolicy.Visibility(root: ProofProtocol.Root, source: clone, path: path, options: consumer.Options)
+                .ShouldNotBeEmpty();
+    }
+
+    private static void CheckOwnership(ConsumerCompilation consumer, string source)
+    {
+        CSharpCompilation compilation = consumer.Create(source: source, path: InspectionPath);
+        SyntaxTree tree = compilation.SyntaxTrees.Single(predicate: candidate => StringComparer.Ordinal.Equals(
+                x: candidate.FilePath, y: InspectionPath));
+        SyntaxTree wrongPath = tree.WithFilePath(path: "src/godot-game/inspection/AdjacentInspection.cs");
+        CSharpCompilation wrong = compilation.ReplaceSyntaxTree(oldTree: tree, newTree: wrongPath);
+        ConsumerCompilation.RequireValid(compilation: wrong);
+        EngineAccessPolicy.CheckTree(tree: wrongPath, compilation: wrong).ShouldNotBeEmpty();
+        SyntaxTree clone = consumer.Parse(source: source.Replace(oldValue: "namespace KingdomZombies.Inspection;",
+                newValue: "namespace KingdomZombies.Inspection.Adjacent;", comparisonType: StringComparison.Ordinal),
+                path: InspectionPath);
+        CSharpCompilation sibling = compilation.AddSyntaxTrees(trees: clone);
+        ConsumerCompilation.RequireValid(compilation: sibling);
+        EngineAccessPolicy.CheckTree(tree: clone, compilation: sibling).ShouldNotBeEmpty();
+        TypeDeclarationSyntax type = tree.GetRoot().DescendantNodes().OfType<TypeDeclarationSyntax>().Single();
+        foreach (string member in new[]
+        {
+            "private void Adjacent() { _gateway.RequireThread(); " + Native + " }",
+            "private void Recheck(int extra) { _gateway.RequireThread(); " + Native + " }",
+            "private async System.Threading.Tasks.Task Recheck(string extra) { _gateway.RequireThread(); "
+                    + "await System.Threading.Tasks.Task.Delay(millisecondsDelay: 1); " + Native + " }",
+        })
+        {
+            MemberDeclarationSyntax added = SyntaxFactory.ParseMemberDeclaration(text: member)
+                    ?? throw new InvalidOperationException();
+            string changed = tree.GetRoot().ReplaceNode(oldNode: type, newNode: type.AddMembers(added))
+                    .ToFullString();
+            EngineAccessPolicy.Check(source: changed, path: InspectionPath, consumer: consumer).ShouldNotBeEmpty();
+        }
     }
 
     private static byte[]? Read(string path)

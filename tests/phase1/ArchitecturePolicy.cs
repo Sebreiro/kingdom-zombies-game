@@ -39,7 +39,9 @@ internal static class ArchitecturePolicy
             "src/multiplayer-abstractions/SessionAdvertisement.cs|"
                     + "KingdomZombies.Multiplayer.Abstractions.SessionAdvertisement",
             "src/multiplayer-abstractions/PlayerProfile.cs|"
-                    + "KingdomZombies.Multiplayer.Abstractions.PlayerProfile"];
+                    + "KingdomZombies.Multiplayer.Abstractions.PlayerProfile",
+            "src/core/ContentPack.cs|KingdomZombies.Core.ContentPack",
+            "src/godot-game/inspection/InspectionRoot.cs|KingdomZombies.Inspection.InspectionRoot"];
         JsonArray rows = registry["permissions"]?.AsArray()
                 ?? throw new InvalidDataException(message: "VISIBILITY_REGISTRY: missing permissions");
         string[] permissions = [..rows.Select(selector: row => row?["path"]?.GetValue<string>() + "|"
