@@ -1,6 +1,7 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
 const {TextDecoder,isDeepStrictEqual:equal}=require('node:util');
+const {spawnSync}=require('node:child_process');
 const ROOT=path.resolve(__dirname,'../..'),INDEX='src/godot-game/content/pack-index.json';
 const EXPECTED='tools/phase4/expected-obligations.json',MAX_FILE=32*1024*1024,MAX_TOTAL=256*1024*1024;
 const hash=value=>crypto.createHash('sha256').update(value).digest('hex');
@@ -81,6 +82,8 @@ function resolveOrigin(origins,selection){
 function recipe(root,ref,files){
   const record=parse(fileRef(root,ref,files),ref.path);
   need(record.recipe&&typeof record.recipe.code==='string'&&record.recipe.code.length>0,'RECIPE_REQUIRED',ref.path);
+  text(record.recipe.language,'recipe.language');
+  need(Array.isArray(record.recipe.transformations)&&record.recipe.transformations.length>0&&record.recipe.transformations.every(x=>typeof x==='string'&&x.length>0),'TRANSFORMATIONS_REQUIRED',ref.path);
   digest(record.recipe.sha256,'recipe.sha256');need(hash(record.recipe.code)===record.recipe.sha256,'RECIPE_HASH',ref.path);
   return record;
 }
@@ -120,12 +123,16 @@ function validate(root,index=document(root,INDEX),register=expected(),{requireCo
             production.preservation?.rawSpriteSha256===origin.rawSha256&&production.preservation?.originals?.some(x=>x.path===origin.owner&&x.sha256===origin.ownerSha256),'PRODUCTION_ORIGIN_BINDING',output.id);
           need(origin.streams.every(x=>production.preservation.originals.some(p=>p.path===x.path&&p.sha256===x.sha256)),'PRODUCTION_STREAM_BINDING',output.id);
           need(production.bundle&&hash(Buffer.from(production.bundle.rawSpriteBase64??'','base64'))===origin.rawSha256,'RETAINED_SOURCE_HASH',output.id);
+          for(const [type,id,name]of [['SpriteAtlas',production.source.atlasId,production.source.atlasName],['Texture2D',production.source.textureId,production.source.textureName]])
+            if(id!==undefined)need(origin.dependencies.some(x=>x.owner===origin.owner&&x.type===type&&x.objectId===id&&x.name===name),'SOURCE_DEPENDENCY_MISSING',output.id+' '+type);
+          need(!production.source.stream||origin.streams.length===1,'SOURCE_STREAM_MISSING',output.id);
           for(const stream of origin.streams){digest(stream.rangeSha256,'stream.rangeSha256');
             need(production.preservation.streamRangeSha256===stream.rangeSha256&&production.source.stream?.path===stream.path&&
               production.source.stream.offset===stream.offset&&production.source.stream.size===stream.bytes,'PRODUCTION_STREAM_BINDING',output.id);}
         }
       }
       need(production.id===output.id&&production.version===output.version,'PRODUCTION_IDENTITY',output.id);
+      need(output.route!=='reuse'||(production.route==='reused-native-pixels'&&Buffer.from(production.bundle?.originalExportPngBase64??'','base64').equals(value)),'REUSE_CHANGED_BYTES',output.id);
       need(output.metadata&&Object.keys(output.metadata).length>0&&output.applicability&&Object.keys(output.applicability).length>0,'METADATA_REQUIRED',output.id);
       if(output.metadata.kind==='image')need(value.subarray(0,8).equals(Buffer.from('89504e470d0a1a0a','hex'))&&value.readUInt32BE(16)===output.metadata.width&&value.readUInt32BE(20)===output.metadata.height&&production.image?.pngSha256===output.sha256,'IMAGE_METADATA',output.id);
       text(output.inspection.route,'inspection.route');need(depIds.has(output.inspection.dependency),'INSPECTION_DEPENDENCY',output.id);
@@ -168,8 +175,9 @@ function merge(base,addition){
   return result;
 }
 function destination(root){
-  const absolute=path.resolve(root),repo=fs.realpathSync.native(ROOT),rel=path.relative(repo,absolute).split(path.sep).join('/');relative(rel);
+  const absolute=path.resolve(root),repo=fs.realpathSync.native(ROOT),rel=path.relative(repo,absolute).split(path.sep).join('/');
   need(rel.startsWith('.phase4/')||rel.startsWith('production/phase4/published/'),'PUBLICATION_ROOT_DENIED',rel);
+  relative(rel);
   inside(repo,rel);return absolute;
 }
 function write(root,name,value){
@@ -208,4 +216,36 @@ function readPublished(publicationRoot){
   const index=parse(value,INDEX),result=validate(generation,index);need(!result.diagnostics.some(x=>x.code==='OUTPUT_INVALID')&&result.status===pointer.status,'PUBLICATION_INVALID');
   return {pointer,index,result};
 }
-module.exports={ROOT,INDEX,EXPECTED,hash,need,text,relative,inside,bytes,parse,document,expected,sourceKey,resolveOrigin,validate,merge,destination,write,publish,readPublished};
+function recoverPublication({publicationRoot,invocation}){
+  const root=destination(publicationRoot),owner=document(root,'publication.lock');
+  need(owner.invocation===invocation&&Number.isSafeInteger(owner.pid)&&owner.pid>0,'RECOVERY_OWNER');
+  let absent=false;try{process.kill(owner.pid,0);}catch(error){if(error.code==='ESRCH')absent=true;else throw error;}
+  need(absent,'RECOVERY_OWNER_ALIVE');
+  const current=fs.existsSync(inside(root,'current.json'))?readPublished(root):undefined;
+  for(const name of ['stage-'+invocation,'current-'+invocation+'.json',...(current?.pointer.invocation===invocation?[]:['generations/'+invocation])]){
+    const file=inside(root,name);if(fs.existsSync(file))fs.rmSync(file,{recursive:true});
+  }
+  need(equal(document(root,'publication.lock'),owner),'RECOVERY_LOCK_CHANGED');fs.unlinkSync(inside(root,'publication.lock'));
+  return {invocation,status:'interrupted',published:current?.pointer.invocation===invocation,cleanup:'owned-stage-pointer-and-unreferenced-generation-only'};
+}
+function worker(args){
+  need(args.length===5&&args[0]==='--publish-worker','WORKER_USAGE');
+  const [,sourceRoot,publicationRoot,invocation,pauseAt]=args;
+  need(['none','locked','staged','validated','before-commit','compete'].includes(pauseAt),'WORKER_PAUSE');
+  const index=document(sourceRoot,INDEX);
+  const result=publish({sourceRoot,index,publicationRoot,invocation,observe:step=>{
+    if(step==='locked'&&pauseAt==='compete'){
+      const competitor=spawnSync(process.execPath,[__filename,'--publish-worker',sourceRoot,publicationRoot,invocation+'-peer','none'],
+        {cwd:ROOT,windowsHide:true,encoding:'utf8',timeout:5000,maxBuffer:65536,shell:false});
+      need(competitor.status===1&&!competitor.error&&competitor.stderr.includes('PUBLICATION_LOCKED'),'LIVE_COMPETITOR_RESULT');
+      need(document(publicationRoot,'publication.lock').pid===process.pid,'LIVE_OWNER_LOCK_CHANGED');
+      write(publicationRoot,'live-competition.json',{ownerPid:process.pid,invocation,subjectStatus:'fail',code:competitor.status,
+        stderr:competitor.stderr,stdout:competitor.stdout,observed:'PUBLICATION_LOCKED while owner is alive'});
+    }
+    if(step===pauseAt){process.stdout.write('PUBLICATION_PAUSED '+invocation+' '+step+'\n');
+      Atomics.wait(new Int32Array(new SharedArrayBuffer(4)),0,0,30000);throw new Error('PAUSE_DEADLINE '+invocation);}
+  }});
+  console.log(JSON.stringify(result));
+}
+module.exports={ROOT,INDEX,EXPECTED,hash,need,text,relative,inside,bytes,parse,document,expected,sourceKey,resolveOrigin,validate,merge,destination,write,publish,readPublished,recoverPublication,worker};
+if(require.main===module)try{worker(process.argv.slice(2));}catch(error){console.error(error.stack);process.exitCode=1;}

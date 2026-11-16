@@ -54,6 +54,8 @@ function provenance(context){
     ['missing-recipe','FILE_REFERENCE_REQUIRED',x=>{delete x.outputs[0].production;}],
     ['missing-hash','HASH_REQUIRED',x=>{delete x.outputs[0].sha256;}],
     ['missing-dependencies','DEPENDENCIES_REQUIRED',x=>{delete x.outputs[0].dependencies;}],
+    ['missing-source-dependencies','SOURCE_DEPENDENCY_MISSING',x=>{x.origins[0].dependencies=[];x.outputs[0].origins[0].dependencies=[];}],
+    ['missing-source-stream','SOURCE_STREAM_MISSING',x=>{x.origins[0].streams=[];x.outputs[0].origins[0].streams=[];}],
     ['missing-evidence','EVIDENCE_REQUIRED',x=>{delete x.outputs[0].evidence;}],
     ['false-source-evidence','EVIDENCE_MISSING',x=>{x.outputs[0].evidence.source='verified';}],
     ['borrowed-source-evidence','EVIDENCE_BINDING',(x,root)=>{
@@ -97,4 +99,78 @@ const definition={group:'source',title:'Exact independent census, provenance and
   reset:'Run-owned copies and generations only; no game/audio; preserve failure evidence and originals',
   evidence:['inputs.json','pack-diagnostics.json','h01-wrong-owner.json','h05-interrupted-before-validation.json','h05-competing-lock.json','inputs-after.json','result.json']};
 runner.registerCase('source.provenance',definition,provenance);
-module.exports={snapshot,subject,failure,invalid,reference,sharedSubject,provenance,definition};
+async function publication(context){
+  const before=snapshot(),index=document(ROOT,INDEX),publicationRoot=path.join(context.directory,'publication'),script=path.join(ROOT,'tools/phase4/content.cjs');
+  write(context.directory,'inputs.json',before);const baseline=publish({sourceRoot:ROOT,index,publicationRoot,invocation:context.nonce+'-baseline'});
+  const observations=[];let observedCompetitor=false;
+  for(const step of ['locked','staged','validated','before-commit']){
+    const invocation=context.nonce+'-'+step,name='interrupted-'+step,pointer=hash(bytes(publicationRoot,'current.json'));let caught;
+    try{await runner.command(context,name,process.execPath,[script,'--publish-worker',ROOT,publicationRoot,invocation,step],
+      {timeout:10000,interruptMarker:'PUBLICATION_PAUSED '+invocation+' '+step});}catch(error){caught=error;}
+    const command=document(context.directory,name+'.command.json');
+    need(caught?.message.includes('LOADER_INTERRUPTED')&&command.reason==='LOADER_INTERRUPTED'&&command.streamsClosed&&
+      !command.cleanupError&&command.stdout.includes('PUBLICATION_PAUSED '+invocation+' '+step),'H05_ACTUAL_INTERRUPTION',step);
+    need(hash(bytes(publicationRoot,'current.json'))===pointer&&readPublished(publicationRoot).pointer.invocation===baseline.invocation,'H05_PARTIAL_PUBLICATION',step);
+    failure(context,name+'-retry','PUBLICATION_LOCKED',()=>publish({sourceRoot:ROOT,index,publicationRoot,invocation:context.nonce+'-retry-'+step}));
+    if(step==='locked'){
+      let competitor;try{await runner.command(context,'competitor',process.execPath,[script,'--publish-worker',ROOT,publicationRoot,context.nonce+'-competitor','none'],{timeout:10000});}catch(error){competitor=error;}
+      const record=document(context.directory,'competitor.command.json');
+      need(competitor&&record.code===1&&record.stderr.includes('PUBLICATION_LOCKED')&&record.streamsClosed&&!record.cleanupError,'H05_PROCESS_COMPETITION');
+      write(context.directory,'competing-subject.json',{nonce:context.nonce,subjectStatus:'fail',diagnostic:'PUBLICATION_LOCKED',pid:record.pid});observedCompetitor=true;
+    }
+    failure(context,name+'-wrong-recovery','RECOVERY_OWNER',()=>content.recoverPublication({publicationRoot,invocation:'wrong-owner'}));
+    const recovered=content.recoverPublication({publicationRoot,invocation});
+    need(!recovered.published&&!fs.existsSync(inside(publicationRoot,'publication.lock'))&&hash(bytes(publicationRoot,'current.json'))===pointer,'H05_RECOVERY');
+    need(!fs.existsSync(inside(publicationRoot,'stage-'+invocation))&&!fs.existsSync(inside(publicationRoot,'generations/'+invocation)),'H05_ORPHAN_CLEANUP');
+    write(context.directory,name+'-result.json',{nonce:invocation,caseId:'heldout.H05',status:'interrupted',verified:false,command:name+'.command.json',recovered});
+    observations.push({step,invocation,status:'interrupted',verified:false,pointerUnchanged:true,recovered});
+  }
+  need(observedCompetitor,'H05_COMPETITOR_NOT_RUN');
+  await runner.command(context,'live-competition',process.execPath,[script,'--publish-worker',ROOT,publicationRoot,context.nonce+'-alive','compete'],{timeout:10000});
+  const liveCompetition=document(publicationRoot,'live-competition.json');
+  need(liveCompetition.subjectStatus==='fail'&&liveCompetition.observed==='PUBLICATION_LOCKED while owner is alive','H05_LIVE_COMPETITION');
+  let liveRecovery=false;publish({sourceRoot:ROOT,index,publicationRoot,invocation:context.nonce+'-live',observe:step=>{
+    if(step==='locked'){failure(context,'live-owner-recovery','RECOVERY_OWNER_ALIVE',()=>content.recoverPublication({publicationRoot,invocation:context.nonce+'-live'}));liveRecovery=true;}}});
+  need(liveRecovery,'RECOVERY_LIVE_NOT_RUN');
+  const pointer=hash(bytes(publicationRoot,'current.json'));
+  const empty={...structuredClone(index),outputs:[]};
+  failure(context,'no-regression-to-empty','PUBLICATION_REGRESSION',()=>publish({sourceRoot:ROOT,index:empty,publicationRoot,invocation:context.nonce+'-empty'}));
+  const altered=structuredClone(index);altered.outputs[0].metadata.note='changed stable version';
+  failure(context,'no-overwrite-stable-identity','IDENTITY_IMMUTABLE',()=>publish({sourceRoot:ROOT,index:altered,publicationRoot,invocation:context.nonce+'-changed'}));
+  need(hash(bytes(publicationRoot,'current.json'))===pointer,'FAILED_RUN_INHERITED_PUBLICATION');
+  const broken=subject(context,'broken');fs.unlinkSync(inside(broken.root,'src/godot-game/assets/common/bow.png'));
+  failure(context,'metadata-only-cannot-publish','PUBLICATION_INVALID_OUTPUT',()=>publish({sourceRoot:broken.root,index:broken.index,publicationRoot,invocation:context.nonce+'-missing'}));
+  need(hash(bytes(publicationRoot,'current.json'))===pointer,'MISSING_BYTES_PUBLISHED');
+  failure(context,'original-root-denied','PUBLICATION_ROOT_DENIED',()=>content.destination('D:/Work/Games/KindomCrown/recovered'));
+  failure(context,'root-escape-denied','PUBLICATION_ROOT_DENIED',()=>content.destination(path.join(ROOT,'../outside')));
+  failure(context,'encoding-escape-denied','PATH_INVALID',()=>content.inside(ROOT,'.phase4/%2e%2e/outside'));
+  failure(context,'windows-device-denied','PATH_INVALID',()=>content.inside(ROOT,'.phase4/con.txt'));
+  const junction=inside(context.directory,'reparse');fs.symlinkSync(publicationRoot,junction,process.platform==='win32'?'junction':'dir');
+  try{failure(context,'reparse-denied','PATH_REPARSE',()=>content.destination(junction));}finally{fs.unlinkSync(junction);}
+  const runs=[];
+  for(let i=0;i<3;i++){
+    const shuffled=structuredClone(index);if(i%2)shuffled.shards.reverse();
+    const fresh=publish({sourceRoot:ROOT,index:shuffled,publicationRoot,invocation:context.nonce+'-repeat-'+i});
+    need(equal(fresh.outputs,baseline.outputs),'H33_EXPORT_IDENTITIES');const imported=readPublished(publicationRoot);
+    need(imported.index.outputs.length===1&&imported.result.valid.length===1&&!imported.result.complete,'H33_IMPORT_IDENTITIES');runs.push(fresh);
+  }
+  const combined=sharedSubject(context);combined.index.shards.reverse();combined.index.outputs.reverse();
+  const compositionRoot=path.join(context.directory,'composition');
+  publish({sourceRoot:combined.root,index:combined.index,publicationRoot:compositionRoot,invocation:context.nonce+'-shared'});
+  const imported=readPublished(compositionRoot);need(imported.result.valid.length===2&&imported.result.covered.length===0,'H33_SHARED_COMPOSITION');
+  const forward=content.merge(index,{outputs:[],origins:[],shards:[{...index.shards.find(x=>x.status==='pending'),status:'selected',version:1,bytes:15,sha256:'a'.repeat(64)}]});
+  need(forward.shards.filter(x=>x.status==='selected').length===2,'PENDING_SHARD_TRANSITION');
+  need(equal(snapshot(),before),'PRODUCTION_CHANGED');write(context.directory,'inputs-after.json',snapshot());
+  write(context.directory,'publication-trials.json',{observations,runs,unchangedOriginals:true});
+  return {heldout:{H05:'pass-source-actual-process-interruption-and-contention',H33:'pass-source-repeat-export-import'},
+    observations,runs,liveCompetition,finalNativeListeningJudgment:'pending-04-32/04-33',wholePack:'incomplete'};
+}
+runner.registerCase('source.publication',{...definition,title:'Actual interrupted, competing and repeated publication',order:4,
+  acceptance:['AC-02','AC-03','AC-16','AC-19','AC-22'],
+  actions:['Publish actual tracked bow to a validated immutable generation','Interrupt owned worker at four observed stages',
+    'Run competing separate process against its exclusive lock','Recover only dead exact invocation ownership',
+    'Reject regressed, stale, missing-byte, reparse and escaped publications','Repeat export/import and compose explicit shared identities'],
+  expected:'Four actual interrupted failed workers and actual locked competitor preserve current validated output; fresh repeated runs preserve one stable selected identity; no whole-pack completion',
+  evidence:['inputs.json','interrupted-locked.command.json','interrupted-staged.command.json','interrupted-validated.command.json',
+    'interrupted-before-commit.command.json','competitor.command.json','publication-trials.json','inputs-after.json','result.json']},publication);
+module.exports={snapshot,subject,failure,invalid,reference,sharedSubject,provenance,definition,publication};
