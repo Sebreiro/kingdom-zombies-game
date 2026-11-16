@@ -156,8 +156,8 @@ function terminate(child){
     need(!killed.error&&killed.status===0,'OWNED_CLEANUP_FAILED',killed.stderr);
   }else try{process.kill(-child.pid,'SIGKILL');}catch(error){if(error.code!=='ESRCH')throw error;}
 }
-async function command(context,name,executable,args,{timeout=60000,interruptMarker}={}){
-  const startedAt=new Date().toISOString(),child=spawn(executable,args,{cwd:context.directory,env:environment(context.directory),
+async function command(context,name,executable,args,{timeout=60000,interruptMarker,env,cwd}={}){
+  const startedAt=new Date().toISOString(),child=spawn(executable,args,{cwd:cwd??context.directory,env:env??environment(context.directory),
     windowsHide:true,shell:false,detached:process.platform!=='win32'});
   let stdout='',stderr='',spawnError,reason,cleanupError;
   function stop(code){if(reason)return;reason=code;try{terminate(child);}catch(error){cleanupError=error.message;}}
@@ -448,4 +448,5 @@ module.exports={main,registerCase,cases,runTracer,validate,hash,inside,document,
 require('./cases/provenance.cjs');
 require('./cases/audio-feasibility.cjs');
 require('./cases/export-layout.cjs');
+require('./cases/export-profile.cjs');
 if(require.main===module)main(process.argv.slice(2)).catch(error=>{console.error(error.stack);process.exitCode=1;});
