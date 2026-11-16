@@ -1,12 +1,12 @@
 ---
 phase: 03-four-player-lan-foundation
-reviewed: 2026-11-16T01:54:34Z
+reviewed: 2026-11-16T02:32:40Z
 depth: standard
-reviewed_revision: 2f20e72fec4156322f2b3646d08977b5eb52d675
-build_revision: 2f20e72fec4156322f2b3646d08977b5eb52d675
+reviewed_revision: 8a7f3a70c1f5bb8fae0f4811cf051b30df8abdc3
+build_revision: 8a7f3a70c1f5bb8fae0f4811cf051b30df8abdc3
 diff_base: 87e0b44
-scope_files: 120
-files_reviewed: 117
+scope_files: 123
+files_reviewed: 120
 files_reviewed_list:
   - .gitignore
   - docs/code/engine-generated-spans.json
@@ -38,6 +38,7 @@ files_reviewed_list:
   - src/godot-game/foundation/FoundationDiagnostics.cs
   - src/godot-game/foundation/FoundationDisplay.cs
   - src/godot-game/foundation/FoundationDrawObserver.cs
+  - src/godot-game/foundation/FoundationDrawRequest.cs
   - src/godot-game/foundation/FoundationEndpoint.cs
   - src/godot-game/foundation/FoundationEnvelope.cs
   - src/godot-game/foundation/FoundationEphemeralProfile.cs
@@ -54,6 +55,7 @@ files_reviewed_list:
   - src/godot-game/foundation/FoundationRuntimeState.cs
   - src/godot-game/foundation/FoundationServices.cs
   - src/godot-game/foundation/FoundationView.cs
+  - src/godot-game/foundation/FoundationWireFrame.cs
   - src/godot-game/foundation/FoundationWorld.tscn
   - src/godot-game/foundation/LanDiscoveryService.cs
   - src/godot-game/foundation/LocalProfileService.cs
@@ -89,6 +91,7 @@ files_reviewed_list:
   - tests/phase1/FoundationScenarioClock.cs
   - tests/phase1/FoundationServiceSubstitutionProof.cs
   - tests/phase1/FoundationTestConnection.cs
+  - tests/phase1/FoundationWireFrameTests.cs
   - tests/phase1/GraphFixture.cs
   - tests/phase1/KingdomZombies.Phase1.Tests.csproj
   - tests/phase1/SuppressionTests.cs
@@ -140,17 +143,17 @@ status: clean
 
 # Phase 03: Code Review Report
 
-**Reviewed:** 2026-11-16T01:54:34Z  
+**Reviewed:** 2026-11-16T02:32:40Z  
 **Depth:** standard  
-**Source files reviewed:** 117  
-**Explicit scope:** all 120 paths from `.phase3/review-fix-union.txt`, preserving the complete original scope and subsequent helpers/consumers, including the new PNG worker; three planning-context paths are listed separately above  
+**Source files reviewed:** 120  
+**Explicit scope:** all 123 paths from `.phase3/review-fix-union.txt`, preserving the complete original scope and subsequent helpers/consumers, including the draw-request and wire-frame helpers and codec controls; three planning-context paths are listed separately above  
 **Status:** clean  
-**Reviewed source / pinned build revision:** `2f20e72fec4156322f2b3646d08977b5eb52d675`  
+**Reviewed source / pinned build revision:** `8a7f3a70c1f5bb8fae0f4811cf051b30df8abdc3`  
 **Diff base:** `87e0b44`
 
 ## Summary
 
-This independent re-review preserves the complete original source/context union and all earlier assessments, adding the phase-only SourceLink target and the later graph-fixture/matrix consumers for a total of 120 paths / 117 source paths, including the draw-stream control and PNG worker. The complete Phase 3 source review above is carried forward together with a direct recheck of the six-path repair diff from `a35bd6f` to `166a32ad6a7541c4f5eed1378def0a86e9bea632`: guest publication, native projection, native regression, protocol proof, independent catalog and saved scenarios. Every repair path was already inside the retained scope. Their production callers, trust boundaries and actual regression consumers were traced; the cumulative fix ledger was treated as a claim to confirm.
+This independent re-review preserves the complete original source/context union and all earlier assessments, adding the phase-only SourceLink target and the later graph-fixture/matrix consumers for a total of 123 paths / 120 source paths, including the draw-stream control, PNG worker, draw-request/wire-frame helpers and codec control. The complete Phase 3 source review above is carried forward together with a direct recheck of the six-path repair diff from `a35bd6f` to `166a32ad6a7541c4f5eed1378def0a86e9bea632`: guest publication, native projection, native regression, protocol proof, independent catalog and saved scenarios. Every repair path was already inside the retained scope. Their production callers, trust boundaries and actual regression consumers were traced; the cumulative fix ledger was treated as a claim to confirm.
 
 The final focused integration recheck additionally examines committed source `e25a500d12006e256d84b8b241d0cee9c507f278`. Its only source changes since the prior clean review are `tools/phase3/revisions.cjs` and `revisions.test.cjs`, both already in the 115-path scope. The exact five added closure-report permissions and their actual Git/SDK fixture consumers introduce no new actionable finding; the existing fourteen resolved dispositions are preserved. Intervening canonical review/gate/fix/continuation and shared-state files are metadata, not additional changed game source.
 
@@ -164,9 +167,9 @@ The latest bounded recheck covers native batch 3 at `4ea54ca731c90de700480033f58
 
 The preceding batch-4 recheck found CR-11 in ordinary browser cancellation. The current four-file repair at `f32e0bd8911e0c185a6fa10b24c251f1d69494cd` transfers cancellation to the Root-owned runtime retirement helper, retains older unfinished drains during rapid replacement and polls/disposes every retiring coordinator through its proper lifetime. The production Menu control uses that same retirement owner and passes its pending-connection, repeated-cancel and 249/250 ms assertions.
 
-The current bounded source recheck covers batch 9 at `2f20e72fec4156322f2b3646d08977b5eb52d675`: explicit framework-only delivery semantics, reliable control traffic and replaceable ordered complete-state publication, their provider/substitute consumers and authority controls. No new actionable defect was found. All seventeen prior findings and the complete 120-path / 117-source scope remain resolved/preserved. The latest full-selection result remains 480/481 with a real delivered-state timing failure; current headless proofs do not establish repaired desktop acceptance.
+The current bounded source recheck resolves WR-07 at `8a7f3a70c1f5bb8fae0f4811cf051b30df8abdc3` by inspecting the one-file test change since the c9 batch-10 review. Windows sharing/deletion-denial controls are now explicitly scoped to Windows, while portable validation and one-time consumption remain unconditional. Production request/codec source is unchanged. No new actionable defect was found. All eighteen cumulative findings are resolved; scope remains 123 paths / 120 source paths, with actual native acceptance separate.
 
-**All seventeen prior findings are resolved. No new actionable defect or open finding remains.** The source scope is 120 paths / 117 source paths. Previous passed/failed records keep their actual revision/tool identities; no failed native run or pending full selection is upgraded by this review. Actual no-window and rendered acceptance retain the limits below.
+**All eighteen cumulative findings are resolved. No new actionable defect or open finding remains.** The source scope is 123 paths / 120 source paths. Previous passed/failed records keep their actual revision/tool identities; no failed native run or pending full selection is upgraded by this review. Actual no-window and rendered acceptance retain the limits below.
 
 This is an independent source re-review during the post-review repair cycle, not completed rendered acceptance. No real game window, VM, desktop input, broad test suite, build, branch operation or commit was executed by this reviewer. The renewed retained no-window report was reconciled through the current production validator and its source/tool tuple independently recomputed. The earlier .NET arithmetic probe remains defect-history evidence; the repair's actual coordinator and headless native projection executions are retained separately below. The first full selected execution now has real desktop results and retained failures, as recorded below; it is not accepted final completion. No new rendered, physical-input, image-appearance, other-OS, physical mixed-computer LAN or release acceptance is granted by this source review.
 
@@ -174,11 +177,51 @@ Necessity was assessed using the required rubric; no necessity finding is assert
 
 ## Narrative Findings (AI reviewer)
 
-No open Critical/BLOCKER, Warning or Info findings remain at this reviewed source revision.
+No open Critical/BLOCKER, Warning or Info finding remains at this reviewed source revision.
+
+## WR-07 bounded resolution recheck
+
+**Current reviewed source/build stamp:** `8a7f3a70c1f5bb8fae0f4811cf051b30df8abdc3`. **Disposition:** resolved; all eighteen findings are now closed.
+
+The only changed source since the c9 review is `FoundationCapturePublicationTests.cs`. `CheckWindowsLocks` returns immediately outside Windows, so both actual FileStream sharing assertions run only where their sharing/lock semantics apply. The ReadOnly deletion-denial assertion and attribute restoration are likewise inside an explicit Windows branch. Linux no longer executes those Windows deletion assumptions.
+
+Exact request-byte retention before normal consumption, successful validated consumption, absence after consumption, duplicate-consumption rejection, wrong nonce/checkpoint rejection, malformed JSON and retention of invalid bytes remain unconditional. The original atomic capture-publication checks also remain active. No production request retry, frame codec, transport mode, timing threshold, acceptance validator or source permission changes in this follow-up.
+
+The retained final pinned build log `.phase3/wr07-pinned-strict-build.log` records zero warnings/errors and 14.28 seconds. The exact committed Windows report `.phase3/runs/win32-x64/1df50b2f-48bb-4619-9913-d5a22935b64a/summary.json` passes runner.integrity in 27654 ms with zero game windows and source/build stamp above, input `15f9f061d977d0d13fa9cf7bf7f313a29894f55ca16e3bff163b8f420bf38541` and tool `b2964a88ec67e963f5d84aece6f36e4f5f003da0d15125028a4b22a2ee9a7bfa`. The c9 eleven-case report remains unchanged at its original source/build/input/tool identity; it is historical repair evidence, not a new current execution.
+
+The reviewer inspected the one-file diff, complete current test and retained records without executing tests, builds, a gate or native windows. The guards resolve the source defect by review; no Linux execution or repaired rendered acceptance is claimed. The parent may update the resolved ledger/disposition, renew the exact current gate, perform the matching metadata-descendant rebuild and obtain affected native acceptance before a fresh full 481-case pass.
+
+## Historical WR-07 finding and resolution
+
+### WR-07: Windows deletion-denial controls fail the integrity proof on Linux
+
+**Classification:** WARNING — resolved at 8a7f3a7; no longer open.  
+**File at c9 finding:** `D:/Work/Games/KingdomZombies/tests/phase1/FoundationCapturePublicationTests.cs:45-50`, `:75-83`  
+**Issue:** The new request controls unconditionally require `FileShare.Read` to prevent deletion and a file's ReadOnly attribute to make deletion throw UnauthorizedAccessException. Those are Windows deletion rules. On Linux, the .NET 10 FileSystem deletion implementation calls `unlink`; an open read handle and the file's own read-only mode do not prevent unlinking a file in its writable parent directory. Thus Consume legitimately returns the checkpoint/deletes the request in the first block, failing ShouldBeNull and retained-byte expectations. The second block fails its expected exception and can then mask that failure when finally tries resetting attributes on the already-deleted path. The existing runner.integrity test invokes CheckRequest without an OS guard, so this is a deterministic supported-platform proof failure, not evidence that Linux request consumption is incorrect. The retained Windows pass cannot establish this platform's semantics. [.NET 10 Unix deletion implementation](https://github.com/dotnet/runtime/blob/v10.0.0/src/libraries/System.Private.CoreLib/src/System/IO/FileSystem.Unix.cs#L216-L252).
+
+**Fix:** Explicitly scope both Windows deletion-denial blocks to `OperatingSystem.IsWindows()` (or independently exercise the actual expected semantics per OS). Keep portable nonce/path/JSON rejection, exact bytes, successful one-time consumption and duplicate-consumption checks outside that scope. Retain the real Windows read/delete-sharing controls and their proof records. Ensure finally cleanup cannot replace an assertion failure with a missing-file exception. No Linux execution is claimed here; this finding follows the actual current test and runtime implementation.
+
+## Native repair batch 10 bounded request/frame recheck
+
+**Historical reviewed source/build stamp:** `c9bb2da6d3a74e406412193bb37cb4ce5b3c58ed`. **Disposition:** that review found WR-07; the focused resolution above closes it while preserving all seventeen earlier resolutions.
+
+The latest native invocation `32887e60-e5ef-4023-9602-5e8df78e8f84` accepts four of twelve cases and retains eight PEER_ERROR_LOG failures despite 48 physical timing samples, sixteen stopped comparisons and a maximum conservative timing upper interval of 171.2294 ms. A real guest3 IOException occurs while reading draw.request under sharing contention. Native warnings also retain frame sizes 1759/1479 bytes beyond the observed 1392-byte threshold. The failed aggregate is not upgraded by successful timing rows or the current headless proofs.
+
+The new engine-free `FoundationDrawRequest` validates exact nonce and the existing bounded safe checkpoint grammar, then deletes the request before returning a checkpoint to the observer. Only IOException values with low HResult 32/33 defer to a later draw. Read or deletion contention therefore leaves the request unconsumed and starts no capture; malformed JSON, invalid identity/path and unrelated access errors still propagate. The existing nonce-owned output scope, atomic capture acknowledgement, capture deadline and observer sampling/PNG order remain intact. Production retry itself is sound on this review; the new cross-platform test assumption is WR-07.
+
+The new `FoundationWireFrame` bounds native frames to 32776 bytes, validates magic/version/flag before body access and validates declared decoded size in 2..32768 before allocation. Raw bodies must have exactly the declared length. Brotli decode receives only that bounded destination and succeeds only with Done plus exact consumed and written counts, rejecting truncation, trailing bytes and inconsistent/output-overflow declarations. Encoding uses Brotli Fastest only when smaller and otherwise retains exact raw bytes; it preserves the full application size range rather than rejecting all payloads exceeding one MTU. Native Send frames all payloads after its existing ownership/size guards. Poll retains its bounded 64-packet loop and sender/generation fences, decodes before creating an application packet and drops only malformed-frame InvalidDataException. Application JSON/protocol validation and reliable-control/ordered-state semantics remain unchanged. No new actionable codec or dispatch defect was confirmed.
+
+The actual helper sources are linked into the existing proof project and enumerated by its independent source inventory, including the already-reviewed observation-scope dependency. There is no package/project addition. Existing core.protocol invokes the new codec checks, and runner.integrity invokes request controls alongside atomic publication. The codec controls cover raw/tiny/incompressible/max-size round-trip, malformed headers/lengths, truncated/raw/compressed trailing data, invalid compressed data and mismatched output declarations. Seed 13037 ordinary/Unicode four-player fixtures retain exact application bytes while reducing 2468/2616 bytes to 730/761 native bytes. These representative results do not promise every valid frame fits the observed MTU.
+
+The retained `.phase3/batch10-red-records.json` contains genuine named-test failures: request RED `d2e802a1…` throws an actual Windows sharing IOException inside the Should.NotThrow assertion, and wire RED `9f358f0c…` observes a 2476-byte raw frame where the fixture requires less than 1392. Their subsequent GREEN records `e0689d1a…` and `3ce3ee5f…` retain the corresponding repairs. No setup/compile failure is credited as RED.
+
+The final pinned strict log `.phase3/batch10-final-build.log` records zero warnings/errors and 14.28 seconds. The exact committed report `.phase3/runs/win32-x64/7e1e2e1a-ebc3-40e1-8f07-50e438def6d0/summary.json` passes eleven cases in 154571 ms: core.protocol, runner.integrity, core.permissions, all three adapters and all five network checks, with zero game windows. Its source/build stamp is c9 above, input `ecaec8886cfc520489145cc53b647d5640a8183bd1621a91c2dca2bdf9c9c00b` and tool `c953efae17d19ef52368a564fc6d82fafaf6fc6da9b2dde780e40d6606548a0a`. This is authentic Windows evidence and does not resolve WR-07's Linux assumptions. The reviewer read retained sources/reports without executing a build, proof, window, gate or desktop input.
+
+No core movement/schema change, native/public permission expansion, generated-span refresh, Root signature, project/package reference, timing threshold, evidence-clock subtraction or acceptance-validator weakening appears in the eleven-path batch. The full carried-forward 123-path scope and all seventeen earlier resolved dispositions remain retained. The then-open WR-07 is resolved by the focused source recheck above; gate/rebuild and actual native/full-selection attempts retain their separate requirements.
 
 ## Native repair batch 9 bounded production-delivery recheck
 
-**Current reviewed source/build stamp:** `2f20e72fec4156322f2b3646d08977b5eb52d675`. **Disposition:** clean on source review; actual repaired native delivery/timing and full-selection acceptance remain separate.
+**Historical reviewed source/build stamp:** `2f20e72fec4156322f2b3646d08977b5eb52d675`. **Disposition:** clean for that bounded review; later request/transport failures and the current batch are recorded above.
 
 The latest full-selection invocation `f736803d-5062-450b-a5b7-b29ca0d36f4a` remains failed at 480/481 after about 53.6032 minutes. All 449 inherited cases passed. Its sole failure is rendered timing: the first host-to-guest2 start conservative upper interval is 487.0861 ms, versus about 116.24/135.31 ms for the other two guests. Native acknowledgement is about 29.31 ms; guest2 capture request/completion are about 416.9253/486.0861 ms. The immutable report retains actual execution HEAD `9226cd5e8e41ebdb878f4ee69396010803cb1ab2` and prior 551d build stamp/tool, with fourteen game windows. It is not a pass at the current source.
 
@@ -256,7 +299,7 @@ The reviewer inspected the bounded `scenarios.cjs` diff and the three guards thr
 
 The parent may renew the exact df07 gate and matching metadata-descendant rebuild, then retry all twelve native cases. Actual interaction/timing/appearance acceptance and the final full 481-case selected pass remain outstanding; existing failed reports and timing rows retain their original identities.
 
-## Disposition of all seventeen prior findings
+## Disposition of all eighteen cumulative findings
 
 The first report is retained in `03-REVIEW.iter2.md` and original review commit `624f37b`; the following review is retained in `03-REVIEW.iter3.md`. The cumulative fix ledger preserves the earlier repairs without skips; CR-10 is independently resolved by the current two-file commit and controls above. CR-09 was raised in the preceding canonical review and fixed by atomic commit `166a32ad6a7541c4f5eed1378def0a86e9bea632`. These are resolved historical findings, not additional open findings or rendered acceptance claims.
 
@@ -279,6 +322,7 @@ The first report is retained in `03-REVIEW.iter2.md` and original review commit 
 | CR-10 | Resolved | `verifyInherited` now uses shared `verifyPhase1Proof`: exact known case/pass/report path, verified run-relative CTRF hash/containment, case-relative subject hash/containment, and actual CTRF case/method validation. The fixture uses the real nested Phase 1 layout and rejects cross-case/path/hash/missing substitutions. The reviewer independently read all 433 authentic passing records through this same helper and confirmed the original failed aggregate still rejects. |
 | CR-11 | Resolved | Ordinary Menu Cancel no longer closes/discards its coordinator. Root cancellation replacement and ReturnToMenu share runtime-owned RequestClose retirement; older unfinished drains are queued during rapid replacement, polled to deadline, and disposed at teardown. The actual production Menu/native regression uses the same owner and verifies no premature transport close, repeated cancellation, two rapid attempts and close-once at 250 ms. |
 | WR-06 | Resolved | `focusSession` returns the awaited current exact-session target path. The caller supplies the expected session to `click`, which rejects changed metadata after foreground/current-node lookup and before physical delivery; the browser also requires the post-click observed focused row to retain that session before Join submission. No physical interaction, visibility or identity check was removed. |
+| WR-07 | Resolved | `FoundationCapturePublicationTests` explicitly scopes sharing/read-only deletion-denial controls to Windows while retaining unconditional exact nonce/checkpoint/JSON, invalid-byte retention, consume-once and duplicate controls. The exact 8a7 Windows runner.integrity proof passes; no Linux execution is claimed. |
 
 ## CR-09 independent repair recheck
 
@@ -347,7 +391,7 @@ Older auxiliary evidence with unpinned prebuild tool drift remains failure/histo
 
 ## Required handoff before a prelaunch gate
 
-The source review is clean at `2f20e72fec4156322f2b3646d08977b5eb52d675`, with all seventeen findings resolved and the eleven-path delivery-contract/provider repair reviewed. The exact current six-check headless proof passes with zero game windows; the earlier seven-core working-tree proof retains its actual HEAD/build/input/tool identity. The parent may renew the exact source/input/tool gate and perform the matching metadata-descendant rebuild with both build properties. Then obtain actual affected native acceptance before the required fresh full 481-case selected-set pass. Preserve every failed 480/481 aggregate, prior focused successes, all raw timing rows and original invocation identities. This source review grants no repaired native delivery/timing, image-appearance or completed selected-set acceptance. The parent owns gate/rebuild/publishing and actual desktop execution.
+The source review is clean at `8a7f3a70c1f5bb8fae0f4811cf051b30df8abdc3`, with all eighteen cumulative findings resolved (eleven Critical/BLOCKER and seven Warnings) and the complete 123-path / 120-source scope preserved. The exact current Windows runner.integrity proof passes with zero game windows; the c9 eleven-case report keeps its original identity. The parent may update the fix/disposition ledger, renew the exact source/input/tool gate and perform the matching metadata-descendant rebuild with both build properties. Then obtain actual affected native acceptance before the fresh full 481-case selected-set pass. Preserve every failed native/full aggregate, successful sample, raw log and original invocation identity. This source review grants no Linux execution, repaired native timing, image-appearance or completed selected-set acceptance. The parent owns ledger/gate/rebuild/publishing and actual desktop execution.
 
 The parent hash-verified the four temporary iteration-2/3 review/fix scratch originals against their ignored `.phase3/review-history` archives and removed the untracked phase-folder copies. The focused recheck observed no remaining scratch paths in Git status. Preserve that ignored history and the original Git review/fix ledger; the whitelist remains limited to its explicitly enumerated phase metadata paths.
 
@@ -357,6 +401,6 @@ Phase 2 G1 now has its retained actual passing native results, while the twelve 
 
 ---
 
-_Reviewed: 2026-11-16T01:54:34Z_  
+_Reviewed: 2026-11-16T02:32:40Z_  
 _Reviewer: the agent (gsd-code-reviewer)_  
 _Depth: standard_
