@@ -23,7 +23,7 @@ internal static class FoundationNativeRegression
                 discovery: discovery, connection: () => throw new InvalidOperationException());
         FoundationCoordinator? coordinator = null;
         FoundationMenu menu = SelectionMenu(root: root, gateway: gateway, services: services,
-                coordinator: () => coordinator);
+                coordinator: () => coordinator, back: () => coordinator = null);
         Observe(root: root, gateway: gateway, rows: [Advertisement(id: "hidden", name: "Hidden", occupied: 1)],
                 expectedSession: "");
         root.GetNode<Control>(path: "Browser").Visible = true;
@@ -50,6 +50,9 @@ internal static class FoundationNativeRegression
         discovery.Rows = [Advertisement(id: "pending-discovery", name: "New host", occupied: 1)];
         menu.Tick(nowMilliseconds: 4);
         Observe(root: root, gateway: gateway, rows: [..discovery.Rows], expectedSession: "selected");
+        CheckFeedback(menu: menu, coordinator: () => coordinator, replace: value => coordinator = value,
+                showBrowser: visible => root.GetNode<Control>(path: "Browser").Visible = visible,
+                feedback: () => root.GetNode<Label>(path: "Browser/Feedback").Text);
         foreach (Node child in rows.GetChildren()) { rows.RemoveChild(node: child); child.QueueFree(); }
         root.GetNode<Control>(path: "Browser").Visible = false;
         root.GetNode<Control>(path: "Menu/Start").GrabFocus();
@@ -188,14 +191,57 @@ internal static class FoundationNativeRegression
     }
 
     private static FoundationMenu SelectionMenu(Control root, MainThreadGateway gateway,
-            FoundationServices services, Func<FoundationCoordinator?> coordinator)
+            FoundationServices services, Func<FoundationCoordinator?> coordinator, Action back)
     {
         FoundationMenu? menu = null;
         menu = new FoundationMenu(root: root, gateway: gateway, services: services, join: () =>
                 Require(value: menu?.RequestedSessionId is "selected" && menu.RequestedAddress is "127.0.0.1:47778",
-                        message: "SELECTED_ROW_REQUEST_IDENTITY"), back: () => { }, coordinator: coordinator,
+                        message: "SELECTED_ROW_REQUEST_IDENTITY"), back: back, coordinator: coordinator,
                 replace: value => { }, input: new FoundationInput(), runtime: new FoundationRuntimeState());
         return menu;
+    }
+
+    private static (FoundationCoordinator Guest, Action Complete) ProgressGuest()
+    {
+        var port = new PendingConnection();
+        var guest = new FoundationCoordinator(playerId: "feedback-guest", label: "Feedback", connection: port);
+        guest.Join(address: "127.0.0.1", port: 47778);
+        guest.Update(elapsedMilliseconds: 0);
+        string attempt = port.Sent.Single().AttemptId;
+        var session = new FoundationSession(sessionId: "feedback", playerId: "host", actorId: "host");
+        session.AddParticipant(bindingId: "guest", playerId: "feedback-guest", actorId: "guest", label: "Guest");
+        port.Enqueue(envelope: new FoundationEnvelope(kind: "baseline", sessionId: "feedback", playerId:
+                "feedback-guest", actorId: "guest", bindingId: "guest", revision: session.Snapshot.Revision,
+                snapshot: session.Snapshot, attemptId: attempt));
+        guest.Update(elapsedMilliseconds: 0);
+        Require(value: !guest.Ready && guest.InstalledRevision >= 0, message: "FEEDBACK_BASELINE_REQUIRED");
+        return (guest, () =>
+        {
+            session.MarkReady(bindingId: "guest");
+            port.Enqueue(envelope: new FoundationEnvelope(kind: "state", sessionId: "feedback",
+                    revision: session.Snapshot.Revision, snapshot: session.Snapshot, attemptId: attempt));
+            guest.Update(elapsedMilliseconds: 0);
+            Require(value: guest.Ready, message: "FEEDBACK_READINESS_REQUIRED");
+        });
+    }
+
+    private static void CheckFeedback(FoundationMenu menu, Func<FoundationCoordinator?> coordinator,
+            Action<FoundationCoordinator?> replace, Action<bool> showBrowser, Func<string> feedback)
+    {
+        (FoundationCoordinator Guest, Action Complete) progress = ProgressGuest();
+        replace(obj: progress.Guest);
+        menu.Tick(nowMilliseconds: 5);
+        Require(value: feedback() is "Receiving session state…", message: "JOIN_PROGRESS_NOT_OBSERVED");
+        progress.Complete();
+        showBrowser(obj: false);
+        menu.Tick(nowMilliseconds: 6);
+        bool readyCleared = feedback().Length == 0;
+        menu.Escape();
+        showBrowser(obj: true);
+        menu.Browse();
+        menu.Tick(nowMilliseconds: 7);
+        Require(value: readyCleared && coordinator() is null && feedback().Length == 0,
+                message: "READY_RETURN_BROWSER_STALE_JOIN_PROGRESS");
     }
 
     private static SessionAdvertisement Advertisement(string id, string name, int occupied)
@@ -217,7 +263,10 @@ internal static class FoundationNativeRegression
         public string PeerGeneration(int peer) => "cancel-peer";
         public void Host(int port) => throw new InvalidOperationException(message: "Guest-only regression");
         public void Join(string address, int port) => Connected = true;
-        public IReadOnlyList<ConnectionPacket> Poll(int maximumPackets) => [];
+        public IReadOnlyList<ConnectionPacket> Poll(int maximumPackets)
+        {
+            return _received.Count > 0 ? [_received.Dequeue()] : [];
+        }
         public void Send(int peer, ReadOnlyMemory<byte> payload, bool reliable = true) => Sent.Add(
                 item: FoundationProtocol.Decode(bytes: payload));
         public void Close()
@@ -228,5 +277,12 @@ internal static class FoundationNativeRegression
 
         internal int CloseCount { get; private set; }
         internal List<FoundationEnvelope> Sent { get; } = [];
+        internal void Enqueue(FoundationEnvelope envelope)
+        {
+            _received.Enqueue(item: new ConnectionPacket(sender: 1, generation: Generation,
+                    payload: FoundationProtocol.Encode(envelope: envelope), peerGeneration: PeerGeneration(peer: 1)));
+        }
+
+        private readonly Queue<ConnectionPacket> _received = new();
     }
 }

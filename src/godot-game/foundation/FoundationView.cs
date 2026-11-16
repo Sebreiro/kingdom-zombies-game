@@ -53,8 +53,10 @@ internal static class FoundationView
             marker.Text = "P" + participant.Slot.ToString(provider: CultureInfo.InvariantCulture)
                     + (own ? " · You" : "");
             marker.Modulate = color;
-            marker.Position = new Vector2(x: -48, y: -112 - FoundationPresentation.LabelOffset(snapshot: snapshot,
-                    participant: participant));
+            marker.Position = new Vector2(x: FoundationPresentation.MarkerOffset(
+                    actorScreenX: remote.GetGlobalTransformWithCanvas().Origin.X, markerWidth: marker.Size.X,
+                    viewportWidth: world.GetViewportRect().Size.X), y: -112 - FoundationPresentation.LabelOffset(
+                            snapshot: snapshot, participant: participant));
         }
 
         Project(world: world, actor: local.Actor, gateway: gateway);

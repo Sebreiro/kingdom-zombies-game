@@ -32,6 +32,7 @@ public sealed class FoundationLanInputTests
         input.Set(key: 68, pressed: true);
         input.Direction.ShouldBe(expected: 0);
         CheckProjection();
+        CheckMarkerBounds();
         ProofProtocol.Record(id: "core.input", diagnostic: "CONTEXT_ALIASES_REPEAT_FOCUS_EXACT_LOCAL_CAMERA_MARKERS");
     }
 
@@ -68,5 +69,23 @@ public sealed class FoundationLanInputTests
         FoundationPresentation.LabelOffset(snapshot: snapshot, participant: actors[0]).ShouldBe(expected: 0);
         FoundationPresentation.LabelOffset(snapshot: snapshot, participant: actors[1]).ShouldBe(expected: 28);
         FoundationPresentation.LabelOffset(snapshot: snapshot, participant: actors[2]).ShouldBe(expected: 0);
+    }
+
+    private static void CheckMarkerBounds()
+    {
+        foreach (float viewport in new[] { 640f, 1280f, 1920f })
+        {
+            foreach (float width in new[] { 48f, 96f, 120f })
+            {
+                foreach (float actor in new[] { 0, 16, viewport / 2, viewport - 16, viewport })
+                {
+                    float offset = FoundationPresentation.MarkerOffset(actorScreenX: actor,
+                            markerWidth: width, viewportWidth: viewport);
+                    (actor + offset).ShouldBeGreaterThanOrEqualTo(expected: 0);
+                    (actor + offset + width).ShouldBeLessThanOrEqualTo(expected: viewport);
+                    if (actor == viewport / 2) { offset.ShouldBe(expected: -width / 2); }
+                }
+            }
+        }
     }
 }

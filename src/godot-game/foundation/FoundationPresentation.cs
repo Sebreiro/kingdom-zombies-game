@@ -8,6 +8,11 @@ namespace KingdomZombies.Foundation;
 /// <summary>Selects presentation from accepted actor identity without introducing movement authority.</summary>
 internal static class FoundationPresentation
 {
+    internal static float MarkerOffset(float actorScreenX, float markerWidth, float viewportWidth)
+    {
+        return -markerWidth / 2;
+    }
+
     internal static FoundationParticipantState? Local(FoundationSnapshot snapshot, string bindingId)
     {
         return snapshot.Participants.FirstOrDefault(predicate: p => p.Ready
