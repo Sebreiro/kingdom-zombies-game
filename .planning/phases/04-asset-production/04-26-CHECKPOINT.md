@@ -1,5 +1,22 @@
 # Phase 04 Plan 26 compiled-proof capacity checkpoint
 
+## Updated bounded continuation checkpoint — 2026-11-16
+
+The original checkpoint below remains historical. Resume now from the following state, with both plan tasks still 0/2 complete and no implementation commit.
+
+- Original ten source paths were hash-verified against the preserved manifest before edits; retained RED again machine-classified `RED_EVIDENCE_OK`.
+- R1 is complete at focused scope. `ContentInspectorTests.cs` now has 32 explicitly named member facts (18 Root / 2 Input / 12 Shell) calling the unchanged actual restored positive and eleven compiler-valid negatives. Original tuple/ownership/visibility/loader subjects remain. `hub.cjs` independently declares 44 method invocations / 63 framework cases, checks full discovery and each real child CTRF report, exact counts, passed status and zero skips, then reconciles the declared union in both `hub.source` and `hub.lifecycle`. Each child retains 45s MTP / 60s outer limits. Actual focused run `.phase4/compiled-proof/9e2e31dc-8616-4823-b67c-ba7d6ad62158` passed all 63 subjects, 32 restored positives and 352 compiler-valid negative adjudications in 244461.3781ms. This supplies no new canonical/native/rendered credit.
+- R1 initial strict build failed SCR0008 ordering; the remaining attempt moved constants above the helper, built 0 warnings/errors and passed. R1 budget: one unused attempt after resolved outcome, not a reset.
+- R2 `ExemptionValidator.AddRecords` now receives the already-authenticated callsite registry only for generated-callsite local rows. It requires exact equality to the authenticated row and resolves through `EngineGeneratedTests.Surface`, retaining containment/raw hash/package/proof/overlap checks. Other scopes remain unchanged.
+- R2 first actual origin `fb7e81a3-5295-4901-aebd-5929ec3da4e8` failed `CHILD_TIMEOUT` at the unchanged 45000ms deadline. Scratch artifacts identify duplicate successful deterministic baseline/03 replay builds because syntax/callsite inventories have different row IDs/surface subsets.
+- The approved necessary same-file `ProducerKey` now keys exact producer/package/source-input descriptors plus the copied shared project/compiler settings, pinned toolchain and actual BuildFixture recipe bytes, with selected root outside that key. Both registers still run their own authentication; only successful builds are reused. Reproduction eviction uses the same key. Cached live roots freshly recheck current source membership/raw bytes, evicting changed live roots before replay. An intermediate focused origin `2e003438-507b-4283-baeb-a3dff99b534e` passed in actual child 30803ms; the subsequent recipe/live-revalidation source changes invalidate its current-version acceptance.
+- Latest strict proof build failed exactly `EngineGeneratedTests.cs(278,22): CA1861` on the inline constant recipe path array, with 0 warnings / 1 error, exit 1, 5.99s. No runtime test ran on these latest bytes. R2's two failed verifications are exhausted, budget 0. Stop before further code changes. Required next correction is the bounded same-file static readonly recipe-path array (respecting member ordering), then strict build, focused origin/exemptions and complete mutation/replay/collision checks under new coordinator direction.
+- R3 has not started, budget 2. Freeze all inputs before fresh complete generated/exemption/native/source-policy/solution selection. Existing 50 native observations and latest 12 backstop metadata have not been freshly accepted with the new runner. No Task1/Task2/SUMMARY/progress/ASSET completion is claimed.
+
+Exact attempt history and authorization timing are retained in [04-26-REPAIR.md](04-26-REPAIR.md). Preserve all current eleven implementation paths; do not restore old checkpoint bytes over the resumed changes.
+
+Latest immutable eleven-file WIP backup: `.phase4/checkpoints/04-26-r2-9e326e4bca8b4959b202e28285c1819e/manifest.json` (base HEAD `27a5267`). The manifest records each current path, byte count and SHA256. This replaces neither the original backup nor any original evidence.
+
 Status: incomplete;0/2 tasks complete. Shared checkout remains
 `D:/Work/Games/KingdomZombies`, branch `feature/04-asset-production`. No window, branch switch,
 stash, reset, merge, rebase, dependency install, ASSET completion or progress advance occurred.
