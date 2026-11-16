@@ -1,15 +1,20 @@
 using System;
 using System.Collections;
+using System.Collections.Immutable;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Threading.Tasks;
 using KingdomZombies.Core;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Diagnostics;
 using Shouldly;
 using Xunit;
 
@@ -18,6 +23,59 @@ namespace KingdomZombies.Phase1.Tests;
 /// <summary>Exercises the real portable pack loader independently of a native game window.</summary>
 public sealed class ContentInspectorTests
 {
+    /// <summary>Retains real emitted diagnostics, including exact member-suppressed calls, for origin review.</summary>
+    [Fact]
+    public async Task Observe_Inspection_RecordsActualGeneratedDiagnostics()
+    {
+        var consumer = ConsumerCompilation.Read(root: ProofProtocol.Root, project: ProjectEvaluator.Expected[2]);
+        CSharpCompilation compilation = consumer.Create();
+        ConsumerCompilation.RequireValid(compilation: compilation);
+        var assembly = Assembly.Load(rawAssembly: File.ReadAllBytes(path: Path.Combine(path1: ProofProtocol.Root,
+                path2: "tools/code-rules/bin/Debug/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll")));
+        ImmutableArray<DiagnosticAnalyzer> analyzers = [.. assembly.GetTypes().Where(predicate: type =>
+                !type.IsAbstract && typeof(DiagnosticAnalyzer).IsAssignableFrom(c: type)).Select(selector: type =>
+                        (DiagnosticAnalyzer)(Activator.CreateInstance(type: type)
+                                ?? throw new InvalidOperationException()))];
+        var options = new CompilationWithAnalyzersOptions(options: new AnalyzerOptions(additionalFiles: []),
+                onAnalyzerException: null, concurrentAnalysis: false, logAnalyzerExecutionTime: false,
+                reportSuppressedDiagnostics: true);
+        ImmutableArray<Diagnostic> diagnostics = await compilation.WithAnalyzers(analyzers: analyzers,
+                analysisOptions: options).GetAnalyzerDiagnosticsAsync(cancellationToken:
+                        TestContext.Current.CancellationToken).ConfigureAwait(continueOnCapturedContext: true);
+        SyntaxTree[] trees = [.. compilation.SyntaxTrees.Where(predicate: tree => tree.FilePath.Contains(
+                value: "KingdomZombies.Inspection.InspectionRoot_", comparisonType: StringComparison.Ordinal))];
+        trees.ShouldNotBeEmpty();
+        var files = trees.Select(selector: tree => new
+        {
+            path = tree.FilePath,
+            sha256 = Hash(bytes: File.ReadAllBytes(path: Path.Combine(path1: ProofProtocol.Root,
+                    path2: tree.FilePath))),
+            textSha256 = Hash(bytes: Encoding.UTF8.GetBytes(s: tree.GetText().ToString())),
+            diagnostics = diagnostics.Where(predicate: diagnostic => diagnostic.Location.SourceTree == tree)
+                    .Select(selector: diagnostic => new
+                    {
+                        diagnostic = diagnostic.Id,
+                        line = diagnostic.Location.GetLineSpan().StartLinePosition.Line + 1,
+                        column = diagnostic.Location.GetLineSpan().StartLinePosition.Character + 1,
+                        length = diagnostic.Location.SourceSpan.Length,
+                        reason = diagnostic.GetMessage(formatProvider: CultureInfo.InvariantCulture),
+                        suppressed = diagnostic.IsSuppressed,
+                    }).ToArray(),
+        }).Where(predicate: file => file.diagnostics.Length > 0).ToArray();
+        files.Sum(selector: file => file.diagnostics.Length).ShouldBeGreaterThan(expected: 0);
+        string directory = Path.Combine(path1: ProofProtocol.Root, path2: ".phase4/observed26/"
+                + Guid.NewGuid().ToString(format: "N"));
+        Directory.CreateDirectory(path: directory);
+        File.WriteAllText(path: Path.Combine(path1: directory, path2: "diagnostics.json"), contents:
+                JsonSerializer.Serialize(value: files));
+        foreach (SyntaxTree tree in trees)
+        {
+            File.Copy(sourceFileName: Path.Combine(path1: ProofProtocol.Root, path2: tree.FilePath),
+                    destFileName: Path.Combine(path1: directory, path2: Path.GetFileName(path: tree.FilePath)));
+        }
+
+    }
+
     /// <summary>Every actual inspection member needs its own synchronous captured guard and exact signature.</summary>
     [Fact]
     public void Authorize_Inspection_RequiresExactInvocationTuples()
@@ -27,20 +85,51 @@ public sealed class ContentInspectorTests
         EngineAccessPolicy.Check(source: source, path: InspectionPath, consumer: consumer).ShouldBeEmpty();
         string[] signatures = ["InspectionRoot()", "_Ready()", "_Process(double)", "_ExitTree()", "Recheck()",
             "Cancel()", "Read(string)", "ChangeCategory(long)", "ChangeStatus(long)", "Filter(string)",
-            "Select(long)", "Details()", "Copy()", "Project()", "Rows()", "Selection()"];
-        EngineAccessPolicy.InspectionTuples.ShouldBe(expected: signatures.Select(selector: signature =>
-                InspectionPath + "|KingdomZombies.Inspection|InspectionRoot|" + signature));
+            "Select(long)", "Details()", "Copy()", "Project()", "Rows()", "Selection()", "_Input(InputEvent)",
+            "AcceptPreview(int,Node)"];
+        EngineAccessPolicy.InspectionTuples.Where(predicate: tuple => tuple.StartsWith(value: InspectionPath + "|",
+                comparisonType: StringComparison.Ordinal)).ShouldBe(expected: signatures.Select(
+                        selector: signature =>
+                                InspectionPath + "|KingdomZombies.Inspection|InspectionRoot|" + signature));
         SyntaxTree tree = consumer.Parse(source: source, path: InspectionPath);
         BaseMethodDeclarationSyntax[] methods = [.. tree.GetRoot(cancellationToken:
                 TestContext.Current.CancellationToken).DescendantNodes()
                 .OfType<BaseMethodDeclarationSyntax>()];
         methods.Length.ShouldBe(expected: signatures.Length);
-        foreach (BaseMethodDeclarationSyntax method in methods)
-        {
-            CheckInvocation(consumer: consumer, source: source, method: method);
-        }
-
         CheckOwnership(consumer: consumer, source: source);
+    }
+
+    /// <summary>Internal helpers retain exact signatures and compiler-valid invocation rejection controls.</summary>
+    [Theory]
+    [InlineData("InspectionInput", "Dismiss(InputEvent)|ReconcileFocus()")]
+    [InlineData("InspectionShell", "Attach()|Layout()|Tick(double)|Install(Node)|Retire()|Detach()|"
+            + "AddButton(Node,string,string,Action)|Play()|Speed(long)|Step()|Reset()|ShowTransport()")]
+    public void Authorize_InternalInspection_RequiresExactInvocation(string type, string signatures)
+    {
+        var consumer = ConsumerCompilation.Read(root: ProofProtocol.Root, project: ProjectEvaluator.Expected[2]);
+        string path = "src/godot-game/inspection/" + type + ".cs";
+        string source = File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: path));
+        EngineAccessPolicy.Check(source: source, path: path, consumer: consumer).ShouldBeEmpty();
+        EngineAccessPolicy.InspectionTuples.Where(predicate: tuple => tuple.StartsWith(value: path + "|",
+                comparisonType: StringComparison.Ordinal)).ShouldBe(expected: signatures.Split(separator: '|')
+                        .Select(selector: signature => path + "|KingdomZombies.Inspection|" + type + "|" + signature));
+        SyntaxTree tree = consumer.Parse(source: source, path: path);
+        CSharpCompilation compilation = consumer.Create(source: source, path: path);
+        SyntaxTree actual = compilation.SyntaxTrees.Single(predicate: candidate => StringComparer.Ordinal.Equals(
+                x: candidate.FilePath, y: path));
+        SyntaxTree wrongPath = actual.WithFilePath(path: "src/godot-game/inspection/Adjacent" + type + ".cs");
+        CSharpCompilation wrong = compilation.ReplaceSyntaxTree(oldTree: actual, newTree: wrongPath);
+        ConsumerCompilation.RequireValid(compilation: wrong);
+        EngineAccessPolicy.CheckTree(tree: wrongPath, compilation: wrong).ShouldNotBeEmpty();
+        string sibling = source.Replace(oldValue: "namespace KingdomZombies.Inspection;",
+                newValue: "namespace KingdomZombies.Inspection.Adjacent;", comparisonType: StringComparison.Ordinal);
+        SyntaxTree clone = consumer.Parse(source: sibling, path: path);
+        CSharpCompilation adjacent = compilation.AddSyntaxTrees(trees: clone);
+        ConsumerCompilation.RequireValid(compilation: adjacent);
+        EngineAccessPolicy.CheckTree(tree: clone, compilation: adjacent).ShouldNotBeEmpty();
+        string extra = source.Insert(startIndex: source.LastIndexOf(value: '}'),
+                value: "private void Adjacent() { _gateway.RequireThread(); " + Native + " }");
+        EngineAccessPolicy.Check(source: extra, path: path, consumer: consumer).ShouldNotBeEmpty();
     }
 
     /// <summary>Only the actual cross-assembly immutable contract and engine scene script are public.</summary>
@@ -266,17 +355,269 @@ public sealed class ContentInspectorTests
                 comparisonType: StringComparison.Ordinal)).ShouldBeTrue();
     }
 
+    /// <summary>Executes the actual Root member 1 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Root01_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionRoot", index: 0);
+    }
+
+    /// <summary>Executes the actual Root member 2 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Root02_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionRoot", index: 1);
+    }
+
+    /// <summary>Executes the actual Root member 3 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Root03_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionRoot", index: 2);
+    }
+
+    /// <summary>Executes the actual Root member 4 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Root04_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionRoot", index: 3);
+    }
+
+    /// <summary>Executes the actual Root member 5 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Root05_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionRoot", index: 4);
+    }
+
+    /// <summary>Executes the actual Root member 6 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Root06_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionRoot", index: 5);
+    }
+
+    /// <summary>Executes the actual Root member 7 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Root07_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionRoot", index: 6);
+    }
+
+    /// <summary>Executes the actual Root member 8 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Root08_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionRoot", index: 7);
+    }
+
+    /// <summary>Executes the actual Root member 9 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Root09_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionRoot", index: 8);
+    }
+
+    /// <summary>Executes the actual Root member 10 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Root10_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionRoot", index: 9);
+    }
+
+    /// <summary>Executes the actual Root member 11 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Root11_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionRoot", index: 10);
+    }
+
+    /// <summary>Executes the actual Root member 12 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Root12_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionRoot", index: 11);
+    }
+
+    /// <summary>Executes the actual Root member 13 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Root13_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionRoot", index: 12);
+    }
+
+    /// <summary>Executes the actual Root member 14 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Root14_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionRoot", index: 13);
+    }
+
+    /// <summary>Executes the actual Root member 15 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Root15_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionRoot", index: 14);
+    }
+
+    /// <summary>Executes the actual Root member 16 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Root16_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionRoot", index: 15);
+    }
+
+    /// <summary>Executes the actual Root member 17 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Root17_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionRoot", index: 16);
+    }
+
+    /// <summary>Executes the actual Root member 18 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Root18_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionRoot", index: 17);
+    }
+
+    /// <summary>Executes the actual Input member 1 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Input01_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionInput", index: 0);
+    }
+
+    /// <summary>Executes the actual Input member 2 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Input02_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionInput", index: 1);
+    }
+
+    /// <summary>Executes the actual Shell member 1 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Shell01_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionShell", index: 0);
+    }
+
+    /// <summary>Executes the actual Shell member 2 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Shell02_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionShell", index: 1);
+    }
+
+    /// <summary>Executes the actual Shell member 3 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Shell03_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionShell", index: 2);
+    }
+
+    /// <summary>Executes the actual Shell member 4 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Shell04_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionShell", index: 3);
+    }
+
+    /// <summary>Executes the actual Shell member 5 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Shell05_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionShell", index: 4);
+    }
+
+    /// <summary>Executes the actual Shell member 6 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Shell06_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionShell", index: 5);
+    }
+
+    /// <summary>Executes the actual Shell member 7 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Shell07_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionShell", index: 6);
+    }
+
+    /// <summary>Executes the actual Shell member 8 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Shell08_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionShell", index: 7);
+    }
+
+    /// <summary>Executes the actual Shell member 9 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Shell09_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionShell", index: 8);
+    }
+
+    /// <summary>Executes the actual Shell member 10 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Shell10_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionShell", index: 9);
+    }
+
+    /// <summary>Executes the actual Shell member 11 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Shell11_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionShell", index: 10);
+    }
+
+    /// <summary>Executes the actual Shell member 12 positive and eleven compiler-valid negatives.</summary>
+    [Fact]
+    public void Authorize_Shell12_RequiresExactInvocation()
+    {
+        CheckMember(type: "InspectionShell", index: 11);
+    }
+
     private const string InspectionPath = "src/godot-game/inspection/InspectionRoot.cs";
     private const string Native = "Godot.GD.Print(what: [1]);";
 
+    private static void CheckMember(string type, int index)
+    {
+        var consumer = ConsumerCompilation.Read(root: ProofProtocol.Root, project: ProjectEvaluator.Expected[2]);
+        string path = "src/godot-game/inspection/" + type + ".cs";
+        string source = File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: path));
+        SyntaxTree tree = consumer.Parse(source: source, path: path);
+        BaseMethodDeclarationSyntax[] methods = [.. tree.GetRoot(cancellationToken:
+                TestContext.Current.CancellationToken).DescendantNodes().OfType<BaseMethodDeclarationSyntax>()];
+        methods.Length.ShouldBe(expected: type switch
+        {
+            "InspectionRoot" => 18,
+            "InspectionInput" => 3,
+            "InspectionShell" => 13,
+            _ => throw new InvalidOperationException(),
+        });
+        BaseMethodDeclarationSyntax method = type is "InspectionRoot" ? methods[index]
+                : methods.OfType<MethodDeclarationSyntax>().ElementAt(index: index);
+        CheckInvocation(consumer: consumer, source: source, method: method, path: path);
+    }
+
+    private static string Hash(byte[] bytes)
+    {
+        return Convert.ToHexStringLower(inArray: SHA256.HashData(source: bytes));
+    }
+
     private static void CheckInvocation(ConsumerCompilation consumer, string source,
-            BaseMethodDeclarationSyntax method)
+            BaseMethodDeclarationSyntax method, string path)
     {
         string suffix = method is MethodDeclarationSyntax ordinary && ordinary.Identifier.ValueText is "Read"
                 ? "return null;" : "";
         const string Guard = "_gateway.RequireThread();";
+        CSharpCompilation basis = consumer.Create(source: source, path: path);
+        SyntaxTree original = basis.SyntaxTrees.Single(predicate: tree => StringComparer.Ordinal.Equals(
+                x: tree.FilePath, y: path));
         string positive = Body(source: source, method: method, body: Guard + Native + suffix);
-        EngineAccessPolicy.Check(source: positive, path: InspectionPath, consumer: consumer).ShouldBeEmpty();
+        CheckSubject(consumer: consumer, basis: basis, original: original, source: positive).ShouldBeEmpty();
         foreach (string body in new[]
         {
             Native + suffix,
@@ -286,19 +627,30 @@ public sealed class ContentInspectorTests
             "new KingdomZombies.Proofs.MainThreadGateway().RequireThread();" + Native + suffix,
             Guard + "System.Action misuse = new Godot.Node().QueueFree;" + suffix,
             Guard + "System.Action misuse = () => { " + Native + " }; misuse();" + suffix,
+            Guard + "void Local() { " + Native + " } Local();" + suffix,
             Guard + "System.Threading.Tasks.Task.Run(action: () => { " + Native + " });" + suffix,
             Guard + "System.Threading.Tasks.Task.CompletedTask.ContinueWith(continuationAction: task => { "
                     + Native + " });" + suffix,
         })
         {
-            EngineAccessPolicy.Check(source: Body(source: source, method: method, body: body),
-                    path: InspectionPath, consumer: consumer).ShouldNotBeEmpty(
+            CheckSubject(consumer: consumer, basis: basis, original: original,
+                    source: Body(source: source, method: method, body: body)).ShouldNotBeEmpty(
                             customMessage: "Exact invocation boundary: " + method.ToString());
         }
 
-        EngineAccessPolicy.Check(source: positive.Replace(oldValue: "readonly MainThreadGateway _gateway",
-                newValue: "MainThreadGateway _gateway", comparisonType: StringComparison.Ordinal),
-                path: InspectionPath, consumer: consumer).ShouldNotBeEmpty();
+        CheckSubject(consumer: consumer, basis: basis, original: original,
+                source: positive.Replace(oldValue: "readonly MainThreadGateway _gateway",
+                        newValue: "MainThreadGateway _gateway", comparisonType: StringComparison.Ordinal))
+                .ShouldNotBeEmpty();
+    }
+
+    private static System.Collections.Generic.IReadOnlyList<string> CheckSubject(ConsumerCompilation consumer,
+            CSharpCompilation basis, SyntaxTree original, string source)
+    {
+        SyntaxTree changed = consumer.Parse(source: source, path: original.FilePath);
+        CSharpCompilation compilation = basis.ReplaceSyntaxTree(oldTree: original, newTree: changed);
+        ConsumerCompilation.RequireValid(compilation: compilation);
+        return EngineAccessPolicy.CheckTree(tree: changed, compilation: compilation);
     }
 
     private static string Body(string source, BaseMethodDeclarationSyntax method, string body)

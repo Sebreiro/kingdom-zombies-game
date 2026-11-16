@@ -8,6 +8,47 @@ using Godot;
 using KingdomZombies.Core;
 using KingdomZombies.Proofs;
 
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Sebreiro.CodeRules", "SCR0001", Scope = "member",
+        Target = ("~M:KingdomZombies.Inspection.InspectionRoot.GetGodotMethodList"),
+        Justification = "KZ-EX-INSPECTION26-CALLS-1 observed exact generator member and boundary proofs")]
+
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Sebreiro.CodeRules", "SCR0001", Scope = "member",
+        Target = ("~M:KingdomZombies.Inspection.InspectionRoot.HasGodotClassMethod(Godot." +
+                "NativeInterop.godot_string_name@)"),
+        Justification = "KZ-EX-INSPECTION26-CALLS-2 observed exact generator member and boundary proofs")]
+
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Sebreiro.CodeRules", "SCR0001", Scope = "member",
+        Target = ("~M:KingdomZombies.Inspection.InspectionRoot.InvokeGodotClassMethod(God" +
+                "ot.NativeInterop.godot_string_name@,Godot.NativeInterop.NativeVariantP" +
+                "trArgs,Godot.NativeInterop.godot_variant@)"),
+        Justification = "KZ-EX-INSPECTION26-CALLS-3 observed exact generator member and boundary proofs")]
+
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Sebreiro.CodeRules", "SCR0001", Scope = "member",
+        Target = ("~M:KingdomZombies.Inspection.InspectionRoot.SetGodotClassPropertyValue" +
+                "(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.godot_vari" +
+                "ant@)"),
+        Justification = "KZ-EX-INSPECTION26-CALLS-4 observed exact generator member and boundary proofs")]
+
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Sebreiro.CodeRules", "SCR0001", Scope = "member",
+        Target = ("~M:KingdomZombies.Inspection.InspectionRoot.GetGodotClassPropertyValue" +
+                "(Godot.NativeInterop.godot_string_name@,Godot.NativeInterop.godot_vari" +
+                "ant@)"),
+        Justification = "KZ-EX-INSPECTION26-CALLS-5 observed exact generator member and boundary proofs")]
+
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Sebreiro.CodeRules", "SCR0001", Scope = "member",
+        Target = ("~M:KingdomZombies.Inspection.InspectionRoot.GetGodotPropertyList"),
+        Justification = "KZ-EX-INSPECTION26-CALLS-6 observed exact generator member and boundary proofs")]
+
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Sebreiro.CodeRules", "SCR0001", Scope = "member",
+        Target = ("~M:KingdomZombies.Inspection.InspectionRoot.SaveGodotObjectData(Godot." +
+                "Bridge.GodotSerializationInfo)"),
+        Justification = "KZ-EX-INSPECTION26-CALLS-7 observed exact generator member and boundary proofs")]
+
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Sebreiro.CodeRules", "SCR0001", Scope = "member",
+        Target = ("~M:KingdomZombies.Inspection.InspectionRoot.RestoreGodotObjectData(God" +
+                "ot.Bridge.GodotSerializationInfo)"),
+        Justification = "KZ-EX-INSPECTION26-CALLS-8 observed exact generator member and boundary proofs")]
+
 namespace KingdomZombies.Inspection;
 
 /// <summary>Owns the portable read-only resource hub and every native access on its captured main thread.</summary>
@@ -23,10 +64,13 @@ public sealed partial class InspectionRoot : Node2D
     public override void _Ready()
     {
         _gateway.RequireThread();
+        _shell = new InspectionShell(root: this, gateway: _gateway);
+        _input = new InspectionInput(root: this, gateway: _gateway);
+        _shell.Attach();
         GetNode<OptionButton>(path: "Shell/Workspace/Navigation/Category").ItemSelected += ChangeCategory;
-        GetNode<LineEdit>(path: "Shell/Workspace/Browser/Search").TextChanged += Filter;
-        GetNode<OptionButton>(path: "Shell/Workspace/Browser/Status").ItemSelected += ChangeStatus;
-        GetNode<ItemList>(path: "Shell/Workspace/Browser/Resources").ItemSelected += Select;
+        GetNode<LineEdit>(path: Browser + "Search").TextChanged += Filter;
+        GetNode<OptionButton>(path: Browser + "Status").ItemSelected += ChangeStatus;
+        GetNode<ItemList>(path: Browser + "Resources").ItemSelected += Select;
         GetNode<Button>(path: "Shell/Toolbar/Recheck").Pressed += Recheck;
         GetNode<Button>(path: "Shell/Toolbar/Cancel").Pressed += Cancel;
         GetNode<Button>(path: "Shell/Workspace/Preview/Actions/Details").Pressed += Details;
@@ -38,12 +82,8 @@ public sealed partial class InspectionRoot : Node2D
     public override void _Process(double delta)
     {
         _gateway.RequireThread();
-        _ = delta;
-        Vector2 viewport = GetViewportRect().Size;
-        GetNode<Control>(path: "Shell").Size = new Vector2(x: Math.Max(val1: 320, val2: viewport.X - 48),
-                y: Math.Max(val1: 240, val2: viewport.Y - 218));
-        GetNode<BoxContainer>(path: "Shell/Workspace").Vertical = viewport.X < 1040;
-        GetNode<Control>(path: "Summary").Size = new Vector2(x: viewport.X - 48, y: 160);
+        _shell?.Tick(delta: delta);
+        _input?.ReconcileFocus();
         if (_pending is null)
         {
             return;
@@ -56,10 +96,10 @@ public sealed partial class InspectionRoot : Node2D
             return;
         }
 
-        int accepted = _generation;
+        int accepted = _loadGeneration;
         ContentPack candidate = ContentPack.Load(index: _index, expectations: _expectations,
                 read: path => _files.GetValueOrDefault(key: path));
-        if (accepted == _generation)
+        if (_accepting && accepted == _loadGeneration)
         {
             _pack = candidate;
             _pending = null;
@@ -71,28 +111,58 @@ public sealed partial class InspectionRoot : Node2D
     public override void _ExitTree()
     {
         _gateway.RequireThread();
+        _accepting = false;
         _generation++;
+        _loadGeneration++;
         _pending = null;
+        _shell?.Detach();
         GetNode<OptionButton>(path: "Shell/Workspace/Navigation/Category").ItemSelected -= ChangeCategory;
-        GetNode<LineEdit>(path: "Shell/Workspace/Browser/Search").TextChanged -= Filter;
-        GetNode<OptionButton>(path: "Shell/Workspace/Browser/Status").ItemSelected -= ChangeStatus;
-        GetNode<ItemList>(path: "Shell/Workspace/Browser/Resources").ItemSelected -= Select;
+        GetNode<LineEdit>(path: Browser + "Search").TextChanged -= Filter;
+        GetNode<OptionButton>(path: Browser + "Status").ItemSelected -= ChangeStatus;
+        GetNode<ItemList>(path: Browser + "Resources").ItemSelected -= Select;
         GetNode<Button>(path: "Shell/Toolbar/Recheck").Pressed -= Recheck;
         GetNode<Button>(path: "Shell/Toolbar/Cancel").Pressed -= Cancel;
         GetNode<Button>(path: "Shell/Workspace/Preview/Actions/Details").Pressed -= Details;
         GetNode<Button>(path: "Shell/Workspace/Preview/Actions/Copy").Pressed -= Copy;
     }
 
+    /// <summary>Dismisses the innermost owner while native GUI retains activation and text keys.</summary>
+    public override void _Input(InputEvent @event)
+    {
+        _gateway.RequireThread();
+        _input?.Dismiss(input: @event);
+    }
+
+    /// <summary>Installs a detached native preview only while its exact selection generation accepts results.</summary>
+    internal void AcceptPreview(int generation, Node preview)
+    {
+        _gateway.RequireThread();
+        if (!_accepting || generation != _generation)
+        {
+            preview.QueueFree();
+            return;
+        }
+
+        _shell?.Install(preview: preview);
+    }
+
+    private const string Browser = "Shell/Workspace/Controls/Browser/";
     private readonly MainThreadGateway _gateway = new();
     private readonly Dictionary<string, byte[]?> _files = new(comparer: StringComparer.Ordinal);
     private readonly Dictionary<string, string> _selections = new(comparer: StringComparer.Ordinal);
     private readonly List<string> _readErrors = [];
+    private readonly Dictionary<string, (string Query, string Status, double Scroll)> _views = new(
+            comparer: StringComparer.Ordinal);
+    private InspectionShell? _shell;
+    private InspectionInput? _input;
     private ContentPack _pack = ContentPack.Load(index: null, expectations: null, read: _ => null);
     private Queue<string>? _pending;
     private byte[]? _index;
     private byte[]? _expectations;
     private string[] _rows = [];
     private int _generation;
+    private int _loadGeneration;
+    private bool _accepting;
     private long _loadedBytes;
     private string _selected = "common.bow";
     private string _category = "Items";
@@ -102,14 +172,19 @@ public sealed partial class InspectionRoot : Node2D
     private void Recheck()
     {
         _gateway.RequireThread();
+        _accepting = false;
         _generation++;
+        _loadGeneration++;
         _files.Clear();
+        _pending = null;
+        _shell?.Retire();
         _readErrors.Clear();
         _loadedBytes = 0;
         _index = Read(path: "content/pack-index.json");
         _expectations = Read(path: ContentPack.ExpectedPath);
         _pack = ContentPack.Load(index: null, expectations: _expectations, read: _ => null);
         _pending = new Queue<string>(collection: ContentPack.Paths(index: _index));
+        _accepting = true;
         GetNode<Sprite2D>(path: "Bow").Visible = false;
         GetNode<Label>(path: "Summary/Status").Text = "Loading common.bow…";
         GetNode<Label>(path: "Summary/PackStatus").Text = "0/180 obligations · Pack incomplete — Loading";
@@ -121,8 +196,11 @@ public sealed partial class InspectionRoot : Node2D
     private void Cancel()
     {
         _gateway.RequireThread();
+        _accepting = false;
         _generation++;
+        _loadGeneration++;
         _pending = null;
+        _shell?.Retire();
         _files.Clear();
         _pack = ContentPack.Load(index: null, expectations: _expectations, read: _ => null);
         GetNode<Sprite2D>(path: "Bow").Visible = false;
@@ -182,17 +260,38 @@ public sealed partial class InspectionRoot : Node2D
     private void ChangeCategory(long index)
     {
         _gateway.RequireThread();
+        _accepting = false;
+        _generation++;
+        _shell?.Retire();
         _selections[_category] = _selected;
+        _views[_category] = (_query, _status, GetNode<ItemList>(path: Browser + "Resources")
+                .GetVScrollBar().Value);
         _category = GetNode<OptionButton>(path: "Shell/Workspace/Navigation/Category").GetItemText(idx: (int)index);
         _selected = _selections.GetValueOrDefault(key: _category, defaultValue: "common.bow");
+        (string query, string status, double scroll) = _views.GetValueOrDefault(key: _category,
+                defaultValue: ("", "All statuses", 0));
+        _query = query;
+        _status = status;
+        GetNode<LineEdit>(path: Browser + "Search").Text = query;
+        OptionButton statusControl = GetNode<OptionButton>(path: Browser + "Status");
+        for (int row = 0; row < statusControl.ItemCount; row++)
+        {
+            if (StringComparer.Ordinal.Equals(x: statusControl.GetItemText(idx: row), y: status))
+            {
+                statusControl.Select(idx: row);
+            }
+        }
+
         Rows();
+        GetNode<ItemList>(path: Browser + "Resources").GetVScrollBar().Value = scroll;
+        _accepting = true;
         Selection();
     }
 
     private void ChangeStatus(long index)
     {
         _gateway.RequireThread();
-        _status = GetNode<OptionButton>(path: "Shell/Workspace/Browser/Status").GetItemText(idx: (int)index);
+        _status = GetNode<OptionButton>(path: Browser + "Status").GetItemText(idx: (int)index);
         Rows();
     }
 
@@ -208,7 +307,11 @@ public sealed partial class InspectionRoot : Node2D
         _gateway.RequireThread();
         if (index >= 0 && index < _rows.Length)
         {
+            _accepting = false;
+            _generation++;
+            _shell?.Retire();
             _selected = _rows[index];
+            _accepting = true;
             Selection();
         }
     }
@@ -220,6 +323,14 @@ public sealed partial class InspectionRoot : Node2D
         panel.Visible = !panel.Visible;
         GetNode<Button>(path: "Shell/Workspace/Preview/Actions/Details").Text = panel.Visible
                 ? "Hide details" : "Show details";
+        if (panel.Visible)
+        {
+            panel.GrabFocus();
+        }
+        else
+        {
+            GetNode<Button>(path: "Shell/Workspace/Preview/Actions/Details").GrabFocus();
+        }
     }
 
     private void Copy()
@@ -244,7 +355,7 @@ public sealed partial class InspectionRoot : Node2D
     private void Rows()
     {
         _gateway.RequireThread();
-        ItemList list = GetNode<ItemList>(path: "Shell/Workspace/Browser/Resources");
+        ItemList list = GetNode<ItemList>(path: Browser + "Resources");
         list.Clear();
         string category = _category is "Register" or "Known issues" ? "" : _category;
         IEnumerable<string> outputs = _pack.Search(query: _query, category: category,
@@ -270,7 +381,7 @@ public sealed partial class InspectionRoot : Node2D
             }
         }
 
-        GetNode<Label>(path: "Shell/Workspace/Browser/Count").Text = _rows.Length.ToString(
+        GetNode<Label>(path: Browser + "Count").Text = _rows.Length.ToString(
                 provider: CultureInfo.InvariantCulture) + (_rows.Length == 1 ? " result" : " results")
                 + (_rows.Length == 0 ? " — No resources match. Clear the filter or choose another category." : "");
     }

@@ -7,15 +7,59 @@ const assembly=path.join(ROOT,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Pha
 function env(){const base=path.join(ROOT,'.phase1');return {...process.env,DOTNET_CLI_HOME:path.join(base,'cli-home'),
   NUGET_PACKAGES:path.join(base,'packages'),NUGET_HTTP_CACHE_PATH:path.join(base,'http-cache'),
   TEMP:path.join(base,'temp'),TMP:path.join(base,'temp'),PHASE1_ROOT:ROOT,DOTNET_NOLOGO:'1'};}
-function compiled(){return spawnSync('dotnet',[assembly,'--filter-class','*ContentInspectorTests'],
-  {cwd:ROOT,env:env(),encoding:'utf8',windowsHide:true,timeout:60000});}
+const COMPILED_SUBJECTS=[
+  ['Observe_Inspection_RecordsActualGeneratedDiagnostics',1],
+  ['Authorize_Inspection_RequiresExactInvocationTuples',1],
+  ['Authorize_InternalInspection_RequiresExactInvocation',2],
+  ['Authorize_PublicContracts_RejectsAdjacentTypesAndPaths',1],
+  ['Load_PartialPack_PreservesBowAndCensus',1],['Load_ReorderedShards_PreservesIndependentDiagnostics',1],
+  ['Load_BadExpectations_PreservesCensusAndBow',6],['Load_MalformedIndex_ReturnsExactFailure',4],
+  ['ResourcePath_Aliases_Reject',8],['Load_MissingMediaAndRecheck_DetachesPublishedState',1],
+  ['Load_DuplicateNames_PreservesIdsAndSearchCounts',1],['Load_InvalidIndependentOutput_RetainsValidBow',4],
+  ...[['Root',18],['Input',2],['Shell',12]].flatMap(([type,count])=>Array.from({length:count},(_,i)=>
+    [`Authorize_${type}${String(i+1).padStart(2,'0')}_RequiresExactInvocation`,1]))];
+function compiled(directory){
+  const declared=COMPILED_SUBJECTS.map(([method,count])=>({method,count}));
+  assert.equal(new Set(declared.map(x=>x.method)).size,declared.length,'NO_DUPLICATE_COMPILED_SUBJECT');
+  fs.writeFileSync(path.join(directory,'compiled-selection.json'),JSON.stringify(declared,null,2));
+  const discovery=spawnSync('dotnet',[assembly,'--list-tests','--filter-class','*ContentInspectorTests','--no-ansi'],
+    {cwd:ROOT,env:env(),encoding:'utf8',windowsHide:true,timeout:60000});
+  fs.writeFileSync(path.join(directory,'compiled-discovery.command.json'),JSON.stringify(discovery,null,2));
+  assert.equal(discovery.status,0,discovery.stdout+'\n'+discovery.stderr);
+  const names=[...discovery.stdout.matchAll(/ContentInspectorTests\.([A-Za-z0-9_]+)/g)].map(x=>x[1]);
+  assert.deepEqual([...new Set(names)].sort(),declared.map(x=>x.method).sort(),'FULL_INDEPENDENT_DISCOVERY');
+  assert.equal(names.length,declared.reduce((sum,x)=>sum+x.count,0),'FULL_DISCOVERY_COUNT');
+  const children=[];
+  for(const row of declared){
+    const child=path.join(directory,'compiled-'+row.method);fs.mkdirSync(child,{recursive:true});
+    const args=[assembly,'--filter-method','*ContentInspectorTests.'+row.method,'--report-xunit-ctrf',
+      '--report-xunit-ctrf-filename','tests.json','--results-directory',child,'--no-ansi','--progress','off',
+      '--parallel','none','--explicit','on','--timeout','45s'];
+    const result=spawnSync('dotnet',args,{cwd:ROOT,env:env(),encoding:'utf8',windowsHide:true,timeout:60000});
+    fs.writeFileSync(path.join(child,'command.json'),JSON.stringify({args,...result},null,2));
+    assert.equal(result.status,0,result.stdout+'\n'+result.stderr);
+    const report=JSON.parse(fs.readFileSync(path.join(child,'tests.json'),'utf8'));
+    const tests=report.results.tests,summary=report.results.summary;
+    assert.equal(summary.tests,row.count,row.method);assert.equal(summary.passed,row.count,row.method);
+    assert.equal(summary.failed,0,row.method);assert.equal(summary.skipped,0,row.method);
+    assert.equal(tests.length,row.count,row.method);
+    for(const test of tests){assert.equal(test.status,'passed');assert.ok(test.name.includes(row.method),test.name);}
+    children.push({method:row.method,count:row.count,report:path.relative(directory,path.join(child,'tests.json')),
+      reportSha256:runner.hash(fs.readFileSync(path.join(child,'tests.json')))});
+    console.log('COMPILED '+row.method+' '+row.count+'/'+row.count);
+  }
+  assert.deepEqual(children.map(x=>[x.method,x.count]),COMPILED_SUBJECTS,'COMPLETE_DECLARED_UNION');
+  const union={children,discovered:names.length,members:32,restoredPositives:32,compilerValidNegatives:352};
+  fs.writeFileSync(path.join(directory,'compiled.command.json'),JSON.stringify(union,null,2));
+  return union;
+}
 // The driver is a test client of the unchanged real compiled scene. Signals invoke its C# callbacks;
 // it neither replaces the script nor manufactures projected labels/results.
 const DRIVER=String.raw`extends SceneTree
 var hub: Node
 var outcomes: Array = []
 var failed := false
-const BROWSER = "Shell/Workspace/Browser/"
+const BROWSER = "Shell/Workspace/Controls/Browser/"
 const PREVIEW = "Shell/Workspace/Preview/"
 func _initialize() -> void:
 	call_deferred("run")
@@ -161,6 +205,136 @@ func run() -> void:
 `;
 const LIFECYCLE=String.raw`
 	check_case("preview-transport-exists", hub.has_node("Shell/Workspace/Preview/Transport/Play"), "The current preview owns explicit play/pause, speed, step and reset Controls")
+	if hub.has_node(PREVIEW + "Transport/Play"):
+		var transport = hub.get_node(PREVIEW + "Transport")
+		check_case("static-resource-unavailable", transport.get_node("Play").disabled and transport.get_node("Step").disabled and hub.get_node(PREVIEW + "Sample").text.contains("No authored animation"), hub.get_node(PREVIEW + "Sample").text)
+		var fixture = Node2D.new()
+		fixture.name = "Fixture"
+		var marker = Node2D.new()
+		marker.name = "Marker"
+		fixture.add_child(marker)
+		var player = AnimationPlayer.new()
+		player.name = "Authored"
+		fixture.add_child(player)
+		var clip = Animation.new()
+		clip.length = 1.0
+		var track = clip.add_track(Animation.TYPE_VALUE)
+		clip.track_set_path(track, NodePath("Marker:position"))
+		clip.track_set_interpolation_type(track, Animation.INTERPOLATION_NEAREST)
+		for sample in [[0.0, 0.0], [0.1, 10.0], [0.4, 40.0], [1.0, 100.0]]:
+			clip.track_insert_key(track, sample[0], Vector2(sample[1],0))
+		var library = AnimationLibrary.new()
+		library.add_animation("nonuniform",clip)
+		player.add_animation_library("",library)
+		var generation: int = hub.get("_generation")
+		hub.call("AcceptPreview",generation,fixture)
+		var current = hub.get_node(PREVIEW + "Surface/Current")
+		check_case("authored-player-installed", current.get_child_count() == 1 and not transport.get_node("Play").disabled and marker.position == Vector2.ZERO, current.get_children().map(func(n):return n.name))
+		button(PREVIEW + "Transport/Step")
+		check_case("next-authored-sample-first", marker.position == Vector2(10,0) and hub.get_node(PREVIEW + "Sample").text.contains("0.100s"), str(marker.position))
+		button(PREVIEW + "Transport/Step")
+		check_case("next-authored-sample-nonuniform", marker.position == Vector2(40,0) and hub.get_node(PREVIEW + "Sample").text.contains("0.400s"), str(marker.position))
+		button(PREVIEW + "Transport/Reset")
+		var descendants: int = current.find_children("*","",true,false).size()
+		for i in range(12):
+			button(PREVIEW + "Transport/Reset")
+		check_case("reset-fixed-owned-layers", current.get_child_count() == 1 and descendants == current.find_children("*","",true,false).size() and marker.position == Vector2.ZERO and player.get_signal_connection_list("animation_finished").is_empty(), {"children":current.get_child_count(),"descendants":descendants})
+		var speeds = transport.get_node("Speed")
+		check_case("exact-playback-speeds", speeds.item_count == 4 and speeds.get_item_text(0) == "0.25×" and speeds.get_item_text(1) == "0.5×" and speeds.get_item_text(2) == "1×" and speeds.get_item_text(3) == "2×" and speeds.selected == 2, speeds.item_count)
+		for i in range(4):
+			button(PREVIEW + "Transport/Reset")
+			speeds.select(i)
+			speeds.item_selected.emit(i)
+			button(PREVIEW + "Transport/Play")
+			hub.call("_Process",0.1)
+			button(PREVIEW + "Transport/Play")
+			var authored_time: float = [0.025,0.05,0.1,0.2][i]
+			check_case("clock-speed-"+str(i), abs(player.current_animation_position-authored_time)<0.000001 and not paused, player.current_animation_position)
+		var held: float = player.current_animation_position
+		for i in range(3):
+			await process_frame
+		check_case("pause-only-preview-clock", player.current_animation_position == held and not paused, player.current_animation_position)
+		var search = hub.get_node(BROWSER + "Search")
+		search.grab_focus()
+		var space = InputEventKey.new()
+		space.keycode = KEY_SPACE
+		space.unicode = 32
+		space.pressed = true
+		root.push_input(space)
+		space = space.duplicate()
+		space.pressed = false
+		root.push_input(space)
+		await process_frame
+		check_case("text-owned-space", transport.get_node("Play").text == "Play preview" and search.text.ends_with(" ") and player.current_animation_position == held, search.text)
+		query("")
+		button(PREVIEW + "Actions/Details")
+		var details = hub.get_node(PREVIEW + "Metadata")
+		var selector = hub.get_node("Shell/Workspace/Navigation/Category")
+		selector.show_popup()
+		var escape = InputEventKey.new()
+		escape.keycode = KEY_ESCAPE
+		escape.pressed = true
+		hub.call("_Input",escape)
+		check_case("escape-popup-first", not selector.get_popup().visible and details.visible and selector.has_focus(), details.visible)
+		hub.call("_Input",escape)
+		check_case("escape-drawer-second", not details.visible and hub.get_node(PREVIEW + "Actions/Details").has_focus(), details.visible)
+		hub.call("_Input",escape)
+		check_case("escape-return-category", search.has_focus() and is_instance_valid(hub), search.has_focus())
+		transport.get_node("Step").grab_focus()
+		button(PREVIEW + "Transport/Play")
+		await process_frame
+		check_case("disabled-focus-removed", transport.get_node("Step").disabled and not transport.get_node("Step").has_focus(), str(root.gui_get_focus_owner()))
+		button(PREVIEW + "Transport/Play")
+		query("bow")
+		status(1)
+		category(6)
+		query("IT-07")
+		choose("IT-07")
+		category(1)
+		check_case("per-category-query-filter", search.text == "bow" and hub.get_node(BROWSER+"Status").selected == 1 and hub.get_node("Summary/ResourceId").text == "common.bow", {"query":search.text,"selection":hub.get_node("Summary/ResourceId").text})
+		category(6)
+		check_case("per-category-selection", search.text == "IT-07" and hub.get_node("Summary/ResourceId").text == "IT-07", hub.get_node("Summary/ResourceId").text)
+		var late = Node2D.new()
+		late.name = "ObsoleteA"
+		category(1)
+		hub.call_deferred("AcceptPreview",generation,late)
+		await process_frame
+		await process_frame
+		check_case("late-generation-rejected", current.get_child_count() == 0 and not is_instance_valid(late) and hub.get_node("Summary/ResourceId").text == "common.bow", current.get_child_count())
+		var retired = Node2D.new()
+		retired.name = "AuditionOwner"
+		var audio = AudioStreamPlayer.new()
+		audio.stream = AudioStreamWAV.new()
+		retired.add_child(audio)
+		hub.call("AcceptPreview",hub.get("_generation"),retired)
+		button("Shell/Toolbar/Recheck")
+		button("Shell/Toolbar/Cancel")
+		var after_cancel = Node2D.new()
+		hub.call_deferred("AcceptPreview",hub.get("_generation"),after_cancel)
+		await process_frame
+		await process_frame
+		check_case("cancel-retires-and-fences", current.get_child_count() == 0 and not is_instance_valid(retired) and not is_instance_valid(audio) and not is_instance_valid(after_cancel), current.get_child_count())
+		button("Shell/Toolbar/Recheck")
+		await settle()
+		check_case("local-scroll-and-single-preview", hub.get_node("Shell/Workspace/Controls") is ScrollContainer and hub.get_node("Shell/Workspace/Controls").custom_minimum_size.x == 320 and hub.find_children("Current","",true,false).size() == 1, hub.get_node("Shell/Workspace/Controls").size)
+		root.content_scale_size = Vector2i.ZERO
+		root.size = Vector2i(1280,720)
+		for i in range(4):
+			await process_frame
+		var workspace = hub.get_node("Shell/Workspace")
+		var controls = hub.get_node("Shell/Workspace/Controls")
+		check_case("desktop-layout-bounds", not workspace.vertical and controls.size.x == 320 and controls.get_global_rect().end.y <= 696.1, {"viewport":root.get_visible_rect().size,"controls":controls.get_global_rect(),"workspace":workspace.get_global_rect()})
+		root.size = Vector2i(1039,720)
+		for i in range(4):
+			await process_frame
+		check_case("responsive-category-below1040", workspace.vertical and not hub.get_node("Shell/Workspace/Navigation/Scope").visible and controls.get_index() > hub.get_node(PREVIEW.trim_suffix("/")).get_index(), {"vertical":workspace.vertical,"viewport":root.get_visible_rect().size})
+		root.size = Vector2i(1040,720)
+		for i in range(4):
+			await process_frame
+		check_case("responsive-boundary1040", not workspace.vertical, root.get_visible_rect().size)
+		root.size = Vector2i(1280,720)
+		for i in range(4):
+			await process_frame
 `;
 async function native(context,lifecycle=false){
   const game=path.join(ROOT,'src/godot-game'),project=path.join(context.directory,'native-project');
@@ -209,9 +383,7 @@ runner.registerCase('hub.source',{group:'hub',title:'Independent portable regist
   expected:'Nonzero compiled discovery and actual native observations; valid bow survives independent failures with complete180 census',
   reset:'Owned isolated resources; restore every mutated file and destroy the scene; no game window',
   evidence:['compiled.command.json','inputs.json','native-build.command.json','native-assemblies.json','native-hub.command.json','native-observation.json','result.json']},async context=>{
-    const result=compiled();fs.writeFileSync(path.join(context.directory,'compiled.command.json'),JSON.stringify(result,null,2));
-    assert.equal(result.status,0,result.stdout+'\n'+result.stderr);assert.match(result.stdout,/summary: Passed!/);
-    const discovered=/total:\s*(\d+)/.exec(result.stdout);assert.ok(discovered&&Number(discovered[1])>=26,'NONZERO_REQUIRED_DISCOVERY');
+    const result=compiled(context.directory);
     const inputs=Object.fromEntries(['src/core/ContentPack.cs','src/godot-game/inspection/InspectionRoot.cs',
       'src/godot-game/inspection/Inspection.tscn','src/godot-game/content/pack-index.json',
       'src/godot-game/content/expected-obligations.json','src/godot-game/content/packs/tracer.json',
@@ -219,7 +391,7 @@ runner.registerCase('hub.source',{group:'hub',title:'Independent portable regist
       'tools/phase4/cases/hub.cjs'].map(file=>[file,runner.hash(fs.readFileSync(path.join(ROOT,file)))]));
     fs.writeFileSync(path.join(context.directory,'inputs.json'),JSON.stringify(inputs,null,2));
     const observed=await native(context);
-    return {compiled:true,discovered:Number(discovered[1]),native:observed.outcomes.length,pid:observed.pid,
+    return {compiled:true,discovered:result.discovered,native:observed.outcomes.length,pid:observed.pid,
       scope:'actual compiled pure loader and C# native hub behavior; exact source policy Task2; no rendered acceptance'};
   });
 runner.registerCase('hub.lifecycle',{group:'hub',title:'Inspection input, transport and owned generation lifecycle',importance:'Critical',
@@ -228,9 +400,28 @@ runner.registerCase('hub.lifecycle',{group:'hub',title:'Inspection input, transp
   setup:'Actual compiled production CSharp scene and native Controls in an isolated headless project',
   actions:['Inspect explicit preview transport','Drive owned keys, category restoration and repeated reset','Observe late generation rejection and teardown'],
   expected:'One current preview; text and popups own input; paused stepping uses actual authored samples; obsolete results are rejected',
+  backstops:[
+    {id:'HUB-NAV/loading',observation:'loading',renderedCheckpoint:'hub-loading'},
+    {id:'HUB-NAV/error',observation:'missing-register-valid-bow',renderedCheckpoint:'hub-independent-error'},
+    {id:'HUB-NAV/overflow',observation:'responsive-category-below1040',renderedCheckpoint:'hub-scaled-navigation'},
+    {id:'HUB-NAV/long-text',observation:'exact-obligation-diagnostic',renderedCheckpoint:'hub-long-navigation'},
+    {id:'HUB-REGISTER/empty',observation:'missing-media',renderedCheckpoint:'register-no-outputs'},
+    {id:'HUB-REGISTER/loading',observation:'loading',renderedCheckpoint:'register-loading'},
+    {id:'HUB-REGISTER/error',observation:'missing-register-census',renderedCheckpoint:'register-invalid'},
+    {id:'HUB-REGISTER/populated',observation:'register',renderedCheckpoint:'register180'},
+    {id:'HUB-REGISTER/partial',observation:'partial-filter',renderedCheckpoint:'register-partial'},
+    {id:'HUB-REGISTER/overflow',observation:'local-scroll-and-single-preview',renderedCheckpoint:'register-local-scroll'},
+    {id:'HUB-REGISTER/zero-one-many',observation:'one-result',renderedCheckpoint:'register-zero-one-many'},
+    {id:'HUB-REGISTER/long-text',observation:'exact-obligation-diagnostic',renderedCheckpoint:'register-long-identity'}],
   reset:'Close acceptance, cancel work, disconnect handlers and retire every owned preview; no game window',
   evidence:['native-observation.json','native-build.command.json','native-assemblies.json','native-hub.command.json','result.json']},async context=>{
-    const result=await native(context,true);return {native:result.outcomes.length,pid:result.pid,scope:result.scope};
+    const coverage=compiled(context.directory);
+    const result=await native(context,true);
+    const definition=runner.cases.get('hub.lifecycle');
+    assert.equal(definition.backstops.length,12);
+    for(const row of definition.backstops)assert.equal(result.outcomes.find(x=>x.id===row.observation)?.pass,true,row.id);
+    return {compiled:coverage.discovered,native:result.outcomes.length,pid:result.pid,scope:result.scope,
+      backstops:definition.backstops.map(x=>({...x,headless:true,rendered:'pending04-32'}))};
   });
 if(require.main===module&&process.argv.includes('--self-test-lifecycle')){
   require('node:test').test('inspection preview owns explicit transport and lifetime',async()=>{
@@ -245,6 +436,7 @@ if(require.main===module&&process.argv.includes('--self-test-lifecycle')){
 }
 if(require.main===module&&process.argv.includes('--self-test')){
   require('node:test').test('valid bow survives incomplete independent register',()=>{
-    const result=compiled();assert.equal(result.status,0,result.stdout+'\n'+result.stderr);
+    const directory=path.join(ROOT,'.phase4/compiled-proof',require('node:crypto').randomUUID());
+    fs.mkdirSync(directory,{recursive:true});compiled(directory);
   });
 }
