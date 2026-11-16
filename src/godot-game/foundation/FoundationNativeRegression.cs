@@ -50,9 +50,14 @@ internal static class FoundationNativeRegression
         discovery.Rows = [Advertisement(id: "pending-discovery", name: "New host", occupied: 1)];
         menu.Tick(nowMilliseconds: 4);
         Observe(root: root, gateway: gateway, rows: [..discovery.Rows], expectedSession: "selected");
-        CheckFeedback(menu: menu, coordinator: () => coordinator, replace: value => coordinator = value,
-                showBrowser: visible => root.GetNode<Control>(path: "Browser").Visible = visible,
-                feedback: () => root.GetNode<Label>(path: "Browser/Feedback").Text);
+        foreach ((bool Visible, string? Feedback) step in FeedbackSteps(menu: menu,
+                coordinator: () => coordinator, replace: value => coordinator = value))
+        {
+            root.GetNode<Control>(path: "Browser").Visible = step.Visible;
+            Require(value: step.Feedback is null || StringComparer.Ordinal.Equals(x: step.Feedback,
+                    y: root.GetNode<Label>(path: "Browser/Feedback").Text),
+                    message: "READY_RETURN_BROWSER_STALE_JOIN_PROGRESS");
+        }
         foreach (Node child in rows.GetChildren()) { rows.RemoveChild(node: child); child.QueueFree(); }
         root.GetNode<Control>(path: "Browser").Visible = false;
         root.GetNode<Control>(path: "Menu/Start").GrabFocus();
@@ -67,19 +72,14 @@ internal static class FoundationNativeRegression
         world.Name = "RegressionWorld";
         root.AddChild(node: world);
         ulong menu = root.GetNode<Control>(path: "Menu").GetInstanceId();
-        foreach (string[] ids in new[] { new[] { "a", "a/../../Menu", ".." }, new[] { "a:b", "a/b", "a?b" },
-            new[] { "é", "e\u0301", ":" } })
+        int children = world.GetChildCount();
+        foreach ((FoundationSnapshot Snapshot, string[] Ids) sample in OpaqueSnapshots())
         {
-            FoundationParticipantState[] participants = [Participant(id: "local", slot: 1),
-                ..ids.Select(selector: (id, index) => Participant(id: id, slot: index + 2))];
-            var snapshot = new FoundationSnapshot(sessionId: "native-regression", revision: 1,
-                    participants: participants);
-            FoundationView.ProjectRoster(world: world, snapshot: snapshot, bindingId: "local", gateway: gateway);
-            FoundationView.ProjectRoster(world: world, snapshot: snapshot, bindingId: "local", gateway: gateway);
-            Require(value: world.GetChildren().Count(predicate: child => child.Name.ToString().StartsWith(
-                    value: "Actor_", comparisonType: StringComparison.Ordinal)) == 3,
+            FoundationView.ProjectRoster(world: world, snapshot: sample.Snapshot, bindingId: "local", gateway: gateway);
+            FoundationView.ProjectRoster(world: world, snapshot: sample.Snapshot, bindingId: "local", gateway: gateway);
+            Require(value: world.GetChildCount() == children + 3,
                     message: "OPAQUE_ACTOR_PROJECTION_COLLISION");
-            foreach (string id in ids)
+            foreach (string id in sample.Ids)
             {
                 Require(value: world.GetNode<Node2D>(path: FoundationActorNode.Name(actorId: id)).Position.Y == 540,
                         message: "OPAQUE_ACTOR_PROJECTION");
@@ -89,10 +89,8 @@ internal static class FoundationNativeRegression
         Require(value: root.GetNode<Control>(path: "Menu").GetInstanceId() == menu,
                 message: "OPAQUE_ACTOR_TRAVERSAL");
         world.RemoveMeta(name: "projection_tick");
-        foreach (long elapsed in new[] { long.MaxValue, 0, 0, long.MaxValue - 1, long.MaxValue })
+        foreach (FoundationActorState actor in TimedActors())
         {
-            var actor = new FoundationActorState(sessionId: "native-regression", playerId: "player1",
-                    actorId: "local", positionSubunits: 1000, facing: 1, elapsedMilliseconds: elapsed);
             FoundationView.Project(world: world, actor: actor, gateway: gateway);
             Require(value: world.Position.IsFinite() && world.GetNode<Node2D>(path: "Player").Position.IsFinite()
                     && world.Position.X == 624, message: "HOSTILE_TIME_FINITE_CAMERA");
@@ -102,15 +100,23 @@ internal static class FoundationNativeRegression
         FoundationView.Project(world: world, actor: Participant(id: "local", slot: 1).Actor, gateway: gateway);
         Require(value: world.Position.IsFinite() && world.Position.X is >= 320 and <= 960,
                 message: "FINITE_CAMERA_RECOVERY");
-        CheckMarkerEdges(project: (snapshot, binding) =>
+        foreach ((FoundationSnapshot Snapshot, string Binding) sample in MarkerCases())
         {
             world.RemoveMeta(name: "projection_tick");
-            FoundationView.ProjectRoster(world: world, snapshot: snapshot, bindingId: binding, gateway: gateway);
-        }, markerBounds: name =>
-        {
-            Label marker = world.GetNode<Label>(path: name + "/Marker");
-            return (marker.GetGlobalTransformWithCanvas().Origin.X, marker.Size.X, marker.Text);
-        }, viewportWidth: world.GetViewportRect().Size.X);
+            FoundationView.ProjectRoster(world: world, snapshot: sample.Snapshot, bindingId: sample.Binding,
+                    gateway: gateway);
+            foreach (FoundationParticipantState actor in sample.Snapshot.Participants)
+            {
+                bool own = StringComparer.Ordinal.Equals(x: actor.BindingId, y: sample.Binding);
+                Label marker = world.GetNode<Label>(path: (own ? "Player"
+                        : FoundationActorNode.Name(actorId: actor.Actor.ActorId)) + "/Marker");
+                float left = marker.GetGlobalTransformWithCanvas().Origin.X;
+                Require(value: left >= 0 && left + marker.Size.X <= world.GetViewportRect().Size.X,
+                        message: "WORLD_EDGE_MARKER_CLIPPED");
+                Require(value: StringComparer.Ordinal.Equals(x: marker.Text,
+                        y: "P" + actor.Slot + (own ? " · You" : "")), message: "WORLD_EDGE_MARKER_IDENTITY");
+            }
+        }
         root.RemoveChild(node: world);
         world.QueueFree();
     }
@@ -228,33 +234,31 @@ internal static class FoundationNativeRegression
         });
     }
 
-    private static void CheckFeedback(FoundationMenu menu, Func<FoundationCoordinator?> coordinator,
-            Action<FoundationCoordinator?> replace, Action<bool> showBrowser, Func<string> feedback)
+    private static IEnumerable<(bool Visible, string? Feedback)> FeedbackSteps(FoundationMenu menu,
+            Func<FoundationCoordinator?> coordinator, Action<FoundationCoordinator?> replace)
     {
         (FoundationCoordinator Guest, Action Complete) progress = ProgressGuest();
         replace(obj: progress.Guest);
         menu.Tick(nowMilliseconds: 5);
-        Require(value: feedback() is "Receiving session state…", message: "JOIN_PROGRESS_NOT_OBSERVED");
+        yield return (true, "Receiving session state…");
         progress.Complete();
-        showBrowser(obj: false);
+        yield return (false, null);
         menu.Tick(nowMilliseconds: 6);
-        bool readyCleared = feedback().Length == 0;
+        yield return (false, "");
         menu.Escape();
-        showBrowser(obj: true);
+        Require(value: coordinator() is null, message: "READY_ESCAPE_RETURN_REQUIRED");
+        yield return (true, null);
         menu.Browse();
         menu.Tick(nowMilliseconds: 7);
-        Require(value: readyCleared && coordinator() is null && feedback().Length == 0,
-                message: "READY_RETURN_BROWSER_STALE_JOIN_PROGRESS");
+        yield return (true, "");
         menu.Recover(message: "Full");
         menu.Tick(nowMilliseconds: 8);
-        Require(value: StringComparer.Ordinal.Equals(x: feedback(), y: FoundationCopy.Error(reason: "Full")),
-                message: "RECOVERABLE_ERROR_LOST");
+        yield return (true, FoundationCopy.Error(reason: "Full"));
         menu.Browse();
-        Require(value: feedback().Length == 0, message: "FRESH_BROWSER_RETAINS_OLD_OUTCOME");
+        yield return (true, "");
     }
 
-    private static void CheckMarkerEdges(Action<FoundationSnapshot, string> project,
-            Func<string, (float Left, float Width, string Text)> markerBounds, float viewportWidth)
+    private static IEnumerable<(FoundationSnapshot Snapshot, string Binding)> MarkerCases()
     {
         foreach (long edge in new[] { -59000L, 59000L })
         {
@@ -263,19 +267,29 @@ internal static class FoundationNativeRegression
             var snapshot = new FoundationSnapshot(sessionId: "native-regression", revision: 1, participants: actors);
             foreach (FoundationParticipantState local in actors)
             {
-                project(arg1: snapshot, arg2: local.BindingId);
-                foreach (FoundationParticipantState actor in actors)
-                {
-                    bool own = actor == local;
-                    (float Left, float Width, string Text) marker = markerBounds(arg: own ? "Player"
-                            : FoundationActorNode.Name(actorId: actor.Actor.ActorId));
-                    Require(value: marker.Left >= 0 && marker.Left + marker.Width <= viewportWidth,
-                            message: "WORLD_EDGE_MARKER_CLIPPED");
-                    Require(value: StringComparer.Ordinal.Equals(x: marker.Text,
-                            y: "P" + actor.Slot + (own ? " · You" : "")),
-                            message: "WORLD_EDGE_MARKER_IDENTITY");
-                }
+                yield return (snapshot, local.BindingId);
             }
+        }
+    }
+
+    private static IEnumerable<(FoundationSnapshot Snapshot, string[] Ids)> OpaqueSnapshots()
+    {
+        foreach (string[] ids in new[] { new[] { "a", "a/../../Menu", ".." }, new[] { "a:b", "a/b", "a?b" },
+            new[] { "é", "e\u0301", ":" } })
+        {
+            FoundationParticipantState[] participants = [Participant(id: "local", slot: 1),
+                ..ids.Select(selector: (id, index) => Participant(id: id, slot: index + 2))];
+            yield return (new FoundationSnapshot(sessionId: "native-regression", revision: 1,
+                    participants: participants), ids);
+        }
+    }
+
+    private static IEnumerable<FoundationActorState> TimedActors()
+    {
+        foreach (long elapsed in new[] { long.MaxValue, 0, 0, long.MaxValue - 1, long.MaxValue })
+        {
+            yield return new FoundationActorState(sessionId: "native-regression", playerId: "player1",
+                    actorId: "local", positionSubunits: 1000, facing: 1, elapsedMilliseconds: elapsed);
         }
     }
 
