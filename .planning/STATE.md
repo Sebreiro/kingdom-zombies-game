@@ -4,17 +4,17 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 04
 current_phase_name: Asset production
-current_plan: 37
+current_plan: 03
 status: executing
-stopped_at: 04-37 checkpoint6883fdd; Task1 complete, Task2 node repair authorized; 17/18 selected gates pass; no plan completion
-last_updated: "2026-11-16T18:34:39.452Z"
+stopped_at: Completed04-37-PLAN.md; graph-next04-03 retains partial native hub and policy work
+last_updated: "2026-11-16T19:46:03.689Z"
 last_activity: 2026-11-16
-last_activity_desc: 04-37 Task2 checkpoint; native/solution and26 Core controls pass, Godot collision/proof-lifetime repair remains;6/37 plans complete
+last_activity_desc: Completed04-37 generated authentication and full fresh54-case selection;7/37 plans complete; resume04-03 native hub proof
 progress:
   total_phases: 11
   completed_phases: 3
   total_plans: 62
-  completed_plans: 31
+  completed_plans: 32
   percent: 27
 ---
 
@@ -26,19 +26,19 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase 04 asset production is executing on feature/04-asset-production with [draft PR #5](https://github.com/Sebreiro/kingdom-zombies-game/pull/5) to dev. Plans 04-01, 04-25, 04-34, 04-35, 04-02 and 04-36 are summarized: 6/37. Strict case discovery and the authenticated packaged 180-row register now pass current source/headless controls. Partial 04-03 Task 1 is frozen at 08035ba: 26 compiled Core controls pass, but exact native generated authentication remains blocked. Independently approved prerequisite 04-37 is next; 04-03 remains 0/2 tasks. Plan 04-31 owns later current-hub proof-consumer adaptations. Original packaged Inspection feasibility and three blocked-listening audio candidates remain preserved. All ASSET requirements and rendered/listening/judgment acceptance remain pending 04-32/04-33 after whole implementation and independent review/fixes.
+**Current focus:** Phase 04 asset production continues on feature/04-asset-production with draft PR #5 to dev. Seven of37 plans are summarized:04-01/25/34/35/02/36/37. Generated authentication for frozen08035ba now passes54 selected Phase1 obligations, strict native/solution builds and26 Core controls. Resume partial04-03 actual native hub/source/tracer and exact engine/source-policy/visibility work;03 remains0/2 tasks.04-31 retains later current-hub tracer/export/profile/native-observer adaptations. All ASSET requirements and04-32/33 rendered/listening/judgment acceptance remain pending.
 
 ## Current Position
 
 Phase: 04 — Asset production
-Current Plan: 37
+Current Plan: 03
 Total Plans in Phase: 37
 Status: Executing
-Last activity: 2026-11-16 — 04-37 Task2 checkpoint; native/solution and26 Core controls pass, Godot collision/proof-lifetime repair remains;6/37 plans complete
+Last activity: 2026-11-16 — Completed04-37 generated authentication and full fresh54-case selection;7/37 plans complete; resume04-03 native hub proof
 
 Progress: [███░░░░░░░] 27%
 
-Milestone progress: 3/11 phases complete; 31/62 currently planned plans summarized; fourteen of 134 requirements complete. Phase 4 has 6/37 plans complete. No ASSET requirement completion is claimed.
+Milestone progress: 3/11 phases complete;32/62 currently planned plans summarized;fourteen of134 requirements complete. Phase4 has7/37 plans complete. No ASSET requirement completion is claimed.
 
 ## Performance Metrics
 
@@ -89,6 +89,7 @@ Milestone progress: 3/11 phases complete; 31/62 currently planned plans summariz
 | Phase 04 P35 | 13min | 2 tasks | 5 files |
 | Phase 04 P02 | 157min | 2 tasks | 9 files |
 | Phase 04 P36 | 12min | 2 tasks | 7 files |
+| Phase 04 P37 | 99min | 2 tasks | 12 files |
 
 ## Accumulated Context
 
@@ -117,6 +118,9 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - [Phase 04]: 04-02 proves actual natural packaged Inspection startup and local self-contained runtime closure through read-only native observations; complete content and rendered acceptance remain pending.
 - [Phase 04]: 04-02 retains three exact decoded audio candidates with listening blocked, null listener and empty verdicts; AC-12 and all ASSET requirements remain pending 04-32/04-33.
 - [Phase 04]: 04-36 discovers strict saved modules at CLI main; published expectations retain the independently pinned 180-row source authority and zero completion credit.
+- [Phase 04]: Preserve original220/18/16/26 generated contracts; authenticate exact current observations in both directions and retain raw producer snapshots for historical regeneration.
+- [Phase 04]: Only engine.generated-boundary receives validated120000ms case capacity with a122000ms outer deadline; all other defaults and original case identities remain unchanged.
+- [Phase 04]: 04-37 completes generated proof only. All ASSET requirements stay pending, and04-03 resumes actual native hub/source-policy/visibility before later current-hub delivery and04-32/33 acceptance.
 
 ### Pending Todos
 
@@ -160,10 +164,10 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 
 ## Session Continuity
 
-Last session: 2026-11-16T17:30:55.738Z
-Stopped at: 04-37 checkpoint6883fdd; Task1 complete, Task2 node repair authorized; 17/18 selected gates pass; no plan completion
+Last session: 2026-11-16T19:46:02.396Z
+Stopped at: Completed04-37-PLAN.md; graph-next04-03 retains partial native hub and policy work
 Resume file: .planning/phases/04-asset-production/04-03-GENERATED-CHECKPOINT.md
 
-Next action: Execute independently approved 04-37 against frozen 08035ba, then resume 04-03 actual native proof and Task 2. Stay on feature/04-asset-production and retain draft PR #5 to dev, all historical checkpoint/failure records and completed 04-02/04-34/04-35 evidence. Six of 36 Phase 4 plans are summarized; actual listening, all ASSET requirements and whole-phase acceptance remain pending.
+Next action: Resume04-03 from its retained RED/frozen08035ba checkpoint after completed04-37. Finish actual native hub/source/tracer proof and exact engine/source-policy/visibility controls. Stay on feature/04-asset-production and draft PR #5 to dev. Seven of37 Phase4 plans are summarized; all ASSET and actual04-32/33 acceptance remain pending.
 
 Preserved future context: [Phase 4 context](phases/04-asset-production/04-CONTEXT.md) remains authoritative. Plan 04-01 has source/headless evidence only; complete resource and actual acceptance responsibilities remain with later Phase 4 plans.
