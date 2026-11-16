@@ -167,5 +167,16 @@ function selfTest(){
     assert.ok(fs.existsSync(path.join(ROOT,'production/phase4/export-profile.json')));
   });
 }
-module.exports={validate,snapshot,probeScript,observe,profileCase,selfTest};
+function helperSelfTest(){
+  const {test}=require('node:test'),assert=require('node:assert/strict');
+  test('bounded command rejects a deadline exceeding sixty seconds before spawning',async()=>{
+    const parent=path.join(ROOT,'.phase4/tdd/04-35');fs.mkdirSync(parent,{recursive:true});
+    const directory=fs.mkdtempSync(path.join(parent,'helper-red-'));
+    await assert.rejects(runner.command({directory},'oversized-deadline',process.execPath,['-e','process.exit(0)'],{timeout:60001}),
+      /COMMAND_TIMEOUT_RANGE/,'a caller cannot extend the bounded child deadline');
+    assert.equal(fs.existsSync(path.join(directory,'oversized-deadline.command.json')),false);
+  });
+}
+module.exports={validate,snapshot,probeScript,observe,profileCase,selfTest,helperSelfTest};
 if(require.main===module&&process.argv[2]==='--self-test')selfTest();
+if(require.main===module&&process.argv[2]==='--self-test-helper')helperSelfTest();
