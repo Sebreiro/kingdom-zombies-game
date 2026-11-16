@@ -61,7 +61,7 @@ actuals:
 commits: 2
 plan_head_before: 5533fff01fde4f30e75e37d581b8a002c2db1afd
 plan_head_after: 1ffe80752bd35547846999168efa79329f18d4da
-duration: 36min
+duration: 39min
 completed: 2026-11-17
 ---
 
@@ -73,7 +73,7 @@ completed: 2026-11-17
 
 Both formal tasks are complete on `feature/04-asset-production`, associated with the parent's existing draft PR5 targeting dev. No branch switch, installation, VM, game window, listening, independent phase review or actual rendered acceptance occurred. The phase remains incomplete and the inherited provenance failure below remains an active phase-completion blocker.
 
-The retained authoring window starts with `.phase4/04-04` creation at2026-11-16T22:47:47Z and closes around23:24Z, approximately36min. The final four-case source selection took52,329ms in its scenario invocations: three passes and one inherited failure. Source generation used four distinct built-in image_gen calls, with real alpha requested for each; there was no paid/API fallback or dependency installation.
+The retained execution window starts with `.phase4/04-04` creation at2026-11-16T22:47:47Z and closes with the successful summary commit observation at23:26:18Z:38min31sec, reported as39min. The final four-case source selection took52,329ms in its scenario invocations: three passes and one inherited failure. Source generation used four distinct built-in image_gen calls, with real alpha requested for each; there was no paid/API fallback or dependency installation.
 
 The persisted ledger starts at`5533fff` and `git rev-list --count 5533fff..1ffe807` measures2 implementation commits. The realized ordinary unified diff across the exact nine implementation paths contains1,896,001 characters; `ceil(chars/4)` is474,001 on the estimate's scale. This includes the large serialized source/animation metadata and ordinary binary-diff notices, not a harness token count or base85 binary patch. Metadata close-out commits are outside the recorded before/after snapshot.
 
