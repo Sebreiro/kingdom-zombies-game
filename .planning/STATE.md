@@ -4,17 +4,18 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 04
 current_phase_name: Asset production
-current_plan: 2
+current_plan: 3
 status: executing
-stopped_at: Completed 04-01-PLAN.md; source/headless tracer only; next dependency-wave plan 04-25
-last_updated: "2026-11-16T13:03:40.717Z"
+stopped_at: Completed 04-25-PLAN.md; exact census/provenance and atomic source publication only; next dependency-wave plan 04-02
+last_updated: "2026-11-16T13:22:28.824Z"
 last_activity: 2026-11-16
-last_activity_desc: Completed 04-01 source/headless tracer; Phase 4 acceptance pending
+last_activity_desc: Completed 04-25 census/provenance/publication source slice; Phase 4 acceptance pending
+state_head: d86e80a1a584fef2ee5d3c8841c52c4155d7c73e
 progress:
   total_phases: 11
   completed_phases: 3
   total_plans: 58
-  completed_plans: 26
+  completed_plans: 27
   percent: 27
 ---
 
@@ -26,19 +27,19 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase 04 asset production is executing on feature/04-asset-production with draft PR #5 to dev. Plan 04-01 source/headless bow tracer is complete; 1/33 plans summarized. Next dependency-wave plan is 04-25. Actual phase acceptance remains pending 04-32/04-33 after complete implementation and independent review.
+**Current focus:** Phase 04 asset production is executing on feature/04-asset-production with draft PR #5 to dev. Plans 04-01 and 04-25 source/headless slices complete; 2/33 plans summarized. Next dependency-wave plan is 04-02. Actual acceptance remains pending 04-32/04-33 after whole implementation and independent review/fixes.
 
 ## Current Position
 
 Phase: 04 (Asset production) — IN PROGRESS
-Current Plan: 2
+Current Plan: 3
 Total Plans in Phase: 33
 Status: Executing
-Last activity: 2026-11-16 — Completed 04-01 source/headless tracer; Phase 4 acceptance pending
+Last activity: 2026-11-16 — Completed 04-25 census/provenance/publication source slice; Phase 4 acceptance pending
 
 Progress: [███░░░░░░░] 27%
 
-Milestone progress: 3/11 phases complete; 26/58 currently planned plans summarized; fourteen of 134 requirements complete. Phase 4 has 1/33 plans complete; no ASSET requirement completion is claimed.
+Milestone progress: 3/11 phases complete; 27/58 currently planned plans summarized; fourteen of 134 requirements complete. Phase 4 has 2/33 plans complete; no ASSET requirement completion is claimed.
 
 ## Performance Metrics
 
@@ -84,6 +85,7 @@ Milestone progress: 3/11 phases complete; 26/58 currently planned plans summariz
 | Phase 01 P16 | 84min | 2 tasks | 11 files |
 | Phase 01 P17 | 155min | 2 tasks | 9 files |
 | Phase 04 P01 | 10min | 2 tasks | 5 files |
+| Phase 04 P25 | 12min | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -102,6 +104,9 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - [Phase 03]: Independent verification passed 21/21 must-haves, all four roadmap criteria and LAN-01–LAN-04. Source/build remains `c69442148c975de974ebbb1d8ef409380940ecb0`; original full execution HEAD is `6ea600953be031bf2b467a50d35090a94e44f802`. Metadata closure must retain both the assembly revision and reviewed SourceLink target.
 - [Phase 03]: Final full `841e10b1-f825-4527-865b-4703382f51eb` passed 481/481 in 56.06min: 433 Phase 1, sixteen Phase 2 and 32 Phase 3. All 48 physical timing rows meet 250ms (maximum 197.8586ms); all sixteen stopped comparisons agree with host. Current visual review accepts 319 bindings / 255 distinct contents. This is local Windows proof, with separate physical LAN, supported-display, hardware and endurance release owners.
 - [Phase 04]: 04-01 provides common.bow source/headless tracer only; ASSET-01/02/05 remain pending complete census, portable export and actual 04-32/04-33 acceptance.
+- [Phase 04]: 04-25 validates exact180 expectations and atomic partial-pack publication; one partial bow and zero completed obligations; all ASSET requirements and final native/listening/judgment acceptance remain pending 04-32/04-33.
+- [Phase 04]: Publish validated partial content with explicit incomplete status; current bow contributes zero completed obligations.
+- [Phase 04]: Retain immutable output identities and generations; replace only the validated current manifest pointer under an exclusive lock.
 
 ### Pending Todos
 
@@ -145,10 +150,10 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 
 ## Session Continuity
 
-Last session: 2026-11-16T13:02:44.346Z
-Stopped at: Completed 04-01-PLAN.md; source/headless tracer only; next dependency-wave plan 04-25
+Last session: 2026-11-16T13:21:50.500Z
+Stopped at: Completed 04-25-PLAN.md; exact census/provenance and atomic source publication only; next dependency-wave plan 04-02
 Resume file: None
 
-Next action: Execute dependency-wave plan 04-25 on feature/04-asset-production; keep draft PR #5 targeting dev. One of 33 Phase 4 plans is summarized; actual phase acceptance remains pending.
+Next action: Execute dependency-wave plan 04-02 on feature/04-asset-production; retain draft PR #5 targeting dev. Two of 33 Phase 4 plans are summarized; actual phase acceptance remains pending.
 
 Preserved future context: [Phase 4 context](phases/04-asset-production/04-CONTEXT.md) remains authoritative. Plan 04-01 has source/headless evidence only; complete resource and actual acceptance responsibilities remain with later Phase 4 plans.
