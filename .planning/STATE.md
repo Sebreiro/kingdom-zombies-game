@@ -4,16 +4,16 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 04
 current_phase_name: Asset production
-current_plan: 03
+current_plan: 36
 status: executing
-stopped_at: Completed 04-02-PLAN.md; actual packaged Inspection source/headless feasibility complete; next 04-03; listening and all ASSET acceptance pending
-last_updated: "2026-11-16T16:08:57.435Z"
+stopped_at: Integration revision independently approved; execute 04-36 then resume 04-03 Task 1
+last_updated: "2026-11-16T16:50:15.400Z"
 last_activity: 2026-11-16
-last_activity_desc: Completed 04-02 genuine packaged Inspection export and isolated audio feasibility; next 04-03; listening and all ASSET acceptance pending
+last_activity_desc: Independently approved 04-36 integration prerequisite and current-hub proof-consumer ownership; 5/36 plans complete
 progress:
   total_phases: 11
   completed_phases: 3
-  total_plans: 60
+  total_plans: 61
   completed_plans: 30
   percent: 27
 ---
@@ -26,19 +26,19 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase 04 asset production is executing on `feature/04-asset-production` with [draft PR #5](https://github.com/Sebreiro/kingdom-zombies-game/pull/5) to `dev`. Plans 04-01, 04-25, 04-34, 04-35 and 04-02 source/headless slices are complete: 5/35 plans summarized. The genuine self-contained Windows debug export now starts its actual packaged Inspection scene; isolated audio candidates are retained with listening blocked. Next dependency-wave implementation is 04-03. Whole-phase rendered, listening and judgment acceptance remains with 04-32/04-33 after implementation and independent review/fixes.
+**Current focus:** Phase 04 asset production is executing on `feature/04-asset-production` with [draft PR #5](https://github.com/Sebreiro/kingdom-zombies-game/pull/5) to `dev`. Plans 04-01, 04-25, 04-34, 04-35 and 04-02 source/headless slices are complete: 5/36 plans summarized. The genuine self-contained Windows debug export starts its actual packaged Inspection scene; isolated audio candidates are retained with listening blocked. Plan 04-03 paused before edits at a recorded integration checkpoint. Independently approved prerequisite 04-36 will add strict case discovery and an authenticated packaged expectation register; 04-31 owns the later current-hub proof-consumer updates before its final export group. Execute 04-36, then resume 04-03. Whole-phase rendered, listening and judgment acceptance remains with 04-32/04-33 after implementation and independent review/fixes.
 
 ## Current Position
 
 Phase: 04 — Asset production
-Current Plan: 03
-Total Plans in Phase: 35
-Status: Ready to execute
-Last activity: 2026-11-16 — Completed 04-02 genuine packaged Inspection export and isolated audio feasibility; next 04-03; listening and all ASSET acceptance pending
+Current Plan: 36
+Total Plans in Phase: 36
+Status: Executing
+Last activity: 2026-11-16 — Independently approved 04-36 integration prerequisite and current-hub proof-consumer ownership; 5/36 plans complete
 
 Progress: [███░░░░░░░] 27%
 
-Milestone progress: 3/11 phases complete; 30/60 currently planned plans summarized; fourteen of 134 requirements complete. Phase 4 has 5/35 plans complete. No ASSET requirement completion is claimed.
+Milestone progress: 3/11 phases complete; 30/61 currently planned plans summarized; fourteen of 134 requirements complete. Phase 4 has 5/36 plans complete. No ASSET requirement completion is claimed.
 
 ## Performance Metrics
 
@@ -112,7 +112,7 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - [Phase 04]: 04-34 permits only six authenticated Windows SDK export path/hash/line tuples; original Debug/source/member permissions and IDs remain unchanged.
 - [Phase 04]: 04-34 completes only the ASSET-05 managed export layout prerequisite; all ASSET requirements remain pending and preserved 04-02 Task1 resumes without repeating committed audio Task2.
 - [Phase 04]: 04-35 permanently selects Inspection through asset_inspection export feature and qualified main; ordinary Foundation configuration remains exact.
-- [Phase 04]: 04-35 source/headless configuration/resource proof supplies no packaged Inspection startup credit; resume preserved 04-02 Task1 for fresh actual native consumer proof, without repeating committed audio Task2; all ASSET requirements remain pending.
+- [Phase 04]: 04-35 source/headless configuration/resource proof alone supplies no packaged Inspection startup credit. Completed 04-02 subsequently supplies that actual native feasibility proof without repeating its committed audio task; all ASSET requirements remain pending.
 - [Phase 04]: 04-02 proves actual natural packaged Inspection startup and local self-contained runtime closure through read-only native observations; complete content and rendered acceptance remain pending.
 - [Phase 04]: 04-02 retains three exact decoded audio candidates with listening blocked, null listener and empty verdicts; AC-12 and all ASSET requirements remain pending 04-32/04-33.
 
@@ -159,9 +159,9 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 ## Session Continuity
 
 Last session: 2026-11-16T16:08:57.130Z
-Stopped at: Completed 04-02-PLAN.md; actual packaged Inspection source/headless feasibility complete; next 04-03; listening and all ASSET acceptance pending
+Stopped at: Integration revision independently approved; execute 04-36 then resume 04-03 Task 1
 Resume file: None
 
-Next action: Execute dependency-wave plan 04-03 on `feature/04-asset-production`, consuming the completed 04-02 packaged Inspection feasibility and preserved 04-34/04-35 prerequisites. Retain draft PR #5 to `dev` and all historical checkpoint/failed evidence. Five of 35 Phase 4 plans are summarized; actual listening, all ASSET requirements and whole-phase acceptance remain pending.
+Next action: Execute independently approved 04-36, then resume 04-03 at Task 1. Stay on `feature/04-asset-production`, retaining draft PR #5 to `dev`, completed 04-02/04-34/04-35 evidence and all historical checkpoint/failure records. Five of 36 Phase 4 plans are summarized; actual listening, all ASSET requirements and whole-phase acceptance remain pending.
 
 Preserved future context: [Phase 4 context](phases/04-asset-production/04-CONTEXT.md) remains authoritative. Plan 04-01 has source/headless evidence only; complete resource and actual acceptance responsibilities remain with later Phase 4 plans.

@@ -9,9 +9,9 @@
     "ui": "04-UI-SPEC.md"
   },
   "counts": {
-    "plans": 35,
-    "tasks": 70,
-    "waves": 29,
+    "plans": 36,
+    "tasks": 72,
+    "waves": 30,
     "obligations": 180,
     "acceptance": 24,
     "heldout": 34,
@@ -23,8 +23,12 @@
     {
       "plan": "04-34",
       "kind": "observed SDK export layout implementation prerequisite",
-      "requirements": ["ASSET-05"],
-      "depends_on": ["04-25"],
+      "requirements": [
+        "ASSET-05"
+      ],
+      "depends_on": [
+        "04-25"
+      ],
       "precedes_unfinished": "04-02 Task 1",
       "source": "04-EXPORT-PREREQUISITE.md",
       "newAcceptanceIdentity": false,
@@ -33,12 +37,44 @@
     {
       "plan": "04-35",
       "kind": "permanent inspection export-feature profile prerequisite",
-      "requirements": ["ASSET-05"],
-      "depends_on": ["04-34"],
+      "requirements": [
+        "ASSET-05"
+      ],
+      "depends_on": [
+        "04-34"
+      ],
       "precedes_unfinished": "04-02 Task 1",
       "source": "04-INSPECTION-EXPORT-PROFILE.md",
       "newAcceptanceIdentity": false,
       "status": "Not executed"
+    },
+    {
+      "plan": "04-36",
+      "kind": "case registration and packaged independent expectation integration prerequisite",
+      "requirements": [
+        "ASSET-02",
+        "ASSET-05"
+      ],
+      "depends_on": [
+        "04-02",
+        "04-25"
+      ],
+      "precedes_unfinished": "04-03 Task 1",
+      "source": "04-HUB-INTEGRATION-PREREQUISITE.md",
+      "newAcceptanceIdentity": false,
+      "status": "Not executed",
+      "cases": [
+        {
+          "id": "source.case-discovery",
+          "runGroup": "G0-integration",
+          "order": 360
+        },
+        {
+          "id": "source.packaged-expectations",
+          "runGroup": "G0-integration",
+          "order": 361
+        }
+      ]
     }
   ],
   "obligations": [
@@ -1996,7 +2032,7 @@
       "source": "specs/0.1/assets-and-resources.md",
       "section": "§11",
       "plan": "04-31",
-      "task": 1,
+      "task": 2,
       "check": "node tools/phase4/check.cjs --group export",
       "status": "Not executed"
     },
@@ -2214,7 +2250,8 @@
       "source": "04-SPEC.md §Acceptance Criteria",
       "owners": [
         "04-02 Task 1",
-        "04-31 Task 1"
+        "04-31 Task 1",
+        "04-31 Task 2"
       ],
       "finalEvidence": "04-32 Task 1",
       "status": "Not executed"
@@ -2226,7 +2263,8 @@
       "owners": [
         "04-03 Task 1",
         "04-23 Task 1",
-        "04-31 Task 1"
+        "04-31 Task 1",
+        "04-31 Task 2"
       ],
       "finalEvidence": "04-32 Task 1",
       "status": "Not executed"
@@ -2238,6 +2276,7 @@
       "owners": [
         "04-30 Task 1",
         "04-31 Task 1",
+        "04-31 Task 2",
         "04-32 Task 1",
         "04-33 Task 1"
       ],
@@ -4027,6 +4066,41 @@
     "report": "04-PLAN-CHECK.md",
     "status": "required properties addressed; independent recheck pending",
     "parentOwnsCommit": true
-  }
+  },
+  "consumerAdaptations": [
+    {
+      "report": "04-PLAN-CHECK-INTEGRATION-PREREQUISITE.md",
+      "requiredProperty": "Every required source/native/export proof remains wired to a compatible actual production subject with an owner before its next required gate",
+      "producer": "04-03 Task1",
+      "consumerOwner": "04-31 Task1",
+      "files": [
+        "tools/phase4/check.cjs",
+        "tools/phase4/export.cjs",
+        "tools/phase4/native-observer.cjs",
+        "tools/phase4/cases/export-profile.cjs",
+        "tools/phase4/cases/export-portability.cjs"
+      ],
+      "catalogOwner": "04-30 Task1",
+      "newCase": {
+        "id": "export.hub-consumer",
+        "group": "export",
+        "runGroup": "G0-export-hub",
+        "order": 310,
+        "needsGameWindow": false,
+        "importance": "Critical",
+        "requirements": [
+          "ASSET-05"
+        ],
+        "acceptance": [
+          "AC-15",
+          "AC-16",
+          "AC-17"
+        ]
+      },
+      "finalGate": "04-31 Task2 --group export",
+      "scopeIdentityChanges": 0,
+      "execution": "Not executed"
+    }
+  ]
 }
 

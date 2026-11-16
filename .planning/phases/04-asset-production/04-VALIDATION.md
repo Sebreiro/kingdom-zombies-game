@@ -254,45 +254,46 @@ No rendered acceptance or listening is claimed here. Export template acquisition
 
 ## Executable task mapping — planned, all unchecked
 
-Revision1 contains35 canonical plans,70 tasks and29 waves; each plan has fewer than10 files (maximum9), each task at most5. Planning/source checks are not production or acceptance evidence. Whole actual tracer stays04-01 Task1 before expansion04-25. Research routes are RESOLVED; official matching archive acquisition is observed, but installation/net10 export/launch and actual named listening/judgments remain unperformed.
+Revision1 contains36 canonical plans,72 tasks and30 waves; each plan has fewer than10 files (maximum9), each task at most5. Planning/source checks are not production or acceptance evidence. Whole actual tracer stays04-01 Task1 before expansion04-25. Research routes are RESOLVED; official matching archive acquisition is observed, but installation/net10 export/launch and actual named listening/judgments remain unperformed.
 
 | Plan | Wave | Tasks | Files | Production capability | Status |
 | --- | --- | --- | --- | --- | --- |
 | 04-01 | 1 | 2 | 5 | Production donor-to-inspector tracer and exact provenance | [ ] Not executed |
 | 04-02 | 5 | 2 | 8 | Early portable-export and audio feasibility | [ ] Not executed |
-| 04-03 | 6 | 2 | 9 | Live inspection shell, validated loader and exact native permissions | [ ] Not executed |
-| 04-04 | 8 | 2 | 9 | Reusable donor kit, exact animation conversion and assembled scale proof | [ ] Not executed |
-| 04-05 | 9 | 2 | 7 | All 24 item identities and reusable wearable/held masters | [ ] Not executed |
-| 04-06 | 10 | 2 | 8 | Survivor and first three zombie body fits | [ ] Not executed |
-| 04-07 | 11 | 2 | 9 | Complete armored, wide and specialist zombie silhouettes/fits | [ ] Not executed |
-| 04-08 | 12 | 2 | 5 | Concurrent locomotion, melee and coherent logical hands | [ ] Not executed |
-| 04-09 | 13 | 2 | 8 | Bow, work, food and specialist action composition | [ ] Not executed |
-| 04-10 | 14 | 2 | 9 | Persistent corpses, wildlife, identities and real crowd resources | [ ] Not executed |
-| 04-11 | 9 | 2 | 8 | Three actual main-building tiers and shared camp resources | [ ] Not executed |
-| 04-12 | 15 | 2 | 8 | Walls, independent guards and complete defense lifecycle | [ ] Not executed |
-| 04-13 | 16 | 2 | 9 | Complete authored world, portal and environmental effect inspection | [ ] Not executed |
-| 04-14 | 10 | 2 | 8 | Native UI kit, packaged fonts and reusable theme | [ ] Not executed |
-| 04-15 | 15 | 2 | 7 | Reusable inventory, legacy, stash and target layout states | [ ] Not executed |
-| 04-16 | 18 | 2 | 7 | People, economy, construction, map, rally and warning layouts | [ ] Not executed |
-| 04-17 | 19 | 2 | 7 | Session, save, outcome, settings and error layout resources | [ ] Not executed |
-| 04-18 | 10 | 2 | 9 | Complete run, time, survivor, item, combat and inventory baseline | [ ] Not executed |
-| 04-19 | 18 | 2 | 8 | Complete economy, food, map, structure and tower baseline | [ ] Not executed |
-| 04-20 | 20 | 2 | 9 | Complete zombies, progression, portals, sessions and preferences | [ ] Not executed |
-| 04-21 | 21 | 2 | 8 | All 30 real sound categories and complete event-bank resources | [ ] Not executed |
-| 04-22 | 23 | 2 | 9 | Complete English text, compatibility and data/text inspection | [ ] Not executed |
-| 04-23 | 24 | 2 | 5 | Complete source census and final exact native-policy reconciliation | [ ] Not executed |
-| 04-24 | 27 | 2 | 5 | Independent whole-phase review and exact prelaunch selection | [ ] Not executed |
+| 04-03 | 7 | 2 | 9 | Live inspection shell, validated loader and exact native permissions | [ ] Not executed |
+| 04-04 | 9 | 2 | 9 | Reusable donor kit, exact animation conversion and assembled scale proof | [ ] Not executed |
+| 04-05 | 10 | 2 | 7 | All 24 item identities and reusable wearable/held masters | [ ] Not executed |
+| 04-06 | 11 | 2 | 8 | Survivor and first three zombie body fits | [ ] Not executed |
+| 04-07 | 12 | 2 | 9 | Complete armored, wide and specialist zombie silhouettes/fits | [ ] Not executed |
+| 04-08 | 13 | 2 | 5 | Concurrent locomotion, melee and coherent logical hands | [ ] Not executed |
+| 04-09 | 14 | 2 | 8 | Bow, work, food and specialist action composition | [ ] Not executed |
+| 04-10 | 15 | 2 | 9 | Persistent corpses, wildlife, identities and real crowd resources | [ ] Not executed |
+| 04-11 | 10 | 2 | 8 | Three actual main-building tiers and shared camp resources | [ ] Not executed |
+| 04-12 | 16 | 2 | 8 | Walls, independent guards and complete defense lifecycle | [ ] Not executed |
+| 04-13 | 17 | 2 | 9 | Complete authored world, portal and environmental effect inspection | [ ] Not executed |
+| 04-14 | 11 | 2 | 8 | Native UI kit, packaged fonts and reusable theme | [ ] Not executed |
+| 04-15 | 16 | 2 | 7 | Reusable inventory, legacy, stash and target layout states | [ ] Not executed |
+| 04-16 | 19 | 2 | 7 | People, economy, construction, map, rally and warning layouts | [ ] Not executed |
+| 04-17 | 20 | 2 | 7 | Session, save, outcome, settings and error layout resources | [ ] Not executed |
+| 04-18 | 11 | 2 | 9 | Complete run, time, survivor, item, combat and inventory baseline | [ ] Not executed |
+| 04-19 | 19 | 2 | 8 | Complete economy, food, map, structure and tower baseline | [ ] Not executed |
+| 04-20 | 21 | 2 | 9 | Complete zombies, progression, portals, sessions and preferences | [ ] Not executed |
+| 04-21 | 22 | 2 | 8 | All 30 real sound categories and complete event-bank resources | [ ] Not executed |
+| 04-22 | 24 | 2 | 9 | Complete English text, compatibility and data/text inspection | [ ] Not executed |
+| 04-23 | 25 | 2 | 5 | Complete source census and final exact native-policy reconciliation | [ ] Not executed |
+| 04-24 | 28 | 2 | 5 | Independent whole-phase review and exact prelaunch selection | [ ] Not executed |
 | 04-25 | 2 | 2 | 6 | Exact census/provenance and atomic repeatable publication | [ ] Not executed |
-| 04-26 | 7 | 2 | 6 | Inspection input/lifetime expansion with immediate exact native permission proofs | [ ] Not executed |
-| 04-27 | 17 | 2 | 5 | World/item navigation, replacement and held-out preview states | [ ] Not executed |
-| 04-28 | 11 | 2 | 5 | Canonical status/input/player symbols and retained desktop identity art | [ ] Not executed |
-| 04-29 | 22 | 2 | 5 | Native audio audition, exact current-loop ownership and backstops | [ ] Not executed |
-| 04-30 | 25 | 2 | 5 | Saved scenario/evidence runner and prelaunch/acceptance validation code | [ ] Not executed |
-| 04-31 | 26 | 2 | 6 | Complete portable Windows inspection export and clean failure/relaunch proof | [ ] Not executed |
-| 04-32 | 28 | 2 | 5 | Actual selected native/listening run and separate named judgments | [ ] Not executed |
-| 04-33 | 29 | 2 | 5 | Exact acceptance/artifact/evidence completion reconciliation | [ ] Not executed |
+| 04-26 | 8 | 2 | 6 | Inspection input/lifetime expansion with immediate exact native permission proofs | [ ] Not executed |
+| 04-27 | 18 | 2 | 5 | World/item navigation, replacement and held-out preview states | [ ] Not executed |
+| 04-28 | 12 | 2 | 5 | Canonical status/input/player symbols and retained desktop identity art | [ ] Not executed |
+| 04-29 | 23 | 2 | 5 | Native audio audition, exact current-loop ownership and backstops | [ ] Not executed |
+| 04-30 | 26 | 2 | 5 | Saved scenario/evidence runner and prelaunch/acceptance validation code | [ ] Not executed |
+| 04-31 | 27 | 2 | 9 | Complete portable Windows inspection export and clean failure/relaunch proof | [ ] Not executed |
+| 04-32 | 29 | 2 | 5 | Actual selected native/listening run and separate named judgments | [ ] Not executed |
+| 04-33 | 30 | 2 | 5 | Exact acceptance/artifact/evidence completion reconciliation | [ ] Not executed |
 | 04-34 | 3 | 2 | 7 | Exact SDK export-layout prerequisite | [ ] Not executed |
 | 04-35 | 4 | 2 | 5 | Permanent inspection export-feature profile | [ ] Not executed |
+| 04-36 | 6 | 2 | 7 | Discoverable saved cases and portable independent expectations | [ ] Not executed |
 
 Exact180 source/resource ownership: [obligations](04-OBLIGATION-COVERAGE.md). Full24AC/32D/34H/70UI/4prohibition source statements/owners: [acceptance map](04-ACCEPTANCE-COVERAGE.md) and [coverage JSON](04-PLAN-COVERAGE.json). Wave/command creation: [graph](04-PLAN-GRAPH.md). [Source audit](04-SOURCE-AUDIT.md) has no missing in-scope obligation. Every actual file/symbol/retained bundle member enters [artifact inventory](04-ARTIFACTS.md). Original checker report stays [04-PLAN-CHECK.md](04-PLAN-CHECK.md); dispositions are in [revision1](04-REVISION-1.md).
 
@@ -436,3 +437,30 @@ Existing ASSET-05 export is blocked by the retained actual ExportDebug SDK SCR00
 ## Permanent inspection export profile — 04-35
 
 35 depends completed34/wave4; unfinished02Task1 depends35/wave5. Permanent source configuration adds asset_inspection on the existing single named inspection preset and its qualified Inspection main setting, preserving literal ordinary Foundation and five project edges/options. Preset ownership transfers from02 to35; check.cjs adopts only the checkpointed compatible env/cwd helper plus new profile loader, holding incomplete export-module activation for02. Two new source cases use G0-export-profile orders350/351, without renumbering existing cases or adding AC/H/UI scope. Actual settings/resource/default/explicit-feature observations and independent profile/case/path/ordinary-activation failures supply source evidence only. Fresh actual packaged Inspection entry remains02; prior Foundation8frames/editor PCK/config supporting proofs do not substitute. Checkpoint and five partial hashes are retained under .phase4/checkpoints/04-02-entry-93386745/manifest.json; completed01/25/34 and committed audio stay immutable. See04-INSPECTION-EXPORT-PROFILE.md. No source or STATE implementation occurs during planning.
+
+
+
+## Hub integration prerequisite — 04-36
+
+04-36 (wave6, depends completed02/25) supplies strict deterministic saved-case discovery and a packaged byte-identical independent180-row register before unstarted03 (now wave7). It owns7 files/2 tasks;03 keeps9 files/2 tasks and consumes the declared source APIs/expectedObligations reference, retaining full hub and exact native-policy controls before26. Existing01/25/34/35/02 summaries, original proof IDs, partial/pending statuses and all180/24AC/32D/104backstop/4judgment identities stay intact. Two new Critical no-window source cases use G0-integration orders360/361. No native-window/Linux/listening/final acceptance is credited. See04-HUB-INTEGRATION-PREREQUISITE.md.
+
+| Task | Source-only command | Contract/failure boundary | Threat refs | Execution |
+| --- | --- | --- | --- | --- |
+| 04-36 Task1 | node tools/phase4/check.cjs --case source.case-discovery | Actual current CLI plus owned real module fixtures; strict metadata, ID/order, deterministic discovery, zero/invalid/unknown rejection | T-04-106/108 | [ ] Not executed |
+| 04-36 Task2 | node tools/phase4/check.cjs --case source.packaged-expectations | Exact independent180-row bytes/reference, source and native-consumer path contract, atomic publication; refreshed-hash tamper/missing/alias rejection | T-04-107/108 | [ ] Not executed |
+
+Affected no-window regressions are existing source.tracer, source.tracer-failures, source.provenance, source.publication and export.profile-boundaries; --list gives metadata only. New cases are pending creation in36, not existing proof.03 adds compiled native/Core register/census/digest/alias/missing controls while creating its hub, then its Task2 exact permissions/source-policy gate precedes26. All task commands/fails_when remain in canonical plans. This amendment does not reset completed01/25/34/35/02 summaries or claim AC acceptance.
+
+
+
+## Compatible current proof consumers — integration revision1
+
+Revision1 closes the concrete current proof-consumer gap without adding a plan or changing waves.03 preserves the actual Inspection/Bow/Summary identity paths and naturally selected common.bow/current resource-status/expected-count180 bindings inside its full hub.31 Task1 owns check.cjs, export.cjs, native-observer.cjs and export-profile.cjs current-production closure/explicit hub observation, plus export-portability.cjs's new Critical export.hub-consumer case.31 Task2 finishes portable docs and performs the mandatory whole export group only after those adaptations.31 now has9 files,5 per task; total36/72/30 and222 distinct paths remain unchanged. Actual natural packaged current-hub PID/path/resource/status/register/category positives and independent negatives are required; arbitrary-tree acceptance, old tracer substitutes and supporting editor-mounted PCK credit are rejected.
+
+| Task | Gate | Required evidence / failure | Threat refs | Execution |
+| --- | --- | --- | --- | --- |
+| 31 Task1 | node tools/phase4/check.cjs --case export.hub-consumer | Pending new actual natural exported current-hub observation; fail wrong/duplicate/missing canonical paths, PID, exact bow/resource/status/register/category bindings, stale/forged record, arbitrary tree or supporting-editor substitution | T-04-91/93 | [ ] Not executed |
+| 31 Task1 | existing source.tracer and source.tracer-failures | Current production C#/scene closure, original exact bow/source strength and fresh negative/restored/current controls; retain historical IDs | T-04-91/93 | [ ] Not executed |
+| 31 Task2 | existing --group export and export.portability | Final full docs/export/runtime/expectation/path/relaunch closure after current consumer adaptation; H31 unchanged | T-04-91/92/93 | [ ] Not executed |
+
+30 Task1 owns required-case metadata for pending export.hub-consumer;31 Task1 owns actual registration/implementation.03 produces the exact production bindings, while31 consumes actual source-authored paths/contracts independently of observed native output. Only source/headless natural startup is observed before whole-phase independent review; actual windows/listening/judgments remain32. Original source/acceptance statements stay unchanged; DT-27 final delivery task moves1→2 and AC-15/16/17 explicitly include both31 tasks.

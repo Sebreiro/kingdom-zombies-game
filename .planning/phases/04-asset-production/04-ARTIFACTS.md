@@ -24,7 +24,7 @@
 | docs/code/visibility-exemptions.json | 04-03 -> 04-23 | Actual resource/data/document/evidence identity and applicable metadata |
 | docs/content/fields.md | 04-22 | Actual resource/data/document/evidence identity and applicable metadata |
 | docs/content/known-issues.md | 04-32 | Actual resource/data/document/evidence identity and applicable metadata |
-| docs/content/production.md | 04-25 | Actual resource/data/document/evidence identity and applicable metadata |
+| docs/content/production.md | 04-25 -> 04-36 | Actual resource/data/document/evidence identity and applicable metadata |
 | docs/content/README.md | 04-31 | Actual resource/data/document/evidence identity and applicable metadata |
 | docs/content/windows-inspection.md | 04-31 | Actual resource/data/document/evidence identity and applicable metadata |
 | production/phase4/audio-actions.zip | 04-21 | Retained selected/generated originals, expanded prompts/references and exact recipes |
@@ -99,10 +99,11 @@
 | src/godot-game/content/config/zombie-loot.json | 04-20 | Actual resource/data/document/evidence identity and applicable metadata |
 | src/godot-game/content/config/zombie-progression.json | 04-20 | Actual resource/data/document/evidence identity and applicable metadata |
 | src/godot-game/content/config/zombies.json | 04-20 | Actual resource/data/document/evidence identity and applicable metadata |
+| src/godot-game/content/expected-obligations.json | 04-36 | Exact independent180-row packaged UTF-8 register, declared by expectedObligations reference |
 | src/godot-game/content/fixtures/audio-states.json | 04-29 | Actual resource/data/document/evidence identity and applicable metadata |
 | src/godot-game/content/fixtures/crowds.json | 04-10 | Actual resource/data/document/evidence identity and applicable metadata |
 | src/godot-game/content/fixtures/world-states.json | 04-27 | Actual resource/data/document/evidence identity and applicable metadata |
-| src/godot-game/content/pack-index.json | 04-25 | Actual resource/data/document/evidence identity and applicable metadata |
+| src/godot-game/content/pack-index.json | 04-25 -> 04-36 | Actual resource/data/document/evidence identity and applicable metadata |
 | src/godot-game/content/packs/audio-actions.json | 04-21 | Actual resource/data/document/evidence identity and applicable metadata |
 | src/godot-game/content/packs/audio-interface-ambience.json | 04-21 | Actual resource/data/document/evidence identity and applicable metadata |
 | src/godot-game/content/packs/bodies-a.json | 04-06 | Actual resource/data/document/evidence identity and applicable metadata |
@@ -184,6 +185,7 @@
 | tests/phase1/WorldInspectorTests.cs | 04-27 | WorldInspectorTests type; exact actual members in execution SUMMARY |
 | tools/code-rules/GeneratedLayout.cs | 04-34 | Actual named source/test class and exact member signatures; see04-34 SUMMARY |
 | tools/phase1/required-cases.json | 04-34 | Exact SDK export path/source/producer/line provenance or required-case identity |
+| tools/phase4/case-discovery.cjs | 04-36 | createCaseRegistry/loadCaseModules; bounded canonical module and strict metadata registration |
 | tools/phase4/cases/animation.cjs | 04-08 | Actual named CLI/case/evidence exports and stable identities |
 | tools/phase4/cases/audio-feasibility.cjs | 04-02 | Actual named CLI/case/evidence exports and stable identities |
 | tools/phase4/cases/audio.cjs | 04-21 -> 04-29 | Actual named CLI/case/evidence exports and stable identities |
@@ -199,8 +201,9 @@
 | tools/phase4/cases/export-feasibility.cjs | 04-02 | Actual named CLI/case/evidence exports and stable identities |
 | tools/phase4/cases/export-layout.cjs | 04-34 | New export.layout case/module and exact export symbols |
 | tools/phase4/cases/export-portability.cjs | 04-31 | Actual named CLI/case/evidence exports and stable identities |
-| tools/phase4/cases/export-profile.cjs | 04-35 | New export.profile/export.profile-boundaries plus exact source validation/probe/helper exports |
+| tools/phase4/cases/export-profile.cjs | 04-35 -> 04-31 | New export.profile/export.profile-boundaries plus exact source validation/probe/helper exports |
 | tools/phase4/cases/hub.cjs | 04-03 -> 04-26 | Actual named CLI/case/evidence exports and stable identities |
+| tools/phase4/cases/integration.cjs | 04-36 | source.case-discovery/source.packaged-expectations; exact fixture/publication proof exports |
 | tools/phase4/cases/items.cjs | 04-05 | Actual named CLI/case/evidence exports and stable identities |
 | tools/phase4/cases/main-buildings.cjs | 04-11 | Actual named CLI/case/evidence exports and stable identities |
 | tools/phase4/cases/media.cjs | 04-04 | Actual named CLI/case/evidence exports and stable identities |
@@ -212,21 +215,34 @@
 | tools/phase4/cases/ui-kit.cjs | 04-14 -> 04-28 | Actual named CLI/case/evidence exports and stable identities |
 | tools/phase4/cases/ui-session.cjs | 04-17 | Actual named CLI/case/evidence exports and stable identities |
 | tools/phase4/cases/world.cjs | 04-13 -> 04-27 | Actual named CLI/case/evidence exports and stable identities |
-| tools/phase4/check.cjs | 04-01 -> 04-25 -> 04-34 -> 04-35 -> 04-02 | Actual named CLI/case/evidence exports and stable identities |
-| tools/phase4/content.cjs | 04-25 -> 04-23 | Actual named CLI/case/evidence exports and stable identities |
+| tools/phase4/check.cjs | 04-01 -> 04-25 -> 04-34 -> 04-35 -> 04-02 -> 04-36 -> 04-31 | Actual named CLI/case/evidence exports and stable identities |
+| tools/phase4/content.cjs | 04-25 -> 04-36 -> 04-23 | Actual named CLI/case/evidence exports and stable identities |
 | tools/phase4/evidence.cjs | 04-30 | Actual named CLI/case/evidence exports and stable identities |
 | tools/phase4/expected-obligations.json | 04-25 | Actual resource/data/document/evidence identity and applicable metadata |
 | tools/phase4/export.cjs | 04-02 -> 04-31 | Actual named CLI/case/evidence exports and stable identities |
 | tools/phase4/extract-audio.py | 04-02 | Actual resource/data/document/evidence identity and applicable metadata |
 | tools/phase4/extract-media.py | 04-04 | Actual resource/data/document/evidence identity and applicable metadata |
+| tools/phase4/native-observer.cjs | 04-02 -> 04-31 | Existing completed02 read-only observer;31 adapts exact current-hub paths/PID/resource/status/register roles and fresh diagnostics; historical02 identity retained |
 | tools/phase4/required-cases.json | 04-30 | Actual resource/data/document/evidence identity and applicable metadata |
 | tools/phase4/reviewed-source.targets | 04-24 | Actual resource/data/document/evidence identity and applicable metadata |
 | tools/phase4/scenarios.cjs | 04-30 | Actual named CLI/case/evidence exports and stable identities |
 
-Current planned files: 218. Generated execution reports/ignored payloads retain immutable source/media/invocation identities. Export caches are not game dependencies. Parent-owned04-CONTINUATION.md and existing original checker/research evidence stay outside executor edit ownership. Source-gating code is finished by04-30 before review;04-24/32/33 write current review/evidence data only except explicitly reviewed repairs.
+Current planned files: 222. Generated execution reports/ignored payloads retain immutable source/media/invocation identities. Export caches are not game dependencies. Parent-owned04-CONTINUATION.md and existing original checker/research evidence stay outside executor edit ownership. Source-gating code is finished by04-30 before review;04-24/32/33 write current review/evidence data only except explicitly reviewed repairs.
 
 
 04-34 adds the exact SDK export-layout prerequisite before unfinished02 Task1. New symbols/proofs: GeneratedExportLayoutTests.Check_ExportLayouts_HavePinnedOrigin / Check_ExportLayoutPermissions_StayBounded; rules.export-layout-origin / rules.export-layout-boundary; source-only export.layout. GeneratedLayout.IsPermitted/_entries and the original sources/members/proof IDs remain existing contracts. The separate exportSources/origin record is Windows-only observed provenance, never guessed Linux/export bytes. Preserve the original failed run and partial export files; parent owns checkpoint/STATE/commit reconciliation.
 
 
 35 owns permanent project/preset feature configuration, export-profile.json, profile source module and the compatible check.cjs helper/profile-loader portion. Presets transfer out of02. The incomplete exporter loader and other exporter/pin/export-case contents remain02-owned; current full check.cjs is hash-checkpointed before implementation edits. New source case IDs export.profile/export.profile-boundaries use G0-export-profile orders350/351. No production C# script/autoload is added; actual exported consumer proof remains02. SUMMARY inventories all actual fields/exports/checkpoint identities.
+
+
+
+04-36 (wave6, depends completed02/25) supplies strict deterministic saved-case discovery and a packaged byte-identical independent180-row register before unstarted03 (now wave7). It owns7 files/2 tasks;03 keeps9 files/2 tasks and consumes the declared source APIs/expectedObligations reference, retaining full hub and exact native-policy controls before26. Existing01/25/34/35/02 summaries, original proof IDs, partial/pending statuses and all180/24AC/32D/104backstop/4judgment identities stay intact. Two new Critical no-window source cases use G0-integration orders360/361. No native-window/Linux/listening/final acceptance is credited. See04-HUB-INTEGRATION-PREREQUISITE.md.
+
+36 retains tools/phase4/expected-obligations.json as read-only authority (observed SHA256a4d9243bda1b512b59c189a3bdc48a7cccc8171a218bbfc5ae16b00274f2fda5); its Godot-root copy, required index.expectedObligations field, discovery/registry APIs and two stable cases are the only new implementation contracts. Native ContentPack/InspectionRoot consumption remains03-owned, with each actual symbol recorded in its SUMMARY. Other output owners gain no files. Planning artifacts/checkpoint notes are outside executor production ownership.
+
+
+
+Revision1 closes the concrete current proof-consumer gap without adding a plan or changing waves.03 preserves the actual Inspection/Bow/Summary identity paths and naturally selected common.bow/current resource-status/expected-count180 bindings inside its full hub.31 Task1 owns check.cjs, export.cjs, native-observer.cjs and export-profile.cjs current-production closure/explicit hub observation, plus export-portability.cjs's new Critical export.hub-consumer case.31 Task2 finishes portable docs and performs the mandatory whole export group only after those adaptations.31 now has9 files,5 per task; total36/72/30 and222 distinct paths remain unchanged. Actual natural packaged current-hub PID/path/resource/status/register/category positives and independent negatives are required; arbitrary-tree acceptance, old tracer substitutes and supporting editor-mounted PCK credit are rejected.
+
+31 adds no new path: native-observer.cjs/check.cjs gain an explicit later owner; its existing export-portability.cjs is created inTask1 for export.hub-consumer and expanded inTask2 for final portability. Actual observer/consumer/helper/case symbols and exact native negative/current run identities enter31 SUMMARY. The required-case metadata addition remains30-owned in its existing file budget.
