@@ -106,7 +106,7 @@ async function compile(context){
 }
 runner.registerCase('export.layout',{group:'export',title:'Exact SDK export layout with strict real managed compiles',importance:'Critical',
   rationale:'The actual exporter cannot resume until both real SDK configurations compile without weakened analyzers',
-  needsGameWindow:false,runGroup:'G0',order:5,requirements:['ASSET-05'],acceptance:[],tags:['ASSET-05','prerequisite','source-only'],
+  needsGameWindow:false,runGroup:'G0',order:0,requirements:['ASSET-05'],acceptance:[],tags:['ASSET-05','prerequisite','source-only'],
   setup:'Authenticated Windows x64 SDK 10.0.404, six observed immutable sources, pinned local Godot feed/cache; no new packages',
   actions:['Authenticate producer and retained exact source bytes','Copy tracked current source into separate owned configurations',
     'Require enabled analyzer and warnings-as-errors properties plus exact tooling edge','Publish genuine self-contained net10.0/win-x64 ExportDebug and ExportRelease',
@@ -121,6 +121,7 @@ function selfTest(){
     const item=runner.cases.get('export.layout');
     assert.ok(item,'export.layout must have an executable saved case before export can resume');
     assert.equal(item.needsGameWindow,false);assert.equal(item.runGroup,'G0');
+    assert.equal(item.order,0,'SDK compile prerequisite precedes the retained export.feasibility order 5');
     assert.equal(item.importance,'Critical');assert.equal(typeof item.run,'function');
   });
 }
