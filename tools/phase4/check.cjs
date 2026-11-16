@@ -173,6 +173,7 @@ async function command(context,name,executable,args,{timeout=60000,interruptMark
     if(interruptMarker&&stdout.includes(interruptMarker))stop('LOADER_INTERRUPTED');});
   child.stderr.on('data',part=>{stderr+=part.toString('utf8');if(stderr.length>1048576)stop('OUTPUT_LIMIT');});
   child.once('error',error=>{spawnError=error.message;});
+  child.once('exit',(code,signal)=>save(context.directory,name+'.exit.json',{pid:child.pid,code,signal,exitedAt:new Date().toISOString()}));
   const timer=setTimeout(()=>stop('CHILD_TIMEOUT'),timeout);
   let emergency;
   const result=await Promise.race([
@@ -458,4 +459,5 @@ require('./cases/provenance.cjs');
 require('./cases/audio-feasibility.cjs');
 require('./cases/export-layout.cjs');
 require('./cases/export-profile.cjs');
+require('./cases/export-feasibility.cjs');
 if(require.main===module)main(process.argv.slice(2)).catch(error=>{console.error(error.stack);process.exitCode=1;});
