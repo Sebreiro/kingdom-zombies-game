@@ -1,5 +1,11 @@
 # Phase 04 Plan 26 compiled-proof capacity checkpoint
 
+## C2 mechanical cleanup handoff — 2026-11-16
+
+Separately authorized C2 corrected only the four ProducerKey lambda indentation lines283–286. Whole-file non-whitespace comparison passed and all thirteen recipe values/order are exact; the other ten implementation hashes still match the immutable r2 manifest. Its one strict proof build passed: actual session13158,chunks229538/6d3f46,exit0,10.22s,zero warnings/errors. Current EngineGeneratedTests.cs SHA256 is `d64faaeb87c60182b36a1ac8e9266307e3e301acd6810cf0d07316a35baf8ced`.
+
+The implementation remains WIP. No runtime gates, task commits, SUMMARY, progress advance or ASSET completion occurred. R2 stays0,C1 stays exhausted,R3 stays2/unstarted,both tasks stay0/2. The parent will dispatch frozen focused/canonical verification and plan completion separately. Prior C1 failure and all earlier identities remain historical below; the current build does not relabel them or supply runtime proof. Authorization preceded the source edit and actual outcome is recorded in [04-26-REPAIR.md](04-26-REPAIR.md).
+
 ## C1 compiler cleanup checkpoint — 2026-11-16
 
 Continuation from coordinator1956d6e performed only the authorized constant-array lift in EngineGeneratedTests.cs. Its single strict proof build failed: actual session98259, chunks b892ef/b8a0e2, exit1,9.74s,0 warnings,4 IDE0055 errors on lines283–286 (anonymous-object body indentation after shortening the Select expression). No further source repair or runtime gate ran. C1 is exhausted; R2 remains0 and R3 remains2/unstarted. Both tasks remain0/2; no task/SUMMARY/progress/ASSET completion.
