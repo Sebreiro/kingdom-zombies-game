@@ -1,0 +1,397 @@
+{
+  "schemaVersion": 1,
+  "id": "common.bow",
+  "version": 1,
+  "route": "reused-native-pixels",
+  "source": {
+    "owner": "sharedassets0.assets",
+    "type": "Sprite",
+    "objectId": 7008,
+    "name": "tools_bow",
+    "atlasId": 25376,
+    "atlasName": "objects",
+    "textureId": 178,
+    "textureName": "sactx-0-1024x1024-Uncompressed-objects-07654c7b",
+    "stream": {
+      "offset": 280718128,
+      "size": 4194304,
+      "path": "sharedassets0.assets.resS"
+    }
+  },
+  "preservation": {
+    "locator": "D:\\Work\\Games\\KindomCrown\\recovered\\resources",
+    "manifestSha256": "38a914a53ba9e3a618e6b97942ee3ae382ade702d6ce1f04485e583b4923d31d",
+    "originals": [
+      {
+        "path": "sharedassets0.assets",
+        "bytes": 58725896,
+        "sha256": "3648658d475170661517c4907e50977a4ab932441b404a681cd0ce485592f3ff"
+      },
+      {
+        "path": "sharedassets0.assets.resS",
+        "bytes": 303786800,
+        "sha256": "2efccae88002a02ca85f050a6d6dc2e5fe894c32de80e36f30cd12f8c7ffb5c2"
+      }
+    ],
+    "streamRangeSha256": "620d3a6fd3f441ea4e02f07bef8479f118d451076e29917d292797babb3bad53",
+    "rawSpriteSha256": "12a7303fa0815fb8cd0ac10630e934dd91b87777c041838ada7cfa8259fa4023"
+  },
+  "registration": {
+    "logicalRect": {
+      "x": 0,
+      "y": 0,
+      "width": 16,
+      "height": 18
+    },
+    "pivotNormalizedBottomLeft": {
+      "x": 0.375,
+      "y": 0.5
+    },
+    "sourcePixelsPerUnit": 32,
+    "sourceOffset": {
+      "x": -2,
+      "y": 0
+    },
+    "trimOffset": {
+      "x": 0,
+      "y": 0
+    },
+    "atlasRectOffset": {
+      "x": 576,
+      "y": 526
+    },
+    "atlasTextureRect": {
+      "x": 578,
+      "y": 526,
+      "width": 16,
+      "height": 18
+    },
+    "atlasSettingsRaw": 67,
+    "alphaTextureId": 0,
+    "display": {
+      "centered": false,
+      "offsetTopLeft": [
+        -6,
+        -9
+      ],
+      "scale": [
+        1,
+        1
+      ],
+      "filter": "nearest"
+    }
+  },
+  "image": {
+    "width": 16,
+    "height": 18,
+    "mode": "RGBA",
+    "alphaBBox": [
+      6,
+      1,
+      10,
+      17
+    ],
+    "visiblePixels": 42,
+    "rgbaSha256": "88b8e7062f0eb9cfb788ef3658028ba58a6f62d408d3e39ae2e1228bfa6c8905",
+    "pngSha256": "08b53699e459d71cf73f3e7be84af19d04805d5a7a488121e39a514a81701999",
+    "pngBytes": 135
+  },
+  "tools": {
+    "UnityPy": "1.23.0",
+    "Pillow": "13.0.0",
+    "python": "3.12.14"
+  },
+  "bundle": {
+    "originalExportPngBase64": "iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAATklEQVR42mPsLQhloAQw4ZH7D8VkG0CxC4gCLOIWLjglX57YA/MK48B4QdzChREpQAdpIA53A16e2AMLfdqlAxZoasMHGAd5ZiLX6TAAAGXUDumKx4tZAAAAAElFTkSuQmCC",
+    "rawSpriteBase64": "CQAAAHRvb2xzX2JvdwAAAAAAAAAAAAAAAACAQQAAkEEAAADAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABCAADAPgAAAD8BAAAAAAAAALIPtNavFE+oll2VuN2ZveQgA0UBAAAAAAEAAAAHAAAAb2JqZWN0cwAAAAAAIGMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAGAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwAAAAAAAEAAgACAAEAAwAEAAAADgAAAAAAAAMAAAAAAAAAAAAAAAABAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUAAAAAAAQL4AAJA+AAAAAAAAoD4AAJA+AAAAAAAAQL4AAJC+AAAAAAAAoD4AAJC+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAQQAAkEEAAAAAAAAAAAAAgL8AAIC/QAAAAAAAAEIAAMBAAAAAQgAAEEEAAIA/AQAAAAYAAAAAAIC9AACQPgAAgL0AAJC+AAAAPgAAkL4AAEA+AABgvgAAQD4AAMA9AAAAPgAAkD4AAAAA",
+    "rawSpriteTree": {
+      "m_Name": "tools_bow",
+      "m_Rect": {
+        "x": 0,
+        "y": 0,
+        "width": 16,
+        "height": 18
+      },
+      "m_Offset": {
+        "x": -2,
+        "y": 0
+      },
+      "m_Border": {
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "w": 0
+      },
+      "m_PixelsToUnits": 32,
+      "m_Pivot": {
+        "x": 0.375,
+        "y": 0.5
+      },
+      "m_Extrude": 1,
+      "m_IsPolygon": false,
+      "m_RenderDataKey": [
+        {
+          "data[0]": 3602124722,
+          "data[1]": 2823754927,
+          "data[2]": 3096796566,
+          "data[3]": 3837630941
+        },
+        21300000
+      ],
+      "m_AtlasTags": [
+        "objects"
+      ],
+      "m_SpriteAtlas": {
+        "m_FileID": 0,
+        "m_PathID": 25376
+      },
+      "m_RD": {
+        "texture": {
+          "m_FileID": 0,
+          "m_PathID": 0
+        },
+        "alphaTexture": {
+          "m_FileID": 0,
+          "m_PathID": 0
+        },
+        "secondaryTextures": [],
+        "m_SubMeshes": [
+          {
+            "firstByte": 0,
+            "indexCount": 6,
+            "topology": 0,
+            "baseVertex": 0,
+            "firstVertex": 0,
+            "vertexCount": 4,
+            "localAABB": {
+              "m_Center": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "m_Extent": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              }
+            }
+          }
+        ],
+        "m_IndexBuffer": [
+          0,
+          0,
+          1,
+          0,
+          2,
+          0,
+          2,
+          0,
+          1,
+          0,
+          3,
+          0
+        ],
+        "m_VertexData": {
+          "m_VertexCount": 4,
+          "m_Channels": [
+            {
+              "stream": 0,
+              "offset": 0,
+              "format": 0,
+              "dimension": 3
+            },
+            {
+              "stream": 0,
+              "offset": 0,
+              "format": 0,
+              "dimension": 0
+            },
+            {
+              "stream": 0,
+              "offset": 0,
+              "format": 0,
+              "dimension": 0
+            },
+            {
+              "stream": 0,
+              "offset": 0,
+              "format": 0,
+              "dimension": 0
+            },
+            {
+              "stream": 1,
+              "offset": 0,
+              "format": 0,
+              "dimension": 2
+            },
+            {
+              "stream": 0,
+              "offset": 0,
+              "format": 0,
+              "dimension": 0
+            },
+            {
+              "stream": 0,
+              "offset": 0,
+              "format": 0,
+              "dimension": 0
+            },
+            {
+              "stream": 0,
+              "offset": 0,
+              "format": 0,
+              "dimension": 0
+            },
+            {
+              "stream": 0,
+              "offset": 0,
+              "format": 0,
+              "dimension": 0
+            },
+            {
+              "stream": 0,
+              "offset": 0,
+              "format": 0,
+              "dimension": 0
+            },
+            {
+              "stream": 0,
+              "offset": 0,
+              "format": 0,
+              "dimension": 0
+            },
+            {
+              "stream": 0,
+              "offset": 0,
+              "format": 0,
+              "dimension": 0
+            },
+            {
+              "stream": 0,
+              "offset": 0,
+              "format": 0,
+              "dimension": 0
+            },
+            {
+              "stream": 0,
+              "offset": 0,
+              "format": 0,
+              "dimension": 0
+            }
+          ],
+          "m_DataSize": {
+            "base64": "AABAvgAAkD4AAAAAAACgPgAAkD4AAAAAAABAvgAAkL4AAAAAAACgPgAAkL4AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+          }
+        },
+        "m_Bindpose": [],
+        "textureRect": {
+          "x": 0,
+          "y": 0,
+          "width": 16,
+          "height": 18
+        },
+        "textureRectOffset": {
+          "x": 0,
+          "y": 0
+        },
+        "atlasRectOffset": {
+          "x": -1,
+          "y": -1
+        },
+        "settingsRaw": 64,
+        "uvTransform": {
+          "x": 32,
+          "y": 6,
+          "z": 32,
+          "w": 9
+        },
+        "downscaleMultiplier": 1
+      },
+      "m_PhysicsShape": [
+        [
+          {
+            "x": -0.0625,
+            "y": 0.28125
+          },
+          {
+            "x": -0.0625,
+            "y": -0.28125
+          },
+          {
+            "x": 0.125,
+            "y": -0.28125
+          },
+          {
+            "x": 0.1875,
+            "y": -0.21875
+          },
+          {
+            "x": 0.1875,
+            "y": 0.09375
+          },
+          {
+            "x": 0.125,
+            "y": 0.28125
+          }
+        ]
+      ],
+      "m_Bones": []
+    },
+    "textureTree": {
+      "m_Name": "sactx-0-1024x1024-Uncompressed-objects-07654c7b",
+      "m_ForcedFallbackFormat": 4,
+      "m_DownscaleFallback": false,
+      "m_IsAlphaChannelOptional": false,
+      "m_Width": 1024,
+      "m_Height": 1024,
+      "m_CompleteImageSize": 4194304,
+      "m_MipsStripped": 0,
+      "m_TextureFormat": 4,
+      "m_MipCount": 1,
+      "m_IsReadable": false,
+      "m_IsPreProcessed": false,
+      "m_IgnoreMipmapLimit": false,
+      "m_MipmapLimitGroupName": "",
+      "m_StreamingMipmaps": false,
+      "m_StreamingMipmapsPriority": 0,
+      "m_ImageCount": 1,
+      "m_TextureDimension": 2,
+      "m_TextureSettings": {
+        "m_FilterMode": 0,
+        "m_Aniso": 1,
+        "m_MipBias": 0,
+        "m_WrapU": 1,
+        "m_WrapV": 1,
+        "m_WrapW": 1
+      },
+      "m_LightmapFormat": 0,
+      "m_ColorSpace": 1,
+      "m_PlatformBlob": [],
+      "image data": {
+        "base64": ""
+      },
+      "m_StreamData": {
+        "offset": 280718128,
+        "size": 4194304,
+        "path": "sharedassets0.assets.resS"
+      }
+    }
+  },
+  "validation": {
+    "sourceSelection": "exact-owner-type-id-name-and-dependencies-verified",
+    "production": "source-headless-only",
+    "visualReview": "pending-04-32",
+    "listening": "not-applicable",
+    "obligationCompletion": "not-claimed"
+  },
+  "recipe": {
+    "language": "Python 3.12",
+    "code": "import base64, hashlib, io, json, pathlib, sys\nsys.dont_write_bytecode = True\nsys.path.insert(0, 'D:/Work/Games/KindomCrown/.tools/resource-python')\nimport UnityPy\nfrom PIL import Image\nassert UnityPy.__version__ == '1.23.0' and Image.__version__ == '13.0.0', 'AUTHORING_TOOL_PIN'\nroot = pathlib.Path('D:/Work/Games/KindomCrown/recovered/resources')\ndata = root / 'KingdomTwoCrowns_Data'\ntarget = pathlib.Path(sys.argv[1]).resolve()\nassert target.is_relative_to(pathlib.Path('D:/Work/Games/KingdomZombies/.phase4').resolve()), 'EXPORT_PATH'\nsha = lambda b: hashlib.sha256(b).hexdigest()\nmanifest_bytes = (root / 'manifest.json').read_bytes()\nmanifest = json.loads(manifest_bytes)\noriginals = []\nfor name in ['sharedassets0.assets', 'sharedassets0.assets.resS']:\n    entry = next(x for x in manifest['files'] if x['path'] == name)\n    with (data / name).open('rb') as stream:\n        actual = hashlib.file_digest(stream, 'sha256').hexdigest()\n    assert actual == entry['sha256'] and (data / name).stat().st_size == entry['bytes'], 'PRESERVATION_MISMATCH'\n    originals.append(entry)\nenv = UnityPy.load(str(data / 'sharedassets0.assets'))\nowner = next(x for x in env.files.values() if pathlib.Path(x.name).name == 'sharedassets0.assets')\nobj = owner.objects[7008]\nassert obj.type.name == 'Sprite'\nsprite = obj.read()\nassert sprite.m_Name == 'tools_bow'\natlas = sprite.m_SpriteAtlas.read()\nassert atlas.object_reader.path_id == 25376 and atlas.m_Name == 'objects'\nrender = next(v for k,v in atlas.m_RenderDataMap if k == sprite.m_RenderDataKey)\ntexture = render.texture.read()\nassert texture.object_reader.path_id == 178 and texture.m_Name == 'sactx-0-1024x1024-Uncompressed-objects-07654c7b'\nstream = texture.object_reader.read_typetree()['m_StreamData']\nassert stream == {'offset':280718128, 'size':4194304, 'path':'sharedassets0.assets.resS'}\nwith (data / stream['path']).open('rb') as handle:\n    handle.seek(stream['offset'])\n    stream_bytes = handle.read(stream['size'])\nimage = sprite.image.convert('RGBA')\nassert image.size == (16,18) and image.getbbox() == (6,1,10,17)\noutput = io.BytesIO()\nimage.save(output, format='PNG', optimize=False, compress_level=9)\npng = output.getvalue()\nraw = obj.get_raw_data()\ntree = obj.read_typetree()\nportable = lambda x: json.loads(json.dumps(x,default=lambda b:{'base64':base64.b64encode(b).decode('ascii')}))\nrgba = image.tobytes()\nresult = {'schemaVersion':1, 'id':'common.bow', 'version':1, 'route':'reused-native-pixels',\n 'source':{'owner':'sharedassets0.assets','type':'Sprite','objectId':7008,'name':'tools_bow',\n 'atlasId':25376,'atlasName':'objects','textureId':178,'textureName':texture.m_Name,'stream':stream},\n 'preservation':{'locator':str(root), 'manifestSha256':sha(manifest_bytes),'originals':originals,\n 'streamRangeSha256':sha(stream_bytes),'rawSpriteSha256':sha(raw)},\n 'registration':{'logicalRect':tree['m_Rect'],'pivotNormalizedBottomLeft':tree['m_Pivot'],\n 'sourcePixelsPerUnit':tree['m_PixelsToUnits'],'sourceOffset':tree['m_Offset'],\n 'trimOffset':tree['m_RD']['textureRectOffset'],'atlasRectOffset':{'x':render.atlasRectOffset.x,'y':render.atlasRectOffset.y},\n 'atlasTextureRect':{'x':render.textureRect.x,'y':render.textureRect.y,'width':render.textureRect.width,'height':render.textureRect.height},\n 'atlasSettingsRaw':render.settingsRaw,'alphaTextureId':render.alphaTexture.path_id,\n 'display':{'centered':False,'offsetTopLeft':[-6,-9],'scale':[1,1],'filter':'nearest'}},\n 'image':{'width':16,'height':18,'mode':'RGBA','alphaBBox':list(image.getbbox()),\n 'visiblePixels':sum(1 for a in rgba[3::4] if a),'rgbaSha256':sha(rgba),'pngSha256':sha(png),'pngBytes':len(png)},\n 'tools':{'UnityPy':UnityPy.__version__,'Pillow':Image.__version__,'python':sys.version.split()[0]},\n 'bundle':{'originalExportPngBase64':base64.b64encode(png).decode('ascii'),\n 'rawSpriteBase64':base64.b64encode(raw).decode('ascii'),'rawSpriteTree':portable(tree),\n 'textureTree':portable(texture.object_reader.read_typetree())},\n 'validation':{'sourceSelection':'exact-owner-type-id-name-and-dependencies-verified',\n 'production':'source-headless-only','visualReview':'pending-04-32','listening':'not-applicable',\n 'obligationCompletion':'not-claimed'}}\n(target / 'bow.png').write_bytes(png)\n(target / 'source.json').write_text(json.dumps(result,indent=2,allow_nan=False)+'\\n',encoding='utf-8')\nprint(json.dumps({'id':'common.bow','pngSha256':sha(png),'rgbaSha256':sha(rgba)}))\n",
+    "sha256": "91c15dfa11f14a7489cb91ab961628ad053e02a9b4f502712728ae91ba658c3b",
+    "transformations": [
+      "UnityPy Sprite.image resolves atlas/tight packing/rotation/alpha; convert RGBA",
+      "Preserve all 16x18 native pixels; lossless PNG compress_level=9; no resizing/recoloring",
+      "Top-left Godot offset(-6,-9) preserves normalized bottom-left donor pivot(.375,.5) on full untrimmed canvas"
+    ]
+  }
+}
