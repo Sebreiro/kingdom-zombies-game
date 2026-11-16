@@ -1,5 +1,25 @@
 # 04-26 bounded continuation and node repair
 
+## C5 prospective measurement scope
+
+Coordinator C5 is recorded before the correction: normalize only RequireGameOrigins' `file` comparison operand with Path.GetFullPath, spending C4's one remaining strict-build attempt. No other source repair. If strict build passes, run the actual three companion framework methods sequentially once each under explicitly diagnostic120s MTP/150s controller ceilings, with frozen fingerprints and actual CTRF results. No canonical deadline/catalog/runner change or canonical pass credit; no R3 run. On failure stop before retry/repair. This technical checkpoint has no external human prerequisite and does not approve any acceptance judgment. All prior records, R2zero/C1exhausted and R3one remain intact.
+
+### C5 actual diagnostic outcome
+
+The exact one-operand correction was verified against C4 backup bytes: only `x: file` became `x: Path.GetFullPath(path: file)` in the existing live-root comparison. Strict proof build passed0warnings/0errors in10.17s (session51537, chunks ed5d4e/ba95d9). C4's remaining correction/build attempt is consumed; no attempt is silently renewed.
+
+Diagnostic controller `.phase4/diagnose-04-26-c5.cjs` ran exactly three actual framework methods sequentially, once each, under prospective120s MTP/150000ms outer diagnostic ceilings. Full record: `.phase4/companion-diagnostics/92574b06-e00c-4f12-8288-7d34f2fdc450/result.json`,21:52:04.012Z–21:54:19.867Z,total135855ms. Every child exited0, completed one real CTRF test with1passed/0failed/0skipped/0pending/0other, and had no timeout. Commands, individual CTRF/report hashes, assertion results, logs and PIDs are retained in that record.
+
+| Actual case / framework method | PID | Child duration | CTRF test duration | Diagnostic result |
+| --- | ---: | ---: | ---: | --- |
+| ac-08.complete / Validate_BoundedExemptions_RequiresActualEngineBoundary | 37524 | 55722ms | 55036ms | All assertions passed; exceeds original45000ms ceiling |
+| rules.godot-companion-positive / Build_GenuineGodotAndHandwrittenCompanion_AcceptsExactOutput | 38380 | 35668ms | 34984ms | All assertions passed |
+| rules.godot-companion-negative / Build_HandwrittenGodotBody_RetainsExactDiagnostic | 38196 | 43509ms | 42824ms | All assertions passed, including exact SCR0001 and unchanged generated output |
+
+These are diagnostic measurements only, not canonical passes. The catalog/runner remain byte-unchanged with their original45s limits. Historical failure583c02bb remains failed. No source optimization, canonical28/R3 run, implementation commit, SUMMARY or progress advance occurred. Narrow independent review is required before any prospective capacity amendment.
+
+Actual tested HEAD `5c61b95178b4c873f16e1d0d420dd14fbe5ce8ba` plus twelve-file WIP and prospective C5 metadata. Source fingerprint remained `831b0b1278c231e7cba5622663e2d592696c62413b16ce875d385c83b5220f58`; all twelve implementation hashes and all three repair/amendment/checkpoint document hashes stayed unchanged throughout all three measurements. Actual compiled assembly SHA256 `9df131e8e90fdbca260b775813104517e1cadf1c31c911ae373bae308544bead`. Current ExemptionTests.cs SHA256 `080eb2e4bf9b89833c5479c3aef6ec24d0ed9cad1efa2932ac89a6dfafdbb22d`; other eleven WIP hashes still match C3. Immutable twelve-file backup: `.phase4/checkpoints/04-26-c5-58870561-83de-4574-b469-18a1a28bec97/manifest.json`. Budgets: C4zero,R2zero,C1exhausted,C3oneunused,R3onecanonicalfullremaining. Both formal tasks remain0/2; allASSET/04-32/33 acceptance remains pending.
+
 ## C4 first focused outcome — unchanged companion deadline exceeded
 
 Resumed from coordinator `cc6355e` after verifying all eleven C3 WIP hashes and genuine RED `45c35f2` (`RED_EVIDENCE_OK`). The equivalent PowerShell supplied-root comparison passed before the first edit. Only `tests/phase1/ExemptionTests.cs` changed: `RequireGameOrigins` and its `System.Text.Json` import. It now reads one immutable JsonDocument, independently authenticates the original18 callsite baseline and all cohorts, resolves each historical/current row through existing `EngineGeneratedTests.Surface`, preserves original sixteen IDs/hashes, and attempts current fixture comparisons only for rows resolving to the live root, with nonzero current coverage required. No EngineGeneratedTests helper or other implementation byte changed.

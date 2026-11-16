@@ -1,5 +1,13 @@
 # Phase 04 Plan 26 compiled-proof capacity checkpoint
 
+## C5 diagnostic measurement handoff — 2026-11-16
+
+C5 is completed as a bounded diagnostic task, not plan completion or human acceptance. Prospective direction was recorded before editing. The exact Path.GetFullPath normalization of RequireGameOrigins' `file` operand compiled strictly0warnings/0errors in10.17s; comparison against C4 backup confirms no other source change. Current ExemptionTests.cs SHA256 `080eb2e4bf9b89833c5479c3aef6ec24d0ed9cad1efa2932ac89a6dfafdbb22d`.
+
+All three actual methods completed assertions under diagnostic-only120s MTP/150s outer ceilings: ac-08.complete55722ms/PID37524; companion-positive35668ms/PID38380; companion-negative43509ms/PID38196. Each actual CTRF report records1passed/0failed/0skipped/0pending/0other,exit0,no timeout. Record `.phase4/companion-diagnostics/92574b06-e00c-4f12-8288-7d34f2fdc450/result.json` retains commands, report identities/hashes, timings and PIDs. Source fingerprint `831b0b1278c231e7cba5622663e2d592696c62413b16ce875d385c83b5220f58`, twelve source hashes and three planning-document hashes all remained frozen. Tested HEAD5c61b95 plus recorded WIP/metadata; no canonical pass credit. Original45s catalog/runner deadlines and failure583c02bb remain unchanged.
+
+Next: coordinator obtains narrow independent review before considering any case-capacity amendment. No retry, optimization or canonical28/R3 run occurred. R3 retains one canonical full attempt; C4zero,R2zero,C1exhausted,C3oneunused. Both formal tasks0/2; no implementation/SUMMARY/progress orASSET completion. Immutable twelve-file backup `.phase4/checkpoints/04-26-c5-58870561-83de-4574-b469-18a1a28bec97/manifest.json`. All earlier checkpoints/failures remain preserved below; parent owns PR#5/continuation.
+
 ## C4 focused capacity checkpoint — 2026-11-16
 
 Formal tasks remain0/2, with no implementation commit/SUMMARY/progress advance. Coordinator `cc6355e` authorized exactly ExemptionTests.RequireGameOrigins plus necessary same-file imports/helpers. The scoped edit compiled strictly with zero warnings/errors in10.09s, but focused `ac-08.complete` invocation `583c02bb-da28-4403-a79a-554233301cd1` failed `CHILD_TIMEOUT` at its unchanged45000ms outer deadline (21:47:04.020Z–21:47:49.192Z). Empty test.process.log supplies no framework assertion/pass/skip credit. No source/doc edit occurred during the gate; no further repair/gate ran after failure.

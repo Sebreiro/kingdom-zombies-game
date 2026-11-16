@@ -1,5 +1,11 @@
 # Phase 04 Plan 26 bounded execution amendment
 
+## C5 diagnostic-only companion capacity direction
+
+Prospective coordinator direction after checkpoint5c61b95: this is bounded technical diagnosis under the user's autonomous implementation authorization, not human acceptance or an external human precondition. Use C4's one remaining attempt to normalize only the resolved `file` operand with Path.GetFullPath in RequireGameOrigins' existing ordinal live-root comparison. Both operands must have the same Windows separator representation. Preserve every other source token, historical hash/ID, permission, cache behavior and path. Run one unchanged strict proof build; a failure exhausts C4 and stops further work with exact diagnostics.
+
+If strict compilation passes, freeze all source/docs/manifests and run exactly one diagnostic invocation of each actual method behind ac-08.complete and the two Godot companion cases, sequentially. Prospectively allow120s MTP and150s outer diagnostic ceiling only for these measurements. Retain commands/PIDs/CTRF assertion counts/timings/source fingerprints, stop without retry or repair on a diagnostic failure, and supply no canonical pass credit. The catalog/runner and their45s limits remain unchanged. Do not run canonical28/R3, optimize code or amend case capacities. Independent review precedes any later capacity amendment. Commit only repair/checkpoint/amendment metadata afterward; no implementation/SUMMARY/progress. Preserve failure583c02bb and all exhausted budgets. R3 remains one canonical full attempt; parent owns PR/continuation.
+
 ## C4 third authenticated historical consumer dependency
 
 Coordinator authorization after checkpoint `4614efa`, recorded before editing: add exactly the existing `tests/phase1/ExemptionTests.cs`, limited to `RequireGameOrigins` and necessary same-file imports/helpers. The fresh fixed-input 28-operation R3 selection failed at `ac-08.complete` because this helper compares historical03 ScriptMethods hash `f1237027ad988c11862683fa6d44d17abb55fe2b18276d282e939b5f5c0e1171` with current26 output `90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d` in one current fixture. Preserve both hashes and all original sixteen row identities.
