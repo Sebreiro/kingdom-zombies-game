@@ -154,7 +154,7 @@ Every feature includes its stable identities, host-authoritative validation and 
 
 ### Phase 3: Four-player LAN foundation
 
-**Goal:** A host and three guests can share the foundation scene, independently control their characters, and observe consistent authoritative movement.
+**Goal:** As a LAN player, I want to host or join a foundation scene for one host and three guests and independently control my character, so that all four players observe consistent authoritative movement.
 **Mode:** mvp
 **Depends on:** Phase 2
 **Requirements:** LAN-01, LAN-02, LAN-03, LAN-04
