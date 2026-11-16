@@ -86,6 +86,9 @@ public sealed class EngineGeneratedTests
     /// <summary>Authenticates actual bytes and enforcement rows for reuse by production permission checks.</summary>
     internal static void VerifyAuthenticatedOrigin()
     {
+        using JsonDocument contract = Registry();
+        contract.RootElement.TryGetProperty(propertyName: "producerInventories", value: out _)
+                .ShouldBeTrue(customMessage: "Independent baseline/current producer inventories are required");
         (int Exit, string Output) build = ConfigurationTests.Dotnet("build", ConfigurationTests.Projects[2],
                 "--no-restore", "--disable-build-servers", "-p:UseSharedCompilation=false", "-nodeReuse:false",
                 "-p:NuGetAudit=false");
