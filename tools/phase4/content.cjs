@@ -4,6 +4,8 @@ const {TextDecoder,isDeepStrictEqual:equal}=require('node:util');
 const {spawnSync}=require('node:child_process');
 const ROOT=path.resolve(__dirname,'../..'),INDEX='src/godot-game/content/pack-index.json';
 const EXPECTED='tools/phase4/expected-obligations.json',MAX_FILE=32*1024*1024,MAX_TOTAL=256*1024*1024;
+const PACKAGED_EXPECTED='src/godot-game/content/expected-obligations.json',EXPECTED_BYTES=25345;
+const EXPECTED_SHA256='a4d9243bda1b512b59c189a3bdc48a7cccc8171a218bbfc5ae16b00274f2fda5';
 const hash=value=>crypto.createHash('sha256').update(value).digest('hex');
 function need(ok,code,detail=''){if(!ok)throw new Error(code+' '+detail);}
 function text(value,label){need(typeof value==='string'&&value.length>0&&value.length<=4096&&
@@ -63,12 +65,26 @@ function fileRef(root,ref,files){
   need([...files.values()].reduce((sum,x)=>sum+x.length,0)<=MAX_TOTAL,'PACK_SIZE_LIMIT');return value;
 }
 function expected(root=ROOT){
-  const register=document(root,EXPECTED),counts={CH:13,AN:18,IT:24,BL:16,EN:11,FX:12,UI:27,AU:30,DT:27,TXT:2};
+  const value=bytes(root,EXPECTED);need(value.length===EXPECTED_BYTES&&hash(value)===EXPECTED_SHA256,'EXPECTED_AUTHORITY_DRIFT',EXPECTED);
+  const register=parse(value,EXPECTED),counts={CH:13,AN:18,IT:24,BL:16,EN:11,FX:12,UI:27,AU:30,DT:27,TXT:2};
   const ids=Object.entries(counts).flatMap(([prefix,count])=>Array.from({length:count},(_,i)=>prefix+'-'+String(i+1).padStart(2,'0')));
   need(register.schemaVersion===1&&register.obligations.length===180,'EXPECTED_COUNT');
   need(new Set(register.obligations.map(x=>x.id)).size===180&&ids.every(id=>register.obligations.some(x=>x.id===id)),'EXPECTED_IDS');
   for(const row of register.obligations){text(row.name,row.id);text(row.source,row.id);}
   return register;
+}
+function packagedExpected(root,index,register,files){
+  try{
+    const authority=expected(),source=bytes(ROOT,EXPECTED),ref=index.expectedObligations;
+    need(equal(register,authority),'EXPECTED_CALLER_AUTHORITY',PACKAGED_EXPECTED);
+    need(ref&&typeof ref==='object'&&!Array.isArray(ref)&&
+      equal(Object.keys(ref).sort(),['bytes','path','sha256']),'EXPECTED_REFERENCE_REQUIRED',PACKAGED_EXPECTED);
+    need(ref.path===PACKAGED_EXPECTED,'EXPECTED_PATH',String(ref.path));
+    need(ref.bytes===EXPECTED_BYTES&&ref.sha256===EXPECTED_SHA256,'EXPECTED_REFERENCE_IDENTITY',PACKAGED_EXPECTED);
+    const value=fileRef(root,ref,files),packaged=parse(value,PACKAGED_EXPECTED);
+    need(value.equals(source)&&equal(packaged,authority),'EXPECTED_CONTENT_IDENTITY',PACKAGED_EXPECTED);
+    return authority;
+  }catch(error){throw new Error('EXPECTED_PACKAGE_INVALID '+PACKAGED_EXPECTED+' '+error.message,{cause:error});}
 }
 function sourceKey(source){
   need(source&&Number.isSafeInteger(source.objectId)&&source.objectId!==0,'SOURCE_ID_REQUIRED');
@@ -92,6 +108,7 @@ function validate(root,index=document(root,INDEX),register=expected(),{requireCo
   need(Array.isArray(index.shards)&&index.shards.length>0&&index.shards.length<=128&&Array.isArray(index.outputs)&&index.outputs.length<=4096,'INDEX_COLLECTIONS');
   need(index.status==='incomplete'||index.status==='complete','INDEX_STATUS');
   const files=new Map(),origins=index.origins;need(Array.isArray(origins)&&origins.length<=8192,'ORIGINS_REQUIRED');
+  register=packagedExpected(root,index,register,files);
   const originKeys=origins.map(sourceKey);need(new Set(originKeys).size===originKeys.length,'SOURCE_DUPLICATE');
   const shards=new Map(),ids=new Set(),paths=new Map(),diagnostics=[],valid=[],coverage=new Map();
   for(const shard of index.shards){
@@ -247,5 +264,5 @@ function worker(args){
   }});
   console.log(JSON.stringify(result));
 }
-module.exports={ROOT,INDEX,EXPECTED,hash,need,text,relative,inside,bytes,parse,document,expected,sourceKey,resolveOrigin,validate,merge,destination,write,publish,readPublished,recoverPublication,worker};
+module.exports={ROOT,INDEX,EXPECTED,PACKAGED_EXPECTED,EXPECTED_BYTES,EXPECTED_SHA256,hash,need,text,relative,inside,bytes,parse,document,expected,packagedExpected,sourceKey,resolveOrigin,validate,merge,destination,write,publish,readPublished,recoverPublication,worker};
 if(require.main===module)try{worker(process.argv.slice(2));}catch(error){console.error(error.stack);process.exitCode=1;}

@@ -4,6 +4,11 @@
   "version": 1,
   "status": "incomplete",
   "acceptanceOwner": "04-32/04-33",
+  "expectedObligations": {
+    "path": "src/godot-game/content/expected-obligations.json",
+    "bytes": 25345,
+    "sha256": "a4d9243bda1b512b59c189a3bdc48a7cccc8171a218bbfc5ae16b00274f2fda5"
+  },
   "shards": [
     {
       "id": "tracer",

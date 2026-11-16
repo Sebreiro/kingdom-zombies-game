@@ -164,6 +164,15 @@ function packaged(context){
   partial(imported.result);assert.deepEqual(imported.index.expectedObligations,index.expectedObligations);
   assert.deepEqual(imported.index.shards,index.shards);assert.deepEqual(imported.index.outputs,index.outputs);
   need(bytes(generation,PACKAGED).equals(source)&&!fs.existsSync(path.join(generation,content.EXPECTED)),'PUBLISHED_EXPECTATIONS_NOT_PORTABLE');
+  const generationRegister=path.join(generation,PACKAGED);fs.writeFileSync(generationRegister,Buffer.concat([source,Buffer.from(' ')]));
+  let publishedFailure;try{content.readPublished(publicationRoot);}catch(error){publishedFailure=error;}
+  need(publishedFailure?.message.startsWith('EXPECTED_PACKAGE_INVALID '+PACKAGED+' '),'PUBLISHED_EXPECTATIONS_TAMPER_ACCEPTED');
+  write(context.directory,'published-tamper.json',{subjectStatus:'fail',diagnostic:publishedFailure.message});
+  controls.push({name:'published-tamper',subjectStatus:'fail',diagnostic:publishedFailure.message});
+  fs.writeFileSync(generationRegister,source);partial(content.readPublished(publicationRoot).result);
+  const restoredRoot=path.join(context.directory,'missing-register');write(restoredRoot,PACKAGED,source);
+  const restoredCopy=content.validate(restoredRoot,structuredClone(index));partial(restoredCopy);
+  need(restoredCopy.valid.length===1,'RESTORED_EXPECTATIONS_OUTPUT_LOST');
   const restored=content.validate(ROOT,structuredClone(index));partial(restored);assert.deepEqual(snapshot(),initial);assert.deepEqual(index,before);
   write(context.directory,'controls.json',controls);write(context.directory,'publication.json',{published,pointer:imported.pointer,
     indexSha256:hash(bytes(generation,content.INDEX)),registerSha256:hash(bytes(generation,PACKAGED)),
