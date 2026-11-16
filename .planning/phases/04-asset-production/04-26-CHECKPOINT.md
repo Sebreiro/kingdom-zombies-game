@@ -1,5 +1,13 @@
 # Phase 04 Plan 26 compiled-proof capacity checkpoint
 
+## C4 focused capacity checkpoint — 2026-11-16
+
+Formal tasks remain0/2, with no implementation commit/SUMMARY/progress advance. Coordinator `cc6355e` authorized exactly ExemptionTests.RequireGameOrigins plus necessary same-file imports/helpers. The scoped edit compiled strictly with zero warnings/errors in10.09s, but focused `ac-08.complete` invocation `583c02bb-da28-4403-a79a-554233301cd1` failed `CHILD_TIMEOUT` at its unchanged45000ms outer deadline (21:47:04.020Z–21:47:49.192Z). Empty test.process.log supplies no framework assertion/pass/skip credit. No source/doc edit occurred during the gate; no further repair/gate ran after failure.
+
+Current ExemptionTests.cs SHA256: `80867ce8baee9e0870aa7a5d713456d51ad1b5eb8ba5de2aa6cebaa333253719`. All prior eleven implementation hashes still match C3. New immutable twelve-file backup `.phase4/checkpoints/04-26-c4-ff193740-17fb-4c80-a544-23a29d77cbd6/manifest.json` records HEADcc6355e, budgets and exact bytes. Actual tested revision is cc6355e plus WIP; source fingerprint `a8ad276d0d9933602613237cd6466500cc18b3c37c0c8ace9e3603ae73c0f4f0`.
+
+C4 remaining1; R2 zero,C1 exhausted,C3 one unused,R3 one full attempt remaining/unstarted by this executor. Both companion-focused checks and the final entire28-operation selection remain unrun on these bytes. Return before further repair as directed for capacity failure. Read-only review additionally flags the unverified mixed-vs-normalized Windows separator comparison in the new live-root branch; no source correction is made or acceptance claimed. Exact detail is in 04-26-REPAIR.md. All original failures, source backups, ASSET/04-32/33 pending acceptance, null audio listener/empty verdicts, PR#5/continuation ownership and external Phase6 work remain preserved.
+
 ## R3 authenticated historical companion checkpoint — 2026-11-16
 
 Both formal tasks remain0/2; implementation remains WIP with no task commit, SUMMARY or progress advance. C3 was separately authorized before its proof-only edit and passed its first strict-build/focused attempt. EngineGeneratedTests.cs now has SHA256 `2ae29d9e1d8c03798a3c91f8bc7407216939f261eaee31193ebe73f6e54cb13a`; the other ten implementation files still match the prior immutable r2 manifest. New immutable eleven-file backup: `.phase4/checkpoints/04-26-c3-84514afe-8d79-434a-861b-6fe4a57b0c2a/manifest.json`, base HEAD `01cfef240f9a691d4a8cc3828095da3e644587bb`.
