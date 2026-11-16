@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="core/KingdomZombies.Core.csproj" />
+  <Project Path="multiplayer-abstractions/KingdomZombies.Multiplayer.Abstractions.csproj" />
+  <Project Path="game/KingdomZombies.csproj" />
+  <Project Path="../../tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj" />
+  <Project Path="tests/verification/KingdomZombies.Phase1.Tests.csproj" />
+</Solution>

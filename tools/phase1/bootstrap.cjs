@@ -7,9 +7,10 @@ const os = require('node:os');
 const https = require('node:https');
 const crypto = require('node:crypto');
 const { spawn } = require('node:child_process');
+const {launch}=require('../dotnet.cjs');
 const root = path.resolve(__dirname, '../..');
 const home = path.join(root, '.phase1');
-const project = path.join(root, 'src/godot-game');
+const project = path.join(root, 'src/godot-game/game');
 const nonce = crypto.randomUUID();
 const runDirectory = path.join(home, 'runs', nonce);
 const manifestPath = path.join(__dirname, 'toolchain.json');
@@ -90,12 +91,14 @@ function environment(extra = {}) {
 }
 
 async function command(label, executable, args, options = {}) {
+  const configured=launch(root,executable,args);
+  args=configured.args;
   const started = new Date().toISOString();
   const result = await new Promise(resolve => {
     let child;
     try {
       child = spawn(executable, args, {
-        cwd: root, env: environment(options.env), windowsHide: true,
+        cwd: configured.cwd, env: environment(options.env), windowsHide: true,
         detached: process.platform !== 'win32', shell: false,
       });
     } catch (error) {
@@ -175,10 +178,10 @@ function declarations(manifest, inputs) {
 
 function pinControls(manifest) {
   const inputs = {
-    global: fs.readFileSync(path.join(root, 'global.json'), 'utf8'),
-    tools: fs.readFileSync(path.join(root, '.config/dotnet-tools.json'), 'utf8'),
+    global: fs.readFileSync(path.join(root, 'src/godot-game/global.json'), 'utf8'),
+    tools: fs.readFileSync(path.join(root, 'src/godot-game/.config/dotnet-tools.json'), 'utf8'),
     project: fs.readFileSync(path.join(project, 'KingdomZombies.csproj'), 'utf8'),
-    nuget: fs.readFileSync(path.join(root, 'NuGet.config'), 'utf8'),
+    nuget: fs.readFileSync(path.join(root, 'src/godot-game/NuGet.config'), 'utf8'),
   };
   declarations(manifest, inputs);
   const controls = [];
@@ -344,15 +347,15 @@ async function engineProbe(manifest, engine) {
   await infrastructureControls(manifest);
   const config = path.join(runDirectory, 'NuGet.config');
   // Godot payloads come from the verified archive; shared analyzers use the mapped official feed.
-  fs.copyFileSync(path.join(root, 'NuGet.config'), config);
+  fs.copyFileSync(path.join(root, 'src/godot-game/NuGet.config'), config);
   // The copied configuration is run-local, so preserve the repository-relative feed identity explicitly.
-  fs.writeFileSync(config, fs.readFileSync(config, 'utf8').replace('value=".phase1/feed"', `value="${path.join(home, 'feed')}"`));
-  const args = ['src/godot-game/KingdomZombies.csproj', '--configfile', config, '--disable-parallel', '-p:NuGetAudit=false'];
+  fs.writeFileSync(config, fs.readFileSync(config, 'utf8').replace('value="../../.phase1/feed"', `value="${path.join(home, 'feed')}"`));
+  const args = ['src/godot-game/game/KingdomZombies.csproj', '--configfile', config, '--disable-parallel', '-p:NuGetAudit=false'];
   await command('restore', 'dotnet', ['restore', ...args], { diagnostic: 'RESTORE_FAILED' });
   const locked = readJson(path.join(project, 'packages.lock.json')).dependencies[manifest.framework];
   validateEnginePackages(manifest, locked);
   await command('restore-locked', 'dotnet', ['restore', ...args, '--locked-mode'], { diagnostic: 'RESTORE_FAILED' });
-  await command('build', 'dotnet', ['build', 'src/godot-game/KingdomZombies.csproj', '--no-restore', '--configuration', 'Debug', '-p:NuGetAudit=false'], { diagnostic: 'COMPILER_FAILED' });
+  await command('build', 'dotnet', ['build', 'src/godot-game/game/KingdomZombies.csproj', '--no-restore', '--configuration', 'Debug', '-p:NuGetAudit=false'], { diagnostic: 'COMPILER_FAILED' });
   const output = await command('engine', engine, ['--headless', '--path', project, '--rendering-method', 'gl_compatibility', '--scene', 'res://proofs/Phase1.tscn'], { diagnostic: 'ENGINE_FAILED' });
   const assertions = output.split(/\r?\n/).filter(line => line.startsWith('PHASE1_ASSERT ')).map(line => JSON.parse(line.slice(14)));
   const expected = ['construction', 'ready', 'exit'];
@@ -364,7 +367,7 @@ async function engineProbe(manifest, engine) {
 }
 
 async function boundariesProbe() {
-  for (const file of ['src/core/KingdomZombies.Core.csproj', 'src/multiplayer-abstractions/KingdomZombies.Multiplayer.Abstractions.csproj']) {
+  for (const file of ['src/godot-game/core/KingdomZombies.Core.csproj', 'src/godot-game/multiplayer-abstractions/KingdomZombies.Multiplayer.Abstractions.csproj']) {
     if (!fs.existsSync(resolveLocal(file))) fail('BOUNDARIES_MISSING', file);
     await command(path.basename(file) + '-build', 'dotnet', ['build', file], { diagnostic: 'BOUNDARIES_BUILD' });
   }

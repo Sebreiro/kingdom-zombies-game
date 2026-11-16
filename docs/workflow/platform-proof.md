@@ -19,7 +19,7 @@ The separately labeled **direct graph-mechanism smoke**, nonce `6eebf5c4-80f6-4f
 The compliant fixture built strictly with zero warnings/errors in `00:03:27.44`, then the existing validator returned **zero errors**. The exact `AddDirectEngineEdge` XML delta removed game-to-Core and added Core-to-game. Its original-sequence force-evaluate restore, locked restore and single changed-Core strict build all exited zero; the changed build had zero warnings/errors in `00:01:56.88`. The existing validator then returned exactly:
 
 ```text
-GRAPH_FORBIDDEN: src/core/KingdomZombies.Core.csproj -> src/godot-game/KingdomZombies.csproj defined by src/core/KingdomZombies.Core.csproj
+GRAPH_FORBIDDEN: src/godot-game/core/KingdomZombies.Core.csproj -> src/godot-game/game/KingdomZombies.csproj defined by src/godot-game/core/KingdomZombies.Core.csproj
 ```
 
 The existing predicate also returned true. All eight direct-proof commands exited zero without timeout/signal. Ordinary setup/build bounds were 1200 seconds and validator-host bounds 600 seconds; all internal source query/compiler limits remain unchanged. Validator assembly SHA-256 is `de05b6a138780912c7c103c69aea3f53442088215d54db48fbc6656f455de83f`, matching the amended Linux test assembly. The direct receipt, actual mutations, strict build logs, source inventory, existing evaluator's raw query logs, host source/binary/compiler identities and returned results are under `.phase1/direct-graph/6eebf5c4-80f6-4fb0-9bbb-da7cbcfc6365/`; receipt SHA-256 `3c512d37162931e4f14666b130eaa21534046f592f256e60674a6e26899dfaaf`. Its explicit `originalCaseCredited: false` preserves the original `graph.allowed-and-direct` failure as follow-up.

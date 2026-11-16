@@ -21,7 +21,7 @@ node tools/phase2/check.cjs --group rendered
 
 All nine cases share one native game process. Menu runs first to exercise the scoped one-shot entry error; each successful case returns through Escape, and the next starts through ordinary menu controls. Quit runs last, using Tab then Space; the report records that activation method. Start exercises mouse and keyboard activation. A separate mouse Quit exit is not executed in this selection. Resource isolation validates the declared resource closure and byte-identical repository copies, using the shared live scene for runtime behavior rather than starting another game. Keyboard and mouse actions go through verified owned foreground windows. On Windows the input helper confirms the owned PID/HWND; the focus case uses its own temporary focus sink. The retained Linux helper is portable preparation and is not required to run under the temporary policy.
 
-`--case ID` runs one exact catalog case. `--all` runs the seven pure cases and the nine rendered cases, with one shared game session. Use it only after implementation and review. For ordinary manual play, launch the pinned native Godot executable with `--path src/godot-game --rendering-method gl_compatibility --resolution 1280x720`; the main menu is the entry point.
+`--case ID` runs one exact catalog case. `--all` runs the seven pure cases and the nine rendered cases, with one shared game session. Use it only after implementation and review. For ordinary manual play, launch the pinned native Godot executable with `--path src/godot-game/game --rendering-method gl_compatibility --resolution 1280x720`; the main menu is the entry point.
 
 ## Required case catalog
 

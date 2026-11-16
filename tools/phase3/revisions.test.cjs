@@ -22,8 +22,8 @@ function fixture(build=false){
   if(build){
     git('remote','add','origin','https://github.com/Sebreiro/kingdom-zombies-game');
     write('tools/phase3/reviewed-source.targets',fs.readFileSync(path.join(project,'tools/phase3/reviewed-source.targets'),'utf8'));
-    write('global.json',fs.readFileSync(path.join(project,'global.json'),'utf8'));
-    write('NuGet.config','<configuration><packageSources><clear /></packageSources></configuration>');
+    write('src/godot-game/global.json',fs.readFileSync(path.join(project,'src/godot-game/global.json'),'utf8'));
+    write('src/godot-game/NuGet.config','<configuration><packageSources><clear /></packageSources></configuration>');
     write('src/Subject.cs','internal sealed class Subject { internal int Value => 1; }\n');
     write('.phase3/build/Directory.Build.props','<Project />');write('.phase3/build/Directory.Build.targets','<Project />');
     write('.phase3/build/Directory.Packages.props','<Project />');
@@ -55,7 +55,7 @@ function fixture(build=false){
     return {id,status:'pass',evidence:[{path:id+'.subject.log',sha256:ref(prefix+'/'+id+'.subject.log').sha256}],report:{path:id+'/tests.json',sha256:ref(prefix+'/tests.json').sha256}};
   });
   inherited.phase1.push(record('phase1',{...identity,revision:tested,nonce:'p1',status:'pass',input:baseline.snapshot(root,p1).sha256,selected:selection.selected.phase1,results:p1Results}));
-  const p2Manifest={inputs:['src','tests/phase1','tools/phase2','tools/phase1/toolchain.json','Directory.Build.props','Directory.Build.targets','Directory.Packages.props','.editorconfig','BannedSymbols.txt','BannedSymbols.Pure.txt','docs/code']};
+  const p2Manifest={inputs:['src','src/godot-game/tests/verification','tools/phase2','tools/phase1/toolchain.json','src/godot-game/Directory.Build.props','src/godot-game/Directory.Build.targets','src/godot-game/Directory.Packages.props','.editorconfig','src/godot-game/build/BannedSymbols.txt','src/godot-game/build/BannedSymbols.Pure.txt','docs/code']};
   const p2Identity={...identity,input:baseline.snapshot(root,p2Manifest).sha256,revision:tested,nonce:'p2'};
   inherited.phase2.push(record('phase2',{schemaVersion:2,...p2Identity,status:'pass',startedAt:10,finishedAt:20,failures:[],selected:selection.selected.phase2,results:selection.selected.phase2.map(id=>({...p2Identity,id,status:'pass'}))}));
   inherited.commands=['phase1','phase2'].map(family=>{
@@ -92,7 +92,7 @@ function compile(root,stamp,pinSourceRoot=true){
   assert.ok(Object.values(links.documents).length>0,'real GitHub remote must produce source links');
   const linked=pinSourceRoot?actual:spawnSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8',windowsHide:true}).stdout.trim();
   assert.ok(Object.values(links.documents).every(url=>url.includes('/'+linked+'/')),'SourceLink must retain the reviewed source stamp independently of metadata HEAD');
-  const file=path.join(root,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll');fs.mkdirSync(path.dirname(file),{recursive:true});
+  const file=path.join(root,'src/godot-game/tests/verification/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll');fs.mkdirSync(path.dirname(file),{recursive:true});
   fs.copyFileSync(path.join(root,'.phase3/build/bin/Debug/net10.0/Subject.dll'),file);return e.hash(fs.readFileSync(file));
 }
 function pinnedIdentity(root,stamp){
@@ -152,7 +152,7 @@ test('prelaunch requires committed matching review inputs and exact original rep
 });
 test('real SDK commit-build-review-gate cycle preserves exact DLL bytes only with the reviewed source stamp',()=>{
   const f=fixture(true),file=path.join(f.root,f.index.finalReport.path),original=fs.readFileSync(file);
-  const before=e.hash(fs.readFileSync(path.join(f.root,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll')));
+  const before=e.hash(fs.readFileSync(path.join(f.root,'src/godot-game/tests/verification/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll')));
   console.log('SDK_FINALIZATION_CONTROL '+f.root+' source='+f.reviewed+' execution='+f.tested+' closure='+f.closure+' dll='+before);
   assert.equal(compile(f.root,f.reviewed),before);
   assert.equal(e.verifyCompletion(f.root,f.index,f.cases,pinnedIdentity(f.root,f.reviewed)).testedRevision,f.tested);

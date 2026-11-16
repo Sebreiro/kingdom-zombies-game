@@ -7,6 +7,7 @@ const os = require('node:os');
 const crypto = require('node:crypto');
 const { spawn, spawnSync } = require('node:child_process');
 const { parseJson } = require('./bootstrap.cjs');
+const {launch}=require('../dotnet.cjs');
 const groups = ['pins', 'runner', 'register', 'rules', 'graph', 'state', 'engine', 'docs', 'coverage', 'platform'];
 const digest = data => crypto.createHash('sha256').update(data).digest('hex');
 const fileHash = file => digest(fs.readFileSync(file));
@@ -126,7 +127,9 @@ async function command(executable, args, context, label, timeoutMs = 60_000, ext
   let child, timer, timedOut = false, spawnError;
   const started = new Date().toISOString();
   const result = await new Promise(resolve => {
-    child = spawn(executable, args, { cwd: context.root, env: { ...environment(context.root), ...extra }, windowsHide: true,
+    const configured=launch(context.root,executable,args);
+    args=configured.args;
+    child = spawn(executable, args, { cwd: configured.cwd, env: { ...environment(context.root), ...extra }, windowsHide: true,
       detached: process.platform !== 'win32', stdio: ['ignore', fd, fd], shell: false });
     context.children.add(child);
     child.once('error', error => { spawnError = error.code; });
@@ -211,7 +214,7 @@ async function main(root, args) {
         const assembly = inside(root, manifest.assembly);
         if (!fs.existsSync(assembly)) reject('TOOL_MISSING', manifest.assembly);
         const executable = manifest.executable ? inside(root, manifest.executable) : 'dotnet';
-        context.tool = digest(JSON.stringify({ node: process.versions.node, nodeHash: fileHash(process.execPath), sdk: sdk.output.trim(), compiler: csc.output.trim(), compilerHash: fileHash(compiler), assembly: fileHash(assembly), lock: manifest.project ? fileHash(path.join(root, 'tests/phase1/packages.lock.json')) : null }));
+        context.tool = digest(JSON.stringify({ node: process.versions.node, nodeHash: fileHash(process.execPath), sdk: sdk.output.trim(), compiler: csc.output.trim(), compilerHash: fileHash(compiler), assembly: fileHash(assembly), lock: manifest.project ? fileHash(path.join(root, 'src/godot-game/tests/verification/packages.lock.json')) : null }));
         for (const item of executableCases) {
           const caseDir = path.join(directory, item.id); fs.mkdirSync(caseDir);
           try {

@@ -8,7 +8,7 @@ The foundation must demonstrate repeatable state and strict snapshots while real
 
 ## Decision
 
-Core uses explicit integer elapsed time, bounded replayable randomness and ordinal identities. Strict snapshots validate detached complete values before one atomic immutable root replacement. The [state proofs](../../../tests/phase1/StateInputTests.cs) and [snapshot proofs](../../../tests/phase1/SnapshotTests.cs) exercise the actual code. Native [engine proofs](../../../src/godot-game/proofs/Phase1.cs) require two distinct instances, actual callbacks/signals/serialized values and guarded mutation on the captured engine thread. Each lifetime closes its acceptance fence before cancellation and disconnection; pure worker results return through guarded frame dispatch.
+Core uses explicit integer elapsed time, bounded replayable randomness and ordinal identities. Strict snapshots validate detached complete values before one atomic immutable root replacement. The [state proofs](../../../src/godot-game/tests/verification/StateInputTests.cs) and [snapshot proofs](../../../src/godot-game/tests/verification/SnapshotTests.cs) exercise the actual code. Native [engine proofs](../../../src/godot-game/game/proofs/Phase1.cs) require two distinct instances, actual callbacks/signals/serialized values and guarded mutation on the captured engine thread. Each lifetime closes its acceptance fence before cancellation and disconnection; pure worker results return through guarded frame dispatch.
 
 ## Consequences
 

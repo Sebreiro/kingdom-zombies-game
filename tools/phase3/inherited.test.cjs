@@ -27,7 +27,7 @@ console.log(status.toUpperCase()+' '+directory+'/summary.json');process.exitCode
   for(const input of require('./check.cjs').inputManifest().inputs){
     if(!fs.existsSync(path.join(root,input)))write(path.posix.basename(input).includes('.')?input:input+'/control.txt','CONTROL_ONLY');
   }
-  write('tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll','CONTROL_IDENTITY_ONLY_NEVER_EXECUTED');
+  write('src/godot-game/tests/verification/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll','CONTROL_IDENTITY_ONLY_NEVER_EXECUTED');
   const directory=path.join(root,'.phase3/run');fs.mkdirSync(directory,{recursive:true});
   return {root,context:{root,directory,env:{...process.env,CONTROL_MODE:mode}},selection:{selected:{phase1:phase1.map(row=>row.id),phase2:phase2.map(row=>row.id)}}};
 }

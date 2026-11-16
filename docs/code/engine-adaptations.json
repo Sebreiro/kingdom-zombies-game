@@ -7,7 +7,7 @@
       "rule": "R-50",
       "relatedRule": "R-42",
       "diagnostic": "RS0030",
-      "path": "src/godot-game/GeneratedReportAdapter.cs",
+      "path": "src/godot-game/game/GeneratedReportAdapter.cs",
       "surface": "Godot.SourceGenerators/Godot.SourceGenerators.GodotPluginsInitializerGenerator/GodotPlugins.Game.generated.cs",
       "target": "~M:GodotPlugins.Game.Main.InitializeFromGameProject(System.IntPtr,System.IntPtr,System.IntPtr,System.Int32)",
       "generatorPackage": "Godot.SourceGenerators",

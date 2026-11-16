@@ -29,8 +29,8 @@ function launch(context,role,port,retainedRoot=null){
   const profileFile=path.join(profileRoot,"profiles.json");
   if(!fs.existsSync(profileFile)){const id=crypto.randomUUID().replaceAll("-","");fs.writeFileSync(profileFile,JSON.stringify({schema:1,selected:id,profiles:[{id,name:"Player 1",ordinal:1}]}));}
   const profile=JSON.parse(fs.readFileSync(profileFile)).selected;
-  const args=context.rendered?['--path',path.join(context.root,'src/godot-game'),'--rendering-method','gl_compatibility','--resolution','1280x720']
-    :['--headless','--path',path.join(context.root,'src/godot-game')];
+  const args=context.rendered?['--path',path.join(context.root,'src/godot-game/game'),'--rendering-method','gl_compatibility','--resolution','1280x720']
+    :['--headless','--path',path.join(context.root,'src/godot-game/game')];
   const child=spawn(engine,args,{cwd:context.root,windowsHide:!context.rendered,
     env:{...context.env,PHASE3_NONCE:context.nonce,PHASE3_OUTPUT:directory,PHASE3_RUN_ROOT:context.runRoot??context.directory,
       PHASE3_ROLE:role,PHASE3_INPUT_DRIVER:context.rendered?"declared-per-event-external-driver":"synthetic-native-ParseInputEvent",PHASE3_PROFILE_ROOT:profileRoot,PHASE3_PORT:String(port)},stdio:['ignore','pipe','pipe']});

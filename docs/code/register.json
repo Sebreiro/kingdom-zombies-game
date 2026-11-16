@@ -16,7 +16,7 @@
         "symbol": "R-01"
       },
       "mechanism": {
-        "path": "tests/phase1/EnforcementTests.cs",
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs",
         "symbol": "R-01",
         "diagnostics": [],
         "severity": "error",
@@ -28,13 +28,13 @@
         "id": "R-01.positive",
         "rule": "R-01",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-01.negative",
         "rule": "R-01",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -44,7 +44,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "Directory.Build.props",
+        "path": "src/godot-game/Directory.Build.props",
         "symbol": "<TreatWarningsAsErrors>true</TreatWarningsAsErrors>",
         "scope": "Owned tracked text/build settings; binary, installed/vendor/generated and planning inputs follow SourceFileFormat.IsChecked.",
         "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule01_CompliantConsumer_Accepted",
@@ -64,7 +64,7 @@
         "symbol": "R-02"
       },
       "mechanism": {
-        "path": "tests/phase1/EnforcementTests.cs",
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs",
         "symbol": "R-02",
         "diagnostics": [],
         "severity": "error",
@@ -76,13 +76,13 @@
         "id": "R-02.positive",
         "rule": "R-02",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-02.negative",
         "rule": "R-02",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -92,7 +92,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/SourceFileFormat.cs",
+        "path": "src/godot-game/tests/verification/SourceFileFormat.cs",
         "symbol": "SourceFileFormat.Check",
         "scope": "Owned tracked text/build settings; binary, installed/vendor/generated and planning inputs follow SourceFileFormat.IsChecked.",
         "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Check_ValidUnicode_AcceptsUtf8",
@@ -112,7 +112,7 @@
         "symbol": "R-03"
       },
       "mechanism": {
-        "path": "tests/phase1/EnforcementTests.cs",
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs",
         "symbol": "R-03",
         "diagnostics": [],
         "severity": "error",
@@ -124,13 +124,13 @@
         "id": "R-03.positive",
         "rule": "R-03",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-03.negative",
         "rule": "R-03",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -140,7 +140,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/SourceFileFormat.cs",
+        "path": "src/godot-game/tests/verification/SourceFileFormat.cs",
         "symbol": "SourceFileFormat.Check",
         "scope": "Owned tracked text/build settings; binary, installed/vendor/generated and planning inputs follow SourceFileFormat.IsChecked.",
         "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Check_LfText_AcceptsLineEndings",
@@ -160,7 +160,7 @@
         "symbol": "R-04"
       },
       "mechanism": {
-        "path": "tests/phase1/EnforcementTests.cs",
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs",
         "symbol": "R-04",
         "diagnostics": [],
         "severity": "error",
@@ -178,13 +178,13 @@
         "id": "R-04.positive",
         "rule": "R-04",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-04.negative",
         "rule": "R-04",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -194,7 +194,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/SourceFileFormat.cs",
+        "path": "src/godot-game/tests/verification/SourceFileFormat.cs",
         "symbol": "SourceFileFormat.Check",
         "scope": "Owned tracked text/build settings; binary, installed/vendor/generated and planning inputs follow SourceFileFormat.IsChecked.",
         "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Check_RegisteredLocks_AcceptsOnlyFinalNewlinePermission",
@@ -214,7 +214,7 @@
         "symbol": "R-05"
       },
       "mechanism": {
-        "path": "tests/phase1/EnforcementTests.cs",
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs",
         "symbol": "R-05",
         "diagnostics": [
           "IDE0055"
@@ -228,13 +228,13 @@
         "id": "R-05.positive",
         "rule": "R-05",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-05.negative",
         "rule": "R-05",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -244,7 +244,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/SourceFileFormat.cs",
+        "path": "src/godot-game/tests/verification/SourceFileFormat.cs",
         "symbol": "SourceFileFormat.Check",
         "scope": "Owned tracked text/build settings; binary, installed/vendor/generated and planning inputs follow SourceFileFormat.IsChecked.",
         "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Check_LeadingSpaces_AcceptsCleanLineEnds",
@@ -264,7 +264,7 @@
         "symbol": "R-06"
       },
       "mechanism": {
-        "path": "tests/phase1/EnforcementTests.cs",
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs",
         "symbol": "R-06",
         "diagnostics": [
           "IDE0055"
@@ -278,13 +278,13 @@
         "id": "R-06.positive",
         "rule": "R-06",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-06.negative",
         "rule": "R-06",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -294,7 +294,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/SourceFileFormat.cs",
+        "path": "src/godot-game/tests/verification/SourceFileFormat.cs",
         "symbol": "SourceFileFormat.Check",
         "scope": "Owned tracked text/build settings; binary, installed/vendor/generated and planning inputs follow SourceFileFormat.IsChecked.",
         "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Check_SpacesOnly_AcceptsText",
@@ -314,7 +314,7 @@
         "symbol": "R-07"
       },
       "mechanism": {
-        "path": "tests/phase1/EnforcementTests.cs",
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs",
         "symbol": "R-07",
         "diagnostics": [
           "IDE0055"
@@ -328,13 +328,13 @@
         "id": "R-07.positive",
         "rule": "R-07",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-07.negative",
         "rule": "R-07",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -349,7 +349,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/SourceFileFormat.cs",
+        "path": "src/godot-game/tests/verification/SourceFileFormat.cs",
         "symbol": "SourceFileFormat.RequireEditorSetting",
         "scope": "Owned tracked text/build settings; binary, installed/vendor/generated and planning inputs follow SourceFileFormat.IsChecked.",
         "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Format_FourSpaceIndent_AcceptsSubject",
@@ -369,7 +369,7 @@
         "symbol": "R-08"
       },
       "mechanism": {
-        "path": "tests/phase1/EnforcementTests.cs",
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs",
         "symbol": "R-08",
         "diagnostics": [],
         "severity": "error",
@@ -381,13 +381,13 @@
         "id": "R-08.positive",
         "rule": "R-08",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-08.negative",
         "rule": "R-08",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -402,7 +402,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/SourceFileFormat.cs",
+        "path": "src/godot-game/tests/verification/SourceFileFormat.cs",
         "symbol": "SourceFileFormat.RequireEditorSetting",
         "scope": "Owned tracked text/build settings; binary, installed/vendor/generated and planning inputs follow SourceFileFormat.IsChecked.",
         "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Configure_FourColumnTabWidth_AcceptsPolicy",
@@ -436,13 +436,13 @@
         "id": "R-09.positive",
         "rule": "R-09",
         "status": "pending",
-        "path": "tests/phase1/Analyzers/ContinuationIndentAnalyzerTests.cs"
+        "path": "src/godot-game/tests/verification/Analyzers/ContinuationIndentAnalyzerTests.cs"
       },
       "negativeProof": {
         "id": "R-09.negative",
         "rule": "R-09",
         "status": "pending",
-        "path": "tests/phase1/Analyzers/ContinuationIndentAnalyzerTests.cs"
+        "path": "src/godot-game/tests/verification/Analyzers/ContinuationIndentAnalyzerTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -491,13 +491,13 @@
         "id": "R-10.positive",
         "rule": "R-10",
         "status": "pending",
-        "path": "tests/phase1/Analyzers/LineLengthAnalyzerTests.cs"
+        "path": "src/godot-game/tests/verification/Analyzers/LineLengthAnalyzerTests.cs"
       },
       "negativeProof": {
         "id": "R-10.negative",
         "rule": "R-10",
         "status": "pending",
-        "path": "tests/phase1/Analyzers/LineLengthAnalyzerTests.cs"
+        "path": "src/godot-game/tests/verification/Analyzers/LineLengthAnalyzerTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -546,13 +546,13 @@
         "id": "R-11.positive",
         "rule": "R-11",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-11.negative",
         "rule": "R-11",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -596,13 +596,13 @@
         "id": "R-12.positive",
         "rule": "R-12",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-12.negative",
         "rule": "R-12",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -646,13 +646,13 @@
         "id": "R-13.positive",
         "rule": "R-13",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-13.negative",
         "rule": "R-13",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -696,13 +696,13 @@
         "id": "R-14.positive",
         "rule": "R-14",
         "status": "pending",
-        "path": "tests/phase1/Analyzers/UsingOrderAnalyzerTests.cs"
+        "path": "src/godot-game/tests/verification/Analyzers/UsingOrderAnalyzerTests.cs"
       },
       "negativeProof": {
         "id": "R-14.negative",
         "rule": "R-14",
         "status": "pending",
-        "path": "tests/phase1/Analyzers/UsingOrderAnalyzerTests.cs"
+        "path": "src/godot-game/tests/verification/Analyzers/UsingOrderAnalyzerTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -746,13 +746,13 @@
         "id": "R-15.positive",
         "rule": "R-15",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-15.negative",
         "rule": "R-15",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -796,13 +796,13 @@
         "id": "R-16.positive",
         "rule": "R-16",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-16.negative",
         "rule": "R-16",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -812,7 +812,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "Directory.Build.props",
+        "path": "src/godot-game/Directory.Build.props",
         "symbol": "<ImplicitUsings>disable</ImplicitUsings>",
         "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
         "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule16_CompliantConsumer_Accepted",
@@ -847,13 +847,13 @@
         "id": "R-17.positive",
         "rule": "R-17",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-17.negative",
         "rule": "R-17",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -898,13 +898,13 @@
         "id": "R-18.positive",
         "rule": "R-18",
         "status": "pending",
-        "path": "tests/phase1/Analyzers/LocalNewDeclarationAnalyzerTests.cs"
+        "path": "src/godot-game/tests/verification/Analyzers/LocalNewDeclarationAnalyzerTests.cs"
       },
       "negativeProof": {
         "id": "R-18.negative",
         "rule": "R-18",
         "status": "pending",
-        "path": "tests/phase1/Analyzers/LocalNewDeclarationAnalyzerTests.cs"
+        "path": "src/godot-game/tests/verification/Analyzers/LocalNewDeclarationAnalyzerTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -948,13 +948,13 @@
         "id": "R-19.positive",
         "rule": "R-19",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-19.negative",
         "rule": "R-19",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1004,13 +1004,13 @@
         "id": "R-20.positive",
         "rule": "R-20",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-20.negative",
         "rule": "R-20",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1055,13 +1055,13 @@
         "id": "R-21.positive",
         "rule": "R-21",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-21.negative",
         "rule": "R-21",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1109,13 +1109,13 @@
         "id": "R-22.positive",
         "rule": "R-22",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-22.negative",
         "rule": "R-22",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1159,13 +1159,13 @@
         "id": "R-23.positive",
         "rule": "R-23",
         "status": "pending",
-        "path": "tests/phase1/Analyzers/PrimaryConstructorAnalyzerTests.cs"
+        "path": "src/godot-game/tests/verification/Analyzers/PrimaryConstructorAnalyzerTests.cs"
       },
       "negativeProof": {
         "id": "R-23.negative",
         "rule": "R-23",
         "status": "pending",
-        "path": "tests/phase1/Analyzers/PrimaryConstructorAnalyzerTests.cs"
+        "path": "src/godot-game/tests/verification/Analyzers/PrimaryConstructorAnalyzerTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1209,13 +1209,13 @@
         "id": "R-24.positive",
         "rule": "R-24",
         "status": "pending",
-        "path": "tests/phase1/Analyzers/PrimaryConstructorAnalyzerTests.cs"
+        "path": "src/godot-game/tests/verification/Analyzers/PrimaryConstructorAnalyzerTests.cs"
       },
       "negativeProof": {
         "id": "R-24.negative",
         "rule": "R-24",
         "status": "pending",
-        "path": "tests/phase1/Analyzers/PrimaryConstructorAnalyzerTests.cs"
+        "path": "src/godot-game/tests/verification/Analyzers/PrimaryConstructorAnalyzerTests.cs"
       },
       "qualitativeReview": {
         "required": true,
@@ -1260,13 +1260,13 @@
         "id": "R-25.positive",
         "rule": "R-25",
         "status": "pending",
-        "path": "tests/phase1/Analyzers/RegionDirectiveAnalyzerTests.cs"
+        "path": "src/godot-game/tests/verification/Analyzers/RegionDirectiveAnalyzerTests.cs"
       },
       "negativeProof": {
         "id": "R-25.negative",
         "rule": "R-25",
         "status": "pending",
-        "path": "tests/phase1/Analyzers/RegionDirectiveAnalyzerTests.cs"
+        "path": "src/godot-game/tests/verification/Analyzers/RegionDirectiveAnalyzerTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1310,13 +1310,13 @@
         "id": "R-26.positive",
         "rule": "R-26",
         "status": "pending",
-        "path": "tests/phase1/Analyzers/NullForgivingAnalyzerTests.cs"
+        "path": "src/godot-game/tests/verification/Analyzers/NullForgivingAnalyzerTests.cs"
       },
       "negativeProof": {
         "id": "R-26.negative",
         "rule": "R-26",
         "status": "pending",
-        "path": "tests/phase1/Analyzers/NullForgivingAnalyzerTests.cs"
+        "path": "src/godot-game/tests/verification/Analyzers/NullForgivingAnalyzerTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1360,13 +1360,13 @@
         "id": "R-27.positive",
         "rule": "R-27",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-27.negative",
         "rule": "R-27",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1412,13 +1412,13 @@
         "id": "R-28.positive",
         "rule": "R-28",
         "status": "pending",
-        "path": "tests/phase1/Analyzers/ThisQualificationAnalyzerTests.cs"
+        "path": "src/godot-game/tests/verification/Analyzers/ThisQualificationAnalyzerTests.cs"
       },
       "negativeProof": {
         "id": "R-28.negative",
         "rule": "R-28",
         "status": "pending",
-        "path": "tests/phase1/Analyzers/ThisQualificationAnalyzerTests.cs"
+        "path": "src/godot-game/tests/verification/Analyzers/ThisQualificationAnalyzerTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1462,13 +1462,13 @@
         "id": "R-29.positive",
         "rule": "R-29",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-29.negative",
         "rule": "R-29",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1510,13 +1510,13 @@
         "id": "R-30.positive",
         "rule": "R-30",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-30.negative",
         "rule": "R-30",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1561,13 +1561,13 @@
         "id": "R-31.positive",
         "rule": "R-31",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-31.negative",
         "rule": "R-31",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1611,13 +1611,13 @@
         "id": "R-32.positive",
         "rule": "R-32",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-32.negative",
         "rule": "R-32",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1661,13 +1661,13 @@
         "id": "R-33.positive",
         "rule": "R-33",
         "status": "pending",
-        "path": "tests/phase1/Analyzers/MemberOrderAnalyzerTests.cs"
+        "path": "src/godot-game/tests/verification/Analyzers/MemberOrderAnalyzerTests.cs"
       },
       "negativeProof": {
         "id": "R-33.negative",
         "rule": "R-33",
         "status": "pending",
-        "path": "tests/phase1/Analyzers/MemberOrderAnalyzerTests.cs"
+        "path": "src/godot-game/tests/verification/Analyzers/MemberOrderAnalyzerTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1697,7 +1697,7 @@
         "symbol": "R-34"
       },
       "mechanism": {
-        "path": "tests/phase1/ArchitecturePolicy.cs",
+        "path": "src/godot-game/tests/verification/ArchitecturePolicy.cs",
         "symbol": "Visibility",
         "diagnostics": [],
         "severity": "error",
@@ -1709,13 +1709,13 @@
         "id": "R-34.positive",
         "rule": "R-34",
         "status": "pending",
-        "path": "tests/phase1/ArchitectureRuleTests.cs"
+        "path": "src/godot-game/tests/verification/ArchitectureRuleTests.cs"
       },
       "negativeProof": {
         "id": "R-34.negative",
         "rule": "R-34",
         "status": "pending",
-        "path": "tests/phase1/ArchitectureRuleTests.cs"
+        "path": "src/godot-game/tests/verification/ArchitectureRuleTests.cs"
       },
       "qualitativeReview": {
         "required": true,
@@ -1726,7 +1726,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/ArchitecturePolicy.cs",
+        "path": "src/godot-game/tests/verification/ArchitecturePolicy.cs",
         "symbol": "ArchitecturePolicy.VisibilityRepository",
         "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
         "positiveMethod": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule34_DeclaredVisibility_Accepted",
@@ -1761,13 +1761,13 @@
         "id": "R-35.positive",
         "rule": "R-35",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-35.negative",
         "rule": "R-35",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1777,7 +1777,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "Directory.Build.props",
+        "path": "src/godot-game/Directory.Build.props",
         "symbol": "<GenerateDocumentationFile>true</GenerateDocumentationFile>",
         "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
         "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule35_CompliantConsumer_Accepted",
@@ -1812,13 +1812,13 @@
         "id": "R-36.positive",
         "rule": "R-36",
         "status": "pending",
-        "path": "tests/phase1/Analyzers/BodyCommentAnalyzerTests.cs"
+        "path": "src/godot-game/tests/verification/Analyzers/BodyCommentAnalyzerTests.cs"
       },
       "negativeProof": {
         "id": "R-36.negative",
         "rule": "R-36",
         "status": "pending",
-        "path": "tests/phase1/Analyzers/BodyCommentAnalyzerTests.cs"
+        "path": "src/godot-game/tests/verification/Analyzers/BodyCommentAnalyzerTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1866,13 +1866,13 @@
         "id": "R-37.positive",
         "rule": "R-37",
         "status": "pending",
-        "path": "tests/phase1/Analyzers/BodyLengthAnalyzerTests.cs"
+        "path": "src/godot-game/tests/verification/Analyzers/BodyLengthAnalyzerTests.cs"
       },
       "negativeProof": {
         "id": "R-37.negative",
         "rule": "R-37",
         "status": "pending",
-        "path": "tests/phase1/Analyzers/BodyLengthAnalyzerTests.cs"
+        "path": "src/godot-game/tests/verification/Analyzers/BodyLengthAnalyzerTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1891,19 +1891,19 @@
         "boundaryProofs": [
           {
             "id": "rules.body.59",
-            "path": "tests/phase1/Analyzers/BodyLengthAnalyzerTests.cs",
+            "path": "src/godot-game/tests/verification/Analyzers/BodyLengthAnalyzerTests.cs",
             "rule": "R-37",
             "status": "pending"
           },
           {
             "id": "rules.body.60",
-            "path": "tests/phase1/Analyzers/BodyLengthAnalyzerTests.cs",
+            "path": "src/godot-game/tests/verification/Analyzers/BodyLengthAnalyzerTests.cs",
             "rule": "R-37",
             "status": "pending"
           },
           {
             "id": "rules.body.61",
-            "path": "tests/phase1/Analyzers/BodyLengthAnalyzerTests.cs",
+            "path": "src/godot-game/tests/verification/Analyzers/BodyLengthAnalyzerTests.cs",
             "rule": "R-37",
             "status": "pending"
           }
@@ -1947,13 +1947,13 @@
         "id": "R-38.positive",
         "rule": "R-38",
         "status": "pending",
-        "path": "tests/phase1/Analyzers/NamedArgumentAnalyzerTests.cs"
+        "path": "src/godot-game/tests/verification/Analyzers/NamedArgumentAnalyzerTests.cs"
       },
       "negativeProof": {
         "id": "R-38.negative",
         "rule": "R-38",
         "status": "pending",
-        "path": "tests/phase1/Analyzers/NamedArgumentAnalyzerTests.cs"
+        "path": "src/godot-game/tests/verification/Analyzers/NamedArgumentAnalyzerTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -1997,13 +1997,13 @@
         "id": "R-39.positive",
         "rule": "R-39",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-39.negative",
         "rule": "R-39",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2013,7 +2013,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "BannedSymbols.txt",
+        "path": "src/godot-game/build/BannedSymbols.txt",
         "symbol": "P:System.DateTime.UtcNow;Use an injected clock",
         "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
         "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule39_CompliantConsumer_Accepted",
@@ -2047,13 +2047,13 @@
         "id": "R-40.positive",
         "rule": "R-40",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-40.negative",
         "rule": "R-40",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2063,7 +2063,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "BannedSymbols.txt",
+        "path": "src/godot-game/build/BannedSymbols.txt",
         "symbol": "T:System.Console;Use an explicit log/report adapter",
         "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
         "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule40_CompliantConsumer_Accepted",
@@ -2097,13 +2097,13 @@
         "id": "R-41.positive",
         "rule": "R-41",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-41.negative",
         "rule": "R-41",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2113,7 +2113,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "BannedSymbols.txt",
+        "path": "src/godot-game/build/BannedSymbols.txt",
         "symbol": "M:System.Threading.Thread.Sleep(System.Int32);Use cancellable asynchronous coordination",
         "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
         "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule41_CompliantConsumer_Accepted",
@@ -2147,13 +2147,13 @@
         "id": "R-42.positive",
         "rule": "R-42",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-42.negative",
         "rule": "R-42",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2163,7 +2163,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "BannedSymbols.txt",
+        "path": "src/godot-game/build/BannedSymbols.txt",
         "symbol": "M:System.Threading.Tasks.Task.Wait;Use await",
         "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
         "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Rule42_CompliantConsumer_Accepted",
@@ -2222,13 +2222,13 @@
         "id": "R-44.positive",
         "rule": "R-44",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-44.negative",
         "rule": "R-44",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2274,13 +2274,13 @@
         "id": "R-45.positive",
         "rule": "R-45",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-45.negative",
         "rule": "R-45",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2322,13 +2322,13 @@
         "id": "R-46.positive",
         "rule": "R-46",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-46.negative",
         "rule": "R-46",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2338,7 +2338,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "Directory.Build.targets",
+        "path": "src/godot-game/Directory.Build.targets",
         "symbol": "<ProjectReference",
         "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
         "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Compile_CompliantTestConsumer_Accepted",
@@ -2372,13 +2372,13 @@
         "id": "R-47.positive",
         "rule": "R-47",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "negativeProof": {
         "id": "R-47.negative",
         "rule": "R-47",
         "status": "pending",
-        "path": "tests/phase1/EnforcementTests.cs"
+        "path": "src/godot-game/tests/verification/EnforcementTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2388,7 +2388,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "BannedSymbols.Tests.txt",
+        "path": "src/godot-game/build/BannedSymbols.Tests.txt",
         "symbol": "T:Xunit.Assert;Use Shouldly",
         "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
         "positiveMethod": "KingdomZombies.Phase1.Tests.EnforcementTests.Compile_ShouldlyTestAssertion_Accepted",
@@ -2408,7 +2408,7 @@
         "symbol": "R-48"
       },
       "mechanism": {
-        "path": "tests/phase1/TestSourceIndex.cs",
+        "path": "src/godot-game/tests/verification/TestSourceIndex.cs",
         "symbol": "R-48",
         "diagnostics": [
           "CA1707"
@@ -2416,7 +2416,7 @@
         "severity": "error",
         "status": "pending"
       },
-      "scope": "Every owned C# Fact/Theory method; CA1707 exception only tests/phase1/**.cs; production naming remains enforced.",
+      "scope": "Every owned C# Fact/Theory method; CA1707 exception only src/godot-game/tests/verification/**.cs; production naming remains enforced.",
       "exemptions": [
         "KZ-EX-TEST-NAMES-01"
       ],
@@ -2424,13 +2424,13 @@
         "id": "R-48.positive",
         "rule": "R-48",
         "status": "pending",
-        "path": "tests/phase1/TestMethodNameTests.cs"
+        "path": "src/godot-game/tests/verification/TestMethodNameTests.cs"
       },
       "negativeProof": {
         "id": "R-48.negative",
         "rule": "R-48",
         "status": "pending",
-        "path": "tests/phase1/TestMethodNameTests.cs"
+        "path": "src/godot-game/tests/verification/TestMethodNameTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2440,9 +2440,9 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/TestSourceIndex.cs",
+        "path": "src/godot-game/tests/verification/TestSourceIndex.cs",
         "symbol": "TestSourceIndex.FollowsMethodStateExpected",
-        "scope": "Every owned C# Fact/Theory method; CA1707 exception only tests/phase1/**.cs; production naming remains enforced.",
+        "scope": "Every owned C# Fact/Theory method; CA1707 exception only src/godot-game/tests/verification/**.cs; production naming remains enforced.",
         "positiveMethod": "KingdomZombies.Phase1.Tests.TestMethodNameTests.Names_AllOwnedTests_FollowRequiredShape",
         "negativeMethod": "KingdomZombies.Phase1.Tests.TestMethodNameTests.Names_InvalidShape_Rejected"
       }
@@ -2472,13 +2472,13 @@
         "id": "R-49.positive",
         "rule": "R-49",
         "status": "pending",
-        "path": "tests/phase1/CoverageTests.cs"
+        "path": "src/godot-game/tests/verification/CoverageTests.cs"
       },
       "negativeProof": {
         "id": "R-49.negative",
         "rule": "R-49",
         "status": "pending",
-        "path": "tests/phase1/CoverageTests.cs"
+        "path": "src/godot-game/tests/verification/CoverageTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2516,7 +2516,7 @@
         "symbol": "R-50"
       },
       "mechanism": {
-        "path": "tests/phase1/ExemptionValidator.cs",
+        "path": "src/godot-game/tests/verification/ExemptionValidator.cs",
         "symbol": "R-50",
         "diagnostics": [],
         "severity": "error",
@@ -2528,13 +2528,13 @@
         "id": "R-50.positive",
         "rule": "R-50",
         "status": "pending",
-        "path": "tests/phase1/ExemptionTests.cs"
+        "path": "src/godot-game/tests/verification/ExemptionTests.cs"
       },
       "negativeProof": {
         "id": "R-50.negative",
         "rule": "R-50",
         "status": "pending",
-        "path": "tests/phase1/ExemptionTests.cs"
+        "path": "src/godot-game/tests/verification/ExemptionTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2552,7 +2552,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/ExemptionValidator.cs",
+        "path": "src/godot-game/tests/verification/ExemptionValidator.cs",
         "symbol": "ExemptionValidator.CheckRepository",
         "scope": "Project-owned C# and configuration; engine-generated surfaces require separate observed exemptions",
         "positiveMethod": "KingdomZombies.Phase1.Tests.ExemptionTests.Generate_ExactObservedPermissions_AcceptsOwnedSources",
@@ -2572,7 +2572,7 @@
         "symbol": "R-51"
       },
       "mechanism": {
-        "path": "tests/phase1/ProjectEvaluator.cs",
+        "path": "src/godot-game/tests/verification/ProjectEvaluator.cs",
         "symbol": "Validate",
         "diagnostics": [],
         "severity": "error",
@@ -2584,13 +2584,13 @@
         "id": "R-51.positive",
         "rule": "R-51",
         "status": "pending",
-        "path": "tests/phase1/GraphTests.cs"
+        "path": "src/godot-game/tests/verification/GraphTests.cs"
       },
       "negativeProof": {
         "id": "R-51.negative",
         "rule": "R-51",
         "status": "pending",
-        "path": "tests/phase1/GraphTests.cs"
+        "path": "src/godot-game/tests/verification/GraphTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2600,7 +2600,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/ProjectEvaluator.cs",
+        "path": "src/godot-game/tests/verification/ProjectEvaluator.cs",
         "symbol": "ProjectEvaluator.Validate",
         "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
         "positiveMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule51_GraphControl_Accepted",
@@ -2620,7 +2620,7 @@
         "symbol": "R-52"
       },
       "mechanism": {
-        "path": "tests/phase1/ProjectEvaluator.cs",
+        "path": "src/godot-game/tests/verification/ProjectEvaluator.cs",
         "symbol": "Validate",
         "diagnostics": [],
         "severity": "error",
@@ -2634,13 +2634,13 @@
         "id": "R-52.positive",
         "rule": "R-52",
         "status": "pending",
-        "path": "tests/phase1/GraphTests.cs"
+        "path": "src/godot-game/tests/verification/GraphTests.cs"
       },
       "negativeProof": {
         "id": "R-52.negative",
         "rule": "R-52",
         "status": "pending",
-        "path": "tests/phase1/GraphTests.cs"
+        "path": "src/godot-game/tests/verification/GraphTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2650,7 +2650,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/ProjectEvaluator.cs",
+        "path": "src/godot-game/tests/verification/ProjectEvaluator.cs",
         "symbol": "ProjectEvaluator.Validate",
         "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
         "positiveMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule52_OutputControl_Accepted",
@@ -2670,7 +2670,7 @@
         "symbol": "R-53"
       },
       "mechanism": {
-        "path": "tests/phase1/GraphTests.cs",
+        "path": "src/godot-game/tests/verification/GraphTests.cs",
         "symbol": "VerifyCompiler",
         "diagnostics": [
           "CS0246",
@@ -2685,13 +2685,13 @@
         "id": "R-53.positive",
         "rule": "R-53",
         "status": "pending",
-        "path": "tests/phase1/GraphTests.cs"
+        "path": "src/godot-game/tests/verification/GraphTests.cs"
       },
       "negativeProof": {
         "id": "R-53.negative",
         "rule": "R-53",
         "status": "pending",
-        "path": "tests/phase1/GraphTests.cs"
+        "path": "src/godot-game/tests/verification/GraphTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2701,7 +2701,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "Directory.Build.props",
+        "path": "src/godot-game/Directory.Build.props",
         "symbol": "<DisableTransitiveProjectReferences>true</DisableTransitiveProjectReferences>",
         "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
         "positiveMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule53_CompilerControl_Accepted",
@@ -2721,7 +2721,7 @@
         "symbol": "R-54"
       },
       "mechanism": {
-        "path": "tests/phase1/ProjectEvaluator.cs",
+        "path": "src/godot-game/tests/verification/ProjectEvaluator.cs",
         "symbol": "Validate",
         "diagnostics": [],
         "severity": "error",
@@ -2735,13 +2735,13 @@
         "id": "R-54.positive",
         "rule": "R-54",
         "status": "pending",
-        "path": "tests/phase1/GraphTests.cs"
+        "path": "src/godot-game/tests/verification/GraphTests.cs"
       },
       "negativeProof": {
         "id": "R-54.negative",
         "rule": "R-54",
         "status": "pending",
-        "path": "tests/phase1/GraphTests.cs"
+        "path": "src/godot-game/tests/verification/GraphTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2751,7 +2751,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/ProjectEvaluator.cs",
+        "path": "src/godot-game/tests/verification/ProjectEvaluator.cs",
         "symbol": "ProjectEvaluator.Validate",
         "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
         "positiveMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule54_AnalyzerControl_Accepted",
@@ -2771,7 +2771,7 @@
         "symbol": "R-55"
       },
       "mechanism": {
-        "path": "tests/phase1/TypeBoundaryScanner.cs",
+        "path": "src/godot-game/tests/verification/TypeBoundaryScanner.cs",
         "symbol": "Validate",
         "diagnostics": [],
         "severity": "error",
@@ -2783,13 +2783,13 @@
         "id": "R-55.positive",
         "rule": "R-55",
         "status": "pending",
-        "path": "tests/phase1/GraphTests.cs"
+        "path": "src/godot-game/tests/verification/GraphTests.cs"
       },
       "negativeProof": {
         "id": "R-55.negative",
         "rule": "R-55",
         "status": "pending",
-        "path": "tests/phase1/GraphTests.cs"
+        "path": "src/godot-game/tests/verification/GraphTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2799,7 +2799,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/TypeBoundaryScanner.cs",
+        "path": "src/godot-game/tests/verification/TypeBoundaryScanner.cs",
         "symbol": "TypeBoundaryScanner.Validate(assembly,expectedTypes,boundary)",
         "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
         "positiveMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule55_PortsControl_Accepted",
@@ -2819,7 +2819,7 @@
         "symbol": "R-56"
       },
       "mechanism": {
-        "path": "tests/phase1/TypeBoundaryScanner.cs",
+        "path": "src/godot-game/tests/verification/TypeBoundaryScanner.cs",
         "symbol": "Validate",
         "diagnostics": [],
         "severity": "error",
@@ -2831,13 +2831,13 @@
         "id": "R-56.positive",
         "rule": "R-56",
         "status": "pending",
-        "path": "tests/phase1/GraphTests.cs"
+        "path": "src/godot-game/tests/verification/GraphTests.cs"
       },
       "negativeProof": {
         "id": "R-56.negative",
         "rule": "R-56",
         "status": "pending",
-        "path": "tests/phase1/GraphTests.cs"
+        "path": "src/godot-game/tests/verification/GraphTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2847,7 +2847,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/TypeBoundaryScanner.cs",
+        "path": "src/godot-game/tests/verification/TypeBoundaryScanner.cs",
         "symbol": "TypeBoundaryScanner.Validate(assembly,expectedTypes,boundary)",
         "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
         "positiveMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule56_ContractControl_Accepted",
@@ -2891,7 +2891,7 @@
         "symbol": "R-58"
       },
       "mechanism": {
-        "path": "tests/phase1/TypeBoundaryScanner.cs",
+        "path": "src/godot-game/tests/verification/TypeBoundaryScanner.cs",
         "symbol": "Validate",
         "diagnostics": [],
         "severity": "error",
@@ -2903,13 +2903,13 @@
         "id": "R-58.positive",
         "rule": "R-58",
         "status": "pending",
-        "path": "tests/phase1/GraphTests.cs"
+        "path": "src/godot-game/tests/verification/GraphTests.cs"
       },
       "negativeProof": {
         "id": "R-58.negative",
         "rule": "R-58",
         "status": "pending",
-        "path": "tests/phase1/GraphTests.cs"
+        "path": "src/godot-game/tests/verification/GraphTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2919,7 +2919,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/TypeBoundaryScanner.cs",
+        "path": "src/godot-game/tests/verification/TypeBoundaryScanner.cs",
         "symbol": "TypeBoundaryScanner.Validate(assembly,expectedTypes,boundary)",
         "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
         "positiveMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule58_PurityControl_Accepted",
@@ -2939,7 +2939,7 @@
         "symbol": "R-59"
       },
       "mechanism": {
-        "path": "tests/phase1/TypeBoundaryScanner.cs",
+        "path": "src/godot-game/tests/verification/TypeBoundaryScanner.cs",
         "symbol": "Validate",
         "diagnostics": [],
         "severity": "error",
@@ -2951,13 +2951,13 @@
         "id": "R-59.positive",
         "rule": "R-59",
         "status": "pending",
-        "path": "tests/phase1/GraphTests.cs"
+        "path": "src/godot-game/tests/verification/GraphTests.cs"
       },
       "negativeProof": {
         "id": "R-59.negative",
         "rule": "R-59",
         "status": "pending",
-        "path": "tests/phase1/GraphTests.cs"
+        "path": "src/godot-game/tests/verification/GraphTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -2967,7 +2967,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/TypeBoundaryScanner.cs",
+        "path": "src/godot-game/tests/verification/TypeBoundaryScanner.cs",
         "symbol": "TypeBoundaryScanner.Validate(assembly,expectedTypes,boundary)",
         "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
         "positiveMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule59_InfrastructureControl_Accepted",
@@ -2987,7 +2987,7 @@
         "symbol": "R-60"
       },
       "mechanism": {
-        "path": "tests/phase1/ArchitecturePolicy.cs",
+        "path": "src/godot-game/tests/verification/ArchitecturePolicy.cs",
         "symbol": "ServiceLocator",
         "diagnostics": [],
         "severity": "error",
@@ -2999,13 +2999,13 @@
         "id": "R-60.positive",
         "rule": "R-60",
         "status": "pending",
-        "path": "tests/phase1/GraphTests.cs"
+        "path": "src/godot-game/tests/verification/GraphTests.cs"
       },
       "negativeProof": {
         "id": "R-60.negative",
         "rule": "R-60",
         "status": "pending",
-        "path": "tests/phase1/GraphTests.cs"
+        "path": "src/godot-game/tests/verification/GraphTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -3015,7 +3015,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/ArchitecturePolicy.cs",
+        "path": "src/godot-game/tests/verification/ArchitecturePolicy.cs",
         "symbol": "ArchitecturePolicy.ServiceLocator",
         "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
         "positiveMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule60_LocatorControl_Accepted",
@@ -3035,7 +3035,7 @@
         "symbol": "R-61"
       },
       "mechanism": {
-        "path": "tests/phase1/TypeBoundaryScanner.cs",
+        "path": "src/godot-game/tests/verification/TypeBoundaryScanner.cs",
         "symbol": "Validate",
         "diagnostics": [],
         "severity": "error",
@@ -3047,13 +3047,13 @@
         "id": "R-61.positive",
         "rule": "R-61",
         "status": "pending",
-        "path": "tests/phase1/GraphTests.cs"
+        "path": "src/godot-game/tests/verification/GraphTests.cs"
       },
       "negativeProof": {
         "id": "R-61.negative",
         "rule": "R-61",
         "status": "pending",
-        "path": "tests/phase1/GraphTests.cs"
+        "path": "src/godot-game/tests/verification/GraphTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -3063,7 +3063,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/TypeBoundaryScanner.cs",
+        "path": "src/godot-game/tests/verification/TypeBoundaryScanner.cs",
         "symbol": "TypeBoundaryScanner.Validate(assembly,expectedTypes,boundary)",
         "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
         "positiveMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule61_ProviderControl_Accepted",
@@ -3083,7 +3083,7 @@
         "symbol": "R-62"
       },
       "mechanism": {
-        "path": "tests/phase1/TypeBoundaryScanner.cs",
+        "path": "src/godot-game/tests/verification/TypeBoundaryScanner.cs",
         "symbol": "Validate",
         "diagnostics": [],
         "severity": "error",
@@ -3095,13 +3095,13 @@
         "id": "R-62.positive",
         "rule": "R-62",
         "status": "pending",
-        "path": "tests/phase1/GraphTests.cs"
+        "path": "src/godot-game/tests/verification/GraphTests.cs"
       },
       "negativeProof": {
         "id": "R-62.negative",
         "rule": "R-62",
         "status": "pending",
-        "path": "tests/phase1/GraphTests.cs"
+        "path": "src/godot-game/tests/verification/GraphTests.cs"
       },
       "qualitativeReview": {
         "required": true,
@@ -3112,7 +3112,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/TypeBoundaryScanner.cs",
+        "path": "src/godot-game/tests/verification/TypeBoundaryScanner.cs",
         "symbol": "TypeBoundaryScanner.Validate(assembly,expectedTypes,boundary)",
         "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
         "positiveMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule62_ReusableControl_Accepted",
@@ -3132,7 +3132,7 @@
         "symbol": "R-63"
       },
       "mechanism": {
-        "path": "tests/phase1/ArchitecturePolicy.cs",
+        "path": "src/godot-game/tests/verification/ArchitecturePolicy.cs",
         "symbol": "Model",
         "diagnostics": [],
         "severity": "error",
@@ -3144,13 +3144,13 @@
         "id": "R-63.positive",
         "rule": "R-63",
         "status": "pending",
-        "path": "tests/phase1/ArchitectureRuleTests.cs"
+        "path": "src/godot-game/tests/verification/ArchitectureRuleTests.cs"
       },
       "negativeProof": {
         "id": "R-63.negative",
         "rule": "R-63",
         "status": "pending",
-        "path": "tests/phase1/ArchitectureRuleTests.cs"
+        "path": "src/godot-game/tests/verification/ArchitectureRuleTests.cs"
       },
       "qualitativeReview": {
         "required": true,
@@ -3161,7 +3161,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/ArchitecturePolicy.cs",
+        "path": "src/godot-game/tests/verification/ArchitecturePolicy.cs",
         "symbol": "ArchitecturePolicy.Model",
         "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
         "positiveMethod": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule63_CompliantModel_Accepted",
@@ -3181,7 +3181,7 @@
         "symbol": "R-64"
       },
       "mechanism": {
-        "path": "tests/phase1/ArchitecturePolicy.cs",
+        "path": "src/godot-game/tests/verification/ArchitecturePolicy.cs",
         "symbol": "Model",
         "diagnostics": [],
         "severity": "error",
@@ -3193,13 +3193,13 @@
         "id": "R-64.positive",
         "rule": "R-64",
         "status": "pending",
-        "path": "tests/phase1/ArchitectureRuleTests.cs"
+        "path": "src/godot-game/tests/verification/ArchitectureRuleTests.cs"
       },
       "negativeProof": {
         "id": "R-64.negative",
         "rule": "R-64",
         "status": "pending",
-        "path": "tests/phase1/ArchitectureRuleTests.cs"
+        "path": "src/godot-game/tests/verification/ArchitectureRuleTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -3209,7 +3209,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/ArchitecturePolicy.cs",
+        "path": "src/godot-game/tests/verification/ArchitecturePolicy.cs",
         "symbol": "ArchitecturePolicy.Model",
         "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
         "positiveMethod": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule64_CompliantModel_Accepted",
@@ -3229,7 +3229,7 @@
         "symbol": "R-65"
       },
       "mechanism": {
-        "path": "tests/phase1/ArchitecturePolicy.cs",
+        "path": "src/godot-game/tests/verification/ArchitecturePolicy.cs",
         "symbol": "Mapping",
         "diagnostics": [],
         "severity": "error",
@@ -3241,13 +3241,13 @@
         "id": "R-65.positive",
         "rule": "R-65",
         "status": "pending",
-        "path": "tests/phase1/ArchitectureRuleTests.cs"
+        "path": "src/godot-game/tests/verification/ArchitectureRuleTests.cs"
       },
       "negativeProof": {
         "id": "R-65.negative",
         "rule": "R-65",
         "status": "pending",
-        "path": "tests/phase1/ArchitectureRuleTests.cs"
+        "path": "src/godot-game/tests/verification/ArchitectureRuleTests.cs"
       },
       "qualitativeReview": {
         "required": true,
@@ -3258,7 +3258,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/ArchitecturePolicy.cs",
+        "path": "src/godot-game/tests/verification/ArchitecturePolicy.cs",
         "symbol": "ArchitecturePolicy.Mapping",
         "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
         "positiveMethod": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule65_CompliantModel_Accepted",
@@ -3278,7 +3278,7 @@
         "symbol": "R-66"
       },
       "mechanism": {
-        "path": "tests/phase1/ArchitecturePolicy.cs",
+        "path": "src/godot-game/tests/verification/ArchitecturePolicy.cs",
         "symbol": "Version",
         "diagnostics": [],
         "severity": "error",
@@ -3290,13 +3290,13 @@
         "id": "R-66.positive",
         "rule": "R-66",
         "status": "pending",
-        "path": "tests/phase1/ArchitectureRuleTests.cs"
+        "path": "src/godot-game/tests/verification/ArchitectureRuleTests.cs"
       },
       "negativeProof": {
         "id": "R-66.negative",
         "rule": "R-66",
         "status": "pending",
-        "path": "tests/phase1/ArchitectureRuleTests.cs"
+        "path": "src/godot-game/tests/verification/ArchitectureRuleTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -3306,7 +3306,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/ArchitecturePolicy.cs",
+        "path": "src/godot-game/tests/verification/ArchitecturePolicy.cs",
         "symbol": "ArchitecturePolicy.Version",
         "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
         "positiveMethod": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule66_CompliantModel_Accepted",
@@ -3326,7 +3326,7 @@
         "symbol": "R-67"
       },
       "mechanism": {
-        "path": "tests/phase1/SuppressionPolicy.cs",
+        "path": "src/godot-game/tests/verification/SuppressionPolicy.cs",
         "symbol": "CheckRepository",
         "diagnostics": [],
         "severity": "error",
@@ -3338,13 +3338,13 @@
         "id": "R-67.positive",
         "rule": "R-67",
         "status": "pending",
-        "path": "tests/phase1/SuppressionTests.cs"
+        "path": "src/godot-game/tests/verification/SuppressionTests.cs"
       },
       "negativeProof": {
         "id": "R-67.negative",
         "rule": "R-67",
         "status": "pending",
-        "path": "tests/phase1/SuppressionTests.cs"
+        "path": "src/godot-game/tests/verification/SuppressionTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -3354,7 +3354,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/SuppressionPolicy.cs",
+        "path": "src/godot-game/tests/verification/SuppressionPolicy.cs",
         "symbol": "SuppressionPolicy.CheckRepository",
         "scope": "Owned tracked C#, MSBuild, editor/global configuration, response and workflow commands; only exact observed registered permissions.",
         "positiveMethod": "KingdomZombies.Phase1.Tests.SuppressionTests.Scan_ActualRepository_AcceptsExactPermissions",
@@ -3374,7 +3374,7 @@
         "symbol": "R-68"
       },
       "mechanism": {
-        "path": "src/core/SnapshotCodec.cs",
+        "path": "src/godot-game/core/SnapshotCodec.cs",
         "symbol": "R-68",
         "diagnostics": [],
         "severity": "error",
@@ -3386,13 +3386,13 @@
         "id": "R-68.positive",
         "rule": "R-68",
         "status": "pending",
-        "path": "tests/phase1/SnapshotTests.cs"
+        "path": "src/godot-game/tests/verification/SnapshotTests.cs"
       },
       "negativeProof": {
         "id": "R-68.negative",
         "rule": "R-68",
         "status": "pending",
-        "path": "tests/phase1/SnapshotTests.cs"
+        "path": "src/godot-game/tests/verification/SnapshotTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -3402,7 +3402,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "src/core/SnapshotCodec.cs",
+        "path": "src/godot-game/core/SnapshotCodec.cs",
         "symbol": "SnapshotCodec.Encode",
         "scope": "Actual Core ExampleState/SnapshotDto/ProofKind strict independent snapshot contract; no HTTP endpoint or production save UX.",
         "positiveMethod": "KingdomZombies.Phase1.Tests.SnapshotTests.CamelCase_AcceptedSchema_ContainsExactNames",
@@ -3422,7 +3422,7 @@
         "symbol": "R-69"
       },
       "mechanism": {
-        "path": "src/core/SnapshotCodec.cs",
+        "path": "src/godot-game/core/SnapshotCodec.cs",
         "symbol": "R-69",
         "diagnostics": [],
         "severity": "error",
@@ -3434,13 +3434,13 @@
         "id": "R-69.positive",
         "rule": "R-69",
         "status": "pending",
-        "path": "tests/phase1/SnapshotTests.cs"
+        "path": "src/godot-game/tests/verification/SnapshotTests.cs"
       },
       "negativeProof": {
         "id": "R-69.negative",
         "rule": "R-69",
         "status": "pending",
-        "path": "tests/phase1/SnapshotTests.cs"
+        "path": "src/godot-game/tests/verification/SnapshotTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -3450,7 +3450,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "src/core/SnapshotCodec.cs",
+        "path": "src/godot-game/core/SnapshotCodec.cs",
         "symbol": "SnapshotCodec.Decode",
         "scope": "Actual Core ExampleState/SnapshotDto/ProofKind strict independent snapshot contract; no HTTP endpoint or production save UX.",
         "positiveMethod": "KingdomZombies.Phase1.Tests.SnapshotTests.Enum_ExactName_AcceptsPinnedValue",
@@ -3470,7 +3470,7 @@
         "symbol": "R-70"
       },
       "mechanism": {
-        "path": "src/core/SnapshotCodec.cs",
+        "path": "src/godot-game/core/SnapshotCodec.cs",
         "symbol": "R-70",
         "diagnostics": [],
         "severity": "error",
@@ -3482,13 +3482,13 @@
         "id": "R-70.positive",
         "rule": "R-70",
         "status": "pending",
-        "path": "tests/phase1/SnapshotTests.cs"
+        "path": "src/godot-game/tests/verification/SnapshotTests.cs"
       },
       "negativeProof": {
         "id": "R-70.negative",
         "rule": "R-70",
         "status": "pending",
-        "path": "tests/phase1/SnapshotTests.cs"
+        "path": "src/godot-game/tests/verification/SnapshotTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -3498,7 +3498,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "src/core/SnapshotCodec.cs",
+        "path": "src/godot-game/core/SnapshotCodec.cs",
         "symbol": "SnapshotCodec.Decode",
         "scope": "Actual Core ExampleState/SnapshotDto/ProofKind strict independent snapshot contract; no HTTP endpoint or production save UX.",
         "positiveMethod": "KingdomZombies.Phase1.Tests.SnapshotTests.NullPolicy_EmptyCollections_WritesRequiredValues",
@@ -3518,7 +3518,7 @@
         "symbol": "R-71"
       },
       "mechanism": {
-        "path": "src/core/SnapshotCodec.cs",
+        "path": "src/godot-game/core/SnapshotCodec.cs",
         "symbol": "R-71",
         "diagnostics": [],
         "severity": "error",
@@ -3530,13 +3530,13 @@
         "id": "R-71.positive",
         "rule": "R-71",
         "status": "pending",
-        "path": "tests/phase1/SnapshotTests.cs"
+        "path": "src/godot-game/tests/verification/SnapshotTests.cs"
       },
       "negativeProof": {
         "id": "R-71.negative",
         "rule": "R-71",
         "status": "pending",
-        "path": "tests/phase1/SnapshotTests.cs"
+        "path": "src/godot-game/tests/verification/SnapshotTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -3546,7 +3546,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "src/core/SnapshotCodec.cs",
+        "path": "src/godot-game/core/SnapshotCodec.cs",
         "symbol": "SnapshotCodec.Decode",
         "scope": "Actual Core ExampleState/SnapshotDto/ProofKind strict independent snapshot contract; no HTTP endpoint or production save UX.",
         "positiveMethod": "KingdomZombies.Phase1.Tests.SnapshotTests.RequiredValues_CompleteCollections_AcceptsAll",
@@ -3566,7 +3566,7 @@
         "symbol": "R-72"
       },
       "mechanism": {
-        "path": "src/core/SnapshotCodec.cs",
+        "path": "src/godot-game/core/SnapshotCodec.cs",
         "symbol": "R-72",
         "diagnostics": [],
         "severity": "error",
@@ -3578,13 +3578,13 @@
         "id": "R-72.positive",
         "rule": "R-72",
         "status": "pending",
-        "path": "tests/phase1/SnapshotTests.cs"
+        "path": "src/godot-game/tests/verification/SnapshotTests.cs"
       },
       "negativeProof": {
         "id": "R-72.negative",
         "rule": "R-72",
         "status": "pending",
-        "path": "tests/phase1/SnapshotTests.cs"
+        "path": "src/godot-game/tests/verification/SnapshotTests.cs"
       },
       "qualitativeReview": {
         "required": true,
@@ -3595,7 +3595,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "src/core/SnapshotCodec.cs",
+        "path": "src/godot-game/core/SnapshotCodec.cs",
         "symbol": "SnapshotCodec.Decode",
         "scope": "Actual Core ExampleState/SnapshotDto/ProofKind strict independent snapshot contract; no HTTP endpoint or production save UX.",
         "positiveMethod": "KingdomZombies.Phase1.Tests.SnapshotTests.SharedCodec_IndependentRuns_UsesExactContract",
@@ -3615,7 +3615,7 @@
         "symbol": "R-73"
       },
       "mechanism": {
-        "path": "BannedSymbols.txt",
+        "path": "src/godot-game/build/BannedSymbols.txt",
         "symbol": "R-73",
         "diagnostics": [
           "RS0030"
@@ -3629,13 +3629,13 @@
         "id": "R-73.positive",
         "rule": "R-73",
         "status": "pending",
-        "path": "tests/phase1/RandomContractTests.cs"
+        "path": "src/godot-game/tests/verification/RandomContractTests.cs"
       },
       "negativeProof": {
         "id": "R-73.negative",
         "rule": "R-73",
         "status": "pending",
-        "path": "tests/phase1/RandomContractTests.cs"
+        "path": "src/godot-game/tests/verification/RandomContractTests.cs"
       },
       "qualitativeReview": {
         "required": true,
@@ -3646,7 +3646,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "BannedSymbols.txt",
+        "path": "src/godot-game/build/BannedSymbols.txt",
         "symbol": "P:System.DateTime.UtcNow;Use an injected clock",
         "scope": "Production ambient time/random bans and actual controlled Core inputs; exact seeded-random permission and pure-library policy.",
         "positiveMethod": "KingdomZombies.Phase1.Tests.RandomContractTests.Rule73_ElapsedIntegers_PreservesExactTime",
@@ -3666,7 +3666,7 @@
         "symbol": "R-74"
       },
       "mechanism": {
-        "path": "tests/phase1/ArchitecturePolicy.cs",
+        "path": "src/godot-game/tests/verification/ArchitecturePolicy.cs",
         "symbol": "Enum",
         "diagnostics": [],
         "severity": "error",
@@ -3678,13 +3678,13 @@
         "id": "R-74.positive",
         "rule": "R-74",
         "status": "pending",
-        "path": "tests/phase1/ArchitectureRuleTests.cs"
+        "path": "src/godot-game/tests/verification/ArchitectureRuleTests.cs"
       },
       "negativeProof": {
         "id": "R-74.negative",
         "rule": "R-74",
         "status": "pending",
-        "path": "tests/phase1/ArchitectureRuleTests.cs"
+        "path": "src/godot-game/tests/verification/ArchitectureRuleTests.cs"
       },
       "qualitativeReview": {
         "required": true,
@@ -3700,7 +3700,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/ArchitecturePolicy.cs",
+        "path": "src/godot-game/tests/verification/ArchitecturePolicy.cs",
         "symbol": "ArchitecturePolicy.Enum",
         "scope": "Actual Core ProofKind and independent test enum subjects; exact pinned ordinal wire names and additive numeric identities.",
         "positiveMethod": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule74_CompliantModel_Accepted",
@@ -3720,7 +3720,7 @@
         "symbol": "R-75"
       },
       "mechanism": {
-        "path": "tests/phase1/ArchitecturePolicy.cs",
+        "path": "src/godot-game/tests/verification/ArchitecturePolicy.cs",
         "symbol": "Enum",
         "diagnostics": [],
         "severity": "error",
@@ -3732,13 +3732,13 @@
         "id": "R-75.positive",
         "rule": "R-75",
         "status": "pending",
-        "path": "tests/phase1/ArchitectureRuleTests.cs"
+        "path": "src/godot-game/tests/verification/ArchitectureRuleTests.cs"
       },
       "negativeProof": {
         "id": "R-75.negative",
         "rule": "R-75",
         "status": "pending",
-        "path": "tests/phase1/ArchitectureRuleTests.cs"
+        "path": "src/godot-game/tests/verification/ArchitectureRuleTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -3748,7 +3748,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/ArchitecturePolicy.cs",
+        "path": "src/godot-game/tests/verification/ArchitecturePolicy.cs",
         "symbol": "ArchitecturePolicy.Enum",
         "scope": "Actual Core ProofKind and independent test enum subjects; exact pinned ordinal wire names and additive numeric identities.",
         "positiveMethod": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule75_CompliantModel_Accepted",
@@ -3792,7 +3792,7 @@
         "symbol": "R-77"
       },
       "mechanism": {
-        "path": "tests/phase1/ArchitecturePolicy.cs",
+        "path": "src/godot-game/tests/verification/ArchitecturePolicy.cs",
         "symbol": "Enum",
         "diagnostics": [],
         "severity": "error",
@@ -3804,13 +3804,13 @@
         "id": "R-77.positive",
         "rule": "R-77",
         "status": "pending",
-        "path": "tests/phase1/ArchitectureRuleTests.cs"
+        "path": "src/godot-game/tests/verification/ArchitectureRuleTests.cs"
       },
       "negativeProof": {
         "id": "R-77.negative",
         "rule": "R-77",
         "status": "pending",
-        "path": "tests/phase1/ArchitectureRuleTests.cs"
+        "path": "src/godot-game/tests/verification/ArchitectureRuleTests.cs"
       },
       "qualitativeReview": {
         "required": true,
@@ -3821,7 +3821,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/ArchitecturePolicy.cs",
+        "path": "src/godot-game/tests/verification/ArchitecturePolicy.cs",
         "symbol": "ArchitecturePolicy.Enum",
         "scope": "Actual Core ProofKind and independent test enum subjects; exact pinned ordinal wire names and additive numeric identities.",
         "positiveMethod": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule77_CompliantModel_Accepted",
@@ -3841,7 +3841,7 @@
         "symbol": "R-78"
       },
       "mechanism": {
-        "path": "tests/phase1/TypeBoundaryScanner.cs",
+        "path": "src/godot-game/tests/verification/TypeBoundaryScanner.cs",
         "symbol": "Validate",
         "diagnostics": [],
         "severity": "error",
@@ -3853,13 +3853,13 @@
         "id": "R-78.positive",
         "rule": "R-78",
         "status": "pending",
-        "path": "tests/phase1/GraphTests.cs"
+        "path": "src/godot-game/tests/verification/GraphTests.cs"
       },
       "negativeProof": {
         "id": "R-78.negative",
         "rule": "R-78",
         "status": "pending",
-        "path": "tests/phase1/GraphTests.cs"
+        "path": "src/godot-game/tests/verification/GraphTests.cs"
       },
       "qualitativeReview": {
         "required": true,
@@ -3870,7 +3870,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/TypeBoundaryScanner.cs",
+        "path": "src/godot-game/tests/verification/TypeBoundaryScanner.cs",
         "symbol": "TypeBoundaryScanner.Validate(assembly,expectedTypes,boundary)",
         "scope": "Actual Core ExampleState/SnapshotDto/ProofKind strict independent snapshot contract; no HTTP endpoint or production save UX.",
         "positiveMethod": "KingdomZombies.Phase1.Tests.GraphTests.Rule78_EnumBoundaryControl_Accepted",
@@ -3939,7 +3939,7 @@
         "symbol": "R-81"
       },
       "mechanism": {
-        "path": "tests/phase1/ArchitecturePolicy.cs",
+        "path": "src/godot-game/tests/verification/ArchitecturePolicy.cs",
         "symbol": "Model",
         "diagnostics": [],
         "severity": "error",
@@ -3951,13 +3951,13 @@
         "id": "R-81.positive",
         "rule": "R-81",
         "status": "pending",
-        "path": "tests/phase1/ArchitectureRuleTests.cs"
+        "path": "src/godot-game/tests/verification/ArchitectureRuleTests.cs"
       },
       "negativeProof": {
         "id": "R-81.negative",
         "rule": "R-81",
         "status": "pending",
-        "path": "tests/phase1/ArchitectureRuleTests.cs"
+        "path": "src/godot-game/tests/verification/ArchitectureRuleTests.cs"
       },
       "qualitativeReview": {
         "required": true,
@@ -3968,7 +3968,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/ArchitecturePolicy.cs",
+        "path": "src/godot-game/tests/verification/ArchitecturePolicy.cs",
         "symbol": "ArchitecturePolicy.Model",
         "scope": "Declared five-project graph and tooling boundaries; no donor web topology",
         "positiveMethod": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Rule81_CompliantModel_Accepted",
@@ -4000,13 +4000,13 @@
         "id": "R-82.positive",
         "rule": "R-82",
         "status": "pending",
-        "path": "tests/phase1/CoverageTests.cs"
+        "path": "src/godot-game/tests/verification/CoverageTests.cs"
       },
       "negativeProof": {
         "id": "R-82.negative",
         "rule": "R-82",
         "status": "pending",
-        "path": "tests/phase1/CoverageTests.cs"
+        "path": "src/godot-game/tests/verification/CoverageTests.cs"
       },
       "qualitativeReview": {
         "required": false,
@@ -4044,7 +4044,7 @@
         "symbol": "R-83"
       },
       "mechanism": {
-        "path": "tests/phase1/DocumentationValidator.cs",
+        "path": "src/godot-game/tests/verification/DocumentationValidator.cs",
         "symbol": "R-83",
         "diagnostics": [],
         "severity": "error",
@@ -4056,13 +4056,13 @@
         "id": "R-83.positive",
         "rule": "R-83",
         "status": "pending",
-        "path": "tests/phase1/DocumentationTests.cs"
+        "path": "src/godot-game/tests/verification/DocumentationTests.cs"
       },
       "negativeProof": {
         "id": "R-83.negative",
         "rule": "R-83",
         "status": "pending",
-        "path": "tests/phase1/DocumentationTests.cs"
+        "path": "src/godot-game/tests/verification/DocumentationTests.cs"
       },
       "qualitativeReview": {
         "required": true,
@@ -4073,7 +4073,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/DocumentationValidator.cs",
+        "path": "src/godot-game/tests/verification/DocumentationValidator.cs",
         "symbol": "DocumentationValidator.Check",
         "scope": "Canonical AGENTS, owned docs/specs/core planning authorities and five module pages; installed/vendor/generated/provenance archives excluded.",
         "positiveMethod": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_RealRuleIndexes_AcceptsOperationalLinks",
@@ -4093,7 +4093,7 @@
         "symbol": "R-84"
       },
       "mechanism": {
-        "path": "tests/phase1/DocumentationValidator.cs",
+        "path": "src/godot-game/tests/verification/DocumentationValidator.cs",
         "symbol": "R-84",
         "diagnostics": [],
         "severity": "error",
@@ -4105,13 +4105,13 @@
         "id": "R-84.positive",
         "rule": "R-84",
         "status": "pending",
-        "path": "tests/phase1/DocumentationTests.cs"
+        "path": "src/godot-game/tests/verification/DocumentationTests.cs"
       },
       "negativeProof": {
         "id": "R-84.negative",
         "rule": "R-84",
         "status": "pending",
-        "path": "tests/phase1/DocumentationTests.cs"
+        "path": "src/godot-game/tests/verification/DocumentationTests.cs"
       },
       "qualitativeReview": {
         "required": true,
@@ -4122,7 +4122,7 @@
       "binding": {
         "status": "implemented",
         "owner": "01-14",
-        "path": "tests/phase1/DocumentationDecisions.cs",
+        "path": "src/godot-game/tests/verification/DocumentationDecisions.cs",
         "symbol": "DocumentationDecisions.Check",
         "scope": "Canonical AGENTS, owned docs/specs/core planning authorities and five module pages; installed/vendor/generated/provenance archives excluded.",
         "positiveMethod": "KingdomZombies.Phase1.Tests.DocumentationTests.Check_RealDecisions_AcceptsCompleteStructure",

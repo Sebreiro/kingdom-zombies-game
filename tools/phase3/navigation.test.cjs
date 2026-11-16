@@ -1,7 +1,7 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),test=require('node:test'),assert=require('node:assert/strict');
 test('the inherited keyboard procedure follows the actual native scene neighbors in both directions',async()=>{
-  const scene=fs.readFileSync(path.resolve(__dirname,'../../src/godot-game/foundation/Foundation.tscn'),'utf8');
+  const scene=fs.readFileSync(path.resolve(__dirname,'../../src/godot-game/game/foundation/Foundation.tscn'),'utf8');
   const nodes=new Map([...scene.matchAll(/\[node name="([^"]+)"[^\]]*parent="Menu"\]([\s\S]*?)(?=\[node|$)/g)].map(match=>[match[1],match[2]]));
   let current='Start',shift=false,observations=0;
   async function send(action,key){

@@ -82,7 +82,7 @@ function ownedInput(dispatch) {
 function createSession(context) {
   const { root, directory, nonce, engine, env } = context;
   const width = 1280, height = 720;
-  const game = spawn(engine, ['--path', path.join(root, 'src/godot-game'), '--rendering-method', 'gl_compatibility', '--resolution', `${width}x${height}`], {
+  const game = spawn(engine, ['--path', path.join(root, 'src/godot-game/game'), '--rendering-method', 'gl_compatibility', '--resolution', `${width}x${height}`], {
     cwd: root, env: { ...env, PHASE2_NONCE: nonce, PHASE2_OUTPUT: directory,
       PHASE3_PROFILE_ROOT:path.join(directory,'profiles'),
       ...(context.includeMenu?{PHASE2_FAIL_ENTRY_ONCE:nonce}:{}) }, shell: false, windowsHide: false, detached:process.platform !== 'win32',
@@ -295,8 +295,8 @@ async function tracer(context, scenario, session, logStart = session.log.length)
 function validateResources(context) {
   const isolated=path.join(context.directory,'isolated-input');
   fs.mkdirSync(isolated,{recursive:true});
-  const inputs=['src/godot-game/project.godot','src/godot-game/icon.svg',
-    ...fs.readdirSync(path.join(context.root,'src/godot-game/foundation')).filter(name=>/\.(cs|tscn)$/.test(name)).map(name=>'src/godot-game/foundation/'+name),
+  const inputs=['src/godot-game/game/project.godot','src/godot-game/game/icon.svg',
+    ...fs.readdirSync(path.join(context.root,'src/godot-game/game/foundation')).filter(name=>/\.(cs|tscn)$/.test(name)).map(name=>'src/godot-game/game/foundation/'+name),
     'tools/phase2/windows-input.ps1','tools/phase2/linux-input.sh'];
   const resources=[];
   for(const file of inputs) {
@@ -309,7 +309,7 @@ function validateResources(context) {
   const declared = new Set(inputs);
   for (const resource of resources) {
     const source = fs.readFileSync(path.join(isolated,resource.path),'utf8');
-    for (const match of source.matchAll(/res:\/\/([^"\s]+)/g)) requireTrue(declared.has('src/godot-game/'+match[1]),'UNDECLARED_RESOURCE '+match[1]);
+    for (const match of source.matchAll(/res:\/\/([^"\s]+)/g)) requireTrue(declared.has('src/godot-game/game/'+match[1]),'UNDECLARED_RESOURCE '+match[1]);
     requireTrue(crypto.createHash('sha256').update(fs.readFileSync(path.join(isolated,resource.path))).digest('hex')===resource.sha256,'RESOURCE_COPY_HASH');
   }
   return {isolatedInputRoot:isolated,resources,donorInputs:[],validation:'declared-resource-closure-and-byte-identical-copy; shared live scene supplies runtime evidence'};

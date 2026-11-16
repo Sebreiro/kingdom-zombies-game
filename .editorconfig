@@ -139,5 +139,5 @@ dotnet_diagnostic.MA0156.severity = none
 [src/{core,multiplayer-abstractions}/**.cs]
 dotnet_diagnostic.MA0004.severity = error
 
-[tests/phase1/**.cs]
+[src/godot-game/tests/verification/**.cs]
 dotnet_diagnostic.CA1707.severity = none

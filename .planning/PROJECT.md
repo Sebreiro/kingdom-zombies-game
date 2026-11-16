@@ -69,7 +69,7 @@ Acceptance retains Windows 676/676 plus the focused both-OS platform-test amendm
 ### Current repository
 
 - Workspace: `D:/Work/Games/KingdomZombies`.
-- Game project: `src/godot-game/project.godot`; the pinned Godot 4.7.2 / .NET 10 / C# 14 combination has actual Windows and focused Linux native/build evidence.
+- Game project: `src/godot-game/game/project.godot`; the pinned Godot 4.7.2 / .NET 10 / C# 14 combination has actual Windows and focused Linux native/build evidence.
 - Five declared C# projects provide pure Core state, Godot integration, multiplayer-service boundaries, twelve custom analyzers and a source-bound proof runner. The representative native scene proves development integration; menu, movement and other gameplay remain future work.
 - Visual examples are under `examples/`, including three base references and zombie artwork. References guide style; written specifications control silhouettes and behavior.
 - The canonical root `AGENTS.md` and focused rules, architecture, project, decision and workflow indexes are implemented and checked for exact path/anchor identities and portable casing.
