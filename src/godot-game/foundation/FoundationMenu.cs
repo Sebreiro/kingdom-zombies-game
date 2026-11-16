@@ -107,6 +107,8 @@ internal sealed class FoundationMenu
     internal void Browse()
     {
         _gateway.RequireThread();
+        _attemptError = false;
+        _root.GetNode<Label>(path: "Browser/Feedback").Text = "";
         _services.Discovery.Refresh();
         _root.GetNode<Label>(path: "Browser/Summary").Text = Summary();
         _root.GetNode<Control>(path: "Browser/Refresh").GrabFocus();
@@ -117,6 +119,12 @@ internal sealed class FoundationMenu
         _gateway.RequireThread();
         Advertise();
         _services.Update(nowMilliseconds: nowMilliseconds);
+        if (_coordinator()?.Ready == true)
+        {
+            _attemptError = false;
+            _root.GetNode<Label>(path: "Browser/Feedback").Text = "";
+        }
+
         if (!_root.GetNode<Control>(path: "Browser").Visible)
         {
             return;
