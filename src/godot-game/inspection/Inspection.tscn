@@ -1,38 +1,232 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Texture2D" path="res://assets/common/bow.png" id="1_bow"]
+[ext_resource type="Script" path="res://inspection/InspectionRoot.cs" id="2_root"]
+
+[sub_resource type="StyleBoxFlat" id="panel"]
+bg_color = Color(0.094, 0.145, 0.169, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.208, 0.263, 0.247, 1)
+
+[sub_resource type="StyleBoxFlat" id="focus"]
+bg_color = Color(0.267, 0.333, 0.310, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.941, 0.769, 0.416, 1)
+
+[sub_resource type="Theme" id="hub"]
+default_font_size = 20
+Button/colors/font_color = Color(0.957, 0.949, 0.910, 1)
+Button/styles/normal = SubResource("panel")
+Button/styles/hover = SubResource("focus")
+Button/styles/focus = SubResource("focus")
+Button/styles/pressed = SubResource("panel")
+Button/styles/disabled = SubResource("panel")
+Label/colors/font_color = Color(0.957, 0.949, 0.910, 1)
+PanelContainer/styles/panel = SubResource("panel")
 
 [node name="Inspection" type="Node2D"]
+script = ExtResource("2_root")
 
-[node name="Bow" type="Sprite2D" parent="."]
-texture_filter = 1
-position = Vector2(640, 360)
-texture = ExtResource("1_bow")
-centered = false
-offset = Vector2(-6, -9)
+[node name="Background" type="ColorRect" parent="."]
+offset_right = 4096.0
+offset_bottom = 4096.0
+mouse_filter = 2
+color = Color(0.094, 0.145, 0.169, 1)
 
 [node name="Summary" type="VBoxContainer" parent="."]
 offset_left = 24.0
 offset_top = 24.0
-offset_right = 720.0
+offset_right = 1256.0
 offset_bottom = 184.0
+theme = SubResource("hub")
+theme_override_constants/separation = 4
 
 [node name="Title" type="Label" parent="Summary"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 32
 text = "KingdomZombies — Resource inspection"
 
 [node name="ResourceId" type="Label" parent="Summary"]
 layout_mode = 2
 text = "common.bow"
+autowrap_mode = 3
 
 [node name="ResourceName" type="Label" parent="Summary"]
 layout_mode = 2
 text = "Bow"
+autowrap_mode = 3
 
 [node name="Status" type="Label" parent="Summary"]
 layout_mode = 2
-text = "Source/headless verified; visual review pending"
+theme_override_font_sizes/font_size = 16
+text = "Loading common.bow…"
+autowrap_mode = 3
 
 [node name="PackStatus" type="Label" parent="Summary"]
 layout_mode = 2
-text = "Pack incomplete — tracer master only"
+theme_override_font_sizes/font_size = 16
+text = "0/180 obligations · Pack incomplete — Loading"
+autowrap_mode = 3
+
+[node name="Shell" type="VBoxContainer" parent="."]
+offset_left = 24.0
+offset_top = 194.0
+offset_right = 1256.0
+offset_bottom = 696.0
+theme = SubResource("hub")
+theme_override_constants/separation = 16
+
+[node name="Toolbar" type="HBoxContainer" parent="Shell"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Recheck" type="Button" parent="Shell/Toolbar"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "Recheck resources"
+
+[node name="Cancel" type="Button" parent="Shell/Toolbar"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "Cancel loading"
+
+[node name="Operation" type="Label" parent="Shell/Toolbar"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 16
+text = "Reading declared resources"
+autowrap_mode = 3
+
+[node name="Workspace" type="BoxContainer" parent="Shell"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="Navigation" type="VBoxContainer" parent="Shell/Workspace"]
+custom_minimum_size = Vector2(176, 0)
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Shell/Workspace/Navigation"]
+layout_mode = 2
+text = "Category"
+
+[node name="Category" type="OptionButton" parent="Shell/Workspace/Navigation"]
+custom_minimum_size = Vector2(176, 48)
+layout_mode = 2
+selected = 1
+item_count = 8
+popup/item_0/text = "Characters"
+popup/item_0/id = 0
+popup/item_1/text = "Items"
+popup/item_1/id = 1
+popup/item_2/text = "Buildings/world"
+popup/item_2/id = 2
+popup/item_3/text = "UI"
+popup/item_3/id = 3
+popup/item_4/text = "Data/text"
+popup/item_4/id = 4
+popup/item_5/text = "Audio"
+popup/item_5/id = 5
+popup/item_6/text = "Register"
+popup/item_6/id = 6
+popup/item_7/text = "Known issues"
+popup/item_7/id = 7
+
+[node name="Scope" type="Label" parent="Shell/Workspace/Navigation"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Resource inspection. Production, native, visual and listening evidence remain distinct."
+autowrap_mode = 3
+
+[node name="Browser" type="VBoxContainer" parent="Shell/Workspace"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+
+[node name="Search" type="LineEdit" parent="Shell/Workspace/Browser"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+placeholder_text = "Search ID or full name"
+
+[node name="Status" type="OptionButton" parent="Shell/Workspace/Browser"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+selected = 0
+item_count = 4
+popup/item_0/text = "All statuses"
+popup/item_0/id = 0
+popup/item_1/text = "Partial"
+popup/item_1/id = 1
+popup/item_2/text = "Incomplete"
+popup/item_2/id = 2
+popup/item_3/text = "Error"
+popup/item_3/id = 3
+
+[node name="Count" type="Label" parent="Shell/Workspace/Browser"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "0 results"
+autowrap_mode = 3
+
+[node name="Resources" type="ItemList" parent="Shell/Workspace/Browser"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 16
+text_overrun_behavior = 3
+
+[node name="Preview" type="VBoxContainer" parent="Shell/Workspace"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="Shell/Workspace/Preview"]
+layout_mode = 2
+text = "Inspect resource"
+
+[node name="Surface" type="PanelContainer" parent="Shell/Workspace/Preview"]
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Actions" type="HBoxContainer" parent="Shell/Workspace/Preview"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Details" type="Button" parent="Shell/Workspace/Preview/Actions"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "Show details"
+
+[node name="Copy" type="Button" parent="Shell/Workspace/Preview/Actions"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "Copy details"
+
+[node name="Metadata" type="TextEdit" parent="Shell/Workspace/Preview"]
+visible = false
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+editable = false
+wrap_mode = 1
+
+[node name="Failures" type="TextEdit" parent="Shell/Workspace/Preview"]
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 16
+editable = false
+wrap_mode = 1
+
+[node name="Bow" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(880, 360)
+texture = ExtResource("1_bow")
+centered = false
+offset = Vector2(-6, -9)
