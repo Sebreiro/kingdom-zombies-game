@@ -4,13 +4,12 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 04
 current_phase_name: Asset production
-current_plan: 5
+current_plan: 02
 status: executing
 stopped_at: Completed 04-35-PLAN.md; permanent profile verified; next resume preserved 04-02 Task1 for actual packaged Inspection entry; all ASSET requirements pending
-last_updated: "2026-11-16T15:37:47.424Z"
+last_updated: "2026-11-16T15:42:57.972Z"
 last_activity: 2026-11-16
-last_activity_desc: Completed 04-34 exact SDK export layout prerequisite; resume preserved 04-02 Task1; all ASSET requirements pending
-state_head: cba08124697b82a27a2c0059b069d04b688b4fea
+last_activity_desc: Completed 04-35 permanent inspection profile; resuming preserved 04-02 Task 1 for actual packaged Inspection startup; all ASSET requirements pending
 progress:
   total_phases: 11
   completed_phases: 3
@@ -27,24 +26,24 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase 04 asset production is executing on feature/04-asset-production with draft PR #5 to dev. Plans 04-01, 04-25 and 04-34 source/headless slices complete; 3/34 plans summarized. Resume preserved 04-02 Task 1 after the verified SDK layout prerequisite; its independent audio Task 2 remains committed. Actual acceptance remains pending 04-32/04-33 after whole implementation and independent review/fixes.
+**Current focus:** Phase 04 asset production is executing on `feature/04-asset-production` with [draft PR #5](https://github.com/Sebreiro/kingdom-zombies-game/pull/5) to `dev`. Plans 04-01, 04-25, 04-34 and 04-35 source/headless slices are complete: 4/35 plans summarized. Resume preserved 04-02 Task 1 with the verified SDK layout and permanent inspection profile; its audio Task 2 remains committed. Actual packaged Inspection startup is the next proof. Whole-phase rendered, listening and judgment acceptance remains with 04-32/04-33 after implementation and independent review/fixes.
 
 ## Current Position
 
-Phase: 04 (Asset production) — READY TO EXECUTE
-Current Plan: 5
+Phase: 04 — Asset production
+Current Plan: 02
 Total Plans in Phase: 35
-Status: Ready to execute
-Last activity: 2026-11-16 — Completed 04-34 exact SDK export layout prerequisite; resume preserved 04-02 Task 1; all ASSET requirements pending
+Status: Executing
+Last activity: 2026-11-16 — Completed 04-35 permanent inspection profile; resuming preserved 04-02 Task 1 for actual packaged Inspection startup; all ASSET requirements pending
 
 Progress: [███░░░░░░░] 27%
 
-Milestone progress: 3/11 phases complete; 28/59 currently planned plans summarized; fourteen of 134 requirements complete. Phase 4 has 3/34 plans complete; no ASSET requirement completion is claimed.
+Milestone progress: 3/11 phases complete; 29/60 currently planned plans summarized; fourteen of 134 requirements complete. Phase 4 has 4/35 plans complete, with independent audio Task 2 of 04-02 committed and Task 1 incomplete. No ASSET requirement completion is claimed.
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 28
+- Total plans completed: 29
 - Phase 1 recorded windows: 1352min, 75min average (rounded); historical per-plan scopes remain below.
 - Phase 3 recorded plan windows: 944min total, 236min average. Plan 03-04's 833min includes reviews, failed attempts and five fresh full attempts; it is not the final selected-run duration.
 - Final Phase 3 selected execution: 3,363,558ms / 56.06min, 481/481. No overall execution-time total is inferred for plans without recorded duration metadata.
@@ -144,7 +143,7 @@ Phase 3 has no blocking acceptance item. Its independent [UI audit](phases/03-fo
 
 ## Deferred Items
 
-The [Phase 5 handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md) retains measured analyzer/production coverage, advanced reconciliation and eight aggregate/coverage cases. The unchanged manifest contains 684 declarations: 676 Phase 1 cases and eight separately pending Phase 5 cases. The Windows 676 baseline and focused both-OS amendment remain distinct from the limited composed Linux evidence.
+The [Phase 5 handoff](phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md) retains measured analyzer/production coverage, advanced reconciliation and eight aggregate/coverage cases. The current manifest contains 686 declarations: 676 Phase 1 cases, two Phase 4 Windows export-layout proofs and eight separately pending Phase 5 cases. The original 684-declaration baseline and its Windows 676/focused both-OS evidence remain immutable and distinct from these new Phase 4 proofs and the limited composed Linux evidence.
 
 Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-documentation/01-CLOSURE-EXCEPTION.md). Its [follow-ups](phases/01-code-rules-and-documentation/01-CLOSURE-FOLLOWUPS.md) remain unperformed/unaccepted. Current routine local verification follows the development-OS-only, 1280×720, no-VM policy. Preserve immutable reports and distinct identities for changed code and metadata.
 
@@ -160,6 +159,6 @@ Last session: 2026-11-16T15:37:46.862Z
 Stopped at: Completed 04-35-PLAN.md; permanent profile verified; next resume preserved 04-02 Task1 for actual packaged Inspection entry; all ASSET requirements pending
 Resume file: None
 
-Next action: Resume preserved 04-02 Task 1 on feature/04-asset-production after completed 04-34; retain draft PR #5 targeting dev and committed audio Task 2. Three of 34 Phase 4 plans are summarized; all ASSET requirements and actual phase acceptance remain pending.
+Next action: Resume preserved 04-02 Task 1 on `feature/04-asset-production` after completed 04-34/04-35, consume the permanent inspection preset/profile and obtain actual packaged Inspection startup. Retain draft PR #5 to `dev`, completed audio Task 2 and the authenticated partial-source checkpoint. Four of 35 Phase 4 plans are summarized; all ASSET requirements and whole-phase acceptance remain pending.
 
 Preserved future context: [Phase 4 context](phases/04-asset-production/04-CONTEXT.md) remains authoritative. Plan 04-01 has source/headless evidence only; complete resource and actual acceptance responsibilities remain with later Phase 4 plans.
