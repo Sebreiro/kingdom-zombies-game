@@ -27,7 +27,7 @@ internal sealed class FoundationTestConnection : IConnectionService
         Connected = true;
     }
 
-    public void Send(int peer, ReadOnlyMemory<byte> payload)
+    public void Send(int peer, ReadOnlyMemory<byte> payload, bool reliable = true)
     {
         FoundationTestConnection partner = Partner ?? throw new InvalidOperationException(message: "TEST_PARTNER");
         partner._packets.Enqueue(item: new ConnectionPacket(sender: Sender, generation: partner.Generation,

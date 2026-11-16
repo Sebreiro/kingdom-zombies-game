@@ -124,14 +124,14 @@ public sealed class FoundationLanAdmissionTests
             FoundationCoordinator guest, FoundationHarnessConnection guestPort)
     {
         guest.Update(elapsedMilliseconds: 0);
-        foreach ((int _, FoundationEnvelope envelope) in guestPort.Sent)
+        foreach ((int _, FoundationEnvelope envelope, bool _) in guestPort.Sent)
         {
             port.Enqueue(sender: 2, envelope: envelope);
         }
 
         guestPort.Sent.Clear();
         host.Update(elapsedMilliseconds: 0);
-        foreach ((int _, FoundationEnvelope envelope) in port.Sent)
+        foreach ((int _, FoundationEnvelope envelope, bool _) in port.Sent)
         {
             guestPort.Enqueue(sender: 1, envelope: envelope);
         }

@@ -26,7 +26,7 @@ Importance: **Critical** — Duplicate or foreign intent breaks ownership and mo
 
 Setup/seed/process roles: Build the restored five-project solution with strict analyzers. No native window; isolated pure fixture.
 
-Ordered actions and expected results: Execute named C# production-authority expectations with exact one-test report. Expected: Owned intent accepts without stepping; wrong owner, unready and replayed intent reject; solo/host/guest agree.
+Ordered actions and expected results: Execute named C# production-authority expectations with exact one-test report. Expected: Owned intent accepts without stepping; wrong owner, unready and replayed intent reject; solo/host/guest agree. Ordinary host publication advances after 15+1 ms; host and guest start/reverse/stop each publish a newer post-step state on the next update. Recurring complete state uses replaceable ordered delivery while baseline, intent and lifecycle traffic remains reliable. Drop an intermediate complete state, install the later state, then reject the late older state without rewinding revision or readiness.
 
 Evidence: CTRF one-test report; nonce-bound subject log. Fresh subject report and real diagnostic log; no invented rendered credit.
 

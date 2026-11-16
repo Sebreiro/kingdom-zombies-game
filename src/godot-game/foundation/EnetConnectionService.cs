@@ -8,7 +8,7 @@ using KingdomZombies.Proofs;
 
 namespace KingdomZombies.Foundation;
 
-/// <summary>Owns one manually polled reliable ENet peer on the authentic native thread.</summary>
+/// <summary>Owns one manually polled ENet peer with independent control and replaceable-state delivery.</summary>
 internal sealed class EnetConnectionService : IConnectionService, IDisposable
 {
     public EnetConnectionService(MainThreadGateway gateway)
@@ -85,7 +85,7 @@ internal sealed class EnetConnectionService : IConnectionService, IDisposable
         return packets;
     }
 
-    public void Send(int peer, ReadOnlyMemory<byte> payload)
+    public void Send(int peer, ReadOnlyMemory<byte> payload, bool reliable = true)
     {
         _gateway.RequireThread();
         if (_closed || _peer is null || !Connected)
@@ -103,6 +103,8 @@ internal sealed class EnetConnectionService : IConnectionService, IDisposable
             return;
         }
 
+        _peer.TransferMode = reliable ? MultiplayerPeer.TransferModeEnum.Reliable
+                : MultiplayerPeer.TransferModeEnum.UnreliableOrdered;
         _peer.SetTargetPeer(id: peer);
         Check(error: _peer.PutPacket(buffer: payload.ToArray()));
         using ENetConnection host = _peer.GetHost();

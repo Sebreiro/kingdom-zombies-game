@@ -252,7 +252,8 @@ internal sealed partial class FoundationCoordinator
     {
         if (_connection?.Connected == true)
         {
-            _connection.Send(peer: peer, payload: FoundationProtocol.Encode(envelope: envelope));
+            _connection.Send(peer: peer, payload: FoundationProtocol.Encode(envelope: envelope),
+                    reliable: envelope.Kind is not "state");
         }
     }
 

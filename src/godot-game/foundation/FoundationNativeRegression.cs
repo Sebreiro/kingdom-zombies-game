@@ -218,7 +218,7 @@ internal static class FoundationNativeRegression
         public void Host(int port) => throw new InvalidOperationException(message: "Guest-only regression");
         public void Join(string address, int port) => Connected = true;
         public IReadOnlyList<ConnectionPacket> Poll(int maximumPackets) => [];
-        public void Send(int peer, ReadOnlyMemory<byte> payload) => Sent.Add(
+        public void Send(int peer, ReadOnlyMemory<byte> payload, bool reliable = true) => Sent.Add(
                 item: FoundationProtocol.Decode(bytes: payload));
         public void Close()
         {

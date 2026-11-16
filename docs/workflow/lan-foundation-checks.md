@@ -2,6 +2,8 @@
 
 The [Phase 3 scenarios](../../.planning/phases/03-four-player-lan-foundation/03-SCENARIOS.md), [saved selection](../../.planning/phases/03-four-player-lan-foundation/03-SELECTION.json) and [independent catalog](../../tools/phase3/required-cases.json) define exact obligations. Follow the [local testing strategy](local-testing.md): implement and independently review/fix the whole phase before any game window. Routine local runs use Windows at 1280×720 without a VM. Selection includes every new/changed/affected case, all 16 inherited Phase 2 cases and the explicitly enumerated active Phase 1 integrity cases. Omitted source IDs have individual reasons and earn no execution credit.
 
+Connection delivery is explicit at the framework-only port. Baselines, admission acknowledgments, commands, liveness and lifecycle messages use reliable delivery. Recurring complete `state` snapshots use ordered, non-retransmitted delivery so an obsolete snapshot cannot hold newer state behind reliable acknowledgments. Godot's default channel separates these transfer modes; see its [MultiplayerPeer channel contract](https://docs.godotengine.org/en/latest/classes/class_multiplayerpeer.html#class-multiplayerpeer-property-transfer-channel). The guest still validates complete snapshots, readiness, actor ownership, session, monotonic revision and elapsed counters before installation. Missing an intermediate state does not prevent a later complete state from installing, and late older state cannot rewind it. Normal publication is bounded to one per host update at a 16 ms cadence, with accepted intent coalesced into the next post-step publication.
+
 | Need | Command |
 | --- | --- |
 | Validate/list exact required cases and saved coverage | `node tools/phase3/check.cjs --list` |

@@ -26,6 +26,7 @@ public sealed class FoundationLanAuthorityTests
         CheckSequencesAndReadiness();
         CheckCoordinatorRoles();
         CheckPromptPublication();
+        CheckDeliveryModes();
         CheckProtocol();
         ProofProtocol.Record(id: "core.authority", diagnostic: "OWNED_INTENT_BEFORE_HOST_STEP");
     }
@@ -146,6 +147,48 @@ public sealed class FoundationLanAuthorityTests
         published.PositionSubunits.ShouldBe(expected: before.PositionSubunits + 3 * direction);
         published.ElapsedMilliseconds.ShouldBe(expected: before.ElapsedMilliseconds + 1);
         state.Revision.ShouldBeGreaterThan(expected: host.LastAcceptedRevision);
+    }
+
+    private static void CheckDeliveryModes()
+    {
+        var hostPort = new FoundationHarnessConnection();
+        var guestPort = new FoundationHarnessConnection();
+        var host = new FoundationCoordinator(playerId: "host", label: "Host", connection: hostPort);
+        var guest = new FoundationCoordinator(playerId: "guest", label: "Guest", connection: guestPort);
+        host.Start(host: true);
+        guest.Join(address: "test-provider", port: 24680);
+        guest.Update(elapsedMilliseconds: 0);
+        hostPort.Enqueue(sender: 2, envelope: guestPort.Sent.Single().Envelope);
+        host.Update(elapsedMilliseconds: 0);
+        guestPort.Enqueue(sender: 1, envelope: hostPort.Sent.Single().Envelope);
+        guest.Update(elapsedMilliseconds: 0);
+        hostPort.Enqueue(sender: 2, envelope: guestPort.Sent.Last().Envelope);
+        host.Update(elapsedMilliseconds: 0);
+        FoundationEnvelope ready = hostPort.Sent.Last().Envelope;
+        hostPort.Sent.Last().Reliable.ShouldBeFalse();
+        guestPort.Enqueue(sender: 1, envelope: ready);
+        guest.Update(elapsedMilliseconds: 0);
+        guest.Ready.ShouldBeTrue();
+        host.Submit(direction: 1).ShouldBeTrue();
+        host.Update(elapsedMilliseconds: 1);
+        FoundationEnvelope dropped = hostPort.Sent.Last().Envelope;
+        host.Update(elapsedMilliseconds: 16);
+        FoundationEnvelope latest = hostPort.Sent.Last().Envelope;
+        guestPort.Enqueue(sender: 1, envelope: latest);
+        guest.Update(elapsedMilliseconds: 0);
+        guest.Snapshot?.Revision.ShouldBe(expected: latest.Revision);
+        guestPort.Enqueue(sender: 1, envelope: dropped);
+        guest.Update(elapsedMilliseconds: 0);
+        guest.Snapshot?.Revision.ShouldBe(expected: latest.Revision);
+        guest.Submit(direction: 1).ShouldBeTrue();
+        guest.RequestClose();
+        host.RequestClose();
+        hostPort.Sent.All(predicate: row => row.Reliable == (row.Envelope.Kind is not "state")).ShouldBeTrue();
+        guestPort.Sent.All(predicate: row => row.Reliable).ShouldBeTrue();
+        guestPort.Sent.Any(predicate: row => row.Envelope.Kind is "bye").ShouldBeTrue();
+        hostPort.Sent.Any(predicate: row => row.Envelope.Kind is "end").ShouldBeTrue();
+        host.Close();
+        guest.Close();
     }
 
     private static void CheckProtocol()
