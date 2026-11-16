@@ -19,11 +19,14 @@ internal static class FoundationWireFrame
         }
 
         byte[] body = payload.ToArray();
+        byte[] compressed = Compress(payload: payload);
+        bool useCompressed = compressed.Length < body.Length;
+        if (useCompressed) { body = compressed; }
         byte[] frame = new byte[HeaderBytes + body.Length];
         frame[0] = (byte)'K';
         frame[1] = (byte)'Z';
         frame[2] = 1;
-        frame[3] = 0;
+        frame[3] = useCompressed ? (byte)1 : (byte)0;
         BinaryPrimitives.WriteInt32LittleEndian(destination: frame.AsSpan(start: 4), value: payload.Length);
         body.CopyTo(array: frame, index: HeaderBytes);
         return frame;
@@ -50,6 +53,18 @@ internal static class FoundationWireFrame
     }
 
     private const int HeaderBytes = 8;
+
+    private static byte[] Compress(ReadOnlyMemory<byte> payload)
+    {
+        using var output = new MemoryStream();
+        using (var compressor = new BrotliStream(stream: output, compressionLevel: CompressionLevel.Fastest,
+                leaveOpen: true))
+        {
+            compressor.Write(buffer: payload.Span);
+        }
+
+        return output.ToArray();
+    }
 
     private static byte[] Decompress(ReadOnlySpan<byte> body, int length)
     {

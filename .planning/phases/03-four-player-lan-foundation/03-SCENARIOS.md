@@ -86,7 +86,7 @@ Importance: **Critical** — Duplicate or foreign intent breaks ownership and mo
 
 Setup/seed/process roles: Strict build, controlled provider and actual coordinator wire mapping. No native window; isolated pure fixture.
 
-Ordered actions and expected results: Validate detached shape, ownership and revision through the production coordinator. Install late baselines with huge or fresh-zero elapsed origins, then send higher-revision candidates with backwards elapsed time for each continuing actor before and after readiness. Expected: exact installed snapshot, revision, readiness and acknowledgment count remain unchanged; a lower subsequent valid revision still installs, equal and huge advancing counters are accepted, and replacement actor identities can start at zero. Send a rejected candidate at 9999 ms and reach the original 10000 ms response deadline; rejection must not renew liveness. Repeat with a fresh session lifetime.
+Ordered actions and expected results: Validate detached shape, ownership and revision through the production coordinator. Install late baselines with huge or fresh-zero elapsed origins, then send higher-revision candidates with backwards elapsed time for each continuing actor before and after readiness. Expected: exact installed snapshot, revision, readiness and acknowledgment count remain unchanged; a lower subsequent valid revision still installs, equal and huge advancing counters are accepted, and replacement actor identities can start at zero. Send a rejected candidate at 9999 ms and reach the original 10000 ms response deadline; rejection must not renew liveness. Repeat with a fresh session lifetime. Exercise the production native frame codec with seed 13037 four-player ordinary/Unicode snapshots: exact application bytes round-trip and each encoded frame is below 1392 bytes. Controls preserve exact bytes, tiny/incompressible payloads use raw fallback, maximum 32768-byte application payloads remain supported, and malformed headers/flags/lengths, truncation, compressed/raw trailing data, corruption and declared-output bombs are rejected before authority.
 
 Evidence: CTRF one-test report; nonce-bound subject log. Fresh subject report and real diagnostic log; no invented rendered credit.
 
@@ -232,7 +232,7 @@ Importance: **Critical** — False acceptance or unsafe cleanup can hide broken 
 
 Setup/seed/process roles: Current compiled proof assembly; isolated control-only directories and child processes. No native window; isolated pure fixture.
 
-Ordered actions and expected results: Execute the actual named control; preserve its real errors and reports. Expected: Every deliberately invalid case is rejected, valid reordering works and only owned processes are cleaned.
+Ordered actions and expected results: Execute the actual named control; preserve its real errors and reports. Expected: Every deliberately invalid case is rejected, valid reordering works and only owned processes are cleaned. Exercise real owned draw.request files under exclusive read locks and read-sharing locks that prohibit deletion. Each locked attempt returns no checkpoint with bytes retained; releasing the lock permits one validated consumption and no second capture. Wrong nonce, unsafe checkpoint, malformed JSON and unrelated access errors propagate without consuming the request. Atomic capture acknowledgment controls remain required, with existing capture deadlines unchanged.
 
 Evidence: CTRF one-test result; control output and logs. Fresh subject report and real diagnostic log; no invented rendered credit.
 
