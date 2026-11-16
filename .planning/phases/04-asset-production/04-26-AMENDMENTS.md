@@ -1,0 +1,62 @@
+# Phase 04 Plan 26 bounded execution amendment
+
+Coordinator authorization received 2026-11-16 before editing the additional implementation path.
+
+The original nine-path plan needs exactly one additional existing proof consumer:
+`tests/phase1/EngineGeneratedTests.cs`, limited to `VerifyReproduction` and necessary same-file
+helpers and controls. Its old implementation selects `inspection03-08035ba`, copies current
+game sources, and asserts that the historical producer resolves to that current fixture.
+Actual26 changes necessarily make that equality false: correct authentication replays the old
+snapshot instead. This is a concrete changed-producer dependency, not a mechanical count update.
+
+The amendment raises the plan union from nine to ten paths and Task2 from five to six under
+the coordinator's explicit exception. Individual implementation/repair steps remain bounded
+to at most five paths. No other implementation path is added.
+
+Select the current cohort through actual source-input membership, raw input hashes and emitted
+raw/text output identities. An editable active flag or last registry position cannot select it.
+Preserve the exact current/nonproducer equality and producer-change replay controls. Separately
+reproduce the historical03 snapshot and check all of its output hashes. Preserve original
+220 syntax /18 callsite /16 Godot /26 permission contracts, frozen177 observations, every old
+row, mandatory observations and bidirectional coverage, and compiler-valid mutation controls.
+
+All original failed invocations remain retained. This amendment supplies no generated/native,
+rendered, listening or ASSET completion credit. The existing phase branch, normal hooks,
+headless-only implementation and coordinator-owned PR/continuation boundaries remain in force.
+
+## Bounded proof performance adjustment
+
+The direct `ContentInspectorTests` class run with the unchanged 45s MTP deadline was
+aborted after 67.351s during cancellation: five completed passes, zero failed, zero skipped.
+That partial result is not a complete compiled pass. The coordinator explicitly authorized
+reusing an actual immutable baseline compilation in the already-owned test path. Each mutant
+still receives its own `ReplaceSyntaxTree`, compiler validation and semantic model. All
+32 exact native member subjects and every independent negative remain; no deadline rises.
+
+The performance proposal was sent before editing. The same-file refactor began while the
+coordinator response was pending; this amendment records the subsequently received explicit
+authorization rather than claiming the documentation was written before that initial edit.
+No additional path is authorized. Wrong path/namespace/guard/worker/deferred/local/lambda/
+continuation controls and actual current/restored positives must all execute freshly.
+
+The bounded performance attempt compiled with zero warnings/errors, but the unchanged45s
+class selection was aborted after46.861s with five completed passes, zero failed and zero
+skipped. It does not supply complete-matrix credit. The executor stops at the required
+checkpoint before further performance changes or wider scope.
+
+## Second authenticated historical consumer dependency
+
+The coordinator authorized exactly `tests/phase1/ExemptionValidator.cs`, limited to `AddRecords`
+and a necessary local helper for generated-callsite local rows. This authorization is recorded
+before any edit to that path; the path is still unchanged at this checkpoint. The plan union
+would become11 and Task2 union7 under the explicit cohesive exception. Individual work steps
+remain bounded to at most five paths.
+
+Actual `engine.generated-origin` invocation5c62690b-4187-4e17-8070-c37a26817a6a failed
+`SUPPRESSION_ORIGIN_HASH` in `AddRecords`: it checks old03 callsite rows against current26
+live generated files. It also records `SOURCE_CHANGED` because owned proof source was edited
+while that gate ran; it has no passing credit. Resolve only generated-callsite rows through
+`EngineGeneratedTests.Surface` after authenticating their registry/cohort. Preserve contained
+resolved paths, raw hash, producer/package, exact member/attribute, overlap and proof checks.
+Other layout/engine/handwritten resolution remains unchanged. Original hashes and identities
+must never be refreshed to current26. Freeze all source/doc bytes before canonical gates.
