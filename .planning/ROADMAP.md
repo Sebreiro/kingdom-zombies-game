@@ -197,7 +197,7 @@ Plans:
 4. A developer can inspect every required UI/text/data resource and error/legacy layout, test longer strings and supported scales, and audition all required sound/ambience categories through documented event bindings.
 5. The packaged content and inspection scenes import and run without the recovered-material folder or other absolute development paths; missing references and unfitted combinations are visible failures.
 
-**Plans:** 2/33 plans executed
+**Plans:** 2/34 plans executed
 
 Plans:
 **Wave 1**
@@ -207,84 +207,87 @@ Plans:
 - [x] 04-25-PLAN.md — Exact census/provenance and atomic repeatable publication
 
 **Wave 3** *(blocked on Wave 2 completion)*
-- [ ] 04-02-PLAN.md — Early portable-export and audio feasibility
+- [ ] 04-34-PLAN.md — Exact SDK export-layout prerequisite
 
 **Wave 4** *(blocked on Wave 3 completion)*
-- [ ] 04-03-PLAN.md — Live inspection shell, validated loader and exact native permissions
+- [ ] 04-02-PLAN.md — Early portable-export and audio feasibility
 
 **Wave 5** *(blocked on Wave 4 completion)*
-- [ ] 04-26-PLAN.md — Inspection input/lifetime expansion with immediate exact native permission proofs
+- [ ] 04-03-PLAN.md — Live inspection shell, validated loader and exact native permissions
 
 **Wave 6** *(blocked on Wave 5 completion)*
-- [ ] 04-04-PLAN.md — Reusable donor kit, exact animation conversion and assembled scale proof
+- [ ] 04-26-PLAN.md — Inspection input/lifetime expansion with immediate exact native permission proofs
 
 **Wave 7** *(blocked on Wave 6 completion)*
+- [ ] 04-04-PLAN.md — Reusable donor kit, exact animation conversion and assembled scale proof
+
+**Wave 8** *(blocked on Wave 7 completion)*
 - [ ] 04-05-PLAN.md — All 24 item identities and reusable wearable/held masters
 - [ ] 04-11-PLAN.md — Three actual main-building tiers and shared camp resources
 
-**Wave 8** *(blocked on Wave 7 completion)*
+**Wave 9** *(blocked on Wave 8 completion)*
 - [ ] 04-06-PLAN.md — Survivor and first three zombie body fits
 - [ ] 04-14-PLAN.md — Native UI kit, packaged fonts and reusable theme
 - [ ] 04-18-PLAN.md — Complete run, time, survivor, item, combat and inventory baseline
 
-**Wave 9** *(blocked on Wave 8 completion)*
+**Wave 10** *(blocked on Wave 9 completion)*
 - [ ] 04-07-PLAN.md — Complete armored, wide and specialist zombie silhouettes/fits
 - [ ] 04-28-PLAN.md — Canonical status/input/player symbols and retained desktop identity art
 
-**Wave 10** *(blocked on Wave 9 completion)*
+**Wave 11** *(blocked on Wave 10 completion)*
 - [ ] 04-08-PLAN.md — Concurrent locomotion, melee and coherent logical hands
 
-**Wave 11** *(blocked on Wave 10 completion)*
+**Wave 12** *(blocked on Wave 11 completion)*
 - [ ] 04-09-PLAN.md — Bow, work, food and specialist action composition
 
-**Wave 12** *(blocked on Wave 11 completion)*
+**Wave 13** *(blocked on Wave 12 completion)*
 - [ ] 04-10-PLAN.md — Persistent corpses, wildlife, identities and real crowd resources
 
-**Wave 13** *(blocked on Wave 12 completion)*
+**Wave 14** *(blocked on Wave 13 completion)*
 - [ ] 04-12-PLAN.md — Walls, independent guards and complete defense lifecycle
 - [ ] 04-15-PLAN.md — Reusable inventory, legacy, stash and target layout states
 
-**Wave 14** *(blocked on Wave 13 completion)*
+**Wave 15** *(blocked on Wave 14 completion)*
 - [ ] 04-13-PLAN.md — Complete authored world, portal and environmental effect inspection
 
-**Wave 15** *(blocked on Wave 14 completion)*
+**Wave 16** *(blocked on Wave 15 completion)*
 - [ ] 04-27-PLAN.md — World/item navigation, replacement and held-out preview states
 
-**Wave 16** *(blocked on Wave 15 completion)*
+**Wave 17** *(blocked on Wave 16 completion)*
 - [ ] 04-16-PLAN.md — People, economy, construction, map, rally and warning layouts
 - [ ] 04-19-PLAN.md — Complete economy, food, map, structure and tower baseline
 
-**Wave 17** *(blocked on Wave 16 completion)*
+**Wave 18** *(blocked on Wave 17 completion)*
 - [ ] 04-17-PLAN.md — Session, save, outcome, settings and error layout resources
 
-**Wave 18** *(blocked on Wave 17 completion)*
+**Wave 19** *(blocked on Wave 18 completion)*
 - [ ] 04-20-PLAN.md — Complete zombies, progression, portals, sessions and preferences
 
-**Wave 19** *(blocked on Wave 18 completion)*
+**Wave 20** *(blocked on Wave 19 completion)*
 - [ ] 04-21-PLAN.md — All 30 real sound categories and complete event-bank resources
 
-**Wave 20** *(blocked on Wave 19 completion)*
+**Wave 21** *(blocked on Wave 20 completion)*
 - [ ] 04-29-PLAN.md — Native audio audition, exact current-loop ownership and backstops
 
-**Wave 21** *(blocked on Wave 20 completion)*
+**Wave 22** *(blocked on Wave 21 completion)*
 - [ ] 04-22-PLAN.md — Complete English text, compatibility and data/text inspection
 
-**Wave 22** *(blocked on Wave 21 completion)*
+**Wave 23** *(blocked on Wave 22 completion)*
 - [ ] 04-23-PLAN.md — Complete source census and final exact native-policy reconciliation
 
-**Wave 23** *(blocked on Wave 22 completion)*
+**Wave 24** *(blocked on Wave 23 completion)*
 - [ ] 04-30-PLAN.md — Saved scenario/evidence runner and prelaunch/acceptance validation code
 
-**Wave 24** *(blocked on Wave 23 completion)*
+**Wave 25** *(blocked on Wave 24 completion)*
 - [ ] 04-31-PLAN.md — Complete portable Windows inspection export and clean failure/relaunch proof
 
-**Wave 25** *(blocked on Wave 24 completion)*
+**Wave 26** *(blocked on Wave 25 completion)*
 - [ ] 04-24-PLAN.md — Independent whole-phase review and exact prelaunch selection
 
-**Wave 26** *(blocked on Wave 25 completion)*
+**Wave 27** *(blocked on Wave 26 completion)*
 - [ ] 04-32-PLAN.md — Actual selected native/listening run and separate named judgments
 
-**Wave 27** *(blocked on Wave 26 completion)*
+**Wave 28** *(blocked on Wave 27 completion)*
 - [ ] 04-33-PLAN.md — Exact acceptance/artifact/evidence completion reconciliation
 
 **Cross-cutting constraints:** <!-- gsd:generated -->

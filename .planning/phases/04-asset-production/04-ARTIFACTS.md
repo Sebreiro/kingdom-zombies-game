@@ -20,6 +20,7 @@
 | .planning/phases/04-asset-production/04-VALIDATION.md | 04-33 | Actual resource/data/document/evidence identity and applicable metadata |
 | docs/code/engine-generated-spans.json | 04-03 | Actual resource/data/document/evidence identity and applicable metadata |
 | docs/code/generated-callsite-adaptations.json | 04-03 | Actual resource/data/document/evidence identity and applicable metadata |
+| docs/code/generated-layout-adaptations.json | 04-34 | Exact SDK export path/source/producer/line provenance or required-case identity |
 | docs/code/visibility-exemptions.json | 04-03 -> 04-23 | Actual resource/data/document/evidence identity and applicable metadata |
 | docs/content/fields.md | 04-22 | Actual resource/data/document/evidence identity and applicable metadata |
 | docs/content/known-issues.md | 04-32 | Actual resource/data/document/evidence identity and applicable metadata |
@@ -34,6 +35,7 @@
 | production/phase4/bodies-c.zip | 04-07 | Retained selected/generated originals, expanded prompts/references and exact recipes |
 | production/phase4/common-selected.zip | 04-04 | Retained selected/generated originals, expanded prompts/references and exact recipes |
 | production/phase4/defenses.zip | 04-12 | Retained selected/generated originals, expanded prompts/references and exact recipes |
+| production/phase4/export-layout-origin.json | 04-34 | Exact SDK export path/source/producer/line provenance or required-case identity |
 | production/phase4/export-toolchain.json | 04-02 | Actual resource/data/document/evidence identity and applicable metadata |
 | production/phase4/items-01-10.zip | 04-05 | Retained selected/generated originals, expanded prompts/references and exact recipes |
 | production/phase4/items-11-24.zip | 04-05 | Retained selected/generated originals, expanded prompts/references and exact recipes |
@@ -173,10 +175,13 @@
 | tests/phase1/ContentInspectorTests.cs | 04-03 -> 04-26 | ContentInspectorTests type; exact actual members in execution SUMMARY |
 | tests/phase1/ContentNativePermissionTests.cs | 04-23 | ContentNativePermissionTests type; exact actual members in execution SUMMARY |
 | tests/phase1/EngineAccessPolicy.cs | 04-03 -> 04-26 -> 04-23 | EngineAccessPolicy type; exact actual members in execution SUMMARY |
+| tests/phase1/GeneratedExportLayoutTests.cs | 04-34 | Actual named source/test class and exact member signatures; see04-34 SUMMARY |
 | tests/phase1/InventoryLayoutTests.cs | 04-15 | InventoryLayoutTests type; exact actual members in execution SUMMARY |
 | tests/phase1/SessionLayoutTests.cs | 04-17 | SessionLayoutTests type; exact actual members in execution SUMMARY |
 | tests/phase1/ThemeLayoutTests.cs | 04-14 | ThemeLayoutTests type; exact actual members in execution SUMMARY |
 | tests/phase1/WorldInspectorTests.cs | 04-27 | WorldInspectorTests type; exact actual members in execution SUMMARY |
+| tools/code-rules/GeneratedLayout.cs | 04-34 | Actual named source/test class and exact member signatures; see04-34 SUMMARY |
+| tools/phase1/required-cases.json | 04-34 | Exact SDK export path/source/producer/line provenance or required-case identity |
 | tools/phase4/cases/animation.cjs | 04-08 | Actual named CLI/case/evidence exports and stable identities |
 | tools/phase4/cases/audio-feasibility.cjs | 04-02 | Actual named CLI/case/evidence exports and stable identities |
 | tools/phase4/cases/audio.cjs | 04-21 -> 04-29 | Actual named CLI/case/evidence exports and stable identities |
@@ -190,6 +195,7 @@
 | tools/phase4/cases/data-foundation.cjs | 04-18 | Actual named CLI/case/evidence exports and stable identities |
 | tools/phase4/cases/defenses.cjs | 04-12 | Actual named CLI/case/evidence exports and stable identities |
 | tools/phase4/cases/export-feasibility.cjs | 04-02 | Actual named CLI/case/evidence exports and stable identities |
+| tools/phase4/cases/export-layout.cjs | 04-34 | New export.layout case/module and exact export symbols |
 | tools/phase4/cases/export-portability.cjs | 04-31 | Actual named CLI/case/evidence exports and stable identities |
 | tools/phase4/cases/hub.cjs | 04-03 -> 04-26 | Actual named CLI/case/evidence exports and stable identities |
 | tools/phase4/cases/items.cjs | 04-05 | Actual named CLI/case/evidence exports and stable identities |
@@ -203,7 +209,7 @@
 | tools/phase4/cases/ui-kit.cjs | 04-14 -> 04-28 | Actual named CLI/case/evidence exports and stable identities |
 | tools/phase4/cases/ui-session.cjs | 04-17 | Actual named CLI/case/evidence exports and stable identities |
 | tools/phase4/cases/world.cjs | 04-13 -> 04-27 | Actual named CLI/case/evidence exports and stable identities |
-| tools/phase4/check.cjs | 04-01 | Actual named CLI/case/evidence exports and stable identities |
+| tools/phase4/check.cjs | 04-01 -> 04-25 -> 04-34 -> 04-02 | Actual named CLI/case/evidence exports and stable identities |
 | tools/phase4/content.cjs | 04-25 -> 04-23 | Actual named CLI/case/evidence exports and stable identities |
 | tools/phase4/evidence.cjs | 04-30 | Actual named CLI/case/evidence exports and stable identities |
 | tools/phase4/expected-obligations.json | 04-25 | Actual resource/data/document/evidence identity and applicable metadata |
@@ -214,4 +220,7 @@
 | tools/phase4/reviewed-source.targets | 04-24 | Actual resource/data/document/evidence identity and applicable metadata |
 | tools/phase4/scenarios.cjs | 04-30 | Actual named CLI/case/evidence exports and stable identities |
 
-Current planned files: 209. Generated execution reports/ignored payloads retain immutable source/media/invocation identities. Export caches are not game dependencies. Parent-owned04-CONTINUATION.md and existing original checker/research evidence stay outside executor edit ownership. Source-gating code is finished by04-30 before review;04-24/32/33 write current review/evidence data only except explicitly reviewed repairs.
+Current planned files: 215. Generated execution reports/ignored payloads retain immutable source/media/invocation identities. Export caches are not game dependencies. Parent-owned04-CONTINUATION.md and existing original checker/research evidence stay outside executor edit ownership. Source-gating code is finished by04-30 before review;04-24/32/33 write current review/evidence data only except explicitly reviewed repairs.
+
+
+04-34 adds the exact SDK export-layout prerequisite before unfinished02 Task1. New symbols/proofs: GeneratedExportLayoutTests.Check_ExportLayouts_HavePinnedOrigin / Check_ExportLayoutPermissions_StayBounded; rules.export-layout-origin / rules.export-layout-boundary; source-only export.layout. GeneratedLayout.IsPermitted/_entries and the original sources/members/proof IDs remain existing contracts. The separate exportSources/origin record is Windows-only observed provenance, never guessed Linux/export bytes. Preserve the original failed run and partial export files; parent owns checkpoint/STATE/commit reconciliation.

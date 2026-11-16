@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
   "phase": "04",
-  "status": "revision planning checks passed; independent recheck pending; implementation not executed",
+  "status": "SDK export prerequisite planned; metadata checks passed; implementation pending",
   "checks": {
     "frontmatter": {
-      "plans": 33,
-      "valid": 33
+      "plans": 34,
+      "valid": 34
     },
     "planStructure": {
-      "plans": 33,
-      "valid": 33,
+      "plans": 34,
+      "valid": 34,
       "errors": 0,
       "warnings": 0
     },
@@ -23,21 +23,21 @@
       "structuredBackstopTruths": 104
     },
     "ownership": {
-      "plans": 33,
-      "tasks": 66,
-      "waves": 27,
+      "plans": 34,
+      "tasks": 68,
+      "waves": 28,
       "maximumFilesPerPlan": 9,
       "maximumFilesPerTask": 5,
       "sameWaveFileOverlap": 0
     },
     "security": {
-      "uniqueThreatIds": 99,
+      "uniqueThreatIds": 102,
       "supplyChainId": "T-04-SC reserved/repeated",
       "asvsLevel": 1,
       "blockOn": "high"
     },
     "canonicalFileTails": {
-      "closedOutputTag": 33,
+      "closedOutputTag": 34,
       "continuationSentinel": 0
     },
     "research": {
@@ -65,6 +65,26 @@
         "prohibitions": 4
       },
       "originalIndependentReport": "04-PLAN-CHECK.md"
+    },
+    {
+      "kind": "revision1-before-SDK-export-prerequisite",
+      "plans": 33,
+      "tasks": 66,
+      "waves": 27,
+      "record": "04-REVISION-1-CHECKS.json"
     }
-  ]
+  ],
+  "prerequisite": "04-34",
+  "exportPrerequisiteCheck": {
+    "newPlan": "04-34",
+    "tasks": 2,
+    "files": 7,
+    "dependsOn": "04-25",
+    "precedesUnfinished": "04-02 Task 1",
+    "protectedFiles": 6,
+    "protectedHashesUnchanged": true,
+    "actualNewSourceProofs": "not executed",
+    "newASSETRequirements": 0,
+    "newContentAcceptance": 0
+  }
 }

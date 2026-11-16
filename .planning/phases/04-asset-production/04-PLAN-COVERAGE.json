@@ -9,9 +9,9 @@
     "ui": "04-UI-SPEC.md"
   },
   "counts": {
-    "plans": 33,
-    "tasks": 66,
-    "waves": 27,
+    "plans": 34,
+    "tasks": 68,
+    "waves": 28,
     "obligations": 180,
     "acceptance": 24,
     "heldout": 34,
@@ -19,6 +19,18 @@
     "decisions": 32,
     "prohibitions": 4
   },
+  "prerequisites": [
+    {
+      "plan": "04-34",
+      "kind": "observed SDK export layout implementation prerequisite",
+      "requirements": ["ASSET-05"],
+      "depends_on": ["04-25"],
+      "precedes_unfinished": "04-02 Task 1",
+      "source": "04-EXPORT-PREREQUISITE.md",
+      "newAcceptanceIdentity": false,
+      "status": "Not executed"
+    }
+  ],
   "obligations": [
     {
       "id": "CH-01",

@@ -186,3 +186,8 @@ All 180 obligations are COVERED by planned production tasks; every execution/acc
 | TXT-02 | Longer replacement text and controls help — Expanded strings/accented names/multiline/errors/long IDs, no second shipped locale. | 04-22 Task 1 | `node tools/phase4/check.cjs --case text.catalog` | specs/0.1/assets-and-resources.md §9.3 | [ ] Not executed |
 
 Explicit shared support outputs: DT-19 is manifest/provenance from04-25 with final delivery04-31; DT-20 is the actual timed fitting library04-04/06–10/12; DT-21 is actual world assembly04-11–13/19; DT-22 comprises all native UI kit/layout/state outputs04-14–17/28; DT-26 includes all saved scenarios/inspection scenes/crowds/current-state resources04-03/08–17/26–30. Each retains its distinct obligation identity. DT-27 Windows evidence is completed only by04-32/33; Linux execution remains its specified later owner.
+
+
+## ASSET-05 implementation prerequisite: exact SDK export layout
+
+04-34 depends04-25 and precedes unfinished04-02 Task1 after the actual SDK-generated ExportDebug SCR0007 failure. It adds2 source-only tasks and exact provenance/line-permission/negative/configuration proofs; no product requirement, resource obligation, AC/D/H/UI/prohibition identity or primary acceptance owner changes. Original180/24AC/32D/34H/70UI/4prohibition scope stays intact. Real completed01/25 summaries/proofs, committed02 audioTask2 and four partial export files stay preserved. New proof cases are pending implementation and create no export/content/Linux/native-release pass. See04-EXPORT-PREREQUISITE.md and04-34-PLAN.md.
