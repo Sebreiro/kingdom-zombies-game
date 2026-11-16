@@ -33,7 +33,12 @@ public sealed class GodotCallSiteAdapterTests
                 .Root, path2: "docs/code/generated-callsite-adaptations.json")));
         JsonElement[] rows = [..registry.RootElement.GetProperty(propertyName: "local").EnumerateArray().Where(
                 predicate: row => row.TryGetProperty(propertyName: "collisionSource", value: out _))];
-        rows.Length.ShouldBe(expected: 16);
+        EngineGeneratedTests.VerifyInventories(registry: registry.RootElement, baselineCount: 18,
+                baselineHash: "ef8ea1e0be872146bcf1f81a2079733bb37be5c2b9718fbf0faa47b164c08d8f");
+        rows.Take(count: 16).Select(selector: row => row.GetProperty(propertyName: "id").GetString())
+                .ShouldBe(expected: Enumerable.Range(start: 1, count: 16).Select(selector: number =>
+                        "KZ-EX-GODOT-CALLS-" + number.ToString(provider: System.Globalization.CultureInfo
+                                .InvariantCulture)));
         string combined = string.Join(separator: "\n", values: rows.Select(selector: row =>
         {
             string source = row.GetProperty(propertyName: "collisionSource").GetString()
@@ -42,6 +47,10 @@ public sealed class GodotCallSiteAdapterTests
             return source[..separator] + " { " + source[(separator + 1)..] + " }";
         }));
         string collision = ConfigurationTests.BuildGameWithSource(source: combined);
+        collision.ShouldNotContain(expected: "error CS100");
+        collision.ShouldNotContain(expected: "error CS15");
+        collision.ShouldNotContain(expected: "error NU");
+        collision.ShouldNotContain(expected: "error MSB");
         foreach (JsonElement row in rows)
         {
             string[] identity = (row.GetProperty(propertyName: "target").GetString()

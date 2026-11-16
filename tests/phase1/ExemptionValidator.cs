@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -218,13 +219,22 @@ internal static class ExemptionValidator
     internal static IReadOnlySet<string> ReadPermissions()
     {
         var permissions = new HashSet<string>(comparer: StringComparer.Ordinal);
-        AddRecords(relative: "docs/code/generated-callsite-adaptations.json", collection: "local", count: 18,
+        EngineGeneratedTests.VerifyFixedRows(relative: "docs/code/generated-layout-adaptations.json",
+                collection: "members", expected: "a83746c3be9932338ceb5ef54a20205bb93367be16e4da9eb008f411e9eb84ff");
+        EngineGeneratedTests.VerifyFixedRows(relative: "docs/code/engine-adaptations.json",
+                collection: "local", expected: "8cce39bc8891a37af0c98ebcf43d5e547c093ba70fa408f4d7feaa996cd16587");
+        using var callsites = JsonDocument.Parse(json: File.ReadAllText(path: Path.Combine(
+                path1: ProofProtocol.Root, path2: "docs/code/generated-callsite-adaptations.json")));
+        EngineGeneratedTests.VerifyInventories(registry: callsites.RootElement, baselineCount: 18,
+                baselineHash: "ef8ea1e0be872146bcf1f81a2079733bb37be5c2b9718fbf0faa47b164c08d8f");
+        int added = callsites.RootElement.GetProperty(propertyName: "local").GetArrayLength() - 18;
+        AddRecords(relative: "docs/code/generated-callsite-adaptations.json", collection: "local", count: 18 + added,
                 permissions: permissions);
         AddRecords(relative: "docs/code/generated-layout-adaptations.json", collection: "members", count: 7,
                 permissions: permissions);
         AddRecords(relative: "docs/code/engine-adaptations.json", collection: "local", count: 1,
                 permissions: permissions);
-        Require(value: permissions.Count == 26, message: "SUPPRESSION_TOTAL_COUNT");
+        Require(value: permissions.Count == 26 + added, message: "SUPPRESSION_TOTAL_COUNT");
         return permissions;
     }
 
