@@ -148,18 +148,8 @@ internal sealed class FoundationDrawObserver
     private string? Request()
     {
         string file = Path.Combine(path1: Directory, path2: "draw.request");
-        if (!File.Exists(path: file)) { return null; }
-        using JsonDocument request = JsonDocument.Parse(json: File.ReadAllText(path: file));
-        string? nonce = request.RootElement.GetProperty(propertyName: "nonce").GetString();
-        string checkpoint = request.RootElement.GetProperty(propertyName: "checkpoint").GetString() ?? "";
-        if (!StringComparer.Ordinal.Equals(x: nonce, y: _sample.GetProperty(propertyName: "nonce").GetString())
-                || !FoundationObservationScope.ValidCheckpoint(value: checkpoint, maximumLength: 64))
-        {
-            throw new InvalidDataException(message: "DRAW_REQUEST");
-        }
-
-        File.Delete(path: file);
-        return checkpoint;
+        return FoundationDrawRequest.Consume(file: file, nonce:
+                _sample.GetProperty(propertyName: "nonce").GetString() ?? "");
     }
 
     private void Capture()

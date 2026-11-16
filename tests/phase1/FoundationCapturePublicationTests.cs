@@ -26,5 +26,61 @@ internal static class FoundationCapturePublicationTests
         File.ReadAllText(path: file).ShouldBe(expected: Record);
         Should.Throw<IOException>(actual: () => FoundationCapturePublication.Publish(file: file, record: "{}"));
         File.ReadAllText(path: file).ShouldBe(expected: Record);
+        CheckRequest(directory: directory);
+    }
+
+    private static void CheckRequest(string directory)
+    {
+        string file = Path.Combine(path1: directory, path2: "draw.request");
+        const string Record = "{\"nonce\":\"owned\",\"checkpoint\":\"draw-one\"}";
+        File.WriteAllText(path: file, contents: Record);
+        using (var locked = new FileStream(path: file, mode: FileMode.Open, access: FileAccess.ReadWrite,
+                share: FileShare.None))
+        {
+            Should.NotThrow(action: () => FoundationDrawRequest.Consume(file: file, nonce: "owned"))
+                    .ShouldBeNull();
+        }
+
+        File.ReadAllText(path: file).ShouldBe(expected: Record);
+        using (var locked = new FileStream(path: file, mode: FileMode.Open, access: FileAccess.Read,
+                share: FileShare.Read))
+        {
+            Should.NotThrow(action: () => FoundationDrawRequest.Consume(file: file, nonce: "owned"))
+                    .ShouldBeNull();
+            File.ReadAllText(path: file).ShouldBe(expected: Record);
+        }
+
+        FoundationDrawRequest.Consume(file: file, nonce: "owned").ShouldBe(expected: "draw-one");
+        File.Exists(path: file).ShouldBeFalse();
+        FoundationDrawRequest.Consume(file: file, nonce: "owned").ShouldBeNull();
+        CheckRejectedRequest(file: file);
+    }
+
+    private static void CheckRejectedRequest(string file)
+    {
+        string[] invalid = ["{\"nonce\":\"foreign\",\"checkpoint\":\"draw-one\"}",
+            "{\"nonce\":\"owned\",\"checkpoint\":\"draw-../escape\"}"];
+        foreach (string record in invalid)
+        {
+            File.WriteAllText(path: file, contents: record);
+            Should.Throw<InvalidDataException>(actual: () => FoundationDrawRequest.Consume(file: file,
+                    nonce: "owned"));
+            File.ReadAllText(path: file).ShouldBe(expected: record);
+        }
+
+        File.WriteAllText(path: file, contents: "{");
+        Should.Throw<JsonException>(actual: () => FoundationDrawRequest.Consume(file: file, nonce: "owned"));
+        File.ReadAllText(path: file).ShouldBe(expected: "{");
+        File.Delete(path: file);
+        File.WriteAllText(path: file, contents: "{\"nonce\":\"owned\",\"checkpoint\":\"draw-one\"}");
+        File.SetAttributes(path: file, fileAttributes: FileAttributes.ReadOnly);
+        try
+        {
+            Should.Throw<UnauthorizedAccessException>(actual: () => FoundationDrawRequest.Consume(file: file,
+                    nonce: "owned"));
+            File.Exists(path: file).ShouldBeTrue();
+        }
+        finally { File.SetAttributes(path: file, fileAttributes: FileAttributes.Normal); }
+        File.Delete(path: file);
     }
 }

@@ -11,6 +11,8 @@
     <Compile Include="../../src/godot-game/foundation/FoundationPresentation.cs" Link="FoundationPresentation.cs" />
     <Compile Include="../../src/godot-game/foundation/FoundationActorNode.cs" Link="FoundationActorNode.cs" />
     <Compile Include="../../src/godot-game/foundation/FoundationCapturePublication.cs" Link="FoundationCapturePublication.cs" />
+    <Compile Include="../../src/godot-game/foundation/FoundationDrawRequest.cs" Link="FoundationDrawRequest.cs" />
+    <Compile Include="../../src/godot-game/foundation/FoundationObservationScope.cs" Link="FoundationObservationScope.cs" />
     <Compile Include="../../src/godot-game/foundation/LocalProfileService.cs" Link="LocalProfileService.cs" />
     <Compile Include="../../src/godot-game/foundation/LocalProfileStorage.cs" Link="LocalProfileStorage.cs" />
     <Compile Include="../../src/godot-game/foundation/LanDiscoveryService.cs" Link="LanDiscoveryService.cs" />
