@@ -99,10 +99,11 @@ internal sealed partial class FoundationCoordinator
         _session?.Step(elapsedMilliseconds: elapsedMilliseconds);
         _publicationElapsed = checked(_publicationElapsed + elapsedMilliseconds);
         _livenessElapsed = checked(_livenessElapsed + elapsedMilliseconds);
-        if (_session is not null && _publicationElapsed >= 50)
+        if (_session is not null && (_pendingPublication || _publicationElapsed >= 16))
         {
             BroadcastState();
-            _publicationElapsed %= 50;
+            _publicationElapsed %= 16;
+            _pendingPublication = false;
         }
 
         if (_connection?.Connected == true && _livenessElapsed >= 500)
@@ -153,6 +154,7 @@ internal sealed partial class FoundationCoordinator
     private string _expectedSession = "";
     private long _sequence;
     private long _publicationElapsed;
+    private bool _pendingPublication;
     private long _livenessElapsed;
     private long _heartbeatSequence;
 
@@ -208,6 +210,7 @@ internal sealed partial class FoundationCoordinator
             AcceptedIntents++;
             LastAcceptedIntent = command;
             LastAcceptedRevision = _session?.Snapshot.Revision ?? -1;
+            _pendingPublication = true;
         }
         else
         {

@@ -25,6 +25,7 @@ public sealed class FoundationLanAuthorityTests
         session.Actor.ElapsedMilliseconds.ShouldBe(expected: 0);
         CheckSequencesAndReadiness();
         CheckCoordinatorRoles();
+        CheckPromptPublication();
         CheckProtocol();
         ProofProtocol.Record(id: "core.authority", diagnostic: "OWNED_INTENT_BEFORE_HOST_STEP");
     }
@@ -94,6 +95,57 @@ public sealed class FoundationLanAuthorityTests
         solo.Close();
         host.Close();
         guest.Close();
+    }
+
+    private static void CheckPromptPublication()
+    {
+        var hostPort = new FoundationTestConnection(sender: 1);
+        var guestPort = new FoundationTestConnection(sender: 2);
+        hostPort.Partner = guestPort;
+        guestPort.Partner = hostPort;
+        var host = new FoundationCoordinator(playerId: "host", label: "Host", connection: hostPort);
+        var guest = new FoundationCoordinator(playerId: "guest", label: "Guest", connection: guestPort);
+        host.Start(host: true);
+        guest.Join(address: "test-provider", port: 24680);
+        guest.Update(elapsedMilliseconds: 0);
+        host.Update(elapsedMilliseconds: 0);
+        guest.Update(elapsedMilliseconds: 0);
+        host.Update(elapsedMilliseconds: 0);
+        guest.Update(elapsedMilliseconds: 0);
+        long revision = guest.Snapshot?.Revision ?? throw new InvalidOperationException(message: "READY_SNAPSHOT");
+        host.Update(elapsedMilliseconds: 15);
+        guest.Update(elapsedMilliseconds: 0);
+        guest.Snapshot?.Revision.ShouldBe(expected: revision);
+        host.Update(elapsedMilliseconds: 1);
+        guest.Update(elapsedMilliseconds: 0);
+        guest.Snapshot?.Revision.ShouldBeGreaterThan(expected: revision);
+        foreach (bool local in new[] { true, false })
+        {
+            foreach (int direction in new[] { 1, -1, 0 })
+            {
+                CheckPromptIntent(host: host, guest: guest, local: local, direction: direction);
+            }
+        }
+
+        host.Close();
+        guest.Close();
+    }
+
+    private static void CheckPromptIntent(FoundationCoordinator host, FoundationCoordinator guest,
+            bool local, int direction)
+    {
+        FoundationCoordinator origin = local ? host : guest;
+        FoundationActorState before = RequireActor(coordinator: origin);
+        origin.Submit(direction: direction).ShouldBeTrue();
+        RequireActor(coordinator: origin).PositionSubunits.ShouldBe(expected: before.PositionSubunits);
+        host.Update(elapsedMilliseconds: 1);
+        guest.Update(elapsedMilliseconds: 0);
+        FoundationSnapshot state = guest.Snapshot ?? throw new InvalidOperationException(message: "GUEST_SNAPSHOT");
+        FoundationActorState published = state.Participants.First(predicate: participant => participant.Actor.ActorId
+                .Equals(value: before.ActorId, comparisonType: StringComparison.Ordinal)).Actor;
+        published.PositionSubunits.ShouldBe(expected: before.PositionSubunits + 3 * direction);
+        published.ElapsedMilliseconds.ShouldBe(expected: before.ElapsedMilliseconds + 1);
+        state.Revision.ShouldBeGreaterThan(expected: host.LastAcceptedRevision);
     }
 
     private static void CheckProtocol()

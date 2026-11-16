@@ -99,6 +99,12 @@ public sealed partial class FoundationRoot : Control
         double exact = delta * 1000 + _remainder;
         long elapsed = checked((long)exact);
         _remainder = exact - elapsed;
+        if (_coordinator?.Ready == true && _lastDirection != _input.Direction)
+        {
+            _coordinator.Submit(direction: _input.Direction);
+            _lastDirection = _input.Direction;
+        }
+
         _coordinator?.Update(elapsedMilliseconds: elapsed);
         _closing?.Update(elapsedMilliseconds: 0);
         _runtime.TickRetired();
@@ -121,12 +127,6 @@ public sealed partial class FoundationRoot : Control
         }
         if (_coordinator?.Ready == true)
         {
-            if (_lastDirection != _input.Direction)
-            {
-                _coordinator.Submit(direction: _input.Direction);
-                _lastDirection = _input.Direction;
-            }
-
             ShowWorld();
         }
 
