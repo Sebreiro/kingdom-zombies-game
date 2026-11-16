@@ -4,17 +4,18 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 04
 current_phase_name: Asset production
-current_plan: 3
+current_plan: 4
 status: executing
-stopped_at: Completed 04-25-PLAN.md; exact census/provenance and atomic source publication only; next dependency-wave plan 04-02
-last_updated: "2026-11-16T13:58:37.995Z"
+stopped_at: Completed 04-34-PLAN.md; exact SDK export layout prerequisite verified; next resume preserved 04-02 Task1; no ASSET requirement complete
+last_updated: "2026-11-16T14:25:07.877Z"
 last_activity: 2026-11-16
-last_activity_desc: Completed 04-25 census/provenance/publication source slice; Phase 4 acceptance pending
+last_activity_desc: Completed 04-34 exact SDK export layout prerequisite; resume preserved 04-02 Task1; all ASSET requirements pending
+state_head: 0eca5882441db90275f04974a017621975d32a99
 progress:
   total_phases: 11
   completed_phases: 3
   total_plans: 59
-  completed_plans: 27
+  completed_plans: 28
   percent: 27
 ---
 
@@ -26,24 +27,24 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase 04 asset production is executing on feature/04-asset-production with draft PR #5 to dev. Plans 04-01 and 04-25 source/headless slices complete; 2/33 plans summarized. Next dependency-wave plan is 04-02. Actual acceptance remains pending 04-32/04-33 after whole implementation and independent review/fixes.
+**Current focus:** Phase 04 asset production is executing on feature/04-asset-production with draft PR #5 to dev. Plans 04-01, 04-25 and 04-34 source/headless slices complete; 3/34 plans summarized. Resume preserved 04-02 Task 1 after the verified SDK layout prerequisite; its independent audio Task 2 remains committed. Actual acceptance remains pending 04-32/04-33 after whole implementation and independent review/fixes.
 
 ## Current Position
 
 Phase: 04 (Asset production) — READY TO EXECUTE
-Current Plan: 3
+Current Plan: 4
 Total Plans in Phase: 34
 Status: Ready to execute
-Last activity: 2026-11-16 — Completed 04-25 census/provenance/publication source slice; Phase 4 acceptance pending
+Last activity: 2026-11-16 — Completed 04-34 exact SDK export layout prerequisite; resume preserved 04-02 Task 1; all ASSET requirements pending
 
 Progress: [███░░░░░░░] 27%
 
-Milestone progress: 3/11 phases complete; 27/58 currently planned plans summarized; fourteen of 134 requirements complete. Phase 4 has 2/33 plans complete; no ASSET requirement completion is claimed.
+Milestone progress: 3/11 phases complete; 28/59 currently planned plans summarized; fourteen of 134 requirements complete. Phase 4 has 3/34 plans complete; no ASSET requirement completion is claimed.
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 25
+- Total plans completed: 28
 - Phase 1 recorded windows: 1352min, 75min average (rounded); historical per-plan scopes remain below.
 - Phase 3 recorded plan windows: 944min total, 236min average. Plan 03-04's 833min includes reviews, failed attempts and five fresh full attempts; it is not the final selected-run duration.
 - Final Phase 3 selected execution: 3,363,558ms / 56.06min, 481/481. No overall execution-time total is inferred for plans without recorded duration metadata.
@@ -85,6 +86,7 @@ Milestone progress: 3/11 phases complete; 27/58 currently planned plans summariz
 | Phase 01 P17 | 155min | 2 tasks | 9 files |
 | Phase 04 P01 | 10min | 2 tasks | 5 files |
 | Phase 04 P25 | 12min | 2 tasks | 6 files |
+| Phase 04 P34 | 20min | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -106,6 +108,8 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - [Phase 04]: 04-25 validates exact180 expectations and atomic partial-pack publication; one partial bow and zero completed obligations; all ASSET requirements and final native/listening/judgment acceptance remain pending 04-32/04-33.
 - [Phase 04]: Publish validated partial content with explicit incomplete status; current bow contributes zero completed obligations.
 - [Phase 04]: Retain immutable output identities and generations; replace only the validated current manifest pointer under an exclusive lock.
+- [Phase 04]: 04-34 permits only six authenticated Windows SDK export path/hash/line tuples; original Debug/source/member permissions and IDs remain unchanged.
+- [Phase 04]: 04-34 completes only the ASSET-05 managed export layout prerequisite; all ASSET requirements remain pending and preserved 04-02 Task1 resumes without repeating committed audio Task2.
 
 ### Pending Todos
 
@@ -149,10 +153,10 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 
 ## Session Continuity
 
-Last session: 2026-11-16T13:21:50.500Z
-Stopped at: Completed 04-25-PLAN.md; exact census/provenance and atomic source publication only; next dependency-wave plan 04-02
+Last session: 2026-11-16T14:25:07.267Z
+Stopped at: Completed 04-34-PLAN.md; exact SDK export layout prerequisite verified; next resume preserved 04-02 Task1; no ASSET requirement complete
 Resume file: None
 
-Next action: Execute dependency-wave plan 04-02 on feature/04-asset-production; retain draft PR #5 targeting dev. Two of 33 Phase 4 plans are summarized; actual phase acceptance remains pending.
+Next action: Resume preserved 04-02 Task 1 on feature/04-asset-production after completed 04-34; retain draft PR #5 targeting dev and committed audio Task 2. Three of 34 Phase 4 plans are summarized; all ASSET requirements and actual phase acceptance remain pending.
 
 Preserved future context: [Phase 4 context](phases/04-asset-production/04-CONTEXT.md) remains authoritative. Plan 04-01 has source/headless evidence only; complete resource and actual acceptance responsibilities remain with later Phase 4 plans.
