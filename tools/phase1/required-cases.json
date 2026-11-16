@@ -13856,6 +13856,34 @@
       "supports": [
         "ASSET-05"
       ]
+    },
+    {
+      "id": "rules.export-layout-boundary",
+      "group": "rules",
+      "owner": "04-34",
+      "acceptancePhase": 4,
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build",
+        "actual-Windows-export-source-generation"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
+      "implementation": "csharp",
+      "test": "KingdomZombies.Phase1.Tests.GeneratedExportLayoutTests.Check_ExportLayoutPermissions_StayBounded",
+      "expectedDiagnostic": "SDK_EXPORT_LAYOUT_BOUNDARY_REJECTED",
+      "rule": "RULE-03",
+      "environment": {
+        "os": "windows",
+        "architecture": "x64",
+        "scope": "source-only; no Linux or native export acceptance"
+      },
+      "supports": [
+        "ASSET-05"
+      ]
     }
   ],
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner."

@@ -194,7 +194,8 @@
     "capture": ".phase4/runs/81c4c6a6-8981-43b7-ae89-0d557dd8a54c/captures.json",
     "originRed": ".phase4/runs/1909dff3-09ff-40df-b242-fd5e0f31c774/red-evidence-qualified.json",
     "originRedCase": ".phase1/runs/afc100d5-fb8c-4e06-a49e-2559d086bb66/summary.json",
-    "originGreen": ".phase1/runs/059444ea-f2b2-4752-83c2-04dc9a04b5ea/summary.json"
+    "originGreen": ".phase1/runs/059444ea-f2b2-4752-83c2-04dc9a04b5ea/summary.json",
+    "caseRed": ".phase4/runs/79a8e1de-9f09-4210-a374-f4ee4c5e6a2d/red-evidence.json"
   },
   "limits": [
     "no Linux execution",
