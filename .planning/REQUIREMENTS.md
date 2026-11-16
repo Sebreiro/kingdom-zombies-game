@@ -6,7 +6,7 @@
 
 **Defined:** 2026-11-13
 **Release:** Complete version 0.1
-**Status:** Original 133 version 0.1 requirements approved on 2026-11-13; TEST-11 and Phase 11 added on 2026-11-15. All 134 requirements have one primary phase. RULE-01–RULE-07 are complete under the Phase 1 exception; 127 requirements remain Pending.
+**Status:** Original 133 version 0.1 requirements approved on 2026-11-13; TEST-11 and Phase 11 added on 2026-11-15. All 134 requirements have one primary phase. RULE-01–RULE-07 are complete under the Phase 1 exception; BASE-01–BASE-03 and LAN-01–LAN-04 are verified complete. Fourteen requirements are complete and 120 remain Pending.
 **Core Value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
 
 ## Authority and Interpretation
@@ -45,10 +45,10 @@ Source: Creator Phase 2 direction.
 
 Source: Creator Phase 3 direction; spec §10.
 
-- [ ] **LAN-01**: A host and up to three guests can connect to the same foundation scene using separate game processes.
-- [ ] **LAN-02**: Each participant can move only their own character while every participant observes consistent movement.
-- [ ] **LAN-03**: Participants use the same authoritative action path for solo, host-local, and guest input without duplicate execution.
-- [ ] **LAN-04**: Developers can replace discovery, identity, and connection services without changing gameplay rules or using a LAN address as persistent player identity.
+- [x] **LAN-01**: A host and up to three guests can connect to the same foundation scene using separate game processes.
+- [x] **LAN-02**: Each participant can move only their own character while every participant observes consistent movement.
+- [x] **LAN-03**: Participants use the same authoritative action path for solo, host-local, and guest input without duplicate execution.
+- [x] **LAN-04**: Developers can replace discovery, identity, and connection services without changing gameplay rules or using a LAN address as persistent player identity.
 
 ### Asset and resource production
 
@@ -361,7 +361,7 @@ The reference-PC stress procedure uses 1920x1080, four participants, approximate
 
 ## Traceability
 
-All 134 version 0.1 requirements have exactly one primary owning phase in [ROADMAP.md](ROADMAP.md). The creator approved these requirements, working-increment phase planning, and the detailed roadmap on 2026-11-13. The fixed first-five-phase order and accepted ten-phase direction are recorded in [PROJECT.md](PROJECT.md#agreed-delivery-direction). Earlier prerequisites and later integration/regression checks do not duplicate ownership: the assigned phase must deliver complete requirement acceptance. All implementation statuses remain Pending.
+All 134 version 0.1 requirements have exactly one primary owning phase in [ROADMAP.md](ROADMAP.md). The creator approved the original requirements, working-increment phase planning and detailed roadmap on 2026-11-13; TEST-11 was added on 2026-11-15. The fixed first-five-phase order and accepted original ten-phase direction are recorded in [PROJECT.md](PROJECT.md#agreed-delivery-direction). Earlier prerequisites and later integration/regression checks do not duplicate ownership: the assigned phase must deliver complete requirement acceptance. Phases 1–3 account for fourteen completed requirements; the remaining 120 retain their original owners and Pending status.
 
 | Requirement | Phase | Status |
 | --- | --- | --- |
@@ -375,10 +375,10 @@ All 134 version 0.1 requirements have exactly one primary owning phase in [ROADM
 | BASE-01 | Phase 2 | Complete |
 | BASE-02 | Phase 2 | Complete |
 | BASE-03 | Phase 2 | Complete |
-| LAN-01 | Phase 3 | Pending |
-| LAN-02 | Phase 3 | Pending |
-| LAN-03 | Phase 3 | Pending |
-| LAN-04 | Phase 3 | Pending |
+| LAN-01 | Phase 3 | Complete |
+| LAN-02 | Phase 3 | Complete |
+| LAN-03 | Phase 3 | Complete |
+| LAN-04 | Phase 3 | Complete |
 | ASSET-01 | Phase 4 | Pending |
 | ASSET-02 | Phase 4 | Pending |
 | ASSET-03 | Phase 4 | Pending |
@@ -506,10 +506,10 @@ All 134 version 0.1 requirements have exactly one primary owning phase in [ROADM
 - Unmapped: 0
 - Duplicate primary owners: 0
 - Unknown version 0.1 IDs in roadmap: 0
-- Implementation statuses: 127 Pending; 7 complete
+- Implementation statuses: 120 Pending; 14 complete
 - Source acceptance scenarios linked: 47 of 47
 - Future platform requirements: 2 (outside the current roadmap)
 
 ---
 *Requirements defined: 2026-11-13*
-*Last updated: 2026-11-15 after the local testing discussion and Phase 11/TEST-11 addition*
+*Last updated: 2026-11-16 after independent Phase 3 verification and LAN-01–LAN-04 completion*
