@@ -1,5 +1,7 @@
 # 04-26 bounded continuation and node repair
 
+Latest coordinator decision: C4 in `04-26-AMENDMENTS.md` authorizes only the newly exposed `ExemptionTests.RequireGameOrigins` historical/current consumer repair after `4614efa`. C4 has two focused attempts; R2 remains zero, C1 exhausted, C3 focused passed with one unused attempt, and R3 retains one full attempt after its genuine seven-pass/one-fail/twenty-not-started result. No budget is reset. Scope is twelve existing implementation paths; no formal plan/task or distinct phase path is added.
+
 Coordinator decision after checkpoint `372a61e`: `DECOMPOSE` existing Task 1/2 verification and consumer completion into the three substeps below. This is an in-memory decomposition under the enabled node-repair workflow; do not rewrite PLAN.md or add graph tasks. Each substep has two repair attempts, persisted here without silent resets. Both implementation tasks remain incomplete until their required gates pass.
 
 Retain genuine RED `45c35f2`, ten-file WIP and immutable backup `.phase4/checkpoints/04-26-0d712200-c906-49f5-a57b-4e2560a701b4/manifest.json`. Preserve actual native 50-outcome evidence, all 215-diagnostic/78-span/eight-target/46-input captures and every incomplete or failed compiled run. The 45-second cancellation runs provide no complete-matrix credit. The generated-origin run with `SOURCE_CHANGED` is invalid and remains failed.
