@@ -229,7 +229,7 @@ internal static class ExemptionValidator
                 baselineHash: "ef8ea1e0be872146bcf1f81a2079733bb37be5c2b9718fbf0faa47b164c08d8f");
         int added = callsites.RootElement.GetProperty(propertyName: "local").GetArrayLength() - 18;
         AddRecords(relative: "docs/code/generated-callsite-adaptations.json", collection: "local", count: 18 + added,
-                permissions: permissions);
+                permissions: permissions, authenticatedRegistry: callsites.RootElement);
         AddRecords(relative: "docs/code/generated-layout-adaptations.json", collection: "members", count: 7,
                 permissions: permissions);
         AddRecords(relative: "docs/code/engine-adaptations.json", collection: "local", count: 1,
@@ -379,7 +379,8 @@ internal static class ExemptionValidator
         }
     }
 
-    private static void AddRecords(string relative, string collection, int count, HashSet<string> permissions)
+    private static void AddRecords(string relative, string collection, int count, HashSet<string> permissions,
+            JsonElement? authenticatedRegistry = null)
     {
         JsonArray rows = RegisterValidator.Read(relative: relative)[collection]?.AsArray()
                 ?? throw new InvalidDataException(message: "SUPPRESSION_RECORDS_REQUIRED " + relative);
@@ -395,7 +396,19 @@ internal static class ExemptionValidator
                     message: "SUPPRESSION_RECORD_OVERLAP " + target);
             string surface = Text(row: row, name: "surface");
             bool engine = row?["generatedSourceSha256"] is not null;
-            if (engine)
+            if (authenticatedRegistry is JsonElement registry)
+            {
+                Require(value: relative is "docs/code/generated-callsite-adaptations.json" && collection is "local",
+                        message: "SUPPRESSION_AUTHENTICATED_SCOPE " + relative);
+                string id = Text(row: row, name: "id");
+                JsonElement authenticated = registry.GetProperty(propertyName: "local").EnumerateArray()
+                        .Single(predicate: candidate => StringComparer.Ordinal.Equals(x: candidate.GetProperty(
+                                propertyName: "id").GetString(), y: id));
+                Require(value: JsonNode.DeepEquals(node1: row, node2: JsonNode.Parse(json:
+                        authenticated.GetRawText())), message: "SUPPRESSION_AUTHENTICATED_ROW " + id);
+                surface = EngineGeneratedTests.Surface(row: authenticated, registry: registry);
+            }
+            else if (engine)
             {
                 surface = "src/godot-game/.godot/mono/temp/obj/Debug/generated/" + surface;
             }

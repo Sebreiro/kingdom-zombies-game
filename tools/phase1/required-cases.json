@@ -1838,6 +1838,7 @@
     },
     {
       "id": "ac-08.complete",
+      "childTimeoutMs": 75000,
       "group": "rules",
       "rule": "RULE-03",
       "owner": "01-08",
@@ -12071,6 +12072,7 @@
     },
     {
       "id": "rules.godot-companion-negative",
+      "childTimeoutMs": 60000,
       "group": "rules",
       "rule": "RULE-03",
       "owner": "01-08",

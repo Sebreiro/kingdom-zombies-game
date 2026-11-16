@@ -16,8 +16,9 @@ internal static class EngineAccessPolicy
             .Select(selector: method => pair.Key + "." + method)).ToArray();
 
     /// <summary>Exposes exact existing inspection signatures independently of the Foundation inventory.</summary>
-    internal static IReadOnlyList<string> InspectionTuples => _inspection.Select(selector: member =>
-            "src/godot-game/inspection/InspectionRoot.cs|KingdomZombies.Inspection|InspectionRoot|" + member).ToArray();
+    internal static IReadOnlyList<string> InspectionTuples => _inspection.SelectMany(selector: pair => pair.Value
+            .Select(selector: member => "src/godot-game/inspection/" + pair.Key + ".cs|KingdomZombies.Inspection|"
+                    + pair.Key + "|" + member)).ToArray();
 
     /// <summary>Rejects direct engine operations outside declared guarded adapter methods.</summary>
     internal static IReadOnlyList<string> Check(string source, string path, ConsumerCompilation? consumer = null)
@@ -112,12 +113,16 @@ internal static class EngineAccessPolicy
         ["ProofSequence"] = ["Reject", "Tick", "Load", "Finish", "Cleanup", "Publish"]
     };
 
-    private static readonly string[] _inspection =
-    [
-        "InspectionRoot()", "_Ready()", "_Process(double)", "_ExitTree()", "Recheck()", "Cancel()", "Read(string)",
-        "ChangeCategory(long)", "ChangeStatus(long)", "Filter(string)", "Select(long)", "Details()", "Copy()",
-        "Project()", "Rows()", "Selection()",
-    ];
+    private static readonly Dictionary<string, string[]> _inspection = new(comparer: StringComparer.Ordinal)
+    {
+        ["InspectionRoot"] = ["InspectionRoot()", "_Ready()", "_Process(double)", "_ExitTree()", "Recheck()",
+            "Cancel()", "Read(string)", "ChangeCategory(long)", "ChangeStatus(long)", "Filter(string)",
+            "Select(long)", "Details()", "Copy()", "Project()", "Rows()", "Selection()", "_Input(InputEvent)",
+            "AcceptPreview(int,Node)"],
+        ["InspectionInput"] = ["Dismiss(InputEvent)", "ReconcileFocus()"],
+        ["InspectionShell"] = ["Attach()", "Layout()", "Tick(double)", "Install(Node)", "Retire()", "Detach()",
+            "AddButton(Node,string,string,Action)", "Play()", "Speed(long)", "Step()", "Reset()", "ShowTransport()"],
+    };
 
     private static bool Allowed(SyntaxNode node, string path, SemanticModel model)
     {
@@ -131,13 +136,13 @@ internal static class EngineAccessPolicy
                 && node.Ancestors().OfType<TypeDeclarationSyntax>().Count() == 1
                 && _production.TryGetValue(key: type, value: out string[]? productionMethods)
                 && productionMethods.Contains(value: name, comparer: StringComparer.Ordinal);
-        bool inspection = StringComparer.Ordinal.Equals(x: path, y: "src/godot-game/inspection/InspectionRoot.cs")
-                && StringComparer.Ordinal.Equals(x: type, y: "InspectionRoot")
+        bool inspection = StringComparer.Ordinal.Equals(x: path, y: "src/godot-game/inspection/" + type + ".cs")
+                && _inspection.TryGetValue(key: type, value: out string[]? inspectionMethods)
                 && StringComparer.Ordinal.Equals(x: node.Ancestors().OfType<BaseNamespaceDeclarationSyntax>()
                         .FirstOrDefault()?.Name.ToString(), y: "KingdomZombies.Inspection")
                 && node.Ancestors().OfType<TypeDeclarationSyntax>().Count() == 1
-                && method is not null && model.GetDeclaredSymbol(declaration: method) is IMethodSymbol declared
-                && _inspection.Contains(value: name + "(" + string.Join(separator: ",", values: declared.Parameters
+                && method is not null && model.GetDeclaredSymbol(declaration: method) is IMethodSymbol item
+                && inspectionMethods.Contains(value: name + "(" + string.Join(separator: ",", values: item.Parameters
                         .Select(selector: parameter => parameter.Type.ToDisplayString(
                                 format: SymbolDisplayFormat.MinimallyQualifiedFormat))) + ")",
                         comparer: StringComparer.Ordinal);

@@ -234,12 +234,17 @@ public sealed class EngineGeneratedTests
         Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
     };
     private static readonly Dictionary<string, string> _producerRoots = new(comparer: StringComparer.Ordinal);
+    private static readonly string[] _producerRecipePaths = ["Directory.Build.props", "Directory.Build.targets",
+        "Directory.Xunit.targets", "Directory.Packages.props", ".editorconfig", "global.json", "NuGet.config",
+        "BannedSymbols.txt", "BannedSymbols.Tests.txt", "BannedSymbols.Pure.txt", "tools/phase1/toolchain.json",
+        "tests/phase1/BuildFixture.cs", "src/godot-game/.editorconfig"];
 
     private static string ProducerRoot(JsonElement inventory, JsonElement registry, string? liveRoot = null)
     {
         string selected = liveRoot ?? ProofProtocol.Root;
-        string key = selected + CanonicalHash(value: inventory);
-        if (_producerRoots.TryGetValue(key: key, value: out string? cached))
+        string key = selected + ProducerKey(inventory: inventory);
+        if (_producerRoots.TryGetValue(key: key, value: out string? cached)
+                && !StringComparer.Ordinal.Equals(x: cached, y: selected))
         {
             return cached;
         }
@@ -258,11 +263,28 @@ public sealed class EngineGeneratedTests
                         StringComparer.Ordinal.Equals(x: Hash(bytes: File.ReadAllBytes(path: SafePath(root: selected,
                                 path: Text(row: input, name: "path")))), y: Text(row: input, name: "sha256"))))
         {
-            _producerRoots.Add(key: key, value: selected);
+            _producerRoots[key] = selected;
             return selected;
         }
 
+        _producerRoots.Remove(key: key);
         return ReplayProducer(inventory: inventory, registry: registry, key: key, expected: expected);
+    }
+
+    private static string ProducerKey(JsonElement inventory)
+    {
+        return CanonicalHash(value: new
+        {
+            producer = Text(row: inventory, name: "producer"),
+            package = Text(row: inventory, name: "package"),
+            packageSha256 = Text(row: inventory, name: "packageSha256"),
+            inputs = inventory.GetProperty(propertyName: "sourceInputs"),
+            recipe = _producerRecipePaths.Select(selector: path => new
+            {
+                path,
+                sha256 = Hash(bytes: File.ReadAllBytes(path: Local(path: path))),
+            }).ToArray(),
+        });
     }
 
     private static string ReplayProducer(JsonElement inventory, JsonElement registry, string key, string[] expected)
@@ -503,6 +525,8 @@ public sealed class EngineGeneratedTests
 
     private static void RejectInventoryMutations(JsonElement registry)
     {
+        RejectWarmSnapshots(registry: registry, baselineCount: 220,
+                baselineHash: "de69b0e421ada4acfd8d512fe3b47395f5198bd8220de16a4afffb010aa4d62f");
         foreach (string field in new[] { "missing-observations", "extra-row", "sha256", "packageSha256",
                 "surface", "member", "diagnostic",
                 "line", "column", "length", "missing-row", "source-input", "missing-source", "package",
@@ -579,6 +603,12 @@ public sealed class EngineGeneratedTests
     private static void RejectCallInventoryMutations()
     {
         JsonObject register = RegisterValidator.Read(relative: "docs/code/generated-callsite-adaptations.json");
+        using (var original = JsonDocument.Parse(json: register.ToJsonString()))
+        {
+            RejectWarmSnapshots(registry: original.RootElement, baselineCount: 18,
+                    baselineHash: "ef8ea1e0be872146bcf1f81a2079733bb37be5c2b9718fbf0faa47b164c08d8f");
+        }
+
         JsonArray rows = register["local"]?.AsArray() ?? throw new InvalidDataException(message: "CALL_ROWS");
         JsonNode extra = rows[^1]?.DeepClone() ?? throw new InvalidDataException(message: "CALL_ROW");
         extra["id"] = "UNOBSERVED_EXTRA_MEMBER";
@@ -593,11 +623,79 @@ public sealed class EngineGeneratedTests
         failure.Message.ShouldContain(expected: "COHORT_UNOBSERVED_PERMISSION");
     }
 
-    private static void VerifyReproduction(JsonElement registry)
+    private static void RejectWarmSnapshots(JsonElement registry, int baselineCount, string baselineHash)
     {
-        JsonElement inventory = registry.GetProperty(propertyName: "producerInventories").EnumerateArray()
+        VerifyInventories(registry: registry, baselineCount: baselineCount, baselineHash: baselineHash);
+        JsonElement historical = registry.GetProperty(propertyName: "producerInventories").EnumerateArray()
                 .Single(predicate: row => StringComparer.Ordinal.Equals(x: Text(row: row, name: "id"),
                         y: "inspection03-08035ba"));
+        string key = ProofProtocol.Root + ProducerKey(inventory: historical);
+        _producerRoots.ContainsKey(key: key).ShouldBeTrue(customMessage: "WARM_REPLAY_REQUIRED");
+        StringComparer.Ordinal.Equals(x: _producerRoots[key], y: ProofProtocol.Root).ShouldBeFalse();
+        foreach (string field in new[] { "snapshot-bytes", "snapshot-missing", "snapshot-borrowed",
+                "source-input", "missing-source", "package", "missing-package", "borrowed-row",
+                "missing-observations" })
+        {
+            JsonObject changed = JsonNode.Parse(json: registry.GetRawText())?.AsObject()
+                    ?? throw new InvalidDataException(message: "WARM_MUTATION_ROOT");
+            JsonArray rows = changed["local"]?.AsArray()
+                    ?? throw new InvalidDataException(message: "WARM_MUTATION_ROWS");
+            JsonNode inventory = changed["producerInventories"]?.AsArray().Single(predicate: row =>
+                    StringComparer.Ordinal.Equals(x: row?["id"]?.GetValue<string>(),
+                            y: "inspection03-08035ba"))
+                    ?? throw new InvalidDataException(message: "WARM_MUTATION_INVENTORY");
+            if (field.StartsWith(value: "snapshot-", comparisonType: StringComparison.Ordinal))
+            {
+                MutateSnapshot(field: field, changed: changed, inventory: historical);
+            }
+            else
+            {
+                MutateInventory(field: field, row: rows[^1]
+                        ?? throw new InvalidDataException(message: "WARM_MUTATION_ROW"),
+                        rows: rows, inventory: inventory);
+            }
+
+            using var document = JsonDocument.Parse(json: changed.ToJsonString());
+            _producerRoots.ContainsKey(key: key).ShouldBeTrue(customMessage: "WARM_REPLAY_RETAINED " + field);
+            Should.Throw<Exception>(actual: () => VerifyInventories(registry: document.RootElement,
+                    baselineCount: baselineCount, baselineHash: baselineHash));
+        }
+    }
+
+    private static void MutateSnapshot(string field, JsonObject changed, JsonElement inventory)
+    {
+        JsonElement input = inventory.GetProperty(propertyName: "sourceInputs").EnumerateArray().Single(
+                predicate: row => StringComparer.Ordinal.Equals(x: Text(row: row, name: "path"),
+                        y: "src/godot-game/inspection/InspectionRoot.cs"));
+        JsonArray snapshots = changed["producerSources"]?.AsArray()
+                ?? throw new InvalidDataException(message: "WARM_SNAPSHOTS");
+        JsonNode snapshot = snapshots.Single(predicate: row => StringComparer.Ordinal.Equals(
+                x: row?["path"]?.GetValue<string>(), y: Text(row: input, name: "path"))
+                && StringComparer.Ordinal.Equals(x: row?["sha256"]?.GetValue<string>(),
+                        y: Text(row: input, name: "sha256")))
+                ?? throw new InvalidDataException(message: "WARM_SNAPSHOT_REQUIRED");
+        if (field is "snapshot-bytes")
+        {
+            snapshot["contentBase64"] = Convert.ToBase64String(inArray: Encoding.UTF8.GetBytes(
+                    s: "changed snapshot bytes\n"));
+        }
+        else if (field is "snapshot-missing")
+        {
+            snapshots.Remove(item: snapshot);
+        }
+        else
+        {
+            JsonNode borrowed = snapshots.First(predicate: row => !StringComparer.Ordinal.Equals(
+                    x: row?["sha256"]?.GetValue<string>(), y: Text(row: input, name: "sha256")))
+                    ?? throw new InvalidDataException(message: "WARM_BORROWED_SNAPSHOT");
+            snapshot["path"] = borrowed["path"]?.GetValue<string>();
+            snapshot["sha256"] = borrowed["sha256"]?.GetValue<string>();
+        }
+    }
+
+    private static void VerifyReproduction(JsonElement registry)
+    {
+        JsonElement inventory = CurrentProducer(registry: registry);
         var fixture = new BuildFixture(game: true);
         File.Delete(path: SafePath(root: fixture.DirectoryPath, path: "src/godot-game/Subject.cs"));
         foreach (string relative in new[] { "tests/phase1/ContentInspectorTests.cs", "tools/phase4/cases/hub.cjs",
@@ -618,7 +716,7 @@ public sealed class EngineGeneratedTests
                 registry: registry, root: current);
         File.AppendAllText(path: SafePath(root: fixture.DirectoryPath,
                 path: "src/godot-game/inspection/InspectionRoot.cs"), contents: "\n// changed producer bytes\n");
-        _producerRoots.Remove(key: fixture.DirectoryPath + CanonicalHash(value: inventory));
+        _producerRoots.Remove(key: fixture.DirectoryPath + ProducerKey(inventory: inventory));
         string historical = ProducerRoot(inventory: inventory, registry: registry, liveRoot: fixture.DirectoryPath);
         StringComparer.Ordinal.Equals(x: historical, y: fixture.DirectoryPath).ShouldBe(expected: false);
         foreach (JsonElement surface in inventory.GetProperty(propertyName: "surfaces").EnumerateArray())
@@ -629,6 +727,51 @@ public sealed class EngineGeneratedTests
 
         VerifyCurrentCoverage(inventory: inventory, observations: inventory.GetProperty(propertyName: "observations"),
                 registry: registry, root: historical);
+        JsonElement original = registry.GetProperty(propertyName: "producerInventories").EnumerateArray()
+                .Single(predicate: row => StringComparer.Ordinal.Equals(x: Text(row: row, name: "id"),
+                        y: "inspection03-08035ba"));
+        string originalRoot = ProducerRoot(inventory: original, registry: registry);
+        foreach (JsonElement surface in original.GetProperty(propertyName: "surfaces").EnumerateArray())
+        {
+            Hash(bytes: File.ReadAllBytes(path: SafePath(root: originalRoot, path: Text(row: surface, name: "path"))))
+                    .ShouldBe(expected: Text(row: surface, name: "sha256"));
+        }
+
+        VerifyCurrentCoverage(inventory: original, observations: original.GetProperty(propertyName: "observations"),
+                registry: registry, root: originalRoot);
+    }
+
+    private static JsonElement CurrentProducer(JsonElement registry)
+    {
+        string[] actual = [..Directory.EnumerateFiles(path: Local(path: "src/godot-game"), searchPattern: "*.cs",
+                searchOption: SearchOption.AllDirectories).Select(selector: path => Path.GetRelativePath(
+                        relativeTo: ProofProtocol.Root, path: path).Replace(oldChar: '\\', newChar: '/'))
+                .Where(predicate: path => !path.Split(separator: '/').Any(predicate: part => part is "bin" or "obj"
+                        or ".godot") && !IsAdapter(path: path)).Order(comparer: StringComparer.Ordinal)];
+        JsonElement selected = registry.GetProperty(propertyName: "producerInventories").EnumerateArray().Single(
+                predicate: row => StringComparer.Ordinal.Equals(x: Text(row: row, name: "producer"),
+                        y: "Godot.SourceGenerators/4.7.2") && MatchesInputs(inventory: row, actual: actual));
+        VerifyProducer(inventory: selected, registry: registry);
+        foreach (JsonElement surface in selected.GetProperty(propertyName: "surfaces").EnumerateArray())
+        {
+            string path = Local(path: Text(row: surface, name: "path"));
+            Hash(bytes: File.ReadAllBytes(path: path)).ShouldBe(expected: Text(row: surface, name: "sha256"));
+            Hash(bytes: Encoding.UTF8.GetBytes(s: File.ReadAllText(path: path))).ShouldBe(
+                    expected: Text(row: surface, name: "textSha256"));
+        }
+
+        return selected;
+    }
+
+    private static bool MatchesInputs(JsonElement inventory, string[] actual)
+    {
+        JsonElement[] inputs = [.. inventory.GetProperty(propertyName: "sourceInputs").EnumerateArray()];
+        string[] expected = [.. inputs.Select(selector: input => Text(row: input, name: "path")).Where(
+                predicate: path => path.EndsWith(value: ".cs", comparisonType: StringComparison.Ordinal))
+                .Order(comparer: StringComparer.Ordinal)];
+        return expected.SequenceEqual(second: actual, comparer: StringComparer.Ordinal)
+                && inputs.All(predicate: input => StringComparer.Ordinal.Equals(x: Hash(bytes: File.ReadAllBytes(
+                        path: Local(path: Text(row: input, name: "path")))), y: Text(row: input, name: "sha256")));
     }
 
     private static void VerifyBakedRows(JsonElement[] rows)

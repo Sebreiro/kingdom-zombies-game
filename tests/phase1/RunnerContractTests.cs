@@ -525,6 +525,14 @@ public sealed class RunnerContractTests
     {
         string script = "const c=require('./tools/phase1/check.cjs'),a=require('node:assert/strict');"
                 + "const m=require('./tools/phase1/required-cases.json'),row=m.cases[0];"
+                + "a.deepEqual(m.cases.filter(r=>Object.hasOwn(r,'childTimeoutMs'))"
+                + ".map(r=>[r.id,r.childTimeoutMs]).sort(),[['ac-08.complete',75000],"
+                + "['engine.generated-boundary',120000],['rules.godot-companion-negative',60000]]);"
+                + "for(const [id,argument,outerMs] of [['ac-08.complete','75s',77000],"
+                + "['engine.generated-boundary','120s',122000],"
+                + "['rules.godot-companion-negative','60s',62000],"
+                + "['rules.godot-companion-positive','45s',45000]]){"
+                + "a.deepEqual(c.caseTimeout(m.cases.find(r=>r.id===id),m),{argument,outerMs})}"
                 + "a.deepEqual(c.caseTimeout(row,{}),{argument:'45s',outerMs:45000});"
                 + "a.deepEqual(c.caseTimeout(row,{childTimeoutMs:1800}),{argument:'45s',outerMs:1800});"
                 + "for(const n of [1,999,1000,1001,120000]){const r={...row,childTimeoutMs:n};"
@@ -552,7 +560,10 @@ public sealed class RunnerContractTests
     {
         using var fixture = RunnerProcessFixture.Create(mode: "pass");
         (int? Capacity, string Argument, int Outer)[] cases =
-                [(120000, "120s", 122000), (null, "45s", 1800), (1, "1s", 3000)];
+        [
+            (120000, "120s", 122000), (75000, "75s", 77000), (60000, "60s", 62000),
+            (null, "45s", 1800), (1, "1s", 3000),
+        ];
         foreach ((int? Capacity, string Argument, int Outer) item in cases)
         {
             SetCaseCapacity(fixture: fixture, capacity: item.Capacity);

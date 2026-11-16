@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using Shouldly;
 using Xunit;
@@ -473,28 +474,42 @@ public sealed class ExemptionTests
 
     private static void RequireGameOrigins(BuildFixture fixture)
     {
-        JsonArray rows = RegisterValidator.Read(relative: "docs/code/generated-callsite-adaptations.json")
-                ["local"]?.AsArray() ?? throw new InvalidDataException(message: "GAME_ORIGIN_RECORDS_REQUIRED");
+        using var registry = JsonDocument.Parse(json: File.ReadAllText(path: Path.Combine(path1: ProofProtocol
+                .Root, path2: "docs/code/generated-callsite-adaptations.json")));
+        EngineGeneratedTests.VerifyInventories(registry: registry.RootElement, baselineCount: 18,
+                baselineHash: "ef8ea1e0be872146bcf1f81a2079733bb37be5c2b9718fbf0faa47b164c08d8f");
+        JsonElement[] rows = [.. registry.RootElement.GetProperty(propertyName: "local").EnumerateArray()];
         int count = 0;
-        foreach (JsonNode? row in rows)
+        int currentCount = 0;
+        foreach (JsonElement row in rows)
         {
-            string surface = row?["surface"]?.GetValue<string>() ?? "";
+            string surface = row.GetProperty(propertyName: "surface").GetString() ?? "";
             if (!surface.StartsWith(value: "src/godot-game/", comparisonType: StringComparison.Ordinal))
             {
                 continue;
             }
 
-            string file = Path.Combine(path1: fixture.DirectoryPath, path2: surface);
+            string file = EngineGeneratedTests.Surface(row: row, registry: registry.RootElement);
             string hash = Convert.ToHexStringLower(inArray: System.Security.Cryptography.SHA256.HashData(
                     source: File.ReadAllBytes(path: file)));
-            hash.ShouldBe(expected: row?["sha256"]?.GetValue<string>());
+            hash.ShouldBe(expected: row.GetProperty(propertyName: "sha256").GetString());
+            if (StringComparer.Ordinal.Equals(x: Path.GetFullPath(path: file), y: Path.GetFullPath(path: Path.Combine(
+                    path1: ProofProtocol.Root, path2: surface))))
+            {
+                string current = Path.Combine(path1: fixture.DirectoryPath, path2: surface);
+                Convert.ToHexStringLower(inArray: System.Security.Cryptography.SHA256.HashData(
+                        source: File.ReadAllBytes(path: current))).ShouldBe(expected: hash);
+                currentCount++;
+            }
+
             count++;
         }
 
+        currentCount.ShouldBeGreaterThan(expected: 0);
         count.ShouldBeGreaterThanOrEqualTo(expected: 16);
-        rows.Where(predicate: row => row?["surface"]?.GetValue<string>().StartsWith(
+        rows.Where(predicate: row => row.GetProperty(propertyName: "surface").GetString()?.StartsWith(
                 value: "src/godot-game/", comparisonType: StringComparison.Ordinal) == true)
-                .Take(count: 16).Select(selector: row => row?["id"]?.GetValue<string>())
+                .Take(count: 16).Select(selector: row => row.GetProperty(propertyName: "id").GetString())
                 .Order(comparer: StringComparer.Ordinal)
                 .ShouldBe(expected: Enumerable.Range(start: 1, count: 16).Select(selector: number =>
                         "KZ-EX-GODOT-CALLS-" + number.ToString(provider: System.Globalization.CultureInfo
