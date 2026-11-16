@@ -16,6 +16,8 @@ The two newly inventoried distinct paths are check.cjs and RunnerContractTests.c
 
 ## Original planned inventory
 
+Completed 04-03 also adds `tests/phase1/ArchitecturePolicy.cs` under its [recorded bounded amendment](04-03-AMENDMENTS.md). The actual plan has eight paths; its Task 2 has four. The independent authority appends only the exact ContentPack and InspectionRoot identities to the original fifteen. This is one additional distinct inventory path, so the reconciled union becomes 232 before later amendments. Its exact symbols and compiler-valid expanded-registry/sibling rejection controls are inventoried in [04-03-SUMMARY.md](04-03-SUMMARY.md).
+
 | Exact planned file | Owning plan(s), execution order | Planned symbol/resource responsibility |
 | --- | --- | --- |
 | .planning/phases/04-asset-production/04-ACCEPTANCE-COVERAGE.md | 04-33 | Actual resource/data/document/evidence identity and applicable metadata |
