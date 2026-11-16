@@ -185,6 +185,7 @@ These corrections stayed within the five authorized files and the two planned ta
 - Ordinary sandbox Node child spawning returned `spawnSync git EPERM`. Authorized bounded commands succeeded through escalation; this was an environment permission boundary, with no approval-review rejection and no hook bypass. The initial empty invocation directory `1196db74-8ade-418a-a263-f6c4d48382d3` remains historical; subsequent failed setup handling now writes `setup-failure.json`.
 - Preserved failed authoring comparison `23821a53-5734-4889-8b7f-0e2c5e65b630`, failed original imported-pixel attempt `15eb16d6-9610-45db-b848-7df08b3b1497`, and failed initial negative-suite classification `aac4c3db-d86c-49b6-beb4-fb6289158ef5`. They supply no current success credit.
 - Successful original export is `.phase4/runs/e1b18629-e219-4750-8b30-f7e3b427ca1a/`; original recipe/output hashes are retained in tracked production data.
+- Close-out `state.advance-plan` initially returned `plan_position_unreadable` because the inherited position was `Current Plan: Not started`. After the summary commit and successful ROADMAP update, supported `state.update 'Current Plan' '1'` repaired that label and `state.advance-plan` succeeded to ordinal 2/33. Session/current-focus fields explicitly identify dependency-wave plan 04-25 next. No STATE/ROADMAP file was edited by hand.
 
 ## Acceptance Limits and Next Readiness
 

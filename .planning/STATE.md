@@ -4,17 +4,17 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 04
 current_phase_name: Asset production
-current_plan: Not started
+current_plan: 2
 status: executing
-stopped_at: Phase 3 verified complete; requested --only 3 boundary reached
-last_updated: "2026-11-16T12:43:23.018Z"
+stopped_at: Completed 04-01-PLAN.md; source/headless tracer only; next dependency-wave plan 04-25
+last_updated: "2026-11-16T13:03:40.717Z"
 last_activity: 2026-11-16
-last_activity_desc: Phase 3 verified complete; Phase 4 not started
+last_activity_desc: Completed 04-01 source/headless tracer; Phase 4 acceptance pending
 progress:
   total_phases: 11
   completed_phases: 3
   total_plans: 58
-  completed_plans: 25
+  completed_plans: 26
   percent: 27
 ---
 
@@ -26,19 +26,19 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase 03 — Four-player LAN foundation is verified complete: all four plans, LAN-01–LAN-04 and 21/21 must-haves. Independent code review is clean with eighteen findings resolved. The fresh Windows 1280×720 selection passed 481/481 and all 319 current image bindings passed visual review. PR [#4](https://github.com/Sebreiro/kingdom-zombies-game/pull/4) is the phase's review handoff on `feature/03-four-player-lan-foundation`; the creator owns the merge decision. The requested `--only 3` run ends here.
+**Current focus:** Phase 04 asset production is executing on feature/04-asset-production with draft PR #5 to dev. Plan 04-01 source/headless bow tracer is complete; 1/33 plans summarized. Next dependency-wave plan is 04-25. Actual phase acceptance remains pending 04-32/04-33 after complete implementation and independent review.
 
 ## Current Position
 
-Phase: 04 (Asset production) — READY TO EXECUTE
-Current Plan: Not started
+Phase: 04 (Asset production) — IN PROGRESS
+Current Plan: 2
 Total Plans in Phase: 33
-Status: Ready to execute
-Last activity: 2026-11-16 — Phase 3 verified complete; Phase 4 not started
+Status: Executing
+Last activity: 2026-11-16 — Completed 04-01 source/headless tracer; Phase 4 acceptance pending
 
 Progress: [███░░░░░░░] 27%
 
-Milestone progress: 3/11 phases complete, 25/25 currently planned plans complete, fourteen of 134 requirements complete. Phase 1's 18/18 plans remain closed under the 2026-11-14 exception; Phase 2 is 3/3 and Phase 3 is 4/4. Future phases have no invented plan counts.
+Milestone progress: 3/11 phases complete; 26/58 currently planned plans summarized; fourteen of 134 requirements complete. Phase 4 has 1/33 plans complete; no ASSET requirement completion is claimed.
 
 ## Performance Metrics
 
@@ -83,6 +83,7 @@ Milestone progress: 3/11 phases complete, 25/25 currently planned plans complete
 | Phase 01 P15 | 11min | 2 tasks | 10 files |
 | Phase 01 P16 | 84min | 2 tasks | 11 files |
 | Phase 01 P17 | 155min | 2 tasks | 9 files |
+| Phase 04 P01 | 10min | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -100,6 +101,7 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - [Phase 11]: TEST-11 adds nightly full regression testing after Phase 10; original requirement IDs/owners remain preserved.
 - [Phase 03]: Independent verification passed 21/21 must-haves, all four roadmap criteria and LAN-01–LAN-04. Source/build remains `c69442148c975de974ebbb1d8ef409380940ecb0`; original full execution HEAD is `6ea600953be031bf2b467a50d35090a94e44f802`. Metadata closure must retain both the assembly revision and reviewed SourceLink target.
 - [Phase 03]: Final full `841e10b1-f825-4527-865b-4703382f51eb` passed 481/481 in 56.06min: 433 Phase 1, sixteen Phase 2 and 32 Phase 3. All 48 physical timing rows meet 250ms (maximum 197.8586ms); all sixteen stopped comparisons agree with host. Current visual review accepts 319 bindings / 255 distinct contents. This is local Windows proof, with separate physical LAN, supported-display, hardware and endurance release owners.
+- [Phase 04]: 04-01 provides common.bow source/headless tracer only; ASSET-01/02/05 remain pending complete census, portable export and actual 04-32/04-33 acceptance.
 
 ### Pending Todos
 
@@ -143,10 +145,10 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 
 ## Session Continuity
 
-Last session: 2026-11-16
-Stopped at: Phase 3 verified complete; requested --only 3 boundary reached
-Resume file: .planning/phases/03-four-player-lan-foundation/03-CONTINUATION.md
+Last session: 2026-11-16T13:02:44.346Z
+Stopped at: Completed 04-01-PLAN.md; source/headless tracer only; next dependency-wave plan 04-25
+Resume file: None
 
-Next action: Review PR #4; the creator owns the merge decision. Preserve reviewed source `c69442148c975de974ebbb1d8ef409380940ecb0` and `tools/phase3/reviewed-source.targets` for any metadata-only evidence reconciliation. Phase 4 awaits a separate request; this --only 3 run does not plan or execute it.
+Next action: Execute dependency-wave plan 04-25 on feature/04-asset-production; keep draft PR #5 targeting dev. One of 33 Phase 4 plans is summarized; actual phase acceptance remains pending.
 
-Preserved future context: [Phase 4 context](phases/04-asset-production/04-CONTEXT.md). No Phase 4 work was executed by this run.
+Preserved future context: [Phase 4 context](phases/04-asset-production/04-CONTEXT.md) remains authoritative. Plan 04-01 has source/headless evidence only; complete resource and actual acceptance responsibilities remain with later Phase 4 plans.
