@@ -2,6 +2,16 @@
 
 Status: checkpoint — R2 repair budget exhausted; source WIP preserved. Recorded after checkpoint `6883fdd` under `$gsd-autonomous --only 4`.
 
+## C1 compiler cleanup and execution checkpoint
+
+Coordinator direction `fa0b859` / [04-37-COMPILER-CLEANUP.md](04-37-COMPILER-CLEANUP.md) authorized only three same-file compiler/style corrections, without resetting R2. Corrected the actual MA0002 unequal-string assertion with an explicit ordinal Boolean assertion, formatted only `EngineGeneratedTests.cs`, and extracted the existing mutation branches into `MutateInventory` without changing cases/order/assertions. The earlier R2 attempt-2 note incorrectly attributed MA0002 to dictionary removal; the actual diagnostic was `historical.ShouldNotBe`, as the coordinator identified.
+
+C1's **single strict test-project compile passes**, exit0 / zero warnings / zero errors (9.75 seconds). Its actual output is retained with the current six-file immutable WIP manifest at `.phase4/checkpoints/04-37-c1-timeout-1f172e91-c0bc-4f98-a722-fb956c0a42dd/`. Current `EngineGeneratedTests.cs` SHA256 is `68fab922a1a0dec45a1085766636b34528d71b9c1dcf63f2e625e773d12b9a97`; the other five source hashes match the preceding repair checkpoint.
+
+The subsequent already-written `engine.generated-boundary` control **fails by CHILD_TIMEOUT**, invocation `ebf178ee-06e3-4517-9483-249ef55a9daa`, source fingerprint `a4a23713d6805215d646406e1c53bb55b284b05ab7ce57e9e05089543defd917`. Locked restore and proof-project build succeeded. Actual compiled target `Check_EngineSpanPermissions_RejectsAdjacentImpostors` ran from 18:53:20.905Z to 18:54:06.075Z; no assertion verdict was returned and `test.process.log` is empty. The runner supplies MTP `--timeout 45s` and enforces the child's deadline. This is neither a successful control nor a behavioral assertion failure. No source corrections followed the timeout.
+
+**Remaining budgets: R1=2, R2=0, R3=2.** C1 did not reset them. R2 behavioral acceptance remains missing; R3's full18/restored-native/solution/Core gates are not started. No Task2 commit/SUMMARY/progress acceptance exists. Five frozen03 hashes were rechecked and remain exact. Preserve all earlier checkpoint and compiler-failure records; this passing compile supersedes only the compiler blocker.
+
 ## Decision and retained state
 
 `DECOMPOSE`: Task 2 has coupled restoration, completeness and producer-lifetime concerns. Apply the configured node-repair procedure with two repair attempts per subtask. This is an in-memory decomposition of existing Task 2; do not modify PLAN.md or add a phase/plan/task to the graph. Keep 37 plans / 74 tasks / 31 waves, six completed plans and 04-37 at 1/2 completed tasks until all required gates pass.
