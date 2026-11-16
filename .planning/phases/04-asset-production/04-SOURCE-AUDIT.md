@@ -4,7 +4,7 @@ Revision1 preserves all GOAL/REQ/RESEARCH/CONTEXT scope and every180/24AC/32D/34
 
 | Source | ID | Required feature or constraint | Implementing plans | Status |
 | --- | --- | --- | --- | --- |
-| GOAL | Phase4 | Developers and players inspect complete required game content in a self-contained pack, suitable reuse first and every output traceable | All34 plans | COVERED in plan; [ ] execution |
+| GOAL | Phase4 | Developers and players inspect complete required game content in a self-contained pack, suitable reuse first and every output traceable | All35 plans | COVERED in plan; [ ] execution |
 | REQ | ASSET-01 | Exact preserved originals, selected dependencies/transforms, stable outputs/versions and honest evidence | 04-01/04–07/11–14/21/23/25/28/31–33 | COVERED in plan; [ ] execution |
 | REQ | ASSET-02 | All180 actual resource obligations, donor-first adaptation/generation | 04-01/04–23/25–31; complete180-row ownership map | COVERED in plan; [ ] execution |
 | REQ | ASSET-03 | All body/equipment/hand/facing/action/corpse/building/portal live/content inspection | 04-03–13/15/22/23/26/27/29/32 | COVERED in plan; [ ] execution |
@@ -29,9 +29,9 @@ Revision1 preserves all GOAL/REQ/RESEARCH/CONTEXT scope and every180/24AC/32D/34
 | RESEARCH | R17 | Genuine authenticated matching4.7.2.NET templates/net10 self-contained dependency/export proof; preserve pin | 04-02/31/32 | COVERED in plan; [ ] execution |
 | RESEARCH | R18 | Pack-relative inclusion of JSON/text/fonts/docs/media; clean isolated actual export, independent bad-entry diagnostics and relaunch | 04-02/31/32 | COVERED in plan; [ ] execution |
 | RESEARCH | R19 | Exact inspection native path/namespace/type/member permissions and actual generated visibility/origin proof; no broad suppression | 04-03/26/23 | COVERED in plan; [ ] execution |
-| RESEARCH | R20 | No-window whole implementation -> independent review/fixes -> groupedWindows1280x720, noVM; activeCritical+new+changed+affected selection | All34 plans;04-24 review,04-32 actual selected run | COVERED in plan; [ ] execution |
+| RESEARCH | R20 | No-window whole implementation -> independent review/fixes -> groupedWindows1280x720, noVM; activeCritical+new+changed+affected selection | All35 plans;04-24 review,04-32 actual selected run | COVERED in plan; [ ] execution |
 | RESEARCH | R21 | Phase-owned current review/selection/runner; immutable old proof identities; exact outcomes and complete repair/fresh selected-set accounting | 04-24/30/32/33 | COVERED in plan; [ ] execution |
-| RESEARCH | R22 | 34 independent H source intents, 24AC,70UI surface/category checks and four actual judgment prohibitions | 04-ACCEPTANCE-COVERAGE.md; all34 plans | COVERED in plan; [ ] execution |
+| RESEARCH | R22 | 34 independent H source intents, 24AC,70UI surface/category checks and four actual judgment prohibitions | 04-ACCEPTANCE-COVERAGE.md; all35 plans | COVERED in plan; [ ] execution |
 | RESEARCH | R23 | File/parser/resource/lifetime/evidence integrity controls, bounded children, read-only original root and atomic staged publication | Every plan threat_model;04-01/02/03/23/25/26/29–31 | COVERED in plan; [ ] execution |
 | RESEARCH | R24 | No new npm/pip/cargo package installation; installed UnityPy1.23.0/Pillow13.0.0 SUS status retained; checkpoints before any future install | 04-02; every T-04-SC | COVERED in plan; [ ] execution |
 | RESEARCH | R25 | Do not hand-roll atlas/FSB decoder, layout engine, application deployment or generic Phase5 selector | 04-02–04/14–17/21/26–31 | COVERED in plan; [ ] execution |
@@ -82,3 +82,8 @@ Discovery uses fresh Phase4 research and exact checked patterns; graphify disabl
 ## ASSET-05 implementation prerequisite: exact SDK export layout
 
 04-34 depends04-25 and precedes unfinished04-02 Task1 after the actual SDK-generated ExportDebug SCR0007 failure. It adds2 source-only tasks and exact provenance/line-permission/negative/configuration proofs; no product requirement, resource obligation, AC/D/H/UI/prohibition identity or primary acceptance owner changes. Original180/24AC/32D/34H/70UI/4prohibition scope stays intact. Real completed01/25 summaries/proofs, committed02 audioTask2 and four partial export files stay preserved. New proof cases are pending implementation and create no export/content/Linux/native-release pass. See04-EXPORT-PREREQUISITE.md and04-34-PLAN.md.
+
+
+## ASSET-05 permanent inspection-profile prerequisite
+
+35 adds a persistent asset_inspection feature/qualified-main profile after34 and before unfinished02Task1, preserving ordinary Foundation startup and the actual single preset/options. Its2 source-only tasks/5 implementation files, G0-export-profile350/351 cases and actual settings/resource/negative observations add no resource, D/AC/H/UI or judgment identity/primary owner. Native packaged Inspection consumption remains02, not an inference from config/editor/Foundation supporting proofs. Source/default-main/preset ownership, wave/count/artifact maps are reconciled; checkpoint/partial files/completed01/25/34/committed audio remain protected. See04-INSPECTION-EXPORT-PROFILE.md. Original180/24AC/32D/104backstops/4judgments remain intact; no acceptance pass is supplied by planning.

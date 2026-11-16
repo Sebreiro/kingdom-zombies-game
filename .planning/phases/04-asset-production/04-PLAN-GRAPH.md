@@ -1,74 +1,76 @@
 # Phase 04 — Executable dependency and command map
 
-Revision1: **34 plans /68 tasks /28 waves**. Each plan has2–3 tasks and fewer than10 exact modified files (maximum9); each task modifies at most5. The whole real production donor-to-native tracer remains04-01 Task1; its later census/publication expansion is04-25. Appended plan numbers identify slices; execute frontmatter waves/dependencies rather than numeric order. Same-wave file ownership is disjoint.
+Revision1: **35 plans /70 tasks /29 waves**. Each plan has2–3 tasks and fewer than10 exact modified files (maximum9); each task modifies at most5. The whole real production donor-to-native tracer remains04-01 Task1; its later census/publication expansion is04-25. Appended plan numbers identify slices; execute frontmatter waves/dependencies rather than numeric order. Same-wave file ownership is disjoint.
 
 | Wave | Plans | Resulting capability |
 | --- | --- | --- |
 | 1 | 04-01 (2tasks/5files) | Production donor-to-inspector tracer and exact provenance |
 | 2 | 04-25 (2tasks/6files) | Exact census/provenance and atomic repeatable publication |
 | 3 | 04-34 (2tasks/7files) | Exact SDK export-layout prerequisite |
-| 4 | 04-02 (2tasks/9files) | Early portable-export and audio feasibility |
-| 5 | 04-03 (2tasks/9files) | Live inspection shell, validated loader and exact native permissions |
-| 6 | 04-26 (2tasks/6files) | Inspection input/lifetime expansion with immediate exact native permission proofs |
-| 7 | 04-04 (2tasks/9files) | Reusable donor kit, exact animation conversion and assembled scale proof |
-| 8 | 04-05 (2tasks/7files); 04-11 (2tasks/8files) | All 24 item identities and reusable wearable/held masters; Three actual main-building tiers and shared camp resources |
-| 9 | 04-06 (2tasks/8files); 04-14 (2tasks/8files); 04-18 (2tasks/9files) | Survivor and first three zombie body fits; Native UI kit, packaged fonts and reusable theme; Complete run, time, survivor, item, combat and inventory baseline |
-| 10 | 04-07 (2tasks/9files); 04-28 (2tasks/5files) | Complete armored, wide and specialist zombie silhouettes/fits; Canonical status/input/player symbols and retained desktop identity art |
-| 11 | 04-08 (2tasks/5files) | Concurrent locomotion, melee and coherent logical hands |
-| 12 | 04-09 (2tasks/8files) | Bow, work, food and specialist action composition |
-| 13 | 04-10 (2tasks/9files) | Persistent corpses, wildlife, identities and real crowd resources |
-| 14 | 04-12 (2tasks/8files); 04-15 (2tasks/7files) | Walls, independent guards and complete defense lifecycle; Reusable inventory, legacy, stash and target layout states |
-| 15 | 04-13 (2tasks/9files) | Complete authored world, portal and environmental effect inspection |
-| 16 | 04-27 (2tasks/5files) | World/item navigation, replacement and held-out preview states |
-| 17 | 04-16 (2tasks/7files); 04-19 (2tasks/8files) | People, economy, construction, map, rally and warning layouts; Complete economy, food, map, structure and tower baseline |
-| 18 | 04-17 (2tasks/7files) | Session, save, outcome, settings and error layout resources |
-| 19 | 04-20 (2tasks/9files) | Complete zombies, progression, portals, sessions and preferences |
-| 20 | 04-21 (2tasks/8files) | All 30 real sound categories and complete event-bank resources |
-| 21 | 04-29 (2tasks/5files) | Native audio audition, exact current-loop ownership and backstops |
-| 22 | 04-22 (2tasks/9files) | Complete English text, compatibility and data/text inspection |
-| 23 | 04-23 (2tasks/5files) | Complete source census and final exact native-policy reconciliation |
-| 24 | 04-30 (2tasks/5files) | Saved scenario/evidence runner and prelaunch/acceptance validation code |
-| 25 | 04-31 (2tasks/6files) | Complete portable Windows inspection export and clean failure/relaunch proof |
-| 26 | 04-24 (2tasks/5files) | Independent whole-phase review and exact prelaunch selection |
-| 27 | 04-32 (2tasks/5files) | Actual selected native/listening run and separate named judgments |
-| 28 | 04-33 (2tasks/5files) | Exact acceptance/artifact/evidence completion reconciliation |
+| 4 | 04-35 (2tasks/5files) | Permanent inspection export-feature profile |
+| 5 | 04-02 (2tasks/8files) | Early portable-export and audio feasibility |
+| 6 | 04-03 (2tasks/9files) | Live inspection shell, validated loader and exact native permissions |
+| 7 | 04-26 (2tasks/6files) | Inspection input/lifetime expansion with immediate exact native permission proofs |
+| 8 | 04-04 (2tasks/9files) | Reusable donor kit, exact animation conversion and assembled scale proof |
+| 9 | 04-05 (2tasks/7files); 04-11 (2tasks/8files) | All 24 item identities and reusable wearable/held masters; Three actual main-building tiers and shared camp resources |
+| 10 | 04-06 (2tasks/8files); 04-14 (2tasks/8files); 04-18 (2tasks/9files) | Survivor and first three zombie body fits; Native UI kit, packaged fonts and reusable theme; Complete run, time, survivor, item, combat and inventory baseline |
+| 11 | 04-07 (2tasks/9files); 04-28 (2tasks/5files) | Complete armored, wide and specialist zombie silhouettes/fits; Canonical status/input/player symbols and retained desktop identity art |
+| 12 | 04-08 (2tasks/5files) | Concurrent locomotion, melee and coherent logical hands |
+| 13 | 04-09 (2tasks/8files) | Bow, work, food and specialist action composition |
+| 14 | 04-10 (2tasks/9files) | Persistent corpses, wildlife, identities and real crowd resources |
+| 15 | 04-12 (2tasks/8files); 04-15 (2tasks/7files) | Walls, independent guards and complete defense lifecycle; Reusable inventory, legacy, stash and target layout states |
+| 16 | 04-13 (2tasks/9files) | Complete authored world, portal and environmental effect inspection |
+| 17 | 04-27 (2tasks/5files) | World/item navigation, replacement and held-out preview states |
+| 18 | 04-16 (2tasks/7files); 04-19 (2tasks/8files) | People, economy, construction, map, rally and warning layouts; Complete economy, food, map, structure and tower baseline |
+| 19 | 04-17 (2tasks/7files) | Session, save, outcome, settings and error layout resources |
+| 20 | 04-20 (2tasks/9files) | Complete zombies, progression, portals, sessions and preferences |
+| 21 | 04-21 (2tasks/8files) | All 30 real sound categories and complete event-bank resources |
+| 22 | 04-29 (2tasks/5files) | Native audio audition, exact current-loop ownership and backstops |
+| 23 | 04-22 (2tasks/9files) | Complete English text, compatibility and data/text inspection |
+| 24 | 04-23 (2tasks/5files) | Complete source census and final exact native-policy reconciliation |
+| 25 | 04-30 (2tasks/5files) | Saved scenario/evidence runner and prelaunch/acceptance validation code |
+| 26 | 04-31 (2tasks/6files) | Complete portable Windows inspection export and clean failure/relaunch proof |
+| 27 | 04-24 (2tasks/5files) | Independent whole-phase review and exact prelaunch selection |
+| 28 | 04-32 (2tasks/5files) | Actual selected native/listening run and separate named judgments |
+| 29 | 04-33 (2tasks/5files) | Exact acceptance/artifact/evidence completion reconciliation |
 
 | Plan | Needs | Creates / user-visible refinement | Checkpoint |
 | --- | --- | --- | --- |
-| 04-01 | Pinned foundation/preserved inputs | Production donor-to-inspector tracer and exact provenance | Autonomous source work; original actual acceptance gates remain |
-| 04-02 | 04-34 | Early portable-export and audio feasibility | Autonomous source work; original actual acceptance gates remain |
-| 04-03 | 04-25, 04-02 | Live inspection shell, validated loader and exact native permissions | Autonomous source work; original actual acceptance gates remain |
-| 04-04 | 04-26 | Reusable donor kit, exact animation conversion and assembled scale proof | Autonomous source work; original actual acceptance gates remain |
-| 04-05 | 04-04 | All 24 item identities and reusable wearable/held masters | Autonomous source work; original actual acceptance gates remain |
-| 04-06 | 04-05, 04-26 | Survivor and first three zombie body fits | Autonomous source work; original actual acceptance gates remain |
-| 04-07 | 04-06 | Complete armored, wide and specialist zombie silhouettes/fits | Autonomous source work; original actual acceptance gates remain |
-| 04-08 | 04-07, 04-06, 04-18 | Concurrent locomotion, melee and coherent logical hands | Autonomous source work; original actual acceptance gates remain |
-| 04-09 | 04-08, 04-06, 04-18 | Bow, work, food and specialist action composition | Autonomous source work; original actual acceptance gates remain |
-| 04-10 | 04-09 | Persistent corpses, wildlife, identities and real crowd resources | Autonomous source work; original actual acceptance gates remain |
-| 04-11 | 04-04 | Three actual main-building tiers and shared camp resources | Autonomous source work; original actual acceptance gates remain |
-| 04-12 | 04-11, 04-10 | Walls, independent guards and complete defense lifecycle | Autonomous source work; original actual acceptance gates remain |
-| 04-13 | 04-12, 04-26, 04-06 | Complete authored world, portal and environmental effect inspection | Autonomous source work; original actual acceptance gates remain |
-| 04-14 | 04-05, 04-26 | Native UI kit, packaged fonts and reusable theme | Autonomous source work; original actual acceptance gates remain |
-| 04-15 | 04-28, 04-10 | Reusable inventory, legacy, stash and target layout states | Autonomous source work; original actual acceptance gates remain |
-| 04-16 | 04-15, 04-27 | People, economy, construction, map, rally and warning layouts | Autonomous source work; original actual acceptance gates remain |
-| 04-17 | 04-16 | Session, save, outcome, settings and error layout resources | Autonomous source work; original actual acceptance gates remain |
-| 04-18 | 04-05 | Complete run, time, survivor, item, combat and inventory baseline | Autonomous source work; original actual acceptance gates remain |
-| 04-19 | 04-18, 04-27 | Complete economy, food, map, structure and tower baseline | Autonomous source work; original actual acceptance gates remain |
-| 04-20 | 04-19, 04-17 | Complete zombies, progression, portals, sessions and preferences | Autonomous source work; original actual acceptance gates remain |
-| 04-21 | 04-20, 04-02, 04-26, 04-06, 04-27 | All 30 real sound categories and complete event-bank resources | Autonomous source work; original actual acceptance gates remain |
-| 04-22 | 04-29, 04-17, 04-26, 04-06, 04-27 | Complete English text, compatibility and data/text inspection | Autonomous source work; original actual acceptance gates remain |
-| 04-23 | 04-22, 04-25, 04-02, 04-26 | Complete source census and final exact native-policy reconciliation | Autonomous source work; original actual acceptance gates remain |
-| 04-24 | 04-31 | Independent whole-phase review and exact prelaunch selection | Autonomous source work; original actual acceptance gates remain |
-| 04-25 | 04-01 | Exact census/provenance and atomic repeatable publication | Autonomous source work; original actual acceptance gates remain |
-| 04-26 | 04-03 | Inspection input/lifetime expansion with immediate exact native permission proofs | Autonomous source work; original actual acceptance gates remain |
-| 04-27 | 04-13 | World/item navigation, replacement and held-out preview states | Autonomous source work; original actual acceptance gates remain |
-| 04-28 | 04-14 | Canonical status/input/player symbols and retained desktop identity art | Autonomous source work; original actual acceptance gates remain |
-| 04-29 | 04-21 | Native audio audition, exact current-loop ownership and backstops | Autonomous source work; original actual acceptance gates remain |
-| 04-30 | 04-23 | Saved scenario/evidence runner and prelaunch/acceptance validation code | Autonomous source work; original actual acceptance gates remain |
-| 04-31 | 04-30 | Complete portable Windows inspection export and clean failure/relaunch proof | Autonomous source work; original actual acceptance gates remain |
-| 04-32 | 04-24, 04-31 | Actual selected native/listening run and separate named judgments | Autonomous source work; original actual acceptance gates remain |
-| 04-33 | 04-32 | Exact acceptance/artifact/evidence completion reconciliation | Autonomous source work; original actual acceptance gates remain |
-| 04-34 | 04-25 | Exact SDK export-layout prerequisite | Autonomous source work; original actual acceptance gates remain |
+| 04-01 | Pinned foundation/preserved inputs | Production donor-to-inspector tracer and exact provenance | Autonomous source work; existing actual acceptance gates remain |
+| 04-02 | 04-35 | Early portable-export and audio feasibility | Autonomous source work; existing actual acceptance gates remain |
+| 04-03 | 04-25, 04-02 | Live inspection shell, validated loader and exact native permissions | Autonomous source work; existing actual acceptance gates remain |
+| 04-04 | 04-26 | Reusable donor kit, exact animation conversion and assembled scale proof | Autonomous source work; existing actual acceptance gates remain |
+| 04-05 | 04-04 | All 24 item identities and reusable wearable/held masters | Autonomous source work; existing actual acceptance gates remain |
+| 04-06 | 04-05, 04-26 | Survivor and first three zombie body fits | Autonomous source work; existing actual acceptance gates remain |
+| 04-07 | 04-06 | Complete armored, wide and specialist zombie silhouettes/fits | Autonomous source work; existing actual acceptance gates remain |
+| 04-08 | 04-07, 04-06, 04-18 | Concurrent locomotion, melee and coherent logical hands | Autonomous source work; existing actual acceptance gates remain |
+| 04-09 | 04-08, 04-06, 04-18 | Bow, work, food and specialist action composition | Autonomous source work; existing actual acceptance gates remain |
+| 04-10 | 04-09 | Persistent corpses, wildlife, identities and real crowd resources | Autonomous source work; existing actual acceptance gates remain |
+| 04-11 | 04-04 | Three actual main-building tiers and shared camp resources | Autonomous source work; existing actual acceptance gates remain |
+| 04-12 | 04-11, 04-10 | Walls, independent guards and complete defense lifecycle | Autonomous source work; existing actual acceptance gates remain |
+| 04-13 | 04-12, 04-26, 04-06 | Complete authored world, portal and environmental effect inspection | Autonomous source work; existing actual acceptance gates remain |
+| 04-14 | 04-05, 04-26 | Native UI kit, packaged fonts and reusable theme | Autonomous source work; existing actual acceptance gates remain |
+| 04-15 | 04-28, 04-10 | Reusable inventory, legacy, stash and target layout states | Autonomous source work; existing actual acceptance gates remain |
+| 04-16 | 04-15, 04-27 | People, economy, construction, map, rally and warning layouts | Autonomous source work; existing actual acceptance gates remain |
+| 04-17 | 04-16 | Session, save, outcome, settings and error layout resources | Autonomous source work; existing actual acceptance gates remain |
+| 04-18 | 04-05 | Complete run, time, survivor, item, combat and inventory baseline | Autonomous source work; existing actual acceptance gates remain |
+| 04-19 | 04-18, 04-27 | Complete economy, food, map, structure and tower baseline | Autonomous source work; existing actual acceptance gates remain |
+| 04-20 | 04-19, 04-17 | Complete zombies, progression, portals, sessions and preferences | Autonomous source work; existing actual acceptance gates remain |
+| 04-21 | 04-20, 04-02, 04-26, 04-06, 04-27 | All 30 real sound categories and complete event-bank resources | Autonomous source work; existing actual acceptance gates remain |
+| 04-22 | 04-29, 04-17, 04-26, 04-06, 04-27 | Complete English text, compatibility and data/text inspection | Autonomous source work; existing actual acceptance gates remain |
+| 04-23 | 04-22, 04-25, 04-02, 04-26 | Complete source census and final exact native-policy reconciliation | Autonomous source work; existing actual acceptance gates remain |
+| 04-24 | 04-31 | Independent whole-phase review and exact prelaunch selection | Autonomous source work; existing actual acceptance gates remain |
+| 04-25 | 04-01 | Exact census/provenance and atomic repeatable publication | Autonomous source work; existing actual acceptance gates remain |
+| 04-26 | 04-03 | Inspection input/lifetime expansion with immediate exact native permission proofs | Autonomous source work; existing actual acceptance gates remain |
+| 04-27 | 04-13 | World/item navigation, replacement and held-out preview states | Autonomous source work; existing actual acceptance gates remain |
+| 04-28 | 04-14 | Canonical status/input/player symbols and retained desktop identity art | Autonomous source work; existing actual acceptance gates remain |
+| 04-29 | 04-21 | Native audio audition, exact current-loop ownership and backstops | Autonomous source work; existing actual acceptance gates remain |
+| 04-30 | 04-23 | Saved scenario/evidence runner and prelaunch/acceptance validation code | Autonomous source work; existing actual acceptance gates remain |
+| 04-31 | 04-30 | Complete portable Windows inspection export and clean failure/relaunch proof | Autonomous source work; existing actual acceptance gates remain |
+| 04-32 | 04-24, 04-31 | Actual selected native/listening run and separate named judgments | Autonomous source work; existing actual acceptance gates remain |
+| 04-33 | 04-32 | Exact acceptance/artifact/evidence completion reconciliation | Autonomous source work; existing actual acceptance gates remain |
+| 04-34 | 04-25 | Exact SDK export-layout prerequisite | Autonomous source work; existing actual acceptance gates remain |
+| 04-35 | 04-34 | Permanent inspection export-feature profile | Autonomous source work; existing actual acceptance gates remain |
 
 Exact native gates:04-03 authorizes its real root/loader and compiled negative controls before engine.source-policy. Only afterward04-26 creates Input/Shell, then updates actual exact path/namespace/type/member permissions and compiled positive/negative controls before its own source-policy gate. Tuple metadata never authorizes native calls.04-23 reconciles remaining completed body/world/UI/audio native members and runs the final policy gate before independent review.04-30 implements all runner/prelaunch/acceptance validation code before04-24 actual independent whole-phase review/fixes;04-31 supplies actual full export proof;04-32 actual selected native/listening/judgment evidence;04-33 exact closure. No runner/native source implementation is scheduled after review except repairs requiring renewed review.
 
@@ -154,10 +156,20 @@ Before any window: whole production/source/headless implementation and actual in
 
 ## Discovered SDK export prerequisite
 
-04-34 depends25 at wave3; unfinished04-02 Task1 now depends34 at wave4. Only transitive downstream waves shift; completed01/25 summaries/results and committed02 audioTask2 (ac1de1e) remain untouched. This adds2 tasks/7 files and supports existing ASSET-05 only, with no new resource/AC/H/UI identity. See04-EXPORT-PREREQUISITE.md. Existing partial exporter files and original failed run stay preserved.
+04-34 depends25 at wave3 and supplies the completed SDK prerequisite. The later permanent profile35 now intervenes before unfinished04-02 Task1 (35wave4 ->02wave5). Completed01/25/34 summaries/results and committed02 audioTask2 remain untouched. The SDK prerequisite adds2 tasks/7 files and supports existing ASSET-05 only, with no new resource/AC/H/UI identity. See04-EXPORT-PREREQUISITE.md and04-INSPECTION-EXPORT-PROFILE.md. Existing partial exporter files and original failed runs stay preserved.
 
 | New pending command | Creating task | Observable failure |
 | --- | --- | --- |
 | node tools/phase1/check.cjs --case rules.export-layout-origin | 04-34 Task1 | Missing actual source/SDK/config/path/hash/line origin or zero discovery |
 | node tools/phase1/check.cjs --case rules.export-layout-boundary | 04-34 Task2 | Wrong path/config/case/bytes/line/diagnostic-span/handwritten subject accepted |
 | node tools/phase4/check.cjs --case export.layout | 04-34 Task2 | Either actual export compile fails, analyzers weakened, source evidence stale/missing or old registry identities lost |
+
+
+## Permanent inspection profile prerequisite — 04-35
+
+After completed34,35(wave4) owns the permanent project/preset asset_inspection profile, adopts compatible checkpointed env/cwd helper behavior and adds only its source cases. Unfinished02 Task1 now depends35/wave5 and retains actual fresh exported-binary Inspection consumption plus incomplete export-module activation. Existing single preset transfers from02 to35; no new preset roster or ordinary-main rewrite. Completed01/25/34 summaries/proof IDs and committed audio stay intact. Checkpoint93386745 remains failedINSPECTION_ENTRY_PENDING; Foundation/editor/config supporting proofs do not substitute. See04-INSPECTION-EXPORT-PROFILE.md.
+
+| Pending case | Creating task | Stable source metadata | Failure |
+| --- | --- | --- | --- |
+| node tools/phase4/check.cjs --case export.profile | 04-35 Task1 | export / G0-export-profile / order350 / no window | Wrong/missing actual source settings/feature/preset/resource contract |
+| node tools/phase4/check.cjs --case export.profile-boundaries | 04-35 Task2 | export / G0-export-profile / order351 / no window | Invalid case/path/ordinary activation/options variant accepted; helper/registry guarantees changed |

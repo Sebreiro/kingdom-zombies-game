@@ -1,0 +1,1499 @@
+{
+  "status": "ok",
+  "commands": [
+    {
+      "command": "node tools/phase4/check.cjs --case source.tracer",
+      "statement": "Nonzero exit; SOURCE_IDENTITY_MISMATCH; empty/decode failure; missing texture/scene; engine import/load error; timeout or missing observed loader completion.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-01-PLAN.md",
+      "task": "Task 1: Inspect one real recovered bow from exact source to native resource"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case source.tracer-failures",
+      "statement": "Nonzero exit; deliberately bad copy passes; missing exact diagnostic; old invocation reused; original mutation; restored real control fails.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-01-PLAN.md",
+      "task": "Task 2: Prove the production tracer fails honestly on bad content"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case source.tracer",
+      "statement": "Nonzero exit; SOURCE_IDENTITY_MISMATCH; empty/decode failure; missing texture/scene; engine import/load error; timeout or missing observed loader completion.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-01-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case source.tracer-failures",
+      "statement": "Nonzero exit; deliberately bad copy passes; missing exact diagnostic; old invocation reused; original mutation; restored real control fails.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-01-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error on the pinned solution build.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-01-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case export.feasibility",
+      "statement": "Nonzero exit; template/hash/version mismatch; missing export binary/PCK; dependency not bundled; editor used as output; attempted SDK/donor path resolution; failed exported headless process.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-02-PLAN.md",
+      "task": "Task 1: Export the actual tracer using matching mono templates and bundled net10 runtime"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case audio.feasibility",
+      "statement": "Nonzero exit; decoder batch contamination; missing/truncated PCM; no complete child result; original mutation; claimed listening without named capable listener/sample verdict; unresolved route marked approved.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-02-PLAN.md",
+      "task": "Task 2: Decode real audio in owner-isolated children and establish an actual listening route"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case export.feasibility",
+      "statement": "Nonzero exit; template/hash/version mismatch; missing export binary/PCK; dependency not bundled; editor used as output; attempted SDK/donor path resolution; failed exported headless process.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-02-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case audio.feasibility",
+      "statement": "Nonzero exit; decoder batch contamination; missing/truncated PCM; no complete child result; original mutation; claimed listening without named capable listener/sample verdict; unresolved route marked approved.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-02-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error on the pinned solution build.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-02-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case hub.source",
+      "statement": "Nonzero exit; zero-discovery success; one bad shard hides valid bow; stale recheck; path/schema/ID error unreported; engine object leaks into Core.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-03-PLAN.md",
+      "task": "Task 1: Navigate real pack entries with exact per-entry failures"
+    },
+    {
+      "command": "node tools/phase1/check.cjs --case engine.source-policy",
+      "statement": "Nonzero exit; unauthorized member/path accepted; genuine guarded member rejected; missing exact visibility/generated origin; negative controls fail to detect misuse.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-03-PLAN.md",
+      "task": "Task 2: Authorize only actual inspection members and authentic generated surfaces"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case hub.source",
+      "statement": "Nonzero exit; zero-discovery success; one bad shard hides valid bow; stale recheck; path/schema/ID error unreported; engine object leaks into Core.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-03-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase1/check.cjs --case engine.source-policy",
+      "statement": "Nonzero exit; unauthorized member/path accepted; genuine guarded member rejected; missing exact visibility/generated origin; negative controls fail to detect misuse.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-03-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error on the pinned solution build.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-03-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case media.conversion",
+      "statement": "Nonzero exit; missing selected stream/layer; incorrect alpha/trim/pivot; repeated frame or exact timing lost; excluded callback executed; H16 negative control accepted.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-04-PLAN.md",
+      "task": "Task 1: Export selected common donor dependencies and runtime animation tracks"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case media.scale",
+      "statement": "Nonzero exit; inconsistent logical density/ground line; alpha edge contamination; missing body/wall/tower/base source assembly; smoothed pixel sampling; master/prompt absent; scale decision absent.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-04-PLAN.md",
+      "task": "Task 2: Produce production scale/composition pilots before multiplying fits"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case media.conversion",
+      "statement": "Nonzero exit; missing selected stream/layer; incorrect alpha/trim/pivot; repeated frame or exact timing lost; excluded callback executed; H16 negative control accepted.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-04-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case media.scale",
+      "statement": "Nonzero exit; inconsistent logical density/ground line; alpha edge contamination; missing body/wall/tower/base source assembly; smoothed pixel sampling; master/prompt absent; scale decision absent.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-04-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error on the pinned solution build.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-04-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case items.weapons-food",
+      "statement": "Nonzero exit; missing/empty item master or icon; mismatched item ID/grip; condition icon proliferation replacing canonical identity; omitted donor suitability/provenance; absent inspection route.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-05-PLAN.md",
+      "task": "Task 1: Produce distinct weapon, currency, ammunition and food item masters"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case items.wearables",
+      "statement": "Nonzero exit; missing item/component; baked armor/bag prevents independent removal; wrong storage diagram/slot; nested pouch presented as worn; absent master/prompt/hash.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-05-PLAN.md",
+      "task": "Task 2: Produce all garment, armor, belt and container masters"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case items.weapons-food",
+      "statement": "Nonzero exit; missing/empty item master or icon; mismatched item ID/grip; condition icon proliferation replacing canonical identity; omitted donor suitability/provenance; absent inspection route.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-05-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case items.wearables",
+      "statement": "Nonzero exit; missing item/component; baked armor/bag prevents independent removal; wrong storage diagram/slot; nested pouch presented as worn; absent master/prompt/hash.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-05-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error on the pinned solution build.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-05-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case bodies.a-art",
+      "statement": "Nonzero exit; missing/empty neutral body or required pose; merely recolored zombie silhouette; baked removable gear; changed registration/density; missing generation/source record.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-06-PLAN.md",
+      "task": "Task 1: Complete survivor, shambler and runner reusable body art"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case bodies.a-fit",
+      "statement": "Nonzero exit; unfitted combination counted complete; coat/armor/belt/bag hand layers lost; logical hand swap; old layer survives replacement; missing H13 scenario.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-06-PLAN.md",
+      "task": "Task 2: Fit ordinary gear on these bodies and reveal layered clothing correctly"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case bodies.a-art",
+      "statement": "Nonzero exit; missing/empty neutral body or required pose; merely recolored zombie silhouette; baked removable gear; changed registration/density; missing generation/source record.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-06-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case bodies.a-fit",
+      "statement": "Nonzero exit; unfitted combination counted complete; coat/armor/belt/bag hand layers lost; logical hand swap; old layer survives replacement; missing H13 scenario.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-06-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error on the pinned solution build.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-06-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case bodies.b-wide",
+      "statement": "Nonzero exit; recolor-only archetype; armor baked into body; required broad/fat fit missing; obscured critical item/action; absent actual raster/master record.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-07-PLAN.md",
+      "task": "Task 1: Produce armored zombie, brute and bloater with real wide-body fits"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case bodies.complete-fit",
+      "statement": "Nonzero exit; body/item/pose/facing applicability hole; missing spitter mouth socket; archetype-dependent invented gear; critical fit defect classified cosmetic; incomplete raster output.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-07-PLAN.md",
+      "task": "Task 2: Produce spitter and zombie archer and validate all eight humanoid fits"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case bodies.b-wide",
+      "statement": "Nonzero exit; recolor-only archetype; armor baked into body; required broad/fat fit missing; obscured critical item/action; absent actual raster/master record.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-07-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case bodies.complete-fit",
+      "statement": "Nonzero exit; body/item/pose/facing applicability hole; missing spitter mouth socket; archetype-dependent invented gear; critical fit defect classified cosmetic; incomplete raster output.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-07-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error on the pinned solution build.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-07-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case animation.melee",
+      "statement": "Nonzero exit; legs stop during action; missing pose/grip; mixed interval wrong; repeated hit event; movement delayed; flinch changes rules; state depends on hidden clock.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-08-PLAN.md",
+      "task": "Task 1: Compose lower-body locomotion with weighted fists and both-hand melee"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case animation.replacement",
+      "statement": "Nonzero exit; hand ID swap; stale body/item/event/layer; other instance mutated; forced stopped locomotion; any character UI backstop absent.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-08-PLAN.md",
+      "task": "Task 2: Prove immediate facing and mid-action body/gear replacement"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case animation.melee",
+      "statement": "Nonzero exit; legs stop during action; missing pose/grip; mixed interval wrong; repeated hit event; movement delayed; flinch changes rules; state depends on hidden clock.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-08-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case animation.replacement",
+      "statement": "Nonzero exit; hand ID swap; stale body/item/event/layer; other instance mutated; forced stopped locomotion; any character UI backstop absent.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-08-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error on the pinned solution build.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-08-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case animation.bow",
+      "statement": "Nonzero exit; arrow visible without ammo; bow swaps logical hands; stride halted; broken gear used; missing aim range; required empty/boundary example absent.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-09-PLAN.md",
+      "task": "Task 1: Compose bow preparation, aim, release and actual ammunition/fallback"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case animation.work-special",
+      "statement": "Nonzero exit; missing actual task/special pose; immediate operation delayed; invisible bag/gear; excluded tool item or acid hazard implied; source binding/timing omitted.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-09-PLAN.md",
+      "task": "Task 2: Complete restrained work, food, spit and bloater presentation"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case animation.bow",
+      "statement": "Nonzero exit; arrow visible without ammo; bow swaps logical hands; stride halted; broken gear used; missing aim range; required empty/boundary example absent.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-09-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case animation.work-special",
+      "statement": "Nonzero exit; missing actual task/special pose; immediate operation delayed; invisible bag/gear; excluded tool item or acid hazard implied; source binding/timing omitted.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-09-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error on the pinned solution build.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-09-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case appearance.corpses",
+      "statement": "Nonzero exit; corpse disappears with particles; stale looted gear; crown loot or guard body; selected target unreadable; old event replay; multiple current loops/layers.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-10-PLAN.md",
+      "task": "Task 1: Restore equipped corpse, loot and wildlife endpoints without past effects"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case appearance.crowds",
+      "statement": "Nonzero exit; incorrect actual actor/corpse counts; missing gear resource; no overlap target identity; color-only identities; hidden equipment/corpse deletion; release-performance pass inferred.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-10-PLAN.md",
+      "task": "Task 2: Inspect four identities, wildlife cycles and full persistent resource crowds"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case appearance.corpses",
+      "statement": "Nonzero exit; corpse disappears with particles; stale looted gear; crown loot or guard body; selected target unreadable; old event replay; multiple current loops/layers.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-10-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case appearance.crowds",
+      "statement": "Nonzero exit; incorrect actual actor/corpse counts; missing gear resource; no overlap target identity; color-only identities; hidden equipment/corpse deletion; release-performance pass inferred.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-10-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error on the pinned solution build.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-10-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case buildings.main-art",
+      "statement": "Nonzero exit; absent main tier/state art; first-tier house instead of fire/boxes; stone third tier; guard baked into facade; missing generation/source identity.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-11-PLAN.md",
+      "task": "Task 1: Produce main campfire, wooden shelter and metal-reinforced shelter"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case buildings.main-state",
+      "statement": "Nonzero exit; wrong guard/seat count; premature new-tier silhouette/guards; attachment separate health/loot; missing stash access; restore replays destruction.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-11-PLAN.md",
+      "task": "Task 2: Inspect main lifecycle, stash, seats and exactly two one-guard attachments"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case buildings.main-art",
+      "statement": "Nonzero exit; absent main tier/state art; first-tier house instead of fire/boxes; stone third tier; guard baked into facade; missing generation/source identity.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-11-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case buildings.main-state",
+      "statement": "Nonzero exit; wrong guard/seat count; premature new-tier silhouette/guards; attachment separate health/loot; missing stash access; restore replays destruction.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-11-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error on the pinned solution build.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-11-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case buildings.defense-art",
+      "statement": "Nonzero exit; missing material/tier/lifecycle art; stone metal substitute; unreadable localized damage/previous tier; frame doesn't fit footprint; missing source/recipe.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-12-PLAN.md",
+      "task": "Task 1: Produce all wall/tower tiers, work frames, rubble and site states"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case buildings.defense-state",
+      "statement": "Nonzero exit; 1/2/3 or main1+1 mismatch; premature guards; static baked guard images; guard loot/corpse; wrong blocker/socket or past one-shot replay.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-12-PLAN.md",
+      "task": "Task 2: Animate structural archers and validate all defense state boundaries"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case buildings.defense-art",
+      "statement": "Nonzero exit; missing material/tier/lifecycle art; stone metal substitute; unreadable localized damage/previous tier; frame doesn't fit footprint; missing source/recipe.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-12-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case buildings.defense-state",
+      "statement": "Nonzero exit; 1/2/3 or main1+1 mismatch; premature guards; static baked guard images; guard loot/corpse; wrong blocker/socket or past one-shot replay.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-12-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error on the pinned solution build.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-12-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case world.map",
+      "statement": "Nonzero exit; missing/wrong baseline site/coordinate; discontinuous ground; missing clearing/stock state; food removed with clearing; transparent bounds used as blocker; unknown portal revealed.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-13-PLAN.md",
+      "task": "Task 1: Assemble the full authored map, vegetation, wildlife zones and rally sites"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case world.effects",
+      "statement": "Nonzero exit; missing FX/portal state; ruined portal active/regrowing/blocking; donor callback executes; effect deletes loot; unwanted hazard/loot affordance; undefined lifetime/sound reference.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-13-PLAN.md",
+      "task": "Task 2: Complete portal, projectile, contact, material and warning effect resources"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case world.map",
+      "statement": "Nonzero exit; missing/wrong baseline site/coordinate; discontinuous ground; missing clearing/stock state; food removed with clearing; transparent bounds used as blocker; unknown portal revealed.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-13-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case world.effects",
+      "statement": "Nonzero exit; missing FX/portal state; ruined portal active/regrowing/blocking; donor callback executes; effect deletes loot; unwanted hazard/loot affordance; undefined lifetime/sound reference.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-13-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error on the pinned solution build.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-13-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case layouts.kit",
+      "statement": "Nonzero exit; missing font/frame bytes/state; missing glyph without packaged fallback; texture-only essential text; incorrect corner scaling/contrast/type inventory.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-14-PLAN.md",
+      "task": "Task 1: Package donor wood frames, both font roles and complete native control states"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case layouts.theme",
+      "statement": "Nonzero exit; theme/resource binding absent; wrong font/style/state; lost focus/selection distinction; distorted corners; scale applied twice.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-14-PLAN.md",
+      "task": "Task 2: Apply the complete native theme without losing layout or focus"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case layouts.kit",
+      "statement": "Nonzero exit; missing font/frame bytes/state; missing glyph without packaged fallback; texture-only essential text; incorrect corner scaling/contrast/type inventory.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-14-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case layouts.theme",
+      "statement": "Nonzero exit; theme/resource binding absent; wrong font/style/state; lost focus/selection distinction; distorted corners; scale applied twice.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-14-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error on the pinned solution build.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-14-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case layouts.inventory",
+      "statement": "Nonzero exit; missing slot/hand/quick reference; wrong actual grid/component; quantity/condition hidden; flattened layout; invalid legacy occupancy silently legalized; required UI collection backstop absent.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-15-PLAN.md",
+      "task": "Task 1: Inspect actual eleven-slot inventory and grid/container resources"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case layouts.legacy-target",
+      "statement": "Nonzero exit; old contents/geometry erased or resized; current/saved bounds merged; failed extraction appears successful; lost-access/conflict absent; overlapping identity/warning hidden.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-15-PLAN.md",
+      "task": "Task 2: Preserve old geometry and clear shared/target conflict states"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case layouts.inventory",
+      "statement": "Nonzero exit; missing slot/hand/quick reference; wrong actual grid/component; quantity/condition hidden; flattened layout; invalid legacy occupancy silently legalized; required UI collection backstop absent.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-15-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case layouts.legacy-target",
+      "statement": "Nonzero exit; old contents/geometry erased or resized; current/saved bounds merged; failed extraction appears successful; lost-access/conflict absent; overlapping identity/warning hidden.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-15-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error on the pinned solution build.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-15-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case layouts.camp",
+      "statement": "Nonzero exit; surface differs only by heading; missing field/state; sale uses carried food or global treasury; invalid sample price/reference; unreadable/flattened resource.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-16-PLAN.md",
+      "task": "Task 1: Inspect camp people, sale, site and rally states as distinct layouts"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case layouts.map-warnings",
+      "statement": "Nonzero exit; unexplored portal leak; color-only player; spectator action implies control; muted/covered warning disappears; reordered input changes bindings/quantity; UI backstop absent.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-16-PLAN.md",
+      "task": "Task 2: Inspect shared exploration, succession and panel-independent warnings"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case layouts.camp",
+      "statement": "Nonzero exit; surface differs only by heading; missing field/state; sale uses carried food or global treasury; invalid sample price/reference; unreadable/flattened resource.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-16-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case layouts.map-warnings",
+      "statement": "Nonzero exit; unexplored portal leak; color-only player; spectator action implies control; muted/covered warning disappears; reordered input changes bindings/quantity; UI backstop absent.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-16-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error on the pinned solution build.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-16-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case layouts.session",
+      "statement": "Nonzero exit; missing surface/state; misleading host/guest effect; save failure lacks explicit options; empty/missing ref falsely ready; generic relabeled panel/flattened image.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-17-PLAN.md",
+      "task": "Task 1: Complete session and save/outcome layouts with truthful failure examples"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case layouts.endpoints",
+      "statement": "Nonzero exit; supported canvas/scale missing; text/ID/placeholder corrupted; glyph silently lost; controls clipped/trapped/focusable while hidden; active menu implies paused world; UI backstop absent.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-17-PLAN.md",
+      "task": "Task 2: Complete active-world settings, content diagnostics and held-out layout endpoints"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case layouts.session",
+      "statement": "Nonzero exit; missing surface/state; misleading host/guest effect; save failure lacks explicit options; empty/missing ref falsely ready; generic relabeled panel/flattened image.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-17-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case layouts.endpoints",
+      "statement": "Nonzero exit; supported canvas/scale missing; text/ID/placeholder corrupted; glyph silently lost; controls clipped/trapped/focusable while hidden; active menu implies paused world; UI backstop absent.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-17-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error on the pinned solution build.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-17-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case data.foundation",
+      "statement": "Nonzero exit; omitted/mismatched baseline value/unit/field; undocumented field; hidden fallback; invalid duration/load/cap/ref accepted; schema walk misses authored field.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-18-PLAN.md",
+      "task": "Task 1: Ship every run/time/survivor field with source-table crosswalk"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case data.items-combat",
+      "statement": "Nonzero exit; item roster/value/footprint/grid mismatch; missing attack/armor/durability/legacy parameter; invalid reference accepted; H24 unit/precision loss; hidden constant.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-18-PLAN.md",
+      "task": "Task 2: Ship all 24 definitions and full combat/armor/inventory baselines"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case data.foundation",
+      "statement": "Nonzero exit; omitted/mismatched baseline value/unit/field; undocumented field; hidden fallback; invalid duration/load/cap/ref accepted; schema walk misses authored field.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-18-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case data.items-combat",
+      "statement": "Nonzero exit; item roster/value/footprint/grid mismatch; missing attack/armor/durability/legacy parameter; invalid reference accepted; H24 unit/precision loss; hidden constant.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-18-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error on the pinned solution build.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-18-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case data.economy",
+      "statement": "Nonzero exit; omitted/mismatched role/food/prey/reserve/safety/priority field; cap/order incoherence; source/units missing; unresolved ref accepted.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-19-PLAN.md",
+      "task": "Task 1: Ship recruitment/job/work and food/wildlife parameters completely"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case data.world",
+      "statement": "Nonzero exit; coordinate/tier/guard/material/price/work/value mismatch; missing field/source/ref; invalid old-tier/rebuild/attachment relationship accepted.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-19-PLAN.md",
+      "task": "Task 2: Ship authored map, all structure tiers and exact guard attack profiles"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case data.economy",
+      "statement": "Nonzero exit; omitted/mismatched role/food/prey/reserve/safety/priority field; cap/order incoherence; source/units missing; unresolved ref accepted.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-19-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case data.world",
+      "statement": "Nonzero exit; coordinate/tier/guard/material/price/work/value mismatch; missing field/source/ref; invalid old-tier/rebuild/attachment relationship accepted.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-19-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error on the pinned solution build.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-19-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case data.zombies",
+      "statement": "Nonzero exit; missing/mismatched archetype/quality/stage row; weights not100; guarantee invalid/unplaceable; progression coupled to base stats/player count; undocumented/hidden value.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-20-PLAN.md",
+      "task": "Task 1: Ship every archetype, loot pool and independent progression row"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case data.remaining",
+      "statement": "Nonzero exit; omitted/mismatched portal/rally/session/save/camera/audio/binding default; host/local mixing; missing documented field/dependency; content/sound/text ref unresolved.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-20-PLAN.md",
+      "task": "Task 2: Ship portal/assault, session/save, presentation and local-preference defaults"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case data.zombies",
+      "statement": "Nonzero exit; missing/mismatched archetype/quality/stage row; weights not100; guarantee invalid/unplaceable; progression coupled to base stats/player count; undocumented/hidden value.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-20-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case data.remaining",
+      "statement": "Nonzero exit; omitted/mismatched portal/rally/session/save/camera/audio/binding default; host/local mixing; missing documented field/dependency; content/sound/text ref unresolved.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-20-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error on the pinned solution build.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-20-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case audio.actions",
+      "statement": "Nonzero exit; missing category/sample/payload; invalid region/frame/channel/rate; truncated audio; false reuse/listening; absent donor-gap reason; clipping/decode failure.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-21-PLAN.md",
+      "task": "Task 1: Produce complete action, impact, actor and work recordings"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case audio.bank",
+      "statement": "Nonzero exit; AU/event/category omitted; invalid sample/loop/bus/ref/limit; hidden hardcoded balance; loop/metadata frame precision loss; false audition approval.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-21-PLAN.md",
+      "task": "Task 2: Produce confirmations, warnings, outcomes, ambience and sound-bank bindings"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case audio.actions",
+      "statement": "Nonzero exit; missing category/sample/payload; invalid region/frame/channel/rate; truncated audio; false reuse/listening; absent donor-gap reason; clipping/decode failure.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-21-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case audio.bank",
+      "statement": "Nonzero exit; AU/event/category omitted; invalid sample/loop/bus/ref/limit; hidden hardcoded balance; loop/metadata frame precision loss; false audition approval.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-21-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error on the pinned solution build.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-21-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case text.catalog",
+      "statement": "Nonzero exit; required text/placeholder/plural/binding missing/mutated; field uncovered or default mismatch; invalid font/text/reference; representative edit example absent.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-22-PLAN.md",
+      "task": "Task 1: Ship complete English catalog, expanded text and designer field docs"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case text.compatibility",
+      "statement": "Nonzero exit; old layout/state identity lost; past one-shot replay; missing definition replaced silently; host/local distinction absent; any required data/text backstop not independently defined.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-22-PLAN.md",
+      "task": "Task 2: Inspect current-state/legacy compatibility and complete data/text surfaces"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case text.catalog",
+      "statement": "Nonzero exit; required text/placeholder/plural/binding missing/mutated; field uncovered or default mismatch; invalid font/text/reference; representative edit example absent.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-22-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case text.compatibility",
+      "statement": "Nonzero exit; old layout/state identity lost; past one-shot replay; missing definition replaced silently; host/local distinction absent; any required data/text backstop not independently defined.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-22-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error on the pinned solution build.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-22-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case content.census",
+      "statement": "Nonzero exit; exact expected/output set mismatch; missing/empty media/layout/data/audio; failed independent mutation accepted; alias/order/interruption creates false pass; native policy gap.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-23-PLAN.md",
+      "task": "Task 1: Reconcile exact full content, source policy and independent held-out census"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case content.native-permissions",
+      "statement": "Nonzero exit; actual guarded member rejected; unauthorized neighboring native member accepted; missing compiled subject; census/path negative control incorrectly succeeds.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-23-PLAN.md",
+      "task": "Task 2: Prove final exact native inventory and complete held-out census controls"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case content.census",
+      "statement": "Nonzero exit; exact expected/output set mismatch; missing/empty media/layout/data/audio; failed independent mutation accepted; alias/order/interruption creates false pass; native policy gap.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-23-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case content.native-permissions",
+      "statement": "Nonzero exit; actual guarded member rejected; unauthorized neighboring native member accepted; missing compiled subject; census/path negative control incorrectly succeeds.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-23-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase1/check.cjs --case engine.source-policy",
+      "statement": "Nonzero exit; missing actual permission/compiled positive subject, or accepted wrong-path/sibling/unguarded/deferred native misuse.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-23-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error on the pinned solution build.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-23-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case runner.prelaunch",
+      "statement": "Nonzero exit; current review/report/source fingerprint missing/stale; unresolved high/critical finding; active Critical/new/changed/affected case omitted; ambiguous impact; historical binding modified.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-24-PLAN.md",
+      "task": "Task 1: Bind the independently reviewed complete source to the exact selected scenarios"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case runner.selection",
+      "statement": "Nonzero exit; stale/unresolved review; selected case omitted; uncertain impact; missing group/role/reset; source drift; historical proof changed.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-24-PLAN.md",
+      "task": "Task 2: Validate final reviewed source and exact selected groups without changing code"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case runner.prelaunch",
+      "statement": "Nonzero exit; current review/report/source fingerprint missing/stale; unresolved high/critical finding; active Critical/new/changed/affected case omitted; ambiguous impact; historical binding modified.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-24-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case runner.selection",
+      "statement": "Nonzero exit; stale/unresolved review; selected case omitted; uncertain impact; missing group/role/reset; source drift; historical proof changed.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-24-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-24-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case source.provenance",
+      "statement": "Nonzero exit; duplicate/missing expected ID; missing recipe/hash/dependency; path escape; original hash drift; partial published state; false completed status; held-out negative control incorrectly accepted.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-25-PLAN.md",
+      "task": "Task 1: Validate exact census, identities and atomic production publication"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case source.publication",
+      "statement": "Nonzero exit; partial/unvalidated publication; original drift; duplicate stable identity; lock bypass/path escape; interrupted run accepted as verified.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-25-PLAN.md",
+      "task": "Task 2: Refine interrupted, competing and repeated production publication"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case source.provenance",
+      "statement": "Nonzero exit; duplicate/missing expected ID; missing recipe/hash/dependency; path escape; original hash drift; partial published state; false completed status; held-out negative control incorrectly accepted.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-25-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case source.publication",
+      "statement": "Nonzero exit; partial/unvalidated publication; original drift; duplicate stable identity; lock bypass/path escape; interrupted run accepted as verified.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-25-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-25-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case hub.lifecycle",
+      "statement": "Nonzero exit; stale selection/load accepted; leaked node/subscription; lost focus; popup/text input causes extra action; any hub backstop absent from case metadata.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-26-PLAN.md",
+      "task": "Task 1: Make navigation, focus, transport and preview lifetimes coherent"
+    },
+    {
+      "command": "node tools/phase1/check.cjs --case engine.source-policy",
+      "statement": "Nonzero exit; actual guarded inspection member rejected; sibling/path/unguarded/deferred/worker misuse accepted; metadata-only or blanket authorization; missing compiled negative controls.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-26-PLAN.md",
+      "task": "Task 2: Authorize actual Input/Shell members before the exact source-policy gate"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case hub.lifecycle",
+      "statement": "Nonzero exit; stale selection/load accepted; leaked node/subscription; lost focus; popup/text input causes extra action; any hub backstop absent from case metadata.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-26-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase1/check.cjs --case engine.source-policy",
+      "statement": "Nonzero exit; actual guarded inspection member rejected; sibling/path/unguarded/deferred/worker misuse accepted; metadata-only or blanket authorization; missing compiled negative controls.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-26-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-26-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case world.inspector",
+      "statement": "Nonzero exit; resource not reachable via category/selector; state/zoom mutates authored data; stale replacement; one invalid entry hides valid world; any required UI backstop absent.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-27-PLAN.md",
+      "task": "Task 1: Make assembled world, effects and item states fully inspectable"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case world.replacement",
+      "statement": "Nonzero exit; stale preview/layer; authored data mutated; one invalid entry hides valid content; old one-shot replay; any world/item backstop lacks individual outcome.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-27-PLAN.md",
+      "task": "Task 2: Prove world/item replacement, partial failure and stable authored state"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case world.inspector",
+      "statement": "Nonzero exit; resource not reachable via category/selector; state/zoom mutates authored data; stale replacement; one invalid entry hides valid world; any required UI backstop absent.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-27-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case world.replacement",
+      "statement": "Nonzero exit; stale preview/layer; authored data mutated; one invalid entry hides valid content; old one-shot replay; any world/item backstop lacks individual outcome.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-27-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-27-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case layouts.identity",
+      "statement": "Nonzero exit; missing status/input identity; fixed binding artwork as only prompt; color-only player; absent icon/title asset or canonical condition treatment; missing source record.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-28-PLAN.md",
+      "task": "Task 1: Expose canonical item/status/input/player symbols and desktop identity"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case layouts.identity-integrity",
+      "statement": "Nonzero exit; duplicate/collapsed ID; color-only marker; fixed binding art as sole prompt; missing master/recipe; changed canonical item icon; absent portable icon dependency.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-28-PLAN.md",
+      "task": "Task 2: Prove exact identities, canonical condition and portable icon resources"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case layouts.identity",
+      "statement": "Nonzero exit; missing status/input identity; fixed binding artwork as only prompt; color-only player; absent icon/title asset or canonical condition treatment; missing source record.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-28-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case layouts.identity-integrity",
+      "statement": "Nonzero exit; duplicate/collapsed ID; color-only marker; fixed binding art as sole prompt; missing master/recipe; changed canonical item icon; absent portable icon dependency.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-28-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-28-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case audio.lifecycle",
+      "statement": "Nonzero exit; selection auto-plays; stale/leaked player/loop; historical one-shot replay; wrong current binding; mute hides warning; limit overshoot or missing UI/H backstop.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-29-PLAN.md",
+      "task": "Task 1: Audition native sound events with owned current loops and visible mute"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case audio.heldout",
+      "statement": "Nonzero exit; limit overrun or wrong priority; stale/leaked loop/player; historical cue replay; hidden muted warning; absent audio backstop; claimed listening from state/format tests.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-29-PLAN.md",
+      "task": "Task 2: Prove rapid audition, exact limits, restoration and all audio backstops"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case audio.lifecycle",
+      "statement": "Nonzero exit; selection auto-plays; stale/leaked player/loop; historical one-shot replay; wrong current binding; mute hides warning; limit overshoot or missing UI/H backstop.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-29-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case audio.heldout",
+      "statement": "Nonzero exit; limit overrun or wrong priority; stale/leaked loop/player; historical cue replay; hidden muted warning; absent audio backstop; claimed listening from state/format tests.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-29-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-29-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --group runner",
+      "statement": "Nonzero exit; missing case metadata/backstop; zero/wrong selection accepted; stale/forged review or image accepted; failure masked; unsafe cleanup; overwritten prior result.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-30-PLAN.md",
+      "task": "Task 1: Save complete source-bound scenarios, review gate and evidence reconciliation"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case runner.prelaunch,runner.selection,acceptance.judgments,acceptance.artifacts",
+      "statement": "Nonzero exit; forged/stale/missing review or named evidence accepted; case/selection/artifact mismatch; unresolved failure hidden; negative control fails; listening/judgment fabricated.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-30-PLAN.md",
+      "task": "Task 2: Finish prelaunch, selected-set and acceptance-integrity negative controls before review"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --group runner",
+      "statement": "Nonzero exit; missing case metadata/backstop; zero/wrong selection accepted; stale/forged review or image accepted; failure masked; unsafe cleanup; overwritten prior result.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-30-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case runner.prelaunch,runner.selection,acceptance.judgments,acceptance.artifacts",
+      "statement": "Nonzero exit; forged/stale/missing review or named evidence accepted; case/selection/artifact mismatch; unresolved failure hidden; negative control fails; listening/judgment fabricated.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-30-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-30-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --group export",
+      "statement": "Nonzero exit; missing export/import/template identity; absent packaged content/docs/font/audio; external source/cache/SDK dependency; relaunch differs; invalid entry masks valid one; failed invocation inherits success.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-31-PLAN.md",
+      "task": "Task 1: Export the complete pack and prove clean packaged dependency/failure behavior"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case export.portability",
+      "statement": "Nonzero exit; external dependency; wrong-case/encoded alias accepted; zero discovery passes; valid entries suppressed; failed/interrupted invocation inherits success; relaunch uses hidden cache.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-31-PLAN.md",
+      "task": "Task 2: Prove exact clean packaged paths, partial failures and fresh relaunch"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --group export",
+      "statement": "Nonzero exit; missing export/import/template identity; absent packaged content/docs/font/audio; external source/cache/SDK dependency; relaunch differs; invalid entry masks valid one; failed invocation inherits success.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-31-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case export.portability",
+      "statement": "Nonzero exit; external dependency; wrong-case/encoded alias accepted; zero discovery passes; valid entries suppressed; failed/interrupted invocation inherits success; relaunch uses hidden cache.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-31-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-31-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --group rendered",
+      "statement": "Nonzero exit; selected failure/blocker/missing observation/image/listening/judgment; wrong OS/window/role; stale source/review; unclosed owned process; falsely accepted non-cosmetic defect; incomplete post-repair full selected run.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-32-PLAN.md",
+      "task": "Task 1: Execute actual grouped inspection, listening, portability and held-out judgments"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case acceptance.judgments",
+      "statement": "Nonzero exit; missing actual named judgment/listening/file identity; fabricated verdict; unresolved prohibition/noncosmetic failure; cosmetic issue lacks exact repro/owner; post-repair full selected pass absent.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-32-PLAN.md",
+      "task": "Task 2: Record actual four judgments and exact cosmetic decisions"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --group rendered",
+      "statement": "Nonzero exit; selected failure/blocker/missing observation/image/listening/judgment; wrong OS/window/role; stale source/review; unclosed owned process; falsely accepted non-cosmetic defect; incomplete post-repair full selected run.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-32-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case acceptance.judgments",
+      "statement": "Nonzero exit; missing actual named judgment/listening/file identity; fabricated verdict; unresolved prohibition/noncosmetic failure; cosmetic issue lacks exact repro/owner; post-repair full selected pass absent.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-32-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-32-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --verify-completion .planning/phases/04-asset-production/04-COMPLETION.json",
+      "statement": "Nonzero exit; missing/duplicate/unaccounted AC/H/UI/D/obligation; stale source/media/export; missing actual judgment/listening; artifact/symbol inventory mismatch; outstanding required failure marked complete.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-33-PLAN.md",
+      "task": "Task 1: Reconcile acceptance, artifacts and limited evidence into the final delivery record"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case acceptance.artifacts",
+      "statement": "Nonzero exit; missing/extra/uninventoried file/symbol/output; stale identity; unmatched required AC/H/UI/D/prohibition; unresolved failure marked complete; unperformed platform/listening/judgment falsely credited.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-33-PLAN.md",
+      "task": "Task 2: Reconcile every actual artifact/symbol and preserve unperformed evidence honestly"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --verify-completion .planning/phases/04-asset-production/04-COMPLETION.json",
+      "statement": "Nonzero exit; missing/duplicate/unaccounted AC/H/UI/D/obligation; stale source/media/export; missing actual judgment/listening; artifact/symbol inventory mismatch; outstanding required failure marked complete.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-33-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case acceptance.artifacts",
+      "statement": "Nonzero exit; missing/extra/uninventoried file/symbol/output; stale identity; unmatched required AC/H/UI/D/prohibition; unresolved failure marked complete; unperformed platform/listening/judgment falsely credited.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-33-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, compiler/analyzer error or warning-as-error.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-33-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase1/check.cjs --case rules.export-layout-origin",
+      "statement": "Nonzero exit; zero/missing new test discovery; SDK/source/path/configuration/hash mismatch; guessed or absent generated source; unregistered positive source; changed original sources/members/proof IDs; missing genuine RED evidence.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-34-PLAN.md",
+      "task": "Task 1: Authenticate a real export SDK source and add only its exact line permission"
+    },
+    {
+      "command": "node tools/phase1/check.cjs --case rules.export-layout-boundary",
+      "statement": "Nonzero exit; missing/zero-discovery case; wrong path/config/case/bytes/line/producer or handwritten/adjacent subject accepted; incorrect expected SCR0007 diagnostic span; broadened arbitrary permission.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-34-PLAN.md",
+      "task": "Task 2: Prove exact export boundaries and both real compile configurations without weakening Debug"
+    },
+    {
+      "command": "node tools/phase1/check.cjs --case rules.generated-layout-origin",
+      "statement": "Nonzero exit; old four source/seven member/package/SDK identity mismatch; old proof subject or normal build altered.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-34-PLAN.md",
+      "task": "Task 2: Prove exact export boundaries and both real compile configurations without weakening Debug"
+    },
+    {
+      "command": "node tools/phase1/check.cjs --case rules.generated-layout-boundary",
+      "statement": "Nonzero exit; old mutated/wrong-path/adjacent source or existing SCR0007/SCR0008 boundary no longer rejected.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-34-PLAN.md",
+      "task": "Task 2: Prove exact export boundaries and both real compile configurations without weakening Debug"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case export.layout",
+      "statement": "Nonzero exit; either actual export compile/publish fails; analyzer flags weakened; unsupported/renamed configuration; stale/absent source/compiler evidence; missing managed dependencies; unowned cleanup; original case registry or proof IDs lost.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-34-PLAN.md",
+      "task": "Task 2: Prove exact export boundaries and both real compile configurations without weakening Debug"
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit, warning-as-error or compiler/analyzer diagnostic in normal original Debug configuration.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-34-PLAN.md",
+      "task": "Task 2: Prove exact export boundaries and both real compile configurations without weakening Debug"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case source.tracer",
+      "statement": "Nonzero exit; existing real bow/manifest/native-loader source control or its exact registered identity is lost.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-34-PLAN.md",
+      "task": "Task 2: Prove exact export boundaries and both real compile configurations without weakening Debug"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case source.tracer-failures",
+      "statement": "Nonzero exit; existing bad-content/origin/interruption negative controls or their exact identities are lost.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-34-PLAN.md",
+      "task": "Task 2: Prove exact export boundaries and both real compile configurations without weakening Debug"
+    },
+    {
+      "command": "node tools/phase1/check.cjs --case rules.export-layout-origin",
+      "statement": "Nonzero exit or missing actual SDK/source/path/configuration/line origin proof.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-34-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase1/check.cjs --case rules.export-layout-boundary",
+      "statement": "Nonzero exit or any wrong path/config/case/bytes/line/span/handwritten control accepted.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-34-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case export.layout",
+      "statement": "Nonzero exit, failed current export compile configuration, weakened analyzer settings or stale/missing evidence.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-34-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q",
+      "statement": "Nonzero exit or any normal Debug warning/error/analyzer regression.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-34-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case export.profile",
+      "statement": "Nonzero exit; zero/missing case or native probe result; wrong/missing feature/override/base main/preset/resource/options; absent exact checkpoint; unauthorized source/graph change; a static guess replaces actual engine settings observation; source proof mislabeled exported entry.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-35-PLAN.md",
+      "task": "Task 1: Wire the permanent inspection profile to the real source settings/resource path"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case export.profile-boundaries",
+      "statement": "Nonzero exit; a bad profile/feature/key/path/resource/option/normal-main/global-activation variant passes; missing specific diagnostic; stale result reused; helper bounds/defaults changed; case ID/order collision; incomplete export loader included as a completed consumer.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-35-PLAN.md",
+      "task": "Task 2: Reject profile/path/ordinary-activation mistakes and preserve the bounded helper seam"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case source.tracer",
+      "statement": "Nonzero exit; existing exact bow/source/native-loader control fails after project/helper changes or old identity is replaced.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-35-PLAN.md",
+      "task": "Task 2: Reject profile/path/ordinary-activation mistakes and preserve the bounded helper seam"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case source.tracer-failures",
+      "statement": "Nonzero exit; existing missing/corrupt/origin/interruption controls lose exact failure behavior or cleanup.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-35-PLAN.md",
+      "task": "Task 2: Reject profile/path/ordinary-activation mistakes and preserve the bounded helper seam"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --list",
+      "statement": "Nonzero exit; missing/duplicate source/profile case; changed original identity/order group; profile orders collide; incomplete exporter module is committed through this plan's loader.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-35-PLAN.md",
+      "task": "Task 2: Reject profile/path/ordinary-activation mistakes and preserve the bounded helper seam"
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case export.profile",
+      "statement": "Nonzero exit, missing actual engine config/resource observation or wrong base/feature/preset contract.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-35-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --case export.profile-boundaries",
+      "statement": "Nonzero exit, accepted invalid/ordinary-activation variant, altered helper or stale/duplicate evidence.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-35-PLAN.md",
+      "task": ""
+    },
+    {
+      "command": "node tools/phase4/check.cjs --list",
+      "statement": "Nonzero exit, missing/duplicate case identities or order collision, or incomplete exporter activation owned by02.",
+      "status": "ok",
+      "severity": "none",
+      "plan": "04-35-PLAN.md",
+      "task": ""
+    }
+  ],
+  "counts": {
+    "blocker": 0,
+    "warning": 0,
+    "total": 186
+  },
+  "readError": null
+}

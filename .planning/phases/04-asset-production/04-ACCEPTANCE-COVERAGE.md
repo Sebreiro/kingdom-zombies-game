@@ -199,3 +199,8 @@ The single projectProhibitions projection is retained under04-32 must_haves.proh
 ## ASSET-05 implementation prerequisite: exact SDK export layout
 
 04-34 depends04-25 and precedes unfinished04-02 Task1 after the actual SDK-generated ExportDebug SCR0007 failure. It adds2 source-only tasks and exact provenance/line-permission/negative/configuration proofs; no product requirement, resource obligation, AC/D/H/UI/prohibition identity or primary acceptance owner changes. Original180/24AC/32D/34H/70UI/4prohibition scope stays intact. Real completed01/25 summaries/proofs, committed02 audioTask2 and four partial export files stay preserved. New proof cases are pending implementation and create no export/content/Linux/native-release pass. See04-EXPORT-PREREQUISITE.md and04-34-PLAN.md.
+
+
+## ASSET-05 permanent inspection-profile prerequisite
+
+35 adds a persistent asset_inspection feature/qualified-main profile after34 and before unfinished02Task1, preserving ordinary Foundation startup and the actual single preset/options. Its2 source-only tasks/5 implementation files, G0-export-profile350/351 cases and actual settings/resource/negative observations add no resource, D/AC/H/UI or judgment identity/primary owner. Native packaged Inspection consumption remains02, not an inference from config/editor/Foundation supporting proofs. Source/default-main/preset ownership, wave/count/artifact maps are reconciled; checkpoint/partial files/completed01/25/34/committed audio remain protected. See04-INSPECTION-EXPORT-PROFILE.md. Original180/24AC/32D/104backstops/4judgments remain intact; no acceptance pass is supplied by planning.

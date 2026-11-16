@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
   "phase": "04",
-  "status": "SDK export prerequisite planned; metadata checks passed; implementation pending",
+  "status": "Permanent inspection export profile planned; metadata checks passed; source/native consumer implementation pending",
   "checks": {
     "frontmatter": {
-      "plans": 34,
-      "valid": 34
+      "plans": 35,
+      "valid": 35
     },
     "planStructure": {
-      "plans": 34,
-      "valid": 34,
+      "plans": 35,
+      "valid": 35,
       "errors": 0,
       "warnings": 0
     },
@@ -23,21 +23,21 @@
       "structuredBackstopTruths": 104
     },
     "ownership": {
-      "plans": 34,
-      "tasks": 68,
-      "waves": 28,
+      "plans": 35,
+      "tasks": 70,
+      "waves": 29,
       "maximumFilesPerPlan": 9,
       "maximumFilesPerTask": 5,
       "sameWaveFileOverlap": 0
     },
     "security": {
-      "uniqueThreatIds": 102,
+      "uniqueThreatIds": 105,
       "supplyChainId": "T-04-SC reserved/repeated",
       "asvsLevel": 1,
       "blockOn": "high"
     },
     "canonicalFileTails": {
-      "closedOutputTag": 34,
+      "closedOutputTag": 35,
       "continuationSentinel": 0
     },
     "research": {
@@ -72,9 +72,17 @@
       "tasks": 66,
       "waves": 27,
       "record": "04-REVISION-1-CHECKS.json"
+    },
+    {
+      "kind": "before-permanent-inspection-export-profile",
+      "plans": 34,
+      "tasks": 68,
+      "waves": 28,
+      "record": "04-EXPORT-PREREQUISITE.md",
+      "completedSDKPrerequisiteSummary": "04-34-SUMMARY.md"
     }
   ],
-  "prerequisite": "04-34",
+  "prerequisite": "04-35",
   "exportPrerequisiteCheck": {
     "newPlan": "04-34",
     "tasks": 2,
@@ -85,6 +93,27 @@
     "protectedHashesUnchanged": true,
     "actualNewSourceProofs": "not executed",
     "newASSETRequirements": 0,
-    "newContentAcceptance": 0
+    "newContentAcceptance": 0,
+    "planningSnapshot": "Historical34 planning snapshot; actual executed result is in immutable04-34-SUMMARY.md."
+  },
+  "profilePrerequisiteCheck": {
+    "newPlan": "04-35",
+    "tasks": 2,
+    "files": 5,
+    "dependsOn": "04-34",
+    "precedesUnfinished": "04-02 Task 1",
+    "presetOwnership": "transferred from02 to35; actual single named preset retained",
+    "caseMetadata": {
+      "runGroup": "G0-export-profile",
+      "orders": [
+        350,
+        351
+      ]
+    },
+    "protectedFiles": 9,
+    "protectedHashesUnchanged": true,
+    "newSourceCases": "not executed",
+    "actualNativeInspectionConsumer": "pending04-02 Task1",
+    "newAcceptanceIdentities": 0
   }
 }

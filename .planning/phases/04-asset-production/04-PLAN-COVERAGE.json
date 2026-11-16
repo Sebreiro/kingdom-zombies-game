@@ -9,9 +9,9 @@
     "ui": "04-UI-SPEC.md"
   },
   "counts": {
-    "plans": 34,
-    "tasks": 68,
-    "waves": 28,
+    "plans": 35,
+    "tasks": 70,
+    "waves": 29,
     "obligations": 180,
     "acceptance": 24,
     "heldout": 34,
@@ -27,6 +27,16 @@
       "depends_on": ["04-25"],
       "precedes_unfinished": "04-02 Task 1",
       "source": "04-EXPORT-PREREQUISITE.md",
+      "newAcceptanceIdentity": false,
+      "status": "Not executed"
+    },
+    {
+      "plan": "04-35",
+      "kind": "permanent inspection export-feature profile prerequisite",
+      "requirements": ["ASSET-05"],
+      "depends_on": ["04-34"],
+      "precedes_unfinished": "04-02 Task 1",
+      "source": "04-INSPECTION-EXPORT-PROFILE.md",
       "newAcceptanceIdentity": false,
       "status": "Not executed"
     }

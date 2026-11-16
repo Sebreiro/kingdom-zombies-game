@@ -36,6 +36,7 @@
 | production/phase4/common-selected.zip | 04-04 | Retained selected/generated originals, expanded prompts/references and exact recipes |
 | production/phase4/defenses.zip | 04-12 | Retained selected/generated originals, expanded prompts/references and exact recipes |
 | production/phase4/export-layout-origin.json | 04-34 | Exact SDK export path/source/producer/line provenance or required-case identity |
+| production/phase4/export-profile.json | 04-35 | Versioned canonical permanent delivery profile and honest source evidence scope |
 | production/phase4/export-toolchain.json | 04-02 | Actual resource/data/document/evidence identity and applicable metadata |
 | production/phase4/items-01-10.zip | 04-05 | Retained selected/generated originals, expanded prompts/references and exact recipes |
 | production/phase4/items-11-24.zip | 04-05 | Retained selected/generated originals, expanded prompts/references and exact recipes |
@@ -149,7 +150,7 @@
 | src/godot-game/content/world/map.json | 04-13 | Actual resource/data/document/evidence identity and applicable metadata |
 | src/godot-game/content/world/portal-assemblies.json | 04-13 | Actual resource/data/document/evidence identity and applicable metadata |
 | src/godot-game/docs/README.md | 04-31 | Actual resource/data/document/evidence identity and applicable metadata |
-| src/godot-game/export_presets.cfg | 04-02 | Actual resource/data/document/evidence identity and applicable metadata |
+| src/godot-game/export_presets.cfg | 04-35 | Actual resource/data/document/evidence identity and applicable metadata |
 | src/godot-game/inspection/AudioPreview.cs | 04-29 | AudioPreview type; exact actual members in execution SUMMARY |
 | src/godot-game/inspection/BuildingPreview.cs | 04-11 -> 04-12 | BuildingPreview type; exact actual members in execution SUMMARY |
 | src/godot-game/inspection/CampLayouts.cs | 04-16 | CampLayouts type; exact actual members in execution SUMMARY |
@@ -165,6 +166,7 @@
 | src/godot-game/inspection/ScaleComparison.tscn | 04-04 | Actual resource/data/document/evidence identity and applicable metadata |
 | src/godot-game/inspection/SessionLayouts.cs | 04-17 | SessionLayouts type; exact actual members in execution SUMMARY |
 | src/godot-game/inspection/WorldPreview.cs | 04-13 -> 04-27 | WorldPreview type; exact actual members in execution SUMMARY |
+| src/godot-game/project.godot | 04-35 | Permanent asset_inspection-qualified main; ordinary Foundation literal unchanged |
 | tests/phase1/AppearanceStateTests.cs | 04-10 | AppearanceStateTests type; exact actual members in execution SUMMARY |
 | tests/phase1/AudioPresentationTests.cs | 04-29 | AudioPresentationTests type; exact actual members in execution SUMMARY |
 | tests/phase1/BuildingPresentationTests.cs | 04-11 | BuildingPresentationTests type; exact actual members in execution SUMMARY |
@@ -197,6 +199,7 @@
 | tools/phase4/cases/export-feasibility.cjs | 04-02 | Actual named CLI/case/evidence exports and stable identities |
 | tools/phase4/cases/export-layout.cjs | 04-34 | New export.layout case/module and exact export symbols |
 | tools/phase4/cases/export-portability.cjs | 04-31 | Actual named CLI/case/evidence exports and stable identities |
+| tools/phase4/cases/export-profile.cjs | 04-35 | New export.profile/export.profile-boundaries plus exact source validation/probe/helper exports |
 | tools/phase4/cases/hub.cjs | 04-03 -> 04-26 | Actual named CLI/case/evidence exports and stable identities |
 | tools/phase4/cases/items.cjs | 04-05 | Actual named CLI/case/evidence exports and stable identities |
 | tools/phase4/cases/main-buildings.cjs | 04-11 | Actual named CLI/case/evidence exports and stable identities |
@@ -209,7 +212,7 @@
 | tools/phase4/cases/ui-kit.cjs | 04-14 -> 04-28 | Actual named CLI/case/evidence exports and stable identities |
 | tools/phase4/cases/ui-session.cjs | 04-17 | Actual named CLI/case/evidence exports and stable identities |
 | tools/phase4/cases/world.cjs | 04-13 -> 04-27 | Actual named CLI/case/evidence exports and stable identities |
-| tools/phase4/check.cjs | 04-01 -> 04-25 -> 04-34 -> 04-02 | Actual named CLI/case/evidence exports and stable identities |
+| tools/phase4/check.cjs | 04-01 -> 04-25 -> 04-34 -> 04-35 -> 04-02 | Actual named CLI/case/evidence exports and stable identities |
 | tools/phase4/content.cjs | 04-25 -> 04-23 | Actual named CLI/case/evidence exports and stable identities |
 | tools/phase4/evidence.cjs | 04-30 | Actual named CLI/case/evidence exports and stable identities |
 | tools/phase4/expected-obligations.json | 04-25 | Actual resource/data/document/evidence identity and applicable metadata |
@@ -220,7 +223,10 @@
 | tools/phase4/reviewed-source.targets | 04-24 | Actual resource/data/document/evidence identity and applicable metadata |
 | tools/phase4/scenarios.cjs | 04-30 | Actual named CLI/case/evidence exports and stable identities |
 
-Current planned files: 215. Generated execution reports/ignored payloads retain immutable source/media/invocation identities. Export caches are not game dependencies. Parent-owned04-CONTINUATION.md and existing original checker/research evidence stay outside executor edit ownership. Source-gating code is finished by04-30 before review;04-24/32/33 write current review/evidence data only except explicitly reviewed repairs.
+Current planned files: 218. Generated execution reports/ignored payloads retain immutable source/media/invocation identities. Export caches are not game dependencies. Parent-owned04-CONTINUATION.md and existing original checker/research evidence stay outside executor edit ownership. Source-gating code is finished by04-30 before review;04-24/32/33 write current review/evidence data only except explicitly reviewed repairs.
 
 
 04-34 adds the exact SDK export-layout prerequisite before unfinished02 Task1. New symbols/proofs: GeneratedExportLayoutTests.Check_ExportLayouts_HavePinnedOrigin / Check_ExportLayoutPermissions_StayBounded; rules.export-layout-origin / rules.export-layout-boundary; source-only export.layout. GeneratedLayout.IsPermitted/_entries and the original sources/members/proof IDs remain existing contracts. The separate exportSources/origin record is Windows-only observed provenance, never guessed Linux/export bytes. Preserve the original failed run and partial export files; parent owns checkpoint/STATE/commit reconciliation.
+
+
+35 owns permanent project/preset feature configuration, export-profile.json, profile source module and the compatible check.cjs helper/profile-loader portion. Presets transfer out of02. The incomplete exporter loader and other exporter/pin/export-case contents remain02-owned; current full check.cjs is hash-checkpointed before implementation edits. New source case IDs export.profile/export.profile-boundaries use G0-export-profile orders350/351. No production C# script/autoload is added; actual exported consumer proof remains02. SUMMARY inventories all actual fields/exports/checkpoint identities.
