@@ -4,6 +4,10 @@
 
 ## Execution amendments
 
+Completed [04-26](04-26-SUMMARY.md) uses fourteen existing implementation paths under its [bounded amendments](04-26-AMENDMENTS.md) and independently approved [capacity review](04-26-CAPACITY-CHECK.md). Its nine planned paths are joined by the already-inventoried EngineGeneratedTests.cs, ExemptionValidator.cs, ExemptionTests.cs, RunnerContractTests.cs and required-cases.json. Their actual symbols, exact32 authored native signatures,215 observed diagnostics/78 syntax spans/eight member targets/46 compiler inputs and retained source identities are enumerated in the summary. No new distinct phase path is added; the reconciled actual/planned union stays232 versus the historical229-path projection.
+
+The two actual task commits are4c18a92/e91a9aa. Full source/headless selectionad58b398 passes29/29 operations; each hub suite executes44 methods/63 framework cases, with lifecycle50 actual native observations and twelve headless backstops. Current rendering, physical input, listening, named judgments and complete-package acceptance remain with04-31/32/33. There are nine completed plans of37 and no completed ASSET requirement. Historical planning tables and earlier execution deltas below retain their original chronology.
+
 Completed 04-37 expanded its nine planned implementation paths to twelve existing paths under the independently reviewed [C2 capacity amendment](04-37-CASE-CAPACITY.md). The [actual summary](04-37-SUMMARY.md) inventories all twelve APIs/contracts, 44 authenticated source snapshots, 66 exact syntax tuples and eight member targets. Add the following ownership to the planned table below; the original planning/probe records remain historical facts.
 
 | Additional or shared actual path | Execution owner | Actual responsibility |
