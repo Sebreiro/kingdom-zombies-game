@@ -70,6 +70,8 @@ public sealed class GeneratedExportLayoutTests
             string configuration = Text(row: row, name: "configuration");
             string[] paths = ["Subject.cs", path.Replace(oldValue: "/src/", newValue: "/other/"),
                 path.Replace(oldValue: "/obj/", newValue: "/other/"), path + ".changed.cs",
+                path.Replace(oldValue: Text(row: row, name: "owner"), newValue: Text(row: row, name: "owner")
+                        + "-other"),
                 path.Replace(oldValue: configuration, newValue: configuration.ToLowerInvariant()),
                 path.Replace(oldValue: configuration, newValue: configuration + "Extra"),
                 path.Replace(oldValue: configuration, newValue: "Exportdebug"),
