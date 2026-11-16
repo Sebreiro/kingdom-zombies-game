@@ -16,7 +16,8 @@ internal static class RuleDefinitions
             return (".editorconfig", setting);
         }
 
-        if (StringComparer.Ordinal.Equals(x: plannedPath, y: "src/godot-game/tests/verification/TypeBoundaryScanner.cs"))
+        if (StringComparer.Ordinal.Equals(x: plannedPath, y:
+                "src/godot-game/tests/verification/TypeBoundaryScanner.cs"))
         {
             return (plannedPath, "TypeBoundaryScanner.Validate(assembly,expectedTypes,boundary)");
         }
@@ -25,10 +26,13 @@ internal static class RuleDefinitions
         {
             1 => ("src/godot-game/Directory.Build.props", "<TreatWarningsAsErrors>true</TreatWarningsAsErrors>"),
             >= 2 and <= 6 => ("src/godot-game/tests/verification/SourceFileFormat.cs", "SourceFileFormat.Check"),
-            7 or 8 => ("src/godot-game/tests/verification/SourceFileFormat.cs", "SourceFileFormat.RequireEditorSetting"),
+            7 or 8 => ("src/godot-game/tests/verification/SourceFileFormat.cs",
+                    "SourceFileFormat.RequireEditorSetting"),
             16 => ("src/godot-game/Directory.Build.props", "<ImplicitUsings>disable</ImplicitUsings>"),
-            34 => ("src/godot-game/tests/verification/ArchitecturePolicy.cs", "ArchitecturePolicy.VisibilityRepository"),
-            35 => ("src/godot-game/Directory.Build.props", "<GenerateDocumentationFile>true</GenerateDocumentationFile>"),
+            34 => ("src/godot-game/tests/verification/ArchitecturePolicy.cs",
+                    "ArchitecturePolicy.VisibilityRepository"),
+            35 => ("src/godot-game/Directory.Build.props",
+                    "<GenerateDocumentationFile>true</GenerateDocumentationFile>"),
             39 or 73 => ("src/godot-game/build/BannedSymbols.txt", "P:System.DateTime.UtcNow;Use an injected clock"),
             40 => ("src/godot-game/build/BannedSymbols.txt", "T:System.Console;Use an explicit log/report adapter"),
             41 => ("src/godot-game/build/BannedSymbols.txt",
@@ -36,7 +40,8 @@ internal static class RuleDefinitions
             42 => ("src/godot-game/build/BannedSymbols.txt", "M:System.Threading.Tasks.Task.Wait;Use await"),
             46 => ("src/godot-game/Directory.Build.targets", "<ProjectReference"),
             47 => ("src/godot-game/build/BannedSymbols.Tests.txt", "T:Xunit.Assert;Use Shouldly"),
-            48 => ("src/godot-game/tests/verification/TestSourceIndex.cs", "TestSourceIndex.FollowsMethodStateExpected"),
+            48 => ("src/godot-game/tests/verification/TestSourceIndex.cs",
+                    "TestSourceIndex.FollowsMethodStateExpected"),
             49 or 82 => ("tools/phase1/coverage-policy.json", id),
             50 => ("src/godot-game/tests/verification/ExemptionValidator.cs", "ExemptionValidator.CheckRepository"),
             53 => ("src/godot-game/Directory.Build.props",

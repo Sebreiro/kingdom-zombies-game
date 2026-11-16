@@ -236,7 +236,7 @@ function verifyInherited(root,final,selection,reviews){
       requireTrue(summary.status==='pass'&&summary.platform.startsWith(final.platform)&&summary.revision===final.revision&&!nonces.has(summary.nonce),'INHERITED_IDENTITY');nonces.add(summary.nonce);
       const process=read(artifact({directory:root},reference.process));
       requireTrue(process.code===0&&!process.signal&&!process.timedOut&&process.startedAt>=final.startedAt&&process.finishedAt<=final.finishedAt,'INHERITED_EXECUTION');
-      const manifest=family==='phase1'?catalog:{inputs:['src','src/godot-game/tests/verification','tools/phase2','tools/phase1/toolchain.json','src/godot-game/Directory.Build.props','src/godot-game/Directory.Build.targets','src/godot-game/Directory.Packages.props','.editorconfig','src/godot-game/build/BannedSymbols.txt','src/godot-game/build/BannedSymbols.Pure.txt','docs/code']};
+      const manifest=family==='phase1'?catalog:{inputs:['src','tools/phase2','tools/phase1/toolchain.json','tools/dotnet.cjs','.editorconfig','docs/code']};
       requireTrue(require('./revisions.cjs').snapshotAt(root,final.revision,manifest).sha256===summary.input,'INHERITED_SOURCE_CHANGED');
       exact(summary.selected,summary.results.map(row=>row.id),'inherited report');seen.push(...summary.selected);
       if(family==='phase2'){

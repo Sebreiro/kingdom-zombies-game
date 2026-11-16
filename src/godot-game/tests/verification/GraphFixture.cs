@@ -43,10 +43,10 @@ internal sealed class GraphFixture
         }
         else if (mutation is "undeclared")
         {
-            Write(relative: "integration/Hidden.csproj", content: "<Project Sdk=\"Microsoft.NET.Sdk\">"
+            Write(relative: "src/godot-game/integration/Hidden.csproj", content: "<Project Sdk=\"Microsoft.NET.Sdk\">"
                     + "<PropertyGroup><TargetFramework>net10.0</TargetFramework></PropertyGroup></Project>\n");
             Append(project: ProjectEvaluator.Expected[0], xml: "<ItemGroup><ProjectReference Include=\""
-                    + "../../../integration/Hidden.csproj\"/></ItemGroup>");
+                    + "../integration/Hidden.csproj\"/></ItemGroup>");
         }
         else
         {
@@ -193,7 +193,8 @@ internal sealed class GraphFixture
     private void RetainCleanPortsConsumer()
     {
         File.Copy(sourceFileName: Path.Combine(path1: Root, path2:
-                "src/godot-game/multiplayer-abstractions/bin/Debug/net10.0/KingdomZombies.Multiplayer.Abstractions.dll"),
+                "src/godot-game/multiplayer-abstractions/bin/Debug/net10.0/"
+                        + "KingdomZombies.Multiplayer.Abstractions.dll"),
                 destFileName: Path.Combine(path1: Root,
                         path2: ".graph-baseline/KingdomZombies.Multiplayer.Abstractions.dll"));
         RemoveReference(project: ProjectEvaluator.Expected[2], target:

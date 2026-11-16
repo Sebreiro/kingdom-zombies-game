@@ -272,7 +272,7 @@
       "diagnostic": "MA0004",
       "path": ".editorconfig",
       "surface": "exact editorconfig setting",
-      "subject": "[*.cs] dotnet_diagnostic.MA0004.severity = none; [src/{core,multiplayer-abstractions}/**.cs] error",
+      "subject": "[*.cs] dotnet_diagnostic.MA0004.severity = none; [src/godot-game/{core,multiplayer-abstractions}/**.cs] error",
       "reason": "The engine continuation policy differs from the pure Core and service libraries. The exact pure-library override and independent actual MA0004 build controls retain the boundary.",
       "positiveProof": "R-45.positive",
       "negativeProof": "R-45.negative",

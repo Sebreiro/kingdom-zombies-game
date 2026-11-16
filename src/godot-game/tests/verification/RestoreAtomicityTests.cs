@@ -49,7 +49,8 @@ public sealed class RestoreAtomicityTests
 
         expected.DrawPosition.ShouldBe(expected: 999999);
         ProofProtocol.Record(id: "ac-22.complete", diagnostic: "RESTORE_WITHOUT_REPLAY",
-                location: "src/godot-game/core/ExampleStateStore.cs:Restore; src/godot-game/core/ExampleState.cs:persisted fields");
+                location: "src/godot-game/core/ExampleStateStore.cs:Restore; src/godot-game/core/"
+                        + "ExampleState.cs:persisted fields");
     }
 
     /// <summary>Interrupted preparation preserves the old root reference and every field.</summary>
@@ -155,7 +156,8 @@ public sealed class RestoreAtomicityTests
         await Task.WhenAll(tasks: [.. Enumerable.Range(start: 0, count: 3).Select(selector: run =>
                 RestoreConcurrencyProof.Run(run: run, cancellationToken: TestContext.Current.CancellationToken))]);
         ProofProtocol.Record(id: "edge.rule-07.concurrency", diagnostic: "ONLY_COMPLETE_OLD_OR_NEW",
-                location: "src/godot-game/core/ExampleStateStore.cs:Read/Restore; three isolated stores, four readers each");
+                location: "src/godot-game/core/ExampleStateStore.cs:Read/"
+                        + "Restore; three isolated stores, four readers each");
     }
 
     /// <summary>Detects early record publication by mutating the actual store in an isolated compiled copy.</summary>
@@ -164,6 +166,7 @@ public sealed class RestoreAtomicityTests
     {
         RestoreMutationProof.Verify();
         ProofProtocol.Record(id: "state.restore-mutation", diagnostic: "EARLY_RECORD_MUTATION_DETECTED",
-                location: "src/godot-game/core/ExampleStateStore.cs:Restore isolated early publication; unchanged-root target");
+                location: "src/godot-game/core/"
+                        + "ExampleStateStore.cs:Restore isolated early publication; unchanged-root target");
     }
 }

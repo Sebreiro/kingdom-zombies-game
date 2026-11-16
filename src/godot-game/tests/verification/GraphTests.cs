@@ -18,7 +18,8 @@ public sealed class GraphTests
                 comparisonType: System.StringComparison.Ordinal));
         string source = "namespace KingdomZombies.Core;\n\ninternal static class Entry\n{\n"
                 + "    internal static int Main()\n    {\n        return 0;\n    }\n}\n";
-        File.WriteAllText(path: Path.Combine(path1: fixture.Root, path2: "src/godot-game/core/Entry.cs"), contents: source);
+        File.WriteAllText(path: Path.Combine(path1: fixture.Root, path2: "src/godot-game/core/Entry.cs"),
+                contents: source);
         (int Exit, string Output) built = fixture.Run("build", core, "--no-restore", "--disable-build-servers",
                 "-p:UseSharedCompilation=false", "-nodeReuse:false", "-p:NuGetAudit=false");
         built.Exit.ShouldBe(expected: 0, customMessage: "INFRASTRUCTURE_SUBJECT: " + built.Output);
@@ -53,7 +54,8 @@ public sealed class GraphTests
                 + "/// <summary>Compiled type boundary probe.</summary>\ninternal static class Subject\n{\n"
                 + "    internal static string Read()\n    {\n"
                 + "        return typeof(KingdomZombies.Proofs.Phase1).FullName ?? string.Empty;\n    }\n}\n";
-        File.WriteAllText(path: Path.Combine(path1: fixture.Root, path2: "src/godot-game/core/Subject.cs"), contents: source);
+        File.WriteAllText(path: Path.Combine(path1: fixture.Root, path2: "src/godot-game/core/Subject.cs"),
+                contents: source);
         (int Exit, string Output) built = fixture.Run("build", ProjectEvaluator.Expected[0], "--no-restore",
                 "--disable-build-servers", "-p:UseSharedCompilation=false", "-nodeReuse:false", "-p:NuGetAudit=false");
         built.Exit.ShouldBe(expected: 0, customMessage: "INFRASTRUCTURE_SUBJECT: " + built.Output);
@@ -277,8 +279,8 @@ public sealed class GraphTests
         fixture.AddDirectEngineEdge();
         string core = Path.Combine(path1: fixture.Root, path2: ProjectEvaluator.Expected[0]);
         fixture.Write(relative: ProjectEvaluator.Expected[0], content: File.ReadAllText(path: core).Replace(
-                oldValue: "<ProjectReference Include=\"../godot-game/KingdomZombies.csproj\"/>",
-                newValue: "<Reference Include=\"KingdomZombies\"><HintPath>../godot-game/.godot/mono/temp/bin/Debug/"
+                oldValue: "<ProjectReference Include=\"../game/KingdomZombies.csproj\"/>",
+                newValue: "<Reference Include=\"KingdomZombies\"><HintPath>../game/.godot/mono/temp/bin/Debug/"
                         + "KingdomZombies.dll</HintPath></Reference>",
                 comparisonType: System.StringComparison.Ordinal));
         fixture.Compile(project: ProjectEvaluator.Expected[0], restore: true);
@@ -482,7 +484,7 @@ public sealed class GraphTests
         fixture.AddBoundaryMutation(mutation: "semicolon");
         IReadOnlyList<string> before = ProjectEvaluator.Validate(root: fixture.Root);
         string core = Path.Combine(path1: fixture.Root, path2: ProjectEvaluator.Expected[0]);
-        string game = "../godot-game/KingdomZombies.csproj";
+        string game = "../game/KingdomZombies.csproj";
         string ports = "../multiplayer-abstractions/KingdomZombies.Multiplayer.Abstractions.csproj";
         File.WriteAllText(path: core, contents: File.ReadAllText(path: core).Replace(oldValue: game + ";" + ports,
                 newValue: ports + ";" + game, comparisonType: System.StringComparison.Ordinal));
@@ -539,10 +541,11 @@ public sealed class GraphTests
         fixture.Write(relative: "src/godot-game/game/ILeak.cs", content: "namespace Boundary;\n"
                 + "/// <summary>External interface probe.</summary>\npublic interface ILeak\n{\n"
                 + "    /// <summary>Returns a probe value.</summary>\n    int Read();\n}\n");
-        fixture.Write(relative: "src/godot-game/game/LeakAttribute.cs", content: "using System;\n\nnamespace Boundary;\n"
-                + "/// <summary>External attribute probe.</summary>\n"
-                + "[AttributeUsage(validOn: AttributeTargets.Class)]\n"
-                + "public sealed class LeakAttribute : Attribute\n{\n}\n");
+        fixture.Write(relative: "src/godot-game/game/LeakAttribute.cs", content:
+                "using System;\n\nnamespace Boundary;\n"
+                        + "/// <summary>External attribute probe.</summary>\n"
+                        + "[AttributeUsage(validOn: AttributeTargets.Class)]\n"
+                        + "public sealed class LeakAttribute : Attribute\n{\n}\n");
         fixture.Compile(project: ProjectEvaluator.Expected[2]);
         fixture.Write(relative: "src/godot-game/core/Subject.cs", content: TypeSubject(family: family));
         fixture.Compile(project: ProjectEvaluator.Expected[0]);

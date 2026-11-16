@@ -993,10 +993,10 @@ The creator has authorized reuse of the supplied source/assets. Specific assets 
 
 ### 15.2 Visual references
 
-- [Base reference tier 1](../../examples/bases/main-base-tier-1.png): wooden-building style and materials.
-- [Base reference tier 2](../../examples/bases/main-base-tier-2.png): reinforced wood and lookout detail.
-- [Base reference tier 3](../../examples/bases/main-base-tier-3.png): metal reinforcement and defensive-building atmosphere.
-- [Zombie reference](../../examples/zombie/zombie-idle-original-size.png): muted green skin, torn clothing, and side-view pixel-art treatment.
+- [Base reference tier 1](../../src/godot-game/references/bases/main-base-tier-1.png): wooden-building style and materials.
+- [Base reference tier 2](../../src/godot-game/references/bases/main-base-tier-2.png): reinforced wood and lookout detail.
+- [Base reference tier 3](../../src/godot-game/references/bases/main-base-tier-3.png): metal reinforcement and defensive-building atmosphere.
+- [Zombie reference](../../src/godot-game/references/zombie/zombie-idle-original-size.png): muted green skin, torn clothing, and side-view pixel-art treatment.
 
 These images were inspected visually. The base images are style references, not the required silhouettes: the specified tier 1 is campfire/boxes, and tier 3 must have two attached towers. Existing zombie animation sheets/strips are possible asset sources, but their timing and production readiness have not been verified here.
 

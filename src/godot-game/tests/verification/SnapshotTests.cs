@@ -104,7 +104,8 @@ public sealed class SnapshotTests
         order["ordered"]?.AsArray().Add(item: JsonValue.Create(value: "extra"));
         SnapshotProofData.Reject(document: order.ToJsonString(), diagnostic: "SNAPSHOT_COLLECTION");
         ProofProtocol.Record(id: "edge.rule-07.adjacency", diagnostic: "BOUNDED_SNAPSHOT_NEIGHBORS",
-                location: "src/godot-game/core/SnapshotJson.cs:Parse/Collection; src/godot-game/core/ExampleState.cs:ValidateRecords");
+                location: "src/godot-game/core/SnapshotJson.cs:Parse/Collection; src/godot-game/core/"
+                        + "ExampleState.cs:ValidateRecords");
     }
 
     /// <summary>Accepts empty/singleton/multiple while rejecting null records, IDs and collections.</summary>
@@ -160,7 +161,8 @@ public sealed class SnapshotTests
         byte[] complete = SnapshotCodec.Encode(state: state);
         Should.Throw<JsonException>(actual: () => SnapshotCodec.Decode(document: complete.AsMemory()[..^1]));
         ProofProtocol.Record(id: "edge.rule-07.encoding", diagnostic: "STRICT_UTF8_ORDINAL_IDENTITIES",
-                location: "src/godot-game/core/SnapshotJson.cs:Parse/Text; src/godot-game/core/StableIdentity.cs:ValidateText");
+                location: "src/godot-game/core/SnapshotJson.cs:Parse/Text; src/godot-game/core/"
+                        + "StableIdentity.cs:ValidateText");
     }
 
     /// <summary>Accepts unordered permutations while retaining meaningful order exactly.</summary>
@@ -216,7 +218,8 @@ public sealed class SnapshotTests
 
         AssertVersionAndIdentityFailures();
         ProofProtocol.Record(id: "edge.rule-07.precision", diagnostic: "EXACT_INT64_SNAPSHOT",
-                location: "src/godot-game/core/SnapshotJson.cs:Integer; src/godot-game/core/ExampleState.cs:ValidateRandom");
+                location: "src/godot-game/core/SnapshotJson.cs:Integer; src/godot-game/core/"
+                        + "ExampleState.cs:ValidateRandom");
     }
 
     /// <summary>Exercises R-68 positive against the actual shared strict codec.</summary>
@@ -382,7 +385,8 @@ public sealed class SnapshotTests
         SnapshotShapePolicy.Independent(type: typeof(Dictionary<string, long>)).ShouldBeFalse();
         SnapshotShapePolicy.Independent(type: typeof(Uri)).ShouldBeFalse();
         ProofProtocol.Record(id: "state.snapshot-shape", diagnostic: "COMPILED_INDEPENDENT_STATE",
-                location: "src/godot-game/core/ExampleState.cs; src/godot-game/core/SnapshotDto.cs; compiled property/backing-field types");
+                location: "src/godot-game/core/ExampleState.cs; src/godot-game/core/"
+                        + "SnapshotDto.cs; compiled property/backing-field types");
     }
 
     private static readonly string[] _schemaFields = ["schemaVersion", "elapsedMilliseconds", "seed", "drawPosition",

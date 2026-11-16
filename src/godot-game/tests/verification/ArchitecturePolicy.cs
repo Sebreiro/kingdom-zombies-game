@@ -20,7 +20,8 @@ internal static class ArchitecturePolicy
                 path2: "docs/code/visibility-exemptions.json")))?.AsObject()
                 ?? throw new InvalidDataException(message: "VISIBILITY_REGISTRY: missing object");
         string[] expected = ["src/godot-game/core/ProofValue.cs|KingdomZombies.Core.ProofValue",
-            "src/godot-game/multiplayer-abstractions/IProofService.cs|KingdomZombies.Multiplayer.Abstractions.IProofService",
+            "src/godot-game/multiplayer-abstractions/"
+                    + "IProofService.cs|KingdomZombies.Multiplayer.Abstractions.IProofService",
             "src/godot-game/game/proofs/Phase1.cs|KingdomZombies.Proofs.Phase1",
             "src/godot-game/core/FoundationMovementCommand.cs|KingdomZombies.Core.FoundationMovementCommand",
             "src/godot-game/core/FoundationActorState.cs|KingdomZombies.Core.FoundationActorState",

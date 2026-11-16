@@ -6,30 +6,23 @@
   "inputs": [
     "tools/phase1",
     "tools/code-rules",
-    "src/godot-game/tests/verification",
     "src",
     "docs",
     "specs",
     "AGENTS.md",
-    "src/godot-game/Directory.Build.props",
-    "src/godot-game/Directory.Build.targets",
-    "src/godot-game/build/Directory.Xunit.targets",
-    "src/godot-game/Directory.Packages.props",
-    "src/godot-game/global.json",
-    "src/godot-game/NuGet.config",
-    "src/godot-game/.config/dotnet-tools.json",
     ".planning/phases/01-code-rules-and-documentation/01-SPEC.md",
     ".planning/phases/01-code-rules-and-documentation/01-CONTEXT.md",
-    "src/godot-game/build/BannedSymbols.txt",
-    "src/godot-game/build/BannedSymbols.Tests.txt",
-    "src/godot-game/build/BannedSymbols.Pure.txt",
     ".editorconfig",
     ".planning/config.json",
     ".planning/PROJECT.md",
     ".planning/REQUIREMENTS.md",
     ".planning/ROADMAP.md",
     ".planning/STATE.md",
-    ".planning/research/SUMMARY.md"
+    ".planning/research/SUMMARY.md",
+    "tools/dotnet.cjs",
+    "tools/repository-layout.test.cjs",
+    "README.md",
+    "tools/README.md"
   ],
   "acceptanceCriteria": [
     {
@@ -1429,8 +1422,15 @@
       "group": "rules",
       "rule": "R-16",
       "owner": "01-08",
-      "prerequisites": ["pinned-tools", "proof-build"],
-      "evidence": ["fresh-result", "nonempty-log", "actual-test-report"],
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.EnforcementTests.Configure_ImplicitUsings_ChangesNamespaceAvailability",
       "expectedDiagnostic": "IMPLICIT_USINGS_SENSITIVE"
@@ -1440,8 +1440,15 @@
       "group": "graph",
       "rule": "R-34",
       "owner": "01-14",
-      "prerequisites": ["pinned-tools", "proof-build"],
-      "evidence": ["fresh-result", "nonempty-log", "actual-test-report"],
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.ArchitectureRuleTests.Scan_ProductionVisibility_RejectsUnregisteredPublicType",
       "expectedDiagnostic": "VISIBILITY_INVENTORY_REJECTED"
@@ -1451,8 +1458,15 @@
       "group": "engine",
       "rule": "RULE-06",
       "owner": "01-12",
-      "prerequisites": ["pinned-tools", "proof-build"],
-      "evidence": ["fresh-result", "nonempty-log", "actual-test-report"],
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.EngineOperationTests.Check_NativeDelegates_RejectsEscapingMethodGroups",
       "expectedDiagnostic": "ENGINE_METHOD_ESCAPE"
@@ -1462,8 +1476,15 @@
       "group": "engine",
       "rule": "RULE-06",
       "owner": "01-12",
-      "prerequisites": ["pinned-tools", "proof-build"],
-      "evidence": ["fresh-result", "nonempty-log", "actual-test-report"],
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.EngineOperationTests.Check_ImplicitNativeMembers_RejectsUnguardedAccess",
       "expectedDiagnostic": "ENGINE_IMPLICIT_MEMBER"
@@ -1473,8 +1494,15 @@
       "group": "engine",
       "rule": "RULE-06",
       "owner": "01-12",
-      "prerequisites": ["pinned-tools", "proof-build"],
-      "evidence": ["fresh-result", "nonempty-log", "actual-test-report"],
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.ConsumerPolicyTests.Check_EvaluatedBranches_RejectsActiveEngineCalls",
       "expectedDiagnostic": "CONSUMER_BRANCHES_CHECKED"
@@ -1484,8 +1512,15 @@
       "group": "rules",
       "rule": "R-67",
       "owner": "01-14",
-      "prerequisites": ["pinned-tools", "proof-build"],
-      "evidence": ["fresh-result", "nonempty-log", "actual-test-report"],
+      "prerequisites": [
+        "pinned-tools",
+        "proof-build"
+      ],
+      "evidence": [
+        "fresh-result",
+        "nonempty-log",
+        "actual-test-report"
+      ],
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.ConsumerPolicyTests.Check_ConditionalSuppression_RejectsAnalyzerEscape",
       "expectedDiagnostic": "CONDITIONAL_SUPPRESSION_REJECTED"

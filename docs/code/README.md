@@ -4,6 +4,8 @@ The [agent guide](../../AGENTS.md) selects focused references. Executable defini
 
 | Need | Operational definition |
 | --- | --- |
+| Reviewing a pull request, including external review tools | [PR review entry point](../workflow/code-review.md) |
+| Workspace placement and compiler-policy file purposes | [Layout policy](../architecture/repository-layout.md), [build policy guide](../../src/godot-game/build/README.md) |
 | Source format, naming and severity | [.editorconfig](../../.editorconfig), [source checker](../../src/godot-game/tests/verification/SourceFileFormat.cs) |
 | Compiler policy and analyzer integration | [Shared properties](../../src/godot-game/Directory.Build.props), [shared targets](../../src/godot-game/Directory.Build.targets), [central pins](../../src/godot-game/Directory.Packages.props), [banned symbols](../../src/godot-game/build/BannedSymbols.txt) |
 | Twelve inherited syntax analyzers | [Analyzer project](../../tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj), [named arguments](../../tools/code-rules/NamedArgumentAnalyzer.cs), [body length](../../tools/code-rules/BodyLengthAnalyzer.cs) |

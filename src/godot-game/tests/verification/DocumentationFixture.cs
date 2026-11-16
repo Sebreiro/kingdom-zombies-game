@@ -22,7 +22,14 @@ internal static class DocumentationFixture
     /// <summary>Reads the actual Git index bytes for non-mutation proof without staging or refreshing it.</summary>
     internal static byte[] IndexBytes()
     {
-        return File.ReadAllBytes(path: Path.Combine(path1: ProofProtocol.Root, path2: ".git/index"));
+        (int Exit, string Output) index = GraphFixture.RunAt(root: ProofProtocol.Root, executable: "git",
+                arguments: ["rev-parse", "--path-format=absolute", "--git-path", "index"]);
+        if (index.Exit != 0)
+        {
+            throw new InvalidDataException(message: "DOC_INDEX_PATH: " + index.Output);
+        }
+
+        return File.ReadAllBytes(path: index.Output.Trim());
     }
 
     /// <summary>Computes independent exact source byte hashes in ordinal path order.</summary>

@@ -11,12 +11,15 @@ internal static class DocumentationValidator
     /// <summary>Names required pages explicitly, including pages authored before their first commit.</summary>
     internal static IReadOnlyList<string> Authored =>
     [
+        "README.md", "tools/README.md", "src/godot-game/README.md", "src/godot-game/build/README.md",
+        "docs/architecture/repository-layout.md", "docs/workflow/code-review.md",
         "AGENTS.md", "docs/code/README.md", "docs/architecture/README.md", "docs/code/review-checklist.md",
         "docs/architecture/decisions/0001-enforcement.md", "docs/architecture/decisions/0002-boundaries.md",
         "docs/architecture/decisions/0003-state-and-engine.md", "docs/workflow/setup.md",
         "docs/workflow/ai-collaboration.md", "docs/workflow/gsd.md", "docs/workflow/verification.md",
         "src/godot-game/core/docs/README.md", "src/godot-game/multiplayer-abstractions/docs/README.md",
-        "src/godot-game/game/docs/README.md", "tools/code-rules/docs/README.md", "src/godot-game/tests/verification/docs/README.md",
+        "src/godot-game/game/docs/README.md", "tools/code-rules/docs/README.md",
+        "src/godot-game/tests/verification/docs/README.md",
         "docs/code/rule-matrix.md", "docs/code/review.md", "docs/architecture/boundaries.md",
         "docs/architecture/decisions/0001-development-baseline.md"
     ];
@@ -83,7 +86,9 @@ internal static class DocumentationValidator
     internal static bool IsOwned(string path)
     {
         return path.EndsWith(value: ".md", comparisonType: StringComparison.Ordinal)
-                && (path is "AGENTS.md" or ".planning/PROJECT.md" or ".planning/REQUIREMENTS.md"
+                && (path is "README.md" or "tools/README.md" or "src/godot-game/README.md"
+                        or "src/godot-game/build/README.md" or "AGENTS.md" or ".planning/PROJECT.md" or
+                        ".planning/REQUIREMENTS.md"
                         or ".planning/ROADMAP.md" or ".planning/STATE.md" or ".planning/research/SUMMARY.md"
                         || IsTreeDocument(path: path));
     }
@@ -112,9 +117,13 @@ internal static class DocumentationValidator
     {
         string[] helpers =
         [
-            "src/godot-game/tests/verification/DocumentationLinks.cs", "src/godot-game/tests/verification/DocumentationPath.cs",
-            "src/godot-game/tests/verification/DocumentationAnchors.cs", "src/godot-game/tests/verification/RuleBindingValidator.cs",
-            "src/godot-game/tests/verification/RuleMatrix.cs", "src/godot-game/tests/verification/SuppressionPolicy.cs", "src/godot-game/tests/verification/SuppressionTests.cs",
+            "src/godot-game/tests/verification/DocumentationLinks.cs",
+            "src/godot-game/tests/verification/DocumentationPath.cs",
+            "src/godot-game/tests/verification/DocumentationAnchors.cs",
+            "src/godot-game/tests/verification/RuleBindingValidator.cs",
+            "src/godot-game/tests/verification/RuleMatrix.cs",
+            "src/godot-game/tests/verification/SuppressionPolicy.cs",
+            "src/godot-game/tests/verification/SuppressionTests.cs",
             ".planning/phases/01-code-rules-and-documentation/01-HUMAN-CHECK.md"
         ];
         IEnumerable<string> authored = Authored.Concat(second: helpers);
@@ -136,7 +145,8 @@ internal static class DocumentationValidator
                 || path.StartsWith(value: "src/godot-game/multiplayer-abstractions/docs/", comparisonType:
                         StringComparison.Ordinal)
                 || path.StartsWith(value: "src/godot-game/game/docs/", comparisonType: StringComparison.Ordinal)
-                || path.StartsWith(value: "src/godot-game/tests/verification/docs/", comparisonType: StringComparison.Ordinal)
+                || path.StartsWith(value: "src/godot-game/tests/verification/docs/", comparisonType:
+                        StringComparison.Ordinal)
                 || path.StartsWith(value: "tools/code-rules/docs/", comparisonType: StringComparison.Ordinal);
     }
 }

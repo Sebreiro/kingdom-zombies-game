@@ -35,10 +35,12 @@ The original two-local-OS/VM policy is superseded for routine local testing by t
 
 `--phase N` selects independently declared cases with `acceptancePhase <= N`; an absent phase means 1. Explicit phases must be positive integers. Selection and deferred ownership use each case declaration, never implementation status or prior results. The older `acceptanceCriteria` allocation table retains its original implementation meaning; current complete two-platform Phase 1 execution belongs to 01-17, while original aggregate certification wrappers retain Phase 5 ownership. The current 684 declarations contain 676 Phase 1 obligations: all 666 original implemented cases, four selector controls and six review regression controls. The eight explicit Phase 5 IDs, phases and owners are listed separately outside the selected denominator with no pass/skip credit. Unresolved selected cases fail. Use `--phase 1 --list` for exact membership. Phase, case, group and exhaustive selectors cannot be combined; `--list` can accompany one selector. `--all` selects all 684 declarations and remains non-success while later certification is pending. Exact `--case` and `--group` retain their pending declarations. The [Phase 5 handoff](../../.planning/phases/05-ci-and-repeatable-game-testing/05-PHASE1-HANDOFF.md) defines all eight transferred identities.
 
-After applying the isolation settings in setup, the strict whole-solution build command is identical on both platforms:
+After applying the isolation settings in setup, run direct .NET commands from the game workspace so its SDK pin applies. Node runners still run from the checkout root. The strict whole-solution build command is identical on both platforms:
 
 ```sh
+cd src/godot-game
 dotnet build KingdomZombies.slnx --no-restore --disable-build-servers -p:UseSharedCompilation=false -nodeReuse:false -p:NuGetAudit=false -v:q
+cd ../..
 node tools/phase1/check.cjs --phase 1
 ```
 

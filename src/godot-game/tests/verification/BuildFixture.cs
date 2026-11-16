@@ -122,9 +122,11 @@ internal sealed class BuildFixture
     private readonly string _directory;
     private readonly string _project;
     private readonly string _subject;
-    private static readonly string[] _sharedFiles = ["src/godot-game/Directory.Build.props", "src/godot-game/Directory.Build.targets",
+    private static readonly string[] _sharedFiles = ["src/godot-game/Directory.Build.props",
+        "src/godot-game/Directory.Build.targets",
         "src/godot-game/build/Directory.Xunit.targets",
-        "src/godot-game/Directory.Packages.props", ".editorconfig", "src/godot-game/global.json", "src/godot-game/NuGet.config", "src/godot-game/build/BannedSymbols.txt",
+        "src/godot-game/Directory.Packages.props", ".editorconfig", "src/godot-game/global.json",
+        "src/godot-game/NuGet.config", "src/godot-game/build/BannedSymbols.txt",
         "src/godot-game/build/BannedSymbols.Tests.txt", "src/godot-game/build/BannedSymbols.Pure.txt"];
     private void CopyTree(string relative)
     {
@@ -179,8 +181,9 @@ internal sealed class BuildFixture
             start.ArgumentList.Add(item: argument);
         }
 
-        using Process child = Process.Start(startInfo: DotnetLaunch.Configure(start: start)) ?? throw new InvalidOperationException(
-                message: "Compiler failed to start");
+        using Process child = Process.Start(startInfo: DotnetLaunch.Configure(start: start)) ?? throw new
+                InvalidOperationException(
+                        message: "Compiler failed to start");
         Task<string> output = child.StandardOutput.ReadToEndAsync();
         Task<string> error = child.StandardError.ReadToEndAsync();
         if (!child.WaitForExit(milliseconds: 60000))

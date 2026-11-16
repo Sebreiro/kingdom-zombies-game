@@ -111,6 +111,7 @@ public sealed class SuppressionTests
 
         Should.Throw<InvalidDataException>(actual: () => ExemptionValidator.RequireOwners(
                 path: "src/godot-game/game/foundation/Adjacent.cs", projects:
-                ["src/godot-game/game/KingdomZombies.csproj", "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"]));
+                ["src/godot-game/game/KingdomZombies.csproj",
+                    "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj"]));
     }
 }

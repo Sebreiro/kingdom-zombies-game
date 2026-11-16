@@ -25,8 +25,9 @@ internal static class DotnetLaunch
         for (int index = 0; index < start.ArgumentList.Count; index++)
         {
             string argument = start.ArgumentList[index];
-            if (!Path.IsPathRooted(path: argument) && (File.Exists(path: Path.Combine(path1: root,
-                    path2: argument)) || Directory.Exists(path: Path.Combine(path1: root, path2: argument))))
+            if (!Path.IsPathRooted(path: argument) && Path.HasExtension(path: argument)
+                    && (File.Exists(path: Path.Combine(path1: root,
+                            path2: argument)) || Directory.Exists(path: Path.Combine(path1: root, path2: argument))))
             {
                 start.ArgumentList[index] = Path.GetFullPath(path: Path.Combine(path1: root, path2: argument));
             }

@@ -1,5 +1,5 @@
-const dotnet=require('../dotnet.cjs');
 'use strict';
+const {launch:dotnetLaunch}=require('../dotnet.cjs');
 const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
@@ -32,7 +32,7 @@ async function csharp(context,item) {
   const env={...context.env,PHASE1_ROOT:context.root,PHASE1_RESULT_DIRECTORY:context.directory,PHASE1_NONCE:context.nonce,PHASE1_INPUT:context.input,PHASE1_TOOL:context.tool,PHASE1_PLATFORM:context.platform};
   let run;
   try {
-    run=await command('dotnet',[path.join(context.root,'src/godot-game/tests/verification/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll'),'--filter-method',item.test,'--report-xunit-ctrf','--report-xunit-ctrf-filename',item.id+'.ctrf.json','--results-directory',context.directory],{cwd:path.join(context.root,'src/godot-game'),env},180000);
+    run=await command('dotnet',[path.join(context.root,'src/godot-game/tests/verification/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll'),'--filter-method',item.test,'--report-xunit-ctrf','--report-xunit-ctrf-filename',item.id+'.ctrf.json','--results-directory',context.directory],{cwd:dotnetLaunch(context.root,'dotnet',[]).cwd,env},180000);
   } catch(error) {fs.writeFileSync(path.join(context.directory,item.id+'.console.log'),error.stack);throw error;}
   fs.writeFileSync(path.join(context.directory,item.id+'.console.log'),run.stdout+run.stderr);
   const report=read(path.join(context.directory,item.id+'.ctrf.json'));
@@ -72,7 +72,7 @@ async function main(root,args) {
   const directory=inside(root,'.phase2/runs/'+platform+'/'+nonce);
   fs.mkdirSync(directory,{recursive:true});
   const started=Date.now(),results=[],failures=[];
-  const manifest={inputs:['src','src/godot-game/tests/verification','tools/phase2','tools/phase1/toolchain.json','src/godot-game/Directory.Build.props','src/godot-game/Directory.Build.targets','src/godot-game/Directory.Packages.props','.editorconfig','src/godot-game/build/BannedSymbols.txt','src/godot-game/build/BannedSymbols.Pure.txt','docs/code']};
+  const manifest={inputs:['src','tools/phase2','tools/phase1/toolchain.json','tools/dotnet.cjs','.editorconfig','docs/code']};
   const env={...process.env,DOTNET_CLI_HOME:path.join(root,'.phase1/cli-home'),NUGET_PACKAGES:path.join(root,'.phase1/packages'),NUGET_HTTP_CACHE_PATH:path.join(root,'.phase1/http-cache'),TEMP:path.join(root,'.phase1/temp'),TMP:path.join(root,'.phase1/temp')};
   const context={root,directory,nonce,platform,input:null,tool:null,env};
   let unlock;
@@ -80,7 +80,7 @@ async function main(root,args) {
     const snapshot=baseline.snapshot(root,manifest);context.input=snapshot.sha256;
     fs.writeFileSync(path.join(directory,'inputs.json'),JSON.stringify(snapshot,null,2));
     // Pure checks need no native executable, display, VM or renderer probe.
-    const version=spawnSync('dotnet',['--version'],{cwd:path.join(root,'src/godot-game'),env,encoding:'utf8',windowsHide:true,timeout:12000});
+    const version=spawnSync('dotnet',['--version'],{cwd:dotnetLaunch(root,'dotnet',[]).cwd,env,encoding:'utf8',windowsHide:true,timeout:12000});
     requireTrue(version.status===0,'DOTNET_MISSING');
     context.tool=hash(JSON.stringify({node:process.version,dotnet:version.stdout.trim(),
       pins:hash(fs.readFileSync(path.join(root,'tools/phase1/toolchain.json'))),

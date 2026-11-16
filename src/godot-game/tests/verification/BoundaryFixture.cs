@@ -13,11 +13,11 @@ internal static class BoundaryFixture
     internal static void CoreProvider(string id)
     {
         var fixture = new GraphFixture();
-        const string Provider = "src/provider/Provider.csproj";
+        const string Provider = "src/godot-game/provider/Provider.csproj";
         fixture.Write(relative: Provider, content: "<Project Sdk=\"Microsoft.NET.Sdk\"><PropertyGroup>"
                 + "<TargetFramework>net10.0</TargetFramework><AssemblyName>KingdomZombies.Provider</AssemblyName>"
                 + "</PropertyGroup></Project>\n");
-        fixture.Write(relative: "src/provider/Provider.cs", content: "namespace Boundary;\n\n"
+        fixture.Write(relative: "src/godot-game/provider/Provider.cs", content: "namespace Boundary;\n\n"
                 + "/// <summary>Concrete isolated provider probe.</summary>\npublic sealed class Provider\n{\n}\n");
         fixture.Compile(project: Provider, restore: true);
         fixture.Append(project: ProjectEvaluator.Expected[0], xml: "<ItemGroup><ProjectReference Include=\""
@@ -39,7 +39,7 @@ internal static class BoundaryFixture
     internal static void Provider(string id, bool negative, bool reusable = false)
     {
         var fixture = new GraphFixture();
-        string project = "src/provider/Provider.csproj";
+        string project = "src/godot-game/provider/Provider.csproj";
         string name = reusable ? "Sebreiro.Helper" : "KingdomZombies.Provider";
         string ports = reusable ? "" : "<ProjectReference Include=\"../multiplayer-abstractions/"
                 + "KingdomZombies.Multiplayer.Abstractions.csproj\"/>";
@@ -55,13 +55,13 @@ internal static class BoundaryFixture
                     + "    /// <summary>Implements only the independent service port.</summary>\n"
                     + "    public int Echo(int value)\n    {\n        return value;\n    }\n}\n";
         }
-        fixture.Write(relative: "src/provider/Provider.cs", content: source);
+        fixture.Write(relative: "src/godot-game/provider/Provider.cs", content: source);
         fixture.Compile(project: project, restore: true);
         if (negative)
         {
             fixture.Append(project: project, xml: "<ItemGroup><ProjectReference Include=\""
                     + "../core/KingdomZombies.Core.csproj\"/></ItemGroup>");
-            fixture.Write(relative: "src/provider/Provider.cs", content: source.Replace(oldValue: reusable
+            fixture.Write(relative: "src/godot-game/provider/Provider.cs", content: source.Replace(oldValue: reusable
                     ? "return 1;" : "return value;",
                     newValue: "return typeof(KingdomZombies.Core.ProofValue).Name.Length;",
                     comparisonType: StringComparison.Ordinal));
@@ -69,7 +69,7 @@ internal static class BoundaryFixture
         }
 
         string[] errors = [..TypeBoundaryScanner.Validate(assembly: Path.Combine(path1: fixture.Root,
-                path2: "src/provider/bin/Debug/net10.0/" + name + ".dll"), expectedType: "Boundary.Provider",
+                path2: "src/godot-game/provider/bin/Debug/net10.0/" + name + ".dll"), expectedType: "Boundary.Provider",
                 boundary: reusable ? "analyzer" : "provider")];
         string[] graph = [.. ProjectEvaluator.ValidateProvider(root: fixture.Root, project: project,
                 reusable: reusable)];
@@ -104,13 +104,14 @@ internal static class BoundaryFixture
                     comparisonType: StringComparison.Ordinal));
         }
 
-        string target = engine ? "../godot-game/KingdomZombies.csproj" : "../core/KingdomZombies.Core.csproj";
+        string target = engine ? "../game/KingdomZombies.csproj" : "../core/KingdomZombies.Core.csproj";
         if (StringComparer.Ordinal.Equals(x: dependency, y: "enum"))
         {
             fixture.Write(relative: "src/godot-game/core/BoundaryKind.cs", content: File.ReadAllText(path: Path.Combine(
-                    path1: ProofProtocol.Root, path2: "src/godot-game/tests/verification/Models/BoundaryKind.cs")).Replace(
-                            oldValue: "internal enum", newValue: "public enum",
-                            comparisonType: StringComparison.Ordinal)
+                    path1: ProofProtocol.Root, path2:
+                            "src/godot-game/tests/verification/Models/BoundaryKind.cs")).Replace(
+                                    oldValue: "internal enum", newValue: "public enum",
+                                    comparisonType: StringComparison.Ordinal)
                     .Replace(oldValue: "    [JsonString", newValue: "    /// <summary>Pinned value.</summary>\n"
                             + "    [JsonString", comparisonType: StringComparison.Ordinal));
         }
@@ -123,7 +124,8 @@ internal static class BoundaryFixture
                 "namespace Boundary;\n\ninternal interface Subject\n{\n    " + type + " Read();\n}\n");
         fixture.Compile(project: ProjectEvaluator.Expected[1], restore: true);
         string assembly = Path.Combine(path1: fixture.Root,
-                path2: "src/godot-game/multiplayer-abstractions/bin/Debug/net10.0/KingdomZombies.Multiplayer.Abstractions.dll");
+                path2: "src/godot-game/multiplayer-abstractions/bin/Debug/net10.0/"
+                        + "KingdomZombies.Multiplayer.Abstractions.dll");
         string[] errors = [..TypeBoundaryScanner.Validate(assembly: assembly,
                 expectedType: "KingdomZombies.Multiplayer.Abstractions.IProofService", boundary: "ports")];
         errors.ShouldContain(elementPredicate: error => error.StartsWith(value: "TYPE_FORBIDDEN",
@@ -142,7 +144,8 @@ internal static class BoundaryFixture
                 + "    {\n        return provider.GetService(serviceType: typeof(int));\n    }\n}\n";
         string clean = "namespace KingdomZombies;\n\ninternal static class CompositionRoot\n{\n"
                 + "    internal static int Read(int value)\n    {\n        return value;\n    }\n}\n";
-        File.WriteAllText(path: Path.Combine(path1: fixture.DirectoryPath, path2: "src/godot-game/core/CompositionRoot.cs"),
+        File.WriteAllText(path: Path.Combine(path1: fixture.DirectoryPath, path2:
+                "src/godot-game/core/CompositionRoot.cs"),
                 contents: clean);
         fixture.Restore();
         (int Exit, string Output) control = fixture.Build();
@@ -152,7 +155,8 @@ internal static class BoundaryFixture
             source = clean;
         }
 
-        File.WriteAllText(path: Path.Combine(path1: fixture.DirectoryPath, path2: "src/godot-game/core/" + owner + ".cs"),
+        File.WriteAllText(path: Path.Combine(path1: fixture.DirectoryPath, path2: "src/godot-game/core/" + owner +
+                ".cs"),
                 contents: source);
         (int Exit, string Output) built = fixture.Build();
         if (negative)

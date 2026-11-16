@@ -38,7 +38,8 @@ public sealed class RandomContractTests
         }
 
         ProofProtocol.Record(id: "state.golden-vectors", diagnostic: "PINNED_GOLDEN_VECTORS",
-                location: "src/godot-game/core/ReplayRandom.cs:Draw; runtime=10.0.15; seeds=0,1,int.MinValue,int.MaxValue");
+                location: "src/godot-game/core/"
+                        + "ReplayRandom.cs:Draw; runtime=10.0.15; seeds=0,1,int.MinValue,int.MaxValue");
     }
 
     /// <summary>Restoring an explicit saved position continues the observed runtime stream.</summary>
@@ -278,7 +279,8 @@ public sealed class RandomContractTests
         Should.Throw<InvalidOperationException>(actual: () => limit.Draw());
         limit.DrawPosition.ShouldBe(expected: ReplayRandom.MaxDrawPosition);
         ProofProtocol.Record(id: "edge.rule-07.boundary", diagnostic: "STATE_INTEGER_BOUNDARIES",
-                location: "src/godot-game/core/ExampleState.cs:ParseMilliseconds; src/godot-game/core/ReplayRandom.cs:ReplayRandom/Draw");
+                location: "src/godot-game/core/ExampleState.cs:ParseMilliseconds; src/godot-game/"
+                        + "core/ReplayRandom.cs:ReplayRandom/Draw");
     }
 
     /// <summary>Rejects incompatible names, numbers and order under the pinned enum map.</summary>
@@ -316,7 +318,8 @@ public sealed class RandomContractTests
                 comparisonType: StringComparison.Ordinal);
         ArchitecturePolicy.Enum(source: additive, selector: Selector, rule: "R-77").ShouldBeEmpty();
         ProofProtocol.Record(id: "state.enum-evolution", diagnostic: "PINNED_ENUM_EVOLUTION",
-                location: "src/godot-game/core/ProofKind.cs; src/godot-game/tests/verification/ArchitecturePolicy.cs:ValidEvolution");
+                location: "src/godot-game/core/ProofKind.cs; src/godot-game/tests/verification/"
+                        + "ArchitecturePolicy.cs:ValidEvolution");
     }
 
     private static readonly long[] _seedZero = [7083764782846131554, 5154802594370149492,

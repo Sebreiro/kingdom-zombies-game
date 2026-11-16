@@ -273,7 +273,8 @@ public sealed class ExemptionTests
         errors.Count.ShouldBe(expected: 1);
         errors[0].ShouldBe(expected: "SUPPRESSION_UNREGISTERED Subject.cs(1,1) pragma SCR0006");
         ProofProtocol.Record(id: "rules.exemptions", diagnostic: "UNREGISTERED_REAL_BUILD_SUPPRESSION",
-                location: fixture.DirectoryPath + "/src/godot-game/core/Subject.cs(1,1), compiler bypass rejected by guard");
+                location: fixture.DirectoryPath +
+                        "/src/godot-game/core/Subject.cs(1,1), compiler bypass rejected by guard");
     }
 
     /// <summary>Duplicate and overlapping same-diagnostic scopes cannot borrow valid adjacent permissions.</summary>

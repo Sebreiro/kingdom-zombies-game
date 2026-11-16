@@ -39,7 +39,9 @@ $env:NUGET_PACKAGES = Join-Path $phase1Root '.phase1/packages'
 $env:NUGET_HTTP_CACHE_PATH = Join-Path $phase1Root '.phase1/http-cache'
 $env:TEMP = Join-Path $phase1Root '.phase1/temp'
 $env:TMP = $env:TEMP
+Push-Location -LiteralPath 'src/godot-game'
 dotnet tool restore --configfile NuGet.config
+Pop-Location
 ```
 
 Linux, from the checkout root (requires `unzip` and the x64 prerequisites):
@@ -50,12 +52,13 @@ export DOTNET_CLI_HOME="$PWD/.phase1/cli-home"
 export NUGET_PACKAGES="$PWD/.phase1/packages"
 export NUGET_HTTP_CACHE_PATH="$PWD/.phase1/http-cache"
 export TMPDIR="$PWD/.phase1/temp" TEMP="$PWD/.phase1/temp" TMP="$PWD/.phase1/temp"
-dotnet tool restore --configfile NuGet.config
+(cd src/godot-game && dotnet tool restore --configfile NuGet.config)
 ```
 
 Tool restore uses only the declared official NuGet source. The bootstrap's initial engine slice needs only the four archive packages; additional phase tools are restored when their owning plans establish their proofs. After the native bootstrap command in the [verification reference](verification.md) has populated the verified engine feed, restore exactly the five committed project lock files from the checkout root on either platform:
 
 ```sh
+cd src/godot-game
 dotnet restore KingdomZombies.slnx --locked-mode --disable-parallel -p:NuGetAudit=false
 ```
 

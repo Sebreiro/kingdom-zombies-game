@@ -24,7 +24,8 @@ internal static class TypeBoundaryScanner
                 path2: "src/godot-game/core/bin/Debug/net10.0/KingdomZombies.Core.dll"),
                 expectedType: "KingdomZombies.Core.ProofValue", boundary: "core"));
         errors.AddRange(collection: Validate(assembly: Path.Combine(path1: root,
-                path2: "src/godot-game/multiplayer-abstractions/bin/Debug/net10.0/KingdomZombies.Multiplayer.Abstractions.dll"),
+                path2: "src/godot-game/multiplayer-abstractions/bin/Debug/net10.0/"
+                        + "KingdomZombies.Multiplayer.Abstractions.dll"),
                 expectedType: "KingdomZombies.Multiplayer.Abstractions.IProofService", boundary: "ports"));
         errors.AddRange(collection: Validate(assembly: Path.Combine(path1: root,
                 path2: "tools/code-rules/bin/Debug/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll"),

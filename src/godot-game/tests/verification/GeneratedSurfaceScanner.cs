@@ -35,7 +35,8 @@ internal static class GeneratedSurfaceScanner
                 diagnostic: "XUNIT_PACKAGE_HASH");
         Require(value: receipt["TargetsSha256"].ToLowerInvariant(), expected: TargetsHash,
                 diagnostic: "XUNIT_TARGETS_HASH");
-        string policyHash = Hash(file: Path.Combine(path1: root, path2: "src/godot-game/build/Directory.Xunit.targets"));
+        string policyHash = Hash(file: Path.Combine(path1: root, path2:
+                "src/godot-game/build/Directory.Xunit.targets"));
         Require(value: receipt["PolicySha256"].ToLowerInvariant(), expected: policyHash,
                 diagnostic: "XUNIT_OWNED_POLICY_HASH");
         Require(value: Path.GetFullPath(path: receipt["Project"]), expected: Path.GetFullPath(path: Path.Combine(

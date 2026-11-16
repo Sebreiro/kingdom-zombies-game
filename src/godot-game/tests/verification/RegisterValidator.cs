@@ -354,7 +354,8 @@ public static class RegisterValidator
             string expectedProof = _analyzers.TryGetValue(key: id, value: out string? analyzer)
                     ? "src/godot-game/tests/verification/Analyzers/" + analyzer + "AnalyzerTests.cs" : number switch
                     {
-                        34 or 63 or 64 or 65 or 66 or 74 or 75 or 77 or 81 => "src/godot-game/tests/verification/ArchitectureRuleTests.cs",
+                        34 or 63 or 64 or 65 or 66 or 74 or 75 or 77 or 81 =>
+                                "src/godot-game/tests/verification/ArchitectureRuleTests.cs",
                         >= 51 and <= 62 or 78 => "src/godot-game/tests/verification/GraphTests.cs",
                         67 => "src/godot-game/tests/verification/SuppressionTests.cs",
                         73 => "src/godot-game/tests/verification/RandomContractTests.cs",
@@ -884,8 +885,9 @@ public static class RegisterValidator
             {
                 if (!StringComparer.Ordinal.Equals(x: Text(node: row?["rule"]), y: id) || !StringComparer
                         .Ordinal.Equals(x: Text(node: row?["path"]),
-                                y: "src/godot-game/tests/verification/Analyzers/BodyLengthAnalyzerTests.cs") || !StringComparer
-                                        .Ordinal.Equals(x: Text(node: row?["status"]), y: "pending"))
+                                y: "src/godot-game/tests/verification/Analyzers/BodyLengthAnalyzerTests.cs") ||
+                        !StringComparer
+                                .Ordinal.Equals(x: Text(node: row?["status"]), y: "pending"))
                 {
                     errors.Add(item: id + ": NUMERIC_BOUNDARY_PROOFS");
                 }

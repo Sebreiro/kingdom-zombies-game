@@ -25,14 +25,16 @@ public sealed class ArchitectureRuleTests
                 oldValue: "internal sealed class", newValue: "public sealed class",
                 comparisonType: StringComparison.Ordinal);
         var fixture = new BuildFixture();
-        File.WriteAllText(path: Path.Combine(path1: fixture.DirectoryPath, path2: "src/godot-game/core/BoundaryOptions.cs"),
+        File.WriteAllText(path: Path.Combine(path1: fixture.DirectoryPath, path2:
+                "src/godot-game/core/BoundaryOptions.cs"),
                 contents: source);
         fixture.Restore();
         (int Exit, string Output) built = fixture.Build();
         built.Exit.ShouldBe(expected: 0, customMessage: "INFRASTRUCTURE_SUBJECT: " + built.Output);
         var consumer = ConsumerCompilation.Read(root: fixture.DirectoryPath, project: ProjectEvaluator.Expected[0]);
         ArchitecturePolicy.Visibility(root: ProofProtocol.Root, source: source,
-                path: "src/godot-game/tests/verification/Models/BoundaryOptions.cs", options: consumer.Options).ShouldNotBeEmpty();
+                path: "src/godot-game/tests/verification/Models/BoundaryOptions.cs", options:
+                        consumer.Options).ShouldNotBeEmpty();
         ProofProtocol.Record(id: "R-34.negative", diagnostic: "R-34");
     }
 
@@ -202,7 +204,8 @@ public sealed class ArchitectureRuleTests
         if (negative)
         {
             source = Mutate(source: source, rule: rule);
-            string target = Path.Combine(path1: fixture.DirectoryPath, path2: "src/godot-game/core/" + modelName + ".cs");
+            string target = Path.Combine(path1: fixture.DirectoryPath, path2: "src/godot-game/core/" + modelName +
+                    ".cs");
             if (StringComparer.Ordinal.Equals(x: rule, y: "R-66"))
             {
                 target = Path.Combine(path1: fixture.DirectoryPath, path2: ProjectEvaluator.Expected[0]);
@@ -289,7 +292,8 @@ public sealed class ArchitectureRuleTests
 
     private static string ModelPath(string model)
     {
-        return Path.Combine(path1: ProofProtocol.Root, path2: "src/godot-game/tests/verification/Models/" + model + ".cs");
+        return Path.Combine(path1: ProofProtocol.Root, path2: "src/godot-game/tests/verification/Models/" + model
+                + ".cs");
     }
 
     private static string SelectedModel(string rule)

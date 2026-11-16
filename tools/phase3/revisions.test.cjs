@@ -55,7 +55,7 @@ function fixture(build=false){
     return {id,status:'pass',evidence:[{path:id+'.subject.log',sha256:ref(prefix+'/'+id+'.subject.log').sha256}],report:{path:id+'/tests.json',sha256:ref(prefix+'/tests.json').sha256}};
   });
   inherited.phase1.push(record('phase1',{...identity,revision:tested,nonce:'p1',status:'pass',input:baseline.snapshot(root,p1).sha256,selected:selection.selected.phase1,results:p1Results}));
-  const p2Manifest={inputs:['src','src/godot-game/tests/verification','tools/phase2','tools/phase1/toolchain.json','src/godot-game/Directory.Build.props','src/godot-game/Directory.Build.targets','src/godot-game/Directory.Packages.props','.editorconfig','src/godot-game/build/BannedSymbols.txt','src/godot-game/build/BannedSymbols.Pure.txt','docs/code']};
+  const p2Manifest={inputs:['src','tools/phase2','tools/phase1/toolchain.json','tools/dotnet.cjs','.editorconfig','docs/code']};
   const p2Identity={...identity,input:baseline.snapshot(root,p2Manifest).sha256,revision:tested,nonce:'p2'};
   inherited.phase2.push(record('phase2',{schemaVersion:2,...p2Identity,status:'pass',startedAt:10,finishedAt:20,failures:[],selected:selection.selected.phase2,results:selection.selected.phase2.map(id=>({...p2Identity,id,status:'pass'}))}));
   inherited.commands=['phase1','phase2'].map(family=>{
@@ -79,8 +79,9 @@ function fixture(build=false){
 function compile(root,stamp,pinSourceRoot=true){
   const env={...check.environment(project),SourceRevisionId:stamp??'',CustomAfterMicrosoftCommonTargets:pinSourceRoot?path.join(root,'tools/phase3/reviewed-source.targets'):''};
   const args=['build','.phase3/build/Subject.csproj','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'];
-  const startedAt=Date.now(),result=spawnSync('dotnet',args,
-    {cwd:root,env,encoding:'utf8',windowsHide:true,timeout:20000});
+  const configured=require('../dotnet.cjs').launch(root,'dotnet',args);
+  const startedAt=Date.now(),result=spawnSync('dotnet',configured.args,
+    {cwd:configured.cwd,env,encoding:'utf8',windowsHide:true,timeout:20000});
   const records=path.join(root,'.phase3/build-records');fs.mkdirSync(records,{recursive:true});
   fs.writeFileSync(path.join(records,'build-'+fs.readdirSync(records).length+'.json'),JSON.stringify({executable:'dotnet',args,
     sourceRevisionId:stamp,pinSourceRoot,startedAt,finishedAt:Date.now(),code:result.status,signal:result.signal,stdout:result.stdout,stderr:result.stderr,error:result.error?.message}),{flag:'wx'});

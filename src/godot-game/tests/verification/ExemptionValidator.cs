@@ -242,13 +242,16 @@ internal static class ExemptionValidator
         ["KZ-EX-BODY-LENGTH-01"] = ["EX-01", "R-37", "MA0051", ".editorconfig", "exact editorconfig setting",
             "[*.cs] dotnet_diagnostic.MA0051.severity = none"],
         ["KZ-EX-ENGINE-AWAIT-01"] = ["EX-02", "R-45", "MA0004", ".editorconfig", "exact editorconfig setting",
-            "[*.cs] dotnet_diagnostic.MA0004.severity = none; [src/{core,multiplayer-abstractions}/**.cs] error"],
+            "[*.cs] dotnet_diagnostic.MA0004.severity = none; [src/godot-game/"
+                    + "{core,multiplayer-abstractions}/**.cs] error"],
         ["KZ-EX-TEST-NAMES-01"] = ["EX-03", "R-48", "CA1707", ".editorconfig", "exact editorconfig setting",
             "[src/godot-game/tests/verification/**.cs] dotnet_diagnostic.CA1707.severity = none"],
         ["KZ-EX-TEST-EXE-01"] = ["EX-13", "R-52", "PROJECT_OUTPUT_EXE",
-            "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj", "exact project executable permission",
+            "src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj",
+            "exact project executable permission",
             "KingdomZombies.Phase1.Tests; IsTestProject=true; OutputType=Exe"],
-        ["KZ-EX-ANALYZER-BOOTSTRAP-01"] = ["EX-19", "R-54", "ANALYZER_BOOTSTRAP_EDGE", "src/godot-game/Directory.Build.targets",
+        ["KZ-EX-ANALYZER-BOOTSTRAP-01"] = ["EX-19", "R-54", "ANALYZER_BOOTSTRAP_EDGE",
+            "src/godot-game/Directory.Build.targets",
             "exact analyzer bootstrap edge",
             "MSBuildProjectName != Sebreiro.CodeRules.Analyzers; OutputItemType=Analyzer; "
                     + "ReferenceOutputAssembly=false"]

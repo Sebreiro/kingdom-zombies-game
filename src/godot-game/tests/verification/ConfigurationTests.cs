@@ -131,10 +131,10 @@ public sealed class ConfigurationTests
                     propertyName: "AdditionalFiles").EnumerateArray().Select(selector: r => Path.GetFileName(
                             path: r.GetProperty(propertyName: "FullPath").GetString()))];
             bool isTest = StringComparer.Ordinal.Equals(x: project, y: Projects[4]);
-            files.Any(predicate: f => StringComparer.Ordinal.Equals(x: f, y: isTest ? "src/godot-game/build/BannedSymbols.Tests.txt"
-                    : "src/godot-game/build/BannedSymbols.txt")).ShouldBeTrue();
-            files.Any(predicate: f => StringComparer.Ordinal.Equals(x: f, y: isTest ? "src/godot-game/build/BannedSymbols.txt"
-                    : "src/godot-game/build/BannedSymbols.Tests.txt")).ShouldBeFalse();
+            files.Any(predicate: f => StringComparer.Ordinal.Equals(x: f, y: isTest ? "BannedSymbols.Tests.txt"
+                    : "BannedSymbols.txt")).ShouldBeTrue();
+            files.Any(predicate: f => StringComparer.Ordinal.Equals(x: f, y: isTest ? "BannedSymbols.txt"
+                    : "BannedSymbols.Tests.txt")).ShouldBeFalse();
         }
 
         ProofProtocol.Record(id: "pins.banned-inputs", diagnostic: "BANNED_INPUTS_SCOPED",
@@ -445,8 +445,9 @@ public sealed class ConfigurationTests
             start.ArgumentList.Add(item: argument);
         }
 
-        using Process child = Process.Start(startInfo: DotnetLaunch.Configure(start: start)) ?? throw new InvalidOperationException(
-                message: "dotnet did not start");
+        using Process child = Process.Start(startInfo: DotnetLaunch.Configure(start: start)) ?? throw new
+                InvalidOperationException(
+                        message: "dotnet did not start");
         Task<string> output = child.StandardOutput.ReadToEndAsync();
         Task<string> error = child.StandardError.ReadToEndAsync();
         if (!child.WaitForExit(milliseconds: 30000))
@@ -548,8 +549,8 @@ public sealed class ConfigurationTests
 
     private static string Fixture(string source, bool tests = false)
     {
-        string directory = Path.Combine(path1: ProofProtocol.Root, path2: ".phase1/temp/compiler-" + Guid
-                .NewGuid().ToString(format: "N"));
+        var fixture = new BuildFixture();
+        string directory = Path.Combine(path1: fixture.DirectoryPath, path2: "src/godot-game/compiler");
         Directory.CreateDirectory(path: directory);
         File.WriteAllText(path: Path.Combine(path1: directory, path2: "CompilerFixture.csproj"),
                 contents: ("<Project Sdk=\"Microsoft.NET.Sdk\"><PropertyGroup><Target"

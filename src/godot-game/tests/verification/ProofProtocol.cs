@@ -66,8 +66,9 @@ public static class ProofProtocol
         };
         start.ArgumentList.Add(item: "-e");
         start.ArgumentList.Add(item: script);
-        using Process process = Process.Start(startInfo: DotnetLaunch.Configure(start: start)) ?? throw new InvalidOperationException(
-                message: "Node failed to start");
+        using Process process = Process.Start(startInfo: DotnetLaunch.Configure(start: start)) ?? throw new
+                InvalidOperationException(
+                        message: "Node failed to start");
         Task<string> output = process.StandardOutput.ReadToEndAsync();
         Task<string> error = process.StandardError.ReadToEndAsync();
         if (!process.WaitForExit(milliseconds: 5000))

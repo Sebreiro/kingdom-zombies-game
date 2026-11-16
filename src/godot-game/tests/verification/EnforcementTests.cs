@@ -177,7 +177,8 @@ public sealed class EnforcementTests
         BuildFixture.HasDiagnostic(result: restored, id: "CS0246", line: 6, column: 21).ShouldBeTrue(
                 customMessage: restored.Output);
         ProofProtocol.Record(id: "rules.implicit-usings-control", diagnostic: "IMPLICIT_USINGS_SENSITIVE",
-                location: fixture.DirectoryPath + "/src/godot-game/core/Subject.cs(6,21), same bytes; disable/enable/disable");
+                location: fixture.DirectoryPath +
+                        "/src/godot-game/core/Subject.cs(6,21), same bytes; disable/enable/disable");
     }
 
     /// <summary>Exercises R-17 through its actual isolated compiler consumer.</summary>

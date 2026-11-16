@@ -2,6 +2,7 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const e=require('./evidence.cjs'),inherited=require('./inherited.cjs');
 function fixture(mode){
+  fs.mkdirSync(path.resolve(__dirname,'../../.phase3'),{recursive:true});
   const root=fs.mkdtempSync(path.resolve(__dirname,'../../.phase3/inherited-control-'));
   const write=(file,value)=>{fs.mkdirSync(path.dirname(path.join(root,file)),{recursive:true});fs.writeFileSync(path.join(root,file),typeof value==='string'?value:JSON.stringify(value));};
   const phase1=[{id:'ordinary.failure',group:'rules'},{id:'ordinary.success',group:'rules'},{id:'engine.source-policy',group:'engine'}];

@@ -353,7 +353,8 @@ public sealed class RegisterTests
                 ?? throw new System.InvalidOperationException(message: "Required proof value is null"))[
                         "positiveProof"] ?? throw new System.InvalidOperationException(
                                 message: "Required proof value is null"))[
-                                        "path"] = "src/godot-game/tests/verification/Analyzers/bodyLengthAnalyzerTests.cs",
+                                        "path"] = "src/godot-game/tests/verification/Analyzers/"
+                                                + "bodyLengthAnalyzerTests.cs",
                 expected: "R-37: PROOF_PATH");
     }
 

@@ -1,5 +1,5 @@
-const dotnet=require('../dotnet.cjs');
 'use strict';
+const {launch:dotnetLaunch}=require('../dotnet.cjs');
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),os=require('node:os');
 const {spawnSync}=require('node:child_process');
 const baseline=require('../phase1/check.cjs'),e=require('./evidence.cjs');
@@ -17,8 +17,8 @@ function select(catalog,args){
   const ids=args[1].split(',');requireTrue(new Set(ids).size===ids.length,'SELECTION_DUPLICATE');
   requireTrue(ids.every(id=>id.length>0&&known.has(id)),'SELECTION_EMPTY_OR_UNKNOWN');return {selected:ids.map(id=>known.get(id))};
 }
-function inputManifest(){return {inputs:['src','src/godot-game/tests/verification','tools/phase3','tools/phase2','tools/phase1/toolchain.json','src/godot-game/Directory.Build.props','src/godot-game/Directory.Build.targets',
-  'src/godot-game/Directory.Packages.props','.editorconfig','src/godot-game/build/BannedSymbols.txt','src/godot-game/build/BannedSymbols.Pure.txt','docs/code','docs/architecture','tools/code-rules',
+function inputManifest(){return {inputs:['src','tools/phase3','tools/phase2','tools/phase1/toolchain.json','tools/dotnet.cjs',
+  '.editorconfig','docs/code','docs/architecture','tools/code-rules',
   'docs/workflow/local-testing.md','docs/workflow/ai-collaboration.md',
   '.planning/phases/03-four-player-lan-foundation/03-SCENARIOS.md','.planning/phases/03-four-player-lan-foundation/03-SELECTION.json']};}
 function environment(root){return {...process.env,CustomAfterMicrosoftCommonTargets:path.join(root,'tools/phase3/reviewed-source.targets'),
@@ -27,7 +27,7 @@ function environment(root){return {...process.env,CustomAfterMicrosoftCommonTarg
 function createIdentity(root){
   const buildRevision=process.env.SourceRevisionId??null;
   requireTrue(buildRevision===null||/^[a-f0-9]{40}$/.test(buildRevision),'BUILD_REVISION_MALFORMED');
-  const env=environment(root),version=spawnSync('dotnet',['--version'],{cwd:path.join(root,'src/godot-game'),env,encoding:'utf8',windowsHide:true,timeout:12000});requireTrue(version.status===0,'DOTNET_MISSING');
+  const env=environment(root),version=spawnSync('dotnet',['--version'],{cwd:dotnetLaunch(root,'dotnet',[]).cwd,env,encoding:'utf8',windowsHide:true,timeout:12000});requireTrue(version.status===0,'DOTNET_MISSING');
   const revision=spawnSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8',windowsHide:true});requireTrue(revision.status===0,'REVISION_UNAVAILABLE');
   const operatingSystem={platform:process.platform,architecture:process.arch,release:os.release(),version:os.version()};
   return {platform:process.platform+'-'+process.arch,os:operatingSystem,osFingerprint:hash(JSON.stringify(operatingSystem)),
@@ -40,7 +40,7 @@ async function csharp(context,item){
     PHASE1_NONCE:context.nonce,PHASE1_INPUT:context.input,PHASE1_TOOL:context.tool,PHASE1_PLATFORM:context.platform};
   let run;
   try{run=await command('dotnet',[path.join(context.root,'src/godot-game/tests/verification/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll'),
-    '--filter-method',item.test,'--report-xunit-ctrf','--report-xunit-ctrf-filename',item.id+'.ctrf.json','--results-directory',context.directory],{cwd:path.join(context.root,'src/godot-game'),env},180000);}
+    '--filter-method',item.test,'--report-xunit-ctrf','--report-xunit-ctrf-filename',item.id+'.ctrf.json','--results-directory',context.directory],{cwd:dotnetLaunch(context.root,'dotnet',[]).cwd,env},180000);}
   catch(error){fs.writeFileSync(path.join(context.directory,item.id+'.console.log'),JSON.stringify(error.record??{error:error.stack},null,2),{flag:'wx'});throw error;}
   fs.writeFileSync(path.join(context.directory,item.id+'.console.log'),run.stdout+run.stderr,{flag:'wx'});
   const report=e.read(path.join(context.directory,item.id+'.ctrf.json'));
