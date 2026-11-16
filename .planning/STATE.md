@@ -7,10 +7,10 @@ current_phase_name: Asset production
 current_plan: Not started
 status: planning
 stopped_at: Phase 3 verified complete; requested --only 3 boundary reached
-last_updated: "2026-11-16T14:29:40.751Z"
+last_updated: "2026-11-16T15:25:42.139Z"
 last_activity: 2026-11-16
-last_activity_desc: Completed quick task 261116-k3u; repository layout and PR review entry point verified
-state_head: de5f40f81e2737e4097c25cd57a17e44643136a0
+last_activity_desc: Completed quick task 261116-m0w; all game-configured tools use purpose-based workspace folders
+state_head: 4ea92b5a849df34e695da23746ba6f09605096f5
 progress:
   total_phases: 11
   completed_phases: 3
@@ -35,7 +35,7 @@ Phase: 04 — Asset production
 Current Plan: Not started
 Total Plans in Phase: TBD
 Status: Ready to plan
-Last activity: 2026-11-16 — Completed quick task 261116-k3u: game workspace cleanup and PR review entry point; PR #6 ready for review.
+Last activity: 2026-11-16 — Completed quick task 261116-m0w: all game-configured tools are in purpose-based workspace folders; PR #6 ready for review.
 
 Progress: [███░░░░░░░] 27%
 
@@ -130,6 +130,7 @@ Phase 3 has no blocking acceptance item. Its independent [UI audit](phases/03-fo
 | --- | --- | --- | --- | --- | --- |
 | 261114-we2 | Require phase feature branches and draft-to-ready PRs targeting dev | 2026-11-14 | 9a96240 | — | [261114-we2-define-phase-feature-branches-and-draft-](quick/261114-we2-define-phase-feature-branches-and-draft-/261114-we2-SUMMARY.md) |
 | 261116-k3u | Consolidate the game workspace; explain tooling and add the PR review entry point | 2026-11-16 | de5f40f | Verified | [261116-k3u-consolidate-the-game-workspace-and-docum](quick/261116-k3u-consolidate-the-game-workspace-and-docum/261116-k3u-SUMMARY.md) |
+| 261116-m0w | Move all game-configured tools into purpose-based workspace folders | 2026-11-16 | 4ea92b5 | Verified | [261116-m0w-organize-game-specific-tools-by-purpose-](./quick/261116-m0w-organize-game-specific-tools-by-purpose-/261116-m0w-SUMMARY.md) |
 
 ## Deferred Items
 
@@ -154,3 +155,5 @@ Next action: Review PR #4; the creator owns the merge decision. Preserve reviewe
 Preserved future context: [Phase 4 context](phases/04-asset-production/04-CONTEXT.md). No Phase 4 work was executed by this run.
 
 Repository cleanup continuation, 2026-11-16: quick task 261116-k3u is complete on `feature/quick-repository-layout`, with [PR #6](https://github.com/Sebreiro/kingdom-zombies-game/pull/6) ready for review against dev. This branch starts from the dev snapshot above. The active Phase 4 checkout continues independently on its own branch; apply the [layout migration](../docs/architecture/repository-layout.md#historical-paths) when integrating that work. This quick task changes no phase-progress or acceptance claim.
+
+Tool-layout follow-up, 2026-11-16: quick task 261116-m0w supersedes the earlier provisional tool-placement decision. All current tools, including the game-configured analyzer, are under `src/godot-game/tools`; the root tools tree is removed. [PR #6](https://github.com/Sebreiro/kingdom-zombies-game/pull/6) is ready with tested implementation `4ea92b5`. Preserve Phase 4 work separately and use `tools/asset-pipeline` within the workspace when integrating it. Earlier reports remain historical, not current-layout validation.
