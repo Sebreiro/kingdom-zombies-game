@@ -85,6 +85,12 @@ public sealed class FoundationLanInputTests
                     (actor + offset + width).ShouldBeLessThanOrEqualTo(expected: viewport);
                     if (actor == viewport / 2) { offset.ShouldBe(expected: -width / 2); }
                 }
+
+                foreach (float outside in new[] { -width, viewport + width })
+                {
+                    FoundationPresentation.MarkerOffset(actorScreenX: outside, markerWidth: width,
+                            viewportWidth: viewport).ShouldBe(expected: -width / 2);
+                }
             }
         }
     }

@@ -10,7 +10,9 @@ internal static class FoundationPresentation
 {
     internal static float MarkerOffset(float actorScreenX, float markerWidth, float viewportWidth)
     {
-        return -markerWidth / 2;
+        if (actorScreenX < 0 || actorScreenX > viewportWidth) { return -markerWidth / 2; }
+        return Math.Clamp(value: actorScreenX - markerWidth / 2, min: 0,
+                max: Math.Max(val1: 0, val2: viewportWidth - markerWidth)) - actorScreenX;
     }
 
     internal static FoundationParticipantState? Local(FoundationSnapshot snapshot, string bindingId)

@@ -8,6 +8,8 @@ The native adapter frames every control and state payload with an eight-byte mag
 
 The draw observer consumes a request only after exact nonce/checkpoint validation and successful deletion, before capture. Actual Windows sharing/lock violations (HResult low word 32/33) defer to the next draw within the existing capture deadline. The request remains intact and no capture begins while its read or deletion is locked. Other IO/access errors and malformed requests propagate. `runner.integrity` uses real owned files and locks, release/recovery and duplicate-consumption checks alongside atomic acknowledgment controls.
 
+Join progress clears when the actual coordinator becomes ready, including the first tick after play hides the browser, and on fresh browser entry. Recoverable errors persist while idle until explicit navigation or another attempt. The headless `network.discovery-profile` regression drives a genuine baseline-to-ready transition through the production menu, return action and fresh browse, and checks error retention and navigation clearing. Its native projection checks all four local bindings and P1–P4/You rectangles at both world limits. Marker placement uses the current projected camera, actual label width and logical viewport; it changes horizontal label offsets only. Centered labels, offscreen actors, vertical stacking, actor coordinates, camera smoothing and clamps retain their existing behavior. `core.input` covers edge/center positions, label widths and viewport widths without a window. These structural checks do not replace actual image review.
+
 | Need | Command |
 | --- | --- |
 | Validate/list exact required cases and saved coverage | `node tools/phase3/check.cjs --list` |

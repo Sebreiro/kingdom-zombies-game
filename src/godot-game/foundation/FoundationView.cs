@@ -17,6 +17,7 @@ internal static class FoundationView
         gateway.RequireThread();
         FoundationParticipantState local = FoundationPresentation.Local(snapshot: snapshot, bindingId: bindingId)
                 ?? throw new InvalidOperationException(message: "PRESENTATION_LOCAL_NOT_READY");
+        Project(world: world, actor: local.Actor, gateway: gateway);
         foreach (Node child in world.GetChildren())
         {
             string childName = child.Name;
@@ -58,8 +59,6 @@ internal static class FoundationView
                     viewportWidth: world.GetViewportRect().Size.X), y: -112 - FoundationPresentation.LabelOffset(
                             snapshot: snapshot, participant: participant));
         }
-
-        Project(world: world, actor: local.Actor, gateway: gateway);
     }
 
     /// <summary>Reads position and facing, then projects them at sixteen logical pixels per unit.</summary>
