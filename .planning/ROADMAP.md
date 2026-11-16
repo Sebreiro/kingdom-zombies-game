@@ -197,7 +197,151 @@ Plans:
 4. A developer can inspect every required UI/text/data resource and error/legacy layout, test longer strings and supported scales, and audition all required sound/ambience categories through documented event bindings.
 5. The packaged content and inspection scenes import and run without the recovered-material folder or other absolute development paths; missing references and unfitted combinations are visible failures.
 
-**Plans:** TBD
+**Plans:** 33 plans
+
+Plans:
+**Wave 1**
+- [ ] 04-01-PLAN.md — Production donor-to-inspector tracer and exact provenance
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 04-25-PLAN.md — Exact census/provenance and atomic repeatable publication
+
+**Wave 3** *(blocked on Wave 2 completion)*
+- [ ] 04-02-PLAN.md — Early portable-export and audio feasibility
+
+**Wave 4** *(blocked on Wave 3 completion)*
+- [ ] 04-03-PLAN.md — Live inspection shell, validated loader and exact native permissions
+
+**Wave 5** *(blocked on Wave 4 completion)*
+- [ ] 04-26-PLAN.md — Inspection input/lifetime expansion with immediate exact native permission proofs
+
+**Wave 6** *(blocked on Wave 5 completion)*
+- [ ] 04-04-PLAN.md — Reusable donor kit, exact animation conversion and assembled scale proof
+
+**Wave 7** *(blocked on Wave 6 completion)*
+- [ ] 04-05-PLAN.md — All 24 item identities and reusable wearable/held masters
+- [ ] 04-11-PLAN.md — Three actual main-building tiers and shared camp resources
+
+**Wave 8** *(blocked on Wave 7 completion)*
+- [ ] 04-06-PLAN.md — Survivor and first three zombie body fits
+- [ ] 04-14-PLAN.md — Native UI kit, packaged fonts and reusable theme
+- [ ] 04-18-PLAN.md — Complete run, time, survivor, item, combat and inventory baseline
+
+**Wave 9** *(blocked on Wave 8 completion)*
+- [ ] 04-07-PLAN.md — Complete armored, wide and specialist zombie silhouettes/fits
+- [ ] 04-28-PLAN.md — Canonical status/input/player symbols and retained desktop identity art
+
+**Wave 10** *(blocked on Wave 9 completion)*
+- [ ] 04-08-PLAN.md — Concurrent locomotion, melee and coherent logical hands
+
+**Wave 11** *(blocked on Wave 10 completion)*
+- [ ] 04-09-PLAN.md — Bow, work, food and specialist action composition
+
+**Wave 12** *(blocked on Wave 11 completion)*
+- [ ] 04-10-PLAN.md — Persistent corpses, wildlife, identities and real crowd resources
+
+**Wave 13** *(blocked on Wave 12 completion)*
+- [ ] 04-12-PLAN.md — Walls, independent guards and complete defense lifecycle
+- [ ] 04-15-PLAN.md — Reusable inventory, legacy, stash and target layout states
+
+**Wave 14** *(blocked on Wave 13 completion)*
+- [ ] 04-13-PLAN.md — Complete authored world, portal and environmental effect inspection
+
+**Wave 15** *(blocked on Wave 14 completion)*
+- [ ] 04-27-PLAN.md — World/item navigation, replacement and held-out preview states
+
+**Wave 16** *(blocked on Wave 15 completion)*
+- [ ] 04-16-PLAN.md — People, economy, construction, map, rally and warning layouts
+- [ ] 04-19-PLAN.md — Complete economy, food, map, structure and tower baseline
+
+**Wave 17** *(blocked on Wave 16 completion)*
+- [ ] 04-17-PLAN.md — Session, save, outcome, settings and error layout resources
+
+**Wave 18** *(blocked on Wave 17 completion)*
+- [ ] 04-20-PLAN.md — Complete zombies, progression, portals, sessions and preferences
+
+**Wave 19** *(blocked on Wave 18 completion)*
+- [ ] 04-21-PLAN.md — All 30 real sound categories and complete event-bank resources
+
+**Wave 20** *(blocked on Wave 19 completion)*
+- [ ] 04-29-PLAN.md — Native audio audition, exact current-loop ownership and backstops
+
+**Wave 21** *(blocked on Wave 20 completion)*
+- [ ] 04-22-PLAN.md — Complete English text, compatibility and data/text inspection
+
+**Wave 22** *(blocked on Wave 21 completion)*
+- [ ] 04-23-PLAN.md — Complete source census and final exact native-policy reconciliation
+
+**Wave 23** *(blocked on Wave 22 completion)*
+- [ ] 04-30-PLAN.md — Saved scenario/evidence runner and prelaunch/acceptance validation code
+
+**Wave 24** *(blocked on Wave 23 completion)*
+- [ ] 04-31-PLAN.md — Complete portable Windows inspection export and clean failure/relaunch proof
+
+**Wave 25** *(blocked on Wave 24 completion)*
+- [ ] 04-24-PLAN.md — Independent whole-phase review and exact prelaunch selection
+
+**Wave 26** *(blocked on Wave 25 completion)*
+- [ ] 04-32-PLAN.md — Actual selected native/listening run and separate named judgments
+
+**Wave 27** *(blocked on Wave 26 completion)*
+- [ ] 04-33-PLAN.md — Exact acceptance/artifact/evidence completion reconciliation
+
+**Cross-cutting constraints:** <!-- gsd:generated -->
+- AC-02 is implemented by this slice and retains explicit source/headless versus final actual evidence ownership.
+- AC-03 is implemented by this slice and retains explicit source/headless versus final actual evidence ownership.
+- AC-16 is implemented by this slice and retains explicit source/headless versus final actual evidence ownership.
+- AC-20 is implemented by this slice and retains explicit source/headless versus final actual evidence ownership.
+- D-08: Use Godot's built-in animation tools and project code only, with no paid animation dependency. Research and planning should solve composition within that boundary rather than schedule a paid-add-on comparison or purchase.
+- D-25: Use one Windows inspection hub organized by category, with common navigation for characters, items, buildings/world, UI, data/text and audio. The complete obligation register and exact resource failures remain accessible under the specification.
+- D-28: Keep each preview's resource ID, name and status visible in a compact summary. Expand provenance, dimensions, timing and other metadata when needed. Missing/invalid-resource errors remain visible rather than being hidden in collapsed details.
+- AC-12 is implemented by this slice and retains explicit source/headless versus final actual evidence ownership.
+- AC-15 is implemented by this slice and retains explicit source/headless versus final actual evidence ownership.
+- AC-17 is implemented by this slice and retains explicit source/headless versus final actual evidence ownership.
+- D-31: Sound effects are punchier and more game-like: sharper swings, stronger impacts and more noticeable confirmations. This is an explicit selection over the proposed restrained-audio recommendation; the minimal visual-effects preference does not make the audio equally restrained. Suitable recovered recordings still come first and require audition/adaptation.
+- D-32: Keep forest, wind and fire ambience subdued so action sounds and important cues stand out. Include the required day/night/local ambience and audition controls; exact gains and mix parameters remain configurable production choices.
+- AC-04 is implemented by this slice and retains explicit source/headless versus final actual evidence ownership.
+- AC-05 is implemented by this slice and retains explicit source/headless versus final actual evidence ownership.
+- AC-08 is implemented by this slice and retains explicit source/headless versus final actual evidence ownership.
+- D-13: Favor the recovered sprites' simpler, low-resolution logical detail. Simplify the larger zombie/base examples to match, rather than raising the whole pack to their richer detail. Exact pixel density and dimensions remain a research/production choice established through the required assembled survivor/zombie/wall/tower/base scale test.
+- D-14: Use natural days and atmospheric nights: earthy scenery and warm wood in daylight, cooler/darker nights and restrained warm firelight. Required equipment, identities and states remain readable after dark.
+- D-15: Keep character heads, hands and equipment close to natural proportions. Use pose and contrast for readability rather than noticeably enlarged heads/hands/items.
+- D-16: Buildings and defenses look like practical camp construction: rough timber, straightforward bracing and functional reinforcement, with clear tier silhouettes. Preserve the specified wood/reinforced-wood/metal progression.
+- D-17: Backgrounds are layered but unobtrusive. Distant scenery and parallax provide depth while quiet space keeps characters, equipment and sites clear.
+- D-18: For normal unselected characters, strengthen dark outer pixel edges selectively where needed while keeping donor-style shading. Do not apply a uniform outline by default.
+- D-21: Zombie bodies share related muted undead skin tones, with subtle color differences supporting their required distinct silhouettes. Equipped items retain their actual appearance.
+- D-22: Start portal colors from suitable recovered donor colors. Spit and cosmetic acid use separate restrained sickly colors. No exact hue or numeric palette was selected; cosmetic acid remains non-damaging.
+- D-23: Use small, quiet pixel contact-shadow shapes beneath characters and small objects to establish their contact with the ground.
+- AC-01 is implemented by this slice and retains explicit source/headless versus final actual evidence ownership.
+- AC-06 is implemented by this slice and retains explicit source/headless versus final actual evidence ownership.
+- D-03: Clothing, belts and bags follow their attachment points closely, with little independent sway or bounce. This selects mostly fixed gear rather than the proposed secondary-motion treatment.
+- D-11: Clothing, armor and bags have a practical scavenged fit: slightly loose, utilitarian and modestly bulky, fitted to each required body. Slightly loose shapes do not imply the independent sway/bounce rejected in D-03.
+- D-20: Provide one canonical inventory icon per item, without separate durability-level icon variants. The creator did not choose one of the proposed icon-art treatments and does not want that detail expanded now. Exact durability indicators remain a planning detail within the required layouts/state examples; this does not remove item identities or required broken/condition presentation, nor the separate worn/held/corpse forms.
+- AC-18 is implemented by this slice and retains explicit source/headless versus final actual evidence ownership.
+- D-01: Use deliberate pixel-art poses for walking and attacks, with flexible arm/weapon movement where aiming needs it. Keep crisp pixel edges and the required concurrent walking/combat presentation; do not make full baked sheets for every equipment/action combination.
+- D-06: Death uses a short authored collapse suited to each body, ending in a stable, readable equipped corpse pose. A variable physical-collapse treatment was not selected.
+- D-02: Melee attacks have clear weight and follow-through. Shoulders and torso support the strike; heavier bodies and weapons feel weighty, while quick attacks remain sharp. Walking continues.
+- AC-19 is implemented by this slice and retains explicit source/headless versus final actual evidence ownership.
+- D-04: Melee effects are very minimal. Let the swing and target reaction carry the action; use only the small contact effects needed for clarity. The restrained-blood/no-dismemberment limit remains binding.
+- D-07: Hits cause a small, clear shoulder/torso flinch. This is visual feedback only and adds no stun, knockback or action delay.
+- D-09: Direction changes switch facing immediately and continue the current stride/action coherently. Preserve logical left/right hand identity and actual equipment.
+- D-27: Include play/pause, playback-speed and single-step controls to examine grips, layering, poses and timing. These operate the inspection preview; they do not change the active-game menu's no-pause rule.
+- AC-24 is implemented by this slice and retains explicit source/headless versus final actual evidence ownership.
+- D-12: Gathering, building, carrying and fireside rest use restrained, recognizable task poses with only the body movement each activity needs.
+- AC-07 is implemented by this slice and retains explicit source/headless versus final actual evidence ownership.
+- AC-09 is implemented by this slice and retains explicit source/headless versus final actual evidence ownership.
+- AC-14 is implemented by this slice and retains explicit source/headless versus final actual evidence ownership.
+- D-24: Selected corpses, loot piles and other inspectable objects use a steady thin contrasting pixel outline and modest marker. This defines selected-state presentation; it does not implement later gameplay interactions.
+- D-19: Standing damaged structures show localized material damage: cracks, splintered timber, bent reinforcement and small damaged areas, increasing with severity. Keep tier, material and functional state clear.
+- AC-21 is implemented by this slice and retains explicit source/headless versus final actual evidence ownership.
+- AC-10 is implemented by this slice and retains explicit source/headless versus final actual evidence ownership.
+- AC-11 is implemented by this slice and retains explicit source/headless versus final actual evidence ownership.
+- D-29: Use suitable recovered wooden buttons/borders as frames around simple dark, quiet panel interiors. Keep text, numbers and item grids clear.
+- D-30: Use a clear sans-serif face for most body text and numbers, with pixel-style type for selected headings/accents. Exact font files, sizes and fallbacks remain subject to extraction/comparison and the specified readability/scaling/expanded-text checks.
+- AC-13 is implemented by this slice and retains explicit source/headless versus final actual evidence ownership.
+- AC-23 is implemented by this slice and retains explicit source/headless versus final actual evidence ownership.
+- AC-22 is implemented by this slice and retains explicit source/headless versus final actual evidence ownership.
+
 **UI hint:** yes
 
 **Delivery boundary:** Maximize suitable reuse from `D:/Work/Games/KindomCrown/recovered`, preserve originals, and adapt/generate remaining gaps. Catalog-only or decoded-metadata evidence is not production completion. Include the full baseline data, English text, provenance, save/content compatibility metadata, crowd/persistent-corpse fixtures, and desktop delivery resources required by the asset plan. Resource/state fixtures complete production acceptance here; later phases must verify actual gameplay event bindings, ownership-driven appearances, save/join reconstruction, and measured release performance. The 180 obligations are not a count of separate files.

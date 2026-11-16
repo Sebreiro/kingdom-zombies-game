@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "phase": "04",
+  "status": "revision planning checks passed; independent recheck pending; implementation not executed",
+  "checks": {
+    "frontmatter": {
+      "plans": 33,
+      "valid": 33
+    },
+    "planStructure": {
+      "plans": 33,
+      "valid": 33,
+      "errors": 0,
+      "warnings": 0
+    },
+    "coverage": {
+      "obligations": 180,
+      "acceptance": 24,
+      "domainBackstops": 34,
+      "uiBackstops": 70,
+      "lockedDecisions": 32,
+      "judgmentProhibitions": 4,
+      "structuredBackstopTruths": 104
+    },
+    "ownership": {
+      "plans": 33,
+      "tasks": 66,
+      "waves": 27,
+      "maximumFilesPerPlan": 9,
+      "maximumFilesPerTask": 5,
+      "sameWaveFileOverlap": 0
+    },
+    "security": {
+      "uniqueThreatIds": 99,
+      "supplyChainId": "T-04-SC reserved/repeated",
+      "asvsLevel": 1,
+      "blockOn": "high"
+    },
+    "canonicalFileTails": {
+      "closedOutputTag": 33,
+      "continuationSentinel": 0
+    },
+    "research": {
+      "unresolvedOpenQuestions": 0,
+      "routeStatus": "RESOLVED; actual export/listening/production evidence remains pending"
+    }
+  },
+  "evidenceLimit": "Planning/schema/identity checks only. No production media, new source test, listening, export execution or native window run was performed by the planner. Parent's template acquisition observation is separate.",
+  "commit": "Not committed by planner; parent owns commits/PR lifecycle.",
+  "revision": 1,
+  "history": [
+    {
+      "iteration": 0,
+      "plans": 24,
+      "tasks": 54,
+      "waves": 19,
+      "frontmatterValid": 24,
+      "structureValid": 24,
+      "coverage": {
+        "obligations": 180,
+        "acceptance": 24,
+        "heldout": 34,
+        "ui": 70,
+        "decisions": 32,
+        "prohibitions": 4
+      },
+      "originalIndependentReport": "04-PLAN-CHECK.md"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "phase": "04",
+  "revision": 1,
+  "kind": "planning-only",
+  "frontmatterAndStructure": {
+    "plans": 33,
+    "tasks": 66,
+    "failed": [],
+    "warnings": []
+  },
+  "consistency": {
+    "plans": 33,
+    "tasks": 66,
+    "waves": 27,
+    "maxPlanFiles": 9,
+    "maxTaskFiles": 5,
+    "backstops": 104,
+    "uniqueThreats": 99,
+    "counts": {
+      "plans": 33,
+      "tasks": 66,
+      "waves": 27,
+      "obligations": 180,
+      "acceptance": 24,
+      "heldout": 34,
+      "ui": 70,
+      "decisions": 32,
+      "prohibitions": 4
+    },
+    "errors": []
+  },
+  "originalCheckerReportPreserved": "04-PLAN-CHECK.md",
+  "noCommitOrBranchChange": true
+}
+
