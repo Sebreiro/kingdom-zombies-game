@@ -1,5 +1,31 @@
 # 04-28 Task1 authored native harness checkpoint
 
+## Latest checkpoint — R1 ordinal repair resolved; native ID/path defect
+
+Recorded2026-11-17 after canonical invocation `3d42282e-90fb-4bd4-aabc-d7addda792e3` on `c2e249d65f30870d93b3488cada383c85bfdb99b` plus the seven exact WIP files. Both tasks remain incomplete0/2; no task commit, committed tracer or Task2 expansion occurred. Original Task1 corrections remain3/3 exhausted. Prospective ordinal R1 used1/2 and resolved its14 compiler diagnostics; its unused attempt does not authorize fixing the distinct native defect.
+
+All original seven live files and numbered backups were authenticated before editing. Exactly14 diagnosed string equality operators in `IDENTITY_HARNESS` now call local nullable-string `Eq`, implemented by `StringComparer.Ordinal.Equals`. The original empty-string Broken comparison and every nonstring operator/predicate/expected value remain unchanged. Reversing the14 replacements and removing the helper reproduces the original checkpointed case bytes exactly. The actual emitted harness matches the retained repaired harness byte-for-byte. No source/media/JSON/scene/projector change occurred.
+
+Exact map: `.phase4/checkpoints/04-28-harness-ordinal/r1-attempt-1-map.json`. Repaired emitted proof: adjacent `r1-attempt-1-IdentityHarness.cs`. Current seven-file backups and manifest: `.phase4/checkpoints/04-28-harness-ordinal/r1-attempt-1/manifest.json`. Preserve the original manifest/backups and original failed `ae702b6a` invocation independently. The edited case is78972bytes with SHA256 `f95473b5f7079264395d949340d1f5ffa592132f4e45b7598511b33ff5e3467b`. All other six hashes remain exactly those in the original table below.
+
+### Actual verification and failure
+
+- Source replay passes27members, original1254×1254 master, expanded prompt, sampled-RGB alpha/crop/nearest atlas replay,7ICOframes and distinct same-named sources.
+- Strict production build passes0warnings/0errors in11.42s; strict native harness build passes0warnings/0errors in3.14s. No suppressions or capacity changes.
+- Pinned non-console native childPID27860 runs the real production adapter. PID/nonce/production-DLL closure match; DLL SHA256 `1d2b06efd3ab4ca86ec72897fd49fd6141d4db5c39cdcd9768ab4e7e726b9eee`.
+- Native exit1. Twelve outcomes pass: owningALC/type boundary, title, theme, cursor geometry, four section counts and four default bindings. The thirteenth outcome is `fixture-exception`, a `NullReferenceException` after `GetNode` cannot resolve `Scroll/Content/Statuses/status.health/Identity` at emitted harnessline36 through `Label`line22. These partial observations are not a case/task pass.
+- Actual logs and results live in `.phase4/runs/3d42282e-90fb-4bd4-aabc-d7addda792e3/`: `result.json`, both strict build logs, `identity-native.command.json`, stdout/stderr and `native-identity/identity-results.json`. Elapsed canonical window06:57:40.048Z–06:58:02.291Z=22.243s. Sandbox Git spawnEPERM preceded the equivalent escalated run and supplies no assertion credit.
+
+### Concrete diagnosis and smallest proposed next scope
+
+Production `IdentityKit.Row`line295 assigns exact stable ID to `Node.Name` and line297 independently retains exact `resource_id` metadata. Status IDs contain periods, beginning `status.health`; the proof `Label` helper concatenates raw ID into a NodePath. Pinned local GodotSharp4.7.2 documentation at `GodotSharp.xml`line5063 explicitly says Node.Name replaces period/colon/at-sign/slash/quote/percent with underscore. Consequently a raw dotted resource ID is not a valid native row-path identity. The native error confirms that raw path lookup fails; the failed fixture did not capture the sanitized row name, so no runtime inspection of that exact resulting name is claimed.
+
+Proposed separately bounded proof repair: resolve a direct row by ordinal exact `resource_id` metadata within its named section, require exactly one match, and then resolve its child control. Preserve production stable IDs and metadata; do not introduce lossy punctuation normalization or a second production implementation. Independently assert all18status metadata IDs and native labels, with same-label/different-ID/reordering controls during Task2. No production/API/media/scene change appears necessary for this observed fixture mismatch. This is a proposal only; no such edit or further run occurred under ordinal-only R1.
+
+After any separately approved repair, rerun unchanged canonical `layouts.identity`, require all actual native outcomes and clean exit, commit Task1 in approved bounded parts, and run a fresh same-case committed-byte tracer before Task2. Still-unreached item pixels/condition/players, replacement/close/neighbor/thread/detached checks receive no pass. No final selected regression, native policy authorization, application-icon adoption, ASSET completion or actual appearance/input/listening credit. Foreign global/spec/Phase06/Phase12 edits remain untouched and unstaged; parent owns progress/inventory236/PR5.
+
+## Original checkpoint retained
+
 Status: blocked before Task1 source gate/commit. No task is complete, no committed tracer exists, and Task2 has not started. Current branch is `feature/04-asset-production`; base/current HEAD before checkpoint metadata is `b8d7666ab64bfcbcaf5b1317f4f45d2dd78b49f0`. The seven implementation files remain exact uncommitted WIP, preserved independently in `.phase4/checkpoints/04-28-harness-ordinal/manifest.json` and its seven numbered backups.
 
 ## Observed result and bounded correction history
