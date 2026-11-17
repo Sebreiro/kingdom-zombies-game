@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using Godot;
 using KingdomZombies.Proofs;
 
@@ -30,6 +31,25 @@ internal sealed class CampLayouts
         foreach (JsonElement sample in _data.GetProperty(propertyName: "samples").EnumerateArray())
         {
             Validate(state: sample);
+        }
+    }
+
+    internal CampLayouts(Control root, MainThreadGateway gateway, byte[] pack, byte[][] inputs, bool mapWarnings)
+    {
+        _root = root;
+        _gateway = gateway;
+        Require(condition: mapWarnings, code: "CAMP_MAP_MODE");
+        _mapMode = true;
+        JsonElement manifest = Read(bytes: pack);
+        BindWarnings(manifest: manifest, inputs: inputs);
+        _data = Read(bytes: inputs[0]);
+        _definitions = _data.GetProperty(propertyName: "definitions");
+        _icons = Read(bytes: inputs[2]);
+        ValidateMapDefinitions(map: ReadDocument(bytes: inputs[1], mapDependency: true));
+        Unique(rows: _data.GetProperty(propertyName: "samples"));
+        foreach (JsonElement sample in _data.GetProperty(propertyName: "samples").EnumerateArray())
+        {
+            ValidateMapState(state: sample);
         }
     }
 
@@ -67,22 +87,23 @@ internal sealed class CampLayouts
                                         : "Ready";
     }
 
-    /// <summary>Parses detached bounded strict Unicode data before any engine operation.</summary>
+    /// <summary>Retains the full critical warning when audio is muted.</summary>
     internal static string WarningText(string text, bool muted)
     {
-        return text;
+        return muted ? text + " · Sound muted" : text;
     }
 
     /// <summary>Determines whether a known portal is eligible for any map presentation.</summary>
     internal static bool PortalVisible(bool known)
     {
-        return true;
+        return known;
     }
 
     /// <summary>Explains why a spectator cannot request a controlled survivor action.</summary>
     internal static string SpectatorReason(bool available)
     {
-        return "Ready";
+        return available ? "Request an eligible survivor"
+                : "No eligible survivor; request waits without ownership actions.";
     }
 
     /// <summary>Parses detached bounded strict Unicode data before any engine operation.</summary>
@@ -104,7 +125,14 @@ internal sealed class CampLayouts
     {
         _gateway.RequireThread();
         JsonElement state = Read(bytes: snapshot);
-        Validate(state: state);
+        if (_mapMode)
+        {
+            ValidateMapState(state: state);
+        }
+        else
+        {
+            Validate(state: state);
+        }
         if (!_accepting || generation <= _generation || !_root.IsInsideTree())
         {
             throw new InvalidOperationException(message: "CAMP_NOT_ACTIVE");
@@ -112,6 +140,12 @@ internal sealed class CampLayouts
 
         Clear();
         _generation = generation;
+        if (_mapMode)
+        {
+            MapView(state: state);
+            return;
+        }
+
         VBoxContainer content = Attach(state: state);
         switch (Text(value: state, key: "surface"))
         {
@@ -141,6 +175,7 @@ internal sealed class CampLayouts
     private readonly JsonElement _data;
     private readonly JsonElement _definitions;
     private readonly JsonElement _icons;
+    private readonly bool _mapMode;
     private readonly List<Node> _owned = [];
     private readonly List<AtlasTexture> _textures = [];
     private bool _accepting = true;
@@ -277,6 +312,354 @@ internal sealed class CampLayouts
                     && Same(left: Text(value: bindings[index], key: "sha256"), right: digest),
                     code: "CAMP_BINDING_HASH " + _paths[index]);
         }
+    }
+
+    private static void BindWarnings(JsonElement manifest, byte[][] inputs)
+    {
+        string[] paths = ["content/ui/map-spectator-warnings.json", "content/world/map.json",
+            "content/packs/ui-identity.json", "assets/ui/InspectionTheme.tres", "assets/ui/LiberationSans.ttf",
+            "assets/ui/PerfectDOSVGA437.ttf", "assets/ui/Fallback.ttf", "assets/common/donor-kit.png"];
+        JsonElement bindings = manifest.GetProperty(propertyName: "bindings");
+        Require(condition: Same(left: Text(value: manifest, key: "id"), right: "ui-map-warnings")
+                && manifest.GetProperty(propertyName: "sampleDataOnly").GetBoolean()
+                && !manifest.GetProperty(propertyName: "gameplayTransactions").GetBoolean()
+                && bindings.GetArrayLength() == paths.Length && inputs.Length == paths.Length,
+                code: "CAMP_MAP_BINDINGS");
+        for (int index = 0; index < paths.Length; index++)
+        {
+            Require(condition: inputs[index].Length is > 0 and <= 16777216, code: "CAMP_BINDING_SIZE");
+            Require(condition: Same(left: Text(value: bindings[index], key: "path"), right: paths[index])
+                    && Same(left: Text(value: bindings[index], key: "sha256"), right:
+                            Convert.ToHexStringLower(inArray: SHA256.HashData(source: inputs[index]))),
+                    code: "CAMP_BINDING_HASH " + paths[index]);
+        }
+    }
+
+    private void ValidateMapDefinitions(JsonElement map)
+    {
+        Require(condition: Same(left: Text(value: _data, key: "id"), right: "map-spectator-warnings")
+                && _data.GetProperty(propertyName: "sampleDataOnly").GetBoolean()
+                && !_data.GetProperty(propertyName: "gameplayTransactions").GetBoolean(), code: "CAMP_MAP_SCOPE");
+        foreach (string key in new[] { "portals", "players", "notifications", "defenses" })
+        {
+            Unique(rows: _definitions.GetProperty(propertyName: key));
+        }
+
+        JsonElement portals = _definitions.GetProperty(propertyName: "portals");
+        Require(condition: portals.GetArrayLength() == 6, code: "CAMP_MAP_PORTALS");
+        foreach (JsonElement portal in portals.EnumerateArray())
+        {
+            JsonElement actual = Find(rows: map.GetProperty(propertyName: "portals"),
+                    id: Text(value: portal, key: "id"));
+            Require(condition: portal.GetProperty(propertyName: "x").GetInt32()
+                    == actual.GetProperty(propertyName: "x").GetInt32(), code: "CAMP_MAP_POSITION");
+        }
+
+        JsonElement players = _definitions.GetProperty(propertyName: "players");
+        Require(condition: players.GetArrayLength() == 4, code: "CAMP_MAP_PLAYERS");
+        foreach (JsonElement player in players.EnumerateArray())
+        {
+            JsonElement canonical = Find(rows: _icons.GetProperty(propertyName: "players"),
+                    id: Text(value: player, key: "id"));
+            foreach (string key in new[] { "number", "name", "shape", "color" })
+            {
+                Require(condition: Same(left: Text(value: player, key: key), right: Text(value: canonical,
+                        key: key)), code: "CAMP_MAP_IDENTITY");
+            }
+        }
+
+        foreach (JsonElement defense in _definitions.GetProperty(propertyName: "defenses").EnumerateArray())
+        {
+            string id = Text(value: defense, key: "id");
+            JsonElement actual = Find(rows: map.GetProperty(propertyName: id.Contains(value: ".wall.",
+                    comparisonType: StringComparison.Ordinal) ? "walls" : "towers"), id: id);
+            Require(condition: defense.GetProperty(propertyName: "x").GetInt32()
+                    == actual.GetProperty(propertyName: "x").GetInt32(), code: "CAMP_MAP_DEFENSE");
+        }
+
+        foreach (JsonElement notification in _definitions.GetProperty(propertyName: "notifications").EnumerateArray())
+        {
+            Text(value: notification, key: "text");
+        }
+    }
+
+    private void ValidateMapState(JsonElement state)
+    {
+        Text(value: state, key: "id");
+        Text(value: state, key: "reason");
+        Text(value: state, key: "succession");
+        Require(condition: Text(value: state, key: "fixture") is "empty" or "loading" or "error" or "populated"
+                or "partial" or "overflow" or "long-text", code: "CAMP_MAP_FIXTURE");
+        Require(condition: Text(value: state, key: "ordinaryPanel") is "Inventory" or "People" or "Sale"
+                or "Site" or "Rally", code: "CAMP_MAP_PANEL");
+        Require(condition: Text(value: state, key: "mode") is "minimap" or "expanded", code: "CAMP_MAP_VIEW");
+        state.GetProperty(propertyName: "muted").GetBoolean();
+        state.GetProperty(propertyName: "eligible").GetBoolean();
+        Number(value: state, key: "exploredFrom", minimum: -320, maximum: 320);
+        Number(value: state, key: "exploredTo", minimum: -320, maximum: 320);
+        Require(condition: state.GetProperty(propertyName: "exploredFrom").GetInt32()
+                <= state.GetProperty(propertyName: "exploredTo").GetInt32(), code: "CAMP_MAP_EXPLORED");
+        foreach (string key in new[] { "portals", "players", "notifications", "defenses" })
+        {
+            JsonElement events = state.GetProperty(propertyName: key);
+            Require(condition: events.GetArrayLength() <= 128, code: "CAMP_MAP_ROWS");
+            var ids = new HashSet<string>(comparer: StringComparer.Ordinal);
+            foreach (JsonElement row in events.EnumerateArray())
+            {
+                string id = Text(value: row, key: "id");
+                Require(condition: ids.Add(item: id), code: "CAMP_DUPLICATE_ID");
+                Find(rows: _definitions.GetProperty(propertyName: key), id: id);
+                if (key is "portals")
+                {
+                    row.GetProperty(propertyName: "known").GetBoolean();
+                    Require(condition: Text(value: row, key: "state") is "active" or "destroyed",
+                            code: "CAMP_MAP_PORTAL_STATE");
+                }
+
+                if (key is "players" or "defenses")
+                {
+                    Number(value: row, key: "x", minimum: -320, maximum: 320);
+                    Number(value: row, key: "quantity", minimum: 0, maximum: 1000000);
+                }
+            }
+        }
+
+        Find(rows: _definitions.GetProperty(propertyName: "players"), id: Text(value: state, key: "follow"));
+    }
+
+    private void MapView(JsonElement state)
+    {
+        _gateway.RequireThread();
+        var panel = new PanelContainer { Name = "Map", Position = new Vector2(x: 24, y: 240),
+                Size = new Vector2(x: 1232, y: 456), Theme = ResourceLoader.Load<Theme>(
+                        path: "res://assets/ui/InspectionTheme.tres") };
+        _root.AddChild(node: panel);
+        _owned.Add(item: panel);
+        panel.SetMeta(name: "resource_id", value: Text(value: state, key: "id"));
+        var scroll = new ScrollContainer { Name = "Scroll",
+                HorizontalScrollMode = ScrollContainer.ScrollMode.Disabled };
+        var content = new VBoxContainer { Name = "Content" };
+        panel.AddChild(node: scroll);
+        scroll.AddChild(node: content);
+        AddLabel(parent: content, name: "Scope", text: "Layout example · shared explored map · world continues");
+        AddLabel(parent: content, name: "Status", text: Text(value: state, key: "reason"));
+        MapTerrain(state: state, content: content);
+        MapMarkers(state: state, content: content);
+        Spectator(state: state, content: content);
+        var ordinary = new PanelContainer { Name = "OrdinaryPanel", Position = new Vector2(x: 760, y: 300),
+                Size = new Vector2(x: 440, y: 160), ZIndex = 5, Theme = panel.Theme };
+        _root.AddChild(node: ordinary);
+        _owned.Add(item: ordinary);
+        AddLabel(parent: ordinary, name: "Context", text: Text(value: state, key: "ordinaryPanel")
+                + " panel open · inspection context · world continues");
+        Notifications(state: state);
+        MapControls(state: state);
+    }
+
+    private void MapTerrain(JsonElement state, VBoxContainer content)
+    {
+        _gateway.RequireThread();
+        int from = state.GetProperty(propertyName: "exploredFrom").GetInt32();
+        int to = state.GetProperty(propertyName: "exploredTo").GetInt32();
+        var viewport = new Control { Name = "Terrain", ClipContents = true,
+                CustomMinimumSize = new Vector2(x: 1000, y: Text(value: state, key: "mode") is "expanded"
+                        ? 140 : 64), MouseFilter = Control.MouseFilterEnum.Ignore };
+        content.AddChild(node: viewport);
+        var unknown = new ColorRect { Name = "Unexplored", Size = new Vector2(x: 1000, y: 48),
+                Color = Color.FromHtml(rgba: "#151C20"), MouseFilter = Control.MouseFilterEnum.Ignore };
+        viewport.AddChild(node: unknown);
+        var revealed = new ColorRect { Name = "SharedExplored", Position = new Vector2(x: (from + 320)
+                * 1000 / 640f, y: 0), Size = new Vector2(x: (to - from) * 1000 / 640f, y: 48),
+                Color = Color.FromHtml(rgba: "#59714C"), MouseFilter = Control.MouseFilterEnum.Ignore };
+        viewport.AddChild(node: revealed);
+        foreach (string key in new[] { "portals", "defenses", "players" })
+        {
+            foreach (JsonElement item in state.GetProperty(propertyName: key).EnumerateArray())
+            {
+                if (key is not "portals" || PortalVisible(known: item.GetProperty(propertyName: "known")
+                        .GetBoolean()))
+                {
+                    MapPoint(viewport: viewport, item: item, kind: key);
+                }
+            }
+        }
+
+        AddLabel(parent: content, name: "Legend", text: "Shared explored " + from.ToString(
+                provider: CultureInfo.InvariantCulture) + " to " + to.ToString(provider: CultureInfo.InvariantCulture)
+                + " · Dark: unexplored · Portal: active/destroyed · Defense · P1–P4 number/name/shape");
+        AddLabel(parent: content, name: "Border", text: "Camp border −60 to60 · no unexplored enemy radar");
+    }
+
+    private void MapMarkers(JsonElement state, VBoxContainer content)
+    {
+        _gateway.RequireThread();
+        foreach (string key in new[] { "portals", "defenses", "players" })
+        {
+            var rows = new VBoxContainer { Name = key };
+            content.AddChild(node: rows);
+            foreach (JsonElement item in state.GetProperty(propertyName: key).EnumerateArray())
+            {
+                if (key is "portals" && !PortalVisible(known: item.GetProperty(propertyName: "known").GetBoolean()))
+                {
+                    continue;
+                }
+
+                string id = Text(value: item, key: "id");
+                JsonElement definition = Find(rows: _definitions.GetProperty(propertyName: key), id: id);
+                string text = key is "players" ? Text(value: definition, key: "number") + " · "
+                        + Text(value: definition, key: "name") + " · " + Text(value: definition, key: "shape")
+                        + " · x " + item.GetProperty(propertyName: "x") + " · Quantity "
+                        + item.GetProperty(propertyName: "quantity")
+                        : key is "portals" ? id + " · " + Text(value: item, key: "state")
+                                + " · x " + definition.GetProperty(propertyName: "x")
+                                : id + " · x " + item.GetProperty(propertyName: "x") + " · Quantity "
+                                        + item.GetProperty(propertyName: "quantity");
+                AddLabel(parent: rows, name: "Marker", text: text, id: id);
+                if (key is "players")
+                {
+                    var label = (Label)rows.GetChild(idx: rows.GetChildCount() - 1);
+                    label.Modulate = Color.FromHtml(rgba: Text(value: definition, key: "color"));
+                }
+            }
+        }
+    }
+
+    private void MapPoint(Control viewport, JsonElement item, string kind)
+    {
+        _gateway.RequireThread();
+        string id = Text(value: item, key: "id");
+        JsonElement definition = Find(rows: _definitions.GetProperty(propertyName: kind), id: id);
+        int x = (kind is "portals" ? definition : item).GetProperty(propertyName: "x").GetInt32();
+        var marker = new Control { Name = "Marker", Position = new Vector2(x: (x + 320) * 1000 / 640f, y: 8),
+                MouseFilter = Control.MouseFilterEnum.Ignore };
+        marker.SetMeta(name: "resource_id", value: id);
+        viewport.AddChild(node: marker);
+        string shape = kind is "players" ? Text(value: definition, key: "shape") : "square";
+        Vector2[] points = shape switch
+        {
+            "square" => [new(x: 0, y: 0), new(x: 12, y: 0), new(x: 12, y: 12), new(x: 0, y: 12)],
+            "triangle" => [new(x: 6, y: 0), new(x: 12, y: 12), new(x: 0, y: 12)],
+            "diamond" => [new(x: 6, y: 0), new(x: 12, y: 6), new(x: 6, y: 12), new(x: 0, y: 6)],
+            _ => [new(x: 4, y: 0), new(x: 8, y: 0), new(x: 8, y: 4), new(x: 12, y: 4),
+                new(x: 12, y: 8), new(x: 8, y: 8), new(x: 8, y: 12), new(x: 4, y: 12),
+                new(x: 4, y: 8), new(x: 0, y: 8), new(x: 0, y: 4), new(x: 4, y: 4)]
+        };
+        marker.AddChild(node: new Polygon2D { Name = "Shape", Polygon = points, Antialiased = false,
+                Color = kind is "players" ? Color.FromHtml(rgba: Text(value: definition, key: "color"))
+                        : Color.FromHtml(rgba: "#F4F2E8") });
+    }
+
+    private void Spectator(JsonElement state, VBoxContainer content)
+    {
+        _gateway.RequireThread();
+        JsonElement player = Find(rows: _definitions.GetProperty(propertyName: "players"),
+                id: Text(value: state, key: "follow"));
+        bool teammates = state.GetProperty(propertyName: "players").GetArrayLength() > 0;
+        AddLabel(parent: content, name: "Follow", text: teammates ? "Spectator following "
+                + Text(value: player, key: "number") + " · " + Text(value: player, key: "name")
+                + " · " + Text(value: player, key: "shape") : "No living teammate available to follow.");
+        AddAction(parent: content, name: "Previous", text: "Previous teammate", reason: "Inspection follow sample",
+                available: teammates);
+        AddAction(parent: content, name: "Next", text: "Next teammate", reason: "Inspection follow sample",
+                available: teammates);
+        long generation = _generation;
+        content.GetNode<Button>(path: "Previous").Connect(signal: Button.SignalName.Pressed,
+                callable: Callable.From(action: () => Cycle(state: state, offset: -1, generation: generation)),
+                flags: (uint)GodotObject.ConnectFlags.Deferred);
+        content.GetNode<Button>(path: "Next").Connect(signal: Button.SignalName.Pressed,
+                callable: Callable.From(action: () => Cycle(state: state, offset: 1, generation: generation)),
+                flags: (uint)GodotObject.ConnectFlags.Deferred);
+        bool eligible = state.GetProperty(propertyName: "eligible").GetBoolean();
+        AddAction(parent: content, name: "Request", text: "Request survivor", reason: SpectatorReason(
+                available: eligible), available: eligible);
+        AddAction(parent: content, name: "Ownership", text: "Control survivor", reason:
+                "Spectating: inventory, purchases and orders unavailable until a requested transfer completes.",
+                available: false);
+        AddLabel(parent: content, name: "Transfer", text: Text(value: state, key: "succession"));
+    }
+
+    private void Cycle(JsonElement state, int offset, long generation)
+    {
+        _gateway.RequireThread();
+        if (!_accepting || generation != _generation || !_root.IsInsideTree())
+        {
+            return;
+        }
+
+        string id = Text(value: state, key: "follow");
+        int slot = int.Parse(s: id.AsSpan(start: 7), provider: CultureInfo.InvariantCulture);
+        JsonNode candidate = JsonNode.Parse(json: state.GetRawText())
+                ?? throw new InvalidDataException(message: "CAMP_MAP_STATE");
+        candidate[propertyName: "follow"] = "player-" + ((slot - 1 + offset + 4) % 4 + 1)
+                .ToString(provider: CultureInfo.InvariantCulture);
+        Project(snapshot: Encoding.UTF8.GetBytes(s: candidate.ToJsonString()), generation: checked(_generation + 1));
+    }
+
+    private void Notifications(JsonElement state)
+    {
+        _gateway.RequireThread();
+        var layer = new CanvasLayer { Name = "Warnings", Layer = 40 };
+        _root.AddChild(node: layer);
+        _owned.Add(item: layer);
+        var scroll = new ScrollContainer { Name = "WarningScroll", Position = new Vector2(x: 24, y: 16),
+                Size = new Vector2(x: 1232, y: 176), HorizontalScrollMode = ScrollContainer.ScrollMode.Disabled,
+                Theme = ResourceLoader.Load<Theme>(path: "res://assets/ui/InspectionTheme.tres") };
+        layer.AddChild(node: scroll);
+        var rows = new VBoxContainer { Name = "Messages", SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+                MouseFilter = Control.MouseFilterEnum.Ignore };
+        scroll.AddChild(node: rows);
+        foreach (JsonElement item in state.GetProperty(propertyName: "notifications").EnumerateArray())
+        {
+            string id = Text(value: item, key: "id");
+            JsonElement definition = Find(rows: _definitions.GetProperty(propertyName: "notifications"), id: id);
+            AddLabel(parent: rows, name: "Warning", text: WarningText(text: Text(value: definition, key: "text"),
+                    muted: state.GetProperty(propertyName: "muted").GetBoolean()), id: id);
+            var label = (Label)rows.GetChild(idx: rows.GetChildCount() - 1);
+            label.MouseFilter = Control.MouseFilterEnum.Ignore;
+            label.FocusMode = Control.FocusModeEnum.None;
+        }
+    }
+
+    private void MapControls(JsonElement state)
+    {
+        _gateway.RequireThread();
+        var controls = new HBoxContainer { Name = "InspectionControls", Position = new Vector2(x: 24, y: 192),
+                Size = new Vector2(x: 1232, y: 48), Theme = ResourceLoader.Load<Theme>(
+                        path: "res://assets/ui/InspectionTheme.tres") };
+        _root.AddChild(node: controls);
+        _owned.Add(item: controls);
+        var selector = new OptionButton { Name = "State", CustomMinimumSize = new Vector2(x: 360, y: 48) };
+        controls.AddChild(node: selector);
+        JsonElement samples = _data.GetProperty(propertyName: "samples");
+        int index = 0;
+        foreach (JsonElement sample in samples.EnumerateArray())
+        {
+            selector.AddItem(label: Text(value: sample, key: "id"));
+            if (Same(left: Text(value: state, key: "id"), right: Text(value: sample, key: "id")))
+            {
+                selector.Selected = index;
+            }
+
+            index++;
+        }
+
+        long generation = _generation;
+        selector.Connect(signal: OptionButton.SignalName.ItemSelected, callable: Callable.From<long>(
+                action: index => MapSelected(index: index, generation: generation)),
+                flags: (uint)GodotObject.ConnectFlags.Deferred);
+        AddLabel(parent: controls, name: "Fixture", text: "Inspection controls ·1280×720 ·100% · "
+                + Text(value: state, key: "fixture"));
+    }
+
+    private void MapSelected(long index, long generation)
+    {
+        _gateway.RequireThread();
+        if (!_accepting || generation != _generation || !_root.IsInsideTree())
+        {
+            return;
+        }
+
+        Open(id: Text(value: _data.GetProperty(propertyName: "samples")[checked((int)index)], key: "id"));
     }
 
     private void ValidateDefinitions(JsonElement items, JsonElement main, JsonElement defenses, JsonElement map)

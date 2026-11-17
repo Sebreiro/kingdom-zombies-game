@@ -57,6 +57,7 @@ public sealed class CampLayoutTests
     {
         Call(name: "WarningText", arguments: ["Retaliation: left portal in10 seconds.", true])
                 .ShouldBe(expected: "Retaliation: left portal in10 seconds. · Sound muted");
+        Call(name: "WarningText", arguments: ["Nightfall.", false]).ShouldBe(expected: "Nightfall.");
     }
 
     /// <summary>An undiscovered portal is omitted from every presentation.</summary>
@@ -64,6 +65,7 @@ public sealed class CampLayoutTests
     public void Map_UnknownPortalIsHidden()
     {
         Call(name: "PortalVisible", arguments: [false]).ShouldBe(expected: false);
+        Call(name: "PortalVisible", arguments: [true]).ShouldBe(expected: true);
     }
 
     /// <summary>Waiting spectators receive an explicit reason instead of ownership controls.</summary>
@@ -72,6 +74,7 @@ public sealed class CampLayoutTests
     {
         Call(name: "SpectatorReason", arguments: [false])
                 .ShouldBe(expected: "No eligible survivor; request waits without ownership actions.");
+        Call(name: "SpectatorReason", arguments: [true]).ShouldBe(expected: "Request an eligible survivor");
     }
 
     private static object? Call(string name, object[] arguments)
