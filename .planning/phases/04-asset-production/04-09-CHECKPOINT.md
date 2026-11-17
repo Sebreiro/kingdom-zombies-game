@@ -1,4 +1,8 @@
-# Plan 04-09 — Sustained structural guard checkpoint
+# Plan 04-09 — Task 1 complete; work-special next
+
+Current continuation after R3: Task1 is committed and its mandatory fresh committed-content tracer passes;1/2 production tasks are complete. See the final R3 outcome in [04-09-REPAIR.md](04-09-REPAIR.md) for exact attempts, source/assembly hashes,17/17 frozen selection, new128 sustained native outcomes,39 compiled/zero skips and commits dbf792f/642affe/60da583. Tracer f768af2c on60da583 has actualPID20724/exit0/empty stderr. Task2 is next; its original correction budget is intact. No Task2 outputs or canonical SUMMARY exist yet. All global progress/spec/PR/ASSET/actual acceptance and native-policy/cohort boundaries remain unchanged.
+
+## Historical sustained structural guard checkpoint
 
 Latest status after prospective R1/R2 `c693867`: incomplete, zero of two tasks complete. The focused bow case and unchanged frozen17-case regression selection pass, but a subsequent authenticated sustained-guard diagnostic fails the required unlimited-arrow behavior. No Task1 GREEN commit, committed-content tracer, Task2, SUMMARY or global progress exists. The passing selection does not override this later failure.
 
