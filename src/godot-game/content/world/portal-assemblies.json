@@ -1,0 +1,640 @@
+{
+  "schemaVersion": 1,
+  "id": "portal-assemblies",
+  "version": 1,
+  "sourceBindings": [
+    {
+      "file": "content/packs/common.json",
+      "sha256": "96a6328ef771e2418358d5bfd9d31ee1f2b34c5c785e6985884887827c0289c5"
+    },
+    {
+      "file": "content/packs/world.json",
+      "sha256": "b79e1afd0bbe6e14a378e141eb32cbb9a57b5ddcd6534ebfda0e962bbfcf5899"
+    },
+    {
+      "file": "content/world/map.json",
+      "sha256": "5d0dbde0ed6964996f3c5fbab4334c5c50d732c3e08d82515e2fcd89fe0ad3a1"
+    },
+    {
+      "file": "content/packs/effects-portals.json",
+      "sha256": "d2736226850b2c7775fc8042d0220ec0ebf701849f788e3ead826e4904dbc334"
+    },
+    {
+      "file": "assets/world/environment.png",
+      "sha256": "a1693cfad7117592b8a40bad39b9efb4a9aee74af4995efcd6be70344bf93ca2"
+    },
+    {
+      "file": "assets/effects/effects.png",
+      "sha256": "265a86a3d117dc8559eae247b9ea3797868e896b6abcf00b073ad5c0c69575b9"
+    }
+  ],
+  "portals": [
+    {
+      "id": "left.portal.1",
+      "side": "left",
+      "sourceIndex": 1,
+      "x": -100,
+      "front": "common.s0.8291",
+      "back": "common.s0.7865",
+      "debris": [
+        "common.s0.6754",
+        "common.s0.6939",
+        "common.s0.6975",
+        "common.s0.7073",
+        "common.s0.7148",
+        "common.s0.7620",
+        "common.s0.7794",
+        "common.s0.7901",
+        "common.s0.7963",
+        "common.s0.8001",
+        "common.s0.8017",
+        "common.s0.8096",
+        "common.s0.8140"
+      ],
+      "spawnOffset": [
+        -2,
+        0
+      ],
+      "blocker": {
+        "rect": [
+          -1,
+          -64,
+          2,
+          70
+        ],
+        "blocks": [
+          "survivor"
+        ],
+        "passes": [
+          "zombie"
+        ],
+        "extendsAllJumpHeights": true
+      },
+      "projectileRect": [
+        -1,
+        -9,
+        2,
+        9
+      ],
+      "ruinPassable": true,
+      "ruinPermanent": true,
+      "ruinActive": false,
+      "ruinRegrows": false
+    },
+    {
+      "id": "left.portal.2",
+      "side": "left",
+      "sourceIndex": 2,
+      "x": -190,
+      "front": "common.s0.8291",
+      "back": "common.s0.7865",
+      "debris": [
+        "common.s0.6754",
+        "common.s0.6939",
+        "common.s0.6975",
+        "common.s0.7073",
+        "common.s0.7148",
+        "common.s0.7620",
+        "common.s0.7794",
+        "common.s0.7901",
+        "common.s0.7963",
+        "common.s0.8001",
+        "common.s0.8017",
+        "common.s0.8096",
+        "common.s0.8140"
+      ],
+      "spawnOffset": [
+        -2,
+        0
+      ],
+      "blocker": {
+        "rect": [
+          -1,
+          -64,
+          2,
+          70
+        ],
+        "blocks": [
+          "survivor"
+        ],
+        "passes": [
+          "zombie"
+        ],
+        "extendsAllJumpHeights": true
+      },
+      "projectileRect": [
+        -1,
+        -9,
+        2,
+        9
+      ],
+      "ruinPassable": true,
+      "ruinPermanent": true,
+      "ruinActive": false,
+      "ruinRegrows": false
+    },
+    {
+      "id": "left.portal.3",
+      "side": "left",
+      "sourceIndex": 3,
+      "x": -280,
+      "front": "common.s0.8291",
+      "back": "common.s0.7865",
+      "debris": [
+        "common.s0.6754",
+        "common.s0.6939",
+        "common.s0.6975",
+        "common.s0.7073",
+        "common.s0.7148",
+        "common.s0.7620",
+        "common.s0.7794",
+        "common.s0.7901",
+        "common.s0.7963",
+        "common.s0.8001",
+        "common.s0.8017",
+        "common.s0.8096",
+        "common.s0.8140"
+      ],
+      "spawnOffset": [
+        -2,
+        0
+      ],
+      "blocker": {
+        "rect": [
+          -1,
+          -64,
+          2,
+          70
+        ],
+        "blocks": [
+          "survivor"
+        ],
+        "passes": [
+          "zombie"
+        ],
+        "extendsAllJumpHeights": true
+      },
+      "projectileRect": [
+        -1,
+        -9,
+        2,
+        9
+      ],
+      "ruinPassable": true,
+      "ruinPermanent": true,
+      "ruinActive": false,
+      "ruinRegrows": false
+    },
+    {
+      "id": "right.portal.1",
+      "side": "right",
+      "sourceIndex": 1,
+      "x": 100,
+      "front": "common.s0.8291",
+      "back": "common.s0.7865",
+      "debris": [
+        "common.s0.6754",
+        "common.s0.6939",
+        "common.s0.6975",
+        "common.s0.7073",
+        "common.s0.7148",
+        "common.s0.7620",
+        "common.s0.7794",
+        "common.s0.7901",
+        "common.s0.7963",
+        "common.s0.8001",
+        "common.s0.8017",
+        "common.s0.8096",
+        "common.s0.8140"
+      ],
+      "spawnOffset": [
+        2,
+        0
+      ],
+      "blocker": {
+        "rect": [
+          -1,
+          -64,
+          2,
+          70
+        ],
+        "blocks": [
+          "survivor"
+        ],
+        "passes": [
+          "zombie"
+        ],
+        "extendsAllJumpHeights": true
+      },
+      "projectileRect": [
+        -1,
+        -9,
+        2,
+        9
+      ],
+      "ruinPassable": true,
+      "ruinPermanent": true,
+      "ruinActive": false,
+      "ruinRegrows": false
+    },
+    {
+      "id": "right.portal.2",
+      "side": "right",
+      "sourceIndex": 2,
+      "x": 190,
+      "front": "common.s0.8291",
+      "back": "common.s0.7865",
+      "debris": [
+        "common.s0.6754",
+        "common.s0.6939",
+        "common.s0.6975",
+        "common.s0.7073",
+        "common.s0.7148",
+        "common.s0.7620",
+        "common.s0.7794",
+        "common.s0.7901",
+        "common.s0.7963",
+        "common.s0.8001",
+        "common.s0.8017",
+        "common.s0.8096",
+        "common.s0.8140"
+      ],
+      "spawnOffset": [
+        2,
+        0
+      ],
+      "blocker": {
+        "rect": [
+          -1,
+          -64,
+          2,
+          70
+        ],
+        "blocks": [
+          "survivor"
+        ],
+        "passes": [
+          "zombie"
+        ],
+        "extendsAllJumpHeights": true
+      },
+      "projectileRect": [
+        -1,
+        -9,
+        2,
+        9
+      ],
+      "ruinPassable": true,
+      "ruinPermanent": true,
+      "ruinActive": false,
+      "ruinRegrows": false
+    },
+    {
+      "id": "right.portal.3",
+      "side": "right",
+      "sourceIndex": 3,
+      "x": 280,
+      "front": "common.s0.8291",
+      "back": "common.s0.7865",
+      "debris": [
+        "common.s0.6754",
+        "common.s0.6939",
+        "common.s0.6975",
+        "common.s0.7073",
+        "common.s0.7148",
+        "common.s0.7620",
+        "common.s0.7794",
+        "common.s0.7901",
+        "common.s0.7963",
+        "common.s0.8001",
+        "common.s0.8017",
+        "common.s0.8096",
+        "common.s0.8140"
+      ],
+      "spawnOffset": [
+        2,
+        0
+      ],
+      "blocker": {
+        "rect": [
+          -1,
+          -64,
+          2,
+          70
+        ],
+        "blocks": [
+          "survivor"
+        ],
+        "passes": [
+          "zombie"
+        ],
+        "extendsAllJumpHeights": true
+      },
+      "projectileRect": [
+        -1,
+        -9,
+        2,
+        9
+      ],
+      "ruinPassable": true,
+      "ruinPermanent": true,
+      "ruinActive": false,
+      "ruinRegrows": false
+    }
+  ],
+  "states": [
+    "closed",
+    "idle",
+    "warning",
+    "spawning",
+    "damaged",
+    "destroying",
+    "ruins"
+  ],
+  "clips": {
+    "closed": "common.clip.2569",
+    "idle": "common.clip.2571",
+    "warning": "common.clip.2572",
+    "spawning": "common.clip.2572",
+    "damaged": "common.clip.2570",
+    "destroying": "common.clip.2573"
+  },
+  "restoration": {
+    "silent": true,
+    "replayPastEvents": false,
+    "ruinsPermanent": true,
+    "currentLoopsOnly": true,
+    "revokeOldGenerations": true
+  },
+  "samples": [
+    {
+      "id": "portal.closed",
+      "portalState": "closed",
+      "stock": "full",
+      "clearing": "intact",
+      "rally": "refuge",
+      "reveal": "unknown-portals",
+      "lighting": "day",
+      "loops": []
+    },
+    {
+      "id": "portal.idle",
+      "portalState": "idle",
+      "stock": "full",
+      "clearing": "intact",
+      "rally": "refuge",
+      "reveal": "unknown-portals",
+      "lighting": "day",
+      "loops": []
+    },
+    {
+      "id": "portal.warning",
+      "portalState": "warning",
+      "stock": "full",
+      "clearing": "intact",
+      "rally": "refuge",
+      "reveal": "unknown-portals",
+      "lighting": "day",
+      "loops": []
+    },
+    {
+      "id": "portal.spawning",
+      "portalState": "spawning",
+      "stock": "full",
+      "clearing": "intact",
+      "rally": "refuge",
+      "reveal": "unknown-portals",
+      "lighting": "day",
+      "loops": []
+    },
+    {
+      "id": "portal.damaged",
+      "portalState": "damaged",
+      "stock": "full",
+      "clearing": "intact",
+      "rally": "refuge",
+      "reveal": "unknown-portals",
+      "lighting": "day",
+      "loops": []
+    },
+    {
+      "id": "portal.destroying",
+      "portalState": "destroying",
+      "stock": "full",
+      "clearing": "intact",
+      "rally": "refuge",
+      "reveal": "unknown-portals",
+      "lighting": "day",
+      "loops": []
+    },
+    {
+      "id": "portal.ruins",
+      "portalState": "ruins",
+      "stock": "full",
+      "clearing": "intact",
+      "rally": "refuge",
+      "reveal": "unknown-portals",
+      "lighting": "day",
+      "loops": []
+    },
+    {
+      "id": "plants.full",
+      "portalState": "closed",
+      "stock": "full",
+      "clearing": "intact",
+      "rally": "refuge",
+      "reveal": "unknown-portals",
+      "lighting": "day",
+      "loops": []
+    },
+    {
+      "id": "plants.partial",
+      "portalState": "closed",
+      "stock": "partial",
+      "clearing": "intact",
+      "rally": "refuge",
+      "reveal": "unknown-portals",
+      "lighting": "day",
+      "loops": []
+    },
+    {
+      "id": "plants.empty",
+      "portalState": "closed",
+      "stock": "empty",
+      "clearing": "intact",
+      "rally": "refuge",
+      "reveal": "unknown-portals",
+      "lighting": "day",
+      "loops": []
+    },
+    {
+      "id": "plants.refilled",
+      "portalState": "closed",
+      "stock": "refilled",
+      "clearing": "intact",
+      "rally": "refuge",
+      "reveal": "unknown-portals",
+      "lighting": "day",
+      "loops": []
+    },
+    {
+      "id": "clearings.intact",
+      "portalState": "closed",
+      "stock": "full",
+      "clearing": "intact",
+      "rally": "refuge",
+      "reveal": "unknown-portals",
+      "lighting": "day",
+      "loops": []
+    },
+    {
+      "id": "clearings.marked-paid",
+      "portalState": "closed",
+      "stock": "full",
+      "clearing": "marked-paid",
+      "rally": "refuge",
+      "reveal": "unknown-portals",
+      "lighting": "day",
+      "loops": []
+    },
+    {
+      "id": "clearings.chopping",
+      "portalState": "closed",
+      "stock": "full",
+      "clearing": "chopping",
+      "rally": "refuge",
+      "reveal": "unknown-portals",
+      "lighting": "day",
+      "loops": [
+        "work.wood"
+      ]
+    },
+    {
+      "id": "clearings.falling-left",
+      "portalState": "closed",
+      "stock": "full",
+      "clearing": "falling-left",
+      "rally": "refuge",
+      "reveal": "unknown-portals",
+      "lighting": "day",
+      "loops": []
+    },
+    {
+      "id": "clearings.falling-right",
+      "portalState": "closed",
+      "stock": "full",
+      "clearing": "falling-right",
+      "rally": "refuge",
+      "reveal": "unknown-portals",
+      "lighting": "day",
+      "loops": []
+    },
+    {
+      "id": "clearings.cleared-stump",
+      "portalState": "closed",
+      "stock": "full",
+      "clearing": "cleared-stump",
+      "rally": "refuge",
+      "reveal": "unknown-portals",
+      "lighting": "day",
+      "loops": []
+    },
+    {
+      "id": "rally.refuge",
+      "portalState": "closed",
+      "stock": "full",
+      "clearing": "intact",
+      "rally": "refuge",
+      "reveal": "unknown-portals",
+      "lighting": "day",
+      "loops": []
+    },
+    {
+      "id": "rally.expanded",
+      "portalState": "closed",
+      "stock": "full",
+      "clearing": "intact",
+      "rally": "expanded",
+      "reveal": "unknown-portals",
+      "lighting": "day",
+      "loops": []
+    },
+    {
+      "id": "rally.wall-lost",
+      "portalState": "closed",
+      "stock": "full",
+      "clearing": "intact",
+      "rally": "wall-lost",
+      "reveal": "unknown-portals",
+      "lighting": "day",
+      "loops": []
+    },
+    {
+      "id": "map.unknown-portals",
+      "portalState": "closed",
+      "stock": "full",
+      "clearing": "intact",
+      "rally": "refuge",
+      "reveal": "unknown-portals",
+      "lighting": "day",
+      "loops": []
+    },
+    {
+      "id": "map.shared-exploration",
+      "portalState": "closed",
+      "stock": "full",
+      "clearing": "intact",
+      "rally": "refuge",
+      "reveal": "shared-exploration",
+      "lighting": "day",
+      "loops": []
+    },
+    {
+      "id": "world.day",
+      "portalState": "closed",
+      "stock": "full",
+      "clearing": "intact",
+      "rally": "refuge",
+      "reveal": "unknown-portals",
+      "lighting": "day",
+      "loops": [
+        "fire.loop",
+        "smoke.loop",
+        "embers.loop"
+      ]
+    },
+    {
+      "id": "world.night",
+      "portalState": "closed",
+      "stock": "full",
+      "clearing": "intact",
+      "rally": "refuge",
+      "reveal": "unknown-portals",
+      "lighting": "night",
+      "loops": [
+        "fire.loop",
+        "smoke.loop",
+        "embers.loop"
+      ]
+    }
+  ],
+  "projectileContacts": [
+    "wood",
+    "metal",
+    "ground",
+    "flesh",
+    "armor",
+    "portal"
+  ],
+  "materialDamageThresholds": [
+    0.75,
+    0.4,
+    0
+  ],
+  "eventLimit": 24,
+  "acceptance": {
+    "visual": "pending",
+    "owner": "04-32/04-33",
+    "completedObligations": []
+  }
+}
