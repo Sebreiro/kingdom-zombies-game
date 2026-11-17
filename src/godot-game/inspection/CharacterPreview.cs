@@ -53,7 +53,8 @@ internal sealed class CharacterPreview
             string body)
     {
         gateway.RequireThread();
-        JsonElement[] profiles = [ReadProfile(read: read, profile: "a"), ReadProfile(read: read, profile: "b")];
+        JsonElement[] profiles = [ReadProfile(read: read, profile: "a"), ReadProfile(read: read, profile: "b"),
+            ReadProfile(read: read, profile: "c")];
         JsonElement fits = MergeFits(profiles: profiles);
         JsonElement bodies = MergeBodies(profiles: profiles);
         JsonElement weapons = ReadDefinition(bytes: read(arg: "content/packs/items-01-10.json")
@@ -204,7 +205,8 @@ internal sealed class CharacterPreview
             throw new InvalidDataException(message: "CHARACTER_PROFILE_ATLAS " + profile);
         }
 
-        string[] expected = profile is "a" ? ["CH-01", "CH-02", "CH-03"] : ["CH-04", "CH-05", "CH-08"];
+        string[] expected = profile is "a" ? ["CH-01", "CH-02", "CH-03"]
+                : profile is "b" ? ["CH-04", "CH-05", "CH-08"] : ["CH-06", "CH-07"];
         string[] actual = bodies.GetProperty(propertyName: "bodies").EnumerateArray()
                 .Select(selector: value => Text(value: value, name: "id")).ToArray();
         string[] fitted = fits.GetProperty(propertyName: "bodies").EnumerateArray()
@@ -398,7 +400,8 @@ internal sealed class CharacterPreview
         string atlas = _bodies.TryGetProperty(propertyName: "atlases", value: out JsonElement atlases)
                 ? Text(value: atlases, name: _body)
                 : Text(value: _bodies.GetProperty(propertyName: "atlas"), name: "path");
-        string[] allowed = ["res://assets/characters/bodies-a.png", "res://assets/characters/bodies-b.png"];
+        string[] allowed = ["res://assets/characters/bodies-a.png", "res://assets/characters/bodies-b.png",
+            "res://assets/characters/bodies-c.png"];
         if (!allowed.Contains(value: atlas, comparer: StringComparer.Ordinal))
         {
             throw new InvalidDataException(message: "CHARACTER_PROFILE_ATLAS " + _body);

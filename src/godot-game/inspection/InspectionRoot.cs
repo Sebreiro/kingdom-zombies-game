@@ -422,7 +422,7 @@ public sealed partial class InspectionRoot : Node2D
                                         comparisonType: StringComparison.Ordinal));
         GetNode<TextEdit>(path: "Shell/Workspace/Preview/Failures").Text = string.Join(separator: "\n",
                 values: errors.Concat(second: _readErrors));
-        if (_selected is "CH-01" or "CH-02" or "CH-03" or "CH-04" or "CH-05" or "CH-08")
+        if (_selected is "CH-01" or "CH-02" or "CH-03" or "CH-04" or "CH-05" or "CH-06" or "CH-07" or "CH-08")
         {
             var preview = new Node2D { Name = "Character" };
             _shell?.Install(preview: preview);
