@@ -97,6 +97,10 @@ Milestone progress: 3/12 phases complete;50/62 currently planned plans summarize
 
 ### Decisions
 
+- [Phase 07 specification, 2026-11-18]: [07-SPEC.md](phases/07-camp-economy-and-development/07-SPEC.md) locks 25 local requirements for the same 22 Phase 7 project IDs, with 48 future acceptance checks, 168 explicit edge resolutions and ambiguity 0.026. Reviewed civilian danger remains at or within 12 u. Next preparatory step is discuss-phase 7; current Phase 04 implementation/continuation and all feature acceptance statuses remain unchanged.
+
+- [Phase 07 specification, creator decisions 2026-11-17]: All civilian jobs may work in safe reachable exterior daylight territory; role changes require the NPC returned to the main building and cargo/obsolete gear deposit before new duties. Basic warriors guard the nearest completed wall/refuge, and shared paid orders dispatch automatically. Construction/rebuild/upgrade completion restores full health at original price/time. Repair uses one fixed 50%-valuation fee independent of missing HP to restore full health, covering further damage during the active order without extra charges; it closes at full health. Replacement builders preserve payment/progress regardless of buyer death/disconnection. Interim extra-charge/funding/cumulative-billing ideas are superseded. Phase 04 implementation and its continuation remain current; no feature acceptance or phase advancement is claimed.
+
 Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 implementation history and immutable report identities remain in its eighteen plan summaries.
 
 - The approved v0.1 scope now contains 134 requirements and eleven sequential phases. RULE-01–RULE-07, BASE-01–BASE-03 and LAN-01–LAN-04 are complete; 120 requirements remain Pending.

@@ -12,6 +12,8 @@
 
 KingdomZombies is a side-view, pixel-art survival and camp-management game inspired by Kingdom Two Crowns, built with Godot and C#. It is for solo players and groups of up to four cooperative LAN players on Windows and Linux: recruit and equip survivors, develop one shared camp, survive zombie attacks, and destroy six portals. Version 0.1 is the complete playable, saveable game defined by the existing specifications, delivered through a sequence of working foundations and game features.
 
+**Camp-work amendment, creator decisions 2026-11-17:** Phase 7 permits safe reachable daylight exterior work for all civilian jobs, requires an NPC back at the main building before role changes, and deposits collected cargo/obsolete gear before new duties. Basic warriors guard the nearest completed wall/refuge; roles and shared paid orders drive automatic work. Construction, rebuild and upgrade completion restores full health without extra price/time. A repair costs one fixed fee of 50% of current-tier full build valuation, independent of damage, and workers repair to full health including damage during that active order. No extra charge is made; the order closes at full health and later damage requires another purchase. Replacement builders retain the paid order/progress even if its buyer dies or disconnects. This supersedes bounded/extra-charge repairs and damage-preserving completion without changing requirement IDs, owners, pending status or the current implementation phase.
+
 ## Core Value
 
 Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.

@@ -161,11 +161,11 @@ Source: Spec §§6.4, 7.1–7.3; A-06, A-10–A-16, A-26, A-28.
 
 - [ ] **NPC-01**: Players can buy recruits only at the main building, receiving the basic outfit without replenishing money, food, weapons, or starting supplies.
 - [ ] **NPC-02**: Recruitment obeys separate fireside and total-population limits, completed-tier capacity, and non-destructive temporary-control overflow rules.
-- [ ] **NPC-03**: Players can assign gatherer, hunter, melee-warrior, and warrior-archer roles, with the specified costs, same-role behavior, and visible missing-equipment waiting.
+- [ ] **NPC-03**: Players can assign gatherer, hunter, melee-warrior, and warrior-archer roles to living uncontrolled NPCs returned to the main building, with specified costs, same-role behavior, cargo/obsolete-gear deposit before new duties, and visible missing-equipment waiting.
 - [ ] **NPC-04**: NPCs safely acquire and upgrade real equipment from the stash while preserving replaced gear and container contents.
 - [ ] **NPC-05**: NPCs restock actual food/ammunition and safely stow or drop unusable gear without creating or deleting items.
-- [ ] **NPC-06**: Civilians abandon unsafe work and flee with cargo, fight only when escape is blocked, and retreat from exterior work at night.
-- [ ] **NPC-07**: Unassigned workers alone perform paid construction, repair, and clearing under configured work priorities and interruption rules.
+- [ ] **NPC-06**: Every civilian job may work outside camp in reachable, zombie-clear daylight territory; civilians abandon unsafe work and flee with cargo, fight only when escape is blocked, and retreat from exterior work at night.
+- [ ] **NPC-07**: Unassigned workers alone automatically select and perform shared paid construction, repair, and clearing under configured priorities; replacement builders preserve the same payment and completed progress.
 - [ ] **NPC-08**: Eligible non-busy ordinary NPCs can reserve, collect, and deliver loot within capacity while retaining their role; carrier death leaves cargo on the carrier's corpse.
 
 ### Structures and paid work
@@ -175,8 +175,8 @@ Source: Spec §8; A-17–A-21.
 - [ ] **BUILD-01**: Players can pay workers to clear required trees and unlock reachable building sites without producing a wood resource.
 - [ ] **BUILD-02**: Players can build and upgrade the main building, walls, and towers through three tiers with completed-main-tier prerequisites.
 - [ ] **BUILD-03**: Accepted work orders commit once, preserve progress on interruption, and supply no completed benefits while a new frame remains unfinished.
-- [ ] **BUILD-04**: An old tier remains functional during an upgrade, with specified damage-preserving completion and destruction behavior.
-- [ ] **BUILD-05**: Players can purchase a bounded amount of repair work; subsequent damage receives no free extra repair.
+- [ ] **BUILD-04**: An old tier remains functional during an upgrade; valid construction, rebuild, and upgrade completion restores full destination-tier health at the original price/work quantity, while destruction retains the specified last-completed-tier behavior.
+- [ ] **BUILD-05**: One fixed repair fee of 50% of current-tier full build valuation, rounded up with a minimum of one and independent of missing health, buys worker repairs to full health including damage during that active order; no extra fee is charged, and damage after closure requires a new purchase.
 - [ ] **BUILD-06**: Players can rebuild a destroyed defense at its last completed tier while retaining useful inner walls.
 - [ ] **BUILD-07**: Standalone tower tiers provide one, two, and three structural archers with no survivor inventory, population use, corpse, or transferable loot.
 - [ ] **BUILD-08**: The tier-three main building provides exactly two single-archer level-one attack profiles sharing the main building's health.
