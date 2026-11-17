@@ -1,25 +1,208 @@
 'use strict';
 const fs=require('node:fs'),equal=require('node:util').isDeepStrictEqual;
-const runner=require('../check.cjs'),{ROOT,inside,bytes,write,hash,need}=require('../content.cjs');
+const runner=require('../check.cjs'),{ROOT,inside,bytes,document,write,hash,need}=require('../content.cjs');
 const animation=require('./animation.cjs'),bodies=require('./bodies-a.cjs');
-function files(){return [...animation.files(),'tools/phase4/cases/bow-work.cjs','tests/phase1/CharacterBowTests.cs'];}
+function files(){return [...animation.files(),'tools/phase4/cases/bodies-a.cjs','tools/phase4/extract-media.py','tools/phase4/cases/bow-work.cjs','tests/phase1/CharacterBowTests.cs'];}
 function fingerprint(){return files().map(file=>({file,sha256:hash(bytes(ROOT,file))}));}
 const BOW_METHOD=String.raw`
  private object _bow=null!;
+ private readonly List<object> _bowSamples=new();
+ private readonly List<object> _bowBoundaries=new();
+ private readonly List<object> _bowBindingControls=new();
+ private readonly List<object> _guardSamples=new();
+ private readonly List<object> _guardSustained=new();
+ private readonly List<object> _guardAuthority=new();
+ private readonly List<object> _bowExtra=new();
+ private static bool SamePixels(Image actual,Image expected){
+  if(actual.GetSize()!=expected.GetSize())return false;
+  for(int y=0;y<actual.GetHeight();y++)for(int x=0;x<actual.GetWidth();x++){var a=actual.GetPixel(x,y);var b=expected.GetPixel(x,y);if(a.A!=b.A||(a.A!=0&&(a.R!=b.R||a.G!=b.G||a.B!=b.B)))return false;}return true;
+ }
+ private static Image SourceRect(string atlas,JsonElement rect){using var source=new Image();Check(source.LoadPngFromBuffer(FileAccess.GetFileAsBytes("res://"+atlas))==Error.Ok,"bow-source-image");return source.GetRegion(new Rect2I(rect[0].GetInt32(),rect[1].GetInt32(),rect[2].GetInt32(),rect[3].GetInt32()));}
+ private static string Family(string body){return body is "CH-01" or "CH-02" or "CH-03"?"a":body is "CH-04" or "CH-05" or "CH-08"?"b":"c";}
+ private static Image BodyPart(string family,string key){var pack=Read("content/packs/bodies-"+family+".json");var part=pack.GetProperty("parts").EnumerateArray().Single(p=>StringComparer.Ordinal.Equals(p.GetProperty("key").GetString(),key));return SourceRect("assets/characters/bodies-"+family+".png",part.GetProperty("atlasRect"));}
+ private static Vector2 V(JsonElement pair){return new Vector2(pair[0].GetSingle(),pair[1].GetSingle());}
+ private static void Mask(Image image,JsonElement rectangles){foreach(var r in rectangles.EnumerateArray())image.FillRect(new Rect2I(r[0].GetInt32(),r[1].GetInt32(),r[2].GetInt32(),r[3].GetInt32()),Colors.Transparent);}
+ private static void FittedPixels(Sprite2D sprite,JsonElement fit,JsonElement body,string id,string component,int? length=null){
+  var item=fit.GetProperty("items").EnumerateArray().Single(i=>StringComparer.Ordinal.Equals(i.GetProperty("id").GetString(),id));var layer=item.GetProperty("layers").EnumerateArray().Single(l=>StringComparer.Ordinal.Equals(l.GetProperty("component").GetString(),component));string atlas=item.GetProperty("atlas").GetString()!;var pack=Read(StringComparer.Ordinal.Equals(id,"IT-07")||StringComparer.Ordinal.Equals(id,"IT-02")?"content/packs/items-01-10.json":"content/packs/items-11-24.json");var p=pack.GetProperty("parts").EnumerateArray().Single(p=>StringComparer.Ordinal.Equals(p.GetProperty("key").GetString(),layer.GetProperty("part").GetString()));using var expected=SourceRect(atlas,p.GetProperty("atlasRect"));int width=layer.GetProperty("size")[0].GetInt32(),height=length??layer.GetProperty("size")[1].GetInt32();if(body.TryGetProperty("componentWidths",out var widths)&&widths.TryGetProperty(component,out var overrideWidth))width=overrideWidth.GetInt32();expected.Resize(width,height,Image.Interpolation.Nearest);using var actual=sprite.Texture.GetImage();Check(SamePixels(actual,expected),"bow-independent-fitted-source-"+id+"-"+component);
+ }
+ private void SpentArrow(Node2D root,string body,string hand,int facing,double radians){
+  var arrow=root.GetNode<Sprite2D>("Art/SpentArrow");var items=Read("content/packs/items-01-10.json");var part=items.GetProperty("parts").EnumerateArray().Single(p=>StringComparer.Ordinal.Equals(p.GetProperty("key").GetString(),"IT_02_master"));
+  Check(Pixels(arrow,items,"assets/equipment/items-01-10.png","IT_02_master"),"bow-spent-independent-source-pixels");Check(arrow.Texture is AtlasTexture atlas&&StringComparer.Ordinal.Equals(atlas.Atlas.ResourcePath,"res://"+items.GetProperty("atlas").GetProperty("path").GetString())&&atlas.Region==new Rect2(part.GetProperty("atlasRect")[0].GetSingle(),part.GetProperty("atlasRect")[1].GetSingle(),part.GetProperty("atlasRect")[2].GetSingle(),part.GetProperty("atlasRect")[3].GetSingle()),"bow-spent-independent-pack-atlas-owner");
+  var fit=Read("content/animation/fits-"+Family(body)+".json");var idle=fit.GetProperty("bodies").EnumerateArray().Single(b=>StringComparer.Ordinal.Equals(b.GetProperty("id").GetString(),body)).GetProperty("poses").EnumerateArray().Single(p=>StringComparer.Ordinal.Equals(p.GetProperty("id").GetString(),"idle"));var sample=Sample(root);double fraction=sample.GetProperty("actionSeconds").GetDouble()/1.2;var at=V(idle.GetProperty("anchors").GetProperty(hand+"Shoulder"))+new Vector2((float)Math.Cos(radians),(float)Math.Sin(radians))*(float)(11*(1-(fraction-.5)*.5)+Math.Clamp((sample.GetProperty("actionSeconds").GetDouble()-.6)*100,0,36));at+=V(sample.GetProperty("lowerOffset"))+V(sample.GetProperty("upperOffset"))+new Vector2(sample.GetProperty("flinchOffset").GetSingle(),sample.GetProperty("transitionOffset").GetSingle());
+  Check(arrow.Position.DistanceTo(new Vector2(facing==1?at.X:48-at.X,at.Y))<.001&&Math.Abs(arrow.Rotation-facing*radians)<.00001&&arrow.Scale==new Vector2(facing,1)&&!arrow.GetMeta("recoverable").AsBool()&&!arrow.GetMeta("gameplay").AsBool(),"bow-spent-independent-release-registration");
+ }
+ private static void OrdinaryBowPixels(Node2D root,string body,string bowHand,int facing,double radians){
+  string family=Family(body);var fit=Read("content/animation/fits-"+family+".json");var b=fit.GetProperty("bodies").EnumerateArray().Single(b=>StringComparer.Ordinal.Equals(b.GetProperty("id").GetString(),body));var idle=b.GetProperty("poses").EnumerateArray().Single(p=>StringComparer.Ordinal.Equals(p.GetProperty("id").GetString(),"idle"));var aim=b.GetProperty("poses").EnumerateArray().Single(p=>StringComparer.Ordinal.Equals(p.GetProperty("id").GetString(),"aim"));var composition=Read("content/animation/bow.json").GetProperty("bodyComposition").EnumerateArray().Single(c=>StringComparer.Ordinal.Equals(c.GetProperty("id").GetString(),body));
+  using var expected=BodyPart(family,idle.GetProperty("bodyParts").GetProperty("upper").GetString()!);Mask(expected,composition.GetProperty("retiredArms"));using var upper=root.GetNode<Sprite2D>("Art/Body_upper").Texture.GetImage();Check(SamePixels(upper,expected)&&root.GetNode<Sprite2D>("Art/Body_upper").Rotation==0,"bow-retired-arm-mask-and-normal-core");
+  string head=idle.GetProperty("bodyParts").GetProperty("head").GetString()!;var pack=Read("content/packs/bodies-"+family+".json");Check(Pixels(root.GetNode<Sprite2D>("Art/Body_head"),pack,"assets/characters/bodies-"+family+".png",head)&&root.GetNode<Sprite2D>("Art/Body_head").Rotation==0,"bow-normal-source-head");
+  using var skin=BodyPart(family,aim.GetProperty("bodyParts").GetProperty("upper").GetString()!);var r=composition.GetProperty("armRect");
+  var sample=Sample(root);var lower=sample.GetProperty("lowerOffset");var upperOffset=sample.GetProperty("upperOffset");var offset=new Vector2(lower[0].GetSingle()+upperOffset[0].GetSingle()+sample.GetProperty("flinchOffset").GetSingle(),lower[1].GetSingle()+upperOffset[1].GetSingle()+sample.GetProperty("transitionOffset").GetSingle());
+  foreach(string hand in new[]{"left","right"}){
+   var shoulder=V(idle.GetProperty("anchors").GetProperty(hand+"Shoulder"));double reach=StringComparer.Ordinal.Equals(hand,bowHand)?11:5;var grip=shoulder+new Vector2((float)Math.Cos(radians),(float)Math.Sin(radians))*(float)reach;
+   var arm=root.GetNode<Sprite2D>("Art/BowArm_"+hand);using var source=skin.GetRegion(new Rect2I(r[0].GetInt32(),r[1].GetInt32(),r[2].GetInt32(),r[3].GetInt32()));source.Resize((int)reach,3,Image.Interpolation.Nearest);using var actual=arm.Texture.GetImage();Check(!source.IsInvisible()&&SamePixels(actual,source),"bow-actual-arm-source-pixels-"+body+"-"+hand+"-"+radians.ToString(System.Globalization.CultureInfo.InvariantCulture));
+   var held=Gear(root,hand).Single();var p=shoulder+offset;var g=grip+offset;Check(arm.Position.DistanceTo(new Vector2(facing==1?p.X:48-p.X,p.Y))<.001&&held.Position.DistanceTo(new Vector2(facing==1?g.X:48-g.X,g.Y))<.001,"bow-independent-registered-shoulder-grip");
+   string surface=facing==1?"front":"rear";var sleeve=root.GetNode<Sprite2D>("Art/torso_sleeve-"+hand+"-"+surface);Check(Math.Abs(sleeve.Rotation-facing*(radians-Math.PI/2))<.001&&sleeve.Position.DistanceTo(arm.Position)<.001,"bow-actual-attached-sleeve");
+   var glove=root.GetNode<Sprite2D>("Art/gloves_hand-"+hand+"-"+surface);Check(Math.Abs(glove.Rotation-facing*radians)<.001&&glove.Position.DistanceTo(held.Position)<.001,"bow-actual-attached-glove");
+   FittedPixels(sleeve,fit,b,"IT-13","sleeve-"+hand+"-"+surface,(int)reach);FittedPixels(glove,fit,b,"IT-16","hand-"+hand+"-"+surface);FittedPixels(held,fit,b,StringComparer.Ordinal.Equals(hand,bowHand)?"IT-07":"IT-02","held");
+  }
+ }
+ private void GuardPose(Node2D root,int facing,string hand,double radians,string stage){
+  var bow=Read("content/animation/bow.json");var guard=bow.GetProperty("guard");var c=guard.GetProperty("composition");var frame=guard.GetProperty("frames").EnumerateArray().Single(f=>StringComparer.Ordinal.Equals(f.GetProperty("id").GetString(),"common.s0.8351"));using var source=SourceRect("assets/common/donor-kit.png",frame.GetProperty("atlasRect"));using var expected=source.Duplicate() as Image??throw new InvalidOperationException("guard-copy");Mask(expected,c.GetProperty("upperCutouts"));expected.FillRect(new Rect2I(0,18,20,5),Colors.Transparent);
+  var torso=root.GetNode<Sprite2D>("Art/StructuralGuard");using var actual=torso.Texture.GetImage();var origin=new Vector2(24,8)+V(frame.GetProperty("offsetTopLeft"));Check(SamePixels(actual,expected)&&torso.Rotation==0&&torso.Position.DistanceTo(new Vector2(facing==1?origin.X:48-origin.X,origin.Y))<.001,"guard-fixed-source-core-and-retired-bow-mask");
+  var s=Sample(root);double fraction=s.GetProperty("actionSeconds").GetDouble()/1.2,scale=Math.Min(1,.6+fraction/.15*.4);if(StringComparer.Ordinal.Equals(stage,"recovery"))scale*=1-(fraction-.5)*.5;var rect=c.GetProperty("armRect");var grip=origin;
+  foreach(string logical in new[]{"left","right"}){int reach=Math.Max(1,(int)Math.Round((StringComparer.Ordinal.Equals(logical,hand)?7:3)*scale));var shoulder=origin+V(c.GetProperty("shoulders").GetProperty(logical));var arm=root.GetNode<Sprite2D>("Art/GuardArm_"+logical);using var armExpected=source.GetRegion(new Rect2I(rect[0].GetInt32(),rect[1].GetInt32(),rect[2].GetInt32(),rect[3].GetInt32()));armExpected.Resize(reach,2,Image.Interpolation.Nearest);using var armActual=arm.Texture.GetImage();Check(!armExpected.IsInvisible()&&SamePixels(armActual,armExpected)&&Math.Abs(arm.Rotation-facing*radians)<.001&&arm.Position.DistanceTo(new Vector2(facing==1?shoulder.X:48-shoulder.X,shoulder.Y))<.001,"guard-actual-rotated-source-arms");if(StringComparer.Ordinal.Equals(logical,hand))grip=shoulder+new Vector2((float)Math.Cos(radians),(float)Math.Sin(radians))*reach;}
+  rect=c.GetProperty("bowRect");using var bowExpected=source.GetRegion(new Rect2I(rect[0].GetInt32(),rect[1].GetInt32(),rect[2].GetInt32(),rect[3].GetInt32()));bowExpected.FillRect(new Rect2I(0,6,4,1),Colors.Transparent);var held=root.GetNode<Sprite2D>("Art/GuardBow");using var bowActual=held.Texture.GetImage();Check(SamePixels(bowActual,bowExpected)&&Math.Abs(held.Rotation-facing*radians)<.001&&held.Position.DistanceTo(new Vector2(facing==1?grip.X:48-grip.X,grip.Y))<.001&&held.Offset==-V(c.GetProperty("bowGrip")),"guard-actual-source-bow-grip");
+  var clip=guard.GetProperty("locomotion").EnumerateArray().Single(c=>StringComparer.Ordinal.Equals(c.GetProperty("movement").GetString(),"walk"));double t=s.GetProperty("strideSeconds").GetDouble()/.24;var lowerFrame=clip.GetProperty("frames").EnumerateArray().Last(f=>f.GetProperty("seconds").GetDouble()<=t);using var lowerSource=SourceRect("assets/common/donor-kit.png",lowerFrame.GetProperty("atlasRect"));var off=V(lowerFrame.GetProperty("offsetTopLeft"));int y=27-(int)MathF.Round(off.Y);using var lowerExpected=lowerSource.GetRegion(new Rect2I(0,y,lowerSource.GetWidth(),lowerSource.GetHeight()-y));var lower=root.GetNode<Sprite2D>("Art/GuardLower");using var lowerActual=lower.Texture.GetImage();Check(SamePixels(lowerActual,lowerExpected)&&lower.Position.DistanceTo(new Vector2(facing==1?24+off.X:24-off.X,8+off.Y+y))<.001,"guard-independent-registered-lower-stride");
+  bool released=s.GetProperty("released").GetBoolean();var arrow=root.GetNode<Sprite2D>(released?"Art/SpentArrow":"Art/GuardArrow");var items=Read("content/packs/items-01-10.json");Check(Pixels(arrow,items,"assets/equipment/items-01-10.png","IT_02_master")&&!arrow.GetMeta("recoverable").AsBool(),"guard-real-arrow-no-pickup");
+  _guardSamples.Add(new{facing,hand,aim=radians,stage,pixels=true,grip=true,retiredPixelsRemoved=true,lower=lowerFrame.GetProperty("id").GetString(),sample=s});
+ }
+ private void GuardMatrix(Node2D root,object preview){
+  Select(root,"BowSubject","Structural guard");
+  foreach(int facing in new[]{1,-1})foreach(string hand in new[]{"left","right"})foreach(double aim in new[]{-90.0,-61.3,-30,0,13.7,60,90}){
+   Select(root,"Action","None");Select(root,"Movement","Idle");Select(root,"Condition","Usable");Select(root,"Ammunition","12");Select(root,"Facing",facing==1?"Right":"Left");Select(root,"left",StringComparer.Ordinal.Equals(hand,"left")?"IT-07":"IT-02");Select(root,"right",StringComparer.Ordinal.Equals(hand,"right")?"IT-07":"IT-02");Select(root,"Movement","Walk");Select(root,"Action","Bow");root.GetNode<HSlider>("Controls/Slots/ContinuousAim").Value=aim;
+   double radians=aim*Math.PI/180;GuardPose(root,facing,hand,radians,"prepare");Invoke(preview,"Tick",.2);GuardPose(root,facing,hand,radians,"aim");Invoke(preview,"Tick",.401);GuardPose(root,facing,hand,radians,"recovery");Invoke(preview,"Tick",.299);GuardPose(root,facing,hand,radians,"recovery");
+  }
+  foreach(var pair in new[]{("Idle","common.clip.777",.24),("Faster","common.clip.780",.16),("Walk","common.clip.804",.24)}){
+   var common=Read("content/packs/common.json");var clip=common.GetProperty("clips").EnumerateArray().Single(c=>StringComparer.Ordinal.Equals(c.GetProperty("id").GetString(),pair.Item2));var keys=clip.GetProperty("layers")[0].GetProperty("keys").EnumerateArray().ToArray();
+   for(int i=0;i<keys.Length;i++){Select(root,"Action","None");Select(root,"Movement",StringComparer.Ordinal.Equals(pair.Item1,"Idle")?"Walk":"Idle");Select(root,"Movement",pair.Item1);Select(root,"Action","Bow");double next=i+1<keys.Length?keys[i+1].GetProperty("time").GetDouble():clip.GetProperty("stop").GetDouble();double t=(keys[i].GetProperty("time").GetDouble()+next)/2/clip.GetProperty("stop").GetDouble()*pair.Item3;Invoke(preview,"Tick",t);string id=keys[i].GetProperty("sprite").GetString()!;var source=common.GetProperty("resources").EnumerateArray().Single(r=>StringComparer.Ordinal.Equals(r.GetProperty("id").GetString(),id));var lower=root.GetNode<Sprite2D>("Art/GuardLower");using var all=SourceRect("assets/common/donor-kit.png",source.GetProperty("atlasRect"));var off=V(source.GetProperty("registration").GetProperty("offsetTopLeftExact"));int y=27-(int)MathF.Round(off.Y);using var expected=all.GetRegion(new Rect2I(0,y,all.GetWidth(),all.GetHeight()-y));using var actual=lower.Texture.GetImage();Check(StringComparer.Ordinal.Equals(lower.GetMeta("source").AsString(),id)&&SamePixels(actual,expected),"guard-all-lower-source-frames-"+id);_bowExtra.Add(new{id="guard-lower-"+pair.Item1+"-"+id,pass=true});}
+  }
+  Select(root,"Action","None");Select(root,"left","Empty");Select(root,"right","Empty");Select(root,"Ammunition","0");Select(root,"Condition","Broken");Select(root,"Action","Bow");Check(Sample(root).GetProperty("nocked").GetBoolean()&&root.HasNode("Art/GuardBow")&&root.HasNode("Art/GuardArrow")&&Gear(root,"left").Length==0&&Gear(root,"right").Length==0&&!root.GetNode<Sprite2D>("Art/StructuralGuard").GetMeta("loot").AsBool(),"H14-intrinsic-guard-no-inventory-loot");_bowExtra.Add(new{id="H14-intrinsic-guard-empty-broken-zero",pass=true});
+  Select(root,"Action","None");Select(root,"BowSubject","Ordinary");Select(root,"Condition","Usable");
+ }
+ private static object BowPresentation(object preview){return preview.GetType().GetField("_presentation",BindingFlags.Instance|BindingFlags.NonPublic)!.GetValue(preview)!;}
+ private static bool Release(object preview,long generation){var state=BowPresentation(preview);return (bool)state.GetType().GetMethod("TryRelease")!.Invoke(state,new object[]{generation})!;}
+ private static JsonElement BowSnapshot(object preview){var state=BowPresentation(preview);return (JsonElement)state.GetType().GetProperty("Snapshot")!.GetValue(state)!;}
+ private void GuardSustained(Node2D root,object preview){
+  Select(root,"Action","None");Select(root,"BowSubject","Structural guard");Select(root,"Movement","Walk");Select(root,"left","Empty");Select(root,"right","Empty");Select(root,"Ammunition","0");Select(root,"Condition","Broken");
+  foreach(int facing in new[]{1,-1}){
+   Select(root,"Action","None");Select(root,"Facing",facing==1?"Right":"Left");Select(root,"Action","Bow");long previous=-1;
+   for(int cycle=0;cycle<64;cycle++){
+    var before=Sample(root);long generation=before.GetProperty("generation").GetInt64();
+    Check(before.GetProperty("intrinsicAmmunition").GetBoolean()&&before.GetProperty("nocked").GetBoolean()&&!before.GetProperty("released").GetBoolean()&&before.GetProperty("intervalSeconds").GetDouble()==1.2&&generation>previous,"guard-sustained-ready");
+    Check(StringComparer.Ordinal.Equals(before.GetProperty("leftItem").GetString(),"IT-07")&&StringComparer.Ordinal.Equals(before.GetProperty("rightItem").GetString(),"Empty")&&before.GetProperty("leftArrows").GetInt32()==0&&before.GetProperty("rightArrows").GetInt32()==0&&Gear(root,"left").Length==0&&Gear(root,"right").Length==0,"guard-sustained-no-inventory");
+    Check(!Release(preview,previous)&&!Release(preview,generation),"guard-sustained-early-late-rejected");Invoke(preview,"Tick",.601);var released=Sample(root);
+    Check(released.GetProperty("released").GetBoolean()&&!released.GetProperty("nocked").GetBoolean()&&released.GetProperty("spentVisualArrows").GetInt32()==cycle+1&&!Release(preview,generation),"guard-sustained-one-shot");
+    var arrow=root.GetNode<Sprite2D>("Art/SpentArrow");Check(Pixels(arrow,Read("content/packs/items-01-10.json"),"assets/equipment/items-01-10.png","IT_02_master")&&!arrow.GetMeta("recoverable").AsBool()&&!arrow.GetMeta("gameplay").AsBool()&&!released.GetProperty("pickupCreated").GetBoolean()&&released.GetProperty("gameplayEvents").GetInt32()==0&&StringComparer.Ordinal.Equals(released.GetProperty("releaseSound").GetString(),"AU-06")&&StringComparer.Ordinal.Equals(released.GetProperty("impactSound").GetString(),"AU-07"),"guard-sustained-real-arrow-events");
+    Invoke(preview,"Tick",.599);var next=Sample(root);Check(next.GetProperty("nocked").GetBoolean()&&next.GetProperty("generation").GetInt64()>generation&&next.GetProperty("intervalSeconds").GetDouble()==1.2&&root.HasNode("Art/GuardArrow")&&!root.HasNode("Art/SpentArrow")&&!Release(preview,generation),"guard-sustained-next-cycle");
+    Check(before.GetProperty("nocked").GetBoolean()&&!before.GetProperty("released").GetBoolean(),"guard-sustained-detached-sample");_guardSustained.Add(new{facing,cycle,before,released,next,pass=true});previous=generation;
+   }
+  }
+  long old=Sample(root).GetProperty("generation").GetInt64();Select(root,"BowSubject","Ordinary");var ordinary=Sample(root);Check(!ordinary.GetProperty("intrinsicAmmunition").GetBoolean()&&!ordinary.GetProperty("nocked").GetBoolean()&&ordinary.GetProperty("leftArrows").GetInt32()==0&&ordinary.GetProperty("rightArrows").GetInt32()==0&&ordinary.GetProperty("intervalSeconds").GetDouble()==.7&&!root.HasNode("Art/GuardArrow")&&!root.HasNode("Art/SpentArrow")&&!Release(preview,old),"guard-sustained-return-ordinary-zero");_guardAuthority.Add(new{id="return-ordinary-zero",sample=ordinary,pass=true});
+  Select(root,"BowSubject","Structural guard");old=Sample(root).GetProperty("generation").GetInt64();Select(root,"Action","None");var inactive=BowSnapshot(preview);Check(!inactive.GetProperty("intrinsicAmmunition").GetBoolean()&&!inactive.GetProperty("nocked").GetBoolean()&&!Release(preview,old),"guard-sustained-non-bow-revoked");_guardAuthority.Add(new{id="non-bow",sample=inactive,pass=true});
+  Select(root,"BowSubject","Ordinary");Select(root,"Condition","Usable");GuardDetach();
+ }
+ private void GuardDetach(){
+  var root=new Node2D();AddChild(root);object preview=Create(root);Invoke(preview,"Attach");Select(root,"Movement","Walk");Select(root,"BowSubject","Structural guard");Select(root,"Action","Bow");Invoke(preview,"Tick",.2);long old=Sample(root).GetProperty("generation").GetInt64();Invoke(preview,"Detach");var detached=BowSnapshot(preview);Check(!detached.GetProperty("intrinsicAmmunition").GetBoolean()&&!detached.GetProperty("nocked").GetBoolean()&&!Release(preview,old)&&root.GetNode("Art").GetChildCount()==0,"guard-sustained-detach-revoked");_guardAuthority.Add(new{id="detach",sample=detached,pass=true});root.QueueFree();
+ }
+ private void BowBindings(){
+  var defects=new[]{
+   ("wrong-prefix","System.FormatException","path requires exact src/godot-game/ prefix: content/config/items.json"),
+   ("traversal","System.FormatException","canonical relative path required: src/godot-game/../escape.json"),
+   ("missing-definition","System.IO.InvalidDataException","BOW_MISSING content/animation/bow.json"),
+   ("missing-resource","System.IO.InvalidDataException","BOW_BINDING assets/common/donor-kit.png"),
+   ("empty-resource","System.IO.InvalidDataException","BOW_BINDING_HASH assets/common/donor-kit.png"),
+   ("oversized-resource","System.IO.InvalidDataException","BOW_BINDING_HASH assets/common/donor-kit.png"),
+   ("bad-hash","System.IO.InvalidDataException","BOW_BINDING_HASH content/config/items.json"),
+   ("missing-binding","System.IO.InvalidDataException","BOW_BINDING_SET"),
+   ("duplicate-binding","System.IO.InvalidDataException","BOW_BINDING_SET"),
+   ("wrong-order","System.IO.InvalidDataException","BOW_BINDING_SET"),
+   ("unexpected-canonical","System.IO.InvalidDataException","BOW_BINDING_SET"),
+   ("duplicate-key","System.IO.InvalidDataException","CHARACTER_DUPLICATE_KEY")};
+  foreach(var row in defects){
+   var root=new Node2D();AddChild(root);var gateway=Activator.CreateInstance(_assembly.GetType("KingdomZombies.Proofs.MainThreadGateway")!,true)!;
+   var bow=JsonNode.Parse(FileAccess.GetFileAsString("res://content/animation/bow.json"))!;var bindings=bow["bindings"]!.AsArray();
+   switch(row.Item1){
+    case "wrong-prefix":bindings[0]!["path"]="content/config/items.json";break;
+    case "traversal":bindings[0]!["path"]="src/godot-game/../escape.json";break;
+    case "bad-hash":bindings[0]!["sha256"]=new string('0',64);break;
+    case "missing-binding":bindings.RemoveAt(0);break;
+    case "duplicate-binding":bindings.Add(bindings[0]!.DeepClone());break;
+    case "wrong-order":var first=bindings[0]!.DeepClone();bindings.RemoveAt(0);bindings.Add(first);break;
+    case "unexpected-canonical":bindings[0]!["path"]="src/godot-game/content/config/run.json";break;
+   }
+   bool bowRead=false;var resourceReads=new List<string>();
+   Func<string,byte[]?> read=file=>{
+    if(StringComparer.Ordinal.Equals(file,"content/animation/bow.json")){bowRead=true;return row.Item1 switch{
+     "missing-definition"=>null,"duplicate-key"=>System.Text.Encoding.UTF8.GetBytes("{\"id\":\"bow\",\"id\":\"bow\"}"),_=>JsonSerializer.SerializeToUtf8Bytes(bow)};}
+    if(bowRead)resourceReads.Add(file);
+    if(StringComparer.Ordinal.Equals(file,"assets/common/donor-kit.png"))return row.Item1 switch{
+     "missing-resource"=>null,"empty-resource"=>Array.Empty<byte>(),"oversized-resource"=>new byte[16777217],_=>FileAccess.GetFileAsBytes("res://"+file)};
+    return FileAccess.GetFileAsBytes("res://"+file);
+   };
+   string exceptionType=string.Empty,message=string.Empty;
+   try{_type.GetMethod("Open",BindingFlags.Static|BindingFlags.NonPublic)!.Invoke(null,new object[]{root,gateway,read,"CH-01"});}
+   catch(TargetInvocationException error){exceptionType=error.InnerException?.GetType().FullName??string.Empty;message=error.InnerException?.Message??string.Empty;}
+   bool rejected=StringComparer.Ordinal.Equals(exceptionType,row.Item2)&&StringComparer.Ordinal.Equals(message,row.Item3);
+   if(row.Item1 is "wrong-prefix" or "traversal" or "missing-binding" or "duplicate-binding" or "wrong-order" or "unexpected-canonical")Check(resourceReads.Count==0,"bow-invalid-set-no-read-"+row.Item1);
+   _bowBindingControls.Add(new{defect=row.Item1,rejected,exceptionType,message,resourceReads});Check(rejected,"bow-binding-"+row.Item1);root.QueueFree();
+  }
+  var restoredRoot=new Node2D();AddChild(restoredRoot);object restored=Create(restoredRoot);Invoke(restored,"Attach");
+  Check(restoredRoot.HasNode("Controls/Slots/Action/Select")&&restoredRoot.HasNode("Art/Body_head"),"bow-binding-restored-actual-attach");
+  Invoke(restored,"Detach");restoredRoot.QueueFree();
+  using var report=FileAccess.Open("res://bow-binding-results.json",FileAccess.ModeFlags.Write);
+  report.StoreString(JsonSerializer.Serialize(new{controls=_bowBindingControls,restoredPositive=true}));
+ }
+ private void Boundary(bool pass,string id){Check(pass,"BOW-"+id);_bowBoundaries.Add(new{id,pass});}
+ private void BowMatrix(Node2D root,object preview){
+  foreach(string body in Enumerable.Range(1,8).Select(i=>"CH-"+i.ToString("00",System.Globalization.CultureInfo.InvariantCulture)))foreach(int facing in new[]{1,-1})foreach(string hand in new[]{"left","right"})foreach(double aim in new[]{-90.0,-61.3,-30,0,13.7,60,90}){
+   Select(root,"Action","None");Select(root,"Movement","Idle");Select(root,"Body",body);Select(root,"Facing",facing==1?"Right":"Left");Select(root,"Condition","Usable");Select(root,"Ammunition","12");Select(root,"left",StringComparer.Ordinal.Equals(hand,"left")?"IT-07":"IT-02");Select(root,"right",StringComparer.Ordinal.Equals(hand,"right")?"IT-07":"IT-02");Select(root,"torso","IT-13");Select(root,"gloves","IT-16");Select(root,"Movement","Walk");Select(root,"Action","Bow");root.GetNode<HSlider>("Controls/Slots/ContinuousAim").Value=aim;
+   string before=Part(root,"lower");Invoke(preview,"Tick",.2);var s=Sample(root);double radians=aim*Math.PI/180;Check(!StringComparer.Ordinal.Equals(before,Part(root,"lower")),"bow-stride");Check(s.GetProperty("nocked").GetBoolean()&&s.GetProperty("intervalSeconds").GetDouble()==1.2&&Math.Abs(s.GetProperty("aimRadians").GetDouble()-radians)<.00001&&StringComparer.Ordinal.Equals(s.GetProperty("bowStage").GetString(),"aim"),"bow-nock-timing-aim");OrdinaryBowPixels(root,body,hand,facing,radians);
+   foreach(string logical in new[]{"left","right"}){var arm=root.GetNode<Sprite2D>("Art/BowArm_"+logical);var held=Gear(root,logical).Single();Check(Math.Abs(arm.Rotation-facing*radians)<.00001&&Math.Abs(held.Rotation-facing*radians)<.00001&&StringComparer.Ordinal.Equals(held.GetMeta("logical_hand").AsString(),logical),"bow-arm-actual-grip");using var image=arm.Texture.GetImage();Check(!image.IsInvisible(),"bow-source-arm-visible");}
+   var head=root.GetNode<Sprite2D>("Art/Body_head");Check(head.Rotation==0&&StringComparer.Ordinal.Equals(head.GetMeta("part").AsString(),body+".idle.head")||StringComparer.Ordinal.Equals(body,"CH-02")&&StringComparer.Ordinal.Equals(head.GetMeta("part").AsString(),"CH-02.local-head"),"normal-bow-head");
+   _bowSamples.Add(new{body,facing,hand,aim,stage="aim",pixels=true,grip=true,retiredPixelsRemoved=true,sample=s});Invoke(preview,"Tick",.401);s=Sample(root);Check(!s.GetProperty("nocked").GetBoolean()&&s.GetProperty("released").GetBoolean()&&root.HasNode("Art/SpentArrow")&&!root.GetNode<Sprite2D>("Art/SpentArrow").GetMeta("recoverable").AsBool(),"bow-actual-release");SpentArrow(root,body,hand,facing,radians);_bowSamples.Add(new{body,facing,hand,aim,stage="release",sample=s});
+  }
+  Select(root,"Action","None");Select(root,"Body","CH-01");Select(root,"left","IT-07");Select(root,"right","IT-02");Select(root,"Ammunition","1");Select(root,"Action","Bow");Invoke(preview,"Tick",.601);Boundary(!Sample(root).GetProperty("nocked").GetBoolean()&&Gear(root,"right").Length==0,"H12-last-arrow");Select(root,"ArrowStack","stack-b");Boundary(Sample(root).GetProperty("nocked").GetBoolean()&&Sample(root).GetProperty("actionSeconds").GetDouble()==0,"H12-replacement-no-reload");Select(root,"Ammunition","0");Boundary(!Sample(root).GetProperty("nocked").GetBoolean()&&Gear(root,"right").Length==0,"H12-zero-immediate");Select(root,"Ammunition","12");Select(root,"Condition","Broken");Boundary(!Sample(root).GetProperty("nocked").GetBoolean()&&!root.HasNode("Art/SpentArrow")&&Gear(root,"left").Single().GetMeta("part").AsString().Contains("broken",StringComparison.Ordinal),"H12-broken-bow");Select(root,"Condition","Usable");Boundary(Sample(root).GetProperty("nocked").GetBoolean(),"H12-usable-restored");
+  foreach(var row in new[]{("Empty","Empty"),("IT-07","Empty"),("Empty","IT-07"),("Empty","IT-02"),("IT-02","Empty"),("IT-03","Empty"),("Empty","IT-06")}){Select(root,"Action","None");Select(root,"left",row.Item1);Select(root,"right",row.Item2);Select(root,"Action","Bow");Boundary(!Sample(root).GetProperty("nocked").GetBoolean()&&!root.HasNode("Art/SpentArrow"),"H14-empty-"+row.Item1+"-"+row.Item2);}
+  Select(root,"left","IT-07");Select(root,"right","IT-02");Select(root,"BowSubject","Structural guard");foreach(int facing in new[]{1,-1}){Select(root,"Facing",facing==1?"Right":"Left");Select(root,"Action","None");Select(root,"Action","Bow");Invoke(preview,"Tick",.2);var guard=root.GetNode<Sprite2D>("Art/StructuralGuard");Boundary(guard.Scale.X==facing&&!guard.GetMeta("loot").AsBool()&&StringComparer.Ordinal.Equals(guard.GetMeta("source").AsString(),"common.s0.8351"),"K15-actual-guard-"+facing.ToString(System.Globalization.CultureInfo.InvariantCulture));}Select(root,"BowSubject","Ordinary");Select(root,"Action","None");
+ }
  private void Bow(Node2D root,object preview){
   Select(root,"Action","None");Select(root,"left","IT-07");Select(root,"right","IT-02");Select(root,"Condition","Usable");
   var options=root.GetNode<OptionButton>("Controls/Slots/Action/Select");var values=Enumerable.Range(0,options.ItemCount).Select(i=>options.GetItemText(i)).ToArray();
   _bow=new{offered=values.Contains("Bow",StringComparer.Ordinal),options=values,leftItem=Gear(root,"left").Single().GetMeta("item").AsString(),rightItem=Gear(root,"right").Single().GetMeta("item").AsString(),condition=root.GetNode<OptionButton>("Controls/Slots/Condition/Select").GetItemText(0)};
+  if(values.Contains("Bow",StringComparer.Ordinal)){BowMatrix(root,preview);GuardMatrix(root,preview);GuardSustained(root,preview);}
  }
 `;
-function harness(){return animation.HARNESS.replace(' public override async void _Ready()',BOW_METHOD+' public override async void _Ready()').replace('await Matrix(root,preview);','Bow(root,preview);await Matrix(root,preview);').replace('restoredBindingAccepted=_restoredBindingAccepted};','restoredBindingAccepted=_restoredBindingAccepted,bow=_bow};');}
+function harness(){return animation.HARNESS.replace(' public override async void _Ready()',BOW_METHOD+' public override async void _Ready()').replace('await Matrix(root,preview);','BowBindings();Bow(root,preview);await Matrix(root,preview);').replace('restoredBindingAccepted=_restoredBindingAccepted};','restoredBindingAccepted=_restoredBindingAccepted,bow=_bow,bowSamples=_bowSamples,bowBoundaries=_bowBoundaries,bowBindingControls=_bowBindingControls,guardSamples=_guardSamples,bowExtra=_bowExtra,guardSustained=_guardSustained,guardAuthority=_guardAuthority};');}
+function bindingHarness(){return animation.HARNESS.replace(' public override async void _Ready()',BOW_METHOD+' public override async void _Ready()').replace('await Matrix(root,preview);','BowBindings();await Matrix(root,preview);').replace('restoredBindingAccepted=_restoredBindingAccepted};','restoredBindingAccepted=_restoredBindingAccepted,bowBindingControls=_bowBindingControls};');}
+// Source-inspected masks retain the entire ordinary core outside these retired arm spans.
+const BODY_CROPS=[[[19,17,3,9],[27,17,4,9],[27,17,6,3]],[[19,19,4,8],[28,19,4,7],[28,18,5,3]],[[19,17,3,9],[27,17,4,9],[28,18,5,3]],[[27,17,6,15],[25,22,2,10],[30,16,6,3]],[[27,19,5,13],[25,27,2,5],[28,17,5,3]],[[28,19,5,13],[25,28,3,4],[29,17,5,3]],[[27,19,6,13],[24,28,3,4],[28,17,5,3]],[[27,19,6,13],[24,28,3,4],[28,17,6,3]]];
+function validateSource(bow,common){
+ need(hash(bytes(ROOT,'src/godot-game/content/packs/common.json'))===bow.guard.sourceSha256,'BOW_GUARD_SOURCE');
+ need(bow.guard.sourceClip==='common.clip.783'&&bow.guard.builtInBow===true&&bow.guard.loot===false,'BOW_GUARD_IDENTITY');
+ need(bow.structuralAmmunition==='explicit-intrinsic-zero-inventory','BOW_STRUCTURAL_AMMUNITION');
+ const clips=[{id:bow.guard.sourceClip,frames:bow.guard.frames,duration:bow.guard.sourceDuration,times:bow.guard.sourceSeconds},...bow.guard.locomotion];
+ const tracks=document(ROOT,'src/godot-game/content/animation/locomotion-melee.json').clips;
+ need(equal(clips.map(c=>c.id),[783,777,780,804].map(n=>'common.clip.'+n))&&equal(bow.guard.locomotion.map(c=>[c.movement,c.stridePeriod]),['idle','faster','walk'].map(m=>[m,tracks[m].reduce((t,f)=>t+f.duration,0)])),'BOW_GUARD_CLIPS');
+ let frames=0;for(const selected of clips){const clip=common.clips.find(c=>c.id===selected.id);need(equal(clip.mapping,selected.frames.map(f=>f.id))&&equal(clip.layers[0].keys.map(k=>k.time),selected.times??selected.frames.map(f=>f.seconds))&&clip.stop===selected.duration,'BOW_GUARD_TIMING');for(const f of selected.frames){const r=common.resources.find(r=>r.id===f.id);need(equal(r.atlasRect,f.atlasRect),'BOW_GUARD_RECT');need(equal(r.registration.offsetTopLeftExact,f.offsetTopLeft)&&r.registration.pivotNormalizedBottomLeft.x===.5&&r.registration.pivotNormalizedBottomLeft.y===0&&r.registration.filter==='nearest'&&!r.registration.resampled&&r.families.includes('K15'),'BOW_GUARD_REGISTRATION');frames++;}}
+ const c=bow.guard.composition;need(equal([c.sourceFrame,c.shoulders,c.armRect,c.bowRect,c.bowGrip,c.clearBowRows,c.upperCutouts,c.lowerLogicalY],['common.s0.8351',{left:[8,10],right:[10,11]},[11,11,4,2],[14,5,4,13],[2,6],[6],[[11,10,9,4],[14,5,4,13],[5,9,3,2]],27]),'BOW_GUARD_COMPOSITION');
+ need(equal(bow.bodyComposition.map(b=>[b.id,...b.retiredArms,b.armRect]),BODY_CROPS.map((c,i)=>['CH-'+String(i+1).padStart(2,'0'),...c])),'BOW_BODY_COMPOSITION');return{clips:clips.map(c=>c.id),frames};
+}
+function source(){
+ const bow=document(ROOT,'src/godot-game/content/animation/bow.json'),common=document(ROOT,'src/godot-game/content/packs/common.json'),result=validateSource(bow,common),controls=[];
+ for(const [id,code,alter]of [
+  ['clip','BOW_GUARD_CLIPS',b=>b.guard.locomotion[0].id='common.clip.786'],['time','BOW_GUARD_TIMING',b=>b.guard.locomotion[0].frames[1].seconds=.2],['duration','BOW_GUARD_TIMING',b=>b.guard.locomotion[1].duration=1],['mapping','BOW_GUARD_TIMING',b=>b.guard.locomotion[2].frames.reverse()],['rectangle','BOW_GUARD_RECT',b=>b.guard.frames[0].atlasRect[0]++],['registration','BOW_GUARD_REGISTRATION',b=>b.guard.locomotion[0].frames[0].offsetTopLeft[0]++],['guard-mask','BOW_GUARD_COMPOSITION',b=>b.guard.composition.upperCutouts[0][2]--],['guard-crop','BOW_GUARD_COMPOSITION',b=>b.guard.composition.armRect[0]--],['body-mask','BOW_BODY_COMPOSITION',b=>b.bodyComposition[3].retiredArms[0][0]--],['body-crop','BOW_BODY_COMPOSITION',b=>b.bodyComposition[0].armRect[0]--],['loot','BOW_GUARD_IDENTITY',b=>b.guard.loot=true]]){
+  const bad=structuredClone(bow);alter(bad);let actual='';try{validateSource(bad,common);}catch(e){actual=e.message.trim();}need(actual===code,'BOW_SOURCE_CONTROL',id+' '+actual);controls.push({id,code,rejected:true});
+ }
+ return{...result,controls,restored:validateSource(bow,common)};
+}
+const SOURCE_PIXELS=String.raw`import pathlib,sys,json,hashlib,importlib.util
+sys.dont_write_bytecode=True
+root=pathlib.Path(sys.argv[1]);spec=importlib.util.spec_from_file_location('media',root/'tools/phase4/extract-media.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);Image=m.image_module()
+bow=json.loads((root/'src/godot-game/content/animation/bow.json').read_bytes());common=json.loads((root/'src/godot-game/content/packs/common.json').read_bytes());atlas=Image.open(root/'src/godot-game/assets/common/donor-kit.png').convert('RGBA')
+assert hashlib.sha256(atlas.tobytes()).hexdigest()==common['atlas']['rgbaSha256'],'BOW_FULL_COMMON_RGBA'
+rows=[]
+for frame in bow['guard']['frames']+[f for c in bow['guard']['locomotion'] for f in c['frames']]:
+ r=next(r for r in common['resources'] if r['id']==frame['id']);x,y,w,h=r['atlasRect'];im=atlas.crop((x,y,x+w,y+h));assert hashlib.sha256(im.tobytes()).hexdigest()==r['image']['rgbaSha256'],'BOW_SOURCE_RGBA '+r['id'];rows.append({'id':r['id'],'rgbaSha256':r['image']['rgbaSha256'],'registration':r['registration']})
+print(json.dumps({'frames':rows,'fullCommonRgba':True}))`;
 async function run(context){
  const before=fingerprint();write(context.directory,'bow-inputs.json',before);
+ write(context.directory,'bow-source.json',source());
+ const pixels=await runner.command(context,'bow-source-pixels','C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe',['-c',SOURCE_PIXELS,ROOT]);write(context.directory,'bow-source-pixels.json',JSON.parse(pixels.stdout));
  const build=await runner.command(context,'bow-strict-build','dotnet',['build',inside(ROOT,'KingdomZombies.slnx'),'--no-restore','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'],{env:bodies.isolated()});need(/0 Warning\(s\)[\s\S]*0 Error\(s\)/.test(build.stdout),'BOW_CLEAN_BUILD');
  const observation=await animation.native(context,harness());
  const compiled=inside(context.directory,'compiled');fs.mkdirSync(compiled);
  await runner.command(context,'bow-compiled','dotnet',[inside(ROOT,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll'),'--filter-class','*CharacterBowTests','--report-xunit-junit','--report-xunit-junit-filename','tests.xml','--report-xunit-ctrf','--report-xunit-ctrf-filename','tests.json','--results-directory',compiled,'--no-ansi','--progress','off','--parallel','none','--timeout','45s'],{env:{...bodies.isolated(),BOW_NATIVE_REPORT:inside(context.directory,'animation-observation.json')}});
  need(equal(before,fingerprint()),'BOW_INPUT_CHANGED');return observation;
 }
-runner.registerCase('animation.bow',{group:'characters',title:'Actual walking bow aim, ammunition and fallback',importance:'Critical',rationale:'Invented ammunition or wrong logical hands breaks required combat presentation',needsGameWindow:false,runGroup:'G0',order:52,requirements:['ASSET-02','ASSET-03'],acceptance:['AC-04','AC-06','AC-24'],setup:'Actual production preview and exact current bodies, equipment and configuration in authenticated owned headless engine',actions:['Equip actual usable bow and opposite arrow hand','Observe real live action selectors and composed output','Execute compiled behavior assertions'],expected:'Bow action is available on the actual usable bow preview with exact logical hands',reset:'Detach owned preview and close owned headless process; no actual game window',evidence:['bow-inputs.json','animation-assemblies.json','animation-observation.json','compiled/tests.xml','result.json']},run);
-module.exports={files,fingerprint,harness,run};
+runner.registerCase('animation.bow',{group:'characters',title:'Actual walking bow aim, ammunition and fallback',importance:'Critical',rationale:'Invented ammunition or wrong logical hands breaks required combat presentation',needsGameWindow:false,runGroup:'G0',order:52,requirements:['ASSET-02','ASSET-03'],acceptance:['AC-04','AC-06','AC-24'],setup:'Actual production preview and exact current bodies, equipment and configuration in authenticated owned headless engine',actions:['Equip actual usable bow and opposite arrow hand','Observe real live action selectors and composed output','Run 64 consecutive structural cycles in both facings with empty inventory, zero arrows and Broken ordinary condition','Reject duplicate and stale releases, then revoke structural authority through ordinary zero-ammo, non-bow and detach','Execute compiled finite-stack, legacy six-argument and explicit intrinsic behavior assertions'],expected:'Finite ordinary ammunition and explicit unlimited structural ammunition preserve configured 1.2-second timing, real source arrows, logical hands and generation-bound releases without loot or gameplay events',reset:'Detach owned preview and close owned headless process; no actual game window',evidence:['bow-inputs.json','animation-assemblies.json','animation-observation.json','compiled/tests.xml','result.json']},run);
+module.exports={files,fingerprint,harness,bindingHarness,run};
