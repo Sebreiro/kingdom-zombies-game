@@ -115,6 +115,8 @@ public sealed partial class InspectionRoot : Node2D
         _generation++;
         _loadGeneration++;
         _pending = null;
+        _character?.Detach();
+        _character = null;
         _shell?.Detach();
         GetNode<OptionButton>(path: "Shell/Workspace/Navigation/Category").ItemSelected -= ChangeCategory;
         GetNode<LineEdit>(path: Browser + "Search").TextChanged -= Filter;
@@ -155,6 +157,7 @@ public sealed partial class InspectionRoot : Node2D
             comparer: StringComparer.Ordinal);
     private InspectionShell? _shell;
     private InspectionInput? _input;
+    private CharacterPreview? _character;
     private ContentPack _pack = ContentPack.Load(index: null, expectations: null, read: _ => null);
     private Queue<string>? _pending;
     private byte[]? _index;
@@ -177,6 +180,8 @@ public sealed partial class InspectionRoot : Node2D
         _loadGeneration++;
         _files.Clear();
         _pending = null;
+        _character?.Detach();
+        _character = null;
         _shell?.Retire();
         _readErrors.Clear();
         _loadedBytes = 0;
@@ -200,6 +205,8 @@ public sealed partial class InspectionRoot : Node2D
         _generation++;
         _loadGeneration++;
         _pending = null;
+        _character?.Detach();
+        _character = null;
         _shell?.Retire();
         _files.Clear();
         _pack = ContentPack.Load(index: null, expectations: _expectations, read: _ => null);
@@ -262,6 +269,8 @@ public sealed partial class InspectionRoot : Node2D
         _gateway.RequireThread();
         _accepting = false;
         _generation++;
+        _character?.Detach();
+        _character = null;
         _shell?.Retire();
         _selections[_category] = _selected;
         _views[_category] = (_query, _status, GetNode<ItemList>(path: Browser + "Resources")
@@ -309,6 +318,8 @@ public sealed partial class InspectionRoot : Node2D
         {
             _accepting = false;
             _generation++;
+            _character?.Detach();
+            _character = null;
             _shell?.Retire();
             _selected = _rows[index];
             _accepting = true;
@@ -389,6 +400,8 @@ public sealed partial class InspectionRoot : Node2D
     private void Selection()
     {
         _gateway.RequireThread();
+        _character?.Detach();
+        _character = null;
         bool found = _pack.Entries.TryGetValue(key: _selected, value: out JsonElement entry);
         GetNode<Label>(path: "Summary/ResourceId").Text = _selected;
         GetNode<Label>(path: "Summary/ResourceName").Text = found
@@ -409,6 +422,13 @@ public sealed partial class InspectionRoot : Node2D
                                         comparisonType: StringComparison.Ordinal));
         GetNode<TextEdit>(path: "Shell/Workspace/Preview/Failures").Text = string.Join(separator: "\n",
                 values: errors.Concat(second: _readErrors));
+        if (_selected is "CH-01" or "CH-02" or "CH-03")
+        {
+            var preview = new Node2D { Name = "Character" };
+            _shell?.Install(preview: preview);
+            _character = CharacterPreview.Open(root: preview, gateway: _gateway, read: Read, body: _selected);
+            _character.Attach();
+        }
     }
 
 }
