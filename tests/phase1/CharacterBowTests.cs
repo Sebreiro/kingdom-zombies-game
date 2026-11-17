@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text.Json;
 using KingdomZombies.Core;
 using Shouldly;
 using Xunit;
@@ -9,15 +10,29 @@ namespace KingdomZombies.Phase1.Tests;
 /// <summary>Checks actual ammunition, bow timing and detached composed samples.</summary>
 public sealed class CharacterBowTests
 {
-    /// <summary>A usable bow with its actual opposite arrow hand uses the accepted bow interval.</summary>
+    /// <summary>Explicit melee preserves its fist fallback when a bow is selected.</summary>
     [Fact]
-    public void Bow_WithOppositeArrowHandUsesBowInterval()
+    public void Melee_WithBowPreservesFistFallback()
     {
         CharacterPresentation subject = Create();
         subject.Configure(body: "CH-01", movement: "walk", action: "melee", leftItem: "IT-07",
                 rightItem: "IT-02", facing: 1);
-        subject.Snapshot.GetProperty(propertyName: "intervalSeconds").GetDouble().ShouldBe(expected: 1.2);
-        subject.Snapshot.GetProperty(propertyName: "releaseSound").GetString().ShouldBe(expected: "AU-06");
+        subject.Snapshot.GetProperty(propertyName: "intervalSeconds").GetDouble().ShouldBe(expected: 0.7);
+        subject.Snapshot.GetProperty(propertyName: "releaseSound").GetString().ShouldBe(expected: "AU-03");
+    }
+
+    /// <summary>The actual live usable bow and arrow preview offers its required bow action.</summary>
+    [Fact]
+    public void Native_UsableBowOffersBowAction()
+    {
+        string path = Environment.GetEnvironmentVariable(variable: "BOW_NATIVE_REPORT")
+                ?? throw new InvalidOperationException(message: "BOW_NATIVE_REPORT_REQUIRED");
+        using var report = JsonDocument.Parse(utf8Json: File.ReadAllBytes(path: path));
+        JsonElement bow = report.RootElement.GetProperty(propertyName: "bow");
+        bow.GetProperty(propertyName: "leftItem").GetString().ShouldBe(expected: "IT-07");
+        bow.GetProperty(propertyName: "rightItem").GetString().ShouldBe(expected: "IT-02");
+        bow.GetProperty(propertyName: "condition").GetString().ShouldBe(expected: "Usable");
+        bow.GetProperty(propertyName: "offered").GetBoolean().ShouldBeTrue();
     }
 
     private static CharacterPresentation Create()
