@@ -119,6 +119,7 @@ public sealed class CharacterPresentation
         }
 
         bool replacement = !StringComparer.Ordinal.Equals(x: body, y: _body)
+                || !StringComparer.Ordinal.Equals(x: movement, y: _movement)
                 || !StringComparer.Ordinal.Equals(x: action, y: _action)
                 || !StringComparer.Ordinal.Equals(x: leftItem, y: _left)
                 || !StringComparer.Ordinal.Equals(x: rightItem, y: _right);

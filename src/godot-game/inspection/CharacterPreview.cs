@@ -156,6 +156,7 @@ internal sealed class CharacterPreview
     internal void Detach()
     {
         _gateway.RequireThread();
+        EndAction();
         _attached = false;
         _playing = false;
         if (_tree is not null)
@@ -211,6 +212,7 @@ internal sealed class CharacterPreview
     private readonly Dictionary<string, Button> _buttons = new(comparer: StringComparer.Ordinal);
     private readonly List<Texture2D> _ownedTextures = [];
     private JsonElement _sample;
+    private string _equipment = "";
 
     private static CharacterPresentation ReadPresentation(Func<string, byte[]?> read)
     {
@@ -296,6 +298,14 @@ internal sealed class CharacterPreview
     private void Reset()
     {
         _gateway.RequireThread();
+        _playing = false;
+        _buttons["Play"].Text = "Play preview";
+        _buttons["Step"].Disabled = false;
+        foreach (string id in new[] { "Movement", "Action", "left", "right", "Facing" })
+        {
+            _controls[id].Select(idx: id is "Movement" ? 1 : 0);
+        }
+
         _presentation?.Configure(body: _body, movement: "idle", action: "none", leftItem: "Empty",
                 rightItem: "Empty", facing: 1);
         Project();
@@ -527,6 +537,7 @@ internal sealed class CharacterPreview
         Node2D art = _root.GetNode<Node2D>(path: "Art");
         _body = Selected(id: "Body");
         ReconcileHands();
+        ReconcileEquipment();
         string poseId = Selected(id: "Pose");
         int facing = Selected(id: "Facing") is "Right" ? 1 : -1;
         int zoom = 1 << _controls["Zoom"].Selected;
@@ -558,6 +569,32 @@ internal sealed class CharacterPreview
         AddBody(art: art, pose: pose, facing: facing, lower: lower);
         ProjectGear(art: art, body: body, pose: pose, lower: lower, facing: facing, poseId: poseId);
         Contact(art: art, pose: pose, facing: facing);
+    }
+
+    private void EndAction()
+    {
+        if (_presentation is not null)
+        {
+            JsonElement sample = _presentation.Snapshot;
+            _presentation.Configure(body: Text(value: sample, name: "body"),
+                    movement: Text(value: sample, name: "movement"), action: "none",
+                    leftItem: Text(value: sample, name: "leftItem"), rightItem: Text(value: sample, name: "rightItem"),
+                    facing: sample.GetProperty(propertyName: "facing").GetInt32());
+        }
+    }
+
+    private void ReconcileEquipment()
+    {
+        _gateway.RequireThread();
+        string equipment = string.Join(separator: "|", values: _fits.GetProperty(propertyName: "slots")
+                .EnumerateArray().Select(selector: slot => Selected(id: Text(value: slot, name: "id"))))
+                + "|" + Selected(id: "Condition");
+        if (_equipment.Length > 0 && !StringComparer.Ordinal.Equals(x: equipment, y: _equipment))
+        {
+            EndAction();
+        }
+
+        _equipment = equipment;
     }
 
     private void Contact(Node2D art, JsonElement pose, int facing)

@@ -192,6 +192,7 @@ public sealed partial class InspectionRoot : Node2D
         _accepting = true;
         GetNode<Sprite2D>(path: "Bow").Visible = false;
         GetNode<Label>(path: "Summary/Status").Text = "Loading common.bow…";
+        GetNode<TextEdit>(path: "Shell/Workspace/Preview/Failures").Text = "";
         GetNode<Label>(path: "Summary/PackStatus").Text = "0/180 obligations · Pack incomplete — Loading";
         GetNode<Button>(path: "Shell/Toolbar/Cancel").Disabled = false;
         GetNode<Label>(path: "Shell/Toolbar/Operation").Text = "Reading declared packaged resources";
@@ -400,6 +401,11 @@ public sealed partial class InspectionRoot : Node2D
     private void Selection()
     {
         _gateway.RequireThread();
+        if (_character is not null)
+        {
+            _shell?.Retire();
+        }
+
         _character?.Detach();
         _character = null;
         bool found = _pack.Entries.TryGetValue(key: _selected, value: out JsonElement entry);
@@ -426,7 +432,22 @@ public sealed partial class InspectionRoot : Node2D
         {
             var preview = new Node2D { Name = "Character" };
             _shell?.Install(preview: preview);
-            _character = CharacterPreview.Open(root: preview, gateway: _gateway, read: Read, body: _selected);
+            string resource = "content/animation/locomotion-melee.json";
+            try
+            {
+                _character = CharacterPreview.Open(root: preview, gateway: _gateway,
+                        read: path => Read(path: resource = path), body: _selected);
+            }
+            catch (Exception error) when (error is InvalidDataException or JsonException or FormatException)
+            {
+                _character = null;
+                _shell?.Retire();
+                GetNode<TextEdit>(path: "Shell/Workspace/Preview/Failures").Text += "\n" + _selected
+                        + ": " + resource + " — " + error.Message;
+                GetNode<Label>(path: "Summary/Status").Text = "Error — " + _selected + "; choose Recheck resources";
+                return;
+            }
+
             _character.Attach();
         }
     }

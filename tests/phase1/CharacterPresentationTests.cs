@@ -22,6 +22,41 @@ public sealed class CharacterPresentationTests
         JsonElement observed = report.RootElement.GetProperty(propertyName: "replacementError");
         observed.GetProperty(propertyName: "errorVisible").GetBoolean().ShouldBeTrue();
         observed.GetProperty(propertyName: "transportUsable").GetBoolean().ShouldBeTrue();
+        observed.GetProperty(propertyName: "recovered").GetBoolean().ShouldBeTrue();
+    }
+
+    /// <summary>Both canonical cases execute actual replacement, lifecycle, isolation and transport controls.</summary>
+    [Fact]
+    public void Native_ReplacementControlsHaveIndependentObservations()
+    {
+        using JsonDocument report = Native();
+        JsonElement checks = report.RootElement.GetProperty(propertyName: "replacementChecks");
+        foreach (string id in new[] { "H15-order-facing-gear", "H15-order-gear-facing",
+            "H15-immediate-facing-phase", "H18-retired-Body", "H18-retired-left", "H18-retired-right",
+            "H18-retired-armor", "H18-retired-Movement", "H18-retired-Action", "shared-neighbour-isolation",
+            "transport-single-step", "transport-paused", "transport-speed-0.25×", "transport-speed-0.5×",
+            "transport-speed-1×", "transport-speed-2×", "transport-reset", "detached-late-callback-contact",
+            "actual-root-recheck-recovery", "partial-restored" })
+        {
+            checks.EnumerateArray().Single(predicate: check => StringComparer.Ordinal.Equals(
+                    x: check.GetProperty(propertyName: "id").GetString(), y: id))
+                    .GetProperty(propertyName: "pass").GetBoolean().ShouldBeTrue();
+        }
+    }
+
+    /// <summary>Seven independent native character surfaces retain distinct setup and actual observations.</summary>
+    [Fact]
+    public void Native_CharacterStatesAreCompleteAndDistinct()
+    {
+        using JsonDocument report = Native();
+        JsonElement states = report.RootElement.GetProperty(propertyName: "states");
+        foreach (string id in new[] { "empty", "loading", "error", "populated", "partial", "overflow", "long-text" })
+        {
+            JsonElement state = states.EnumerateArray().Single(predicate: row => StringComparer.Ordinal.Equals(
+                    x: row.GetProperty(propertyName: "id").GetString(), y: id));
+            state.GetProperty(propertyName: "pass").GetBoolean().ShouldBeTrue();
+            state.GetProperty(propertyName: "setup").GetString().ShouldNotBeNullOrWhiteSpace();
+        }
     }
 
     /// <summary>Moving lower segments must advance while the same upper strike remains active.</summary>
