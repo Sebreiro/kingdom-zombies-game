@@ -1,0 +1,627 @@
+{
+  "id": "DT-04",
+  "version": 1,
+  "definitions": [
+    {
+      "id": "IT-01",
+      "name": "Money",
+      "nameKey": "item.IT-01.name",
+      "descriptionKey": "item.IT-01.description",
+      "footprint": [
+        1,
+        1
+      ],
+      "maxStack": 100,
+      "weightKilograms": 0.001,
+      "rotatable": true,
+      "slot": null,
+      "storage": null,
+      "conditionMaximum": null,
+      "appearance": {
+        "pack": "content/packs/items-01-10.json",
+        "item": "IT-01",
+        "canonicalIcon": "IT_01_master",
+        "fitFile": null,
+        "fitItem": null
+      },
+      "handlingSound": "AU-18",
+      "breakSound": null
+    },
+    {
+      "id": "IT-02",
+      "name": "Arrows",
+      "nameKey": "item.IT-02.name",
+      "descriptionKey": "item.IT-02.description",
+      "footprint": [
+        1,
+        2
+      ],
+      "maxStack": 30,
+      "weightKilograms": 0.03,
+      "rotatable": true,
+      "slot": "either-logical-hand",
+      "storage": null,
+      "conditionMaximum": null,
+      "appearance": {
+        "pack": "content/packs/items-01-10.json",
+        "item": "IT-02",
+        "canonicalIcon": "IT_02_bundle",
+        "fitFile": "content/animation/fits-a.json",
+        "fitItem": "IT-02"
+      },
+      "handlingSound": "AU-18",
+      "breakSound": null
+    },
+    {
+      "id": "IT-03",
+      "name": "Knife",
+      "nameKey": "item.IT-03.name",
+      "descriptionKey": "item.IT-03.description",
+      "footprint": [
+        1,
+        2
+      ],
+      "maxStack": 1,
+      "weightKilograms": 0.3,
+      "rotatable": true,
+      "slot": "either-logical-hand",
+      "storage": null,
+      "conditionMaximum": 120,
+      "appearance": {
+        "pack": "content/packs/items-01-10.json",
+        "item": "IT-03",
+        "canonicalIcon": "IT_03_master",
+        "fitFile": "content/animation/fits-a.json",
+        "fitItem": "IT-03"
+      },
+      "handlingSound": "AU-18",
+      "breakSound": "AU-05"
+    },
+    {
+      "id": "IT-04",
+      "name": "Wooden club",
+      "nameKey": "item.IT-04.name",
+      "descriptionKey": "item.IT-04.description",
+      "footprint": [
+        1,
+        3
+      ],
+      "maxStack": 1,
+      "weightKilograms": 1.2,
+      "rotatable": true,
+      "slot": "either-logical-hand",
+      "storage": null,
+      "conditionMaximum": 150,
+      "appearance": {
+        "pack": "content/packs/items-01-10.json",
+        "item": "IT-04",
+        "canonicalIcon": "IT_04_master",
+        "fitFile": "content/animation/fits-a.json",
+        "fitItem": "IT-04"
+      },
+      "handlingSound": "AU-18",
+      "breakSound": "AU-05"
+    },
+    {
+      "id": "IT-05",
+      "name": "Machete",
+      "nameKey": "item.IT-05.name",
+      "descriptionKey": "item.IT-05.description",
+      "footprint": [
+        1,
+        3
+      ],
+      "maxStack": 1,
+      "weightKilograms": 0.8,
+      "rotatable": true,
+      "slot": "either-logical-hand",
+      "storage": null,
+      "conditionMaximum": 180,
+      "appearance": {
+        "pack": "content/packs/items-01-10.json",
+        "item": "IT-05",
+        "canonicalIcon": "IT_05_master",
+        "fitFile": "content/animation/fits-a.json",
+        "fitItem": "IT-05"
+      },
+      "handlingSound": "AU-18",
+      "breakSound": "AU-05"
+    },
+    {
+      "id": "IT-06",
+      "name": "Metal bat",
+      "nameKey": "item.IT-06.name",
+      "descriptionKey": "item.IT-06.description",
+      "footprint": [
+        1,
+        4
+      ],
+      "maxStack": 1,
+      "weightKilograms": 2,
+      "rotatable": true,
+      "slot": "either-logical-hand",
+      "storage": null,
+      "conditionMaximum": 220,
+      "appearance": {
+        "pack": "content/packs/items-01-10.json",
+        "item": "IT-06",
+        "canonicalIcon": "IT_06_master",
+        "fitFile": "content/animation/fits-a.json",
+        "fitItem": "IT-06"
+      },
+      "handlingSound": "AU-18",
+      "breakSound": "AU-05"
+    },
+    {
+      "id": "IT-07",
+      "name": "Bow",
+      "nameKey": "item.IT-07.name",
+      "descriptionKey": "item.IT-07.description",
+      "footprint": [
+        2,
+        4
+      ],
+      "maxStack": 1,
+      "weightKilograms": 1.2,
+      "rotatable": true,
+      "slot": "either-logical-hand",
+      "storage": null,
+      "conditionMaximum": 160,
+      "appearance": {
+        "pack": "content/packs/items-01-10.json",
+        "item": "IT-07",
+        "canonicalIcon": "IT_07_master",
+        "fitFile": "content/animation/fits-a.json",
+        "fitItem": "IT-07"
+      },
+      "handlingSound": "AU-18",
+      "breakSound": "AU-05"
+    },
+    {
+      "id": "IT-08",
+      "name": "Berries",
+      "nameKey": "item.IT-08.name",
+      "descriptionKey": "item.IT-08.description",
+      "footprint": [
+        1,
+        1
+      ],
+      "maxStack": 10,
+      "weightKilograms": 0.1,
+      "rotatable": true,
+      "slot": null,
+      "storage": null,
+      "conditionMaximum": null,
+      "appearance": {
+        "pack": "content/packs/items-01-10.json",
+        "item": "IT-08",
+        "canonicalIcon": "IT_08_master",
+        "fitFile": "content/animation/fits-a.json",
+        "fitItem": "IT-08"
+      },
+      "handlingSound": "AU-18",
+      "breakSound": null
+    },
+    {
+      "id": "IT-09",
+      "name": "Fruit",
+      "nameKey": "item.IT-09.name",
+      "descriptionKey": "item.IT-09.description",
+      "footprint": [
+        1,
+        1
+      ],
+      "maxStack": 5,
+      "weightKilograms": 0.2,
+      "rotatable": true,
+      "slot": null,
+      "storage": null,
+      "conditionMaximum": null,
+      "appearance": {
+        "pack": "content/packs/items-01-10.json",
+        "item": "IT-09",
+        "canonicalIcon": "IT_09_master",
+        "fitFile": "content/animation/fits-a.json",
+        "fitItem": "IT-09"
+      },
+      "handlingSound": "AU-18",
+      "breakSound": null
+    },
+    {
+      "id": "IT-10",
+      "name": "Meat",
+      "nameKey": "item.IT-10.name",
+      "descriptionKey": "item.IT-10.description",
+      "footprint": [
+        1,
+        2
+      ],
+      "maxStack": 5,
+      "weightKilograms": 0.4,
+      "rotatable": true,
+      "slot": null,
+      "storage": null,
+      "conditionMaximum": null,
+      "appearance": {
+        "pack": "content/packs/items-01-10.json",
+        "item": "IT-10",
+        "canonicalIcon": "IT_10_master",
+        "fitFile": "content/animation/fits-a.json",
+        "fitItem": "IT-10"
+      },
+      "handlingSound": "AU-18",
+      "breakSound": null
+    },
+    {
+      "id": "IT-11",
+      "name": "Basic shirt",
+      "nameKey": "item.IT-11.name",
+      "descriptionKey": "item.IT-11.description",
+      "footprint": [
+        2,
+        2
+      ],
+      "maxStack": 1,
+      "weightKilograms": 0.3,
+      "rotatable": true,
+      "slot": "torso-clothing",
+      "storage": [
+        2,
+        1
+      ],
+      "conditionMaximum": null,
+      "appearance": {
+        "pack": "content/packs/items-11-24.json",
+        "item": "IT-11",
+        "canonicalIcon": "IT_11_master",
+        "fitFile": "content/animation/fits-a.json",
+        "fitItem": "IT-11"
+      },
+      "handlingSound": "AU-18",
+      "breakSound": null
+    },
+    {
+      "id": "IT-12",
+      "name": "Trousers",
+      "nameKey": "item.IT-12.name",
+      "descriptionKey": "item.IT-12.description",
+      "footprint": [
+        2,
+        2
+      ],
+      "maxStack": 1,
+      "weightKilograms": 0.6,
+      "rotatable": true,
+      "slot": "legs",
+      "storage": [
+        2,
+        2
+      ],
+      "conditionMaximum": null,
+      "appearance": {
+        "pack": "content/packs/items-11-24.json",
+        "item": "IT-12",
+        "canonicalIcon": "IT_12_master",
+        "fitFile": "content/animation/fits-a.json",
+        "fitItem": "IT-12"
+      },
+      "handlingSound": "AU-18",
+      "breakSound": null
+    },
+    {
+      "id": "IT-13",
+      "name": "Coat",
+      "nameKey": "item.IT-13.name",
+      "descriptionKey": "item.IT-13.description",
+      "footprint": [
+        2,
+        3
+      ],
+      "maxStack": 1,
+      "weightKilograms": 1,
+      "rotatable": true,
+      "slot": "torso-clothing",
+      "storage": [
+        2,
+        2
+      ],
+      "conditionMaximum": null,
+      "appearance": {
+        "pack": "content/packs/items-11-24.json",
+        "item": "IT-13",
+        "canonicalIcon": "IT_13_master",
+        "fitFile": "content/animation/fits-a.json",
+        "fitItem": "IT-13"
+      },
+      "handlingSound": "AU-18",
+      "breakSound": null
+    },
+    {
+      "id": "IT-14",
+      "name": "Cap",
+      "nameKey": "item.IT-14.name",
+      "descriptionKey": "item.IT-14.description",
+      "footprint": [
+        2,
+        1
+      ],
+      "maxStack": 1,
+      "weightKilograms": 0.1,
+      "rotatable": true,
+      "slot": "headwear",
+      "storage": null,
+      "conditionMaximum": null,
+      "appearance": {
+        "pack": "content/packs/items-11-24.json",
+        "item": "IT-14",
+        "canonicalIcon": "IT_14_master",
+        "fitFile": "content/animation/fits-a.json",
+        "fitItem": "IT-14"
+      },
+      "handlingSound": "AU-18",
+      "breakSound": null
+    },
+    {
+      "id": "IT-15",
+      "name": "Face covering",
+      "nameKey": "item.IT-15.name",
+      "descriptionKey": "item.IT-15.description",
+      "footprint": [
+        1,
+        1
+      ],
+      "maxStack": 1,
+      "weightKilograms": 0.05,
+      "rotatable": true,
+      "slot": "face",
+      "storage": null,
+      "conditionMaximum": null,
+      "appearance": {
+        "pack": "content/packs/items-11-24.json",
+        "item": "IT-15",
+        "canonicalIcon": "IT_15_master",
+        "fitFile": "content/animation/fits-a.json",
+        "fitItem": "IT-15"
+      },
+      "handlingSound": "AU-18",
+      "breakSound": null
+    },
+    {
+      "id": "IT-16",
+      "name": "Gloves",
+      "nameKey": "item.IT-16.name",
+      "descriptionKey": "item.IT-16.description",
+      "footprint": [
+        1,
+        1
+      ],
+      "maxStack": 1,
+      "weightKilograms": 0.1,
+      "rotatable": true,
+      "slot": "gloves",
+      "storage": null,
+      "conditionMaximum": null,
+      "appearance": {
+        "pack": "content/packs/items-11-24.json",
+        "item": "IT-16",
+        "canonicalIcon": "IT_16_master",
+        "fitFile": "content/animation/fits-a.json",
+        "fitItem": "IT-16"
+      },
+      "handlingSound": "AU-18",
+      "breakSound": null
+    },
+    {
+      "id": "IT-17",
+      "name": "Boots",
+      "nameKey": "item.IT-17.name",
+      "descriptionKey": "item.IT-17.description",
+      "footprint": [
+        1,
+        2
+      ],
+      "maxStack": 1,
+      "weightKilograms": 0.8,
+      "rotatable": true,
+      "slot": "boots",
+      "storage": null,
+      "conditionMaximum": null,
+      "appearance": {
+        "pack": "content/packs/items-11-24.json",
+        "item": "IT-17",
+        "canonicalIcon": "IT_17_master",
+        "fitFile": "content/animation/fits-a.json",
+        "fitItem": "IT-17"
+      },
+      "handlingSound": "AU-18",
+      "breakSound": null
+    },
+    {
+      "id": "IT-18",
+      "name": "Protective helmet",
+      "nameKey": "item.IT-18.name",
+      "descriptionKey": "item.IT-18.description",
+      "footprint": [
+        2,
+        2
+      ],
+      "maxStack": 1,
+      "weightKilograms": 1,
+      "rotatable": true,
+      "slot": "headwear",
+      "storage": null,
+      "conditionMaximum": 100,
+      "appearance": {
+        "pack": "content/packs/items-11-24.json",
+        "item": "IT-18",
+        "canonicalIcon": "IT_18_master",
+        "fitFile": "content/animation/fits-a.json",
+        "fitItem": "IT-18"
+      },
+      "handlingSound": "AU-18",
+      "breakSound": "AU-05"
+    },
+    {
+      "id": "IT-19",
+      "name": "Improvised body armor",
+      "nameKey": "item.IT-19.name",
+      "descriptionKey": "item.IT-19.description",
+      "footprint": [
+        2,
+        3
+      ],
+      "maxStack": 1,
+      "weightKilograms": 3,
+      "rotatable": true,
+      "slot": "body-armor",
+      "storage": null,
+      "conditionMaximum": 100,
+      "appearance": {
+        "pack": "content/packs/items-11-24.json",
+        "item": "IT-19",
+        "canonicalIcon": "IT_19_master",
+        "fitFile": "content/animation/fits-a.json",
+        "fitItem": "IT-19"
+      },
+      "handlingSound": "AU-18",
+      "breakSound": "AU-05"
+    },
+    {
+      "id": "IT-20",
+      "name": "Plated body armor",
+      "nameKey": "item.IT-20.name",
+      "descriptionKey": "item.IT-20.description",
+      "footprint": [
+        3,
+        3
+      ],
+      "maxStack": 1,
+      "weightKilograms": 7,
+      "rotatable": true,
+      "slot": "body-armor",
+      "storage": null,
+      "conditionMaximum": 200,
+      "appearance": {
+        "pack": "content/packs/items-11-24.json",
+        "item": "IT-20",
+        "canonicalIcon": "IT_20_master",
+        "fitFile": "content/animation/fits-a.json",
+        "fitItem": "IT-20"
+      },
+      "handlingSound": "AU-18",
+      "breakSound": "AU-05"
+    },
+    {
+      "id": "IT-21",
+      "name": "Belt with pouches",
+      "nameKey": "item.IT-21.name",
+      "descriptionKey": "item.IT-21.description",
+      "footprint": [
+        2,
+        1
+      ],
+      "maxStack": 1,
+      "weightKilograms": 0.3,
+      "rotatable": true,
+      "slot": "belt",
+      "storage": [
+        4,
+        2
+      ],
+      "conditionMaximum": null,
+      "appearance": {
+        "pack": "content/packs/items-11-24.json",
+        "item": "IT-21",
+        "canonicalIcon": "IT_21_master",
+        "fitFile": "content/animation/fits-a.json",
+        "fitItem": "IT-21"
+      },
+      "handlingSound": "AU-18",
+      "breakSound": null
+    },
+    {
+      "id": "IT-22",
+      "name": "Small pouch",
+      "nameKey": "item.IT-22.name",
+      "descriptionKey": "item.IT-22.description",
+      "footprint": [
+        1,
+        2
+      ],
+      "maxStack": 1,
+      "weightKilograms": 0.15,
+      "rotatable": true,
+      "slot": null,
+      "storage": [
+        2,
+        2
+      ],
+      "conditionMaximum": null,
+      "appearance": {
+        "pack": "content/packs/items-11-24.json",
+        "item": "IT-22",
+        "canonicalIcon": "IT_22_master",
+        "fitFile": null,
+        "fitItem": null
+      },
+      "handlingSound": "AU-18",
+      "breakSound": null
+    },
+    {
+      "id": "IT-23",
+      "name": "Small backpack",
+      "nameKey": "item.IT-23.name",
+      "descriptionKey": "item.IT-23.description",
+      "footprint": [
+        2,
+        3
+      ],
+      "maxStack": 1,
+      "weightKilograms": 0.8,
+      "rotatable": true,
+      "slot": "backpack",
+      "storage": [
+        4,
+        4
+      ],
+      "conditionMaximum": null,
+      "appearance": {
+        "pack": "content/packs/items-11-24.json",
+        "item": "IT-23",
+        "canonicalIcon": "IT_23_master",
+        "fitFile": "content/animation/fits-a.json",
+        "fitItem": "IT-23"
+      },
+      "handlingSound": "AU-18",
+      "breakSound": null
+    },
+    {
+      "id": "IT-24",
+      "name": "Field backpack",
+      "nameKey": "item.IT-24.name",
+      "descriptionKey": "item.IT-24.description",
+      "footprint": [
+        3,
+        4
+      ],
+      "maxStack": 1,
+      "weightKilograms": 1.8,
+      "rotatable": true,
+      "slot": "backpack",
+      "storage": [
+        5,
+        6
+      ],
+      "conditionMaximum": null,
+      "appearance": {
+        "pack": "content/packs/items-11-24.json",
+        "item": "IT-24",
+        "canonicalIcon": "IT_24_master",
+        "fitFile": "content/animation/fits-a.json",
+        "fitItem": "IT-24"
+      },
+      "handlingSound": "AU-18",
+      "breakSound": null
+    }
+  ]
+}

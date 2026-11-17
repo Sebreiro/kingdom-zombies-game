@@ -1,0 +1,171 @@
+{
+  "id": "DT-05",
+  "version": 1,
+  "attacks": [
+    {
+      "attackId": "survivor.fists",
+      "itemRef": null,
+      "damage": 8,
+      "intervalSeconds": 0.7,
+      "reachUnits": 1,
+      "staminaCost": 3,
+      "projectile": null,
+      "releaseSound": "AU-03",
+      "impactSound": "AU-04"
+    },
+    {
+      "attackId": "weapon.knife",
+      "itemRef": "IT-03",
+      "damage": 10,
+      "intervalSeconds": 0.5,
+      "reachUnits": 1.1,
+      "staminaCost": 4,
+      "projectile": null,
+      "releaseSound": "AU-03",
+      "impactSound": "AU-04"
+    },
+    {
+      "attackId": "weapon.club",
+      "itemRef": "IT-04",
+      "damage": 18,
+      "intervalSeconds": 0.9,
+      "reachUnits": 1.4,
+      "staminaCost": 7,
+      "projectile": null,
+      "releaseSound": "AU-03",
+      "impactSound": "AU-04"
+    },
+    {
+      "attackId": "weapon.machete",
+      "itemRef": "IT-05",
+      "damage": 26,
+      "intervalSeconds": 0.75,
+      "reachUnits": 1.5,
+      "staminaCost": 8,
+      "projectile": null,
+      "releaseSound": "AU-03",
+      "impactSound": "AU-04"
+    },
+    {
+      "attackId": "weapon.bat",
+      "itemRef": "IT-06",
+      "damage": 32,
+      "intervalSeconds": 1.1,
+      "reachUnits": 1.6,
+      "staminaCost": 10,
+      "projectile": null,
+      "releaseSound": "AU-03",
+      "impactSound": "AU-04"
+    },
+    {
+      "attackId": "weapon.bow",
+      "itemRef": "IT-07",
+      "damage": 22,
+      "intervalSeconds": 1.2,
+      "reachUnits": null,
+      "staminaCost": 6,
+      "projectile": "arrow",
+      "releaseSound": "AU-06",
+      "impactSound": "AU-07"
+    },
+    {
+      "attackId": "spitter.spit",
+      "itemRef": null,
+      "damage": 12,
+      "intervalSeconds": 3,
+      "reachUnits": 16,
+      "staminaCost": 6,
+      "projectile": "spit",
+      "releaseSound": "AU-08",
+      "impactSound": "AU-04"
+    }
+  ],
+  "projectiles": [
+    {
+      "projectileId": "arrow",
+      "speedUnitsPerSecond": 25,
+      "lifetimeSeconds": 2,
+      "targetRangeUnits": null,
+      "stopAtTerrain": true,
+      "stopAtFirstEligibleHit": true,
+      "alliedPassThrough": true,
+      "recoverable": false,
+      "areaDamage": false,
+      "lingeringEffect": false
+    },
+    {
+      "projectileId": "spit",
+      "speedUnitsPerSecond": 8,
+      "lifetimeSeconds": 3,
+      "targetRangeUnits": 16,
+      "stopAtTerrain": true,
+      "stopAtFirstEligibleHit": true,
+      "alliedPassThrough": true,
+      "recoverable": false,
+      "areaDamage": false,
+      "lingeringEffect": false
+    }
+  ],
+  "armor": [
+    {
+      "itemRef": "IT-19",
+      "reductionFraction": 0.2,
+      "maximumDurability": 100,
+      "rawDamageWearFraction": 0.2
+    },
+    {
+      "itemRef": "IT-20",
+      "reductionFraction": 0.4,
+      "maximumDurability": 200,
+      "rawDamageWearFraction": 0.2
+    },
+    {
+      "itemRef": "IT-18",
+      "reductionFraction": 0.1,
+      "maximumDurability": 100,
+      "rawDamageWearFraction": 0.1
+    }
+  ],
+  "maximumReductionFraction": 0.6,
+  "armorCombination": "multiplicative",
+  "armorWearSource": "same-raw-hit-no-extra-damage",
+  "armorAppliesPerHit": true,
+  "friendlyDamageMultiplier": 0,
+  "criticalHits": false,
+  "headshots": false,
+  "penetration": false,
+  "bleeding": false,
+  "durability": {
+    "meleeLossPerSuccessfulStrike": 1,
+    "bowLossPerShot": 1,
+    "zeroWeaponUsable": false,
+    "zeroArmorProtects": false,
+    "retainBrokenItems": true,
+    "ordinaryClothingWears": false,
+    "repairAllowed": false
+  },
+  "handRules": {
+    "emptyHandsAttack": "survivor.fists",
+    "dualOneHanded": true,
+    "dualInterval": "maximum-of-both",
+    "dualStamina": "sum-of-both",
+    "dualTargets": "independent-per-weapon-may-share-target",
+    "targetsPerWeaponSwing": 1,
+    "bowOtherHand": "IT-02",
+    "playerAutoRefill": false,
+    "npcZombieAutoRefill": true,
+    "actualArrowsConsumed": true,
+    "fallback": "usable-carried-weapon-or-fists"
+  },
+  "contactLimits": {
+    "structure": 6,
+    "survivor": 3
+  },
+  "cosmeticAcid": {
+    "damagePerSecond": 0,
+    "durabilityLoss": 0,
+    "slowdownFraction": 0,
+    "blocksMovement": false,
+    "statusEffect": false
+  }
+}
