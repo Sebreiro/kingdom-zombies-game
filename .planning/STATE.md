@@ -4,17 +4,17 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 04
 current_phase_name: Asset production
-current_plan: 13
+current_plan: 27
 status: executing
-stopped_at: Completed 04-15; 22/37 local plans summarized; wave 17 complete; next 04-13 world/effects in wave 18; Phase 06 history and concurrent Phase 07 decisions preserved; WINDOWS29/30/31 open
-last_updated: "2026-11-17T18:24:09.761Z"
+stopped_at: Completed 04-13; 23/37 local plans summarized; wave 18 complete; next 04-27 in wave 19; concurrent planning decisions preserved; WINDOWS29/30/31 open
+last_updated: "2026-11-17T19:57:53.065Z"
 last_activity: 2026-11-17
-last_activity_desc: Completed inventory and legacy target layouts plus authentic export-profile closure; final 33 executable groups pass; next 04-13 world/effects
+last_activity_desc: Completed authored world and native portal/effect resources; final35 executable groups pass; next04-27 assembled preview controls
 progress:
   total_phases: 12
   completed_phases: 3
   total_plans: 62
-  completed_plans: 47
+  completed_plans: 48
   percent: 25
 ---
 
@@ -26,19 +26,19 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase 04 continues on feature/04-asset-production with draft PR 5. Twenty-two of37 local plans are summarized: 01/25/34/35/02/36/37/03/26/04/05/11/06/14/18/07/28/08/09/10/12/15. Native inventory and saved legacy/stash/target layouts retain859/1452 outcomes and five compiled tests; final33 executable groups pass on430 unchanged inputs. Two Critical integration cases remain blocked,with no full-phase acceptance. The authentic current export-profile closure and bounded exact theme reader pass. Inventory236;wave17 complete,next04-13 world/effects in wave18. Policy remains FAIL1189 operations and54-input/32-surface producer unenrolled;WINDOWS29/30/31,all ASSET/actual acceptance remain pending. Concurrent Phase06 history and Phase07 decisions are preserved.
+**Current focus:** Phase04 continues on feature/04-asset-production with draft PR5. Twenty-three of37 local plans are summarized. The exact mirrored map and native world/effects resources pass35 executable local groups on439 unchanged inputs. Map796/23 and effects1393/31 preserve all prior observation identities; clearing state markers and decorative stumps have independent exact identity controls. Inventory236;wave18 complete,next04-27 assembled preview controls in wave19. Policy remains FAIL1428 operations and55-input/32-surface producer unenrolled;WINDOWS29/30/31,all ASSET and actual acceptance remain pending. Concurrent Phase06 history/Phase07 decisions are preserved.
 
 ## Current Position
 
 Phase: 04 — Asset production
-Current Plan: 13
+Current Plan: 27
 Total Plans in Phase: 37
 Status: Executing
-Last activity: 2026-11-17 — Completed 04-15 layouts and export-profile consumer; 22/37 local plans summarized; wave17 complete,next04-13
+Last activity: 2026-11-17 — Completed authored world and native portal/effect resources; final35 executable groups pass; next04-27 assembled preview controls
 
 Progress: [███░░░░░░░] 25%
 
-Milestone progress: 3/12 phases complete;47/62 currently planned plans summarized;fourteen of135 requirements complete. Phase4 has22/37 local plans complete. NoASSET requirement completion is claimed.
+Milestone progress: 3/12 phases complete;48/62 currently planned plans summarized;fourteen of135 requirements complete. Phase4 has23/37 local plans complete. NoASSET requirement completion is claimed.
 
 ## Performance Metrics
 
@@ -155,6 +155,8 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - [Phase04]: Completed [04-12](phases/04-asset-production/04-12-SUMMARY.md): twenty-one of 37 local plans; wave 17 remains in progress with 04-15 next. Art02fe08e and Task2 5d593db/9a92af2, SUMMARY1a12a5a, supply six wall/tower tiers,46 lifecycle parts,nine footprint frames,124 retained ZIP members and three generated masters. Structural guards use11 parts/five split poses with independent1/2/3 sockets,22 samples,quiet previous-tier restoration and separate collision/work/release owners. Fresh27/27 selected cases pass on421 unchanged inputs in1,225,385ms;935 defense outcomes retain all929 original IDs/order plus six pixel controls, while original main17compiled/260native pass. Independent diagnosis proves exact alpha/visible RGB; only alpha-zero RGB differs on import, with exact raw source hashes retained. Original Task2 3/3 budget remains exhausted; R1 used1/2 corrective attempts. Eight planned paths leave inventory236; no public identity added. Latest policy e7b45d2f remains FAIL1006 operations (+133 Building),53 evaluated producer inputs/32 surfaces unenrolled. WINDOWS29/30/31,all ASSET and actual acceptance remain pending.
 
 - [Phase04]: Completed04-15 source e7ccc86/9832318/54f7d77/14968cc and SUMMARYb9e65c5;33/33 executable cases on430 unchanged inputs,with two blocked Critical integration cases preserved separately. Inventory236,policy1189/producer54-input32-surface pending23/31. Wave17 complete,next13/wave18. All actual acceptance remains pending.
+
+- [Phase04]: Completed04-13 source5c35024/1295455/726e6b6 and SUMMARY5572cd0. Fresh35/35 executable groups pass on439 unchanged inputs in1403558ms;two selected Critical provenance/publication cases remain blocked separately,with no full-phase pass. Map796/23,effects1393/31;WorldPreview adds239 observed ungranted operations,total1428;producer55inputs32surfaces pending23/31. Inventory236;wave18 complete,next27/wave19. All actual acceptance pending.
 
 ### Pending Todos
 
