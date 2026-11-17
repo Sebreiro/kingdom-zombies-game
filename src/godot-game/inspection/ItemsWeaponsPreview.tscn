@@ -1,0 +1,2514 @@
+[gd_scene load_steps=47 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/equipment/items-01-10.png" id="1_items"]
+
+[sub_resource type="AtlasTexture" id="A_IT_01_master"]
+atlas = ExtResource("1_items")
+region = Rect2(2, 2, 10, 10)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_02_master"]
+atlas = ExtResource("1_items")
+region = Rect2(14, 2, 8, 4)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_02_bundle"]
+atlas = ExtResource("1_items")
+region = Rect2(24, 2, 10, 7)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_03_master"]
+atlas = ExtResource("1_items")
+region = Rect2(36, 2, 4, 12)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_03_broken"]
+atlas = ExtResource("1_items")
+region = Rect2(42, 2, 4, 12)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_04_master"]
+atlas = ExtResource("1_items")
+region = Rect2(48, 2, 5, 18)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_04_broken"]
+atlas = ExtResource("1_items")
+region = Rect2(55, 2, 5, 18)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_05_master"]
+atlas = ExtResource("1_items")
+region = Rect2(62, 2, 5, 20)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_05_broken"]
+atlas = ExtResource("1_items")
+region = Rect2(69, 2, 5, 20)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_06_master"]
+atlas = ExtResource("1_items")
+region = Rect2(76, 2, 4, 24)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_06_broken"]
+atlas = ExtResource("1_items")
+region = Rect2(82, 2, 4, 24)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_07_master"]
+atlas = ExtResource("1_items")
+region = Rect2(88, 2, 16, 18)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_07_broken"]
+atlas = ExtResource("1_items")
+region = Rect2(106, 2, 16, 18)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_07_nocked"]
+atlas = ExtResource("1_items")
+region = Rect2(124, 2, 8, 4)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_08_master"]
+atlas = ExtResource("1_items")
+region = Rect2(134, 2, 6, 5)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_09_master"]
+atlas = ExtResource("1_items")
+region = Rect2(142, 2, 6, 7)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_10_master"]
+atlas = ExtResource("1_items")
+region = Rect2(150, 2, 7, 5)
+filter_clip = true
+
+[sub_resource type="Animation" id="Select_IT_01"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_01:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_02:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_03:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_04:visible")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_05:visible")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_06:visible")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_07:visible")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_08:visible")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_09:visible")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_10:visible")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="Select_IT_02"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_01:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_02:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_03:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_04:visible")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_05:visible")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_06:visible")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_07:visible")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_08:visible")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_09:visible")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_10:visible")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="Select_IT_03"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_01:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_02:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_03:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_04:visible")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_05:visible")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_06:visible")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_07:visible")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_08:visible")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_09:visible")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_10:visible")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="State_IT_03_Broken"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="Select_IT_04"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_01:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_02:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_03:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_04:visible")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_05:visible")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_06:visible")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_07:visible")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_08:visible")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_09:visible")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_10:visible")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="State_IT_04_Broken"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="Select_IT_05"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_01:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_02:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_03:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_04:visible")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_05:visible")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_06:visible")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_07:visible")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_08:visible")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_09:visible")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_10:visible")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="State_IT_05_Broken"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="Select_IT_06"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_01:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_02:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_03:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_04:visible")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_05:visible")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_06:visible")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_07:visible")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_08:visible")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_09:visible")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_10:visible")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="State_IT_06_Broken"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="Select_IT_07"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_01:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_02:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_03:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_04:visible")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_05:visible")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_06:visible")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_07:visible")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_08:visible")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_09:visible")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_10:visible")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="State_IT_07_Broken"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="State_IT_07_Nocked"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+
+[sub_resource type="Animation" id="Select_IT_08"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_01:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_02:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_03:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_04:visible")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_05:visible")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_06:visible")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_07:visible")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_08:visible")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_09:visible")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_10:visible")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="Select_IT_09"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_01:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_02:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_03:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_04:visible")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_05:visible")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_06:visible")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_07:visible")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_08:visible")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_09:visible")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_10:visible")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="Select_IT_10"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_01:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_02:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_03:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_04:visible")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_05:visible")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_06:visible")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_07:visible")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_08:visible")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_09:visible")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_10:visible")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="Zoom_1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_01/Art:scale")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_02/Art:scale")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_03/Art:scale")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_04/Art:scale")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_05/Art:scale")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_06/Art:scale")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_07/Art:scale")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_08/Art:scale")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_09/Art:scale")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_10/Art:scale")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+
+
+[sub_resource type="Animation" id="Zoom_2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_01/Art:scale")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_02/Art:scale")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_03/Art:scale")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_04/Art:scale")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_05/Art:scale")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_06/Art:scale")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_07/Art:scale")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_08/Art:scale")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_09/Art:scale")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_10/Art:scale")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+
+
+[sub_resource type="Animation" id="Zoom_4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_01/Art:scale")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_02/Art:scale")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_03/Art:scale")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_04/Art:scale")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_05/Art:scale")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_06/Art:scale")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_07/Art:scale")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_08/Art:scale")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_09/Art:scale")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_10/Art:scale")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+
+
+[sub_resource type="Animation" id="Zoom_8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_01/Art:scale")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_02/Art:scale")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_03/Art:scale")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_04/Art:scale")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_05/Art:scale")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_06/Art:scale")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_07/Art:scale")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_08/Art:scale")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_09/Art:scale")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_10/Art:scale")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+
+
+[sub_resource type="AnimationLibrary" id="Selections"]
+_data = {
+&"IT-01": SubResource("Select_IT_01"),
+&"IT-02": SubResource("Select_IT_02"),
+&"IT-03": SubResource("Select_IT_03"),
+&"IT-04": SubResource("Select_IT_04"),
+&"IT-05": SubResource("Select_IT_05"),
+&"IT-06": SubResource("Select_IT_06"),
+&"IT-07": SubResource("Select_IT_07"),
+&"IT-08": SubResource("Select_IT_08"),
+&"IT-09": SubResource("Select_IT_09"),
+&"IT-10": SubResource("Select_IT_10")
+}
+
+[sub_resource type="AnimationLibrary" id="States"]
+_data = {
+&"IT-03.Broken": SubResource("State_IT_03_Broken"),
+&"IT-04.Broken": SubResource("State_IT_04_Broken"),
+&"IT-05.Broken": SubResource("State_IT_05_Broken"),
+&"IT-06.Broken": SubResource("State_IT_06_Broken"),
+&"IT-07.Broken": SubResource("State_IT_07_Broken"),
+&"IT-07.Nocked": SubResource("State_IT_07_Nocked")
+}
+
+[sub_resource type="AnimationLibrary" id="Zooms"]
+_data = {
+&"zoom1": SubResource("Zoom_1"),
+&"zoom2": SubResource("Zoom_2"),
+&"zoom4": SubResource("Zoom_4"),
+&"zoom8": SubResource("Zoom_8")
+}
+
+[node name="ItemsWeaponsPreview" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_filter = 1
+
+[node name="Title" type="Label" parent="."]
+offset_left = 12.0
+offset_top = 8.0
+text = "Items - reusable masters; resource inspection"
+
+[node name="Browse" type="ScrollContainer" parent="."]
+offset_left = 12.0
+offset_top = 44.0
+offset_right = 222.0
+offset_bottom = 470.0
+
+[node name="List" type="VBoxContainer" parent="Browse"]
+layout_mode = 2
+
+[node name="Select_IT_01" type="Button" parent="Browse/List"]
+layout_mode = 2
+text = "IT-01 Money"
+
+[node name="Select_IT_02" type="Button" parent="Browse/List"]
+layout_mode = 2
+text = "IT-02 Arrows"
+
+[node name="Select_IT_03" type="Button" parent="Browse/List"]
+layout_mode = 2
+text = "IT-03 Knife"
+
+[node name="Select_IT_04" type="Button" parent="Browse/List"]
+layout_mode = 2
+text = "IT-04 Wooden club"
+
+[node name="Select_IT_05" type="Button" parent="Browse/List"]
+layout_mode = 2
+text = "IT-05 Machete"
+
+[node name="Select_IT_06" type="Button" parent="Browse/List"]
+layout_mode = 2
+text = "IT-06 Metal bat"
+
+[node name="Select_IT_07" type="Button" parent="Browse/List"]
+layout_mode = 2
+text = "IT-07 Bow"
+
+[node name="Select_IT_08" type="Button" parent="Browse/List"]
+layout_mode = 2
+text = "IT-08 Berries"
+
+[node name="Select_IT_09" type="Button" parent="Browse/List"]
+layout_mode = 2
+text = "IT-09 Fruit"
+
+[node name="Select_IT_10" type="Button" parent="Browse/List"]
+layout_mode = 2
+text = "IT-10 Meat"
+
+[node name="Zoom" type="HBoxContainer" parent="."]
+offset_left = 250.0
+offset_top = 55.0
+offset_right = 540.0
+offset_bottom = 87.0
+
+[node name="Zoom1" type="Button" parent="Zoom"]
+layout_mode = 2
+text = "1x"
+
+[node name="Zoom2" type="Button" parent="Zoom"]
+layout_mode = 2
+text = "2x"
+
+[node name="Zoom4" type="Button" parent="Zoom"]
+layout_mode = 2
+text = "4x"
+
+[node name="Zoom8" type="Button" parent="Zoom"]
+layout_mode = 2
+text = "8x"
+
+[node name="Modes" type="HBoxContainer" parent="."]
+offset_left = 250.0
+offset_top = 95.0
+offset_right = 770.0
+offset_bottom = 127.0
+
+[node name="Groups" type="Control" parent="."]
+offset_left = 250.0
+offset_top = 145.0
+
+[node name="IT_01" type="Control" parent="Groups"]
+visible = true
+
+[node name="Identity" type="Label" parent="Groups/IT_01"]
+text = "IT-01 | Money | Source produced; appearance review pending04-32"
+
+[node name="Use" type="Label" parent="Groups/IT_01"]
+offset_top = 25.0
+text = "Physical currency icon; count is a UI overlay, no global wallet"
+
+[node name="Art" type="Node2D" parent="Groups/IT_01"]
+position = Vector2(0, 115)
+scale = Vector2(4, 4)
+texture_filter = 1
+
+[node name="icon" type="Sprite2D" parent="Groups/IT_01/Art"]
+position = Vector2(0, 0)
+texture = SubResource("A_IT_01_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_0" type="Label" parent="Groups/IT_01"]
+offset_left = 0.0
+offset_top = 240.0
+text = "icon"
+
+[node name="stored" type="Sprite2D" parent="Groups/IT_01/Art"]
+position = Vector2(27, 0)
+texture = SubResource("A_IT_01_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_1" type="Label" parent="Groups/IT_01"]
+offset_left = 108.0
+offset_top = 240.0
+text = "stored"
+
+[node name="IT_02" type="Control" parent="Groups"]
+visible = false
+
+[node name="Identity" type="Label" parent="Groups/IT_02"]
+text = "IT-02 | Arrows | Source produced; appearance review pending04-32"
+
+[node name="Use" type="Label" parent="Groups/IT_02"]
+offset_top = 25.0
+text = "Logical left/right hand attachments; natural scale1; body fits owned04-06/07"
+
+[node name="Art" type="Node2D" parent="Groups/IT_02"]
+position = Vector2(0, 115)
+scale = Vector2(4, 4)
+texture_filter = 1
+
+[node name="icon" type="Sprite2D" parent="Groups/IT_02/Art"]
+position = Vector2(0, 0)
+texture = SubResource("A_IT_02_bundle")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_0" type="Label" parent="Groups/IT_02"]
+offset_left = 0.0
+offset_top = 240.0
+text = "icon"
+
+[node name="held_left" type="Sprite2D" parent="Groups/IT_02/Art"]
+position = Vector2(27, 0)
+texture = SubResource("A_IT_02_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_1" type="Label" parent="Groups/IT_02"]
+offset_left = 108.0
+offset_top = 240.0
+text = "held-left"
+
+[node name="corpse_left" type="Sprite2D" parent="Groups/IT_02/Art"]
+position = Vector2(54, 0)
+texture = SubResource("A_IT_02_master")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_2" type="Label" parent="Groups/IT_02"]
+offset_left = 216.0
+offset_top = 240.0
+text = "corpse-left"
+
+[node name="held_right" type="Sprite2D" parent="Groups/IT_02/Art"]
+position = Vector2(81, 0)
+texture = SubResource("A_IT_02_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_3" type="Label" parent="Groups/IT_02"]
+offset_left = 324.0
+offset_top = 240.0
+text = "held-right"
+
+[node name="corpse_right" type="Sprite2D" parent="Groups/IT_02/Art"]
+position = Vector2(108, 0)
+texture = SubResource("A_IT_02_master")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_4" type="Label" parent="Groups/IT_02"]
+offset_left = 432.0
+offset_top = 240.0
+text = "corpse-right"
+
+[node name="nocked_arrow" type="Sprite2D" parent="Groups/IT_02/Art"]
+position = Vector2(135, 0)
+texture = SubResource("A_IT_02_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_5" type="Label" parent="Groups/IT_02"]
+offset_left = 540.0
+offset_top = 240.0
+text = "nocked-arrow"
+
+[node name="flying_arrow" type="Sprite2D" parent="Groups/IT_02/Art"]
+position = Vector2(162, 0)
+texture = SubResource("A_IT_02_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_6" type="Label" parent="Groups/IT_02"]
+offset_left = 648.0
+offset_top = 240.0
+text = "flying-arrow"
+
+[node name="IT_03" type="Control" parent="Groups"]
+visible = false
+
+[node name="Identity" type="Label" parent="Groups/IT_03"]
+text = "IT-03 | Knife | Source produced; appearance review pending04-32"
+
+[node name="Use" type="Label" parent="Groups/IT_03"]
+offset_top = 25.0
+text = "Logical left/right hand attachments; natural scale1; body fits owned04-06/07"
+
+[node name="Art" type="Node2D" parent="Groups/IT_03"]
+position = Vector2(0, 115)
+scale = Vector2(4, 4)
+texture_filter = 1
+
+[node name="icon" type="Sprite2D" parent="Groups/IT_03/Art"]
+position = Vector2(0, 0)
+texture = SubResource("A_IT_03_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_0" type="Label" parent="Groups/IT_03"]
+offset_left = 0.0
+offset_top = 240.0
+text = "icon"
+
+[node name="held_left" type="Sprite2D" parent="Groups/IT_03/Art"]
+position = Vector2(27, 0)
+texture = SubResource("A_IT_03_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_1" type="Label" parent="Groups/IT_03"]
+offset_left = 108.0
+offset_top = 240.0
+text = "held-left"
+
+[node name="corpse_left" type="Sprite2D" parent="Groups/IT_03/Art"]
+position = Vector2(54, 0)
+texture = SubResource("A_IT_03_master")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_2" type="Label" parent="Groups/IT_03"]
+offset_left = 216.0
+offset_top = 240.0
+text = "corpse-left"
+
+[node name="held_right" type="Sprite2D" parent="Groups/IT_03/Art"]
+position = Vector2(81, 0)
+texture = SubResource("A_IT_03_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_3" type="Label" parent="Groups/IT_03"]
+offset_left = 324.0
+offset_top = 240.0
+text = "held-right"
+
+[node name="corpse_right" type="Sprite2D" parent="Groups/IT_03/Art"]
+position = Vector2(108, 0)
+texture = SubResource("A_IT_03_master")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_4" type="Label" parent="Groups/IT_03"]
+offset_left = 432.0
+offset_top = 240.0
+text = "corpse-right"
+
+[node name="Broken" type="Sprite2D" parent="Groups/IT_03/Art"]
+visible = false
+position = Vector2(27, 0)
+texture = SubResource("A_IT_03_broken")
+centered = false
+texture_filter = 1
+
+[node name="State_Broken" type="Button" parent="Groups/IT_03"]
+offset_left = 0.0
+offset_top = 50.0
+offset_right = 132.0
+offset_bottom = 80.0
+text = "Broken example"
+
+[node name="IT_04" type="Control" parent="Groups"]
+visible = false
+
+[node name="Identity" type="Label" parent="Groups/IT_04"]
+text = "IT-04 | Wooden club | Source produced; appearance review pending04-32"
+
+[node name="Use" type="Label" parent="Groups/IT_04"]
+offset_top = 25.0
+text = "Logical left/right hand attachments; natural scale1; body fits owned04-06/07"
+
+[node name="Art" type="Node2D" parent="Groups/IT_04"]
+position = Vector2(0, 115)
+scale = Vector2(4, 4)
+texture_filter = 1
+
+[node name="icon" type="Sprite2D" parent="Groups/IT_04/Art"]
+position = Vector2(0, 0)
+texture = SubResource("A_IT_04_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_0" type="Label" parent="Groups/IT_04"]
+offset_left = 0.0
+offset_top = 240.0
+text = "icon"
+
+[node name="held_left" type="Sprite2D" parent="Groups/IT_04/Art"]
+position = Vector2(27, 0)
+texture = SubResource("A_IT_04_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_1" type="Label" parent="Groups/IT_04"]
+offset_left = 108.0
+offset_top = 240.0
+text = "held-left"
+
+[node name="corpse_left" type="Sprite2D" parent="Groups/IT_04/Art"]
+position = Vector2(54, 0)
+texture = SubResource("A_IT_04_master")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_2" type="Label" parent="Groups/IT_04"]
+offset_left = 216.0
+offset_top = 240.0
+text = "corpse-left"
+
+[node name="held_right" type="Sprite2D" parent="Groups/IT_04/Art"]
+position = Vector2(81, 0)
+texture = SubResource("A_IT_04_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_3" type="Label" parent="Groups/IT_04"]
+offset_left = 324.0
+offset_top = 240.0
+text = "held-right"
+
+[node name="corpse_right" type="Sprite2D" parent="Groups/IT_04/Art"]
+position = Vector2(108, 0)
+texture = SubResource("A_IT_04_master")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_4" type="Label" parent="Groups/IT_04"]
+offset_left = 432.0
+offset_top = 240.0
+text = "corpse-right"
+
+[node name="Broken" type="Sprite2D" parent="Groups/IT_04/Art"]
+visible = false
+position = Vector2(27, 0)
+texture = SubResource("A_IT_04_broken")
+centered = false
+texture_filter = 1
+
+[node name="State_Broken" type="Button" parent="Groups/IT_04"]
+offset_left = 0.0
+offset_top = 50.0
+offset_right = 132.0
+offset_bottom = 80.0
+text = "Broken example"
+
+[node name="IT_05" type="Control" parent="Groups"]
+visible = false
+
+[node name="Identity" type="Label" parent="Groups/IT_05"]
+text = "IT-05 | Machete | Source produced; appearance review pending04-32"
+
+[node name="Use" type="Label" parent="Groups/IT_05"]
+offset_top = 25.0
+text = "Logical left/right hand attachments; natural scale1; body fits owned04-06/07"
+
+[node name="Art" type="Node2D" parent="Groups/IT_05"]
+position = Vector2(0, 115)
+scale = Vector2(4, 4)
+texture_filter = 1
+
+[node name="icon" type="Sprite2D" parent="Groups/IT_05/Art"]
+position = Vector2(0, 0)
+texture = SubResource("A_IT_05_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_0" type="Label" parent="Groups/IT_05"]
+offset_left = 0.0
+offset_top = 240.0
+text = "icon"
+
+[node name="held_left" type="Sprite2D" parent="Groups/IT_05/Art"]
+position = Vector2(27, 0)
+texture = SubResource("A_IT_05_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_1" type="Label" parent="Groups/IT_05"]
+offset_left = 108.0
+offset_top = 240.0
+text = "held-left"
+
+[node name="corpse_left" type="Sprite2D" parent="Groups/IT_05/Art"]
+position = Vector2(54, 0)
+texture = SubResource("A_IT_05_master")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_2" type="Label" parent="Groups/IT_05"]
+offset_left = 216.0
+offset_top = 240.0
+text = "corpse-left"
+
+[node name="held_right" type="Sprite2D" parent="Groups/IT_05/Art"]
+position = Vector2(81, 0)
+texture = SubResource("A_IT_05_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_3" type="Label" parent="Groups/IT_05"]
+offset_left = 324.0
+offset_top = 240.0
+text = "held-right"
+
+[node name="corpse_right" type="Sprite2D" parent="Groups/IT_05/Art"]
+position = Vector2(108, 0)
+texture = SubResource("A_IT_05_master")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_4" type="Label" parent="Groups/IT_05"]
+offset_left = 432.0
+offset_top = 240.0
+text = "corpse-right"
+
+[node name="Broken" type="Sprite2D" parent="Groups/IT_05/Art"]
+visible = false
+position = Vector2(27, 0)
+texture = SubResource("A_IT_05_broken")
+centered = false
+texture_filter = 1
+
+[node name="State_Broken" type="Button" parent="Groups/IT_05"]
+offset_left = 0.0
+offset_top = 50.0
+offset_right = 132.0
+offset_bottom = 80.0
+text = "Broken example"
+
+[node name="IT_06" type="Control" parent="Groups"]
+visible = false
+
+[node name="Identity" type="Label" parent="Groups/IT_06"]
+text = "IT-06 | Metal bat | Source produced; appearance review pending04-32"
+
+[node name="Use" type="Label" parent="Groups/IT_06"]
+offset_top = 25.0
+text = "Logical left/right hand attachments; natural scale1; body fits owned04-06/07"
+
+[node name="Art" type="Node2D" parent="Groups/IT_06"]
+position = Vector2(0, 115)
+scale = Vector2(4, 4)
+texture_filter = 1
+
+[node name="icon" type="Sprite2D" parent="Groups/IT_06/Art"]
+position = Vector2(0, 0)
+texture = SubResource("A_IT_06_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_0" type="Label" parent="Groups/IT_06"]
+offset_left = 0.0
+offset_top = 240.0
+text = "icon"
+
+[node name="held_left" type="Sprite2D" parent="Groups/IT_06/Art"]
+position = Vector2(27, 0)
+texture = SubResource("A_IT_06_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_1" type="Label" parent="Groups/IT_06"]
+offset_left = 108.0
+offset_top = 240.0
+text = "held-left"
+
+[node name="corpse_left" type="Sprite2D" parent="Groups/IT_06/Art"]
+position = Vector2(54, 0)
+texture = SubResource("A_IT_06_master")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_2" type="Label" parent="Groups/IT_06"]
+offset_left = 216.0
+offset_top = 240.0
+text = "corpse-left"
+
+[node name="held_right" type="Sprite2D" parent="Groups/IT_06/Art"]
+position = Vector2(81, 0)
+texture = SubResource("A_IT_06_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_3" type="Label" parent="Groups/IT_06"]
+offset_left = 324.0
+offset_top = 240.0
+text = "held-right"
+
+[node name="corpse_right" type="Sprite2D" parent="Groups/IT_06/Art"]
+position = Vector2(108, 0)
+texture = SubResource("A_IT_06_master")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_4" type="Label" parent="Groups/IT_06"]
+offset_left = 432.0
+offset_top = 240.0
+text = "corpse-right"
+
+[node name="Broken" type="Sprite2D" parent="Groups/IT_06/Art"]
+visible = false
+position = Vector2(27, 0)
+texture = SubResource("A_IT_06_broken")
+centered = false
+texture_filter = 1
+
+[node name="State_Broken" type="Button" parent="Groups/IT_06"]
+offset_left = 0.0
+offset_top = 50.0
+offset_right = 132.0
+offset_bottom = 80.0
+text = "Broken example"
+
+[node name="IT_07" type="Control" parent="Groups"]
+visible = false
+
+[node name="Identity" type="Label" parent="Groups/IT_07"]
+text = "IT-07 | Bow | Source produced; appearance review pending04-32"
+
+[node name="Use" type="Label" parent="Groups/IT_07"]
+offset_top = 25.0
+text = "Logical left/right hand attachments; natural scale1; body fits owned04-06/07"
+
+[node name="Art" type="Node2D" parent="Groups/IT_07"]
+position = Vector2(0, 115)
+scale = Vector2(4, 4)
+texture_filter = 1
+
+[node name="icon" type="Sprite2D" parent="Groups/IT_07/Art"]
+position = Vector2(0, 0)
+texture = SubResource("A_IT_07_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_0" type="Label" parent="Groups/IT_07"]
+offset_left = 0.0
+offset_top = 240.0
+text = "icon"
+
+[node name="held_left" type="Sprite2D" parent="Groups/IT_07/Art"]
+position = Vector2(27, 0)
+texture = SubResource("A_IT_07_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_1" type="Label" parent="Groups/IT_07"]
+offset_left = 108.0
+offset_top = 240.0
+text = "held-left"
+
+[node name="corpse_left" type="Sprite2D" parent="Groups/IT_07/Art"]
+position = Vector2(54, 0)
+texture = SubResource("A_IT_07_master")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_2" type="Label" parent="Groups/IT_07"]
+offset_left = 216.0
+offset_top = 240.0
+text = "corpse-left"
+
+[node name="held_right" type="Sprite2D" parent="Groups/IT_07/Art"]
+position = Vector2(81, 0)
+texture = SubResource("A_IT_07_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_3" type="Label" parent="Groups/IT_07"]
+offset_left = 324.0
+offset_top = 240.0
+text = "held-right"
+
+[node name="corpse_right" type="Sprite2D" parent="Groups/IT_07/Art"]
+position = Vector2(108, 0)
+texture = SubResource("A_IT_07_master")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_4" type="Label" parent="Groups/IT_07"]
+offset_left = 432.0
+offset_top = 240.0
+text = "corpse-right"
+
+[node name="drawn_bow" type="Sprite2D" parent="Groups/IT_07/Art"]
+position = Vector2(135, 0)
+texture = SubResource("A_IT_07_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_5" type="Label" parent="Groups/IT_07"]
+offset_left = 540.0
+offset_top = 240.0
+text = "drawn-bow"
+
+[node name="released_bow" type="Sprite2D" parent="Groups/IT_07/Art"]
+position = Vector2(162, 0)
+texture = SubResource("A_IT_07_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_6" type="Label" parent="Groups/IT_07"]
+offset_left = 648.0
+offset_top = 240.0
+text = "released-bow"
+
+[node name="Broken" type="Sprite2D" parent="Groups/IT_07/Art"]
+visible = false
+position = Vector2(27, 0)
+texture = SubResource("A_IT_07_broken")
+centered = false
+texture_filter = 1
+
+[node name="Nocked" type="Sprite2D" parent="Groups/IT_07/Art"]
+visible = false
+position = Vector2(27, 0)
+texture = SubResource("A_IT_07_nocked")
+centered = false
+texture_filter = 1
+
+[node name="State_Broken" type="Button" parent="Groups/IT_07"]
+offset_left = 0.0
+offset_top = 50.0
+offset_right = 132.0
+offset_bottom = 80.0
+text = "Broken example"
+
+[node name="State_Nocked" type="Button" parent="Groups/IT_07"]
+offset_left = 140.0
+offset_top = 50.0
+offset_right = 272.0
+offset_bottom = 80.0
+text = "Nocked example"
+
+[node name="IT_08" type="Control" parent="Groups"]
+visible = false
+
+[node name="Identity" type="Label" parent="Groups/IT_08"]
+text = "IT-08 | Berries | Source produced; appearance review pending04-32"
+
+[node name="Use" type="Label" parent="Groups/IT_08"]
+offset_top = 25.0
+text = "Food-use component from the canonical master; no cooked/raw mechanic"
+
+[node name="Art" type="Node2D" parent="Groups/IT_08"]
+position = Vector2(0, 115)
+scale = Vector2(4, 4)
+texture_filter = 1
+
+[node name="icon" type="Sprite2D" parent="Groups/IT_08/Art"]
+position = Vector2(0, 0)
+texture = SubResource("A_IT_08_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_0" type="Label" parent="Groups/IT_08"]
+offset_left = 0.0
+offset_top = 240.0
+text = "icon"
+
+[node name="food_use" type="Sprite2D" parent="Groups/IT_08/Art"]
+position = Vector2(27, 0)
+texture = SubResource("A_IT_08_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_1" type="Label" parent="Groups/IT_08"]
+offset_left = 108.0
+offset_top = 240.0
+text = "food-use"
+
+[node name="corpse_storage" type="Sprite2D" parent="Groups/IT_08/Art"]
+position = Vector2(54, 0)
+texture = SubResource("A_IT_08_master")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_2" type="Label" parent="Groups/IT_08"]
+offset_left = 216.0
+offset_top = 240.0
+text = "corpse-storage"
+
+[node name="IT_09" type="Control" parent="Groups"]
+visible = false
+
+[node name="Identity" type="Label" parent="Groups/IT_09"]
+text = "IT-09 | Fruit | Source produced; appearance review pending04-32"
+
+[node name="Use" type="Label" parent="Groups/IT_09"]
+offset_top = 25.0
+text = "Food-use component from the canonical master; no cooked/raw mechanic"
+
+[node name="Art" type="Node2D" parent="Groups/IT_09"]
+position = Vector2(0, 115)
+scale = Vector2(4, 4)
+texture_filter = 1
+
+[node name="icon" type="Sprite2D" parent="Groups/IT_09/Art"]
+position = Vector2(0, 0)
+texture = SubResource("A_IT_09_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_0" type="Label" parent="Groups/IT_09"]
+offset_left = 0.0
+offset_top = 240.0
+text = "icon"
+
+[node name="food_use" type="Sprite2D" parent="Groups/IT_09/Art"]
+position = Vector2(27, 0)
+texture = SubResource("A_IT_09_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_1" type="Label" parent="Groups/IT_09"]
+offset_left = 108.0
+offset_top = 240.0
+text = "food-use"
+
+[node name="corpse_storage" type="Sprite2D" parent="Groups/IT_09/Art"]
+position = Vector2(54, 0)
+texture = SubResource("A_IT_09_master")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_2" type="Label" parent="Groups/IT_09"]
+offset_left = 216.0
+offset_top = 240.0
+text = "corpse-storage"
+
+[node name="IT_10" type="Control" parent="Groups"]
+visible = false
+
+[node name="Identity" type="Label" parent="Groups/IT_10"]
+text = "IT-10 | Meat | Source produced; appearance review pending04-32"
+
+[node name="Use" type="Label" parent="Groups/IT_10"]
+offset_top = 25.0
+text = "Food-use component from the canonical master; no cooked/raw mechanic"
+
+[node name="Art" type="Node2D" parent="Groups/IT_10"]
+position = Vector2(0, 115)
+scale = Vector2(4, 4)
+texture_filter = 1
+
+[node name="icon" type="Sprite2D" parent="Groups/IT_10/Art"]
+position = Vector2(0, 0)
+texture = SubResource("A_IT_10_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_0" type="Label" parent="Groups/IT_10"]
+offset_left = 0.0
+offset_top = 240.0
+text = "icon"
+
+[node name="food_use" type="Sprite2D" parent="Groups/IT_10/Art"]
+position = Vector2(27, 0)
+texture = SubResource("A_IT_10_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_1" type="Label" parent="Groups/IT_10"]
+offset_left = 108.0
+offset_top = 240.0
+text = "food-use"
+
+[node name="corpse_storage" type="Sprite2D" parent="Groups/IT_10/Art"]
+position = Vector2(54, 0)
+texture = SubResource("A_IT_10_master")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_2" type="Label" parent="Groups/IT_10"]
+offset_left = 216.0
+offset_top = 240.0
+text = "corpse-storage"
+
+[node name="Selection" type="AnimationPlayer" parent="."]
+libraries = {&"": SubResource("Selections")}
+
+[node name="State" type="AnimationPlayer" parent="."]
+libraries = {&"": SubResource("States")}
+
+[node name="ZoomPlayer" type="AnimationPlayer" parent="."]
+libraries = {&"": SubResource("Zooms")}
+
+[connection signal="pressed" from="Browse/List/Select_IT_01" to="Selection" method="play" binds= [&"IT-01"]]
+
+[connection signal="pressed" from="Browse/List/Select_IT_02" to="Selection" method="play" binds= [&"IT-02"]]
+
+[connection signal="pressed" from="Browse/List/Select_IT_03" to="Selection" method="play" binds= [&"IT-03"]]
+
+[connection signal="pressed" from="Groups/IT_03/State_Broken" to="State" method="play" binds= [&"IT-03.Broken"]]
+
+[connection signal="pressed" from="Browse/List/Select_IT_04" to="Selection" method="play" binds= [&"IT-04"]]
+
+[connection signal="pressed" from="Groups/IT_04/State_Broken" to="State" method="play" binds= [&"IT-04.Broken"]]
+
+[connection signal="pressed" from="Browse/List/Select_IT_05" to="Selection" method="play" binds= [&"IT-05"]]
+
+[connection signal="pressed" from="Groups/IT_05/State_Broken" to="State" method="play" binds= [&"IT-05.Broken"]]
+
+[connection signal="pressed" from="Browse/List/Select_IT_06" to="Selection" method="play" binds= [&"IT-06"]]
+
+[connection signal="pressed" from="Groups/IT_06/State_Broken" to="State" method="play" binds= [&"IT-06.Broken"]]
+
+[connection signal="pressed" from="Browse/List/Select_IT_07" to="Selection" method="play" binds= [&"IT-07"]]
+
+[connection signal="pressed" from="Groups/IT_07/State_Broken" to="State" method="play" binds= [&"IT-07.Broken"]]
+
+[connection signal="pressed" from="Groups/IT_07/State_Nocked" to="State" method="play" binds= [&"IT-07.Nocked"]]
+
+[connection signal="pressed" from="Browse/List/Select_IT_08" to="Selection" method="play" binds= [&"IT-08"]]
+
+[connection signal="pressed" from="Browse/List/Select_IT_09" to="Selection" method="play" binds= [&"IT-09"]]
+
+[connection signal="pressed" from="Browse/List/Select_IT_10" to="Selection" method="play" binds= [&"IT-10"]]
+
+[connection signal="pressed" from="Zoom/Zoom1" to="ZoomPlayer" method="play" binds= [&"zoom1"]]
+
+[connection signal="pressed" from="Zoom/Zoom2" to="ZoomPlayer" method="play" binds= [&"zoom2"]]
+
+[connection signal="pressed" from="Zoom/Zoom4" to="ZoomPlayer" method="play" binds= [&"zoom4"]]
+
+[connection signal="pressed" from="Zoom/Zoom8" to="ZoomPlayer" method="play" binds= [&"zoom8"]]
