@@ -92,6 +92,7 @@ public sealed partial class InspectionRoot : Node2D
         if (_pending.TryDequeue(result: out string? path))
         {
             _files[path] = Read(path: path);
+            _loadedBytes += _files[path]?.Length ?? 0;
             GetNode<Label>(path: "Summary/Status").Text = "Loading " + path + "…";
             return;
         }
@@ -190,8 +191,12 @@ public sealed partial class InspectionRoot : Node2D
         _shell?.Retire();
         _readErrors.Clear();
         _loadedBytes = 0;
+        _index = null;
+        _expectations = null;
         _index = Read(path: "content/pack-index.json");
+        _loadedBytes += _index?.Length ?? 0;
         _expectations = Read(path: ContentPack.ExpectedPath);
+        _loadedBytes += _expectations?.Length ?? 0;
         _pack = ContentPack.Load(index: null, expectations: _expectations, read: _ => null);
         _pending = new Queue<string>(collection: ContentPack.Paths(index: _index));
         _accepting = true;
@@ -217,6 +222,7 @@ public sealed partial class InspectionRoot : Node2D
         _character = null;
         _shell?.Retire();
         _files.Clear();
+        _loadedBytes = (_index?.LongLength ?? 0) + (_expectations?.LongLength ?? 0);
         _pack = ContentPack.Load(index: null, expectations: _expectations, read: _ => null);
         GetNode<Sprite2D>(path: "Bow").Visible = false;
         GetNode<Label>(path: "Summary/Status").Text = "Unavailable — validation cancelled; choose Recheck resources";
@@ -229,12 +235,9 @@ public sealed partial class InspectionRoot : Node2D
     private byte[]? Read(string path)
     {
         _gateway.RequireThread();
-        if (_files.TryGetValue(key: path, value: out byte[]? cached))
-        {
-            return cached;
-        }
-
         string native = "res://" + path;
+        _readErrors.RemoveAll(match: error => error.StartsWith(value: native + ", field bytes, value read — ",
+                comparisonType: StringComparison.Ordinal));
         try
         {
             native = "res://" + WorldPreview.InspectorResourcePath(path: path);
@@ -257,28 +260,26 @@ public sealed partial class InspectionRoot : Node2D
             int limit = path.EndsWith(value: ".json", comparisonType: StringComparison.Ordinal)
                     ? ContentPack.MaxDocumentBytes : ContentPack.MaxResourceBytes;
             limit = path is "content/packs/common.json" ? 2_097_152 : limit;
-            if (file is null || file.GetLength() > (ulong)limit)
+            if (file is null)
             {
                 throw new IOException(message: "missing or oversized resource");
             }
 
-            if (_loadedBytes + (long)file.GetLength() > 268_435_456)
-            {
-                throw new IOException(message: "pack read budget exceeds256MiB; resource remains incomplete");
-            }
-
-            byte[] bytes = file.GetBuffer(length: (long)file.GetLength());
-            _loadedBytes += bytes.Length;
-            _files[path] = bytes;
-            return file.GetError() is Error.Ok or Error.FileEof ? bytes
-                    : throw new IOException(message: "native resource read failed");
+            long expected = WorldPreview.InspectorReadLength(expected: file.GetLength(), limit: limit,
+                    retained: _loadedBytes);
+            byte[] bytes = file.GetBuffer(length: expected);
+            byte[] complete = WorldPreview.InspectorReadComplete(bytes: bytes, expected: expected,
+                    successful: file.GetError() is Error.Ok or Error.FileEof);
+            GetNode<TextEdit>(path: "Shell/Workspace/Preview/Failures").Text = WorldPreview.InspectorDiagnostics(
+                    diagnostics: _pack.Diagnostics, readErrors: _readErrors, category: _category, selected: _selected);
+            return complete;
         }
         catch (Exception error) when (error is IOException or UnauthorizedAccessException or FormatException
                 or InvalidDataException)
         {
             _readErrors.Add(item: native + ", field bytes, value read — " + error.Message);
-            GetNode<TextEdit>(path: "Shell/Workspace/Preview/Failures").Text = string.Join(separator: "\n",
-                    values: _readErrors);
+            GetNode<TextEdit>(path: "Shell/Workspace/Preview/Failures").Text = WorldPreview.InspectorDiagnostics(
+                    diagnostics: _pack.Diagnostics, readErrors: _readErrors, category: _category, selected: _selected);
             return null;
         }
     }
@@ -434,6 +435,7 @@ public sealed partial class InspectionRoot : Node2D
         _shell?.Retire();
         _character?.Detach();
         _character = null;
+        _readErrors.Clear();
         bool found = _pack.Entries.TryGetValue(key: _selected, value: out JsonElement entry);
         GetNode<Label>(path: "Summary/ResourceId").Text = _selected;
         GetNode<Label>(path: "Summary/ResourceName").Text = found
@@ -447,13 +449,8 @@ public sealed partial class InspectionRoot : Node2D
                 ? entry.GetRawText() + "\nExplicit shared mappings: " + string.Join(separator: ", ",
                         values: ContentPack.Mappings(entry: entry)) : _pack.Expected.GetValueOrDefault(
                                 key: _selected, defaultValue: "No validated definition");
-        IEnumerable<string> errors = _category is "Known issues" ? _pack.Diagnostics
-                : _pack.Diagnostics.Where(predicate: error => error.StartsWith(value: _selected + ":",
-                        comparisonType: StringComparison.Ordinal) || error.StartsWith(value: "expected:",
-                                comparisonType: StringComparison.Ordinal) || error.StartsWith(value: "pack:",
-                                        comparisonType: StringComparison.Ordinal));
-        GetNode<TextEdit>(path: "Shell/Workspace/Preview/Failures").Text = string.Join(separator: "\n",
-                values: errors.Concat(second: _readErrors));
+        GetNode<TextEdit>(path: "Shell/Workspace/Preview/Failures").Text = WorldPreview.InspectorDiagnostics(
+                diagnostics: _pack.Diagnostics, readErrors: _readErrors, category: _category, selected: _selected);
         if (WorldPreview.InspectorHandles(id: _selected))
         {
             var preview = new Node2D { Name = "WorldItems" };

@@ -11,6 +11,39 @@ namespace KingdomZombies.Phase1.Tests;
 /// <summary>Checks the compiled world inspector fence and independent actual native observations.</summary>
 public sealed class WorldInspectorTests
 {
+    /// <summary>Only a successful complete native read may publish bytes to the validation snapshot.</summary>
+    [Theory]
+    [InlineData(false, 3)]
+    [InlineData(true, 2)]
+    [InlineData(true, 4)]
+    public void Reader_RejectsFailedShortAndChangedLengthReads(bool successful, int actual)
+    {
+        TargetInvocationException error = Should.Throw<TargetInvocationException>(actual: () =>
+                Call(name: "InspectorReadComplete", arguments: [new byte[actual], 3L, successful]));
+        error.InnerException.ShouldBeOfType<IOException>().Message.ShouldBe(expected: "native resource read failed");
+        byte[] restored = [1, 2, 3];
+        Call(name: "InspectorReadComplete", arguments: [restored, 3L, true]).ShouldBeSameAs(expected: restored);
+    }
+
+    /// <summary>Repeated runtime reads reserve one transient slot alongside the fixed validation snapshot.</summary>
+    [Fact]
+    public void Reader_BoundsSnapshotAndCurrentReadWithoutCumulativeCharges()
+    {
+        for (int read = 0; read < 300; read++)
+        {
+            Call(name: "InspectorReadLength", arguments: [16_777_216UL, 16_777_216, 251_658_240L])
+                    .ShouldBe(expected: 16_777_216L);
+        }
+
+        foreach (object[] arguments in new object[][] { [16_777_216UL, 16_777_216, 251_658_241L],
+                [1_048_577UL, 1_048_576, 0L], [2_097_153UL, 2_097_152, 0L],
+                [ulong.MaxValue, 16_777_216, 0L] })
+        {
+            Should.Throw<TargetInvocationException>(actual: () => Call(name: "InspectorReadLength",
+                    arguments: arguments)).InnerException.ShouldBeOfType<IOException>();
+        }
+    }
+
     /// <summary>Returning to the same resource in a replacement owner cannot admit its old completion.</summary>
     [Fact]
     public void ReplacementOwner_RejectsLateSameResourceCompletion()

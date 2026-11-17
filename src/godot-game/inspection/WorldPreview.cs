@@ -52,15 +52,67 @@ internal sealed class WorldPreview
 
     internal long SelectionEpoch => _selectionEpoch;
 
+    internal static string InspectorDiagnostics(IEnumerable<string> diagnostics, IEnumerable<string> readErrors,
+            string category, string selected)
+    {
+        IEnumerable<string> errors = category is "Known issues" ? diagnostics
+                : diagnostics.Where(predicate: error => error.StartsWith(value: selected + ":",
+                        comparisonType: StringComparison.Ordinal) || error.StartsWith(value: "expected:",
+                                comparisonType: StringComparison.Ordinal) || error.StartsWith(value: "pack:",
+                                        comparisonType: StringComparison.Ordinal));
+        return string.Join(separator: "\n", values: errors.Concat(second: readErrors)
+                .Distinct(comparer: StringComparer.Ordinal));
+    }
+
+    internal static long InspectorReadLength(ulong expected, int limit, long retained)
+    {
+        if (expected > (ulong)limit)
+        {
+            throw new IOException(message: "missing or oversized resource");
+        }
+
+        if (retained + (long)expected > 268_435_456)
+        {
+            throw new IOException(message: "pack read budget exceeds256MiB; resource remains incomplete");
+        }
+
+        return (long)expected;
+    }
+
+    internal static byte[] InspectorReadComplete(byte[] bytes, long expected, bool successful)
+    {
+        if (!successful || bytes.LongLength != expected)
+        {
+            throw new IOException(message: "native resource read failed");
+        }
+
+        return bytes;
+    }
+
     internal static long NextInspectorEpoch(long previous)
     {
-        return checked(previous + 1);
+        ArgumentOutOfRangeException.ThrowIfNegative(value: previous);
+        return Interlocked.Increment(location: ref _nextInspectorEpoch);
     }
 
     internal static bool InspectorAccepts(long completionEpoch, long currentEpoch, string completionId,
             string currentId, bool accepting)
     {
         return accepting && completionEpoch == currentEpoch && Same(left: completionId, right: currentId);
+    }
+
+    internal bool CompleteInspector(long epoch, string id, string status)
+    {
+        _gateway.RequireThread();
+        if (!InspectorAccepts(completionEpoch: epoch, currentEpoch: _selectionEpoch, completionId: id,
+                currentId: _activeId, accepting: !_closed))
+        {
+            return false;
+        }
+
+        _inspectorStatus = status;
+        ShowInspector();
+        return true;
     }
 
     internal static string[] InspectorIds(string category)
@@ -117,11 +169,8 @@ internal sealed class WorldPreview
         try
         {
             ProjectInspector();
-            if (InspectorAccepts(completionEpoch: epoch, currentEpoch: _selectionEpoch, completionId: id,
-                    currentId: _activeId, accepting: !_closed))
-            {
-                _inspectorStatus = "Populated — authored view; pack adoption and acceptance pending";
-            }
+            CompleteInspector(epoch: epoch, id: id,
+                    status: "Populated — authored view; pack adoption and acceptance pending");
         }
         catch (Exception error) when (error is InvalidDataException or JsonException or FormatException)
         {
@@ -324,6 +373,7 @@ internal sealed class WorldPreview
     private int _events;
     private string _sample = "portal.closed";
     private static long _nextEpoch;
+    private static long _nextInspectorEpoch;
 
     private static readonly string[] _bindingFiles = ["content/packs/common.json", "content/packs/world.json",
         "content/world/map.json", "content/packs/effects-portals.json", "assets/world/environment.png",

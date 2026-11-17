@@ -434,6 +434,51 @@ func reader_controls() -> void:
  category(2)
  choose("world.assembled")
  check_case("reader-restored-world",current_text().begins_with("world.assembled\nPopulated"),current_text())
+ var fresh_file = "content/fixtures/world-states.json"
+ var fresh_original = FileAccess.get_file_as_bytes("res://"+fresh_file)
+ var fresh_changed = "{\"reader\":\"changed-current-bytes\"}".to_utf8_buffer()
+ replace_bytes(fresh_file,fresh_changed)
+ check_case("reader-same-path-changed",hub.call("Read",fresh_file)==fresh_changed,fresh_file)
+ var malformed = "{\"duplicate\":1,\"duplicate\":2}".to_utf8_buffer()
+ replace_bytes(fresh_file,malformed)
+ check_case("reader-same-path-malformed-bytes",hub.call("Read",fresh_file)==malformed,fresh_file)
+ DirAccess.remove_absolute(ProjectSettings.globalize_path("res://"+fresh_file))
+ var absent = hub.call("Read",fresh_file)
+ check_case("reader-same-path-missing",absent is PackedByteArray and absent.is_empty() and hub.get_node("Shell/Workspace/Preview/Failures").text.contains("res://"+fresh_file+", field bytes, value read — missing or oversized resource"),fresh_file)
+ replace_bytes(fresh_file,fresh_original)
+ check_case("reader-same-path-restored",hub.call("Read",fresh_file)==fresh_original,fresh_file)
+ var fresh_world = FileAccess.get_file_as_bytes("res://assets/world/environment.png")
+ var repeat_ok = true
+ for i in range(300):
+  repeat_ok = (hub.call("Read","assets/world/environment.png")==fresh_world) and repeat_ok
+ check_case("reader-world-repeat-budget",repeat_ok,fresh_world.size()*300)
+ choose("world.assembled")
+ check_case("reader-repeat-valid-neighbor",current_text().begins_with("world.assembled\nPopulated"),current_text())
+func diagnostic_controls() -> void:
+ category(1)
+ choose("IT-07")
+ var failure = hub.get_node("Shell/Workspace/Preview/Failures")
+ var obligation = "IT-07: res://content/expected-obligations.json, field acceptance, value IT-07"
+ var absent_file = "content/fixtures/diagnostic-absent.json"
+ var read_error = "res://"+absent_file+", field bytes, value read — missing or oversized resource"
+ check_case("reader-selected-exact-obligation",failure.text.contains(obligation) and failure.visible,failure.text)
+ hub.call("Read",absent_file)
+ hub.call("Read",absent_file)
+ check_case("reader-merged-exact-obligation",failure.text.contains(obligation) and failure.text.split("\n").has(read_error) and failure.visible and not failure.editable,failure.text)
+ check_case("reader-current-error-once",failure.text.count(read_error)==1,failure.text)
+ replace_bytes(absent_file,"{}".to_utf8_buffer())
+ var restored = hub.call("Read",absent_file)
+ check_case("reader-restored-clears-exact-error",restored=="{}".to_utf8_buffer() and not failure.text.contains(read_error) and failure.text.contains(obligation),failure.text)
+ DirAccess.remove_absolute(ProjectSettings.globalize_path("res://"+absent_file))
+ hub.call("Read",absent_file)
+ category(2)
+ choose("world.assembled")
+ check_case("reader-selection-current-diagnostics",not failure.text.contains(read_error) and not failure.text.contains(obligation) and current_text().begins_with("world.assembled\nPopulated"),failure.text)
+ hub.get_node("Shell/Toolbar/Recheck").pressed.emit()
+ await settle()
+ category(1)
+ choose("IT-07")
+ check_case("reader-recheck-current-diagnostics",failure.text.contains(obligation) and not failure.text.contains(read_error) and current_text().begins_with("IT-07\nPopulated"),failure.text)
 func view_snapshot(id: String) -> Dictionary:
  var art = hub.get_node(BODY+"Art/Content") if not id.begins_with("IT-") else hub.get_node(BODY+"Art/"+("ItemsWeaponsPreview" if id=="IT-07" else "ItemsWearablesPreview")+"/Groups/"+id.replace("-","_")+"/ArtScroll/Canvas/Art")
  var rendered = art.get_node("ArtScroll/Content/Art") if id.begins_with("BL-") else art
@@ -553,6 +598,7 @@ func run() -> void:
  await process_frame
  check_case("WORLD-ITEM-PREVIEW.overflow",scroll.follow_focus and scroll.get_v_scroll_bar().max_value>scroll.get_v_scroll_bar().page,scroll.get_v_scroll_bar().max_value)
  await reader_controls()
+ await diagnostic_controls()
  var media = "res://assets/equipment/items-01-10.png"
  var original = FileAccess.get_file_as_bytes(media)
  DirAccess.remove_absolute(ProjectSettings.globalize_path(media))
@@ -622,20 +668,108 @@ func run() -> void:
  quit(1 if failed else 0)
 `;
 function inspectorFiles(){
- const paths=[...files(),'src/godot-game/content/fixtures/world-states.json','src/godot-game/inspection/Inspection.tscn','src/godot-game/project.godot','src/godot-game/content/pack-index.json','src/godot-game/content/expected-obligations.json'];
+ const paths=[...files(),'tests/phase1/WorldInspectorTests.cs','src/godot-game/content/fixtures/world-states.json','src/godot-game/inspection/Inspection.tscn','src/godot-game/project.godot','src/godot-game/content/pack-index.json','src/godot-game/content/expected-obligations.json'];
  for(const directory of ['src/godot-game/assets','src/godot-game/content','src/godot-game/inspection']){
   function walk(dir){for(const entry of fs.readdirSync(inside(ROOT,dir),{withFileTypes:true})){const file=dir+'/'+entry.name;if(entry.isDirectory())walk(file);else if(entry.isFile()&&!file.endsWith('.import')&&!file.endsWith('.uid'))paths.push(file);}}
   walk(directory);
  }
  return [...new Set(paths)];
 }
-async function inspectorCase(context){
+const REPLACEMENT_CONTROLS=String.raw`
+func replacement_controls() -> void:
+ category(2)
+ choose("world.assembled")
+ var old_owner = hub.get_node(CURRENT.trim_suffix("/")).get_instance_id()
+ category(1)
+ choose("IT-15")
+ var selected = current_text()
+ var late = Node2D.new()
+ late.name = "LateWorldA"
+ hub.call("AcceptPreview",1,late)
+ check_case("replacement-late-A-after-B",current_text()==selected and late.is_queued_for_deletion(),current_text())
+ await process_frame
+ check_case("replacement-late-A-retired",not is_instance_valid(late) and hub.get_node(CURRENT).get_parent().get_child_count()==1,current_text())
+ category(2)
+ choose("world.assembled")
+ check_case("replacement-new-A-owner",hub.get_node(CURRENT.trim_suffix("/")).get_instance_id()!=old_owner,current_text())
+ var positions = world_positions()
+ for i in range(12):
+  choose("world.effects")
+  hub.get_node(BODY+"Choices/Reset").pressed.emit()
+  check_case("replacement-effects-quiet-"+str(i),not descendants(hub.get_node(BODY+"Art")).any(func(node):return node.has_meta("resource_id") and str(node.get_meta("resource_id")).begins_with("effect.")),current_text())
+  choose("BL-07")
+  hub.get_node(BODY+"Choices/Reset").pressed.emit()
+  check_case("replacement-building-quiet-"+str(i),hub.get_node(BODY+"Art/Content").get_meta("destruction_events")==0,current_text())
+  choose("world.assembled")
+  hub.get_node(BODY+"Choices/Reset").pressed.emit()
+  check_case("replacement-authored-"+str(i),world_positions()==positions and hub.get_node(CURRENT).get_parent().get_child_count()==1,current_text())
+ var query = hub.get_node(BROWSER+"Search")
+ query.text = "independent-replacement-unlisted-73"
+ query.text_changed.emit(query.text)
+ check_case("WORLD-ITEM-REPLACEMENT.empty",hub.get_node(BROWSER+"Resources").item_count==0 and hub.get_node(BROWSER+"Count").text.contains("No resources match"),hub.get_node(BROWSER+"Count").text)
+ query.text = ""
+ query.text_changed.emit("")
+ hub.get_node("Shell/Toolbar/Recheck").pressed.emit()
+ check_case("WORLD-ITEM-REPLACEMENT.loading",hub.get_node("Summary/Status").text.begins_with("Loading") and not hub.has_node(BODY),hub.get_node("Summary/Status").text)
+ await settle()
+ category(2)
+ choose("BL-09")
+ check_case("WORLD-ITEM-REPLACEMENT.populated",current_text().begins_with("BL-09\nPopulated") and hub.has_node(BODY+"Art/Content/Controls/Tier"),current_text())
+ category(1)
+ choose("IT-24")
+ hub.get_node(BODY+"Choices/Zoom").item_selected.emit(3)
+ await process_frame
+ var scroll = hub.get_node(BODY+"Art/ItemsWearablesPreview/Groups/IT_24/ArtScroll")
+ check_case("WORLD-ITEM-REPLACEMENT.overflow",scroll.get_v_scroll_bar().max_value>scroll.get_v_scroll_bar().page and scroll.clip_contents,scroll.get_v_scroll_bar().max_value)
+ var media = "assets/equipment/items-11-24.png"
+ var original_media = FileAccess.get_file_as_bytes("res://"+media)
+ DirAccess.remove_absolute(ProjectSettings.globalize_path("res://"+media))
+ hub.get_node("Shell/Toolbar/Recheck").pressed.emit()
+ await settle()
+ choose("IT-15")
+ check_case("WORLD-ITEM-REPLACEMENT.error",current_text().contains("WORLD_INSPECTOR_MISSING "+media),current_text())
+ category(2)
+ choose("BL-07")
+ check_case("replacement-invalid-neighbor-building",current_text().begins_with("BL-07\nPopulated"),current_text())
+ replace_bytes(media,original_media)
+ var pack_file = "content/packs/items-11-24.json"
+ var fixture_file = "content/fixtures/world-states.json"
+ var pack_bytes = FileAccess.get_file_as_bytes("res://"+pack_file)
+ var fixture_bytes = FileAccess.get_file_as_bytes("res://"+fixture_file)
+ var pack = JSON.parse_string(pack_bytes.get_string_from_utf8())
+ var long_id = "assets/equipment/"+"independent-wearable-id-".repeat(9)+".png"
+ pack.atlas.path = long_id
+ var changed = JSON.stringify(pack).to_utf8_buffer()
+ var fixture = JSON.parse_string(fixture_bytes.get_string_from_utf8())
+ for binding in fixture.bindings:
+  if binding.file==pack_file:
+   var digest = HashingContext.new()
+   digest.start(HashingContext.HASH_SHA256)
+   digest.update(changed)
+   binding.sha256 = digest.finish().hex_encode()
+ replace_bytes(pack_file,changed)
+ replace_bytes(fixture_file,JSON.stringify(fixture).to_utf8_buffer())
+ hub.get_node("Shell/Toolbar/Recheck").pressed.emit()
+ await settle()
+ category(1)
+ choose("IT-15")
+ var diagnostic = hub.get_node(BODY+"Identity")
+ check_case("WORLD-ITEM-REPLACEMENT.long-text",diagnostic.text.contains(long_id) and diagnostic.visible and not diagnostic.editable and diagnostic.wrap_mode==TextEdit.LINE_WRAPPING_BOUNDARY,diagnostic.text)
+ replace_bytes(pack_file,pack_bytes)
+ replace_bytes(fixture_file,fixture_bytes)
+ hub.get_node("Shell/Toolbar/Recheck").pressed.emit()
+ await settle()
+ choose("IT-15")
+ check_case("replacement-restored-wearable",current_text().begins_with("IT-15\nPopulated"),current_text())
+`;
+async function inspectorCase(context,replacement=false){
  const inputs=fingerprint(inspectorFiles());write(context.directory,'inputs.json',inputs);
  const env=require('./defenses.cjs').isolated(),project=inside(context.directory,'native-inspector');fs.mkdirSync(project);
  const built=await runner.command(context,'inspector-strict','dotnet',['build',inside(ROOT,'KingdomZombies.slnx'),'--no-restore','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'],{env});need(/0 Warning\(s\)[\s\S]*0 Error\(s\)/.test(built.stdout),'WORLD_INSPECTOR_STRICT');
  for(const file of ['project.godot','inspection','content','assets','.godot/mono/temp/bin/Debug'])fs.cpSync(inside(ROOT,'src/godot-game/'+file),inside(project,file),{recursive:true});
  const binaries=inside(ROOT,'src/godot-game/.godot/mono/temp/bin/Debug'),closure=fs.readdirSync(binaries).filter(f=>fs.statSync(path.join(binaries,f)).isFile()).map(file=>({file,sha256:hash(fs.readFileSync(path.join(binaries,file)))}));write(context.directory,'production-assemblies.json',closure);
- write(project,'probe.gd',Buffer.from(INSPECTOR_DRIVER));
+ const driver=replacement?INSPECTOR_DRIVER.replace('func run() -> void:',REPLACEMENT_CONTROLS+'\nfunc run() -> void:').replace(' await view_baseline()',' await view_baseline()\n await replacement_controls()'):INSPECTOR_DRIVER;
+ write(project,'probe.gd',Buffer.from(driver));
  const tool=require('./items.cjs').engine(),pin=document(ROOT,'tools/phase1/toolchain.json').archives['win32-x64'],archive=inside(ROOT,'.phase1/cache/'+pin.file);need(hash(fs.readFileSync(archive))===pin.sha256,'WORLD_INSPECTOR_ARCHIVE');
  const executable=path.join(path.dirname(tool.executable),pin.executable.replace('_console.exe','.exe')),entry=pin.directory+'/'+path.basename(executable);
  const auth=await runner.command(context,'inspector-engine-auth',PYTHON,['-B','-c','import sys,zipfile,hashlib; z=zipfile.ZipFile(sys.argv[1]); r=[x for x in z.infolist() if x.filename==sys.argv[2]]; assert len(r)==1 and 0<r[0].file_size<=268435456; print(hashlib.sha256(z.read(r[0])).hexdigest())',archive,entry]);need(hash(fs.readFileSync(executable))===auth.stdout.trim(),'WORLD_INSPECTOR_ENGINE');
@@ -646,7 +780,14 @@ async function inspectorCase(context){
  need(result.pid===child.pid&&result.nonce===context.nonce&&!result.failed&&result.outcomes.every(row=>row.pass),'WORLD_INSPECTOR_NATIVE');
  for(const state of ['empty','loading','error','populated','overflow','long-text'])need(result.outcomes.filter(row=>row.id==='WORLD-ITEM-PREVIEW.'+state&&row.pass).length===1,'WORLD_INSPECTOR_BACKSTOP '+state);
  need(!/ERROR:|SCRIPT ERROR:|FATAL|leaked/i.test(child.stdout+child.stderr)&&child.stderr.trim()===''&&child.stdout.includes('WORLD_INSPECTOR_COMPLETE '+context.nonce+' PASS'),'WORLD_INSPECTOR_NATIVE_CLEAN');
+ if(replacement){
+  for(const state of ['empty','loading','error','populated','overflow','long-text'])need(result.outcomes.filter(row=>row.id==='WORLD-ITEM-REPLACEMENT.'+state&&row.pass).length===1,'WORLD_REPLACEMENT_BACKSTOP '+state);
+  const compiled=inside(context.directory,'compiled');fs.mkdirSync(compiled);
+  await runner.command(context,'world-inspector-compiled','dotnet',[inside(ROOT,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll'),'--filter-class','*WorldInspectorTests','--report-xunit-junit','--report-xunit-junit-filename','tests.xml','--report-xunit-ctrf','--report-xunit-ctrf-filename','tests.json','--results-directory',compiled,'--no-ansi','--progress','off','--parallel','none','--timeout','45s'],{env:{...env,WORLD_INSPECTOR_REPORT:inside(context.directory,'native-observation.json')}});
+  const report=document(compiled,'tests.json');need(report.results.summary.tests===10&&report.results.summary.passed===10&&report.results.summary.failed===0&&report.results.summary.skipped===0,'WORLD_INSPECTOR_COMPILED_RESULTS');
+ }
  need(equal(inputs,fingerprint(inspectorFiles())),'WORLD_INSPECTOR_SOURCE_CHANGED');return {outcomes:result.outcomes.length,pid:result.pid,productionAssemblies:closure,scope:result.scope};
 }
 runner.registerCase('world.inspector',{group:'world',title:'Actual hub world/item selection and six independent preview backstops',importance:'Critical',rationale:'Unreachable authored content or one bad item hiding valid world breaks the inspection pack',needsGameWindow:false,runGroup:'G0-world',order:3,requirements:['ASSET-01','ASSET-02','ASSET-03'],acceptance:['AC-09','AC-16','AC-20'],setup:'Current strict production assembly, actual CSharp hub and authenticated headless Godot in owned isolated project',actions:['Select all24items and9structure tiers through real hub signals','Select every world/effect current state,pan edges and zoom without changing authored positions','Observe six independently named WORLD-ITEM-PREVIEW backstops','Restore damaged media and close owned native scene'],expected:'Actual production resource identities and every individual outcome pass; actual input/draw/readability remain04-32',reset:'Revoke and retire all previews; restore owned copied bytes only',evidence:['inputs.json','production-assemblies.json','engine.json','native-observation.json','result.json']},inspectorCase);
 Object.assign(module.exports,{INSPECTOR_DRIVER,inspectorFiles,inspectorCase});
+runner.registerCase('world.replacement',{group:'world',title:'World/item late replacement, authored positions and independent held-out states',importance:'Critical',rationale:'A stale owner or failed entry must not replace valid current authored content',needsGameWindow:false,runGroup:'G0-world',order:4,requirements:['ASSET-01','ASSET-02','ASSET-03'],acceptance:['AC-09','AC-16','AC-20'],setup:'Current strict production assembly, real native hub and six compiled production fence/backstop tests',actions:['Submit late A after selecting B through actual root acceptance fence','Rapidly select/reset effects,buildings and authored map','Independently observe six wearable/building replacement backstops','Restore valid media and retire owned native scene'],expected:'All native and compiled outcomes pass independently,with stable authored positions and no historical events',reset:'Revoke and retire every preview;restore owned copied media and definitions',evidence:['inputs.json','production-assemblies.json','native-observation.json','compiled/tests.xml','compiled/tests.json','result.json']},context=>inspectorCase(context,true));
