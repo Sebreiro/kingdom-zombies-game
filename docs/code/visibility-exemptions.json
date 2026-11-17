@@ -3,6 +3,11 @@
   "rule": "R-34",
   "permissions": [
     {
+      "path": "src/core/AppearanceState.cs",
+      "type": "KingdomZombies.Core.AppearanceState",
+      "reason": "The internal native corpse preview consumes this exact sealed framework-only current appearance and explicit-clock transient contract across the Core boundary; detached snapshots grant no gameplay or engine authority."
+    },
+    {
       "path": "src/core/CharacterPresentation.cs",
       "type": "KingdomZombies.Core.CharacterPresentation",
       "reason": "The internal native character preview consumes this sealed engine-independent explicit-clock composition contract across the Core assembly boundary; detached samples retain logical hands and never create gameplay hits."
