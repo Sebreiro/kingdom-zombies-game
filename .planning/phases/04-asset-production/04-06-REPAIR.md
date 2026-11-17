@@ -20,3 +20,17 @@ R1 has a maximum of **one** corrective attempt, initially0/1 used. Any new sourc
 If R1 and postcommit feedback succeed, resume the original Task2 with its own genuine compiled RED, existing five-path scope and ordinary bounded correction rules. No Task2 budget has yet been consumed. Capture actual generated/native impacts of InspectionRoot edits; new tracked paths or policy changes need a precise prior amendment. Production and authored proof harness must finish0warnings/errors. No real game window, listening, physical-input or ASSET acceptance is supplied here.
 
 After both tasks pass, write/self-check/commit the canonical SUMMARY immediately. Parent owns global progress, continuation reconciliation and draftPR5. Foreign global/spec/Phase06/Phase12 changes stay unstaged.
+
+## R1 result — exhausted1/1; separate observed verifier ordering repair R2
+
+R1 applied only the canvas change, preserving the case file. Fresh stage1794883064178064000 and immutable invocation5b421ecf-bce9-4813-a11c-f93fa4ead647 onac0da21 reach the negative-control loop, then fail. No overall pass, task commit or Task2 start occurred. Exact current identities are in `.phase4/checkpoints/04-06-task1-r1.json`; original3/3 and R1's1/1 remain exhausted.
+
+Parent inspected the actual verifier and stderr: the `missing-master` control replaces original bytes with`b'changed'`, but `verify` replays part pixels before checking the body's original/prompt hashes. PIL therefore throws`UnidentifiedImageError` before the expected`BODY_GENERATION` rejection. The existing strict original identity assertion is correct and must execute before untrusted master decoding. Catching arbitrary exceptions as passing controls or changing the expected diagnostic would weaken the proof and is not authorized.
+
+Prospective **R2, maximumone corrective attempt**, owns only existing`tools/phase4/cases/bodies-a.cjs`:
+
+1. Authenticate each body's declared original/prompt bytes with the existing exact`BODY_GENERATION` condition before any part replay or image decode. Move the existing assertion to that earlier boundary; retain every actual pixel, alpha, component, pose, source, hash and registration assertion and all nine named negative controls/expected diagnostics. No blanket exception catch, count-only pass, timeout change or master/recipe/PNG/JSON/ZIP edit.
+2. Run fresh canonical`bodies.a-art` and affected`source.case-discovery` with fixed inputs. Require complete193-part reproduction, all nine expected diagnostic controls, retained source identity and clean discovery. Inspect actual native-scale selected output. Any new source/assertion failure stops this leaf at1/1; environmental escalation remains equivalent execution only.
+3. If both pass, commit Task1's original four owned paths, then execute the same postcommit tracer feedback contract as completed04-11 before Task2. Resume unstarted originalTask2 only after passing that feedback, with its own unconsumed ordinary correction budget, exact five-path scope and genuine compiled RED.
+
+This is a distinct observed proof-order defect, not another atlas retry or a reset of exhausted budgets. It changes no formal plan/task/obligation/native permission. PersistR2 attempts/results and original failure identities in the final SUMMARY or checkpoint. No human appearance/hearing acceptance is inferred.
