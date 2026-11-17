@@ -19,6 +19,7 @@ internal sealed class InventoryLayouts
         _root = root;
         _gateway = gateway;
         _pack = Read(bytes: pack);
+        _legacy = Same(left: Text(value: _pack, key: "id"), right: "ui-legacy-stash");
         Bind(inputs: inputs);
         _data = Read(bytes: inputs[0]);
         _definitions = Read(bytes: inputs[1]).GetProperty(propertyName: "definitions").Clone();
@@ -48,13 +49,14 @@ internal sealed class InventoryLayouts
     /// <summary>Returns detached saved geometry independently of the current destination preview.</summary>
     internal static JsonElement SavedLayout(JsonElement sample)
     {
-        return sample.GetProperty(propertyName: "currentDestination").Clone();
+        return sample.GetProperty(propertyName: "saved").Clone();
     }
 
     /// <summary>Returns exact target identities in their displayed selection order.</summary>
     internal static string[] TargetIds(JsonElement sample)
     {
-        return [];
+        return sample.GetProperty(propertyName: "targets").EnumerateArray()
+                .Select(selector: row => Text(value: row, key: "id")).ToArray();
     }
 
     /// <summary>Resolves a food shortcut to its actual carried instance.</summary>
@@ -112,7 +114,15 @@ internal sealed class InventoryLayouts
     {
         _gateway.RequireThread();
         JsonElement state = Read(bytes: snapshot);
-        ValidateState(state: state);
+        if (_legacy)
+        {
+            ValidateLegacyState(state: state);
+        }
+        else
+        {
+            ValidateState(state: state);
+        }
+
         if (!_accepting || generation <= _generation || !_root.IsInsideTree())
         {
             throw new InvalidOperationException(message: "INVENTORY_NOT_ACTIVE");
@@ -121,7 +131,14 @@ internal sealed class InventoryLayouts
         Clear();
         _generation = generation;
         Attach(state: state);
-        ProjectInventory(state: state);
+        if (_legacy)
+        {
+            ProjectLegacy(state: state);
+        }
+        else
+        {
+            ProjectInventory(state: state);
+        }
     }
 
     /// <summary>Closes acceptance before native rows and owned atlas views are retired.</summary>
@@ -141,6 +158,7 @@ internal sealed class InventoryLayouts
     private static readonly string[] _statuses = ["normal", "empty", "broken", "unbound", "reference-lost", "full",
         "invalid-fit", "over-depth", "world-drop", "transfer-success", "transfer-failure", "loading", "error",
         "partial", "overflow", "one", "long-text"];
+    private readonly bool _legacy;
     private readonly Control _root;
     private readonly MainThreadGateway _gateway;
     private readonly JsonElement _pack;
@@ -149,6 +167,7 @@ internal sealed class InventoryLayouts
     private readonly JsonElement _icons;
     private readonly List<Node> _owned = [];
     private readonly List<AtlasTexture> _textures = [];
+    private readonly List<StyleBoxFlat> _styles = [];
     private bool _accepting = true;
     private long _generation;
 
@@ -220,6 +239,7 @@ internal sealed class InventoryLayouts
     {
         JsonElement bindings = _pack.GetProperty(propertyName: "bindings");
         if (!Same(left: Text(value: _pack, key: "id"), right: "ui-inventory")
+                && !_legacy
                 || !_pack.GetProperty(propertyName: "sampleDataOnly").GetBoolean()
                 || bindings.GetArrayLength() != _paths.Length || inputs.Length != _paths.Length)
         {
@@ -229,7 +249,8 @@ internal sealed class InventoryLayouts
         for (int index = 0; index < _paths.Length; index++)
         {
             string digest = Convert.ToHexStringLower(inArray: SHA256.HashData(source: inputs[index]));
-            if (!Same(left: Text(value: bindings[index], key: "path"), right: _paths[index])
+            if (!Same(left: Text(value: bindings[index], key: "path"), right: _legacy && index == 0
+                    ? "content/ui/legacy-stash-targets.json" : _paths[index])
                     || !Same(left: Text(value: bindings[index], key: "sha256"), right: digest))
             {
                 throw new InvalidDataException(message: "INVENTORY_BINDING_HASH " + _paths[index]);
@@ -330,6 +351,12 @@ internal sealed class InventoryLayouts
 
     private void ValidateData()
     {
+        if (_legacy)
+        {
+            ValidateLegacyData();
+            return;
+        }
+
         if (!Same(left: Text(value: _data, key: "id"), right: "inventory-layouts")
                 || _data.GetProperty(propertyName: "version").GetInt32() != 1)
         {
@@ -885,6 +912,346 @@ internal sealed class InventoryLayouts
                 SizeFlagsHorizontal = Control.SizeFlags.ExpandFill });
     }
 
+
+    private void ValidateLegacyData()
+    {
+        if (!Same(left: Text(value: _data, key: "id"), right: "legacy-stash-target-layouts")
+                || _data.GetProperty(propertyName: "version").GetInt32() != 1)
+        {
+            throw new InvalidDataException(message: "LEGACY_DATA_ID");
+        }
+
+        JsonElement samples = _data.GetProperty(propertyName: "samples");
+        Unique(rows: samples);
+        if (samples.GetArrayLength() is < 1 or > 64)
+        {
+            throw new InvalidDataException(message: "LEGACY_SAMPLE_COUNT");
+        }
+
+        foreach (JsonElement state in samples.EnumerateArray())
+        {
+            ValidateLegacyState(state: state);
+        }
+    }
+
+    private void ValidateLegacyState(JsonElement state)
+    {
+        Text(value: state, key: "id");
+        Text(value: state, key: "name");
+        Text(value: state, key: "warning");
+        Text(value: state, key: "status");
+        string kind = Text(value: state, key: "kind");
+        if (kind is not ("legacy" or "stash" or "target"))
+        {
+            throw new InvalidDataException(message: "LEGACY_KIND");
+        }
+
+        ValidateState(state: state.GetProperty(propertyName: "character"));
+        ValidateHistoric(grid: SavedLayout(sample: state), missing: kind is "legacy"
+                && Same(left: Text(value: state, key: "status"), right: "missing-definition"));
+        ValidateCurrentGrid(grid: state.GetProperty(propertyName: "currentDestination"));
+        Text(value: state, key: "guidance");
+        Text(value: state, key: "extraction");
+        foreach (JsonElement badge in state.GetProperty(propertyName: "badges").EnumerateArray())
+        {
+            if (badge.GetString() is not ("Old geometry" or "Incompatible slot" or "Over stack limit"
+                    or "Over depth limit" or "Missing definition" or "Current rules adopted"))
+            {
+                throw new InvalidDataException(message: "LEGACY_BADGE");
+            }
+        }
+
+        ValidateStash(stash: state.GetProperty(propertyName: "stash"));
+        ValidateTargets(state: state);
+    }
+
+    private void ValidateHistoric(JsonElement grid, bool missing)
+    {
+        Text(value: grid, key: "id");
+        Text(value: grid, key: "title");
+        Text(value: grid, key: "slot");
+        int columns = grid.GetProperty(propertyName: "columns").GetInt32();
+        int rows = grid.GetProperty(propertyName: "rows").GetInt32();
+        int depth = grid.GetProperty(propertyName: "depth").GetInt32();
+        if (columns is < 1 or > 16 || rows is < 1 or > 16 || depth is < 1 or > 16)
+        {
+            throw new InvalidDataException(message: "LEGACY_GRID_DOMAIN");
+        }
+
+        JsonElement items = grid.GetProperty(propertyName: "items");
+        Unique(rows: items);
+        foreach (JsonElement item in items.EnumerateArray())
+        {
+            Text(value: item, key: "label");
+            string definition = Text(value: item, key: "definition");
+            if (!missing || !Same(left: definition, right: "IT-99"))
+            {
+                Find(rows: _definitions, id: definition);
+            }
+
+            JsonElement footprint = item.GetProperty(propertyName: "savedFootprint");
+            if (footprint.GetArrayLength() != 2 || item.GetProperty(propertyName: "quantity").GetInt32()
+                    is < 1 or > 1000000)
+            {
+                throw new InvalidDataException(message: "LEGACY_ITEM_DOMAIN");
+            }
+
+            int[] size = Footprint(width: footprint[0].GetInt32(), height: footprint[1].GetInt32(),
+                    rotated: item.GetProperty(propertyName: "rotated").GetBoolean());
+            int x = item.GetProperty(propertyName: "x").GetInt32();
+            int y = item.GetProperty(propertyName: "y").GetInt32();
+            if (x < 0 || y < 0 || x + size[0] > columns || y + size[1] > rows)
+            {
+                throw new InvalidDataException(message: "LEGACY_ITEM_BOUNDS");
+            }
+        }
+    }
+
+
+    private void ValidateCurrentGrid(JsonElement grid)
+    {
+        ValidateHistoric(grid: grid, missing: false);
+        JsonElement grids = Read(bytes: JsonSerializer.SerializeToUtf8Bytes(value: (JsonElement[])[grid]));
+        var occupied = new HashSet<int>();
+        foreach (JsonElement item in grid.GetProperty(propertyName: "items").EnumerateArray())
+        {
+            ValidateItem(item: item, grids: grids);
+            int[] size = ItemSize(item: item);
+            for (int y = 0; y < size[1]; y++)
+            {
+                for (int x = 0; x < size[0]; x++)
+                {
+                    int cell = (item.GetProperty(propertyName: "y").GetInt32() + y) * 16
+                            + item.GetProperty(propertyName: "x").GetInt32() + x;
+                    if (!occupied.Add(item: cell))
+                    {
+                        throw new InvalidDataException(message: "LEGACY_CURRENT_OVERLAP");
+                    }
+                }
+            }
+        }
+    }
+
+    private void ValidateStash(JsonElement stash)
+    {
+        Text(value: stash, key: "context");
+        Text(value: stash, key: "nameFilter");
+        Text(value: stash, key: "typeFilter");
+        Text(value: stash, key: "feedback");
+        int page = stash.GetProperty(propertyName: "page").GetInt32();
+        if (page < 1 || !stash.GetProperty(propertyName: "unlimited").GetBoolean()
+                || !stash.GetProperty(propertyName: "nextCreatesPage").GetBoolean())
+        {
+            throw new InvalidDataException(message: "LEGACY_STASH_PAGES");
+        }
+
+        JsonElement pages = stash.GetProperty(propertyName: "pages");
+        Unique(rows: pages);
+        if (pages.GetArrayLength() is < 1 or > 8)
+        {
+            throw new InvalidDataException(message: "LEGACY_STASH_PAGES");
+        }
+
+        foreach (JsonElement grid in pages.EnumerateArray())
+        {
+            ValidateCurrentGrid(grid: grid);
+        }
+    }
+
+    private void ValidateTargets(JsonElement state)
+    {
+        JsonElement targets = state.GetProperty(propertyName: "targets");
+        Unique(rows: targets);
+        if (targets.GetArrayLength() > 8)
+        {
+            throw new InvalidDataException(message: "LEGACY_TARGET_COUNT");
+        }
+
+        string selected = Text(value: state, key: "selected");
+        foreach (string id in TargetIds(sample: state))
+        {
+            JsonElement target = Find(rows: targets, id: id);
+            Text(value: target, key: "name");
+            Text(value: target, key: "feedback");
+            if (target.GetProperty(propertyName: "permitted").ValueKind
+                    is not (JsonValueKind.True or JsonValueKind.False))
+            {
+                throw new InvalidDataException(message: "LEGACY_TARGET_PERMISSION");
+            }
+
+            string kind = Text(value: target, key: "kind");
+            if (kind is not ("npc" or "corpse" or "ground"))
+            {
+                throw new InvalidDataException(message: "LEGACY_TARGET_KIND");
+            }
+
+            ValidateState(state: target.GetProperty(propertyName: "gear"));
+            ValidateCurrentGrid(grid: target.GetProperty(propertyName: "contents"));
+            foreach (JsonElement value in target.GetProperty(propertyName: "region").EnumerateArray())
+            {
+                if (!value.TryGetInt32(value: out int number) || number is < 0 or > 2000)
+                {
+                    throw new InvalidDataException(message: "LEGACY_TARGET_REGION");
+                }
+            }
+
+            if (target.GetProperty(propertyName: "region").GetArrayLength() != 4
+                    || target.GetProperty(propertyName: "region")[2].GetInt32() < 1
+                    || target.GetProperty(propertyName: "region")[3].GetInt32() < 1)
+            {
+                throw new InvalidDataException(message: "LEGACY_TARGET_REGION");
+            }
+        }
+
+        if (targets.GetArrayLength() > 0)
+        {
+            Find(rows: targets, id: selected);
+        }
+    }
+
+    private void ProjectLegacy(JsonElement state)
+    {
+        _gateway.RequireThread();
+        Node content = _root.GetNode(path: "Inventory/Scroll/Content");
+        AddLabel(parent: content, name: "CharacterContext", text: "Character · "
+                + Text(value: state.GetProperty(propertyName: "character"), key: "id"));
+        ProjectInventory(state: state.GetProperty(propertyName: "character"));
+        var legacy = new VBoxContainer { Name = "Compatibility" };
+        content.AddChild(node: legacy);
+        AddLabel(parent: legacy, name: "Notice", text: "Saved layout differs from current rules."
+                + " Existing contents are shown in their saved positions.");
+        AddLabel(parent: legacy, name: "Badges", text: string.Join(separator: " · ", values:
+                state.GetProperty(propertyName: "badges").EnumerateArray()
+                        .Select(selector: value => value.GetString())));
+        ProjectHistoric(parent: legacy, grid: SavedLayout(sample: state), name: "Saved", current: false);
+        ProjectHistoric(parent: legacy, grid: state.GetProperty(propertyName: "currentDestination"),
+                name: "CurrentDestination", current: true);
+        AddLabel(parent: legacy, name: "Guidance", text: Text(value: state, key: "guidance"));
+        AddLabel(parent: legacy, name: "Extraction", text: Text(value: state, key: "extraction"));
+        ProjectStash(state: state, content: content);
+        ProjectTargets(state: state, content: content);
+    }
+
+    private void ProjectHistoric(Node parent, JsonElement grid, string name, bool current)
+    {
+        _gateway.RequireThread();
+        var section = new VBoxContainer { Name = name };
+        parent.AddChild(node: section);
+        section.SetMeta(name: "resource_id", value: Text(value: grid, key: "id"));
+        AddLabel(parent: section, name: "Title", text: (current ? "Current destination" : "Saved layout")
+                + " · " + Text(value: grid, key: "title") + " · " + Text(value: grid, key: "id")
+                + " · Depth " + grid.GetProperty(propertyName: "depth") + " · Slot "
+                + Text(value: grid, key: "slot"));
+        var surface = new Control { Name = "Cells", ClipContents = true, CustomMinimumSize = new Vector2(
+                x: grid.GetProperty(propertyName: "columns").GetInt32() * 40,
+                y: grid.GetProperty(propertyName: "rows").GetInt32() * 40) };
+        section.AddChild(node: surface);
+        AddCells(parent: surface, columns: grid.GetProperty(propertyName: "columns").GetInt32(),
+                rows: grid.GetProperty(propertyName: "rows").GetInt32());
+        foreach (JsonElement item in grid.GetProperty(propertyName: "items").EnumerateArray())
+        {
+            ProjectHistoricItem(parent: surface, item: item, current: current);
+        }
+
+        AddLabel(parent: section, name: "Count", text: grid.GetProperty(propertyName: "items").GetArrayLength()
+                .ToString(provider: CultureInfo.InvariantCulture) + " items · Contents unchanged by preview");
+    }
+
+    private void ProjectHistoricItem(Control parent, JsonElement item, bool current)
+    {
+        _gateway.RequireThread();
+        JsonElement saved = item.GetProperty(propertyName: "savedFootprint");
+        bool rotated = item.GetProperty(propertyName: "rotated").GetBoolean();
+        int[] size = current ? ItemSize(item: item) : Footprint(width: saved[0].GetInt32(),
+                height: saved[1].GetInt32(), rotated: rotated);
+        var box = new Control { Name = Text(value: item, key: "id"), ZIndex = 2,
+                Position = new Vector2(x: item.GetProperty(propertyName: "x").GetInt32() * 40,
+                        y: item.GetProperty(propertyName: "y").GetInt32() * 40),
+                Size = new Vector2(x: size[0] * 40, y: size[1] * 40) };
+        parent.AddChild(node: box);
+        box.SetMeta(name: "resource_id", value: Text(value: item, key: "id"));
+        if (Same(left: Text(value: item, key: "definition"), right: "IT-99"))
+        {
+            AddLabel(parent: box, name: "Missing", text: "Missing definition IT-99 · Original save preserved");
+        }
+        else
+        {
+            AddIcon(parent: box, item: item, rotated: rotated);
+            box.TooltipText = Details(item: item) + " · Saved footprint " + saved;
+        }
+
+        AddLabel(parent: box, name: "Count", text: "×" + item.GetProperty(propertyName: "quantity"));
+        AddLabel(parent: box, name: "Identity", text: Text(value: item, key: "label") + " · "
+                + Text(value: item, key: "id"));
+    }
+
+    private void ProjectStash(JsonElement state, Node content)
+    {
+        _gateway.RequireThread();
+        JsonElement data = state.GetProperty(propertyName: "stash");
+        var stash = new VBoxContainer { Name = "Stash" };
+        content.AddChild(node: stash);
+        AddLabel(parent: stash, name: "Context", text: "Shared stash · " + Text(value: data, key: "context"));
+        AddLabel(parent: stash, name: "Pages", text: "Page " + data.GetProperty(propertyName: "page")
+                + " · Unlimited pages · Previous page / Next page · Create another page when needed");
+        AddLabel(parent: stash, name: "Filters", text: "Visual filter example only · Name: "
+                + Text(value: data, key: "nameFilter") + " · Type: " + Text(value: data, key: "typeFilter")
+                + " · Gameplay filtering deferred to Phase 12");
+        AddLabel(parent: stash, name: "Feedback", text: Text(value: data, key: "feedback"));
+        foreach (JsonElement grid in data.GetProperty(propertyName: "pages").EnumerateArray())
+        {
+            ProjectHistoric(parent: stash, grid: grid, name: Text(value: grid, key: "id"), current: true);
+        }
+    }
+
+    private void ProjectTargets(JsonElement state, Node content)
+    {
+        _gateway.RequireThread();
+        var targets = new VBoxContainer { Name = "Targets" };
+        content.AddChild(node: targets);
+        AddLabel(parent: targets, name: "Selector", text: "Overlapping target selector · Selected "
+                + Text(value: state, key: "selected"));
+        var map = new Control { Name = "Regions", CustomMinimumSize = new Vector2(x: 600, y: 160),
+                ClipContents = true };
+        targets.AddChild(node: map);
+        foreach (JsonElement target in state.GetProperty(propertyName: "targets").EnumerateArray())
+        {
+            ProjectTargetRegion(parent: map, target: target, selected: Text(value: state, key: "selected"));
+            var row = new VBoxContainer { Name = Text(value: target, key: "id") };
+            targets.AddChild(node: row);
+            row.SetMeta(name: "resource_id", value: Text(value: target, key: "id"));
+            AddLabel(parent: row, name: "Identity", text: Text(value: target, key: "name") + " · "
+                    + Text(value: target, key: "id") + " · " + Text(value: target, key: "kind"));
+            AddLabel(parent: row, name: "Transfer", text: target.GetProperty(propertyName: "permitted").GetBoolean()
+                    ? "Transfer preview permitted · No belongings moved" : "Transfer unavailable · "
+                            + Text(value: target, key: "feedback"));
+            AddLabel(parent: row, name: "Feedback", text: Text(value: target, key: "feedback"));
+            ProjectSlots(state: target.GetProperty(propertyName: "gear"), content: row);
+            ProjectHistoric(parent: row, grid: target.GetProperty(propertyName: "contents"),
+                    name: "Contents", current: true);
+        }
+    }
+
+    private void ProjectTargetRegion(Control parent, JsonElement target, string selected)
+    {
+        _gateway.RequireThread();
+        JsonElement region = target.GetProperty(propertyName: "region");
+        var box = new Panel { Name = Text(value: target, key: "id"),
+                Position = new Vector2(x: region[0].GetInt32(), y: region[1].GetInt32()),
+                Size = new Vector2(x: region[2].GetInt32(), y: region[3].GetInt32()) };
+        parent.AddChild(node: box);
+        box.SetMeta(name: "resource_id", value: Text(value: target, key: "id"));
+        if (Same(left: Text(value: target, key: "id"), right: selected))
+        {
+            var outline = new StyleBoxFlat { BgColor = new Color(r: 0, g: 0, b: 0, a: 0),
+                    BorderColor = Color.FromHtml(rgba: "#F4F2E8"), BorderWidthLeft = 1, BorderWidthRight = 1,
+                    BorderWidthTop = 1, BorderWidthBottom = 1 };
+            _styles.Add(item: outline);
+            box.AddThemeStyleboxOverride(name: "panel", stylebox: outline);
+            AddLabel(parent: box, name: "Marker", text: "Selected · " + Text(value: target, key: "id"));
+        }
+    }
+
     private void Clear()
     {
         _gateway.RequireThread();
@@ -901,5 +1268,11 @@ internal sealed class InventoryLayouts
         }
 
         _textures.Clear();
+        foreach (StyleBoxFlat style in _styles)
+        {
+            style.Dispose();
+        }
+
+        _styles.Clear();
     }
 }
