@@ -1,0 +1,3553 @@
+{
+  "schemaVersion": 1,
+  "id": "player-identities",
+  "version": 1,
+  "players": [
+    {
+      "id": "player-1",
+      "number": "P1",
+      "name": "Élodie",
+      "shape": "square",
+      "color": "#F0C46A",
+      "state": "Host"
+    },
+    {
+      "id": "player-2",
+      "number": "P2",
+      "name": "Jérôme",
+      "shape": "triangle",
+      "color": "#74BDE0",
+      "state": "Guest"
+    },
+    {
+      "id": "player-3",
+      "number": "P3",
+      "name": "Alex",
+      "shape": "diamond",
+      "color": "#DB91B8",
+      "state": "Controller"
+    },
+    {
+      "id": "player-4",
+      "number": "P4",
+      "name": "Alex",
+      "shape": "cross",
+      "color": "#A3CC83",
+      "state": "Spectator"
+    }
+  ],
+  "shapePolygons": {
+    "square": [
+      [
+        -3,
+        -3
+      ],
+      [
+        3,
+        -3
+      ],
+      [
+        3,
+        3
+      ],
+      [
+        -3,
+        3
+      ]
+    ],
+    "triangle": [
+      [
+        0,
+        -4
+      ],
+      [
+        4,
+        3
+      ],
+      [
+        -4,
+        3
+      ]
+    ],
+    "diamond": [
+      [
+        0,
+        -4
+      ],
+      [
+        4,
+        0
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        -4,
+        0
+      ]
+    ],
+    "cross": [
+      [
+        -1,
+        -4
+      ],
+      [
+        1,
+        -4
+      ],
+      [
+        1,
+        -1
+      ],
+      [
+        4,
+        -1
+      ],
+      [
+        4,
+        1
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        -1,
+        4
+      ],
+      [
+        -1,
+        1
+      ],
+      [
+        -4,
+        1
+      ],
+      [
+        -4,
+        -1
+      ],
+      [
+        -1,
+        -1
+      ]
+    ]
+  },
+  "controlTransfer": {
+    "from": "survivor-000",
+    "to": "survivor-001",
+    "crown": "common.s0.7985",
+    "gameplay": false
+  },
+  "atlas": {
+    "path": "assets/characters/identity-wildlife.png",
+    "sha256": "9859467281f48e9ea316288d7cad6c691b958e3943ed4129e570556fbc583c69",
+    "width": 512,
+    "height": 108,
+    "rgbaSha256": "3a7a6d7e513a3e997f37491a0bd4b4b50d94ca67866105d95a27ccb069c3c551"
+  },
+  "parts": [
+    {
+      "id": "common.r.10160",
+      "name": "bunny_walk_0",
+      "sourceRect": [
+        1246,
+        633,
+        16,
+        16
+      ],
+      "atlasRect": [
+        2,
+        2,
+        16,
+        16
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 16,
+          "height": 16
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -8
+        },
+        "trimOffsetBottomLeft": [
+          0,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 437,
+          "y": 396,
+          "width": 16,
+          "height": 16
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -8,
+          0
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/10160.png",
+      "memberSha256": "150f9890f9c54506d2de9877293b9a6e2c24cfe962718e2a52b0286e6114ca8a",
+      "rgbaSha256": "376c8a1857f188351a1839501d83e56e30d4958b0955e8cf4d566eae96f2fc8b",
+      "operation": "unchanged RGBA"
+    },
+    {
+      "id": "common.r.10440",
+      "name": "deer_look_0",
+      "sourceRect": [
+        1818,
+        633,
+        30,
+        33
+      ],
+      "atlasRect": [
+        20,
+        2,
+        30,
+        33
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          10.026750564575195,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 958.0267333984375,
+          "y": 380,
+          "width": 29.897127151489258,
+          "height": 32.92387771606445
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -13.973249435424805,
+          15
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/10440.png",
+      "memberSha256": "05e96a693af96a3b514c43dbd511a2dd707b9ffbfa024d9961aa98655ffa251e",
+      "rgbaSha256": "6dfe3dfc1f8c5ae094bfcb84d576476bbe040543cbef3b19bf6651df2bc8ef7f",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.10574",
+      "name": "deer_run_3",
+      "sourceRect": [
+        1908,
+        633,
+        33,
+        33
+      ],
+      "atlasRect": [
+        52,
+        2,
+        33,
+        33
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          13.01291275024414,
+          4.012912750244141
+        ],
+        "atlasTextureRect": {
+          "x": 735.012939453125,
+          "y": 1231.012939453125,
+          "width": 32.91096496582031,
+          "height": 32.97417449951172
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -10.98708724975586,
+          10.98708724975586
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/10574.png",
+      "memberSha256": "d7c8bae2ad5314cfdf537b963de89490b0ddcc45fae714f59e291fc18b2c67bc",
+      "rgbaSha256": "8f41d5a1cb5862edea78cf128d954480fc701769c9363273d45c0bb82cab6ea4",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.10769",
+      "name": "deer_run_6",
+      "sourceRect": [
+        401,
+        804,
+        32,
+        33
+      ],
+      "atlasRect": [
+        87,
+        2,
+        32,
+        33
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          10.033500671386719,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 155.03350830078125,
+          "y": 1921,
+          "width": 31.890377044677734,
+          "height": 32.98708724975586
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -13.966499328613281,
+          15
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/10769.png",
+      "memberSha256": "a995d5f036f934bd38fe560bd1633efc4704f76579e83824bee091091a433b67",
+      "rgbaSha256": "f03036db9f4d0be21e786c57c5e74add4d100efcae8dacb3b99608ed2bae8b3c",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.10791",
+      "name": "deer_die_6",
+      "sourceRect": [
+        527,
+        804,
+        31,
+        12
+      ],
+      "atlasRect": [
+        121,
+        2,
+        31,
+        12
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          7.076120376586914,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 226.0761260986328,
+          "y": 1204,
+          "width": 30.864152908325195,
+          "height": 11.923879623413086
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -16.923879623413086,
+          36
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/10791.png",
+      "memberSha256": "c1330c411236842f959f5cc57775786e32ac2ad1507157bb068b39d27ded58ab",
+      "rgbaSha256": "a6730860a29ccff47ac97bf84c89e2208c20e5fe216829c8d885d5da503c24d4",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.11040",
+      "name": "deer_run_0",
+      "sourceRect": [
+        1676,
+        804,
+        32,
+        31
+      ],
+      "atlasRect": [
+        154,
+        2,
+        32,
+        31
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          10.026750564575195,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 772.0267333984375,
+          "y": 1455,
+          "width": 31.897127151489258,
+          "height": 30.98708724975586
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -13.973249435424805,
+          17
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/11040.png",
+      "memberSha256": "60d9ff63e0b2b79a5a3a69983c1339fc605c1c7de4dc1b2326fa77961fb5d8be",
+      "rgbaSha256": "f4dddd0c040d9c5812c4c8040de22904e58c9f4a5caccf55d0c0b9d4eba268a8",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.11065",
+      "name": "deer_walk_4",
+      "sourceRect": [
+        1792,
+        804,
+        35,
+        31
+      ],
+      "atlasRect": [
+        188,
+        2,
+        35,
+        31
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          10.026750564575195,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 573.0267333984375,
+          "y": 1534,
+          "width": 34.897125244140625,
+          "height": 30.923879623413086
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -13.973249435424805,
+          17
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/11065.png",
+      "memberSha256": "7bdbc59bce74314d9f5c427b24d4c8b3002443f4b15524e3185c7350c1f09687",
+      "rgbaSha256": "36092662b79931f1211d114195278933cb476337313860363353b3c58d01448f",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.11203",
+      "name": "deer_walk_6",
+      "sourceRect": [
+        376,
+        969,
+        35,
+        31
+      ],
+      "atlasRect": [
+        225,
+        2,
+        35,
+        31
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          10.026750564575195,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 676.0267333984375,
+          "y": 1387,
+          "width": 34.897125244140625,
+          "height": 30.923879623413086
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -13.973249435424805,
+          17
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/11203.png",
+      "memberSha256": "09f6976fa05a8f9648e1dc80b8bb8d9b9dda3c91e0f841e957f69d1c7e230d07",
+      "rgbaSha256": "00e8c9414937458d81e8cab64d396a7d16e34dcba3883952cc2bb10e4209b79f",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.11237",
+      "name": "deer_eat_1",
+      "sourceRect": [
+        777,
+        969,
+        34,
+        31
+      ],
+      "atlasRect": [
+        262,
+        2,
+        34,
+        31
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          10.026750564575195,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 809.0267333984375,
+          "y": 1278,
+          "width": 33.897125244140625,
+          "height": 30.98708724975586
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -13.973249435424805,
+          17
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/11237.png",
+      "memberSha256": "7dc575e653e1fd5eb72b19acf04293d6c219b22640db3e5e530fea1173c338e5",
+      "rgbaSha256": "cbf2e1ec0de4dec422ca6e5f24761d6d044137513f88bc037c3d1d344ad5d030",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.11517",
+      "name": "bunny_walk_1",
+      "sourceRect": [
+        1448,
+        969,
+        16,
+        16
+      ],
+      "atlasRect": [
+        298,
+        2,
+        16,
+        16
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 16,
+          "y": 0,
+          "width": 16,
+          "height": 16
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -8
+        },
+        "trimOffsetBottomLeft": [
+          0,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 405,
+          "y": 1040,
+          "width": 16,
+          "height": 16
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -8,
+          0
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/11517.png",
+      "memberSha256": "e03ac38cbf930b123dc5ff628f389979b11375c3f8523546e9ac867cfa7fa7aa",
+      "rgbaSha256": "45f7c0beccf9cc0b9a6549f389ec96e1ca86bd5f00893d28f8a0ca0bbfb856df",
+      "operation": "unchanged RGBA"
+    },
+    {
+      "id": "common.r.11763",
+      "name": "bunny_walk_2",
+      "sourceRect": [
+        1466,
+        969,
+        16,
+        16
+      ],
+      "atlasRect": [
+        316,
+        2,
+        16,
+        16
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 32,
+          "y": 0,
+          "width": 16,
+          "height": 16
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -8
+        },
+        "trimOffsetBottomLeft": [
+          0,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 941,
+          "y": 744,
+          "width": 16,
+          "height": 16
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -8,
+          0
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/11763.png",
+      "memberSha256": "12eb7057971d6f086de904b718abe8b57e023e7e11a2fe353b9759c415c116ca",
+      "rgbaSha256": "0c5878719845231e9518024a7e7d3e93473895ec8212902b6906a0df1d3b2f84",
+      "operation": "unchanged RGBA"
+    },
+    {
+      "id": "common.r.12003",
+      "name": "bunny_walk_3",
+      "sourceRect": [
+        1484,
+        969,
+        16,
+        16
+      ],
+      "atlasRect": [
+        334,
+        2,
+        16,
+        16
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 48,
+          "y": 0,
+          "width": 16,
+          "height": 16
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -8
+        },
+        "trimOffsetBottomLeft": [
+          0,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 816,
+          "y": 1591,
+          "width": 16,
+          "height": 16
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -8,
+          0
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/12003.png",
+      "memberSha256": "e998cee09082798bc428582145a20bb4b3c205326e0d6a23d31ec5ebbb73fb6f",
+      "rgbaSha256": "65a0f4cca436f45ee57f45dc8f0a4feaf5fa704f6bc32cf6a3cbfa1a2445f2c3",
+      "operation": "unchanged RGBA"
+    },
+    {
+      "id": "common.r.12232",
+      "name": "bunny_walk_4",
+      "sourceRect": [
+        1502,
+        969,
+        16,
+        16
+      ],
+      "atlasRect": [
+        352,
+        2,
+        16,
+        16
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 64,
+          "y": 0,
+          "width": 16,
+          "height": 16
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -8
+        },
+        "trimOffsetBottomLeft": [
+          0,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 0,
+          "y": 2003,
+          "width": 16,
+          "height": 16
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -8,
+          0
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/12232.png",
+      "memberSha256": "eaaf3ae16ce2c60ca18dcf62adfdcc85693a568f862fbfece17d54b21aaab40d",
+      "rgbaSha256": "ca71f69a119cfd72f901857d14c697fdd556cc348b462cfc090fe5b88ee32ec7",
+      "operation": "unchanged RGBA"
+    },
+    {
+      "id": "common.r.12450",
+      "name": "bunny_walk_5",
+      "sourceRect": [
+        1520,
+        969,
+        16,
+        16
+      ],
+      "atlasRect": [
+        370,
+        2,
+        16,
+        16
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 80,
+          "y": 0,
+          "width": 16,
+          "height": 16
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -8
+        },
+        "trimOffsetBottomLeft": [
+          0,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 799,
+          "y": 1633,
+          "width": 16,
+          "height": 16
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -8,
+          0
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/12450.png",
+      "memberSha256": "ebe6ed205ee0be9202beb5d8a6d9a44714e463b2158997276b86b7168bdee1a2",
+      "rgbaSha256": "106003385ce1f97975367d3904d7a5fed549a7f9006d42313f0a3273a8edb453",
+      "operation": "unchanged RGBA"
+    },
+    {
+      "id": "common.r.12642",
+      "name": "bunny_walk_6",
+      "sourceRect": [
+        1538,
+        969,
+        16,
+        16
+      ],
+      "atlasRect": [
+        388,
+        2,
+        16,
+        16
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 96,
+          "y": 0,
+          "width": 16,
+          "height": 16
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -8
+        },
+        "trimOffsetBottomLeft": [
+          0,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 860,
+          "y": 1517,
+          "width": 16,
+          "height": 16
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -8,
+          0
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/12642.png",
+      "memberSha256": "93a187ad350f58de4add248e0ab7a33de7a2a2a098d1aa2d1cef6285fd6c4fa4",
+      "rgbaSha256": "58000660fa6b74a70621ece42e7e33ace2fae3994fa646819dd43318b0805410",
+      "operation": "unchanged RGBA"
+    },
+    {
+      "id": "common.r.12812",
+      "name": "bunny_walk_7",
+      "sourceRect": [
+        1556,
+        969,
+        16,
+        16
+      ],
+      "atlasRect": [
+        406,
+        2,
+        16,
+        16
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 112,
+          "y": 0,
+          "width": 16,
+          "height": 16
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -8
+        },
+        "trimOffsetBottomLeft": [
+          0,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 612,
+          "y": 1805,
+          "width": 16,
+          "height": 16
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -8,
+          0
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/12812.png",
+      "memberSha256": "134d5fbcf015838a112494191e9feb19b6acf3e62147065b9f273043971b245e",
+      "rgbaSha256": "c42621122c56e5ba652653d4dd5b067a4aa958feb56e173acce742241976c3c3",
+      "operation": "unchanged RGBA"
+    },
+    {
+      "id": "common.r.12961",
+      "name": "bunny_walk_8",
+      "sourceRect": [
+        1574,
+        969,
+        16,
+        16
+      ],
+      "atlasRect": [
+        424,
+        2,
+        16,
+        16
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 128,
+          "y": 0,
+          "width": 16,
+          "height": 16
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -8
+        },
+        "trimOffsetBottomLeft": [
+          0,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 759,
+          "y": 1696,
+          "width": 16,
+          "height": 16
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -8,
+          0
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/12961.png",
+      "memberSha256": "431c3c8efbdc0dd23014f259ce85fa7ca359cf8b05a1f7192b4211b791ca39dd",
+      "rgbaSha256": "a91b80bfd065b57c581c140019492289a3fa74cb821c83df9ac3efe42be84828",
+      "operation": "unchanged RGBA"
+    },
+    {
+      "id": "common.r.13102",
+      "name": "bunny_walk_9",
+      "sourceRect": [
+        1592,
+        969,
+        16,
+        16
+      ],
+      "atlasRect": [
+        442,
+        2,
+        16,
+        16
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 144,
+          "y": 0,
+          "width": 16,
+          "height": 16
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -8
+        },
+        "trimOffsetBottomLeft": [
+          0,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 632,
+          "y": 1788,
+          "width": 16,
+          "height": 16
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -8,
+          0
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/13102.png",
+      "memberSha256": "ba70f4032f6c3ada3091b6c8b7cb73593d27587d0020b08904bc9d353c0d5b42",
+      "rgbaSha256": "3f75c02258a7fede3cb9b4326de4c00c46e698c219bf16fa08b0dab240990be0",
+      "operation": "unchanged RGBA"
+    },
+    {
+      "id": "common.r.7914",
+      "name": "deer_die_5",
+      "sourceRect": [
+        783,
+        1,
+        30,
+        18
+      ],
+      "atlasRect": [
+        460,
+        2,
+        30,
+        18
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          7.076120376586914,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 177.0761260986328,
+          "y": 1492,
+          "width": 29.84775733947754,
+          "height": 17.923879623413086
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -16.923879623413086,
+          30
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/7914.png",
+      "memberSha256": "06c78c845007150f773b88803fc5df386eba8b1e6b6eb5ada8ad2d11ee5473f2",
+      "rgbaSha256": "087d33254fffbef629c1813f572ff9e2c77b14c2184dbe5081d12c2080162f9f",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.7943",
+      "name": "deer_walk_7",
+      "sourceRect": [
+        815,
+        1,
+        36,
+        32
+      ],
+      "atlasRect": [
+        2,
+        37,
+        36,
+        32
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          9.065278053283691,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 458.0652770996094,
+          "y": 1557,
+          "width": 35.85860061645508,
+          "height": 31.923879623413086
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -14.934721946716309,
+          16
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/7943.png",
+      "memberSha256": "d4e2fa05fd4912f052ab9e017e21e4da1aa18752ebc3c4d7cd61d5b2d0cdef17",
+      "rgbaSha256": "83ad9097612943ac347293eaaa0b9ba1cde2440d314766665e88cf75678f0284",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.7963",
+      "name": "deer_run_1",
+      "sourceRect": [
+        957,
+        1,
+        33,
+        33
+      ],
+      "atlasRect": [
+        40,
+        37,
+        33,
+        33
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          10.026750564575195,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 641.0267333984375,
+          "y": 1387,
+          "width": 32.897125244140625,
+          "height": 32.98708724975586
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -13.973249435424805,
+          15
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/7963.png",
+      "memberSha256": "8d1a41f37375bb3d8df04fe5a4b78a089f76faa8f5d190d6e3ad004dcf99a55c",
+      "rgbaSha256": "6c383d0b40f2679f36462fc01e782426261f41e39e291f9d9e84eb9c7fa0f070",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.7981",
+      "name": "deer_die_0",
+      "sourceRect": [
+        1028,
+        1,
+        33,
+        32
+      ],
+      "atlasRect": [
+        75,
+        37,
+        33,
+        32
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          8.026750564575195,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 676.0267333984375,
+          "y": 1420,
+          "width": 32.897125244140625,
+          "height": 31.98708724975586
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -15.973249435424805,
+          16
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/7981.png",
+      "memberSha256": "9b538828884397e6622484dfebcad847720b9abc41738a7d135c02b5dd33422a",
+      "rgbaSha256": "547cef78469ee8e6e0e4c3e1164ae93a56af4d41a6ac1b37602b0364f9020705",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.8228",
+      "name": "deer_run_4",
+      "sourceRect": [
+        1343,
+        154,
+        33,
+        33
+      ],
+      "atlasRect": [
+        110,
+        37,
+        33,
+        33
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          12.01291275024414,
+          3.0129125118255615
+        ],
+        "atlasTextureRect": {
+          "x": 538.012939453125,
+          "y": 1534.012939453125,
+          "width": 32.91096496582031,
+          "height": 32.97417449951172
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -11.98708724975586,
+          11.987087488174438
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/8228.png",
+      "memberSha256": "b95d1984acb831b422ab1c0b0899a6d74b25e647ce287949c2f240acc13ba989",
+      "rgbaSha256": "3cedace1b528f8298f0e19cff9749aee3339e391dcd4190784d34e4f8abf32f6",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.8301",
+      "name": "deer_die_7",
+      "sourceRect": [
+        1439,
+        154,
+        30,
+        10
+      ],
+      "atlasRect": [
+        145,
+        37,
+        30,
+        10
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          7.076120376586914,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 482.07611083984375,
+          "y": 1858,
+          "width": 29.71208381652832,
+          "height": 9.923879623413086
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -16.923879623413086,
+          38
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/8301.png",
+      "memberSha256": "cd6d7e3454106ffc541239bea539845c63a7d12d20e170f52ff2924458aeade4",
+      "rgbaSha256": "e3ad328a7c9375eebf00439c478ea2056dc0b86465850549d54d66fbac09f3b3",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.8319",
+      "name": "deer_die_2",
+      "sourceRect": [
+        1471,
+        154,
+        31,
+        28
+      ],
+      "atlasRect": [
+        177,
+        37,
+        31,
+        28
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          7.0267510414123535,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 464.0267639160156,
+          "y": 1824,
+          "width": 30.897127151489258,
+          "height": 27.94868278503418
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -16.973248958587646,
+          20
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/8319.png",
+      "memberSha256": "da58a0ed7e01467ce24c8e5d8ab436fa4d1fe05c0a02dd1d22b0c64a4a7aaafb",
+      "rgbaSha256": "a35078deea5b73e916fffb8a262504e83e19d14f2e2567b3b3cd5a84f21ccea0",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.8337",
+      "name": "deer_run_2",
+      "sourceRect": [
+        1550,
+        154,
+        33,
+        35
+      ],
+      "atlasRect": [
+        210,
+        37,
+        33,
+        35
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          12.01291275024414,
+          1.0129125118255615
+        ],
+        "atlasTextureRect": {
+          "x": 294.0129089355469,
+          "y": 1663.012939453125,
+          "width": 32.91096496582031,
+          "height": 34.97417449951172
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -11.98708724975586,
+          11.987087488174438
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/8337.png",
+      "memberSha256": "08ae08949cfc464922aa7fbefbf33b9296819f49deb4e84a029c0799811832d5",
+      "rgbaSha256": "6ef3dac572823417e874831d329530765f99cb0a192e96c93bf12f7903e10734",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.8395",
+      "name": "deer_walk_3",
+      "sourceRect": [
+        1663,
+        154,
+        36,
+        32
+      ],
+      "atlasRect": [
+        245,
+        37,
+        36,
+        32
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          9.065278053283691,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 496.0652770996094,
+          "y": 1550,
+          "width": 35.85860061645508,
+          "height": 31.923879623413086
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -14.934721946716309,
+          16
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/8395.png",
+      "memberSha256": "40b27c8f01fd7c9ff82e63d023168a3d990e6fa75d9a4156be90eb0c759bbda9",
+      "rgbaSha256": "b09fca5d70ca411a92ce530b95334fa0047c112461bf6dcdd4a90e59329514ee",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.8464",
+      "name": "deer_die_4",
+      "sourceRect": [
+        1701,
+        154,
+        30,
+        21
+      ],
+      "atlasRect": [
+        283,
+        37,
+        30,
+        21
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          7.076120376586914,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 353.07611083984375,
+          "y": 827,
+          "width": 29.84775733947754,
+          "height": 20.923879623413086
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -16.923879623413086,
+          27
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/8464.png",
+      "memberSha256": "4d397a6af7d605c0ffb66da596371f1ef55376d98b2b624aab7f5596d3add4a8",
+      "rgbaSha256": "369b7441dee6c1da254d59b3445d0471ef540563f818a9c8371c500832bfa5d3",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.8494",
+      "name": "deer_run_5",
+      "sourceRect": [
+        1781,
+        154,
+        33,
+        32
+      ],
+      "atlasRect": [
+        315,
+        37,
+        33,
+        32
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          11.033500671386719,
+          2.0129125118255615
+        ],
+        "atlasTextureRect": {
+          "x": 711.0335083007812,
+          "y": 1420.012939453125,
+          "width": 32.890377044677734,
+          "height": 31.97417449951172
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -12.966499328613281,
+          13.987087488174438
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/8494.png",
+      "memberSha256": "6b996a9cc61a71aad7ee8b48cd8f14702564be719c2a4532667e3348435d61f9",
+      "rgbaSha256": "7fd0250caa64de481b0151a83ec02bbab93e2a1d96eab9087cca181ab624b2a7",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.8557",
+      "name": "deer_walk_0",
+      "sourceRect": [
+        1944,
+        154,
+        35,
+        31
+      ],
+      "atlasRect": [
+        350,
+        37,
+        35,
+        31
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          10.026750564575195,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 315.0267639160156,
+          "y": 506,
+          "width": 34.897125244140625,
+          "height": 30.923879623413086
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -13.973249435424805,
+          17
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/8557.png",
+      "memberSha256": "3b0ba9d2b8ac04572b740dd0685274cb378aff088a0378d50d224e86755a51c8",
+      "rgbaSha256": "61bc3cbda8437e77fd79ba15410b1c923ddea2b69f56f4c03b6180289d8c9bed",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.8584",
+      "name": "deer_run_7",
+      "sourceRect": [
+        1999,
+        154,
+        32,
+        33
+      ],
+      "atlasRect": [
+        387,
+        37,
+        32,
+        33
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          9.033500671386719,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 474.03350830078125,
+          "y": 1646,
+          "width": 31.890377044677734,
+          "height": 32.98708724975586
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -14.966499328613281,
+          15
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/8584.png",
+      "memberSha256": "3810aaf27ecfde8cade4131d47c8939d5bbc097eebb90fb7feb4808760ca3058",
+      "rgbaSha256": "ca9effd7ded2827b4858e72a959fe5d768175dfd083dbb33e4540d7e226526d0",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.8593",
+      "name": "deer_eat_0",
+      "sourceRect": [
+        1,
+        292,
+        30,
+        33
+      ],
+      "atlasRect": [
+        421,
+        37,
+        30,
+        33
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          10.026750564575195,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 37.02674865722656,
+          "y": 1984,
+          "width": 29.897127151489258,
+          "height": 32.92387771606445
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -13.973249435424805,
+          15
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/8593.png",
+      "memberSha256": "05e96a693af96a3b514c43dbd511a2dd707b9ffbfa024d9961aa98655ffa251e",
+      "rgbaSha256": "6dfe3dfc1f8c5ae094bfcb84d576476bbe040543cbef3b19bf6651df2bc8ef7f",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.8695",
+      "name": "deer_look_2",
+      "sourceRect": [
+        607,
+        292,
+        31,
+        33
+      ],
+      "atlasRect": [
+        453,
+        37,
+        31,
+        33
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          10.026750564575195,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 739.0267333984375,
+          "y": 1455,
+          "width": 30.897127151489258,
+          "height": 32.92387771606445
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -13.973249435424805,
+          15
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/8695.png",
+      "memberSha256": "04b036f2f527a6d378ec3413f135bc155ba7a37d57997d45f9cd0c7d7110da37",
+      "rgbaSha256": "44c59d0991664dfea4247bd8008233448fe14e156862a7819a7f9bebf842ba1c",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.8799",
+      "name": "deer_walk_1",
+      "sourceRect": [
+        1146,
+        292,
+        35,
+        31
+      ],
+      "atlasRect": [
+        2,
+        74,
+        35,
+        31
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          10.036285400390625,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 171.03628540039062,
+          "y": 1870,
+          "width": 34.88759231567383,
+          "height": 30.923879623413086
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -13.963714599609375,
+          17
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/8799.png",
+      "memberSha256": "23953520e3162b93fc375b1c3429dc10c0328cce936b0c80de65c6b28ccf0836",
+      "rgbaSha256": "9194522e6ca43496fd41d9855d2a87314d7fbe45f3c02c870a3d1d0c04a53c3e",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.9040",
+      "name": "deer_walk_2",
+      "sourceRect": [
+        1506,
+        292,
+        35,
+        31
+      ],
+      "atlasRect": [
+        39,
+        74,
+        35,
+        31
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          10.026750564575195,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 375.0267639160156,
+          "y": 470,
+          "width": 34.897125244140625,
+          "height": 30.923879623413086
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -13.973249435424805,
+          17
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/9040.png",
+      "memberSha256": "3d8a0738c26be6413476e16e409576816c955386615d3943f5c2335b06a2a2b9",
+      "rgbaSha256": "30faad9141207c948647da190c1ff94c8509c834c2eda6cf474102e623e4d182",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.9140",
+      "name": "deer_eat_5",
+      "sourceRect": [
+        1761,
+        292,
+        36,
+        20
+      ],
+      "atlasRect": [
+        76,
+        74,
+        36,
+        20
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          11.026750564575195,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 548.0267333984375,
+          "y": 1791,
+          "width": 35.946495056152344,
+          "height": 19.923879623413086
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -12.973249435424805,
+          28
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/9140.png",
+      "memberSha256": "f2f601207b36d604223116ae10bf8595a5a7374ba455276ff12f464b2674bc6b",
+      "rgbaSha256": "ea20a6e577699e9cc7d519ee9ab7a537e9d16b969aa17a686410343671f5bac1",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.9143",
+      "name": "deer_look_1",
+      "sourceRect": [
+        1799,
+        292,
+        33,
+        32
+      ],
+      "atlasRect": [
+        114,
+        74,
+        33,
+        32
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          10.026750564575195,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 308.0267639160156,
+          "y": 1787,
+          "width": 32.897125244140625,
+          "height": 31.98708724975586
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -13.973249435424805,
+          16
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/9143.png",
+      "memberSha256": "59d39bd0e03409d3386271e54424fcd7b1fb2b67ce4bd34f4665db42b9f39c5a",
+      "rgbaSha256": "71f76ce53f2f1a793845765ecaae66e3d74ebd084af273cba789751f6aa547bb",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.9191",
+      "name": "deer_eat_4",
+      "sourceRect": [
+        1903,
+        292,
+        37,
+        20
+      ],
+      "atlasRect": [
+        149,
+        74,
+        37,
+        20
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          11.026750564575195,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 497.0267639160156,
+          "y": 1836,
+          "width": 36.97325134277344,
+          "height": 19.923879623413086
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -12.973249435424805,
+          28
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/9191.png",
+      "memberSha256": "8129af9d570b35e5d5379ee31412ac902370f3000d4895aa3f7b92530687377f",
+      "rgbaSha256": "461ed9ca06e71eed0afff9b1ce0717decc5e62557445f486cbe063c530c2394c",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.9243",
+      "name": "bunny_stand",
+      "sourceRect": [
+        273,
+        462,
+        16,
+        16
+      ],
+      "atlasRect": [
+        188,
+        74,
+        16,
+        16
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 16,
+          "height": 16
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -8
+        },
+        "trimOffsetBottomLeft": [
+          0,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 564,
+          "y": 36,
+          "width": 16,
+          "height": 16
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -8,
+          0
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/9243.png",
+      "memberSha256": "580c4ebff6b1958b39fe9cc7a38152281b26e531c1c79910770a17f4575661de",
+      "rgbaSha256": "3638791596daf108e0cfda0c742747d86bcc504230905f78901464e89c1a1fc0",
+      "operation": "unchanged RGBA"
+    },
+    {
+      "id": "common.r.9425",
+      "name": "deer_die_1",
+      "sourceRect": [
+        1078,
+        462,
+        33,
+        30
+      ],
+      "atlasRect": [
+        206,
+        74,
+        33,
+        30
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          7.0267510414123535,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 717.0267333984375,
+          "y": 1510,
+          "width": 32.897125244140625,
+          "height": 29.98708724975586
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -16.973248958587646,
+          18
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/9425.png",
+      "memberSha256": "a35e0290ffae47c4773330e3c792cb6f8075834168d009f79b71754e825c1061",
+      "rgbaSha256": "cc280fc3f96e72dcd08ec69e2bd49ae41d2489380842b0937cbe068935af212b",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.9577",
+      "name": "bunny_dead",
+      "sourceRect": [
+        1556,
+        462,
+        16,
+        16
+      ],
+      "atlasRect": [
+        241,
+        74,
+        16,
+        16
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 16,
+          "height": 16
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -8
+        },
+        "trimOffsetBottomLeft": [
+          0,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 762,
+          "y": 569,
+          "width": 16,
+          "height": 16
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -8,
+          0
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/9577.png",
+      "memberSha256": "52c7394a565722c784489a12f81937a1766b4f3238808d325222fb7405056127",
+      "rgbaSha256": "5778b0ed725cf3019ce1a8617a132e92fd58acb8f5ca19bce01f74deca4ffff1",
+      "operation": "unchanged RGBA"
+    },
+    {
+      "id": "common.r.9617",
+      "name": "deer_eat_3",
+      "sourceRect": [
+        1587,
+        462,
+        37,
+        21
+      ],
+      "atlasRect": [
+        259,
+        74,
+        37,
+        21
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          11.026750564575195,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 668.0267333984375,
+          "y": 1654,
+          "width": 36.97325134277344,
+          "height": 20.973249435424805
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -12.973249435424805,
+          27
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/9617.png",
+      "memberSha256": "39acae5389673623c82ceb2950673f0f08e1257fa6d8c06f1457abb51459f742",
+      "rgbaSha256": "4fc9c0ebdc7044272d725ce706f5b2a923b81a011c97742762b2db4e491d1766",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.9726",
+      "name": "deer_eat_2",
+      "sourceRect": [
+        1737,
+        462,
+        36,
+        30
+      ],
+      "atlasRect": [
+        298,
+        74,
+        36,
+        30
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          11.026750564575195,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 270.0267639160156,
+          "y": 1780,
+          "width": 35.897125244140625,
+          "height": 29.923879623413086
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -12.973249435424805,
+          18
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/9726.png",
+      "memberSha256": "ccbab83f6c59ed5418eabb4e8222b1b11e1987288c96c3caa60e4c03ddf917b7",
+      "rgbaSha256": "fe5959eaafc1c71f7eafc343587456dc856ba174f87552db7527196fbef060ed",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.9751",
+      "name": "deer_die_3",
+      "sourceRect": [
+        1975,
+        462,
+        30,
+        23
+      ],
+      "atlasRect": [
+        336,
+        74,
+        30,
+        23
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          7.0267510414123535,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 751.0267333984375,
+          "y": 1581,
+          "width": 29.897127151489258,
+          "height": 22.923879623413086
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -16.973248958587646,
+          25
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/9751.png",
+      "memberSha256": "bd958d8d83c7b1827e0468fdb9ff80bc9c469a23d86d4ccaee370d9c5d0b4f73",
+      "rgbaSha256": "640a377a26cdb2b1eff69b854cba1249618c5cfb01daef9a78a34c3e7743a3fa",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.r.9884",
+      "name": "deer_walk_5",
+      "sourceRect": [
+        71,
+        633,
+        35,
+        31
+      ],
+      "atlasRect": [
+        368,
+        74,
+        35,
+        31
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 48,
+          "height": 48
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -24
+        },
+        "trimOffsetBottomLeft": [
+          10.036285400390625,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 365.0362854003906,
+          "y": 1686,
+          "width": 34.88759231567383,
+          "height": 30.923879623413086
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -13.963714599609375,
+          17
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/resources.assets/9884.png",
+      "memberSha256": "6f2acb78234efef56355886320f814889136d1eeebbb96736cee565576a3e3b5",
+      "rgbaSha256": "97411bd208011b262ed94c8bc8e2a95af7f0b843407029b4dc15fae46a73c5ec",
+      "operation": "deerColorA lerp(key0,key1,0.35) times source red/255, round half up; alpha unchanged"
+    },
+    {
+      "id": "common.s0.7985",
+      "name": "crown",
+      "sourceRect": [
+        571,
+        1159,
+        6,
+        3
+      ],
+      "atlasRect": [
+        405,
+        74,
+        6,
+        3
+      ],
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 6,
+          "height": 3
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.5,
+          "y": 0
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": 0,
+          "y": -1.5
+        },
+        "trimOffsetBottomLeft": [
+          0,
+          0
+        ],
+        "atlasTextureRect": {
+          "x": 333,
+          "y": 988,
+          "width": 6,
+          "height": 3
+        },
+        "atlasSettingsRaw": 67,
+        "packingRotation": 0,
+        "alphaTextureId": 0,
+        "offsetTopLeftExact": [
+          -3,
+          0
+        ],
+        "filter": "nearest",
+        "resampled": false
+      },
+      "member": "images/sharedassets0.assets/7985.png",
+      "memberSha256": "d4e15ce84bbdb2fbbb9224e66859e48e3cf5543a7d9c0d7ed218f64f55e4e474",
+      "rgbaSha256": "0869f988aa8d0bd29bee1807e3297d5cfe394449a93a3341766424b3549756fa",
+      "operation": "unchanged RGBA"
+    }
+  ],
+  "retainedMembers": [
+    {
+      "member": "images/resources.assets/10160.png",
+      "sha256": "150f9890f9c54506d2de9877293b9a6e2c24cfe962718e2a52b0286e6114ca8a"
+    },
+    {
+      "member": "images/resources.assets/10440.png",
+      "sha256": "05e96a693af96a3b514c43dbd511a2dd707b9ffbfa024d9961aa98655ffa251e"
+    },
+    {
+      "member": "images/resources.assets/10574.png",
+      "sha256": "d7c8bae2ad5314cfdf537b963de89490b0ddcc45fae714f59e291fc18b2c67bc"
+    },
+    {
+      "member": "images/resources.assets/10769.png",
+      "sha256": "a995d5f036f934bd38fe560bd1633efc4704f76579e83824bee091091a433b67"
+    },
+    {
+      "member": "images/resources.assets/10791.png",
+      "sha256": "c1330c411236842f959f5cc57775786e32ac2ad1507157bb068b39d27ded58ab"
+    },
+    {
+      "member": "images/resources.assets/11040.png",
+      "sha256": "60d9ff63e0b2b79a5a3a69983c1339fc605c1c7de4dc1b2326fa77961fb5d8be"
+    },
+    {
+      "member": "images/resources.assets/11065.png",
+      "sha256": "7bdbc59bce74314d9f5c427b24d4c8b3002443f4b15524e3185c7350c1f09687"
+    },
+    {
+      "member": "images/resources.assets/11203.png",
+      "sha256": "09f6976fa05a8f9648e1dc80b8bb8d9b9dda3c91e0f841e957f69d1c7e230d07"
+    },
+    {
+      "member": "images/resources.assets/11237.png",
+      "sha256": "7dc575e653e1fd5eb72b19acf04293d6c219b22640db3e5e530fea1173c338e5"
+    },
+    {
+      "member": "images/resources.assets/11517.png",
+      "sha256": "e03ac38cbf930b123dc5ff628f389979b11375c3f8523546e9ac867cfa7fa7aa"
+    },
+    {
+      "member": "images/resources.assets/11763.png",
+      "sha256": "12eb7057971d6f086de904b718abe8b57e023e7e11a2fe353b9759c415c116ca"
+    },
+    {
+      "member": "images/resources.assets/12003.png",
+      "sha256": "e998cee09082798bc428582145a20bb4b3c205326e0d6a23d31ec5ebbb73fb6f"
+    },
+    {
+      "member": "images/resources.assets/12232.png",
+      "sha256": "eaaf3ae16ce2c60ca18dcf62adfdcc85693a568f862fbfece17d54b21aaab40d"
+    },
+    {
+      "member": "images/resources.assets/12450.png",
+      "sha256": "ebe6ed205ee0be9202beb5d8a6d9a44714e463b2158997276b86b7168bdee1a2"
+    },
+    {
+      "member": "images/resources.assets/12642.png",
+      "sha256": "93a187ad350f58de4add248e0ab7a33de7a2a2a098d1aa2d1cef6285fd6c4fa4"
+    },
+    {
+      "member": "images/resources.assets/12812.png",
+      "sha256": "134d5fbcf015838a112494191e9feb19b6acf3e62147065b9f273043971b245e"
+    },
+    {
+      "member": "images/resources.assets/12961.png",
+      "sha256": "431c3c8efbdc0dd23014f259ce85fa7ca359cf8b05a1f7192b4211b791ca39dd"
+    },
+    {
+      "member": "images/resources.assets/13102.png",
+      "sha256": "ba70f4032f6c3ada3091b6c8b7cb73593d27587d0020b08904bc9d353c0d5b42"
+    },
+    {
+      "member": "images/resources.assets/7914.png",
+      "sha256": "06c78c845007150f773b88803fc5df386eba8b1e6b6eb5ada8ad2d11ee5473f2"
+    },
+    {
+      "member": "images/resources.assets/7943.png",
+      "sha256": "d4e2fa05fd4912f052ab9e017e21e4da1aa18752ebc3c4d7cd61d5b2d0cdef17"
+    },
+    {
+      "member": "images/resources.assets/7963.png",
+      "sha256": "8d1a41f37375bb3d8df04fe5a4b78a089f76faa8f5d190d6e3ad004dcf99a55c"
+    },
+    {
+      "member": "images/resources.assets/7981.png",
+      "sha256": "9b538828884397e6622484dfebcad847720b9abc41738a7d135c02b5dd33422a"
+    },
+    {
+      "member": "images/resources.assets/8228.png",
+      "sha256": "b95d1984acb831b422ab1c0b0899a6d74b25e647ce287949c2f240acc13ba989"
+    },
+    {
+      "member": "images/resources.assets/8301.png",
+      "sha256": "cd6d7e3454106ffc541239bea539845c63a7d12d20e170f52ff2924458aeade4"
+    },
+    {
+      "member": "images/resources.assets/8319.png",
+      "sha256": "da58a0ed7e01467ce24c8e5d8ab436fa4d1fe05c0a02dd1d22b0c64a4a7aaafb"
+    },
+    {
+      "member": "images/resources.assets/8337.png",
+      "sha256": "08ae08949cfc464922aa7fbefbf33b9296819f49deb4e84a029c0799811832d5"
+    },
+    {
+      "member": "images/resources.assets/8395.png",
+      "sha256": "40b27c8f01fd7c9ff82e63d023168a3d990e6fa75d9a4156be90eb0c759bbda9"
+    },
+    {
+      "member": "images/resources.assets/8464.png",
+      "sha256": "4d397a6af7d605c0ffb66da596371f1ef55376d98b2b624aab7f5596d3add4a8"
+    },
+    {
+      "member": "images/resources.assets/8494.png",
+      "sha256": "6b996a9cc61a71aad7ee8b48cd8f14702564be719c2a4532667e3348435d61f9"
+    },
+    {
+      "member": "images/resources.assets/8557.png",
+      "sha256": "3b0ba9d2b8ac04572b740dd0685274cb378aff088a0378d50d224e86755a51c8"
+    },
+    {
+      "member": "images/resources.assets/8584.png",
+      "sha256": "3810aaf27ecfde8cade4131d47c8939d5bbc097eebb90fb7feb4808760ca3058"
+    },
+    {
+      "member": "images/resources.assets/8593.png",
+      "sha256": "05e96a693af96a3b514c43dbd511a2dd707b9ffbfa024d9961aa98655ffa251e"
+    },
+    {
+      "member": "images/resources.assets/8695.png",
+      "sha256": "04b036f2f527a6d378ec3413f135bc155ba7a37d57997d45f9cd0c7d7110da37"
+    },
+    {
+      "member": "images/resources.assets/8799.png",
+      "sha256": "23953520e3162b93fc375b1c3429dc10c0328cce936b0c80de65c6b28ccf0836"
+    },
+    {
+      "member": "images/resources.assets/9040.png",
+      "sha256": "3d8a0738c26be6413476e16e409576816c955386615d3943f5c2335b06a2a2b9"
+    },
+    {
+      "member": "images/resources.assets/9140.png",
+      "sha256": "f2f601207b36d604223116ae10bf8595a5a7374ba455276ff12f464b2674bc6b"
+    },
+    {
+      "member": "images/resources.assets/9143.png",
+      "sha256": "59d39bd0e03409d3386271e54424fcd7b1fb2b67ce4bd34f4665db42b9f39c5a"
+    },
+    {
+      "member": "images/resources.assets/9191.png",
+      "sha256": "8129af9d570b35e5d5379ee31412ac902370f3000d4895aa3f7b92530687377f"
+    },
+    {
+      "member": "images/resources.assets/9243.png",
+      "sha256": "580c4ebff6b1958b39fe9cc7a38152281b26e531c1c79910770a17f4575661de"
+    },
+    {
+      "member": "images/resources.assets/9425.png",
+      "sha256": "a35e0290ffae47c4773330e3c792cb6f8075834168d009f79b71754e825c1061"
+    },
+    {
+      "member": "images/resources.assets/9577.png",
+      "sha256": "52c7394a565722c784489a12f81937a1766b4f3238808d325222fb7405056127"
+    },
+    {
+      "member": "images/resources.assets/9617.png",
+      "sha256": "39acae5389673623c82ceb2950673f0f08e1257fa6d8c06f1457abb51459f742"
+    },
+    {
+      "member": "images/resources.assets/9726.png",
+      "sha256": "ccbab83f6c59ed5418eabb4e8222b1b11e1987288c96c3caa60e4c03ddf917b7"
+    },
+    {
+      "member": "images/resources.assets/9751.png",
+      "sha256": "bd958d8d83c7b1827e0468fdb9ff80bc9c469a23d86d4ccaee370d9c5d0b4f73"
+    },
+    {
+      "member": "images/resources.assets/9884.png",
+      "sha256": "6f2acb78234efef56355886320f814889136d1eeebbb96736cee565576a3e3b5"
+    },
+    {
+      "member": "images/sharedassets0.assets/7985.png",
+      "sha256": "d4e15ce84bbdb2fbbb9224e66859e48e3cf5543a7d9c0d7ed218f64f55e4e474"
+    },
+    {
+      "member": "palettes/73492.json",
+      "sha256": "d3609c5221308f5be5a2022e9475e08c401d1f7d0aebc40ed1fa5fc634aa2c50"
+    },
+    {
+      "member": "raw/resources.assets/10160.bin",
+      "sha256": "ccfb3af8ada256d237689d5ee9b7bf0666ebce9032e72c47015a3d4d152839bd"
+    },
+    {
+      "member": "raw/resources.assets/10440.bin",
+      "sha256": "c82c2841873351ecd4877c5cd9c52ba87e12612ccf2ba98f5b72f480c6f68070"
+    },
+    {
+      "member": "raw/resources.assets/10574.bin",
+      "sha256": "55fb247f533267e9972880e82a6fdca431cf262b4fd671f1484068e4d5e7a526"
+    },
+    {
+      "member": "raw/resources.assets/10769.bin",
+      "sha256": "abdea560de4ce3eef4fb1346f1bd08c1f2b885619c399b3abe274aa482eff7ea"
+    },
+    {
+      "member": "raw/resources.assets/10791.bin",
+      "sha256": "cc7478a729f9538dd9a55f9f01247cc117a401aab97f54a97dec9db530a232b5"
+    },
+    {
+      "member": "raw/resources.assets/11040.bin",
+      "sha256": "bebfc3e406903ed7ee3c028142c2ae0596bb37a0328fff90d3313b56d1a26655"
+    },
+    {
+      "member": "raw/resources.assets/11065.bin",
+      "sha256": "0aee493c085495520466766260995d3dc3fa46f50d70920d4ef9efba2ff7c187"
+    },
+    {
+      "member": "raw/resources.assets/11203.bin",
+      "sha256": "607144fdc8ed02b9b8d98602d50ee761fcc72b4b07622157705fb28121b849ab"
+    },
+    {
+      "member": "raw/resources.assets/11237.bin",
+      "sha256": "44149e794c7d8fc9963eb0e9de2a4128e5116fd1741cf64ff08b7d0b071e5d5e"
+    },
+    {
+      "member": "raw/resources.assets/11517.bin",
+      "sha256": "fb6608343a2569b218f27c6acb2588d6c18d0973f7b24977f2905ea6934c0c01"
+    },
+    {
+      "member": "raw/resources.assets/11763.bin",
+      "sha256": "a20dfa9ca1a7674445294737450b9e78f01acf3f75583e2c41e4f03efc2fc06c"
+    },
+    {
+      "member": "raw/resources.assets/12003.bin",
+      "sha256": "d92c16be1be8848c94eb2bd5892a54af7e1a815ec03e08ddfd19838a971ade2c"
+    },
+    {
+      "member": "raw/resources.assets/12232.bin",
+      "sha256": "177015b14af680495c041d11de4d959cc7780ba56db607461454712c0d6cd295"
+    },
+    {
+      "member": "raw/resources.assets/12450.bin",
+      "sha256": "1b8d25b98d0c122c78da0806178d64a2f9879ecb6f2dc71353737bfb54f4f757"
+    },
+    {
+      "member": "raw/resources.assets/12642.bin",
+      "sha256": "f413a9322d98a7099a678f85e53eaa2d9cb336b1d1eccf5c839cca729103dd42"
+    },
+    {
+      "member": "raw/resources.assets/12812.bin",
+      "sha256": "f7521519cc28db6b901c27523fe8e07de6e47446cca65db4d58728720f30a867"
+    },
+    {
+      "member": "raw/resources.assets/12961.bin",
+      "sha256": "89a8e41323862a18e862c063edd1c04ce0e3ac107cd2dddde85b64c5497a5451"
+    },
+    {
+      "member": "raw/resources.assets/13102.bin",
+      "sha256": "5c88dbf5f45e6529c343b9e4abc90e09ae45fa5ebfbfc4785f5a5f79fac74551"
+    },
+    {
+      "member": "raw/resources.assets/501.bin",
+      "sha256": "5737c39bbf72813ea0f1f5bcb5644b16206caa8c8c35efae8e26e9f10bc3a825"
+    },
+    {
+      "member": "raw/resources.assets/73430.bin",
+      "sha256": "d2ad709d2b1999292ce531e6b87198032b45a76038b012bcfb7d284204e5dd36"
+    },
+    {
+      "member": "raw/resources.assets/73492.bin",
+      "sha256": "f8d540e45b4732b5462df30bd78af6d92907a0ebb89cc6d72225606495ba1be8"
+    },
+    {
+      "member": "raw/resources.assets/7914.bin",
+      "sha256": "b32f49894b6dd16cead2997f8285ab3f7f35f2dfd65c38b05c15e75d55f40a16"
+    },
+    {
+      "member": "raw/resources.assets/7943.bin",
+      "sha256": "fddef1aaf2dbee6e15478922b66ad27d8e6499d8d1fea914a021800c7fdd225d"
+    },
+    {
+      "member": "raw/resources.assets/7963.bin",
+      "sha256": "8eb3f8ab4a19b340675382ba1210b9caa2c9421b642e23098f8c0dfb60df84e3"
+    },
+    {
+      "member": "raw/resources.assets/7981.bin",
+      "sha256": "7eff5c324b79c738adbcdb40f0dd98cd7b48d37362ddd610b5af5b006f3750d0"
+    },
+    {
+      "member": "raw/resources.assets/8228.bin",
+      "sha256": "9a2c86d15ec50df3e3be72e67e890a517becd60f877127b5a1f27b768c3adfeb"
+    },
+    {
+      "member": "raw/resources.assets/8301.bin",
+      "sha256": "54aa17bb81bd9d13aeb7050bdc30fbd01bb192c1ac298e8ab925ee449f97b6c8"
+    },
+    {
+      "member": "raw/resources.assets/8319.bin",
+      "sha256": "130259e139573799a1d0485f208d7f971f7117ca6d4d103206988c69ec7ebae8"
+    },
+    {
+      "member": "raw/resources.assets/8337.bin",
+      "sha256": "0d57a9606d407af8d23f40586955754944f7f2b9d27c0d7aef7966a48904f0c4"
+    },
+    {
+      "member": "raw/resources.assets/8395.bin",
+      "sha256": "afd23e9cbc45cf6f2868952c137f7e2a77c27b86373928506e096cbeea41ba5d"
+    },
+    {
+      "member": "raw/resources.assets/8464.bin",
+      "sha256": "e01680ddda21fcb7db6eec810defe701b2b9a6ddd267f2fbaf252fcc84c5b247"
+    },
+    {
+      "member": "raw/resources.assets/8494.bin",
+      "sha256": "e4d5a29d185610a7f1849feef377a275f2a9e750c853d2309061d180f20f6c45"
+    },
+    {
+      "member": "raw/resources.assets/8557.bin",
+      "sha256": "36dbfcbcfbab9ed675c31e60400b9fe12637f031dfc354b2323df74c7d81d52c"
+    },
+    {
+      "member": "raw/resources.assets/8584.bin",
+      "sha256": "a7ee7a4cd137736dc21097aa5c5686be7c569c969f6153367af1011e8b01378e"
+    },
+    {
+      "member": "raw/resources.assets/8593.bin",
+      "sha256": "3f5b4d307a37c0b442ac55106aee9e0c4d45e477572b6b08477b6900f6c6829e"
+    },
+    {
+      "member": "raw/resources.assets/8695.bin",
+      "sha256": "09e43bf1a19b77e26a79fa184403e9a4128c7e64329b261eab0913ecab71e3ca"
+    },
+    {
+      "member": "raw/resources.assets/8799.bin",
+      "sha256": "35d3a0084f34ba96cedde379f4ab1acf56c32d931c2a339b040b1f708054c77f"
+    },
+    {
+      "member": "raw/resources.assets/9040.bin",
+      "sha256": "0c75fae90cbf1df6e3dffe58dce098fca608a82dd110ec2d578e5cf3bd204010"
+    },
+    {
+      "member": "raw/resources.assets/9140.bin",
+      "sha256": "86ca39566e948127cc8cf5961d16b05744ff221179c2a3c572a001d1f08a8539"
+    },
+    {
+      "member": "raw/resources.assets/9143.bin",
+      "sha256": "01eb99b3f1b64d6c0ff1bcf2cc3316198b08d34c7433142fc17aa14901414b3b"
+    },
+    {
+      "member": "raw/resources.assets/9191.bin",
+      "sha256": "9eee0309c6e76c6a881e1749fbdfaa6f2fefc9203f6f1696bee5671f8cb12b30"
+    },
+    {
+      "member": "raw/resources.assets/9243.bin",
+      "sha256": "ac9c41098fda1dc6bbd837a6d1d481fb2e31f9894f380bb710f58f54943993c3"
+    },
+    {
+      "member": "raw/resources.assets/9425.bin",
+      "sha256": "d8b468829521de1afc4e86364bb099f16c401ddcf9ecc39d4be37ab94191d3c1"
+    },
+    {
+      "member": "raw/resources.assets/9577.bin",
+      "sha256": "f8ddf8bf50c10167ece5dea242869b5410367f2663a0401a66480b6352b1b14b"
+    },
+    {
+      "member": "raw/resources.assets/9617.bin",
+      "sha256": "83f2a2ade336eae80511bb1920387622747d47294ed8d0f1fea601c577c93cb2"
+    },
+    {
+      "member": "raw/resources.assets/9726.bin",
+      "sha256": "e1ab35d376afbbacbc5acce60ee6720a523cee1798dac8dc82a63b66bd150d35"
+    },
+    {
+      "member": "raw/resources.assets/9751.bin",
+      "sha256": "45694cc7217a44eeb8081769116c31780abfe2a493f64737d9f921b7bdaa6eea"
+    },
+    {
+      "member": "raw/resources.assets/9884.bin",
+      "sha256": "6664af757bde905b445368bd6c140f07830c87fe44bfdfe05109dc9b847333df"
+    },
+    {
+      "member": "raw/sharedassets0.assets/171.bin",
+      "sha256": "b2745f7652259b7e13c834ee8b004f8321270926eab309f899fec70bf7f75f8b"
+    },
+    {
+      "member": "raw/sharedassets0.assets/25369.bin",
+      "sha256": "9ddffba61ae7e6da778e288f6744c526bfcf306ae149df95bc4bda6c343415cb"
+    },
+    {
+      "member": "raw/sharedassets0.assets/7985.bin",
+      "sha256": "74868e8af38ee71166cb9f1bac1a81d2119cd88b008de545dcf4618a1612eb59"
+    },
+    {
+      "member": "reference-code/BaseSpriteFX.cs",
+      "sha256": "c456b3c5518cd4a39a9260357cc1e9810ea609ab18efd4764b3f5d4345d752d6"
+    },
+    {
+      "member": "reference-code/Deer.cs",
+      "sha256": "c9a9cfca0b6bc6e337ef5b491ebcae8d28754f5d81fbcc30ed21f40e45c70709"
+    },
+    {
+      "member": "streams/resources.assets.resS/644973680-8388608.bin",
+      "sha256": "0dd378b313f6c1d10172a46522bea6df25fa1f16a48bba5d933d9f3c880aed0a"
+    },
+    {
+      "member": "streams/sharedassets0.assets.resS/146500400-4194304.bin",
+      "sha256": "25cc89cd719791bdeb3f14692f3f85e107a4a72c21c4454f16a3f8c06a071c55"
+    }
+  ],
+  "sourceArchive": {
+    "path": "production/phase4/common-selected.zip",
+    "sha256": "2f66618305221d32d503bba04be755ae38e606408a7c5d9d8f65a1db19d9e6d9"
+  },
+  "recipe": {
+    "mode": "deterministic donor palette adaptation and packing",
+    "source": "content/packs/common.json and assets/common/donor-kit.png",
+    "selectedFamilies": [
+      "K12",
+      "K13"
+    ],
+    "crown": "common.s0.7985",
+    "padding": 2,
+    "width": 512,
+    "recolor": "deerColorA lerp(key0,key1,0.35) times source red; round half up; preserve exact alpha; rabbits and K21 unchanged",
+    "newMaster": false
+  },
+  "sourceBindings": [
+    {
+      "file": "content/packs/ui-identity.json",
+      "sha256": "324f6c05f57112cbdb87a58f1c5975fcdfd7ba4d7cc1d6ea9c55e4280b9202ed"
+    },
+    {
+      "file": "content/packs/common.json",
+      "sha256": "96a6328ef771e2418358d5bfd9d31ee1f2b34c5c785e6985884887827c0289c5"
+    }
+  ],
+  "wildlife": {
+    "rabbit": {
+      "idle": "bunny_stand",
+      "move": "bunny_walk",
+      "flee": "bunny_walk",
+      "hit": "bunny_stand",
+      "death": "bunny_dead",
+      "corpse": "common.r.9577"
+    },
+    "deer": {
+      "idle": "deer_look",
+      "look": "deer_look",
+      "eat": "deer_eat",
+      "move": "deer_walk",
+      "flee": "deer_run",
+      "hit": "deer_look",
+      "death": "deer_die",
+      "corpse": "common.r.10791"
+    }
+  },
+  "clips": [
+    {
+      "name": "bunny_dead",
+      "stop": 1,
+      "loop": true,
+      "frames": [
+        {
+          "time": 0,
+          "part": "common.r.9577"
+        }
+      ]
+    },
+    {
+      "name": "bunny_stand",
+      "stop": 1,
+      "loop": true,
+      "frames": [
+        {
+          "time": 0,
+          "part": "common.r.9243"
+        }
+      ]
+    },
+    {
+      "name": "bunny_walk",
+      "stop": 0.625,
+      "loop": true,
+      "frames": [
+        {
+          "time": 0,
+          "part": "common.r.10160"
+        },
+        {
+          "time": 0.0625,
+          "part": "common.r.11517"
+        },
+        {
+          "time": 0.125,
+          "part": "common.r.11763"
+        },
+        {
+          "time": 0.1875,
+          "part": "common.r.12003"
+        },
+        {
+          "time": 0.25,
+          "part": "common.r.12232"
+        },
+        {
+          "time": 0.3125,
+          "part": "common.r.12450"
+        },
+        {
+          "time": 0.375,
+          "part": "common.r.12642"
+        },
+        {
+          "time": 0.4375,
+          "part": "common.r.12812"
+        },
+        {
+          "time": 0.5,
+          "part": "common.r.12961"
+        },
+        {
+          "time": 0.5625,
+          "part": "common.r.13102"
+        }
+      ]
+    },
+    {
+      "name": "deer_die",
+      "stop": 0.5,
+      "loop": false,
+      "frames": [
+        {
+          "time": 0,
+          "part": "common.r.7981"
+        },
+        {
+          "time": 0.10000000149011612,
+          "part": "common.r.9425"
+        },
+        {
+          "time": 0.20000000298023224,
+          "part": "common.r.8319"
+        },
+        {
+          "time": 0.25,
+          "part": "common.r.9751"
+        },
+        {
+          "time": 0.30000001192092896,
+          "part": "common.r.8464"
+        },
+        {
+          "time": 0.3499999940395355,
+          "part": "common.r.7914"
+        },
+        {
+          "time": 0.4000000059604645,
+          "part": "common.r.10791"
+        },
+        {
+          "time": 0.44999998807907104,
+          "part": "common.r.8301"
+        }
+      ]
+    },
+    {
+      "name": "deer_eat",
+      "stop": 6.3333330154418945,
+      "loop": true,
+      "frames": [
+        {
+          "time": 0,
+          "part": "common.r.11237"
+        },
+        {
+          "time": 0.1666666716337204,
+          "part": "common.r.9726"
+        },
+        {
+          "time": 0.3333333432674408,
+          "part": "common.r.9617"
+        },
+        {
+          "time": 0.5,
+          "part": "common.r.9191"
+        },
+        {
+          "time": 0.8333333134651184,
+          "part": "common.r.9140"
+        },
+        {
+          "time": 1.1666666269302368,
+          "part": "common.r.9191"
+        },
+        {
+          "time": 1.5,
+          "part": "common.r.9140"
+        },
+        {
+          "time": 1.8333333730697632,
+          "part": "common.r.9191"
+        },
+        {
+          "time": 2.1666667461395264,
+          "part": "common.r.9140"
+        },
+        {
+          "time": 2.5,
+          "part": "common.r.9191"
+        },
+        {
+          "time": 2.8333332538604736,
+          "part": "common.r.9140"
+        },
+        {
+          "time": 3.1666667461395264,
+          "part": "common.r.9191"
+        },
+        {
+          "time": 3.5,
+          "part": "common.r.9140"
+        },
+        {
+          "time": 3.8333332538604736,
+          "part": "common.r.9191"
+        },
+        {
+          "time": 4.166666507720947,
+          "part": "common.r.9140"
+        },
+        {
+          "time": 4.5,
+          "part": "common.r.9191"
+        },
+        {
+          "time": 4.833333492279053,
+          "part": "common.r.9140"
+        },
+        {
+          "time": 5.166666507720947,
+          "part": "common.r.9191"
+        },
+        {
+          "time": 5.5,
+          "part": "common.r.9140"
+        },
+        {
+          "time": 5.833333492279053,
+          "part": "common.r.9191"
+        },
+        {
+          "time": 6.166666507720947,
+          "part": "common.r.9140"
+        }
+      ]
+    },
+    {
+      "name": "deer_eat_short",
+      "stop": 3.1666667461395264,
+      "loop": false,
+      "frames": [
+        {
+          "time": 0,
+          "part": "common.r.9726"
+        },
+        {
+          "time": 0.1666666716337204,
+          "part": "common.r.9617"
+        },
+        {
+          "time": 0.3333333432674408,
+          "part": "common.r.9191"
+        },
+        {
+          "time": 0.6666666865348816,
+          "part": "common.r.9140"
+        },
+        {
+          "time": 1,
+          "part": "common.r.9191"
+        },
+        {
+          "time": 1.3333333730697632,
+          "part": "common.r.9140"
+        },
+        {
+          "time": 1.6666666269302368,
+          "part": "common.r.9191"
+        },
+        {
+          "time": 2,
+          "part": "common.r.9140"
+        },
+        {
+          "time": 2.3333332538604736,
+          "part": "common.r.9191"
+        },
+        {
+          "time": 2.6666667461395264,
+          "part": "common.r.9140"
+        },
+        {
+          "time": 3,
+          "part": "common.r.9191"
+        }
+      ]
+    },
+    {
+      "name": "deer_look",
+      "stop": 4.25,
+      "loop": true,
+      "frames": [
+        {
+          "time": 0,
+          "part": "common.r.10440"
+        },
+        {
+          "time": 1.75,
+          "part": "common.r.9143"
+        },
+        {
+          "time": 2,
+          "part": "common.r.8695"
+        },
+        {
+          "time": 3.25,
+          "part": "common.r.9143"
+        },
+        {
+          "time": 4,
+          "part": "common.r.10440"
+        }
+      ]
+    },
+    {
+      "name": "deer_run",
+      "stop": 0.6800000071525574,
+      "loop": true,
+      "frames": [
+        {
+          "time": 0,
+          "part": "common.r.11040"
+        },
+        {
+          "time": 0.07999999821186066,
+          "part": "common.r.7963"
+        },
+        {
+          "time": 0.1599999964237213,
+          "part": "common.r.8337"
+        },
+        {
+          "time": 0.23999999463558197,
+          "part": "common.r.10574"
+        },
+        {
+          "time": 0.36000001430511475,
+          "part": "common.r.8228"
+        },
+        {
+          "time": 0.4399999976158142,
+          "part": "common.r.8494"
+        },
+        {
+          "time": 0.5600000023841858,
+          "part": "common.r.10769"
+        },
+        {
+          "time": 0.6399999856948853,
+          "part": "common.r.8584"
+        }
+      ]
+    },
+    {
+      "name": "deer_walk",
+      "stop": 1.0714285373687744,
+      "loop": true,
+      "frames": [
+        {
+          "time": 0,
+          "part": "common.r.8557"
+        },
+        {
+          "time": 0.1428571492433548,
+          "part": "common.r.8799"
+        },
+        {
+          "time": 0.2857142984867096,
+          "part": "common.r.9040"
+        },
+        {
+          "time": 0.4285714328289032,
+          "part": "common.r.8395"
+        },
+        {
+          "time": 0.5714285969734192,
+          "part": "common.r.11065"
+        },
+        {
+          "time": 0.7142857313156128,
+          "part": "common.r.9884"
+        },
+        {
+          "time": 0.8571428656578064,
+          "part": "common.r.11203"
+        },
+        {
+          "time": 1,
+          "part": "common.r.7943"
+        }
+      ]
+    }
+  ],
+  "acceptance": {
+    "appearance": "pending-04-32",
+    "input": "pending-04-32",
+    "fps": "not-certified",
+    "lan": "not-certified",
+    "endurance": "not-certified"
+  }
+}
