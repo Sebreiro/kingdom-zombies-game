@@ -4,17 +4,17 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 04
 current_phase_name: Asset production
-current_plan: 16
+current_plan: 19
 status: executing
-stopped_at: Completed 04-27; 24/37 local plans summarized; wave 19 complete; next 04-16 in wave 20; concurrent planning decisions preserved; WINDOWS29/30/31 open
-last_updated: "2026-11-17T22:02:16.933Z"
+stopped_at: Completed 04-16; 25/37 local plans summarized; wave 20 in progress (1/2 plans complete); next 04-19 in wave 20; concurrent planning decisions preserved; WINDOWS29/30/31 open
+last_updated: "2026-11-17T23:14:34.394Z"
 last_activity: 2026-11-17
-last_activity_desc: Completed world/item inspection controls and fresh reader diagnostics; final37 executable groups pass; next04-16 then04-19 in serialized wave20
+last_activity_desc: Completed camp, map, spectator and warning layouts; final39 executable cases pass; wave20 remains1/2 complete; next04-19 camp/world data
 progress:
   total_phases: 12
   completed_phases: 3
   total_plans: 62
-  completed_plans: 49
+  completed_plans: 50
   percent: 25
 ---
 
@@ -26,19 +26,19 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase04 continues on feature/04-asset-production with draftPR5. Twenty-four of37 local plans are summarized. Actual hub access covers24items,9building tiers and4world views with persisted art-only controls,exact diagnostics and process-wide replacement epochs. Fresh37 executable groups pass on441 unchanged inputs;531 inspector and578 replacement native outcomes plus10 compiled tests retain original contracts. Previously cached-character and overwritten-obligation failures pass unchanged after repair. Inventory236;wave19 complete,next04-16 then04-19 serialized in wave20. Policy remains FAIL1570 operations and55-input/32-surface producer unenrolled;WINDOWS29/30/31,all ASSET and actual acceptance remain pending. Foreign Phase07 decisions and Phase06/12 history remain preserved.
+**Current focus:** Phase04 continues on feature/04-asset-production with draftPR5. Twenty-five of37 local plans are summarized. Distinct people/sale/site/rally compositions cover31 samples; map/spectator/warning resources cover35 samples, independently reordered H23 and seven fixture backstops. Fresh39 executable cases pass on448 unchanged inputs in1484920ms. Inventory236;wave20 remains1/2 complete,next04-19 camp/world data. Policy remains FAIL1861 operations and56-input/32-surface producer unenrolled;WINDOWS29/30/31,all ASSET and actual acceptance remain pending. Foreign Phase07 decisions and Phase06/12 history remain preserved.
 
 ## Current Position
 
 Phase: 04 — Asset production
-Current Plan: 16
+Current Plan: 19
 Total Plans in Phase: 37
 Status: Executing
-Last activity: 2026-11-17 — Completed world/item inspection controls and fresh reader diagnostics; final37 executable groups pass; next04-16 then04-19 in serialized wave20
+Last activity: 2026-11-17 — Completed camp, map, spectator and warning layouts; final39 executable cases pass; wave20 remains1/2 complete; next04-19 camp/world data
 
 Progress: [███░░░░░░░] 25%
 
-Milestone progress: 3/12 phases complete;49/62 currently planned plans summarized;fourteen of135 requirements complete. Phase4 has24/37 local plans complete. NoASSET requirement completion is claimed.
+Milestone progress: 3/12 phases complete;50/62 currently planned plans summarized;fourteen of135 requirements complete. Phase4 has25/37 local plans complete. NoASSET requirement completion is claimed.
 
 ## Performance Metrics
 
@@ -159,6 +159,8 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - [Phase04]: Completed04-13 source5c35024/1295455/726e6b6 and SUMMARY5572cd0. Fresh35/35 executable groups pass on439 unchanged inputs in1403558ms;two selected Critical provenance/publication cases remain blocked separately,with no full-phase pass. Map796/23,effects1393/31;WorldPreview adds239 observed ungranted operations,total1428;producer55inputs32surfaces pending23/31. Inventory236;wave18 complete,next27/wave19. All actual acceptance pending.
 
 - [Phase04]: Completed04-27 Task1 5aa0a1e/tracer9c74a702,actual REDa2eb2b7,Task2/root447d0bd and SUMMARY94edbca. Final37/37 executable groups pass on441 unchanged inputs in1411546ms;two Critical integration cases remain blocked separately. Inspector531/replacement578+10compiled preserveoriginal IDs. Fresh bounded runtime reads/successful-only publication and merged pack/read diagnostics restore four unchanged regressions. Inventory236;policy1570/producer55-input32-surface pending23/31. Wave19 complete,next16then19/wave20;all actual acceptance pending.
+
+- [Phase04]: Completed04-16 Task1 GREEN479cdc0/tracer3f74c966,Task2 genuineRED3a5f986/GREEN1f6a3f5,SUMMARY442915a. Final39/39 executable cases pass on448 unchanged inputs in1484920ms;two selected Critical integration cases remain blocked separately. Camp726/map2441native plus7compiled0skip. Exact authenticated mapnodes512 allowance retains generic256/authored128;deferred generation-fenced signals cleanly retire controls. Inventory236;policy1861/producer56inputs32surfaces pending23/31. Wave20 remains1/2 complete,next19;actual acceptance pending.
 
 ### Pending Todos
 

@@ -59,3 +59,7 @@ Final policy8d62432b-bc01-47b1-998c-8291ebbb589d remains FAIL1428 operations: pr
 ## Current observation after 04-27
 
 Final policyfe25f167 remains FAIL1570 operations: Building299,Character372,Corpse101,Crowd156,IdentityKit78,InventoryLayouts183 and WorldPreview381 (+142 from239). [04-27-SUMMARY.md](04-27-SUMMARY.md) records actual owned Root/World helper declarations,exact native tuples,55-input/32-surface producer and final source/assembly mappings. No native permission or current-producer enrollment follows from37 local executable passes. Owner23 must reconcile actual world/item/structure hub routing,view-only controls,strict current reader boundaries,visible diagnostic composition and guarded replacement completion before24 independent review;31 rechecks final source. Preserve every historical report/cohort and exact19 public identities. Inventory236 and WINDOWS30/31 remain unchanged/open.
+
+## Current observation after 04-16
+
+Final13ce1bf4-488e-457f-9024-f51a844624e1 remains FAIL1861 operations: previous1570 unchanged plus291CampLayouts. [04-16-SUMMARY.md](04-16-SUMMARY.md) records all291 exact tuples,new internal declarations and56-input/32-surface producer closure. Owner23 must authorize only actually guarded exact members with independent negatives and enroll the actual pinned producer before24review;31 rechecks finalsource. No permission/cohort completion follows from39 local executable passes. Original failures/inventories remain immutable,19 public identities and inventory236 unchanged,WINDOWS30/31 open.
