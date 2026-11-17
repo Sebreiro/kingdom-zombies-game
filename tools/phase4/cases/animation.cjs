@@ -68,13 +68,43 @@ public sealed partial class AnimationHarness : Node
  }
 }
 `;
-async function native(context){
+const REPLACEMENT_METHOD=String.raw`
+ private object? _replacementError;
+ private async Task Replacement(){
+  var hubType=_assembly.GetType("KingdomZombies.Inspection.InspectionRoot",true)!;
+  var skeleton=ResourceLoader.Load<PackedScene>("res://inspection-fixture.tscn").Instantiate<Node2D>();
+  var hub=(Node2D)Activator.CreateInstance(hubType)!;
+  foreach(Node child in skeleton.GetChildren()){skeleton.RemoveChild(child);hub.AddChild(child);}
+  skeleton.QueueFree();AddChild(hub);
+  for(int frame=0;frame<200&&!hub.GetNode<Button>("Shell/Toolbar/Cancel").Disabled;frame++)await ToSignal(GetTree(),SceneTree.SignalName.ProcessFrame);
+  Check(hub.GetNode<Button>("Shell/Toolbar/Cancel").Disabled,"replacement-hub-ready");
+  var selected=hubType.GetField("_selected",BindingFlags.Instance|BindingFlags.NonPublic)!;
+  var category=hubType.GetField("_category",BindingFlags.Instance|BindingFlags.NonPublic)!;
+  var selection=hubType.GetMethod("Selection",BindingFlags.Instance|BindingFlags.NonPublic)!;
+  selected.SetValue(hub,"CH-06");category.SetValue(hub,"Characters");selection.Invoke(hub,null);
+  Check(hub.HasNode("Shell/Workspace/Preview/Surface/Current/Character/Controls/Slots/Movement/Select"),"replacement-valid-character-control");
+  string file=ProjectSettings.GlobalizePath("res://content/animation/locomotion-melee.json");
+  byte[] original=System.IO.File.ReadAllBytes(file);string exceptionType=string.Empty,message=string.Empty;
+  try{
+   System.IO.File.WriteAllText(file,"{\"id\":\"locomotion-melee\",\"id\":\"locomotion-melee\"}");
+   try{selection.Invoke(hub,null);}catch(TargetInvocationException error) when(error.InnerException is System.IO.InvalidDataException){exceptionType=error.InnerException.GetType().FullName!;message=error.InnerException.Message;}
+   string failures=hub.GetNode<TextEdit>("Shell/Workspace/Preview/Failures").Text;
+   bool errorVisible=hub.GetNode<TextEdit>("Shell/Workspace/Preview/Failures").Visible&&failures.Contains("content/animation/locomotion-melee.json",StringComparison.Ordinal)&&failures.Contains("CHARACTER_DUPLICATE_KEY",StringComparison.Ordinal);
+   bool transportUsable=hub.GetNode<Button>("Shell/Toolbar/Recheck").Visible&&!hub.GetNode<Button>("Shell/Toolbar/Recheck").Disabled;
+   _replacementError=new{body="CH-06",fixture="duplicate-animation-definition",exceptionType,message,failures,errorVisible,transportUsable};
+  }finally{System.IO.File.WriteAllBytes(file,original);hub.QueueFree();}
+  await ToSignal(GetTree(),SceneTree.SignalName.ProcessFrame);
+ }
+`;
+const REPLACEMENT_HARNESS=HARNESS.replace(' public override async void _Ready()',REPLACEMENT_METHOD+' public override async void _Ready()').replace('Jump(root,preview);Negatives();','Jump(root,preview);Negatives();await Replacement();').replace('restoredBindingAccepted=_restoredBindingAccepted};','restoredBindingAccepted=_restoredBindingAccepted,replacementError=_replacementError};');
+async function native(context,harness=HARNESS){
  const project=inside(context.directory,'animation-native');fs.mkdirSync(project);write(project,'Directory.Build.props',Buffer.from('<Project />'));write(project,'Directory.Build.targets',Buffer.from('<Project />'));
  const original=inside(ROOT,'src/godot-game/.godot/mono/temp/bin/Debug');fs.cpSync(original,inside(project,'subjects'),{recursive:true});
  const closure=fs.readdirSync(original).filter(n=>fs.statSync(path.join(original,n)).isFile()).map(file=>({file,sha256:hash(fs.readFileSync(path.join(original,file)))}));write(context.directory,'animation-assemblies.json',closure);
  write(project,'AnimationProof.csproj',Buffer.from('<Project Sdk="Godot.NET.Sdk/4.7.2"><PropertyGroup><TargetFramework>net10.0</TargetFramework><AssemblyName>AnimationProof</AssemblyName><Nullable>enable</Nullable><TreatWarningsAsErrors>true</TreatWarningsAsErrors><EnableDynamicLoading>true</EnableDynamicLoading></PropertyGroup></Project>'));
- write(project,'AnimationHarness.cs',Buffer.from(HARNESS));write(project,'project.godot',Buffer.from('config_version=5\n[application]\nconfig/name="AnimationProof"\n[dotnet]\nproject/assembly_name="AnimationProof"\n[display]\nwindow/size/viewport_width=1280\nwindow/size/viewport_height=720\n[rendering]\nrenderer/rendering_method="gl_compatibility"\n'));
+ write(project,'AnimationHarness.cs',Buffer.from(harness));write(project,'project.godot',Buffer.from('config_version=5\n[application]\nconfig/name="AnimationProof"\n[dotnet]\nproject/assembly_name="AnimationProof"\n[display]\nwindow/size/viewport_width=1280\nwindow/size/viewport_height=720\n[rendering]\nrenderer/rendering_method="gl_compatibility"\n'));
  for(const file of files().filter(p=>p.startsWith('src/godot-game/')&&!p.endsWith('.cs')))write(project,file.slice('src/godot-game/'.length),bytes(ROOT,file));
+ if(harness===REPLACEMENT_HARNESS){for(const folder of ['content','assets'])fs.cpSync(inside(ROOT,'src/godot-game/'+folder),inside(project,folder),{recursive:true});const scene=bytes(ROOT,'src/godot-game/inspection/Inspection.tscn').toString('utf8').replace('[gd_scene load_steps=4 format=3]','[gd_scene load_steps=3 format=3]').replace('[ext_resource type="Script" path="res://inspection/InspectionRoot.cs" id="2_root"]','').replace('script = ExtResource("2_root")','');write(project,'inspection-fixture.tscn',Buffer.from(scene));}
  write(project,'probe.gd',Buffer.from('extends SceneTree\nfunc _initialize():\n root.add_child(load("res://AnimationHarness.cs").new())\n'));
  const build=await runner.command(context,'animation-harness-build','dotnet',['build',inside(project,'AnimationProof.csproj'),'--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-p:RestoreIgnoreFailedSources=true','-v:q'],{env:prior().isolated()});need(/0 Warning\(s\)[\s\S]*0 Error\(s\)/.test(build.stdout),'ANIMATION_HARNESS_CLEAN');
  const executable=await require('./bodies-b.cjs').authenticate(context),env={...prior().isolated(),ANIMATION_PROOF_NONCE:context.nonce};
@@ -84,12 +114,13 @@ async function native(context){
  const result=document(project,'native-results.json');need(result.pid===child.pid&&result.nonce===context.nonce&&result.owningAlc&&result.coreOwningAlc&&result.coreSha256===closure.find(x=>x.file==='KingdomZombies.Core.dll').sha256&&result.assemblySha256===closure.find(x=>x.file==='KingdomZombies.dll').sha256,'ANIMATION_NATIVE_IDENTITY');
  need(equal(result.negatives.map(n=>n.defect),['missing','hash','binding','duplicate','traversal'])&&result.negatives.every(n=>n.rejected===true&&typeof n.message==='string'&&n.message.length>0&&n.exceptionType===(n.defect==='traversal'?'System.FormatException':'System.IO.InvalidDataException'))&&result.negatives[4].message==='canonical relative path required: src/godot-game/../escape.json'&&result.restoredBindingAccepted===true,'ANIMATION_NATIVE_SOURCE_CONTROLS');write(context.directory,'animation-observation.json',result);return result;
 }
-async function run(context){
+async function run(context,replacement=false){
  const before=fingerprint();write(context.directory,'animation-inputs.json',before);
  const build=await runner.command(context,'animation-strict-build','dotnet',['build',inside(ROOT,'KingdomZombies.slnx'),'--no-restore','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'],{env:prior().isolated()});need(/0 Warning\(s\)[\s\S]*0 Error\(s\)/.test(build.stdout),'ANIMATION_CLEAN_BUILD');
- const observation=await native(context),compiled=inside(context.directory,'compiled');fs.mkdirSync(compiled);
+ const observation=await native(context,replacement?REPLACEMENT_HARNESS:HARNESS),compiled=inside(context.directory,'compiled');fs.mkdirSync(compiled);
  await runner.command(context,'animation-compiled','dotnet',[inside(ROOT,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll'),'--filter-class','*CharacterPresentationTests','--report-xunit-junit','--report-xunit-junit-filename','tests.xml','--report-xunit-ctrf','--report-xunit-ctrf-filename','tests.json','--results-directory',compiled,'--no-ansi','--progress','off','--parallel','none','--timeout','45s'],{env:{...prior().isolated(),ANIMATION_NATIVE_REPORT:inside(context.directory,'animation-observation.json')}});
  need(equal(before,fingerprint()),'ANIMATION_INPUT_CHANGED');return observation;
 }
 runner.registerCase('animation.melee',{group:'characters',title:'Concurrent authored lower locomotion and upper weighted melee',importance:'Critical',rationale:'Stopping stride or misidentifying equipment breaks required concurrent presentation',needsGameWindow:false,runGroup:'G0',order:50,requirements:['ASSET-02','ASSET-03'],acceptance:['AC-04','AC-06','AC-19'],setup:'Strict current production assemblies and exact eight-body/fits/item/configuration bytes in an authenticated owned headless engine',actions:['Select actual logical club and knife with walking and melee','Advance explicit deterministic elapsed time','Inspect actual lower and upper segments then execute compiled assertions'],expected:'Stride changes beneath the same weighted windup without swapping logical hands; no gameplay actions or damage are created',reset:'Detach current preview and retire owned process; no game window, sound or real input',evidence:['animation-inputs.json','animation-assemblies.json','animation-observation.json','animation-strict-build.command.json','animation-harness-build.command.json','animation-native-run.command.json','compiled/tests.xml','result.json']},run);
-module.exports={INPUTS,files,fingerprint,HARNESS,native,run};
+runner.registerCase('animation.replacement',{group:'characters',title:'Independent current character replacement and visible definition errors',importance:'Critical',rationale:'Obsolete selections or invisible required-resource failures break live inspection integrity',needsGameWindow:false,runGroup:'G0',order:51,requirements:['ASSET-02','ASSET-03'],acceptance:['AC-04','AC-06','AC-16','AC-19'],setup:'Exact current production assemblies, full owned resource copy and actual native inspection root using its unchanged scene children',actions:['Prove actual CH-06 controls load before the negative fixture','Duplicate a required animation key only in the owned native project','Invoke actual production selection and inspect visible exact diagnostics and recheck transport','Restore original valid definition bytes and retain authenticated native and compiled outcomes'],expected:'The current character failure remains visible with exact resource identity and cause; unaffected controls remain usable',reset:'Restore the exact owned definition in finally and close actual root and native process; no game window',evidence:['animation-inputs.json','animation-observation.json','animation-native-run.command.json','compiled/tests.xml','result.json']},context=>run(context,true));
+module.exports={INPUTS,files,fingerprint,HARNESS,REPLACEMENT_HARNESS,native,run};

@@ -14,6 +14,16 @@ namespace KingdomZombies.Phase1.Tests;
 /// <summary>Checks actual composed native character observations independently of presentation metadata.</summary>
 public sealed class CharacterPresentationTests
 {
+    /// <summary>A malformed selected character retains its exact error while the real hub stays usable.</summary>
+    [Fact]
+    public void Native_InvalidDefinitionKeepsVisibleErrorAndTransport()
+    {
+        using JsonDocument report = Native();
+        JsonElement observed = report.RootElement.GetProperty(propertyName: "replacementError");
+        observed.GetProperty(propertyName: "errorVisible").GetBoolean().ShouldBeTrue();
+        observed.GetProperty(propertyName: "transportUsable").GetBoolean().ShouldBeTrue();
+    }
+
     /// <summary>Moving lower segments must advance while the same upper strike remains active.</summary>
     [Fact]
     public void Native_StrideContinuesDuringMelee()
