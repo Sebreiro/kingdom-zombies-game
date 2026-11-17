@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using Godot;
 using KingdomZombies.Core;
 using KingdomZombies.Proofs;
@@ -67,6 +68,8 @@ internal sealed class CharacterPreview
         var preview = new CharacterPreview(root: root, gateway: gateway, fits: fits, bodies: bodies, weapons: weapons,
                 clothing: clothing, body: body);
         preview._presentation = ReadPresentation(read: read);
+        preview._bow = ReadDefinition(bytes: read(arg: "content/animation/bow.json")
+                ?? throw new InvalidDataException(message: "BOW_MISSING"), expectedId: "bow");
         return preview;
     }
 
@@ -170,6 +173,11 @@ internal sealed class CharacterPreview
             control.ItemSelected -= Changed;
         }
 
+        if (_presentation is not null)
+        {
+            _root.GetNode<HSlider>(path: "Controls/Slots/ContinuousAim").ValueChanged -= AimChanged;
+        }
+
         foreach ((string id, Button button) in _buttons)
         {
             button.Pressed -= TransportAction(id: id);
@@ -190,6 +198,8 @@ internal sealed class CharacterPreview
         if (_presentation is not null)
         {
             _ = _presentation.TryContact(generation: _presentation.Snapshot.GetProperty(propertyName: "generation")
+                    .GetInt64());
+            _ = _presentation.TryRelease(generation: _presentation.Snapshot.GetProperty(propertyName: "generation")
                     .GetInt64());
         }
 
@@ -213,6 +223,9 @@ internal sealed class CharacterPreview
     private readonly List<Texture2D> _ownedTextures = [];
     private JsonElement _sample;
     private string _equipment = "";
+    private JsonElement _bow;
+    private double _aim;
+    private string _aimPreset = "0";
 
     private static CharacterPresentation ReadPresentation(Func<string, byte[]?> read)
     {
@@ -242,10 +255,33 @@ internal sealed class CharacterPreview
             }
         }
 
+        byte[] bow = read(arg: "content/animation/bow.json")
+                ?? throw new InvalidDataException(message: "BOW_MISSING content/animation/bow.json");
+        JsonElement bowDefinition = ReadDefinition(bytes: bow, expectedId: "bow");
+        string[] bowPaths = ["content/config/items.json", "content/config/combat.json", "assets/common/donor-kit.png"];
+        if (!bowDefinition.GetProperty(propertyName: "bindings").EnumerateArray().Select(selector: binding =>
+                ContentPack.ResourcePath(path: Text(value: binding, name: "path"))).SequenceEqual(
+                        second: bowPaths, comparer: StringComparer.Ordinal))
+        {
+            throw new InvalidDataException(message: "BOW_BINDING_SET");
+        }
+
+        foreach (JsonElement binding in bowDefinition.GetProperty(propertyName: "bindings").EnumerateArray())
+        {
+            string path = ContentPack.ResourcePath(path: Text(value: binding, name: "path"));
+            byte[] value = read(arg: path) ?? throw new InvalidDataException(message: "BOW_BINDING " + path);
+            if (value.Length is 0 or > 16777216 || !StringComparer.Ordinal.Equals(
+                    x: Convert.ToHexStringLower(inArray: SHA256.HashData(source: value)),
+                    y: Text(value: binding, name: "sha256")))
+            {
+                throw new InvalidDataException(message: "BOW_BINDING_HASH " + path);
+            }
+        }
+
         return new CharacterPresentation(animation: animation, items: read(arg: "content/config/items.json")
                 ?? throw new InvalidDataException(message: "ANIMATION_ITEMS_MISSING"),
                 combat: read(arg: "content/config/combat.json")
-                        ?? throw new InvalidDataException(message: "ANIMATION_COMBAT_MISSING"));
+                        ?? throw new InvalidDataException(message: "ANIMATION_COMBAT_MISSING"), bow: bow);
     }
 
     private void AnimationControls(Node slots)
@@ -253,7 +289,19 @@ internal sealed class CharacterPreview
         _gateway.RequireThread();
         AddSelector(parent: slots, id: "Movement", label: "Movement", values: ["Static pose", "Idle", "Walk",
             "Faster", "Jump"]);
-        AddSelector(parent: slots, id: "Action", label: "Attack", values: ["None", "Melee"]);
+        AddSelector(parent: slots, id: "Action", label: "Attack", values: ["None", "Melee", "Bow"]);
+        AddSelector(parent: slots, id: "Aim", label: "Bow elevation", values: ["-90", "-60", "-30", "0", "30",
+            "60", "90"]);
+        _controls["Aim"].Select(idx: 3);
+        var aimControl = new HSlider { Name = "ContinuousAim", MinValue = -90, MaxValue = 90, Step = 0.1,
+            CustomMinimumSize = new Vector2(x: 220, y: 48) };
+        aimControl.ValueChanged += AimChanged;
+        slots.AddChild(node: aimControl);
+        AddSelector(parent: slots, id: "Ammunition", label: "Actual opposite stack", values: ["0", "1", "12"]);
+        _controls["Ammunition"].Select(idx: 1);
+        AddSelector(parent: slots, id: "ArrowStack", label: "Selected stack identity", values: ["stack-a", "stack-b"]);
+        AddSelector(parent: slots, id: "BowSubject", label: "Bow presentation",
+                values: ["Ordinary", "Structural guard"]);
         AddSelector(parent: slots, id: "PlaybackSpeed", label: "Preview speed", values: ["0.25×", "0.5×", "1×", "2×"]);
         _controls["PlaybackSpeed"].Select(idx: 2);
         foreach ((string id, string text) in new[] { ("Play", "Play preview"), ("Step", "Step frame"),
@@ -523,6 +571,18 @@ internal sealed class CharacterPreview
         Project();
     }
 
+    private void AimChanged(double value)
+    {
+        _gateway.RequireThread();
+        if (!_attached)
+        {
+            return;
+        }
+
+        _aim = value * Math.PI / 180;
+        Project();
+    }
+
     private string Selected(string id)
     {
         _gateway.RequireThread();
@@ -549,7 +609,7 @@ internal sealed class CharacterPreview
         JsonElement lower = pose;
         _sample = default;
         if (_presentation is not null && (Selected(id: "Movement") is not "Static pose"
-                || Selected(id: "Action") is "Melee"))
+                || Selected(id: "Action") is "Melee" or "Bow"))
         {
             string movement = Selected(id: "Movement") switch
             {
@@ -558,17 +618,222 @@ internal sealed class CharacterPreview
                 "Jump" when _body is "CH-01" => "jump",
                 _ => "idle"
             };
-            _presentation.Configure(body: _body, movement: movement, action: Selected(id: "Action") is "Melee"
-                    ? "melee" : "none", leftItem: Selected(id: "left"), rightItem: Selected(id: "right"),
+            string action = Selected(id: "Action") switch { "Melee" => "melee", "Bow" => "bow", _ => "none" };
+            bool guard = action is "bow" && Selected(id: "BowSubject") is "Structural guard";
+            bool rightBow = Selected(id: "right") is "IT-07" && Selected(id: "left") is not "IT-07";
+            _presentation.Configure(body: _body, movement: movement, action: action,
+                    leftItem: guard ? rightBow ? "Empty" : "IT-07" : Selected(id: "left"),
+                    rightItem: guard ? rightBow ? "IT-07" : "Empty" : Selected(id: "right"),
                     facing: facing);
+            UpdateAim(guard: guard);
             _sample = _presentation.Snapshot;
             lower = FindPose(body: body, id: Text(value: _sample, name: "lowerPose"));
             pose = FindPose(body: body, id: Text(value: _sample, name: "upperPose"));
+            if (action is "bow" && Text(value: _sample, name: "bowStage") is not "inactive")
+            {
+                pose = BowPose(pose: pose);
+            }
+        }
+
+        if (_sample.ValueKind is JsonValueKind.Object && Selected(id: "Action") is "Bow"
+                && Selected(id: "BowSubject") is "Structural guard")
+        {
+            AddGuard(art: art, facing: facing);
+            _root.SetMeta(name: "sample", value: _sample.GetRawText());
+            _root.GetNode<Label>(path: "Status").Text = "Structural guard · built-in bow · no loot";
+            return;
         }
 
         AddBody(art: art, pose: pose, facing: facing, lower: lower);
         ProjectGear(art: art, body: body, pose: pose, lower: lower, facing: facing, poseId: poseId);
         Contact(art: art, pose: pose, facing: facing);
+    }
+
+    private void UpdateAim(bool guard)
+    {
+        _gateway.RequireThread();
+        if (!StringComparer.Ordinal.Equals(x: _aimPreset, y: Selected(id: "Aim")))
+        {
+            _aimPreset = Selected(id: "Aim");
+            _aim = double.Parse(s: _aimPreset, provider: CultureInfo.InvariantCulture) * Math.PI / 180;
+            _root.GetNode<HSlider>(path: "Controls/Slots/ContinuousAim").SetValueNoSignal(value: _aim * 180 / Math.PI);
+        }
+
+        int arrows = int.Parse(s: Selected(id: "Ammunition"), provider: CultureInfo.InvariantCulture);
+        _presentation?.ConfigureBow(aimRadians: _aim,
+                leftArrows: !guard && Selected(id: "left") is "IT-02" ? arrows : 0,
+                rightArrows: !guard && Selected(id: "right") is "IT-02" ? arrows : 0,
+                leftUsable: guard || Selected(id: "Condition") is "Usable",
+                rightUsable: guard || Selected(id: "Condition") is "Usable",
+                stackIdentity: Selected(id: "ArrowStack"), intrinsicAmmunition: guard);
+    }
+
+    private JsonElement BowPose(JsonElement pose)
+    {
+        _gateway.RequireThread();
+        JsonNode candidate = JsonNode.Parse(json: pose.GetRawText())
+                ?? throw new InvalidDataException(message: "BOW_POSE");
+        JsonNode anchors = candidate["anchors"] ?? throw new InvalidDataException(message: "BOW_ANCHORS");
+        double angle = _sample.GetProperty(propertyName: "aimRadians").GetDouble();
+        string bowHand = Text(value: _sample, name: "bowHand");
+        foreach (string hand in new[] { "left", "right" })
+        {
+            Vector2 shoulder = Point(value: pose.GetProperty(propertyName: "anchors")
+                    .GetProperty(propertyName: hand + "Shoulder"));
+            double reach = StringComparer.Ordinal.Equals(x: hand, y: bowHand) ? 11 : 5;
+            double fraction = _sample.GetProperty(propertyName: "actionSeconds").GetDouble()
+                    / _sample.GetProperty(propertyName: "intervalSeconds").GetDouble();
+            double prepare = _bow.GetProperty(propertyName: "prepareFraction").GetDouble();
+            reach *= Math.Min(val1: 1, val2: 0.6 + fraction / prepare * 0.4);
+            if (Text(value: _sample, name: "bowStage") is "recovery")
+            {
+                reach *= 1 - (fraction - _bow.GetProperty(propertyName: "releaseFraction").GetDouble()) * 0.5;
+            }
+            anchors[hand + "Hand"] = new JsonArray(shoulder.X + Math.Cos(d: angle) * reach,
+                    shoulder.Y + Math.Sin(a: angle) * reach);
+        }
+
+        return JsonSerializer.SerializeToElement(value: candidate);
+    }
+
+    private void AddGuard(Node2D art, int facing)
+    {
+        _gateway.RequireThread();
+        JsonElement guard = _bow.GetProperty(propertyName: "guard");
+        JsonElement composition = guard.GetProperty(propertyName: "composition");
+        JsonElement frame = guard.GetProperty(propertyName: "frames").EnumerateArray().Single(predicate: value =>
+                StringComparer.Ordinal.Equals(x: Text(value: value, name: "id"),
+                        y: Text(value: composition, name: "sourceFrame")));
+        using Image source = Texture(pack: _bow, part: frame, atlas: "assets/common/donor-kit.png").GetImage();
+        using Image upper = source.Duplicate() as Image ?? throw new InvalidDataException(message: "GUARD_IMAGE");
+        foreach (JsonElement cutout in composition.GetProperty(propertyName: "upperCutouts").EnumerateArray())
+        {
+            upper.FillRect(rect: new Rect2I(x: cutout[0].GetInt32(), y: cutout[1].GetInt32(),
+                    width: cutout[2].GetInt32(), height: cutout[3].GetInt32()), color: Colors.Transparent);
+        }
+
+        int split = composition.GetProperty(propertyName: "lowerLogicalY").GetInt32();
+        int top = frame.GetProperty(propertyName: "offsetTopLeft")[1].GetInt32();
+        upper.FillRect(rect: new Rect2I(x: 0, y: split - top, width: upper.GetWidth(),
+                height: upper.GetHeight() - split + top), color: Colors.Transparent);
+        Vector2 origin = new Vector2(x: 24, y: 8) + Point(value: frame.GetProperty(propertyName: "offsetTopLeft"));
+        Sprite2D torso = GuardLayer(art: art, name: "StructuralGuard", image: upper, at: origin,
+                facing: facing, angle: 0, offset: Vector2.Zero);
+        torso.SetMeta(name: "source", value: Text(value: frame, name: "id"));
+        torso.SetMeta(name: "loot", value: false);
+        GuardLower(art: art, guard: guard, split: split, facing: facing);
+        GuardArms(art: art, source: source, composition: composition, origin: origin, facing: facing);
+    }
+
+    private Sprite2D GuardLayer(Node2D art, string name, Image image, Vector2 at, int facing, float angle,
+            Vector2 offset)
+    {
+        _gateway.RequireThread();
+        ImageTexture texture = ImageTexture.CreateFromImage(image: image);
+        _ownedTextures.Add(item: texture);
+        var sprite = new Sprite2D { Name = name, Texture = texture, Centered = false, Offset = offset,
+            Position = new Vector2(x: facing == 1 ? at.X : 48 - at.X, y: at.Y),
+            Scale = new Vector2(x: facing, y: 1), Rotation = facing * angle,
+            TextureFilter = CanvasItem.TextureFilterEnum.Nearest };
+        art.AddChild(node: sprite);
+        return sprite;
+    }
+
+    private void GuardLower(Node2D art, JsonElement guard, int split, int facing)
+    {
+        _gateway.RequireThread();
+        string movement = Text(value: _sample, name: "movement");
+        JsonElement clip = guard.GetProperty(propertyName: "locomotion").EnumerateArray().Single(predicate: value =>
+                StringComparer.Ordinal.Equals(x: Text(value: value, name: "movement"),
+                        y: movement is "faster" or "walk" ? movement : "idle"));
+        double seconds = _sample.GetProperty(propertyName: "strideSeconds").GetDouble()
+                / clip.GetProperty(propertyName: "stridePeriod").GetDouble()
+                * clip.GetProperty(propertyName: "duration").GetDouble();
+        JsonElement frame = clip.GetProperty(propertyName: "frames").EnumerateArray().Last(predicate: value =>
+                value.GetProperty(propertyName: "seconds").GetDouble() <= seconds);
+        using Image source = Texture(pack: _bow, part: frame, atlas: "assets/common/donor-kit.png").GetImage();
+        Vector2 offset = Point(value: frame.GetProperty(propertyName: "offsetTopLeft"));
+        int y = split - (int)MathF.Round(x: offset.Y);
+        using Image lower = source.GetRegion(region: new Rect2I(x: 0, y: y, width: source.GetWidth(),
+                height: source.GetHeight() - y));
+        Sprite2D sprite = GuardLayer(art: art, name: "GuardLower", image: lower,
+                at: new Vector2(x: 24 + offset.X, y: 8 + offset.Y + y), facing: facing, angle: 0,
+                offset: Vector2.Zero);
+        sprite.SetMeta(name: "source", value: Text(value: frame, name: "id"));
+    }
+
+    private void GuardArms(Node2D art, Image source, JsonElement composition, Vector2 origin, int facing)
+    {
+        _gateway.RequireThread();
+        float angle = _sample.GetProperty(propertyName: "aimRadians").GetSingle();
+        JsonElement rect = composition.GetProperty(propertyName: "armRect");
+        string bowHand = Text(value: _sample, name: "bowHand");
+        Vector2 bowAt = origin;
+        foreach (string hand in new[] { "left", "right" })
+        {
+            Vector2 shoulder = Point(value: composition.GetProperty(propertyName: "shoulders")
+                    .GetProperty(propertyName: hand));
+            double fraction = _sample.GetProperty(propertyName: "actionSeconds").GetDouble()
+                    / _sample.GetProperty(propertyName: "intervalSeconds").GetDouble();
+            double scale = Math.Min(val1: 1, val2: 0.6 + fraction
+                    / _bow.GetProperty(propertyName: "prepareFraction").GetDouble() * 0.4);
+            if (Text(value: _sample, name: "bowStage") is "recovery")
+            {
+                scale *= 1 - (fraction - _bow.GetProperty(propertyName: "releaseFraction").GetDouble()) * 0.5;
+            }
+
+            int reach = Math.Max(val1: 1, val2: (int)Math.Round(a:
+                    (StringComparer.Ordinal.Equals(x: hand, y: bowHand) ? 7 : 3) * scale));
+            using Image arm = source.GetRegion(region: new Rect2I(x: rect[0].GetInt32(), y: rect[1].GetInt32(),
+                    width: rect[2].GetInt32(), height: rect[3].GetInt32()));
+            arm.Resize(width: reach, height: 2, interpolation: Image.Interpolation.Nearest);
+            _ = GuardLayer(art: art, name: "GuardArm_" + hand, image: arm, at: origin + shoulder,
+                    facing: facing, angle: angle, offset: new Vector2(x: 0, y: -1));
+            if (StringComparer.Ordinal.Equals(x: hand, y: bowHand))
+            {
+                bowAt = origin + shoulder + new Vector2(x: MathF.Cos(x: angle), y: MathF.Sin(x: angle)) * reach;
+            }
+        }
+
+        rect = composition.GetProperty(propertyName: "bowRect");
+        using Image bow = source.GetRegion(region: new Rect2I(x: rect[0].GetInt32(), y: rect[1].GetInt32(),
+                width: rect[2].GetInt32(), height: rect[3].GetInt32()));
+        foreach (JsonElement row in composition.GetProperty(propertyName: "clearBowRows").EnumerateArray())
+        {
+            bow.FillRect(rect: new Rect2I(x: 0, y: row.GetInt32(), width: bow.GetWidth(), height: 1),
+                    color: Colors.Transparent);
+        }
+
+        _ = GuardLayer(art: art, name: "GuardBow", image: bow, at: bowAt, facing: facing, angle: angle,
+                offset: -Point(value: composition.GetProperty(propertyName: "bowGrip")));
+        if (_sample.GetProperty(propertyName: "nocked").GetBoolean()
+                || _sample.GetProperty(propertyName: "released").GetBoolean())
+        {
+            GuardArrow(art: art, at: bowAt, facing: facing, angle: angle);
+        }
+    }
+
+    private void GuardArrow(Node2D art, Vector2 at, int facing, float angle)
+    {
+        _gateway.RequireThread();
+        JsonElement part = _packs[0].GetProperty(propertyName: "parts").EnumerateArray().Single(
+                predicate: value => Text(value: value, name: "key") is "IT_02_master");
+        using Image arrow = Texture(pack: _packs[0], part: part, atlas: "assets/equipment/items-01-10.png")
+                .GetImage();
+        bool released = _sample.GetProperty(propertyName: "released").GetBoolean();
+        if (released)
+        {
+            float fraction = _bow.GetProperty(propertyName: "releaseFraction").GetSingle();
+            float seconds = _sample.GetProperty(propertyName: "actionSeconds").GetSingle()
+                    - _sample.GetProperty(propertyName: "intervalSeconds").GetSingle() * fraction;
+            at += new Vector2(x: MathF.Cos(x: angle), y: MathF.Sin(x: angle)) * Math.Clamp(value: seconds * 100,
+                    min: 0, max: 36);
+        }
+
+        Sprite2D sprite = GuardLayer(art: art, name: released ? "SpentArrow" : "GuardArrow", image: arrow,
+                at: at, facing: facing, angle: angle, offset: new Vector2(x: 0, y: -1));
+        sprite.SetMeta(name: "recoverable", value: false);
+        sprite.SetMeta(name: "gameplay", value: false);
     }
 
     private void EndAction()
@@ -628,12 +893,20 @@ internal sealed class CharacterPreview
         {
             string id = Text(value: slot, name: "id");
             string item = Selected(id: id);
-            if (item is not "Empty")
+            bool emptyArrows = item is "IT-02" && _sample.ValueKind is JsonValueKind.Object
+                    && Text(value: _sample, name: "action") is "bow"
+                    && (!_sample.GetProperty(propertyName: "nocked").GetBoolean());
+            if (item is not "Empty" && !emptyArrows)
             {
                 JsonElement fittedPose = id is "legs" or "boots" ? lower : pose;
                 AddItem(art: art, body: body, pose: fittedPose, slot: id, itemId: item, facing: facing,
                         diagnostics: diagnostics);
             }
+        }
+
+        if (_sample.ValueKind is JsonValueKind.Object && _sample.GetProperty(propertyName: "released").GetBoolean())
+        {
+            AddSpentArrow(art: art, pose: pose, facing: facing);
         }
 
         string state = diagnostics.Count == 0 ? "Fitted — visual acceptance pending" : "Incomplete — "
@@ -650,6 +923,33 @@ internal sealed class CharacterPreview
                     + _sample.GetProperty(propertyName: "actionSeconds").GetDouble().ToString(format: "F3",
                             provider: CultureInfo.InvariantCulture);
         }
+    }
+
+    private void AddSpentArrow(Node2D art, JsonElement pose, int facing)
+    {
+        _gateway.RequireThread();
+        JsonElement item = _fits.GetProperty(propertyName: "items").EnumerateArray().Single(
+                predicate: value => Text(value: value, name: "id") is "IT-02");
+        JsonElement definition = _packs[0].GetProperty(propertyName: "parts").EnumerateArray().Single(
+                predicate: value => Text(value: value, name: "key") is "IT_02_master");
+        Vector2 at = Point(value: pose.GetProperty(propertyName: "anchors").GetProperty(
+                propertyName: Text(value: _sample, name: "bowHand") + "Hand"));
+        float angle = _sample.GetProperty(propertyName: "aimRadians").GetSingle();
+        float time = _sample.GetProperty(propertyName: "actionSeconds").GetSingle()
+                - _sample.GetProperty(propertyName: "intervalSeconds").GetSingle() * 0.5f;
+        at += new Vector2(x: MathF.Cos(x: angle), y: MathF.Sin(x: angle)) * Math.Clamp(value: time * 100,
+                min: 0, max: 36) + SegmentOffset(lower: false);
+        var sprite = new Sprite2D
+        {
+            Name = "SpentArrow", Texture = Texture(pack: _packs[0], part: definition,
+                    atlas: Text(value: item, name: "atlas")), Position = new Vector2(
+                            x: facing == 1 ? at.X : 48 - at.X, y: at.Y), Rotation = facing * angle,
+            Scale = new Vector2(x: facing, y: 1), ZIndex = 31,
+            TextureFilter = CanvasItem.TextureFilterEnum.Nearest
+        };
+        sprite.SetMeta(name: "recoverable", value: false);
+        sprite.SetMeta(name: "gameplay", value: false);
+        art.AddChild(node: sprite);
     }
 
     private static JsonElement FindPose(JsonElement body, string id)
@@ -700,6 +1000,63 @@ internal sealed class CharacterPreview
             };
             sprite.SetMeta(name: "part", value: key);
             art.AddChild(node: sprite);
+        }
+
+        if (BowActive())
+        {
+            AddBowArms(art: art, pose: pose, facing: facing);
+        }
+    }
+
+    private bool BowActive()
+    {
+        return _sample.ValueKind is JsonValueKind.Object && Text(value: _sample, name: "action") is "bow"
+                && Text(value: _sample, name: "bowStage") is not "inactive";
+    }
+
+    private void AddBowArms(Node2D art, JsonElement pose, int facing)
+    {
+        _gateway.RequireThread();
+        Sprite2D torso = art.GetNode<Sprite2D>(path: "Body_upper");
+        using Image normal = torso.Texture.GetImage();
+        JsonElement anchors = pose.GetProperty(propertyName: "anchors");
+        JsonElement composition = _bow.GetProperty(propertyName: "bodyComposition").EnumerateArray().Single(
+                predicate: value => StringComparer.Ordinal.Equals(x: Text(value: value, name: "id"), y: _body));
+        foreach (JsonElement rect in composition.GetProperty(propertyName: "retiredArms").EnumerateArray())
+        {
+            normal.FillRect(rect: new Rect2I(x: rect[0].GetInt32(), y: rect[1].GetInt32(),
+                    width: rect[2].GetInt32(), height: rect[3].GetInt32()), color: Colors.Transparent);
+        }
+
+        ImageTexture fitted = ImageTexture.CreateFromImage(image: normal);
+        _ownedTextures.Add(item: fitted);
+        torso.Texture = fitted;
+        JsonElement body = _fits.GetProperty(propertyName: "bodies").EnumerateArray().First(predicate: value =>
+                StringComparer.Ordinal.Equals(x: Text(value: value, name: "id"), y: _body));
+        JsonElement aim = FindPose(body: body, id: "aim");
+        JsonElement part = _bodies.GetProperty(propertyName: "parts").EnumerateArray().First(predicate: value =>
+                StringComparer.Ordinal.Equals(x: Text(value: value, name: "key"),
+                        y: Text(value: aim.GetProperty(propertyName: "bodyParts"), name: "upper")));
+        using Image source = Texture(pack: _bodies, part: part, atlas: BodyAtlas()).GetImage();
+        foreach (string hand in new[] { "left", "right" })
+        {
+            Vector2 shoulder = Point(value: anchors.GetProperty(propertyName: hand + "Shoulder"));
+            Vector2 grip = Point(value: anchors.GetProperty(propertyName: hand + "Hand"));
+            JsonElement rect = composition.GetProperty(propertyName: "armRect");
+            using Image strip = source.GetRegion(region: new Rect2I(x: rect[0].GetInt32(), y: rect[1].GetInt32(),
+                    width: rect[2].GetInt32(), height: rect[3].GetInt32()));
+            strip.Resize(width: Math.Max(val1: 1, val2: (int)MathF.Round(x: (grip - shoulder).Length())), height: 3,
+                    interpolation: Image.Interpolation.Nearest);
+            ImageTexture texture = ImageTexture.CreateFromImage(image: strip);
+            _ownedTextures.Add(item: texture);
+            var arm = new Sprite2D { Name = "BowArm_" + hand, Texture = texture, Centered = false,
+                Offset = new Vector2(x: 0, y: -1), Position = new Vector2(x: facing == 1 ? shoulder.X
+                        : 48 - shoulder.X, y: shoulder.Y) + SegmentOffset(lower: false)
+                                * new Vector2(x: facing, y: 1), Scale = new Vector2(x: facing, y: 1),
+                Rotation = facing * (grip - shoulder).Angle(), ZIndex = hand is "left" ? 9 : 11,
+                TextureFilter = CanvasItem.TextureFilterEnum.Nearest };
+            arm.SetMeta(name: "logical_hand", value: hand);
+            art.AddChild(node: arm);
         }
     }
 
@@ -779,6 +1136,11 @@ internal sealed class CharacterPreview
         if (_sample.ValueKind is JsonValueKind.Object && slot is "left" or "right")
         {
             angle += _sample.GetProperty(propertyName: slot + "Angle").GetSingle();
+        }
+
+        if (BowActive() && slot is "gloves")
+        {
+            angle = _sample.GetProperty(propertyName: "aimRadians").GetSingle();
         }
         JsonElement pack = _packs.First(predicate: value => value.GetProperty(propertyName: "items")
                 .EnumerateArray().Any(predicate: value => StringComparer.Ordinal.Equals(x: Text(value: value,
