@@ -19,7 +19,8 @@ internal static class ArchitecturePolicy
         JsonObject registry = JsonNode.Parse(json: File.ReadAllText(path: Path.Combine(path1: root,
                 path2: "docs/code/visibility-exemptions.json")))?.AsObject()
                 ?? throw new InvalidDataException(message: "VISIBILITY_REGISTRY: missing object");
-        string[] expected = ["src/core/ProofValue.cs|KingdomZombies.Core.ProofValue",
+        string[] expected = ["src/core/CharacterPresentation.cs|KingdomZombies.Core.CharacterPresentation",
+            "src/core/ProofValue.cs|KingdomZombies.Core.ProofValue",
             "src/multiplayer-abstractions/IProofService.cs|KingdomZombies.Multiplayer.Abstractions.IProofService",
             "src/godot-game/proofs/Phase1.cs|KingdomZombies.Proofs.Phase1",
             "src/core/FoundationMovementCommand.cs|KingdomZombies.Core.FoundationMovementCommand",

@@ -3,6 +3,11 @@
   "rule": "R-34",
   "permissions": [
     {
+      "path": "src/core/CharacterPresentation.cs",
+      "type": "KingdomZombies.Core.CharacterPresentation",
+      "reason": "The internal native character preview consumes this sealed engine-independent explicit-clock composition contract across the Core assembly boundary; detached samples retain logical hands and never create gameplay hits."
+    },
+    {
       "path": "src/core/ContentPack.cs",
       "type": "KingdomZombies.Core.ContentPack",
       "reason": "The native inspection assembly consumes this exact immutable detached pack-definition, diagnostic and independent-census contract across the Core assembly boundary. No engine or concrete service type belongs in this contract."

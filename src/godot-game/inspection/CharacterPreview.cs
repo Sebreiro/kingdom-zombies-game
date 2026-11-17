@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text.Json;
 using Godot;
+using KingdomZombies.Core;
 using KingdomZombies.Proofs;
 
 namespace KingdomZombies.Inspection;
@@ -61,8 +64,10 @@ internal sealed class CharacterPreview
                 ?? throw new InvalidDataException(message: "CHARACTER_ITEMS_MISSING"), expectedId: "items-01-10");
         JsonElement clothing = ReadDefinition(bytes: read(arg: "content/packs/items-11-24.json")
                 ?? throw new InvalidDataException(message: "CHARACTER_ITEMS_MISSING"), expectedId: "items-11-24");
-        return new CharacterPreview(root: root, gateway: gateway, fits: fits, bodies: bodies, weapons: weapons,
+        var preview = new CharacterPreview(root: root, gateway: gateway, fits: fits, bodies: bodies, weapons: weapons,
                 clothing: clothing, body: body);
+        preview._presentation = ReadPresentation(read: read);
+        return preview;
     }
 
 
@@ -97,8 +102,13 @@ internal sealed class CharacterPreview
         }
 
         _root.TextureFilter = CanvasItem.TextureFilterEnum.Nearest;
-        var controls = new ScrollContainer { Name = "Controls", Position = new Vector2(x: 390, y: 0),
-                Size = new Vector2(x: 260, y: 320), FollowFocus = true };
+        var controls = new ScrollContainer
+        {
+            Name = "Controls",
+            Position = new Vector2(x: 390, y: 0),
+            Size = new Vector2(x: 260, y: 320),
+            FollowFocus = true
+        };
         _root.AddChild(node: controls);
         var slots = new VBoxContainer { Name = "Slots", SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
         controls.AddChild(node: slots);
@@ -117,13 +127,28 @@ internal sealed class CharacterPreview
                                     ?? throw new InvalidDataException(message: "CHARACTER_ITEM_ID"))));
         }
 
+        if (_presentation is not null)
+        {
+            AnimationControls(slots: slots);
+        }
+
         _root.AddChild(node: new Node2D { Name = "Art", Position = new Vector2(x: 0, y: 0) });
-        _root.AddChild(node: new Label { Name = "Status", Position = new Vector2(x: 0, y: 322),
-                Size = new Vector2(x: 650, y: 80), AutowrapMode = TextServer.AutowrapMode.WordSmart });
+        _root.AddChild(node: new Label
+        {
+            Name = "Status",
+            Position = new Vector2(x: 0, y: 322),
+            Size = new Vector2(x: 650, y: 80),
+            AutowrapMode = TextServer.AutowrapMode.WordSmart
+        });
         _controls["Body"].Select(idx: selected);
         _controls["Zoom"].Select(idx: 3);
         _attached = true;
         Project();
+        if (_presentation is not null)
+        {
+            _tree = _root.GetTree();
+            _tree.ProcessFrame += Frame;
+        }
     }
 
 
@@ -131,12 +156,43 @@ internal sealed class CharacterPreview
     internal void Detach()
     {
         _gateway.RequireThread();
+        _attached = false;
+        _playing = false;
+        if (_tree is not null)
+        {
+            _tree.ProcessFrame -= Frame;
+            _tree = null;
+        }
+
         foreach (OptionButton control in _controls.Values)
         {
             control.ItemSelected -= Changed;
         }
 
-        _attached = false;
+        foreach ((string id, Button button) in _buttons)
+        {
+            button.Pressed -= TransportAction(id: id);
+        }
+
+        RetireArt();
+    }
+
+    internal void Tick(double delta)
+    {
+        _gateway.RequireThread();
+        if (!_attached)
+        {
+            throw new InvalidOperationException(message: "CHARACTER_DETACHED");
+        }
+
+        _presentation?.Advance(elapsedSeconds: delta);
+        if (_presentation is not null)
+        {
+            _ = _presentation.TryContact(generation: _presentation.Snapshot.GetProperty(propertyName: "generation")
+                    .GetInt64());
+        }
+
+        Project();
     }
 
     private readonly Node2D _root;
@@ -149,6 +205,136 @@ internal sealed class CharacterPreview
     private readonly Dictionary<string, Texture2D> _textures = new(comparer: StringComparer.Ordinal);
     private string _body;
     private bool _attached;
+    private CharacterPresentation? _presentation;
+    private SceneTree? _tree;
+    private bool _playing;
+    private readonly Dictionary<string, Button> _buttons = new(comparer: StringComparer.Ordinal);
+    private readonly List<Texture2D> _ownedTextures = [];
+    private JsonElement _sample;
+
+    private static CharacterPresentation ReadPresentation(Func<string, byte[]?> read)
+    {
+        byte[] animation = read(arg: "content/animation/locomotion-melee.json")
+                ?? throw new InvalidDataException(message: "ANIMATION_MISSING content/animation/locomotion-melee.json");
+        JsonElement definition = ReadDefinition(bytes: animation, expectedId: "locomotion-melee");
+        string[] expected = ["content/config/items.json", "content/config/combat.json", "content/animation/fits-a.json",
+            "content/packs/bodies-a.json", "assets/characters/bodies-a.png", "content/animation/fits-b.json",
+            "content/packs/bodies-b.json", "assets/characters/bodies-b.png", "content/animation/fits-c.json",
+            "content/packs/bodies-c.json", "assets/characters/bodies-c.png"];
+        if (!definition.GetProperty(propertyName: "bindings").EnumerateArray().Select(selector: binding =>
+                ContentPack.ResourcePath(path: Text(value: binding, name: "path"))).SequenceEqual(second: expected,
+                        comparer: StringComparer.Ordinal))
+        {
+            throw new InvalidDataException(message: "ANIMATION_BINDING_SET");
+        }
+
+        foreach (JsonElement binding in definition.GetProperty(propertyName: "bindings").EnumerateArray())
+        {
+            string path = ContentPack.ResourcePath(path: Text(value: binding, name: "path"));
+            byte[] value = read(arg: path) ?? throw new InvalidDataException(message: "ANIMATION_BINDING " + path);
+            if (value.Length is 0 or > 16777216 || !StringComparer.Ordinal.Equals(
+                    x: Convert.ToHexStringLower(inArray: SHA256.HashData(source: value)),
+                    y: Text(value: binding, name: "sha256")))
+            {
+                throw new InvalidDataException(message: "ANIMATION_BINDING_HASH " + path);
+            }
+        }
+
+        return new CharacterPresentation(animation: animation, items: read(arg: "content/config/items.json")
+                ?? throw new InvalidDataException(message: "ANIMATION_ITEMS_MISSING"),
+                combat: read(arg: "content/config/combat.json")
+                        ?? throw new InvalidDataException(message: "ANIMATION_COMBAT_MISSING"));
+    }
+
+    private void AnimationControls(Node slots)
+    {
+        _gateway.RequireThread();
+        AddSelector(parent: slots, id: "Movement", label: "Movement", values: ["Static pose", "Idle", "Walk",
+            "Faster", "Jump"]);
+        AddSelector(parent: slots, id: "Action", label: "Attack", values: ["None", "Melee"]);
+        AddSelector(parent: slots, id: "PlaybackSpeed", label: "Preview speed", values: ["0.25×", "0.5×", "1×", "2×"]);
+        _controls["PlaybackSpeed"].Select(idx: 2);
+        foreach ((string id, string text) in new[] { ("Play", "Play preview"), ("Step", "Step frame"),
+            ("Reset", "Reset preview"), ("Flinch", "Preview visual flinch") })
+        {
+            var button = new Button { Name = id, Text = text, CustomMinimumSize = new Vector2(x: 220, y: 48) };
+            button.Pressed += TransportAction(id: id);
+            slots.AddChild(node: button);
+            _buttons.Add(key: id, value: button);
+        }
+    }
+
+    private Action TransportAction(string id)
+    {
+        return id switch
+        {
+            "Play" => Play,
+            "Step" => Step,
+            "Reset" => Reset,
+            "Flinch" => PreviewFlinch,
+            _ => throw new InvalidDataException(message: "ANIMATION_TRANSPORT")
+        };
+    }
+
+    private void Play()
+    {
+        _gateway.RequireThread();
+        _playing = !_playing;
+        _buttons["Play"].Text = _playing ? "Pause preview" : "Play preview";
+        _buttons["Step"].Disabled = _playing;
+    }
+
+    private void Step()
+    {
+        _gateway.RequireThread();
+        if (!_playing)
+        {
+            Tick(delta: _presentation?.Snapshot.GetProperty(propertyName: "nextSampleSeconds").GetDouble() ?? 0);
+        }
+    }
+
+    private void Reset()
+    {
+        _gateway.RequireThread();
+        _presentation?.Configure(body: _body, movement: "idle", action: "none", leftItem: "Empty",
+                rightItem: "Empty", facing: 1);
+        Project();
+    }
+
+    private void PreviewFlinch()
+    {
+        _gateway.RequireThread();
+        _presentation?.Flinch();
+        Project();
+    }
+
+    private void Frame()
+    {
+        _gateway.RequireThread();
+        if (_attached && _playing)
+        {
+            double[] speeds = [0.25, 0.5, 1, 2];
+            Tick(delta: _root.GetProcessDeltaTime() * speeds[_controls["PlaybackSpeed"].Selected]);
+        }
+    }
+
+    private void RetireArt()
+    {
+        _gateway.RequireThread();
+        Node2D art = _root.GetNode<Node2D>(path: "Art");
+        foreach (Node child in art.GetChildren())
+        {
+            art.RemoveChild(node: child);
+            child.QueueFree();
+        }
+
+        foreach (Texture2D texture in _ownedTextures)
+        {
+            texture.Dispose();
+        }
+
+        _ownedTextures.Clear();
+    }
 
     private static void ValidateFitting(JsonElement root)
     {
@@ -228,7 +414,8 @@ internal sealed class CharacterPreview
             bodies = profiles.SelectMany(selector: value => value.GetProperty(propertyName: "fits")
                     .GetProperty(propertyName: "bodies").EnumerateArray()).OrderBy(
                             keySelector: value => Text(value: value, name: "id"), comparer: StringComparer.Ordinal),
-            slots = first.GetProperty(propertyName: "slots"), items = first.GetProperty(propertyName: "items"),
+            slots = first.GetProperty(propertyName: "slots"),
+            items = first.GetProperty(propertyName: "items"),
         });
     }
 
@@ -336,13 +523,8 @@ internal sealed class CharacterPreview
     private void Project()
     {
         _gateway.RequireThread();
+        RetireArt();
         Node2D art = _root.GetNode<Node2D>(path: "Art");
-        foreach (Node child in art.GetChildren())
-        {
-            art.RemoveChild(node: child);
-            child.QueueFree();
-        }
-
         _body = Selected(id: "Body");
         ReconcileHands();
         string poseId = Selected(id: "Pose");
@@ -353,7 +535,57 @@ internal sealed class CharacterPreview
                 predicate: value => StringComparer.Ordinal.Equals(x: Text(value: value, name: "id"), y: _body));
         JsonElement pose = body.GetProperty(propertyName: "poses").EnumerateArray().First(
                 predicate: value => StringComparer.Ordinal.Equals(x: Text(value: value, name: "id"), y: poseId));
-        AddBody(art: art, pose: pose, facing: facing);
+        JsonElement lower = pose;
+        _sample = default;
+        if (_presentation is not null && (Selected(id: "Movement") is not "Static pose"
+                || Selected(id: "Action") is "Melee"))
+        {
+            string movement = Selected(id: "Movement") switch
+            {
+                "Walk" => "walk",
+                "Faster" => "faster",
+                "Jump" when _body is "CH-01" => "jump",
+                _ => "idle"
+            };
+            _presentation.Configure(body: _body, movement: movement, action: Selected(id: "Action") is "Melee"
+                    ? "melee" : "none", leftItem: Selected(id: "left"), rightItem: Selected(id: "right"),
+                    facing: facing);
+            _sample = _presentation.Snapshot;
+            lower = FindPose(body: body, id: Text(value: _sample, name: "lowerPose"));
+            pose = FindPose(body: body, id: Text(value: _sample, name: "upperPose"));
+        }
+
+        AddBody(art: art, pose: pose, facing: facing, lower: lower);
+        ProjectGear(art: art, body: body, pose: pose, lower: lower, facing: facing, poseId: poseId);
+        Contact(art: art, pose: pose, facing: facing);
+    }
+
+    private void Contact(Node2D art, JsonElement pose, int facing)
+    {
+        _gateway.RequireThread();
+        if (_sample.ValueKind is JsonValueKind.Object
+                && _sample.GetProperty(propertyName: "contactVisible").GetBoolean())
+        {
+            Vector2 at = Point(value: pose.GetProperty(propertyName: "anchors")
+                    .GetProperty(propertyName: "rightHand"));
+            var contact = new Polygon2D
+            {
+                Name = "Contact",
+                Polygon = [new Vector2(x: 0, y: 0), new Vector2(x: 2, y: 0), new Vector2(x: 2, y: 2),
+                    new Vector2(x: 0, y: 2)],
+                Position = new Vector2(x: facing == 1 ? at.X : 48 - at.X, y: at.Y)
+                        + SegmentOffset(lower: false) * new Vector2(x: facing, y: 1),
+                Color = new Color(r: 1, g: 0.95f, b: 0.8f),
+                ZIndex = 30
+            };
+            art.AddChild(node: contact);
+        }
+    }
+
+    private void ProjectGear(Node2D art, JsonElement body, JsonElement pose, JsonElement lower, int facing,
+            string poseId)
+    {
+        _gateway.RequireThread();
         var diagnostics = new List<string>();
         foreach (JsonElement slot in _fits.GetProperty(propertyName: "slots").EnumerateArray())
         {
@@ -361,7 +593,8 @@ internal sealed class CharacterPreview
             string item = Selected(id: id);
             if (item is not "Empty")
             {
-                AddItem(art: art, body: body, pose: pose, slot: id, itemId: item, facing: facing,
+                JsonElement fittedPose = id is "legs" or "boots" ? lower : pose;
+                AddItem(art: art, body: body, pose: fittedPose, slot: id, itemId: item, facing: facing,
                         diagnostics: diagnostics);
             }
         }
@@ -373,22 +606,61 @@ internal sealed class CharacterPreview
         _root.SetMeta(name: "pose", value: poseId);
         _root.SetMeta(name: "facing", value: facing);
         _root.SetMeta(name: "diagnostics", value: string.Join(separator: "\n", values: diagnostics));
+        if (_sample.ValueKind is JsonValueKind.Object)
+        {
+            _root.SetMeta(name: "sample", value: _sample.GetRawText());
+            _root.GetNode<Label>(path: "Status").Text += " · " + Text(value: _sample, name: "stage") + " · t="
+                    + _sample.GetProperty(propertyName: "actionSeconds").GetDouble().ToString(format: "F3",
+                            provider: CultureInfo.InvariantCulture);
+        }
     }
 
-    private void AddBody(Node2D art, JsonElement pose, int facing)
+    private static JsonElement FindPose(JsonElement body, string id)
+    {
+        return body.GetProperty(propertyName: "poses").EnumerateArray().First(predicate: value =>
+                StringComparer.Ordinal.Equals(x: Text(value: value, name: "id"), y: id));
+    }
+
+    private Vector2 SegmentOffset(bool lower)
+    {
+        _gateway.RequireThread();
+        if (_sample.ValueKind is not JsonValueKind.Object)
+        {
+            return Vector2.Zero;
+        }
+
+        Vector2 offset = Point(value: _sample.GetProperty(propertyName: "lowerOffset"));
+        if (!lower)
+        {
+            offset += Point(value: _sample.GetProperty(propertyName: "upperOffset"));
+            offset.X += _sample.GetProperty(propertyName: "flinchOffset").GetSingle();
+            offset.Y += _sample.GetProperty(propertyName: "transitionOffset").GetSingle();
+        }
+
+        return offset;
+    }
+
+    private void AddBody(Node2D art, JsonElement pose, int facing, JsonElement lower)
     {
         _gateway.RequireThread();
         foreach (string part in new[] { "lower", "upper", "head" })
         {
-            string key = Text(value: pose.GetProperty(propertyName: "bodyParts"), name: part);
+            JsonElement segment = part is "lower" ? lower : pose;
+            string key = Text(value: segment.GetProperty(propertyName: "bodyParts"), name: part);
             JsonElement definition = _bodies.GetProperty(propertyName: "parts").EnumerateArray()
                     .First(predicate: value => StringComparer.Ordinal.Equals(x: Text(value: value, name: "key"),
                             y: key));
-            var sprite = new Sprite2D { Name = "Body_" + part, Centered = false,
-                    Texture = Texture(pack: _bodies, part: definition, atlas: BodyAtlas()),
-                    Position = new Vector2(x: facing == 1 ? 0 : 48, y: 0),
-                    Scale = new Vector2(x: facing, y: 1), ZIndex = 10,
-                    TextureFilter = CanvasItem.TextureFilterEnum.Nearest };
+            var sprite = new Sprite2D
+            {
+                Name = "Body_" + part,
+                Centered = false,
+                Texture = Texture(pack: _bodies, part: definition, atlas: BodyAtlas()),
+                Position = new Vector2(x: facing == 1 ? 0 : 48, y: 0)
+                        + SegmentOffset(lower: part is "lower") * new Vector2(x: facing, y: 1),
+                Scale = new Vector2(x: facing, y: 1),
+                ZIndex = 10,
+                TextureFilter = CanvasItem.TextureFilterEnum.Nearest
+            };
             sprite.SetMeta(name: "part", value: key);
             art.AddChild(node: sprite);
         }
@@ -466,6 +738,11 @@ internal sealed class CharacterPreview
         Vector2 at = Point(value: anchors.GetProperty(propertyName: anchor));
         (Vector2 size, float angle) = FitGeometry(body: body, pose: pose, layer: layer, slot: slot,
                 anchor: anchor, anchors: anchors, at: at);
+        at += SegmentOffset(lower: slot is "legs" or "boots");
+        if (_sample.ValueKind is JsonValueKind.Object && slot is "left" or "right")
+        {
+            angle += _sample.GetProperty(propertyName: slot + "Angle").GetSingle();
+        }
         JsonElement pack = _packs.First(predicate: value => value.GetProperty(propertyName: "items")
                 .EnumerateArray().Any(predicate: value => StringComparer.Ordinal.Equals(x: Text(value: value,
                         name: "id"), y: Text(value: item, name: "id"))));
@@ -522,17 +799,25 @@ internal sealed class CharacterPreview
     {
         _gateway.RequireThread();
         Texture2D source = Texture(pack: pack, part: definition, atlas: Text(value: item, name: "atlas"));
-        Image image = source.GetImage();
+        using Image image = source.GetImage();
         image.Resize(width: (int)size.X, height: (int)size.Y, interpolation: Image.Interpolation.Nearest);
         bool hand = slot is "left" or "right";
         Vector2 pivot = hand ? Point(value: layer.GetProperty(propertyName: "pivot"))
                 : new Vector2(x: size.X / 2, y: slot is "headwear" or "face" ? size.Y / 2 : 0);
-        var sprite = new Sprite2D { Name = slot + "_" + Text(value: layer, name: "component"), Centered = false,
-                Texture = ImageTexture.CreateFromImage(image: image), Offset = -pivot.Round(),
-                Position = new Vector2(x: facing == 1 ? at.X : 48 - at.X, y: at.Y),
-                Scale = new Vector2(x: facing, y: 1), Rotation = facing * angle,
-                ZIndex = LayerOrder(layer: layer, slot: slot, facing: facing),
-                TextureFilter = CanvasItem.TextureFilterEnum.Nearest };
+        ImageTexture fitted = ImageTexture.CreateFromImage(image: image);
+        _ownedTextures.Add(item: fitted);
+        var sprite = new Sprite2D
+        {
+            Name = slot + "_" + Text(value: layer, name: "component"),
+            Centered = false,
+            Texture = fitted,
+            Offset = -pivot.Round(),
+            Position = new Vector2(x: facing == 1 ? at.X : 48 - at.X, y: at.Y),
+            Scale = new Vector2(x: facing, y: 1),
+            Rotation = facing * angle,
+            ZIndex = LayerOrder(layer: layer, slot: slot, facing: facing),
+            TextureFilter = CanvasItem.TextureFilterEnum.Nearest
+        };
         sprite.SetMeta(name: "slot", value: slot);
         sprite.SetMeta(name: "item", value: Text(value: item, name: "id"));
         sprite.SetMeta(name: "part", value: key);
@@ -573,8 +858,14 @@ internal sealed class CharacterPreview
             throw new InvalidDataException(message: "CHARACTER_ATLAS_BOUNDS");
         }
 
-        return new AtlasTexture { Atlas = texture, Region = new Rect2(x: x, y: y, width: width, height: height),
-                FilterClip = true };
+        var result = new AtlasTexture
+        {
+            Atlas = texture,
+            Region = new Rect2(x: x, y: y, width: width, height: height),
+            FilterClip = true
+        };
+        _ownedTextures.Add(item: result);
+        return result;
     }
 
     private Vector2 Point(JsonElement value)
