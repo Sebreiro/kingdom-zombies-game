@@ -1,5 +1,7 @@
 # Plan 04-07 Task2 finalization checkpoint
 
+**Latest continuation (2026-11-17):** The explicitly authorized shared-helper Image disposal attempt also fails at shutdown. See [R1 outcome and exact evidence](04-07-REPAIR.md#r1-attempt1-outcome-stopped-canonical-fail). Focused `afbfc1d8-9875-41b0-a6f7-334cf15a72b1` has16158 true outcomes/7936tuples/12H13 and strict production/harness0warnings/errors, then exits3221225501 with fatal script-binding/leaked-reference stderr. R1 is1/2 used, but its crash-persistence stop is now binding. New backup manifest: `.phase4/checkpoints/04-07-r1-shared-image/manifest.json`. No second attempt, production broadening, Task2 commit, full selected regression or completion SUMMARY occurred. Everything below preserves the original boundary/history.
+
 Status: Task1 complete and committed with its mandatory committed-byte tracer passing. Task2 remains incomplete and uncommitted. No SUMMARY, global progress, requirement completion, ASSET acceptance, final appearance judgment or pack-index adoption is supplied. Parent requested terminal checkpoint after the ordinary correction budget was consumed.
 
 ## Completed Task1
