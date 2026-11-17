@@ -41,14 +41,14 @@ coverage:
     description: Three actual materials/lifecycle components with retained source lineage
     verification:
       - kind: integration
-        ref: "buildings.main-art /19c46b11-05e8-48cc-9350-cf7541741935"
+        ref: "buildings.main-art /51fb1035-932a-4523-8817-e4d4caeacd2b"
         status: pass
     human_judgment: false
   - id: main-state-headless
     description: Actual guarded lifecycle/shared stash/seats/independent attachment semantics
     verification:
       - kind: integration
-        ref: "buildings.main-state /202101fa-3b6f-430e-8fa5-bab0166e4b7d"
+        ref: "buildings.main-state /aa802f29-f2c7-454c-be88-1cc0c68921bc"
         status: pass
     human_judgment: false
   - id: final-main-appearance
@@ -57,16 +57,16 @@ coverage:
     human_judgment: true
     rationale: "Requires complete phase implementation, independent review/fixes and separately owned04-32/33 actual Windows1280x720/no-VM acceptance."
 actuals:
-  tokens: 36039
+  tokens: 36145
   tasks: 2
-  commits: 5
-  diff_chars: 144156
+  commits: 7
+  diff_chars: 144577
   scale: "ceil(chars/4) over git diff --no-ext-diff of the eight realized implementation paths; binary diff markers are counted, not compressed archive bytes"
-commits: 5
+commits: 7
 plan_head_before: 111dca7aacf5e5bf53bdaf9fc89557498d1cb196
-plan_head_after: a48cc4e11daa36244e539c3039822cb07fa2ef31
-duration: 43min
-duration_scope: "Observed saved verification/repair window01:19:28Z to02:02:05Z; initial art generation/authoring prelude unmeasured"
+plan_head_after: be444f02b6a0af597956fb5fe82840e62a62842f
+duration: 49min
+duration_scope: "Observed saved verification/repair window01:19:28Z to02:08:51Z; initial art generation/authoring prelude unmeasured"
 completed: 2026-11-17
 ---
 
@@ -76,9 +76,9 @@ completed: 2026-11-17
 
 ## Performance and cost
 
-Two tasks, eight implementation paths. Earliest retained source verification began2026-11-17T01:19:28.178Z; measurement/self-check completed2026-11-17T02:02:05.132Z. The observed window is43minutes and includes the checkpoint/continuation; initial art-generation/authoring time is not reconstructed. Final canonical art took6095ms, state24984ms and discovery496ms; these overlapped and are not summed as elapsed wall time. Focused visibility took3078ms. No cold setup/install occurred.
+Two tasks, eight implementation paths. Earliest retained source verification began2026-11-17T01:19:28.178Z; measurement/self-check completed2026-11-17T02:08:51.797Z. The observed window is49minutes and includes the checkpoint/continuation; initial art-generation/authoring time is not reconstructed. Final canonical art took6126ms, state25171ms and discovery623ms; these overlapped and are not summed as elapsed wall time. Focused visibility took3053ms. No cold setup/install occurred.
 
-Actuals use144156 realized textual diff characters/36039tokens, versus the plan estimate35000 on the same chars/4 scale. The diff SHA256 is`d8f52f35fa837640e38cf6cdf0621763bbe1215d9d7572538429fdd5b37b4dfb`. Five commits are measured from the persisted ledger through implementation HEAD, including checkpoint/coordinator metadata; the later summary commit is outside that recorded interval. No narrated/harness-token count replaces that measurement.
+Actuals use144577 realized textual diff characters/36145tokens, versus the plan estimate35000 on the same chars/4 scale. The diff SHA256 is`5615806a0fdbfe4b50534747da47fed97f8f730218a74df78831eea80fe496d0`. Seven commits are measured from the persisted ledger through implementation HEAD, including checkpoint/coordinator metadata and the initial canonical summary; the later summary commit is outside that recorded interval. No narrated/harness-token count replaces that measurement.
 
 ## Accomplishments
 
@@ -95,7 +95,9 @@ Actuals use144156 realized textual diff characters/36039tokens, versus the plan 
 | Task2 RED | `1909fa5` | Genuine compiled intended2-versus3 assertion failure,0skips |
 | Bounded checkpoint | `e5c8e6c` | Preserved five WIP hashes/backups and all failures; no completion credit |
 | Coordinator decomposition | `15217d2` | R1/R2/R3 with2attempts each; original exhausted corrections not reset |
-| Task2 GREEN | `a48cc4e` | Five scoped implementation paths, all final selected gates pass |
+| Task2 GREEN | `a48cc4e` | Five scoped implementation paths, first complete selected gates pass |
+| Initial canonical summary | `674b514` | Uninterrupted summary transaction, with ten harness warnings disclosed |
+| Same-file ordinal cleanup | `be444f0` | Ten explicit ordinal comparisons and enforced clean harness build; final entire selection passes |
 
 Summary metadata is committed immediately after this file is written/self-checked. Parent owns global progress and draftPR5; no foreign global/specification/Phase06/12 work is staged.
 
@@ -105,7 +107,27 @@ The actual fresh RED record is`.phase4/04-11/tdd-red-fresh/evidence.json`, with 
 
 GREEN is the actual final17/17 compiled test report,0skips, plus native production behavior. No post-GREEN refactor was needed. The current source is preserved from checkpoint rather than overwritten by the old RED source.
 
-## Verification, frozen selection and exact identities
+## Final ordinal cleanup and R3 attempt2
+
+Coordinator follow-up arrived while the first canonical summary write→commit transaction had begun. That transaction finished uninterrupted in674b514, preserving its actual source version and ten disclosed MA0006 warnings. The authorized remaining cleanup changed only the already-owned main-buildings.cjs: ten exact CSharp proof-harness string comparisons now use explicit `StringComparer.Ordinal.Equals`; the actual harness build also asserts0warnings/0errors. No suppression, production behavior, package, permission, path or deadline changed.
+
+R1attempt2 focused`ordinal-focused-31718b3f-cde5-437e-8701-b9f4d1a02f10`passed with0warnings/0errors and260actual native observations,PID34740, matching nonce and authentic productionDLLSHAa76c953902267b90b6f0ba64ca4992760648f8e62edc1330ed492102b6227239. R1has consumed2/2,0remaining. R3attempt2 is the fresh entire selection below, not a combination of earlier passes; R3has consumed2/2,0remaining. R2used1/2,1unused. No budget reset or unresolved failure remains.
+
+All1562tracked/owned source/docs/manifests matched before/after`r3-attempt2-frozen-inputs.json`; selection/omissions remain identical in`r3-attempt2-selection.json`. These final reports truthfully record tested HEAD`674b5148164fce4786b99da6048066fa6481d7c5`plus one case-file WIP SHA256`6239486fea01854ebb74937061fe085f342234716ed3000a47ccbc496ea84837`. That exact file is committed unchanged in`be444f02b6a0af597956fb5fe82840e62a62842f`; be444f0 is the post-run source commit, not the earlier tested HEAD.
+
+| Final fresh selected gate | Invocation | Result |
+| --- | --- | --- |
+| buildings.main-art | `51fb1035-932a-4523-8817-e4d4caeacd2b` | PASS,3tiers/47parts/153members/12semantic rejections |
+| buildings.main-state | `aa802f29-f2c7-454c-be88-1cc0c68921bc` | PASS,production strict AND isolated proof harness0warnings/0errors,17compiled/0skips,14state mutations,260native |
+| source.case-discovery | `7fdb6598-e173-4da8-b553-83f25e86b484` | PASS,19cases/35rejected faults/4actual CLI children/0case bodies during import |
+| Rule34_DeclaredVisibility_Accepted | `r3-attempt2-visibility-02b7a28a-4dd0-45b4-9d49-bfa370ffc070` | PASS,1actual current subject/0skips |
+
+Final actual nativePID25976equals owned childPID25976; nonce`aa802f29-f2c7-454c-be88-1cc0c68921bc`matches. The final real productionDLLSHA256 is`67012854a18d2d703941b80ba9d076f7ed71bfd6c573fe460338757930113b8e`; authentic byte-identical copied closure, actual owning ALC and exact pinned non-console entry checks remain intact. Strict rebuild from the later source revision legitimately changed compiled bytes; older assembly identities stay with their original runs.
+
+Final input-manifest SHA256: art`5a6532d6fd721ccfe6fc05667b24d834639550664787c072fce90c0fc79e86a6`, state`e3fece260dc1a3e635afd3d5388c5f42862d7c42882179cc2066c8e0dfb0f872`, discovery`6cdf6abf2fc14f6572af6bf0593d9122b75bae8d2db1902dcf932796027ef2f4`. All217original native IDs remain among260passing observations. The earlier complete pass and warning logs below remain immutable historical evidence; the final harness is warning-free.
+
+### Preserved R3 attempt1 selection and identities
+
 
 Selection and omissions were saved before execution at`.phase4/04-11/r3-selection.json`. Every selected source/docs/manifest input stayed unchanged throughout all runs:1561 tracked/owned files matched`r3-frozen-inputs.json` before/after. Evidence records tested HEAD`15217d25580e63a7c817a04c2e9a735e996dc3f2` plus the exact five Task2 WIP paths; these bytes were then committed unchanged as`a48cc4e11daa36244e539c3039822cb07fa2ef31`. Do not call a48cc4e the earlier tested HEAD.
 
@@ -138,11 +160,11 @@ Unchanged audio/LAN/export/full-hub/full-catalog wrappers were not selected for 
 | `repair-focused-ecba40cc-e4c8-49c5-b5f2-6a3dc8bd227c` | R1/R2 focused attempt1 PASS,260/260,actualPID35828/nonce/realDLL authenticated |
 | R3 final selection above | Attempt1 PASS on all selected frozen inputs |
 
-Original three corrections were exhausted and never reset: local strict source rule corrections; harness sealed/namespace correction; correct owning AssemblyLoadContext for real production bytes. Coordinator explicitly decomposed the remaining technical work into R1/R2/R3,2attempts each. R1 used1/2repair attempts, R2used1/2, R3used1/2;1remains each, with no outstanding in-scope failure. Bounded diagnostics supplied no canonical pass credit. Initial sandbox Node→Git EPERM had no native assertions; its empty diagnostic directory is retained as environment-only setup history. The initial prototype and both original/fresh RED directories remain preserved.
+At the initial summary, the original three corrections were exhausted and never reset: local strict source rule corrections; harness sealed/namespace correction; correct owning AssemblyLoadContext for real production bytes. Coordinator explicitly decomposed the remaining technical work into R1/R2/R3,2attempts each. At that source version R1 used1/2repair attempts, R2used1/2, R3used1/2;1remained each. The final ordinal follow-up above consumes the remaining R1/R3 attempts without resetting them. Bounded diagnostics supplied no canonical pass credit. Initial sandbox Node→Git EPERM had no native assertions; its empty diagnostic directory is retained as environment-only setup history. The initial prototype and both original/fresh RED directories remain preserved.
 
 The original four observations`zoom-reachability-1/2/4/8` are retained by name. Diagnostics observed nine sprites each; the only outside sprite was invisible`guard-right/Arrow` atlocaltime1, position(88,-14), rect(0,0)/(8,4),1x content bounds(284,46)..(292,50), scaled at2/4/8. It was invisible both locally and in-tree. Every visible sprite fit. Reachability now evaluates visible drawable state using native transforms and all four rect corners. Forty additional real controls sample each socket atlocal0.25/0.375/0.5/0.624/0.625 and1/2/4/8zoom, with actual bounded scroll offsets/page/extents and complete visible arrow rect fit. Independently moving a visible actual arrow outside is rejected; hiding that outside arrow is accepted; restoring visible inside is accepted. No arrow family was dropped, no canvas was widened and production timing/geometry is unchanged.
 
-The isolated tooling harness has10retained MA0006 string-comparison warnings (earlier harness9); production solution has0warnings/errors. No suppression/permission expansion was added. Warnings in this temporary proof fixture are disclosed rather than represented as a clean strict fixture build.
+The historical R3attempt1 isolated tooling harness has10retained MA0006 string-comparison warnings (earlier harness9); production solution has0warnings/errors. No suppression/permission expansion was added. Those earlier warnings are disclosed rather than retroactively represented as a clean build; final R3attempt2 above proves0warnings after exact ordinal cleanup.
 
 ## Artifacts this phase produces
 
@@ -153,7 +175,7 @@ All eight exact implementation paths below exist and are committed. No ninth pro
 | `src/godot-game/assets/buildings/main-tiers.png` | 115871 | `9159b358520ff5731d86c1911406749d14f3bdb7e1bd5c96a29f1a1de95a788a` |
 | `src/godot-game/content/packs/main-buildings.json` | 55892 | `54fc6b5cc758cd82e69a81abae28ff08f6e05387a86782c934a6b26f458fb346` |
 | `production/phase4/main-buildings.zip` | 6552234 | `a0bde48040dea1d681f78a92910e06b4060e2b03874ca64b8023626a9934458d` |
-| `tools/phase4/cases/main-buildings.cjs` | 39642 | `a98681fbbf06ea7c420940a46bb0e8be415f225fef25e3b9348110bb45d05c5f` |
+| `tools/phase4/cases/main-buildings.cjs` | 40062 | `6239486fea01854ebb74937061fe085f342234716ed3000a47ccbc496ea84837` |
 | `src/godot-game/inspection/BuildingPreview.cs` | 23978 | `4488c6b5c04f842818b2acf1e73e1b8197a13e27c427eedd7986d9a0cd8a3d38` |
 | `src/godot-game/content/world/main-assemblies.json` | 7070 | `1ca169e2bd8818fac84b4ff19d282aa9d6ed8b19b91adb70a830ef100c51ae1e` |
 | `src/godot-game/content/packs/camp-access.json` | 6796 | `4c2c08f4475505b5d5e9dbd991a06930b28fd20538548ececf281020dec567b7` |
@@ -423,7 +445,8 @@ src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection|BuildingP
 2. **[Rule3 - Actual proof integration]** Corrected isolated harness declaration and loaded the actual production assembly through Godot's owning context. Original MA0053/constructor failures remain recorded.
 3. **[Rule1 - Proof overconstraint]** Observed invisible expired-arrow bounds before repairing the visible-drawable predicate, then independently tested visible-outside rejection and both active lifetimes. No acceptance requirement was relaxed.
 4. **[Rule3 - Authentic process identity]** Reused the existing hub's authenticated non-console entry approach instead of asserting false equality between wrapper and actual enginePID.
-5. **[Coordinator bounded decomposition]** R1/R2/R3 budgets are an explicit technical continuation after the original limit, not a silent reset or new product decision. No path/architecture/permission/package expansion occurred.
+5. **[Rule1 - Authored proof warnings]** Explicit coordinator follow-up used the remaining R1/R3 attempts for ten exact ordinal comparisons in the existing case/harness only. Final strict production and isolated harness builds are0warnings/0errors; all prior assertions and semantic controls pass again on frozen inputs.
+6. **[Coordinator bounded decomposition]** R1/R2/R3 budgets are an explicit technical continuation after the original limit, not a silent reset or new product decision. No path/architecture/permission/package expansion occurred.
 
 No auth gate or external setup occurred. All source references/locators remain inert. No network endpoint, auth path, new schema trust boundary or external file permission is introduced beyond the plan's existing local file/parser/native/evidence threat model. Final current resource binding/source hashes and both independent semantic rejections remain in the actual case output. No implementation-blocking TODO/FIXME/placeholder/stub, skipped selected test or unrun selected verification remains.
 
@@ -436,6 +459,8 @@ AllASSET requirements stay Pending. Actual Windows1280×720/no-VM rendering, nam
 Parent may reconcile11/37→12/37summarized and ready wave12plans04-06/04-14/04-18. No next-plan implementation was started. Foreign PROJECT/REQUIREMENTS/ROADMAP/STATE/initial-spec/Phase06/Phase12work is preserved. No stash/reset/branch switch/rebase/merge/install/unrelated process termination or tracked deletion occurred.
 
 ## Self-Check: PASSED
+
+Final recheck also verifies674b514/be444f0ancestry, all1562frozen input hashes, final17/17compiled0skips and260/260native observations with retained217original IDs, exactPID25976/nonce/finalDLLSHA, and0warnings/errors in both actual production and authored isolated harness builds. No remaining in-scope cleanup or warning is omitted. Earlier self-check details below remain historical to the first source version.
 
 All eight implementation paths exist; b2c3466/1909fa5/e5c8e6c/15217d2/a48cc4e are ancestors of the measured implementationHEAD. Five original WIP sources/backups matched exact checkpoint hashes before editing; accepted art remains unchanged. All153retained members and47part identities reconcile through the fresh source verifier. All1561frozen source/docs/manifest inputs matched before/after final runs. Final selected reports, genuinePID/nonce/assembly hashes,43added native controls and exact source commit mapping were independently inspected. No unexpected generated untracked output remains; only intentionally preserved foreign WIP lies outside scope. Global progress updates remain with the parent after the canonical SUMMARY commit.
 
