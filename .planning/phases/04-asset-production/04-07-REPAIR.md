@@ -19,6 +19,26 @@ This exact amendment expands the already-owned bodies-a.cjs beyond its prior six
 
 R1 starts0/2 used. Persist exact attempts/source mapping; exhaustion or a distinct production defect stops with checkpoint. Environmental escalation may rerun identical inputs without changing assertion credit. On success commit exact tested Task2 files in bounded owned parts, then immediately write/self-check/commit SUMMARY with complete artifacts/symbols/native tuples and418 retained b+c source members. Parent owns global15→16 progress and PR5; allASSET and actual32/33 appearance/listening/physical-input acceptance remain pending.
 
+## R1 result and diagnosed Nonempty image ownership
+
+R1 attempt1 applied only three ExactPixels using declarations; emitted harness otherwise matchedfa05574b. Canonicalafbfc1d8 still had16158true/7936tuples/12H13/strict0warnings, then0xC000001D. The explicit crash-persistence stop applied; no R1attempt2 or production expansion occurred. Checkpoint8fed30a binds11live/backups. R1 remains1/2 used, unresolved for shutdown; do not relabel it as a fix.
+
+The [diagnosis session](../../debug/phase04-body-shutdown.md) then used all three allowed isolated native probes, no tracked fix. Same productionDLL95e78e67fe15c3f7eb6b99661a968670d3e5a137bc7a277058c24cdd3e0ecc60 and full matrix:
+
+- V1, pre-quit collection: exit0/empty stderr, pending finalizers16355→7. Diagnostic only, no permanent collection workaround.
+- V2, only scoped Image disposal in inherited FIT_HARNESS.Nonempty: exit0/empty stderr, no collection/delay.
+- V3, exact reversal of only V2: exit0xC000001D/133312stderr bytes. All7936tuples/16158true/12H13 and strict0warnings/errors remain in each probe.
+
+Pinned API ownership and the loop count identify13558 helper-owned Texture.GetImage copies per full run. The scoped treatment and reversal establish high confidence in their causal contribution; precise native/finalizer thread interleaving is inferred, not traced. Other production allocations are not required by this demonstrated fix and are not authorized for change.
+
+## Prospective R2 — shared Nonempty scope, maximum2 corrective attempts
+
+Own only the existing`tools/phase4/cases/bodies-a.cjs` FIT_HARNESS.Nonempty Image local: change`var im = sprite.Texture.GetImage()` to guaranteed scoped disposal such as`using var im`. Retain all three R1ExactPixels scopes, six approved b/c dependency identities, all old/new unconditional pixel/width/geometry/negative assertions and process-exit/fatal-stderr gates. No borrowed sprite/texture/atlas/base-resource disposal, production/resource/other-helper edit, forcedGC/delay/exit workaround, suppression, deadline or permission change. Scope remains07union12/phaseinventory234. Record exact before/after shared and emitted harness hashes; prove no other logic differs.
+
+Verify all checkpoint live/backup hashes before editing, allowing only the subsequent documented metadata changes. Run fresh canonical complete-fit and require clean exit0/empty fatalstderr plus16158true/7936tuples/12H13 and strict production/harness0warnings/errors. Diagnostic copies supply no completion credit. Then freeze inputs and execute the full justified local selection fromR1, including original A art/fit, current b-wide/complete-fit, discovery and actual affected hub/native/data consumers, with all original controls preserved. No edits during accepted runs. Any distinct production/source failure stops for precise scope diagnosis; two corrective attempts maximum, no earlier budget reset.
+
+On success commit exact tested Task2 bytes in bounded declared parts, then immediately write/self-check/commit SUMMARY with original failures, automatic-review rejection, all three diagnostic identities, canonical repaired evidence and source/commit mapping. Parent reconciles15→16 only after terminal completion; all phase integration/ASSET/actualacceptance gates remain pending.
+
 ## R1 execution record — prospective metadata
 
 2026-11-17: root `D:/Work/Games/KingdomZombies`, branch `feature/04-asset-production`, HEAD `62ef4a69ab1ef9521a17c13ba358af218e47ef03`, empty index. Authenticated all nine manifest rows against both live and backup SHA256, and all23 failed-run body-inputs against live bytes before editing. Ordinary Task1/Task2 correction counts remain2/2 each. Shared-helper continuation R1 attempt1 of maximum2 now authorizes exactly three `using` tokens before the existing `var source`, `var im` and `var actual` declarations in FIT_HARNESS.ExactPixels in bodies-a.cjs. All expressions, assertions, original fixtures, production sources/resources, process gates and deadlines remain byte-identical. The emitted B/C harness must equal the retained failed harness after removing exactly these three lifetime tokens. No conclusion about the native crash cause is assumed.
