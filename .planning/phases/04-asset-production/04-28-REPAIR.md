@@ -26,6 +26,21 @@ Prospective **R2**, maximumtwo corrective attempts, owns only row lookup in embe
 
 All production/media/JSON/scene bytes, native identity/exit/strict gates and R1ordinal edits remain fixed. A newly exposed native/render/ownership/assertion defect stops for its own concrete diagnosis, not a relaxed test. Preserve original12observations and all authored Check IDs; new controls do not replace coverage. R2starts0/2, no prior budget reset. Run unchanged canonicalidentity, then commit/scoped tracer and originalTask2 flow only after actual success. All other R1closeout/selection/inventory/phase constraints remain.
 
+## R2 result and prospective R3 — raw source versus imported visible pixels
+
+R2 used2/2. First attempt1be6e297 failed CS1674 because pinnedArray<Node> is not IDisposable; indexed direct-child iteration fixes that without touching production. Canonicalc3eab850-4b70-4bdf-8156-fa7dd318e0cf then has strict production/harness0warnings/errors,PID23056,exit1,empty stderr and117native observations:93pass/24fail. All113original IDs are reached plus4row controls; every failure is canonical-pixels-IT01–24. Checkpoint8053e21 preserves exact sevenWIP/maps under `.phase4/checkpoints/04-28-harness-row/r2-attempt-2/`.
+
+Parent inspected the immutable pixel-diagnosis.json and actual assertion. All24 expected hashes equal exact original raw PNG crops; every native hash equals its actual CTEX/WebP crop. All changed pixels have alpha0 in both, no changed visible pixel or alpha. Saved importer enablesfix_alpha_border. Rawsource identity and imported visible appearance are distinct contracts; using the observed native hash as the expected source would conceal a defect and is prohibited.
+
+Prospective **R3**, maximumtwo corrective attempts, owns only canonical-pixel proof/helper/independent controls inside`IDENTITY_HARNESS` inui-kit.cjs. Keep production/media/JSON/scene/import settings and all original source hashes unchanged.
+
+1. Read the actual raw PNG source via existing safe resource references/byte loading, decode using raw-buffer API and crop the exact declared rectangle. Verify exact dimensions and rawRGBA digest against the original declared source hash. No observed CTEX/native hash substitution.
+2. Compare actual imported native image to that independently decoded source crop with exact dimensions, exact alpha for every pixel and exact RGB whenever alpha is nonzero. Only RGB beneath alpha0 may differ; no alpha threshold, tolerance, color remapping or visible-pixel exclusion. Record source/raw/native and normalized-visible diagnostic hashes as evidence, not new expected values. Scope every proof-owned decoded/cropped/texture-copy Image; borrowed textures remain untouched.
+3. Preserve all113original Check IDs and their relative order plus4R2controls. Add independent single-visible-color,alpha,region andraw-source-hash rejection controls and restored positives through the same predicates; an alpha0-only RGB mutation on the native comparison input must be accepted while the raw source remains exact. These controls cannot replace any of the24canonical icon assertions or source replay.
+4. Run canonicalidentity requiring all authored outcomes, strict0warnings/errors and actual clean process exit. Then original Task1 scoped commits/committed-byte tracer before Task2, followed by its required identity/binding/condition refinements and fresh justified local selection. No edits during accepted runs.
+
+R3 starts0/2; original3/3,R1one/R2two stay preserved. New actual production/visible-pixel/identity/lifetime failure stops for concrete diagnosis; no silent broadening. Existing R1/R2source/native/neighbor/protocol/closeout/inventory/phase constraints remain. No product or import policy change, native permission, missing item, report relabeling or general parser limit expansion is authorized.
+
 ## R2 result — lookup resolved2/2; separate imported-pixel boundary stops
 
 Both R2 attempts are consumed. Attempt1 `1be6e297-a6df-4834-8120-dca229486ef8` passes production0/0 but new helper fails CS1674 because generic Godot child-array cannot use `using`; native not launched. Attempt2 uses direct indexed child iteration per pinned API, creating no child-array temporary. Only embeddedIDENTITY_HARNESS changed; other six WIP files exactly fixed, R1 changes and all original assertions retained.
