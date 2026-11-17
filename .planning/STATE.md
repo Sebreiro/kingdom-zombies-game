@@ -4,17 +4,17 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 04
 current_phase_name: Asset production
-current_plan: 18
+current_plan: 7
 status: executing
-stopped_at: Completed04-14;14/37 locally summarized; remaining wave12 plan18; WINDOWS29/30/31 open before review
-last_updated: "2026-11-17T04:22:22.107Z"
+stopped_at: Completed04-18;15/37 locally summarized; wave12 complete; nextwave13 plans07/28; WINDOWS29/30/31 open
+last_updated: "2026-11-17T04:48:59.203Z"
 last_activity: 2026-11-17
-last_activity_desc: Completed04-14 native UI kit/theme with fresh5-case pass;14/37 summarized; next04-18 data baseline
+last_activity_desc: Completed04-18 all six baseline documents/984 fields;15/37 summarized; next04-07 body groups
 progress:
   total_phases: 11
   completed_phases: 3
   total_plans: 62
-  completed_plans: 39
+  completed_plans: 40
   percent: 27
 ---
 
@@ -26,19 +26,19 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase04 continues on feature/04-asset-production with draftPR5. Fourteen of37 local plans are summarized:01/25/34/35/02/36/37/03/26/04/05/11/06/14. Native UI kit/theme passes exact font/frame replay,172 native observations,3 compiled tests and original hub source/lifecycle controls; frozen five-case selection passes. Remaining wave12 plan18 produces baseline data before wave13. WINDOWS29/30/31 remain final23/31 integration before review; allASSET and actual32/33 acceptance pending.
+**Current focus:** Phase04 continues on feature/04-asset-production with draftPR5. Fifteen of37 local plans are summarized:01/25/34/35/02/36/37/03/26/04/05/11/06/14/18. Data18 delivers984 explicit fields across six baseline documents and strict source/reference/relationship validation; fresh three-case selection passes. Wave12 complete; earliestwave13 plans07/28 run sequentially, starting07. WINDOWS29/30/31 remain final23/31 integration before review; allASSET and actual32/33 acceptance pending.
 
 ## Current Position
 
 Phase: 04 — Asset production
-Current Plan: 18
+Current Plan: 7
 Total Plans in Phase: 37
 Status: Executing
-Last activity: 2026-11-17 — Completed04-14 native UI kit/theme;14/37 locally summarized; next04-18 data baseline
+Last activity: 2026-11-17 — Completed04-18 baseline data;15/37 locally summarized; wave12 complete,next07/28
 
 Progress: [███░░░░░░░] 27%
 
-Milestone progress: 3/11 phases complete;39/62 currently planned plans summarized;fourteen of134 requirements complete. Phase4 has14/37 local plans complete. NoASSET requirement completion is claimed.
+Milestone progress: 3/11 phases complete;40/62 currently planned plans summarized;fourteen of134 requirements complete. Phase4 has15/37 local plans complete. NoASSET requirement completion is claimed.
 
 ## Performance Metrics
 
@@ -137,6 +137,8 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - [Phase 04]: 04-06 commits2c54e53/531573e and SUMMARY96979df retain3 bodies/48 poses/193 parts/232 source members; complete fits2976 tuples/12 H13/5972 observations/10 compiled0skip with strict production/harness0warnings. Fresh broader selection11PASS/2FAIL is preserved. WINDOWS30/31 remain required04-23 integration; no policy pass or ASSET acceptance. Inventory234 unchanged.
 
 - [Phase 04]: 04-14 fonts/frame kit and native theme committeded5c404/a05fff3, SUMMARYa889513;5-case fresh selection passes583.901s with2462 unchanged inputs. Native172 includes original165 IDs/12 logical canvas-scale-text combinations; strict production/harness0warnings,3compiled0skip,original hub25/50native+63compiled each. Inventory234 unchanged,actualappearance pending.
+
+- [Phase 04]: 04-18 six editable baseline documents/984fields committed02ae884/7e3b7e5,SUMMARYc25f4be. Fresh foundation390fc7b3/items4d5d4ed7/discoverycd5a840d pass:384directsource assertions/52data negatives/5legal loadouts,35discovery negatives. Nine accepted hashes frozen; no gameplay/native permission claim. Inventory234 unchanged; wave12 complete.
 
 ### Pending Todos
 
