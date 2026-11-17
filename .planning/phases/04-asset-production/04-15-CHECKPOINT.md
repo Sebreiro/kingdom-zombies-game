@@ -58,3 +58,38 @@ Seventeen authored samples: normal, empty, broken, unbound, reference-lost, full
 5. Once both tasks pass, freeze and run a fresh justified whole affected selection, preserve all failures, capture one current native-policy/producer observation for23/31, commit tested bytes, and immediately create/self-check/commit the canonical SUMMARY. Parent then performs global state/inventory/PR updates.
 
 No real game window, CUA, listening, appearance/readability/focus/input judgment, FPS, physical LAN or endurance observation occurred. Those retain the whole-phase independent review/fix and04-32/33 acceptance owners.
+
+## R1 continuation checkpoint — native production behavior outside authorized repair
+
+Prospective authority `7d615957cec576fa4035a63122a05498a8a7dd41` was read and obeyed. Before editing, the manifest SHA256 and all five live/backup SHA256/raw-filtered Git blob identities matched the original checkpoint. RED18d4a8c and checkpointb68ced96 are ancestors of current HEAD. Original Task1 corrections remain3/3 exhausted. R1 performed its initial exact ValidateOwnership whitespace wrap and **one of two** permitted corrective attempts; no second corrective attempt or production behavior edit occurred. Task1 remains incomplete; Task2 remains untouched with both JSON paths absent and its original budget not begun.
+
+The initial sandbox case could not spawn Git (`REVISION_UNAVAILABLE common.bow spawnSync git EPERM`); equivalent authorized execution supplied actual results. Environment failure supplies no assertion credit. No branch/ref change, install, hook bypass, policy change, generated enrollment, deadline/capacity change or foreign edit occurred.
+
+| Stage | Immutable invocation | Actual result |
+| --- | --- | --- |
+| Initial R1 canonical layouts.inventory | `.phase4/runs/2d15fd4f-f08e-4a98-b8e5-1fbf4d85c6ec` | Source validation passed; strict production0warnings/0errors; all3 compiled tests passed0skip; native harness build failed5 MA0006 diagnostics. No native launch. |
+| R1 corrective attempt1 | Same existing `tools/phase4/cases/ui-inventory.cjs` only | Five demonstrated harness string comparisons now use its existing ordinal Eq helper. Predicates, samples and expected values remain unchanged. JavaScript syntax passed. |
+| Canonical verification after corrective1 | `.phase4/runs/1578397a-61a0-4085-b856-34f38fdaef9a` | Source validation passed; strict production/harness0warnings/0errors; all3 compiled tests passed0skip; actual authenticated native process executed846 outcomes,844pass/2fail,exit1. This is not a canonical pass. |
+
+Actual native command was the official nonconsole `Godot_v4.7.2-stable_mono_win64.exe --headless --path <run>/native-inventory --script res://probe.gd --quit-after 800`; PID30116, started2026-11-17T16:41:23.463Z, finished2026-11-17T16:41:25.496Z, streams closed and exit1. Engine SHA256`45336315eb6f1a52a8923bc4f2ce8079a03dc4939dcb7d531047890f1f7cdfab`; archive SHA256`a2a48473a7414c5f19fab690518caebb738c09ef9601f6bd2388676a7f53b3c0`; version4.7.2.stable.mono.official.ed1daf0bf. Owning Core/game ALC control passed. Copied production DLL SHA256`b287d9e6da9cfe69a0955e0d953bb1bcf310f98ac518221126f3c04057139dbd`; Core SHA256`db46842af8bced129ce5ac168955712bd192b29c15066ba913b62bbd36778ac1`. Per-command JSON/raw stdout/stderr/exits, original source-input and copied-assembly manifests remain in each run. Both run command/source/report/generated-output identities are inventoried in the R1 backup manifest below.
+
+### Exact unresolved outcomes
+
+1. **`normal-rotated-fit` — production ghost transform behavior.** The predicate requires both a `Valid fit` label and exact90-degree native ghost rotation. Actual label is `Valid fit · bag · Depth 1 · Preview only; original item remains in place`, so its text predicate is true and its rotation predicate is false. No exact actual angle was recorded by this original observation. Production ProjectActions creates DragGhost as HBoxContainer and calls AddIcon with rotated=true; AddIcon sets RotationDegrees90 on its direct TextureRect child. Container layout reset is a diagnosis candidate, not an independently observed cause. Existing placed rotated knife geometry/canonical checks pass. Fixing production ghost ownership/layout/transform requires new prospective scope; R1 permits only whitespace in that file. Do not change the90-degree expected value to the observed output or remove the predicate.
+2. **`constructor-zero-grid` — negative fixture encounters item containment first.** Rebound input changes normal shirt-grid rows to0 while leaving its two berries inside it. Actual constructor rejects before Attach with `INVENTORY_ITEM_BOUNDS`; the harness expects `INVENTORY_GRID_DOMAIN`. Source ValidateState calls ValidateItem before ValidateGrid, making the earlier specific containment rejection consistent with production validation order. No invalid grid was accepted. A future observation repair must independently isolate the intended grid-domain fault or justify an exact intended diagnostic from contract/order; copying this observed diagnostic into the expected value is not authorized. No diagnostic/predicate has been changed.
+
+Native stderr also preserves `1 RID of type CanvasItem was leaked` and `2 ObjectDB instances were leaked at exit`. They are unresolved diagnostics, not suppressed or credited as clean teardown. The embedded duplicate-property control constructs an unattached proof-owned Control without retaining/freeing it; this is a possible proof-owned leak source requiring independent diagnosis, not an established attribution or an authorized production cleanup. Raw native report is132682bytes; no reader/report capacity was changed or bypassed.
+
+### R1 verified backup and next coordinator action
+
+Manifest `.phase4/checkpoints/04-15-r1-production-boundary/manifest.json`, SHA256`314a2f8b67b4753d870f8f422dbc5b2626116f1a43a4bc6ef5a50d704a50ade6`, retains byte-exact five-file backups, original/final identity mappings and every generated run artifact identity. All five live/backup SHA256 identities pass. Data JSON, pack JSON and InventoryLayoutTests remain byte-identical to the original checkpoint. Exact presenter diff against its original backup is solely the authorized line wrap; exact harness diff is solely five ordinal comparisons.
+
+| File | Current SHA256 | Raw/filtered Git blob |
+| --- | --- | --- |
+| src/godot-game/inspection/InventoryLayouts.cs |171f11cdb9b122060270d4f1996729043eb9eb8680219fee59ac8b368ebce34e|077f94c27807006024da3cd6d83d1fb32bccff88|
+| src/godot-game/content/ui/inventory.json |a5feffc50318f4789b665fc40a1c3ea2182e99e666aa095a6432043ffd888524|d67280278e588bd863aa4fad331bde9a2fdd8a3d|
+| src/godot-game/content/packs/ui-inventory.json |7452f12311b7bcf07c9d1ebda80870a2aa28ead0d6217f1331231c47ce983df0|03eb772111ac5a9f42d995c9fbb2699860435546|
+| tests/phase1/InventoryLayoutTests.cs |c6f77bc57941eedfe131515d42097e63963dc360a8f6d0453e51fbac355e9441|1a519efcc3fce898ec48a121d187933209d41be4|
+| tools/phase4/cases/ui-inventory.cjs |92601be503047c7e03d9228f20a5683363fb1b4e8f5c47b4370d769a4b91b525|1bb5d05dd206e9fa12249bc40f7423620cfd3fa7|
+
+Coordinator must prospectively bound the production ghost repair and any demonstrated proof observation/ownership repairs before further edits/runs. Preserve original3/3 and R1used1/2 accounting. A successful Task1 commit and fresh SAME-CASE committed tracer still precede Task2; neither occurred. No final selected-set, changed native-policy/current-producer observation, canonical SUMMARY, ASSET completion or global state advancement is claimed. Parent remains sole owner of STATE/ROADMAP/REQUIREMENTS, inventory and PR publication.
