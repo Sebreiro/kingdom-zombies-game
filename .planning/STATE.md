@@ -4,17 +4,17 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 04
 current_phase_name: Asset production
-current_plan: 12
+current_plan: 15
 status: executing
-stopped_at: Completed 04-10; 20/37 local plans summarized; wave 16 complete; next 04-12 then 04-15 in serialized wave 17; Phase 06 context preserved; WINDOWS29/30/31 open
-last_updated: "2026-11-17T15:01:58.053Z"
+stopped_at: Completed 04-12; 21/37 local plans summarized; wave 17 in progress; next 04-15 inventory layouts; Phase 06 context preserved; WINDOWS29/30/31 open
+last_updated: "2026-11-17T16:13:35.920Z"
 last_activity: 2026-11-17
-last_activity_desc: Completed persistent corpses identities wildlife and crowds; final 20-case selection passes; next 04-12 defenses
+last_activity_desc: Completed defense artwork and independent guard lifecycle; final 27-case selection passes; next 04-15 inventory layouts
 progress:
   total_phases: 12
   completed_phases: 3
   total_plans: 62
-  completed_plans: 45
+  completed_plans: 46
   percent: 25
 ---
 
@@ -26,19 +26,19 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase 04 continues on feature/04-asset-production with draft PR 5. Twenty of 37 local plans are summarized: 01/25/34/35/02/36/37/03/26/04/05/11/06/14/18/07/28/08/09/10. Persistent equipped corpses/loot, wildlife endpoints, four identities and 600 actual owners pass a fresh 20-case selection on 414 unchanged inputs. Constructor validation has 80 controls while original 2066 crowd/166 wildlife/2189 corpse checks and all prior contracts remain. Inventory stays 236; wave 16 is complete, next 04-12 then 04-15 in serialized wave 17. Native policy remains FAIL 873 operations and the 53-input/32-surface current producer is unenrolled; WINDOWS29/30/31 and all ASSET/actual acceptance remain pending. Concurrent Phase 06 context history is preserved.
+**Current focus:** Phase 04 continues on feature/04-asset-production with draft PR 5. Twenty-one of 37 local plans are summarized: 01/25/34/35/02/36/37/03/26/04/05/11/06/14/18/07/28/08/09/10/12. Six defense tiers and independent structural guards pass a fresh 27-case selection on 421 unchanged inputs. The 935 defense outcomes retain 929 original IDs plus six pixel controls; original main 17 compiled/260 native checks pass. Inventory stays 236; wave 17 remains in progress with 04-15 inventory layouts next. Native policy remains FAIL 1006 operations and the 53-input/32-surface current producer is unenrolled; WINDOWS29/30/31 and all ASSET/actual acceptance remain pending. Concurrent Phase 06 context history is preserved.
 
 ## Current Position
 
 Phase: 04 — Asset production
-Current Plan: 12
+Current Plan: 15
 Total Plans in Phase: 37
 Status: Executing
-Last activity: 2026-11-17 — Completed 04-10 corpse/crowd resources; 20/37 locally summarized; wave 16 complete, next 04-12
+Last activity: 2026-11-17 — Completed 04-12 defense resources; 21/37 locally summarized; wave 17 in progress, next 04-15
 
 Progress: [███░░░░░░░] 25%
 
-Milestone progress: 3/12 phases complete;45/62 currently planned plans summarized;fourteen of135 requirements complete. Phase4 has20/37 local plans complete. NoASSET requirement completion is claimed.
+Milestone progress: 3/12 phases complete;46/62 currently planned plans summarized;fourteen of135 requirements complete. Phase4 has21/37 local plans complete. NoASSET requirement completion is claimed.
 
 ## Performance Metrics
 
@@ -151,6 +151,8 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - [Phase04]: 04-09 Task 1 dbf792f/642affe/60da583, Task 2 d88cdd2/caf830d and canonical SUMMARY a64c69f complete. Final 18/18 PASS, 405 unchanged inputs; bow 39 compiled/128 sustained cycles, work 240 rows/40 controls/71 Reset checks, source 56 members/17 components/16 actions. Original body/hub/item/data/theme/identity controls pass; scalar captured origin preserves 10 pure reflection tests without GodotSharp. Ten amended paths leave inventory 236. Native policy dcdc37a2 remains FAIL 604 and producer 49 inputs/32 surfaces remains unenrolled for 23/31. All actual acceptance remains pending.
 
 - [Phase04]: 04-10 Task 1 dff9ec7/ac75206/6796377, Task 2 b594303/d2392ff and canonical SUMMARY 92017af complete. Final 20/20 PASS, 414 unchanged inputs; actual 600 owners, 2066 original crowd checks/166 wildlife samples/2189 corpse checks plus 80 definition controls. Twelve amended paths leave inventory 236; public identity authority is exactly 19. Native policy 9aef8ff9 remains FAIL 873 and evaluated producer 53 inputs/32 surfaces remains unenrolled for 23/31. Foreign 4127fd5/ca4b82b planning commits and their deleted checkpoint remain preserved. All actual acceptance remains pending.
+
+- [Phase04]: Completed [04-12](phases/04-asset-production/04-12-SUMMARY.md): twenty-one of 37 local plans; wave 17 remains in progress with 04-15 next. Art02fe08e and Task2 5d593db/9a92af2, SUMMARY1a12a5a, supply six wall/tower tiers,46 lifecycle parts,nine footprint frames,124 retained ZIP members and three generated masters. Structural guards use11 parts/five split poses with independent1/2/3 sockets,22 samples,quiet previous-tier restoration and separate collision/work/release owners. Fresh27/27 selected cases pass on421 unchanged inputs in1,225,385ms;935 defense outcomes retain all929 original IDs/order plus six pixel controls, while original main17compiled/260native pass. Independent diagnosis proves exact alpha/visible RGB; only alpha-zero RGB differs on import, with exact raw source hashes retained. Original Task2 3/3 budget remains exhausted; R1 used1/2 corrective attempts. Eight planned paths leave inventory236; no public identity added. Latest policy e7b45d2f remains FAIL1006 operations (+133 Building),53 evaluated producer inputs/32 surfaces unenrolled. WINDOWS29/30/31,all ASSET and actual acceptance remain pending.
 
 ### Pending Todos
 
