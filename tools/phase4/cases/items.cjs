@@ -28,7 +28,15 @@ if kind=='items-01-10':
   with target.open('xb') as stream:stream.write(legacy)
 names=['Money','Arrows','Knife','Wooden club','Machete','Metal bat','Bow','Berries','Fruit','Meat']
 foot=[[1,1],[1,2],[1,2],[1,3],[1,3],[1,4],[2,4],[1,1],[1,1],[1,2]]
-image_cache={};info_cache={};reproduction_cache={}
+wearables=kind=='items-11-24'
+if wearables:
+ prior=m.loads((root/'src/godot-game/content/packs/items-01-10.json').read_bytes());m.need([x['id'] for x in prior['items']]+[x['id'] for x in pack['items']]==['IT-%02d'%x for x in range(1,25)],'ITEM_FULL_ROSTER')
+wear_names=['Basic shirt','Trousers','Coat','Cap','Face covering','Gloves','Boots','Protective helmet','Improvised body armor','Plated body armor','Belt with pouches','Small pouch','Small backpack','Field backpack']
+wear_foot=[[2,2],[2,2],[2,3],[2,1],[1,1],[1,1],[1,2],[2,2],[2,3],[3,3],[2,1],[1,2],[2,3],[3,4]]
+storage={11:[2,1],12:[2,2],13:[2,2],21:[4,2],22:[2,2],23:[4,4],24:[5,6]}
+slots=['torso-clothing','legs','torso-clothing','headwear','face','gloves','boots','headwear','body-armor','body-armor','belt',None,'backpack','backpack']
+live_components={11:['torso-front','torso-rear','sleeve-left-front','sleeve-left-rear','sleeve-right-front','sleeve-right-rear'],12:['waist','leg-left','leg-right'],13:['torso-front','torso-rear','hem','sleeve-left-front','sleeve-left-rear','sleeve-right-front','sleeve-right-rear'],14:['head'],15:['face'],16:['hand-left-front','hand-left-rear','hand-right-front','hand-right-rear'],17:['foot-left','foot-right'],18:['head'],19:['torso-front','torso-rear','strap-left-front','strap-left-rear','strap-right-front','strap-right-rear'],20:['torso-front','torso-rear','strap-left-front','strap-left-rear','strap-right-front','strap-right-rear'],21:['belt-front','belt-rear','pouch-left','pouch-right'],22:['container-header'],23:['bag-body','strap-left-front','strap-left-rear','strap-right-front','strap-right-rear'],24:['bag-body','pocket-left','pocket-right','strap-left-front','strap-left-rear','strap-right-front','strap-right-rear']}
+image_cache={};info_cache={};reproduction_cache={};operation_cache={}
 def decoded(raw):
  key=m.sha(raw)
  if key not in image_cache:
@@ -45,7 +53,10 @@ def reproduce(part,data):
   from PIL import ImageDraw
   w,h=part['operations'][0]['size'];m.need(0<w<=128 and 0<h<=128,'ITEM_OP_BOUNDS');im=Image.new('RGBA',(w,h));ImageDraw.Draw(im).line([(max(0,w//2-1),h//2),(w//2,h//2+1),(max(0,w//2-1),min(h-1,h//2+2))],fill=(33,33,46,255));return im
  m.need(part['origin'] in data,'ITEM_ORIGIN');im=Image.open(io.BytesIO(data[part['origin']])).convert('RGBA')
+ prefix=[];origin_hash=m.sha(data[part['origin']])
  for op in part['operations']:
+  prefix.append(op);operation_key=origin_hash+'|'+json.dumps(prefix,sort_keys=True)
+  if operation_key in operation_cache:im=operation_cache[operation_key];continue
   if op['op']=='alpha-threshold':m.need(op['value']==128,'ITEM_SAMPLING');im=binary(im)
   elif op['op']=='crop':
    x,y,r,b=op['box'];m.need(0<=x<r<=im.width and 0<=y<b<=im.height,'ITEM_CROP');im=im.crop((x,y,r,b))
@@ -54,6 +65,7 @@ def reproduce(part,data):
    x,y,r,b=op['box'];m.need(0<=x<r<=im.width and 0<=y<b<=im.height and len(op['placements'])<=8,'ITEM_CROP');crop=im.crop((x,y,r,b));w,h=op['size'];m.need(0<w<=128 and 0<h<=128,'ITEM_OP_BOUNDS');im=Image.new('RGBA',(w,h))
    for at in op['placements']:m.need(0<=at[0]<=w-crop.width and 0<=at[1]<=h-crop.height,'ITEM_PLACEMENT');im.alpha_composite(crop,at)
   else:raise ValueError('ITEM_OPERATION')
+  operation_cache[operation_key]=im
  return im
 def verify(p,data):
  m.need(p['schemaVersion']==1 and p['id']==kind and p['version']==1,'ITEM_IDENTITY')
@@ -61,18 +73,25 @@ def verify(p,data):
  m.need(p['acceptance']=={'visual':'pending','humanApproval':None,'owner':'04-32/04-33','completedObligations':[]},'ITEM_FALSE_ACCEPTANCE')
  m.need(p['commonBundleSha256']==m.digest(root/'production/phase4/common-selected.zip'),'ITEM_COMMON_SOURCE')
  m.need(p['recipe']['sha256']==m.sha(data['recipes/build-items.py']),'ITEM_RECIPE')
- m.need([x['id'] for x in p['items']]==['IT-%02d'%i for i in range(1,11)] and [x['name'] for x in p['items']]==names,'ITEM_ROSTER')
+ expected_ids=range(11,25) if wearables else range(1,11)
+ m.need([x['id'] for x in p['items']]==['IT-%02d'%i for i in expected_ids] and [x['name'] for x in p['items']]==(wear_names if wearables else names),'ITEM_ROSTER')
+ m.need(p['atlas']['sha256']==m.sha(data[kind+'.png']) and all(p['atlas'][k]==v for k,v in m.image_info(atlas).items()),'ITEM_ATLAS_METADATA')
  m.need(len(p['parts'])<=256 and len({x['key'] for x in p['parts']})==len(p['parts']),'ITEM_PART_KEYS')
  parts={x['key']:x for x in p['parts']};images={}
  for part in p['parts']:
+  m.need(isinstance(part['operations'],list) and 1<=len(part['operations'])<=4,'ITEM_OPERATION_LIMIT')
   raw=data[part['member']];im,metadata=decoded(raw);m.need(im.getbbox() is not None and part['sha256']==m.sha(raw),'ITEM_EMPTY_HASH')
   m.need(metadata==part['image'] and part['density']==1 and part['worldSize']==list(im.size),'ITEM_IMAGE_DIMENSIONS')
   m.need(set(im.getchannel('A').tobytes())<={0,255} and all(a or (r==g==b==0) for r,g,b,a in im.get_flattened_data()),'ITEM_ALPHA')
   x,y,w,h=part['atlasRect'];m.need([w,h]==list(im.size) and 0<=x<=atlas.width-w and 0<=y<=atlas.height-h and atlas.crop((x,y,x+w,y+h)).tobytes()==im.tobytes(),'ITEM_ATLAS_PIXELS')
   replay=reproduced(part,data);m.need(replay.size==im.size and replay.tobytes()==im.tobytes(),'ITEM_REPRODUCTION');images[part['key']]=im
- for i,item in enumerate(p['items'],1):
-  m.need(item['inventoryFootprint']==foot[i-1] and item['canonicalIcon'] in parts and item['iconVariants']==[item['canonicalIcon']],'ITEM_CANONICAL_ICON')
-  m.need(item['balanceOwner']=='DT-04' and item['bodyFitOwner']=='04-06/04-07' and item['storage'] is None,'ITEM_SCOPE')
+ for ordinal,item in enumerate(p['items']):
+  i=ordinal+(11 if wearables else 1)
+  m.need(item['inventoryFootprint']==(wear_foot[ordinal] if wearables else foot[ordinal]) and item['canonicalIcon'] in parts and item['iconVariants']==[item['canonicalIcon']],'ITEM_CANONICAL_ICON')
+  m.need(item['balanceOwner']=='DT-04' and item['bodyFitOwner']=='04-06/04-07','ITEM_SCOPE')
+  if not wearables:m.need(item['storage'] is None and item['slot']==('either-logical-hand' if i in [2,3,4,5,6,7] else None),'ITEM_STORAGE_SLOT')
+  mode_names=(['Broken'] if i in [3,4,5,6,7,18,19,20] else [])+(['Nocked'] if i==7 else [])
+  m.need([x['node'] for x in item['modes']]==mode_names,'ITEM_MODE_SET')
   s=item['source'];m.need(s['master'] in data and s['masterSha256']==m.sha(data[s['master']]),'ITEM_MASTER')
   original,metadata=decoded(data[s['master']]);m.need(metadata==s['original'],'ITEM_ORIGINAL')
   if 'generate' in item['route']:
@@ -83,6 +102,7 @@ def verify(p,data):
   else:
    d=m.loads(data[s['record']]);m.need(d['id']==s['resource'] and d['pngSha256']==m.sha(data[s['master']]) and d['source']['rawSha256'] and d['registration']['filter']=='nearest','ITEM_DONOR')
   c={x['name']:x for x in item['components']};expected=['icon']
+  if wearables:expected+=live_components[i]+(['corpse-'+x for x in live_components[i]] if i!=22 else [])
   if i in [2,3,4,5,6,7]:expected+=['held-left','corpse-left','held-right','corpse-right']
   if i==2:expected+=['nocked-arrow','flying-arrow']
   if i==7:expected+=['drawn-bow','released-bow']
@@ -97,13 +117,36 @@ def verify(p,data):
   if i==2:m.need(item['canonicalIcon']!=item['master'] and images[item['canonicalIcon']].size!=images[item['master']].size and item['recoverableProjectile'] is False,'ITEM_ARROW_BUNDLE')
   if i in [3,4,5,6,7]:m.need(item['modes'][0]['node']=='Broken' and item['modes'][0]['visibleWhen']=='condition==0','ITEM_BROKEN')
   if i==7:m.need(item['modes'][1]['node']=='Nocked' and item['modes'][1]['identity']=='IT-02' and item['modes'][1]['visibleWhen']=='opposite-hand arrows>0 and bow usable' and item['emptyArrowHand']=='no nocked layer','ITEM_AMMUNITION')
+  for mode in item['modes']:m.need(mode['part'] in parts and mode['identity'] in ['IT-%02d'%x for x in range(1,25)],'ITEM_MODE_PART')
+  if wearables:
+   m.need(item['storage']==storage.get(i) and item['slot']==slots[ordinal],'ITEM_STORAGE_SLOT')
+   m.need(item['independentlyRemovable'] is True and item['bakedEquipment']==[] and item['secondaryMotion']=='closely-attached-little-sway','ITEM_REMOVABLE')
+   m.need(all(x in data for x in s['donorIngredients']) and len(s['donorIngredients'])==2 and 'baked' in s['donorSuitability'],'ITEM_K14_SUITABILITY')
+   for name in live_components[i]:
+    m.need(c[name]['part']!=item['master'] and len(parts[c[name]['part']]['operations'])==4,'ITEM_MODULAR_CROP')
+    if i!=22:m.need(c['corpse-'+name]['part']==c[name]['part'] and c['corpse-'+name]['attachment']=='corpse.'+c[name]['attachment'] and c['corpse-'+name]['rotation']==math.pi/2,'ITEM_CORPSE_PART')
+   if i in [14,18]:m.need(item['crownAnchor']=={'attachment':'head.crown','aboveHeadgear':True,'independent':True},'ITEM_CROWN')
+   if i==15:m.need(item['mouthReleaseAnchor']['maskDoesNotSuppressAttack'] is True and item['mouthReleaseAnchor']['attachment']=='head.mouth','ITEM_MOUTH')
+   if i==16:
+    for hand in ['left','right']:
+     for layer in ['front','rear']:m.need(c['hand-'+hand+'-'+layer]['attachment']=='hand.'+hand+'.'+layer,'ITEM_HAND_IDENTITY')
+   if i==17:
+    for hand in ['left','right']:m.need(c['foot-'+hand]['attachment']=='foot.'+hand,'ITEM_FOOT_IDENTITY')
+   if i in [18,19,20]:m.need(len(item['modes'])==1 and item['modes'][0]['visibleWhen']=='condition==0','ITEM_BROKEN')
+   else:m.need(item['modes']==[],'ITEM_UNINVENTED_CONDITION')
+   if i==22:m.need(item['presentation']=='stored-only' and item['wornWhenNested'] is False and list(c)==['icon','container-header'],'ITEM_STORED_POUCH')
+   if i in [23,24]:m.need(item['presentation']=='worn-only-in-backpack-slot' and item['wornWhenNested'] is False,'ITEM_NESTED_BAG')
   route=item['inspection'];m.need(route['category']=='Items' and route['scene']==p['preview']['scene'] and route['animation']==item['id'] and route['button']=='Browse/List/Select_'+item['node'] and route['group']=='Groups/'+item['node'] and route['zoomAnimations']==['zoom1','zoom2','zoom4','zoom8'],'ITEM_ROUTE')
- m.need(len({images[p['items'][i-1]['master']].tobytes() for i in [3,4,5,6]})==4 and images[p['items'][7]['master']].tobytes()!=images[p['items'][8]['master']].tobytes(),'ITEM_DISTINCT')
+ if wearables:m.need(len({images[p['items'][i-11]['master']].tobytes() for i in [19,20,23,24]})==4,'ITEM_DISTINCT')
+ else:m.need(len({images[p['items'][i-1]['master']].tobytes() for i in [3,4,5,6]})==4 and images[p['items'][7]['master']].tobytes()!=images[p['items'][8]['master']].tobytes(),'ITEM_DISTINCT')
  scene=data[scene_name].decode('utf-8');m.need('script' not in scene.lower() and 'type="Script"' not in scene and 'texture_filter = 2' not in scene and scene.count('method="play"')==len(p['items'])+sum(len(x['modes']) for x in p['items'])+4,'ITEM_SCENE_SAFETY')
  m.need(p['preview']['zooms']==[1,2,4,8] and p['preview']['currentHubReachability']=='pending-04-23','ITEM_PREVIEW')
  m.need(p['preview']['sha256']==m.sha(data[scene_name]) and p['preview']['artNode']=='ArtScroll/Canvas/Art' and p['preview']['viewport']==[680,320] and p['preview']['logicalWindow']==[1280,720],'ITEM_PREVIEW_REACHABILITY')
  return {'items':len(p['items']),'parts':len(parts),'members':len(data),'generatedMasters':sum('generate' in x['route'] for x in p['items']),'components':sum(len(x['components']) for x in p['items'])}
-result=verify(pack,members);faults=[('missing-master','ITEM_MASTER'),('missing-prompt','ITEM_PROMPT'),('duplicate-id','ITEM_ROSTER'),('condition-icons','ITEM_CANONICAL_ICON'),('wrong-grip','ITEM_GRIP'),('wrong-logical-hand','ITEM_GRIP'),('bundle-alias','ITEM_ARROW_BUNDLE'),('empty-ammo','ITEM_AMMUNITION'),('missing-component','ITEM_COMPONENT_SET'),('wrong-sampling','ITEM_SAMPLING'),('wrong-zoom','ITEM_PREVIEW'),('script-bearing','ITEM_SCENE_SAFETY'),('linear-filter','ITEM_SCENE_SAFETY'),('false-acceptance','ITEM_FALSE_ACCEPTANCE'),('stale-route','ITEM_ROUTE')];out=[]
+result=verify(pack,members);faults=[('missing-master','ITEM_MASTER'),('missing-prompt','ITEM_PROMPT'),('duplicate-id','ITEM_ROSTER'),('condition-icons','ITEM_CANONICAL_ICON'),('wrong-grip','ITEM_GRIP'),('wrong-logical-hand','ITEM_GRIP'),('bundle-alias','ITEM_ARROW_BUNDLE'),('empty-ammo','ITEM_AMMUNITION'),('missing-component','ITEM_COMPONENT_SET'),('wrong-sampling','ITEM_SAMPLING'),('wrong-zoom','ITEM_PREVIEW'),('script-bearing','ITEM_SCENE_SAFETY'),('linear-filter','ITEM_SCENE_SAFETY'),('false-acceptance','ITEM_FALSE_ACCEPTANCE'),('stale-route','ITEM_ROUTE')]
+if wearables:faults=[(n,e) for n,e in faults if n not in ['wrong-grip','wrong-logical-hand','bundle-alias','empty-ammo']]+[('wrong-storage','ITEM_STORAGE_SLOT'),('baked-bag','ITEM_REMOVABLE'),('worn-pouch','ITEM_STORAGE_SLOT'),('nested-bag','ITEM_NESTED_BAG'),('wrong-glove-hand','ITEM_HAND_IDENTITY'),('invented-clothing-condition','ITEM_MODE_SET'),('missing-corpse','ITEM_COMPONENT_SET'),('missing-strap','ITEM_COMPONENT_SET'),('hidden-crown','ITEM_CROWN'),('blocked-mouth','ITEM_MOUTH')]
+faults += [('unbounded-operations','ITEM_OPERATION_LIMIT'),('mode-proliferation','ITEM_MODE_SET')]
+out=[]
 for name,expected in faults:
  p=copy.deepcopy(pack);data=dict(members)
  if name=='missing-master':p['items'][2]['source']['master']='masters/missing.png'
@@ -121,6 +164,18 @@ for name,expected in faults:
  elif name=='linear-filter':data[scene_name]=data[scene_name].replace(b'texture_filter = 1',b'texture_filter = 2')
  elif name=='false-acceptance':p['acceptance']['visual']='approved'
  elif name=='stale-route':p['items'][0]['inspection']['scene']='inspection/Absent.tscn'
+ elif name=='wrong-storage':p['items'][0]['storage']=[2,2]
+ elif name=='baked-bag':p['items'][2]['bakedEquipment']=['IT-23']
+ elif name=='worn-pouch':p['items'][11]['slot']='backpack'
+ elif name=='nested-bag':p['items'][12]['wornWhenNested']=True
+ elif name=='wrong-glove-hand':p['items'][5]['components'][1]['attachment']='hand.right.front';p['items'][5]['components'][5]['attachment']='corpse.hand.right.front'
+ elif name=='invented-clothing-condition':p['items'][0]['modes']=[{'node':'Broken','part':p['items'][0]['master'],'identity':'IT-11','visibleWhen':'condition==0'}]
+ elif name=='missing-corpse':p['items'][0]['components'].pop()
+ elif name=='missing-strap':p['items'][12]['components'].pop(1)
+ elif name=='hidden-crown':p['items'][3]['crownAnchor']['aboveHeadgear']=False
+ elif name=='blocked-mouth':p['items'][4]['mouthReleaseAnchor']['maskDoesNotSuppressAttack']=False
+ elif name=='unbounded-operations':p['parts'][0]['operations']*=5
+ elif name=='mode-proliferation':p['items'][0]['modes']=[{'node':'Extra','part':p['items'][0]['master'],'identity':p['items'][0]['id'],'visibleWhen':'always'}]
  failure=None
  try:verify(p,data)
  except (ValueError,KeyError) as e:failure=str(e)
@@ -129,7 +184,7 @@ result['controls']=out;result['expectedRejected']=len(out);print(json.dumps(resu
 `;
 function files(kind,scene){return ['tools/phase4/cases/items.cjs','tools/phase4/extract-media.py','production/phase4/common-selected.zip','tools/phase1/toolchain.json',
   'src/godot-game/assets/equipment/'+kind+'.png','src/godot-game/content/packs/'+kind+'.json','production/phase4/'+kind+'.zip',
-  'src/godot-game/inspection/'+scene];}
+  'src/godot-game/inspection/'+scene,...(kind==='items-11-24'?['src/godot-game/content/packs/items-01-10.json','src/godot-game/assets/equipment/items-01-10.png','production/phase4/items-01-10.zip']:[])];}
 function fingerprint(paths){return Object.fromEntries(paths.map(file=>[file,hash(bytes(ROOT,file))]));}
 function probe(nonce,kind,scene){return `extends SceneTree
 func reject(code):
@@ -303,7 +358,7 @@ async function native(context,kind,scene){
 }
 async function run(context,kind,scene){
   const before=fingerprint(files(kind,scene));write(context.directory,'inputs.json',before);write(context.directory,'verify-items.py',Buffer.from(VERIFY));
-  const verified=await runner.command(context,'items-portable',PYTHON,['-B',inside(context.directory,'verify-items.py'),ROOT,kind]);const result=JSON.parse(verified.stdout);need(result.items===10&&result.expectedRejected===15,'ITEM_PORTABLE_RESULT');
+  const verified=await runner.command(context,'items-portable',PYTHON,['-B',inside(context.directory,'verify-items.py'),ROOT,kind]);const result=JSON.parse(verified.stdout);need(result.items===(kind==='items-01-10'?10:14)&&result.expectedRejected===(kind==='items-01-10'?17:23),'ITEM_PORTABLE_RESULT');
   write(context.directory,'negative-controls.json',result.controls);const actual=await native(context,kind,scene);need(equal(before,fingerprint(files(kind,scene))),'SOURCE_CHANGED');
   return {...result,native:actual,scope:'Portable source production and actual headless native selection/zoom; hub adoption04-23 and actual appearance04-32/33 pending'};
 }
@@ -311,10 +366,19 @@ runner.registerCase('items.weapons-food',{group:'items',title:'Ten complete weap
   rationale:'Wrong grips, ammo, identity or missing sources invalidate required composition and inventory inputs',needsGameWindow:false,runGroup:'G0',order:22,
   requirements:['ASSET-01','ASSET-02','ASSET-03'],acceptance:['AC-01','AC-03','AC-05','AC-06','AC-22'],
   setup:'Tracked retained item ZIP/atlas/pack/scriptless scene; pinned installed Python/Pillow and headless Godot4.7.2; no donor access',
-  actions:['Reproduce every component from retained donor/generated masters and bounded crop/nearest recipes','Validate exact independent IT-01–10 roster/grips/canonical icons/conditional overlays and distinct bundle/projectile/food identities',
-    'Reject15 semantic faults beyond outer archive hashes','Emit real selection/state/zoom button signals for each item twice; inspect exclusive groups, actual texture pixels and compact identity/status',
-    'Reach every actual component through native clipped scroll ranges at1/2/4/8x on1280x720','Reject an actual malformed scene and the retained exact original overflow scene'],
-  expected:'Ten complete source identities and components,15 semantic rejections, all native button/zoom/scroll transitions and two native rejections; final acceptance remains pending',
+  actions:['Reproduce every component from retained donor/generated masters and bounded crop/nearest recipes','Validate exact independent IT-01â€“10 roster/grips/canonical icons/conditional overlays and distinct bundle/projectile/food identities',
+    'Reject17 semantic faults beyond outer archive hashes','Emit real selection/state/zoom button signals for each item twice; inspect exclusive groups, actual texture pixels and compact identity/status','Reach every component through native scroll ranges at1/2/4/8x; reject malformed/current and retained original-overflow scenes'],
+  expected:'Ten complete source identities and components,17 semantic rejections, all native button/zoom transitions and two native rejections; final acceptance remains pending',
   reset:'Fresh owned immutable invocation and bounded headless children; no real game window',evidence:['inputs.json','negative-controls.json','engine.json','items-portable.command.json','items-native.command.json','items-native-negative.command.json','result.json']},
   context=>run(context,'items-01-10','ItemsWeaponsPreview.tscn'));
-module.exports={VERIFY,PYTHON,files,fingerprint,probe,native,run};
+runner.registerCase('items.wearables',{group:'items',title:'Fourteen independent wearable/container masters and native storage/selection previews',importance:'Critical',
+  rationale:'Baked gear, missing limb/strap/corpse inputs or incorrect container semantics block legal equipment composition',needsGameWindow:false,runGroup:'G0',order:23,
+  requirements:['ASSET-01','ASSET-02','ASSET-03'],acceptance:['AC-01','AC-03','AC-05','AC-06','AC-22'],
+  setup:'Tracked retained wearable ZIP/atlas/pack/scriptless scene, prior ten-item pack, pinned Python/Pillow and headless Godot4.7.2; no donor access',
+  actions:['Validate independent exact24-item union and one canonical icon per item','Reproduce every cropped torso/sleeve/leg/head/hand/foot/strap/corpse input from14 original built-in masters',
+    'Validate seven exact storage diagrams and11-slot membership; pouch stored-only and bags hidden when nested','Reject23 semantic missing-source/component/slot/baked/crown/mouth/condition/operation-bound faults',
+    'Exercise every native item/zoom and exclusive removable states twice, including current identity/status and previous-group retirement','Reach every component through native scroll ranges at1/2/4/8x; reject malformed/current and retained original-overflow scenes'],
+  expected:'Fourteen distinct masters and all modular inputs;23 semantic rejections; exact native item/storage/pixel/zoom outcomes; rendered/body-fit/hub acceptance remains pending',
+  reset:'Fresh owned immutable invocation and bounded headless children; no real window',evidence:['inputs.json','negative-controls.json','engine.json','items-portable.command.json','items-native.command.json','items-native-negative.command.json','result.json']},
+  context=>run(context,'items-11-24','ItemsWearablesPreview.tscn'));
+module.exports={VERIFY,PYTHON,engine,files,fingerprint,probe,native,run};
