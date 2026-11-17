@@ -1,5 +1,11 @@
 # Phase 04 deferred discoveries
 
+## Open native and current-producer integration from04-06
+
+WINDOWS30/31 remain open and block phase completion and independent review. Fresh frozen selection is11PASS/2FAIL: source-policycc21a87b reports166 BuildingPreview+124 CharacterPreview operations; generated-boundaryae38be89 fails the strict current producer source-path/hash lookup, not a timeout. Canonical04-06 art/fit/strict build and hub/discovery/native/visibility regressions pass. Actual operations/signatures and five-file backup remain in `.phase4/04-06-r4-policy-observation.json` and `.phase4/checkpoints/04-06-r4-boundaries/manifest.json`.
+
+The [policy integration amendment](04-POLICY-INTEGRATION-AMENDMENT.md) assigns exact final guarded native controls and authenticated final producer-cohort enrollment to04-23, consistent with the original06 contract. Preserve all original inventories/negative controls and failed evidence. No waiver, type-wide permission, test relaxation or full-selection pass is supplied. Resolve WINDOWS29/30/31 before04-24/32; record focused and fresh whole-selection results on final current source.
+
 Status: resolved for the discovery below. Coordinator direction C3 authorized the exact same-file contract correction; focused `322a7b2d-75fe-448d-8c3c-24f94d86d1f8` and the fresh complete36-case runner group `38a72a46-bb79-4dcb-9b29-1ed855479248` pass. Final entire generated/runner/native/solution/Core aggregate `e3c3135b-f5ea-4ae2-a370-ff5406403f22` passes with unchanged frozen/source inputs. The historical failure remains preserved below; no open defect from this discovery remains.
 
 - 2026-11-16 / 04-37 R3: Existing `RunnerContractTests.Select_DeclaredPhases_RetainsImplementedCases` assumes only eight Phase5 deferred IDs and all C# cases inPhase1. Current authentic catalog has686 cases:676 Phase1, eight Phase5 and two existing Phase4 export-layout cases owned by04-34. Fresh runner group `90c19e84-b54d-4ec9-922a-583045497971` passes35/36 and fails this unchanged method. No repair was made without scoped coordinator direction. This selected failure blocks04-37 completion; it is not hidden by the passing18 generated cases, native/solution builds or26 Core controls. Exact R3 aggregate and WIP backup are recorded in [the repair log](04-37-REPAIR.md).

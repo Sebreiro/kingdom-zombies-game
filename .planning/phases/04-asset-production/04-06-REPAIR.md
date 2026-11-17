@@ -72,3 +72,9 @@ R4 owns only orchestration/evidence references in the existing`bodies-a.cjs`, wi
 3. After a complete gate pass, freeze relevant inputs and execute the fresh full relevant selection required byR3, including actual affected Root/producer/native/visibility boundaries. Record executed/reused/omitted evidence honestly. A new required policy/source path needs a precise prior amendment. Source changes invalidate earlier selected-set credit.
 
 Original Task1/Task2 andR1/R2/R3 budgets remain unchanged; R4 addresses only the newly observed publication boundary. On complete success, commit exact Task2 files and immediately write/self-check/commit the canonical SUMMARY. Otherwise checkpoint the exact remaining failure and WIP without progress credit. Parent owns global planning/PR; all ASSET and actual rendered/listening acceptance remain pending.
+
+## R4 result and integration ownership disposition
+
+R4 resolves its exact report collision in1/2 attempts. Focused fit62f06c54 and fresh art6593f525/fit7172b858/discoveryd484648f, both hub suites and baseline native/visibility regressions pass. The complete frozen selection is11PASS/2FAIL. Checkpointa2acc93 preserves both remaining failures and five-file identities. Original budgets are unchanged.
+
+The parent inspected actual policy operations, CurrentProducer's strict source-path/hash matcher and the canonical plan's explicit04-23 native-adapter ownership. The [policy integration amendment](04-POLICY-INTEGRATION-AMENDMENT.md) assigns WINDOWS30/31 to04-23 before independent review, preserving every original test/cohort/control. This is no passing policy/full-selection claim. It authorizes committing the locally complete tested Task2 bytes unchanged and writing canonical SUMMARY with both open failures, while Phase04/ASSET completion remains blocked until final integration and fresh proof. No new source correction or retry is authorized by this disposition.
