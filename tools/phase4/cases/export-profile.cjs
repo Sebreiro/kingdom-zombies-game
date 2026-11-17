@@ -5,6 +5,8 @@ const runner=require('../check.cjs');
 const PROFILE='production/phase4/export-profile.json',PROJECT='src/godot-game/project.godot',PRESET='src/godot-game/export_presets.cfg';
 const FEATURE='asset_inspection',BASE='application/run/main_scene',QUALIFIED=BASE+'.'+FEATURE;
 const FOUNDATION='res://foundation/Foundation.tscn',INSPECTION='res://inspection/Inspection.tscn';
+const THEME='src/godot-game/assets/ui/InspectionTheme.tres';
+const RESOURCE_LIMIT=1048576,THEME_LIMIT=2097152,CLOSURE_COUNT=128,CLOSURE_DEPTH=16,CLOSURE_BYTES=16777216;
 const SOURCE_ONLY='source/headless configuration/resource proof only; actual packaged Inspection startup pending 04-02 Task 1';
 const CONTRACT={ordinaryProjectSha256:'1f7d242e12521a4866512b6017f25f1868cd6160e3c9efe0074ad498008b2a9d',
   presetBeforeFeatureSha256:'7fe9294d4a160582af981a9ec00167f8bf8bb407b6e86ce8b4bbde226bed3b00',
@@ -22,7 +24,34 @@ const PROJECT_FILES=['src/core/KingdomZombies.Core.csproj','src/multiplayer-abst
   'src/godot-game/KingdomZombies.csproj','tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj','tests/phase1/KingdomZombies.Phase1.Tests.csproj'];
 function need(value,code,detail){if(!value)throw new Error(code+' '+detail);}
 function read(root,file){const target=runner.inside(root,file);need(fs.existsSync(target),'PROFILE_RESOURCE_MISSING',file);
-  const data=fs.readFileSync(target);need(data.length>0&&data.length<=1048576,'PROFILE_RESOURCE_SIZE',file);return data;}
+  const limit=file===THEME?THEME_LIMIT:RESOURCE_LIMIT,fd=fs.openSync(target,'r');
+  try{const stat=fs.fstatSync(fd);need(stat.isFile()&&stat.size>0&&stat.size<=limit,'PROFILE_RESOURCE_SIZE',file);
+    const data=Buffer.alloc(stat.size);let offset=0;
+    while(offset<data.length){const count=fs.readSync(fd,data,offset,data.length-offset,null);
+      need(count>0,'PROFILE_RESOURCE_CHANGED',file);offset+=count;}
+    need(fs.readSync(fd,Buffer.alloc(1),0,1,null)===0&&fs.fstatSync(fd).size===data.length,'PROFILE_RESOURCE_CHANGED',file);
+    return data;
+  }finally{fs.closeSync(fd);}}
+function sceneClosure(root,seeds=RESOURCES){
+  const found=new Map();let total=0;
+  function visit(file,depth){
+    // Authenticate the spelling even when a dependency has already been visited.
+    runner.inside(root,file);if(found.has(file))return;
+    need(depth<=CLOSURE_DEPTH,'PROFILE_CLOSURE_DEPTH',file);
+    need(found.size<CLOSURE_COUNT,'PROFILE_CLOSURE_COUNT',file);
+    const data=read(root,file);total+=data.length;need(total<=CLOSURE_BYTES,'PROFILE_CLOSURE_BYTES',file);
+    found.set(file,runner.hash(data));
+    if(!/\.(tscn|tres)$/.test(file))return;
+    const text=new TextDecoder('utf-8',{fatal:true}).decode(data);
+    need(!text.startsWith('\ufeff'),'PROFILE_ENCODING',file);
+    for(const match of text.matchAll(/(?:^|\s)(?:metadata\/source_)?path\s*=\s*"([^"]+)"/gm)){
+      need(match[1].startsWith('res://'),'PROFILE_SCENE_PATH',file+' '+match[1]);
+      try{visit('src/godot-game/'+match[1].slice(6),depth+1);}
+      catch(error){throw new Error(error.message+' referenced by '+file);}
+    }
+  }
+  for(const file of seeds)visit(file,0);return Object.fromEntries(found);
+}
 function write(root,file,value){const target=runner.inside(root,file);fs.mkdirSync(path.dirname(target),{recursive:true});
   fs.writeFileSync(target,typeof value==='string'||Buffer.isBuffer(value)?value:JSON.stringify(value,null,2)+'\n',{flag:'wx'});}
 function ini(root,file){
@@ -59,18 +88,43 @@ function validate(root){
   need(!fs.existsSync(runner.inside(root,'src/godot-game/override.cfg')),'PROFILE_RUNTIME_OVERRIDE','src/godot-game/override.cfg');
   for(const relative of profile.resources){need(typeof relative==='string'&&relative.startsWith('src/godot-game/'),
     'PROFILE_RESOURCE_PATH',PROFILE+' '+relative);read(root,relative);}
-  const scene=read(root,'src/godot-game/inspection/Inspection.tscn').toString('utf8');
-  for(const match of scene.matchAll(/path="([^"]+)"/g)){
-    need(match[1].startsWith('res://'),'PROFILE_SCENE_PATH','src/godot-game/inspection/Inspection.tscn '+match[1]);
-    try{read(root,'src/godot-game/'+match[1].slice(6));}
-    catch(error){throw new Error(error.message+' referenced by src/godot-game/inspection/Inspection.tscn');}
-  }
+  sceneClosure(root,profile.resources);
   const graph=read(root,'tools/phase1/projects.json');need(runner.hash(graph)===profile.sourceContract.projectGraphSha256,'PROFILE_GRAPH','tools/phase1/projects.json');
   return profile;
 }
 function snapshot(root){const profile=validate(root);return Object.fromEntries([PROFILE,PROJECT,PRESET,'tools/phase1/projects.json',
   'tools/phase1/toolchain.json','tools/phase4/check.cjs','tools/phase4/cases/export-profile.cjs',...PROJECT_FILES,
-  ...profile.resources].map(file=>[file,runner.hash(read(root,file))]));}
+  'src/godot-game/content/expected-obligations.json',
+  ...Object.keys(sceneClosure(root,profile.resources))].map(file=>[file,runner.hash(read(root,file))]));}
+function productionSources(){
+  const files=['Directory.Build.props','Directory.Build.targets','Directory.Packages.props','global.json',
+    'BannedSymbols.txt','.editorconfig',...PROJECT_FILES];
+  function walk(directory){for(const entry of fs.readdirSync(runner.inside(ROOT,directory),{withFileTypes:true})){
+    const file=directory+'/'+entry.name;
+    if(entry.isDirectory()&&!['bin','obj','.godot'].includes(entry.name))walk(file);
+    else if(entry.isFile()&&/\.cs$/.test(entry.name))files.push(file);
+  }}
+  for(const directory of ['src/core','src/multiplayer-abstractions','src/godot-game','tools/code-rules'])walk(directory);
+  return Object.fromEntries([...new Set(files)].sort().map(file=>[file,runner.hash(read(ROOT,file))]));
+}
+function buildEnvironment(context){const base=path.join(ROOT,'.phase1');return {...runner.environment(context.directory),
+  DOTNET_CLI_HOME:path.join(base,'cli-home'),NUGET_PACKAGES:path.join(base,'packages'),
+  NUGET_HTTP_CACHE_PATH:path.join(base,'http-cache'),TEMP:path.join(base,'temp'),TMP:path.join(base,'temp'),PHASE1_ROOT:ROOT};}
+function copyRuntime(project){
+  const relative='src/godot-game/.godot/mono/temp/bin/Debug',source=runner.inside(ROOT,relative),files=fs.readdirSync(source).sort();
+  need(files.length>0&&files.length<=32,'PROFILE_ASSEMBLY_COUNT',relative);const closure=[];let total=0;
+  for(const file of files){const from=runner.inside(source,file),stat=fs.statSync(from);
+    need(stat.isFile()&&stat.size>0&&stat.size<=16777216,'PROFILE_ASSEMBLY_SIZE',relative+'/'+file);
+    total+=stat.size;need(total<=67108864,'PROFILE_ASSEMBLY_BYTES',relative);
+    const data=fs.readFileSync(from),sha256=runner.hash(data);need(data.length===stat.size,'PROFILE_ASSEMBLY_CHANGED',file);
+    const target='.godot/mono/temp/bin/Debug/'+file;write(project,target,data);
+    need(runner.hash(fs.readFileSync(runner.inside(project,target)))===sha256,'PROFILE_ASSEMBLY_COPY',file);
+    closure.push({file:relative+'/'+file,target,bytes:data.length,sha256});
+  }
+  for(const file of ['KingdomZombies.dll','KingdomZombies.Core.dll','KingdomZombies.Multiplayer.Abstractions.dll',
+    'KingdomZombies.deps.json','KingdomZombies.runtimeconfig.json'])need(files.includes(file),'PROFILE_ASSEMBLY_MISSING',file);
+  return closure;
+}
 function probeScript(nonce){return `extends SceneTree
 func reject(reason):
     push_error("PROFILE_NATIVE_FAILURE ${nonce} " + reason)
@@ -86,13 +140,18 @@ func inspect():
         "ordinary":ProjectSettings.get_setting_with_override_and_custom_features(key, PackedStringArray(["windows", "editor"])),
         "inspection":ProjectSettings.get_setting_with_override_and_custom_features(key, PackedStringArray(["${FEATURE}"])),
         "wrongCase":ProjectSettings.get_setting_with_override_and_custom_features(key, PackedStringArray(["ASSET_INSPECTION"])),
-        "active":OS.has_feature("${FEATURE}"), "foundationExists":FileAccess.file_exists("${FOUNDATION}")}
+        "active":OS.has_feature("${FEATURE}"), "foundationExists":FileAccess.file_exists("${FOUNDATION}"),
+        "pid":OS.get_process_id(), "executable":OS.get_executable_path()}
     print("PROFILE_SETTINGS " + JSON.stringify(observation))
     var packed = load("${INSPECTION}")
     if not packed is PackedScene:
         reject("inspection/Inspection.tscn SCENE_LOAD")
         return
     var scene = packed.instantiate()
+    if scene.get_script() == null or scene.get_script().resource_path != "res://inspection/InspectionRoot.cs":
+        scene.free()
+        reject("inspection/InspectionRoot.cs SCRIPT_IDENTITY")
+        return
     root.add_child(scene)
     var bow = scene.get_node_or_null("Bow")
     if not bow is Sprite2D or bow.texture == null:
@@ -111,42 +170,78 @@ func inspect():
         reject("assets/common/bow.png IMAGE_EMPTY")
         return
     print("PROFILE_RESOURCE ${nonce} inspection/Inspection.tscn assets/common/bow.png pixels=" + str(visible))
+    print("PROFILE_SCRIPT ${nonce} " + scene.get_script().resource_path)
+    image = null
     scene.free()
     quit(0)
 `;}
 async function observe(root,context,name='profile',expected={qualified:INSPECTION,inspection:INSPECTION,active:false,actual:FOUNDATION}){
   const pins=runner.document(ROOT,'tools/phase1/toolchain.json'),pin=pins.archives['win32-x64'];
   need(process.platform==='win32'&&process.arch==='x64'&&process.version==='v'+pins.node,'PROFILE_PLATFORM','tools/phase1/toolchain.json');
-  const relative='.phase1/tools/'+pin.directory+'/'+pin.executable,executable=runner.inside(ROOT,relative);
-  need(runner.hash(fs.readFileSync(executable))===pin.executableSha256,'PROFILE_ENGINE_HASH',relative);
+  const relative='.phase1/tools/'+pin.directory+'/'+pin.executable,console=runner.inside(ROOT,relative);
+  need(runner.hash(fs.readFileSync(console))===pin.executableSha256,'PROFILE_ENGINE_HASH',relative);
+  const archive=runner.inside(ROOT,'.phase1/cache/'+pin.file),nativeName=pin.executable.replace('_console.exe','.exe');
+  need(runner.hash(fs.readFileSync(archive))===pin.sha256,'PROFILE_ARCHIVE_HASH',pin.file);
+  const authentication=await runner.command(context,name+'-tool-origin','powershell.exe',['-NoProfile','-NonInteractive','-Command',
+    "Add-Type -AssemblyName System.IO.Compression.FileSystem; $zip=[IO.Compression.ZipFile]::OpenRead('"+archive.replaceAll("'","''")+"'); try { $entry=$zip.Entries | Where-Object { $_.Name -ceq '"+nativeName+"' }; if(@($entry).Count -ne 1){throw 'ARCHIVE_ENTRY'}; $stream=$entry.Open(); try { $sha=[Security.Cryptography.SHA256]::Create(); [BitConverter]::ToString($sha.ComputeHash($stream)).Replace('-','').ToLowerInvariant() } finally { $stream.Dispose() } } finally { $zip.Dispose() }"]);
+  const executable=path.join(path.dirname(console),nativeName),engineSha256=runner.hash(fs.readFileSync(executable));
+  need(/^[a-f0-9]{64}$/.test(authentication.stdout.trim())&&engineSha256===authentication.stdout.trim(),
+    'PROFILE_NATIVE_ENGINE_HASH',nativeName);
   const version=await runner.command(context,name+'-version',executable,['--headless','--version']);
   need(version.stdout.trim()===pins.engineFullVersion,'PROFILE_ENGINE_VERSION',relative);
   const project=runner.inside(context.directory,name+'-project');fs.mkdirSync(project);
-  const profile=runner.document(root,PROFILE),inputs={};
-  for(const file of [PROJECT,...profile.resources]){const data=read(root,file);inputs[file]=runner.hash(data);write(project,file.slice('src/godot-game/'.length),data);}
+  const profile=runner.document(root,PROFILE),inputs={},sources=productionSources();
+  const closure=sceneClosure(root,profile.resources),expectations='src/godot-game/content/expected-obligations.json';
+  const resources=[...new Set([PROJECT,'src/godot-game/KingdomZombies.csproj',expectations,...Object.keys(closure)])];
+  for(const file of resources){const data=read(root,file);inputs[file]=runner.hash(data);write(project,file.slice('src/godot-game/'.length),data);}
+  const build=await runner.command(context,name+'-strict-build','dotnet',['build',runner.inside(ROOT,'src/godot-game/KingdomZombies.csproj'),
+    '--no-restore','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'],{env:buildEnvironment(context)});
+  need(/0 Warning\(s\)[\s\S]*0 Error\(s\)/.test(build.stdout),'PROFILE_CLEAN_BUILD',name);
+  need(JSON.stringify(productionSources())===JSON.stringify(sources),'PROFILE_BUILD_SOURCE_CHANGED',name);
+  const assemblies=copyRuntime(project);write(context.directory,name+'-assemblies.json',assemblies);
   const script=probeScript(context.nonce);write(project,'probe.gd',script);
   // Import media in a separate asset-only fixture. The settings subject keeps the exact production bytes.
   const importer=runner.inside(context.directory,name+'-importer');fs.mkdirSync(importer);
   write(importer,'project.godot','config_version=5\n[application]\nconfig/name="Profile media import fixture"\n');
-  for(const file of profile.resources.filter(file=>/\.(png|svg)$/.test(file)))write(importer,file.slice('src/godot-game/'.length),read(root,file));
-  write(context.directory,name+'-inputs.json',{inputs,probeSha256:runner.hash(script),engineSha256:pin.executableSha256,
-    version:pins.engineFullVersion,scope:SOURCE_ONLY});
+  const media=resources.filter(file=>/\.(png|svg|ttf|otf)$/.test(file));
+  for(const file of media)write(importer,file.slice('src/godot-game/'.length),read(root,file));
+  write(context.directory,name+'-inputs.json',{inputs,sources,assemblies,probeSha256:runner.hash(script),engineSha256,
+    consoleSha256:pin.executableSha256,archiveSha256:pin.sha256,executable,version:pins.engineFullVersion,scope:SOURCE_ONLY});
   const imported=await runner.command(context,name+'-import',executable,['--headless','--path',importer,'--editor','--import']);
   need(!/ERROR:|SCRIPT ERROR:|Failed to load|Error importing/i.test(imported.stdout+imported.stderr),'PROFILE_NATIVE_IMPORT',
     'src/godot-game/assets/common/bow.png '+name+'-import.command.json');
   fs.cpSync(path.join(importer,'.godot/imported'),path.join(project,'.godot/imported'),{recursive:true,errorOnExist:true,force:false});
-  for(const file of profile.resources.filter(file=>/\.(png|svg)$/.test(file))){const relative=file.slice('src/godot-game/'.length)+'.import';
+  for(const file of media){const relative=file.slice('src/godot-game/'.length)+'.import';
     write(project,relative,read(importer,relative));}
-  const result=await runner.command(context,name+'-settings',executable,['--headless','--path',project,'--script','res://probe.gd'],{timeout:15000});
-  need(!/ERROR:|SCRIPT ERROR:|Failed to load/i.test(result.stdout+result.stderr),'PROFILE_NATIVE_RESOURCE','inspection/Inspection.tscn');
+  const importedFiles=[];
+  for(const file of fs.readdirSync(path.join(project,'.godot/imported')).sort()){
+    const target=path.join(project,'.godot/imported',file),stat=fs.statSync(target);
+    need(stat.isFile()&&stat.size<=16777216,'PROFILE_IMPORT_SIZE',file);
+    importedFiles.push({file:'.godot/imported/'+file,bytes:stat.size,sha256:runner.hash(fs.readFileSync(target))});
+  }
+  write(context.directory,name+'-imported.json',importedFiles);
+  const result=await runner.command(context,name+'-settings',executable,['--headless','--path',project,'--script','res://probe.gd'],
+    {timeout:15000,env:buildEnvironment(context)});
+  need(!/ERROR:|SCRIPT ERROR:|Failed to load|leaked|ObjectDB instances/i.test(result.stdout+result.stderr)&&result.stderr==='',
+    'PROFILE_NATIVE_RESOURCE','inspection/Inspection.tscn '+name+'-settings.command.json');
   const lines=result.stdout.split(/\r?\n/).filter(line=>line.startsWith('PROFILE_SETTINGS '));
   need(lines.length===1,'PROFILE_OBSERVATION_MISSING',name);const observation=JSON.parse(lines[0].slice(17));
+  need(observation.pid===result.pid&&path.resolve(observation.executable)===path.resolve(executable),
+    'PROFILE_PROCESS_IDENTITY',name+' '+JSON.stringify(observation));
   need(observation.nonce===context.nonce&&observation.base===FOUNDATION&&observation.qualified===expected.qualified&&
     observation.actual===expected.actual&&observation.empty===FOUNDATION&&observation.ordinary===FOUNDATION&&
     observation.inspection===expected.inspection&&observation.wrongCase===FOUNDATION&&observation.active===expected.active&&observation.foundationExists,
   'PROFILE_NATIVE_SETTINGS',JSON.stringify(observation));
   need(result.stdout.includes('PROFILE_RESOURCE '+context.nonce+' inspection/Inspection.tscn assets/common/bow.png pixels=42'),
     'PROFILE_RESOURCE_OBSERVATION_MISSING','assets/common/bow.png');
+  need(result.stdout.includes('PROFILE_SCRIPT '+context.nonce+' res://inspection/InspectionRoot.cs'),
+    'PROFILE_SCRIPT_OBSERVATION_MISSING','inspection/InspectionRoot.cs');
+  for(const [file,sha256]of Object.entries(inputs)){
+    const target=runner.inside(project,file.slice('src/godot-game/'.length)),stat=fs.statSync(target);
+    need(stat.isFile()&&stat.size>0&&stat.size<=(file===THEME?THEME_LIMIT:RESOURCE_LIMIT), 'PROFILE_SUBJECT_SIZE',file);
+    need(runner.hash(fs.readFileSync(target))===sha256,'PROFILE_SUBJECT_CHANGED',file);
+  }
+  need(JSON.stringify(productionSources())===JSON.stringify(sources),'PROFILE_OBSERVATION_SOURCE_CHANGED',name);
   write(context.directory,name+'-observations.json',observation);return observation;
 }
 async function profileCase(context){const before=snapshot(ROOT);write(context.directory,'inputs.json',before);
@@ -225,8 +320,7 @@ async function helperControls(context){
       need(row.stdout.length>1048576&&row.streamsClosed&&!row.cleanupError,'PROFILE_HELPER_OUTPUT','helper-output-limit.command.json');});
   write(context.directory,'helper-controls.json',{defaults,owned,outcomes});return {defaults,owned,outcomes};
 }
-async function boundaries(context){
-  const before=snapshot(ROOT),rows=registry();write(context.directory,'inputs.json',before);write(context.directory,'ordered-cases.json',rows);
+function sourceControls(context,before=snapshot(ROOT)){
   const controls=[
     ['missing-profile',PROFILE,'PROFILE_RESOURCE_MISSING',null],
     ['wrong-profile-feature',PROFILE,'PROFILE_IDENTITY',text=>text.replace('"feature": "asset_inspection"','"feature": "other"')],
@@ -294,6 +388,30 @@ async function boundaries(context){
   write(override.directory,'result.json',{nonce:override.nonce,status:'fail',expected:'PROFILE_RUNTIME_OVERRIDE',observed:rejected.message});
   outcomes.push({name:'runtime-override',nonce:override.nonce,directory:override.directory,expected:'PROFILE_RUNTIME_OVERRIDE',observed:rejected.message,subjectStatus:'fail'});
   write(context.directory,'source-controls.json',outcomes);
+  const reader=[];
+  for(const [name,file,size,code]of [
+    ['theme-exact-2mib',THEME,THEME_LIMIT,null],['theme-over-2mib',THEME,THEME_LIMIT+1,'PROFILE_RESOURCE_SIZE'],
+    ['ordinary-exact-1mib','src/godot-game/assets/common/bow.png',RESOURCE_LIMIT,null],
+    ['ordinary-over-1mib','src/godot-game/assets/common/bow.png',RESOURCE_LIMIT+1,'PROFILE_RESOURCE_SIZE'],
+    ['theme-empty',THEME,0,'PROFILE_RESOURCE_SIZE'],['theme-missing',THEME,null,'PROFILE_RESOURCE_MISSING'],
+    ['theme-case','src/godot-game/assets/ui/inspectiontheme.tres',null,'PATH_CASE'],
+    ['theme-alias','uid://InspectionTheme',null,'PATH_INVALID'],
+    ['theme-traversal','src/godot-game/assets/ui/../ui/InspectionTheme.tres',null,'PATH_INVALID'],
+    ['theme-sibling','src/godot-game/assets/ui/OtherTheme.tres',THEME_LIMIT,'PROFILE_RESOURCE_SIZE']
+  ]){const trial=trialContext(context,name),root=copySubject(trial);
+    if(size!==null)fs.writeFileSync(runner.inside(root,file),Buffer.alloc(size,32));
+    else if(name==='theme-missing')fs.unlinkSync(runner.inside(root,file));
+    let failure,value;try{value=read(root,file);}catch(error){failure=error;}
+    need(code?failure?.message.startsWith(code+' '):!failure&&value.length===size,'PROFILE_READER_CONTROL',name+' '+failure?.message);
+    const row={name,file,bytes:size,expected:code??'accepted',observed:failure?.message??'accepted',nonce:trial.nonce};
+    write(trial.directory,'result.json',row);reader.push(row);
+  }
+  write(context.directory,'reader-controls.json',reader);
+  return {outcomes,reader};
+}
+async function boundaries(context){
+  const before=snapshot(ROOT),rows=registry();write(context.directory,'inputs.json',before);write(context.directory,'ordered-cases.json',rows);
+  const {outcomes,reader}=sourceControls(context,before);
   const native=[];
   for(const [name,edit,expected]of [
     ['native-missing-override',text=>text.replace(/^run\/main_scene\.asset_inspection=.*\n/m,''),{qualified:'missing',inspection:FOUNDATION,active:false,actual:FOUNDATION}],
@@ -306,7 +424,7 @@ async function boundaries(context){
   validate(root);const observation=await observe(root,restored,'restored');write(restored.directory,'result.json',{nonce:restored.nonce,status:'pass',observation});
   need(JSON.stringify(snapshot(ROOT))===JSON.stringify(before),'PROFILE_SOURCE_CHANGED',PROJECT);
   write(context.directory,'native-controls.json',native);
-  return {sourceRejected:outcomes.length,outcomes,native,helper,restored:{nonce:restored.nonce,directory:restored.directory,observation},
+  return {sourceRejected:outcomes.length,outcomes,reader,native,helper,restored:{nonce:restored.nonce,directory:restored.directory,observation},
     orderedCases:rows.map(row=>({id:row.id,runGroup:row.runGroup,order:row.order})),scope:SOURCE_ONLY,nativeEntryComplete:false};
 }
 runner.registerCase('export.profile-boundaries',{...definition,title:'Independent profile, ordinary activation, path and bounded helper controls',order:351,
@@ -338,6 +456,6 @@ function helperSelfTest(){
     assert.equal(fs.existsSync(path.join(directory,'oversized-deadline.command.json')),false);
   });
 }
-module.exports={validate,snapshot,probeScript,observe,profileCase,trialContext,copySubject,mutate,registry,helperControls,boundaries,selfTest,helperSelfTest};
+module.exports={read,sceneClosure,sourceControls,validate,snapshot,probeScript,observe,profileCase,trialContext,copySubject,mutate,registry,helperControls,boundaries,selfTest,helperSelfTest};
 if(require.main===module&&process.argv[2]==='--self-test')selfTest();
 if(require.main===module&&process.argv[2]==='--self-test-helper')helperSelfTest();
