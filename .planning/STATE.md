@@ -4,17 +4,17 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 04
 current_phase_name: Asset production
-current_plan: 14
+current_plan: 18
 status: executing
-stopped_at: Completed04-06 locally;13/37 summarized; remaining wave12 plans04-14/18; WINDOWS29/30/31 open before review
-last_updated: "2026-11-17T03:44:20.321Z"
+stopped_at: Completed04-14;14/37 locally summarized; remaining wave12 plan18; WINDOWS29/30/31 open before review
+last_updated: "2026-11-17T04:22:22.107Z"
 last_activity: 2026-11-17
-last_activity_desc: Completed04-06 body art and ordinary fits;13/37 summarized; next04-14 UI kit, then18
+last_activity_desc: Completed04-14 native UI kit/theme with fresh5-case pass;14/37 summarized; next04-18 data baseline
 progress:
   total_phases: 11
   completed_phases: 3
   total_plans: 62
-  completed_plans: 38
+  completed_plans: 39
   percent: 27
 ---
 
@@ -26,19 +26,19 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase04 continues on feature/04-asset-production with draftPR5. Thirteen of37 local plans are summarized:01/25/34/35/02/36/37/03/26/04/05/11/06. Body art and ordinary fitting pass193 parts/48 poses/2976 tuples/12 H13 fixtures/5972 native observations/10 compiled tests. Broader selection remains11PASS/2FAIL; WINDOWS30 native policy and31 current producer cohort belong04-23 before review, alongside29 source/index integration. Remaining wave12 plans14/18 run sequentially. AllASSET and actual32/33 acceptance remain pending.
+**Current focus:** Phase04 continues on feature/04-asset-production with draftPR5. Fourteen of37 local plans are summarized:01/25/34/35/02/36/37/03/26/04/05/11/06/14. Native UI kit/theme passes exact font/frame replay,172 native observations,3 compiled tests and original hub source/lifecycle controls; frozen five-case selection passes. Remaining wave12 plan18 produces baseline data before wave13. WINDOWS29/30/31 remain final23/31 integration before review; allASSET and actual32/33 acceptance pending.
 
 ## Current Position
 
 Phase: 04 — Asset production
-Current Plan: 14
+Current Plan: 18
 Total Plans in Phase: 37
 Status: Executing
-Last activity: 2026-11-17 — Completed04-06 locally;13/37 summarized; remaining wave12 plans14/18
+Last activity: 2026-11-17 — Completed04-14 native UI kit/theme;14/37 locally summarized; next04-18 data baseline
 
 Progress: [███░░░░░░░] 27%
 
-Milestone progress: 3/11 phases complete;38/62 currently planned plans summarized;fourteen of134 requirements complete. Phase4 has13/37 local plans complete. NoASSET requirement completion is claimed.
+Milestone progress: 3/11 phases complete;39/62 currently planned plans summarized;fourteen of134 requirements complete. Phase4 has14/37 local plans complete. NoASSET requirement completion is claimed.
 
 ## Performance Metrics
 
@@ -135,6 +135,8 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - [Phase 04]: 04-11 delivers three main tiers/47 parts/153 retained members; shared stash,8/12/16 seats and two independent single-guard attachments. Final strict production and harness0warnings/errors,17 compiled tests/260 native observations pass. Original failures and consumed repair budgets remain preserved. Inventory234 unchanged; actual appearance/full-hub acceptance remains pending.
 
 - [Phase 04]: 04-06 commits2c54e53/531573e and SUMMARY96979df retain3 bodies/48 poses/193 parts/232 source members; complete fits2976 tuples/12 H13/5972 observations/10 compiled0skip with strict production/harness0warnings. Fresh broader selection11PASS/2FAIL is preserved. WINDOWS30/31 remain required04-23 integration; no policy pass or ASSET acceptance. Inventory234 unchanged.
+
+- [Phase 04]: 04-14 fonts/frame kit and native theme committeded5c404/a05fff3, SUMMARYa889513;5-case fresh selection passes583.901s with2462 unchanged inputs. Native172 includes original165 IDs/12 logical canvas-scale-text combinations; strict production/harness0warnings,3compiled0skip,original hub25/50native+63compiled each. Inventory234 unchanged,actualappearance pending.
 
 ### Pending Todos
 
