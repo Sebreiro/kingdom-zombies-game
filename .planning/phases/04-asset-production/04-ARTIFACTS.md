@@ -4,6 +4,8 @@
 
 ## Execution amendments
 
+Completed [04-28](04-28-SUMMARY.md) uses seven paths under its [amendment](04-28-AMENDMENTS.md): the five planned media/definition/case paths plus new internal IdentityKit.cs and scriptless IdentityKit.tscn. These two new distinct source resources raise the reconciled phase inventory from234 to236. The exact master/prompt/27 ZIP members/seven ICO frames,18statuses/four bindings/four player cues/24 canonical item references, source declarations and78 observed native operations are inventoried in SUMMARY. Final eleven-case local selection passes404 unchanged inputs, including identity127/integrity402/theme172 native observations and all original consumers. Native policy369 and current producer enrollment remain failed/pending for23; actual export identity31 and final acceptance32/33 remain pending. Seventeen of37 local plans andwave13 are complete.
+
 Completed [04-07](04-07-SUMMARY.md) uses twelve existing implementation paths under its [amendment](04-07-AMENDMENTS.md) and [bounded repair record](04-07-REPAIR.md): nine b/c artifact paths plus CharacterPreview.cs,InspectionRoot.cs and bodies-a.cjs. Five new neutral bodies retain80poses/320parts/418members; all eight selections and7936fits pass with clean native exits. Shared proof-image disposal and report-only strict capacity fixes preserve all original controls. Fresh12case local selection passes383 unchanged inputs; current separate policy remainsFAIL291operations for23. Exact fields/declarations/all418memberhashes/native tuples are in SUMMARY. Phaseinventory234 unchanged; sixteen of37 local plans complete, no actual/ASSET acceptance.
 
 Completed [04-18](04-18-SUMMARY.md) uses its exact nine planned paths. Six editable DT-01–06 data documents and two explicit schemas enumerate984field IDs/defaults/units/constraints/dependencies/source references. Reusable strict parser/reference/relationship cases and exact artifact/export/field inventories are in SUMMARY. Fresh three-case selection passes384source assertions,52data negatives,fivelegal loadouts and35discovery negatives. Data-only production gives no gameplay/native permission or hub-adoption credit. Distinct phase inventory234 unchanged; fifteen of37 local plans and wave12 complete. WINDOWS29/30/31 and actual acceptance remain pending.
@@ -194,6 +196,8 @@ Completed 04-03 also adds `tests/phase1/ArchitecturePolicy.cs` under its [record
 | src/godot-game/inspection/CorpsePreview.cs | 04-10 | CorpsePreview type; exact actual members in execution SUMMARY |
 | src/godot-game/inspection/CrowdPreview.cs | 04-10 | CrowdPreview type; exact actual members in execution SUMMARY |
 | src/godot-game/inspection/DataTextPreview.cs | 04-22 | DataTextPreview type; exact actual members in execution SUMMARY |
+| src/godot-game/inspection/IdentityKit.cs | 04-28 amendment | Internal synchronous identity projector; exact declarations/native tuples in28 SUMMARY |
+| src/godot-game/inspection/IdentityKit.tscn | 04-28 amendment | Scriptless reusable native identity/status/input/player/condition controls |
 | src/godot-game/inspection/Inspection.tscn | 04-01 -> 04-03 -> 04-14 | Actual resource/data/document/evidence identity and applicable metadata |
 | src/godot-game/inspection/InspectionInput.cs | 04-26 | InspectionInput type; exact actual members in execution SUMMARY |
 | src/godot-game/inspection/InspectionRoot.cs | 04-03 -> 04-26 -> 04-06 -> 04-27 -> 04-29 -> 04-22 | InspectionRoot type; exact actual members in execution SUMMARY |

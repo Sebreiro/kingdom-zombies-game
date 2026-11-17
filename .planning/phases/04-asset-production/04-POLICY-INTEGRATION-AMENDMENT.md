@@ -27,3 +27,7 @@ Authorize04-06 to commit its five tested Task2 files unchanged, then immediately
 ## Current observation after04-07
 
 Fresh approved source-policya2189342-7aa1-4c1b-bb22-dc56ba7171db remainsFAIL with291operations:125in CharacterPreview(11methods) and166in BuildingPreview(17methods). Exact signatures,coordinates,source/generated hashes are inventoried in [04-07-SUMMARY.md](04-07-SUMMARY.md). The historical290-operation failure remains immutable. This updates actual handoff scope under existingWINDOWS30, not permission or a new waiver. Owner23 must validate every final actual native member and current producer after later source changes;29/30/31 still block review/phase acceptance.
+
+## Current observation after04-28
+
+Fresh source-policy72177901 remainsFAIL369operations:166BuildingPreview,125CharacterPreview and78IdentityKit across7guardedhosts. [04-28-SUMMARY.md](04-28-SUMMARY.md) inventories everynewtuple/source/signature. Actualgenerated-input observation reports49sourceinputs(48nonadapterCS),32on-disksurfaces,pinnedpackage,zero matchingcohort; it grantsnoenrollment/replay credit. Historical290/291failures stayimmutable. ExistingWINDOWS30/31 cover final all-presenter/current-producer integration; authorizationsmustderivefromactualguardedpositive/negativeproof,not theseobservations. NewIdentityKit source/scene paths are in the236path phaseinventory;23 Rootdispatch must consume this real reusableproductionadapter.
