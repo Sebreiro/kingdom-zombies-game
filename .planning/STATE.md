@@ -4,17 +4,17 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 04
 current_phase_name: Asset production
-current_plan: 7
+current_plan: 28
 status: executing
-stopped_at: Completed04-18;15/37 locally summarized; wave12 complete; nextwave13 plans07/28; WINDOWS29/30/31 open
-last_updated: "2026-11-17T04:48:59.203Z"
+stopped_at: Completed 04-07; 16/37 local plans summarized; next 04-28 to complete wave13; WINDOWS29/30/31 open
+last_updated: "2026-11-17T06:26:09.152Z"
 last_activity: 2026-11-17
-last_activity_desc: Completed04-18 all six baseline documents/984 fields;15/37 summarized; next04-07 body groups
+last_activity_desc: Completed all eight body choices and fitting; 12/12 local regressions pass; next UI identity kit 04-28
 progress:
   total_phases: 11
   completed_phases: 3
   total_plans: 62
-  completed_plans: 40
+  completed_plans: 41
   percent: 27
 ---
 
@@ -26,19 +26,19 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase04 continues on feature/04-asset-production with draftPR5. Fifteen of37 local plans are summarized:01/25/34/35/02/36/37/03/26/04/05/11/06/14/18. Data18 delivers984 explicit fields across six baseline documents and strict source/reference/relationship validation; fresh three-case selection passes. Wave12 complete; earliestwave13 plans07/28 run sequentially, starting07. WINDOWS29/30/31 remain final23/31 integration before review; allASSET and actual32/33 acceptance pending.
+**Current focus:** Phase 04 continues on feature/04-asset-production with draft PR5. Sixteen of37 local plans are summarized: 01/25/34/35/02/36/37/03/26/04/05/11/06/14/18/07. All eight body choices and 7936 fitting tuples pass with clean native exits; fresh twelve-case local selection passes on383 unchanged inputs. Current native policy remains failed at291 operations under final23 integration; WINDOWS29/31 also remain open. Finish wave13 with04-28 UI identity, then wave14. All ASSET and actual32/33 acceptance remain pending.
 
 ## Current Position
 
 Phase: 04 — Asset production
-Current Plan: 7
+Current Plan: 28
 Total Plans in Phase: 37
 Status: Executing
-Last activity: 2026-11-17 — Completed04-18 baseline data;15/37 locally summarized; wave12 complete,next07/28
+Last activity: 2026-11-17 — Completed04-07 eight-body art/fitting;16/37 locally summarized; next04-28 UI identity
 
 Progress: [███░░░░░░░] 27%
 
-Milestone progress: 3/11 phases complete;40/62 currently planned plans summarized;fourteen of134 requirements complete. Phase4 has15/37 local plans complete. NoASSET requirement completion is claimed.
+Milestone progress: 3/11 phases complete;41/62 currently planned plans summarized;fourteen of134 requirements complete. Phase4 has16/37 local plans complete. NoASSET requirement completion is claimed.
 
 ## Performance Metrics
 
@@ -139,6 +139,8 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - [Phase 04]: 04-14 fonts/frame kit and native theme committeded5c404/a05fff3, SUMMARYa889513;5-case fresh selection passes583.901s with2462 unchanged inputs. Native172 includes original165 IDs/12 logical canvas-scale-text combinations; strict production/harness0warnings,3compiled0skip,original hub25/50native+63compiled each. Inventory234 unchanged,actualappearance pending.
 
 - [Phase 04]: 04-18 six editable baseline documents/984fields committed02ae884/7e3b7e5,SUMMARYc25f4be. Fresh foundation390fc7b3/items4d5d4ed7/discoverycd5a840d pass:384directsource assertions/52data negatives/5legal loadouts,35discovery negatives. Nine accepted hashes frozen; no gameplay/native permission claim. Inventory234 unchanged; wave12 complete.
+
+- [Phase 04]: 04-07 adds5 distinct neutral bodies,80poses,320parts and418 retained b/c members. All8 choices/7936tuples/16158native/12H13 pass;12-case final local selection passes383 unchanged inputs. Shared helper Image ownership fixes confirmed by scoped treatment/reversal; strict report-only2MiB/125k reader retains14 negative controls and global100k limit. Source5eb6b7f/5d0f5e8,SUMMARYbbfc57e. Current policy291operations remains OPEN23-owned;inventory234 unchanged.
 
 ### Pending Todos
 

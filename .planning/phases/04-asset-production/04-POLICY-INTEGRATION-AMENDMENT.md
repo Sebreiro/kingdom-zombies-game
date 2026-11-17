@@ -23,3 +23,7 @@ After final Root/native sources stabilize, run focused native/producer controls,
 The canonical04-06 body-art/complete-fit/strict-build contract and additional hub/native/visibility/discovery regressions passed on fixed inputs. R4 report publication is resolved1/2. The parent-added broad selection exposed the separately owned integration failures above. They remain failures; no final acceptance exception is created.
 
 Authorize04-06 to commit its five tested Task2 files unchanged, then immediately write/self-check/commit SUMMARY. Report thirteen cases as11PASS/2FAIL with04-23 ownership and WINDOWS30/31. Claim no full policy compliance, phase completion or ASSET acceptance. No rerun solely for this documentation decision; source changes require fresh affected proof. Exact native tuples/current producer observations are handoff inputs, never permission metadata. Parent reconciles local plan progress after terminal completion and owns draftPR5.
+
+## Current observation after04-07
+
+Fresh approved source-policya2189342-7aa1-4c1b-bb22-dc56ba7171db remainsFAIL with291operations:125in CharacterPreview(11methods) and166in BuildingPreview(17methods). Exact signatures,coordinates,source/generated hashes are inventoried in [04-07-SUMMARY.md](04-07-SUMMARY.md). The historical290-operation failure remains immutable. This updates actual handoff scope under existingWINDOWS30, not permission or a new waiver. Owner23 must validate every final actual native member and current producer after later source changes;29/30/31 still block review/phase acceptance.

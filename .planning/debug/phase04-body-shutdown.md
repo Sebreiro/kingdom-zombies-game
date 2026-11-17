@@ -1,5 +1,5 @@
 ---
-status: diagnosed
+status: resolved
 trigger: Coordinator-observed native shutdown failure during authorized Phase04-only autonomous execution
 created: 2026-11-17
 updated: 2026-11-17
@@ -102,3 +102,7 @@ The debugger returned specialist_hint `general`, which maps to `engineering:debu
 ## Manager Disposition
 
 Diagnosis-only objective achieved. The parent explicitly retains ownership of tracked repair authorization, commits, archive, and global phase progress. This session is intentionally left at its active path with status `diagnosed` for parent reconciliation; no commit, archive, task completion, or phase completion is claimed. The native diagnostic budget is exhausted at 3/3.
+
+## Coordinator canonical resolution
+
+Resolved after tracked shared helper scopes in5d0f5e8. Fresh canonical complete-fit8fdaf270 andfinalf3cd22fd-5c09-4285-9c48-af25ea2b8c4a retain16158true/7936tuples/12H13 andactualexit0/emptyfatalstderr. All12localregressions pass383 unchanged inputs; SUMMARYbbfc57e authenticates source mapping. The distinct107205-node evidence parser issue is separately resolved with bounded report-only reader; no general limit or process-exit relaxation. Three diagnostic variants and all original failures stay immutable. This resolves the observed proof shutdown bug, not Phase04/ASSET or pending policy/actualacceptance.
