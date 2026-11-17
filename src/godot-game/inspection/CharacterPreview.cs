@@ -70,6 +70,7 @@ internal sealed class CharacterPreview
         preview._presentation = ReadPresentation(read: read);
         preview._bow = ReadDefinition(bytes: read(arg: "content/animation/bow.json")
                 ?? throw new InvalidDataException(message: "BOW_MISSING"), expectedId: "bow");
+        preview._work = ReadWork(read: read);
         return preview;
     }
 
@@ -195,6 +196,7 @@ internal sealed class CharacterPreview
         }
 
         _presentation?.Advance(elapsedSeconds: delta);
+        AdvanceWork(elapsed: delta);
         if (_presentation is not null)
         {
             _ = _presentation.TryContact(generation: _presentation.Snapshot.GetProperty(propertyName: "generation")
@@ -226,6 +228,18 @@ internal sealed class CharacterPreview
     private JsonElement _bow;
     private double _aim;
     private string _aimPreset = "0";
+    private JsonElement _work;
+    private JsonElement _workClip;
+    private string _workSelection = "";
+    private double _workElapsed;
+    private long _workGeneration;
+    private long _workEventCount;
+    private long _workEventCycle = -1;
+    private bool _workImpact;
+    private bool _workOriginReady;
+    private float _workOriginX;
+    private float _workOriginY;
+    private readonly List<string> _workEvents = [];
 
     private static CharacterPresentation ReadPresentation(Func<string, byte[]?> read)
     {
@@ -302,6 +316,7 @@ internal sealed class CharacterPreview
         AddSelector(parent: slots, id: "ArrowStack", label: "Selected stack identity", values: ["stack-a", "stack-b"]);
         AddSelector(parent: slots, id: "BowSubject", label: "Bow presentation",
                 values: ["Ordinary", "Structural guard"]);
+        WorkControls(slots: slots);
         AddSelector(parent: slots, id: "PlaybackSpeed", label: "Preview speed", values: ["0.25×", "0.5×", "1×", "2×"]);
         _controls["PlaybackSpeed"].Select(idx: 2);
         foreach ((string id, string text) in new[] { ("Play", "Play preview"), ("Step", "Step frame"),
@@ -356,6 +371,7 @@ internal sealed class CharacterPreview
 
         _presentation?.Configure(body: _body, movement: "idle", action: "none", leftItem: "Empty",
                 rightItem: "Empty", facing: 1);
+        CancelWork();
         Project();
     }
 
@@ -606,6 +622,26 @@ internal sealed class CharacterPreview
                 predicate: value => StringComparer.Ordinal.Equals(x: Text(value: value, name: "id"), y: _body));
         JsonElement pose = body.GetProperty(propertyName: "poses").EnumerateArray().First(
                 predicate: value => StringComparer.Ordinal.Equals(x: Text(value: value, name: "id"), y: poseId));
+        (pose, JsonElement lower) = Compose(body: body, pose: pose, facing: facing);
+        (pose, lower) = WorkPose(body: body, pose: pose, lower: lower);
+
+        if (_sample.ValueKind is JsonValueKind.Object && Selected(id: "Action") is "Bow"
+                && Selected(id: "BowSubject") is "Structural guard")
+        {
+            AddGuard(art: art, facing: facing);
+            _root.SetMeta(name: "sample", value: _sample.GetRawText());
+            _root.GetNode<Label>(path: "Status").Text = "Structural guard · built-in bow · no loot";
+            return;
+        }
+
+        AddBody(art: art, pose: pose, facing: facing, lower: lower);
+        ProjectGear(art: art, body: body, pose: pose, lower: lower, facing: facing, poseId: poseId);
+        Contact(art: art, pose: pose, facing: facing);
+        ProjectWork(art: art, body: body, pose: pose, facing: facing);
+    }
+
+    private (JsonElement Upper, JsonElement Lower) Compose(JsonElement body, JsonElement pose, int facing)
+    {
         JsonElement lower = pose;
         _sample = default;
         if (_presentation is not null && (Selected(id: "Movement") is not "Static pose"
@@ -623,8 +659,7 @@ internal sealed class CharacterPreview
             bool rightBow = Selected(id: "right") is "IT-07" && Selected(id: "left") is not "IT-07";
             _presentation.Configure(body: _body, movement: movement, action: action,
                     leftItem: guard ? rightBow ? "Empty" : "IT-07" : Selected(id: "left"),
-                    rightItem: guard ? rightBow ? "IT-07" : "Empty" : Selected(id: "right"),
-                    facing: facing);
+                    rightItem: guard ? rightBow ? "IT-07" : "Empty" : Selected(id: "right"), facing: facing);
             UpdateAim(guard: guard);
             _sample = _presentation.Snapshot;
             lower = FindPose(body: body, id: Text(value: _sample, name: "lowerPose"));
@@ -635,18 +670,477 @@ internal sealed class CharacterPreview
             }
         }
 
-        if (_sample.ValueKind is JsonValueKind.Object && Selected(id: "Action") is "Bow"
-                && Selected(id: "BowSubject") is "Structural guard")
+        return (pose, lower);
+    }
+
+    private static JsonElement ReadWork(Func<string, byte[]?> read)
+    {
+        JsonElement work = ReadDefinition(bytes: read(arg: "content/animation/work-special.json")
+                ?? throw new InvalidDataException(message: "WORK_MISSING"), expectedId: "work-special");
+        JsonElement atlas = work.GetProperty(propertyName: "atlas");
+        string path = ContentPack.ResourcePath(path: Text(value: atlas, name: "path"));
+        if (path is not "assets/characters/work-special.png")
         {
-            AddGuard(art: art, facing: facing);
-            _root.SetMeta(name: "sample", value: _sample.GetRawText());
-            _root.GetNode<Label>(path: "Status").Text = "Structural guard · built-in bow · no loot";
+            throw new InvalidDataException(message: "WORK_ATLAS_PATH");
+        }
+
+        byte[] pixels = read(arg: path) ?? throw new InvalidDataException(message: "WORK_ATLAS_MISSING");
+        if (pixels.Length is 0 or > 16777216 || !StringComparer.Ordinal.Equals(
+                x: Convert.ToHexStringLower(inArray: SHA256.HashData(source: pixels)),
+                y: Text(value: atlas, name: "sha256")))
+        {
+            throw new InvalidDataException(message: "WORK_ATLAS_HASH");
+        }
+
+        if (Text(value: work, name: "clock") is not "explicit-elapsed-only"
+                || atlas.GetProperty(propertyName: "width").GetInt32() != 128
+                || atlas.GetProperty(propertyName: "height").GetInt32() != 64
+                || work.GetProperty(propertyName: "burst").GetProperty(propertyName: "damage").GetInt32() != 0
+                || work.GetProperty(propertyName: "burst").GetProperty(propertyName: "slowdown").GetInt32() != 0
+                || work.GetProperty(propertyName: "burst").GetProperty(propertyName: "blocksMovement").GetBoolean()
+                || !work.GetProperty(propertyName: "burst").GetProperty(propertyName: "corpseIndependent").GetBoolean())
+        {
+            throw new InvalidDataException(message: "WORK_CONTRACT");
+        }
+
+        ValidateWork(work: work);
+        return work;
+    }
+
+    private static void ValidateWork(JsonElement work)
+    {
+        string[] names = ["Sit", "Stand", "Gather", "Put away", "Build", "Hammer", "Repair", "Chop", "Pickup",
+            "Carry", "Deliver", "Stash", "Equip", "Eat", "Spit", "Burst"];
+        if (!work.GetProperty(propertyName: "actions").EnumerateArray().Select(selector: clip =>
+                Text(value: clip, name: "id")).SequenceEqual(second: names, comparer: StringComparer.Ordinal))
+        {
+            throw new InvalidDataException(message: "WORK_ACTIONS");
+        }
+
+        foreach (JsonElement clip in work.GetProperty(propertyName: "actions").EnumerateArray())
+        {
+            ValidateWorkClip(clip: clip);
+        }
+
+        var keys = new HashSet<string>(comparer: StringComparer.Ordinal);
+        foreach (JsonElement part in work.GetProperty(propertyName: "components").EnumerateArray())
+        {
+            JsonElement rect = part.GetProperty(propertyName: "atlasRect");
+            if (!keys.Add(item: Text(value: part, name: "key")) || rect.GetArrayLength() != 4
+                    || rect[0].GetInt32() < 0 || rect[1].GetInt32() < 0 || rect[2].GetInt32() is < 1 or > 32
+                    || rect[3].GetInt32() is < 1 or > 32 || rect[0].GetInt32() + rect[2].GetInt32() > 128
+                    || rect[1].GetInt32() + rect[3].GetInt32() > 64)
+            {
+                throw new InvalidDataException(message: "WORK_COMPONENT");
+            }
+        }
+
+        JsonElement spit = work.GetProperty(propertyName: "spit");
+        string[] expected = ["hammer", "spit.0", "spit.1", "spit.2", "spit.3", "splash.0", "splash.1", "splash.2",
+            "splash.3", "stain.0", "stain.1", "stain.2", "stain.3", "axe.0", "axe.1", "axe.2", "axe.3"];
+        if (!keys.SetEquals(other: expected) || spit.GetProperty(propertyName: "speedUnitsPerSecond").GetDouble() != 8
+                || spit.GetProperty(propertyName: "intervalSeconds").GetDouble() != 3
+                || spit.GetProperty(propertyName: "lifetimeSeconds").GetDouble() != 3
+                || !spit.GetProperty(propertyName: "stopAtFirstEligibleHit").GetBoolean()
+                || spit.GetProperty(propertyName: "areaDamage").GetBoolean()
+                || spit.GetProperty(propertyName: "lingeringEffect").GetBoolean())
+        {
+            throw new InvalidDataException(message: "WORK_SPIT");
+        }
+    }
+
+    private static void ValidateWorkClip(JsonElement clip)
+    {
+        JsonElement samples = clip.GetProperty(propertyName: "samples");
+        string body = Text(value: clip, name: "id") is "Spit" ? "CH-06"
+                : Text(value: clip, name: "id") is "Burst" ? "CH-08" : "CH-01";
+        if (!StringComparer.Ordinal.Equals(x: Text(value: clip, name: "body"), y: body)
+                || samples.GetArrayLength() is < 1 or > 8 || samples.EnumerateArray().Any(predicate: sample =>
+                        sample.GetProperty(propertyName: "duration").GetDouble() is < 0.05 or > 6
+                                || Math.Abs(value: sample.GetProperty(propertyName: "angle").GetDouble()) > Math.PI
+                                || Text(value: sample, name: "pose") is not ("idle" or "sit" or "gather" or "carry"
+                                        or "recover" or "windup" or "strike" or "eat" or "aim" or "hit"
+                                        or "collapse-a" or "collapse-b" or "corpse"))
+                || Math.Abs(value: samples.EnumerateArray().Sum(selector: sample => sample.GetProperty(
+                        propertyName: "duration").GetDouble()) - clip.GetProperty(propertyName: "duration")
+                                .GetDouble()) > 0.000000001)
+        {
+            throw new InvalidDataException(message: "WORK_TIMING");
+        }
+
+        JsonElement effect = clip.GetProperty(propertyName: "event");
+        if (effect.ValueKind is JsonValueKind.Object && (effect.GetProperty(propertyName: "time").GetDouble() < 0
+                || effect.GetProperty(propertyName: "time").GetDouble() > clip.GetProperty(
+                        propertyName: "duration").GetDouble() || Text(value: effect, name: "sound")
+                                is not ("AU-08" or "AU-12" or "AU-13" or "AU-18" or "AU-19" or "AU-29" or "AU-30")))
+        {
+            throw new InvalidDataException(message: "WORK_EVENT");
+        }
+    }
+
+    private void WorkControls(Node slots)
+    {
+        _gateway.RequireThread();
+        if (_work.ValueKind is not JsonValueKind.Object)
+        {
             return;
         }
 
-        AddBody(art: art, pose: pose, facing: facing, lower: lower);
-        ProjectGear(art: art, body: body, pose: pose, lower: lower, facing: facing, poseId: poseId);
-        Contact(art: art, pose: pose, facing: facing);
+        AddSelector(parent: slots, id: "WorkAction", label: "Work / specialist pose", values: Empty.Concat(
+                second: _work.GetProperty(propertyName: "actions").EnumerateArray().Select(
+                        selector: clip => Text(value: clip, name: "id"))));
+        AddSelector(parent: slots, id: "WorkEvents", label: "Preview event behavior",
+                values: ["Silent restore", "Trigger events"]);
+        AddSelector(parent: slots, id: "WorkRestore", label: "Restore sample", values: ["Start", "Middle", "End"]);
+        AddSelector(parent: slots, id: "WorkHand", label: "Work tool hand", values: ["Left", "Right"]);
+        AddSelector(parent: slots, id: "WorkTransfer", label: "Actual sample transfer",
+                values: ["Empty", "Plant", "Carried", "Delivered", "Equipped"]);
+        AddSelector(parent: slots, id: "SpitContact", label: "Projectile sample path",
+                values: ["Clear", "First contact"]);
+    }
+
+    private void CancelWork()
+    {
+        _gateway.RequireThread();
+        _workClip = default;
+        _workSelection = "";
+        _workElapsed = 0;
+        _workEventCount = 0;
+        _workEventCycle = -1;
+        _workImpact = false;
+        _workOriginReady = false;
+        _workOriginX = default;
+        _workOriginY = default;
+        _workEvents.Clear();
+        _workGeneration = checked(_workGeneration + 1);
+        if (_controls.TryGetValue(key: "WorkAction", value: out OptionButton? control))
+        {
+            control.Select(idx: 0);
+        }
+    }
+
+    private (JsonElement Upper, JsonElement Lower) WorkPose(JsonElement body, JsonElement pose, JsonElement lower)
+    {
+        _gateway.RequireThread();
+        if (_work.ValueKind is not JsonValueKind.Object || Selected(id: "WorkAction") is "Empty")
+        {
+            if (_workClip.ValueKind is JsonValueKind.Object || _workSelection.Length > 0)
+            {
+                CancelWork();
+            }
+
+            return (pose, lower);
+        }
+
+        if (Selected(id: "Action") is not "None")
+        {
+            CancelWork();
+            return (pose, lower);
+        }
+
+        JsonElement clip = _work.GetProperty(propertyName: "actions").EnumerateArray().Single(
+                predicate: value => StringComparer.Ordinal.Equals(x: Text(value: value, name: "id"),
+                        y: Selected(id: "WorkAction")));
+        if (!StringComparer.Ordinal.Equals(x: Text(value: clip, name: "body"), y: _body))
+        {
+            _workClip = default;
+            _workSelection = "";
+            _root.SetMeta(name: "work", value: JsonSerializer.Serialize(value: new
+            {
+                available = false,
+                requiredBody = Text(value: clip, name: "body"),
+            }));
+            return (pose, lower);
+        }
+
+        string selection = _body + "|" + Selected(id: "WorkAction") + "|" + Selected(id: "WorkEvents") + "|"
+                + Selected(id: "WorkRestore");
+        if (!StringComparer.Ordinal.Equals(x: selection, y: _workSelection))
+        {
+            _workClip = clip;
+            _workSelection = selection;
+            _workElapsed = clip.GetProperty(propertyName: "duration").GetDouble() * (Selected(id: "WorkRestore")
+                    is "Middle" ? 0.5 : Selected(id: "WorkRestore") is "End" ? 0.999999 : 0);
+            _workGeneration = checked(_workGeneration + 1);
+            _workEventCount = 0;
+            _workEventCycle = -1;
+            _workImpact = false;
+            _workOriginReady = false;
+            _workEvents.Clear();
+            WorkEvent();
+        }
+
+        string id = Text(value: WorkSample(), name: "pose");
+        pose = FindPose(body: body, id: id);
+        if (Selected(id: "WorkAction") is "Sit" or "Stand" or "Burst")
+        {
+            lower = pose;
+        }
+
+        return (pose, lower);
+    }
+
+    private JsonElement WorkSample()
+    {
+        double time = _workElapsed;
+        JsonElement samples = _workClip.GetProperty(propertyName: "samples");
+        foreach (JsonElement sample in samples.EnumerateArray())
+        {
+            time -= sample.GetProperty(propertyName: "duration").GetDouble();
+            if (time < 0)
+            {
+                return sample;
+            }
+        }
+
+        return samples[samples.GetArrayLength() - 1];
+    }
+
+    private void AdvanceWork(double elapsed)
+    {
+        if (_workClip.ValueKind is not JsonValueKind.Object)
+        {
+            return;
+        }
+
+        double duration = _workClip.GetProperty(propertyName: "duration").GetDouble();
+        if (Text(value: _workClip, name: "id") is "Spit")
+        {
+            duration += 0.6;
+        }
+
+        double next = _workElapsed + elapsed;
+        if (_workClip.GetProperty(propertyName: "loop").GetBoolean() && next >= duration)
+        {
+            _workGeneration = checked(_workGeneration + (long)Math.Floor(d: next / duration));
+            _workEventCycle = -1;
+            next %= duration;
+        }
+
+        _workElapsed = Math.Min(val1: next, val2: duration);
+        WorkEvent();
+        if (next >= duration && !_workClip.GetProperty(propertyName: "persistent").GetBoolean()
+                && !_workClip.GetProperty(propertyName: "loop").GetBoolean())
+        {
+            CancelWork();
+        }
+    }
+
+    private void WorkEvent()
+    {
+        if (Text(value: _workClip, name: "id") is "Eat" && Selected(id: "WorkTransfer") is not "Carried")
+        {
+            return;
+        }
+
+        JsonElement row = _workClip.GetProperty(propertyName: "event");
+        if (Selected(id: "WorkEvents") is "Trigger events" && row.ValueKind is JsonValueKind.Object
+                && _workElapsed >= row.GetProperty(propertyName: "time").GetDouble()
+                && _workEventCycle != _workGeneration)
+        {
+            RecordWorkEvent(sound: Text(value: row, name: "sound"));
+            _workEventCycle = _workGeneration;
+        }
+    }
+
+    private void RecordWorkEvent(string sound)
+    {
+        if (_workEvents.Count >= 16)
+        {
+            _workEvents.RemoveAt(index: 0);
+        }
+
+        _workEvents.Add(item: sound);
+        _workEventCount = checked(_workEventCount + 1);
+    }
+
+    private void ProjectWork(Node2D art, JsonElement body, JsonElement pose, int facing)
+    {
+        _gateway.RequireThread();
+        if (_workClip.ValueKind is not JsonValueKind.Object)
+        {
+            _root.SetMeta(name: "work", value: JsonSerializer.Serialize(value: new
+            {
+                available = false,
+                action = "Empty",
+                elapsed = _workElapsed,
+                generation = _workGeneration,
+                eventCount = _workEventCount,
+                events = _workEvents,
+                firstContact = _workImpact,
+            }));
+            return;
+        }
+
+        string id = Text(value: _workClip, name: "id");
+        WorkEvent();
+        WorkTool(art: art, pose: pose, facing: facing);
+        WorkPayload(art: art, pose: pose, facing: facing);
+        if (id is "Spit")
+        {
+            ProjectSpit(art: art, body: body, facing: facing);
+        }
+
+        if (id is "Burst")
+        {
+            ProjectBurst(art: art, facing: facing);
+        }
+
+        if (id is "Eat" && Selected(id: "WorkEvents") is "Trigger events" && _workElapsed < 0.2
+                && Selected(id: "WorkTransfer") is "Carried")
+        {
+            art.AddChild(node: new Label { Name = "FoodFeedback", Text = "Food used", Position = new Vector2(
+                    x: 8, y: -8), Scale = new Vector2(x: 0.25f, y: 0.25f) });
+        }
+
+        _root.SetMeta(name: "work", value: JsonSerializer.Serialize(value: new
+        {
+            available = true,
+            action = id,
+            body = _body,
+            pose = Text(value: WorkSample(), name: "pose"),
+            elapsed = _workElapsed,
+            generation = _workGeneration,
+            eventCount = _workEventCount,
+            events = _workEvents,
+            firstContact = _workImpact,
+            inventoryMutation = false,
+            toolInventoryItem = false,
+            freeCapacity = false,
+            gameplayEvents = 0,
+            acidDamage = 0,
+            corpseIndependent = true,
+            transfer = Selected(id: "WorkTransfer"),
+        }));
+    }
+
+    private Sprite2D WorkSprite(Node2D art, string name, string key, Vector2 at, int facing, float angle = 0)
+    {
+        _gateway.RequireThread();
+        JsonElement part = _work.GetProperty(propertyName: "components").EnumerateArray().Single(
+                predicate: value => StringComparer.Ordinal.Equals(x: Text(value: value, name: "key"), y: key));
+        var sprite = new Sprite2D
+        {
+            Name = name,
+            Texture = Texture(pack: _work, part: part, atlas: "assets/characters/work-special.png"),
+            Centered = false,
+            Offset = -Point(value: part.GetProperty(propertyName: "pivot")),
+            Position = new Vector2(x: facing == 1 ? at.X : 48 - at.X, y: at.Y),
+            Scale = new Vector2(x: facing, y: 1),
+            Rotation = facing * angle,
+            ZIndex = 35
+        };
+        sprite.SetMeta(name: "part", value: key);
+        sprite.SetMeta(name: "gameplay", value: false);
+        sprite.SetMeta(name: "recoverable", value: false);
+        art.AddChild(node: sprite);
+        return sprite;
+    }
+
+    private void WorkTool(Node2D art, JsonElement pose, int facing)
+    {
+        JsonElement tool = _workClip.GetProperty(propertyName: "tool");
+        if (tool.ValueKind is not JsonValueKind.String)
+        {
+            return;
+        }
+
+        string hand = Selected(id: "WorkHand") is "Left" ? "left" : "right";
+        Vector2 at = Point(value: pose.GetProperty(propertyName: "anchors").GetProperty(propertyName: hand + "Hand"))
+                + SegmentOffset(lower: false);
+        string key = tool.GetString() is "axe" ? "axe.0" : "hammer";
+        Sprite2D sprite = WorkSprite(art: art, name: "WorkTool", key: key, at: at, facing: facing,
+                angle: WorkSample().GetProperty(propertyName: "angle").GetSingle());
+        sprite.SetMeta(name: "logical_hand", value: hand);
+        sprite.SetMeta(name: "inventory_item", value: false);
+    }
+
+    private void WorkPayload(Node2D art, JsonElement pose, int facing)
+    {
+        string transfer = Selected(id: "WorkTransfer");
+        string id = Text(value: _workClip, name: "id");
+        if (transfer is not ("Plant" or "Carried") || id is "Eat" or "Spit" or "Burst")
+        {
+            return;
+        }
+
+        JsonElement pack = _packs[0];
+        JsonElement part = pack.GetProperty(propertyName: "parts").EnumerateArray().Single(
+                predicate: value => Text(value: value, name: "key") is "IT_08_master");
+        Vector2 at = transfer is "Plant" ? new Vector2(x: 38, y: 29)
+                : Point(value: pose.GetProperty(propertyName: "anchors").GetProperty(propertyName: "rightHand"))
+                        + SegmentOffset(lower: false);
+        var payload = new Sprite2D { Name = "WorkPayload", Texture = Texture(pack: pack, part: part,
+                atlas: "assets/equipment/items-01-10.png"), Position = new Vector2(x: facing == 1 ? at.X : 48 - at.X,
+                        y: at.Y), Scale = new Vector2(x: facing, y: 1), ZIndex = 34 };
+        payload.SetMeta(name: "item", value: "IT-08");
+        payload.SetMeta(name: "sample_transfer", value: transfer);
+        art.AddChild(node: payload);
+    }
+
+    private void ProjectSpit(Node2D art, JsonElement body, int facing)
+    {
+        double time = _workElapsed - 0.6;
+        if (time < 0)
+        {
+            return;
+        }
+
+        if (!_workOriginReady)
+        {
+            JsonElement release = FindPose(body: body, id: "strike");
+            Vector2 origin = Point(value: release.GetProperty(propertyName: "anchors")
+                    .GetProperty(propertyName: "face"))
+                    + new Vector2(x: 1, y: 1) + SegmentOffset(lower: false);
+            _workOriginX = origin.X;
+            _workOriginY = origin.Y;
+            _workOriginReady = true;
+        }
+
+        var capturedOrigin = new Vector2(x: _workOriginX, y: _workOriginY);
+        bool contact = Selected(id: "SpitContact") is "First contact" && time >= 0.5;
+        if (contact && !_workImpact)
+        {
+            _workImpact = true;
+            if (Selected(id: "WorkEvents") is "Trigger events")
+            {
+                RecordWorkEvent(sound: "AU-08");
+            }
+        }
+
+        if (!contact && !_workImpact && time < 3)
+        {
+            Sprite2D sprite = WorkSprite(art: art, name: "SpitProjectile", key: "spit."
+                    + ((int)(time / 0.1) % 4).ToString(provider: CultureInfo.InvariantCulture),
+                    at: capturedOrigin + new Vector2(x: (float)time * 16, y: 0), facing: facing);
+            sprite.SetMeta(name: "mouth", value: capturedOrigin);
+            sprite.SetMeta(name: "first_hit_only", value: true);
+        }
+        else if (_workImpact && time is >= 0.5 and < 0.9)
+        {
+            _ = WorkSprite(art: art, name: "SpitImpact", key: "splash."
+                    + Math.Min(val1: 3, val2: (int)((time - 0.5) / 0.1)).ToString(
+                            provider: CultureInfo.InvariantCulture), at: capturedOrigin + new Vector2(x: 8, y: 0),
+                    facing: facing);
+        }
+    }
+
+    private void ProjectBurst(Node2D art, int facing)
+    {
+        double time = _workElapsed - 0.1;
+        if (time is >= 0 and < 0.4)
+        {
+            _ = WorkSprite(art: art, name: "BloaterBurst", key: "splash."
+                    + Math.Min(val1: 3, val2: (int)(time / 0.1)).ToString(provider: CultureInfo.InvariantCulture),
+                    at: new Vector2(x: 24, y: 29), facing: facing);
+        }
+
+        if (time is >= 0 and < 1.5)
+        {
+            _ = WorkSprite(art: art, name: "CosmeticStain", key: "stain."
+                    + Math.Min(val1: 3, val2: (int)(time / 0.375)).ToString(provider: CultureInfo.InvariantCulture),
+                    at: new Vector2(x: 24, y: 38), facing: facing);
+        }
     }
 
     private void UpdateAim(bool guard)
@@ -838,6 +1332,7 @@ internal sealed class CharacterPreview
 
     private void EndAction()
     {
+        CancelWork();
         if (_presentation is not null)
         {
             JsonElement sample = _presentation.Snapshot;
