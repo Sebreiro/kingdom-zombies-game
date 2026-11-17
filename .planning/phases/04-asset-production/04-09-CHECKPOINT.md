@@ -1,4 +1,78 @@
-# Plan 04-09 — Bounded behavior repair checkpoint
+# Plan 04-09 — Sustained structural guard checkpoint
+
+Latest status after prospective R1/R2 `c693867`: incomplete, zero of two tasks complete. The focused bow case and unchanged frozen17-case regression selection pass, but a subsequent authenticated sustained-guard diagnostic fails the required unlimited-arrow behavior. No Task1 GREEN commit, committed-content tracer, Task2, SUMMARY or global progress exists. The passing selection does not override this later failure.
+
+## Latest failure: intrinsic guard stops after one shot
+
+Specification §8.1 states that structural tower archers use unlimited arrows and have no separate inventory or bow durability. The R2 preview makes this mode independent of empty/broken ordinary inventory, but represents its intrinsic ammunition using one ordinary presentation arrow. `CharacterPresentation.TryRelease` increments `_spent`; `Advance` resets `_released` at the next generation while `BowReady` still requires the ordinary count to exceed `_spent`. No explicit intrinsic-ammunition state exists in the current six-argument `ConfigureBow` contract.
+
+Separate diagnostic invocation `33f812b1-84dd-4fc4-b636-687769db5e86` selects empty left/right inventory, zero ordinary ammunition, Broken ordinary condition and explicit Structural guard mode. Actual authenticated nonconsole Godot PID30880 exits0 with empty stderr; Core and game hashes match its copied closure in the same owning Godot ALC. The unchanged original704 melee samples, five exact source negatives and restored positive also complete. The diagnostic's own required assertion fails `GUARD_UNLIMITED_ARROWS_AFTER_FIRST_CYCLE`:
+
+| Point | Generation | Action seconds | Interval | Nocked | Released | Spent | Fallback |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Initial | 9 | 0 | 1.2 | true | false | 0 | none |
+| Advance .601 | 9 | .601 | 1.2 | false | true | 1 | none |
+| Advance .6 | 10 | .001000000000000112 | .7 | false | false | 1 | melee-or-fists |
+| Advance .601 | 10 | .6020000000000001 | .7 | false | false | 1 | melee-or-fists |
+| Advance .6 | 11 | .502 | .7 | false | false | 1 | melee-or-fists |
+
+Both later samples have neither GuardArrow nor SpentArrow. The diagnostic retains all five detached samples, native source, PID/nonce, actual exit, assemblies and source fingerprints in its run directory. It has no canonical saved-case or selection pass credit. Its first setup-only attempt preloaded animation.cjs before CLI discovery and failed CASE_MODULE_EMPTY before any native run; the original ignored setup script/error remain preserved separately. The corrected diagnostic bootstrap uses a separate immutable context and the unchanged actual native proof/authentication functions. No production change followed the sustained failure.
+
+## R1/R2 implementation and attempts
+
+| Scope / attempt | Invocation | Result |
+| --- | --- | --- |
+| R1 initial | `4afc4eae-d184-4e08-9a16-ceccca6ac677` | Strict production/harness0/0; nativePID29300/exit1 at the distinct ordinary arm-pixel assertion. The prior missing atlas exception is absent; no complete bow pass claimed |
+| R2 initial | `f424a0d0-b053-482a-a5cc-cad4b97923b5` | Four actual K15 clips/27 frames,11 source-negative controls/restored positive and raw atlas/frame pixels pass; strict build fails only public/private test method-order SCR0008 |
+| R2 correction1/2 | `ee7ff095-ff19-4c81-93e4-8b43b0ac8305` | Strict production/harness0/0; nativePID38352/exit1 at added all-lower-frame common.s0.8794 control. Static pose bypasses Configure, so the new control's absolute midpoint ticks accumulated stride |
+| R2 correction2/2 | `c965bde6-eba3-4869-9c1c-85436b911052` | Reset each frame through a genuinely different live movement without changing expected source times/pixels. Strict builds0/0; actualPID16004/exit0/empty stderr;26 compiled pass/zero skip.704 original samples/448 ordinary bow/112 guard/14 boundaries/12 binding negatives/23 extra controls/five original negatives/restored positive pass |
+| Subsequent sustained diagnostic | `33f812b1-84dd-4fc4-b636-687769db5e86` | Actual native process succeeds/authenticates, but required unlimited-arrow assertion fails as above; Task1 remains incomplete |
+
+R1 fixes only AddSpentArrow's atlas owner to the actual validated fit item, retaining IT_02_master. Its proof independently checks released pixels, actual pack atlas/rectangle, timing/registration, both logical hands/directions and no-pickup/gameplay flags. R2 rounds source-arm widths to their nearest logical pixel so float coordinate subtraction cannot shorten an arm at non-cardinal angles; the oracle independently expects the specified reach. It authenticates K15 idle777/run780/shoot783/walk804 IDs/times/rectangles/original pivots/registration and all27 raw source-frame RGBA hashes against the full common atlas, pins source-inspected ordinary/guard masks/crops and verifies actual rotating arms, sleeves, gloves and held pixels. Actual bodies-a.cjs and the used extract-media.py helper now enter bow fingerprints; old omitted-helper reports remain unchanged. Pure tests include strict bow fields/events, actual30-arrow maximum and independent limit2, finite angles, detached samples, late-generation/one-shot release and usable/broken fallback.
+
+Original Task1 corrections3/3 and decomposition behavior2/2 remain exhausted. Binding repair remains resolved1/2. R1 resolved with its initial implementation; R2 used both corrections and cannot silently receive another. The frozen-selection substep performed its full first run without source corrections, but its passing cases are insufficient after the separate sustained failure.
+
+## Frozen regression result and exact preserved source
+
+`.phase4/04-09-task1-selection/{selection,results,completion}.json` records all17 selected IDs, each immutable run,402 frozen inputs, exit0 and empty drift. Bow run77c7d1d7, replacement5ce9ef5f and melee d9721b57 pass with all original contracts. A art/fit, B-wide/complete-fit, discovery, foundation/items data, hub source/lifecycle, both item cases and theme/identity/integrity pass. A retains2976 tuples/5972 native/10 compiled/12 H13; all-eight retains7936/16158/12 H13; both original animation cases retain704/four jumps/five negatives/restored positive/41 replacement controls/seven UI states/35 compiled with zero skips; both hubs retain63 compiled each and25/50 native. The selection's declared omissions stay visible, with no unselected, rendered or listening pass credit.
+
+Tested source is HEAD `c693867de94d4cca53752597cbaa21c56b5a64d6` plus the seven WIP files in `.phase4/checkpoints/04-09-33f812b1-wip/manifest.json`. Every live/backup raw SHA256 and Git-filtered blob matches; all seven also match both focused bow-inputs and the sustained diagnostic source-inputs. No tracked/source bytes changed during the17-case selection or diagnostic. Earlier8106/f4e4 backups and every failed report remain untouched.
+
+Diagnostic source/DLL mapping, independently checked against its native process and actual copied closure:
+
+| Subject | SHA256 |
+| --- | --- |
+| Core DLL | `264a2b4f4b71587efc8d97a76d9bfd3640eb3192fce09a7be2a0109e3db4660c` |
+| Game DLL | `57573f309a9d097fabd46398558bc1ae8add22d9e5ca63c63db3886bb12a902f` |
+| Exact emitted diagnostic harness | `49434eb9036affee486f26a87d8c106343cd7167ebc1ce464e3a5c5e45ecf8b9` |
+| Exact diagnostic source-input list | `31778cd950aba38a47d2894d9e8ba9b0952da4a24c3627c0d2cbfe5de829396d` |
+
+These are tested HEAD plus WIP identities, not a later code commit. The seven-file manifest records raw checkout and Git-filtered identities separately; the402-input selection has its own full frozen manifest.
+
+One current changed-source integration observation `4f18a393-4055-47ef-99fc-34330f3fcea5` is FAIL547 operations:166 BuildingPreview,303 CharacterPreview and78 IdentityKit. New `.phase4/04-09-r2-checkpoint-native-policy-observation.json` preserves exact semantic tuples; `.phase4/04-09-r2-checkpoint-generated-input-observation.json` preserves49 actual source inputs/32 generated surfaces, producer package identity and the current strict-built closure. Old546/49/32 observations are not overwritten. No permission, cohort, policy pass or final integration acceptance is granted.
+
+## Required prospective repair boundary
+
+A coordinator must prospectively authorize an explicit intrinsic structural-ammunition contract before any further implementation. A concrete option is an additive overload/state on existing CharacterPresentation that preserves the current six-argument ConfigureBow and all ordinary bounded-stack semantics while explicitly distinguishing structural ammunition from inventory counts. CharacterPreview would select that mode without synthetic counts. Independent tests must cover repeated shots beyond the actual ordinary30-arrow maximum, both hands/directions, empty/broken/zero ordinary inventory, no consumption/refill/reload/loot/gameplay events, generation-bound one-shot release, and return to unchanged ordinary0/1/many/last/replacement behavior. Exact API/implementation choice and correction budget remain unapproved here.
+
+Concrete **proposed, unapproved** additive signature on the existing public sealed identity:
+
+```csharp
+public void ConfigureBow(double aimRadians, int leftArrows, int rightArrows,
+        bool leftUsable, bool rightUsable, string stackIdentity, bool intrinsicAmmunition)
+```
+
+Preserve the existing six-argument method as an ordinary-mode forwarding overload with `intrinsicAmmunition: false`. The explicit true mode would require zero inventory-arrow counts, permit intrinsic readiness without an opposite-hand IT02 inventory record, expose a detached intrinsic-mode flag and keep one release per generation. Preview selection of that boolean would come only from explicit Structural guard mode; the visible body stays the real K15 source. Returning to ordinary mode must invalidate stale structural release authority and preserve actual bounded stacks. The stack identity remains an identity only. This describes a reviewable repair boundary; it grants no current authority to add the overload or change the implementation.
+
+Counter inflation, stack refill, string-identity sentinels, repeated Configure/restart or loop workarounds must not masquerade as unlimited ammunition. No extra source correction, public signature, file/path or authority is inferred from this checkpoint. After a genuine fix: focused native/compiled controls, a fresh full justified frozen selection, exact Task1 commits and fresh same-case committed-content tracer still precede Task2.
+
+Task2 outputs remain absent; no art generation occurred. Branch feature/04-asset-production and draftPR5/dev remain unchanged; ten-path plan union/phase236 and WINDOWS29/30/31 remain pending. Foreign global/spec/Phase6/Phase12 WIP stays unstaged. Parent owns progress/PR reconciliation. No real window, physical input, listening, independent judgment, ASSET completion or phase acceptance is claimed.
+
+## Latest checkpoint self-check: PASSED
+
+All seven live/backup raw and filtered identities match the manifest and both actual input lists. The402 frozen inputs still match selection hashes after the diagnostic. Required historical commits remain ancestors. SUMMARY and all three Task2 outputs are absent. Both new observation documents parse, old reports/backups remain intact, the index was empty before scoped metadata staging, branch protection query returns false for the existing feature branch, and whitespace checks pass. This preservation self-check does not supply a guard behavior, task completion or acceptance pass.
+
+## Previous bounded behavior checkpoint — preserved history
 
 Current status after prospective decomposition `ea972a8`: incomplete, zero of two tasks complete. Original Task1 corrections remain exhausted3/3. Binding substep1 resolved with one of two corrections. Behavior substep2 exhausted both of its two corrections and stops here. Frozen-selection substep3 and Task2 are unstarted. No Task1 GREEN commit, committed-content tracer, SUMMARY or global progress is claimed.
 
