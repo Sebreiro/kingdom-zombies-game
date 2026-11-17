@@ -1,0 +1,17 @@
+# 04-28 — proof-only ordinal continuation
+
+Coordinator decision2026-11-17 after checkpointd38f053. Both tasks remain incomplete. Original Task1 correction3/3 is exhausted and not reset. Seven exact implementation WIP files/backups are in `.phase4/checkpoints/04-28-harness-ordinal/manifest.json`; all source originals/prompts/recipes and nonselected palette history remain retained.
+
+Parent inspected checkpoint and emitted IdentityHarness. Canonicalae702b6a-0270-4ba6-9d3c-1f9710e8c7da passes source replay(27members,master/prompt/atlas/sevenICOframes/source identities) and production strict0warnings/errors, then fails14MA0006 harness comparisons. No native launch or task/tracer credit. Exact locations:29:24,30:23,34:247,34:326,36:250,36:492,37:371,37:574,37:726,38:260,39:151,41:283,42:35,43:281.
+
+## Prospective R1 — maximum2 corrective attempts
+
+Own only `IDENTITY_HARNESS` in existing`tools/phase4/cases/ui-kit.cjs`. Verify all seven live/backup hashes and pinned root/branch/index before editing. Replace the fourteen actual string equality/inequality operations with explicit ordinal equality; a local nullable-string Eq helper calling StringComparer.Ordinal.Equals is permitted. Preserve nonstring operators, every predicate/expected value, source/media/JSON/scene/projector byte and native identity/archive/PID/nonce/DLL/owningALC/strict-build/cleanup assertion. No suppression, tolerance/count/deadline/output expansion, package/native permission or production API edit.
+
+Emit/inspect actual harness and retain an exact before/after map proving only ordinal expression/helper changes. Run unchanged canonical layouts.identity with strict production AND harness0warnings/errors, then actual native outcomes/exit. New production/geometry/pixel/ownership/assertion defects are outside this proof-only correction and stop for concrete diagnosis; no skipped controls or imported metadata pass. All borrowed-base/owned-AtlasTexture and independently live neighbor checks remain.
+
+R1 starts0/2. Persist attempts/results, preserve old failure, and stop with precise checkpoint if exhausted or distinct native failure appears. Environmental escalation is equivalent execution, not assertion credit. On pass commit Task1 in the approved bounded parts(original media/definition/case5 then projector/scene2) and run mandatory committed-byte same-case tracer before Task2.
+
+Task2 remains unstarted; its originalJSON/case/scene/projector4-path scope and unconsumed ordinary budget apply afterward. It must prove all identity/input/condition mutations against the real production adapter, then focused/fresh full relevant selection with existing14 kit/theme,actual item/data consumers,discovery and other genuinely affected regressions. No source edits during accepted runs; map actual HEAD+WIP to later identical commits. Finish exact Task2 commit then immediately write/self-check/commit canonical SUMMARY and complete resource/font/master/ICOframe/member/symbol/native tuple inventory.
+
+Approved28union7 introduces IdentityKit.cs/IdentityKit.tscn as2new distinct phase paths: inventory234→236. Internal composition only, scriptless scene, no Root/project/export/policy adoption here. Full hub23 and actual desktop icon31 remain explicit; currenticon.svg is not a completed application identity. WINDOWS29/30/31/allASSET/actual32/33appearance/listening/physicalinput remain pending. Parent owns global16→17,continuation,PR5; foreign global/spec/Phase06/Phase12 WIP stays unstaged.
