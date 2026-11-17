@@ -1,4 +1,14 @@
-# Plan 04-09 — Task 1 complete; work-special next
+# Plan 04-09 — Work Reset checkpoint
+
+Current status: incomplete,1/2 production tasks. Task1 is committed and its mandatory committed-content bow tracer passes. Task2 correction3/3 passes canonical work source/native proof, but a later unchanged-source diagnostic confirms `WORK_RESET_RETAINS_ACTION`; no fourth correction is authorized. The final Task2 outcome in [04-09-REPAIR.md](04-09-REPAIR.md) contains the complete attempt ledger, source/run/assembly mappings and precise proposed next scope.
+
+The current Task2 source is12e6775 plus seven WIP files. Exact raw/Git-filtered live and backup identities, byte lengths and canonical/diagnostic fingerprint matches are `.phase4/checkpoints/04-09-1653702d-work-wip/manifest.json`. Canonical32834c36 has strict0/0, actualPID12228/exit0/empty stderr,240 Work rows/40 controls plus original704/five/restored. Diagnostic1653702d has actualPID22104/exit0/empty stderr and unchanged inputs, but pressing the actual Reset button after Eat.1 leaves Eat available with the same work time/generation/event count and visible FoodFeedback despite Core idle/none. A clean native exit does not override that independent failed assertion.
+
+Stop at this technical scope/budget checkpoint. Task2 commit, fresh bow/guard39 regression on Work bytes, full frozen18-case affected selection and canonical SUMMARY are absent. Final changed native/producer observations remain due after the source stabilizes, once, for23/31. No human package/auth/visual prerequisite is involved. All prior exhausted budgets, immutable failures, ten-path union/phase236, existing branch/draft PR and global/ASSET/actual acceptance boundaries remain unchanged. Production WIP and foreign globals/spec/Phase6/Phase12 remain unstaged.
+
+Preservation self-check passed before the checkpoint metadata commit: all seven live and backup raw SHA256/byte identities and both filtered blobs match the manifest and both run fingerprints; Task1 commits dbf792f/642affe/60da583 and its metadata12e6775 are reachable. Canonical SUMMARY is absent, the index is empty and whitespace checks pass. The one generated Python cache from source inspection was removed by exact verified workspace path; no source or unrelated WIP was removed.
+
+## Historical Task 1 R3 completion
 
 Current continuation after R3: Task1 is committed and its mandatory fresh committed-content tracer passes;1/2 production tasks are complete. See the final R3 outcome in [04-09-REPAIR.md](04-09-REPAIR.md) for exact attempts, source/assembly hashes,17/17 frozen selection, new128 sustained native outcomes,39 compiled/zero skips and commits dbf792f/642affe/60da583. Tracer f768af2c on60da583 has actualPID20724/exit0/empty stderr. Task2 is next; its original correction budget is intact. No Task2 outputs or canonical SUMMARY exist yet. All global progress/spec/PR/ASSET/actual acceptance and native-policy/cohort boundaries remain unchanged.
 
