@@ -6,7 +6,7 @@
 
 **Defined:** 2026-11-13
 **Release:** Complete version 0.1
-**Status:** Original 133 version 0.1 requirements approved on 2026-11-13; TEST-11 and Phase 11 added on 2026-11-15. All 134 requirements have one primary phase. RULE-01–RULE-07 are complete under the Phase 1 exception; BASE-01–BASE-03 and LAN-01–LAN-04 are verified complete. Fourteen requirements are complete and 120 remain Pending.
+**Status:** Original 133 version 0.1 requirements approved on 2026-11-13; TEST-11 and Phase 11 added on 2026-11-15. The creator's 2026-11-16 amendment splits filtering from INV-10 into INV-14 in Phase 12 and defers stash/inventory filtering until that phase. All 135 requirements have one primary phase. RULE-01–RULE-07 are complete under the Phase 1 exception; BASE-01–BASE-03 and LAN-01–LAN-04 are verified complete. Fourteen requirements are complete and 121 remain Pending.
 **Core Value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
 
 ## Authority and Interpretation
@@ -102,10 +102,11 @@ Source: Spec §5; A-22–A-29.
 - [ ] **INV-07**: Players can assign four quick slots to actual carried food stacks, with references invalidated when those stacks leave or are exhausted.
 - [ ] **INV-08**: Players can immediately inspect and transfer permitted nearby NPC, corpse, and loot contents; other controlled-player inventories remain private.
 - [ ] **INV-09**: Players can cancel dragging, close a panel, or lose access without discarding or duplicating the item being previewed.
-- [ ] **INV-10**: Players and NPCs can deposit any valid cargo into an unlimited paged shared stash, with local access, filtering, and valid automatic placement.
+- [ ] **INV-10**: Players and NPCs can deposit any valid cargo into an unlimited paged shared stash, with local access, page navigation, deliberate placement, quick transfer and valid automatic placement. Filtering is separately owned by INV-14 in Phase 12.
 - [ ] **INV-11**: Concurrent transfers and ownership changes commit only valid successful actions, with losing actors receiving corrected state and clear failure feedback.
 - [ ] **INV-12**: Players can recover exactly a dead ordinary character's remaining belongings; death creates no fresh loot or replacement ammunition.
 - [ ] **INV-13**: Players can recover nonempty corpses and piles indefinitely; only empty containers expire, and adding an item cancels cleanup.
+- [ ] **INV-14**: Players can filter stash and inventory contents by name/type without moving items or changing ownership, retaining access permissions and usable empty-result feedback. Filtering is deferred to Phase 12 by the creator's 2026-11-16 instruction; no stash/inventory filtering is required in Phases 6–11. Phase 12 resolves its detailed interface and verifies normalized case-insensitive matching across Windows/Linux.
 
 ### Combat and equipment condition
 
@@ -125,9 +126,9 @@ Source: Spec §§4.2–4.3, 7.2, 9.1; A-14, A-23, A-26, A-31, A-32.
 Source: Spec §2; A-04–A-09.
 
 - [ ] **RUN-01**: Each participant controls one unique ordinary survivor identified by a cosmetic crown that occupies no slot and creates no loot.
-- [ ] **RUN-02**: A dead player's control transfers to a random eligible survivor without changing that survivor's health, gear, location, or belongings.
+- [ ] **RUN-02**: After death, Respawn enables after the configured one-second baseline. Only an explicit request transfers control to a random eligible survivor, preserving health, stamina, gear, location and belongings; time passing alone does not transfer control.
 - [ ] **RUN-03**: Simultaneous deaths and availability changes cannot assign one survivor to multiple participants.
-- [ ] **RUN-04**: Players without a successor can spectate and regain control in the specified waiting order when an eligible survivor becomes available.
+- [ ] **RUN-04**: A valid Respawn request with no available successor enters the waiting queue; requested players automatically regain control in request order when an eligible survivor becomes available. Spectating follows other living players with Previous/Next and a teammate list, rather than a free camera. Equal request times retain player-slot tie order.
 - [ ] **RUN-05**: Main-building destruction and loss of every living controlled/eligible survivor each independently end the camp in defeat.
 - [ ] **RUN-06**: Destroying the final portal immediately awards victory and allows continued play with surviving zombies and possessions intact.
 - [ ] **RUN-07**: Simultaneous new victory/defeat follows defeat precedence, while a previously awarded victory remains recorded after a continuation defeat.
@@ -339,6 +340,8 @@ The full source scenarios remain at [specification §14.3](../specs/0.1/initial-
 
 Additional cases must cover RULE-01–RULE-07, BASE-01–BASE-03, LAN-01–LAN-04, ASSET-01–ASSET-05, TEST-01–TEST-10, and source behavior not isolated by one umbrella case, including safe health/food recovery (CHAR-04/CHAR-05), single melee attacks (COMBAT-01), and save selection/retention (SAVE-02). These are foundation/content/regression cases alongside A-01–A-47, not replacements or renumbering.
 
+The 2026-11-16 filtering amendment assigns separate INV-14 cases to Phase 12, including matching/no matches, normalized text, permission boundaries and unchanged placements/ownership. They remain planned before Phase 12; Phase 6 INV-10/A-25 acceptance covers pages and transfers without filtering. Earlier complete-interface/release wording does not grant filtering acceptance before its implementation and evidence.
+
 **A-08 interpretation:** Its phrase “survivors do not retreat” is inconsistent with the explicit zombie rule in §§2.3 and 9.4. RUN-06/ZOMB-08 preserve that unambiguous mechanic: remaining zombies stop dawn retreat after the final portal is destroyed. Ordinary civilian retreat rules are unchanged. The source specification has not been edited.
 
 ### Test-case lifecycle
@@ -413,6 +416,7 @@ All 134 version 0.1 requirements have exactly one primary owning phase in [ROADM
 | INV-11 | Phase 6 | Pending |
 | INV-12 | Phase 6 | Pending |
 | INV-13 | Phase 6 | Pending |
+| INV-14 | Phase 12 | Pending |
 | COMBAT-01 | Phase 6 | Pending |
 | COMBAT-02 | Phase 6 | Pending |
 | COMBAT-03 | Phase 6 | Pending |
@@ -501,15 +505,15 @@ All 134 version 0.1 requirements have exactly one primary owning phase in [ROADM
 | TEST-11 | Phase 11 | Pending |
 
 **Coverage:**
-- Version 0.1 requirements: 134 total
-- Mapped to phases: 134 (exactly one primary owner each)
+- Version 0.1 requirements: 135 total
+- Mapped to phases: 135 (exactly one primary owner each)
 - Unmapped: 0
 - Duplicate primary owners: 0
 - Unknown version 0.1 IDs in roadmap: 0
-- Implementation statuses: 120 Pending; 14 complete
+- Implementation statuses: 121 Pending; 14 complete
 - Source acceptance scenarios linked: 47 of 47
 - Future platform requirements: 2 (outside the current roadmap)
 
 ---
 *Requirements defined: 2026-11-13*
-*Last updated: 2026-11-16 after independent Phase 3 verification and LAN-01–LAN-04 completion*
+*Last updated: 2026-11-16; Phase 3 remains verified complete, and creator-requested INV-14/Phase 12 filtering deferral is recorded.*

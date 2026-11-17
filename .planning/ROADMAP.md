@@ -4,10 +4,10 @@
 
 ## Overview
 
-Deliver the complete specified version 0.1: players build, equip, and defend one shared survivor camp through a solo or four-player LAN campaign, preserving their survivors, belongings, and progress. The creator approved the original 133 requirements, working-increment direction and ten-phase roadmap on 2026-11-13; TEST-11 extended this to 134 requirements and eleven phases. Phases 1–3 are complete, including the playable menu/walking scene and four-player LAN foundation. Phase 1 retains its focused closure exception and disclosed follow-ups.
+Deliver the complete specified version 0.1: players build, equip, and defend one shared survivor camp through a solo or four-player LAN campaign, preserving their survivors, belongings, and progress. The creator approved the original 133 requirements, working-increment direction and ten-phase roadmap on 2026-11-13; TEST-11 extended this to 134 requirements and eleven phases. On 2026-11-16 the creator deferred stash/inventory filtering to Phase 12, splitting it from INV-10 into INV-14 for a current total of 135 requirements and twelve phases. Phases 1–3 are complete, including the playable menu/walking scene and four-player LAN foundation. Phase 1 retains its focused closure exception and disclosed follow-ups.
 
 **Planning mode:** `mvp` means working, verifiable increments toward the full approved game; it does not reduce scope.
-**Granularity:** Standard configuration, with the original ten-phase direction extended by creator-requested Phase 11 on 2026-11-15.
+**Granularity:** Standard configuration, with creator-requested Phase 11 on 2026-11-15 and Phase 12 on 2026-11-16 extending the original ten-phase direction.
 **Scope authority:** [PROJECT.md](PROJECT.md), [REQUIREMENTS.md](REQUIREMENTS.md), the [game specification](../specs/0.1/initial-spec.md), and the [asset/resource plan](../specs/0.1/assets-and-resources.md). [Research](research/SUMMARY.md) informs proofs and implementation choices; it retains initial candidate history; Phase 1 records the now-pinned and proven development baseline.
 **Approval:** Requirements, working-increment direction, and detailed roadmap approved by the creator on 2026-11-13.
 
@@ -17,11 +17,11 @@ Deliver the complete specified version 0.1: players build, equip, and defend one
 
 ## Milestones
 
-- 🚧 **v0.1 Complete playable LAN campaign** — Phases 1–3 complete; Phases 4–11 not started. Phase 11 added 2026-11-15.
+- 🚧 **v0.1 Complete playable LAN campaign** — Phases 1–3 complete; Phase 4 in progress; Phases 5–12 pending. Phase 11 added 2026-11-15; Phase 12 filtering added 2026-11-16.
 
 ## v0.1 — Complete playable LAN campaign
 
-**Milestone goal:** Deliver the full approved solo/four-player campaign and release evidence, then establish sustainable nightly full regression testing across eleven increments.
+**Milestone goal:** Deliver the approved solo/four-player campaign and release evidence, establish sustainable nightly full regression testing, then complete the deferred stash/inventory filtering across twelve increments.
 
 ## Phases
 
@@ -38,10 +38,14 @@ Integer phases execute in order. Decimal phases are reserved for explicitly inse
 - [ ] **Phase 9: Persistence and complete player experience** - Players save, resume, reconnect, configure, and use the complete game reliably.
 - [ ] **Phase 10: Release validation and balancing** - Complete campaigns and measured desktop, LAN, performance, endurance, and pacing evidence establish release readiness.
 - [ ] **Phase 11: Nightly full regression testing**
+- [ ] **Phase 12: Stash and inventory filtering** - Add the filtering explicitly deferred from earlier gameplay increments.
+- [ ] **Phase 12: Stash and inventory filtering**
 
 ## Delivery and Ownership Rules
 
-Each requirement has exactly one primary owner in a phase's **Requirements** field and in the requirements traceability table. That owner delivers and verifies its complete approved behavior. Prerequisite work in earlier phases and regression/integration reruns in later phases do not create additional owners or mark a requirement complete early. Ten of the current 134 approved requirements are complete; the traceability table records each owner and status. PLAT-01 and PLAT-02 are outside this milestone.
+Each requirement has exactly one primary owner in a phase's **Requirements** field and in the requirements traceability table. That owner delivers and verifies its complete approved behavior. Prerequisite work in earlier phases and regression/integration reruns in later phases do not create additional owners or mark a requirement complete early. Fourteen of the current 135 approved requirements are complete; the traceability table records each owner and status. PLAT-01 and PLAT-02 are outside this milestone.
+
+**Filtering timing amendment, creator instruction 2026-11-16:** No stash or inventory filtering is delivered in Phases 6–11. Phase 12 owns INV-14; INV-10 continues to require unlimited pages, local access, navigation, placement and transfers in Phase 6. This overrides earlier complete-interface/release wording only for filtering. Retain planned filtering cases without pass credit until Phase 12; its integration and affected release regressions must pass before final filtering/full-scope acceptance.
 
 Every feature includes its stable identities, host-authoritative validation and atomic ownership changes, configuration and field documentation, versioned saveable state and relevant legacy metadata, usable input/UI/feedback, and regression evidence. Snapshot capture/restore proofs accompany new state before the full player-facing save experience. Solo, host-local, and guest actions follow the same authority path. A failed or duplicated operation cannot change possessions, payments, or commitments.
 
@@ -389,9 +393,9 @@ Plans:
 
 1. A run has eight total survivors and one configured starting kit regardless of participant count. Players control unique crowned survivors, walk/sprint/jump with airborne control, and observe configured stamina, safe-camp health recovery, carried-food recovery/cooldown, and nested-load penalties.
 2. Players can use all 24 item definitions, eleven equipment slots, actual pockets/containers, rotation, exact stack splitting/merging, legal nesting, filled-container movement, and four quick food references. Invalid fits/cycles/depth fail safely, and living/corpse appearances track equipped belongings.
-3. Players can inspect permitted nearby NPC/corpse/loot contents and use the local unlimited paged/filterable shared stash while other controlled-player inventories remain private. Drag cancel, panel closure, lost access, and competing transfers preserve each item exactly once and provide corrected state and failure feedback.
+3. Players can inspect permitted nearby NPC/corpse/loot contents and use the local unlimited paged shared stash with page navigation while other controlled-player inventories remain private. No stash/inventory filtering is delivered here; Phase 12 owns INV-14. Drag cancel, panel closure, lost access, and competing transfers preserve each item exactly once and provide corrected state and failure feedback.
 4. Players can fight with fists, one or two one-handed weapons, or a mouse-aimed bow consuming real opposite-hand arrows with manual refill. Costs/timing, armor, retained broken gear, no friendly damage, friendly arrow passthrough, and blocking-defense hits match the specification.
-5. Death leaves exactly the character's remaining belongings; nonempty corpses/piles persist and only empty ones expire. Random succession preserves the eligible survivor's state/location/gear, concurrent deaths never share a successor, and waiting spectators regain available survivors in the specified order without gaining loot from crowns.
+5. Death leaves exactly the character's remaining belongings; nonempty corpses/piles persist and only empty ones expire. Respawn enables one second after death and requires an explicit request before assignment or waiting. Random succession preserves the eligible survivor's state/location/gear, concurrent requests never share a successor, and queued requests automatically receive newly available survivors in request order without gaining loot from crowns. Spectating follows living teammates through Previous/Next and a teammate list. Camera handover is smooth nearby and cuts when distant.
 
 **Plans:** TBD
 **UI hint:** yes
@@ -493,6 +497,24 @@ Plans:
 
 **Delivery boundary:** Add scheduled full testing and its operational handoff on top of Phase 5's framework. Do not postpone immediate reduced selection, saved scenarios, importance metadata or run grouping until this phase. Exact schedule, runner availability/environment and publication details are decided during Phase 11 planning. Preserve the development-OS-only/no-VM routine local policy, manual full execution and separately required physical LAN, display, hardware and endurance release evidence.
 
+### Phase 12: Stash and inventory filtering
+
+**Goal:** Players can find items through stash and inventory filtering while existing locations, quantities, access permissions and transfer behavior remain intact.
+**Mode:** mvp
+**Depends on:** Phase 11
+**Requirements:** INV-14
+**Success Criteria** (what must be TRUE):
+
+1. Name/type filtering is usable on stash and inventory surfaces; the detailed results layout is decided in this phase rather than assumed from the declined Phase 6 options.
+2. Empty filters reveal the unfiltered view, unmatched filters show a clear empty result, and normalized case-insensitive name matching behaves consistently on Windows/Linux.
+3. Filtering never moves items, changes their page/cell/owner or bypasses current access/privacy rules. Transfers still validate the current authoritative state, including stale or concurrently changed results.
+4. Stored scenarios and the active regression catalog cover matching, no matches, text normalization, ownership, permission and transfer interactions in solo and LAN play. Follow the current local testing policy and the established nightly/manual framework; retain earlier failures and distinct environment evidence.
+
+**Plans:** TBD
+**UI hint:** yes
+
+**Delivery boundary:** Creator-requested on 2026-11-16 during Phase 6 discussion: “let's move filtering to the phase 12. No filtering for stash and inventory now”. Earlier phases retain pages/navigation and normal inventory transfers without filtering. Final filtering acceptance requires actual implementation and evidence here, including affected integration/release checks; earlier full-interface or release labels do not supply acceptance for this deferred feature. No result-list, grid-dimming or other filter layout was selected during Phase 6.
+
 ## Coverage
 
 | Phase | Primary requirements | Current status |
@@ -508,13 +530,14 @@ Plans:
 | 9. Persistence and complete player experience | 28 | Pending |
 | 10. Release validation and balancing | 6 | Pending |
 | 11. Nightly full regression testing | 1 | Pending |
-| **Total** | **134** | **14 complete / 120 pending** |
+| 12. Stash and inventory filtering | 1 | Pending |
+| **Total** | **135** | **14 complete / 121 pending** |
 
 Every approved version 0.1 ID is assigned exactly once; no unknown IDs, duplicate owners, or orphan requirements are allowed. The [requirements traceability table](REQUIREMENTS.md#traceability) is the per-ID ownership record. Its existing A-01–A-47 source crosswalk stays unchanged; Phase 5 expands it into executable/evidence cases and activation states.
 
 ## Progress
 
-Execution order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11. Plans are created during phase planning; no plan count is invented here.
+Execution order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11 → 12. Plans are created during phase planning; no plan count is invented here.
 
 | Phase | Plans Complete | Status | Completed |
 | --- | --- | --- | --- |
@@ -529,6 +552,7 @@ Execution order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11
 | 9. Persistence and complete player experience | 0/TBD | Not started | - |
 | 10. Release validation and balancing | 0/TBD | Not started | - |
 | 11. Nightly full regression testing | 0/TBD | Not started | - |
+| 12. Stash and inventory filtering | 0/TBD | Not started | - |
 
 ---
-*Detailed roadmap approved: 2026-11-13; local testing policy and Phase 11/TEST-11 added: 2026-11-15 (Europe/Paris). Phase 3 verified complete: 2026-11-16. The requested --only 3 run ends here; Phase 4 has not started.*
+*Detailed roadmap approved: 2026-11-13; local testing policy and Phase 11/TEST-11 added: 2026-11-15; creator-requested filtering deferral and Phase 12/INV-14 added: 2026-11-16 (Europe/Paris). Phases 1–3 remain complete; Phase 4 implementation continues independently.*

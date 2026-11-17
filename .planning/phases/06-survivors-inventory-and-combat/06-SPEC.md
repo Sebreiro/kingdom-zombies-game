@@ -6,6 +6,10 @@
 **Status:** Requirements locked; implementation and gameplay verification pending.
 **Dependency:** Phase 5 complete before Phase 6 implementation; this specification does not advance current execution.
 
+**Creator amendment, 2026-11-16:** Stash and inventory filtering move to Phase 12 (`INV-14`). Phase 6 has no filtering controls or filtering acceptance obligation. Unlimited stash pages, page navigation, deliberate placement, quick transfer and stack-first automatic placement remain required here. This amendment supersedes the earlier filtering portions of R12, AC-18 and AC-33 while preserving their identifiers and all other locked behavior.
+
+**Creator amendment, 2026-11-17:** Post-death succession requires an explicit Respawn request. The button enables one second after death; time passing alone never transfers control. A valid request immediately assigns a random available eligible survivor, respecting earlier queued requests, or enters the waiting queue if none is available. Once requested, a waiting handover happens automatically in request order when a survivor becomes available. Spectating follows other players' living survivors, with Previous/Next and a compact teammate selector; it does not provide a free camera. Camera handover is smooth for nearby successors and cuts directly for distant ones. Survivor state, unique ownership and corpse belongings remain unchanged.
+
 ## Goal
 
 Solo players and a host with up to three LAN guests can control a shared population of eight ordinary survivors, manage the same real belongings, use configured movement/recovery/equipment in combat, and pass through death, looting, succession and spectating without duplicating or silently losing survivors, items or quantities.
@@ -90,10 +94,10 @@ Scope authority: [approved requirements](../../REQUIREMENTS.md), [Phase 6 roadma
    - Target: Immediate nearby access observes current reachability/range/ownership and controlled-player privacy; drag previews commit only at valid destinations and survive cancellation/access loss without loss or duplication.
    - Acceptance: AC-01, AC-15, AC-16, AC-34, AC-41.
 
-12. **R12 — Unlimited paged shared stash:** The shared stash provides unlimited aggregate capacity through configured pages, name/type filtering, deliberate placement and stack-first automatic placement with legal rotation.
+12. **R12 — Unlimited paged shared stash:** The shared stash provides unlimited aggregate capacity through configured pages, page navigation, deliberate placement and stack-first automatic placement with legal rotation.
    - Source: `INV-10`
    - Current: No stash pages, filters, placement or physical deposits/withdrawals exist.
-   - Target: The local shared stash has unlimited aggregate page capacity, deterministic stack-first auto-placement, deliberate placement, quick transfer and normalized case-insensitive name/type filtering.
+   - Target: The local shared stash has unlimited aggregate page capacity, page navigation, deterministic stack-first auto-placement, deliberate placement and quick transfer. Stash and inventory filtering are deferred to Phase 12 under INV-14.
    - Acceptance: AC-17, AC-18, AC-19, AC-39, AC-41.
 
 13. **R13 — One authoritative transaction outcome:** Solo, host-local and guest commands resolve once against current authoritative ownership and eligibility; competing or stale actions receive corrected state and failure feedback.
@@ -132,10 +136,10 @@ Scope authority: [approved requirements](../../REQUIREMENTS.md), [Phase 6 roadma
    - Target: Death leaves only remaining actual possessions; nonempty corpses/piles persist indefinitely and only continuous complete emptiness permits delayed removal.
    - Acceptance: AC-02, AC-26, AC-27, AC-38, AC-39.
 
-19. **R19 — Unique control, succession and spectating:** Each participant controls one unique crowned ordinary survivor; death triggers delayed random eligible succession preserving survivor state, and unavailable players spectate in waiting order until an eligible survivor becomes available.
+19. **R19 — Unique control, succession and spectating:** Each participant controls one unique crowned ordinary survivor; death enables an explicit Respawn request after the configured delay, preserving survivor state during random eligible succession, and requested players follow living teammates while awaiting an eligible survivor in queue order.
    - Source: `RUN-01`, `RUN-02`, `RUN-03`, `RUN-04`
    - Current: Players control temporary foundation actors; no crowned survivor pool, death transfer, waiting queue or spectator control exists.
-   - Target: Living ordinary recruits receive unique control/crowns; delayed random succession preserves their state, concurrent assignments stay exclusive and waiting spectators regain available survivors in the specified order.
+   - Target: Living ordinary recruits receive unique control/crowns. After death, Respawn enables at one second and only a valid explicit request starts assignment or waiting. Assignment preserves the chosen survivor's state, remains exclusive and honors earlier queued requests. Pending requests gain newly available survivors automatically in order; spectators follow/cycle other living players rather than freely moving the camera.
    - Acceptance: AC-02, AC-28, AC-29, AC-38, AC-40.
 
 20. **R20 — Coherent snapshots and saved layout representation:** Coherent snapshot round trips preserve survivor, item, ownership, nested-layout, condition, cleanup, control and random state including saved dimensions, footprints, orientations and legacy-layout metadata.
@@ -189,7 +193,7 @@ R01 and R20–R22 make the roadmap delivery boundary and usable proof explicit. 
 - Real elapsed-time, safety/danger and reachable local-access rules, proven through representative camp/defense/enemy fixtures before the rest of the phase is integrated.
 - Exactly eight persistent ordinary survivors and one configured fresh-run kit; existing survivors are used for joining/control, and guest departure does not delete a survivor or possessions.
 - All 24 item definitions, eleven slots, actual pockets, filled/nested containers, stacks, rotation, load, condition and ground loot.
-- Immediate permitted inventory interactions, private controlled inventories, local unlimited paged stash, filtering, quick transfer, four food references and corrected conflict feedback.
+- Immediate permitted inventory interactions, private controlled inventories, local unlimited paged stash, page navigation, quick transfer, four food references and corrected conflict feedback.
 - Fists, usable single/dual melee, manually refilled mouse-aimed bows, faction/obstruction rules, armor/wear and retained broken equipment.
 - Living/corpse equipped appearances and crowns using the required production content.
 - The actual health/stamina/equipment/arrow/load/money HUD, inventory/stash/loot panels, quick-slot interaction and spectator/succession surfaces, including empty/error/access-loss states.
@@ -199,6 +203,7 @@ R01 and R20–R22 make the roadmap delivery boundary and usable proof explicit. 
 
 **Out of scope:**
 
+- Stash and inventory filtering, including filter controls, name/type matching, normalization and filtered-result states — Phase 12 owns INV-14 under the creator's 2026-11-16 amendment.
 - Autonomous recruitment, job/equipment/restocking AI, food sale, hunting/gathering, hauling, paid construction/repair/upgrades and the full safe-work economy — Phase 7 owns those player flows. Phase 6 supplies their shared item/safety/combat foundations.
 - Seven-archetype zombie behavior, enemy pursuit, waves, portals, progression, retaliation, army orders and complete victory/defeat — Phase 8. Stationary targets suffice here; zero successor candidates can remain a fixture spectator/waiting state without claiming campaign defeat acceptance.
 - Complete cross-archetype automatic arrow refill/fallback, natural spit and cosmetic bloater acid acceptance — Phase 8 owns COMBAT-04/07. Shared equipment/ammo rules are established here without requiring those autonomous consumers.
@@ -213,7 +218,7 @@ R01 and R20–R22 make the roadmap delivery boundary and usable proof explicit. 
 ## Constraints
 
 - Godot/C# and the established engine-independent rules, stable identity, authoritative host, explicit time/randomness and service boundaries remain required. This specification locks behavior, not new interfaces, file formats, transport libraries or UI layouts.
-- Implement against the current source's configured working baseline in §§2, 4, 5 and relevant food/access/UI sections. Survivor defaults include 100 health/stamina; 3/5 u/s walk/sprint; 1.5 u jump and 0.8 s level-ground airborne interval; 75% air control; 10/s sprint and 12 jump stamina; 14/s stamina recovery after 0.5 s; 2/s safe health recovery after 5 s; 2 s player food cooldown; 20/35 kg load thresholds; 3/4 u inventory/stash access; three container levels; four quick references; 10×10 stash pages; 180 s empty cleanup; and 1 s succession.
+- Implement against the current source's configured working baseline in §§2, 4, 5 and relevant food/access/UI sections. Survivor defaults include 100 health/stamina; 3/5 u/s walk/sprint; 1.5 u jump and 0.8 s level-ground airborne interval; 75% air control; 10/s sprint and 12 jump stamina; 14/s stamina recovery after 0.5 s; 2/s safe health recovery after 5 s; 2 s player food cooldown; 20/35 kg load thresholds; 3/4 u inventory/stash access; three container levels; four quick references; 10×10 stash pages; 180 s empty cleanup; and 1 s before Respawn enables after death.
 - All roster footprints, stack caps, weights, pocket/container grids, compatibility, weapon/armor values and starting-kit quantities follow the canonical tables. Relevant tunables and valid ranges/relationships are documented configurable data, not hidden gameplay constants. Complete cross-domain configuration acceptance retains Phase 9 ownership.
 - Health/stamina/time/weight/condition may be fractional; counts, quantities and grid coordinates are integral. Document numeric storage/measurement tolerances without rounding away possessions, thresholds or armor wear. Reject invalid or overflowing values before mutation.
 - Balance defaults remain proposals to implement and evaluate. The linear default load interpolation, full-stat food consumption, manual occupied-slot replacement, partial merges, broken-held-weapon fallback, armor-breaking-hit protection and no queued failed attacks are locked interview decisions for this phase.
@@ -226,7 +231,7 @@ R01 and R20–R22 make the roadmap delivery boundary and usable proof explicit. 
 
 - [ ] **AC-01:** The production elapsed-time, safety and access rules are exercised before dependent features: completed living outer walls define each camp side, destroying one falls back to the next wall or the main-building refuge of 12 u, and a tower alone does not expand camp. Camp-border points count as inside; an enemy at exactly 12 u prevents safe rest. A nearby but unreachable interaction fails, and moving to a reachable position enables it.
 
-- [ ] **AC-02:** Timers use authoritative elapsed gameplay time rather than window, frame or client clocks. Just before, exactly at and just after 0.5 s stamina delay, 2 s food cooldown, 5 s safe-rest qualification, 1 s succession and 180 s empty cleanup produce the specified eligibility transitions. Duplicate commands do not advance time; equivalent elapsed intervals preserve recovery and timer results within a declared numeric tolerance.
+- [ ] **AC-02:** Timers use authoritative elapsed gameplay time rather than window, frame or client clocks. Just before, exactly at and just after 0.5 s stamina delay, 2 s food cooldown, 5 s safe-rest qualification, 1 s post-death Respawn enablement and 180 s empty cleanup produce the specified eligibility transitions. Before one second, Respawn requests reject without queuing; at/after the boundary the button enables, but control still waits for the explicit request. Duplicate commands do not advance time; equivalent elapsed intervals preserve recovery and timer results within a declared numeric tolerance.
 
 - [ ] **AC-03:** Fresh starts with one, two, three and four participants each create exactly eight distinct living recruited survivors. Every survivor wears a basic shirt, trousers and boots with empty pockets and no personal money, food, weapon, arrows, armor or backpack. The one shared stash contains 200 money, four full-durability clubs, four full-durability bows, 240 arrows in eight stacks of 30, four empty small backpacks, four empty belts, 20 berries, ten fruit and ten meat in legal stacks. Identical outfits have distinct instance identities. Repeated start/admission messages and participant ordering cannot multiply the roster or supplies.
 
@@ -258,7 +263,7 @@ R01 and R20–R22 make the roadmap delivery boundary and usable proof explicit. 
 
 - [ ] **AC-17:** The default shared stash uses 10×10 pages and has no aggregate gameplay capacity cap. Filling existing pages and depositing additional valid items creates enough pages to accept the cargo. Empty stash/pages remain usable. Definitions that cannot fit any supported page orientation fail configuration validation. Page creation and a competing deposit cannot copy an item or publish an invalid partial transfer.
 
-- [ ] **AC-18:** Stash auto-placement first merges matching stacks across existing pages, then uses the earliest fitting page/cells with legal rotation, then creates a page. Equal choices resolve consistently for the same authoritative state. Empty name/type filters show all matching contents; name matching uses Unicode-normalized, case-insensitive substring matching with consistent Windows/Linux results. Equivalent normalized strings match; an unmatched filter shows an explicit empty result. Filtering/navigation do not move items or change page ownership.
+- [ ] **AC-18:** Stash auto-placement first merges matching stacks across existing pages, then uses the earliest fitting page/cells with legal rotation, then creates a page. Equal choices resolve consistently for the same authoritative state. Page navigation does not move items or change page ownership. No stash or inventory filtering controls are delivered here; name/type matching and filtered-result acceptance belong to Phase 12 under INV-14.
 
 - [ ] **AC-19:** Solo, host-local and guests use the same authoritative action rules. Replaying a command commits no second effect, wear, stamina cost, consumption, timer reset or state creation. Concurrent actors taking one item or using the same food stack produce only valid successful effects in the host's committed order. Losers receive corrected state and clear feedback. Death, control changes and access loss are checked at commit; stale messages cannot regain control, restore spent items or overwrite newer state.
 
@@ -278,17 +283,17 @@ R01 and R20–R22 make the roadmap delivery boundary and usable proof explicit. 
 
 - [ ] **AC-27:** Any remaining item, including a broken item or empty bag, prevents age-based corpse/pile cleanup indefinitely. Completely empty containers expire only after 180 continuous seconds of authoritative emptiness. Adding an item cancels the countdown; becoming empty again starts a fresh full interval. At the expiry boundary, host action order determines whether a transfer still has a live valid target, and no committed nonempty container is removed. Cosmetic fading never deletes belongings.
 
-- [ ] **AC-28:** Every connected controller owns at most one distinct living ordinary recruited survivor, identified by one cosmetic crown. After a controlled death, transfer occurs at the one-second baseline to a random living recruited survivor not controlled by another player. Candidate health, stamina, position, role memory and all belongings are unchanged. Dead characters, wildlife, corpses and structural guards are ineligible. Two simultaneous deaths with one candidate assign it once; the other player waits.
+- [ ] **AC-28:** Every connected controller owns at most one distinct living ordinary recruited survivor, identified by one cosmetic crown. After a controlled death, Respawn enables at the one-second baseline; no survivor is assigned merely because time passes. A valid button request immediately assigns a random currently eligible living recruit, subject to earlier queued requests, or joins the waiting queue when none is available. Candidate health, stamina, position, role memory and all belongings are unchanged. Dead characters, wildlife, corpses and structural guards are ineligible. Two simultaneous eligible requests with one candidate assign it once; the other request waits. Repeated/stale requests cannot add duplicate queue entries or assign another survivor. Actual handover uses a short smooth camera move nearby and a direct cut for a distant successor.
 
-- [ ] **AC-29:** Waiting spectators receive newly eligible survivors in waiting order; equal waiting moments use player-slot order, with random eligible selection for each assignment. Zero candidates yields an explicit waiting state, permits following/cycling living teammates and does not create a recruit. Spectators cannot mutate inventories or attack. A guest departure releases its survivor to ordinary NPC ownership without deleting it, its gear or vulnerability; joins use the existing eight rather than creating a new kit. Full recruitment/reconnection/outcome flows retain later owners.
+- [ ] **AC-29:** A post-death player enters the waiting queue only after a valid Respawn request. Pending requests receive newly eligible survivors automatically in request order; equal authoritative request times use player-slot order, with random eligible selection for each assignment. Earlier queued requests retain priority over new requests. A player who has not pressed Respawn remains unassigned even when a survivor is available. Zero candidates yields an explicit waiting state without creating a recruit. Spectating follows other players' living survivors, with Previous/Next buttons, a compact teammate list and visible Respawn/request status; no free camera is provided. Zero living teammates has an explicit no-follow-target waiting state. Spectators cannot mutate inventories or attack. A guest departure releases its survivor to ordinary NPC ownership without deleting it, its gear or vulnerability; joins use the existing eight rather than creating a new kit. Full recruitment/reconnection/outcome flows retain later owners.
 
-- [ ] **AC-30:** Snapshot encode/decode round trips preserve exact identity/location graphs, all quantities and fractional condition, living/dead state, position, motion/action/recovery state, projectiles as applicable, elapsed/cooldown/cleanup time, participant eligibility, role memory, waiting order and random state needed for future outcomes. Empty collections and a single descendant round-trip. Repeated restore does not replay an attack, spawn, food use, death, succession or cleanup event; reordered unordered records do not change the represented state.
+- [ ] **AC-30:** Snapshot encode/decode round trips preserve exact identity/location graphs, all quantities and fractional condition, living/dead state, position, motion/action/recovery state, projectiles as applicable, elapsed/cooldown/cleanup time, participant eligibility, role memory, post-death Respawn availability/request state, queued request times/order and random state needed for future outcomes. Empty collections and a single descendant round-trip. Repeated restore does not replay an attack, spawn, food use, death, Respawn request, succession or cleanup event; reordered unordered records do not change the represented state.
 
 - [ ] **AC-31:** Round trips retain saved grid dimensions, display footprints, placements, orientations, saved stack/layout information and legacy markers even when current definitions would describe a different layout. No automatic overflow transfer, truncation or inventory deletion is introduced. This phase proves representation/preservation; interactive changed-configuration legacy viewing/extraction and the complete save/load UI remain Phase 9 acceptance.
 
 - [ ] **AC-32:** Malformed snapshots, missing definitions, duplicate identities/locations, cycles and invalid scalar data report a clear failure without replacing the prior valid state or modifying the source snapshot. Equivalent concurrent capture yields one coherent committed state rather than a mixture of pre/post-transfer ownership. Restoring cannot heal, repair, refill, change quantities or reroll succession randomness.
 
-- [ ] **AC-33:** At 1280×720 the production HUD shows health, stamina, carried money, weight state, hands/equipment, arrows and four quick slots. Inventory exposes eleven slots, actual pockets/nested grids, rotation, splitting, condition and weight; stash exposes pages/filter/quick transfer; NPC/corpse/pile panels show the target and current permitted contents; spectator UI shows follow/cycle and waiting/control handover. Empty, invalid and blocked states are distinguishable and actions are reachable through normal keyboard/mouse input.
+- [ ] **AC-33:** At 1280×720 the production HUD shows health, stamina, carried money, weight state, hands/equipment, arrows and four quick slots. Inventory exposes eleven slots, actual pockets/nested grids, rotation, splitting, condition and weight; stash exposes pages/page navigation/quick transfer without filtering; NPC/corpse/pile panels show the target and current permitted contents; spectator UI shows the gated Respawn button, pending request/waiting status, teammate list, Previous/Next follow controls and actual control handover. Empty, invalid and blocked states are distinguishable and actions are reachable through normal keyboard/mouse input.
 
 - [ ] **AC-34:** Inventory/panel clicks are captured before world attack or interaction. Escape closes the active panel before the enclosing menu action. Multiple/overlapping panels have consistent input priority and cannot trigger a second world action. Opening/closing panels does not pause combat, recovery, movement of other actors or cleanup. Damage, blocked actions, lost access and disconnection retain visible feedback, and repeated UI actions preserve the current authoritative state.
 
@@ -311,7 +316,7 @@ R01 and R20–R22 make the roadmap delivery boundary and usable proof explicit. 
 | Source scenario | Phase 6 proof / retained later portion |
 | --- | --- |
 | A-01 | Eight survivors/outfits and one kit now; full day-1 world/main-building/portal setup keeps its later campaign owner. |
-| A-04, A-05 | Actual death possessions, state-preserving random succession and exclusive simultaneous assignment now. |
+| A-04, A-05 | Actual death possessions, explicit enabled Respawn requests, state-preserving random succession and exclusive simultaneous assignment now. |
 | A-06 | Waiting order/new eligibility now; the actual recruit purchase/population-cap flow remains Phase 7. |
 | A-14 | Shared real ammo/condition contract begins here; complete autonomous NPC/zombie refill/fallback remains Phase 8. |
 | A-22, A-23 | Inventory manipulation and load/broken-equipment rules now through the production phase interfaces. |
@@ -327,9 +332,9 @@ These rows are evidence boundaries, not execution results or complete credit for
 
 ## Edge Coverage
 
-**Coverage:** 133/133 applicable edges resolved · 133 explicit · 0 backstop · 0 dismissed · 0 unresolved.
+**Current scope coverage:** 132/132 applicable Phase 6 edges resolved · 132 explicit · 0 backstop · 0 dismissed · 0 unresolved. Original edge E074 is explicitly deferred to Phase 12 with filtering; all 133 historical edge identifiers are retained.
 
-The compiled canonical `edge-probe.cjs` was invoked over the exact 22 requirement statements with authored numeric/collection/text/stateful/I/O shapes. It proposed 118 rows and zero unclassified requirements; all 118 were resolved through the accepted timing/combat, inventory and shared-state/lifecycle sets. A second canonical invocation accepted the resolutions with 118 resolved, zero unresolved. Manual review added the 15 marked rows below to cover requirement interactions the shape pass did not propose. The engine's floor was preserved in full. Every row points to concrete pass/fail criteria above; no held-out-test substitution or silent dismissal is used.
+The original compiled canonical `edge-probe.cjs` invocation covered the then-current 22 requirement statements with authored numeric/collection/text/stateful/I/O shapes. It proposed 118 rows and zero unclassified requirements; all 118 were resolved through the accepted timing/combat, inventory and shared-state/lifecycle sets. A second original invocation accepted those resolutions with 118 resolved, zero unresolved. Manual review added 15 marked rows. The creator's later filtering deferral moves E074 out of Phase 6; it does not constitute a new probe execution or an implementation/test pass. The other rows retain concrete Phase 6 pass/fail criteria.
 
 | Edge | Category | Requirement | Status | Verification | Resolution / reason |
 | --- | --- | --- | --- | --- | --- |
@@ -406,7 +411,7 @@ The compiled canonical `edge-probe.cjs` was invoked over the exact 22 requiremen
 | E071 | boundary | R12 | resolved | explicit | AC-17. |
 | E072 | concurrency | R12 | resolved | explicit | AC-17 AC-18 AC-19. |
 | E073 | empty | R12 | resolved | explicit | AC-17 AC-18. |
-| E074 | encoding | R12 | resolved | explicit | AC-18. |
+| E074 | encoding | R12 | deferred | Phase 12 | INV-14 owns normalized, case-insensitive filtering; removed from Phase 6 AC-18 by the 2026-11-16 creator amendment. |
 | E075 | idempotency | R12 | resolved | explicit | AC-18 AC-19. |
 | E076 | ordering | R12 | resolved | explicit | AC-18. |
 | E077 | precision | R12 | resolved | explicit | AC-17 AC-39. |
@@ -458,7 +463,7 @@ The compiled canonical `edge-probe.cjs` was invoked over the exact 22 requiremen
 | E123 | ordering | R20 | resolved | explicit | AC-30 AC-38. |
 | E124 | precision | R20 | resolved | explicit | AC-30 AC-39 — Fractional quantities such as condition/time survive; integral item counts remain exact. (manual addition) |
 | E125 | concurrency | R21 | resolved | explicit | AC-15 AC-33 AC-34. |
-| E126 | empty | R21 | resolved | explicit | AC-33 — Empty slots, pages, filtered results and spectator candidates have usable explicit states. (manual addition) |
+| E126 | empty | R21 | resolved | explicit | AC-33 — Empty slots, pages and spectator candidates have usable explicit states. Filtered-result states are deferred to Phase 12. (manual addition) |
 | E127 | idempotency | R21 | resolved | explicit | AC-16 AC-19 AC-34. |
 | E128 | ordering | R21 | resolved | explicit | AC-34 — Panel priority prevents one click from also attacking or activating a world target. (manual addition) |
 | E129 | adjacency | R22 | resolved | explicit | AC-35 AC-38. |
@@ -513,6 +518,8 @@ All dimension minimums are met. No unresolved edge/prohibition or below-minimum 
 | Edge probe | Completeness | Inventory set, including identity after splits/merges, nesting, quick references, placement and Unicode/case-insensitive filtering. | Accepted as explicit pass/fail criteria. |
 | Edge probe | Completeness | Shared-state/lifecycle set, including host order, waiting ties, emptiness, cleanup, snapshots, UI and fixture/evidence integrity. | Accepted as explicit pass/fail criteria. |
 | Prohibition probe | Product limits | Cooperative combat/crown limits and private/local inventory access. | Both retained as explicit must-NOT criteria. |
+| Discuss-phase amendment, 2026-11-16 | Scope timing | Creator: “let's move filtering to the phase 12. No filtering for stash and inventory now”. | Phase 12 owns INV-14; R12/AC-18/AC-33 no longer require Phase 6 filtering. Page navigation and all other stash/item rules remain required. E074 is retained as deferred. |
+| Discuss-phase amendment, 2026-11-17 | Death/control | Creator requires Respawn confirmation, selects one-second button enablement and click-to-queue, and clarifies teammate-follow spectating. | R19/AC-02/AC-28–AC-30/AC-33 require an explicit request, ordered automatic completion only after requesting, preserved state, smooth-nearby/cut-distant camera and teammate controls. No free camera. |
 
 Scores above are recalculated from the recorded dimensions. Initial 0.156 and round-1 0.088 correct the earlier narration's arithmetic of 0.155 and 0.089 respectively; gate outcomes are unchanged. Later displayed scores round the weighted formula to three decimals.
 

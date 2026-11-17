@@ -6,6 +6,10 @@
 
 ## What This Is
 
+**Filtering delivery amendment, creator instruction 2026-11-16:** Move stash and inventory filtering to Phase 12. Phase 6 delivers unfiltered inventories and stash pages with normal navigation/transfers. INV-14 separately tracks filtering; INV-10 retains paged stash/access/placement behavior. The current map has 135 requirements across twelve phases. This timing change supersedes earlier filtering delivery and complete-interface/release wording; it does not remove filtering from the final scope or claim it is already accepted.
+
+**Respawn amendment, creator instruction 2026-11-17:** Post-death control waits for a Respawn button press, enabled one second after death. A valid request assigns an available eligible survivor immediately or queues for automatic completion in request order. Spectating follows other living players with Previous/Next and a teammate list; camera handover is smooth nearby and cuts when distant. Survivor state and belongings remain unchanged. This supersedes the earlier automatic-at-one-second handover wording without adding a requirement ID or changing phase ownership.
+
 KingdomZombies is a side-view, pixel-art survival and camp-management game inspired by Kingdom Two Crowns, built with Godot and C#. It is for solo players and groups of up to four cooperative LAN players on Windows and Linux: recruit and equip survivors, develop one shared camp, survive zombie attacks, and destroy six portals. Version 0.1 is the complete playable, saveable game defined by the existing specifications, delivered through a sequence of working foundations and game features.
 
 ## Core Value
@@ -73,7 +77,7 @@ Acceptance retains Windows 676/676 plus the focused both-OS platform-test amendm
 - Five declared C# projects provide pure Core state, Godot integration, multiplayer-service boundaries, twelve custom analyzers and a source-bound proof runner. The representative native scene proves development integration; menu, movement and other gameplay remain future work.
 - Visual examples are under `examples/`, including three base references and zombie artwork. References guide style; written specifications control silhouettes and behavior.
 - The canonical root `AGENTS.md` and focused rules, architecture, project, decision and workflow indexes are implemented and checked for exact path/anchor identities and portable casing.
-- GSD planning includes approved context, workflow settings, research, 134 requirements, an eleven-phase roadmap, and current state. No completed gameplay capability is being migrated. The asset register describes production work still to do; it is not evidence that the pack has already been exported or integrated.
+- GSD planning includes approved context, workflow settings, research, 135 requirements, a twelve-phase roadmap, and current state. No completed gameplay capability is being migrated. The asset register describes production work still to do; it is not evidence that the pack has already been exported or integrated.
 
 ### LangProj inheritance
 
@@ -100,7 +104,7 @@ Preserve original recovered files. Track source identity, transformations, gener
 
 ### Agreed delivery direction
 
-The first five phases and their order are creator requirements. The creator approved five further phases, the detailed ten-phase roadmap, and complete requirement mapping on 2026-11-13. The creator added Phase 11 nightly full regression testing on 2026-11-15. See [ROADMAP.md](ROADMAP.md) for completion criteria and [REQUIREMENTS.md](REQUIREMENTS.md#traceability) for primary ownership.
+The first five phases and their order are creator requirements. The creator approved five further phases, the detailed ten-phase roadmap, and complete requirement mapping on 2026-11-13. The creator added Phase 11 nightly full regression testing on 2026-11-15 and deferred stash/inventory filtering to Phase 12 on 2026-11-16. See [ROADMAP.md](ROADMAP.md) for completion criteria and [REQUIREMENTS.md](REQUIREMENTS.md#traceability) for primary ownership.
 
 | Phase | Working title | Intended outcome |
 | --- | --- | --- |

@@ -91,13 +91,13 @@ Starting survivors and purchased recruits wear a basic shirt, trousers, and boot
 - Each player controls one ordinary recruited survivor who can fight, carry items, and die.
 - A cosmetic crown identifies player control alongside normal headgear. It occupies no equipment slot and never becomes loot.
 - On death, the character's actual belongings remain on the corpse. Nothing is copied to the successor.
-- Control automatically transfers to a random living recruited survivor not controlled by another player. Equipped gear, current health/stamina, location, and carried items are preserved.
-- Without a successor, the player spectates while teammates continue. A newly available eligible survivor restores control.
+- After death, the Respawn button enables after the configured one-second baseline. Pressing it requests a random living recruited survivor not controlled by another player, respecting earlier queued requests. Equipped gear, current health/stamina, location, and carried items are preserved; time passing alone does not transfer control.
+- If no successor is available, a valid Respawn request enters the waiting queue. The player can follow living teammates while waiting, and a newly available eligible survivor automatically completes the queued request. A player who has not requested Respawn remains unassigned.
 - A character cannot be assigned to two players, including after simultaneous deaths or purchases.
 - Unbuilt tower guards, built-in tower archers, wildlife, corpses, and the option to buy a survivor are not eligible successors.
 - Succession does not create a recruit, heal someone, restore ammunition, teleport the successor, or remove that survivor's actual gear.
 
-**Proposed supporting rules:** automatic transfer takes 1 second; the camera then follows the successor. The previous NPC job is suspended during control and remembered. Waiting spectators receive available survivors in waiting order, with random selection among eligible survivors for each assignment. A reconnecting player's available previous survivor takes priority for that reconnecting player.
+**Creator amendment, 2026-11-17:** The one-second post-death timer enables Respawn; explicit confirmation is required before assignment or entry into the waiting queue. Waiting requests receive available survivors in request order, with player-slot order for equal authoritative request times and random selection among eligible survivors for each assignment. The camera moves smoothly to nearby successors and cuts directly to distant ones. Spectating follows other players' living survivors using Previous/Next and a compact teammate list; it does not offer a free camera. The previous NPC job is suspended during control and remembered. A reconnecting player's available previous survivor takes priority for that reconnecting player.
 
 ### 2.3 Victory, defeat, and continued play
 
@@ -314,6 +314,8 @@ Dimensions are width×height in cells; weights are per individual item. Clothing
 This is a 24-definition initial item set, plus unarmed attacks. Names, footprints, capacities, weights, appearance assignments, compatibility, and stats belong in configuration. No equipment-selling service is included; the sale menu accepts food only.
 
 ### 5.4 Shared stash and access
+
+**Delivery timing amendment, creator instruction 2026-11-16:** Stash and inventory filtering are deferred to Phase 12. Earlier gameplay increments, including Phase 6, provide no filtering controls. Page navigation, local access, deliberate placement, quick transfer and automatic placement remain required earlier. Name/type filtering below remains a final-scope obligation, tracked separately as INV-14; earlier complete-interface/release wording does not claim this feature before Phase 12 acceptance.
 
 The main-building stash is shared by every player and ordinary recruited NPC. It has unlimited aggregate space through new pages, independent of building tier. Delivery cannot fail because existing pages are full.
 
@@ -815,7 +817,7 @@ Local display, audio, and key-binding preferences are player settings. They do n
 | Construction site / structure | Tier, health, requirements, price, repair quote, paid work progress, waiting/danger reason |
 | Rally point | Stationed/ready warriors, squad size/mix, next target, price, active order, recall |
 | Minimap | Explored terrain, known portals, defenses, teammates, current position |
-| Spectator | Follow/cycle living teammates, waiting status, automatic handover when eligible |
+| Spectator | Respawn button enabled after the post-death delay, queued-request status, Previous/Next and teammate selector, automatic completion of a pending request when eligible |
 | Save/load | Run name, day, result/status, save time, manual/autosave identity, compatibility/error feedback |
 | Victory / defeat | Outcome, remaining danger where applicable, continue/load/new-run/menu choices appropriate to that outcome |
 
@@ -921,9 +923,9 @@ The reference-PC performance target is separate from verifying that the game fun
 | A-01 | Start fresh solo and four-player runs | Eight total survivors in either case; one per starting player; correct basic outfits, shared stash, day 1, and six portals; no multiplied starting kit |
 | A-02 | Play through first night, then night 2 | First scheduled waves are absent; night 2 receives one wave per surviving portal; provoked spawns remain possible during grace |
 | A-03 | Advance through days 3→4, 6→7, and 9→10 | One stage change at each configured boundary; counts, equipment, and variant mix follow the separate progression file |
-| A-04 | Kill a controlled survivor while replacements exist | Corpse keeps actual belongings; exactly one random eligible survivor receives control/crown; its health, gear, and location are preserved |
-| A-05 | Have two leaders die together with only one successor | Only one receives that survivor; the other spectates; no shared control, duplicate body, or duplicated inventory |
-| A-06 | Spectate while a teammate buys a recruit | Eligible waiting player gains control under the waiting order; purchase and character creation occur only once |
+| A-04 | Kill a controlled survivor while replacements exist, then request Respawn after enablement | Corpse keeps actual belongings; only after the request does exactly one random eligible survivor receive control/crown; its health, gear, and location are preserved |
+| A-05 | Have two leaders die together with only one successor, then request Respawn after enablement | Only one request receives that survivor; the other queues and can follow teammates; no transfer before confirmation, shared control, duplicate body, or duplicated inventory |
+| A-06 | Queue a valid Respawn request and spectate while a teammate buys a recruit | Eligible requested player gains control under request order; purchase and character creation occur only once |
 | A-07 | Destroy main building; separately kill every eligible camp survivor | Each independently defeats the camp; remaining money or purchase capacity cannot prevent defeat |
 | A-08 | Destroy the final portal while zombies remain | Immediate victory; continued play preserves enemies and loot; survivors do not retreat at later dawns |
 | A-09 | Trigger victory and defeat together; separately lose camp after victory | Apply the documented simultaneous-result rule; a previously recorded victory is not erased by a later continuation loss |
