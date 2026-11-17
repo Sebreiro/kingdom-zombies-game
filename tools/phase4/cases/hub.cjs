@@ -337,12 +337,17 @@ const LIFECYCLE=String.raw`
 			await process_frame
 `;
 async function native(context,lifecycle=false){
+  const themeInputs=Object.fromEntries(['src/godot-game/assets/ui/InspectionTheme.tres',
+    'src/godot-game/assets/ui/LiberationSans.ttf','src/godot-game/assets/ui/PerfectDOSVGA437.ttf',
+    'src/godot-game/assets/ui/Fallback.ttf','src/godot-game/assets/common/donor-kit.png']
+    .map(file=>[file,runner.hash(fs.readFileSync(path.join(ROOT,file)))]));
+  fs.writeFileSync(path.join(context.directory,'theme-inputs.json'),JSON.stringify(themeInputs,null,2));
   const game=path.join(ROOT,'src/godot-game'),project=path.join(context.directory,'native-project');
   fs.mkdirSync(project,{recursive:true});
   const build=await runner.command(context,'native-build','dotnet',['build',path.join(game,'KingdomZombies.csproj'),
     '--no-restore','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'],{env:env()});
   assert.match(build.stdout,/0 Warning\(s\)[\s\S]*0 Error\(s\)/);
-  for(const item of ['project.godot','inspection','content','assets/common'])
+  for(const item of ['project.godot','inspection','content','assets/common','assets/ui'])
     fs.cpSync(path.join(game,item),path.join(project,item),{recursive:true});
   const binaries='.godot/mono/temp/bin/Debug';
   fs.cpSync(path.join(game,binaries),path.join(project,binaries),{recursive:true});
@@ -372,6 +377,11 @@ async function native(context,lifecycle=false){
   const image=result.outcomes.find(x=>x.id==='native-bow-registration').observed;
   assert.equal(image.sourceRgbaSha256,'88b8e7062f0eb9cfb788ef3658028ba58a6f62d408d3e39ae2e1228bfa6c8905');
   fs.writeFileSync(path.join(context.directory,'native-observation.json'),JSON.stringify(result,null,2));
+  for(const [file,digest]of Object.entries(themeInputs)){
+    assert.equal(runner.hash(fs.readFileSync(path.join(ROOT,file))),digest,'HUB_THEME_SOURCE_CHANGED');
+    assert.equal(runner.hash(fs.readFileSync(path.join(project,file.replace('src/godot-game/','')))),digest,
+      'HUB_THEME_SUBJECT_CHANGED');
+  }
   return result;
 }
 runner.registerCase('hub.source',{group:'hub',title:'Independent portable register and valid partial hub resources',importance:'Critical',
