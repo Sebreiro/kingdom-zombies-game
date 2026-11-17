@@ -107,3 +107,82 @@ async function art(context){
 }
 runner.registerCase('bodies.a-art',{group:'characters',title:'Three source-reproducible neutral bodies and authored registered pose/component masters',importance:'Critical',rationale:'Missing or baked body poses prevent reusable character/equipment coverage',needsGameWindow:false,runGroup:'G0',order:26,requirements:['ASSET-01','ASSET-02','ASSET-03'],acceptance:['AC-05','AC-18'],setup:'Retained built-in generated originals, exact K14/K18/source head references, complete production atlas and strict bounded ZIP inventory',actions:['Reproduce193 parts from exact retained originals and masks/crops/nearest transforms','Assert all48 neutral poses, disjoint reusable component coverage and three distinct alpha silhouettes','Reject nine source/pose/baked/density/component/acceptance/transform faults'],expected:'Three actual neutral body families with true alpha and exact source identity; final appearance judgement remains04-32/33',reset:'Fresh immutable source-side invocation; no game window',evidence:['inputs.json','bodies-art.command.json','art-observation.json','result.json']},art);
 module.exports={ART_FILES,VERIFY,fingerprint,art};
+
+function isolated(){const base=path.join(ROOT,'.phase1');return {...process.env,DOTNET_CLI_HOME:path.join(base,'cli-home'),NUGET_PACKAGES:path.join(base,'packages'),NUGET_HTTP_CACHE_PATH:path.join(base,'http-cache'),TEMP:path.join(base,'temp'),TMP:path.join(base,'temp'),PHASE1_ROOT:ROOT};}
+const DRIVER=String.raw`extends SceneTree
+var hub: Node
+func choose(control: OptionButton, value: String) -> bool:
+ for i in control.item_count:
+  if control.get_item_text(i).begins_with(value):
+   control.select(i)
+   control.item_selected.emit(i)
+   return true
+ return false
+func _initialize() -> void:
+ call_deferred("run")
+func run() -> void:
+ root.size = Vector2i(1280,720)
+ hub=load("res://inspection/Inspection.tscn").instantiate()
+ root.add_child(hub)
+ for i in range(160):
+  await process_frame
+  if hub.get_node("Shell/Toolbar/Cancel").disabled: break
+ choose(hub.get_node("Shell/Workspace/Navigation/Category"),"Characters")
+ var rows=hub.get_node("Shell/Workspace/Controls/Browser/Resources")
+ for i in rows.item_count:
+  if rows.get_item_text(i).begins_with("CH-01 · "):
+   rows.select(i)
+   rows.item_selected.emit(i)
+   break
+ await process_frame
+ var preview=hub.get_node_or_null("Shell/Workspace/Preview/Surface/Current/Character")
+ var coat: Variant = null
+ if preview != null:
+  choose(preview.get_node("Controls/Slots/torso/Select"),"IT-13")
+  choose(preview.get_node("Controls/Slots/armor/Select"),"IT-20")
+  choose(preview.get_node("Controls/Slots/armor/Select"),"Empty")
+  for sprite in preview.get_node("Art").get_children():
+   if sprite.has_meta("slot") and sprite.get_meta("slot") == "torso" and sprite.visible:
+    coat=sprite.get_meta("item")
+ var digest=HashingContext.new()
+ digest.start(HashingContext.HASH_SHA256)
+ digest.update(FileAccess.get_file_as_bytes("res://.godot/mono/temp/bin/Debug/KingdomZombies.dll"))
+ var result={"pid":OS.get_process_id(),"nonce":OS.get_environment("CHARACTER_PROOF_NONCE"),"script":hub.get_script().resource_path,"assemblySha256":digest.finish().hex_encode(),"coatAfterArmorRemoval":coat,"characterControlsPresent":preview != null}
+ var file=FileAccess.open("res://native-results.json",FileAccess.WRITE)
+ file.store_string(JSON.stringify(result,"\t"))
+ file.close()
+ print("CHARACTER_NATIVE_COMPLETE "+result.nonce)
+ hub.queue_free()
+ await process_frame
+ quit()
+`;
+async function nativeFit(context){
+ const project=inside(context.directory,'native-character');fs.mkdirSync(project);
+ const game=inside(ROOT,'src/godot-game');
+ for(const item of ['project.godot','inspection','content','assets','.godot/mono/temp/bin/Debug'])fs.cpSync(path.join(game,item),path.join(project,item),{recursive:true});
+ write(project,'probe.gd',Buffer.from(DRIVER));
+ const tool=engine(),pin=document(ROOT,'tools/phase1/toolchain.json').archives['win32-x64'];
+ const archive=inside(ROOT,'.phase1/cache/'+pin.file);need(fs.statSync(archive).size<=268435456&&hash(fs.readFileSync(archive))===pin.sha256,'CHARACTER_ARCHIVE_PIN');
+ const authentication=await runner.command(context,'character-native-tool-origin','powershell.exe',['-NoProfile','-NonInteractive','-Command',
+  "Add-Type -AssemblyName System.IO.Compression.FileSystem; $zip=[IO.Compression.ZipFile]::OpenRead('D:/Work/Games/KingdomZombies/.phase1/cache/Godot_v4.7.2-stable_mono_win64.zip'); try { $entry=$zip.Entries | Where-Object { $_.FullName -ceq 'Godot_v4.7.2-stable_mono_win64/Godot_v4.7.2-stable_mono_win64.exe' }; if(@($entry).Count -ne 1){throw 'ARCHIVE_ENTRY'}; $stream=$entry.Open(); try { $sha=[Security.Cryptography.SHA256]::Create(); [BitConverter]::ToString($sha.ComputeHash($stream)).Replace('-','').ToLowerInvariant() } finally { $stream.Dispose() } } finally { $zip.Dispose() }"]);
+ const executable=path.join(path.dirname(tool.executable),pin.executable.replace('_console.exe','.exe'));
+ need(hash(fs.readFileSync(executable))===authentication.stdout.trim(),'CHARACTER_NATIVE_PIN');
+ const env={...isolated(),...runner.environment(context.directory),CHARACTER_PROOF_NONCE:context.nonce};
+ await runner.command(context,'character-import',executable,['--headless','--path',project,'--editor','--import','--quit'],{env});
+ const child=await runner.command(context,'character-native',executable,['--headless','--path',project,'--script','res://probe.gd','--quit-after','800'],{env});
+ need(!/ERROR:|SCRIPT ERROR:/.test(child.stdout+child.stderr)&&child.stdout.includes('CHARACTER_NATIVE_COMPLETE '+context.nonce),'CHARACTER_NATIVE_MARKER');
+ const result=document(project,'native-results.json');need(result.pid===child.pid&&result.nonce===context.nonce&&result.script==='res://inspection/InspectionRoot.cs','CHARACTER_NATIVE_IDENTITY');
+ need(result.assemblySha256===hash(fs.readFileSync(path.join(game,'.godot/mono/temp/bin/Debug/KingdomZombies.dll'))),'CHARACTER_NATIVE_ASSEMBLY');
+ write(context.directory,'native-observation.json',result);return result;
+}
+async function fit(context){
+ const inputs=[...ART_FILES,'src/godot-game/inspection/InspectionRoot.cs','tests/phase1/CharacterFitTests.cs'];
+ const before=fingerprint(inputs);write(context.directory,'inputs.json',before);
+ const build=await runner.command(context,'character-strict-build','dotnet',['build',inside(ROOT,'KingdomZombies.slnx'),'--no-restore','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'],{env:isolated()});
+ need(/0 Warning\(s\)[\s\S]*0 Error\(s\)/.test(build.stdout),'CHARACTER_CLEAN_BUILD');
+ const native=await nativeFit(context),dir=inside(context.directory,'compiled');fs.mkdirSync(dir);
+ await runner.command(context,'character-compiled','dotnet',[inside(ROOT,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll'),'--filter-class','*CharacterFitTests','--report-xunit-trx','--report-xunit-trx-filename','tests.trx','--report-xunit-ctrf','--report-xunit-ctrf-filename','tests.json','--results-directory',dir,'--no-ansi','--progress','off','--parallel','none','--timeout','45s'],{env:{...isolated(),CHARACTER_NATIVE_REPORT:inside(context.directory,'native-observation.json')}});
+ need(equal(before,fingerprint(inputs)),'CHARACTER_SOURCE_CHANGED');return native;
+}
+runner.registerCase('bodies.a-fit',{group:'characters',title:'Actual character gear fitting, selected coat restoration and logical hands',importance:'Critical',rationale:'Incorrect replacement loses selected equipment and character identity',needsGameWindow:false,runGroup:'G0',order:27,requirements:['ASSET-01','ASSET-02','ASSET-03'],acceptance:['AC-05','AC-18','AC-19'],setup:'Strict compiled production hub, real body/item atlases and saved fit definitions',actions:['Select CH-01 through actual category/resource controls','Select coat, cover with armor and remove armor','Assert actual exposed torso is the selected IT-13 coat'],expected:'Current composition retains selected equipment and clears replaced layers; actual appearance remains04-32/33',reset:'Fresh owned headless native hub and report; no game window',evidence:['inputs.json','native-observation.json','character-strict-build.command.json','character-compiled.command.json','result.json']},fit);
+Object.assign(module.exports,{isolated,DRIVER,nativeFit,fit});
