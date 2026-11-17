@@ -6,16 +6,16 @@ current_phase: 04
 current_phase_name: Asset production
 current_plan: 10
 status: executing
-stopped_at: Completed 04-09; 19/37 local plans summarized; wave 15 complete; next 04-10 corpses/crowds; WINDOWS29/30/31 open
-last_updated: "2026-11-17T12:59:00.678Z"
+stopped_at: Phase 06 context gathered; active Phase 04 implementation continues
+last_updated: "2026-11-17T14:10:04.680Z"
 last_activity: 2026-11-17
 last_activity_desc: Completed bow work and specialist composition; final 18-case selection passes; next 04-10 corpses and crowds
 progress:
-  total_phases: 11
+  total_phases: 12
   completed_phases: 3
   total_plans: 62
   completed_plans: 44
-  percent: 27
+  percent: 25
 ---
 
 # Project State
@@ -36,9 +36,9 @@ Total Plans in Phase: 37
 Status: Executing
 Last activity: 2026-11-17 — Completed 04-09 bow/work presentation; 19/37 locally summarized; wave 15 complete, next 04-10
 
-Progress: [███░░░░░░░] 27%
+Progress: [███░░░░░░░] 25%
 
-Milestone progress: 3/11 phases complete;44/62 currently planned plans summarized;fourteen of134 requirements complete. Phase4 has19/37 local plans complete. NoASSET requirement completion is claimed.
+Milestone progress: 3/12 phases complete;44/62 currently planned plans summarized;fourteen of135 requirements complete. Phase4 has19/37 local plans complete. NoASSET requirement completion is claimed.
 
 ## Performance Metrics
 
@@ -127,6 +127,7 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - [Phase 04]: 04-03 bounded visibility amendment appends only ContentPack and InspectionRoot to independent original15 public identities; graph-next04-26 owns future input/lifetime expansion.
 - [Phase 04]: 04-26 proves source/headless owned input/transport/lifetimes and exact32 authored signatures with fresh complete29-operation proof plus tracer; all ASSET and04-32/33 acceptance remain pending.
 - [Phase 04]: Retain exact reviewed per-case capacity: ac08 75000 and companion-negative60000 alongside existing boundary120000; positive/default45s,686 IDs and original220/18/16/26 contracts unchanged.
+- [Phase 06]: Creator defers all stash/inventory filtering to Phase 12 (INV-14); no filtering UI or acceptance in Phases 6-11. INV-10/R12/AC-18/AC-33 retain pages, navigation and transfers without filtering. This supersedes older filtering delivery wording and older eleven-phase/134-requirement totals; current scope is 12 phases and 135 requirements.
 
 - [Phase 04]: 04-04 retains725 sprites/35 clips/2434 ZIP members and source-side density1; conversion/scale/discovery pass, final appearance/listening pending. WINDOWS29 tracks inherited current-hub tracer/index binding for04-23/31 before review.
 
@@ -145,6 +146,7 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - [Phase04]: 04-28 resources/production projector committedaa0bf15/e2dea70/be65d18,SUMMARYb7186e7. Final11casePASS404unchanged inputs; identity127/integrity402 exact4shape vectors/native theme172+3compiled0skip; originalhub63compiled each/native25/50. Two new source/scene paths raise inventory234→236. Separate native-policyFAIL369 and unenrolled49input producer remain23-owned. Current icon.svg replacement/export embedding remains31; allactualacceptance pending.
 
 - [Phase04]: 04-08 Task 1 bc7883d, Task 2 9da8f88 and canonical SUMMARY 4d1c1c1 complete. Final 16/16 PASS, 399 unchanged inputs; both animation cases retain 704 samples, five strict negatives, 41 replacement/control checks, seven UI states and 35 compiled passes with zero skips. Original body/hub/item/data/theme/identity regressions pass. Nine existing/planned paths leave inventory 236. Native policy c7f92490 remains FAIL 414 and producer 49 inputs/32 surfaces remains unenrolled for 23/31. All actual acceptance remains pending.
+- [Phase 06]: Creator amendment 2026-11-17: Respawn enables one second after death; an explicit button request assigns an available eligible survivor or joins the waiting queue. Pending requests complete automatically in request order, with player-slot ties; no automatic transfer without requesting. Spectating follows living teammates using Previous/Next and a teammate list. Camera smooth nearby/cuts distant; survivor state and possessions stay unchanged.
 
 - [Phase04]: 04-09 Task 1 dbf792f/642affe/60da583, Task 2 d88cdd2/caf830d and canonical SUMMARY a64c69f complete. Final 18/18 PASS, 405 unchanged inputs; bow 39 compiled/128 sustained cycles, work 240 rows/40 controls/71 Reset checks, source 56 members/17 components/16 actions. Original body/hub/item/data/theme/identity controls pass; scalar captured origin preserves 10 pure reflection tests without GodotSharp. Ten amended paths leave inventory 236. Native policy dcdc37a2 remains FAIL 604 and producer 49 inputs/32 surfaces remains unenrolled for 23/31. All actual acceptance remains pending.
 
@@ -160,6 +162,7 @@ Phase 3 has no blocking acceptance item. Its independent [UI audit](phases/03-fo
 - Phase 02 changed: Phase 5 discussion amended verification: basic build/repository-only PRs target about ten minutes per OS; dependency-aware focused groups and validated unchanged-group reuse replace mandatory full closure reruns. Complete case/environment evidence, eight handoff IDs and 90/80 coverage targets remain required. See phases/05-ci-and-repeatable-game-testing/05-CONTEXT.md and amended 05-SPEC.md.
 - Phase 11 added: Nightly full regression testing (TEST-11) after Phase 10; immediate reduced local testing and saved scenario/run-group metadata are not deferred.
 - Phase 05 edited: Creator local testing amendment: no VM, development OS/1280x720 only after whole implementation and review; Critical/new/changed/affected selection now; grouped repair checks followed by the full selected-set pass.
+- Phase 12 added: Stash and inventory filtering deferred from Phase 6 by creator on 2026-11-16; INV-14 owns filtering, while INV-10 retains pages/access/transfers. Current scope: 135 requirements across 12 phases, 14 complete and 121 pending.
 
 ### Blockers/Concerns
 
@@ -190,9 +193,9 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 
 ## Session Continuity
 
-Last session: 2026-11-16T22:37:39.672Z
-Stopped at: Completed04-26;9/37 summarized; graph-ready04-04; allASSET/actual04-32/33 pending
-Resume file: .planning/phases/04-asset-production/04-04-PLAN.md
+Last session: 2026-11-17T14:10:04.346Z
+Stopped at: Phase 06 context gathered; active Phase 04 implementation continues
+Resume file: .planning/phases/06-survivors-inventory-and-combat/06-CONTEXT.md
 
 Next action: Execute graph-next04-04 reusable donor kit, animation conversion and assembled scale proof from completed04-26. Fresh phase-plan-index identifies04-04/wave10 as the sole ready plan, not numeric27. Stay on feature/04-asset-production and draftPR#5 todev. Nine of37 Phase4 plans are summarized; allASSET and actual04-32/33 acceptance remain pending.
 
