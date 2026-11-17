@@ -4,17 +4,17 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 04
 current_phase_name: Asset production
-current_plan: 5
+current_plan: 11
 status: executing
-stopped_at: Completed04-04;10/37 summarized; ready04-05/11; source provenance entry29 active before final review
-last_updated: "2026-11-16T23:39:56.024Z"
+stopped_at: Completed04-05;11/37 summarized; earliest ready04-11 wave11; source provenance entry29 active before final review
+last_updated: "2026-11-17T01:04:14.084Z"
 last_activity: 2026-11-17
-last_activity_desc: Completed04-04 donor conversion and scale pilots;10/37 summarized; ready04-05/11; inherited tracer binding remains open
+last_activity_desc: Completed04-05 all24 item masters/components and callable previews;11/37 summarized; next04-11 before wave12
 progress:
   total_phases: 11
   completed_phases: 3
   total_plans: 62
-  completed_plans: 35
+  completed_plans: 36
   percent: 27
 ---
 
@@ -26,19 +26,19 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase04 asset production continues on feature/04-asset-production with draftPR#5 todev. Ten of37 plans are summarized:04-01/25/34/35/02/36/37/03/26/04. Completed04 retains725 donor sprites,35 exact clips and four generated scale pilots with source/headless conversion/scale/discovery proof. Graph-ready04-05 and04-11 execute sequentially. Active WINDOWS29/source.provenance inherited stale tracer binding must be repaired by04-23/31 before final review. AllASSET and actual04-32/33 acceptance remain pending.
+**Current focus:** Phase04 asset production continues on feature/04-asset-production with draftPR#5 todev. Eleven of37 plans are summarized:04-01/25/34/35/02/36/37/03/26/04/05. Completed05 delivers24 item identities,20 generated originals,88 art parts,166 component inputs and two callable native previews with repaired all-zoom scroll reachability. Earliest unfinished ready04-11 completes wave11 before ready wave12 plans. Active WINDOWS29/source.provenance and full-hub adoption remain04-23/31 before final review. AllASSET and actual04-32/33 acceptance remain pending.
 
 ## Current Position
 
 Phase: 04 — Asset production
-Current Plan: 5
+Current Plan: 11
 Total Plans in Phase: 37
 Status: Executing
-Last activity: 2026-11-17 — Completed04-04 donor conversion/scale pilots;10/37 plans summarized; ready04-05/11
+Last activity: 2026-11-17 — Completed04-05 item masters/previews;11/37 plans summarized; earliest ready04-11 wave11
 
 Progress: [███░░░░░░░] 27%
 
-Milestone progress: 3/11 phases complete;35/62 currently planned plans summarized;fourteen of134 requirements complete. Phase4 has10/37 plans complete. NoASSET requirement completion is claimed.
+Milestone progress: 3/11 phases complete;36/62 currently planned plans summarized;fourteen of134 requirements complete. Phase4 has11/37 plans complete. NoASSET requirement completion is claimed.
 
 ## Performance Metrics
 
@@ -129,6 +129,8 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - [Phase 04]: Retain exact reviewed per-case capacity: ac08 75000 and companion-negative60000 alongside existing boundary120000; positive/default45s,686 IDs and original220/18/16/26 contracts unchanged.
 
 - [Phase 04]: 04-04 retains725 sprites/35 clips/2434 ZIP members and source-side density1; conversion/scale/discovery pass, final appearance/listening pending. WINDOWS29 tracks inherited current-hub tracer/index binding for04-23/31 before review.
+
+- [Phase 04]: 04-05 retains24 identities/20 generated originals/88 art parts/166 component inputs and185 ZIP members. Two new scriptless preview scenes raise actual phase inventory234; all-zoom native reachability repaired and final item/discovery gates pass. Full-hub/appearance acceptance remains pending.
 
 ### Pending Todos
 
