@@ -4,17 +4,17 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 04
 current_phase_name: Asset production
-current_plan: 6
+current_plan: 14
 status: executing
-stopped_at: Completed04-11;12/37 summarized; ready wave12 plans04-06/14/18; source provenance entry29 active before final review
-last_updated: "2026-11-17T02:13:26.153Z"
+stopped_at: Completed04-06 locally;13/37 summarized; remaining wave12 plans04-14/18; WINDOWS29/30/31 open before review
+last_updated: "2026-11-17T03:44:20.321Z"
 last_activity: 2026-11-17
-last_activity_desc: Completed04-11 three main tiers and guarded shared lifecycle;12/37 summarized; next04-06 in wave12
+last_activity_desc: Completed04-06 body art and ordinary fits;13/37 summarized; next04-14 UI kit, then18
 progress:
   total_phases: 11
   completed_phases: 3
   total_plans: 62
-  completed_plans: 37
+  completed_plans: 38
   percent: 27
 ---
 
@@ -26,19 +26,19 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase04 asset production continues on feature/04-asset-production with draftPR#5 todev. Twelve of37 plans are summarized:04-01/25/34/35/02/36/37/03/26/04/05/11. Completed11 delivers three main-building tiers,47 art parts, shared stash/capacity, pending-upgrade continuity and two independently animated one-guard attachments. Final production and proof harness builds have zero warnings/errors,17 compiled tests and260 native observations pass. Ready wave12 plans04-06/14/18 run sequentially, starting06. Active WINDOWS29/source.provenance and full-hub adoption remain04-23/31 before final review. AllASSET and actual04-32/33 acceptance remain pending.
+**Current focus:** Phase04 continues on feature/04-asset-production with draftPR5. Thirteen of37 local plans are summarized:01/25/34/35/02/36/37/03/26/04/05/11/06. Body art and ordinary fitting pass193 parts/48 poses/2976 tuples/12 H13 fixtures/5972 native observations/10 compiled tests. Broader selection remains11PASS/2FAIL; WINDOWS30 native policy and31 current producer cohort belong04-23 before review, alongside29 source/index integration. Remaining wave12 plans14/18 run sequentially. AllASSET and actual32/33 acceptance remain pending.
 
 ## Current Position
 
 Phase: 04 — Asset production
-Current Plan: 6
+Current Plan: 14
 Total Plans in Phase: 37
 Status: Executing
-Last activity: 2026-11-17 — Completed04-11 main tiers/lifecycle;12/37 plans summarized; ready04-06/14/18 wave12
+Last activity: 2026-11-17 — Completed04-06 locally;13/37 summarized; remaining wave12 plans14/18
 
 Progress: [███░░░░░░░] 27%
 
-Milestone progress: 3/11 phases complete;37/62 currently planned plans summarized;fourteen of134 requirements complete. Phase4 has12/37 plans complete. NoASSET requirement completion is claimed.
+Milestone progress: 3/11 phases complete;38/62 currently planned plans summarized;fourteen of134 requirements complete. Phase4 has13/37 local plans complete. NoASSET requirement completion is claimed.
 
 ## Performance Metrics
 
@@ -133,6 +133,8 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - [Phase 04]: 04-05 retains24 identities/20 generated originals/88 art parts/166 component inputs and185 ZIP members. Two new scriptless preview scenes raise actual phase inventory234; all-zoom native reachability repaired and final item/discovery gates pass. Full-hub/appearance acceptance remains pending.
 
 - [Phase 04]: 04-11 delivers three main tiers/47 parts/153 retained members; shared stash,8/12/16 seats and two independent single-guard attachments. Final strict production and harness0warnings/errors,17 compiled tests/260 native observations pass. Original failures and consumed repair budgets remain preserved. Inventory234 unchanged; actual appearance/full-hub acceptance remains pending.
+
+- [Phase 04]: 04-06 commits2c54e53/531573e and SUMMARY96979df retain3 bodies/48 poses/193 parts/232 source members; complete fits2976 tuples/12 H13/5972 observations/10 compiled0skip with strict production/harness0warnings. Fresh broader selection11PASS/2FAIL is preserved. WINDOWS30/31 remain required04-23 integration; no policy pass or ASSET acceptance. Inventory234 unchanged.
 
 ### Pending Todos
 
