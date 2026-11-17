@@ -1,0 +1,141 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),equal=require('node:util').isDeepStrictEqual;
+const runner=require('../check.cjs'),{ROOT,inside,bytes,document,write,hash,need}=require('../content.cjs');
+const PACK='src/godot-game/content/packs/ui-camp.json',DATA='src/godot-game/content/ui/camp-panels.json';
+const CODE='src/godot-game/inspection/CampLayouts.cs',TEST='tests/phase1/CampLayoutTests.cs';
+const PATHS=['content/ui/camp-panels.json','content/config/items.json','content/world/main-assemblies.json','content/world/defense-assemblies.json','content/world/map.json','content/packs/ui-identity.json','assets/ui/InspectionTheme.tres','assets/ui/LiberationSans.ttf','assets/ui/PerfectDOSVGA437.ttf','assets/ui/Fallback.ttf','assets/equipment/items-01-10.png','assets/equipment/items-11-24.png','assets/common/donor-kit.png'];
+function isolated(){const base=path.join(ROOT,'.phase1');return {...process.env,DOTNET_CLI_HOME:path.join(base,'cli-home'),NUGET_PACKAGES:path.join(base,'packages'),NUGET_HTTP_CACHE_PATH:path.join(base,'http-cache'),TEMP:path.join(base,'temp'),TMP:path.join(base,'temp'),PHASE1_ROOT:ROOT};}
+function sourceInputs(){const files=[PACK,DATA,CODE,TEST,'tools/phase4/cases/ui-camp.cjs',...PATHS.map(x=>'src/godot-game/'+x)];for(const folder of ['src/core','src/godot-game','src/multiplayer-abstractions']){function walk(dir){for(const row of fs.readdirSync(inside(ROOT,dir),{withFileTypes:true})){if(row.isDirectory()&&!['obj','bin','.godot'].includes(row.name))walk(dir+'/'+row.name);else if(row.isFile()&&/\.(cs|csproj)$/.test(row.name))files.push(dir+'/'+row.name);}}walk(folder);}return [...new Set(files)].sort().map(file=>({file,sha256:hash(bytes(ROOT,file))}));}
+function validateSource(pack,data){
+ need(pack.id==='ui-camp'&&pack.sampleDataOnly===true&&pack.gameplayTransactions===false&&pack.visualReview===null&&equal(pack.completedObligations,[])&&equal(pack.obligations,['UI-16','UI-17','UI-18','UI-19']),'CAMP_SCOPE');
+ need(equal(pack.bindings.map(x=>x.path),PATHS),'CAMP_PATHS');for(const binding of pack.bindings)need(hash(bytes(ROOT,'src/godot-game/'+binding.path))===binding.sha256,'CAMP_HASH',binding.path);
+ const expected={people:8,sale:4,site:12,rally:7};for(const [surface,count]of Object.entries(expected))need(data.samples.filter(x=>x.surface===surface).length===count,'CAMP_SAMPLE_ROSTER',surface);
+ need(data.id==='camp-panels'&&data.sampleDataOnly===true&&data.gameplayTransactions===false&&new Set(data.samples.map(x=>x.id)).size===31,'CAMP_DATA_SCOPE');
+ need(equal(data.definitions.foods.map(x=>[x.id,x.price]),[['IT-08',1],['IT-09',2],['IT-10',4]])&&equal(data.definitions.fireside,[8,12,16]),'CAMP_BASELINES');
+ const low=data.samples.find(x=>x.id==='site.repair-low'),high=data.samples.find(x=>x.id==='site.repair-high');need(low.health===90&&high.health===890&&low.structure==='wall-2'&&high.structure==='wall-2'&&data.definitions.structures.find(x=>x.id==='wall-2').repair===40,'CAMP_FIXED_REPAIR');
+ return {samples:31,surfaces:4,obligations:pack.obligations,source:'Current creator spec baseline; later camp config not yet delivered'};
+}
+async function compiled(context){
+ const dll=inside(ROOT,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll'),dir=inside(context.directory,'compiled');fs.mkdirSync(dir);
+ const discover=await runner.command(context,'camp-discovery','dotnet',[dll,'--list-tests','--filter-class','*CampLayoutTests','--no-ansi'],{env:isolated()});
+ const names=[...discover.stdout.matchAll(/CampLayoutTests\.([A-Za-z0-9_]+)/g)].map(x=>x[1]).sort();
+ need(equal(names,['Main_PendingUpgradeKeepsCompletedCapacity','Rally_NoTargetAndActiveHaveDistinctReasons','Reader_GenericArraysKeep256Limit','Sale_UsesStashFoodAndStashMoney']),'CAMP_DISCOVERY');
+ await runner.command(context,'camp-compiled','dotnet',[dll,'--filter-class','*CampLayoutTests','--report-xunit-ctrf','--report-xunit-ctrf-filename','tests.json','--results-directory',dir,'--no-ansi','--progress','off','--parallel','none','--timeout','45s'],{env:isolated()});
+ const summary=document(dir,'tests.json').results.summary;need(summary.tests===names.length&&summary.passed===names.length&&summary.failed===0&&summary.skipped===0,'CAMP_COMPILED');return {names,...summary};
+}
+const HARNESS=String.raw`using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Loader;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Threading.Tasks;
+using Godot;
+namespace KingdomZombies.InventoryProof;
+public sealed partial class InventoryHarness:Node{
+ private readonly List<object> _outcomes=new();private bool _failed;private Type _type=null!,_gateway=null!;private byte[][] _inputs=null!;private byte[] _pack=null!;
+ private void Check(string id,bool pass,object observed){_outcomes.Add(new{id,pass,observed});_failed|=!pass;}
+ private static bool Eq(string? x,string? y)=>StringComparer.Ordinal.Equals(x,y);
+ private static string Digest(byte[] b)=>Convert.ToHexStringLower(SHA256.HashData(b));
+ private static byte[] Read(string file)=>System.IO.File.ReadAllBytes(ProjectSettings.GlobalizePath("res://"+file));
+ private static object? Invoke(object subject,string name,params object[] args)=>subject.GetType().GetMethod(name,BindingFlags.Instance|BindingFlags.NonPublic)!.Invoke(subject,args);
+ private static Exception? Failure(Action action){try{action();return null;}catch(TargetInvocationException e){return e.InnerException??e;}catch(Exception e){return e;}}
+ private object New(Control root,byte[]? pack=null,byte[][]? inputs=null)=>Activator.CreateInstance(_type,BindingFlags.Instance|BindingFlags.NonPublic,null,new object[]{root,Activator.CreateInstance(_gateway,true)!,pack??_pack,inputs??_inputs},null)!;
+ private static string Label(Node root,string name)=>root.GetNode<Label>(name).Text;
+ private static IEnumerable<Node> Nodes(Node root){foreach(var child in root.GetChildren()){yield return child;foreach(var nested in Nodes(child))yield return nested;}}
+ public override async void _Ready(){try{await Run();}catch(Exception e){Check("fixture-exception",false,e.ToString());}var result=new{pid=OS.GetProcessId(),nonce=OS.GetEnvironment("INVENTORY_NONCE"),failed=_failed,outcomes=_outcomes,assemblySha256=Digest(Read("subjects/KingdomZombies.dll")),coreSha256=Digest(Read("subjects/KingdomZombies.Core.dll"))};System.IO.File.WriteAllText(ProjectSettings.GlobalizePath("res://inventory-results.json"),JsonSerializer.Serialize(result));GD.Print("INVENTORY_NATIVE_COMPLETE "+result.nonce+" "+(_failed?"FAIL":"PASS"));GetTree().Quit(_failed?1:0);}
+ private async Task Run(){
+  var alc=AssemblyLoadContext.GetLoadContext(GetType().Assembly)!;var core=alc.LoadFromAssemblyPath(ProjectSettings.GlobalizePath("res://subjects/KingdomZombies.Core.dll"));var game=alc.LoadFromAssemblyPath(ProjectSettings.GlobalizePath("res://subjects/KingdomZombies.dll"));_type=game.GetType("KingdomZombies.Inspection.CampLayouts",true)!;_gateway=game.GetType("KingdomZombies.Proofs.MainThreadGateway",true)!;
+  Check("actual-production-alc",AssemblyLoadContext.GetLoadContext(core)==alc&&AssemblyLoadContext.GetLoadContext(game)==alc&&_type.IsSealed&&!_type.IsPublic&&!typeof(GodotObject).IsAssignableFrom(_type),game.FullName!);
+  _pack=Read("content/packs/ui-camp.json");using var pack=JsonDocument.Parse(_pack);_inputs=pack.RootElement.GetProperty("bindings").EnumerateArray().Select(x=>Read(x.GetProperty("path").GetString()!)).ToArray();using var data=JsonDocument.Parse(_inputs[0]);using var icons=JsonDocument.Parse(_inputs[5]);
+  ParserControls();
+  var root=new Control{Name="CampRoot",Size=new Vector2(1280,720)};var neighbor=new Control{Name="Neighbor",Size=new Vector2(1280,720)};AddChild(root);AddChild(neighbor);var subject=New(root);var other=New(neighbor);
+  try{
+   Invoke(other,"Open","people.normal");
+   foreach(var state in data.RootElement.GetProperty("samples").EnumerateArray()){
+    string id=state.GetProperty("id").GetString()!,surface=state.GetProperty("surface").GetString()!;Invoke(subject,"Open",id);await ToSignal(GetTree(),SceneTree.SignalName.ProcessFrame);await ToSignal(GetTree(),SceneTree.SignalName.ProcessFrame);
+    var panel=root.GetNode<Control>("Camp");var content=panel.GetNode("Scroll/Content");
+    Check(id+"-theme",Eq(panel.Theme.ResourcePath,"res://assets/ui/InspectionTheme.tres"),panel.Theme.ResourcePath);
+    Check(id+"-identity",Eq(panel.GetMeta("resource_id").AsString(),id),panel.GetMeta("resource_id").AsString());
+    Check(id+"-scope",Label(content,"Scope").Contains("world continues",StringComparison.Ordinal),Label(content,"Scope"));
+    Check(id+"-local-scroll",panel.GetNode<ScrollContainer>("Scroll").HorizontalScrollMode==ScrollContainer.ScrollMode.Disabled&&panel.Position==new Vector2(24,112)&&panel.Size.X<=1232&&panel.Size.Y<=584,panel.Size.ToString());
+    Check(id+"-distinct-composition",content.HasNode(Eq(surface,"people")?"PeopleColumns/Roster":Eq(surface,"sale")?"StashLedger":Eq(surface,"site")?"SiteFacts":"Squad")&&content.HasNode(Eq(surface,"people")?"PeopleColumns/Jobs":Eq(surface,"sale")?"Quantity":Eq(surface,"site")?"Work":"Mix"),surface);
+    foreach(var label in Nodes(content).OfType<Label>()){Check(id+"-label-"+label.GetPath(),label.Visible&&label.AutowrapMode==TextServer.AutowrapMode.WordSmart&&label.GetThemeFontSize("font_size")>=16&&label.Text.Length>0,new{text=label.Text,width=label.Size.X,height=label.Size.Y,lines=label.GetLineCount()});}
+    if(Eq(surface,"people"))People(content,state);
+    if(Eq(surface,"sale"))Sale(content,state,icons.RootElement);
+    if(Eq(surface,"site"))Site(content,state);
+    if(Eq(surface,"rally"))Rally(content,state);
+    Check(id+"-owner",root.GetChildCount()==(Eq(id,"sale.quantity")?2:1)&&neighbor.GetChildCount()==1,root.GetChildCount());
+    if(Eq(id,"sale.quantity")){var modal=root.GetNode<Control>("SaleConfirmation");Check("sale-modal-focus",modal.ZIndex>panel.ZIndex&&modal.GetNode<Button>("Confirmation/Confirm").HasFocus()&&modal.MouseFilter==Control.MouseFilterEnum.Stop,modal.ZIndex);}
+   }
+   ConstructorControls();
+   Invoke(subject,"Open","sale.normal");var before=root.GetNode("Camp");var retiredTexture=root.GetNode("Camp/Scroll/Content/StashLedger").GetChildren().OfType<TextureRect>().First().Texture;
+   var stale=Failure(()=>Invoke(subject,"Project",Encoding.UTF8.GetBytes(data.RootElement.GetProperty("samples")[0].GetRawText()),1L));Check("stale-generation",stale is InvalidOperationException&&Eq(stale.Message,"CAMP_NOT_ACTIVE")&&ReferenceEquals(before,root.GetNode("Camp")),stale?.Message??"accepted");
+   var wrongThread=await Task.Run(()=>Failure(()=>Invoke(subject,"Open","people.normal")));Check("wrong-thread",wrongThread is InvalidOperationException&&Eq(wrongThread.Message,"THREAD_ACCESS"),wrongThread?.Message??"accepted");
+   Invoke(subject,"Open","people.normal");Check("replaced-owner-retired",!GodotObject.IsInstanceValid(before)&&!GodotObject.IsInstanceValid(retiredTexture),"actual controls and owned atlas disposed");
+   Invoke(subject,"Close");var closed=Failure(()=>Invoke(subject,"Open","people.normal"));Check("closed-fence",closed is InvalidOperationException&&Eq(closed.Message,"CAMP_NOT_ACTIVE")&&root.GetChildCount()==0,closed?.Message??"accepted");Check("neighbor-preserved",neighbor.GetChildCount()==1&&neighbor.GetNode<Label>("Camp/Scroll/Content/Population").Visible,neighbor.GetChildCount());
+   var detached=new Control();try{var d=New(detached);var error=Failure(()=>Invoke(d,"Open","people.normal"));Check("detached-rejected",error is InvalidOperationException&&Eq(error.Message,"CAMP_NOT_ACTIVE")&&detached.GetChildCount()==0,error?.Message??"accepted");Invoke(d,"Close");}finally{detached.Free();}
+  }finally{Invoke(subject,"Close");Invoke(other,"Close");root.Free();neighbor.Free();}
+ }
+ private void People(Node content,JsonElement state){
+  int capacity=state.GetProperty("completedTier").GetInt32()*4+4;string count=Label(content,"Population");Check(state.GetProperty("id")+"-population",count.Contains(" / "+capacity,StringComparison.Ordinal)&&count.Contains("Total "+state.GetProperty("total")+" /100",StringComparison.Ordinal),count);
+  foreach(var person in state.GetProperty("people").EnumerateArray()){var row=Nodes(content.GetNode("PeopleColumns/Roster")).OfType<Label>().Single(x=>Eq(x.GetMeta("resource_id").AsString(),person.GetProperty("id").GetString()));Check(state.GetProperty("id")+"-person-"+person.GetProperty("id"),row.Text.Contains(person.GetProperty("name").GetString()!,StringComparison.Ordinal)&&row.Text.Contains(person.GetProperty("activity").GetString()!,StringComparison.Ordinal),row.Text);}
+  Check(state.GetProperty("id")+"-prices",content.GetNode("PeopleColumns/Jobs").GetChildren().OfType<Label>().Count(x=>x.HasMeta("resource_id")&&!Eq(x.GetMeta("resource_id").AsString(),""))==5&&Label(content,"Funds").Contains("Buy recruit12",StringComparison.Ordinal),Label(content,"Funds"));
+  if(Eq(state.GetProperty("state").GetString(),"controlled"))Check("controlled-job-disabled",content.GetNode<Button>("PeopleColumns/Jobs/Assign").Disabled&&Label(content,"PeopleColumns/Jobs/AssignReason").Contains("uncontrolled",StringComparison.Ordinal),Label(content,"PeopleColumns/Jobs/AssignReason"));
+ }
+ private void Sale(Node content,JsonElement state,JsonElement icons){
+  int quantity=state.GetProperty("selected").GetInt32(),balance=state.GetProperty("stashMoney").GetInt32();string food=state.GetProperty("food").GetString()!;int unit=Eq(food,"IT-08")?1:Eq(food,"IT-09")?2:4;bool current=state.GetProperty("stockRevision").GetInt32()==state.GetProperty("quotedRevision").GetInt32();
+  Check(state.GetProperty("id")+"-quote",Eq(Label(content,"StashMoney"),"Stash money "+balance+" → "+(current?balance+quantity*unit:balance))&&Label(content,"Quote").Contains("Selected "+quantity+" · Unit "+unit+" · Total "+quantity*unit,StringComparison.Ordinal),Label(content,"StashMoney"));
+  Check(state.GetProperty("id")+"-quantity",content.GetNode<SpinBox>("Quantity").Value==quantity&&!content.GetNode<SpinBox>("Quantity").Editable,quantity);
+  foreach(var stock in state.GetProperty("stock").EnumerateArray()){string id=stock.GetProperty("id").GetString()!;var label=content.GetNode("StashLedger").GetChildren().OfType<Label>().Single(x=>x.HasMeta("resource_id")&&Eq(x.GetMeta("resource_id").AsString(),id));Check(state.GetProperty("id")+"-stock-"+id,Eq(label.Text,"Stash stock "+stock.GetProperty("quantity")),label.Text);var image=content.GetNode("StashLedger").GetChildren().OfType<TextureRect>().Single(x=>Eq(x.GetMeta("resource_id").AsString(),id));var expected=icons.GetProperty("items").EnumerateArray().Single(x=>Eq(x.GetProperty("id").GetString(),id));var rect=expected.GetProperty("atlasRect").EnumerateArray().Select(x=>x.GetInt32()).ToArray();var atlas=(AtlasTexture)image.Texture;Check(state.GetProperty("id")+"-icon-"+id,Eq(atlas.Atlas.ResourcePath,"res://"+expected.GetProperty("texture").GetString())&&atlas.Region==new Rect2(rect[0],rect[1],rect[2],rect[3]),atlas.Region.ToString());}
+  Check(state.GetProperty("id")+"-sale-availability",content.GetNode<Button>("Sell").Disabled==(!current||quantity==0)&&Label(content,"SellReason").Contains(state.GetProperty("reason").GetString()!,StringComparison.Ordinal),Label(content,"SellReason"));
+ }
+ private void Site(Node content,JsonElement state){
+  string id=state.GetProperty("id").GetString()!;Check(id+"-health",Label(content,"SiteFacts/Health").Contains("Health "+state.GetProperty("health")+" / ",StringComparison.Ordinal),Label(content,"SiteFacts/Health"));
+  Check(id+"-progress",content.GetNode<ProgressBar>("Work").Value==state.GetProperty("progress").GetInt32()&&Label(content,"Workers").Contains("Completed work "+state.GetProperty("progress"),StringComparison.Ordinal),content.GetNode<ProgressBar>("Work").Value);
+  Check(id+"-reason",Eq(Label(content,"PurchaseReason"),state.GetProperty("reason").GetString()),Label(content,"PurchaseReason"));
+  if(id.StartsWith("site.repair-",StringComparison.Ordinal))Check(id+"-fixed-fee",Label(content,"SiteFacts/Cash").EndsWith("repair quote 40",StringComparison.Ordinal)&&Label(content,"Policy").Contains("additional damage until full health",StringComparison.Ordinal),Label(content,"SiteFacts/Cash"));
+  if(Eq(id,"site.upgrade"))Check("pending-main-capacity-work",Label(content,"PurchaseReason").Contains("capacity8",StringComparison.Ordinal)&&content.GetNode<ProgressBar>("Work").MaxValue==90&&content.GetNode<ProgressBar>("Work").Value==36&&Label(content,"SiteFacts/Cash").EndsWith("upgrade quote 200",StringComparison.Ordinal),Label(content,"PurchaseReason"));
+  if(Eq(id,"site.ruin"))Check("rebuild-previous-tier",!content.GetNode<Button>("Purchase").Disabled&&Label(content,"SiteFacts/Cash").EndsWith("rebuild quote 80",StringComparison.Ordinal),Label(content,"SiteFacts/Cash"));
+ }
+ private void Rally(Node content,JsonElement state){
+  string id=state.GetProperty("id").GetString()!;Check(id+"-bindings",Eq(Label(content,"Squad/Side"),"Side "+state.GetProperty("side").GetString())&&Eq(Label(content,"Squad/Ready"),"Combat-ready "+state.GetProperty("ready"))&&Label(content,"Mix/Melee").Contains("Melee "+state.GetProperty("melee"),StringComparison.Ordinal),Label(content,"Squad/Ready"));
+  bool active=state.GetProperty("active").GetBoolean(),returning=state.GetProperty("returning").GetBoolean();Check(id+"-recall",content.GetNode<Button>("Recall").Disabled==(!active||returning),Label(content,"Mission"));
+  if(Eq(id,"rally.no-target"))Check("no-target-reason",Eq(Label(content,"LaunchReason"),"No surviving portal on this side.")&&content.GetNode<Button>("Launch").Disabled,Label(content,"LaunchReason"));
+  if(Eq(id,"rally.active"))Check("active-reason",Eq(Label(content,"LaunchReason"),"An assault is already active on this side.")&&content.GetNode<Button>("Launch").Disabled,Label(content,"LaunchReason"));
+ }
+ private void ParserControls(){
+  JsonArray Array(int count)=>new JsonArray(Enumerable.Range(0,count).Select(_=>(JsonNode?)JsonValue.Create(0)).ToArray());
+  void Constructor(string id,int index,Action<JsonNode> mutate,string? expected,bool rebound=true){
+   var inputs=_inputs.Select(x=>(byte[])x.Clone()).ToArray();var data=JsonNode.Parse(inputs[index])!;mutate(data);inputs[index]=Encoding.UTF8.GetBytes(data.ToJsonString());var pack=JsonNode.Parse(_pack)!;if(rebound)pack["bindings"]![index]!["sha256"]=Digest(inputs[index]);var root=new Control();
+   try{object? subject=null;var error=Failure(()=>{if(index==4){using var manifest=JsonDocument.Parse(pack.ToJsonString());subject=_type.GetMethod("ReadMap",BindingFlags.Static|BindingFlags.NonPublic)!.Invoke(null,new object[]{manifest.RootElement,inputs});}else subject=New(root,Encoding.UTF8.GetBytes(pack.ToJsonString()),inputs);});try{Check(id,expected is null?error is null&&subject is not null:error is InvalidDataException&&Eq(error.Message,expected),error?.ToString()??"accepted");Check(id+"-unattached",root.GetChildCount()==0,root.GetChildCount());}finally{if(index!=4&&subject is not null)Invoke(subject,"Close");}}finally{root.Free();}
+  }
+  using(var map=JsonDocument.Parse(_inputs[4]))Check("parser-production-map275",map.RootElement.GetProperty("native").GetProperty("nodes").GetArrayLength()==275,275);
+  Constructor("parser-map512",4,x=>x["native"]!["nodes"]=Array(512),null);
+  Constructor("parser-map513",4,x=>x["native"]!["nodes"]=Array(513),"CAMP_ARRAY_COUNT");
+  Constructor("parser-map-sibling257",4,x=>x["native"]!["other"]=Array(257),"CAMP_ARRAY_COUNT");
+  Constructor("parser-map-nested257",4,x=>x["extra"]=new JsonObject{["native"]=new JsonObject{["nodes"]=Array(257)}},"CAMP_ARRAY_COUNT");
+  Constructor("parser-map-lookalike257",4,x=>x["native.nodes"]=Array(257),"CAMP_ARRAY_COUNT");
+  Constructor("parser-map-child257",4,x=>x["native"]!["nodes"]=new JsonArray(Array(257)),"CAMP_ARRAY_COUNT");
+  Constructor("parser-authored257",0,x=>x["extra"]=Array(257),"CAMP_ARRAY_COUNT");
+  Constructor("parser-authored129rows",0,x=>{var rows=x["samples"]!.AsArray();while(rows.Count<129){var row=rows[0]!.DeepClone();row["id"]="extra-"+rows.Count;rows.Add(row);}},"CAMP_DUPLICATE_ID");
+  Constructor("parser-map-wronghash",4,x=>x["native"]!["nodes"]=Array(512),"CAMP_BINDING_HASH content/world/map.json",false);
+  Constructor("parser-restored-production",4,_=>{},null);
+  var method=_type.GetMethod("Read",BindingFlags.Static|BindingFlags.NonPublic)!;
+  foreach(int size in new[]{256,257}){var error=Failure(()=>method.Invoke(null,new object[]{Encoding.UTF8.GetBytes(Array(size).ToJsonString())}));Check("parser-generic"+size,size==256?error is null:error is InvalidDataException&&Eq(error.Message,"CAMP_ARRAY_COUNT"),error?.ToString()??"accepted");}
+ }
+ private void ConstructorControls(){
+  var mutations=new (string Id,string Code,Action<JsonNode> Mutate)[]{("food-price","CAMP_FOOD_BASELINE",x=>x["definitions"]!["foods"]![0]!["price"]=4),("repair-percent","CAMP_REPAIR_BASELINE",x=>x["definitions"]!["structures"]![4]!["repair"]=1),("negative-stock","CAMP_RANGE quantity",x=>x["samples"]![8]!["stock"]![0]!["quantity"]=-1),("too-many-workers","CAMP_RANGE workers",x=>x["samples"]![12]!["workers"]=4),("pending-tier","CAMP_TIER_DOMAIN",x=>x["samples"]![0]!["pendingTier"]=3),("duplicate-person","CAMP_DUPLICATE_ID",x=>x["samples"]![0]!["people"]![1]!["id"]="npc-elodie"),("bad-job","CAMP_REFERENCE absent",x=>x["samples"]![0]!["people"]![0]!["role"]="absent"),("ready-excess","CAMP_SQUAD",x=>x["samples"]![24]!["ready"]=99)};
+  foreach(var mutation in mutations){var inputs=_inputs.Select(x=>(byte[])x.Clone()).ToArray();var data=JsonNode.Parse(inputs[0])!;mutation.Mutate(data);inputs[0]=Encoding.UTF8.GetBytes(data.ToJsonString());var pack=JsonNode.Parse(_pack)!;pack["bindings"]![0]!["sha256"]=Digest(inputs[0]);var root=new Control();try{var error=Failure(()=>New(root,Encoding.UTF8.GetBytes(pack.ToJsonString()),inputs));Check("constructor-"+mutation.Id,error is InvalidDataException&&Eq(error.Message,mutation.Code)&&root.GetChildCount()==0,error?.Message??"accepted");}finally{root.Free();}}
+  foreach(string mode in new[]{"hash","path"}){var pack=JsonNode.Parse(_pack)!;pack["bindings"]![0]![Eq(mode,"hash")?"sha256":"path"]=Eq(mode,"hash")?new string('0',64):"../camp.json";var root=new Control();try{var error=Failure(()=>New(root,Encoding.UTF8.GetBytes(pack.ToJsonString())));Check("independent-"+mode,error is InvalidDataException&&Eq(error.Message,"CAMP_BINDING_HASH content/ui/camp-panels.json")&&root.GetChildCount()==0,error?.Message??"accepted");}finally{root.Free();}}
+  var restored=new Control();AddChild(restored);try{var positive=New(restored);try{Invoke(positive,"Open","people.normal");Check("restored-positive",restored.GetChildCount()==1&&restored.GetNode("Camp/Scroll/Content/PeopleColumns/Roster").GetChildCount()==3,3);}finally{Invoke(positive,"Close");}}finally{restored.Free();}
+ }
+}
+`;
+async function camp(context){const before=sourceInputs();write(context.directory,'camp-inputs.json',before);const source=validateSource(document(ROOT,PACK),document(ROOT,DATA));const build=await runner.command(context,'camp-strict-build','dotnet',['build',inside(ROOT,'KingdomZombies.slnx'),'--no-restore','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'],{env:isolated()});need(/0 Warning\(s\)[\s\S]*0 Error\(s\)/.test(build.stdout),'CAMP_CLEAN_BUILD');const tests=await compiled(context);const native=await require('./ui-inventory.cjs').native(context,{pack:PACK,paths:PATHS,harness:HARNESS});need(equal(before,sourceInputs()),'CAMP_SOURCE_DRIFT');return {source,compiled:tests,native,scope:'Source/compiled/native headless only; current hub adoption/policy23,producer31 and actual acceptance32/33 pending'};}
+runner.registerCase('layouts.camp',{group:'layouts',title:'Distinct people stash-sale site-work and rally native layouts',importance:'High',rationale:'False money population or paid-work presentation misrepresents essential camp actions',needsGameWindow:false,runGroup:'G0',order:36,requirements:['ASSET-02','ASSET-04'],acceptance:['AC-10','AC-11','AC-19','AC-24'],setup:'Current creator-spec baselines, actual canonical definitions/theme/icons and internal compiled CampLayouts; no gameplay transactions',actions:['Authenticate exact bounded bindings and independent source values','Discover and run all actual compiled CampLayoutTests with zero skips','Project31 saved native states across four genuinely distinct compositions','Observe actual stash stock/proceeds, old completed capacity, fixed low/highHP repair quote and active paid progress','Observe distinct rally target/active/readiness/cash/recall reasons','Reject parent-rebound domain faults before native attachment; separate wrong hash/path and restored positive','Check synchronous thread, stale generation, detached/closed owner, replacement texture disposal and unaffected neighbor'],expected:'All source/compiled/native predicates pass; real input/readability/appearance and gameplay remain separate later evidence',reset:'Fresh authenticated headless process; replace owned tree per sample, revoke acceptance and free exact owned Controls/atlas views; preserve neighbor',evidence:['camp-inputs.json','camp-strict-build.command.json','camp-discovery.command.json','camp-compiled.command.json','inventory-engine.json','inventory-production-assemblies.json','inventory-native-observation.json','result.json']},camp);
+Object.assign(module.exports,{PACK,DATA,PATHS,HARNESS,sourceInputs,isolated,compiled,validateSource,camp});

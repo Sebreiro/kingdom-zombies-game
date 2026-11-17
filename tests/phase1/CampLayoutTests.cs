@@ -1,6 +1,8 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Text;
 using Shouldly;
 using Xunit;
 
@@ -33,6 +35,20 @@ public sealed class CampLayoutTests
                 .ShouldBe(expected: "No surviving portal on this side.");
         Call(name: "RallyReason", arguments: [true, true, 8, 25])
                 .ShouldBe(expected: "An assault is already active on this side.");
+    }
+
+    /// <summary>The generic entry point never inherits the authenticated map dependency allowance.</summary>
+    [Fact]
+    public void Reader_GenericArraysKeep256Limit()
+    {
+        byte[] accepted = Encoding.UTF8.GetBytes(s: "[" + string.Join(separator: ",",
+                values: Enumerable.Repeat(element: "0", count: 256)) + "]");
+        Call(name: "Read", arguments: [accepted]).ShouldNotBeNull();
+        byte[] rejected = Encoding.UTF8.GetBytes(s: "[" + string.Join(separator: ",",
+                values: Enumerable.Repeat(element: "0", count: 257)) + "]");
+        TargetInvocationException error = Should.Throw<TargetInvocationException>(actual: () =>
+                Call(name: "Read", arguments: [rejected]));
+        error.InnerException.ShouldBeOfType<InvalidDataException>().Message.ShouldBe(expected: "CAMP_ARRAY_COUNT");
     }
 
     private static object? Call(string name, object[] arguments)
