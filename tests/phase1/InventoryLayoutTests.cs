@@ -47,6 +47,33 @@ public sealed class InventoryLayoutTests
         Call(name: "ResolveQuick", arguments: [state.RootElement, 2]).ShouldBeNull();
     }
 
+    /// <summary>Current shrink and failed extraction cannot replace original saved bounds or belongings.</summary>
+    [Fact]
+    public void Legacy_PreservesSavedGeometryAfterFailedExtraction()
+    {
+        using var sample = JsonDocument.Parse(json: """
+                {"status":"extraction-failure","saved":{"columns":8,"rows":6,"items":[
+                {"id":"old-knife","savedFootprint":[1,3],"rotated":true,"quantity":9}]},
+                "currentDestination":{"columns":2,"rows":1,"items":[]}}
+                """);
+        var actual = (JsonElement)(Call(name: "SavedLayout", arguments: [sample.RootElement])
+                ?? throw new InvalidOperationException());
+        actual.GetRawText().ShouldBe(expected: sample.RootElement.GetProperty(propertyName: "saved").GetRawText());
+    }
+
+    /// <summary>Target selection preserves independent stable identities even when display names match.</summary>
+    [Fact]
+    public void Targets_PreserveSameNameDistinctIds()
+    {
+        using var sample = JsonDocument.Parse(json: """
+                {"targets":[{"id":"corpse-a","name":"Alex"},{"id":"corpse-b","name":"Alex"}]}
+                """);
+        string[] actual = (string[])(Call(name: "TargetIds", arguments: [sample.RootElement])
+                ?? throw new InvalidOperationException());
+        string[] expected = ["corpse-a", "corpse-b"];
+        actual.ShouldBe(expected: expected);
+    }
+
     private static readonly string[] _expectedSlots = ["headwear", "face", "torso", "legs", "body-armor", "gloves",
         "boots", "backpack", "belt", "left-hand", "right-hand"];
     private static readonly int[] _rotated = [2, 1];

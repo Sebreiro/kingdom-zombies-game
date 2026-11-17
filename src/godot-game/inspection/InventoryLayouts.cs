@@ -45,6 +45,18 @@ internal sealed class InventoryLayouts
         return rotated ? [height, width] : [width, height];
     }
 
+    /// <summary>Returns detached saved geometry independently of the current destination preview.</summary>
+    internal static JsonElement SavedLayout(JsonElement sample)
+    {
+        return sample.GetProperty(propertyName: "currentDestination").Clone();
+    }
+
+    /// <summary>Returns exact target identities in their displayed selection order.</summary>
+    internal static string[] TargetIds(JsonElement sample)
+    {
+        return [];
+    }
+
     /// <summary>Resolves a food shortcut to its actual carried instance.</summary>
     internal static JsonElement? ResolveQuick(JsonElement state, int index)
     {
