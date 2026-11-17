@@ -1,0 +1,716 @@
+{
+  "schemaVersion": 1,
+  "id": "bow",
+  "version": 1,
+  "obligations": [
+    "AN-07",
+    "AN-08"
+  ],
+  "prepareFraction": 0.15,
+  "releaseFraction": 0.5,
+  "releaseSound": "AU-06",
+  "impactSound": "AU-07",
+  "fallback": "usable-melee-then-fists",
+  "recoverable": false,
+  "clock": "explicit-elapsed-only",
+  "structuralAmmunition": "explicit-intrinsic-zero-inventory",
+  "aimRangeRadians": [
+    -1.5707963267948966,
+    1.5707963267948966
+  ],
+  "generation": {
+    "recipe": "Retain normal authored torso/head and independent lower stride. Fit real reusable arms, sleeves and held bow to explicit continuous shoulder-to-hand aim. One generation-bound visual arrow release; no inventory mutation, reload or pickup.",
+    "retainedSources": [
+      "production/phase4/common-selected.zip",
+      "production/phase4/bodies-a.zip",
+      "production/phase4/bodies-b.zip",
+      "production/phase4/bodies-c.zip"
+    ],
+    "scaleDecision": "D-13-pilot-1"
+  },
+  "guard": {
+    "sourcePack": "content/packs/common.json",
+    "sourceSha256": "96a6328ef771e2418358d5bfd9d31ee1f2b34c5c785e6985884887827c0289c5",
+    "sourceClip": "common.clip.783",
+    "sourceSeconds": [
+      0,
+      0.125,
+      0.25,
+      0.375,
+      0.5
+    ],
+    "sourceDuration": 0.625,
+    "builtInBow": true,
+    "loot": false,
+    "frames": [
+      {
+        "id": "common.s0.6762",
+        "atlasRect": [
+          1088,
+          1089,
+          22,
+          23
+        ],
+        "offsetTopLeft": [
+          -12.923879623413086,
+          9
+        ]
+      },
+      {
+        "id": "common.s0.8351",
+        "atlasRect": [
+          1135,
+          1159,
+          20,
+          23
+        ],
+        "offsetTopLeft": [
+          -10.973247528076172,
+          9
+        ]
+      },
+      {
+        "id": "common.s0.9078",
+        "atlasRect": [
+          238,
+          1278,
+          21,
+          23
+        ],
+        "offsetTopLeft": [
+          -11.923881530761719,
+          9
+        ]
+      },
+      {
+        "id": "common.s0.9783",
+        "atlasRect": [
+          1368,
+          1278,
+          21,
+          23
+        ],
+        "offsetTopLeft": [
+          -11.923881530761719,
+          9
+        ]
+      },
+      {
+        "id": "common.s0.10471",
+        "atlasRect": [
+          453,
+          1397,
+          19,
+          23
+        ],
+        "offsetTopLeft": [
+          -10.95709228515625,
+          9
+        ]
+      }
+    ],
+    "composition": {
+      "sourceFrame": "common.s0.8351",
+      "shoulders": {
+        "left": [
+          8,
+          10
+        ],
+        "right": [
+          10,
+          11
+        ]
+      },
+      "armRect": [
+        11,
+        11,
+        4,
+        2
+      ],
+      "bowRect": [
+        14,
+        5,
+        4,
+        13
+      ],
+      "bowGrip": [
+        2,
+        6
+      ],
+      "clearBowRows": [
+        6
+      ],
+      "upperCutouts": [
+        [
+          11,
+          10,
+          9,
+          4
+        ],
+        [
+          14,
+          5,
+          4,
+          13
+        ],
+        [
+          5,
+          9,
+          3,
+          2
+        ]
+      ],
+      "lowerLogicalY": 27,
+      "recipe": "Mechanical crops of inspected K15 archer_shoot_1 pixels: preserve upper core/head/quiver; clear extracted sleeve and bow spans, rotate two copied sleeve strips and actual bow around registered shoulders, independently sample exact registered lower idle/walk/run frames. No new raster, painted replacement, CH alias, item or loot."
+    },
+    "locomotion": [
+      {
+        "id": "common.clip.777",
+        "movement": "idle",
+        "duration": 1.6666665077209473,
+        "frames": [
+          {
+            "id": "common.s0.7733",
+            "seconds": 0,
+            "atlasRect": [
+              47,
+              1159,
+              16,
+              24
+            ],
+            "offsetTopLeft": [
+              -7.923879623413086,
+              8
+            ]
+          },
+          {
+            "id": "common.s0.8794",
+            "seconds": 0.1666666716337204,
+            "atlasRect": [
+              1697,
+              1159,
+              17,
+              23
+            ],
+            "offsetTopLeft": [
+              -7.923881530761719,
+              9
+            ]
+          },
+          {
+            "id": "common.s0.9507",
+            "seconds": 0.3333333432674408,
+            "atlasRect": [
+              803,
+              1278,
+              18,
+              23
+            ],
+            "offsetTopLeft": [
+              -7.987091064453125,
+              9
+            ]
+          },
+          {
+            "id": "common.s0.10199",
+            "seconds": 0.5,
+            "atlasRect": [
+              1943,
+              1278,
+              18,
+              24
+            ],
+            "offsetTopLeft": [
+              -7.923881530761719,
+              8
+            ]
+          },
+          {
+            "id": "common.s0.10854",
+            "seconds": 0.6666666865348816,
+            "atlasRect": [
+              752,
+              1397,
+              18,
+              24
+            ],
+            "offsetTopLeft": [
+              -7.9238739013671875,
+              8
+            ]
+          },
+          {
+            "id": "common.s0.11472",
+            "seconds": 0.8333333730697632,
+            "atlasRect": [
+              1384,
+              1397,
+              18,
+              24
+            ],
+            "offsetTopLeft": [
+              -7.9238739013671875,
+              8
+            ]
+          },
+          {
+            "id": "common.s0.12028",
+            "seconds": 1,
+            "atlasRect": [
+              1955,
+              1397,
+              18,
+              24
+            ],
+            "offsetTopLeft": [
+              -7.9238739013671875,
+              8
+            ]
+          },
+          {
+            "id": "common.s0.12532",
+            "seconds": 1.1666666269302368,
+            "atlasRect": [
+              392,
+              1516,
+              18,
+              24
+            ],
+            "offsetTopLeft": [
+              -7.987091064453125,
+              8
+            ]
+          },
+          {
+            "id": "common.s0.12974",
+            "seconds": 1.3333332538604736,
+            "atlasRect": [
+              826,
+              1516,
+              17,
+              24
+            ],
+            "offsetTopLeft": [
+              -7.92388916015625,
+              8
+            ]
+          },
+          {
+            "id": "common.s0.13344",
+            "seconds": 1.4999998807907104,
+            "atlasRect": [
+              1431,
+              1516,
+              17,
+              24
+            ],
+            "offsetTopLeft": [
+              -8.92388916015625,
+              8
+            ]
+          }
+        ],
+        "stridePeriod": 0.24
+      },
+      {
+        "id": "common.clip.780",
+        "movement": "faster",
+        "duration": 0.75,
+        "frames": [
+          {
+            "id": "common.s0.7930",
+            "seconds": 0,
+            "atlasRect": [
+              406,
+              1159,
+              17,
+              21
+            ],
+            "offsetTopLeft": [
+              -5.923879623413086,
+              11
+            ]
+          },
+          {
+            "id": "common.s0.8889",
+            "seconds": 0.125,
+            "atlasRect": [
+              1793,
+              1159,
+              21,
+              23
+            ],
+            "offsetTopLeft": [
+              -8.98708724975586,
+              8.957092046737671
+            ]
+          },
+          {
+            "id": "common.s0.9602",
+            "seconds": 0.25,
+            "atlasRect": [
+              907,
+              1278,
+              21,
+              25
+            ],
+            "offsetTopLeft": [
+              -7.952293395996094,
+              7
+            ]
+          },
+          {
+            "id": "common.s0.10292",
+            "seconds": 0.375,
+            "atlasRect": [
+              28,
+              1397,
+              21,
+              22
+            ],
+            "offsetTopLeft": [
+              -7.923881530761719,
+              10
+            ]
+          },
+          {
+            "id": "common.s0.10942",
+            "seconds": 0.5,
+            "atlasRect": [
+              859,
+              1397,
+              19,
+              23
+            ],
+            "offsetTopLeft": [
+              -6.9238739013671875,
+              9
+            ]
+          },
+          {
+            "id": "common.s0.11558",
+            "seconds": 0.625,
+            "atlasRect": [
+              1487,
+              1397,
+              16,
+              23
+            ],
+            "offsetTopLeft": [
+              -5.9238739013671875,
+              9
+            ]
+          }
+        ],
+        "stridePeriod": 0.16
+      },
+      {
+        "id": "common.clip.804",
+        "movement": "walk",
+        "duration": 1,
+        "frames": [
+          {
+            "id": "common.s0.7142",
+            "seconds": 0,
+            "atlasRect": [
+              1492,
+              1089,
+              17,
+              24
+            ],
+            "offsetTopLeft": [
+              -7.923879623413086,
+              8
+            ]
+          },
+          {
+            "id": "common.s0.8526",
+            "seconds": 0.1666666716337204,
+            "atlasRect": [
+              1356,
+              1159,
+              18,
+              23
+            ],
+            "offsetTopLeft": [
+              -7.923881530761719,
+              9
+            ]
+          },
+          {
+            "id": "common.s0.9247",
+            "seconds": 0.3333333432674408,
+            "atlasRect": [
+              460,
+              1278,
+              20,
+              24
+            ],
+            "offsetTopLeft": [
+              -7.923881530761719,
+              8
+            ]
+          },
+          {
+            "id": "common.s0.9950",
+            "seconds": 0.5,
+            "atlasRect": [
+              1592,
+              1278,
+              20,
+              24
+            ],
+            "offsetTopLeft": [
+              -8.923881530761719,
+              8
+            ]
+          },
+          {
+            "id": "common.s0.10627",
+            "seconds": 0.6666666865348816,
+            "atlasRect": [
+              554,
+              1397,
+              18,
+              23
+            ],
+            "offsetTopLeft": [
+              -8.923873901367188,
+              9
+            ]
+          },
+          {
+            "id": "common.s0.11255",
+            "seconds": 0.8333333730697632,
+            "atlasRect": [
+              1182,
+              1397,
+              16,
+              24
+            ],
+            "offsetTopLeft": [
+              -7.9732513427734375,
+              8
+            ]
+          }
+        ],
+        "stridePeriod": 0.24
+      }
+    ]
+  },
+  "bindings": [
+    {
+      "path": "src/godot-game/content/config/items.json",
+      "sha256": "fa9bb09bfc3a999dd21349274f5010e5a653a868d4a0d0be73a46caaef226720"
+    },
+    {
+      "path": "src/godot-game/content/config/combat.json",
+      "sha256": "c6610cc69731cd196490c26e381d92b7508f6487b96714bef8c4e96c2a478145"
+    },
+    {
+      "path": "src/godot-game/assets/common/donor-kit.png",
+      "sha256": "bf3b0b91be9b772184f034d8e681e4a8b21210cfa5197aac2c03fc773c4b88d4"
+    }
+  ],
+  "boundaries": {
+    "H12": "last-arrow-empty-replacement-broken-usable",
+    "H14": "independent-empty-bow-opposite-hands",
+    "tierCorpseOwners": [
+      "04-10",
+      "04-11",
+      "04-12",
+      "04-13"
+    ]
+  },
+  "acceptance": {
+    "visual": "pending-04-32/04-33",
+    "gameplayEvents": 0,
+    "completedObligations": []
+  },
+  "bodyComposition": [
+    {
+      "id": "CH-01",
+      "retiredArms": [
+        [
+          19,
+          17,
+          3,
+          9
+        ],
+        [
+          27,
+          17,
+          4,
+          9
+        ]
+      ],
+      "armRect": [
+        27,
+        17,
+        6,
+        3
+      ]
+    },
+    {
+      "id": "CH-02",
+      "retiredArms": [
+        [
+          19,
+          19,
+          4,
+          8
+        ],
+        [
+          28,
+          19,
+          4,
+          7
+        ]
+      ],
+      "armRect": [
+        28,
+        18,
+        5,
+        3
+      ]
+    },
+    {
+      "id": "CH-03",
+      "retiredArms": [
+        [
+          19,
+          17,
+          3,
+          9
+        ],
+        [
+          27,
+          17,
+          4,
+          9
+        ]
+      ],
+      "armRect": [
+        28,
+        18,
+        5,
+        3
+      ]
+    },
+    {
+      "id": "CH-04",
+      "retiredArms": [
+        [
+          27,
+          17,
+          6,
+          15
+        ],
+        [
+          25,
+          22,
+          2,
+          10
+        ]
+      ],
+      "armRect": [
+        30,
+        16,
+        6,
+        3
+      ]
+    },
+    {
+      "id": "CH-05",
+      "retiredArms": [
+        [
+          27,
+          19,
+          5,
+          13
+        ],
+        [
+          25,
+          27,
+          2,
+          5
+        ]
+      ],
+      "armRect": [
+        28,
+        17,
+        5,
+        3
+      ]
+    },
+    {
+      "id": "CH-06",
+      "retiredArms": [
+        [
+          28,
+          19,
+          5,
+          13
+        ],
+        [
+          25,
+          28,
+          3,
+          4
+        ]
+      ],
+      "armRect": [
+        29,
+        17,
+        5,
+        3
+      ]
+    },
+    {
+      "id": "CH-07",
+      "retiredArms": [
+        [
+          27,
+          19,
+          6,
+          13
+        ],
+        [
+          24,
+          28,
+          3,
+          4
+        ]
+      ],
+      "armRect": [
+        28,
+        17,
+        5,
+        3
+      ]
+    },
+    {
+      "id": "CH-08",
+      "retiredArms": [
+        [
+          27,
+          19,
+          6,
+          13
+        ],
+        [
+          24,
+          28,
+          3,
+          4
+        ]
+      ],
+      "armRect": [
+        28,
+        17,
+        6,
+        3
+      ]
+    }
+  ]
+}

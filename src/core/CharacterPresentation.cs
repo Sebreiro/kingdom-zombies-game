@@ -10,6 +10,18 @@ namespace KingdomZombies.Core;
 /// <summary>Composes detached authored presentation tracks using only caller-supplied elapsed seconds.</summary>
 public sealed class CharacterPresentation
 {
+    /// <summary>Loads the required bounded bow definition without changing legacy melee consumers.</summary>
+    public CharacterPresentation(byte[] animation, byte[] items, byte[] combat, byte[] bow)
+            : this(animation: animation, items: items, combat: combat)
+    {
+        _bow = Parse(bytes: bow, id: "bow");
+        JsonElement itemData = Parse(bytes: items, id: "DT-04");
+        _maximumArrows = itemData.GetProperty(propertyName: "definitions").EnumerateArray().Single(
+                predicate: value => Text(row: value, name: "id") is "IT-02")
+                .GetProperty(propertyName: "maxStack").GetInt32();
+        ValidateBow();
+    }
+
     /// <summary>Validates and detaches bounded animation, item and accepted combat configuration bytes.</summary>
     public CharacterPresentation(byte[] animation, byte[] items, byte[] combat)
     {
@@ -84,10 +96,11 @@ public sealed class CharacterPresentation
                 actionSeconds = _actionTime,
                 intervalSeconds = Interval(),
                 lowerPose = Text(row: lower, name: "pose"),
-                upperPose = _action is "melee" ? Text(row: upper, name: "pose") : Text(row: lower, name: "pose"),
+                upperPose = MeleeActive() ? Text(row: upper, name: "pose")
+                        : _action is "bow" ? "idle" : Text(row: lower, name: "pose"),
                 stage = Text(row: lower, name: "stage"),
                 lowerOffset = lower.GetProperty(propertyName: "offset"),
-                upperOffset = _action is "melee" ? upper.GetProperty(propertyName: "offset")
+                upperOffset = MeleeActive() ? upper.GetProperty(propertyName: "offset")
                         : JsonSerializer.SerializeToElement(value: _zeroOffset),
                 leftAngle = Angle(item: _left, sample: upper),
                 rightAngle = Angle(item: _right, sample: upper),
@@ -98,10 +111,25 @@ public sealed class CharacterPresentation
                 contactVisible = _contact > 0,
                 releaseSound = Text(row: _attacks[AttackKey()], name: "releaseSound"),
                 impactSound = Text(row: _attacks[AttackKey()], name: "impactSound"),
+                bowHand = BowHand(),
+                aimRadians = _aim,
+                nocked = BowReady() && !_released,
+                released = _released,
+                bowStage = BowStage(),
+                leftArrows = _leftArrows,
+                rightArrows = _rightArrows,
+                spentVisualArrows = _spent,
+                stackIdentity = _stack,
+                intrinsicAmmunition = _intrinsicAmmunition,
+                fallback = _action is "bow" && !BowReady() && !_released ? "melee-or-fists" : "none",
+                pickupCreated = false,
                 gameplayEvents = 0,
                 nextSampleSeconds = Math.Min(val1: Remaining(clip: _movement, time: _stride),
-                        val2: _action is "melee" ? Remaining(clip: "melee", time: _actionTime / Interval())
-                                * Interval() : 60),
+                        val2: _action is "bow" ? Math.Max(val1: 0.0000001,
+                                val2: Interval() * (_released ? 1 : _bow.GetProperty(
+                                        propertyName: "releaseFraction").GetDouble()) - _actionTime)
+                                : _action is "melee" ? Remaining(clip: "melee", time: _actionTime / Interval())
+                                        * Interval() : 60),
             });
         }
     }
@@ -112,7 +140,8 @@ public sealed class CharacterPresentation
         if (!_definition.GetProperty(propertyName: "bodies").EnumerateArray().Any(predicate: value =>
                 StringComparer.Ordinal.Equals(x: value.GetString(), y: body))
                 || movement is not ("idle" or "walk" or "faster" or "jump")
-                || action is not ("none" or "melee") || facing is not (-1 or 1)
+                || action is not ("none" or "melee" or "bow") || facing is not (-1 or 1)
+                || action is "bow" && _bow.ValueKind is not JsonValueKind.Object
                 || movement is "jump" && body is not "CH-01" || !Hand(item: leftItem) || !Hand(item: rightItem))
         {
             throw new InvalidDataException(message: "ANIMATION_SELECTION");
@@ -135,6 +164,9 @@ public sealed class CharacterPresentation
             _actionTime = 0;
             _contact = 0;
             _contactAccepted = false;
+            _spent = 0;
+            _released = false;
+            _intrinsicAmmunition = false;
         }
 
         _body = body;
@@ -143,6 +175,63 @@ public sealed class CharacterPresentation
         _left = leftItem;
         _right = rightItem;
         _facing = facing;
+    }
+
+    /// <summary>Reconciles actual stacks immediately; aiming preserves both track phases.</summary>
+    public void ConfigureBow(double aimRadians, int leftArrows, int rightArrows, bool leftUsable, bool rightUsable,
+            string stackIdentity)
+    {
+        ConfigureBow(aimRadians: aimRadians, leftArrows: leftArrows, rightArrows: rightArrows,
+                leftUsable: leftUsable, rightUsable: rightUsable, stackIdentity: stackIdentity,
+                intrinsicAmmunition: false);
+    }
+
+    /// <summary>Explicit structural ammunition has no inventory stack and retains one release per generation.</summary>
+    public void ConfigureBow(double aimRadians, int leftArrows, int rightArrows, bool leftUsable, bool rightUsable,
+            string stackIdentity, bool intrinsicAmmunition)
+    {
+        if (_bow.ValueKind is not JsonValueKind.Object || !double.IsFinite(d: aimRadians)
+                || Math.Abs(value: aimRadians) > Math.PI / 2 || leftArrows < 0 || leftArrows > _maximumArrows
+                || rightArrows < 0 || rightArrows > _maximumArrows || stackIdentity is null
+                || stackIdentity.Length is 0 or > 128
+                || !stackIdentity.IsNormalized() || stackIdentity.Any(predicate: char.IsControl)
+                || intrinsicAmmunition && (_action is not "bow" || leftArrows != 0 || rightArrows != 0
+                        || !(_left is "IT-07" && _right is "Empty" || _right is "IT-07" && _left is "Empty")))
+        {
+            throw new InvalidDataException(message: "BOW_SELECTION");
+        }
+
+        if (_leftArrows != leftArrows || _rightArrows != rightArrows || _leftUsable != leftUsable
+                || _rightUsable != rightUsable || !StringComparer.Ordinal.Equals(x: _stack, y: stackIdentity)
+                || _intrinsicAmmunition != intrinsicAmmunition)
+        {
+            _generation = checked(_generation + 1);
+            _actionTime = 0;
+            _spent = 0;
+            _released = false;
+        }
+
+        _aim = aimRadians;
+        _leftArrows = leftArrows;
+        _rightArrows = rightArrows;
+        _leftUsable = leftUsable;
+        _rightUsable = rightUsable;
+        _stack = stackIdentity;
+        _intrinsicAmmunition = intrinsicAmmunition;
+    }
+
+    /// <summary>Releases one visual arrow in the current generation without creating gameplay events.</summary>
+    public bool TryRelease(long generation)
+    {
+        if (generation != _generation || !BowReady() || _released
+                || _actionTime < Interval() * _bow.GetProperty(propertyName: "releaseFraction").GetDouble())
+        {
+            return false;
+        }
+
+        _released = true;
+        _spent = checked(_spent + 1);
+        return true;
     }
 
     /// <summary>Advances independent layers without movement, damage or hidden clocks.</summary>
@@ -159,16 +248,18 @@ public sealed class CharacterPresentation
         _flinch = Math.Max(val1: 0, val2: _flinch - elapsedSeconds);
         _transition = Math.Max(val1: 0, val2: _transition - elapsedSeconds);
         _contact = Math.Max(val1: 0, val2: _contact - elapsedSeconds);
-        if (_action is "melee")
+        if (_action is "melee" or "bow")
         {
+            double interval = Interval();
             double next = _actionTime + elapsedSeconds;
-            if (next >= Interval())
+            if (next >= interval)
             {
-                _generation = checked(_generation + (long)Math.Floor(d: next / Interval()));
+                _generation = checked(_generation + (long)Math.Floor(d: next / interval));
                 _contactAccepted = false;
+                _released = false;
             }
 
-            _actionTime = next % Interval();
+            _actionTime = next % interval;
         }
     }
 
@@ -209,6 +300,17 @@ public sealed class CharacterPresentation
     private double _transition;
     private double _contact;
     private bool _contactAccepted;
+    private JsonElement _bow;
+    private double _aim;
+    private int _leftArrows;
+    private int _rightArrows;
+    private int _spent;
+    private bool _leftUsable = true;
+    private bool _rightUsable = true;
+    private bool _released;
+    private bool _intrinsicAmmunition;
+    private string _stack = "initial";
+    private readonly int _maximumArrows;
 
     private double ContactFraction => Timing(name: "contactFraction");
 
@@ -356,6 +458,11 @@ public sealed class CharacterPresentation
 
     private string AttackKey()
     {
+        if (_action is "bow" && (BowReady() || _released))
+        {
+            return "IT-07";
+        }
+
         return _intervals.TryGetValue(key: _left, value: out double left) && left == Interval() ? _left
                 : _intervals.TryGetValue(key: _right, value: out double right) && right == Interval()
                         ? _right : "Empty";
@@ -369,17 +476,84 @@ public sealed class CharacterPresentation
 
     private double Interval()
     {
-        double left = _left is "IT-03" or "IT-04" or "IT-05" or "IT-06" ? _intervals[_left] : 0;
-        double right = _right is "IT-03" or "IT-04" or "IT-05" or "IT-06" ? _intervals[_right] : 0;
+        if (_action is "bow" && (BowReady() || _released))
+        {
+            return _intervals["IT-07"];
+        }
+
+        double left = (_action is not "bow" || _leftUsable)
+                && _left is "IT-03" or "IT-04" or "IT-05" or "IT-06" ? _intervals[_left] : 0;
+        double right = (_action is not "bow" || _rightUsable)
+                && _right is "IT-03" or "IT-04" or "IT-05" or "IT-06" ? _intervals[_right] : 0;
         return left + right > 0 ? Math.Max(val1: left, val2: right) : _intervals["Empty"];
     }
 
     private double Angle(string item, JsonElement sample)
     {
+        if (_action is "bow" && (BowReady() || _released))
+        {
+            return _aim;
+        }
+
         string profile = item is "IT-03" ? "knife" : item is "IT-04" ? "club"
                 : item is "IT-05" ? "machete" : item is "IT-06" ? "bat" : "fists";
-        return _action is "melee" ? sample.GetProperty(propertyName: "angles").GetProperty(propertyName: profile)
+        return MeleeActive() ? sample.GetProperty(propertyName: "angles").GetProperty(propertyName: profile)
                 .GetDouble() : 0;
+    }
+
+    private bool MeleeActive()
+    {
+        return _action is "melee" || _action is "bow" && !BowReady() && !_released;
+    }
+
+    private string BowHand()
+    {
+        return _left is "IT-07" ? "left" : _right is "IT-07" ? "right" : "none";
+    }
+
+    private bool BowReady()
+    {
+        return _action is "bow" && (_intrinsicAmmunition || _left is "IT-07" && _leftUsable && _right is "IT-02"
+                && _rightArrows > _spent || _right is "IT-07" && _rightUsable && _left is "IT-02"
+                        && _leftArrows > _spent);
+    }
+
+    private string BowStage()
+    {
+        if (_action is not "bow" || !BowReady() && !_released)
+        {
+            return "inactive";
+        }
+
+        double fraction = _actionTime / _intervals["IT-07"];
+        return _released ? "recovery" : fraction < _bow.GetProperty(propertyName: "prepareFraction").GetDouble()
+                ? "prepare" : "aim";
+    }
+
+    private void ValidateBow()
+    {
+        double prepare = _bow.GetProperty(propertyName: "prepareFraction").GetDouble();
+        double release = _bow.GetProperty(propertyName: "releaseFraction").GetDouble();
+        if (_bow.GetProperty(propertyName: "schemaVersion").GetInt32() != 1
+                || prepare is <= 0 or > 0.25 || release <= prepare || release >= 0.8
+                || Text(row: _bow, name: "releaseSound") is not "AU-06"
+                || Text(row: _bow, name: "impactSound") is not "AU-07"
+                || Text(row: _bow, name: "fallback") is not "usable-melee-then-fists"
+                || _bow.GetProperty(propertyName: "recoverable").GetBoolean()
+                || !_attacks.TryGetValue(key: "IT-07", value: out JsonElement attack) || _intervals["IT-07"] <= 0
+                || _maximumArrows is < 1 or > 1000000
+                || Text(row: _bow, name: "clock") is not "explicit-elapsed-only"
+                || Text(row: _bow, name: "structuralAmmunition") is not "explicit-intrinsic-zero-inventory"
+                || _bow.GetProperty(propertyName: "aimRangeRadians").GetArrayLength() != 2
+                || _bow.GetProperty(propertyName: "aimRangeRadians")[0].GetDouble() != -Math.PI / 2
+                || _bow.GetProperty(propertyName: "aimRangeRadians")[1].GetDouble() != Math.PI / 2
+                || !StringComparer.Ordinal.Equals(x: Text(row: attack, name: "releaseSound"),
+                        y: Text(row: _bow, name: "releaseSound"))
+                || !StringComparer.Ordinal.Equals(x: Text(row: attack, name: "impactSound"),
+                        y: Text(row: _bow, name: "impactSound")))
+        {
+            throw new InvalidDataException(message: "BOW_DEFINITION");
+        }
     }
 
     private double Length(string clip)
