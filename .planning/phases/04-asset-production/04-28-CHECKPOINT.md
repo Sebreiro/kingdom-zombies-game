@@ -1,5 +1,46 @@
 # 04-28 Task1 authored native harness checkpoint
 
+## Latest checkpoint — R2 semantic row lookup resolved; imported transparent RGB differs
+
+Recorded2026-11-17 on `ab72e50010d903af77ed3c5dfca20bd4c6817cfd` plus the exact seven WIP files below. Both tasks remain incomplete0/2. Original Task1 corrections3/3 remain exhausted; R1 used1/2 and resolved its ordinal comparisons; R2 used2/2 and resolved semantic direct-row lookup. A newly exposed pixel defect stops execution under the explicit R2 boundary. No Task1 source commit, committed tracer, Task2 expansion or SUMMARY exists.
+
+Before R2 editing, all seven live files and R1 backups matched the recorded hashes. Only `IDENTITY_HARNESS` in `tools/phase4/cases/ui-kit.cjs` changed. `Row` resolves exactly one direct Control child in the named section by ordinal `resource_id` metadata. Missing and duplicate IDs throw explicit fixture exceptions. Label, binding keycap, player shape, canonical item texture and neighbor accesses use that row; no display-label, sanitized-name, descendant, substring or fallback lookup exists. Four added native controls prove exact ID, ordinal case rejection, duplicate rejection and restored positive identity. All original Check IDs, expectations and predicates remain, including all24 full-RGBA assertions and R1 ordinal edits. The other six implementation files are byte-identical.
+
+R2 attempt1 invocation `1be6e297-a6df-4834-8120-dca229486ef8` passed source replay and strict production0warnings/0errors(11.80s), then failed its newly authored helper at harnessline22 with CS1674: `Godot.Collections.Array<Node>` cannot be used in a `using` statement. Harness0warnings/1error(2.97s); native was not launched. Attempt2 replaced only that enumeration with `GetChildCount`/`GetChild(index)`, consistent with pinned GodotSharp4.7.2 XMLline5316. It creates no owned child-array temporary and never disposes borrowed rows/textures. Existing `GetImage` copies retain their `using` scopes.
+
+### Actual second-attempt result
+
+- Canonical `node tools/phase4/check.cjs --case layouts.identity` invocation `c3eab850-4b70-4bdf-8156-fa7dd318e0cf` is FAIL, started07:06:39.034Z and finished07:06:51.228Z(12.194s). Production strict0warnings/0errors(1.29s), harness strict0warnings/0errors(3.20s).
+- Source replay passes27 ZIP members, original master/expanded prompt, exact atlas pixels, seven ICO frames and distinct same-named sources. No source/media regeneration occurred.
+- Authenticated official non-console native childPID23056, nonce and production closure match; actual DLL SHA256 `524fce3d172321f3868defbdfb3e5759e1bfe844f3dc6eaa49913d7fd8b910c8`. Native exit1, stderr empty, completion marker FAIL.
+- All117 outcomes were reached:93pass/24fail. All original113 outcomes remain, plus four new fixture boundary controls. The four new controls pass. Title/theme/cursor geometry, four counts, four default bindings,18 statuses, four players with shape/color/number/name/state,24 exact atlas/path regions,24 numeric/null condition rows and every duplicate-property/thread/replacement/close/neighbor/detached check pass.
+- Exactly `canonical-pixels-IT-01` through `canonical-pixels-IT-24` fail. ExampleIT-01 expected `5e214d68b3f4798bc2d8f5a2a28b478b60356711d838863436f63d5bf24bf3f5`, native `8312c58969e7da5fa42a84d0f1c0990684d03a9d31c20856675f734e068f9248`. These remain assertion failures; the case/task has no pass credit.
+- Sandbox Git spawningEPERM preceded equivalent escalated execution and supplies no assertion credit. Historical R1/native/production failures remain immutable.
+
+### Concrete read-only pixel diagnosis
+
+Offline decoding compared each original production PNG crop, its expected manifest RGBA hash, and this exact run's actual imported `.ctex` embedded lossless WebP crop(offset56). For all24 items, expected equals original PNG crop and native observed equals actual imported CTEX crop. Every changed pixel has alpha0 in both images; no changed pixel has positive alpha in either. The saved native `.png.import` files have `process/fix_alpha_border=true`. Thus the fixture compares original source full-RGBA bytes against an importer-processed texture copy whose transparent RGB differs. Region, source path, visible RGB and alpha agree in the observed artifact comparison; no rendering or visual acceptance is inferred. No PNG/JSON/projector/scene/import file was edited, no new native run was launched for this diagnosis and no asserted hash was replaced.
+
+Exact24-row diagnostic: `.phase4/checkpoints/04-28-harness-row/r2-attempt-2/pixel-diagnosis.json`. It records expected/raw/imported/native hashes, crop dimensions and changed/changed-opaque pixel counts. Both attempt manifests, all seven numbered backups, exact before/after boundary maps and emitted harnesses remain under `.phase4/checkpoints/04-28-harness-row/r2-attempt-{1,2}/`. The second emitted harness matches the retained harness exactly; all seven live/backup hashes match after native execution. Canonical run logs and native results remain in their original invocation directories; `identity-native-observation.json` is intentionally absent because the failing child exit prevented that success-only publication.
+
+### Exact latest WIP
+
+| Path | Bytes | SHA256 |
+| --- | ---: | --- |
+| src/godot-game/assets/ui/identity-symbols.png |2616| d6d263f08544eaa2d53e9e3e93caa5ec1d96b1a297cc8b87c195e897c9d2bc48 |
+| src/godot-game/assets/ui/kingdom-zombies.ico |13342| 5ca0170350b621993b7ed6c8d2e501360e677371b3f04df798092e2003b01c21 |
+| src/godot-game/content/packs/ui-identity.json |27971| 324f6c05f57112cbdb87a58f1c5975fcdfd7ba4d7cc1d6ea9c55e4280b9202ed |
+| production/phase4/ui-identity.zip |558233| 718f34b2f8a3b2803b94a9bf6590faa768fb18e3a0b515d43edb5dcd0d92d315 |
+| tools/phase4/cases/ui-kit.cjs |80506| 1a1c86f93dbdbb6bcf35958afef90f1f70f4d87774183b93b0540e3a64e660ba |
+| src/godot-game/inspection/IdentityKit.cs |19385| 03d3e01a3eedb4251b74f413e639f5cd9d0540c9c097400aae1b1aa7c83898a2 |
+| src/godot-game/inspection/IdentityKit.tscn |5093| 9d73d6e1caffe0552cf80492ab55bbd39b7358270725d03975af0e059a392201 |
+
+### Prospective next boundary — not authorized by R2
+
+The smallest next decision is a separately bounded proof-only treatment of source-RGBA versus imported-texture semantics inside `IDENTITY_HARNESS`, preserving exact original raw source hashes, canonical24 identities/regions/paths, all alpha values and all visible RGB. Any proposal must independently reject altered opaque RGB, altered alpha and wrong canonical source/region, retain existing original coverage with explicit mapping and demonstrate restored positives using the actual production adapter. Do not merely replace expected hashes with observed imports, suppress24 assertions, introduce tolerance or change global/production importer/media policy. A source-image decoding proof plus an independently checked imported-texture contract is a candidate requiring its own precise coordinator amendment; no repair or predicted pass is claimed here.
+
+After any separately approved pixel repair, require fresh clean canonicalidentity and real exit0, then bounded Task1 commits and a fresh same-case committed-byte tracer before Task2. Task2's original budget and four-path scope remain unconsumed; its independent remap/identity/condition/icon mutations and fresh affected/full selection remain required. Current16/37 progress, inventory236, full-hub23, icon application31, WINDOWS29/30/31, allASSET and final32/33 appearance/listening/physical-input obligations are unchanged. Foreign global/spec/Phase06/Phase12 WIP stays untouched and unstaged; parent owns progress and PR5.
+
 ## Latest checkpoint — R1 ordinal repair resolved; native ID/path defect
 
 Recorded2026-11-17 after canonical invocation `3d42282e-90fb-4bd4-aabc-d7addda792e3` on `c2e249d65f30870d93b3488cada383c85bfdb99b` plus the seven exact WIP files. Both tasks remain incomplete0/2; no task commit, committed tracer or Task2 expansion occurred. Original Task1 corrections remain3/3 exhausted. Prospective ordinal R1 used1/2 and resolved its14 compiler diagnostics; its unused attempt does not authorize fixing the distinct native defect.
