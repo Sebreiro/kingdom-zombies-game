@@ -8,6 +8,7 @@ using System.Security.Cryptography;
 using System.Text.Json;
 using System.Threading;
 using Godot;
+using KingdomZombies.Core;
 using KingdomZombies.Proofs;
 
 namespace KingdomZombies.Inspection;
@@ -44,6 +45,99 @@ internal sealed class WorldPreview
     internal int EventCount => _events;
 
     internal int TransientCount => _transients.Count;
+
+    internal string ActiveId => _activeId;
+
+    internal string InspectorStatus => _inspectorStatus;
+
+    internal long SelectionEpoch => _selectionEpoch;
+
+    internal static string[] InspectorIds(string category)
+    {
+        return category switch
+        {
+            "Items" => [.. Enumerable.Range(start: 1, count: 24).Select(selector: number => "IT-"
+                    + number.ToString(format: "00", provider: CultureInfo.InvariantCulture))],
+            "Buildings/world" => [.. Enumerable.Range(start: 1, count: 9).Select(selector: number => "BL-"
+                    + number.ToString(format: "00", provider: CultureInfo.InvariantCulture)),
+                "world.assembled", "world.portals", "world.effects", "world.wildlife"],
+            _ => [],
+        };
+    }
+
+    internal static bool InspectorHandles(string id)
+    {
+        return InspectorIds(category: "Items").Concat(second: InspectorIds(category: "Buildings/world"))
+                .Contains(value: id, comparer: StringComparer.Ordinal);
+    }
+
+    internal static string InspectorResourcePath(string path)
+    {
+        if (path is "inspection/ItemsWeaponsPreview.tscn" or "inspection/ItemsWearablesPreview.tscn")
+        {
+            return path;
+        }
+
+        Require(valid: !path.EndsWith(value: ".tscn", comparisonType: StringComparison.OrdinalIgnoreCase),
+                code: "WORLD_INSPECTOR_SCENE_PATH " + path);
+        return ContentPack.ResourcePath(path: "src/godot-game/" + path);
+    }
+
+    internal static WorldPreview OpenInspector(Node2D root, MainThreadGateway gateway,
+            Func<string, byte[]?> read, string id, Dictionary<string, string> choices)
+    {
+        gateway.RequireThread();
+        var result = new WorldPreview(root: root, gateway: gateway, read: read, choices: choices);
+        result.AttachInspector();
+        result.SelectInspector(id: id);
+        return result;
+    }
+
+    internal void SelectInspector(string id)
+    {
+        _gateway.RequireThread();
+        Require(valid: _inspector && !_closed && InspectorHandles(id: id), code: "WORLD_INSPECTOR_ID");
+        RetireInspector();
+        _selectionEpoch++;
+        _activeId = id;
+        _inspectorStatus = "Loading";
+        ShowInspector();
+        try
+        {
+            ProjectInspector();
+            _inspectorStatus = "Populated — authored view; pack adoption and acceptance pending";
+        }
+        catch (Exception error) when (error is InvalidDataException or JsonException or FormatException)
+        {
+            RetireInspector();
+            _inspectorStatus = "Error — " + id + " — " + error.Message + "; choose another resource or Recheck";
+        }
+
+        ShowInspector();
+    }
+
+    internal void ResetInspector()
+    {
+        _gateway.RequireThread();
+        Require(valid: _inspector && !_closed, code: "WORLD_INSPECTOR_CLOSED");
+        _restoringInspector = true;
+        SelectInspector(id: _activeId);
+        _restoringInspector = false;
+    }
+
+    internal void TransformInspector(float pan, float zoom)
+    {
+        _gateway.RequireThread();
+        Require(valid: !_closed && float.IsFinite(f: pan) && pan is >= -2560 and <= 2560
+                && zoom is 1 or 2 or 4 or 8, code: "WORLD_VIEW_TRANSFORM");
+        _pan = pan;
+        _zoom = zoom;
+        _choices[_activeId + ".pan"] = pan.ToString(provider: CultureInfo.InvariantCulture);
+        _choices[_activeId + ".zoom"] = zoom.ToString(provider: CultureInfo.InvariantCulture);
+        _root.GetNode<HSlider>(path: InspectorBody + "Choices/Pan").SetValueNoSignal(value: pan);
+        _root.GetNode<OptionButton>(path: InspectorBody + "Choices/Zoom").Select(idx: (int)Math.Log2(x: zoom));
+        TransformInspectorArt();
+    }
 
     internal static WorldPreview Open(Node2D root, MainThreadGateway gateway, Func<string, byte[]?> read)
     {
@@ -158,17 +252,41 @@ internal sealed class WorldPreview
         _gateway.RequireThread();
         if (!_closed)
         {
+            if (_inspector)
+            {
+                RetireInspector();
+                _selectionEpoch++;
+                _closed = true;
+                return;
+            }
+
             _closed = true;
             Cancel();
             Retire();
         }
     }
 
+    private const string InspectorBody = "InspectorScroll/Body/";
     private const string PortalShader = "shader_type canvas_item;\nuniform float preview_time = 0.0;\n"
             + "uniform vec4 tint : source_color = vec4(0.27,0.17,0.35,1.0);\n"
             + "void fragment(){ vec2 p=(UV-vec2(0.5))*vec2(2.0,1.4); float d=length(p); "
             + "float bands=step(0.52,fract(d*5.0-preview_time*0.35)); float a=step(d,0.75)*step(0.18,d); "
             + "COLOR=vec4(tint.rgb*(0.65+0.35*bands),a*tint.a); }\n";
+
+    private readonly Func<string, byte[]?> _read = _ => null;
+    private readonly Dictionary<string, string> _choices = new(comparer: StringComparer.Ordinal);
+    private JsonElement _fixture;
+    private readonly bool _inspector;
+    private WorldPreview? _worldView;
+    private BuildingPreview? _building;
+    private Control? _item;
+    private string _activeId = "";
+    private string _inspectorStatus = "Empty — choose a resource";
+    private string[] _inspectorStates = [];
+    private long _selectionEpoch;
+    private float _pan;
+    private float _zoom = 1;
+    private int _viewLight = -1;
 
     private readonly Node2D _root;
     private readonly MainThreadGateway _gateway;
@@ -184,6 +302,7 @@ internal sealed class WorldPreview
     private Texture2D? _effectAtlas;
     private bool _closed;
     private bool _attached;
+    private bool _restoringInspector;
     private double _time;
     private long _epoch;
     private int _events;
@@ -193,6 +312,404 @@ internal sealed class WorldPreview
     private static readonly string[] _bindingFiles = ["content/packs/common.json", "content/packs/world.json",
         "content/world/map.json", "content/packs/effects-portals.json", "assets/world/environment.png",
         "assets/effects/effects.png"];
+
+    private WorldPreview(Node2D root, MainThreadGateway gateway, Func<string, byte[]?> read,
+            Dictionary<string, string> choices)
+    {
+        _root = root;
+        _gateway = gateway;
+        _read = read;
+        _choices = choices;
+        _gateway.RequireThread();
+        _inspector = true;
+    }
+
+    private void TransformInspectorArt()
+    {
+        _gateway.RequireThread();
+        if (_item is not null)
+        {
+            AnimationPlayer player = _item.GetNode<AnimationPlayer>(path: "ZoomPlayer");
+            player.Play(name: "zoom" + _zoom.ToString(provider: CultureInfo.InvariantCulture));
+            player.Seek(seconds: 0, update: true);
+            player.Pause();
+            InspectorArt().Position = new Vector2(x: -_pan * _zoom, y: 0);
+        }
+        else if (_building is not null)
+        {
+            OptionButton control = _root.GetNode<OptionButton>(path: InspectorBody + "Art/Content/Controls/Zoom");
+            control.Select(idx: (int)Math.Log2(x: _zoom));
+            control.EmitSignal(signal: OptionButton.SignalName.ItemSelected, (long)control.Selected);
+            InspectorArt().Position = new Vector2(x: (50 - _pan) * _zoom, y: 20 * _zoom);
+        }
+        else if (_worldView is not null)
+        {
+            Node2D content = InspectorArt();
+            content.Position = new Vector2(x: 280 - _pan * _zoom, y: 280);
+            content.Scale = new Vector2(x: _zoom, y: _zoom);
+        }
+    }
+
+    private void AttachInspector()
+    {
+        _gateway.RequireThread();
+        var scroll = new ScrollContainer { Name = "InspectorScroll", FollowFocus = true,
+            Position = new Vector2(x: 0, y: 0), Size = new Vector2(x: 720, y: 360) };
+        _root.AddChild(node: scroll);
+        var body = new VBoxContainer { Name = "Body", CustomMinimumSize = new Vector2(x: 680, y: 0) };
+        scroll.AddChild(node: body);
+        var identity = new TextEdit { Name = "Identity", Editable = false,
+            WrapMode = TextEdit.LineWrappingMode.Boundary,
+            CustomMinimumSize = new Vector2(x: 640, y: 96) };
+        body.AddChild(node: identity);
+        var choices = new HFlowContainer { Name = "Choices" };
+        body.AddChild(node: choices);
+        AddInspectorChoice(parent: choices, name: "CurrentState", values: []);
+        AddInspectorChoice(parent: choices, name: "Portal", values: ["All portals", "left.portal.1", "left.portal.2",
+            "left.portal.3", "right.portal.1", "right.portal.2", "right.portal.3"]);
+        AddInspectorChoice(parent: choices, name: "Light", values: ["Day", "Night", "Firelight"]);
+        AddInspectorChoice(parent: choices, name: "Zoom", values: ["1x", "2x", "4x", "8x"]);
+        var pan = new HSlider { Name = "Pan", MinValue = -2560, MaxValue = 2560, Step = 8,
+            CustomMinimumSize = new Vector2(x: 320, y: 48) };
+        choices.AddChild(node: pan);
+        pan.ValueChanged += PanInspector;
+        var reset = new Button { Name = "Reset", Text = "Reset current preview",
+            CustomMinimumSize = new Vector2(x: 0, y: 48) };
+        choices.AddChild(node: reset);
+        reset.Pressed += ResetInspector;
+        var step = new Button { Name = "Step", Text = "Advance 0.125s", CustomMinimumSize = new Vector2(x: 0, y: 48) };
+        choices.AddChild(node: step);
+        step.Pressed += StepInspector;
+        var art = new ScrollContainer { Name = "Art", FollowFocus = true,
+            CustomMinimumSize = new Vector2(x: 680, y: 420) };
+        body.AddChild(node: art);
+    }
+
+    private void AddInspectorChoice(Node parent, string name, IEnumerable<string> values)
+    {
+        _gateway.RequireThread();
+        var choice = new OptionButton { Name = name, CustomMinimumSize = new Vector2(x: 120, y: 48),
+            TooltipText = name };
+        parent.AddChild(node: choice);
+        foreach (string value in values)
+        {
+            choice.AddItem(label: value);
+        }
+
+        choice.ItemSelected += name switch
+        {
+            "CurrentState" => StateInspector,
+            "Portal" => PortalInspector,
+            "Light" => LightInspector,
+            _ => ZoomInspector,
+        };
+    }
+
+    private byte[] InspectorBytes(string file)
+    {
+        JsonElement binding = Find(rows: _fixture.GetProperty(propertyName: "bindings"), key: "file", value: file);
+        byte[] value = _read(arg: file) ?? throw new InvalidDataException(message: "WORLD_INSPECTOR_MISSING " + file);
+        Require(valid: value.Length is > 0 and <= 4194304 && Same(left: Convert.ToHexStringLower(
+                inArray: SHA256.HashData(source: value)), right: Text(row: binding, name: "sha256")),
+                code: "WORLD_INSPECTOR_HASH " + file);
+        return value;
+    }
+
+    private JsonElement InspectorDocument(string file, string id)
+    {
+        return Read(read: InspectorBytes, file: file, id: id);
+    }
+
+    private void ProjectInspector()
+    {
+        _gateway.RequireThread();
+        _fixture = Read(read: _read, file: "content/fixtures/world-states.json", id: "world-states");
+        if (_activeId.StartsWith(value: "IT-", comparisonType: StringComparison.Ordinal))
+        {
+            ProjectInspectorItem();
+            RestoreInspectorChoices();
+            return;
+        }
+
+        var content = new Node2D { Name = "Content" };
+        _root.GetNode(path: InspectorBody + "Art").AddChild(node: content);
+        if (_activeId.StartsWith(value: "BL-", comparisonType: StringComparison.Ordinal))
+        {
+            ProjectInspectorBuilding();
+            RestoreInspectorChoices();
+            return;
+        }
+
+        _worldView = Open(root: content, gateway: _gateway, read: _read);
+        _worldView.Attach();
+        _inspectorStates = _activeId is "world.effects" ? _worldView._effects.GetProperty(propertyName: "effects")
+                .EnumerateArray().Select(selector: row => "effect:" + Text(row: row, name: "id")).ToArray()
+                : _worldView._definition.GetProperty(propertyName: "samples").EnumerateArray()
+                        .Select(selector: row => Text(row: row, name: "id")).ToArray();
+        PopulateInspectorStates();
+        RestoreInspectorChoices();
+    }
+
+    private void RestoreInspectorChoices()
+    {
+        _gateway.RequireThread();
+        TransformInspector(pan: float.Parse(s: _choices.GetValueOrDefault(key: _activeId + ".pan", defaultValue: "0"),
+                provider: CultureInfo.InvariantCulture), zoom: float.Parse(s: _choices.GetValueOrDefault(
+                        key: _activeId + ".zoom", defaultValue: "1"), provider: CultureInfo.InvariantCulture));
+        LightInspector(index: int.Parse(s: _choices.GetValueOrDefault(key: _activeId + ".light", defaultValue: "0"),
+                provider: CultureInfo.InvariantCulture));
+        _root.GetNode<OptionButton>(path: InspectorBody + "Choices/Portal").Select(idx: int.Parse(
+                s: _choices.GetValueOrDefault(key: _activeId + ".portal", defaultValue: "0"),
+                provider: CultureInfo.InvariantCulture));
+    }
+
+    private void ProjectInspectorItem()
+    {
+        _gateway.RequireThread();
+        int number = int.Parse(s: _activeId.AsSpan(start: 3), provider: CultureInfo.InvariantCulture);
+        string pack = number <= 10 ? "items-01-10" : "items-11-24";
+        JsonElement definition = InspectorDocument(file: "content/packs/" + pack + ".json", id: pack);
+        InspectorBytes(file: Text(row: definition.GetProperty(propertyName: "atlas"), name: "path"));
+        string file = "inspection/" + (number <= 10 ? "ItemsWeaponsPreview.tscn" : "ItemsWearablesPreview.tscn");
+        InspectorBytes(file: file);
+        PackedScene scene = ResourceLoader.Load<PackedScene>(path: "res://" + file)
+                ?? throw new InvalidDataException(message: "WORLD_INSPECTOR_SCENE " + file);
+        _item = scene.Instantiate<Control>();
+        _item.CustomMinimumSize = new Vector2(x: 1280, y: 720);
+        _root.GetNode(path: InspectorBody + "Art").AddChild(node: _item);
+        _item.GetNode<AnimationPlayer>(path: "Selection").Play(name: _activeId);
+        _item.GetNode<AnimationPlayer>(path: "Selection").Seek(seconds: 0, update: true);
+        JsonElement item = Find(rows: definition.GetProperty(propertyName: "items"), key: "id", value: _activeId);
+        _inspectorStates = ["Current", .. item.GetProperty(propertyName: "modes").EnumerateArray()
+                .Select(selector: row => Text(row: row, name: "node"))];
+        PopulateInspectorStates();
+    }
+
+    private void ProjectInspectorBuilding()
+    {
+        _gateway.RequireThread();
+        bool main = _activeId is "BL-01" or "BL-02" or "BL-03";
+        JsonElement art = InspectorDocument(file: "content/packs/" + (main ? "main-buildings" : "defenses")
+                + ".json", id: main ? "main-buildings" : "defenses");
+        JsonElement assemblies = InspectorDocument(file: "content/world/" + (main ? "main" : "defense")
+                + "-assemblies.json", id: main ? "main-assemblies" : "defense-assemblies");
+        JsonElement access = InspectorDocument(file: "content/packs/" + (main ? "camp-access" : "guards")
+                + ".json", id: main ? "camp-access" : "guards");
+        Node2D content = _root.GetNode<Node2D>(path: InspectorBody + "Art/Content");
+        _building = main ? new BuildingPreview(root: content, gateway: _gateway, art: art, assemblies: assemblies,
+                access: access, identity: _activeId) : new BuildingPreview(root: content, gateway: _gateway,
+                        art: art, assemblies: assemblies, guards: access, identity: _activeId, read: _read);
+        _building.Attach();
+        int number = int.Parse(s: _activeId.AsSpan(start: 3), provider: CultureInfo.InvariantCulture);
+        OptionButton tier = content.GetNode<OptionButton>(path: "Controls/Tier");
+        tier.Select(idx: main ? number - 1 : number - 4);
+        tier.EmitSignal(signal: OptionButton.SignalName.ItemSelected, (long)tier.Selected);
+        _inspectorStates = assemblies.GetProperty(propertyName: "samples").EnumerateArray()
+                .Select(selector: row => Text(row: row, name: "label")).ToArray();
+        PopulateInspectorStates();
+    }
+
+    private void PopulateInspectorStates()
+    {
+        _gateway.RequireThread();
+        OptionButton state = _root.GetNode<OptionButton>(path: InspectorBody + "Choices/CurrentState");
+        state.Clear();
+        foreach (string id in _inspectorStates)
+        {
+            state.AddItem(label: id);
+        }
+
+        string selected = _choices.GetValueOrDefault(key: _activeId + ".state", defaultValue: _inspectorStates[0]);
+        int index = Array.IndexOf(array: _inspectorStates, value: selected);
+        state.Select(idx: Math.Max(val1: 0, val2: index));
+        bool restoring = _restoringInspector;
+        _restoringInspector = true;
+        StateInspector(index: state.Selected);
+        _restoringInspector = restoring;
+    }
+
+    private void StateInspector(long index)
+    {
+        _gateway.RequireThread();
+        Require(valid: index >= 0 && index < _inspectorStates.Length && !_closed, code: "WORLD_INSPECTOR_STATE");
+        string state = _inspectorStates[index];
+        _choices[_activeId + ".state"] = state;
+        if (_worldView is not null)
+        {
+            _worldView.Restore(sample: state.StartsWith(value: "effect:", comparisonType: StringComparison.Ordinal)
+                    ? "portal.closed" : state);
+            if (!_restoringInspector && state.StartsWith(value: "effect:", comparisonType: StringComparison.Ordinal))
+            {
+                _worldView.Trigger(effect: state[7..], source: "friendly", originX: 0, originY: -24,
+                        targetX: 64, targetY: -24, epoch: _worldView.Epoch);
+            }
+        }
+
+        RestoreInspectorBuilding(index: (int)index);
+        if (_item is not null)
+        {
+            AnimationPlayer player = _item.GetNode<AnimationPlayer>(path: "State");
+            player.Stop();
+            ResetInspectorItem();
+            if (index > 0)
+            {
+                player.Play(name: _activeId + "." + state);
+                player.Seek(seconds: 0, update: true);
+                player.Pause();
+            }
+        }
+
+        ShowInspector();
+        ApplyInspectorLight();
+    }
+
+    private void ResetInspectorItem()
+    {
+        _gateway.RequireThread();
+        if (_item is null)
+        {
+            return;
+        }
+
+        int number = int.Parse(s: _activeId.AsSpan(start: 3), provider: CultureInfo.InvariantCulture);
+        string pack = number <= 10 ? "items-01-10" : "items-11-24";
+        JsonElement definition = InspectorDocument(file: "content/packs/" + pack + ".json", id: pack);
+        JsonElement item = Find(rows: definition.GetProperty(propertyName: "items"), key: "id", value: _activeId);
+        string art = "Groups/" + _activeId.Replace(oldChar: '-', newChar: '_') + "/ArtScroll/Canvas/Art/";
+        foreach (JsonElement row in item.GetProperty(propertyName: "components").EnumerateArray())
+        {
+            _item.GetNode<CanvasItem>(path: art + Text(row: row, name: "node")).Visible = true;
+        }
+
+        foreach (JsonElement row in item.GetProperty(propertyName: "modes").EnumerateArray())
+        {
+            _item.GetNode<CanvasItem>(path: art + Text(row: row, name: "node")).Visible = false;
+        }
+    }
+
+    private void RestoreInspectorBuilding(int index)
+    {
+        _gateway.RequireThread();
+        if (_building is null)
+        {
+            return;
+        }
+
+        bool main = _activeId is "BL-01" or "BL-02" or "BL-03";
+        JsonElement assembly = InspectorDocument(file: "content/world/" + (main ? "main" : "defense")
+                + "-assemblies.json", id: main ? "main-assemblies" : "defense-assemblies");
+        JsonElement sample = assembly.GetProperty(propertyName: "samples")[index];
+        int number = int.Parse(s: _activeId.AsSpan(start: 3), provider: CultureInfo.InvariantCulture);
+        int tier = main ? number : (number - 4) % 3 + 1;
+        bool defeated = main ? Text(row: sample, name: "visual") is "defeated"
+                : sample.GetProperty(propertyName: "defeated").GetBoolean();
+        _building.Restore(completedTier: tier, requestedTier: Text(row: sample, name: "work") is "upgrade"
+                ? Math.Min(val1: 3, val2: tier + 1) : tier,
+                progress: Number(row: sample, name: "progress"), defeated: defeated);
+        _building.SelectSample(index: index);
+    }
+
+    private void PortalInspector(long index)
+    {
+        _gateway.RequireThread();
+        Require(valid: index is >= 0 and <= 6, code: "WORLD_INSPECTOR_PORTAL");
+        float pan = index == 0 ? 0 : (index <= 3 ? -1 : 1) * new[] { 800, 1520, 2240 }[(index - 1) % 3];
+        _choices[_activeId + ".portal"] = index.ToString(provider: CultureInfo.InvariantCulture);
+        TransformInspector(pan: pan, zoom: _zoom);
+    }
+
+    private void ZoomInspector(long index)
+    {
+        _gateway.RequireThread();
+        Require(valid: index is >= 0 and <= 3, code: "WORLD_VIEW_TRANSFORM");
+        TransformInspector(pan: _pan, zoom: 1 << (int)index);
+    }
+
+    private void PanInspector(double value)
+    {
+        _gateway.RequireThread();
+        TransformInspector(pan: (float)value, zoom: _zoom);
+    }
+
+    private void LightInspector(long index)
+    {
+        _gateway.RequireThread();
+        Require(valid: index is >= 0 and <= 2, code: "WORLD_INSPECTOR_LIGHT");
+        _choices[_activeId + ".light"] = index.ToString(provider: CultureInfo.InvariantCulture);
+        _root.GetNode<OptionButton>(path: InspectorBody + "Choices/Light").Select(idx: (int)index);
+        ApplyInspectorLight();
+        ShowInspector();
+    }
+
+    private Node2D InspectorArt()
+    {
+        _gateway.RequireThread();
+        return _item is not null ? _item.GetNode<Node2D>(path: "Groups/"
+                + _activeId.Replace(oldChar: '-', newChar: '_') + "/ArtScroll/Canvas/Art")
+                : _root.GetNode<Node2D>(path: InspectorBody + "Art/Content"
+                        + (_building is null ? "" : "/ArtScroll/Content/Art"));
+    }
+
+    private void ApplyInspectorLight()
+    {
+        _gateway.RequireThread();
+        int index = int.Parse(s: _choices.GetValueOrDefault(key: _activeId + ".light", defaultValue: "0"),
+                provider: CultureInfo.InvariantCulture);
+        if (_worldView is not null)
+        {
+            _worldView._viewLight = index;
+            _worldView.Project();
+        }
+
+        if (_building is not null)
+        {
+            OptionButton control = _root.GetNode<OptionButton>(path: InspectorBody + "Art/Content/Controls/Light");
+            control.Select(idx: index == 1 ? 1 : 0);
+            control.EmitSignal(signal: OptionButton.SignalName.ItemSelected, (long)control.Selected);
+        }
+
+        if (_worldView is not null || _building is not null || _item is not null)
+        {
+            InspectorArt().Modulate = index switch
+            {
+                1 => new Color(r: 0.55f, g: 0.65f, b: 0.82f),
+                2 => new Color(r: 0.95f, g: 0.82f, b: 0.62f),
+                _ => Colors.White,
+            };
+        }
+    }
+
+    private void StepInspector()
+    {
+        _gateway.RequireThread();
+        _worldView?.Advance(elapsedSeconds: 0.125);
+        _building?.Tick(delta: 0.125);
+    }
+
+    private void ShowInspector()
+    {
+        _gateway.RequireThread();
+        _root.GetNode<TextEdit>(path: InspectorBody + "Identity").Text = _activeId + "\n" + _inspectorStatus
+                + "\n" + _choices.GetValueOrDefault(key: _activeId + ".state", defaultValue: "Choose current state");
+        _root.GetNode<TextEdit>(path: InspectorBody + "Identity").Text += "\nView light: "
+                + _root.GetNode<OptionButton>(path: InspectorBody + "Choices/Light").Text;
+    }
+
+    private void RetireInspector()
+    {
+        _gateway.RequireThread();
+        _worldView?.Close();
+        _worldView = null;
+        _building?.Detach();
+        _building = null;
+        foreach (Node child in _root.GetNode(path: InspectorBody + "Art").GetChildren())
+        {
+            _root.GetNode(path: InspectorBody + "Art").RemoveChild(node: child);
+            child.Free();
+        }
+
+        _item = null;
+    }
 
     private static JsonElement Read(Func<string, byte[]?> read, string file, string id)
     {
@@ -718,7 +1235,7 @@ internal sealed class WorldPreview
             sprite.Position = new Vector2(x: p[0].GetSingle(), y: p[1].GetSingle());
             sprite.ZIndex = row.GetProperty(propertyName: "z").GetInt32();
             sprite.Modulate = ReadColor(row: row.GetProperty(propertyName: "color"));
-            if (Same(left: Text(row: sample, name: "lighting"), right: "night"))
+            if (_viewLight < 0 && Same(left: Text(row: sample, name: "lighting"), right: "night"))
             {
                 JsonElement tint = _map.GetProperty(propertyName: "lighting")[3].GetProperty(propertyName: "tint");
                 sprite.Modulate *= ReadColor(row: tint);

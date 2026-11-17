@@ -115,6 +115,8 @@ public sealed partial class InspectionRoot : Node2D
         _generation++;
         _loadGeneration++;
         _pending = null;
+        _world?.Close();
+        _world = null;
         _character?.Detach();
         _character = null;
         _shell?.Detach();
@@ -158,6 +160,7 @@ public sealed partial class InspectionRoot : Node2D
     private InspectionShell? _shell;
     private InspectionInput? _input;
     private CharacterPreview? _character;
+    private WorldPreview? _world;
     private ContentPack _pack = ContentPack.Load(index: null, expectations: null, read: _ => null);
     private Queue<string>? _pending;
     private byte[]? _index;
@@ -180,6 +183,8 @@ public sealed partial class InspectionRoot : Node2D
         _loadGeneration++;
         _files.Clear();
         _pending = null;
+        _world?.Close();
+        _world = null;
         _character?.Detach();
         _character = null;
         _shell?.Retire();
@@ -206,6 +211,8 @@ public sealed partial class InspectionRoot : Node2D
         _generation++;
         _loadGeneration++;
         _pending = null;
+        _world?.Close();
+        _world = null;
         _character?.Detach();
         _character = null;
         _shell?.Retire();
@@ -222,10 +229,16 @@ public sealed partial class InspectionRoot : Node2D
     private byte[]? Read(string path)
     {
         _gateway.RequireThread();
-        string native = "res://" + ContentPack.ResourcePath(path: "src/godot-game/" + path);
-        string disk = ProjectSettings.GlobalizePath(path: native);
+        if (_files.TryGetValue(key: path, value: out byte[]? cached))
+        {
+            return cached;
+        }
+
+        string native = "res://" + path;
         try
         {
+            native = "res://" + WorldPreview.InspectorResourcePath(path: path);
+            string disk = ProjectSettings.GlobalizePath(path: native);
             if (File.Exists(path: disk))
             {
                 string? current = disk;
@@ -243,6 +256,7 @@ public sealed partial class InspectionRoot : Node2D
             using Godot.FileAccess? file = Godot.FileAccess.Open(path: native, flags: Godot.FileAccess.ModeFlags.Read);
             int limit = path.EndsWith(value: ".json", comparisonType: StringComparison.Ordinal)
                     ? ContentPack.MaxDocumentBytes : ContentPack.MaxResourceBytes;
+            limit = path is "content/packs/common.json" ? 2_097_152 : limit;
             if (file is null || file.GetLength() > (ulong)limit)
             {
                 throw new IOException(message: "missing or oversized resource");
@@ -255,12 +269,16 @@ public sealed partial class InspectionRoot : Node2D
 
             byte[] bytes = file.GetBuffer(length: (long)file.GetLength());
             _loadedBytes += bytes.Length;
+            _files[path] = bytes;
             return file.GetError() is Error.Ok or Error.FileEof ? bytes
                     : throw new IOException(message: "native resource read failed");
         }
-        catch (Exception error) when (error is IOException or UnauthorizedAccessException)
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException or FormatException
+                or InvalidDataException)
         {
             _readErrors.Add(item: native + ", field bytes, value read — " + error.Message);
+            GetNode<TextEdit>(path: "Shell/Workspace/Preview/Failures").Text = string.Join(separator: "\n",
+                    values: _readErrors);
             return null;
         }
     }
@@ -270,6 +288,8 @@ public sealed partial class InspectionRoot : Node2D
         _gateway.RequireThread();
         _accepting = false;
         _generation++;
+        _world?.Close();
+        _world = null;
         _character?.Detach();
         _character = null;
         _shell?.Retire();
@@ -319,6 +339,8 @@ public sealed partial class InspectionRoot : Node2D
         {
             _accepting = false;
             _generation++;
+            _world?.Close();
+            _world = null;
             _character?.Detach();
             _character = null;
             _shell?.Retire();
@@ -379,14 +401,20 @@ public sealed partial class InspectionRoot : Node2D
                                 || pair.Value.Contains(value: _query,
                                         comparisonType: StringComparison.OrdinalIgnoreCase)))
                 .Select(selector: pair => pair.Key);
-        _rows = outputs.Concat(second: expected).Order(comparer: StringComparer.Ordinal).ToArray();
+        IEnumerable<string> authored = WorldPreview.InspectorIds(category: category).Where(predicate: id =>
+                (_status is "All statuses" or "Partial") && id.Contains(value: _query,
+                        comparisonType: StringComparison.OrdinalIgnoreCase));
+        _rows = outputs.Concat(second: expected).Concat(second: authored).Distinct(comparer: StringComparer.Ordinal)
+                .Order(comparer: StringComparer.Ordinal).ToArray();
         foreach (string id in _rows)
         {
             string name = _pack.Entries.TryGetValue(key: id, value: out JsonElement entry)
                     ? entry.GetProperty(propertyName: "name").GetString() ?? "Invalid name"
-                    : _pack.Expected[id].Split(separator: '\n')[0];
+                    : _pack.Expected.GetValueOrDefault(key: id, defaultValue: "Authored inspection view")
+                            .Split(separator: '\n')[0];
             int row = list.AddItem(text: id + " · " + name + " · "
-                    + (_pack.Entries.ContainsKey(key: id) ? "Partial" : "Incomplete"));
+                    + (_pack.Entries.ContainsKey(key: id) || WorldPreview.InspectorHandles(id: id)
+                            ? "Partial" : "Incomplete"));
             if (StringComparer.Ordinal.Equals(x: id, y: _selected))
             {
                 list.Select(idx: row);
@@ -401,11 +429,9 @@ public sealed partial class InspectionRoot : Node2D
     private void Selection()
     {
         _gateway.RequireThread();
-        if (_character is not null)
-        {
-            _shell?.Retire();
-        }
-
+        _world?.Close();
+        _world = null;
+        _shell?.Retire();
         _character?.Detach();
         _character = null;
         bool found = _pack.Entries.TryGetValue(key: _selected, value: out JsonElement entry);
@@ -428,6 +454,16 @@ public sealed partial class InspectionRoot : Node2D
                                         comparisonType: StringComparison.Ordinal));
         GetNode<TextEdit>(path: "Shell/Workspace/Preview/Failures").Text = string.Join(separator: "\n",
                 values: errors.Concat(second: _readErrors));
+        if (WorldPreview.InspectorHandles(id: _selected))
+        {
+            var preview = new Node2D { Name = "WorldItems" };
+            _shell?.Install(preview: preview);
+            _world = WorldPreview.OpenInspector(root: preview, gateway: _gateway, read: Read, id: _selected,
+                    choices: _selections);
+            GetNode<Label>(path: "Summary/ResourceName").Text = "Authored world/item view · " + _selected;
+            GetNode<Label>(path: "Summary/Status").Text = _world.InspectorStatus;
+        }
+
         if (_selected is "CH-01" or "CH-02" or "CH-03" or "CH-04" or "CH-05" or "CH-06" or "CH-07" or "CH-08")
         {
             var preview = new Node2D { Name = "Character" };

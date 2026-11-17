@@ -333,3 +333,320 @@ async function nativeEffects(context){
 async function effectsCase(context){const before=fingerprint(files());write(context.directory,'inputs.json',before);const result=validateEffects(document(ROOT,EFFECT_FILES[1]),document(ROOT,EFFECT_FILES[2]),document(ROOT,'src/godot-game/content/packs/common.json'));write(context.directory,'verify-effects.py',Buffer.from(VERIFY_EFFECTS));const child=await runner.command(context,'world-effects-source',PYTHON,['-B',inside(context.directory,'verify-effects.py'),ROOT]);const source=JSON.parse(child.stdout);const native=await nativeEffects(context);need(equal(before,fingerprint(files())),'WORLD_EFFECT_SOURCE_CHANGED');return {...result,source,native,scope:'Actual reusable source/native resources only;Root/index/native-policy/current-producer adoption23/31,post-review actual input/appearance/listening32/33 remain pending'};}
 runner.registerCase('world.effects',{group:'world',title:'Six permanent portal identities and all cosmetic effect families through actual owned native presenter',importance:'Critical',rationale:'Active ruins,misleading loot/hazard presentation or obsolete effects break required mechanic and lifetime integrity',needsGameWindow:false,runGroup:'G0-world',order:2,requirements:['ASSET-01','ASSET-02','ASSET-03'],acceptance:['AC-03','AC-08','AC-09','AC-21','AC-24'],setup:'Source-bound world/effects/common resources,current strict production DLL and authenticated headless Godot;no donor or game window',actions:['Independently authenticate176 exact donor parts,six clip timings and51 required effect IDs','Restore24 current world/portal/stock/clearing/loop samples silently','Trigger each effect explicitly and verify limits,expiry,first contact,Reset/epoch/thread/neighbor/closed boundaries','Reject31 parent-rebound malformed semantic subjects before native attachment,plus separate wrong hash and restored positive','Authenticate native imported alpha/nonzero RGB with deterministically disposed proof-owned Images'],expected:'Every source/native resource and rejection control passes; actual visual/blood/mechanic/listening judgments remain04-32/33',reset:'Close each owned presenter;retire nodes/resources and reject old generations synchronously',evidence:['inputs.json','world-effects-source.command.json','world-effects-strict.command.json','production-assemblies.json','engine.json','native-observation.json','result.json']},effectsCase);
 Object.assign(module.exports,{EFFECT_FILES,EFFECT_IDS,EFFECT_NEGATIVES,VERIFY_EFFECTS,EFFECT_HARNESS,files,validateEffects,nativeEffects,effectsCase});
+
+const INSPECTOR_DRIVER=String.raw`extends SceneTree
+var hub: Node
+var outcomes: Array = []
+var failed := false
+const BROWSER = "Shell/Workspace/Controls/Browser/"
+const CURRENT = "Shell/Workspace/Preview/Surface/Current/WorldItems/"
+const BODY = CURRENT + "InspectorScroll/Body/"
+func _initialize() -> void:
+ call_deferred("run")
+func check_case(id: String, ok: bool, observed: Variant) -> void:
+ outcomes.append({"id":id,"pass":ok,"observed":observed})
+ if not ok:
+  failed = true
+ var report = FileAccess.open("res://native-results.json",FileAccess.WRITE)
+ report.store_string(JSON.stringify({"pid":OS.get_process_id(),"nonce":OS.get_environment("WORLD_INSPECTOR_NONCE"),"failed":failed,"outcomes":outcomes,"scope":"Incomplete until final marker; source/headless only"}))
+ report.close()
+func category(index: int) -> void:
+ var control = hub.get_node("Shell/Workspace/Navigation/Category")
+ control.select(index)
+ control.item_selected.emit(index)
+func choose(id: String) -> bool:
+ var control = hub.get_node(BROWSER+"Resources")
+ for i in control.item_count:
+  if control.get_item_text(i).begins_with(id+" · "):
+   control.select(i)
+   control.item_selected.emit(i)
+   return true
+ return false
+func current_text() -> String:
+ return hub.get_node(BODY+"Identity").text if hub.has_node(BODY+"Identity") else "MISSING_INSPECTOR"
+func state(index: int) -> void:
+ var control = hub.get_node(BODY+"Choices/CurrentState")
+ control.select(index)
+ control.item_selected.emit(index)
+func settle() -> void:
+ for i in range(240):
+  await process_frame
+  if not hub.get_node("Summary/Status").text.begins_with("Loading"):
+   return
+func descendants(node: Node) -> Array:
+ var rows: Array = []
+ for child in node.get_children():
+  rows.append(child)
+  rows.append_array(descendants(child))
+ return rows
+func world_positions() -> Dictionary:
+ var values := {}
+ for child in descendants(hub.get_node(BODY+"Art")):
+  if child is Sprite2D and child.has_meta("resource_id"):
+   values[str(child.get_meta("resource_id"))] = [child.position.x,child.position.y]
+ return values
+func replace_bytes(file: String, value: PackedByteArray) -> void:
+ var output = FileAccess.open("res://"+file,FileAccess.WRITE)
+ output.store_buffer(value)
+ output.close()
+func reader_size(file: String) -> int:
+ var result = hub.call("Read",file)
+ return result.size() if result is PackedByteArray else 0
+func reader_controls() -> void:
+ var common = "content/packs/common.json"
+ var other = "content/fixtures/world-states.json"
+ var original_common = FileAccess.get_file_as_bytes("res://"+common)
+ var original_other = FileAccess.get_file_as_bytes("res://"+other)
+ for length in [2097152,2097153]:
+  var value := PackedByteArray()
+  value.resize(length)
+  value.fill(32)
+  replace_bytes(common,value)
+  hub.get_node("Shell/Toolbar/Recheck").pressed.emit()
+  await settle()
+  check_case("reader-common-"+str(length),reader_size(common)==(length if length==2097152 else 0),reader_size(common))
+ replace_bytes(common,original_common)
+ var oversized := PackedByteArray()
+ oversized.resize(1048577)
+ oversized.fill(32)
+ replace_bytes(other,oversized)
+ hub.get_node("Shell/Toolbar/Recheck").pressed.emit()
+ await settle()
+ check_case("reader-other-1MiB",reader_size(other)==0,reader_size(other))
+ replace_bytes(other,original_other)
+ hub.get_node("Shell/Toolbar/Recheck").pressed.emit()
+ await settle()
+ category(2)
+ choose("world.assembled")
+ var selected_text = current_text()
+ var selected_art = hub.get_node(BODY+"Art/Content").get_instance_id()
+ for file in ["inspection/itemsweaponspreview.tscn","inspection/ItemswearablesPreview.tscn","inspection/./ItemsWeaponsPreview.tscn","inspection/../inspection/ItemsWeaponsPreview.tscn","/inspection/ItemsWeaponsPreview.tscn","res://inspection/ItemsWeaponsPreview.tscn","C:/inspection/ItemsWeaponsPreview.tscn","content/packs/Common.json","content/fixtures/reader-absent.json"]:
+  var rejected = hub.call("Read",file)
+  var controlled_empty = rejected is PackedByteArray and rejected.is_empty()
+  check_case("reader-path-"+file,controlled_empty,file)
+  if file.ends_with(".tscn"):
+   var failure = hub.get_node("Shell/Workspace/Preview/Failures")
+   var expected = "res://"+file+", field bytes, value read — WORLD_INSPECTOR_SCENE_PATH "+file
+   check_case("reader-controlled-diagnostic-"+file,failure.text.split("\n").has(expected) and failure.visible and not failure.editable and controlled_empty,failure.text)
+   check_case("reader-preserved-selection-"+file,current_text()==selected_text and hub.get_node(BODY+"Art/Content").get_instance_id()==selected_art,current_text())
+ for file in ["inspection/ItemsWeaponsPreview.tscn","inspection/ItemsWearablesPreview.tscn"]:
+  check_case("reader-exact-"+file,reader_size(file)>0,file)
+ category(2)
+ choose("world.assembled")
+ check_case("reader-restored-world",current_text().begins_with("world.assembled\nPopulated"),current_text())
+func view_snapshot(id: String) -> Dictionary:
+ var art = hub.get_node(BODY+"Art/Content") if not id.begins_with("IT-") else hub.get_node(BODY+"Art/"+("ItemsWeaponsPreview" if id=="IT-07" else "ItemsWearablesPreview")+"/Groups/"+id.replace("-","_")+"/ArtScroll/Canvas/Art")
+ var rendered = art.get_node("ArtScroll/Content/Art") if id.begins_with("BL-") else art
+ return {"id":id,"identity":current_text(),"state":hub.get_node(BODY+"Choices/CurrentState").text,"pan":hub.get_node(BODY+"Choices/Pan").value,"zoom":hub.get_node(BODY+"Choices/Zoom").selected,"light":hub.get_node(BODY+"Choices/Light").selected,"ownerPosition":str(art.position),"ownerScale":str(art.scale),"renderedPosition":str(rendered.position),"renderedScale":str(rendered.scale),"renderedLight":str(rendered.modulate),"positions":world_positions()}
+func view_expected(id: String, stage: String, positions: Dictionary, source_state: String) -> void:
+ var observed = view_snapshot(id)
+ var prefix = "persisted-"+id+"-"+stage
+ check_case(prefix+"-facade",observed.pan==160 and observed.zoom==1 and observed.light==1,observed)
+ check_case(prefix+"-scale",observed.renderedScale=="(2.0, 2.0)",observed)
+ check_case(prefix+"-light",observed.renderedLight=="(0.55, 0.65, 0.82, 1.0)" and observed.identity.contains("View light: Night"),observed)
+ check_case(prefix+"-source-state",observed.state==source_state and observed.identity.contains(source_state),observed)
+ check_case(prefix+"-authored-positions",observed.positions==positions,observed.positions)
+ if id.begins_with("BL-"):
+  check_case(prefix+"-art-only",observed.ownerScale=="(1.0, 1.0)" and observed.ownerPosition=="(0.0, 0.0)" and observed.renderedPosition=="(-220.0, 40.0)",observed)
+  check_case(prefix+"-nested-controls",hub.get_node(BODY+"Art/Content/Controls/Zoom").selected==1 and hub.get_node(BODY+"Art/Content/Controls/Light").selected==1,observed)
+ elif id.begins_with("IT-"):
+  check_case(prefix+"-art-only",observed.renderedPosition=="(-320.0, 0.0)" and hub.get_node(BODY+"Art/"+("ItemsWeaponsPreview" if id=="IT-07" else "ItemsWearablesPreview")).scale==Vector2.ONE,observed)
+ else:
+  check_case(prefix+"-art-only",observed.ownerPosition=="(-40.0, 280.0)",observed)
+  check_case(prefix+"-quiet",not descendants(hub.get_node(BODY+"Art")).any(func(node):return node.has_meta("resource_id") and str(node.get_meta("resource_id")).begins_with("effect.")),observed)
+func view_baseline() -> void:
+ var observations := []
+ for id in ["world.assembled","world.effects","IT-07","IT-15","BL-01","BL-04"]:
+  category(1 if id.begins_with("IT-") else 2)
+  choose(id)
+  state(0)
+  hub.get_node(BODY+"Choices/Reset").pressed.emit()
+  var positions = world_positions()
+  var source_state = hub.get_node(BODY+"Choices/CurrentState").text
+  observations.append({"stage":"initial","view":view_snapshot(id)})
+  var light = hub.get_node(BODY+"Choices/Light")
+  light.select(1)
+  light.item_selected.emit(1)
+  var zoom = hub.get_node(BODY+"Choices/Zoom")
+  zoom.select(1)
+  zoom.item_selected.emit(1)
+  hub.get_node(BODY+"Choices/Pan").value = 160
+  observations.append({"stage":"chosen","view":view_snapshot(id)})
+  view_expected(id,"chosen",positions,source_state)
+  hub.get_node(BODY+"Choices/Reset").pressed.emit()
+  observations.append({"stage":"reset","view":view_snapshot(id)})
+  view_expected(id,"reset",positions,source_state)
+  choose("IT-08" if id.begins_with("IT-") else "world.wildlife")
+  choose(id)
+  observations.append({"stage":"reselected","view":view_snapshot(id)})
+  view_expected(id,"reselected",positions,source_state)
+ var report = FileAccess.open("res://view-baseline.json",FileAccess.WRITE)
+ report.store_string(JSON.stringify(observations))
+ report.close()
+func run() -> void:
+ root.size = Vector2i(1280,720)
+ hub = load("res://inspection/Inspection.tscn").instantiate()
+ root.add_child(hub)
+ check_case("WORLD-ITEM-PREVIEW.loading",hub.get_node("Summary/Status").text.begins_with("Loading"),hub.get_node("Summary/Status").text)
+ await settle()
+ category(1)
+ for n in range(1,25):
+  var id = "IT-%02d" % n
+  check_case("item-reachable-"+id,choose(id),id)
+  await process_frame
+  check_case("item-native-"+id,current_text().begins_with(id+"\nPopulated") and hub.has_node(BODY+"Art/"+("ItemsWeaponsPreview" if n<=10 else "ItemsWearablesPreview")),current_text())
+  if hub.has_node(BODY+"Art/"+("ItemsWeaponsPreview" if n<=10 else "ItemsWearablesPreview")):
+   var actual = hub.get_node(BODY+"Art/"+("ItemsWeaponsPreview" if n<=10 else "ItemsWearablesPreview"))
+   check_case("item-current-group-"+id,actual.get_node("Groups/"+id.replace("-","_")).visible and actual.get_node("Groups").get_children().filter(func(node):return node.visible).size()==1,id)
+ check_case("WORLD-ITEM-PREVIEW.populated",choose("IT-07") and current_text().begins_with("IT-07\nPopulated"),current_text())
+ var query = hub.get_node(BROWSER+"Search")
+ query.text = "independently-absent-world-item-27"
+ query.text_changed.emit(query.text)
+ check_case("WORLD-ITEM-PREVIEW.empty",hub.get_node(BROWSER+"Resources").item_count==0 and hub.get_node(BROWSER+"Count").text.contains("No resources match"),hub.get_node(BROWSER+"Count").text)
+ query.text = ""
+ query.text_changed.emit("")
+ category(2)
+ for n in range(1,10):
+  var id = "BL-%02d" % n
+  check_case("building-reachable-"+id,choose(id),id)
+  await process_frame
+  check_case("building-native-"+id,current_text().begins_with(id+"\nPopulated") and hub.has_node(BODY+"Art/Content/Controls/Tier"),current_text())
+  var selector = hub.get_node(BODY+"Choices/CurrentState")
+  for i in selector.item_count:
+   state(i)
+   check_case("building-state-"+id+"-"+str(i),hub.get_node(BODY+"Art/Content").get_meta("destruction_events")==0,selector.get_item_text(i))
+ check_case("world-reachable",choose("world.assembled"),current_text())
+ check_case("world-native-populated",current_text().begins_with("world.assembled\nPopulated"),current_text())
+ if not hub.has_node(BODY+"Art/Content"):
+  quit(1)
+  return
+ var selector = hub.get_node(BODY+"Choices/CurrentState")
+ for i in selector.item_count:
+  state(i)
+  check_case("world-state-"+str(i),descendants(hub.get_node(BODY+"Art")).size()>200,selector.get_item_text(i))
+ state(0)
+ var positions = world_positions()
+ var pan = hub.get_node(BODY+"Choices/Pan")
+ var zoom = hub.get_node(BODY+"Choices/Zoom")
+ for i in range(4):
+  zoom.select(i)
+  zoom.item_selected.emit(i)
+  for x in [-2560,0,2560]:
+   pan.value = x
+   check_case("authored-transform-"+str(i)+"-"+str(x),world_positions()==positions,hub.get_node(BODY+"Art/Content").transform)
+ for i in range(7):
+  hub.get_node(BODY+"Choices/Portal").item_selected.emit(i)
+  check_case("portal-selector-"+str(i),world_positions()==positions,i)
+ for i in range(3):
+  hub.get_node(BODY+"Choices/Light").item_selected.emit(i)
+  check_case("light-selector-"+str(i),descendants(hub.get_node(BODY+"Art")).size()>200,i)
+ check_case("effects-reachable",choose("world.effects"),current_text())
+ selector = hub.get_node(BODY+"Choices/CurrentState")
+ check_case("effects-complete",selector.item_count==51,selector.item_count)
+ for i in selector.item_count:
+  state(i)
+  hub.get_node(BODY+"Choices/Step").pressed.emit()
+  check_case("effect-state-"+str(i),descendants(hub.get_node(BODY+"Art")).any(func(node):return node.has_meta("resource_id") and str(node.get_meta("resource_id")).begins_with("effect.")),selector.get_item_text(i))
+ hub.get_node(BODY+"Choices/Reset").pressed.emit()
+ check_case("quiet-reset",not descendants(hub.get_node(BODY+"Art")).any(func(node):return node.has_meta("resource_id") and str(node.get_meta("resource_id")).begins_with("effect.")),current_text())
+ var scroll = hub.get_node(CURRENT+"InspectorScroll")
+ await process_frame
+ check_case("WORLD-ITEM-PREVIEW.overflow",scroll.follow_focus and scroll.get_v_scroll_bar().max_value>scroll.get_v_scroll_bar().page,scroll.get_v_scroll_bar().max_value)
+ await reader_controls()
+ var media = "res://assets/equipment/items-01-10.png"
+ var original = FileAccess.get_file_as_bytes(media)
+ DirAccess.remove_absolute(ProjectSettings.globalize_path(media))
+ hub.get_node("Shell/Toolbar/Recheck").pressed.emit()
+ await settle()
+ category(1)
+ choose("IT-07")
+ check_case("WORLD-ITEM-PREVIEW.error",current_text().contains("WORLD_INSPECTOR_MISSING assets/equipment/items-01-10.png"),current_text())
+ category(2)
+ choose("world.assembled")
+ check_case("partial-valid-world",current_text().begins_with("world.assembled\nPopulated"),current_text())
+ var restored = FileAccess.open(media,FileAccess.WRITE)
+ restored.store_buffer(original)
+ restored.close()
+ var corrupted = original.duplicate()
+ corrupted[0] = corrupted[0]^1
+ replace_bytes("assets/equipment/items-01-10.png",corrupted)
+ hub.get_node("Shell/Toolbar/Recheck").pressed.emit()
+ await settle()
+ category(1)
+ choose("IT-07")
+ check_case("item-wrong-hash",current_text().contains("WORLD_INSPECTOR_HASH assets/equipment/items-01-10.png"),current_text())
+ replace_bytes("assets/equipment/items-01-10.png",original)
+ var pack_path = "res://content/packs/items-01-10.json"
+ var fixture_path = "res://content/fixtures/world-states.json"
+ var pack_bytes = FileAccess.get_file_as_bytes(pack_path)
+ var fixture_bytes = FileAccess.get_file_as_bytes(fixture_path)
+ var pack = JSON.parse_string(pack_bytes.get_string_from_utf8())
+ var long_id = "assets/equipment/"+"independent-long-diagnostic-".repeat(7)+".png"
+ pack.atlas.path = long_id
+ var changed = JSON.stringify(pack).to_utf8_buffer()
+ var fixture = JSON.parse_string(fixture_bytes.get_string_from_utf8())
+ for binding in fixture.bindings:
+  if binding.file=="content/packs/items-01-10.json":
+   var digest = HashingContext.new()
+   digest.start(HashingContext.HASH_SHA256)
+   digest.update(changed)
+   binding.sha256 = digest.finish().hex_encode()
+ for pair in [[pack_path,changed],[fixture_path,JSON.stringify(fixture).to_utf8_buffer()]]:
+  var file = FileAccess.open(pair[0],FileAccess.WRITE)
+  file.store_buffer(pair[1])
+  file.close()
+ hub.get_node("Shell/Toolbar/Recheck").pressed.emit()
+ await settle()
+ category(1)
+ choose("IT-07")
+ var diagnostic = hub.get_node(BODY+"Identity")
+ check_case("WORLD-ITEM-PREVIEW.long-text",diagnostic.text.contains(long_id) and diagnostic.visible and not diagnostic.editable and diagnostic.wrap_mode==TextEdit.LINE_WRAPPING_BOUNDARY,diagnostic.text)
+ for pair in [[pack_path,pack_bytes],[fixture_path,fixture_bytes]]:
+  var file = FileAccess.open(pair[0],FileAccess.WRITE)
+  file.store_buffer(pair[1])
+  file.close()
+ hub.get_node("Shell/Toolbar/Recheck").pressed.emit()
+ await settle()
+ choose("IT-07")
+ check_case("restored-positive",current_text().begins_with("IT-07\nPopulated"),current_text())
+ check_case("truthful-pack-status",hub.get_node("Summary/PackStatus").text.begins_with("0/180 obligations"),hub.get_node("Summary/PackStatus").text)
+ await view_baseline()
+ root.remove_child(hub)
+ hub.free()
+ await process_frame
+ var result = {"pid":OS.get_process_id(),"nonce":OS.get_environment("WORLD_INSPECTOR_NONCE"),"failed":failed,"outcomes":outcomes,"scope":"Source/headless native production hub; actual input/draw/readability pending04-32"}
+ var report = FileAccess.open("res://native-results.json",FileAccess.WRITE)
+ report.store_string(JSON.stringify(result))
+ report.close()
+ print("WORLD_INSPECTOR_COMPLETE "+result.nonce+" "+("FAIL" if failed else "PASS"))
+ quit(1 if failed else 0)
+`;
+function inspectorFiles(){
+ const paths=[...files(),'src/godot-game/content/fixtures/world-states.json','src/godot-game/inspection/Inspection.tscn','src/godot-game/project.godot','src/godot-game/content/pack-index.json','src/godot-game/content/expected-obligations.json'];
+ for(const directory of ['src/godot-game/assets','src/godot-game/content','src/godot-game/inspection']){
+  function walk(dir){for(const entry of fs.readdirSync(inside(ROOT,dir),{withFileTypes:true})){const file=dir+'/'+entry.name;if(entry.isDirectory())walk(file);else if(entry.isFile()&&!file.endsWith('.import')&&!file.endsWith('.uid'))paths.push(file);}}
+  walk(directory);
+ }
+ return [...new Set(paths)];
+}
+async function inspectorCase(context){
+ const inputs=fingerprint(inspectorFiles());write(context.directory,'inputs.json',inputs);
+ const env=require('./defenses.cjs').isolated(),project=inside(context.directory,'native-inspector');fs.mkdirSync(project);
+ const built=await runner.command(context,'inspector-strict','dotnet',['build',inside(ROOT,'KingdomZombies.slnx'),'--no-restore','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'],{env});need(/0 Warning\(s\)[\s\S]*0 Error\(s\)/.test(built.stdout),'WORLD_INSPECTOR_STRICT');
+ for(const file of ['project.godot','inspection','content','assets','.godot/mono/temp/bin/Debug'])fs.cpSync(inside(ROOT,'src/godot-game/'+file),inside(project,file),{recursive:true});
+ const binaries=inside(ROOT,'src/godot-game/.godot/mono/temp/bin/Debug'),closure=fs.readdirSync(binaries).filter(f=>fs.statSync(path.join(binaries,f)).isFile()).map(file=>({file,sha256:hash(fs.readFileSync(path.join(binaries,file)))}));write(context.directory,'production-assemblies.json',closure);
+ write(project,'probe.gd',Buffer.from(INSPECTOR_DRIVER));
+ const tool=require('./items.cjs').engine(),pin=document(ROOT,'tools/phase1/toolchain.json').archives['win32-x64'],archive=inside(ROOT,'.phase1/cache/'+pin.file);need(hash(fs.readFileSync(archive))===pin.sha256,'WORLD_INSPECTOR_ARCHIVE');
+ const executable=path.join(path.dirname(tool.executable),pin.executable.replace('_console.exe','.exe')),entry=pin.directory+'/'+path.basename(executable);
+ const auth=await runner.command(context,'inspector-engine-auth',PYTHON,['-B','-c','import sys,zipfile,hashlib; z=zipfile.ZipFile(sys.argv[1]); r=[x for x in z.infolist() if x.filename==sys.argv[2]]; assert len(r)==1 and 0<r[0].file_size<=268435456; print(hashlib.sha256(z.read(r[0])).hexdigest())',archive,entry]);need(hash(fs.readFileSync(executable))===auth.stdout.trim(),'WORLD_INSPECTOR_ENGINE');
+ write(context.directory,'engine.json',{executable,sha256:auth.stdout.trim(),archiveSha256:pin.sha256,archiveEntry:entry,consoleExecutable:tool.executable});
+ await runner.command(context,'inspector-import',executable,['--headless','--path',project,'--editor','--import','--quit'],{env});
+ const child=await runner.command(context,'inspector-native',executable,['--headless','--path',project,'--script','res://probe.gd','--quit-after','1600'],{env:{...env,WORLD_INSPECTOR_NONCE:context.nonce}});
+ const result=document(project,'native-results.json');write(context.directory,'native-observation.json',result);
+ need(result.pid===child.pid&&result.nonce===context.nonce&&!result.failed&&result.outcomes.every(row=>row.pass),'WORLD_INSPECTOR_NATIVE');
+ for(const state of ['empty','loading','error','populated','overflow','long-text'])need(result.outcomes.filter(row=>row.id==='WORLD-ITEM-PREVIEW.'+state&&row.pass).length===1,'WORLD_INSPECTOR_BACKSTOP '+state);
+ need(!/ERROR:|SCRIPT ERROR:|FATAL|leaked/i.test(child.stdout+child.stderr)&&child.stderr.trim()===''&&child.stdout.includes('WORLD_INSPECTOR_COMPLETE '+context.nonce+' PASS'),'WORLD_INSPECTOR_NATIVE_CLEAN');
+ need(equal(inputs,fingerprint(inspectorFiles())),'WORLD_INSPECTOR_SOURCE_CHANGED');return {outcomes:result.outcomes.length,pid:result.pid,productionAssemblies:closure,scope:result.scope};
+}
+runner.registerCase('world.inspector',{group:'world',title:'Actual hub world/item selection and six independent preview backstops',importance:'Critical',rationale:'Unreachable authored content or one bad item hiding valid world breaks the inspection pack',needsGameWindow:false,runGroup:'G0-world',order:3,requirements:['ASSET-01','ASSET-02','ASSET-03'],acceptance:['AC-09','AC-16','AC-20'],setup:'Current strict production assembly, actual CSharp hub and authenticated headless Godot in owned isolated project',actions:['Select all24items and9structure tiers through real hub signals','Select every world/effect current state,pan edges and zoom without changing authored positions','Observe six independently named WORLD-ITEM-PREVIEW backstops','Restore damaged media and close owned native scene'],expected:'Actual production resource identities and every individual outcome pass; actual input/draw/readability remain04-32',reset:'Revoke and retire all previews; restore owned copied bytes only',evidence:['inputs.json','production-assemblies.json','engine.json','native-observation.json','result.json']},inspectorCase);
+Object.assign(module.exports,{INSPECTOR_DRIVER,inspectorFiles,inspectorCase});

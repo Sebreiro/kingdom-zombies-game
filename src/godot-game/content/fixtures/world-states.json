@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "world-states",
+  "version": 1,
+  "scope": "Inspection samples only; pack adoption04-23 and actual input/draw/readability04-32/33 remain pending",
+  "bindings": [
+    { "file": "content/packs/items-01-10.json", "sha256": "9402295cc6457d42d53a7b4a8ada19bc06711d6db8f600386f49b05a238686b7" },
+    { "file": "content/packs/items-11-24.json", "sha256": "78761a40c0e0b7a22ef9885ee847338fd7315ce69014756608a0bc965fe0a826" },
+    { "file": "assets/equipment/items-01-10.png", "sha256": "3d8b8e3d6aa0a2e94dc3fba8b64cc54573b62031be257db76c79fa2cac53cfe9" },
+    { "file": "assets/equipment/items-11-24.png", "sha256": "b5dafe0a20348a9b667e9eda74c4250fdcbf2ce2fffac38ab7193b19059a4219" },
+    { "file": "inspection/ItemsWeaponsPreview.tscn", "sha256": "a0b6e6306cd461efbecebfe5e715763b916a6988f1558451f98407f0ed8c79e4" },
+    { "file": "inspection/ItemsWearablesPreview.tscn", "sha256": "402f04ae90dbad7817809f5ed79eaa2e49d0aa6e1d955f0d918f93fe167e3331" },
+    { "file": "content/packs/main-buildings.json", "sha256": "54fc6b5cc758cd82e69a81abae28ff08f6e05387a86782c934a6b26f458fb346" },
+    { "file": "content/packs/defenses.json", "sha256": "973ddb022eb722d0279f47acad1e2112d213a84b6a60cddd8925046c28dbb3a7" },
+    { "file": "content/world/main-assemblies.json", "sha256": "1ca169e2bd8818fac84b4ff19d282aa9d6ed8b19b91adb70a830ef100c51ae1e" },
+    { "file": "content/world/defense-assemblies.json", "sha256": "e8ec43336aa2c79c8b52539bc300d5918c3acc75df8b0506b71caa1f2ef26787" },
+    { "file": "content/packs/camp-access.json", "sha256": "4c2c08f4475505b5d5e9dbd991a06930b28fd20538548ececf281020dec567b7" },
+    { "file": "content/packs/guards.json", "sha256": "6cb7cb1f9159df55eeb9d258784d62929b3fe0ac110219983ab1c0bf2761056c" }
+  ],
+  "backstops": [
+    { "id": "WORLD-ITEM-PREVIEW.empty", "action": "Filter with independently absent ID", "expected": "Zero rows and visible recovery instructions", "actualOwner": "04-32" },
+    { "id": "WORLD-ITEM-PREVIEW.loading", "action": "Observe pending resource read before publication", "expected": "Loading identity without previous preview", "actualOwner": "04-32" },
+    { "id": "WORLD-ITEM-PREVIEW.error", "action": "Remove one item atlas beside valid world", "expected": "Exact copyable path and error; unrelated world still selectable", "actualOwner": "04-32" },
+    { "id": "WORLD-ITEM-PREVIEW.populated", "action": "Select IT-07 and world.assembled", "expected": "Actual native authored item and map identities", "actualOwner": "04-32" },
+    { "id": "WORLD-ITEM-PREVIEW.overflow", "action": "Select every component and pan both map edges at8x", "expected": "Bounded scrolling and reachable view transform", "actualOwner": "04-32" },
+    { "id": "WORLD-ITEM-PREVIEW.long-text", "action": "Expose diagnostic identifier exceeding one row", "expected": "Selectable wrapped full identity outside collapsed metadata", "actualOwner": "04-32" }
+  ],
+  "acceptance": { "visual": "pending", "owner": "04-32/04-33", "completedObligations": [] }
+}
