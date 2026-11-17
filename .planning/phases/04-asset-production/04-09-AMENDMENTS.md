@@ -1,0 +1,16 @@
+# Plan 04-09 — Bounded execution amendments
+
+## Actual consumer resource closure and existing Core API (2026-11-17)
+
+CharacterPreview.Open always loads its actual presentation definitions. Required bow/work definitions must therefore enter the existing body and animation proof staging/fingerprint closures before those consumers can remain meaningful. Before editing, the coordinator adds only these two existing paths to this plan:
+
+- `tools/phase4/cases/bodies-a.cjs`, only FIT_FILES dependency staging/fingerprints
+- `tools/phase4/cases/animation.cjs`, only INPUTS/files dependency staging/fingerprints
+
+Task1 adds the actual `src/godot-game/content/animation/bow.json` dependency when published. Task2 adds actual `src/godot-game/content/animation/work-special.json` and `src/godot-game/assets/characters/work-special.png` dependencies when published and consumed. Do not add missing future Task2 files to the Task1 committed tracer. Once a definition is required by production Open, absence must fail; no fallback may hide it. Preserve every original case ID, assertion, matrix/count, negative, pixel/registration/lifetime rule, report contract, authentication and process gate. No other helper/reader/capacity/deadline change is granted.
+
+The original eight paths plus these two existing consumers make a ten-path plan union; the distinct phase inventory stays236. Each task may publish its two proof-dependency changes as a bounded part alongside its original five paths. No task, wave, obligation or correction budget changes.
+
+The already authorized sealed public CharacterPresentation identity may extend its actual engine-independent API for this planned slice. Preserve the existing three-definition constructor and Configure contract for existing melee-only consumers. The proposed four-definition constructor accepts strict bow bytes; ConfigureBow accepts explicit finite aim, bounded actual left/right arrow counts and usability, and a bounded ordinal stack identity; TryRelease accepts a generation and reports one-shot presentation release. No new public identity or Godot script is authorized. Missing required bow bytes cannot become fabricated default bow data. Existing snapshots remain detached; releases do not create gameplay hits, damage, pickups or reload delay. Final actual signatures and source/native tuples belong in SUMMARY and23 handoff.
+
+Use actual DT05 timing/event bindings and actual selected item state. Preserve 04-08's original melee/fist fallback semantics: an explicitly selected melee action is not automatically a bow fire action. The genuine RED must assert the intended bow presentation behavior through a valid compiled setup, with no missing-API/fixture/discovery failure or relabeling of correct melee behavior. The executor should report a concrete seam concern before inventing semantics. Structural guard reuse must use the actual retained K15 guard presentation/contract, not rename an ordinary CH body; report any concrete additional dependency before editing its consumer closure. No Root, permission or generated cohort change is granted.
