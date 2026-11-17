@@ -68,6 +68,24 @@ internal sealed class CampLayouts
     }
 
     /// <summary>Parses detached bounded strict Unicode data before any engine operation.</summary>
+    internal static string WarningText(string text, bool muted)
+    {
+        return text;
+    }
+
+    /// <summary>Determines whether a known portal is eligible for any map presentation.</summary>
+    internal static bool PortalVisible(bool known)
+    {
+        return true;
+    }
+
+    /// <summary>Explains why a spectator cannot request a controlled survivor action.</summary>
+    internal static string SpectatorReason(bool available)
+    {
+        return "Ready";
+    }
+
+    /// <summary>Parses detached bounded strict Unicode data before any engine operation.</summary>
     internal static JsonElement Read(byte[] bytes)
     {
         return ReadDocument(bytes: bytes, mapDependency: false);

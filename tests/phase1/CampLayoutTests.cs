@@ -51,6 +51,29 @@ public sealed class CampLayoutTests
         error.InnerException.ShouldBeOfType<InvalidDataException>().Message.ShouldBe(expected: "CAMP_ARRAY_COUNT");
     }
 
+    /// <summary>Muting adds status while retaining the entire critical warning.</summary>
+    [Fact]
+    public void Warning_MutedRetainsFullInformation()
+    {
+        Call(name: "WarningText", arguments: ["Retaliation: left portal in10 seconds.", true])
+                .ShouldBe(expected: "Retaliation: left portal in10 seconds. · Sound muted");
+    }
+
+    /// <summary>An undiscovered portal is omitted from every presentation.</summary>
+    [Fact]
+    public void Map_UnknownPortalIsHidden()
+    {
+        Call(name: "PortalVisible", arguments: [false]).ShouldBe(expected: false);
+    }
+
+    /// <summary>Waiting spectators receive an explicit reason instead of ownership controls.</summary>
+    [Fact]
+    public void Spectator_UnavailableOwnershipHasReason()
+    {
+        Call(name: "SpectatorReason", arguments: [false])
+                .ShouldBe(expected: "No eligible survivor; request waits without ownership actions.");
+    }
+
     private static object? Call(string name, object[] arguments)
     {
         var assembly = Assembly.Load(rawAssembly: File.ReadAllBytes(path: Path.Combine(path1: ProofProtocol.Root,
