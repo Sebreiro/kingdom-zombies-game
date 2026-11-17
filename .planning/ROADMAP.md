@@ -197,7 +197,7 @@ Plans:
 4. A developer can inspect every required UI/text/data resource and error/legacy layout, test longer strings and supported scales, and audition all required sound/ambience categories through documented event bindings.
 5. The packaged content and inspection scenes import and run without the recovered-material folder or other absolute development paths; missing references and unfitted combinations are visible failures.
 
-**Plans:** 18/37 plans executed
+**Plans:** 19/37 plans executed
 
 Plans:
 **Wave 1**
@@ -247,7 +247,7 @@ Plans:
 - [x] 04-08-PLAN.md — Concurrent locomotion, melee and coherent logical hands
 
 **Wave 15** *(blocked on Wave 14 completion)*
-- [ ] 04-09-PLAN.md — Bow, work, food and specialist action composition
+- [x] 04-09-PLAN.md — Bow, work, food and specialist action composition
 
 **Wave 16** *(blocked on Wave 15 completion)*
 - [ ] 04-10-PLAN.md — Persistent corpses, wildlife, identities and real crowd resources
@@ -521,7 +521,7 @@ Execution order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11
 | 1. Code rules and documentation | 18/18 | Complete    | 2026-11-14 |
 | 2. Playable foundation | 3/3 | Complete    | 2026-11-15 |
 | 3. Four-player LAN foundation | 4/4 | Complete    | 2026-11-16 |
-| 4. Asset production | 18/37 | In Progress | - |
+| 4. Asset production | 19/37 | In Progress | - |
 | 5. CI and repeatable game testing | 0/TBD | Not started | - |
 | 6. Survivors, inventory, and combat | 0/TBD | Not started | - |
 | 7. Camp economy and development | 0/TBD | Not started | - |
