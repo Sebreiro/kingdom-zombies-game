@@ -1,0 +1,20 @@
+# 04-07 — proof-owned image lifetime continuation
+
+Coordinator decision2026-11-17 after checkpoint2eda441. Task1 commits2860b5b/ac5cb91 and mandatory tracer80c67af1 remain valid. Task2 remains incomplete; its original two corrective batches are exhausted, distinct from Task1's two. No budget is reset. Exact eight implementation WIP files plus amendment/backups are in `.phase4/checkpoints/04-07-r2-boundary/manifest.json`.
+
+## Observed failed run
+
+Immutable complete-fitfa05574b-d349-47b0-b520-0a6cb8599966 authenticates PID29872/nonce/DLL, source replay, strict production/harness0warnings/errors and16158 true observations/7936tuples/12H13. The process then exits3221225501/0xC000001D after printing PASS. Canonical status remainsFAIL. Stderr enters`godotsharp_internal_refcounted_disposed`,GodotObject.Dispose/Finalize andGC.RunFinalizers. This establishes the failure boundary, not a proven root cause.
+
+Parent inspected the actual emitted CharacterHarness.cs and composition in bodies-b.cjs. The inherited FIT_HARNESS.ExactPixels in existing`tools/phase4/cases/bodies-a.cjs` creates three proof-owned Images per call: decoded source, cropped region and actual texture copy. None has explicit scoped disposal. B derives this exact helper from A. Fixing that single shared helper avoids a second string-replacement implementation and also tests the original A case honestly.
+
+## Prospective R1 — maximumtwo corrective attempts
+
+This exact amendment expands the already-owned bodies-a.cjs beyond its prior six-path FIT_FILES change **only** for the three Image lifetimes inside FIT_HARNESS.ExactPixels. No additional tracked path:07 union remains12 and phase inventory234. Record the amendment before source edits.
+
+1. Pin root/branch/index and verify every checkpoint live/backup hash. Preserve all original sources, failures, generated originals/prompts and the unexecuted automatic-review rejection. The rejected`added&&` width bypass must never return; unconditional old/new body and pixel assertions stay.
+2. Add explicit scoped disposal (`using` or equivalent guaranteed finally) to the helper's decoded source Image, cropped Image and texture.GetImage copy, while the owning engine is active. Check pinned local API ownership documentation if needed. Preserve every decode/region/nearest resize, alpha/nontransparent RGB comparison, early-return result, fixture, native authentication and nonzero-exit check. No Sprite/engine-owned object disposal, assertion weakening, cache bypass, production/fit/resource edit, forced successful exit, warning/finalizer suppression, output/deadline change or new native permission.
+3. Emit and inspect the composed actual B/C harness to prove those lifetimes are inherited and all assertions/counts remain. Run focused complete-fit; require all16158 outcomes,7936tuples/12H13, strict builds and a real clean exit0 without fatal stderr. An all-true payload plus nonzero exit still fails. If the crash persists, stop with exact evidence; do not assume Image ownership is the established cause or broaden cleanup to production.
+4. On focused success freeze inputs and run the fresh entire justified local selection: b-wide/complete-fit, original bodies.a-art/a-fit (2976tuples/12H13/10compiled0skip and original assertions), discovery, and actual affected hub/native/source-data consumers. Preserve known WINDOWS29/30/31 as separately open final23/31 integration; do not rerun unchanged failures merely to repeat them or claim policy permission from observations. No source edits during accepted runs.
+
+R1 starts0/2 used. Persist exact attempts/source mapping; exhaustion or a distinct production defect stops with checkpoint. Environmental escalation may rerun identical inputs without changing assertion credit. On success commit exact tested Task2 files in bounded owned parts, then immediately write/self-check/commit SUMMARY with complete artifacts/symbols/native tuples and418 retained b+c source members. Parent owns global15→16 progress and PR5; allASSET and actual32/33 appearance/listening/physical-input acceptance remain pending.
