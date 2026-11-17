@@ -39,17 +39,23 @@ internal sealed class CharacterPreview
             throw new InvalidDataException(message: "CHARACTER_DEFINITION_ID");
         }
 
+        if (expectedId.StartsWith(value: "fits-", comparisonType: StringComparison.Ordinal))
+        {
+            ValidateFitting(root: root);
+        }
+
         return root.Clone();
     }
+
+
 
     internal static CharacterPreview Open(Node2D root, MainThreadGateway gateway, Func<string, byte[]?> read,
             string body)
     {
         gateway.RequireThread();
-        JsonElement fits = ReadDefinition(bytes: read(arg: "content/animation/fits-a.json")
-                ?? throw new InvalidDataException(message: "CHARACTER_FITS_MISSING"), expectedId: "fits-a");
-        JsonElement bodies = ReadDefinition(bytes: read(arg: "content/packs/bodies-a.json")
-                ?? throw new InvalidDataException(message: "CHARACTER_BODIES_MISSING"), expectedId: "bodies-a");
+        JsonElement[] profiles = [ReadProfile(read: read, profile: "a"), ReadProfile(read: read, profile: "b")];
+        JsonElement fits = MergeFits(profiles: profiles);
+        JsonElement bodies = MergeBodies(profiles: profiles);
         JsonElement weapons = ReadDefinition(bytes: read(arg: "content/packs/items-01-10.json")
                 ?? throw new InvalidDataException(message: "CHARACTER_ITEMS_MISSING"), expectedId: "items-01-10");
         JsonElement clothing = ReadDefinition(bytes: read(arg: "content/packs/items-11-24.json")
@@ -57,6 +63,12 @@ internal sealed class CharacterPreview
         return new CharacterPreview(root: root, gateway: gateway, fits: fits, bodies: bodies, weapons: weapons,
                 clothing: clothing, body: body);
     }
+
+
+
+
+
+
 
     internal static JsonElement FitItem(JsonElement fits, string body, string item, string pose, int facing)
     {
@@ -89,7 +101,7 @@ internal sealed class CharacterPreview
         _root.AddChild(node: controls);
         var slots = new VBoxContainer { Name = "Slots", SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
         controls.AddChild(node: slots);
-        AddSelector(parent: slots, id: "Body", label: "Body", values: ["CH-01", "CH-02", "CH-03"]);
+        int selected = BodyChoice(slots: slots);
         AddSelector(parent: slots, id: "Pose", label: "Authored pose", values: _fits.GetProperty(
                 propertyName: "bodies")[0].GetProperty(propertyName: "poses").EnumerateArray()
                 .Select(selector: pose => Text(value: pose, name: "id")));
@@ -107,12 +119,13 @@ internal sealed class CharacterPreview
         _root.AddChild(node: new Node2D { Name = "Art", Position = new Vector2(x: 0, y: 0) });
         _root.AddChild(node: new Label { Name = "Status", Position = new Vector2(x: 0, y: 322),
                 Size = new Vector2(x: 650, y: 80), AutowrapMode = TextServer.AutowrapMode.WordSmart });
-        _controls["Body"].Select(idx: int.Parse(s: _body.AsSpan(start: 3), provider:
-                System.Globalization.CultureInfo.InvariantCulture) - 1);
+        _controls["Body"].Select(idx: selected);
         _controls["Zoom"].Select(idx: 3);
         _attached = true;
         Project();
     }
+
+
 
     internal void Detach()
     {
@@ -135,6 +148,118 @@ internal sealed class CharacterPreview
     private readonly Dictionary<string, Texture2D> _textures = new(comparer: StringComparer.Ordinal);
     private string _body;
     private bool _attached;
+
+    private static void ValidateFitting(JsonElement root)
+    {
+        foreach (JsonElement body in root.GetProperty(propertyName: "bodies").EnumerateArray())
+        {
+            JsonElement bodyWidth = body.GetProperty(propertyName: "width");
+            if (bodyWidth.ValueKind is not JsonValueKind.Number || !bodyWidth.TryGetInt32(value: out int count)
+                    || count is < 2 or > 16)
+            {
+                throw new InvalidDataException(message: "CHARACTER_FIT_WIDTH body");
+            }
+
+            if (body.TryGetProperty(propertyName: "componentWidths", value: out JsonElement widths))
+            {
+                foreach (JsonProperty width in widths.EnumerateObject())
+                {
+                    if (width.Value.ValueKind is not JsonValueKind.Number
+                            || !width.Value.TryGetInt32(value: out int value) || value is < 1 or > 16)
+                    {
+                        throw new InvalidDataException(message: "CHARACTER_FIT_WIDTH " + width.Name);
+                    }
+                }
+            }
+
+            foreach (JsonElement pose in body.GetProperty(propertyName: "poses").EnumerateArray())
+            {
+                if (pose.TryGetProperty(propertyName: "unlinkedRotation", value: out JsonElement rotation))
+                {
+                    double angle = rotation.GetDouble();
+                    double turns = angle / (Math.PI / 2);
+                    if (!double.IsFinite(d: angle) || Math.Abs(value: turns) > 2
+                            || Math.Abs(value: turns - Math.Round(a: turns)) > 0.000001)
+                    {
+                        throw new InvalidDataException(message: "CHARACTER_FIT_ROTATION "
+                                + Text(value: body, name: "id") + " " + Text(value: pose, name: "id"));
+                    }
+                }
+            }
+        }
+    }
+
+    private static JsonElement ReadProfile(Func<string, byte[]?> read, string profile)
+    {
+        JsonElement fits = ReadDefinition(bytes: read(arg: "content/animation/fits-" + profile + ".json")
+                ?? throw new InvalidDataException(message: "CHARACTER_FITS_MISSING " + profile),
+                expectedId: "fits-" + profile);
+        JsonElement bodies = ReadDefinition(bytes: read(arg: "content/packs/bodies-" + profile + ".json")
+                ?? throw new InvalidDataException(message: "CHARACTER_BODIES_MISSING " + profile),
+                expectedId: "bodies-" + profile);
+        string atlas = "res://assets/characters/bodies-" + profile + ".png";
+        if (!StringComparer.Ordinal.Equals(x: Text(value: bodies.GetProperty(propertyName: "atlas"),
+                name: "path"), y: atlas))
+        {
+            throw new InvalidDataException(message: "CHARACTER_PROFILE_ATLAS " + profile);
+        }
+
+        string[] expected = profile is "a" ? ["CH-01", "CH-02", "CH-03"] : ["CH-04", "CH-05", "CH-08"];
+        string[] actual = bodies.GetProperty(propertyName: "bodies").EnumerateArray()
+                .Select(selector: value => Text(value: value, name: "id")).ToArray();
+        string[] fitted = fits.GetProperty(propertyName: "bodies").EnumerateArray()
+                .Select(selector: value => Text(value: value, name: "id")).ToArray();
+        if (!actual.SequenceEqual(second: expected, comparer: StringComparer.Ordinal)
+                || !fitted.SequenceEqual(second: expected, comparer: StringComparer.Ordinal))
+        {
+            throw new InvalidDataException(message: "CHARACTER_PROFILE_BODIES " + profile);
+        }
+
+        return JsonSerializer.SerializeToElement(value: new { fits, bodies, atlas });
+    }
+
+    private static JsonElement MergeFits(JsonElement[] profiles)
+    {
+        JsonElement first = profiles[0].GetProperty(propertyName: "fits");
+        return JsonSerializer.SerializeToElement(value: new
+        {
+            bodies = profiles.SelectMany(selector: value => value.GetProperty(propertyName: "fits")
+                    .GetProperty(propertyName: "bodies").EnumerateArray()).OrderBy(
+                            keySelector: value => Text(value: value, name: "id"), comparer: StringComparer.Ordinal),
+            slots = first.GetProperty(propertyName: "slots"), items = first.GetProperty(propertyName: "items"),
+        });
+    }
+
+    private static JsonElement MergeBodies(JsonElement[] profiles)
+    {
+        return JsonSerializer.SerializeToElement(value: new
+        {
+            parts = profiles.SelectMany(selector: value => value.GetProperty(propertyName: "bodies")
+                    .GetProperty(propertyName: "parts").EnumerateArray()),
+            atlases = profiles.SelectMany(selector: profile => profile.GetProperty(propertyName: "bodies")
+                    .GetProperty(propertyName: "bodies").EnumerateArray().Select(selector: body =>
+                            new KeyValuePair<string, string>(key: Text(value: body, name: "id"),
+                                    value: Text(value: profile, name: "atlas"))))
+                    .ToDictionary(keySelector: value => value.Key, elementSelector: value => value.Value,
+                            comparer: StringComparer.Ordinal),
+        });
+    }
+
+    private int BodyChoice(Node slots)
+    {
+        _gateway.RequireThread();
+        string[] bodies = _fits.GetProperty(propertyName: "bodies").EnumerateArray()
+                .Select(selector: value => Text(value: value, name: "id")).ToArray();
+        int selected = Array.FindIndex(array: bodies, match: value => StringComparer.Ordinal.Equals(
+                x: value, y: _body));
+        if (selected < 0 || bodies.Distinct(comparer: StringComparer.Ordinal).Count() != bodies.Length)
+        {
+            throw new InvalidDataException(message: "CHARACTER_BODY_SELECTION " + _body);
+        }
+
+        AddSelector(parent: slots, id: "Body", label: "Body", values: bodies);
+        return selected;
+    }
 
     private static string Text(JsonElement value, string name)
     {
@@ -258,13 +383,28 @@ internal sealed class CharacterPreview
                     .First(predicate: value => StringComparer.Ordinal.Equals(x: Text(value: value, name: "key"),
                             y: key));
             var sprite = new Sprite2D { Name = "Body_" + part, Centered = false,
-                    Texture = Texture(pack: _bodies, part: definition, atlas: "assets/characters/bodies-a.png"),
+                    Texture = Texture(pack: _bodies, part: definition, atlas: BodyAtlas()),
                     Position = new Vector2(x: facing == 1 ? 0 : 48, y: 0),
                     Scale = new Vector2(x: facing, y: 1), ZIndex = 10,
                     TextureFilter = CanvasItem.TextureFilterEnum.Nearest };
             sprite.SetMeta(name: "part", value: key);
             art.AddChild(node: sprite);
         }
+    }
+
+    private string BodyAtlas()
+    {
+        _gateway.RequireThread();
+        string atlas = _bodies.TryGetProperty(propertyName: "atlases", value: out JsonElement atlases)
+                ? Text(value: atlases, name: _body)
+                : Text(value: _bodies.GetProperty(propertyName: "atlas"), name: "path");
+        string[] allowed = ["res://assets/characters/bodies-a.png", "res://assets/characters/bodies-b.png"];
+        if (!allowed.Contains(value: atlas, comparer: StringComparer.Ordinal))
+        {
+            throw new InvalidDataException(message: "CHARACTER_PROFILE_ATLAS " + _body);
+        }
+
+        return atlas[6..];
     }
 
     private void AddItem(Node2D art, JsonElement body, JsonElement pose, string slot, string itemId, int facing,
@@ -321,21 +461,8 @@ internal sealed class CharacterPreview
         anchor = anchor is "hand" ? slot + "Hand" : anchor;
         JsonElement anchors = pose.GetProperty(propertyName: "anchors");
         Vector2 at = Point(value: anchors.GetProperty(propertyName: anchor));
-        Vector2 size = Point(value: layer.GetProperty(propertyName: "size"));
-        float angle = 0;
-        if (layer.GetProperty(propertyName: "end").ValueKind is JsonValueKind.String)
-        {
-            Vector2 delta = Point(value: anchors.GetProperty(propertyName: Text(value: layer, name: "end"))) - at;
-            size.Y = Math.Max(val1: 1, val2: MathF.Round(x: delta.Length()));
-            angle = delta.Angle() - MathF.PI / 2;
-        }
-        else if (anchor is "torso")
-        {
-            size.X = body.GetProperty(propertyName: "width").GetInt32() + (slot is "armor" ? 2 : 0);
-            size.Y = pose.GetProperty(propertyName: "torsoLength").GetInt32();
-            angle = (Point(value: anchors.GetProperty(propertyName: "hips")) - at).Angle() - MathF.PI / 2;
-        }
-
+        (Vector2 size, float angle) = FitGeometry(body: body, pose: pose, layer: layer, slot: slot,
+                anchor: anchor, anchors: anchors, at: at);
         JsonElement pack = _packs.First(predicate: value => value.GetProperty(propertyName: "items")
                 .EnumerateArray().Any(predicate: value => StringComparer.Ordinal.Equals(x: Text(value: value,
                         name: "id"), y: Text(value: item, name: "id"))));
@@ -351,6 +478,40 @@ internal sealed class CharacterPreview
                 predicate: value => StringComparer.Ordinal.Equals(x: Text(value: value, name: "key"), y: key));
         AddFittedSprite(art: art, item: item, layer: layer, slot: slot, facing: facing, at: at, size: size,
                 angle: angle, pack: pack, definition: definition, key: key);
+    }
+
+    private (Vector2 Size, float Angle) FitGeometry(JsonElement body, JsonElement pose, JsonElement layer,
+            string slot, string anchor, JsonElement anchors, Vector2 at)
+    {
+        _gateway.RequireThread();
+        Vector2 size = Point(value: layer.GetProperty(propertyName: "size"));
+        float angle = 0;
+        if (body.TryGetProperty(propertyName: "componentWidths", value: out JsonElement widths)
+                && widths.TryGetProperty(propertyName: Text(value: layer, name: "component"),
+                        value: out JsonElement width))
+        {
+            size.X = width.GetInt32();
+        }
+
+        if (layer.GetProperty(propertyName: "end").ValueKind is JsonValueKind.String)
+        {
+            Vector2 delta = Point(value: anchors.GetProperty(propertyName: Text(value: layer, name: "end"))) - at;
+            size.Y = Math.Max(val1: 1, val2: MathF.Round(x: delta.Length()));
+            angle = delta.Angle() - MathF.PI / 2;
+        }
+        else if (anchor is "torso")
+        {
+            size.X = body.GetProperty(propertyName: "width").GetInt32() + (slot is "armor" ? 2 : 0);
+            size.Y = pose.GetProperty(propertyName: "torsoLength").GetInt32();
+            angle = (Point(value: anchors.GetProperty(propertyName: "hips")) - at).Angle() - MathF.PI / 2;
+        }
+        else if (slot is not ("left" or "right") && pose.TryGetProperty(propertyName: "unlinkedRotation",
+                value: out JsonElement rotation))
+        {
+            angle = rotation.GetSingle();
+        }
+
+        return (size, angle);
     }
 
     private void AddFittedSprite(Node2D art, JsonElement item, JsonElement layer, string slot, int facing,
