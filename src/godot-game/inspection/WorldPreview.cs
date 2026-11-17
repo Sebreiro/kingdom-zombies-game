@@ -52,6 +52,17 @@ internal sealed class WorldPreview
 
     internal long SelectionEpoch => _selectionEpoch;
 
+    internal static long NextInspectorEpoch(long previous)
+    {
+        return checked(previous + 1);
+    }
+
+    internal static bool InspectorAccepts(long completionEpoch, long currentEpoch, string completionId,
+            string currentId, bool accepting)
+    {
+        return accepting && completionEpoch == currentEpoch && Same(left: completionId, right: currentId);
+    }
+
     internal static string[] InspectorIds(string category)
     {
         return category switch
@@ -98,14 +109,19 @@ internal sealed class WorldPreview
         _gateway.RequireThread();
         Require(valid: _inspector && !_closed && InspectorHandles(id: id), code: "WORLD_INSPECTOR_ID");
         RetireInspector();
-        _selectionEpoch++;
+        _selectionEpoch = NextInspectorEpoch(previous: _selectionEpoch);
+        long epoch = _selectionEpoch;
         _activeId = id;
         _inspectorStatus = "Loading";
         ShowInspector();
         try
         {
             ProjectInspector();
-            _inspectorStatus = "Populated — authored view; pack adoption and acceptance pending";
+            if (InspectorAccepts(completionEpoch: epoch, currentEpoch: _selectionEpoch, completionId: id,
+                    currentId: _activeId, accepting: !_closed))
+            {
+                _inspectorStatus = "Populated — authored view; pack adoption and acceptance pending";
+            }
         }
         catch (Exception error) when (error is InvalidDataException or JsonException or FormatException)
         {
