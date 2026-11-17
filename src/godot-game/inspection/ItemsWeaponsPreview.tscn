@@ -150,37 +150,37 @@ tracks/9/enabled = true
 tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/10/type = "value"
-tracks/10/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/10/path = NodePath("Groups/IT_03/ArtScroll/Canvas/Art/Broken:visible")
 tracks/10/interp = 0
 tracks/10/enabled = true
 tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/11/type = "value"
-tracks/11/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/11/path = NodePath("Groups/IT_04/ArtScroll/Canvas/Art/Broken:visible")
 tracks/11/interp = 0
 tracks/11/enabled = true
 tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/12/type = "value"
-tracks/12/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/12/path = NodePath("Groups/IT_05/ArtScroll/Canvas/Art/Broken:visible")
 tracks/12/interp = 0
 tracks/12/enabled = true
 tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/13/type = "value"
-tracks/13/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/13/path = NodePath("Groups/IT_06/ArtScroll/Canvas/Art/Broken:visible")
 tracks/13/interp = 0
 tracks/13/enabled = true
 tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/14/type = "value"
-tracks/14/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/14/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Broken:visible")
 tracks/14/interp = 0
 tracks/14/enabled = true
 tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/15/type = "value"
-tracks/15/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/15/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Nocked:visible")
 tracks/15/interp = 0
 tracks/15/enabled = true
 tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
@@ -249,37 +249,37 @@ tracks/9/enabled = true
 tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/10/type = "value"
-tracks/10/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/10/path = NodePath("Groups/IT_03/ArtScroll/Canvas/Art/Broken:visible")
 tracks/10/interp = 0
 tracks/10/enabled = true
 tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/11/type = "value"
-tracks/11/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/11/path = NodePath("Groups/IT_04/ArtScroll/Canvas/Art/Broken:visible")
 tracks/11/interp = 0
 tracks/11/enabled = true
 tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/12/type = "value"
-tracks/12/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/12/path = NodePath("Groups/IT_05/ArtScroll/Canvas/Art/Broken:visible")
 tracks/12/interp = 0
 tracks/12/enabled = true
 tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/13/type = "value"
-tracks/13/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/13/path = NodePath("Groups/IT_06/ArtScroll/Canvas/Art/Broken:visible")
 tracks/13/interp = 0
 tracks/13/enabled = true
 tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/14/type = "value"
-tracks/14/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/14/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Broken:visible")
 tracks/14/interp = 0
 tracks/14/enabled = true
 tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/15/type = "value"
-tracks/15/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/15/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Nocked:visible")
 tracks/15/interp = 0
 tracks/15/enabled = true
 tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
@@ -348,37 +348,37 @@ tracks/9/enabled = true
 tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/10/type = "value"
-tracks/10/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/10/path = NodePath("Groups/IT_03/ArtScroll/Canvas/Art/Broken:visible")
 tracks/10/interp = 0
 tracks/10/enabled = true
 tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/11/type = "value"
-tracks/11/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/11/path = NodePath("Groups/IT_04/ArtScroll/Canvas/Art/Broken:visible")
 tracks/11/interp = 0
 tracks/11/enabled = true
 tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/12/type = "value"
-tracks/12/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/12/path = NodePath("Groups/IT_05/ArtScroll/Canvas/Art/Broken:visible")
 tracks/12/interp = 0
 tracks/12/enabled = true
 tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/13/type = "value"
-tracks/13/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/13/path = NodePath("Groups/IT_06/ArtScroll/Canvas/Art/Broken:visible")
 tracks/13/interp = 0
 tracks/13/enabled = true
 tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/14/type = "value"
-tracks/14/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/14/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Broken:visible")
 tracks/14/interp = 0
 tracks/14/enabled = true
 tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/15/type = "value"
-tracks/15/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/15/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Nocked:visible")
 tracks/15/interp = 0
 tracks/15/enabled = true
 tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
@@ -387,37 +387,37 @@ tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Ar
 [sub_resource type="Animation" id="State_IT_03_Broken"]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/0/path = NodePath("Groups/IT_03/ArtScroll/Canvas/Art/Broken:visible")
 tracks/0/interp = 0
 tracks/0/enabled = true
 tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
 
 tracks/1/type = "value"
-tracks/1/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/1/path = NodePath("Groups/IT_04/ArtScroll/Canvas/Art/Broken:visible")
 tracks/1/interp = 0
 tracks/1/enabled = true
 tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/2/type = "value"
-tracks/2/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/2/path = NodePath("Groups/IT_05/ArtScroll/Canvas/Art/Broken:visible")
 tracks/2/interp = 0
 tracks/2/enabled = true
 tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/3/type = "value"
-tracks/3/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/3/path = NodePath("Groups/IT_06/ArtScroll/Canvas/Art/Broken:visible")
 tracks/3/interp = 0
 tracks/3/enabled = true
 tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/4/type = "value"
-tracks/4/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/4/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Broken:visible")
 tracks/4/interp = 0
 tracks/4/enabled = true
 tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/5/type = "value"
-tracks/5/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/5/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Nocked:visible")
 tracks/5/interp = 0
 tracks/5/enabled = true
 tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
@@ -486,37 +486,37 @@ tracks/9/enabled = true
 tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/10/type = "value"
-tracks/10/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/10/path = NodePath("Groups/IT_03/ArtScroll/Canvas/Art/Broken:visible")
 tracks/10/interp = 0
 tracks/10/enabled = true
 tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/11/type = "value"
-tracks/11/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/11/path = NodePath("Groups/IT_04/ArtScroll/Canvas/Art/Broken:visible")
 tracks/11/interp = 0
 tracks/11/enabled = true
 tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/12/type = "value"
-tracks/12/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/12/path = NodePath("Groups/IT_05/ArtScroll/Canvas/Art/Broken:visible")
 tracks/12/interp = 0
 tracks/12/enabled = true
 tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/13/type = "value"
-tracks/13/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/13/path = NodePath("Groups/IT_06/ArtScroll/Canvas/Art/Broken:visible")
 tracks/13/interp = 0
 tracks/13/enabled = true
 tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/14/type = "value"
-tracks/14/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/14/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Broken:visible")
 tracks/14/interp = 0
 tracks/14/enabled = true
 tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/15/type = "value"
-tracks/15/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/15/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Nocked:visible")
 tracks/15/interp = 0
 tracks/15/enabled = true
 tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
@@ -525,37 +525,37 @@ tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Ar
 [sub_resource type="Animation" id="State_IT_04_Broken"]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/0/path = NodePath("Groups/IT_03/ArtScroll/Canvas/Art/Broken:visible")
 tracks/0/interp = 0
 tracks/0/enabled = true
 tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/1/type = "value"
-tracks/1/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/1/path = NodePath("Groups/IT_04/ArtScroll/Canvas/Art/Broken:visible")
 tracks/1/interp = 0
 tracks/1/enabled = true
 tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
 
 tracks/2/type = "value"
-tracks/2/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/2/path = NodePath("Groups/IT_05/ArtScroll/Canvas/Art/Broken:visible")
 tracks/2/interp = 0
 tracks/2/enabled = true
 tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/3/type = "value"
-tracks/3/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/3/path = NodePath("Groups/IT_06/ArtScroll/Canvas/Art/Broken:visible")
 tracks/3/interp = 0
 tracks/3/enabled = true
 tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/4/type = "value"
-tracks/4/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/4/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Broken:visible")
 tracks/4/interp = 0
 tracks/4/enabled = true
 tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/5/type = "value"
-tracks/5/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/5/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Nocked:visible")
 tracks/5/interp = 0
 tracks/5/enabled = true
 tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
@@ -624,37 +624,37 @@ tracks/9/enabled = true
 tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/10/type = "value"
-tracks/10/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/10/path = NodePath("Groups/IT_03/ArtScroll/Canvas/Art/Broken:visible")
 tracks/10/interp = 0
 tracks/10/enabled = true
 tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/11/type = "value"
-tracks/11/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/11/path = NodePath("Groups/IT_04/ArtScroll/Canvas/Art/Broken:visible")
 tracks/11/interp = 0
 tracks/11/enabled = true
 tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/12/type = "value"
-tracks/12/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/12/path = NodePath("Groups/IT_05/ArtScroll/Canvas/Art/Broken:visible")
 tracks/12/interp = 0
 tracks/12/enabled = true
 tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/13/type = "value"
-tracks/13/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/13/path = NodePath("Groups/IT_06/ArtScroll/Canvas/Art/Broken:visible")
 tracks/13/interp = 0
 tracks/13/enabled = true
 tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/14/type = "value"
-tracks/14/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/14/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Broken:visible")
 tracks/14/interp = 0
 tracks/14/enabled = true
 tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/15/type = "value"
-tracks/15/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/15/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Nocked:visible")
 tracks/15/interp = 0
 tracks/15/enabled = true
 tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
@@ -663,37 +663,37 @@ tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Ar
 [sub_resource type="Animation" id="State_IT_05_Broken"]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/0/path = NodePath("Groups/IT_03/ArtScroll/Canvas/Art/Broken:visible")
 tracks/0/interp = 0
 tracks/0/enabled = true
 tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/1/type = "value"
-tracks/1/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/1/path = NodePath("Groups/IT_04/ArtScroll/Canvas/Art/Broken:visible")
 tracks/1/interp = 0
 tracks/1/enabled = true
 tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/2/type = "value"
-tracks/2/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/2/path = NodePath("Groups/IT_05/ArtScroll/Canvas/Art/Broken:visible")
 tracks/2/interp = 0
 tracks/2/enabled = true
 tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
 
 tracks/3/type = "value"
-tracks/3/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/3/path = NodePath("Groups/IT_06/ArtScroll/Canvas/Art/Broken:visible")
 tracks/3/interp = 0
 tracks/3/enabled = true
 tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/4/type = "value"
-tracks/4/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/4/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Broken:visible")
 tracks/4/interp = 0
 tracks/4/enabled = true
 tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/5/type = "value"
-tracks/5/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/5/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Nocked:visible")
 tracks/5/interp = 0
 tracks/5/enabled = true
 tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
@@ -762,37 +762,37 @@ tracks/9/enabled = true
 tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/10/type = "value"
-tracks/10/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/10/path = NodePath("Groups/IT_03/ArtScroll/Canvas/Art/Broken:visible")
 tracks/10/interp = 0
 tracks/10/enabled = true
 tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/11/type = "value"
-tracks/11/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/11/path = NodePath("Groups/IT_04/ArtScroll/Canvas/Art/Broken:visible")
 tracks/11/interp = 0
 tracks/11/enabled = true
 tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/12/type = "value"
-tracks/12/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/12/path = NodePath("Groups/IT_05/ArtScroll/Canvas/Art/Broken:visible")
 tracks/12/interp = 0
 tracks/12/enabled = true
 tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/13/type = "value"
-tracks/13/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/13/path = NodePath("Groups/IT_06/ArtScroll/Canvas/Art/Broken:visible")
 tracks/13/interp = 0
 tracks/13/enabled = true
 tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/14/type = "value"
-tracks/14/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/14/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Broken:visible")
 tracks/14/interp = 0
 tracks/14/enabled = true
 tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/15/type = "value"
-tracks/15/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/15/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Nocked:visible")
 tracks/15/interp = 0
 tracks/15/enabled = true
 tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
@@ -801,37 +801,37 @@ tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Ar
 [sub_resource type="Animation" id="State_IT_06_Broken"]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/0/path = NodePath("Groups/IT_03/ArtScroll/Canvas/Art/Broken:visible")
 tracks/0/interp = 0
 tracks/0/enabled = true
 tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/1/type = "value"
-tracks/1/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/1/path = NodePath("Groups/IT_04/ArtScroll/Canvas/Art/Broken:visible")
 tracks/1/interp = 0
 tracks/1/enabled = true
 tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/2/type = "value"
-tracks/2/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/2/path = NodePath("Groups/IT_05/ArtScroll/Canvas/Art/Broken:visible")
 tracks/2/interp = 0
 tracks/2/enabled = true
 tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/3/type = "value"
-tracks/3/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/3/path = NodePath("Groups/IT_06/ArtScroll/Canvas/Art/Broken:visible")
 tracks/3/interp = 0
 tracks/3/enabled = true
 tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
 
 tracks/4/type = "value"
-tracks/4/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/4/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Broken:visible")
 tracks/4/interp = 0
 tracks/4/enabled = true
 tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/5/type = "value"
-tracks/5/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/5/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Nocked:visible")
 tracks/5/interp = 0
 tracks/5/enabled = true
 tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
@@ -900,37 +900,37 @@ tracks/9/enabled = true
 tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/10/type = "value"
-tracks/10/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/10/path = NodePath("Groups/IT_03/ArtScroll/Canvas/Art/Broken:visible")
 tracks/10/interp = 0
 tracks/10/enabled = true
 tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/11/type = "value"
-tracks/11/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/11/path = NodePath("Groups/IT_04/ArtScroll/Canvas/Art/Broken:visible")
 tracks/11/interp = 0
 tracks/11/enabled = true
 tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/12/type = "value"
-tracks/12/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/12/path = NodePath("Groups/IT_05/ArtScroll/Canvas/Art/Broken:visible")
 tracks/12/interp = 0
 tracks/12/enabled = true
 tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/13/type = "value"
-tracks/13/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/13/path = NodePath("Groups/IT_06/ArtScroll/Canvas/Art/Broken:visible")
 tracks/13/interp = 0
 tracks/13/enabled = true
 tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/14/type = "value"
-tracks/14/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/14/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Broken:visible")
 tracks/14/interp = 0
 tracks/14/enabled = true
 tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/15/type = "value"
-tracks/15/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/15/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Nocked:visible")
 tracks/15/interp = 0
 tracks/15/enabled = true
 tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
@@ -939,37 +939,37 @@ tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Ar
 [sub_resource type="Animation" id="State_IT_07_Broken"]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/0/path = NodePath("Groups/IT_03/ArtScroll/Canvas/Art/Broken:visible")
 tracks/0/interp = 0
 tracks/0/enabled = true
 tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/1/type = "value"
-tracks/1/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/1/path = NodePath("Groups/IT_04/ArtScroll/Canvas/Art/Broken:visible")
 tracks/1/interp = 0
 tracks/1/enabled = true
 tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/2/type = "value"
-tracks/2/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/2/path = NodePath("Groups/IT_05/ArtScroll/Canvas/Art/Broken:visible")
 tracks/2/interp = 0
 tracks/2/enabled = true
 tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/3/type = "value"
-tracks/3/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/3/path = NodePath("Groups/IT_06/ArtScroll/Canvas/Art/Broken:visible")
 tracks/3/interp = 0
 tracks/3/enabled = true
 tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/4/type = "value"
-tracks/4/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/4/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Broken:visible")
 tracks/4/interp = 0
 tracks/4/enabled = true
 tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
 
 tracks/5/type = "value"
-tracks/5/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/5/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Nocked:visible")
 tracks/5/interp = 0
 tracks/5/enabled = true
 tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
@@ -978,37 +978,37 @@ tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Arr
 [sub_resource type="Animation" id="State_IT_07_Nocked"]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/0/path = NodePath("Groups/IT_03/ArtScroll/Canvas/Art/Broken:visible")
 tracks/0/interp = 0
 tracks/0/enabled = true
 tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/1/type = "value"
-tracks/1/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/1/path = NodePath("Groups/IT_04/ArtScroll/Canvas/Art/Broken:visible")
 tracks/1/interp = 0
 tracks/1/enabled = true
 tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/2/type = "value"
-tracks/2/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/2/path = NodePath("Groups/IT_05/ArtScroll/Canvas/Art/Broken:visible")
 tracks/2/interp = 0
 tracks/2/enabled = true
 tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/3/type = "value"
-tracks/3/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/3/path = NodePath("Groups/IT_06/ArtScroll/Canvas/Art/Broken:visible")
 tracks/3/interp = 0
 tracks/3/enabled = true
 tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/4/type = "value"
-tracks/4/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/4/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Broken:visible")
 tracks/4/interp = 0
 tracks/4/enabled = true
 tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/5/type = "value"
-tracks/5/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/5/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Nocked:visible")
 tracks/5/interp = 0
 tracks/5/enabled = true
 tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
@@ -1077,37 +1077,37 @@ tracks/9/enabled = true
 tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/10/type = "value"
-tracks/10/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/10/path = NodePath("Groups/IT_03/ArtScroll/Canvas/Art/Broken:visible")
 tracks/10/interp = 0
 tracks/10/enabled = true
 tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/11/type = "value"
-tracks/11/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/11/path = NodePath("Groups/IT_04/ArtScroll/Canvas/Art/Broken:visible")
 tracks/11/interp = 0
 tracks/11/enabled = true
 tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/12/type = "value"
-tracks/12/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/12/path = NodePath("Groups/IT_05/ArtScroll/Canvas/Art/Broken:visible")
 tracks/12/interp = 0
 tracks/12/enabled = true
 tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/13/type = "value"
-tracks/13/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/13/path = NodePath("Groups/IT_06/ArtScroll/Canvas/Art/Broken:visible")
 tracks/13/interp = 0
 tracks/13/enabled = true
 tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/14/type = "value"
-tracks/14/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/14/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Broken:visible")
 tracks/14/interp = 0
 tracks/14/enabled = true
 tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/15/type = "value"
-tracks/15/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/15/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Nocked:visible")
 tracks/15/interp = 0
 tracks/15/enabled = true
 tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
@@ -1176,37 +1176,37 @@ tracks/9/enabled = true
 tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/10/type = "value"
-tracks/10/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/10/path = NodePath("Groups/IT_03/ArtScroll/Canvas/Art/Broken:visible")
 tracks/10/interp = 0
 tracks/10/enabled = true
 tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/11/type = "value"
-tracks/11/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/11/path = NodePath("Groups/IT_04/ArtScroll/Canvas/Art/Broken:visible")
 tracks/11/interp = 0
 tracks/11/enabled = true
 tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/12/type = "value"
-tracks/12/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/12/path = NodePath("Groups/IT_05/ArtScroll/Canvas/Art/Broken:visible")
 tracks/12/interp = 0
 tracks/12/enabled = true
 tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/13/type = "value"
-tracks/13/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/13/path = NodePath("Groups/IT_06/ArtScroll/Canvas/Art/Broken:visible")
 tracks/13/interp = 0
 tracks/13/enabled = true
 tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/14/type = "value"
-tracks/14/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/14/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Broken:visible")
 tracks/14/interp = 0
 tracks/14/enabled = true
 tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/15/type = "value"
-tracks/15/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/15/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Nocked:visible")
 tracks/15/interp = 0
 tracks/15/enabled = true
 tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
@@ -1275,37 +1275,37 @@ tracks/9/enabled = true
 tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
 
 tracks/10/type = "value"
-tracks/10/path = NodePath("Groups/IT_03/Art/Broken:visible")
+tracks/10/path = NodePath("Groups/IT_03/ArtScroll/Canvas/Art/Broken:visible")
 tracks/10/interp = 0
 tracks/10/enabled = true
 tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/11/type = "value"
-tracks/11/path = NodePath("Groups/IT_04/Art/Broken:visible")
+tracks/11/path = NodePath("Groups/IT_04/ArtScroll/Canvas/Art/Broken:visible")
 tracks/11/interp = 0
 tracks/11/enabled = true
 tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/12/type = "value"
-tracks/12/path = NodePath("Groups/IT_05/Art/Broken:visible")
+tracks/12/path = NodePath("Groups/IT_05/ArtScroll/Canvas/Art/Broken:visible")
 tracks/12/interp = 0
 tracks/12/enabled = true
 tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/13/type = "value"
-tracks/13/path = NodePath("Groups/IT_06/Art/Broken:visible")
+tracks/13/path = NodePath("Groups/IT_06/ArtScroll/Canvas/Art/Broken:visible")
 tracks/13/interp = 0
 tracks/13/enabled = true
 tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/14/type = "value"
-tracks/14/path = NodePath("Groups/IT_07/Art/Broken:visible")
+tracks/14/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Broken:visible")
 tracks/14/interp = 0
 tracks/14/enabled = true
 tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
 
 tracks/15/type = "value"
-tracks/15/path = NodePath("Groups/IT_07/Art/Nocked:visible")
+tracks/15/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art/Nocked:visible")
 tracks/15/interp = 0
 tracks/15/enabled = true
 tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
@@ -1314,253 +1314,493 @@ tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Ar
 [sub_resource type="Animation" id="Zoom_1"]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Groups/IT_01/Art:scale")
+tracks/0/path = NodePath("Groups/IT_01/ArtScroll/Canvas/Art:scale")
 tracks/0/interp = 0
 tracks/0/enabled = true
 tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
 
 tracks/1/type = "value"
-tracks/1/path = NodePath("Groups/IT_02/Art:scale")
+tracks/1/path = NodePath("Groups/IT_01/ArtScroll/Canvas:custom_minimum_size")
 tracks/1/interp = 0
 tracks/1/enabled = true
-tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(128, 73)]}
 
 tracks/2/type = "value"
-tracks/2/path = NodePath("Groups/IT_03/Art:scale")
+tracks/2/path = NodePath("Groups/IT_02/ArtScroll/Canvas/Art:scale")
 tracks/2/interp = 0
 tracks/2/enabled = true
 tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
 
 tracks/3/type = "value"
-tracks/3/path = NodePath("Groups/IT_04/Art:scale")
+tracks/3/path = NodePath("Groups/IT_02/ArtScroll/Canvas:custom_minimum_size")
 tracks/3/interp = 0
 tracks/3/enabled = true
-tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(128, 153)]}
 
 tracks/4/type = "value"
-tracks/4/path = NodePath("Groups/IT_05/Art:scale")
+tracks/4/path = NodePath("Groups/IT_03/ArtScroll/Canvas/Art:scale")
 tracks/4/interp = 0
 tracks/4/enabled = true
 tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
 
 tracks/5/type = "value"
-tracks/5/path = NodePath("Groups/IT_06/Art:scale")
+tracks/5/path = NodePath("Groups/IT_03/ArtScroll/Canvas:custom_minimum_size")
 tracks/5/interp = 0
 tracks/5/enabled = true
-tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(128, 113)]}
 
 tracks/6/type = "value"
-tracks/6/path = NodePath("Groups/IT_07/Art:scale")
+tracks/6/path = NodePath("Groups/IT_04/ArtScroll/Canvas/Art:scale")
 tracks/6/interp = 0
 tracks/6/enabled = true
 tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
 
 tracks/7/type = "value"
-tracks/7/path = NodePath("Groups/IT_08/Art:scale")
+tracks/7/path = NodePath("Groups/IT_04/ArtScroll/Canvas:custom_minimum_size")
 tracks/7/interp = 0
 tracks/7/enabled = true
-tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(128, 113)]}
 
 tracks/8/type = "value"
-tracks/8/path = NodePath("Groups/IT_09/Art:scale")
+tracks/8/path = NodePath("Groups/IT_05/ArtScroll/Canvas/Art:scale")
 tracks/8/interp = 0
 tracks/8/enabled = true
 tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
 
 tracks/9/type = "value"
-tracks/9/path = NodePath("Groups/IT_10/Art:scale")
+tracks/9/path = NodePath("Groups/IT_05/ArtScroll/Canvas:custom_minimum_size")
 tracks/9/interp = 0
 tracks/9/enabled = true
-tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(128, 113)]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_06/ArtScroll/Canvas/Art:scale")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_06/ArtScroll/Canvas:custom_minimum_size")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(128, 113)]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art:scale")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_07/ArtScroll/Canvas:custom_minimum_size")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(128, 153)]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_08/ArtScroll/Canvas/Art:scale")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_08/ArtScroll/Canvas:custom_minimum_size")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(128, 73)]}
+
+tracks/16/type = "value"
+tracks/16/path = NodePath("Groups/IT_09/ArtScroll/Canvas/Art:scale")
+tracks/16/interp = 0
+tracks/16/enabled = true
+tracks/16/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+
+tracks/17/type = "value"
+tracks/17/path = NodePath("Groups/IT_09/ArtScroll/Canvas:custom_minimum_size")
+tracks/17/interp = 0
+tracks/17/enabled = true
+tracks/17/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(128, 73)]}
+
+tracks/18/type = "value"
+tracks/18/path = NodePath("Groups/IT_10/ArtScroll/Canvas/Art:scale")
+tracks/18/interp = 0
+tracks/18/enabled = true
+tracks/18/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+
+tracks/19/type = "value"
+tracks/19/path = NodePath("Groups/IT_10/ArtScroll/Canvas:custom_minimum_size")
+tracks/19/interp = 0
+tracks/19/enabled = true
+tracks/19/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(128, 73)]}
 
 
 [sub_resource type="Animation" id="Zoom_2"]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Groups/IT_01/Art:scale")
+tracks/0/path = NodePath("Groups/IT_01/ArtScroll/Canvas/Art:scale")
 tracks/0/interp = 0
 tracks/0/enabled = true
 tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
 
 tracks/1/type = "value"
-tracks/1/path = NodePath("Groups/IT_02/Art:scale")
+tracks/1/path = NodePath("Groups/IT_01/ArtScroll/Canvas:custom_minimum_size")
 tracks/1/interp = 0
 tracks/1/enabled = true
-tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(248, 138)]}
 
 tracks/2/type = "value"
-tracks/2/path = NodePath("Groups/IT_03/Art:scale")
+tracks/2/path = NodePath("Groups/IT_02/ArtScroll/Canvas/Art:scale")
 tracks/2/interp = 0
 tracks/2/enabled = true
 tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
 
 tracks/3/type = "value"
-tracks/3/path = NodePath("Groups/IT_04/Art:scale")
+tracks/3/path = NodePath("Groups/IT_02/ArtScroll/Canvas:custom_minimum_size")
 tracks/3/interp = 0
 tracks/3/enabled = true
-tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(248, 298)]}
 
 tracks/4/type = "value"
-tracks/4/path = NodePath("Groups/IT_05/Art:scale")
+tracks/4/path = NodePath("Groups/IT_03/ArtScroll/Canvas/Art:scale")
 tracks/4/interp = 0
 tracks/4/enabled = true
 tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
 
 tracks/5/type = "value"
-tracks/5/path = NodePath("Groups/IT_06/Art:scale")
+tracks/5/path = NodePath("Groups/IT_03/ArtScroll/Canvas:custom_minimum_size")
 tracks/5/interp = 0
 tracks/5/enabled = true
-tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(248, 218)]}
 
 tracks/6/type = "value"
-tracks/6/path = NodePath("Groups/IT_07/Art:scale")
+tracks/6/path = NodePath("Groups/IT_04/ArtScroll/Canvas/Art:scale")
 tracks/6/interp = 0
 tracks/6/enabled = true
 tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
 
 tracks/7/type = "value"
-tracks/7/path = NodePath("Groups/IT_08/Art:scale")
+tracks/7/path = NodePath("Groups/IT_04/ArtScroll/Canvas:custom_minimum_size")
 tracks/7/interp = 0
 tracks/7/enabled = true
-tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(248, 218)]}
 
 tracks/8/type = "value"
-tracks/8/path = NodePath("Groups/IT_09/Art:scale")
+tracks/8/path = NodePath("Groups/IT_05/ArtScroll/Canvas/Art:scale")
 tracks/8/interp = 0
 tracks/8/enabled = true
 tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
 
 tracks/9/type = "value"
-tracks/9/path = NodePath("Groups/IT_10/Art:scale")
+tracks/9/path = NodePath("Groups/IT_05/ArtScroll/Canvas:custom_minimum_size")
 tracks/9/interp = 0
 tracks/9/enabled = true
-tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(248, 218)]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_06/ArtScroll/Canvas/Art:scale")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_06/ArtScroll/Canvas:custom_minimum_size")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(248, 218)]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art:scale")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_07/ArtScroll/Canvas:custom_minimum_size")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(248, 298)]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_08/ArtScroll/Canvas/Art:scale")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_08/ArtScroll/Canvas:custom_minimum_size")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(248, 138)]}
+
+tracks/16/type = "value"
+tracks/16/path = NodePath("Groups/IT_09/ArtScroll/Canvas/Art:scale")
+tracks/16/interp = 0
+tracks/16/enabled = true
+tracks/16/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+
+tracks/17/type = "value"
+tracks/17/path = NodePath("Groups/IT_09/ArtScroll/Canvas:custom_minimum_size")
+tracks/17/interp = 0
+tracks/17/enabled = true
+tracks/17/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(248, 138)]}
+
+tracks/18/type = "value"
+tracks/18/path = NodePath("Groups/IT_10/ArtScroll/Canvas/Art:scale")
+tracks/18/interp = 0
+tracks/18/enabled = true
+tracks/18/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+
+tracks/19/type = "value"
+tracks/19/path = NodePath("Groups/IT_10/ArtScroll/Canvas:custom_minimum_size")
+tracks/19/interp = 0
+tracks/19/enabled = true
+tracks/19/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(248, 138)]}
 
 
 [sub_resource type="Animation" id="Zoom_4"]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Groups/IT_01/Art:scale")
+tracks/0/path = NodePath("Groups/IT_01/ArtScroll/Canvas/Art:scale")
 tracks/0/interp = 0
 tracks/0/enabled = true
 tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
 
 tracks/1/type = "value"
-tracks/1/path = NodePath("Groups/IT_02/Art:scale")
+tracks/1/path = NodePath("Groups/IT_01/ArtScroll/Canvas:custom_minimum_size")
 tracks/1/interp = 0
 tracks/1/enabled = true
-tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(488, 268)]}
 
 tracks/2/type = "value"
-tracks/2/path = NodePath("Groups/IT_03/Art:scale")
+tracks/2/path = NodePath("Groups/IT_02/ArtScroll/Canvas/Art:scale")
 tracks/2/interp = 0
 tracks/2/enabled = true
 tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
 
 tracks/3/type = "value"
-tracks/3/path = NodePath("Groups/IT_04/Art:scale")
+tracks/3/path = NodePath("Groups/IT_02/ArtScroll/Canvas:custom_minimum_size")
 tracks/3/interp = 0
 tracks/3/enabled = true
-tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(488, 588)]}
 
 tracks/4/type = "value"
-tracks/4/path = NodePath("Groups/IT_05/Art:scale")
+tracks/4/path = NodePath("Groups/IT_03/ArtScroll/Canvas/Art:scale")
 tracks/4/interp = 0
 tracks/4/enabled = true
 tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
 
 tracks/5/type = "value"
-tracks/5/path = NodePath("Groups/IT_06/Art:scale")
+tracks/5/path = NodePath("Groups/IT_03/ArtScroll/Canvas:custom_minimum_size")
 tracks/5/interp = 0
 tracks/5/enabled = true
-tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(488, 428)]}
 
 tracks/6/type = "value"
-tracks/6/path = NodePath("Groups/IT_07/Art:scale")
+tracks/6/path = NodePath("Groups/IT_04/ArtScroll/Canvas/Art:scale")
 tracks/6/interp = 0
 tracks/6/enabled = true
 tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
 
 tracks/7/type = "value"
-tracks/7/path = NodePath("Groups/IT_08/Art:scale")
+tracks/7/path = NodePath("Groups/IT_04/ArtScroll/Canvas:custom_minimum_size")
 tracks/7/interp = 0
 tracks/7/enabled = true
-tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(488, 428)]}
 
 tracks/8/type = "value"
-tracks/8/path = NodePath("Groups/IT_09/Art:scale")
+tracks/8/path = NodePath("Groups/IT_05/ArtScroll/Canvas/Art:scale")
 tracks/8/interp = 0
 tracks/8/enabled = true
 tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
 
 tracks/9/type = "value"
-tracks/9/path = NodePath("Groups/IT_10/Art:scale")
+tracks/9/path = NodePath("Groups/IT_05/ArtScroll/Canvas:custom_minimum_size")
 tracks/9/interp = 0
 tracks/9/enabled = true
-tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(488, 428)]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_06/ArtScroll/Canvas/Art:scale")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_06/ArtScroll/Canvas:custom_minimum_size")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(488, 428)]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art:scale")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_07/ArtScroll/Canvas:custom_minimum_size")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(488, 588)]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_08/ArtScroll/Canvas/Art:scale")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_08/ArtScroll/Canvas:custom_minimum_size")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(488, 268)]}
+
+tracks/16/type = "value"
+tracks/16/path = NodePath("Groups/IT_09/ArtScroll/Canvas/Art:scale")
+tracks/16/interp = 0
+tracks/16/enabled = true
+tracks/16/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+
+tracks/17/type = "value"
+tracks/17/path = NodePath("Groups/IT_09/ArtScroll/Canvas:custom_minimum_size")
+tracks/17/interp = 0
+tracks/17/enabled = true
+tracks/17/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(488, 268)]}
+
+tracks/18/type = "value"
+tracks/18/path = NodePath("Groups/IT_10/ArtScroll/Canvas/Art:scale")
+tracks/18/interp = 0
+tracks/18/enabled = true
+tracks/18/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+
+tracks/19/type = "value"
+tracks/19/path = NodePath("Groups/IT_10/ArtScroll/Canvas:custom_minimum_size")
+tracks/19/interp = 0
+tracks/19/enabled = true
+tracks/19/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(488, 268)]}
 
 
 [sub_resource type="Animation" id="Zoom_8"]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Groups/IT_01/Art:scale")
+tracks/0/path = NodePath("Groups/IT_01/ArtScroll/Canvas/Art:scale")
 tracks/0/interp = 0
 tracks/0/enabled = true
 tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
 
 tracks/1/type = "value"
-tracks/1/path = NodePath("Groups/IT_02/Art:scale")
+tracks/1/path = NodePath("Groups/IT_01/ArtScroll/Canvas:custom_minimum_size")
 tracks/1/interp = 0
 tracks/1/enabled = true
-tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(968, 528)]}
 
 tracks/2/type = "value"
-tracks/2/path = NodePath("Groups/IT_03/Art:scale")
+tracks/2/path = NodePath("Groups/IT_02/ArtScroll/Canvas/Art:scale")
 tracks/2/interp = 0
 tracks/2/enabled = true
 tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
 
 tracks/3/type = "value"
-tracks/3/path = NodePath("Groups/IT_04/Art:scale")
+tracks/3/path = NodePath("Groups/IT_02/ArtScroll/Canvas:custom_minimum_size")
 tracks/3/interp = 0
 tracks/3/enabled = true
-tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(968, 1168)]}
 
 tracks/4/type = "value"
-tracks/4/path = NodePath("Groups/IT_05/Art:scale")
+tracks/4/path = NodePath("Groups/IT_03/ArtScroll/Canvas/Art:scale")
 tracks/4/interp = 0
 tracks/4/enabled = true
 tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
 
 tracks/5/type = "value"
-tracks/5/path = NodePath("Groups/IT_06/Art:scale")
+tracks/5/path = NodePath("Groups/IT_03/ArtScroll/Canvas:custom_minimum_size")
 tracks/5/interp = 0
 tracks/5/enabled = true
-tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(968, 848)]}
 
 tracks/6/type = "value"
-tracks/6/path = NodePath("Groups/IT_07/Art:scale")
+tracks/6/path = NodePath("Groups/IT_04/ArtScroll/Canvas/Art:scale")
 tracks/6/interp = 0
 tracks/6/enabled = true
 tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
 
 tracks/7/type = "value"
-tracks/7/path = NodePath("Groups/IT_08/Art:scale")
+tracks/7/path = NodePath("Groups/IT_04/ArtScroll/Canvas:custom_minimum_size")
 tracks/7/interp = 0
 tracks/7/enabled = true
-tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(968, 848)]}
 
 tracks/8/type = "value"
-tracks/8/path = NodePath("Groups/IT_09/Art:scale")
+tracks/8/path = NodePath("Groups/IT_05/ArtScroll/Canvas/Art:scale")
 tracks/8/interp = 0
 tracks/8/enabled = true
 tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
 
 tracks/9/type = "value"
-tracks/9/path = NodePath("Groups/IT_10/Art:scale")
+tracks/9/path = NodePath("Groups/IT_05/ArtScroll/Canvas:custom_minimum_size")
 tracks/9/interp = 0
 tracks/9/enabled = true
-tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(968, 848)]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_06/ArtScroll/Canvas/Art:scale")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_06/ArtScroll/Canvas:custom_minimum_size")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(968, 848)]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_07/ArtScroll/Canvas/Art:scale")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_07/ArtScroll/Canvas:custom_minimum_size")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(968, 1168)]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_08/ArtScroll/Canvas/Art:scale")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_08/ArtScroll/Canvas:custom_minimum_size")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(968, 528)]}
+
+tracks/16/type = "value"
+tracks/16/path = NodePath("Groups/IT_09/ArtScroll/Canvas/Art:scale")
+tracks/16/interp = 0
+tracks/16/enabled = true
+tracks/16/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+
+tracks/17/type = "value"
+tracks/17/path = NodePath("Groups/IT_09/ArtScroll/Canvas:custom_minimum_size")
+tracks/17/interp = 0
+tracks/17/enabled = true
+tracks/17/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(968, 528)]}
+
+tracks/18/type = "value"
+tracks/18/path = NodePath("Groups/IT_10/ArtScroll/Canvas/Art:scale")
+tracks/18/interp = 0
+tracks/18/enabled = true
+tracks/18/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+
+tracks/19/type = "value"
+tracks/19/path = NodePath("Groups/IT_10/ArtScroll/Canvas:custom_minimum_size")
+tracks/19/interp = 0
+tracks/19/enabled = true
+tracks/19/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(968, 528)]}
 
 
 [sub_resource type="AnimationLibrary" id="Selections"]
@@ -1700,34 +1940,53 @@ text = "IT-01 | Money | Source produced; appearance review pending04-32"
 offset_top = 25.0
 text = "Physical currency icon; count is a UI overlay, no global wallet"
 
-[node name="Art" type="Node2D" parent="Groups/IT_01"]
-position = Vector2(0, 115)
+[node name="ArtScroll" type="ScrollContainer" parent="Groups/IT_01"]
+offset_top = 100.0
+offset_right = 680.0
+offset_bottom = 420.0
+clip_contents = true
+
+[node name="Canvas" type="Control" parent="Groups/IT_01/ArtScroll"]
+layout_mode = 2
+custom_minimum_size = Vector2(488, 268)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Art" type="Node2D" parent="Groups/IT_01/ArtScroll/Canvas"]
 scale = Vector2(4, 4)
 texture_filter = 1
 
-[node name="icon" type="Sprite2D" parent="Groups/IT_01/Art"]
-position = Vector2(0, 0)
+[node name="icon" type="Sprite2D" parent="Groups/IT_01/ArtScroll/Canvas/Art"]
+position = Vector2(20, 20)
 texture = SubResource("A_IT_01_master")
 centered = false
 rotation = 0
 texture_filter = 1
 
-[node name="Caption_0" type="Label" parent="Groups/IT_01"]
-offset_left = 0.0
-offset_top = 240.0
-text = "icon"
+[node name="Caption_0" type="Label" parent="Groups/IT_01/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 40.0
+text = "1"
+theme_override_font_sizes/font_size = 4
 
-[node name="stored" type="Sprite2D" parent="Groups/IT_01/Art"]
-position = Vector2(27, 0)
+[node name="stored" type="Sprite2D" parent="Groups/IT_01/ArtScroll/Canvas/Art"]
+position = Vector2(52, 20)
 texture = SubResource("A_IT_01_master")
 centered = false
 rotation = 0
 texture_filter = 1
 
-[node name="Caption_1" type="Label" parent="Groups/IT_01"]
-offset_left = 108.0
-offset_top = 240.0
-text = "stored"
+[node name="Caption_1" type="Label" parent="Groups/IT_01/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 40.0
+text = "2"
+theme_override_font_sizes/font_size = 4
+
+[node name="Components" type="Label" parent="Groups/IT_01"]
+offset_top = 425.0
+offset_right = 680.0
+autowrap_mode = 3
+text = "Components: 1 icon; 2 stored"
 
 [node name="IT_02" type="Control" parent="Groups"]
 visible = false
@@ -1739,94 +1998,118 @@ text = "IT-02 | Arrows | Source produced; appearance review pending04-32"
 offset_top = 25.0
 text = "Logical left/right hand attachments; natural scale1; body fits owned04-06/07"
 
-[node name="Art" type="Node2D" parent="Groups/IT_02"]
-position = Vector2(0, 115)
+[node name="ArtScroll" type="ScrollContainer" parent="Groups/IT_02"]
+offset_top = 100.0
+offset_right = 680.0
+offset_bottom = 420.0
+clip_contents = true
+
+[node name="Canvas" type="Control" parent="Groups/IT_02/ArtScroll"]
+layout_mode = 2
+custom_minimum_size = Vector2(488, 588)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Art" type="Node2D" parent="Groups/IT_02/ArtScroll/Canvas"]
 scale = Vector2(4, 4)
 texture_filter = 1
 
-[node name="icon" type="Sprite2D" parent="Groups/IT_02/Art"]
-position = Vector2(0, 0)
+[node name="icon" type="Sprite2D" parent="Groups/IT_02/ArtScroll/Canvas/Art"]
+position = Vector2(20, 20)
 texture = SubResource("A_IT_02_bundle")
 centered = false
 rotation = 0
 texture_filter = 1
 
-[node name="Caption_0" type="Label" parent="Groups/IT_02"]
-offset_left = 0.0
-offset_top = 240.0
-text = "icon"
+[node name="Caption_0" type="Label" parent="Groups/IT_02/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 40.0
+text = "1"
+theme_override_font_sizes/font_size = 4
 
-[node name="held_left" type="Sprite2D" parent="Groups/IT_02/Art"]
-position = Vector2(27, 0)
+[node name="held_left" type="Sprite2D" parent="Groups/IT_02/ArtScroll/Canvas/Art"]
+position = Vector2(52, 20)
 texture = SubResource("A_IT_02_master")
 centered = false
 rotation = 0
 texture_filter = 1
 
-[node name="Caption_1" type="Label" parent="Groups/IT_02"]
-offset_left = 108.0
-offset_top = 240.0
-text = "held-left"
+[node name="Caption_1" type="Label" parent="Groups/IT_02/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 40.0
+text = "2"
+theme_override_font_sizes/font_size = 4
 
-[node name="corpse_left" type="Sprite2D" parent="Groups/IT_02/Art"]
-position = Vector2(54, 0)
+[node name="corpse_left" type="Sprite2D" parent="Groups/IT_02/ArtScroll/Canvas/Art"]
+position = Vector2(84, 20)
 texture = SubResource("A_IT_02_master")
 centered = false
 rotation = 1.5707963267948966
 texture_filter = 1
 
-[node name="Caption_2" type="Label" parent="Groups/IT_02"]
-offset_left = 216.0
-offset_top = 240.0
-text = "corpse-left"
+[node name="Caption_2" type="Label" parent="Groups/IT_02/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 40.0
+text = "3"
+theme_override_font_sizes/font_size = 4
 
-[node name="held_right" type="Sprite2D" parent="Groups/IT_02/Art"]
-position = Vector2(81, 0)
+[node name="held_right" type="Sprite2D" parent="Groups/IT_02/ArtScroll/Canvas/Art"]
+position = Vector2(20, 60)
 texture = SubResource("A_IT_02_master")
 centered = false
 rotation = 0
 texture_filter = 1
 
-[node name="Caption_3" type="Label" parent="Groups/IT_02"]
-offset_left = 324.0
-offset_top = 240.0
-text = "held-right"
+[node name="Caption_3" type="Label" parent="Groups/IT_02/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 80.0
+text = "4"
+theme_override_font_sizes/font_size = 4
 
-[node name="corpse_right" type="Sprite2D" parent="Groups/IT_02/Art"]
-position = Vector2(108, 0)
+[node name="corpse_right" type="Sprite2D" parent="Groups/IT_02/ArtScroll/Canvas/Art"]
+position = Vector2(52, 60)
 texture = SubResource("A_IT_02_master")
 centered = false
 rotation = 1.5707963267948966
 texture_filter = 1
 
-[node name="Caption_4" type="Label" parent="Groups/IT_02"]
-offset_left = 432.0
-offset_top = 240.0
-text = "corpse-right"
+[node name="Caption_4" type="Label" parent="Groups/IT_02/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 80.0
+text = "5"
+theme_override_font_sizes/font_size = 4
 
-[node name="nocked_arrow" type="Sprite2D" parent="Groups/IT_02/Art"]
-position = Vector2(135, 0)
+[node name="nocked_arrow" type="Sprite2D" parent="Groups/IT_02/ArtScroll/Canvas/Art"]
+position = Vector2(84, 60)
 texture = SubResource("A_IT_02_master")
 centered = false
 rotation = 0
 texture_filter = 1
 
-[node name="Caption_5" type="Label" parent="Groups/IT_02"]
-offset_left = 540.0
-offset_top = 240.0
-text = "nocked-arrow"
+[node name="Caption_5" type="Label" parent="Groups/IT_02/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 80.0
+text = "6"
+theme_override_font_sizes/font_size = 4
 
-[node name="flying_arrow" type="Sprite2D" parent="Groups/IT_02/Art"]
-position = Vector2(162, 0)
+[node name="flying_arrow" type="Sprite2D" parent="Groups/IT_02/ArtScroll/Canvas/Art"]
+position = Vector2(20, 100)
 texture = SubResource("A_IT_02_master")
 centered = false
 rotation = 0
 texture_filter = 1
 
-[node name="Caption_6" type="Label" parent="Groups/IT_02"]
-offset_left = 648.0
-offset_top = 240.0
-text = "flying-arrow"
+[node name="Caption_6" type="Label" parent="Groups/IT_02/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 120.0
+text = "7"
+theme_override_font_sizes/font_size = 4
+
+[node name="Components" type="Label" parent="Groups/IT_02"]
+offset_top = 425.0
+offset_right = 680.0
+autowrap_mode = 3
+text = "Components: 1 icon; 2 held-left; 3 corpse-left; 4 held-right; 5 corpse-right; 6 nocked-arrow; 7 flying-arrow"
 
 [node name="IT_03" type="Control" parent="Groups"]
 visible = false
@@ -1838,74 +2121,96 @@ text = "IT-03 | Knife | Source produced; appearance review pending04-32"
 offset_top = 25.0
 text = "Logical left/right hand attachments; natural scale1; body fits owned04-06/07"
 
-[node name="Art" type="Node2D" parent="Groups/IT_03"]
-position = Vector2(0, 115)
+[node name="ArtScroll" type="ScrollContainer" parent="Groups/IT_03"]
+offset_top = 100.0
+offset_right = 680.0
+offset_bottom = 420.0
+clip_contents = true
+
+[node name="Canvas" type="Control" parent="Groups/IT_03/ArtScroll"]
+layout_mode = 2
+custom_minimum_size = Vector2(488, 428)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Art" type="Node2D" parent="Groups/IT_03/ArtScroll/Canvas"]
 scale = Vector2(4, 4)
 texture_filter = 1
 
-[node name="icon" type="Sprite2D" parent="Groups/IT_03/Art"]
-position = Vector2(0, 0)
+[node name="icon" type="Sprite2D" parent="Groups/IT_03/ArtScroll/Canvas/Art"]
+position = Vector2(20, 20)
 texture = SubResource("A_IT_03_master")
 centered = false
 rotation = 0
 texture_filter = 1
 
-[node name="Caption_0" type="Label" parent="Groups/IT_03"]
-offset_left = 0.0
-offset_top = 240.0
-text = "icon"
+[node name="Caption_0" type="Label" parent="Groups/IT_03/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 40.0
+text = "1"
+theme_override_font_sizes/font_size = 4
 
-[node name="held_left" type="Sprite2D" parent="Groups/IT_03/Art"]
-position = Vector2(27, 0)
+[node name="held_left" type="Sprite2D" parent="Groups/IT_03/ArtScroll/Canvas/Art"]
+position = Vector2(52, 20)
 texture = SubResource("A_IT_03_master")
 centered = false
 rotation = 0
 texture_filter = 1
 
-[node name="Caption_1" type="Label" parent="Groups/IT_03"]
-offset_left = 108.0
-offset_top = 240.0
-text = "held-left"
+[node name="Caption_1" type="Label" parent="Groups/IT_03/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 40.0
+text = "2"
+theme_override_font_sizes/font_size = 4
 
-[node name="corpse_left" type="Sprite2D" parent="Groups/IT_03/Art"]
-position = Vector2(54, 0)
+[node name="corpse_left" type="Sprite2D" parent="Groups/IT_03/ArtScroll/Canvas/Art"]
+position = Vector2(84, 20)
 texture = SubResource("A_IT_03_master")
 centered = false
 rotation = 1.5707963267948966
 texture_filter = 1
 
-[node name="Caption_2" type="Label" parent="Groups/IT_03"]
-offset_left = 216.0
-offset_top = 240.0
-text = "corpse-left"
+[node name="Caption_2" type="Label" parent="Groups/IT_03/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 40.0
+text = "3"
+theme_override_font_sizes/font_size = 4
 
-[node name="held_right" type="Sprite2D" parent="Groups/IT_03/Art"]
-position = Vector2(81, 0)
+[node name="held_right" type="Sprite2D" parent="Groups/IT_03/ArtScroll/Canvas/Art"]
+position = Vector2(20, 60)
 texture = SubResource("A_IT_03_master")
 centered = false
 rotation = 0
 texture_filter = 1
 
-[node name="Caption_3" type="Label" parent="Groups/IT_03"]
-offset_left = 324.0
-offset_top = 240.0
-text = "held-right"
+[node name="Caption_3" type="Label" parent="Groups/IT_03/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 80.0
+text = "4"
+theme_override_font_sizes/font_size = 4
 
-[node name="corpse_right" type="Sprite2D" parent="Groups/IT_03/Art"]
-position = Vector2(108, 0)
+[node name="corpse_right" type="Sprite2D" parent="Groups/IT_03/ArtScroll/Canvas/Art"]
+position = Vector2(52, 60)
 texture = SubResource("A_IT_03_master")
 centered = false
 rotation = 1.5707963267948966
 texture_filter = 1
 
-[node name="Caption_4" type="Label" parent="Groups/IT_03"]
-offset_left = 432.0
-offset_top = 240.0
-text = "corpse-right"
+[node name="Caption_4" type="Label" parent="Groups/IT_03/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 80.0
+text = "5"
+theme_override_font_sizes/font_size = 4
 
-[node name="Broken" type="Sprite2D" parent="Groups/IT_03/Art"]
+[node name="Components" type="Label" parent="Groups/IT_03"]
+offset_top = 425.0
+offset_right = 680.0
+autowrap_mode = 3
+text = "Components: 1 icon; 2 held-left; 3 corpse-left; 4 held-right; 5 corpse-right"
+
+[node name="Broken" type="Sprite2D" parent="Groups/IT_03/ArtScroll/Canvas/Art"]
 visible = false
-position = Vector2(27, 0)
+position = Vector2(52, 20)
 texture = SubResource("A_IT_03_broken")
 centered = false
 texture_filter = 1
@@ -1927,74 +2232,96 @@ text = "IT-04 | Wooden club | Source produced; appearance review pending04-32"
 offset_top = 25.0
 text = "Logical left/right hand attachments; natural scale1; body fits owned04-06/07"
 
-[node name="Art" type="Node2D" parent="Groups/IT_04"]
-position = Vector2(0, 115)
+[node name="ArtScroll" type="ScrollContainer" parent="Groups/IT_04"]
+offset_top = 100.0
+offset_right = 680.0
+offset_bottom = 420.0
+clip_contents = true
+
+[node name="Canvas" type="Control" parent="Groups/IT_04/ArtScroll"]
+layout_mode = 2
+custom_minimum_size = Vector2(488, 428)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Art" type="Node2D" parent="Groups/IT_04/ArtScroll/Canvas"]
 scale = Vector2(4, 4)
 texture_filter = 1
 
-[node name="icon" type="Sprite2D" parent="Groups/IT_04/Art"]
-position = Vector2(0, 0)
+[node name="icon" type="Sprite2D" parent="Groups/IT_04/ArtScroll/Canvas/Art"]
+position = Vector2(20, 20)
 texture = SubResource("A_IT_04_master")
 centered = false
 rotation = 0
 texture_filter = 1
 
-[node name="Caption_0" type="Label" parent="Groups/IT_04"]
-offset_left = 0.0
-offset_top = 240.0
-text = "icon"
+[node name="Caption_0" type="Label" parent="Groups/IT_04/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 40.0
+text = "1"
+theme_override_font_sizes/font_size = 4
 
-[node name="held_left" type="Sprite2D" parent="Groups/IT_04/Art"]
-position = Vector2(27, 0)
+[node name="held_left" type="Sprite2D" parent="Groups/IT_04/ArtScroll/Canvas/Art"]
+position = Vector2(52, 20)
 texture = SubResource("A_IT_04_master")
 centered = false
 rotation = 0
 texture_filter = 1
 
-[node name="Caption_1" type="Label" parent="Groups/IT_04"]
-offset_left = 108.0
-offset_top = 240.0
-text = "held-left"
+[node name="Caption_1" type="Label" parent="Groups/IT_04/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 40.0
+text = "2"
+theme_override_font_sizes/font_size = 4
 
-[node name="corpse_left" type="Sprite2D" parent="Groups/IT_04/Art"]
-position = Vector2(54, 0)
+[node name="corpse_left" type="Sprite2D" parent="Groups/IT_04/ArtScroll/Canvas/Art"]
+position = Vector2(84, 20)
 texture = SubResource("A_IT_04_master")
 centered = false
 rotation = 1.5707963267948966
 texture_filter = 1
 
-[node name="Caption_2" type="Label" parent="Groups/IT_04"]
-offset_left = 216.0
-offset_top = 240.0
-text = "corpse-left"
+[node name="Caption_2" type="Label" parent="Groups/IT_04/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 40.0
+text = "3"
+theme_override_font_sizes/font_size = 4
 
-[node name="held_right" type="Sprite2D" parent="Groups/IT_04/Art"]
-position = Vector2(81, 0)
+[node name="held_right" type="Sprite2D" parent="Groups/IT_04/ArtScroll/Canvas/Art"]
+position = Vector2(20, 60)
 texture = SubResource("A_IT_04_master")
 centered = false
 rotation = 0
 texture_filter = 1
 
-[node name="Caption_3" type="Label" parent="Groups/IT_04"]
-offset_left = 324.0
-offset_top = 240.0
-text = "held-right"
+[node name="Caption_3" type="Label" parent="Groups/IT_04/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 80.0
+text = "4"
+theme_override_font_sizes/font_size = 4
 
-[node name="corpse_right" type="Sprite2D" parent="Groups/IT_04/Art"]
-position = Vector2(108, 0)
+[node name="corpse_right" type="Sprite2D" parent="Groups/IT_04/ArtScroll/Canvas/Art"]
+position = Vector2(52, 60)
 texture = SubResource("A_IT_04_master")
 centered = false
 rotation = 1.5707963267948966
 texture_filter = 1
 
-[node name="Caption_4" type="Label" parent="Groups/IT_04"]
-offset_left = 432.0
-offset_top = 240.0
-text = "corpse-right"
+[node name="Caption_4" type="Label" parent="Groups/IT_04/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 80.0
+text = "5"
+theme_override_font_sizes/font_size = 4
 
-[node name="Broken" type="Sprite2D" parent="Groups/IT_04/Art"]
+[node name="Components" type="Label" parent="Groups/IT_04"]
+offset_top = 425.0
+offset_right = 680.0
+autowrap_mode = 3
+text = "Components: 1 icon; 2 held-left; 3 corpse-left; 4 held-right; 5 corpse-right"
+
+[node name="Broken" type="Sprite2D" parent="Groups/IT_04/ArtScroll/Canvas/Art"]
 visible = false
-position = Vector2(27, 0)
+position = Vector2(52, 20)
 texture = SubResource("A_IT_04_broken")
 centered = false
 texture_filter = 1
@@ -2016,74 +2343,96 @@ text = "IT-05 | Machete | Source produced; appearance review pending04-32"
 offset_top = 25.0
 text = "Logical left/right hand attachments; natural scale1; body fits owned04-06/07"
 
-[node name="Art" type="Node2D" parent="Groups/IT_05"]
-position = Vector2(0, 115)
+[node name="ArtScroll" type="ScrollContainer" parent="Groups/IT_05"]
+offset_top = 100.0
+offset_right = 680.0
+offset_bottom = 420.0
+clip_contents = true
+
+[node name="Canvas" type="Control" parent="Groups/IT_05/ArtScroll"]
+layout_mode = 2
+custom_minimum_size = Vector2(488, 428)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Art" type="Node2D" parent="Groups/IT_05/ArtScroll/Canvas"]
 scale = Vector2(4, 4)
 texture_filter = 1
 
-[node name="icon" type="Sprite2D" parent="Groups/IT_05/Art"]
-position = Vector2(0, 0)
+[node name="icon" type="Sprite2D" parent="Groups/IT_05/ArtScroll/Canvas/Art"]
+position = Vector2(20, 20)
 texture = SubResource("A_IT_05_master")
 centered = false
 rotation = 0
 texture_filter = 1
 
-[node name="Caption_0" type="Label" parent="Groups/IT_05"]
-offset_left = 0.0
-offset_top = 240.0
-text = "icon"
+[node name="Caption_0" type="Label" parent="Groups/IT_05/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 40.0
+text = "1"
+theme_override_font_sizes/font_size = 4
 
-[node name="held_left" type="Sprite2D" parent="Groups/IT_05/Art"]
-position = Vector2(27, 0)
+[node name="held_left" type="Sprite2D" parent="Groups/IT_05/ArtScroll/Canvas/Art"]
+position = Vector2(52, 20)
 texture = SubResource("A_IT_05_master")
 centered = false
 rotation = 0
 texture_filter = 1
 
-[node name="Caption_1" type="Label" parent="Groups/IT_05"]
-offset_left = 108.0
-offset_top = 240.0
-text = "held-left"
+[node name="Caption_1" type="Label" parent="Groups/IT_05/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 40.0
+text = "2"
+theme_override_font_sizes/font_size = 4
 
-[node name="corpse_left" type="Sprite2D" parent="Groups/IT_05/Art"]
-position = Vector2(54, 0)
+[node name="corpse_left" type="Sprite2D" parent="Groups/IT_05/ArtScroll/Canvas/Art"]
+position = Vector2(84, 20)
 texture = SubResource("A_IT_05_master")
 centered = false
 rotation = 1.5707963267948966
 texture_filter = 1
 
-[node name="Caption_2" type="Label" parent="Groups/IT_05"]
-offset_left = 216.0
-offset_top = 240.0
-text = "corpse-left"
+[node name="Caption_2" type="Label" parent="Groups/IT_05/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 40.0
+text = "3"
+theme_override_font_sizes/font_size = 4
 
-[node name="held_right" type="Sprite2D" parent="Groups/IT_05/Art"]
-position = Vector2(81, 0)
+[node name="held_right" type="Sprite2D" parent="Groups/IT_05/ArtScroll/Canvas/Art"]
+position = Vector2(20, 60)
 texture = SubResource("A_IT_05_master")
 centered = false
 rotation = 0
 texture_filter = 1
 
-[node name="Caption_3" type="Label" parent="Groups/IT_05"]
-offset_left = 324.0
-offset_top = 240.0
-text = "held-right"
+[node name="Caption_3" type="Label" parent="Groups/IT_05/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 80.0
+text = "4"
+theme_override_font_sizes/font_size = 4
 
-[node name="corpse_right" type="Sprite2D" parent="Groups/IT_05/Art"]
-position = Vector2(108, 0)
+[node name="corpse_right" type="Sprite2D" parent="Groups/IT_05/ArtScroll/Canvas/Art"]
+position = Vector2(52, 60)
 texture = SubResource("A_IT_05_master")
 centered = false
 rotation = 1.5707963267948966
 texture_filter = 1
 
-[node name="Caption_4" type="Label" parent="Groups/IT_05"]
-offset_left = 432.0
-offset_top = 240.0
-text = "corpse-right"
+[node name="Caption_4" type="Label" parent="Groups/IT_05/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 80.0
+text = "5"
+theme_override_font_sizes/font_size = 4
 
-[node name="Broken" type="Sprite2D" parent="Groups/IT_05/Art"]
+[node name="Components" type="Label" parent="Groups/IT_05"]
+offset_top = 425.0
+offset_right = 680.0
+autowrap_mode = 3
+text = "Components: 1 icon; 2 held-left; 3 corpse-left; 4 held-right; 5 corpse-right"
+
+[node name="Broken" type="Sprite2D" parent="Groups/IT_05/ArtScroll/Canvas/Art"]
 visible = false
-position = Vector2(27, 0)
+position = Vector2(52, 20)
 texture = SubResource("A_IT_05_broken")
 centered = false
 texture_filter = 1
@@ -2105,74 +2454,96 @@ text = "IT-06 | Metal bat | Source produced; appearance review pending04-32"
 offset_top = 25.0
 text = "Logical left/right hand attachments; natural scale1; body fits owned04-06/07"
 
-[node name="Art" type="Node2D" parent="Groups/IT_06"]
-position = Vector2(0, 115)
+[node name="ArtScroll" type="ScrollContainer" parent="Groups/IT_06"]
+offset_top = 100.0
+offset_right = 680.0
+offset_bottom = 420.0
+clip_contents = true
+
+[node name="Canvas" type="Control" parent="Groups/IT_06/ArtScroll"]
+layout_mode = 2
+custom_minimum_size = Vector2(488, 428)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Art" type="Node2D" parent="Groups/IT_06/ArtScroll/Canvas"]
 scale = Vector2(4, 4)
 texture_filter = 1
 
-[node name="icon" type="Sprite2D" parent="Groups/IT_06/Art"]
-position = Vector2(0, 0)
+[node name="icon" type="Sprite2D" parent="Groups/IT_06/ArtScroll/Canvas/Art"]
+position = Vector2(20, 20)
 texture = SubResource("A_IT_06_master")
 centered = false
 rotation = 0
 texture_filter = 1
 
-[node name="Caption_0" type="Label" parent="Groups/IT_06"]
-offset_left = 0.0
-offset_top = 240.0
-text = "icon"
+[node name="Caption_0" type="Label" parent="Groups/IT_06/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 40.0
+text = "1"
+theme_override_font_sizes/font_size = 4
 
-[node name="held_left" type="Sprite2D" parent="Groups/IT_06/Art"]
-position = Vector2(27, 0)
+[node name="held_left" type="Sprite2D" parent="Groups/IT_06/ArtScroll/Canvas/Art"]
+position = Vector2(52, 20)
 texture = SubResource("A_IT_06_master")
 centered = false
 rotation = 0
 texture_filter = 1
 
-[node name="Caption_1" type="Label" parent="Groups/IT_06"]
-offset_left = 108.0
-offset_top = 240.0
-text = "held-left"
+[node name="Caption_1" type="Label" parent="Groups/IT_06/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 40.0
+text = "2"
+theme_override_font_sizes/font_size = 4
 
-[node name="corpse_left" type="Sprite2D" parent="Groups/IT_06/Art"]
-position = Vector2(54, 0)
+[node name="corpse_left" type="Sprite2D" parent="Groups/IT_06/ArtScroll/Canvas/Art"]
+position = Vector2(84, 20)
 texture = SubResource("A_IT_06_master")
 centered = false
 rotation = 1.5707963267948966
 texture_filter = 1
 
-[node name="Caption_2" type="Label" parent="Groups/IT_06"]
-offset_left = 216.0
-offset_top = 240.0
-text = "corpse-left"
+[node name="Caption_2" type="Label" parent="Groups/IT_06/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 40.0
+text = "3"
+theme_override_font_sizes/font_size = 4
 
-[node name="held_right" type="Sprite2D" parent="Groups/IT_06/Art"]
-position = Vector2(81, 0)
+[node name="held_right" type="Sprite2D" parent="Groups/IT_06/ArtScroll/Canvas/Art"]
+position = Vector2(20, 60)
 texture = SubResource("A_IT_06_master")
 centered = false
 rotation = 0
 texture_filter = 1
 
-[node name="Caption_3" type="Label" parent="Groups/IT_06"]
-offset_left = 324.0
-offset_top = 240.0
-text = "held-right"
+[node name="Caption_3" type="Label" parent="Groups/IT_06/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 80.0
+text = "4"
+theme_override_font_sizes/font_size = 4
 
-[node name="corpse_right" type="Sprite2D" parent="Groups/IT_06/Art"]
-position = Vector2(108, 0)
+[node name="corpse_right" type="Sprite2D" parent="Groups/IT_06/ArtScroll/Canvas/Art"]
+position = Vector2(52, 60)
 texture = SubResource("A_IT_06_master")
 centered = false
 rotation = 1.5707963267948966
 texture_filter = 1
 
-[node name="Caption_4" type="Label" parent="Groups/IT_06"]
-offset_left = 432.0
-offset_top = 240.0
-text = "corpse-right"
+[node name="Caption_4" type="Label" parent="Groups/IT_06/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 80.0
+text = "5"
+theme_override_font_sizes/font_size = 4
 
-[node name="Broken" type="Sprite2D" parent="Groups/IT_06/Art"]
+[node name="Components" type="Label" parent="Groups/IT_06"]
+offset_top = 425.0
+offset_right = 680.0
+autowrap_mode = 3
+text = "Components: 1 icon; 2 held-left; 3 corpse-left; 4 held-right; 5 corpse-right"
+
+[node name="Broken" type="Sprite2D" parent="Groups/IT_06/ArtScroll/Canvas/Art"]
 visible = false
-position = Vector2(27, 0)
+position = Vector2(52, 20)
 texture = SubResource("A_IT_06_broken")
 centered = false
 texture_filter = 1
@@ -2194,105 +2565,129 @@ text = "IT-07 | Bow | Source produced; appearance review pending04-32"
 offset_top = 25.0
 text = "Logical left/right hand attachments; natural scale1; body fits owned04-06/07"
 
-[node name="Art" type="Node2D" parent="Groups/IT_07"]
-position = Vector2(0, 115)
+[node name="ArtScroll" type="ScrollContainer" parent="Groups/IT_07"]
+offset_top = 100.0
+offset_right = 680.0
+offset_bottom = 420.0
+clip_contents = true
+
+[node name="Canvas" type="Control" parent="Groups/IT_07/ArtScroll"]
+layout_mode = 2
+custom_minimum_size = Vector2(488, 588)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Art" type="Node2D" parent="Groups/IT_07/ArtScroll/Canvas"]
 scale = Vector2(4, 4)
 texture_filter = 1
 
-[node name="icon" type="Sprite2D" parent="Groups/IT_07/Art"]
-position = Vector2(0, 0)
+[node name="icon" type="Sprite2D" parent="Groups/IT_07/ArtScroll/Canvas/Art"]
+position = Vector2(20, 20)
 texture = SubResource("A_IT_07_master")
 centered = false
 rotation = 0
 texture_filter = 1
 
-[node name="Caption_0" type="Label" parent="Groups/IT_07"]
-offset_left = 0.0
-offset_top = 240.0
-text = "icon"
+[node name="Caption_0" type="Label" parent="Groups/IT_07/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 40.0
+text = "1"
+theme_override_font_sizes/font_size = 4
 
-[node name="held_left" type="Sprite2D" parent="Groups/IT_07/Art"]
-position = Vector2(27, 0)
+[node name="held_left" type="Sprite2D" parent="Groups/IT_07/ArtScroll/Canvas/Art"]
+position = Vector2(52, 20)
 texture = SubResource("A_IT_07_master")
 centered = false
 rotation = 0
 texture_filter = 1
 
-[node name="Caption_1" type="Label" parent="Groups/IT_07"]
-offset_left = 108.0
-offset_top = 240.0
-text = "held-left"
+[node name="Caption_1" type="Label" parent="Groups/IT_07/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 40.0
+text = "2"
+theme_override_font_sizes/font_size = 4
 
-[node name="corpse_left" type="Sprite2D" parent="Groups/IT_07/Art"]
-position = Vector2(54, 0)
+[node name="corpse_left" type="Sprite2D" parent="Groups/IT_07/ArtScroll/Canvas/Art"]
+position = Vector2(84, 20)
 texture = SubResource("A_IT_07_master")
 centered = false
 rotation = 1.5707963267948966
 texture_filter = 1
 
-[node name="Caption_2" type="Label" parent="Groups/IT_07"]
-offset_left = 216.0
-offset_top = 240.0
-text = "corpse-left"
+[node name="Caption_2" type="Label" parent="Groups/IT_07/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 40.0
+text = "3"
+theme_override_font_sizes/font_size = 4
 
-[node name="held_right" type="Sprite2D" parent="Groups/IT_07/Art"]
-position = Vector2(81, 0)
+[node name="held_right" type="Sprite2D" parent="Groups/IT_07/ArtScroll/Canvas/Art"]
+position = Vector2(20, 60)
 texture = SubResource("A_IT_07_master")
 centered = false
 rotation = 0
 texture_filter = 1
 
-[node name="Caption_3" type="Label" parent="Groups/IT_07"]
-offset_left = 324.0
-offset_top = 240.0
-text = "held-right"
+[node name="Caption_3" type="Label" parent="Groups/IT_07/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 80.0
+text = "4"
+theme_override_font_sizes/font_size = 4
 
-[node name="corpse_right" type="Sprite2D" parent="Groups/IT_07/Art"]
-position = Vector2(108, 0)
+[node name="corpse_right" type="Sprite2D" parent="Groups/IT_07/ArtScroll/Canvas/Art"]
+position = Vector2(52, 60)
 texture = SubResource("A_IT_07_master")
 centered = false
 rotation = 1.5707963267948966
 texture_filter = 1
 
-[node name="Caption_4" type="Label" parent="Groups/IT_07"]
-offset_left = 432.0
-offset_top = 240.0
-text = "corpse-right"
+[node name="Caption_4" type="Label" parent="Groups/IT_07/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 80.0
+text = "5"
+theme_override_font_sizes/font_size = 4
 
-[node name="drawn_bow" type="Sprite2D" parent="Groups/IT_07/Art"]
-position = Vector2(135, 0)
+[node name="drawn_bow" type="Sprite2D" parent="Groups/IT_07/ArtScroll/Canvas/Art"]
+position = Vector2(84, 60)
 texture = SubResource("A_IT_07_master")
 centered = false
 rotation = 0
 texture_filter = 1
 
-[node name="Caption_5" type="Label" parent="Groups/IT_07"]
-offset_left = 540.0
-offset_top = 240.0
-text = "drawn-bow"
+[node name="Caption_5" type="Label" parent="Groups/IT_07/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 80.0
+text = "6"
+theme_override_font_sizes/font_size = 4
 
-[node name="released_bow" type="Sprite2D" parent="Groups/IT_07/Art"]
-position = Vector2(162, 0)
+[node name="released_bow" type="Sprite2D" parent="Groups/IT_07/ArtScroll/Canvas/Art"]
+position = Vector2(20, 100)
 texture = SubResource("A_IT_07_master")
 centered = false
 rotation = 0
 texture_filter = 1
 
-[node name="Caption_6" type="Label" parent="Groups/IT_07"]
-offset_left = 648.0
-offset_top = 240.0
-text = "released-bow"
+[node name="Caption_6" type="Label" parent="Groups/IT_07/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 120.0
+text = "7"
+theme_override_font_sizes/font_size = 4
 
-[node name="Broken" type="Sprite2D" parent="Groups/IT_07/Art"]
+[node name="Components" type="Label" parent="Groups/IT_07"]
+offset_top = 425.0
+offset_right = 680.0
+autowrap_mode = 3
+text = "Components: 1 icon; 2 held-left; 3 corpse-left; 4 held-right; 5 corpse-right; 6 drawn-bow; 7 released-bow"
+
+[node name="Broken" type="Sprite2D" parent="Groups/IT_07/ArtScroll/Canvas/Art"]
 visible = false
-position = Vector2(27, 0)
+position = Vector2(52, 20)
 texture = SubResource("A_IT_07_broken")
 centered = false
 texture_filter = 1
 
-[node name="Nocked" type="Sprite2D" parent="Groups/IT_07/Art"]
+[node name="Nocked" type="Sprite2D" parent="Groups/IT_07/ArtScroll/Canvas/Art"]
 visible = false
-position = Vector2(27, 0)
+position = Vector2(52, 20)
 texture = SubResource("A_IT_07_nocked")
 centered = false
 texture_filter = 1
@@ -2321,46 +2716,66 @@ text = "IT-08 | Berries | Source produced; appearance review pending04-32"
 offset_top = 25.0
 text = "Food-use component from the canonical master; no cooked/raw mechanic"
 
-[node name="Art" type="Node2D" parent="Groups/IT_08"]
-position = Vector2(0, 115)
+[node name="ArtScroll" type="ScrollContainer" parent="Groups/IT_08"]
+offset_top = 100.0
+offset_right = 680.0
+offset_bottom = 420.0
+clip_contents = true
+
+[node name="Canvas" type="Control" parent="Groups/IT_08/ArtScroll"]
+layout_mode = 2
+custom_minimum_size = Vector2(488, 268)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Art" type="Node2D" parent="Groups/IT_08/ArtScroll/Canvas"]
 scale = Vector2(4, 4)
 texture_filter = 1
 
-[node name="icon" type="Sprite2D" parent="Groups/IT_08/Art"]
-position = Vector2(0, 0)
+[node name="icon" type="Sprite2D" parent="Groups/IT_08/ArtScroll/Canvas/Art"]
+position = Vector2(20, 20)
 texture = SubResource("A_IT_08_master")
 centered = false
 rotation = 0
 texture_filter = 1
 
-[node name="Caption_0" type="Label" parent="Groups/IT_08"]
-offset_left = 0.0
-offset_top = 240.0
-text = "icon"
+[node name="Caption_0" type="Label" parent="Groups/IT_08/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 40.0
+text = "1"
+theme_override_font_sizes/font_size = 4
 
-[node name="food_use" type="Sprite2D" parent="Groups/IT_08/Art"]
-position = Vector2(27, 0)
+[node name="food_use" type="Sprite2D" parent="Groups/IT_08/ArtScroll/Canvas/Art"]
+position = Vector2(52, 20)
 texture = SubResource("A_IT_08_master")
 centered = false
 rotation = 0
 texture_filter = 1
 
-[node name="Caption_1" type="Label" parent="Groups/IT_08"]
-offset_left = 108.0
-offset_top = 240.0
-text = "food-use"
+[node name="Caption_1" type="Label" parent="Groups/IT_08/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 40.0
+text = "2"
+theme_override_font_sizes/font_size = 4
 
-[node name="corpse_storage" type="Sprite2D" parent="Groups/IT_08/Art"]
-position = Vector2(54, 0)
+[node name="corpse_storage" type="Sprite2D" parent="Groups/IT_08/ArtScroll/Canvas/Art"]
+position = Vector2(84, 20)
 texture = SubResource("A_IT_08_master")
 centered = false
 rotation = 1.5707963267948966
 texture_filter = 1
 
-[node name="Caption_2" type="Label" parent="Groups/IT_08"]
-offset_left = 216.0
-offset_top = 240.0
-text = "corpse-storage"
+[node name="Caption_2" type="Label" parent="Groups/IT_08/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 40.0
+text = "3"
+theme_override_font_sizes/font_size = 4
+
+[node name="Components" type="Label" parent="Groups/IT_08"]
+offset_top = 425.0
+offset_right = 680.0
+autowrap_mode = 3
+text = "Components: 1 icon; 2 food-use; 3 corpse-storage"
 
 [node name="IT_09" type="Control" parent="Groups"]
 visible = false
@@ -2372,46 +2787,66 @@ text = "IT-09 | Fruit | Source produced; appearance review pending04-32"
 offset_top = 25.0
 text = "Food-use component from the canonical master; no cooked/raw mechanic"
 
-[node name="Art" type="Node2D" parent="Groups/IT_09"]
-position = Vector2(0, 115)
+[node name="ArtScroll" type="ScrollContainer" parent="Groups/IT_09"]
+offset_top = 100.0
+offset_right = 680.0
+offset_bottom = 420.0
+clip_contents = true
+
+[node name="Canvas" type="Control" parent="Groups/IT_09/ArtScroll"]
+layout_mode = 2
+custom_minimum_size = Vector2(488, 268)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Art" type="Node2D" parent="Groups/IT_09/ArtScroll/Canvas"]
 scale = Vector2(4, 4)
 texture_filter = 1
 
-[node name="icon" type="Sprite2D" parent="Groups/IT_09/Art"]
-position = Vector2(0, 0)
+[node name="icon" type="Sprite2D" parent="Groups/IT_09/ArtScroll/Canvas/Art"]
+position = Vector2(20, 20)
 texture = SubResource("A_IT_09_master")
 centered = false
 rotation = 0
 texture_filter = 1
 
-[node name="Caption_0" type="Label" parent="Groups/IT_09"]
-offset_left = 0.0
-offset_top = 240.0
-text = "icon"
+[node name="Caption_0" type="Label" parent="Groups/IT_09/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 40.0
+text = "1"
+theme_override_font_sizes/font_size = 4
 
-[node name="food_use" type="Sprite2D" parent="Groups/IT_09/Art"]
-position = Vector2(27, 0)
+[node name="food_use" type="Sprite2D" parent="Groups/IT_09/ArtScroll/Canvas/Art"]
+position = Vector2(52, 20)
 texture = SubResource("A_IT_09_master")
 centered = false
 rotation = 0
 texture_filter = 1
 
-[node name="Caption_1" type="Label" parent="Groups/IT_09"]
-offset_left = 108.0
-offset_top = 240.0
-text = "food-use"
+[node name="Caption_1" type="Label" parent="Groups/IT_09/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 40.0
+text = "2"
+theme_override_font_sizes/font_size = 4
 
-[node name="corpse_storage" type="Sprite2D" parent="Groups/IT_09/Art"]
-position = Vector2(54, 0)
+[node name="corpse_storage" type="Sprite2D" parent="Groups/IT_09/ArtScroll/Canvas/Art"]
+position = Vector2(84, 20)
 texture = SubResource("A_IT_09_master")
 centered = false
 rotation = 1.5707963267948966
 texture_filter = 1
 
-[node name="Caption_2" type="Label" parent="Groups/IT_09"]
-offset_left = 216.0
-offset_top = 240.0
-text = "corpse-storage"
+[node name="Caption_2" type="Label" parent="Groups/IT_09/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 40.0
+text = "3"
+theme_override_font_sizes/font_size = 4
+
+[node name="Components" type="Label" parent="Groups/IT_09"]
+offset_top = 425.0
+offset_right = 680.0
+autowrap_mode = 3
+text = "Components: 1 icon; 2 food-use; 3 corpse-storage"
 
 [node name="IT_10" type="Control" parent="Groups"]
 visible = false
@@ -2423,46 +2858,66 @@ text = "IT-10 | Meat | Source produced; appearance review pending04-32"
 offset_top = 25.0
 text = "Food-use component from the canonical master; no cooked/raw mechanic"
 
-[node name="Art" type="Node2D" parent="Groups/IT_10"]
-position = Vector2(0, 115)
+[node name="ArtScroll" type="ScrollContainer" parent="Groups/IT_10"]
+offset_top = 100.0
+offset_right = 680.0
+offset_bottom = 420.0
+clip_contents = true
+
+[node name="Canvas" type="Control" parent="Groups/IT_10/ArtScroll"]
+layout_mode = 2
+custom_minimum_size = Vector2(488, 268)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Art" type="Node2D" parent="Groups/IT_10/ArtScroll/Canvas"]
 scale = Vector2(4, 4)
 texture_filter = 1
 
-[node name="icon" type="Sprite2D" parent="Groups/IT_10/Art"]
-position = Vector2(0, 0)
+[node name="icon" type="Sprite2D" parent="Groups/IT_10/ArtScroll/Canvas/Art"]
+position = Vector2(20, 20)
 texture = SubResource("A_IT_10_master")
 centered = false
 rotation = 0
 texture_filter = 1
 
-[node name="Caption_0" type="Label" parent="Groups/IT_10"]
-offset_left = 0.0
-offset_top = 240.0
-text = "icon"
+[node name="Caption_0" type="Label" parent="Groups/IT_10/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 40.0
+text = "1"
+theme_override_font_sizes/font_size = 4
 
-[node name="food_use" type="Sprite2D" parent="Groups/IT_10/Art"]
-position = Vector2(27, 0)
+[node name="food_use" type="Sprite2D" parent="Groups/IT_10/ArtScroll/Canvas/Art"]
+position = Vector2(52, 20)
 texture = SubResource("A_IT_10_master")
 centered = false
 rotation = 0
 texture_filter = 1
 
-[node name="Caption_1" type="Label" parent="Groups/IT_10"]
-offset_left = 108.0
-offset_top = 240.0
-text = "food-use"
+[node name="Caption_1" type="Label" parent="Groups/IT_10/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 40.0
+text = "2"
+theme_override_font_sizes/font_size = 4
 
-[node name="corpse_storage" type="Sprite2D" parent="Groups/IT_10/Art"]
-position = Vector2(54, 0)
+[node name="corpse_storage" type="Sprite2D" parent="Groups/IT_10/ArtScroll/Canvas/Art"]
+position = Vector2(84, 20)
 texture = SubResource("A_IT_10_master")
 centered = false
 rotation = 1.5707963267948966
 texture_filter = 1
 
-[node name="Caption_2" type="Label" parent="Groups/IT_10"]
-offset_left = 216.0
-offset_top = 240.0
-text = "corpse-storage"
+[node name="Caption_2" type="Label" parent="Groups/IT_10/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 40.0
+text = "3"
+theme_override_font_sizes/font_size = 4
+
+[node name="Components" type="Label" parent="Groups/IT_10"]
+offset_top = 425.0
+offset_right = 680.0
+autowrap_mode = 3
+text = "Components: 1 icon; 2 food-use; 3 corpse-storage"
 
 [node name="Selection" type="AnimationPlayer" parent="."]
 libraries = {&"": SubResource("Selections")}

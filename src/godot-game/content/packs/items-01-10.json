@@ -4094,7 +4094,17 @@
     ],
     "integrationOwner": "04-23",
     "currentHubReachability": "pending-04-23",
-    "sha256": "e6657e1e02bb4977a8f9f23b8c5baab7a7cd9210f88db07e20ddf6b44a51a1ae"
+    "sha256": "a0b6e6306cd461efbecebfe5e715763b916a6988f1558451f98407f0ed8c79e4",
+    "artNode": "ArtScroll/Canvas/Art",
+    "viewport": [
+      680,
+      320
+    ],
+    "logicalWindow": [
+      1280,
+      720
+    ],
+    "originalOverflowSha256": "e6657e1e02bb4977a8f9f23b8c5baab7a7cd9210f88db07e20ddf6b44a51a1ae"
   },
   "donorSuitability": [
     {
@@ -4127,7 +4137,7 @@
   },
   "recipe": {
     "member": "recipes/build-items.py",
-    "sha256": "6da9ff312b02a27e1ddf4c66a4b667d62c0791d44e9e1a574e923612de98cc67",
+    "sha256": "d77d0149aa87c5705dcbb9da080b0fb000e5ed0cefbd2a9de3e99d8d172f49dc",
     "toolPins": {
       "Python": "3.12.14",
       "Pillow": "13.0.0"

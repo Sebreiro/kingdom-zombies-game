@@ -20,6 +20,12 @@ scene_name=pathlib.PurePosixPath(pack['preview']['scene']).name
 m.need((artifact_root/'src/godot-game/inspection'/scene_name).read_bytes()==members[scene_name],'ITEM_SCENE_BYTES')
 inventory=m.loads(members['members.json']);m.need(len(inventory)+1==len(members) and len({x['path'] for x in inventory})==len(inventory),'ITEM_MEMBERS')
 for row in inventory:m.need(row['path'] in members and row['bytes']==len(members[row['path']]) and row['sha256']==m.sha(members[row['path']]),'ITEM_MEMBER_HASH')
+if kind=='items-01-10':
+ legacy=members['history/pre-scroll.tscn'];m.need(m.sha(legacy)=='e6657e1e02bb4977a8f9f23b8c5baab7a7cd9210f88db07e20ddf6b44a51a1ae','ITEM_ORIGINAL_OVERFLOW')
+ target=m.contained(root,pathlib.Path(__file__).parent.relative_to(root).as_posix()+'/pre-scroll.tscn')
+ if target.exists():m.need(target.read_bytes()==legacy,'ITEM_ORIGINAL_OVERFLOW_OUTPUT')
+ else:
+  with target.open('xb') as stream:stream.write(legacy)
 names=['Money','Arrows','Knife','Wooden club','Machete','Metal bat','Bow','Berries','Fruit','Meat']
 foot=[[1,1],[1,2],[1,2],[1,3],[1,3],[1,4],[2,4],[1,1],[1,1],[1,2]]
 image_cache={};info_cache={};reproduction_cache={}
@@ -95,6 +101,7 @@ def verify(p,data):
  m.need(len({images[p['items'][i-1]['master']].tobytes() for i in [3,4,5,6]})==4 and images[p['items'][7]['master']].tobytes()!=images[p['items'][8]['master']].tobytes(),'ITEM_DISTINCT')
  scene=data[scene_name].decode('utf-8');m.need('script' not in scene.lower() and 'type="Script"' not in scene and 'texture_filter = 2' not in scene and scene.count('method="play"')==len(p['items'])+sum(len(x['modes']) for x in p['items'])+4,'ITEM_SCENE_SAFETY')
  m.need(p['preview']['zooms']==[1,2,4,8] and p['preview']['currentHubReachability']=='pending-04-23','ITEM_PREVIEW')
+ m.need(p['preview']['sha256']==m.sha(data[scene_name]) and p['preview']['artNode']=='ArtScroll/Canvas/Art' and p['preview']['viewport']==[680,320] and p['preview']['logicalWindow']==[1280,720],'ITEM_PREVIEW_REACHABILITY')
  return {'items':len(p['items']),'parts':len(parts),'members':len(data),'generatedMasters':sum('generate' in x['route'] for x in p['items']),'components':sum(len(x['components']) for x in p['items'])}
 result=verify(pack,members);faults=[('missing-master','ITEM_MASTER'),('missing-prompt','ITEM_PROMPT'),('duplicate-id','ITEM_ROSTER'),('condition-icons','ITEM_CANONICAL_ICON'),('wrong-grip','ITEM_GRIP'),('wrong-logical-hand','ITEM_GRIP'),('bundle-alias','ITEM_ARROW_BUNDLE'),('empty-ammo','ITEM_AMMUNITION'),('missing-component','ITEM_COMPONENT_SET'),('wrong-sampling','ITEM_SAMPLING'),('wrong-zoom','ITEM_PREVIEW'),('script-bearing','ITEM_SCENE_SAFETY'),('linear-filter','ITEM_SCENE_SAFETY'),('false-acceptance','ITEM_FALSE_ACCEPTANCE'),('stale-route','ITEM_ROUTE')];out=[]
 for name,expected in faults:
@@ -120,7 +127,7 @@ for name,expected in faults:
  m.need(failure==expected,'ITEM_NEGATIVE_'+name+'_'+str(failure));out.append({'name':name,'diagnostic':failure,'expectedRejectionObserved':True})
 result['controls']=out;result['expectedRejected']=len(out);print(json.dumps(result))
 `;
-function files(kind,scene){return ['tools/phase4/cases/items.cjs','tools/phase4/extract-media.py','production/phase4/common-selected.zip',
+function files(kind,scene){return ['tools/phase4/cases/items.cjs','tools/phase4/extract-media.py','production/phase4/common-selected.zip','tools/phase1/toolchain.json',
   'src/godot-game/assets/equipment/'+kind+'.png','src/godot-game/content/packs/'+kind+'.json','production/phase4/'+kind+'.zip',
   'src/godot-game/inspection/'+scene];}
 function fingerprint(paths){return Object.fromEntries(paths.map(file=>[file,hash(bytes(ROOT,file))]));}
@@ -131,6 +138,8 @@ func reject(code):
 func _initialize():
     call_deferred("inspect")
 func inspect():
+    # Headless DisplayServer starts at100x100; explicitly instantiate the authored logical viewport.
+    root.size = Vector2i(1280,720)
     var source = FileAccess.get_file_as_string("res://inspection/${scene}")
     if source.to_lower().contains("script") or source.contains("texture_filter = 2"):
         reject("SCENE_SAFETY")
@@ -153,6 +162,11 @@ func inspect():
     var zooms = scene.get_node("ZoomPlayer")
     var sprites = 0
     var transitions = 0
+    var reachable = 0
+    await process_frame
+    if root.size != Vector2i(1280,720):
+        reject("LOGICAL_VIEWPORT")
+        return
     for item in pack.items + pack.items.duplicate():
         var button = scene.get_node(item.inspection.button)
         var links = button.get_signal_connection_list("pressed")
@@ -161,31 +175,77 @@ func inspect():
             return
         button.emit_signal("pressed")
         selection.advance(0)
+        await process_frame
         for other in pack.items:
             var group = scene.get_node(other.inspection.group)
             if group.visible != (other.id == item.id):
                 reject("SELECTION_RETIRE")
                 return
+            var art = group.get_node_or_null(pack.preview.artNode)
+            if art == null:
+                reject("ART_SCROLL")
+                return
             for mode in other.modes:
-                if group.get_node("Art/" + mode.node).visible:
+                if art.get_node(mode.node).visible:
                     reject("OVERLAY_RETIRE")
                     return
         var group = scene.get_node(item.inspection.group)
+        var scroll = group.get_node_or_null("ArtScroll")
+        if not scroll is ScrollContainer or not scroll.clip_contents or scroll.size != Vector2(680,320) or group.get_node("Identity").get_parent() != group:
+            reject("ART_SCROLL")
+            return
+        var canvas = scroll.get_node("Canvas")
+        var art = group.get_node(pack.preview.artNode)
         if group.get_node("Identity").text != item.id + " | " + item.name + " | " + item.status or group.get_node("Use").text != item.usageLabel:
             reject("IDENTITY_STATUS")
             return
         if item.id == "IT-22" and (group.has_node("State_Worn") or item.slot != null):
             reject("STORED_POUCH")
             return
+        var storage = {"IT-11":[2,1],"IT-12":[2,2],"IT-13":[2,2],"IT-21":[4,2],"IT-22":[2,2],"IT-23":[4,4],"IT-24":[5,6]}
+        if storage.has(item.id):
+            var size = storage[item.id]
+            var expected = "Storage " + str(size[0]) + "x" + str(size[1]) + "\\n"
+            for row in range(size[1]):
+                if row > 0:
+                    expected += "\\n"
+                for column in range(size[0]):
+                    if column > 0:
+                        expected += " "
+                    expected += "[ ]"
+            if group.get_node("Storage").text != expected:
+                reject("STORAGE_DIAGRAM")
+                return
         for zoom in [1,2,4,8]:
             scene.get_node("Zoom/Zoom" + str(zoom)).emit_signal("pressed")
             zooms.advance(0)
-            if group.get_node("Art").scale != Vector2(zoom,zoom):
+            await process_frame
+            if art.scale != Vector2(zoom,zoom):
                 reject("ZOOM")
                 return
             transitions += 1
+            var horizontal = scroll.get_h_scroll_bar()
+            var vertical = scroll.get_v_scroll_bar()
+            var page = Vector2(horizontal.page,vertical.page)
+            var maximum = Vector2(max(0,horizontal.max_value-horizontal.page),max(0,vertical.max_value-vertical.page))
+            if page.x <= 0 or page.y <= 0:
+                reject("SCROLL_EXTENT")
+                return
+            for component in item.components + item.modes:
+                var sprite = art.get_node(component.node)
+                var bounds = art.transform * (sprite.transform * sprite.get_rect())
+                if bounds.position.x < -0.001 or bounds.position.y < -0.001 or bounds.end.x > canvas.size.x+0.001 or bounds.end.y > canvas.size.y+0.001 or bounds.size.x > page.x or bounds.size.y > page.y:
+                    reject("CONTENT_EXTENT")
+                    return
+                scroll.scroll_horizontal = int(min(bounds.position.x,maximum.x))
+                scroll.scroll_vertical = int(min(bounds.position.y,maximum.y))
+                var visible = bounds.position - Vector2(scroll.scroll_horizontal,scroll.scroll_vertical)
+                if visible.x < -0.001 or visible.y < -0.001 or visible.x+bounds.size.x > page.x+0.001 or visible.y+bounds.size.y > page.y+0.001:
+                    reject("UNREACHABLE_COMPONENT")
+                    return
+                reachable += 1
         for component in item.components + item.modes:
-            var sprite = group.get_node("Art/" + component.node)
+            var sprite = art.get_node(component.node)
             var part = parts[component.part]
             if not sprite is Sprite2D or sprite.get_script() != null or sprite.centered or sprite.texture_filter != CanvasItem.TEXTURE_FILTER_NEAREST or not is_equal_approx(sprite.rotation,float(component.get("rotation",0))):
                 reject("COMPONENT")
@@ -213,13 +273,13 @@ func inspect():
             group.get_node("State_" + mode.node).emit_signal("pressed")
             states.advance(0)
             for candidate in item.modes:
-                if group.get_node("Art/" + candidate.node).visible != (candidate.node == mode.node):
+                if art.get_node(candidate.node).visible != (candidate.node == mode.node):
                     reject("STATE_EXCLUSIVE")
                     return
         scene.get_node(item.inspection.button).emit_signal("pressed")
         selection.advance(0)
     scene.free()
-    print("ITEM_NATIVE_COMPLETE ${nonce} items=" + str(pack.items.size()) + " sprites=" + str(sprites) + " zoom-transitions=" + str(transitions))
+    print("ITEM_NATIVE_COMPLETE ${nonce} items=" + str(pack.items.size()) + " sprites=" + str(sprites) + " zoom-transitions=" + str(transitions) + " reachable=" + str(reachable))
     quit(0)
 `;}
 async function native(context,kind,scene){
@@ -234,7 +294,12 @@ async function native(context,kind,scene){
   const target=inside(project,'inspection/'+scene);fs.writeFileSync(target,bytes(ROOT,'src/godot-game/inspection/'+scene).toString().replace('texture_filter = 1','texture_filter = 2'));
   let failure;try{await runner.command(context,'items-native-negative',tool.executable,['--headless','--path',project,'--script','res://probe.gd']);}catch(error){failure=error.message;}
   const rejected=document(context.directory,'items-native-negative.command.json');need(failure?.startsWith('CHILD_FAILED')&&rejected.code===1&&rejected.stderr.includes('ITEM_NATIVE_REJECT SCENE_SAFETY')&&!rejected.stdout.includes('ITEM_NATIVE_COMPLETE'),'ITEM_NATIVE_NEGATIVE');
-  return {headless:true,observed:result.stdout.trim(),expectedRejected:1};
+  const original=kind==='items-01-10'?bytes(context.directory,'pre-scroll.tscn'):
+    Buffer.from(bytes(ROOT,'src/godot-game/inspection/'+scene).toString().replaceAll('name="ArtScroll" type="ScrollContainer"','name="ArtScroll" type="Control"'));
+  fs.writeFileSync(target,original);failure=undefined;
+  try{await runner.command(context,'items-original-overflow-negative',tool.executable,['--headless','--path',project,'--script','res://probe.gd']);}catch(error){failure=error.message;}
+  const overflow=document(context.directory,'items-original-overflow-negative.command.json');need(failure?.startsWith('CHILD_FAILED')&&overflow.code===1&&overflow.stderr.includes('ITEM_NATIVE_REJECT ART_SCROLL')&&!overflow.stdout.includes('ITEM_NATIVE_COMPLETE'),'ITEM_OVERFLOW_NEGATIVE');
+  return {headless:true,observed:result.stdout.trim(),expectedRejected:2,originalOverflowSha256:hash(original)};
 }
 async function run(context,kind,scene){
   const before=fingerprint(files(kind,scene));write(context.directory,'inputs.json',before);write(context.directory,'verify-items.py',Buffer.from(VERIFY));
@@ -247,8 +312,9 @@ runner.registerCase('items.weapons-food',{group:'items',title:'Ten complete weap
   requirements:['ASSET-01','ASSET-02','ASSET-03'],acceptance:['AC-01','AC-03','AC-05','AC-06','AC-22'],
   setup:'Tracked retained item ZIP/atlas/pack/scriptless scene; pinned installed Python/Pillow and headless Godot4.7.2; no donor access',
   actions:['Reproduce every component from retained donor/generated masters and bounded crop/nearest recipes','Validate exact independent IT-01–10 roster/grips/canonical icons/conditional overlays and distinct bundle/projectile/food identities',
-    'Reject15 semantic faults beyond outer archive hashes','Emit real selection/state/zoom button signals for each item twice; inspect exclusive groups, actual texture pixels and compact identity/status','Reject an actual malformed native scene'],
-  expected:'Ten complete source identities and components,15 semantic rejections, all native button/zoom transitions and one native rejection; final acceptance remains pending',
+    'Reject15 semantic faults beyond outer archive hashes','Emit real selection/state/zoom button signals for each item twice; inspect exclusive groups, actual texture pixels and compact identity/status',
+    'Reach every actual component through native clipped scroll ranges at1/2/4/8x on1280x720','Reject an actual malformed scene and the retained exact original overflow scene'],
+  expected:'Ten complete source identities and components,15 semantic rejections, all native button/zoom/scroll transitions and two native rejections; final acceptance remains pending',
   reset:'Fresh owned immutable invocation and bounded headless children; no real game window',evidence:['inputs.json','negative-controls.json','engine.json','items-portable.command.json','items-native.command.json','items-native-negative.command.json','result.json']},
   context=>run(context,'items-01-10','ItemsWeaponsPreview.tscn'));
 module.exports={VERIFY,PYTHON,files,fingerprint,probe,native,run};
