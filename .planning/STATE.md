@@ -4,17 +4,17 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 04
 current_phase_name: Asset production
-current_plan: 8
+current_plan: 9
 status: executing
-stopped_at: Completed04-28;17/37 local plans summarized; wave13 complete; next04-08 animation; WINDOWS29/30/31 open
-last_updated: "2026-11-17T07:56:06.966Z"
+stopped_at: Completed 04-08; 18/37 local plans summarized; wave 14 complete; next 04-09 bow/work; WINDOWS29/30/31 open
+last_updated: "2026-11-17T09:39:03.498Z"
 last_activity: 2026-11-17
-last_activity_desc: Completed native identity/resources; final11case selection passes; next04-08 locomotion/melee presentation
+last_activity_desc: Completed concurrent character presentation and recovery; final 16-case selection passes; next 04-09 bow/work actions
 progress:
   total_phases: 11
   completed_phases: 3
   total_plans: 62
-  completed_plans: 42
+  completed_plans: 43
   percent: 27
 ---
 
@@ -26,19 +26,19 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase04 continues on feature/04-asset-production with draftPR5. Seventeen of37 local plans are summarized:01/25/34/35/02/36/37/03/26/04/05/11/06/14/18/07/28. Native identity/status/binding/player/condition resources pass a fresh eleven-case selection on404 unchanged inputs; identity127/integrity402/theme172 observations. Two new IdentityKit source/scene paths raise inventory236. Wave13 is complete; next04-08 animation. Native policy remains failed369operations and current producer is unenrolled; WINDOWS29/30/31 andallASSET/actual32/33 acceptance remain pending.
+**Current focus:** Phase 04 continues on feature/04-asset-production with draft PR 5. Eighteen of 37 local plans are summarized: 01/25/34/35/02/36/37/03/26/04/05/11/06/14/18/07/28/08. Concurrent locomotion/melee, logical-hand replacement, transport and visible error/recheck recovery pass a fresh 16-case selection on 399 unchanged inputs. Both animation cases retain 704 samples, 41 replacement/control checks, seven UI states and 35 compiled passes with zero skips. Inventory remains 236; wave 14 is complete and next is 04-09 bow/work actions. Native policy remains failed at 414 operations and the current producer is unenrolled; WINDOWS29/30/31 and all ASSET/actual acceptance remain pending.
 
 ## Current Position
 
 Phase: 04 — Asset production
-Current Plan: 8
+Current Plan: 9
 Total Plans in Phase: 37
 Status: Executing
-Last activity: 2026-11-17 — Completed04-28 identity kit;17/37 locally summarized; wave13 complete,next04-08
+Last activity: 2026-11-17 — Completed 04-08 character presentation; 18/37 locally summarized; wave 14 complete, next 04-09
 
 Progress: [███░░░░░░░] 27%
 
-Milestone progress: 3/11 phases complete;42/62 currently planned plans summarized;fourteen of134 requirements complete. Phase4 has17/37 local plans complete. NoASSET requirement completion is claimed.
+Milestone progress: 3/11 phases complete;43/62 currently planned plans summarized;fourteen of134 requirements complete. Phase4 has18/37 local plans complete. NoASSET requirement completion is claimed.
 
 ## Performance Metrics
 
@@ -143,6 +143,8 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - [Phase 04]: 04-07 adds5 distinct neutral bodies,80poses,320parts and418 retained b/c members. All8 choices/7936tuples/16158native/12H13 pass;12-case final local selection passes383 unchanged inputs. Shared helper Image ownership fixes confirmed by scoped treatment/reversal; strict report-only2MiB/125k reader retains14 negative controls and global100k limit. Source5eb6b7f/5d0f5e8,SUMMARYbbfc57e. Current policy291operations remains OPEN23-owned;inventory234 unchanged.
 
 - [Phase04]: 04-28 resources/production projector committedaa0bf15/e2dea70/be65d18,SUMMARYb7186e7. Final11casePASS404unchanged inputs; identity127/integrity402 exact4shape vectors/native theme172+3compiled0skip; originalhub63compiled each/native25/50. Two new source/scene paths raise inventory234→236. Separate native-policyFAIL369 and unenrolled49input producer remain23-owned. Current icon.svg replacement/export embedding remains31; allactualacceptance pending.
+
+- [Phase04]: 04-08 Task 1 bc7883d, Task 2 9da8f88 and canonical SUMMARY 4d1c1c1 complete. Final 16/16 PASS, 399 unchanged inputs; both animation cases retain 704 samples, five strict negatives, 41 replacement/control checks, seven UI states and 35 compiled passes with zero skips. Original body/hub/item/data/theme/identity regressions pass. Nine existing/planned paths leave inventory 236. Native policy c7f92490 remains FAIL 414 and producer 49 inputs/32 surfaces remains unenrolled for 23/31. All actual acceptance remains pending.
 
 ### Pending Todos
 
