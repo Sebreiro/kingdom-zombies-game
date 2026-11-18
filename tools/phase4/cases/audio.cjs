@@ -1348,6 +1348,53 @@ func _initialize():
 func check_case(id, passed, detail):
  outcomes.append({"id":id,"pass":passed,"detail":detail})
  failed = failed or not passed
+func select_label(control, label):
+ var matches = []
+ for i in range(control.item_count):
+  if control.get_item_text(i)==label:
+   matches.append(i)
+ if matches.size()!=1:
+  check_case("status-filter-unique-label-"+label,false,matches)
+  return
+ control.select(matches[0])
+ control.item_selected.emit(matches[0])
+func row_ids(list):
+ var ids = []
+ for i in range(list.item_count):
+  ids.append(list.get_item_text(i).split(" · ")[0])
+ return ids
+func filter_regressions(hub, category, list):
+ var filter = hub.get_node("Shell/Workspace/Controls/Browser/Status")
+ var expected = []
+ for i in range(1,31):
+  expected.append("AU-%02d" % i)
+ for label in ["All statuses","Incomplete","Error"]:
+  select_label(filter,label)
+  var ids = row_ids(list)
+  check_case("hub-audio-status-"+label.to_lower().replace(" ","-"),ids==expected,ids)
+ select_label(filter,"Partial")
+ check_case("hub-audio-partial-excludes-incomplete",row_ids(list).is_empty(),row_ids(list))
+ select_label(category,"Register")
+ select_label(filter,"Partial")
+ var register = row_ids(list)
+ check_case("hub-register-partial-only-bow",register==["common.bow"],register)
+ var selected = register.find("common.bow")
+ if selected>=0:
+  list.select(selected)
+  list.item_selected.emit(selected)
+ hub.get_node("Shell/Workspace/Preview/Actions/Details").pressed.emit()
+ var metadata = hub.get_node("Shell/Workspace/Preview/Metadata")
+ check_case("hub-register-selected-mappings",hub.get_node("Summary/ResourceId").text=="common.bow" and metadata.visible and metadata.text.contains("Explicit shared mappings: IT-07"),metadata.text)
+ hub.get_node("Shell/Workspace/Preview/Actions/Details").pressed.emit()
+ select_label(filter,"All statuses")
+ select_label(category,"Audio")
+ select_label(filter,"All statuses")
+ var restored = row_ids(list)
+ selected = restored.find("AU-27")
+ if selected>=0:
+  list.select(selected)
+  list.item_selected.emit(selected)
+ check_case("hub-status-filter-restored",restored==expected and hub.get_node("Summary/ResourceId").text=="AU-27" and not metadata.visible,restored)
 func run():
  var scene = load("res://inspection/Inspection.tscn")
  var hub = scene.instantiate()
@@ -1371,6 +1418,7 @@ func run():
  list.select(selected)
  list.item_selected.emit(selected)
  check_case("hub-native-audio-page",hub.has_node("Shell/Workspace/Preview/Surface/Current/AudioPreview/Audio/Content"),status.text)
+ filter_regressions(hub,category,list)
  # AUDIO_HELDOUT_HUB
  root.remove_child(hub)
  hub.free()
@@ -1444,7 +1492,10 @@ async function audioHub(context,sourceInputs,heldout=false){
  need(child.stderr.trim()===''&&!/ERROR:|SCRIPT ERROR:|FATAL|leaked/i.test(child.stdout+child.stderr)
   &&child.stdout.includes('AUDIO_HUB_COMPLETE '+nonce+' PASS'),'AUDIO_HUB_NATIVE_CLEAN');
  need(result.pid===child.pid&&result.nonce===nonce&&!result.failed,'AUDIO_HUB_NATIVE_IDENTITY');
- const expected=['AUDIO-AUDITION.loading','hub-all30-reachable','hub-native-audio-page',...(heldout?
+ const expected=['AUDIO-AUDITION.loading','hub-all30-reachable','hub-native-audio-page',
+  'hub-audio-status-all-statuses','hub-audio-status-incomplete','hub-audio-status-error',
+  'hub-audio-partial-excludes-incomplete','hub-register-partial-only-bow',
+  'hub-register-selected-mappings','hub-status-filter-restored',...(heldout?
   ['heldout.Hub.H25-exact-loops','heldout.Hub.H26-retired-view','heldout.Hub.H26-current-binding',
    'heldout.AUDIO-AUDITION.loading','heldout.Hub.restored-binding']:[])];
  need(equal(result.outcomes.map(row=>row.id),expected)

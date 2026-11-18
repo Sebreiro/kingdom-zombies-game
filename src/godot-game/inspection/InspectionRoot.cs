@@ -418,8 +418,9 @@ public sealed partial class InspectionRoot : Node2D
                 (_status is "All statuses" or "Partial") && id.Contains(value: _query,
                         comparisonType: StringComparison.OrdinalIgnoreCase));
         _rows = outputs.Concat(second: expected).Concat(second: authored).Concat(second: AudioPreview.Ids(
-                category: category).Where(predicate: id => id.Contains(value: _query,
-                        comparisonType: StringComparison.OrdinalIgnoreCase))).Distinct(comparer: StringComparer.Ordinal)
+                category: category).Where(predicate: id => (_status is "All statuses" or "Incomplete" or "Error")
+                        && id.Contains(value: _query, comparisonType: StringComparison.OrdinalIgnoreCase)))
+                .Distinct(comparer: StringComparer.Ordinal)
                 .Order(comparer: StringComparer.Ordinal).ToArray();
         foreach (string id in _rows)
         {
