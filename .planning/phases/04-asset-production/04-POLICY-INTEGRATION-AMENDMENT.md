@@ -67,3 +67,7 @@ Final13ce1bf4-488e-457f-9024-f51a844624e1 remains FAIL1861 operations: previous1
 ## Current observation after 04-19
 
 Plan19 is data-only: eight JSON/validator paths add no native/public adapter or generated-source input. [04-19-SUMMARY.md](04-19-SUMMARY.md) retains recorded13ce1bf4 FAIL1861 and current56-input/32-surface unenrolled producer as unchanged integration obligations,not a newly executed observation or pass. Owner23 must reconcile exact guarded final members/pinned producer and current data/UI consumers before24review;31 rechecks finalsource. The41 executable local passes grant no permission or cohort enrollment. Historical failures/inventories,19 public identities,inventory236 and WINDOWS30/31 remain preserved/open.
+
+## Current observation after 04-17
+
+Final08be5ab2-d680-46ff-8e11-dae6b278aff7 remains FAIL2130 operations:prior1861 unchanged plus269SessionLayouts. [04-17-SUMMARY.md](04-17-SUMMARY.md) records all269 exact newtuples/47productionmembers and57-input/32-surface current producer closure with unchanged officialpackage pin. Owner23 must authorize actually guarded exact members with independent negatives and enroll final pinned producer before24review;31 rechecks finalsource. No permission/cohort completion follows from43 local executable passes. Historical reports,19public identities,inventory236 and WINDOWS30/31 remain preserved/open.
