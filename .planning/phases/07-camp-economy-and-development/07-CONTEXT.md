@@ -40,33 +40,33 @@ Deliver a working solo and LAN camp on both sides of the main building. Players 
 
 ### Main-building navigation
 
-- **D-01.** Use one tabbed camp window with **Stash**, **People**, **Food sales**, and **Main building**. Open on Stash every time. The Stash tab incorporates the Phase 6 equipment, carried storage, and shared stash workspace with its existing paging, item access, and transfer rules.
-- **D-02.** Make the camp window almost full screen and semi-transparent. Carry forward the wooden frames and dark interiors. Keep the active world and warning cues visible. Each selected tab gets the entire workspace, so the equipment and storage grids appear only on Stash.
-- **D-03.** Use the inventory input rules for all camp tabs. Block movement, attacks, quick-food keys, and world clicks while the window is open. Time, work, and threats continue, and Escape handles the active panel before the run menu.
-- **D-04.** Leaving Stash closes open bag windows and remembers their positions for this session. Returning to the tab leaves them closed until manually reopened. Apply normal inventory cancellation and access rules to any unfinished interaction.
-- **D-05.** Keep the camp window open on nonlethal damage and show the damage cues over it. Death or loss of main-building access closes the window.
+- **D-01:** Use one tabbed camp window with **Stash**, **People**, **Food sales**, and **Main building**. Open on Stash every time. The Stash tab incorporates the Phase 6 equipment, carried storage, and shared stash workspace with its existing paging, item access, and transfer rules.
+- **D-02:** Make the camp window almost full screen and semi-transparent. Carry forward the wooden frames and dark interiors. Keep the active world and warning cues visible. Each selected tab gets the entire workspace, so the equipment and storage grids appear only on Stash.
+- **D-03:** Use the inventory input rules for all camp tabs. Block movement, attacks, quick-food keys, and world clicks while the window is open. Time, work, and threats continue, and Escape handles the active panel before the run menu.
+- **D-04:** Leaving Stash closes open bag windows and remembers their positions for this session. Returning to the tab leaves them closed until manually reopened. Apply normal inventory cancellation and access rules to any unfinished interaction.
+- **D-05:** Keep the camp window open on nonlethal damage and show the damage cues over it. Death or loss of main-building access closes the window.
 
 ### People and role assignment
 
-- **D-06.** Use one scrollable roster grouped by current job, with a heading and count for each role. Include the survivor's current job and activity, including equipment waiting.
-- **D-07.** Keep the roster visible while the selected survivor's status, role choices, prices, and gear requirements appear to its right.
-- **D-08.** For a survivor who is away or under player control, show the job choices disabled with the specific reason. Keep prices and gear requirements visible and update availability as the survivor's state changes.
-- **D-09.** Put **Buy recruit**, its carried-money price, and both the fireside and total population counts in a fixed header above the roster. Keep these visible while scrolling or inspecting a survivor. Show which limit or other eligibility rule is blocking recruitment.
+- **D-06:** Use one scrollable roster grouped by current job, with a heading and count for each role. Include the survivor's current job and activity, including equipment waiting.
+- **D-07:** Keep the roster visible while the selected survivor's status, role choices, prices, and gear requirements appear to its right.
+- **D-08:** For a survivor who is away or under player control, show the job choices disabled with the specific reason. Keep prices and gear requirements visible and update availability as the survivor's state changes.
+- **D-09:** Put **Buy recruit**, its carried-money price, and both the fireside and total population counts in a fixed header above the roster. Keep these visible while scrolling or inspecting a survivor. Show which limit or other eligibility rule is blocking recruitment.
 
 ### Purchases and food sales
 
-- **D-10.** Let players type an exact whole-number sale quantity or adjust it with +/−. **Max** selects the current available quantity of the chosen food.
-- **D-11.** Show current stash stock, selected quantity, unit price, total proceeds, and resulting stash money before **Sell**. The button submits the visible quote directly, including a quantity selected with Max.
-- **D-12.** Submit recruitment, paid role changes, clearing, construction, upgrades, repairs, and rebuilding directly from their explicitly priced buttons. The visible price and action are the purchase step. Use the existing current-state eligibility and no-charge rules.
-- **D-13.** Refresh the food-sale view and quote as current stock and prices arrive. If the available stock falls below the selected amount before Sell is pressed, reduce the amount to the available stock and update the displayed proceeds. At zero stock, the sale action is unavailable. A sale still needs an explicit Sell click.
-- **D-14.** Evaluate the submitted sale against the quantity and price shown when the player pressed Sell. When the host rejects a changed quote or otherwise stale action, show the current values and explain the rejection. Preserve food and money on the rejected request and require a new click for any revised sale.
+- **D-10:** Let players type an exact whole-number sale quantity or adjust it with +/−. **Max** selects the current available quantity of the chosen food.
+- **D-11:** Show current stash stock, selected quantity, unit price, total proceeds, and resulting stash money before **Sell**. The button submits the visible quote directly, including a quantity selected with Max.
+- **D-12:** Submit recruitment, paid role changes, clearing, construction, upgrades, repairs, and rebuilding directly from their explicitly priced buttons. The visible price and action are the purchase step. Use the existing current-state eligibility and no-charge rules.
+- **D-13:** Refresh the food-sale view and quote as current stock and prices arrive. If the available stock falls below the selected amount before Sell is pressed, reduce the amount to the available stock and update the displayed proceeds. At zero stock, the sale action is unavailable. A sale still needs an explicit Sell click.
+- **D-14:** Evaluate the submitted sale against the quantity and price shown when the player pressed Sell. When the host rejects a changed quote or otherwise stale action, show the current values and explain the rejection. Preserve food and money on the rejected request and require a new click for any revised sale.
 
 ### Work and safety feedback
 
-- **D-15.** As a player approaches a site with a paid order, show a small work bar or waiting marker in the world. The site panel shows the full paid progress and current state.
-- **D-16.** Mark the nearby repair bar as paid repair and show current health against full health. The bar can move down after further damage during the paid order and back up as workers restore health.
-- **D-17.** When a nearby civilian stops work because of danger or nightfall, show a brief marker identifying that cause, then let the retreat animation carry the action. Keep the current activity and reason in the People tab.
-- **D-18.** Keep the nearby site waiting marker compact. Put the specific waiting reason in the site panel, such as no eligible worker, danger, or nightfall.
+- **D-15:** As a player approaches a site with a paid order, show a small work bar or waiting marker in the world. The site panel shows the full paid progress and current state.
+- **D-16:** Mark the nearby repair bar as paid repair and show current health against full health. The bar can move down after further damage during the paid order and back up as workers restore health.
+- **D-17:** When a nearby civilian stops work because of danger or nightfall, show a brief marker identifying that cause, then let the retreat animation carry the action. Keep the current activity and reason in the People tab.
+- **D-18:** Keep the nearby site waiting marker compact. Put the specific waiting reason in the site panel, such as no eligible worker, danger, or nightfall.
 
 ### Planning discretion
 

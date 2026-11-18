@@ -416,7 +416,79 @@ Plans:
 4. Players purchase tree clearing, three-tier main/wall/tower construction/upgrades, one flat-fee repair to full health, and rebuilding at the last completed tier. Only unassigned workers perform paid work; replacements and interruptions preserve payment/progress, unfinished frames give no completed benefit, and old tiers function during upgrades. Valid building/rebuild/upgrade completion restores full health at the original price/time; an active repair covers further damage without extra charges and closes at full health. Destruction does not refund or revive the structure.
 5. Living completed outer walls define borders and fall back to inner walls/refuge after destruction; civilians flee unsafe work with cargo, fight only when escape is blocked, and stop exterior work at night. Standalone towers field 1/2/3 structural archers and the tier-three main has exactly two one-archer attachments sharing its health, without ordinary survivor population, inventory, or loot.
 
-**Plans:** TBD
+**Plans:** 24 plans
+
+Plans:
+**Wave 0 — prerequisite contracts and proof entry**
+- [ ] 07-01-PLAN.md — Verify predecessor contracts and produce Phase7 proof entry
+
+**Wave 1** *(blocked on Wave 0 completion)*
+- [ ] 07-02-PLAN.md — Authoritative time and retained dawn events
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] 07-03-PLAN.md — Live territory and civilian retreat
+
+**Wave 3** *(blocked on Wave 2 completion)*
+- [ ] 07-04-PLAN.md — Physical-payment recruitment and population
+- [ ] 07-15-PLAN.md — Persistent daily wildlife admissions
+
+**Wave 4** *(blocked on Wave 3 completion)*
+- [ ] 07-05-PLAN.md — Four-tab camp window and People workspace
+
+**Wave 5** *(blocked on Wave 4 completion)*
+- [ ] 07-06-PLAN.md — Paid roles, cargo return and basic guards
+
+**Wave 6** *(blocked on Wave 5 completion)*
+- [ ] 07-07-PLAN.md — Safe physical NPC equipment upgrades
+
+**Wave 7** *(blocked on Wave 6 completion)*
+- [ ] 07-08-PLAN.md — NPC physical food, ammunition and fallback
+
+**Wave 8** *(blocked on Wave 7 completion)*
+- [ ] 07-09-PLAN.md — Paid clearing and autonomous shared workers
+- [ ] 07-14-PLAN.md — Finite plant gathering and stash delivery
+- [ ] 07-16-PLAN.md — Real hunter combat and existing-meat recovery
+
+**Wave 9** *(blocked on Wave 8 completion)*
+- [ ] 07-10-PLAN.md — Three-tier construction and damageable frames
+- [ ] 07-17-PLAN.md — Reserved physical hauling and carrier-death cargo
+- [ ] 07-18-PLAN.md — Direct quoted food sales into physical stash money
+
+**Wave 10** *(blocked on Wave 9 completion)*
+- [ ] 07-11-PLAN.md — Functional old tiers and full-health upgrades
+- [ ] 07-12-PLAN.md — One flat-fee paid repair to full health
+
+**Wave 11** *(blocked on Wave 10 completion)*
+- [ ] 07-13-PLAN.md — Last-completed-tier defense rebuilding
+
+**Wave 12** *(blocked on Wave 11 completion)*
+- [ ] 07-19-PLAN.md — Independent structural tower archers
+
+**Wave 13** *(blocked on Wave 12 completion)*
+- [ ] 07-20-PLAN.md — Tier-three main-building structural attachments
+
+**Wave 14** *(blocked on Wave 13 completion)*
+- [ ] 07-21-PLAN.md — Whole-camp snapshot, configuration and authority hardening
+
+**Wave 15** *(blocked on Wave 14 completion)*
+- [ ] 07-22-PLAN.md — Validated camp configuration and production consumers
+
+**Wave 16** *(blocked on Wave 15 completion)*
+- [ ] 07-24-PLAN.md — Packaged fields, text and production contract agreement
+
+**Wave 17** *(blocked on Wave 16 completion)*
+- [ ] 07-23-PLAN.md — Independently review and complete grouped rendered acceptance
+
+**Cross-cutting constraints:** <!-- gsd:generated -->
+- D-09: Fixed People header keeps Buy recruit/carried price/fireside and total counts/blocking reason visible while scrolling.
+- D-12: Recruitment,role,clearing,construction,upgrade,repair,rebuild and sale actions submit directly from explicit priced buttons with current-state/no-charge validation.
+- D-06: People groups the scrollable roster by role with headings/counts and current activity/equipment waiting.
+- D-07: Roster remains visible alongside selected status/roles/prices/gear requirements.
+- D-08: Away/controlled targets retain visible prices/gear but disabled choices with specific live reasons.
+- D-17: Nearby danger/night interruption briefly signals its cause before retreat animation, while People retains current activity/reason.
+- D-15: Nearby paid sites show compact actual work/wait feedback; site panel retains full paid progress/state.
+- D-18: Nearby wait markers remain compact and the site panel displays the specific no-worker/danger/nightfall reason.
+
 **UI hint:** yes
 
 **Delivery boundary:** Establish authoritative day/night transitions and once-only plant/wildlife daily-event identities, authored work areas, portal-aware reachability, live border fallback, and danger checks before their dependent work systems. These prerequisites cannot wait for Phase 8. Implement the people/jobs/recruitment/sale/building interfaces and relevant sounds/feedback here. Snapshot and concurrency cases include payments, accepted work quantities, old-tier state, reservations, cargo, roles, and daily resource commitments. Basic warrior combat/equipment operates here; full allocation, paid rally assaults, and recall return behavior belong to Phase 8. Full dawn orchestration across actual saving and late joining is accepted in Phase 9.

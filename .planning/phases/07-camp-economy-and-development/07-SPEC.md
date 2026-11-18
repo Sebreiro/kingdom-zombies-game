@@ -8,6 +8,13 @@
 
 ## Goal
 
+**Implementation-decision reconciliation, 2026-11-18 (Europe/Paris):** The later [Phase 7 context](07-CONTEXT.md#implementation-decisions) supplies D-01–D-18 within the locked requirements below. All 25 requirement statements, 22 global requirement owners/statuses, 48 acceptance criteria and 168 explicit edge resolutions remain unchanged. Apply these decisions to R24, AC-40/AC-41 and their related transaction/feedback checks:
+
+- D-01–D-05: One almost-full-screen, semi-transparent camp window has Stash, People, Food sales and Main building tabs and always opens on Stash. Only Stash shows the Phase 6 equipment/carried/shared-storage workspace. All tabs capture movement, attack, quick-food and world-click input while simulation/warnings continue; Escape handles the active panel first. Leaving Stash closes bag windows, remembers session positions and cancels unfinished interactions under ordinary inventory rules; returning leaves bags closed. Nonlethal damage keeps the window open with visible cues; death or main-building access loss closes it. This supersedes the earlier separate Open stash navigation sample.
+- D-06–D-09: People uses a scrollable roster grouped by current job with headings/counts and current activity/equipment waiting. Selected status, role choices, visible prices and gear requirements remain alongside the roster. Away or controlled targets have disabled choices with specific live reasons. A fixed header keeps Buy recruit, carried-money price and both population limits visible with the blocking reason.
+- D-10–D-14: Food quantity supports exact whole-number entry, +/− and Max. Show current stock, selection, unit price, proceeds and resulting stash money before Sell. Sell submits that visible quote directly, with no confirmation dialog; all other paid actions likewise use their explicitly priced buttons. Before a click, clamp the selection to current stock and refresh the quote; zero stock disables sale. After a clicked quote becomes stale, the host rejects without changing food or money, displays current values and a reason, and requires a new click. Never silently execute a revised quantity or price. These choices supersede the inspection confirmation and noneditable quantity examples.
+- D-15–D-18: Nearby paid sites show compact work/waiting feedback; the site panel retains full progress and specific waiting reasons. Mark paid repair explicitly and display current health/full health, which may go down with further damage and up with worker restoration. A nearby civilian briefly signals danger/nightfall interruption before retreating, while People retains the activity/reason. This supersedes interpreting repair feedback as a permanently increasing completed-work bar.
+
 Solo and LAN players can sustain and expand one working camp through real carried-money payments, recruitment, autonomous NPC jobs, finite food and wildlife, physical hauling, safe territorial work and three-tier development with full-health completion and one-payment repairs to full health.
 
 ## Background
@@ -557,5 +564,5 @@ No prohibition/test descriptor is fabricated for a zero-item result.
 
 *Phase: 07-camp-economy-and-development*
 *Spec created: 2026-11-18*
-*Next step: $gsd-discuss-phase 7 — implementation decisions for these locked requirements.*
+*Planning complete: [24 executable plans and their coverage](07-COVERAGE.md), independently [reviewed](07-PLAN-CHECK.md). Implementation requires actual Phase 5/6 delivery and the [07-01 prerequisite audit](07-01-PLAN.md); no gameplay acceptance is granted by planning.*
 
