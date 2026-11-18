@@ -2,8 +2,10 @@
 
 > **Discussion record.** Use [07-CONTEXT.md](07-CONTEXT.md) as the planning input. This log preserves the offered alternatives and responses.
 
-**Date** 2026-11-18 (Europe/Paris)  
-**Phase** 07-camp-economy-and-development  
+**Date** 2026-11-18 (Europe/Paris)
+
+**Phase** 07-camp-economy-and-development
+
 **Areas discussed** Main-building navigation, People and role assignment, Purchases and food sales, Work and safety feedback
 
 The creator selected all four areas and later chose **Save Phase 7 context** after reviewing the decisions.

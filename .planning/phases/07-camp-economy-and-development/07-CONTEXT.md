@@ -1,6 +1,7 @@
 # Phase 7 — Camp economy and development context
 
-**Gathered** 2026-11-18 (Europe/Paris)  
+**Gathered** 2026-11-18 (Europe/Paris)
+
 **Status** Ready for planning. Phase 6 implementation is required before Phase 7 implementation.
 
 <domain>
@@ -147,5 +148,6 @@ No new backlog items came out of the discussion. Later-phase owners are listed i
 
 ---
 
-*Phase directory* `07-camp-economy-and-development`  
+*Phase directory* `07-camp-economy-and-development`
+
 *Context gathered* 2026-11-18 (Europe/Paris)
