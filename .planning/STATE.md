@@ -4,17 +4,17 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 04
 current_phase_name: Asset production
-current_plan: 20
+current_plan: 21
 status: executing
-stopped_at: Completed 04-17; 27/37 local plans summarized; wave 21 complete; next 04-20 in wave 22; concurrent planning decisions preserved; WINDOWS29/30/31 open
-last_updated: "2026-11-18T01:19:32.327Z"
+stopped_at: Completed 04-20; 28/37 local plans summarized; wave 22 complete; next 04-21 in wave 23; concurrent planning decisions preserved; WINDOWS29/30/31 open
+last_updated: "2026-11-18T02:52:58.572Z"
 last_activity: 2026-11-18
-last_activity_desc: Completed session/save/settings layouts and wave21; final43 executable cases pass; next04-20 campaign/session/presentation data in wave22
+last_activity_desc: Completed independently repaired campaign/session/presentation data and wave22; fresh45 cases pass; next04-21 audio production in wave23
 progress:
   total_phases: 12
   completed_phases: 3
   total_plans: 62
-  completed_plans: 52
+  completed_plans: 53
   percent: 25
 ---
 
@@ -26,19 +26,19 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase04 continues on feature/04-asset-production with draftPR5. Twenty-seven of37 local plans are summarized. Session/save/outcome resources cover41 samples/twelve surfaces/six H21 errors;settings/errors covertwelve states and six independently chosen logical canvas/scale endpoints with H19/H22 and six form backstops. Fresh43 executable cases pass on464 unchanged inputs in1517750ms. Inventory236;wave21 complete,next04-20 campaign/session/presentation data. Policy remains FAIL2130 operations and57-input/32-surface producer unenrolled;WINDOWS29/30/31,eighteen old/current19comparisons,all ASSET and actual acceptance remain pending. Creator Phase07/06/12 history is preserved.
+**Current focus:** Phase04 continues on feature/04-asset-production with draftPR5. Twenty-eight of37 local plans are summarized. Zombie/loot/progression/portal/session/presentation/preferences deliver1855 documented fields;all319 authored unit/effect/lifetime defects independently close. Fresh45 executable cases pass ated8a79c on473 unchanged inputs in1588583ms. Inventory236;wave22 complete,next04-21 donor-first audio production. Forty-nine existing-consumer comparisons remain23-owned;physicalaudio/text remain21/22/23. RecordedpolicyFAIL2130/current57-input32-surface producer unenrolled,WINDOWS29/30/31,allASSET and actualacceptance remainpending. Creator Phase07/06/12 history preserved.
 
 ## Current Position
 
 Phase: 04 — Asset production
-Current Plan: 20
+Current Plan: 21
 Total Plans in Phase: 37
 Status: Executing
-Last activity: 2026-11-18 — Completed session/save/settings layouts and wave21; final43 executable cases pass; next04-20 campaign/session/presentation data in wave22
+Last activity: 2026-11-18 — Completed independently repaired campaign/session/presentation data and wave22; fresh45 cases pass; next04-21 audio production in wave23
 
 Progress: [███░░░░░░░] 25%
 
-Milestone progress: 3/12 phases complete;52/62 currently planned plans summarized;fourteen of135 requirements complete. Phase4 has27/37 local plans complete. NoASSET requirement completion is claimed.
+Milestone progress: 3/12 phases complete;53/62 currently planned plans summarized;fourteen of135 requirements complete. Phase4 has28/37 local plans complete. NoASSET requirement completion is claimed.
 
 ## Performance Metrics
 
@@ -169,6 +169,8 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - [Phase04]: Completed04-19 Task1 015ee55/fresh committed tracer09592eb9,Task2 9f4f44e,SUMMARYffbe8d2. Final41/41 executable cases pass at ac9e172 on457 unchanged inputs in1502900ms;two selected Critical integration cases remain blocked separately. Delivered1764field IDs/eight paths;economy369fields324controls,world1395fields1089controls+five relationships. Eighteen old/current comparisons remain nonpassing23-owned. Foreign Phase07commit caused preserved2-pass scheduling interruption,then complete fresh-r1 passed. Inventory236;policy1861/producer56inputs32surfaces unchanged. Wave20 complete,next17wave21;actual acceptance pending.
 
 - [Phase04]: Completed04-17 genuineREDs ec6102e/914676b/085c81f,Task1 GREEN2d7aa9f/fresh committed tracer1b0b110d,Task2 GREEN5b7978a,SUMMARY47ed5a9. Final43/43 executable cases pass at5b7978a on464 unchanged inputs in1517750ms;two selected Critical integration cases remain blocked separately. Session699/endpoints1708native plus4compiled0skip;944selfchecks pass. Original budgets and R1/R2/R3 checkpoints remain preserved. Inventory236;policy2130/producer57inputs32surfaces pending23/31. Wave21 complete,next20wave22;actual acceptance pending.
+
+- [Phase04]: Completed04-20 original767490c/8f0eddc,checkpointd42bf89,prospectiveca6613d,repairs745ea75/ed8a79c,SUMMARY5c7a47b. Repaired committed tracerfe9bcd80 precedesR1.2. Fresh45/45 cases ated8a79c on473 unchanged inputs pass in1588583ms;633selfchecks and319exactold-fail/new-pass controls pass. All1855IDs,1515originalcontrolnames and80legalfixtures preserved. Old45diagnostic at8f0eddc remains nonacceptinghistory. Existing49comparisons remain23-owned. Inventory236;recorded2130policy/current57inputs32surfaces unchanged. Wave22 complete,next21wave23;actualacceptance pending.
 
 ### Pending Todos
 

@@ -71,3 +71,7 @@ Plan19 is data-only: eight JSON/validator paths add no native/public adapter or 
 ## Current observation after 04-17
 
 Final08be5ab2-d680-46ff-8e11-dae6b278aff7 remains FAIL2130 operations:prior1861 unchanged plus269SessionLayouts. [04-17-SUMMARY.md](04-17-SUMMARY.md) records all269 exact newtuples/47productionmembers and57-input/32-surface current producer closure with unchanged officialpackage pin. Owner23 must authorize actually guarded exact members with independent negatives and enroll final pinned producer before24review;31 rechecks finalsource. No permission/cohort completion follows from43 local executable passes. Historical reports,19public identities,inventory236 and WINDOWS30/31 remain preserved/open.
+
+## Current observation after 04-20
+
+Plan20/repair is data+CJS-only and adds no native/public adapter or generatedsource input. [04-20-SUMMARY.md](04-20-SUMMARY.md) retains08be5ab2 FAIL2130/current57-input32-surface unenrolled producer as unchanged historical obligations,not a newly executed observation/pass. No repeated unchanged cohort/policy/build was added. Exact guarded native/enrollment repairs remain23/31-owned before24review;allhistoricalsource/producer/failure bytes and19publicidentities preserved. Inventory236/WINDOWS30/31 unchanged/open.
