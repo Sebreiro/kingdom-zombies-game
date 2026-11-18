@@ -17,14 +17,26 @@ internal sealed class SessionLayouts
     {
         _root = root;
         _gateway = gateway;
-        Bind(pack: Read(bytes: pack), inputs: inputs);
+        JsonElement definition = Read(bytes: pack);
+        _settings = Same(left: Text(value: definition, key: "id"), right: "ui-settings");
+        if (_settings)
+        {
+            BindSettings(pack: definition, inputs: inputs);
+        }
+        else
+        {
+            Bind(pack: definition, inputs: inputs);
+        }
         _data = Read(bytes: inputs[0]);
-        Require(condition: Same(left: Text(value: _data, key: "id"), right: "session-save-outcomes")
+        Require(condition: Same(left: Text(value: _data, key: "id"),
+                right: _settings ? "settings-errors" : "session-save-outcomes")
                 && _data.GetProperty(propertyName: "sampleDataOnly").GetBoolean(), code: "SESSION_DATA_SCOPE");
         Unique(rows: _data.GetProperty(propertyName: "samples"));
         foreach (JsonElement sample in _data.GetProperty(propertyName: "samples").EnumerateArray())
         {
             Validate(state: sample);
+            Require(condition: _settings == (Text(value: sample, key: "surface") is "settings" or "diagnostics"),
+                    code: "SESSION_PACK_SURFACE");
         }
     }
 
@@ -61,9 +73,16 @@ internal sealed class SessionLayouts
         _gateway.RequireThread();
         JsonElement state = Read(bytes: snapshot);
         Validate(state: state);
+        Require(condition: _settings == (Text(value: state, key: "surface") is "settings" or "diagnostics"),
+                code: "SESSION_PACK_SURFACE");
         RequireActive(generation: generation);
         Clear();
         _generation = generation;
+        if (_settings)
+        {
+            ProjectSettings(state: state);
+            return;
+        }
         VBoxContainer content = Attach(state: state);
         switch (Text(value: state, key: "surface"))
         {
@@ -92,12 +111,47 @@ internal sealed class SessionLayouts
         Clear();
     }
 
+    /// <summary>Inspects a supported authored canvas and UI scale inside the existing hub viewport.</summary>
+    internal void Endpoint(int width, int height, int percent, bool fit)
+    {
+        _gateway.RequireThread();
+        if (!_accepting || !_settings || !_root.IsInsideTree() || !_root.HasNode(path: "Settings"))
+        {
+            throw new InvalidOperationException(message: "SETTINGS_NOT_ACTIVE");
+        }
+        Require(condition: ((width == 1280 && height == 720) || (width == 1920 && height == 1080))
+                && percent is 80 or 100 or 150, code: "SETTINGS_ENDPOINT");
+        var viewport = _root.GetNode<ScrollContainer>(path: "Settings/Frame/Viewport");
+        var extent = viewport.GetNode<Control>(path: "Extent");
+        var canvas = extent.GetNode<Control>(path: "Canvas");
+        float scale = percent / 100f;
+        Vector2 available = viewport.Size.X > 0 && viewport.Size.Y > 0 ? viewport.Size
+                : _root.Size - new Vector2(x: 0, y: 112);
+        float zoom = fit ? Math.Min(val1: available.X / width, val2: available.Y / height) : 1;
+        canvas.Size = new Vector2(x: width, y: height) / scale;
+        canvas.Scale = Vector2.One * scale * zoom;
+        extent.CustomMinimumSize = new Vector2(x: width, y: height) * zoom;
+        extent.Size = extent.CustomMinimumSize;
+        canvas.SetMeta(name: "canvas", value: new Vector2I(x: width, y: height));
+        canvas.SetMeta(name: "ui_percent", value: percent);
+        canvas.SetMeta(name: "inspection_zoom", value: zoom);
+        canvas.SetMeta(name: "fit", value: fit);
+        viewport.ScrollHorizontal = 0;
+        viewport.ScrollVertical = 0;
+        _root.GetNode<Label>(path: "Settings/Frame/Endpoint").Text = width + " × " + height + " / " + percent
+                + "% UI · " + (fit ? "Fit to window" : "1:1 inspection — pan locally");
+    }
+
     private static readonly string[] _paths = ["content/ui/session-save-outcomes.json",
+        "assets/ui/InspectionTheme.tres", "assets/ui/LiberationSans.ttf", "assets/ui/PerfectDOSVGA437.ttf",
+        "assets/ui/Fallback.ttf", "assets/common/donor-kit.png"];
+    private static readonly string[] _settingsPaths = ["content/ui/settings-errors.json",
         "assets/ui/InspectionTheme.tres", "assets/ui/LiberationSans.ttf", "assets/ui/PerfectDOSVGA437.ttf",
         "assets/ui/Fallback.ttf", "assets/common/donor-kit.png"];
     private readonly Control _root;
     private readonly MainThreadGateway _gateway;
     private readonly JsonElement _data;
+    private readonly bool _settings;
     private readonly List<Node> _owned = [];
     private bool _accepting = true;
     private long _generation;
@@ -217,7 +271,8 @@ internal sealed class SessionLayouts
         _ = Text(value: state, key: "title");
         string surface = Text(value: state, key: "surface");
         Require(condition: surface is "main" or "solo" or "host" or "browser" or "manual" or "lobby" or "join"
-                or "saves" or "host-exit" or "guest-leave" or "victory" or "defeat", code: "SESSION_SURFACE");
+                or "saves" or "host-exit" or "guest-leave" or "victory" or "defeat" or "settings" or "diagnostics",
+                code: "SESSION_SURFACE");
         switch (surface)
         {
             case "solo": case "host": case "lobby": ValidateRun(state: state); break;
@@ -227,6 +282,7 @@ internal sealed class SessionLayouts
             case "saves": ValidateSaves(state: state); break;
             case "host-exit": case "guest-leave": _ = Text(value: state, key: "reason"); break;
             case "victory": case "defeat": ValidateOutcome(state: state); break;
+            case "settings": case "diagnostics": ValidateSettings(state: state); break;
         }
         ValidateDiagnostics(state: state);
     }
@@ -611,6 +667,212 @@ internal sealed class SessionLayouts
                 FocusMode = available ? Control.FocusModeEnum.All : Control.FocusModeEnum.None,
                 CustomMinimumSize = new Vector2(x: 0, y: 48), TooltipText = "Inspection example only" };
         parent.AddChild(node: action);
+    }
+
+    private static void BindSettings(JsonElement pack, byte[][] inputs)
+    {
+        Require(condition: Same(left: Text(value: pack, key: "id"), right: "ui-settings")
+                && pack.GetProperty(propertyName: "sampleDataOnly").GetBoolean()
+                && !pack.GetProperty(propertyName: "gameplayTransactions").GetBoolean(), code: "SETTINGS_PACK_SCOPE");
+        JsonElement bindings = pack.GetProperty(propertyName: "bindings");
+        Require(condition: bindings.GetArrayLength() == _settingsPaths.Length && inputs.Length == _settingsPaths.Length,
+                code: "SETTINGS_BINDING_COUNT");
+        for (int index = 0; index < _settingsPaths.Length; index++)
+        {
+            string path = _settingsPaths[index];
+            Require(condition: Same(left: Text(value: bindings[index], key: "path"), right: path),
+                    code: "SETTINGS_BINDING_PATH " + path);
+            int maximum = Same(left: path, right: "assets/ui/InspectionTheme.tres") ? 2097152 : 1048576;
+            Require(condition: inputs[index].Length > 0 && inputs[index].Length <= maximum,
+                    code: "SETTINGS_BINDING_SIZE " + path);
+            string digest = Convert.ToHexStringLower(inArray: SHA256.HashData(source: inputs[index]));
+            Require(condition: Same(left: digest, right: Text(value: bindings[index], key: "sha256")),
+                    code: "SETTINGS_BINDING_HASH " + path);
+        }
+    }
+
+    private static void ValidateSettings(JsonElement state)
+    {
+        Require(condition: Same(left: Text(value: state, key: "world"), right: "World continues"),
+                code: "SETTINGS_WORLD_CONTINUES");
+        _ = Text(value: state, key: "placeholder");
+        _ = Text(value: state, key: "expanded");
+        Require(condition: Text(value: state, key: "backstop") is "none" or "empty" or "loading" or "error"
+                or "partial" or "overflow" or "long-text", code: "SETTINGS_BACKSTOP");
+        JsonElement preferences = state.GetProperty(propertyName: "preferences");
+        Require(condition: Text(value: preferences, key: "resolution") is "1280x720" or "1920x1080",
+                code: "SETTINGS_RESOLUTION");
+        Require(condition: Number(value: preferences, key: "scale", minimum: 80, maximum: 150) is 80 or 100 or 150,
+                code: "SETTINGS_SCALE");
+        _ = preferences.GetProperty(propertyName: "fullscreen").GetBoolean();
+        foreach (string key in new[] { "master", "effects", "ambience" })
+        {
+            _ = Number(value: preferences, key: key, minimum: 0, maximum: 100);
+        }
+        var actions = new HashSet<string>(comparer: StringComparer.Ordinal);
+        foreach (JsonElement binding in state.GetProperty(propertyName: "bindings").EnumerateArray())
+        {
+            Require(condition: actions.Add(item: Text(value: binding, key: "action")),
+                    code: "SETTINGS_DUPLICATE_ACTION");
+            _ = Text(value: binding, key: "current");
+            _ = Text(value: binding, key: "default");
+            Require(condition: Text(value: binding, key: "state") is "bound" or "conflict" or "unbound",
+                    code: "SETTINGS_BINDING_STATE");
+        }
+    }
+
+    private void ProjectSettings(JsonElement state)
+    {
+        _gateway.RequireThread();
+        var panel = new PanelContainer { Name = "Settings", Size = _root.Size,
+                Theme = ResourceLoader.Load<Theme>(path: "res://assets/ui/InspectionTheme.tres"),
+                MouseFilter = Control.MouseFilterEnum.Stop };
+        _root.AddChild(node: panel);
+        _owned.Add(item: panel);
+        var frame = new VBoxContainer { Name = "Frame" };
+        panel.AddChild(node: frame);
+        var selectors = new HBoxContainer { Name = "Selectors" };
+        frame.AddChild(node: selectors);
+        Selector(parent: selectors, name: "Canvas", choices: ["1280 × 720", "1920 × 1080"]);
+        Selector(parent: selectors, name: "Scale", choices: ["80% UI", "100% UI", "150% UI"]);
+        Selector(parent: selectors, name: "View", choices: ["Fit to window", "1:1 pan"]);
+        Label(parent: frame, name: "Endpoint", text: "Authored layout endpoint");
+        var viewport = new ScrollContainer { Name = "Viewport", FollowFocus = true,
+                SizeFlagsVertical = Control.SizeFlags.ExpandFill };
+        frame.AddChild(node: viewport);
+        var extent = new Control { Name = "Extent" };
+        viewport.AddChild(node: extent);
+        var canvas = new PanelContainer { Name = "Canvas", MouseFilter = Control.MouseFilterEnum.Stop,
+                Theme = panel.Theme };
+        extent.AddChild(node: canvas);
+        var scroll = new ScrollContainer { Name = "LocalScroll", FollowFocus = true,
+                HorizontalScrollMode = ScrollContainer.ScrollMode.Disabled };
+        canvas.AddChild(node: scroll);
+        var content = new VBoxContainer { Name = "Content", SizeFlagsHorizontal = Control.SizeFlags.ExpandFill };
+        scroll.AddChild(node: content);
+        Label(parent: content, name: "Identity", text: Text(value: state, key: "id"));
+        Label(parent: content, name: "Title", text: Text(value: state, key: "title"));
+        Label(parent: content, name: "World", text: Text(value: state, key: "world"));
+        Label(parent: content, name: "Scope",
+                text: "Inspection example — no settings, saves or bindings are persisted.");
+        Label(parent: content, name: "Status", text: Text(value: state, key: "status"));
+        Label(parent: content, name: "Local", text: "Local preferences — this device only; World continues.");
+        SettingsFields(state: state, content: content);
+        Label(parent: content, name: "Host", text: "Host balance — host chooses at new-run start or load; "
+                + "no live reload. Local preferences are separate.");
+        Label(parent: content, name: "Placeholder", text: Text(value: state, key: "placeholder"));
+        Label(parent: content, name: "Expanded", text: Text(value: state, key: "expanded"));
+        Diagnostics(state: state, content: content);
+        Action(parent: content, name: "CopyDetails", text: "Copy complete diagnostics");
+        Action(parent: content, name: "Recheck", text: "Recheck resources example");
+        Action(parent: content, name: "Return", text: "Return to active world");
+        WireSelectors(selectors: selectors, state: state);
+    }
+
+    private void Selector(Node parent, string name, string[] choices)
+    {
+        _gateway.RequireThread();
+        var selector = new OptionButton { Name = name, TooltipText = "Inspection " + name,
+                CustomMinimumSize = new Vector2(x: 224, y: 48) };
+        foreach (string choice in choices)
+        {
+            selector.AddItem(label: choice);
+        }
+        parent.AddChild(node: selector);
+    }
+
+    private void WireSelectors(HBoxContainer selectors, JsonElement state)
+    {
+        _gateway.RequireThread();
+        var canvas = selectors.GetNode<OptionButton>(path: "Canvas");
+        var scale = selectors.GetNode<OptionButton>(path: "Scale");
+        var view = selectors.GetNode<OptionButton>(path: "View");
+        int requested = state.GetProperty(propertyName: "preferences").GetProperty(propertyName: "scale").GetInt32();
+        scale.Select(idx: requested == 80 ? 0 : requested == 100 ? 1 : 2);
+        long generation = _generation;
+        void Apply(long index)
+        {
+            _gateway.RequireThread();
+            _ = index;
+            if (_accepting && generation == _generation)
+            {
+                Endpoint(width: canvas.Selected == 0 ? 1280 : 1920, height: canvas.Selected == 0 ? 720 : 1080,
+                        percent: scale.Selected == 0 ? 80 : scale.Selected == 1 ? 100 : 150, fit: view.Selected == 0);
+            }
+        }
+        canvas.ItemSelected += Apply;
+        scale.ItemSelected += Apply;
+        view.ItemSelected += Apply;
+        Apply(index: 0);
+    }
+
+    private void SettingsFields(JsonElement state, VBoxContainer content)
+    {
+        _gateway.RequireThread();
+        JsonElement preferences = state.GetProperty(propertyName: "preferences");
+        var fields = new GridContainer { Name = "Preferences", Columns = 2 };
+        content.AddChild(node: fields);
+        Label(parent: fields, name: "ResolutionCaption", text: "Display resolution");
+        Selector(parent: fields, name: "Resolution", choices: ["1280x720", "1920x1080"]);
+        fields.GetNode<OptionButton>(path: "Resolution").Select(idx:
+                Same(left: Text(value: preferences, key: "resolution"), right: "1280x720") ? 0 : 1);
+        Label(parent: fields, name: "FullscreenCaption", text: "Fullscreen");
+        var fullscreen = new CheckButton { Name = "Fullscreen",
+                ButtonPressed = preferences.GetProperty(propertyName: "fullscreen").GetBoolean() };
+        fields.AddChild(node: fullscreen);
+        Label(parent: fields, name: "UiScaleCaption", text: "UI scale — independent of world zoom");
+        Selector(parent: fields, name: "UiScale", choices: ["80%", "100%", "150%"]);
+        int percent = preferences.GetProperty(propertyName: "scale").GetInt32();
+        fields.GetNode<OptionButton>(path: "UiScale").Select(idx: percent == 80 ? 0 : percent == 100 ? 1 : 2);
+        foreach (string key in new[] { "master", "effects", "ambience" })
+        {
+            Label(parent: fields, name: key + "Caption", text: key + " volume (0–100)");
+            var slider = new HSlider { Name = key, MinValue = 0, MaxValue = 100, Step = 1,
+                    Value = preferences.GetProperty(propertyName: key).GetInt32(),
+                    CustomMinimumSize = new Vector2(x: 224, y: 48) };
+            fields.AddChild(node: slider);
+        }
+        Bindings(state: state, content: content);
+        bool loading = Same(left: Text(value: state, key: "status"), right: "loading");
+        if (loading)
+        {
+            Label(parent: content, name: "Loading", text: "Loading local preferences — wait; World continues.");
+            foreach (Control control in fields.GetChildren().OfType<Control>())
+            {
+                control.FocusMode = Control.FocusModeEnum.None;
+                control.MouseFilter = Control.MouseFilterEnum.Ignore;
+                if (control is BaseButton button)
+                {
+                    button.Disabled = true;
+                }
+                if (control is Slider slider)
+                {
+                    slider.Editable = false;
+                }
+            }
+        }
+    }
+
+    private void Bindings(JsonElement state, VBoxContainer content)
+    {
+        _gateway.RequireThread();
+        var bindings = new VBoxContainer { Name = "Bindings" };
+        content.AddChild(node: bindings);
+        Label(parent: bindings, name: "Caption", text: "Current input references — sample remapping and conflicts");
+        foreach (JsonElement binding in state.GetProperty(propertyName: "bindings").EnumerateArray())
+        {
+            var row = new VBoxContainer { Name = "Binding" + bindings.GetChildCount() };
+            bindings.AddChild(node: row);
+            Label(parent: row, name: "Action", text: Text(value: binding, key: "action"));
+            Label(parent: row, name: "Current", text: "Current: " + Text(value: binding, key: "current"));
+            Label(parent: row, name: "Default", text: "Default: " + Text(value: binding, key: "default"));
+            Label(parent: row, name: "State", text: Text(value: binding, key: "state"));
+        }
+        if (state.GetProperty(propertyName: "bindings").GetArrayLength() == 0)
+        {
+            Label(parent: bindings, name: "Empty", text: "No input actions available — 0 results.");
+        }
+        Action(parent: bindings, name: "Reset", text: "Reset bindings example");
     }
 
     private void Clear()
