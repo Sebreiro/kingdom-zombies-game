@@ -110,10 +110,20 @@ internal sealed class AudioPreview : IDisposable
 
     internal static string ResolveSource(JsonElement pack, JsonElement sample, JsonElement actions)
     {
-        return sample.TryGetProperty(propertyName: "source", value: out JsonElement original)
-                ? original.GetRawText() : pack.GetProperty(propertyName: "sources").EnumerateArray()
-                        .Single(predicate: value => Same(left: Text(value: value, key: "id"),
-                                right: Text(value: sample, key: "sourceId"))).GetRawText();
+        string id = SourceText(owner: sample, field: "id", id: "sample");
+        if (sample.TryGetProperty(propertyName: "source", value: out JsonElement original))
+        {
+            ValidateOriginal(source: original, id: id);
+            return original.GetRawText();
+        }
+
+        string reference = SourceText(owner: sample, field: "sourceId", id: id);
+        return reference switch
+        {
+            "generated-food-crunch" => GeneratedSource(pack: pack, sample: sample, id: id),
+            "action.2790.full" => SharedSource(pack: pack, sample: sample, actions: actions, id: id),
+            _ => DonorSource(pack: pack, sample: sample, id: id, reference: reference),
+        };
     }
 
     internal void Tick(double delta)
@@ -233,6 +243,7 @@ internal sealed class AudioPreview : IDisposable
 
     private const string Fixture = "content/fixtures/audio-states.json";
     private const string Events = "content/audio/events.json";
+    private const string SourceFile = "content/packs/audio-interface-ambience.json";
     private static long _nextEpoch;
     private readonly Node2D _root;
     private readonly MainThreadGateway _gateway;
@@ -272,6 +283,119 @@ internal sealed class AudioPreview : IDisposable
     private static bool Same(string left, string right)
     {
         return StringComparer.Ordinal.Equals(x: left, y: right);
+    }
+
+    private static JsonElement SourceNode(JsonElement owner, string field, string id)
+    {
+        Require(valid: owner.ValueKind is JsonValueKind.Object && owner.TryGetProperty(
+                propertyName: field, value: out _), file: SourceFile, field: field, value: id,
+                reason: "required source authority field missing");
+        return owner.GetProperty(propertyName: field);
+    }
+
+    private static string SourceText(JsonElement owner, string field, string id)
+    {
+        JsonElement value = SourceNode(owner: owner, field: field, id: id);
+        Require(valid: value.ValueKind is JsonValueKind.String && value.GetString()?.Length is > 0 and <= 4096,
+                file: SourceFile, field: field, value: id, reason: "invalid source authority text");
+        return value.GetString() ?? throw new InvalidDataException(message: field);
+    }
+
+    private static JsonElement SourceMatch(JsonElement owner, string field, string id)
+    {
+        JsonElement array = SourceNode(owner: owner, field: field, id: id);
+        Require(valid: array.ValueKind is JsonValueKind.Array && array.GetArrayLength() <= 512,
+                file: SourceFile, field: field, value: id, reason: "invalid bounded source authority array");
+        JsonElement[] matches = [.. array.EnumerateArray().Where(predicate: value => Same(
+                left: SourceText(owner: value, field: "id", id: id), right: id))];
+        Require(valid: matches.Length == 1, file: SourceFile, field: field, value: id,
+                reason: "source reference must match exactly one authority");
+        return matches[0];
+    }
+
+    private static void ValidateOriginal(JsonElement source, string id)
+    {
+        string owner = SourceText(owner: source, field: "owner", id: id);
+        string digest = SourceText(owner: source, field: "rawObjectSha256", id: id);
+        Require(valid: owner is "resources.assets" or "sharedassets0.assets" or "sharedassets2.assets"
+                && Number(value: source, key: "objectId") > 0 && digest.Length == 64
+                && digest.All(predicate: value => value is >= '0' and <= '9' or >= 'a' and <= 'f'),
+                file: SourceFile, field: "source", value: id, reason: "invalid original source identity");
+    }
+
+    private static string DonorSource(JsonElement pack, JsonElement sample, string id, string reference)
+    {
+        JsonElement record = SourceMatch(owner: pack, field: "sources", id: reference);
+        Require(valid: Same(left: id, right: "interface." + reference + ".full")
+                || Same(left: id, right: "interface." + reference + ".loop")
+                || id is "interface.handling.v1" && reference is "r3755"
+                || id is "interface.s0485.negative" && reference is "s0485", file: SourceFile,
+                field: "sourceId", value: id, reason: "donor reference disagrees with variant identity");
+        ValidateOriginal(source: SourceNode(owner: record, field: "source", id: id), id: id);
+        JsonElement output = SourceNode(owner: record, field: "output", id: id);
+        Require(valid: Number(value: output, key: "rate") == Number(value: sample, key: "rate")
+                && Number(value: output, key: "sampleWidth") == Number(value: sample, key: "sampleWidth")
+                && Number(value: output, key: "frames") >= sample.GetProperty(propertyName: "trimFrames")[1]
+                        .GetInt32(), file: SourceFile, field: "output", value: id,
+                reason: "donor format or trim disagrees with current variant");
+        return record.GetRawText();
+    }
+
+    private static void DerivedSource(JsonElement sample, string id, string expected, int frames, double gain)
+    {
+        Require(valid: Same(left: id, right: expected) && Number(value: sample, key: "version") == 1
+                && Number(value: sample, key: "frames") == frames
+                && Number(value: sample, key: "rate") == 44100 && Number(value: sample, key: "channels") == 2
+                && Number(value: sample, key: "sampleWidth") == 2
+                && sample.GetProperty(propertyName: "trimFrames")[0].GetInt32() == 0
+                && sample.GetProperty(propertyName: "trimFrames")[1].GetInt32() == frames
+                && sample.GetProperty(propertyName: "gainLinear").GetDouble() == gain
+                && Text(value: sample.GetProperty(propertyName: "listening"), key: "status") is "Not auditioned",
+                file: SourceFile, field: "derivedSource", value: id,
+                reason: "derived identity/trim/gain/format or listening scope mismatch");
+    }
+
+    private static string GeneratedSource(JsonElement pack, JsonElement sample, string id)
+    {
+        DerivedSource(sample: sample, id: id, expected: "interface.food-crunch.v1", frames: 11025, gain: 1);
+        JsonElement gap = SourceNode(owner: pack, field: "donorGap", id: id);
+        Require(valid: SourceText(owner: gap, field: "category", id: id) is "AU-19"
+                && SourceText(owner: gap, field: "authority", id: id)
+                        is "specs/0.1/assets-and-resources.md section10 AU-19"
+                && SourceText(owner: gap, field: "synthesis", id: id)
+                        is "Deterministic non-tonal contact/crunch texture seed190021; needs real audition",
+                file: SourceFile, field: "donorGap", value: id, reason: "generated source authority mismatch");
+        JsonElement recipes = SourceNode(owner: pack, field: "recipes", id: id);
+        Require(valid: SourceText(owner: recipes, field: "assemblerMember", id: id)
+                        is "recipes/assemble-interface.py"
+                && SourceText(owner: recipes, field: "assemblerSha256", id: id)
+                        is "4d1b537ffe933e13c11955e9437422bddc5532a85ae5596684940ff4e2868b37"
+                && SourceText(owner: recipes, field: "decoderMember", id: id) is "recipes/decode-interface.py"
+                && SourceText(owner: recipes, field: "decoderSha256", id: id)
+                        is "df674987d2c9e0d45b8da0e5b55a9342ac4b8dbcc45221763d2754907e5df88b",
+                file: SourceFile, field: "recipes", value: id, reason: "generated retained recipe identity mismatch");
+        return JsonSerializer.Serialize(value: new { kind = "generated", sourceId = "generated-food-crunch",
+            authority = gap, recipes, derivedListening = sample.GetProperty(propertyName: "listening") });
+    }
+
+    private static string SharedSource(JsonElement pack, JsonElement sample, JsonElement actions, string id)
+    {
+        DerivedSource(sample: sample, id: id, expected: "interface.bloater-burst.v1", frames: 13230, gain: 0.65);
+        JsonElement shared = SourceMatch(owner: pack, field: "sharedSources", id: "action.2790.full");
+        Require(valid: SourceText(owner: shared, field: "pack", id: id) is "packs/audio-actions.json"
+                && SourceText(owner: actions, field: "id", id: id) is "audio-actions"
+                && Number(value: actions, key: "version") == 1, file: SourceFile, field: "sharedSources.pack",
+                value: id, reason: "shared source must bind the current canonical action pack");
+        JsonElement current = SourceMatch(owner: actions, field: "samples", id: "action.2790.full");
+        string digest = SourceText(owner: shared, field: "wavSha256", id: id);
+        Require(valid: Same(left: digest, right: SourceText(owner: current, field: "sha256", id: id))
+                && digest is "9b29b74a94784a96307282820866e3be9731670dc32e9baa2ddd3bdbcb53f4cb"
+                && Number(value: current, key: "frames") >= 13230, file: SourceFile,
+                field: "sharedSources.wavSha256", value: id, reason: "shared current sample WAV hash mismatch");
+        ValidateOriginal(source: SourceNode(owner: current, field: "source", id: id), id: id);
+        return JsonSerializer.Serialize(value: new { kind = "shared", sourceId = "action.2790.full", shared,
+            currentSourceSample = current, approvalScope = "Source only; derived trim remains Not auditioned",
+            derivedListening = sample.GetProperty(propertyName: "listening") });
     }
 
     private static int Number(JsonElement value, string key)
@@ -386,7 +510,11 @@ internal sealed class AudioPreview : IDisposable
                 {
                     ExtractPcm(bytes: bytes ?? [], bank: bank, sample: sample);
                     string id = Text(value: sample, key: "id");
-                    string source = ResolveSource(pack: pack, sample: sample, actions: default);
+                    bool shared = sample.TryGetProperty(propertyName: "sourceId", value: out JsonElement reference)
+                            && reference.GetString() is "action.2790.full";
+                    JsonElement actions = shared ? Bound(read: read, file: "content/packs/audio-actions.json")
+                            : default;
+                    string source = ResolveSource(pack: pack, sample: sample, actions: actions);
                     _samples.Add(key: id, value: (sample, bank, source));
                     _banks[path] = bytes ?? [];
                 }
