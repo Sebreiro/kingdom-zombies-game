@@ -114,3 +114,19 @@ Actual AppearanceState quiet gear/corpse, WorldPreview ruins/events, BuildingPre
 - The actual-Hub import setup copies the production project/content/assets/inspection/binaries but not `foundation/Foundation.tscn`, although the unchanged project main-scene reference points there. Copy the existing foundation scene/source resources into the isolated test project; do not change the real project's entry point or hide import stderr.
 
 No fixed production file or further proof correction was edited after discovering these failures. New prospective coordinator scope is required for the exact production and proof changes above. Persisted `.phase4/04-22-r2-before/r2-result.json` records every actual output/log path and SHA256, all failed controller observations, PIDs and unchanged-file checks; `r2-final-text-data.cjs` preserves the tested proof source. All current and historical failures remain visible. Foreign Phase7 planning work is untouched.
+
+## R3 resolution and completed local Plan22
+
+The preceding sections remain immutable technical history; their exhausted budgets and actual failures are not reset or relabeled. Prospective R3 coordinator commit `574a05c` authorized three separate outcomes in [04-22-REPAIR.md](04-22-REPAIR.md).
+
+- **R3.1:** Initial `662fe439-e6c7-45d6-bcbb-e4c7aecbd822` failed one indentation rule; correction1 `13802d30-33a8-4d08-8893-fe1e91d63357` passed strict0/0 and the five exact domain/expanded/UTF-8 target predicates. Its complete case still correctly failed the known unrepaired issues. Budget1/2.
+- **R3.2:** Initial `d160eabe-9f31-4ad9-9844-4723e8e9b4db` passed both original72×24 saved-geometry outcomes and actual-Hub attachment/no-outside-tree checks. Known formatting/copied-import issues remained explicit. Budget0/2.
+- **R3.3:** Initial `2280a5b3-1017-435f-ade4-c690b2941d59` passed81 controller +11 Hub outcomes. Correction1 added the explicitly named saved-native-control-bounds regression and explicit clean-import guard. Final `74934bff-b3c1-4c6f-ac2f-7a395e5f8b21` passed82 controller +11 actual-Hub outcomes, every original54+7 ID/predicate/order, all16 backstops and all added regressions, strict0/0, clean imports/native logs and natural authenticated completion. Budget1/2. All eight production/output files stayed fixed in this proof-only substep.
+
+Task2's tested five-path implementation is committed as `727faf5`. Task1 remains `f7f735e` with its mandatory committed tracer `207a22ce-409b-478d-babe-ec87dec91180` preserved.
+
+Fresh whole selection `.phase4/04-22-final/` then passed **51/51** at exact source `727faf5b3176ce3066767c86cd2d9c173531afad`, with **492 frozen inputs**, zero drift and no HEAD scheduling changes. Actual time: **1823596ms case execution /1844575ms wall**. Fresh final text invocations: catalog `c6eb8821-113d-4262-8222-fae02a0e922a`, compatibility `8969f32e-7938-45e8-b784-5bf4fc03e0ac`. The graph check `c2b26483-6e33-497a-b664-96a44fc46fd8` also passed.
+
+Exactly one final changed native-policy observation followed the passing complete selection: `.phase1/runs/749fcabe-2a52-425b-b15e-f3bf73da200c`, expected **FAIL2349**, with exactly **90 new DataTextPreview operations** beyond prior2259. Current official producer identity is **59 inputs/32 generated surfaces**, unenrolled. No policy/public/native grant or producer enrollment changed. Complete exact new tuples and current source/producer hashes are in [04-22-SUMMARY.md](04-22-SUMMARY.md) and the final immutable observation files.
+
+All directly scoped technical defects above are resolved for this local source/headless plan. WINDOWS29/30/31, index adoption/old consumer comparisons23/31, actual32/33 acceptance and every ASSET requirement remain pending. Parent retains global progress, wave25, draft PR5 and push ownership. Foreign Phase7 planning files remain untouched.
