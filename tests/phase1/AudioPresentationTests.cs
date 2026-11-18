@@ -1,6 +1,8 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Text.Json;
 using Shouldly;
 using Xunit;
 
@@ -18,7 +20,46 @@ public sealed class AudioPresentationTests
         second.ShouldBeGreaterThan(expected: first);
     }
 
+    /// <summary>The actual generated food source resolves its declared deterministic provenance.</summary>
+    [Fact]
+    public void Sources_ResolveGeneratedFoodAuthority()
+    {
+        Source(id: "interface.food-crunch.v1").ShouldContain(expected: "seed190021");
+    }
+
+    /// <summary>The derived burst resolves its current shared source without approval extension.</summary>
+    [Fact]
+    public void Sources_ResolveCurrentSharedAction()
+    {
+        Source(id: "interface.bloater-burst.v1").ShouldContain(expected: "2790");
+    }
+
     private static readonly Type _subject = Subject();
+
+    private static string Source(string id)
+    {
+        JsonElement pack = Pack(file: "audio-interface-ambience");
+        JsonElement sample = pack.GetProperty(propertyName: "samples").EnumerateArray()
+                .Single(predicate: value => StringComparer.Ordinal.Equals(
+                        x: value.GetProperty(propertyName: "id").GetString(), y: id));
+        try
+        {
+            return (string)(Call(name: "ResolveSource", arguments: [pack, sample, Pack(file: "audio-actions")])
+                    ?? throw new InvalidOperationException());
+        }
+        catch (TargetInvocationException error) when (error.InnerException is InvalidOperationException
+                && error.InnerException.Message is "Sequence contains no matching element")
+        {
+            return "Production ordinary-source lookup rejected this valid sample";
+        }
+    }
+
+    private static JsonElement Pack(string file)
+    {
+        using var document = JsonDocument.Parse(utf8Json: File.ReadAllBytes(path: Path.Combine(
+                path1: ProofProtocol.Root, path2: "src/godot-game/content/packs/" + file + ".json")));
+        return document.RootElement.Clone();
+    }
 
     private static object? Call(string name, object[] arguments)
     {
