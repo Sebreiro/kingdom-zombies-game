@@ -49,6 +49,31 @@ public sealed class SessionLayoutTests
         rejection.ShouldBeNull();
     }
 
+    /// <summary>Active-world settings support the largest UI scale and actual remapped references.</summary>
+    [Fact]
+    public void Validate_Accepts150PercentActiveWorldSettings()
+    {
+        using var state = JsonDocument.Parse(json: """
+                {"id":"settings.held-out","surface":"settings","title":"Élodie's settings",
+                "status":"ready","backstop":"none","world":"World continues",
+                "preferences":{"resolution":"1280x720","scale":150,"fullscreen":false,
+                "master":75,"effects":65,"ambience":35},
+                "bindings":[{"action":"Inspect","current":"J","default":"E","state":"bound"}],
+                "placeholder":"Press {binding} to inspect {itemId} for {playerName}.",
+                "expanded":"Jérôme retains the complete current reference.","diagnostics":[]}
+                """);
+        Exception? rejection = null;
+        try
+        {
+            Call(name: "Validate", arguments: [state.RootElement]);
+        }
+        catch (TargetInvocationException error)
+        {
+            rejection = error.InnerException ?? error;
+        }
+        rejection.ShouldBeNull();
+    }
+
     private static object? Call(string name, object[] arguments)
     {
         var assembly = Assembly.Load(rawAssembly: File.ReadAllBytes(path: Path.Combine(path1: ProofProtocol.Root,
