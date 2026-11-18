@@ -4,17 +4,17 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 04
 current_phase_name: Asset production
-current_plan: 29
+current_plan: 22
 status: executing
-stopped_at: Completed 04-21; 29/37 local plans summarized; wave 23 complete; next 04-29 in wave 24; concurrent planning decisions preserved; WINDOWS29/30/31 open
-last_updated: "2026-11-18T11:33:21.477Z"
+stopped_at: Completed 04-29; 30/37 local plans summarized; wave 24 complete; next 04-22 in wave 25; concurrent planning decisions preserved; WINDOWS29/30/31 open
+last_updated: "2026-11-18T14:51:21.159Z"
 last_activity: 2026-11-18
-last_activity_desc: Completed two audio banks and all30category/event contracts; fresh47cases pass; next04-29 native audio preview/limits/lifecycle in wave24
+last_activity_desc: Completed native audio audition, current loops, limits and lifecycle; fresh49cases pass; next04-22 English text and compatibility in wave25
 progress:
   total_phases: 12
   completed_phases: 3
   total_plans: 62
-  completed_plans: 54
+  completed_plans: 55
   percent: 25
 ---
 
@@ -26,19 +26,19 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase04 continues on feature/04-asset-production with draftPR5. Twenty-nine of37 local plans are summarized. Two actualPCM banks deliver30categories,63retained source records,71samples,5stereoloops and91eventroutes. Fresh47cases pass at54059b7 on481 unchangedinputs in1628532ms(caseexecution),1639745mswall. Creator approval remains scoped to40sources/44reviewed adaptations;27newversions remainNotauditioned. Inventory236;wave23complete,next04-29 nativeaudio preview/limits/lifecycle. Exact64MiBretained-interfaceZIP consumer compatibility and49existingconsumer comparisons stay23/31-owned. RecordedpolicyFAIL2130/current57-input32-surface producer unenrolled,WINDOWS29/30/31,index0/180,allASSET and actual32/33 acceptance remainpending.
+**Current focus:** Phase04 continues on feature/04-asset-production with draftPR5. Thirty of37 local plans are summarized. Native Audio auditions91routes, owns current loops, configurable24/4limits, muted warnings and exact source diagnostics. Fresh49/49 executable cases pass at ecc20cd on484 unchangedinputs in1749413ms caseexecution/1769167ms wall. Lifecycle687 and heldout807 native outcomes plus22compiled0skip pass; unchanged Hub regressions pass. Inventory236;wave24complete,next22 text/compatibility. Exactlyone finalpolicy db114983 FAIL2259 records129 newAudio tuples and current58-input32-surface unenrolledproducer for23/31. WINDOWS29/30/31,index0/180,49consumercomparisons,allASSET and actual32/33 acceptance remainpending.
 
 ## Current Position
 
 Phase: 04 — Asset production
-Current Plan: 29
+Current Plan: 22
 Total Plans in Phase: 37
 Status: Executing
-Last activity: 2026-11-18 — Completed two audio banks and all30category/event contracts; fresh47cases pass; next04-29 native audio preview/limits/lifecycle in wave24
+Last activity: 2026-11-18 — Completed native audio audition, current loops, limits and lifecycle; fresh49cases pass; next04-22 English text and compatibility in wave25
 
 Progress: [███░░░░░░░] 25%
 
-Milestone progress: 3/12 phases complete;54/62 currently planned plans summarized;fourteen of135 requirements complete. Phase4 has29/37 local plans complete. NoASSET requirement completion is claimed.
+Milestone progress: 3/12 phases complete;55/62 currently planned plans summarized;fourteen of135 requirements complete. Phase4 has30/37 local plans complete. NoASSET requirement completion is claimed.
 
 ## Performance Metrics
 
@@ -175,6 +175,8 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - [Phase04]: Historical04-21 pre-approval checkpoint was incomplete at source318f288 after preservedab6826b. Forty donor sources/44candidate variants coverAU01-15 in56.655828seconds;all remain Not auditioned. Fresh committed audio.actions9a5b2af8-40af-4047-a676-f46a9755eb91 passes exact PCM/source/bundle reproduction,13negative controls and12restored positives,then fails onlyAUDIO_LISTENING_REQUIRED. Review: [source-only listening checkpoint](phases/04-asset-production/04-21-LISTENING-CHECKPOINT.md),with exact portableZIP and local prepared page. OriginalTask1 corrections3/3 preserved,no technical error remains;noGREEN/tracer/Task2/canonicalSUMMARY or category/ASSET acceptance. Wave23 remains incomplete;local28/37/global53/62 stay fixed. Real listener source/version/device/verdict is required;finalnative mixing/actual32/33 remain later. Inventory236,49existingconsumer comparisons,WINDOWS29/30/31,policy2130/current57-input32-surface producer and index0/180 remain pending.
 
 - [Phase04]: Completed04-21 Task1GREEN3df8209/freshtraceraa09e941,Task2GREEN54059b7,SUMMARY8dae14a. Creatorverbatimapproval for40sources/44versions retained with null unspecifieddetails;27newversions remainNotauditioned. Fresh47/47cases at54059b7 on481 unchangedinputs pass in1628532ms(case)/1639745mswall;641closeoutchecks andsummaryselfcheck pass. Originalbudgets3/3+3/3,R1initial0/2,R2initial0/2 preserved; exactTask2publication nowpreservesexistingEVENTS/ZIP identities. Inventory236;wave23complete,next29wave24. RetainedZIP64MiB localexception requiresexact23/31consumer repair;49existingcomparisons/policy2130/current57inputs32surfaces/index/actualacceptance remainpending.
+
+- [Phase04]: Completed04-29 originalTask1GREEN4f0583a/freshcommittedtracer716d7c95,originalTask2GREENf72e3be,partialstoprepair8d318f4,Rootstatusrepair ecc20cd,SUMMARY7dc1f83. Fresh49/49executablecases at ecc20cd on484unchangedinputs pass in1749413mscase/1769167mswall;687/807native+22compiled0skip,strict0/0. All oldbudgets,stopped20,failed47/2 and unattributedhistorical4ObjectDBwarnings preserved. R5initial+C1/2,R6initial0/2. Exactlyonefinalpolicy db114983 FAIL2259=historical2130+129Audio tuples; currentproducer58inputs32surfaces unenrolled. Wave24complete,30/37local,next22wave25;inventory236 and sourceintegration/49consumercomparisons/actualacceptance remainpending.
 
 ### Pending Todos
 

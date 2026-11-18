@@ -79,3 +79,7 @@ Plan20/repair is data+CJS-only and adds no native/public adapter or generatedsou
 ## Current observation after 04-21
 
 Plan21 is media/JSON/CJS-only with no newC#native/publicadapter/generatedinput. [04-21-SUMMARY.md](04-21-SUMMARY.md) retains08be5ab2FAIL2130/current57-input32-surface unenrolledproducer asunchangedhistoricalobligations,not a newlyexecutedobservation/pass. No repeatedunchangedpolicy/cohort/build wasadded. Next29actualC#audioadaptermustremaininternal/guarded,inventoryexactnativecalls andcaptureonefinalchangedpolicy/producerobservation for23/31withoutgrants. Existinghistoricalinventories,19publicidentities,inventory236 andWINDOWS30/31remainpreserved/open.
+
+## Current observation after 04-29
+
+[04-29-SUMMARY.md](04-29-SUMMARY.md) records exactlyone finalchanged policy observation db114983-a882-4e7f-9b11-114c86bfc8d3 FAIL2259 at ecc20cd,with129new exactAudioPreview native tuples afterhistorical2130. It inventories all129,actualRoot authored changes/domaincalls,unchanged18Rootsignatures and byte-identicalfreshRead. No rejectedRoot tuple/newgrant;latestRootbytes stillalterproducerclosure. Current officialpinnedproducer has58inputs/32surfaces,unenrolled;source/package/generated/binaryhashes and exactallinputs are inSUMMARY. Preserve allhistoricalcohorts/rows/rawreports,19publicidentities and guardedexactauthorities. Plan23reconcilescurrentcalls/cohort/adaptations beforeindependentreview;31recheckslastsource. This observation supplies nogrant/policyPASS orWINDOWS30/31closure.
