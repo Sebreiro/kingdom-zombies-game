@@ -63,3 +63,7 @@ Final policyfe25f167 remains FAIL1570 operations: Building299,Character372,Corps
 ## Current observation after 04-16
 
 Final13ce1bf4-488e-457f-9024-f51a844624e1 remains FAIL1861 operations: previous1570 unchanged plus291CampLayouts. [04-16-SUMMARY.md](04-16-SUMMARY.md) records all291 exact tuples,new internal declarations and56-input/32-surface producer closure. Owner23 must authorize only actually guarded exact members with independent negatives and enroll the actual pinned producer before24review;31 rechecks finalsource. No permission/cohort completion follows from39 local executable passes. Original failures/inventories remain immutable,19 public identities and inventory236 unchanged,WINDOWS30/31 open.
+
+## Current observation after 04-19
+
+Plan19 is data-only: eight JSON/validator paths add no native/public adapter or generated-source input. [04-19-SUMMARY.md](04-19-SUMMARY.md) retains recorded13ce1bf4 FAIL1861 and current56-input/32-surface unenrolled producer as unchanged integration obligations,not a newly executed observation or pass. Owner23 must reconcile exact guarded final members/pinned producer and current data/UI consumers before24review;31 rechecks finalsource. The41 executable local passes grant no permission or cohort enrollment. Historical failures/inventories,19 public identities,inventory236 and WINDOWS30/31 remain preserved/open.
