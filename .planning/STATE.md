@@ -6,10 +6,10 @@ current_phase: 04
 current_phase_name: Asset production
 current_plan: 21
 status: executing
-stopped_at: Completed 04-20; 28/37 local plans summarized; wave 22 complete; next 04-21 in wave 23; concurrent planning decisions preserved; WINDOWS29/30/31 open
-last_updated: "2026-11-18T02:52:58.572Z"
+stopped_at: 04-21 Task1 donor review prepared; actual listening verdict required;0/2 tasks complete;28/37 local plans remain complete;wave23 incomplete;draftPR5 retained
+last_updated: "2026-11-18T03:15:26.020Z"
 last_activity: 2026-11-18
-last_activity_desc: Completed independently repaired campaign/session/presentation data and wave22; fresh45 cases pass; next04-21 audio production in wave23
+last_activity_desc: Prepared44 technically verified donor audio candidates;04-21 awaits real source audition;28/37 plans complete
 progress:
   total_phases: 12
   completed_phases: 3
@@ -26,7 +26,7 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase04 continues on feature/04-asset-production with draftPR5. Twenty-eight of37 local plans are summarized. Zombie/loot/progression/portal/session/presentation/preferences deliver1855 documented fields;all319 authored unit/effect/lifetime defects independently close. Fresh45 executable cases pass ated8a79c on473 unchanged inputs in1588583ms. Inventory236;wave22 complete,next04-21 donor-first audio production. Forty-nine existing-consumer comparisons remain23-owned;physicalaudio/text remain21/22/23. RecordedpolicyFAIL2130/current57-input32-surface producer unenrolled,WINDOWS29/30/31,allASSET and actualacceptance remainpending. Creator Phase07/06/12 history preserved.
+**Current focus:** Phase04 is at the real source-listening checkpoint for04-21 on feature/04-asset-production,draftPR5. Forty distinct donor sources and44variants have exact verified PCM/provenance/frames/recipes and a ready local review,but remain Not auditioned. Fresh committed case9a5b2af8 passes all technical controls and fails onlyAUDIO_LISTENING_REQUIRED. Source318f288/incompletecheckpointab6826b;0/2tasks,noGREEN/tracer/Task2/SUMMARY. Twenty-eight of37local plans and53/62global plans remain complete. Required actual source hearing must supply listener/device/version/observations/verdict before production selection. AllASSET,49existingconsumer comparisons,WINDOWS29/30/31,policy2130/current57-input32-surface producer,index0/180 and final32/33 acceptance remainpending. Creator Phase07/06/12history preserved.
 
 ## Current Position
 
@@ -34,7 +34,7 @@ Phase: 04 — Asset production
 Current Plan: 21
 Total Plans in Phase: 37
 Status: Executing
-Last activity: 2026-11-18 — Completed independently repaired campaign/session/presentation data and wave22; fresh45 cases pass; next04-21 audio production in wave23
+Last activity: 2026-11-18 — Prepared44 technically verified donor audio candidates;04-21 awaits real source audition;28/37 plans complete
 
 Progress: [███░░░░░░░] 25%
 
@@ -171,6 +171,8 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - [Phase04]: Completed04-17 genuineREDs ec6102e/914676b/085c81f,Task1 GREEN2d7aa9f/fresh committed tracer1b0b110d,Task2 GREEN5b7978a,SUMMARY47ed5a9. Final43/43 executable cases pass at5b7978a on464 unchanged inputs in1517750ms;two selected Critical integration cases remain blocked separately. Session699/endpoints1708native plus4compiled0skip;944selfchecks pass. Original budgets and R1/R2/R3 checkpoints remain preserved. Inventory236;policy2130/producer57inputs32surfaces pending23/31. Wave21 complete,next20wave22;actual acceptance pending.
 
 - [Phase04]: Completed04-20 original767490c/8f0eddc,checkpointd42bf89,prospectiveca6613d,repairs745ea75/ed8a79c,SUMMARY5c7a47b. Repaired committed tracerfe9bcd80 precedesR1.2. Fresh45/45 cases ated8a79c on473 unchanged inputs pass in1588583ms;633selfchecks and319exactold-fail/new-pass controls pass. All1855IDs,1515originalcontrolnames and80legalfixtures preserved. Old45diagnostic at8f0eddc remains nonacceptinghistory. Existing49comparisons remain23-owned. Inventory236;recorded2130policy/current57inputs32surfaces unchanged. Wave22 complete,next21wave23;actualacceptance pending.
+
+- [Phase04]: Active04-21 is incomplete at source318f288 after preservedab6826b. Forty donor sources/44candidate variants coverAU01-15 in56.655828seconds;all remain Not auditioned. Fresh committed audio.actions9a5b2af8-40af-4047-a676-f46a9755eb91 passes exact PCM/source/bundle reproduction,13negative controls and12restored positives,then fails onlyAUDIO_LISTENING_REQUIRED. Review: [source-only listening checkpoint](phases/04-asset-production/04-21-LISTENING-CHECKPOINT.md),with exact portableZIP and local prepared page. OriginalTask1 corrections3/3 preserved,no technical error remains;noGREEN/tracer/Task2/canonicalSUMMARY or category/ASSET acceptance. Wave23 remains incomplete;local28/37/global53/62 stay fixed. Real listener source/version/device/verdict is required;finalnative mixing/actual32/33 remain later. Inventory236,49existingconsumer comparisons,WINDOWS29/30/31,policy2130/current57-input32-surface producer and index0/180 remain pending.
 
 ### Pending Todos
 
