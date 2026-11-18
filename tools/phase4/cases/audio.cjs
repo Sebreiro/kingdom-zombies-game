@@ -8,6 +8,16 @@ const PYTHON='C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependen
 const PACK='src/godot-game/content/packs/audio-actions.json';
 const BANK='src/godot-game/assets/audio/actions.wav';
 const ZIP='production/phase4/audio-actions.zip';
+const APPROVAL={id:'creator-au01-15-v1',provenance:'creator-user-chat-attestation',listener:'creator/user',
+  statement:'All is approved',observedAtUtc:'2026-11-18T10:25:36Z',personalName:null,outputDevice:null,playbackMethod:null,
+  hearingTimestamp:null,detailedObservations:null,assistantHearing:false,finalNativeMixApproved:false,
+  scope:'Presented forty full sources and forty-four version1 adaptations for AU-01 through AU-15 source/category uses only',
+  presentedManifestSha256:'826ba6acae7cf2a3b07c18903a0f18756e22893cf16748292513051f048daf69',
+  presentedPacketSha256:'f37896dadfd5154a2f1c34d47f16f5714fc5bc2b349641159a893eb5eacc73c8',
+  bankSha256:'fb173a9863cbc2ba1989cea83afddea3497d22bc760ba28803b9d5e8a545e144',
+  sampleMatrixSha256:'940fbad18d29117fc43b1b54ca8560ee195aa3a593abe54d35d481ade8fa5f49',
+  categoryMatrixSha256:'bff01047498c5af631f380437e19bab26cb805deba806f09e9e5e32f3e8a7e4a'};
+const approvedListening=()=>({status:'Approved by creator attestation',listener:'creator/user',verdict:'accepted',approvalId:APPROVAL.id});
 // Independent exact asset-plan anchors. A name is a candidate, never a hearing verdict.
 const CANDIDATES=[
   [3294,'citizen_run01'],[4949,'citizen_run02'],[3369,'knight_newattack1'],[4872,'knight_newattack2'],
@@ -157,6 +167,58 @@ pack['bundleSha256']=sha((root/'audio-actions.zip').read_bytes())
 (root/'audio-actions.json').write_text(json.dumps(pack,indent=2,allow_nan=False)+'\n',encoding='utf-8',newline='\n')
 print(json.dumps({'candidates':len(config['candidates']),'variants':len(samples),'frames':len(bank)//2,'zipBytes':(root/'audio-actions.zip').stat().st_size}))
 `;
+const PROMOTE=String.raw`import hashlib,json,pathlib,sys,zipfile
+root=pathlib.Path(sys.argv[1]).resolve()
+assert root.is_relative_to(pathlib.Path('D:/Work/Games/KingdomZombies/.phase4').resolve())
+sha=lambda b:hashlib.sha256(b).hexdigest()
+approval=json.loads((root/'approval.json').read_text())
+original=(root/'presented-manifest.json').read_bytes()
+assert sha(original)==approval['presentedManifestSha256']
+assert sha((root/'presented.zip').read_bytes())==approval['presentedPacketSha256']
+pack=json.loads(original)
+with zipfile.ZipFile(root/'presented.zip') as z:members={n:z.read(n) for n in z.namelist()}
+pack['status']='approved-production-source'
+pack['scope']='AU01-15 creator-approved exact production sources; final native mix/04-32/33 acceptance pending'
+pack['approval']=approval
+pack['listening']={'status':'Approved by creator attestation','listener':'creator/user','verdict':'accepted','approvalId':approval['id']}
+for sample in pack['samples']:sample['listening']=pack['listening'].copy()
+for category in pack['categories']:
+    category['status']='Selected by creator attestation'
+    category['suitability']='Approved for the presented source/category use'
+pack['donorPolicy']['remaining']='Final native mix/04-32/33 judgment pending; no new audio approved by this attestation'
+members['approval/presented-manifest.json']=original
+members['approval/creator-attestation.json']=(json.dumps(approval,indent=2)+'\n').encode()
+members['approval/coordinator-record.md']=(root/'coordinator-record.md').read_bytes()
+members['recipes/promote.py']=pathlib.Path(__file__).read_bytes()
+pack['recipes']['promotionMember']='recipes/promote.py'
+pack['recipes']['promotionSha256']=sha(members['recipes/promote.py'])
+pack['retainedManifestMember']='production/manifest.json'
+pack['bundleMembers']=[{'path':k,'bytes':len(v),'sha256':sha(v)} for k,v in sorted(members.items())]
+del pack['bundleSha256']
+members['production/manifest.json']=(json.dumps(pack,indent=2,allow_nan=False)+'\n').encode()
+with zipfile.ZipFile(root/'audio-actions.zip','w',compression=zipfile.ZIP_DEFLATED,compresslevel=6) as z:
+    for name,payload in sorted(members.items()):
+        info=zipfile.ZipInfo(name,(2026,11,18,0,0,0));info.compress_type=zipfile.ZIP_DEFLATED;z.writestr(info,payload)
+pack['bundleSha256']=sha((root/'audio-actions.zip').read_bytes())
+(root/'audio-actions.json').write_text(json.dumps(pack,indent=2,allow_nan=False)+'\n',encoding='utf-8',newline='\n')
+print(json.dumps({'samples':len(pack['samples']),'members':len(members),'sourceApproval':approval['id']}))
+`;
+async function promote(){
+  const context={directory:inside(ROOT,'.phase4/audio-approved/'+crypto.randomUUID())};fs.mkdirSync(context.directory,{recursive:true});
+  for(const [target,source]of [['presented-manifest.json',PACK],['presented.zip',ZIP],
+    ['coordinator-record.md','.planning/phases/04-asset-production/04-21-APPROVAL-AND-RESUME.md']])fs.copyFileSync(inside(ROOT,source),inside(context.directory,target));
+  write(context.directory,'approval.json',APPROVAL);fs.writeFileSync(inside(context.directory,'promote.py'),PROMOTE);
+  await runner.command(context,'promote',PYTHON,['-B',inside(context.directory,'promote.py'),context.directory],{timeout:40000});
+  for(const [source,target]of [['audio-actions.json',PACK],['audio-actions.zip',ZIP]])fs.copyFileSync(inside(context.directory,source),inside(ROOT,target));
+  console.log(JSON.stringify({directory:context.directory,approval:APPROVAL.id}));
+}
+function validateApproval(pack){
+  need(equal(pack.approval,APPROVAL),'AUDIO_APPROVAL_SCOPE');
+  need(pack.status==='approved-production-source'&&equal(pack.listening,approvedListening()),'AUDIO_FALSE_AUDITION');
+  need(pack.bank.sha256===APPROVAL.bankSha256&&hash(JSON.stringify(pack.samples.map(({listening,...sample})=>sample)))===APPROVAL.sampleMatrixSha256,
+    'AUDIO_UNAPPROVED_SAMPLE');
+  need(hash(JSON.stringify(pack.categories.map(({status,suitability,...category})=>category)))===APPROVAL.categoryMatrixSha256,'AUDIO_UNAPPROVED_CATEGORY');
+}
 function inputs(){return Object.fromEntries(['tools/phase4/cases/audio.cjs','tools/phase4/extract-audio.py',PACK,BANK,ZIP].map(x=>[x,hash(bytes(ROOT,x))]));}
 async function prepare(){
   const context={directory:inside(ROOT,'.phase4/audio-candidates/'+crypto.randomUUID())};
@@ -182,7 +244,7 @@ function validate(pack,bank){
   need(format.frames===pack.bank.frames&&format.rate===pack.bank.rate&&format.channels===pack.bank.channels,'AUDIO_BANK_FORMAT');
   need(pack.samples.length===44&&new Set(pack.samples.map(x=>x.id)).size===44,'AUDIO_SAMPLE_IDS');
   need(pack.donorPolicy.synthesisPerformed===false&&pack.donorPolicy.unsuitabilityClaims.length===0,'AUDIO_FALSE_DONOR_REJECTION');
-  need(pack.listening.status==='Not auditioned'&&pack.listening.listener===null&&pack.listening.verdicts.length===0,'AUDIO_FALSE_AUDITION');
+  need(equal(pack.listening,approvedListening()),'AUDIO_FALSE_AUDITION');
   const audio=bank.subarray(44),intervals=[];
   for(const sample of pack.samples){
     const anchor=CANDIDATES.find(x=>x[0]===sample.candidateId);
@@ -191,7 +253,7 @@ function validate(pack,bank){
     need(sample.version===1&&sample.channels===2&&sample.rate===44100&&sample.sampleWidth===2,'AUDIO_SAMPLE_FORMAT',sample.id);
     need(sample.original.channels===sourceChannels(sample.candidateId)&&sample.original.rate===44100&&sample.original.sampleWidth===2&&
       sample.channelTransform===(sourceChannels(sample.candidateId)===1?'duplicate-mono-to-stereo':'preserve-stereo'),'AUDIO_SOURCE_FORMAT',sample.id);
-    need(sample.listening.status==='Not auditioned'&&sample.listening.listener===null&&sample.listening.verdict===null,'AUDIO_FALSE_AUDITION',sample.id);
+    need(equal(sample.listening,approvedListening()),'AUDIO_FALSE_AUDITION',sample.id);
     need(equal(sample.preservation.originalsBefore,sample.preservation.originalsAfter)&&sample.preservation.verifiedAfter,'AUDIO_ORIGINAL_MUTATION',sample.id);
     const [start,end]=sample.regionFrames,[trimStart,trimEnd]=sample.trimFrames;
     need([start,end,trimStart,trimEnd,sample.frames].every(Number.isSafeInteger)&&start>=0&&end<=format.frames&&end>start&&
@@ -212,10 +274,11 @@ function validate(pack,bank){
     need(equal(actual.candidateIds,expected[2])&&actual.title===expected[1]&&actual.question===expected[3],'AUDIO_CATEGORY_CONTRACT',actual.id);
     need(equal(actual.sampleIds,pack.samples.filter(x=>expected[2].includes(x.candidateId)&&x.id.endsWith('.'+role)).map(x=>x.id)),
       'AUDIO_CATEGORY_BINDING',actual.id);
-    need(actual.status==='Not auditioned'&&actual.suitability==='Unknown until actual hearing','AUDIO_FALSE_AUDITION',actual.id);
+    need(actual.status==='Selected by creator attestation'&&actual.suitability==='Approved for the presented source/category use','AUDIO_FALSE_AUDITION',actual.id);
   }
   need(new Set(pack.samples.filter(x=>x.id.endsWith('.full')).map(x=>x.pcmSha256)).size===40,'AUDIO_FALSE_REUSE');
-  return {categories:15,candidates:40,variants:44,frames:format.frames,seconds:format.frames/44100,clippedOutputSamples:0,listening:'Not auditioned'};
+  validateApproval(pack);
+  return {categories:15,candidates:40,variants:44,frames:format.frames,seconds:format.frames/44100,clippedOutputSamples:0,listening:pack.listening,approval:pack.approval};
 }
 const ZIP_CHECK=String.raw`import array, hashlib, io, json, pathlib, sys, wave, zipfile
 root=pathlib.Path(sys.argv[1]); pack=json.loads((root/'src/godot-game/content/packs/audio-actions.json').read_text())
@@ -223,7 +286,7 @@ sha=lambda b:hashlib.sha256(b).hexdigest()
 with zipfile.ZipFile(root/'production/phase4/audio-actions.zip') as z:
     expected={x['path']:x for x in pack['bundleMembers']}
     assert len(z.infolist())==len(expected)+1 and len(set(z.namelist()))==len(z.namelist()),'AUDIO_ZIP_COUNT'
-    assert set(z.namelist())==set(expected)|{'review/manifest.json'},'AUDIO_ZIP_MEMBERS'
+    assert set(z.namelist())==set(expected)|{'production/manifest.json'},'AUDIO_ZIP_MEMBERS'
     for item in z.infolist():
         p=pathlib.PurePosixPath(item.filename)
         assert not p.is_absolute() and '..' not in p.parts and '\\' not in item.filename and ':' not in item.filename,'AUDIO_ZIP_PATH'
@@ -231,10 +294,17 @@ with zipfile.ZipFile(root/'production/phase4/audio-actions.zip') as z:
     assert sum(x.file_size for x in z.infolist())<=128*1024*1024,'AUDIO_ZIP_TOTAL'
     for name,record in expected.items():
         value=z.read(name);assert len(value)==record['bytes'] and sha(value)==record['sha256'],'AUDIO_ZIP_HASH'
-    retained=json.loads(z.read('review/manifest.json'))
+    retained=json.loads(z.read('production/manifest.json'))
     assert retained=={k:v for k,v in pack.items() if k!='bundleSha256'},'AUDIO_REBOUND_MANIFEST'
     assert sha(z.read('recipes/decode.py'))==pack['recipes']['decoderSha256'],'AUDIO_RECIPE_HASH'
     assert sha(z.read('recipes/assemble.py'))==pack['recipes']['assemblerSha256'],'AUDIO_RECIPE_HASH'
+    assert sha(z.read('recipes/promote.py'))==pack['recipes']['promotionSha256'],'AUDIO_RECIPE_HASH'
+    assert sha(z.read('approval/presented-manifest.json'))==pack['approval']['presentedManifestSha256'],'AUDIO_APPROVED_BASELINE'
+    assert json.loads(z.read('approval/creator-attestation.json'))==pack['approval'],'AUDIO_APPROVAL_REBOUND'
+    baseline=json.loads(z.read('approval/presented-manifest.json'))
+    assert len(baseline['samples'])==len(pack['samples'])==44,'AUDIO_APPROVED_COUNT'
+    for old,new in zip(baseline['samples'],pack['samples']):
+        assert {k:v for k,v in old.items() if k!='listening'}=={k:v for k,v in new.items() if k!='listening'},'AUDIO_UNAPPROVED_SAMPLE'
     for sample in pack['samples']:
         original=z.read(sample['sourceMember']);adapted=z.read(sample['variantMember'])
         assert sha(original)==sample['original']['sha256'] and sha(adapted)==sample['sha256'],'AUDIO_FULL_WAV_HASH'
@@ -258,7 +328,7 @@ async function technical(context){
   const before=inputs();write(context.directory,'inputs.json',before);
   const pack=document(ROOT,PACK),bank=bytes(ROOT,BANK);const result=validate(pack,bank);
   need(hash(bytes(ROOT,ZIP))===pack.bundleSha256,'AUDIO_ZIP_IDENTITY');
-  need(hash(decoderRecipe())===pack.recipes.decoderSha256&&hash(ASSEMBLE)===pack.recipes.assemblerSha256,'AUDIO_RECIPE_IDENTITY');
+  need(hash(decoderRecipe())===pack.recipes.decoderSha256&&hash(ASSEMBLE)===pack.recipes.assemblerSha256&&hash(PROMOTE)===pack.recipes.promotionSha256,'AUDIO_RECIPE_IDENTITY');
   fs.writeFileSync(inside(context.directory,'verify-zip.py'),ZIP_CHECK);
   const bundle=await runner.command(context,'retained-bundle',PYTHON,['-B',inside(context.directory,'verify-zip.py'),ROOT],{timeout:40000});
   const controls=[];
@@ -274,7 +344,13 @@ async function technical(context){
     ['unsupported-unsuitability','AUDIO_FALSE_DONOR_REJECTION',x=>{x.donorPolicy.unsuitabilityClaims.push('unsupported');}],
     ['wrong-category-binding','AUDIO_CATEGORY_BINDING',x=>{x.categories[0].sampleIds=['action.3288.full'];}],
     ['original-mutation','AUDIO_ORIGINAL_MUTATION',x=>{x.samples[0].preservation.originalsAfter[0].sha256='0'.repeat(64);}],
-    ['false-peak','AUDIO_TECHNICAL_METADATA',x=>{x.samples[0].technical.peak++;}]
+    ['false-peak','AUDIO_TECHNICAL_METADATA',x=>{x.samples[0].technical.peak++;}],
+    ['unsupported-approval','AUDIO_APPROVAL_SCOPE',x=>{x.approval.statement='approved';}],
+    ['invented-personal-name','AUDIO_APPROVAL_SCOPE',x=>{x.approval.personalName='invented';}],
+    ['invented-device','AUDIO_APPROVAL_SCOPE',x=>{x.approval.outputDevice='invented';}],
+    ['unapproved-wav-hash','AUDIO_UNAPPROVED_SAMPLE',x=>{x.samples[0].sha256='0'.repeat(64);}],
+    ['unapproved-source-hash','AUDIO_UNAPPROVED_SAMPLE',x=>{x.samples[0].source.stream.sha256='0'.repeat(64);}],
+    ['unapproved-version','AUDIO_SAMPLE_FORMAT',x=>{x.samples[0].version=2;}]
   ]){
     const subject=structuredClone(pack);edit(subject);let failure;
     try{validate(subject,bank);}catch(error){failure=error.message;}
@@ -284,13 +360,12 @@ async function technical(context){
   let truncated;try{validate(pack,bank.subarray(0,100));}catch(error){truncated=error.message;}
   need(truncated?.split(' ')[0]==='WAV_HEADER','AUDIO_TRUNCATION_CONTROL');controls.push({name:'truncated-bank',actual:truncated});
   need(equal(before,inputs()),'AUDIO_INPUT_CHANGED');write(context.directory,'negative-controls.json',controls);
-  const complete={...result,bundle:JSON.parse(bundle.stdout),negativeControls:controls.length,restoredPositives:12,
-    inputHashes:before,scope:'Technical integrity only. No hearing, suitability, selected recording or Task1 completion.'};
+  const complete={...result,bundle:JSON.parse(bundle.stdout),negativeControls:controls.length,restoredPositives:18,
+    inputHashes:before,scope:'Exact creator-attested source/category production approval; no assistant hearing or final native mix acceptance.'};
   write(context.directory,'technical.json',complete);return complete;
 }
 async function actions(context){
-  await technical(context);
-  throw new Error('AUDIO_LISTENING_REQUIRED AU01-15 exact source and adapted candidate versions are Not auditioned; Task1 remains incomplete');
+  return technical(context);
 }
 runner.registerCase('audio.actions',{group:'audio',title:'AU01-15 exact donor source/PCM/region integrity and actual listening gate',importance:'Critical',
   rationale:'False audio identity, truncated samples or invented hearing invalidates required action content',needsGameWindow:false,runGroup:'G0',order:121,
@@ -298,12 +373,12 @@ runner.registerCase('audio.actions',{group:'audio',title:'AU01-15 exact donor so
   setup:'Tracked exact candidate bank, manifest and ZIP; existing pinned Python; actual capable source-only listener required for completion',
   actions:['Verify exact AU category contracts and forty distinct donor recordings','Verify integer regions, source/variant hashes and reproduce every trim/gain',
     'Check bounded retained ZIP and thirteen exact deliberate failures plus restored positives','Require actual listener evidence; Not auditioned blocks completion'],
-  expected:'All technical controls pass; AUDIO_LISTENING_REQUIRED remains until actual hearing records are supplied and independently validated',
+  expected:'Exact immutable source/sample matrix and literal creator attestation validate; invented or extended approvals reject',
   reset:'Fresh owned evidence directory only; no game window, playback, donor writes or changes to production bytes',
   evidence:['inputs.json','retained-bundle.command.json','negative-controls.json','technical.json','result.json']},actions);
-module.exports={CANDIDATES,COVERAGE,ASSEMBLE,decoderRecipe,prepare,validate,technical,actions};
+module.exports={CANDIDATES,COVERAGE,ASSEMBLE,PROMOTE,APPROVAL,decoderRecipe,prepare,promote,validate,technical,actions};
 if(require.main===module){
   const command=process.argv[2];
-  (command==='--prepare'?prepare():command==='--technical'?technical({directory:fs.mkdtempSync(inside(ROOT,'.phase4/audio-technical-'))}):
+  (command==='--prepare'?prepare():command==='--approve-actions'?promote():command==='--technical'?technical({directory:fs.mkdtempSync(inside(ROOT,'.phase4/audio-technical-'))}):
     Promise.reject(new Error('USAGE --prepare | --technical'))).then(value=>{if(value)console.log(JSON.stringify(value));}).catch(error=>{console.error(error.stack);process.exitCode=1;});
 }

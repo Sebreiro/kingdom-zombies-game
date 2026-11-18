@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "id": "audio-actions",
   "version": 1,
-  "status": "candidate-review-blocked",
-  "scope": "AU01-15 source-only candidate review; no completion, suitability, native mix or final acceptance credit",
+  "status": "approved-production-source",
+  "scope": "AU01-15 creator-approved exact production sources; final native mix/04-32/33 acceptance pending",
   "bank": {
     "path": "assets/audio/actions.wav",
     "sha256": "fb173a9863cbc2ba1989cea83afddea3497d22bc760ba28803b9d5e8a545e144",
@@ -24,8 +24,8 @@
         "action.3294.full",
         "action.4949.full"
       ],
-      "status": "Not auditioned",
-      "suitability": "Unknown until actual hearing",
+      "status": "Selected by creator attestation",
+      "suitability": "Approved for the presented source/category use",
       "question": "Footfalls rather than hooves; readable walking and sprint cadence."
     },
     {
@@ -39,8 +39,8 @@
         "action.3294.jump-trim",
         "action.4949.jump-trim"
       ],
-      "status": "Not auditioned",
-      "suitability": "Unknown until actual hearing",
+      "status": "Selected by creator attestation",
+      "suitability": "Approved for the presented source/category use",
       "question": "Can the short footfall trims read as human takeoff and landing without speech?"
     },
     {
@@ -54,8 +54,8 @@
         "action.3369.full",
         "action.4872.full"
       ],
-      "status": "Not auditioned",
-      "suitability": "Unknown until actual hearing",
+      "status": "Selected by creator attestation",
+      "suitability": "Approved for the presented source/category use",
       "question": "Identify usable swing-only regions and any missing fist/wood/metal identity."
     },
     {
@@ -71,8 +71,8 @@
         "action.2880.full",
         "action.3700.full"
       ],
-      "status": "Not auditioned",
-      "suitability": "Unknown until actual hearing",
+      "status": "Selected by creator attestation",
+      "suitability": "Approved for the presented source/category use",
       "question": "Identify flesh versus armor contacts and unwanted fantasy creature identity."
     },
     {
@@ -86,8 +86,8 @@
         "action.4523.break-trim",
         "action.3574.break-trim"
       ],
-      "status": "Not auditioned",
-      "suitability": "Unknown until actual hearing",
+      "status": "Selected by creator attestation",
+      "suitability": "Approved for the presented source/category use",
       "question": "Do the 140ms crack/clink trims read as small equipment breakage, without building collapse?"
     },
     {
@@ -99,8 +99,8 @@
       "sampleIds": [
         "action.3288.full"
       ],
-      "status": "Not auditioned",
-      "suitability": "Unknown until actual hearing",
+      "status": "Selected by creator attestation",
+      "suitability": "Approved for the presented source/category use",
       "question": "Does the complete short release read sharply without unrelated handling?"
     },
     {
@@ -122,8 +122,8 @@
         "action.3357.full",
         "action.4692.full"
       ],
-      "status": "Not auditioned",
-      "suitability": "Unknown until actual hearing",
+      "status": "Selected by creator attestation",
+      "suitability": "Approved for the presented source/category use",
       "question": "Classify the actual material of each first-hit contact."
     },
     {
@@ -135,8 +135,8 @@
       "sampleIds": [
         "action.2790.full"
       ],
-      "status": "Not auditioned",
-      "suitability": "Unknown until actual hearing",
+      "status": "Selected by creator attestation",
+      "suitability": "Approved for the presented source/category use",
       "question": "Is any actual wet region usable without fire/explosion identity? Name exact seconds or reject."
     },
     {
@@ -160,8 +160,8 @@
         "action.2804.full",
         "action.3554.full"
       ],
-      "status": "Not auditioned",
-      "suitability": "Unknown until actual hearing",
+      "status": "Selected by creator attestation",
+      "suitability": "Approved for the presented source/category use",
       "question": "Which portions fit shared undead actions; which retain an inappropriate creature identity?"
     },
     {
@@ -175,8 +175,8 @@
         "action.5123.full",
         "action.5736.full"
       ],
-      "status": "Not auditioned",
-      "suitability": "Unknown until actual hearing",
+      "status": "Selected by creator attestation",
+      "suitability": "Approved for the presented source/category use",
       "question": "Can any loss-cue portion communicate restrained death/succession without music or crown loss?"
     },
     {
@@ -194,8 +194,8 @@
         "action.4247.full",
         "action.3811.full"
       ],
-      "status": "Not auditioned",
-      "suitability": "Unknown until actual hearing",
+      "status": "Selected by creator attestation",
+      "suitability": "Approved for the presented source/category use",
       "question": "Confirm deer/rabbit identity and suitability of flee/hit/death variants."
     },
     {
@@ -213,8 +213,8 @@
         "action.3804.full",
         "action.5176.full"
       ],
-      "status": "Not auditioned",
-      "suitability": "Unknown until actual hearing",
+      "status": "Selected by creator attestation",
+      "suitability": "Approved for the presented source/category use",
       "question": "Classify wood/metal contacts; assess randomized work variants."
     },
     {
@@ -234,8 +234,8 @@
         "action.3672.full",
         "action.5654.full"
       ],
-      "status": "Not auditioned",
-      "suitability": "Unknown until actual hearing",
+      "status": "Selected by creator attestation",
+      "suitability": "Approved for the presented source/category use",
       "question": "Identify mark/chop/fall candidates; exclude coin-yield or pickup implication."
     },
     {
@@ -251,8 +251,8 @@
         "action.4543.full",
         "action.4245.full"
       ],
-      "status": "Not auditioned",
-      "suitability": "Unknown until actual hearing",
+      "status": "Selected by creator attestation",
+      "suitability": "Approved for the presented source/category use",
       "question": "Confirm short noticeable start and single completion cues; identify musical content."
     },
     {
@@ -274,8 +274,8 @@
         "action.5654.full",
         "action.5154.full"
       ],
-      "status": "Not auditioned",
-      "suitability": "Unknown until actual hearing",
+      "status": "Selected by creator attestation",
+      "suitability": "Approved for the presented source/category use",
       "question": "Classify material impacts and collapse tails independently."
     }
   ],
@@ -376,9 +376,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 10679,
@@ -484,9 +485,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 10679,
@@ -592,9 +594,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 11444,
@@ -700,9 +703,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 11444,
@@ -808,9 +812,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 22831,
@@ -916,9 +921,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 21755,
@@ -1024,9 +1030,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 22431,
@@ -1132,9 +1139,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 24575,
@@ -1240,9 +1248,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 24575,
@@ -1348,9 +1357,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 22029,
@@ -1456,9 +1466,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 22029,
@@ -1564,9 +1575,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 23118,
@@ -1672,9 +1684,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 23118,
@@ -1780,9 +1793,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 22925,
@@ -1888,9 +1902,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 18195,
@@ -1996,9 +2011,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 22889,
@@ -2104,9 +2120,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 23047,
@@ -2212,9 +2229,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 23109,
@@ -2320,9 +2338,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 23188,
@@ -2428,9 +2447,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 13923,
@@ -2536,9 +2556,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 1880,
@@ -2644,9 +2665,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 1168,
@@ -2752,9 +2774,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 20794,
@@ -2860,9 +2883,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 24575,
@@ -2968,9 +2992,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 24575,
@@ -3076,9 +3101,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 20581,
@@ -3184,9 +3210,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 22261,
@@ -3292,9 +3319,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 12139,
@@ -3400,9 +3428,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 22821,
@@ -3508,9 +3537,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 24575,
@@ -3616,9 +3646,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 21952,
@@ -3724,9 +3755,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 20328,
@@ -3832,9 +3864,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 18872,
@@ -3940,9 +3973,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 19904,
@@ -4048,9 +4082,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 12403,
@@ -4156,9 +4191,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 21521,
@@ -4264,9 +4300,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 19196,
@@ -4372,9 +4409,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 22244,
@@ -4480,9 +4518,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 22226,
@@ -4588,9 +4627,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 22664,
@@ -4696,9 +4736,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 23606,
@@ -4804,9 +4845,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 23763,
@@ -4912,9 +4954,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 21902,
@@ -5020,9 +5063,10 @@
       ],
       "loop": null,
       "listening": {
-        "status": "Not auditioned",
-        "listener": null,
-        "verdict": null
+        "status": "Approved by creator attestation",
+        "listener": "creator/user",
+        "verdict": "accepted",
+        "approvalId": "creator-au01-15-v1"
       },
       "technical": {
         "peak": 24442,
@@ -5034,26 +5078,43 @@
     }
   ],
   "listening": {
-    "status": "Not auditioned",
-    "listener": null,
-    "verdicts": [],
-    "blockedBy": "Actual capable listener must hear exact candidate and adapted sample versions before Task1 completion"
+    "status": "Approved by creator attestation",
+    "listener": "creator/user",
+    "verdict": "accepted",
+    "approvalId": "creator-au01-15-v1"
   },
   "donorPolicy": {
     "authority": "specs/0.1/assets-and-resources.md section10",
     "selection": "All forty exact relevant donor anchors exported independently before any replacement synthesis",
     "synthesisPerformed": false,
     "unsuitabilityClaims": [],
-    "remaining": "Auditory suitability/material classification/wet-versus-fire/speech/music/source identity/punch remain unknown"
+    "remaining": "Final native mix/04-32/33 judgment pending; no new audio approved by this attestation"
   },
   "recipes": {
     "decoderMember": "recipes/decode.py",
     "decoderSha256": "5e0b103e4ecf2591f00744b5c7f0c53a3fa576c807f9def10805e90197a33189",
     "assemblerMember": "recipes/assemble.py",
     "assemblerSha256": "6faca8a85962900eb7c49247bdabc8f43472c93f14f65eb79df9c7b9ccc667f6",
-    "selectionMember": "recipes/selection.json"
+    "selectionMember": "recipes/selection.json",
+    "promotionMember": "recipes/promote.py",
+    "promotionSha256": "51a970bf5001cf83a7fc26f0392e20240581e219021871862703cab01e170bb3"
   },
   "bundleMembers": [
+    {
+      "path": "approval/coordinator-record.md",
+      "bytes": 7494,
+      "sha256": "69801dcd03b33e6f7fa22032b5e9fda8b300aec971737fc0b12df0eb39478e6b"
+    },
+    {
+      "path": "approval/creator-attestation.json",
+      "bytes": 978,
+      "sha256": "d6b8f619346029fb9cb125dae48bb96adb50eefd81fd8602a5200fd9fe060da4"
+    },
+    {
+      "path": "approval/presented-manifest.json",
+      "bytes": 201508,
+      "sha256": "826ba6acae7cf2a3b07c18903a0f18756e22893cf16748292513051f048daf69"
+    },
     {
       "path": "recipes/assemble.py",
       "bytes": 8238,
@@ -5063,6 +5124,11 @@
       "path": "recipes/decode.py",
       "bytes": 8929,
       "sha256": "5e0b103e4ecf2591f00744b5c7f0c53a3fa576c807f9def10805e90197a33189"
+    },
+    {
+      "path": "recipes/promote.py",
+      "bytes": 2535,
+      "sha256": "51a970bf5001cf83a7fc26f0392e20240581e219021871862703cab01e170bb3"
     },
     {
       "path": "recipes/selection.json",
@@ -5078,6 +5144,11 @@
       "path": "review/index.html",
       "bytes": 27259,
       "sha256": "ddd014a9097e7cc8e822ae7c309cdec55fca3e96677fa31f11fbcd150e7663d3"
+    },
+    {
+      "path": "review/manifest.json",
+      "bytes": 201422,
+      "sha256": "0c0448dbfaafb11c6b30719f08487d517d4d8040a989a2d46005883a9aa3ea5c"
     },
     {
       "path": "sources/2790/audioclip.bin",
@@ -6100,5 +6171,26 @@
       "sha256": "70146316c11af62a9cd9b676f111127c9e1dd62917593a45663b4cfed60b3b17"
     }
   ],
-  "bundleSha256": "f37896dadfd5154a2f1c34d47f16f5714fc5bc2b349641159a893eb5eacc73c8"
+  "approval": {
+    "id": "creator-au01-15-v1",
+    "provenance": "creator-user-chat-attestation",
+    "listener": "creator/user",
+    "statement": "All is approved",
+    "observedAtUtc": "2026-11-18T10:25:36Z",
+    "personalName": null,
+    "outputDevice": null,
+    "playbackMethod": null,
+    "hearingTimestamp": null,
+    "detailedObservations": null,
+    "assistantHearing": false,
+    "finalNativeMixApproved": false,
+    "scope": "Presented forty full sources and forty-four version1 adaptations for AU-01 through AU-15 source/category uses only",
+    "presentedManifestSha256": "826ba6acae7cf2a3b07c18903a0f18756e22893cf16748292513051f048daf69",
+    "presentedPacketSha256": "f37896dadfd5154a2f1c34d47f16f5714fc5bc2b349641159a893eb5eacc73c8",
+    "bankSha256": "fb173a9863cbc2ba1989cea83afddea3497d22bc760ba28803b9d5e8a545e144",
+    "sampleMatrixSha256": "940fbad18d29117fc43b1b54ca8560ee195aa3a593abe54d35d481ade8fa5f49",
+    "categoryMatrixSha256": "bff01047498c5af631f380437e19bab26cb805deba806f09e9e5e32f3e8a7e4a"
+  },
+  "retainedManifestMember": "production/manifest.json",
+  "bundleSha256": "7febdb1994bfde067f83545b751bc9f23763869609f7ab8e9273e54f4992da23"
 }
