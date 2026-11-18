@@ -6,10 +6,10 @@ current_phase: 04
 current_phase_name: Asset production
 current_plan: 21
 status: executing
-stopped_at: 04-21 Task1 donor review prepared; actual listening verdict required;0/2 tasks complete;28/37 local plans remain complete;wave23 incomplete;draftPR5 retained
-last_updated: "2026-11-18T03:15:26.020Z"
+stopped_at: Creator approved all presented AU01-15 sources/44variants; resume04-21 Task1 approved production contract under boundedR1;0/2tasks complete;28/37local plans remain complete;wave23incomplete
+last_updated: "2026-11-18T10:25:36Z"
 last_activity: 2026-11-18
-last_activity_desc: Prepared44 technically verified donor audio candidates;04-21 awaits real source audition;28/37 plans complete
+last_activity_desc: Creator approved all presented audio candidates;record exact source attestation and resume04-21 without progress credit yet
 progress:
   total_phases: 12
   completed_phases: 3
@@ -26,7 +26,7 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase04 is at the real source-listening checkpoint for04-21 on feature/04-asset-production,draftPR5. Forty distinct donor sources and44variants have exact verified PCM/provenance/frames/recipes and a ready local review,but remain Not auditioned. Fresh committed case9a5b2af8 passes all technical controls and fails onlyAUDIO_LISTENING_REQUIRED. Source318f288/incompletecheckpointab6826b;0/2tasks,noGREEN/tracer/Task2/SUMMARY. Twenty-eight of37local plans and53/62global plans remain complete. Required actual source hearing must supply listener/device/version/observations/verdict before production selection. AllASSET,49existingconsumer comparisons,WINDOWS29/30/31,policy2130/current57-input32-surface producer,index0/180 and final32/33 acceptance remainpending. Creator Phase07/06/12history preserved.
+**Current focus:** The creator approved all presented40full sources/44version1candidates forAU01-15 with the actual reply All is approved. Resume04-21 Task1 under [the approval and bounded continuation](phases/04-asset-production/04-21-APPROVAL-AND-RESUME.md),preserving exact audio bytes and historical listening-blocked reports. Record creator attestation;device/name/hearing time were not supplied and remain unspecified. Task1 productionGREEN/committedtracer and Task2 remain to execute;0/2tasks accepted,28/37local and53/62global plans complete. ExistingdraftPR5/branch retained. Approval does not extend to new audio or finalnative32/33mix/judgments. AllASSET,49consumer comparisons,WINDOWS29/30/31,policy2130/current57-input32-surface producer,index0/180 and actualacceptance remainpending.
 
 ## Current Position
 
@@ -34,7 +34,7 @@ Phase: 04 — Asset production
 Current Plan: 21
 Total Plans in Phase: 37
 Status: Executing
-Last activity: 2026-11-18 — Prepared44 technically verified donor audio candidates;04-21 awaits real source audition;28/37 plans complete
+Last activity: 2026-11-18 — Creator approved all presented audio candidates;record exact source attestation and resume04-21 without progress credit yet
 
 Progress: [███░░░░░░░] 25%
 
