@@ -84,6 +84,7 @@ public sealed partial class InspectionRoot : Node2D
         _gateway.RequireThread();
         _shell?.Tick(delta: delta);
         _audio?.Tick(delta: delta);
+        _data?.Tick(delta: delta);
         _input?.ReconcileFocus();
         if (_pending is null)
         {
@@ -117,6 +118,8 @@ public sealed partial class InspectionRoot : Node2D
         _generation++;
         _loadGeneration++;
         _pending = null;
+        _data?.Close();
+        _data = null;
         _audio?.Close();
         _audio = null;
         _world?.Close();
@@ -166,6 +169,7 @@ public sealed partial class InspectionRoot : Node2D
     private CharacterPreview? _character;
     private WorldPreview? _world;
     private AudioPreview? _audio;
+    private DataTextPreview? _data;
     private ContentPack _pack = ContentPack.Load(index: null, expectations: null, read: _ => null);
     private Queue<string>? _pending;
     private byte[]? _index;
@@ -188,6 +192,8 @@ public sealed partial class InspectionRoot : Node2D
         _loadGeneration++;
         _files.Clear();
         _pending = null;
+        _data?.Close();
+        _data = null;
         _audio?.Close();
         _audio = null;
         _world?.Close();
@@ -222,6 +228,8 @@ public sealed partial class InspectionRoot : Node2D
         _generation++;
         _loadGeneration++;
         _pending = null;
+        _data?.Close();
+        _data = null;
         _audio?.Close();
         _audio = null;
         _world?.Close();
@@ -297,6 +305,8 @@ public sealed partial class InspectionRoot : Node2D
         _gateway.RequireThread();
         _accepting = false;
         _generation++;
+        _data?.Close();
+        _data = null;
         _audio?.Close();
         _audio = null;
         _world?.Close();
@@ -350,7 +360,9 @@ public sealed partial class InspectionRoot : Node2D
         {
             _accepting = false;
             _generation++;
-            _audio?.Close();
+            _data?.Close();
+        _data = null;
+        _audio?.Close();
             _audio = null;
             _world?.Close();
             _world = null;
@@ -420,6 +432,9 @@ public sealed partial class InspectionRoot : Node2D
         _rows = outputs.Concat(second: expected).Concat(second: authored).Concat(second: AudioPreview.Ids(
                 category: category).Where(predicate: id => (_status is "All statuses" or "Incomplete" or "Error")
                         && id.Contains(value: _query, comparisonType: StringComparison.OrdinalIgnoreCase)))
+                .Concat(second: DataTextPreview.Ids(category: category).Where(predicate: id =>
+                        (_status is "All statuses" or "Incomplete" or "Error")
+                                && id.Contains(value: _query, comparisonType: StringComparison.OrdinalIgnoreCase)))
                 .Distinct(comparer: StringComparer.Ordinal)
                 .Order(comparer: StringComparer.Ordinal).ToArray();
         foreach (string id in _rows)
@@ -445,6 +460,7 @@ public sealed partial class InspectionRoot : Node2D
     private void Selection()
     {
         _gateway.RequireThread();
+        _data?.Close();
         _audio?.Close();
         _audio = null;
         _world?.Close();
@@ -455,19 +471,18 @@ public sealed partial class InspectionRoot : Node2D
         _readErrors.Clear();
         bool found = _pack.Entries.TryGetValue(key: _selected, value: out JsonElement entry);
         GetNode<Label>(path: "Summary/ResourceId").Text = _selected;
-        GetNode<Label>(path: "Summary/ResourceName").Text = found
-                ? entry.GetProperty(propertyName: "name").GetString() : _pack.Expected.GetValueOrDefault(
-                        key: _selected, defaultValue: "Unavailable resource; choose a listed ID");
+        GetNode<Label>(path: "Summary/ResourceName").Text = found ? entry.GetProperty(propertyName: "name").GetString()
+                : _pack.Expected.GetValueOrDefault(key: _selected, defaultValue: DataTextPreview.Unknown);
         GetNode<Label>(path: "Summary/Status").Text = found
                 ? "Partial — validated bytes; native/visual/listening acceptance pending"
                 : "Incomplete — required resource or current evidence missing";
         GetNode<Sprite2D>(path: "Bow").Visible = found && _selected is "common.bow";
-        GetNode<TextEdit>(path: "Shell/Workspace/Preview/Metadata").Text = found
-                ? entry.GetRawText() + "\nExplicit shared mappings: " + string.Join(separator: ", ",
-                        values: ContentPack.Mappings(entry: entry)) : _pack.Expected.GetValueOrDefault(
-                                key: _selected, defaultValue: "No validated definition");
+        GetNode<TextEdit>(path: "Shell/Workspace/Preview/Metadata").Text = found ? entry.GetRawText()
+                + DataTextPreview.Shared + string.Join(separator: ", ", values: ContentPack.Mappings(entry: entry))
+                : _pack.Expected.GetValueOrDefault(key: _selected, defaultValue: "No validated definition");
         GetNode<TextEdit>(path: "Shell/Workspace/Preview/Failures").Text = WorldPreview.InspectorDiagnostics(
                 diagnostics: _pack.Diagnostics, readErrors: _readErrors, category: _category, selected: _selected);
+        _data = DataTextPreview.Open(shell: _shell, gateway: _gateway, read: Read, id: _selected, owner: this);
         if (AudioPreview.Handles(id: _selected))
         {
             _audio = AudioPreview.Open(shell: _shell, gateway: _gateway, read: Read, category: _selected);
