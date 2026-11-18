@@ -82,3 +82,35 @@ Only `tools/phase4/cases/text-data.cjs` changed. It now contains the first contr
 The exact remaining expression in TEXT_HARNESS is `loops.Split(',').Order().SequenceEqual(expected.Order())`. The minimal proposed next proof-only correction adds `StringComparer.Ordinal` to both Order calls and SequenceEqual, preserving the exact expected loop set and predicate. This needs a new prospective bounded coordinator scope before further edits. Fixed DataTextPreview, Root, compatibility resources and Task 1 outputs remain out of scope for that proof-only correction. Any later real production semantic defect requires its own precise scope.
 
 Task 2 remains uncommitted and incomplete. No canonical complete SUMMARY, final selected51 pass or final changed policy/producer observation exists. Task 1's committed tracer remains unchanged. The unrelated concurrent Phase 7 discussion checkpoint was observed and left untouched.
+
+## R2 actual native checkpoint: production defects demonstrated
+
+Prospective scope: coordinator commit `f3bfb1d`, R2 section of [04-22-REPAIR.md](04-22-REPAIR.md). All nine current files were snapshotted to `.phase4/04-22-r2-before/`; eight fixed files matched R1.1 and the case matched the recorded R1.2 hash `98540ce80785c6d1d838b16a2934e78b954f9bd0474747275bd05cee8be5e5ce`.
+
+The initial R2 change added only the three authorized `StringComparer.Ordinal` arguments. **R2 correction count: 0/2.** All eight fixed production/output hashes remain unchanged. Original Task 2 stays 3/3, R1.2 stays 2/2, and R1.1 stays initial GREEN with 0/2.
+
+Invocation `.phase4/runs/30a2e6e9-5e8c-4422-970c-4704b07a74d7/` now provides actual native evidence, rather than a setup failure:
+
+- Production strict and controller builds both passed with zero warnings/errors.
+- Controller PID `26608`: actual production/Core assemblies authenticated in the same load context; natural completion with code1 and clean stdout/stderr, **54 outcomes, 45 passed and nine failed**. All 16 independently named state outcomes were produced; the DATA-TEXT-INSPECTOR populated case failed. Successful individual observations do not give the case passing status.
+- Actual KingdomZombies-project Hub PID `20280`: natural completion code0, seven navigation assertions passed, but native stderr contains two playback errors, so the Hub is **not clean and not passing**. Import stderr also records one test-owned missing copied foundation scene.
+- The top-level case correctly failed `TEXT_NATIVE_SEMANTICS`. No complete selected51 or final changed-source policy/producer observation was run.
+
+### Demonstrated production failures requiring new scope
+
+| Production surface | Independent expected behavior | Actual native evidence | Minimal proposed repair area |
+| --- | --- | --- | --- |
+| Initial domain selection | Selecting DT-01/DT-14 initially exposes that domain's current fields | Both native Field selectors initially show `local-preferences.json`; DATA-TEXT-INSPECTOR.populated fails | DataTextPreview field initialization/selection, preserving the 4,603 field union and exact source data |
+| Expanded Data/text preview | Expanded selection exposes its longer replacement copy without losing actual field values | DATA-TEXT-INSPECTOR.expanded has unchanged detail length9100 and no expanded replacement copy | DataTextPreview current data/message presentation, preserving field values and bindings |
+| Saved item geometry | Rotated saved knife retains actual 72×24 preview bounds, with saved8×6 and separate2×1 destination | Native Button becomes72×31 because theme minimum height overrides the saved footprint; both compatibility samples fail | DataTextPreview.Grid native geometry/control representation, preserving saved logical geometry, identity, orientation, stack/slot/depth and current destination |
+| Invalid UTF-8 | Exact resource/path/field/reason remains visible with recovery; no uncaught construction failure | DecoderFallbackException escapes DataTextPreview.Parse → Read → Load → constructor; rejection-invalid-utf8 fails | DataTextPreview bounded parse error handling/context, without changing UTF-8, JSON, decoded-document bounds or accepting malformed input |
+| Native loop attachment lifecycle | Quiet restored current loops start only after their native nodes enter the scene tree | Actual Hub stderr twice reports `Playback can only happen when a node is inside the scene tree`; stack points AudioPreview.Restore → DataTextPreview.RestoreOwners → constructor, before DataTextPreview.Open calls shell.Install | DataTextPreview.Open/construction/publication ordering; no AudioPreview/Root refactor or native authority grant |
+
+Actual AppearanceState quiet gear/corpse, WorldPreview ruins/events, BuildingPreview work and controller-owned muted current-loop observations passed; the actual-Hub attachment failure remains independent and blocks completion.
+
+### Separately identified proof-only setup/observation issues
+
+- Two `saved-incompatible-metadata` checks search compact JSON substrings inside pretty-printed actual JSON. The actual detail contains the full metadata; those comparisons need formatting-independent parsing/matching while retaining exact slot, quantity31, depth4, disconnected buyer, queues and ruin predicates. They must not be conflated with the real native geometry failure.
+- The actual-Hub import setup copies the production project/content/assets/inspection/binaries but not `foundation/Foundation.tscn`, although the unchanged project main-scene reference points there. Copy the existing foundation scene/source resources into the isolated test project; do not change the real project's entry point or hide import stderr.
+
+No fixed production file or further proof correction was edited after discovering these failures. New prospective coordinator scope is required for the exact production and proof changes above. Persisted `.phase4/04-22-r2-before/r2-result.json` records every actual output/log path and SHA256, all failed controller observations, PIDs and unchanged-file checks; `r2-final-text-data.cjs` preserves the tested proof source. All current and historical failures remain visible. Foreign Phase7 planning work is untouched.
