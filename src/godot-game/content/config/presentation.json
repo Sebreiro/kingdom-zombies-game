@@ -509,7 +509,7 @@
       },
       {
         "effectId": "bloater.stain",
-        "durationSeconds": 8,
+        "durationSeconds": 20,
         "amount": 1,
         "color": [
           0.4,
@@ -1122,6 +1122,11 @@
         "id": "13.4",
         "sha256": "4d8cb7e16d5e9297cb47a8a131773471b2d9b7aaa922f3ff25890c9907947a09",
         "text": "### 13.4 Sound\n\nRequired coverage includes footsteps, melee swings/impacts, bow shots/impacts, spit, zombie attack/death cues, player damage/death, construction/repair, tree clearing, recruitment/payment, inventory actions, food use/sale, nightfall, retaliation, portal destruction, victory/defeat, and environmental ambience.\n\n**Proposed baseline:** master/effects/ambience default to 80/80/60%. Limit repeated crowd sounds to 24 concurrent gameplay sounds, prioritizing nearby damage, attacks, and warnings; limit each repeated effect to four overlapping instances. Ambient loops must transition cleanly between day/night.\n\nMusic, voice acting, and a narrated tutorial are not required. Critical warnings must also be visible; muted audio must not conceal the start of retaliation or a connection failure.\n"
+      },
+      {
+        "id": "9.1",
+        "sha256": "a988e3918f981df83e225389872842aa2394311dff263fd9f519f230d5197f91",
+        "text": "### 9.1 Required zombie roster — proposed baseline stats\n\nEach archetype has configurable appearance, health, movement, attacks, compatible equipment, and spawn availability. All carry real inventories. Their equipment affects combat and remains on their corpse.\n\n| Archetype | Health | Walk speed | Unarmed damage / interval | Equipped-weapon damage multiplier | Defining behavior |\n| --- | ---: | ---: | --- | ---: | --- |\n| Shambler | 65 | 1.5 u/s | 8 / 1.2 s | 1.0 | Basic slow attacker |\n| Runner | 45 | 2.7 u/s | 6 / 0.65 s | 0.9 | Fast, fragile attacker |\n| Brute | 240 | 1.0 u/s | 22 / 1.6 s | 1.35 | Tough, strong attacker |\n| Armored | 120 | 1.3 u/s | 10 / 1.2 s | 1.0 | Guaranteed usable body armor |\n| Spitter | 80 | 1.2 u/s | 6 / 1.4 s | 0.85 | Natural direct-hit spit attack |\n| Zombie archer | 65 | 1.4 u/s | 6 / 1.1 s | 1.0 | Guaranteed usable bow and physical arrows |\n| Acid bloater | 180 | 1.0 u/s | 12 / 1.5 s | 1.0 | Fat silhouette; cosmetic acid splash on death |\n\n**Additional proposed defaults:** zombie stamina 100, regeneration 12 per second after the common 0.5-second action delay, unarmed stamina cost 3, unarmed reach 1.1 u, and no natural health recovery or food consumption. Weight penalties and actual item durability still apply. Bloater splash radius is 3 u and cosmetic stain lifetime 20 seconds.\n\nAny archetype can use compatible equipped weapons, including bows. Its type name does not exempt it from physical ammunition or armor rules. The default archer loadout guarantees 24–48 arrows; an armored zombie guarantees body armor. Other random loadouts must remain legal.\n\n**Proposed attack priorities:** use a usable melee attack at contact range; otherwise use an equipped bow with arrows; otherwise use the spitter's natural ranged attack if available; otherwise close for melee. A zombie seeks the main building, attacks obstructing defenses, and engages nearby threatening survivors or exposed standalone towers within 12 u. Towers are valid attack targets even though they do not establish a camp border. Portal defenders prioritize nearby attackers while their portal is threatened.\n"
       }
     ],
     "files": [
@@ -1645,7 +1650,7 @@
                   },
                   {
                     "effectId": "bloater.stain",
-                    "durationSeconds": 8,
+                    "durationSeconds": 20,
                     "amount": 1,
                     "color": [
                       0.4,
@@ -2931,7 +2936,7 @@
             "path": "/ui/minimumResolution/0",
             "type": "number",
             "meaning": "presentation /ui/minimumResolution/0 baseline",
-            "unit": "count",
+            "unit": "pixels",
             "default": 1280,
             "allowed": {
               "minimum": 0,
@@ -2954,7 +2959,7 @@
             "path": "/ui/minimumResolution/1",
             "type": "number",
             "meaning": "presentation /ui/minimumResolution/1 baseline",
-            "unit": "count",
+            "unit": "pixels",
             "default": 720,
             "allowed": {
               "minimum": 0,
@@ -3002,7 +3007,7 @@
             "path": "/ui/targetResolution/0",
             "type": "number",
             "meaning": "presentation /ui/targetResolution/0 baseline",
-            "unit": "count",
+            "unit": "pixels",
             "default": 1920,
             "allowed": {
               "minimum": 0,
@@ -3025,7 +3030,7 @@
             "path": "/ui/targetResolution/1",
             "type": "number",
             "meaning": "presentation /ui/targetResolution/1 baseline",
-            "unit": "count",
+            "unit": "pixels",
             "default": 1080,
             "allowed": {
               "minimum": 0,
@@ -3265,7 +3270,7 @@
             "path": "/ui/spacingPixels/0",
             "type": "number",
             "meaning": "presentation /ui/spacingPixels/0 baseline",
-            "unit": "count",
+            "unit": "pixels",
             "default": 4,
             "allowed": {
               "minimum": 0,
@@ -3288,7 +3293,7 @@
             "path": "/ui/spacingPixels/1",
             "type": "number",
             "meaning": "presentation /ui/spacingPixels/1 baseline",
-            "unit": "count",
+            "unit": "pixels",
             "default": 8,
             "allowed": {
               "minimum": 0,
@@ -3311,7 +3316,7 @@
             "path": "/ui/spacingPixels/2",
             "type": "number",
             "meaning": "presentation /ui/spacingPixels/2 baseline",
-            "unit": "count",
+            "unit": "pixels",
             "default": 16,
             "allowed": {
               "minimum": 0,
@@ -3334,7 +3339,7 @@
             "path": "/ui/spacingPixels/3",
             "type": "number",
             "meaning": "presentation /ui/spacingPixels/3 baseline",
-            "unit": "count",
+            "unit": "pixels",
             "default": 24,
             "allowed": {
               "minimum": 0,
@@ -3357,7 +3362,7 @@
             "path": "/ui/spacingPixels/4",
             "type": "number",
             "meaning": "presentation /ui/spacingPixels/4 baseline",
-            "unit": "count",
+            "unit": "pixels",
             "default": 32,
             "allowed": {
               "minimum": 0,
@@ -3380,7 +3385,7 @@
             "path": "/ui/spacingPixels/5",
             "type": "number",
             "meaning": "presentation /ui/spacingPixels/5 baseline",
-            "unit": "count",
+            "unit": "pixels",
             "default": 48,
             "allowed": {
               "minimum": 0,
@@ -3403,7 +3408,7 @@
             "path": "/ui/spacingPixels/6",
             "type": "number",
             "meaning": "presentation /ui/spacingPixels/6 baseline",
-            "unit": "count",
+            "unit": "pixels",
             "default": 64,
             "allowed": {
               "minimum": 0,
@@ -3453,7 +3458,7 @@
             "path": "/ui/fontSizesPixels/0",
             "type": "number",
             "meaning": "presentation /ui/fontSizesPixels/0 baseline",
-            "unit": "count",
+            "unit": "pixels",
             "default": 16,
             "allowed": {
               "minimum": 0,
@@ -3476,7 +3481,7 @@
             "path": "/ui/fontSizesPixels/1",
             "type": "number",
             "meaning": "presentation /ui/fontSizesPixels/1 baseline",
-            "unit": "count",
+            "unit": "pixels",
             "default": 20,
             "allowed": {
               "minimum": 0,
@@ -3499,7 +3504,7 @@
             "path": "/ui/fontSizesPixels/2",
             "type": "number",
             "meaning": "presentation /ui/fontSizesPixels/2 baseline",
-            "unit": "count",
+            "unit": "pixels",
             "default": 24,
             "allowed": {
               "minimum": 0,
@@ -3522,7 +3527,7 @@
             "path": "/ui/fontSizesPixels/3",
             "type": "number",
             "meaning": "presentation /ui/fontSizesPixels/3 baseline",
-            "unit": "count",
+            "unit": "pixels",
             "default": 32,
             "allowed": {
               "minimum": 0,
@@ -3570,7 +3575,7 @@
             "path": "/ui/fontWeights/0",
             "type": "number",
             "meaning": "presentation /ui/fontWeights/0 baseline",
-            "unit": "percent",
+            "unit": "font-weight",
             "default": 400,
             "allowed": {
               "minimum": 0,
@@ -3593,7 +3598,7 @@
             "path": "/ui/fontWeights/1",
             "type": "number",
             "meaning": "presentation /ui/fontWeights/1 baseline",
-            "unit": "percent",
+            "unit": "font-weight",
             "default": 700,
             "allowed": {
               "minimum": 0,
@@ -3643,7 +3648,7 @@
             "path": "/ui/lineHeights/0",
             "type": "number",
             "meaning": "presentation /ui/lineHeights/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1.5,
             "allowed": {
               "minimum": 0,
@@ -3666,7 +3671,7 @@
             "path": "/ui/lineHeights/1",
             "type": "number",
             "meaning": "presentation /ui/lineHeights/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1.5,
             "allowed": {
               "minimum": 0,
@@ -3689,7 +3694,7 @@
             "path": "/ui/lineHeights/2",
             "type": "number",
             "meaning": "presentation /ui/lineHeights/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1.2,
             "allowed": {
               "minimum": 0,
@@ -3712,7 +3717,7 @@
             "path": "/ui/lineHeights/3",
             "type": "number",
             "meaning": "presentation /ui/lineHeights/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1.2,
             "allowed": {
               "minimum": 0,
@@ -3735,7 +3740,7 @@
             "path": "/ui/ordinaryContrast",
             "type": "number",
             "meaning": "presentation /ui/ordinaryContrast baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 4.5,
             "allowed": {
               "minimum": 0,
@@ -3758,7 +3763,7 @@
             "path": "/ui/essentialContrast",
             "type": "number",
             "meaning": "presentation /ui/essentialContrast baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 3,
             "allowed": {
               "minimum": 0,
@@ -3781,7 +3786,7 @@
             "path": "/ui/compactWidthPixels",
             "type": "number",
             "meaning": "presentation /ui/compactWidthPixels baseline",
-            "unit": "count",
+            "unit": "pixels",
             "default": 1040,
             "allowed": {
               "minimum": 0,
@@ -4849,7 +4854,7 @@
                 },
                 {
                   "effectId": "bloater.stain",
-                  "durationSeconds": 8,
+                  "durationSeconds": 20,
                   "amount": 1,
                   "color": [
                     0.4,
@@ -5249,7 +5254,7 @@
             "path": "/effects/portalColor/0",
             "type": "number",
             "meaning": "presentation /effects/portalColor/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.27,
             "allowed": {
               "minimum": 0,
@@ -5272,7 +5277,7 @@
             "path": "/effects/portalColor/1",
             "type": "number",
             "meaning": "presentation /effects/portalColor/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.17,
             "allowed": {
               "minimum": 0,
@@ -5295,7 +5300,7 @@
             "path": "/effects/portalColor/2",
             "type": "number",
             "meaning": "presentation /effects/portalColor/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.35,
             "allowed": {
               "minimum": 0,
@@ -5318,7 +5323,7 @@
             "path": "/effects/portalColor/3",
             "type": "number",
             "meaning": "presentation /effects/portalColor/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -5368,7 +5373,7 @@
             "path": "/effects/spitColor/0",
             "type": "number",
             "meaning": "presentation /effects/spitColor/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -5391,7 +5396,7 @@
             "path": "/effects/spitColor/1",
             "type": "number",
             "meaning": "presentation /effects/spitColor/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.64,
             "allowed": {
               "minimum": 0,
@@ -5414,7 +5419,7 @@
             "path": "/effects/spitColor/2",
             "type": "number",
             "meaning": "presentation /effects/spitColor/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.26,
             "allowed": {
               "minimum": 0,
@@ -5437,7 +5442,7 @@
             "path": "/effects/spitColor/3",
             "type": "number",
             "meaning": "presentation /effects/spitColor/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -5487,7 +5492,7 @@
             "path": "/effects/stainColor/0",
             "type": "number",
             "meaning": "presentation /effects/stainColor/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.4,
             "allowed": {
               "minimum": 0,
@@ -5510,7 +5515,7 @@
             "path": "/effects/stainColor/1",
             "type": "number",
             "meaning": "presentation /effects/stainColor/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.5,
             "allowed": {
               "minimum": 0,
@@ -5533,7 +5538,7 @@
             "path": "/effects/stainColor/2",
             "type": "number",
             "meaning": "presentation /effects/stainColor/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.28,
             "allowed": {
               "minimum": 0,
@@ -5556,7 +5561,7 @@
             "path": "/effects/stainColor/3",
             "type": "number",
             "meaning": "presentation /effects/stainColor/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.5,
             "allowed": {
               "minimum": 0,
@@ -5605,7 +5610,7 @@
             "path": "/effects/materialDamageThresholds/0",
             "type": "number",
             "meaning": "presentation /effects/materialDamageThresholds/0 baseline",
-            "unit": "health",
+            "unit": "ratio",
             "default": 0.75,
             "allowed": {
               "minimum": 0,
@@ -5628,7 +5633,7 @@
             "path": "/effects/materialDamageThresholds/1",
             "type": "number",
             "meaning": "presentation /effects/materialDamageThresholds/1 baseline",
-            "unit": "health",
+            "unit": "ratio",
             "default": 0.4,
             "allowed": {
               "minimum": 0,
@@ -5651,7 +5656,7 @@
             "path": "/effects/materialDamageThresholds/2",
             "type": "number",
             "meaning": "presentation /effects/materialDamageThresholds/2 baseline",
-            "unit": "health",
+            "unit": "ratio",
             "default": 0,
             "allowed": {
               "minimum": 0,
@@ -6142,7 +6147,7 @@
               },
               {
                 "effectId": "bloater.stain",
-                "durationSeconds": 8,
+                "durationSeconds": 20,
                 "amount": 1,
                 "color": [
                   0.4,
@@ -6527,7 +6532,7 @@
             "path": "/effects/profiles/0/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/0/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -6550,7 +6555,7 @@
             "path": "/effects/profiles/0/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/0/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -6573,7 +6578,7 @@
             "path": "/effects/profiles/0/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/0/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -6596,7 +6601,7 @@
             "path": "/effects/profiles/0/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/0/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -6768,7 +6773,7 @@
             "path": "/effects/profiles/1/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/1/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -6791,7 +6796,7 @@
             "path": "/effects/profiles/1/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/1/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -6814,7 +6819,7 @@
             "path": "/effects/profiles/1/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/1/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -6837,7 +6842,7 @@
             "path": "/effects/profiles/1/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/1/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -7009,7 +7014,7 @@
             "path": "/effects/profiles/2/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/2/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -7032,7 +7037,7 @@
             "path": "/effects/profiles/2/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/2/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -7055,7 +7060,7 @@
             "path": "/effects/profiles/2/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/2/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -7078,7 +7083,7 @@
             "path": "/effects/profiles/2/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/2/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -7250,7 +7255,7 @@
             "path": "/effects/profiles/3/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/3/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -7273,7 +7278,7 @@
             "path": "/effects/profiles/3/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/3/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -7296,7 +7301,7 @@
             "path": "/effects/profiles/3/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/3/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -7319,7 +7324,7 @@
             "path": "/effects/profiles/3/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/3/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -7491,7 +7496,7 @@
             "path": "/effects/profiles/4/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/4/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -7514,7 +7519,7 @@
             "path": "/effects/profiles/4/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/4/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -7537,7 +7542,7 @@
             "path": "/effects/profiles/4/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/4/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -7560,7 +7565,7 @@
             "path": "/effects/profiles/4/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/4/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -7732,7 +7737,7 @@
             "path": "/effects/profiles/5/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/5/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -7755,7 +7760,7 @@
             "path": "/effects/profiles/5/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/5/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -7778,7 +7783,7 @@
             "path": "/effects/profiles/5/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/5/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -7801,7 +7806,7 @@
             "path": "/effects/profiles/5/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/5/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -7973,7 +7978,7 @@
             "path": "/effects/profiles/6/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/6/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -7996,7 +8001,7 @@
             "path": "/effects/profiles/6/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/6/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -8019,7 +8024,7 @@
             "path": "/effects/profiles/6/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/6/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -8042,7 +8047,7 @@
             "path": "/effects/profiles/6/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/6/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -8214,7 +8219,7 @@
             "path": "/effects/profiles/7/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/7/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -8237,7 +8242,7 @@
             "path": "/effects/profiles/7/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/7/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -8260,7 +8265,7 @@
             "path": "/effects/profiles/7/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/7/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -8283,7 +8288,7 @@
             "path": "/effects/profiles/7/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/7/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -8455,7 +8460,7 @@
             "path": "/effects/profiles/8/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/8/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -8478,7 +8483,7 @@
             "path": "/effects/profiles/8/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/8/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -8501,7 +8506,7 @@
             "path": "/effects/profiles/8/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/8/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -8524,7 +8529,7 @@
             "path": "/effects/profiles/8/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/8/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -8696,7 +8701,7 @@
             "path": "/effects/profiles/9/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/9/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -8719,7 +8724,7 @@
             "path": "/effects/profiles/9/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/9/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -8742,7 +8747,7 @@
             "path": "/effects/profiles/9/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/9/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -8765,7 +8770,7 @@
             "path": "/effects/profiles/9/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/9/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -8937,7 +8942,7 @@
             "path": "/effects/profiles/10/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/10/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -8960,7 +8965,7 @@
             "path": "/effects/profiles/10/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/10/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -8983,7 +8988,7 @@
             "path": "/effects/profiles/10/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/10/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -9006,7 +9011,7 @@
             "path": "/effects/profiles/10/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/10/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -9178,7 +9183,7 @@
             "path": "/effects/profiles/11/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/11/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -9201,7 +9206,7 @@
             "path": "/effects/profiles/11/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/11/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -9224,7 +9229,7 @@
             "path": "/effects/profiles/11/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/11/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -9247,7 +9252,7 @@
             "path": "/effects/profiles/11/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/11/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -9419,7 +9424,7 @@
             "path": "/effects/profiles/12/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/12/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -9442,7 +9447,7 @@
             "path": "/effects/profiles/12/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/12/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -9465,7 +9470,7 @@
             "path": "/effects/profiles/12/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/12/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -9488,7 +9493,7 @@
             "path": "/effects/profiles/12/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/12/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -9660,7 +9665,7 @@
             "path": "/effects/profiles/13/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/13/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -9683,7 +9688,7 @@
             "path": "/effects/profiles/13/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/13/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -9706,7 +9711,7 @@
             "path": "/effects/profiles/13/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/13/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -9729,7 +9734,7 @@
             "path": "/effects/profiles/13/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/13/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -9901,7 +9906,7 @@
             "path": "/effects/profiles/14/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/14/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -9924,7 +9929,7 @@
             "path": "/effects/profiles/14/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/14/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -9947,7 +9952,7 @@
             "path": "/effects/profiles/14/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/14/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -9970,7 +9975,7 @@
             "path": "/effects/profiles/14/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/14/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -10142,7 +10147,7 @@
             "path": "/effects/profiles/15/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/15/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -10165,7 +10170,7 @@
             "path": "/effects/profiles/15/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/15/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -10188,7 +10193,7 @@
             "path": "/effects/profiles/15/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/15/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -10211,7 +10216,7 @@
             "path": "/effects/profiles/15/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/15/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -10383,7 +10388,7 @@
             "path": "/effects/profiles/16/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/16/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -10406,7 +10411,7 @@
             "path": "/effects/profiles/16/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/16/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -10429,7 +10434,7 @@
             "path": "/effects/profiles/16/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/16/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -10452,7 +10457,7 @@
             "path": "/effects/profiles/16/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/16/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -10624,7 +10629,7 @@
             "path": "/effects/profiles/17/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/17/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -10647,7 +10652,7 @@
             "path": "/effects/profiles/17/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/17/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -10670,7 +10675,7 @@
             "path": "/effects/profiles/17/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/17/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -10693,7 +10698,7 @@
             "path": "/effects/profiles/17/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/17/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -10865,7 +10870,7 @@
             "path": "/effects/profiles/18/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/18/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -10888,7 +10893,7 @@
             "path": "/effects/profiles/18/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/18/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -10911,7 +10916,7 @@
             "path": "/effects/profiles/18/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/18/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -10934,7 +10939,7 @@
             "path": "/effects/profiles/18/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/18/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -11106,7 +11111,7 @@
             "path": "/effects/profiles/19/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/19/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -11129,7 +11134,7 @@
             "path": "/effects/profiles/19/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/19/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -11152,7 +11157,7 @@
             "path": "/effects/profiles/19/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/19/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -11175,7 +11180,7 @@
             "path": "/effects/profiles/19/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/19/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -11347,7 +11352,7 @@
             "path": "/effects/profiles/20/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/20/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -11370,7 +11375,7 @@
             "path": "/effects/profiles/20/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/20/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -11393,7 +11398,7 @@
             "path": "/effects/profiles/20/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/20/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -11416,7 +11421,7 @@
             "path": "/effects/profiles/20/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/20/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -11588,7 +11593,7 @@
             "path": "/effects/profiles/21/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/21/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -11611,7 +11616,7 @@
             "path": "/effects/profiles/21/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/21/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.65,
             "allowed": {
               "minimum": 0,
@@ -11634,7 +11639,7 @@
             "path": "/effects/profiles/21/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/21/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.28,
             "allowed": {
               "minimum": 0,
@@ -11657,7 +11662,7 @@
             "path": "/effects/profiles/21/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/21/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -11829,7 +11834,7 @@
             "path": "/effects/profiles/22/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/22/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.4,
             "allowed": {
               "minimum": 0,
@@ -11852,7 +11857,7 @@
             "path": "/effects/profiles/22/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/22/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.43,
             "allowed": {
               "minimum": 0,
@@ -11875,7 +11880,7 @@
             "path": "/effects/profiles/22/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/22/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.44,
             "allowed": {
               "minimum": 0,
@@ -11898,7 +11903,7 @@
             "path": "/effects/profiles/22/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/22/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.5,
             "allowed": {
               "minimum": 0,
@@ -12070,7 +12075,7 @@
             "path": "/effects/profiles/23/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/23/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -12093,7 +12098,7 @@
             "path": "/effects/profiles/23/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/23/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -12116,7 +12121,7 @@
             "path": "/effects/profiles/23/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/23/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.3,
             "allowed": {
               "minimum": 0,
@@ -12139,7 +12144,7 @@
             "path": "/effects/profiles/23/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/23/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.8,
             "allowed": {
               "minimum": 0,
@@ -12311,7 +12316,7 @@
             "path": "/effects/profiles/24/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/24/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.3,
             "allowed": {
               "minimum": 0,
@@ -12334,7 +12339,7 @@
             "path": "/effects/profiles/24/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/24/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.18,
             "allowed": {
               "minimum": 0,
@@ -12357,7 +12362,7 @@
             "path": "/effects/profiles/24/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/24/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.38,
             "allowed": {
               "minimum": 0,
@@ -12380,7 +12385,7 @@
             "path": "/effects/profiles/24/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/24/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -12552,7 +12557,7 @@
             "path": "/effects/profiles/25/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/25/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.3,
             "allowed": {
               "minimum": 0,
@@ -12575,7 +12580,7 @@
             "path": "/effects/profiles/25/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/25/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.18,
             "allowed": {
               "minimum": 0,
@@ -12598,7 +12603,7 @@
             "path": "/effects/profiles/25/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/25/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.38,
             "allowed": {
               "minimum": 0,
@@ -12621,7 +12626,7 @@
             "path": "/effects/profiles/25/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/25/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -12793,7 +12798,7 @@
             "path": "/effects/profiles/26/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/26/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.3,
             "allowed": {
               "minimum": 0,
@@ -12816,7 +12821,7 @@
             "path": "/effects/profiles/26/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/26/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.18,
             "allowed": {
               "minimum": 0,
@@ -12839,7 +12844,7 @@
             "path": "/effects/profiles/26/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/26/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.38,
             "allowed": {
               "minimum": 0,
@@ -12862,7 +12867,7 @@
             "path": "/effects/profiles/26/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/26/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -13034,7 +13039,7 @@
             "path": "/effects/profiles/27/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/27/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.3,
             "allowed": {
               "minimum": 0,
@@ -13057,7 +13062,7 @@
             "path": "/effects/profiles/27/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/27/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.18,
             "allowed": {
               "minimum": 0,
@@ -13080,7 +13085,7 @@
             "path": "/effects/profiles/27/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/27/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.38,
             "allowed": {
               "minimum": 0,
@@ -13103,7 +13108,7 @@
             "path": "/effects/profiles/27/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/27/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -13275,7 +13280,7 @@
             "path": "/effects/profiles/28/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/28/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -13298,7 +13303,7 @@
             "path": "/effects/profiles/28/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/28/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.64,
             "allowed": {
               "minimum": 0,
@@ -13321,7 +13326,7 @@
             "path": "/effects/profiles/28/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/28/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.26,
             "allowed": {
               "minimum": 0,
@@ -13344,7 +13349,7 @@
             "path": "/effects/profiles/28/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/28/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -13516,7 +13521,7 @@
             "path": "/effects/profiles/29/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/29/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -13539,7 +13544,7 @@
             "path": "/effects/profiles/29/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/29/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.64,
             "allowed": {
               "minimum": 0,
@@ -13562,7 +13567,7 @@
             "path": "/effects/profiles/29/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/29/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.26,
             "allowed": {
               "minimum": 0,
@@ -13585,7 +13590,7 @@
             "path": "/effects/profiles/29/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/29/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -13757,7 +13762,7 @@
             "path": "/effects/profiles/30/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/30/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.4,
             "allowed": {
               "minimum": 0,
@@ -13780,7 +13785,7 @@
             "path": "/effects/profiles/30/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/30/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.5,
             "allowed": {
               "minimum": 0,
@@ -13803,7 +13808,7 @@
             "path": "/effects/profiles/30/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/30/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.28,
             "allowed": {
               "minimum": 0,
@@ -13826,7 +13831,7 @@
             "path": "/effects/profiles/30/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/30/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.8,
             "allowed": {
               "minimum": 0,
@@ -13875,7 +13880,7 @@
             "unit": "record",
             "default": {
               "effectId": "bloater.stain",
-              "durationSeconds": 8,
+              "durationSeconds": 20,
               "amount": 1,
               "color": [
                 0.4,
@@ -13924,22 +13929,23 @@
             "id": "presentation:/effects/profiles/31/durationSeconds",
             "path": "/effects/profiles/31/durationSeconds",
             "type": "number",
-            "meaning": "presentation /effects/profiles/31/durationSeconds baseline",
+            "meaning": "Cosmetic stain lifetime20seconds required by9.1; existing visual producer8seconds remains pending23 integration.",
             "unit": "seconds",
-            "default": 8,
+            "default": 20,
             "allowed": {
               "minimum": 0,
               "maximum": 1000000,
               "integer": true
             },
             "dependencies": [
-              "specs/0.1/initial-spec.md#13.3",
-              "src/godot-game/content/config/presentation.json/effects"
+              "specs/0.1/initial-spec.md#9.1",
+              "src/godot-game/content/config/presentation.json/effects",
+              "src/godot-game/content/packs/effects-portals.json/effects/31"
             ],
             "source": {
               "document": "specs/0.1/initial-spec.md",
-              "section": "13.3",
-              "evidence": "Use the supplied references for pixel-art materials, proportions, palette, and atmosphere. The written progression takes precedence over their exact silhouettes."
+              "section": "9.1",
+              "evidence": "**Additional proposed defaults:** zombie stamina 100, regeneration 12 per second after the common 0.5-second action delay, unarmed stamina cost 3, unarmed reach 1.1 u, and no natural health recovery or food consumption. Weight penalties and actual item durability still apply. Bloater splash radius is 3 u and cosmetic stain lifetime 20 seconds."
             },
             "referenceKind": "none"
           },
@@ -13998,7 +14004,7 @@
             "path": "/effects/profiles/31/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/31/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.4,
             "allowed": {
               "minimum": 0,
@@ -14021,7 +14027,7 @@
             "path": "/effects/profiles/31/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/31/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.5,
             "allowed": {
               "minimum": 0,
@@ -14044,7 +14050,7 @@
             "path": "/effects/profiles/31/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/31/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.28,
             "allowed": {
               "minimum": 0,
@@ -14067,7 +14073,7 @@
             "path": "/effects/profiles/31/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/31/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.5,
             "allowed": {
               "minimum": 0,
@@ -14239,7 +14245,7 @@
             "path": "/effects/profiles/32/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/32/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.84,
             "allowed": {
               "minimum": 0,
@@ -14262,7 +14268,7 @@
             "path": "/effects/profiles/32/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/32/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.8,
             "allowed": {
               "minimum": 0,
@@ -14285,7 +14291,7 @@
             "path": "/effects/profiles/32/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/32/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -14308,7 +14314,7 @@
             "path": "/effects/profiles/32/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/32/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.8,
             "allowed": {
               "minimum": 0,
@@ -14480,7 +14486,7 @@
             "path": "/effects/profiles/33/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/33/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.84,
             "allowed": {
               "minimum": 0,
@@ -14503,7 +14509,7 @@
             "path": "/effects/profiles/33/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/33/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.8,
             "allowed": {
               "minimum": 0,
@@ -14526,7 +14532,7 @@
             "path": "/effects/profiles/33/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/33/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -14549,7 +14555,7 @@
             "path": "/effects/profiles/33/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/33/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.8,
             "allowed": {
               "minimum": 0,
@@ -14721,7 +14727,7 @@
             "path": "/effects/profiles/34/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/34/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.84,
             "allowed": {
               "minimum": 0,
@@ -14744,7 +14750,7 @@
             "path": "/effects/profiles/34/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/34/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.8,
             "allowed": {
               "minimum": 0,
@@ -14767,7 +14773,7 @@
             "path": "/effects/profiles/34/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/34/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -14790,7 +14796,7 @@
             "path": "/effects/profiles/34/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/34/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.8,
             "allowed": {
               "minimum": 0,
@@ -14962,7 +14968,7 @@
             "path": "/effects/profiles/35/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/35/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.84,
             "allowed": {
               "minimum": 0,
@@ -14985,7 +14991,7 @@
             "path": "/effects/profiles/35/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/35/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.8,
             "allowed": {
               "minimum": 0,
@@ -15008,7 +15014,7 @@
             "path": "/effects/profiles/35/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/35/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -15031,7 +15037,7 @@
             "path": "/effects/profiles/35/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/35/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.8,
             "allowed": {
               "minimum": 0,
@@ -15203,7 +15209,7 @@
             "path": "/effects/profiles/36/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/36/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.84,
             "allowed": {
               "minimum": 0,
@@ -15226,7 +15232,7 @@
             "path": "/effects/profiles/36/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/36/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.8,
             "allowed": {
               "minimum": 0,
@@ -15249,7 +15255,7 @@
             "path": "/effects/profiles/36/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/36/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -15272,7 +15278,7 @@
             "path": "/effects/profiles/36/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/36/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.8,
             "allowed": {
               "minimum": 0,
@@ -15444,7 +15450,7 @@
             "path": "/effects/profiles/37/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/37/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -15467,7 +15473,7 @@
             "path": "/effects/profiles/37/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/37/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -15490,7 +15496,7 @@
             "path": "/effects/profiles/37/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/37/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -15513,7 +15519,7 @@
             "path": "/effects/profiles/37/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/37/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -15685,7 +15691,7 @@
             "path": "/effects/profiles/38/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/38/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -15708,7 +15714,7 @@
             "path": "/effects/profiles/38/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/38/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -15731,7 +15737,7 @@
             "path": "/effects/profiles/38/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/38/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -15754,7 +15760,7 @@
             "path": "/effects/profiles/38/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/38/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -15926,7 +15932,7 @@
             "path": "/effects/profiles/39/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/39/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -15949,7 +15955,7 @@
             "path": "/effects/profiles/39/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/39/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -15972,7 +15978,7 @@
             "path": "/effects/profiles/39/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/39/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -15995,7 +16001,7 @@
             "path": "/effects/profiles/39/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/39/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -16167,7 +16173,7 @@
             "path": "/effects/profiles/40/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/40/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -16190,7 +16196,7 @@
             "path": "/effects/profiles/40/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/40/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -16213,7 +16219,7 @@
             "path": "/effects/profiles/40/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/40/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -16236,7 +16242,7 @@
             "path": "/effects/profiles/40/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/40/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -16408,7 +16414,7 @@
             "path": "/effects/profiles/41/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/41/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -16431,7 +16437,7 @@
             "path": "/effects/profiles/41/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/41/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -16454,7 +16460,7 @@
             "path": "/effects/profiles/41/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/41/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -16477,7 +16483,7 @@
             "path": "/effects/profiles/41/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/41/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -16649,7 +16655,7 @@
             "path": "/effects/profiles/42/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/42/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -16672,7 +16678,7 @@
             "path": "/effects/profiles/42/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/42/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -16695,7 +16701,7 @@
             "path": "/effects/profiles/42/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/42/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -16718,7 +16724,7 @@
             "path": "/effects/profiles/42/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/42/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -16890,7 +16896,7 @@
             "path": "/effects/profiles/43/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/43/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -16913,7 +16919,7 @@
             "path": "/effects/profiles/43/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/43/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -16936,7 +16942,7 @@
             "path": "/effects/profiles/43/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/43/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -16959,7 +16965,7 @@
             "path": "/effects/profiles/43/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/43/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -17131,7 +17137,7 @@
             "path": "/effects/profiles/44/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/44/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -17154,7 +17160,7 @@
             "path": "/effects/profiles/44/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/44/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -17177,7 +17183,7 @@
             "path": "/effects/profiles/44/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/44/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -17200,7 +17206,7 @@
             "path": "/effects/profiles/44/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/44/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -17372,7 +17378,7 @@
             "path": "/effects/profiles/45/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/45/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -17395,7 +17401,7 @@
             "path": "/effects/profiles/45/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/45/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -17418,7 +17424,7 @@
             "path": "/effects/profiles/45/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/45/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -17441,7 +17447,7 @@
             "path": "/effects/profiles/45/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/45/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -17613,7 +17619,7 @@
             "path": "/effects/profiles/46/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/46/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -17636,7 +17642,7 @@
             "path": "/effects/profiles/46/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/46/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -17659,7 +17665,7 @@
             "path": "/effects/profiles/46/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/46/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -17682,7 +17688,7 @@
             "path": "/effects/profiles/46/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/46/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -17854,7 +17860,7 @@
             "path": "/effects/profiles/47/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/47/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -17877,7 +17883,7 @@
             "path": "/effects/profiles/47/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/47/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -17900,7 +17906,7 @@
             "path": "/effects/profiles/47/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/47/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -17923,7 +17929,7 @@
             "path": "/effects/profiles/47/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/47/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -18095,7 +18101,7 @@
             "path": "/effects/profiles/48/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/48/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -18118,7 +18124,7 @@
             "path": "/effects/profiles/48/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/48/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -18141,7 +18147,7 @@
             "path": "/effects/profiles/48/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/48/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -18164,7 +18170,7 @@
             "path": "/effects/profiles/48/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/48/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -18336,7 +18342,7 @@
             "path": "/effects/profiles/49/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/49/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -18359,7 +18365,7 @@
             "path": "/effects/profiles/49/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/49/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -18382,7 +18388,7 @@
             "path": "/effects/profiles/49/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/49/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -18405,7 +18411,7 @@
             "path": "/effects/profiles/49/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/49/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -18577,7 +18583,7 @@
             "path": "/effects/profiles/50/color/0",
             "type": "number",
             "meaning": "presentation /effects/profiles/50/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -18600,7 +18606,7 @@
             "path": "/effects/profiles/50/color/1",
             "type": "number",
             "meaning": "presentation /effects/profiles/50/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.66,
             "allowed": {
               "minimum": 0,
@@ -18623,7 +18629,7 @@
             "path": "/effects/profiles/50/color/2",
             "type": "number",
             "meaning": "presentation /effects/profiles/50/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -18646,7 +18652,7 @@
             "path": "/effects/profiles/50/color/3",
             "type": "number",
             "meaning": "presentation /effects/profiles/50/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -18852,7 +18858,7 @@
             "path": "/effects/lightingCurve/0/time",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/0/time baseline",
-            "unit": "count",
+            "unit": "normalized-day-cycle",
             "default": 0,
             "allowed": {
               "minimum": 0,
@@ -18902,7 +18908,7 @@
             "path": "/effects/lightingCurve/0/sky/0",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/0/sky/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.52,
             "allowed": {
               "minimum": 0,
@@ -18925,7 +18931,7 @@
             "path": "/effects/lightingCurve/0/sky/1",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/0/sky/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.57,
             "allowed": {
               "minimum": 0,
@@ -18948,7 +18954,7 @@
             "path": "/effects/lightingCurve/0/sky/2",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/0/sky/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -18971,7 +18977,7 @@
             "path": "/effects/lightingCurve/0/sky/3",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/0/sky/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -19021,7 +19027,7 @@
             "path": "/effects/lightingCurve/0/tint/0",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/0/tint/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.85,
             "allowed": {
               "minimum": 0,
@@ -19044,7 +19050,7 @@
             "path": "/effects/lightingCurve/0/tint/1",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/0/tint/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.84,
             "allowed": {
               "minimum": 0,
@@ -19067,7 +19073,7 @@
             "path": "/effects/lightingCurve/0/tint/2",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/0/tint/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.77,
             "allowed": {
               "minimum": 0,
@@ -19090,7 +19096,7 @@
             "path": "/effects/lightingCurve/0/tint/3",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/0/tint/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -19170,7 +19176,7 @@
             "path": "/effects/lightingCurve/1/time",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/1/time baseline",
-            "unit": "count",
+            "unit": "normalized-day-cycle",
             "default": 0.25,
             "allowed": {
               "minimum": 0,
@@ -19220,7 +19226,7 @@
             "path": "/effects/lightingCurve/1/sky/0",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/1/sky/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.56,
             "allowed": {
               "minimum": 0,
@@ -19243,7 +19249,7 @@
             "path": "/effects/lightingCurve/1/sky/1",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/1/sky/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.65,
             "allowed": {
               "minimum": 0,
@@ -19266,7 +19272,7 @@
             "path": "/effects/lightingCurve/1/sky/2",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/1/sky/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.68,
             "allowed": {
               "minimum": 0,
@@ -19289,7 +19295,7 @@
             "path": "/effects/lightingCurve/1/sky/3",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/1/sky/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -19339,7 +19345,7 @@
             "path": "/effects/lightingCurve/1/tint/0",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/1/tint/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -19362,7 +19368,7 @@
             "path": "/effects/lightingCurve/1/tint/1",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/1/tint/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -19385,7 +19391,7 @@
             "path": "/effects/lightingCurve/1/tint/2",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/1/tint/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -19408,7 +19414,7 @@
             "path": "/effects/lightingCurve/1/tint/3",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/1/tint/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -19488,7 +19494,7 @@
             "path": "/effects/lightingCurve/2/time",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/2/time baseline",
-            "unit": "count",
+            "unit": "normalized-day-cycle",
             "default": 0.65,
             "allowed": {
               "minimum": 0,
@@ -19538,7 +19544,7 @@
             "path": "/effects/lightingCurve/2/sky/0",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/2/sky/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.34,
             "allowed": {
               "minimum": 0,
@@ -19561,7 +19567,7 @@
             "path": "/effects/lightingCurve/2/sky/1",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/2/sky/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.35,
             "allowed": {
               "minimum": 0,
@@ -19584,7 +19590,7 @@
             "path": "/effects/lightingCurve/2/sky/2",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/2/sky/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.43,
             "allowed": {
               "minimum": 0,
@@ -19607,7 +19613,7 @@
             "path": "/effects/lightingCurve/2/sky/3",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/2/sky/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -19657,7 +19663,7 @@
             "path": "/effects/lightingCurve/2/tint/0",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/2/tint/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.74,
             "allowed": {
               "minimum": 0,
@@ -19680,7 +19686,7 @@
             "path": "/effects/lightingCurve/2/tint/1",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/2/tint/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -19703,7 +19709,7 @@
             "path": "/effects/lightingCurve/2/tint/2",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/2/tint/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.73,
             "allowed": {
               "minimum": 0,
@@ -19726,7 +19732,7 @@
             "path": "/effects/lightingCurve/2/tint/3",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/2/tint/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -19806,7 +19812,7 @@
             "path": "/effects/lightingCurve/3/time",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/3/time baseline",
-            "unit": "count",
+            "unit": "normalized-day-cycle",
             "default": 0.8,
             "allowed": {
               "minimum": 0,
@@ -19856,7 +19862,7 @@
             "path": "/effects/lightingCurve/3/sky/0",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/3/sky/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.07,
             "allowed": {
               "minimum": 0,
@@ -19879,7 +19885,7 @@
             "path": "/effects/lightingCurve/3/sky/1",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/3/sky/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.11,
             "allowed": {
               "minimum": 0,
@@ -19902,7 +19908,7 @@
             "path": "/effects/lightingCurve/3/sky/2",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/3/sky/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.19,
             "allowed": {
               "minimum": 0,
@@ -19925,7 +19931,7 @@
             "path": "/effects/lightingCurve/3/sky/3",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/3/sky/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -19975,7 +19981,7 @@
             "path": "/effects/lightingCurve/3/tint/0",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/3/tint/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.48,
             "allowed": {
               "minimum": 0,
@@ -19998,7 +20004,7 @@
             "path": "/effects/lightingCurve/3/tint/1",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/3/tint/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.56,
             "allowed": {
               "minimum": 0,
@@ -20021,7 +20027,7 @@
             "path": "/effects/lightingCurve/3/tint/2",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/3/tint/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.72,
             "allowed": {
               "minimum": 0,
@@ -20044,7 +20050,7 @@
             "path": "/effects/lightingCurve/3/tint/3",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/3/tint/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -20124,7 +20130,7 @@
             "path": "/effects/lightingCurve/4/time",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/4/time baseline",
-            "unit": "count",
+            "unit": "normalized-day-cycle",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -20174,7 +20180,7 @@
             "path": "/effects/lightingCurve/4/sky/0",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/4/sky/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.52,
             "allowed": {
               "minimum": 0,
@@ -20197,7 +20203,7 @@
             "path": "/effects/lightingCurve/4/sky/1",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/4/sky/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.57,
             "allowed": {
               "minimum": 0,
@@ -20220,7 +20226,7 @@
             "path": "/effects/lightingCurve/4/sky/2",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/4/sky/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.55,
             "allowed": {
               "minimum": 0,
@@ -20243,7 +20249,7 @@
             "path": "/effects/lightingCurve/4/sky/3",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/4/sky/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -20293,7 +20299,7 @@
             "path": "/effects/lightingCurve/4/tint/0",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/4/tint/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.85,
             "allowed": {
               "minimum": 0,
@@ -20316,7 +20322,7 @@
             "path": "/effects/lightingCurve/4/tint/1",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/4/tint/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.84,
             "allowed": {
               "minimum": 0,
@@ -20339,7 +20345,7 @@
             "path": "/effects/lightingCurve/4/tint/2",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/4/tint/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.77,
             "allowed": {
               "minimum": 0,
@@ -20362,7 +20368,7 @@
             "path": "/effects/lightingCurve/4/tint/3",
             "type": "number",
             "meaning": "presentation /effects/lightingCurve/4/tint/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -20441,7 +20447,7 @@
             "path": "/effects/firelight/color/0",
             "type": "number",
             "meaning": "presentation /effects/firelight/color/0 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -20464,7 +20470,7 @@
             "path": "/effects/firelight/color/1",
             "type": "number",
             "meaning": "presentation /effects/firelight/color/1 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.65,
             "allowed": {
               "minimum": 0,
@@ -20487,7 +20493,7 @@
             "path": "/effects/firelight/color/2",
             "type": "number",
             "meaning": "presentation /effects/firelight/color/2 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.28,
             "allowed": {
               "minimum": 0,
@@ -20510,7 +20516,7 @@
             "path": "/effects/firelight/color/3",
             "type": "number",
             "meaning": "presentation /effects/firelight/color/3 baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 1,
             "allowed": {
               "minimum": 0,
@@ -20533,7 +20539,7 @@
             "path": "/effects/firelight/energy",
             "type": "number",
             "meaning": "presentation /effects/firelight/energy baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.7,
             "allowed": {
               "minimum": 0,
@@ -20556,7 +20562,7 @@
             "path": "/effects/firelight/radiusPixels",
             "type": "number",
             "meaning": "presentation /effects/firelight/radiusPixels baseline",
-            "unit": "count",
+            "unit": "pixels",
             "default": 70,
             "allowed": {
               "minimum": 0,
@@ -21319,7 +21325,7 @@
             "path": "/audio/ambience/forestGain",
             "type": "number",
             "meaning": "presentation /audio/ambience/forestGain baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.35,
             "allowed": {
               "minimum": 0,
@@ -21342,7 +21348,7 @@
             "path": "/audio/ambience/windGain",
             "type": "number",
             "meaning": "presentation /audio/ambience/windGain baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.2,
             "allowed": {
               "minimum": 0,
@@ -21365,7 +21371,7 @@
             "path": "/audio/ambience/fireGain",
             "type": "number",
             "meaning": "presentation /audio/ambience/fireGain baseline",
-            "unit": "count",
+            "unit": "ratio",
             "default": 0.3,
             "allowed": {
               "minimum": 0,

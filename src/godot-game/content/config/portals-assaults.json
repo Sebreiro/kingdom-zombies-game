@@ -1555,7 +1555,7 @@
             "path": "/rally/price",
             "type": "number",
             "meaning": "portals-assaults /rally/price baseline",
-            "unit": "count",
+            "unit": "money",
             "default": 25,
             "allowed": {
               "minimum": 0,
@@ -1739,7 +1739,7 @@
             "path": "/rally/recallPrice",
             "type": "number",
             "meaning": "portals-assaults /rally/recallPrice baseline",
-            "unit": "count",
+            "unit": "money",
             "default": 0,
             "allowed": {
               "minimum": 0,
@@ -2110,7 +2110,7 @@
             "path": "/rally/failedCharge",
             "type": "number",
             "meaning": "portals-assaults /rally/failedCharge baseline",
-            "unit": "count",
+            "unit": "money",
             "default": 0,
             "allowed": {
               "minimum": 0,

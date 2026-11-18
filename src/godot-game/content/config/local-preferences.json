@@ -610,7 +610,7 @@
             "path": "/display/resolution/0",
             "type": "number",
             "meaning": "local-preferences /display/resolution/0 baseline",
-            "unit": "count",
+            "unit": "pixels",
             "default": 1280,
             "allowed": {
               "minimum": 0,
@@ -633,7 +633,7 @@
             "path": "/display/resolution/1",
             "type": "number",
             "meaning": "local-preferences /display/resolution/1 baseline",
-            "unit": "count",
+            "unit": "pixels",
             "default": 720,
             "allowed": {
               "minimum": 0,
@@ -712,7 +712,7 @@
             "path": "/display/supported/0/0",
             "type": "number",
             "meaning": "local-preferences /display/supported/0/0 baseline",
-            "unit": "count",
+            "unit": "pixels",
             "default": 1280,
             "allowed": {
               "minimum": 0,
@@ -735,7 +735,7 @@
             "path": "/display/supported/0/1",
             "type": "number",
             "meaning": "local-preferences /display/supported/0/1 baseline",
-            "unit": "count",
+            "unit": "pixels",
             "default": 720,
             "allowed": {
               "minimum": 0,
@@ -783,7 +783,7 @@
             "path": "/display/supported/1/0",
             "type": "number",
             "meaning": "local-preferences /display/supported/1/0 baseline",
-            "unit": "count",
+            "unit": "pixels",
             "default": 1920,
             "allowed": {
               "minimum": 0,
@@ -806,7 +806,7 @@
             "path": "/display/supported/1/1",
             "type": "number",
             "meaning": "local-preferences /display/supported/1/1 baseline",
-            "unit": "count",
+            "unit": "pixels",
             "default": 1080,
             "allowed": {
               "minimum": 0,
