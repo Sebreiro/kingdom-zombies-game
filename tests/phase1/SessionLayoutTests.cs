@@ -1,6 +1,8 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Text.Json;
 using Shouldly;
 using Xunit;
 
@@ -22,6 +24,29 @@ public sealed class SessionLayoutTests
     public void Departure_HostEndsForEveryone()
     {
         Call(name: "Departure", arguments: [true]).ShouldBe(expected: "End session for everyone?");
+    }
+
+    /// <summary>The exact current packaged theme is accepted by the real compiled binding validator.</summary>
+    [Fact]
+    public void Bind_CurrentThemeAccepted()
+    {
+        string project = Path.Combine(path1: ProofProtocol.Root, path2: "src/godot-game");
+        using var pack = JsonDocument.Parse(utf8Json: File.ReadAllBytes(path: Path.Combine(path1: project,
+                path2: "content/packs/ui-session.json")));
+        byte[][] inputs = [..pack.RootElement.GetProperty(propertyName: "bindings").EnumerateArray()
+                .Select(selector: row => File.ReadAllBytes(path: Path.Combine(path1: project,
+                        path2: row.GetProperty(propertyName: "path").GetString()
+                                ?? throw new InvalidOperationException())))];
+        Exception? rejection = null;
+        try
+        {
+            Call(name: "Bind", arguments: [pack.RootElement, inputs]);
+        }
+        catch (TargetInvocationException error)
+        {
+            rejection = error.InnerException ?? error;
+        }
+        rejection.ShouldBeNull();
     }
 
     private static object? Call(string name, object[] arguments)
