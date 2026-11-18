@@ -629,7 +629,7 @@ internal sealed class AudioPreview : IDisposable
     private void Button(string text, Action action)
     {
         var button = new Button { Name = text.Replace(oldValue: " ", newValue: ""), Text = text,
-            Disabled = !_visible.Any(predicate: id => _routes.ContainsKey(key: id)) };
+            Disabled = text is "Play" && !_visible.Any(predicate: id => _routes.ContainsKey(key: id)) };
         _panel?.AddChild(node: button);
         button.Pressed += action;
     }

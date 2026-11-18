@@ -887,6 +887,7 @@ public sealed partial class InventoryHarness : Node
     private Type _gateway = null!;
     private bool _failed;
     private string _prefix = "";
+    private readonly List<(ulong Id,string Kind)> _partialResources = new();
     private static readonly string Fixture = "content/fixtures/audio-states.json";
     private static readonly string Events = "content/audio/events.json";
     private static bool Eq(string? a, string? b) => StringComparer.Ordinal.Equals(a,b);
@@ -953,7 +954,9 @@ public sealed partial class InventoryHarness : Node
         }
         Limits();
         await Lifetime();
+        PartialStops();
         await Backstops();
+        PartialResourcesRetired();
         await Hub();
     }
     private void Limits()
@@ -1042,6 +1045,44 @@ public sealed partial class InventoryHarness : Node
         Call(replacement,"Tick",0.101);
         Press(root,"Play");Check("muted-actual-native-volume",Players(root).Length==1&&Players(root)[0].VolumeDb<=-80,Players(root).Length);
         Call(replacement,"Close");root.Free();await Frames();
+    }
+    private void PartialStops()
+    {
+        var root=new Node2D();AddChild(root);var owner=New(root,"AU-01",
+            file=>Eq(file,"assets/audio/actions.wav")?null:Read(file));
+        try
+        {
+            var panel=Panel(root);var state=panel.GetNode<OptionButton>("CurrentState");
+            int index=Enumerable.Range(0,state.ItemCount).Single(i=>Eq(state.GetItemText(i),"day-fire"));
+            state.Select(index);state.EmitSignal(OptionButton.SignalName.ItemSelected,index);
+            var players=Players(root);var stop=panel.GetNode<Button>("Stop");var all=panel.GetNode<Button>("Stopall");
+            var expected=new[]{"ambience.day-night.forest-day","ambience.fire-wind.local-fire"};
+            Check("partial-independent-current-loops",!state.Disabled&&panel.GetNode<OptionButton>("Event").ItemCount==0
+                &&players.Length==2&&players.All(p=>p.Playing&&p.GetMeta("state_loop").AsBool())
+                &&players.Select(p=>p.GetMeta("route").AsString()).Order(StringComparer.Ordinal).SequenceEqual(expected,StringComparer.Ordinal),expected);
+            Check("partial-play-disabled",panel.GetNode<Button>("Play").Disabled,panel.GetNode<Button>("Play").Disabled);
+            Check("partial-stop-controls-reachable",!stop.Disabled&&!all.Disabled,new{stop=stop.Disabled,all=all.Disabled});
+            foreach(var player in players)
+            {
+                _partialResources.Add((player.Stream.GetInstanceId(),player.Stream.GetType().Name));
+                using var playback=player.GetStreamPlayback();
+                _partialResources.Add((playback.GetInstanceId(),playback.GetType().Name));
+            }
+            int historical=panel.GetMeta("one_shots").AsInt32();
+            if(!all.Disabled)Press(root,"Stopall");
+            Check("partial-stopall-stops-and-frees",Players(root).Length==0&&players.All(p=>!GodotObject.IsInstanceValid(p))
+                &&panel.GetMeta("loops").AsString().Length==0&&panel.GetMeta("one_shots").AsInt32()==historical,historical);
+            if(!stop.Disabled&&!all.Disabled){Press(root,"Stop");Press(root,"Stopall");}
+            Check("partial-empty-stop-harmless",!stop.Disabled&&!all.Disabled&&Players(root).Length==0
+                &&panel.GetMeta("one_shots").AsInt32()==historical,historical);
+        }
+        finally{Call(owner,"Close");root.Free();}
+    }
+    private void PartialResourcesRetired()
+    {
+        var resources=_partialResources.Select(r=>new{id=r.Id.ToString(CultureInfo.InvariantCulture),kind=r.Kind,alive=GodotObject.IsInstanceIdValid(r.Id)}).ToArray();
+        Check("partial-observer-resources-retired",resources.Length==4&&resources.Select(r=>r.id).Distinct(StringComparer.Ordinal).Count()==4
+            &&resources.All(r=>!r.alive),resources);
     }
     private Func<string,byte[]?> ChangedCatalog(Action<JsonObject> change)
     {
@@ -1430,7 +1471,10 @@ function controllerOutcomeIds(heldout=false){
   'H19-low-priority-denied',...Array.from({length:19},(_,i)=>'H25-restore-'+i),
   'H26-close-frees-players','H26-global-owner-fence','H26-current-A-restored','H26-select-stops-A-silent-B',
   'H26-muted-warning','muted-immediate-repeat-cooldown','muted-actual-native-volume',
-  ...['populated','overflow','empty','error','partial','long-text','zero-one-many'].map(s=>'AUDIO-AUDITION.'+s));
+  'partial-independent-current-loops','partial-play-disabled','partial-stop-controls-reachable',
+  'partial-stopall-stops-and-frees','partial-empty-stop-harmless',
+  ...['populated','overflow','empty','error','partial','long-text','zero-one-many'].map(s=>'AUDIO-AUDITION.'+s),
+  'partial-observer-resources-retired');
  if(heldout){
   const extra=[];
   for(const global of [1,7,128])extra.push(...['H19-global-','H19-endpoints-','H19-repeated-','H19-priority-','H19-lower-denied-'].map(s=>s+global));
@@ -1495,6 +1539,7 @@ runner.registerCase('audio.lifecycle',{group:'audio',title:'Native Audio control
  acceptance:['AC-12','AC-14','AC-19'],setup:'Fresh strict production assemblies and authenticated headless native engine',
  actions:['Inspect all30categories and91routes through actual players','Compare exact native PCM and integer loop boundaries',
   'Restore current loops19times without historical events','Retire A then reject its stale callback in replacement A',
+  'Restore valid day-fire loops beside missing action bank,activate reachable Stopall and verify exact native resource retirement',
   'Observe all eight independently named AUDIO-AUDITION backstops and real hub loading/navigation'],
  expected:'Every independent native assertion passes; hearing and final native mix remain04-32/33',
  reset:'Close acceptance then stop/free all owned players and streams; retire native controls and copied project',
