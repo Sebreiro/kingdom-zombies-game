@@ -1,0 +1,3101 @@
+{
+  "id": "DT-25",
+  "version": 1,
+  "scope": "player-local-only",
+  "hostBalanceOverride": false,
+  "display": {
+    "mode": "windowed",
+    "choices": [
+      "windowed",
+      "fullscreen"
+    ],
+    "resolution": [
+      1280,
+      720
+    ],
+    "supported": [
+      [
+        1280,
+        720
+      ],
+      [
+        1920,
+        1080
+      ]
+    ],
+    "uiScalePercent": 100,
+    "minimumUiScalePercent": 80,
+    "maximumUiScalePercent": 150
+  },
+  "audio": {
+    "masterPercent": 80,
+    "effectsPercent": 80,
+    "ambiencePercent": 60,
+    "minimumPercent": 0,
+    "maximumPercent": 100,
+    "independent": true
+  },
+  "bindings": [
+    {
+      "action": "move-left",
+      "defaults": [
+        "A",
+        "Left"
+      ]
+    },
+    {
+      "action": "move-right",
+      "defaults": [
+        "D",
+        "Right"
+      ]
+    },
+    {
+      "action": "sprint",
+      "defaults": [
+        "Shift"
+      ],
+      "mode": "hold"
+    },
+    {
+      "action": "jump",
+      "defaults": [
+        "Space"
+      ]
+    },
+    {
+      "action": "attack",
+      "defaults": [
+        "MouseLeft"
+      ]
+    },
+    {
+      "action": "aim",
+      "defaults": [
+        "MousePosition"
+      ]
+    },
+    {
+      "action": "interact",
+      "defaults": [
+        "E"
+      ]
+    },
+    {
+      "action": "inventory",
+      "defaults": [
+        "I"
+      ]
+    },
+    {
+      "action": "rotate-item",
+      "defaults": [
+        "R"
+      ]
+    },
+    {
+      "action": "quick-transfer",
+      "defaults": [
+        "Ctrl+Click"
+      ]
+    },
+    {
+      "action": "split-stack",
+      "defaults": [
+        "Shift+Drag"
+      ],
+      "mode": "choose-quantity"
+    },
+    {
+      "action": "quick-food-1",
+      "defaults": [
+        "1"
+      ]
+    },
+    {
+      "action": "quick-food-2",
+      "defaults": [
+        "2"
+      ]
+    },
+    {
+      "action": "quick-food-3",
+      "defaults": [
+        "3"
+      ]
+    },
+    {
+      "action": "quick-food-4",
+      "defaults": [
+        "4"
+      ]
+    },
+    {
+      "action": "map",
+      "defaults": [
+        "Tab"
+      ]
+    },
+    {
+      "action": "close-panel-menu",
+      "defaults": [
+        "Escape"
+      ]
+    }
+  ],
+  "rebinding": {
+    "allGameplayActions": true,
+    "persistLocally": true,
+    "essentialActionInaccessible": false,
+    "conflicts": "show-conflict-and-require-resolution",
+    "reset": "restore-complete-local-defaults",
+    "resetHostBalance": false,
+    "labels": "current-remapped-bindings"
+  },
+  "settingsRef": "content/ui/settings-errors.json",
+  "fieldDocumentation": {
+    "id": "fields-local-preferences",
+    "version": 1,
+    "sourceRevision": "524b311",
+    "sourceSections": [
+      {
+        "id": "12.3",
+        "sha256": "1774117a507f5a690eda3fb9f56d8cc2c99f3a205db5f9b606a852e6faa6e0c4",
+        "text": "### 12.3 Documentation and validation\n\nEach field must have a name, purpose, unit, default, valid range/choices, and relevant relationships. Each item/role/archetype needs a stable identifier and readable label. The shipped configuration must contain a complete working baseline, not missing entries that rely on hidden balance constants.\n\nValidate before starting/loading:\n\n- Positive durations, valid probabilities, coherent stage ordering, and nonempty weighted selections.\n- Positive guaranteed zombie money and at least one valid wearable clothing item.\n- Valid item references, legal slots/loadouts, stack limits, rotations, and storage dimensions.\n- A stash page able to accept every supported outer item footprint.\n- Main-tier restrictions, strictly increasing default fireside capacities, and the agreed tower guard counts.\n- Valid map paths/sites and six authored portal locations.\n- Sound, image, and translation references for required content.\n- Population limits and queue settings that do not require deletion of existing saved belongings.\n\nReport the file, field, offending value, and reason for invalid configuration. Do not silently replace it with a hardcoded balance value. A valid configuration with an old incompatible layout uses the legacy-load policy; that condition is not treated as invalid configuration.\n\nLocal display, audio, and key-binding preferences are player settings. They do not override shared host balance.\n"
+      },
+      {
+        "id": "13.2",
+        "sha256": "f7d0e69b2caceb3b9817febdd374963b45979954fb621585c583dd6485cec022",
+        "text": "### 13.2 Proposed default controls\n\nAll gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default.\n\n| Action | Default |\n| --- | --- |\n| Move | A / D or left / right arrows |\n| Sprint | Hold Shift |\n| Jump | Space |\n| Attack / manually fire bow | Left mouse button |\n| Aim bow | Mouse position |\n| Interact with nearby target | E |\n| Own inventory | I |\n| Rotate a dragged item | R |\n| Quick transfer between open inventories | Ctrl + click |\n| Split a stack | Shift + drag, then choose quantity |\n| Use quick-slot food | 1–4 |\n| Expand/minimize map view | Tab |\n| Close panel / in-run menu | Escape |\n\nWhen several targets overlap, show a short target selector rather than silently interacting with an unrelated NPC or structure. Dropping an item requires an explicit drop action/confirmed world-drop target; releasing a drag outside a grid is not destructive.\n\n**Proposed presentation settings:** windowed/fullscreen mode, display resolution, UI scale from 80–150%, independent master/effects/ambience volume, and remappable bindings. Support a readable layout at 1280×720 and at the 1920×1080 target. The default camera shows 80 u horizontally at 16:9, follows with 0.15-second smoothing, and stays inside map bounds; these are presentation configuration values. No graphics option may remove gameplay-relevant equipment information.\n"
+      },
+      {
+        "id": "13.4",
+        "sha256": "4d8cb7e16d5e9297cb47a8a131773471b2d9b7aaa922f3ff25890c9907947a09",
+        "text": "### 13.4 Sound\n\nRequired coverage includes footsteps, melee swings/impacts, bow shots/impacts, spit, zombie attack/death cues, player damage/death, construction/repair, tree clearing, recruitment/payment, inventory actions, food use/sale, nightfall, retaliation, portal destruction, victory/defeat, and environmental ambience.\n\n**Proposed baseline:** master/effects/ambience default to 80/80/60%. Limit repeated crowd sounds to 24 concurrent gameplay sounds, prioritizing nearby damage, attacks, and warnings; limit each repeated effect to four overlapping instances. Ambient loops must transition cleanly between day/night.\n\nMusic, voice acting, and a narrated tutorial are not required. Critical warnings must also be visible; muted audio must not conceal the start of retaliation or a connection failure.\n"
+      }
+    ],
+    "files": [
+      {
+        "path": "src/godot-game/content/config/local-preferences.json",
+        "fields": [
+          {
+            "id": "local-preferences:/",
+            "path": "",
+            "type": "object",
+            "meaning": "local-preferences document baseline",
+            "unit": "record",
+            "default": {
+              "id": "DT-25",
+              "version": 1,
+              "scope": "player-local-only",
+              "hostBalanceOverride": false,
+              "display": {
+                "mode": "windowed",
+                "choices": [
+                  "windowed",
+                  "fullscreen"
+                ],
+                "resolution": [
+                  1280,
+                  720
+                ],
+                "supported": [
+                  [
+                    1280,
+                    720
+                  ],
+                  [
+                    1920,
+                    1080
+                  ]
+                ],
+                "uiScalePercent": 100,
+                "minimumUiScalePercent": 80,
+                "maximumUiScalePercent": 150
+              },
+              "audio": {
+                "masterPercent": 80,
+                "effectsPercent": 80,
+                "ambiencePercent": 60,
+                "minimumPercent": 0,
+                "maximumPercent": 100,
+                "independent": true
+              },
+              "bindings": [
+                {
+                  "action": "move-left",
+                  "defaults": [
+                    "A",
+                    "Left"
+                  ]
+                },
+                {
+                  "action": "move-right",
+                  "defaults": [
+                    "D",
+                    "Right"
+                  ]
+                },
+                {
+                  "action": "sprint",
+                  "defaults": [
+                    "Shift"
+                  ],
+                  "mode": "hold"
+                },
+                {
+                  "action": "jump",
+                  "defaults": [
+                    "Space"
+                  ]
+                },
+                {
+                  "action": "attack",
+                  "defaults": [
+                    "MouseLeft"
+                  ]
+                },
+                {
+                  "action": "aim",
+                  "defaults": [
+                    "MousePosition"
+                  ]
+                },
+                {
+                  "action": "interact",
+                  "defaults": [
+                    "E"
+                  ]
+                },
+                {
+                  "action": "inventory",
+                  "defaults": [
+                    "I"
+                  ]
+                },
+                {
+                  "action": "rotate-item",
+                  "defaults": [
+                    "R"
+                  ]
+                },
+                {
+                  "action": "quick-transfer",
+                  "defaults": [
+                    "Ctrl+Click"
+                  ]
+                },
+                {
+                  "action": "split-stack",
+                  "defaults": [
+                    "Shift+Drag"
+                  ],
+                  "mode": "choose-quantity"
+                },
+                {
+                  "action": "quick-food-1",
+                  "defaults": [
+                    "1"
+                  ]
+                },
+                {
+                  "action": "quick-food-2",
+                  "defaults": [
+                    "2"
+                  ]
+                },
+                {
+                  "action": "quick-food-3",
+                  "defaults": [
+                    "3"
+                  ]
+                },
+                {
+                  "action": "quick-food-4",
+                  "defaults": [
+                    "4"
+                  ]
+                },
+                {
+                  "action": "map",
+                  "defaults": [
+                    "Tab"
+                  ]
+                },
+                {
+                  "action": "close-panel-menu",
+                  "defaults": [
+                    "Escape"
+                  ]
+                }
+              ],
+              "rebinding": {
+                "allGameplayActions": true,
+                "persistLocally": true,
+                "essentialActionInaccessible": false,
+                "conflicts": "show-conflict-and-require-resolution",
+                "reset": "restore-complete-local-defaults",
+                "resetHostBalance": false,
+                "labels": "current-remapped-bindings"
+              },
+              "settingsRef": "content/ui/settings-errors.json"
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#12.3",
+              "src/godot-game/content/config/local-preferences.json"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "12.3",
+              "evidence": "Each field must have a name, purpose, unit, default, valid range/choices, and relevant relationships. Each item/role/archetype needs a stable identifier and readable label. The shipped configuration must contain a complete working baseline, not missing entries that rely on hidden balance constants."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/id",
+            "path": "/id",
+            "type": "string",
+            "meaning": "local-preferences /id baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "DT-25",
+            "allowed": {
+              "choices": [
+                "DT-25"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#12.3",
+              "src/godot-game/content/config/local-preferences.json/id"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "12.3",
+              "evidence": "Each field must have a name, purpose, unit, default, valid range/choices, and relevant relationships. Each item/role/archetype needs a stable identifier and readable label. The shipped configuration must contain a complete working baseline, not missing entries that rely on hidden balance constants."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/version",
+            "path": "/version",
+            "type": "number",
+            "meaning": "local-preferences /version baseline",
+            "unit": "count",
+            "default": 1,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#12.3",
+              "src/godot-game/content/config/local-preferences.json/version"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "12.3",
+              "evidence": "Each field must have a name, purpose, unit, default, valid range/choices, and relevant relationships. Each item/role/archetype needs a stable identifier and readable label. The shipped configuration must contain a complete working baseline, not missing entries that rely on hidden balance constants."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/scope",
+            "path": "/scope",
+            "type": "string",
+            "meaning": "local-preferences /scope baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "player-local-only",
+            "allowed": {
+              "choices": [
+                "player-local-only"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#12.3",
+              "src/godot-game/content/config/local-preferences.json/scope"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "12.3",
+              "evidence": "Each field must have a name, purpose, unit, default, valid range/choices, and relevant relationships. Each item/role/archetype needs a stable identifier and readable label. The shipped configuration must contain a complete working baseline, not missing entries that rely on hidden balance constants."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/hostBalanceOverride",
+            "path": "/hostBalanceOverride",
+            "type": "boolean",
+            "meaning": "local-preferences /hostBalanceOverride baseline",
+            "unit": "boolean",
+            "default": false,
+            "allowed": {
+              "choices": [
+                false
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#12.3",
+              "src/godot-game/content/config/local-preferences.json/hostBalanceOverride"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "12.3",
+              "evidence": "Each field must have a name, purpose, unit, default, valid range/choices, and relevant relationships. Each item/role/archetype needs a stable identifier and readable label. The shipped configuration must contain a complete working baseline, not missing entries that rely on hidden balance constants."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/display",
+            "path": "/display",
+            "type": "object",
+            "meaning": "local-preferences /display baseline",
+            "unit": "record",
+            "default": {
+              "mode": "windowed",
+              "choices": [
+                "windowed",
+                "fullscreen"
+              ],
+              "resolution": [
+                1280,
+                720
+              ],
+              "supported": [
+                [
+                  1280,
+                  720
+                ],
+                [
+                  1920,
+                  1080
+                ]
+              ],
+              "uiScalePercent": 100,
+              "minimumUiScalePercent": 80,
+              "maximumUiScalePercent": 150
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/display"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/display/mode",
+            "path": "/display/mode",
+            "type": "string",
+            "meaning": "local-preferences /display/mode baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "windowed",
+            "allowed": {
+              "choices": [
+                "windowed"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/display"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/display/choices",
+            "path": "/display/choices",
+            "type": "array",
+            "meaning": "local-preferences /display/choices baseline",
+            "unit": "ordered-list",
+            "default": [
+              "windowed",
+              "fullscreen"
+            ],
+            "allowed": {
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/display"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/display/choices/0",
+            "path": "/display/choices/0",
+            "type": "string",
+            "meaning": "local-preferences /display/choices/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "windowed",
+            "allowed": {
+              "choices": [
+                "windowed"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/display"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/display/choices/1",
+            "path": "/display/choices/1",
+            "type": "string",
+            "meaning": "local-preferences /display/choices/1 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "fullscreen",
+            "allowed": {
+              "choices": [
+                "fullscreen"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/display"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/display/resolution",
+            "path": "/display/resolution",
+            "type": "array",
+            "meaning": "local-preferences /display/resolution baseline",
+            "unit": "ordered-list",
+            "default": [
+              1280,
+              720
+            ],
+            "allowed": {
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/display"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/display/resolution/0",
+            "path": "/display/resolution/0",
+            "type": "number",
+            "meaning": "local-preferences /display/resolution/0 baseline",
+            "unit": "count",
+            "default": 1280,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/display"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/display/resolution/1",
+            "path": "/display/resolution/1",
+            "type": "number",
+            "meaning": "local-preferences /display/resolution/1 baseline",
+            "unit": "count",
+            "default": 720,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/display"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/display/supported",
+            "path": "/display/supported",
+            "type": "array",
+            "meaning": "local-preferences /display/supported baseline",
+            "unit": "ordered-list",
+            "default": [
+              [
+                1280,
+                720
+              ],
+              [
+                1920,
+                1080
+              ]
+            ],
+            "allowed": {
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/display"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/display/supported/0",
+            "path": "/display/supported/0",
+            "type": "array",
+            "meaning": "local-preferences /display/supported/0 baseline",
+            "unit": "ordered-list",
+            "default": [
+              1280,
+              720
+            ],
+            "allowed": {
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/display"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/display/supported/0/0",
+            "path": "/display/supported/0/0",
+            "type": "number",
+            "meaning": "local-preferences /display/supported/0/0 baseline",
+            "unit": "count",
+            "default": 1280,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/display"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/display/supported/0/1",
+            "path": "/display/supported/0/1",
+            "type": "number",
+            "meaning": "local-preferences /display/supported/0/1 baseline",
+            "unit": "count",
+            "default": 720,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/display"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/display/supported/1",
+            "path": "/display/supported/1",
+            "type": "array",
+            "meaning": "local-preferences /display/supported/1 baseline",
+            "unit": "ordered-list",
+            "default": [
+              1920,
+              1080
+            ],
+            "allowed": {
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/display"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/display/supported/1/0",
+            "path": "/display/supported/1/0",
+            "type": "number",
+            "meaning": "local-preferences /display/supported/1/0 baseline",
+            "unit": "count",
+            "default": 1920,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/display"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/display/supported/1/1",
+            "path": "/display/supported/1/1",
+            "type": "number",
+            "meaning": "local-preferences /display/supported/1/1 baseline",
+            "unit": "count",
+            "default": 1080,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/display"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/display/uiScalePercent",
+            "path": "/display/uiScalePercent",
+            "type": "number",
+            "meaning": "local-preferences /display/uiScalePercent baseline",
+            "unit": "percent",
+            "default": 100,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 150,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/display"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/display/minimumUiScalePercent",
+            "path": "/display/minimumUiScalePercent",
+            "type": "number",
+            "meaning": "local-preferences /display/minimumUiScalePercent baseline",
+            "unit": "percent",
+            "default": 80,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 150,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/display"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/display/maximumUiScalePercent",
+            "path": "/display/maximumUiScalePercent",
+            "type": "number",
+            "meaning": "local-preferences /display/maximumUiScalePercent baseline",
+            "unit": "percent",
+            "default": 150,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 150,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/display"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/audio",
+            "path": "/audio",
+            "type": "object",
+            "meaning": "local-preferences /audio baseline",
+            "unit": "record",
+            "default": {
+              "masterPercent": 80,
+              "effectsPercent": 80,
+              "ambiencePercent": 60,
+              "minimumPercent": 0,
+              "maximumPercent": 100,
+              "independent": true
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.4",
+              "src/godot-game/content/config/local-preferences.json/audio"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.4",
+              "evidence": "Required coverage includes footsteps, melee swings/impacts, bow shots/impacts, spit, zombie attack/death cues, player damage/death, construction/repair, tree clearing, recruitment/payment, inventory actions, food use/sale, nightfall, retaliation, portal destruction, victory/defeat, and environmental ambience."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/audio/masterPercent",
+            "path": "/audio/masterPercent",
+            "type": "number",
+            "meaning": "local-preferences /audio/masterPercent baseline",
+            "unit": "percent",
+            "default": 80,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 100,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.4",
+              "src/godot-game/content/config/local-preferences.json/audio"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.4",
+              "evidence": "Required coverage includes footsteps, melee swings/impacts, bow shots/impacts, spit, zombie attack/death cues, player damage/death, construction/repair, tree clearing, recruitment/payment, inventory actions, food use/sale, nightfall, retaliation, portal destruction, victory/defeat, and environmental ambience."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/audio/effectsPercent",
+            "path": "/audio/effectsPercent",
+            "type": "number",
+            "meaning": "local-preferences /audio/effectsPercent baseline",
+            "unit": "percent",
+            "default": 80,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 100,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.4",
+              "src/godot-game/content/config/local-preferences.json/audio"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.4",
+              "evidence": "Required coverage includes footsteps, melee swings/impacts, bow shots/impacts, spit, zombie attack/death cues, player damage/death, construction/repair, tree clearing, recruitment/payment, inventory actions, food use/sale, nightfall, retaliation, portal destruction, victory/defeat, and environmental ambience."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/audio/ambiencePercent",
+            "path": "/audio/ambiencePercent",
+            "type": "number",
+            "meaning": "local-preferences /audio/ambiencePercent baseline",
+            "unit": "percent",
+            "default": 60,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 100,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.4",
+              "src/godot-game/content/config/local-preferences.json/audio"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.4",
+              "evidence": "Required coverage includes footsteps, melee swings/impacts, bow shots/impacts, spit, zombie attack/death cues, player damage/death, construction/repair, tree clearing, recruitment/payment, inventory actions, food use/sale, nightfall, retaliation, portal destruction, victory/defeat, and environmental ambience."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/audio/minimumPercent",
+            "path": "/audio/minimumPercent",
+            "type": "number",
+            "meaning": "local-preferences /audio/minimumPercent baseline",
+            "unit": "percent",
+            "default": 0,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 100,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.4",
+              "src/godot-game/content/config/local-preferences.json/audio"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.4",
+              "evidence": "Required coverage includes footsteps, melee swings/impacts, bow shots/impacts, spit, zombie attack/death cues, player damage/death, construction/repair, tree clearing, recruitment/payment, inventory actions, food use/sale, nightfall, retaliation, portal destruction, victory/defeat, and environmental ambience."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/audio/maximumPercent",
+            "path": "/audio/maximumPercent",
+            "type": "number",
+            "meaning": "local-preferences /audio/maximumPercent baseline",
+            "unit": "percent",
+            "default": 100,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 100,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.4",
+              "src/godot-game/content/config/local-preferences.json/audio"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.4",
+              "evidence": "Required coverage includes footsteps, melee swings/impacts, bow shots/impacts, spit, zombie attack/death cues, player damage/death, construction/repair, tree clearing, recruitment/payment, inventory actions, food use/sale, nightfall, retaliation, portal destruction, victory/defeat, and environmental ambience."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/audio/independent",
+            "path": "/audio/independent",
+            "type": "boolean",
+            "meaning": "local-preferences /audio/independent baseline",
+            "unit": "boolean",
+            "default": true,
+            "allowed": {
+              "choices": [
+                true
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.4",
+              "src/godot-game/content/config/local-preferences.json/audio"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.4",
+              "evidence": "Required coverage includes footsteps, melee swings/impacts, bow shots/impacts, spit, zombie attack/death cues, player damage/death, construction/repair, tree clearing, recruitment/payment, inventory actions, food use/sale, nightfall, retaliation, portal destruction, victory/defeat, and environmental ambience."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings",
+            "path": "/bindings",
+            "type": "array",
+            "meaning": "local-preferences /bindings baseline",
+            "unit": "ordered-list",
+            "default": [
+              {
+                "action": "move-left",
+                "defaults": [
+                  "A",
+                  "Left"
+                ]
+              },
+              {
+                "action": "move-right",
+                "defaults": [
+                  "D",
+                  "Right"
+                ]
+              },
+              {
+                "action": "sprint",
+                "defaults": [
+                  "Shift"
+                ],
+                "mode": "hold"
+              },
+              {
+                "action": "jump",
+                "defaults": [
+                  "Space"
+                ]
+              },
+              {
+                "action": "attack",
+                "defaults": [
+                  "MouseLeft"
+                ]
+              },
+              {
+                "action": "aim",
+                "defaults": [
+                  "MousePosition"
+                ]
+              },
+              {
+                "action": "interact",
+                "defaults": [
+                  "E"
+                ]
+              },
+              {
+                "action": "inventory",
+                "defaults": [
+                  "I"
+                ]
+              },
+              {
+                "action": "rotate-item",
+                "defaults": [
+                  "R"
+                ]
+              },
+              {
+                "action": "quick-transfer",
+                "defaults": [
+                  "Ctrl+Click"
+                ]
+              },
+              {
+                "action": "split-stack",
+                "defaults": [
+                  "Shift+Drag"
+                ],
+                "mode": "choose-quantity"
+              },
+              {
+                "action": "quick-food-1",
+                "defaults": [
+                  "1"
+                ]
+              },
+              {
+                "action": "quick-food-2",
+                "defaults": [
+                  "2"
+                ]
+              },
+              {
+                "action": "quick-food-3",
+                "defaults": [
+                  "3"
+                ]
+              },
+              {
+                "action": "quick-food-4",
+                "defaults": [
+                  "4"
+                ]
+              },
+              {
+                "action": "map",
+                "defaults": [
+                  "Tab"
+                ]
+              },
+              {
+                "action": "close-panel-menu",
+                "defaults": [
+                  "Escape"
+                ]
+              }
+            ],
+            "allowed": {
+              "minItems": 17,
+              "maxItems": 17
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/0",
+            "path": "/bindings/0",
+            "type": "object",
+            "meaning": "local-preferences /bindings/0 baseline",
+            "unit": "record",
+            "default": {
+              "action": "move-left",
+              "defaults": [
+                "A",
+                "Left"
+              ]
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/0/action",
+            "path": "/bindings/0/action",
+            "type": "string",
+            "meaning": "local-preferences /bindings/0/action baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "move-left",
+            "allowed": {
+              "choices": [
+                "move-left"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/0/defaults",
+            "path": "/bindings/0/defaults",
+            "type": "array",
+            "meaning": "local-preferences /bindings/0/defaults baseline",
+            "unit": "ordered-list",
+            "default": [
+              "A",
+              "Left"
+            ],
+            "allowed": {
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/0/defaults/0",
+            "path": "/bindings/0/defaults/0",
+            "type": "string",
+            "meaning": "local-preferences /bindings/0/defaults/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "A",
+            "allowed": {
+              "choices": [
+                "A"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/0/defaults/1",
+            "path": "/bindings/0/defaults/1",
+            "type": "string",
+            "meaning": "local-preferences /bindings/0/defaults/1 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "Left",
+            "allowed": {
+              "choices": [
+                "Left"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/1",
+            "path": "/bindings/1",
+            "type": "object",
+            "meaning": "local-preferences /bindings/1 baseline",
+            "unit": "record",
+            "default": {
+              "action": "move-right",
+              "defaults": [
+                "D",
+                "Right"
+              ]
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/1/action",
+            "path": "/bindings/1/action",
+            "type": "string",
+            "meaning": "local-preferences /bindings/1/action baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "move-right",
+            "allowed": {
+              "choices": [
+                "move-right"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/1/defaults",
+            "path": "/bindings/1/defaults",
+            "type": "array",
+            "meaning": "local-preferences /bindings/1/defaults baseline",
+            "unit": "ordered-list",
+            "default": [
+              "D",
+              "Right"
+            ],
+            "allowed": {
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/1/defaults/0",
+            "path": "/bindings/1/defaults/0",
+            "type": "string",
+            "meaning": "local-preferences /bindings/1/defaults/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "D",
+            "allowed": {
+              "choices": [
+                "D"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/1/defaults/1",
+            "path": "/bindings/1/defaults/1",
+            "type": "string",
+            "meaning": "local-preferences /bindings/1/defaults/1 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "Right",
+            "allowed": {
+              "choices": [
+                "Right"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/2",
+            "path": "/bindings/2",
+            "type": "object",
+            "meaning": "local-preferences /bindings/2 baseline",
+            "unit": "record",
+            "default": {
+              "action": "sprint",
+              "defaults": [
+                "Shift"
+              ],
+              "mode": "hold"
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/2/action",
+            "path": "/bindings/2/action",
+            "type": "string",
+            "meaning": "local-preferences /bindings/2/action baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "sprint",
+            "allowed": {
+              "choices": [
+                "sprint"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/2/defaults",
+            "path": "/bindings/2/defaults",
+            "type": "array",
+            "meaning": "local-preferences /bindings/2/defaults baseline",
+            "unit": "ordered-list",
+            "default": [
+              "Shift"
+            ],
+            "allowed": {
+              "minItems": 1,
+              "maxItems": 1
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/2/defaults/0",
+            "path": "/bindings/2/defaults/0",
+            "type": "string",
+            "meaning": "local-preferences /bindings/2/defaults/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "Shift",
+            "allowed": {
+              "choices": [
+                "Shift"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/2/mode",
+            "path": "/bindings/2/mode",
+            "type": "string",
+            "meaning": "local-preferences /bindings/2/mode baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "hold",
+            "allowed": {
+              "choices": [
+                "hold"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/3",
+            "path": "/bindings/3",
+            "type": "object",
+            "meaning": "local-preferences /bindings/3 baseline",
+            "unit": "record",
+            "default": {
+              "action": "jump",
+              "defaults": [
+                "Space"
+              ]
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/3/action",
+            "path": "/bindings/3/action",
+            "type": "string",
+            "meaning": "local-preferences /bindings/3/action baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "jump",
+            "allowed": {
+              "choices": [
+                "jump"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/3/defaults",
+            "path": "/bindings/3/defaults",
+            "type": "array",
+            "meaning": "local-preferences /bindings/3/defaults baseline",
+            "unit": "ordered-list",
+            "default": [
+              "Space"
+            ],
+            "allowed": {
+              "minItems": 1,
+              "maxItems": 1
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/3/defaults/0",
+            "path": "/bindings/3/defaults/0",
+            "type": "string",
+            "meaning": "local-preferences /bindings/3/defaults/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "Space",
+            "allowed": {
+              "choices": [
+                "Space"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/4",
+            "path": "/bindings/4",
+            "type": "object",
+            "meaning": "local-preferences /bindings/4 baseline",
+            "unit": "record",
+            "default": {
+              "action": "attack",
+              "defaults": [
+                "MouseLeft"
+              ]
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/4/action",
+            "path": "/bindings/4/action",
+            "type": "string",
+            "meaning": "local-preferences /bindings/4/action baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "attack",
+            "allowed": {
+              "choices": [
+                "attack"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/4/defaults",
+            "path": "/bindings/4/defaults",
+            "type": "array",
+            "meaning": "local-preferences /bindings/4/defaults baseline",
+            "unit": "ordered-list",
+            "default": [
+              "MouseLeft"
+            ],
+            "allowed": {
+              "minItems": 1,
+              "maxItems": 1
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/4/defaults/0",
+            "path": "/bindings/4/defaults/0",
+            "type": "string",
+            "meaning": "local-preferences /bindings/4/defaults/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "MouseLeft",
+            "allowed": {
+              "choices": [
+                "MouseLeft"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/5",
+            "path": "/bindings/5",
+            "type": "object",
+            "meaning": "local-preferences /bindings/5 baseline",
+            "unit": "record",
+            "default": {
+              "action": "aim",
+              "defaults": [
+                "MousePosition"
+              ]
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/5/action",
+            "path": "/bindings/5/action",
+            "type": "string",
+            "meaning": "local-preferences /bindings/5/action baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "aim",
+            "allowed": {
+              "choices": [
+                "aim"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/5/defaults",
+            "path": "/bindings/5/defaults",
+            "type": "array",
+            "meaning": "local-preferences /bindings/5/defaults baseline",
+            "unit": "ordered-list",
+            "default": [
+              "MousePosition"
+            ],
+            "allowed": {
+              "minItems": 1,
+              "maxItems": 1
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/5/defaults/0",
+            "path": "/bindings/5/defaults/0",
+            "type": "string",
+            "meaning": "local-preferences /bindings/5/defaults/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "MousePosition",
+            "allowed": {
+              "choices": [
+                "MousePosition"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/6",
+            "path": "/bindings/6",
+            "type": "object",
+            "meaning": "local-preferences /bindings/6 baseline",
+            "unit": "record",
+            "default": {
+              "action": "interact",
+              "defaults": [
+                "E"
+              ]
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/6/action",
+            "path": "/bindings/6/action",
+            "type": "string",
+            "meaning": "local-preferences /bindings/6/action baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "interact",
+            "allowed": {
+              "choices": [
+                "interact"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/6/defaults",
+            "path": "/bindings/6/defaults",
+            "type": "array",
+            "meaning": "local-preferences /bindings/6/defaults baseline",
+            "unit": "ordered-list",
+            "default": [
+              "E"
+            ],
+            "allowed": {
+              "minItems": 1,
+              "maxItems": 1
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/6/defaults/0",
+            "path": "/bindings/6/defaults/0",
+            "type": "string",
+            "meaning": "local-preferences /bindings/6/defaults/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "E",
+            "allowed": {
+              "choices": [
+                "E"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/7",
+            "path": "/bindings/7",
+            "type": "object",
+            "meaning": "local-preferences /bindings/7 baseline",
+            "unit": "record",
+            "default": {
+              "action": "inventory",
+              "defaults": [
+                "I"
+              ]
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/7/action",
+            "path": "/bindings/7/action",
+            "type": "string",
+            "meaning": "local-preferences /bindings/7/action baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "inventory",
+            "allowed": {
+              "choices": [
+                "inventory"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/7/defaults",
+            "path": "/bindings/7/defaults",
+            "type": "array",
+            "meaning": "local-preferences /bindings/7/defaults baseline",
+            "unit": "ordered-list",
+            "default": [
+              "I"
+            ],
+            "allowed": {
+              "minItems": 1,
+              "maxItems": 1
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/7/defaults/0",
+            "path": "/bindings/7/defaults/0",
+            "type": "string",
+            "meaning": "local-preferences /bindings/7/defaults/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "I",
+            "allowed": {
+              "choices": [
+                "I"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/8",
+            "path": "/bindings/8",
+            "type": "object",
+            "meaning": "local-preferences /bindings/8 baseline",
+            "unit": "record",
+            "default": {
+              "action": "rotate-item",
+              "defaults": [
+                "R"
+              ]
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/8/action",
+            "path": "/bindings/8/action",
+            "type": "string",
+            "meaning": "local-preferences /bindings/8/action baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "rotate-item",
+            "allowed": {
+              "choices": [
+                "rotate-item"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/8/defaults",
+            "path": "/bindings/8/defaults",
+            "type": "array",
+            "meaning": "local-preferences /bindings/8/defaults baseline",
+            "unit": "ordered-list",
+            "default": [
+              "R"
+            ],
+            "allowed": {
+              "minItems": 1,
+              "maxItems": 1
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/8/defaults/0",
+            "path": "/bindings/8/defaults/0",
+            "type": "string",
+            "meaning": "local-preferences /bindings/8/defaults/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "R",
+            "allowed": {
+              "choices": [
+                "R"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/9",
+            "path": "/bindings/9",
+            "type": "object",
+            "meaning": "local-preferences /bindings/9 baseline",
+            "unit": "record",
+            "default": {
+              "action": "quick-transfer",
+              "defaults": [
+                "Ctrl+Click"
+              ]
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/9/action",
+            "path": "/bindings/9/action",
+            "type": "string",
+            "meaning": "local-preferences /bindings/9/action baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "quick-transfer",
+            "allowed": {
+              "choices": [
+                "quick-transfer"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/9/defaults",
+            "path": "/bindings/9/defaults",
+            "type": "array",
+            "meaning": "local-preferences /bindings/9/defaults baseline",
+            "unit": "ordered-list",
+            "default": [
+              "Ctrl+Click"
+            ],
+            "allowed": {
+              "minItems": 1,
+              "maxItems": 1
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/9/defaults/0",
+            "path": "/bindings/9/defaults/0",
+            "type": "string",
+            "meaning": "local-preferences /bindings/9/defaults/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "Ctrl+Click",
+            "allowed": {
+              "choices": [
+                "Ctrl+Click"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/10",
+            "path": "/bindings/10",
+            "type": "object",
+            "meaning": "local-preferences /bindings/10 baseline",
+            "unit": "record",
+            "default": {
+              "action": "split-stack",
+              "defaults": [
+                "Shift+Drag"
+              ],
+              "mode": "choose-quantity"
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/10/action",
+            "path": "/bindings/10/action",
+            "type": "string",
+            "meaning": "local-preferences /bindings/10/action baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "split-stack",
+            "allowed": {
+              "choices": [
+                "split-stack"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/10/defaults",
+            "path": "/bindings/10/defaults",
+            "type": "array",
+            "meaning": "local-preferences /bindings/10/defaults baseline",
+            "unit": "ordered-list",
+            "default": [
+              "Shift+Drag"
+            ],
+            "allowed": {
+              "minItems": 1,
+              "maxItems": 1
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/10/defaults/0",
+            "path": "/bindings/10/defaults/0",
+            "type": "string",
+            "meaning": "local-preferences /bindings/10/defaults/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "Shift+Drag",
+            "allowed": {
+              "choices": [
+                "Shift+Drag"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/10/mode",
+            "path": "/bindings/10/mode",
+            "type": "string",
+            "meaning": "local-preferences /bindings/10/mode baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "choose-quantity",
+            "allowed": {
+              "choices": [
+                "choose-quantity"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/11",
+            "path": "/bindings/11",
+            "type": "object",
+            "meaning": "local-preferences /bindings/11 baseline",
+            "unit": "record",
+            "default": {
+              "action": "quick-food-1",
+              "defaults": [
+                "1"
+              ]
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/11/action",
+            "path": "/bindings/11/action",
+            "type": "string",
+            "meaning": "local-preferences /bindings/11/action baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "quick-food-1",
+            "allowed": {
+              "choices": [
+                "quick-food-1"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/11/defaults",
+            "path": "/bindings/11/defaults",
+            "type": "array",
+            "meaning": "local-preferences /bindings/11/defaults baseline",
+            "unit": "ordered-list",
+            "default": [
+              "1"
+            ],
+            "allowed": {
+              "minItems": 1,
+              "maxItems": 1
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/11/defaults/0",
+            "path": "/bindings/11/defaults/0",
+            "type": "string",
+            "meaning": "local-preferences /bindings/11/defaults/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "1",
+            "allowed": {
+              "choices": [
+                "1"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/12",
+            "path": "/bindings/12",
+            "type": "object",
+            "meaning": "local-preferences /bindings/12 baseline",
+            "unit": "record",
+            "default": {
+              "action": "quick-food-2",
+              "defaults": [
+                "2"
+              ]
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/12/action",
+            "path": "/bindings/12/action",
+            "type": "string",
+            "meaning": "local-preferences /bindings/12/action baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "quick-food-2",
+            "allowed": {
+              "choices": [
+                "quick-food-2"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/12/defaults",
+            "path": "/bindings/12/defaults",
+            "type": "array",
+            "meaning": "local-preferences /bindings/12/defaults baseline",
+            "unit": "ordered-list",
+            "default": [
+              "2"
+            ],
+            "allowed": {
+              "minItems": 1,
+              "maxItems": 1
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/12/defaults/0",
+            "path": "/bindings/12/defaults/0",
+            "type": "string",
+            "meaning": "local-preferences /bindings/12/defaults/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "2",
+            "allowed": {
+              "choices": [
+                "2"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/13",
+            "path": "/bindings/13",
+            "type": "object",
+            "meaning": "local-preferences /bindings/13 baseline",
+            "unit": "record",
+            "default": {
+              "action": "quick-food-3",
+              "defaults": [
+                "3"
+              ]
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/13/action",
+            "path": "/bindings/13/action",
+            "type": "string",
+            "meaning": "local-preferences /bindings/13/action baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "quick-food-3",
+            "allowed": {
+              "choices": [
+                "quick-food-3"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/13/defaults",
+            "path": "/bindings/13/defaults",
+            "type": "array",
+            "meaning": "local-preferences /bindings/13/defaults baseline",
+            "unit": "ordered-list",
+            "default": [
+              "3"
+            ],
+            "allowed": {
+              "minItems": 1,
+              "maxItems": 1
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/13/defaults/0",
+            "path": "/bindings/13/defaults/0",
+            "type": "string",
+            "meaning": "local-preferences /bindings/13/defaults/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "3",
+            "allowed": {
+              "choices": [
+                "3"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/14",
+            "path": "/bindings/14",
+            "type": "object",
+            "meaning": "local-preferences /bindings/14 baseline",
+            "unit": "record",
+            "default": {
+              "action": "quick-food-4",
+              "defaults": [
+                "4"
+              ]
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/14/action",
+            "path": "/bindings/14/action",
+            "type": "string",
+            "meaning": "local-preferences /bindings/14/action baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "quick-food-4",
+            "allowed": {
+              "choices": [
+                "quick-food-4"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/14/defaults",
+            "path": "/bindings/14/defaults",
+            "type": "array",
+            "meaning": "local-preferences /bindings/14/defaults baseline",
+            "unit": "ordered-list",
+            "default": [
+              "4"
+            ],
+            "allowed": {
+              "minItems": 1,
+              "maxItems": 1
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/14/defaults/0",
+            "path": "/bindings/14/defaults/0",
+            "type": "string",
+            "meaning": "local-preferences /bindings/14/defaults/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "4",
+            "allowed": {
+              "choices": [
+                "4"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/15",
+            "path": "/bindings/15",
+            "type": "object",
+            "meaning": "local-preferences /bindings/15 baseline",
+            "unit": "record",
+            "default": {
+              "action": "map",
+              "defaults": [
+                "Tab"
+              ]
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/15/action",
+            "path": "/bindings/15/action",
+            "type": "string",
+            "meaning": "local-preferences /bindings/15/action baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "map",
+            "allowed": {
+              "choices": [
+                "map"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/15/defaults",
+            "path": "/bindings/15/defaults",
+            "type": "array",
+            "meaning": "local-preferences /bindings/15/defaults baseline",
+            "unit": "ordered-list",
+            "default": [
+              "Tab"
+            ],
+            "allowed": {
+              "minItems": 1,
+              "maxItems": 1
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/15/defaults/0",
+            "path": "/bindings/15/defaults/0",
+            "type": "string",
+            "meaning": "local-preferences /bindings/15/defaults/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "Tab",
+            "allowed": {
+              "choices": [
+                "Tab"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/16",
+            "path": "/bindings/16",
+            "type": "object",
+            "meaning": "local-preferences /bindings/16 baseline",
+            "unit": "record",
+            "default": {
+              "action": "close-panel-menu",
+              "defaults": [
+                "Escape"
+              ]
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/16/action",
+            "path": "/bindings/16/action",
+            "type": "string",
+            "meaning": "local-preferences /bindings/16/action baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "close-panel-menu",
+            "allowed": {
+              "choices": [
+                "close-panel-menu"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/16/defaults",
+            "path": "/bindings/16/defaults",
+            "type": "array",
+            "meaning": "local-preferences /bindings/16/defaults baseline",
+            "unit": "ordered-list",
+            "default": [
+              "Escape"
+            ],
+            "allowed": {
+              "minItems": 1,
+              "maxItems": 1
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/bindings/16/defaults/0",
+            "path": "/bindings/16/defaults/0",
+            "type": "string",
+            "meaning": "local-preferences /bindings/16/defaults/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "Escape",
+            "allowed": {
+              "choices": [
+                "Escape"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/bindings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/rebinding",
+            "path": "/rebinding",
+            "type": "object",
+            "meaning": "local-preferences /rebinding baseline",
+            "unit": "record",
+            "default": {
+              "allGameplayActions": true,
+              "persistLocally": true,
+              "essentialActionInaccessible": false,
+              "conflicts": "show-conflict-and-require-resolution",
+              "reset": "restore-complete-local-defaults",
+              "resetHostBalance": false,
+              "labels": "current-remapped-bindings"
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/rebinding"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/rebinding/allGameplayActions",
+            "path": "/rebinding/allGameplayActions",
+            "type": "boolean",
+            "meaning": "local-preferences /rebinding/allGameplayActions baseline",
+            "unit": "boolean",
+            "default": true,
+            "allowed": {
+              "choices": [
+                true
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/rebinding"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/rebinding/persistLocally",
+            "path": "/rebinding/persistLocally",
+            "type": "boolean",
+            "meaning": "local-preferences /rebinding/persistLocally baseline",
+            "unit": "boolean",
+            "default": true,
+            "allowed": {
+              "choices": [
+                true
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/rebinding"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/rebinding/essentialActionInaccessible",
+            "path": "/rebinding/essentialActionInaccessible",
+            "type": "boolean",
+            "meaning": "local-preferences /rebinding/essentialActionInaccessible baseline",
+            "unit": "boolean",
+            "default": false,
+            "allowed": {
+              "choices": [
+                false
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/rebinding"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/rebinding/conflicts",
+            "path": "/rebinding/conflicts",
+            "type": "string",
+            "meaning": "local-preferences /rebinding/conflicts baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "show-conflict-and-require-resolution",
+            "allowed": {
+              "choices": [
+                "show-conflict-and-require-resolution"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/rebinding"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/rebinding/reset",
+            "path": "/rebinding/reset",
+            "type": "string",
+            "meaning": "local-preferences /rebinding/reset baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "restore-complete-local-defaults",
+            "allowed": {
+              "choices": [
+                "restore-complete-local-defaults"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/rebinding"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/rebinding/resetHostBalance",
+            "path": "/rebinding/resetHostBalance",
+            "type": "boolean",
+            "meaning": "local-preferences /rebinding/resetHostBalance baseline",
+            "unit": "boolean",
+            "default": false,
+            "allowed": {
+              "choices": [
+                false
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/rebinding"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/rebinding/labels",
+            "path": "/rebinding/labels",
+            "type": "string",
+            "meaning": "local-preferences /rebinding/labels baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "current-remapped-bindings",
+            "allowed": {
+              "choices": [
+                "current-remapped-bindings"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/rebinding"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "local-preferences:/settingsRef",
+            "path": "/settingsRef",
+            "type": "string",
+            "meaning": "local-preferences /settingsRef baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "content/ui/settings-errors.json",
+            "allowed": {
+              "choices": [
+                "content/ui/settings-errors.json"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.2",
+              "src/godot-game/content/config/local-preferences.json/settingsRef"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.2",
+              "evidence": "All gameplay bindings must be remappable and saved locally. Rebinding cannot make an essential action permanently inaccessible; provide reset-to-default."
+            },
+            "referenceKind": "resource"
+          }
+        ]
+      }
+    ],
+    "productionChoices": "Existing pinned effect/map resources and explicit authoring choices; exact palette and ambience gains are configurable, not creator-selected hues"
+  }
+}
