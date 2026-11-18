@@ -849,3 +849,419 @@ if(require.main===module){
   (command==='--prepare'?prepare():command==='--approve-actions'?promote():command==='--prepare-interface'?prepareInterface():command==='--publish-interface'?publishInterface(process.argv[3]):command==='--technical'?technical({directory:fs.mkdtempSync(inside(ROOT,'.phase4/audio-technical-'))}):
     Promise.reject(new Error('USAGE --prepare | --technical'))).then(value=>{if(value)console.log(JSON.stringify(value));}).catch(error=>{console.error(error.stack);process.exitCode=1;});
 }
+
+// Native observations below are technical playback evidence, never hearing or final mix approval.
+const AUDIO_FIXTURE='src/godot-game/content/fixtures/audio-states.json';
+const AUDIO_HARNESS=String.raw`using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Loader;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Threading.Tasks;
+using Godot;
+
+namespace KingdomZombies.AudioProof;
+
+public sealed partial class InventoryHarness : Node
+{
+    public override async void _Ready()
+    {
+        try { await Run(); }
+        catch (Exception error) { Check("fixture-exception", false, error.ToString()); }
+        var result = new { pid = OS.GetProcessId(), nonce = OS.GetEnvironment("INVENTORY_NONCE"),
+            failed = _failed, outcomes = _outcomes, assemblySha256 = Hash(Read("subjects/KingdomZombies.dll")),
+            coreSha256 = Hash(Read("subjects/KingdomZombies.Core.dll")), scope = "Source/headless actual players only; no hearing" };
+        System.IO.File.WriteAllText(ProjectSettings.GlobalizePath("res://inventory-results.json"),
+            JsonSerializer.Serialize(result));
+        GD.Print("INVENTORY_NATIVE_COMPLETE " + result.nonce + " " + (_failed ? "FAIL" : "PASS"));
+        GetTree().Quit(_failed ? 1 : 0);
+    }
+
+    private readonly List<object> _outcomes = new();
+    private Type _type = null!;
+    private Type _gateway = null!;
+    private bool _failed;
+    private static readonly string Fixture = "content/fixtures/audio-states.json";
+    private static readonly string Events = "content/audio/events.json";
+    private static bool Eq(string? a, string? b) => StringComparer.Ordinal.Equals(a,b);
+    private static string Hash(byte[] b) => Convert.ToHexStringLower(SHA256.HashData(b));
+    private static byte[] Read(string file) => Godot.FileAccess.GetFileAsBytes("res://"+file);
+    private void Check(string id, bool pass, object detail)
+    {
+        _outcomes.Add(new { id, pass, detail }); _failed |= !pass;
+    }
+    private object Call(object owner, string method, params object[] args) => _type.GetMethod(method,
+        BindingFlags.NonPublic | BindingFlags.Instance)!.Invoke(owner,args)!;
+    private long Epoch(object owner) => (long)_type.GetProperty("Epoch",BindingFlags.NonPublic|BindingFlags.Instance)!
+        .GetValue(owner)!;
+    private static VBoxContainer Panel(Node root) => root.GetNode<VBoxContainer>("Audio/Content");
+    private static AudioStreamPlayer[] Players(Node root) => root.GetChildren().OfType<AudioStreamPlayer>().ToArray();
+    private object New(Node2D root, string category, Func<string,byte[]?>? read = null)
+    {
+        read ??= file => Read(file);
+        return Activator.CreateInstance(_type,BindingFlags.Instance|BindingFlags.NonPublic,null,
+            new object[] { root, Activator.CreateInstance(_gateway,true)!,read,category },CultureInfo.InvariantCulture)!;
+    }
+    private static void Press(Node root, string name) => Panel(root).GetNode<Button>(name)
+        .EmitSignal(BaseButton.SignalName.Pressed);
+    private static void Select(Node root, int index)
+    {
+        var selector = Panel(root).GetNode<OptionButton>("Event"); selector.Select(index);
+        selector.EmitSignal(OptionButton.SignalName.ItemSelected,index);
+    }
+    private async Task Frames()
+    {
+        await ToSignal(GetTree(),SceneTree.SignalName.ProcessFrame);
+        await ToSignal(GetTree(),SceneTree.SignalName.ProcessFrame);
+    }
+    private async Task Run()
+    {
+        var alc=AssemblyLoadContext.GetLoadContext(GetType().Assembly)!;
+        var core=alc.LoadFromAssemblyPath(ProjectSettings.GlobalizePath("res://subjects/KingdomZombies.Core.dll"));
+        var game=alc.LoadFromAssemblyPath(ProjectSettings.GlobalizePath("res://subjects/KingdomZombies.dll"));
+        _type=game.GetType("KingdomZombies.Inspection.AudioPreview",true)!;
+        _gateway=game.GetType("KingdomZombies.Proofs.MainThreadGateway",true)!;
+        Check("actual-production-alc",AssemblyLoadContext.GetLoadContext(game)==alc
+            &&AssemblyLoadContext.GetLoadContext(core)==alc&&!_type.IsPublic&&!typeof(GodotObject).IsAssignableFrom(_type),game.FullName!);
+        using var catalog=JsonDocument.Parse(Read(Events));
+        foreach(var category in catalog.RootElement.GetProperty("events").EnumerateArray())
+        {
+            string id=category.GetProperty("category").GetString()!;
+            var root=new Node2D();AddChild(root);var owner=New(root,id);
+            try
+            {
+                var selector=Panel(root).GetNode<OptionButton>("Event");
+                Check(id+"-all-routes",selector.ItemCount==category.GetProperty("routes").GetArrayLength(),selector.ItemCount);
+                Check(id+"-selection-silent",Players(root).Length==0,Panel(root).GetNode<Label>("Status").Text);
+                for(int i=0;i<selector.ItemCount;i++)
+                {
+                    Select(root,i);Panel(root).GetNode<CheckButton>("Loop").ButtonPressed=true;Press(root,"Play");
+                    var players=Players(root);string route=selector.GetItemText(i);
+                    Check(route+"-actual-playing",players.Length==1&&players[0].Playing,players.Length);
+                    if(players.Length==1) Inspect(players[0],route);
+                    Call(owner,"Tick",1.0);Press(root,"Stop");
+                    Check(route+"-stopped-freed",Players(root).Length==0&&!GodotObject.IsInstanceValid(players[0]),route);
+                }
+            }
+            finally { Call(owner,"Close"); root.Free(); }
+        }
+        Limits();
+        await Lifetime();
+        await Backstops();
+        await Hub();
+    }
+    private void Limits()
+    {
+        var root=new Node2D();AddChild(root);var owner=New(root,"AU-01");
+        string[] routes={"footstep.walk","footstep.sprint","footstep.npc-carry-retreat",
+            "jump.land.takeoff","jump.land.landing","melee.swing.club-bat"};
+        int number=0;
+        foreach(string route in routes)for(int i=0;i<4;i++)
+        {
+            Call(owner,"Tick",1.0);
+            Check("H19-admit-"+number,(bool)Call(owner,"Trigger",route,"limit-"+number++,Epoch(owner),true,false),route);
+        }
+        Check("H19-exact-global24",Players(root).Length==24&&Players(root).All(p=>p.Playing),Players(root).Length);
+        var previous=Players(root).Where(p=>Eq(p.GetMeta("route").AsString(),routes[0])).Select(p=>p.GetInstanceId()).ToArray();
+        Call(owner,"Tick",1.0);Call(owner,"Trigger",routes[0],"effect-overflow",Epoch(owner),true,false);
+        Check("H19-exact-effect4",Players(root).Length==24&&Players(root).Count(p=>Eq(p.GetMeta("route").AsString(),routes[0]))==4
+            &&!Players(root).Any(p=>p.GetInstanceId()==previous[0]),Players(root).Length);
+        Call(owner,"Trigger","warning.day-night-retaliation-assault.assault","critical-priority",Epoch(owner),true,false);
+        Check("H19-priority-admitted",Players(root).Length==24&&Players(root).Any(p=>Eq(p.GetMeta("route").AsString(),
+            "warning.day-night-retaliation-assault.assault")),Players(root).Length);
+        Panel(root).GetNode<SpinBox>("gameplayConcurrentLimit").Value=1;
+        Check("H19-lowered-limit-preserves-priority",Players(root).Length==1&&Eq(Players(root)[0].GetMeta("route").AsString(),
+            "warning.day-night-retaliation-assault.assault"),Players(root).Length);
+        Call(owner,"Tick",1.0);
+        Check("H19-low-priority-denied",!(bool)Call(owner,"Trigger",routes[1],"low-after-critical",Epoch(owner),true,false)
+            &&Players(root).Length==1,Players(root).Length);
+        Call(owner,"Close");root.Free();
+    }
+    private void Inspect(AudioStreamPlayer player,string route)
+    {
+        string sample=player.GetMeta("sample").AsString();JsonElement found=default,bank=default;
+        foreach(string file in new[]{"content/packs/audio-actions.json","content/packs/audio-interface-ambience.json"})
+        {
+            using var pack=JsonDocument.Parse(Read(file));
+            foreach(var item in pack.RootElement.GetProperty("samples").EnumerateArray())
+                if(Eq(item.GetProperty("id").GetString(),sample))
+                { found=item.Clone();bank=pack.RootElement.GetProperty("bank").Clone(); }
+        }
+        var stream=(AudioStreamWav)player.Stream;int start=found.GetProperty("regionFrames")[0].GetInt32();
+        int end=found.GetProperty("regionFrames")[1].GetInt32();byte[] bytes=Read(bank.GetProperty("path").GetString()!);
+        byte[] expected=bytes.AsSpan(44+start*4,(end-start)*4).ToArray();
+        Check(route+"-exact-pcm",expected.SequenceEqual(stream.Data)&&Eq(Hash(stream.Data),found.GetProperty("pcmSha256").GetString()),new{sample,start,end,hash=Hash(stream.Data)});
+        Check(route+"-native-format",stream.MixRate==44100&&stream.Stereo&&stream.Format==AudioStreamWav.FormatEnum.Format16Bits,stream.MixRate);
+        Check(route+"-native-loop-boundary",stream.LoopMode==AudioStreamWav.LoopModeEnum.Forward&&stream.LoopBegin==0&&stream.LoopEnd==end-start,new{stream.LoopBegin,stream.LoopEnd});
+        Check(route+"-exact-binding",Eq(player.GetMeta("route").AsString(),route)&&player.GetMeta("epoch").AsInt64()>0,sample);
+        if(Eq(sample,"interface.food-crunch.v1")||Eq(sample,"interface.bloater-burst.v1"))
+        {
+            string info=Panel(player.GetParent()).GetNode<TextEdit>("Details").Text;
+            bool generated=Eq(sample,"interface.food-crunch.v1");
+            Check(generated?"generated-current-source-info":"shared-current-source-info",
+                info.Contains(generated?"seed190021":"action.2790.full",StringComparison.Ordinal)
+                &&info.Contains(generated?"recipes/assemble-interface.py":"9b29b74a94784a96307282820866e3be9731670dc32e9baa2ddd3bdbcb53f4cb",StringComparison.Ordinal)
+                &&info.Contains("derivedListening",StringComparison.Ordinal)
+                &&info.Contains("Not auditioned",StringComparison.Ordinal),info);
+        }
+    }
+    private async Task Lifetime()
+    {
+        var root=new Node2D();AddChild(root);var owner=New(root,"AU-20");
+        var expected=new[]{"ambience.day-night.forest-day","ambience.fire-wind.local-fire"};
+        Call(owner,"Restore",(object)expected);var original=Players(root).Select(p=>p.GetInstanceId()).Order().ToArray();
+        int events=Panel(root).GetMeta("one_shots").AsInt32();
+        for(int i=0;i<19;i++)
+        {
+            Call(owner,"Restore",(object)expected);
+            Check("H25-restore-"+i,Players(root).Select(p=>p.GetInstanceId()).Order().SequenceEqual(original)
+                &&Players(root).All(p=>p.Playing)&&Panel(root).GetMeta("one_shots").AsInt32()==events,
+                Players(root).Select(p=>p.GetMeta("route").AsString()).ToArray());
+        }
+        long old=Epoch(owner);Call(owner,"Close");
+        Check("H26-close-frees-players",Players(root).Length==0,Players(root).Length);
+        var replacement=New(root,"AU-20");
+        Check("H26-global-owner-fence",Epoch(replacement)>old&&!(bool)Call(replacement,"Trigger",
+            "warning.day-night-retaliation-assault.assault","stale-A",old,true,false),Epoch(replacement));
+        Check("H26-current-A-restored",(bool)Call(replacement,"Trigger","warning.day-night-retaliation-assault.assault",
+            "current-A",Epoch(replacement),true,false)&&Players(root).Length==1,Players(root).Length);
+        var retired=Players(root)[0];Select(root,0);
+        Check("H26-select-stops-A-silent-B",Players(root).Length==0&&!GodotObject.IsInstanceValid(retired),Players(root).Length);
+        var mute=Panel(root).GetNode<CheckButton>("Mute");mute.ButtonPressed=true;
+        Check("H26-muted-warning",Panel(root).GetNode<Label>("Status").Text.Contains("Sound muted",StringComparison.Ordinal)
+            &&Panel(root).GetNode<Label>("Status").Text.Contains("Critical visual warning",StringComparison.Ordinal),Panel(root).GetNode<Label>("Status").Text);
+        Check("muted-immediate-repeat-cooldown",!(bool)Call(replacement,"Trigger",
+            "warning.day-night-retaliation-assault.assault","immediate-muted-repeat",Epoch(replacement),true,false)
+            &&Players(root).Length==0,Players(root).Length);
+        Call(replacement,"Tick",0.101);
+        Press(root,"Play");Check("muted-actual-native-volume",Players(root).Length==1&&Players(root)[0].VolumeDb<=-80,Players(root).Length);
+        Call(replacement,"Close");root.Free();await Frames();
+    }
+    private Func<string,byte[]?> ChangedCatalog(Action<JsonObject> change)
+    {
+        var data=JsonNode.Parse(Read(Events))!.AsObject();change(data);byte[] bytes=Encoding.UTF8.GetBytes(data.ToJsonString());
+        var fixture=JsonNode.Parse(Read(Fixture))!;
+        foreach(var binding in fixture["bindings"]!.AsArray())if(Eq(binding!["file"]!.GetValue<string>(),Events))binding["sha256"]=Hash(bytes);
+        byte[] fixtureBytes=Encoding.UTF8.GetBytes(fixture.ToJsonString());
+        return file=>Eq(file,Events)?bytes:Eq(file,Fixture)?fixtureBytes:Read(file);
+    }
+    private async Task Backstops()
+    {
+        var root=new Node2D();AddChild(root);var owner=New(root,"AU-29");
+        Check("AUDIO-AUDITION.populated",Panel(root).GetNode<OptionButton>("Event").ItemCount==1
+            &&Panel(root).GetNode<TextEdit>("Details").Text.Contains("source",StringComparison.OrdinalIgnoreCase),Panel(root).GetNode<TextEdit>("Details").Text);
+        await Frames();var scroll=root.GetNode<ScrollContainer>("Audio");
+        Check("AUDIO-AUDITION.overflow",scroll.FollowFocus&&scroll.GetVScrollBar().MaxValue>scroll.GetVScrollBar().Page,scroll.GetVScrollBar().MaxValue);
+        Call(owner,"Close");root.Free();
+        root=new Node2D();AddChild(root);owner=New(root,"AU-20",ChangedCatalog(d=>d["events"]=new JsonArray()));
+        Check("AUDIO-AUDITION.empty",Panel(root).GetNode<OptionButton>("Event").ItemCount==0
+            &&Panel(root).GetNode<Button>("Play").Disabled&&Players(root).Length==0,Players(root).Length);
+        Call(owner,"Close");root.Free();
+        root=new Node2D();AddChild(root);owner=New(root,"AU-01",file=>Eq(file,"assets/audio/actions.wav")?null:Read(file));
+        Check("AUDIO-AUDITION.error",Panel(root).GetNode<TextEdit>("Details").Text.Contains(
+            "assets/audio/actions.wav, field bytes, value read — missing PCM bank",StringComparison.Ordinal),Panel(root).GetNode<TextEdit>("Details").Text);
+        Call(owner,"Close");root.Free();
+        root=new Node2D();AddChild(root);owner=New(root,"AU-20",file=>Eq(file,"assets/audio/actions.wav")?null:Read(file));
+        Check("AUDIO-AUDITION.partial",Panel(root).GetNode<OptionButton>("Event").ItemCount==5&&Players(root).Length==0
+            &&Panel(root).GetNode<TextEdit>("Details").Text.Contains("missing PCM bank",StringComparison.Ordinal),Panel(root).GetNode<OptionButton>("Event").ItemCount);
+        Call(owner,"Close");root.Free();
+        string longText="independent-long-audio-metadata-"+new string('W',1800);
+        root=new Node2D();AddChild(root);owner=New(root,"AU-20",ChangedCatalog(d=>d["events"]!.AsArray()
+            .First(e=>Eq(e!["category"]!.GetValue<string>(),"AU-20"))!["routes"]!.AsArray()
+            .First(r=>Eq(r!["id"]!.GetValue<string>(),"warning.day-night-retaliation-assault.day"))!["trigger"]=longText));
+        var daySelector=Panel(root).GetNode<OptionButton>("Event");
+        int day=Enumerable.Range(0,daySelector.ItemCount).Single(i=>Eq(daySelector.GetItemText(i),
+            "warning.day-night-retaliation-assault.day"));
+        Select(root,day);
+        var text=Panel(root).GetNode<TextEdit>("Details");
+        Check("AUDIO-AUDITION.long-text",text.Text.Contains(longText,StringComparison.Ordinal)
+            &&text.WrapMode==TextEdit.LineWrappingMode.Boundary&&!text.Editable,text.Text);
+        Check("AUDIO-AUDITION.zero-one-many",Panel(root).GetNode<OptionButton>("Event").ItemCount==5,5);
+        Call(owner,"Close");root.Free();
+        await Frames();
+    }
+    private async Task Hub()
+    {
+        // The helper project compiles only its bridge. Stage the exact production script resource afterwards,
+        // then construct its already-loaded production type so Godot registers its existing script identity.
+        System.IO.File.WriteAllBytes(ProjectSettings.GlobalizePath("res://inspection/InspectionRoot.cs"),
+            Convert.FromBase64String("AUDIO_ROOT_SOURCE_BASE64"));
+        var registration=(Node)Activator.CreateInstance(_type.Assembly.GetType(
+            "KingdomZombies.Inspection.InspectionRoot",true)!)!;
+        registration.Free();
+        var scene=ResourceLoader.Load<PackedScene>("res://inspection/Inspection.tscn");var hub=scene.Instantiate<Node>();
+        AddChild(hub);var status=hub.GetNode<Label>("Summary/Status");
+        Check("AUDIO-AUDITION.loading",status.Text.StartsWith("Loading",StringComparison.Ordinal),status.Text);
+        for(int i=0;i<500&&status.Text.StartsWith("Loading",StringComparison.Ordinal);i++)await Frames();
+        var category=hub.GetNode<OptionButton>("Shell/Workspace/Navigation/Category");category.Select(5);
+        category.EmitSignal(OptionButton.SignalName.ItemSelected,5L);
+        var list=hub.GetNode<ItemList>("Shell/Workspace/Controls/Browser/Resources");
+        int selected=-1;for(int i=0;i<list.ItemCount;i++)if(list.GetItemText(i).StartsWith("AU-27 ·",StringComparison.Ordinal))selected=i;
+        Check("hub-all30-reachable",list.ItemCount==30&&selected>=0,list.ItemCount);
+        list.Select(selected);list.EmitSignal(ItemList.SignalName.ItemSelected,(long)selected);
+        Check("hub-native-audio-page",hub.HasNode("Shell/Workspace/Preview/Surface/Current/AudioPreview/Audio/Content"),status.Text);
+        RemoveChild(hub);hub.Free();scene.Dispose();await Frames();
+    }
+}
+`;
+function audioPreviewFiles(){
+ const foundation=[];
+ function walk(directory){for(const entry of fs.readdirSync(inside(ROOT,directory),{withFileTypes:true})){
+  const file=directory+'/'+entry.name;if(entry.isDirectory())walk(file);
+  else if(entry.isFile()&&!file.endsWith('.uid')&&!file.endsWith('.import'))foundation.push(file);
+ }}
+ walk('src/godot-game/foundation');
+ return [...new Set([...require('./world.cjs').inspectorFiles(),...foundation,'src/godot-game/icon.svg',
+  'src/godot-game/inspection/AudioPreview.cs','tests/phase1/AudioPresentationTests.cs',AUDIO_FIXTURE,
+  'tools/phase4/cases/audio.cjs'])];
+}
+const AUDIO_HUB_DRIVER=String.raw`extends SceneTree
+var outcomes = []
+var failed = false
+func _initialize():
+ call_deferred("run")
+func check_case(id, passed, detail):
+ outcomes.append({"id":id,"pass":passed,"detail":detail})
+ failed = failed or not passed
+func run():
+ var scene = load("res://inspection/Inspection.tscn")
+ var hub = scene.instantiate()
+ root.add_child(hub)
+ var status = hub.get_node("Summary/Status")
+ check_case("AUDIO-AUDITION.loading",status.text.begins_with("Loading"),status.text)
+ for i in range(500):
+  if not status.text.begins_with("Loading"):
+   break
+  await process_frame
+  await process_frame
+ var category = hub.get_node("Shell/Workspace/Navigation/Category")
+ category.select(5)
+ category.item_selected.emit(5)
+ var list = hub.get_node("Shell/Workspace/Controls/Browser/Resources")
+ var selected = -1
+ for i in range(list.item_count):
+  if list.get_item_text(i).begins_with("AU-27 ·"):
+   selected = i
+ check_case("hub-all30-reachable",list.item_count==30 and selected>=0,list.item_count)
+ list.select(selected)
+ list.item_selected.emit(selected)
+ check_case("hub-native-audio-page",hub.has_node("Shell/Workspace/Preview/Surface/Current/AudioPreview/Audio/Content"),status.text)
+ root.remove_child(hub)
+ hub.free()
+ await process_frame
+ var result = {"pid":OS.get_process_id(),"nonce":OS.get_environment("AUDIO_HUB_NONCE"),"outcomes":outcomes,"failed":failed}
+ var report = FileAccess.open("res://audio-hub-results.json",FileAccess.WRITE)
+ report.store_string(JSON.stringify(result))
+ report.close()
+ print("AUDIO_HUB_COMPLETE "+result.nonce+" "+("FAIL" if failed else "PASS"))
+ quit(1 if failed else 0)
+`;
+async function audioHub(context,sourceInputs){
+ const project=inside(context.directory,'native-audio-hub');fs.mkdirSync(project);
+ for(const file of ['project.godot','inspection','foundation','icon.svg','content','assets','.godot/mono/temp/bin/Debug'])
+  fs.cpSync(inside(ROOT,'src/godot-game/'+file),inside(project,file),{recursive:true});
+ const binaries=inside(project,'.godot/mono/temp/bin/Debug');
+ const closure=fs.readdirSync(binaries).filter(file=>fs.statSync(path.join(binaries,file)).isFile())
+  .map(file=>({file,sha256:hash(fs.readFileSync(path.join(binaries,file)))}));
+ const controllerClosure=document(context.directory,'inventory-production-assemblies.json');
+ need(equal(closure,controllerClosure),'AUDIO_HUB_CLOSURE_MISMATCH');
+ write(context.directory,'audio-hub-production-assemblies.json',closure);
+ write(project,'audio-hub-probe.gd',Buffer.from(AUDIO_HUB_DRIVER));
+ const engine=document(context.directory,'inventory-engine.json');
+ const pin=document(ROOT,'tools/phase1/toolchain.json').archives['win32-x64'];
+ need(hash(fs.readFileSync(inside(ROOT,'.phase1/cache/'+pin.file)))===pin.sha256
+  &&engine.archiveSha256===pin.sha256&&hash(fs.readFileSync(engine.executable))===engine.sha256,'AUDIO_HUB_ENGINE_AUTH');
+ write(context.directory,'audio-hub-engine.json',engine);
+ const nonce=context.nonce+'.hub',env={...require('./defenses.cjs').isolated(),AUDIO_HUB_NONCE:nonce};
+ const imported=await runner.command(context,'audio-hub-import',engine.executable,
+  ['--headless','--path',project,'--editor','--import','--quit'],{env});
+ need(!/ERROR:|SCRIPT ERROR:|FATAL/i.test(imported.stdout+imported.stderr),'AUDIO_HUB_IMPORT_CLEAN');
+ const child=await runner.command(context,'audio-hub-native',engine.executable,
+  ['--headless','--path',project,'--script','res://audio-hub-probe.gd','--quit-after','1600'],{env});
+ const result=document(project,'audio-hub-results.json');
+ need(child.stderr.trim()===''&&!/ERROR:|SCRIPT ERROR:|FATAL|leaked/i.test(child.stdout+child.stderr)
+  &&child.stdout.includes('AUDIO_HUB_COMPLETE '+nonce+' PASS'),'AUDIO_HUB_NATIVE_CLEAN');
+ need(result.pid===child.pid&&result.nonce===nonce&&!result.failed,'AUDIO_HUB_NATIVE_IDENTITY');
+ need(equal(result.outcomes.map(row=>row.id),['AUDIO-AUDITION.loading','hub-all30-reachable','hub-native-audio-page'])
+  &&result.outcomes.every(row=>row.pass),'AUDIO_HUB_REQUIRED_OUTCOMES');
+ write(context.directory,'audio-hub-observation.json',{...result,group:'actual-project-hub',engine,
+  productionAssemblies:closure,sourceInputs});
+ return result;
+}
+function controllerOutcomeIds(){
+ const catalog=document(ROOT,'src/godot-game/content/audio/events.json');
+ need(catalog.events.length===30&&catalog.events.flatMap(row=>row.routes).length===91,'AUDIO_CURRENT_CATALOG_SCOPE');
+ const ids=['actual-production-alc'];
+ for(const category of catalog.events){
+  ids.push(category.category+'-all-routes',category.category+'-selection-silent');
+  for(const route of category.routes.map(row=>row.id).sort()){
+   ids.push(...['actual-playing','exact-pcm','native-format','native-loop-boundary','exact-binding'].map(s=>route+'-'+s));
+   if(route==='food.use-sale.consume')ids.push('generated-current-source-info');
+   if(route==='bloater.splash.cosmetic-death-burst')ids.push('shared-current-source-info');
+   ids.push(route+'-stopped-freed');
+  }
+ }
+ ids.push(...Array.from({length:24},(_,i)=>'H19-admit-'+i),
+  'H19-exact-global24','H19-exact-effect4','H19-priority-admitted','H19-lowered-limit-preserves-priority',
+  'H19-low-priority-denied',...Array.from({length:19},(_,i)=>'H25-restore-'+i),
+  'H26-close-frees-players','H26-global-owner-fence','H26-current-A-restored','H26-select-stops-A-silent-B',
+  'H26-muted-warning','muted-immediate-repeat-cooldown','muted-actual-native-volume',
+  ...['populated','overflow','empty','error','partial','long-text','zero-one-many'].map(s=>'AUDIO-AUDITION.'+s));
+ return ids;
+}
+async function lifecycle(context){
+ const files=audioPreviewFiles(),before=Object.fromEntries(files.map(file=>[file,hash(bytes(ROOT,file))]));
+ write(context.directory,'audio-inputs.json',before);
+ const env=require('./defenses.cjs').isolated();
+ const build=await runner.command(context,'audio-strict-build','dotnet',['build',inside(ROOT,'KingdomZombies.slnx'),
+  '--no-restore','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'],{env});
+ need(/0 Warning\(s\)[\s\S]*0 Error\(s\)/.test(build.stdout),'AUDIO_STRICT_BUILD');
+ const compiled=inside(context.directory,'audio-compiled');fs.mkdirSync(compiled);
+ await runner.command(context,'audio-compiled','dotnet',[inside(ROOT,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll'),
+  '--filter-class','*AudioPresentationTests','--report-xunit-junit','--report-xunit-junit-filename','tests.xml',
+  '--results-directory',compiled,'--no-ansi','--progress','off','--parallel','none','--timeout','45s'],{env});
+ const paths=files.filter(file=>file.startsWith('src/godot-game/')&&!file.endsWith('.cs')
+  &&file!=='src/godot-game/project.godot'&&file!==AUDIO_FIXTURE).map(file=>file.slice(15));
+ // Keep the original hub predicates and their final order in a separately qualified actual-project process.
+ const harness=AUDIO_HARNESS.replace('        await Hub();','').replace('AUDIO_ROOT_SOURCE_BASE64',
+  bytes(ROOT,'src/godot-game/inspection/InspectionRoot.cs').toString('base64'));
+ const native=await require('./ui-inventory.cjs').native(context,{pack:AUDIO_FIXTURE,paths,harness});
+ const controller=document(context.directory,'inventory-native-observation.json');
+ need(equal(controller.outcomes.map(row=>row.id),controllerOutcomeIds()),'AUDIO_CONTROLLER_REQUIRED_ORDERED_OUTCOMES');
+ const controllerLog=fs.readFileSync(inside(context.directory,'inventory-native.stdout.log'),'utf8')
+  +fs.readFileSync(inside(context.directory,'inventory-native.stderr.log'),'utf8');
+ need(!/ERROR:|SCRIPT ERROR:|FATAL|leaked/i.test(controllerLog),'AUDIO_CONTROLLER_CLEAN');
+ const hub=await audioHub(context,before);
+ const qualify=(result,group)=>result.outcomes.map(row=>({...row,group,pid:result.pid,nonce:result.nonce}));
+ const report={groups:[{id:'controller',pid:controller.pid,nonce:controller.nonce,sourceInputs:before,
+  productionAssemblies:document(context.directory,'inventory-production-assemblies.json'),
+  engine:document(context.directory,'inventory-engine.json')},{id:'actual-project-hub',pid:hub.pid,nonce:hub.nonce,
+  sourceInputs:before,productionAssemblies:document(context.directory,'audio-hub-production-assemblies.json'),
+  engine:document(context.directory,'audio-hub-engine.json')}],
+  outcomes:[...qualify(controller,'controller'),...qualify(hub,'actual-project-hub')]};
+ need(new Set(report.outcomes.map(row=>row.id)).size===report.outcomes.length
+  &&report.outcomes.every(row=>row.pass),'AUDIO_NATIVE_DUPLICATE_OR_FAILED_OUTCOME');
+ write(context.directory,'audio-native-observation.json',report);
+ for(const state of ['empty','loading','error','populated','partial','overflow','zero-one-many','long-text'])
+  need(report.outcomes.filter(row=>row.id==='AUDIO-AUDITION.'+state&&row.pass).length===1,'AUDIO_BACKSTOP '+state);
+ for(const file of files)need(hash(bytes(ROOT,file))===before[file],'AUDIO_SOURCE_DRIFT '+file);
+ return {native,hub:{pid:hub.pid,nonce:hub.nonce,outcomes:hub.outcomes.length},
+  scope:'Two separately qualified source/headless processes; no listening/native mix approval'};
+}
+runner.registerCase('audio.lifecycle',{group:'audio',title:'Native Audio controls exact PCM and current loop ownership',
+ importance:'Critical',rationale:'Stale native players or historical cue replay breaks current inspection state',
+ needsGameWindow:false,runGroup:'G0-audio-native',order:3,requirements:['ASSET-01','ASSET-02','ASSET-04'],
+ acceptance:['AC-12','AC-14','AC-19'],setup:'Fresh strict production assemblies and authenticated headless native engine',
+ actions:['Inspect all30categories and91routes through actual players','Compare exact native PCM and integer loop boundaries',
+  'Restore current loops19times without historical events','Retire A then reject its stale callback in replacement A',
+  'Observe all eight independently named AUDIO-AUDITION backstops and real hub loading/navigation'],
+ expected:'Every independent native assertion passes; hearing and final native mix remain04-32/33',
+ reset:'Close acceptance then stop/free all owned players and streams; retire native controls and copied project',
+ evidence:['audio-inputs.json','audio-compiled/tests.xml','inventory-production-assemblies.json','inventory-engine.json',
+  'inventory-native-observation.json','result.json']},lifecycle);
+Object.assign(module.exports,{AUDIO_HARNESS,audioPreviewFiles,lifecycle});

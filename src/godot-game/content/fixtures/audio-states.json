@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "id": "audio-states",
+  "bindings": [
+    {
+      "file": "content/audio/events.json",
+      "sha256": "375b8199b0b8b0ff168f6cb5894cf5139bcbdb97fc081c4bee0329bcfe948d05"
+    },
+    {
+      "file": "content/packs/audio-actions.json",
+      "sha256": "252eb90d37440a7176b10afcb1408920a6bf9f19ae466185c9fe3d624d6c9154"
+    },
+    {
+      "file": "content/packs/audio-interface-ambience.json",
+      "sha256": "2e107c4ef6eb57262a8f571a1226b694f552a15b806117bcb67e6be7ddfda069"
+    }
+  ],
+  "states": [
+    {
+      "id": "quiet",
+      "loops": []
+    },
+    {
+      "id": "day-fire",
+      "loops": [
+        "ambience.day-night.forest-day",
+        "ambience.fire-wind.local-fire"
+      ]
+    },
+    {
+      "id": "night-wind",
+      "loops": [
+        "ambience.day-night.forest-night",
+        "ambience.fire-wind.wind"
+      ]
+    },
+    {
+      "id": "portal",
+      "loops": [
+        "portal.active-spawn.active-loop"
+      ]
+    }
+  ],
+  "evidenceScope": "Source/headless actual players, PCM, state and lifetime only; listening/mix04-32/33 pending",
+  "backstops": [
+    {
+      "id": "AUDIO-AUDITION.empty",
+      "importance": "Critical",
+      "setup": "Owned copied native project; exact current bytes",
+      "expected": "Independent empty native observation, no fabricated listening"
+    },
+    {
+      "id": "AUDIO-AUDITION.loading",
+      "importance": "Critical",
+      "setup": "Owned copied native project; exact current bytes",
+      "expected": "Independent loading native observation, no fabricated listening"
+    },
+    {
+      "id": "AUDIO-AUDITION.error",
+      "importance": "Critical",
+      "setup": "Owned copied native project; exact current bytes",
+      "expected": "Independent error native observation, no fabricated listening"
+    },
+    {
+      "id": "AUDIO-AUDITION.populated",
+      "importance": "Critical",
+      "setup": "Owned copied native project; exact current bytes",
+      "expected": "Independent populated native observation, no fabricated listening"
+    },
+    {
+      "id": "AUDIO-AUDITION.partial",
+      "importance": "Critical",
+      "setup": "Owned copied native project; exact current bytes",
+      "expected": "Independent partial native observation, no fabricated listening"
+    },
+    {
+      "id": "AUDIO-AUDITION.overflow",
+      "importance": "Critical",
+      "setup": "Owned copied native project; exact current bytes",
+      "expected": "Independent overflow native observation, no fabricated listening"
+    },
+    {
+      "id": "AUDIO-AUDITION.zero-one-many",
+      "importance": "Critical",
+      "setup": "Owned copied native project; exact current bytes",
+      "expected": "Independent zero-one-many native observation, no fabricated listening"
+    },
+    {
+      "id": "AUDIO-AUDITION.long-text",
+      "importance": "Critical",
+      "setup": "Owned copied native project; exact current bytes",
+      "expected": "Independent long-text native observation, no fabricated listening"
+    }
+  ],
+  "warnings": {
+    "warning.day-night-retaliation-assault.day": "Daybreak — the new day has begun.",
+    "warning.day-night-retaliation-assault.night": "Nightfall — hostile attacks may begin.",
+    "warning.day-night-retaliation-assault.retaliation": "Retaliation warning — prepare camp defenses.",
+    "warning.day-night-retaliation-assault.assault": "Assault warning — enemies are approaching.",
+    "warning.day-night-retaliation-assault.recall": "Recall warning — survivors should retreat to camp."
+  }
+}
