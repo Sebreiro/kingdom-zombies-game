@@ -75,3 +75,7 @@ Final08be5ab2-d680-46ff-8e11-dae6b278aff7 remains FAIL2130 operations:prior1861 
 ## Current observation after 04-20
 
 Plan20/repair is data+CJS-only and adds no native/public adapter or generatedsource input. [04-20-SUMMARY.md](04-20-SUMMARY.md) retains08be5ab2 FAIL2130/current57-input32-surface unenrolled producer as unchanged historical obligations,not a newly executed observation/pass. No repeated unchanged cohort/policy/build was added. Exact guarded native/enrollment repairs remain23/31-owned before24review;allhistoricalsource/producer/failure bytes and19publicidentities preserved. Inventory236/WINDOWS30/31 unchanged/open.
+
+## Current observation after 04-21
+
+Plan21 is media/JSON/CJS-only with no newC#native/publicadapter/generatedinput. [04-21-SUMMARY.md](04-21-SUMMARY.md) retains08be5ab2FAIL2130/current57-input32-surface unenrolledproducer asunchangedhistoricalobligations,not a newlyexecutedobservation/pass. No repeatedunchangedpolicy/cohort/build wasadded. Next29actualC#audioadaptermustremaininternal/guarded,inventoryexactnativecalls andcaptureonefinalchangedpolicy/producerobservation for23/31withoutgrants. Existinghistoricalinventories,19publicidentities,inventory236 andWINDOWS30/31remainpreserved/open.

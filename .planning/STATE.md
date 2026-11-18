@@ -4,17 +4,17 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 04
 current_phase_name: Asset production
-current_plan: 21
+current_plan: 29
 status: executing
-stopped_at: Creator approved all presented AU01-15 sources/44variants; resume04-21 Task1 approved production contract under boundedR1;0/2tasks complete;28/37local plans remain complete;wave23incomplete
-last_updated: "2026-11-18T10:25:36Z"
+stopped_at: Completed 04-21; 29/37 local plans summarized; wave 23 complete; next 04-29 in wave 24; concurrent planning decisions preserved; WINDOWS29/30/31 open
+last_updated: "2026-11-18T11:33:21.477Z"
 last_activity: 2026-11-18
-last_activity_desc: Creator approved all presented audio candidates;record exact source attestation and resume04-21 without progress credit yet
+last_activity_desc: Completed two audio banks and all30category/event contracts; fresh47cases pass; next04-29 native audio preview/limits/lifecycle in wave24
 progress:
   total_phases: 12
   completed_phases: 3
   total_plans: 62
-  completed_plans: 53
+  completed_plans: 54
   percent: 25
 ---
 
@@ -26,19 +26,19 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** The creator approved all presented40full sources/44version1candidates forAU01-15 with the actual reply All is approved. Resume04-21 Task1 under [the approval and bounded continuation](phases/04-asset-production/04-21-APPROVAL-AND-RESUME.md),preserving exact audio bytes and historical listening-blocked reports. Record creator attestation;device/name/hearing time were not supplied and remain unspecified. Task1 productionGREEN/committedtracer and Task2 remain to execute;0/2tasks accepted,28/37local and53/62global plans complete. ExistingdraftPR5/branch retained. Approval does not extend to new audio or finalnative32/33mix/judgments. AllASSET,49consumer comparisons,WINDOWS29/30/31,policy2130/current57-input32-surface producer,index0/180 and actualacceptance remainpending.
+**Current focus:** Phase04 continues on feature/04-asset-production with draftPR5. Twenty-nine of37 local plans are summarized. Two actualPCM banks deliver30categories,63retained source records,71samples,5stereoloops and91eventroutes. Fresh47cases pass at54059b7 on481 unchangedinputs in1628532ms(caseexecution),1639745mswall. Creator approval remains scoped to40sources/44reviewed adaptations;27newversions remainNotauditioned. Inventory236;wave23complete,next04-29 nativeaudio preview/limits/lifecycle. Exact64MiBretained-interfaceZIP consumer compatibility and49existingconsumer comparisons stay23/31-owned. RecordedpolicyFAIL2130/current57-input32-surface producer unenrolled,WINDOWS29/30/31,index0/180,allASSET and actual32/33 acceptance remainpending.
 
 ## Current Position
 
 Phase: 04 — Asset production
-Current Plan: 21
+Current Plan: 29
 Total Plans in Phase: 37
 Status: Executing
-Last activity: 2026-11-18 — Creator approved all presented audio candidates;record exact source attestation and resume04-21 without progress credit yet
+Last activity: 2026-11-18 — Completed two audio banks and all30category/event contracts; fresh47cases pass; next04-29 native audio preview/limits/lifecycle in wave24
 
 Progress: [███░░░░░░░] 25%
 
-Milestone progress: 3/12 phases complete;53/62 currently planned plans summarized;fourteen of135 requirements complete. Phase4 has28/37 local plans complete. NoASSET requirement completion is claimed.
+Milestone progress: 3/12 phases complete;54/62 currently planned plans summarized;fourteen of135 requirements complete. Phase4 has29/37 local plans complete. NoASSET requirement completion is claimed.
 
 ## Performance Metrics
 
@@ -172,7 +172,9 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 
 - [Phase04]: Completed04-20 original767490c/8f0eddc,checkpointd42bf89,prospectiveca6613d,repairs745ea75/ed8a79c,SUMMARY5c7a47b. Repaired committed tracerfe9bcd80 precedesR1.2. Fresh45/45 cases ated8a79c on473 unchanged inputs pass in1588583ms;633selfchecks and319exactold-fail/new-pass controls pass. All1855IDs,1515originalcontrolnames and80legalfixtures preserved. Old45diagnostic at8f0eddc remains nonacceptinghistory. Existing49comparisons remain23-owned. Inventory236;recorded2130policy/current57inputs32surfaces unchanged. Wave22 complete,next21wave23;actualacceptance pending.
 
-- [Phase04]: Active04-21 is incomplete at source318f288 after preservedab6826b. Forty donor sources/44candidate variants coverAU01-15 in56.655828seconds;all remain Not auditioned. Fresh committed audio.actions9a5b2af8-40af-4047-a676-f46a9755eb91 passes exact PCM/source/bundle reproduction,13negative controls and12restored positives,then fails onlyAUDIO_LISTENING_REQUIRED. Review: [source-only listening checkpoint](phases/04-asset-production/04-21-LISTENING-CHECKPOINT.md),with exact portableZIP and local prepared page. OriginalTask1 corrections3/3 preserved,no technical error remains;noGREEN/tracer/Task2/canonicalSUMMARY or category/ASSET acceptance. Wave23 remains incomplete;local28/37/global53/62 stay fixed. Real listener source/version/device/verdict is required;finalnative mixing/actual32/33 remain later. Inventory236,49existingconsumer comparisons,WINDOWS29/30/31,policy2130/current57-input32-surface producer and index0/180 remain pending.
+- [Phase04]: Historical04-21 pre-approval checkpoint was incomplete at source318f288 after preservedab6826b. Forty donor sources/44candidate variants coverAU01-15 in56.655828seconds;all remain Not auditioned. Fresh committed audio.actions9a5b2af8-40af-4047-a676-f46a9755eb91 passes exact PCM/source/bundle reproduction,13negative controls and12restored positives,then fails onlyAUDIO_LISTENING_REQUIRED. Review: [source-only listening checkpoint](phases/04-asset-production/04-21-LISTENING-CHECKPOINT.md),with exact portableZIP and local prepared page. OriginalTask1 corrections3/3 preserved,no technical error remains;noGREEN/tracer/Task2/canonicalSUMMARY or category/ASSET acceptance. Wave23 remains incomplete;local28/37/global53/62 stay fixed. Real listener source/version/device/verdict is required;finalnative mixing/actual32/33 remain later. Inventory236,49existingconsumer comparisons,WINDOWS29/30/31,policy2130/current57-input32-surface producer and index0/180 remain pending.
+
+- [Phase04]: Completed04-21 Task1GREEN3df8209/freshtraceraa09e941,Task2GREEN54059b7,SUMMARY8dae14a. Creatorverbatimapproval for40sources/44versions retained with null unspecifieddetails;27newversions remainNotauditioned. Fresh47/47cases at54059b7 on481 unchangedinputs pass in1628532ms(case)/1639745mswall;641closeoutchecks andsummaryselfcheck pass. Originalbudgets3/3+3/3,R1initial0/2,R2initial0/2 preserved; exactTask2publication nowpreservesexistingEVENTS/ZIP identities. Inventory236;wave23complete,next29wave24. RetainedZIP64MiB localexception requiresexact23/31consumer repair;49existingcomparisons/policy2130/current57inputs32surfaces/index/actualacceptance remainpending.
 
 ### Pending Todos
 
