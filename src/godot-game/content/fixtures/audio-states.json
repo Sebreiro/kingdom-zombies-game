@@ -98,5 +98,53 @@
     "warning.day-night-retaliation-assault.retaliation": "Retaliation warning — prepare camp defenses.",
     "warning.day-night-retaliation-assault.assault": "Assault warning — enemies are approaching.",
     "warning.day-night-retaliation-assault.recall": "Recall warning — survivors should retreat to camp."
+  },
+  "variantSeed": 290029,
+  "heldout": {
+    "id": "audio.heldout",
+    "importance": "Critical",
+    "runGroup": "G0-audio-native",
+    "order": 4,
+    "needsGameWindow": false,
+    "limitPairs": [
+      {
+        "global": 1,
+        "repeated": 1
+      },
+      {
+        "global": 7,
+        "repeated": 2
+      },
+      {
+        "global": 128,
+        "repeated": 24
+      }
+    ],
+    "restores": [
+      [
+        "ambience.day-night.forest-night",
+        "ambience.fire-wind.wind"
+      ],
+      [
+        "portal.active-spawn.active-loop",
+        "ambience.fire-wind.local-fire"
+      ],
+      []
+    ],
+    "warning": "warning.day-night-retaliation-assault.retaliation",
+    "variantRoute": "zombie.move-attack-hit-death.death",
+    "actions": [
+      "Independently admit actual players at chosen limit endpoints and compare source priority/cooldown/overlap",
+      "Restore exact current loopIDs without replaying historical cues",
+      "Rapidly replace owners and reject retired callbacks",
+      "Check all eight native backstops plus rebound invalid domains/hash and restored controls"
+    ],
+    "expected": "All actual source/headless players streams source bindings warnings and lifetimes match; no hearing or final mix verdict",
+    "reset": "Close every owner before native controls/resources teardown",
+    "evidence": [
+      "audio-native-observation.json",
+      "audio-compiled/tests.xml",
+      "result.json"
+    ]
   }
 }

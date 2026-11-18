@@ -42,6 +42,19 @@ public sealed class AudioPresentationTests
         Call(name: "IsMuted", arguments: [false, 80d, 0d]).ShouldBe(expected: true);
     }
 
+    /// <summary>Owned bounded draws cover both nonrepeating choices without a fixed cyclic counter.</summary>
+    [Theory]
+    [InlineData(3, 0, 0u, 1)]
+    [InlineData(3, 0, 1u, 2)]
+    [InlineData(3, 1, 0u, 0)]
+    [InlineData(3, 1, 1u, 2)]
+    [InlineData(3, 2, 0u, 0)]
+    [InlineData(3, 2, 1u, 1)]
+    public void VariantDraw_ExcludesPreviousAndPreservesChoices(int count, int previous, uint draw, int expected)
+    {
+        Call(name: "VariantIndex", arguments: [count, previous, draw]).ShouldBe(expected: expected);
+    }
+
     /// <summary>Every current inline, donor, generated and shared variant retains nonempty provenance.</summary>
     [Fact]
     public void Sources_ResolveEveryCurrentVariant()

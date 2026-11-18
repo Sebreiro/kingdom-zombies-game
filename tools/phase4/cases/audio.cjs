@@ -886,6 +886,7 @@ public sealed partial class InventoryHarness : Node
     private Type _type = null!;
     private Type _gateway = null!;
     private bool _failed;
+    private string _prefix = "";
     private static readonly string Fixture = "content/fixtures/audio-states.json";
     private static readonly string Events = "content/audio/events.json";
     private static bool Eq(string? a, string? b) => StringComparer.Ordinal.Equals(a,b);
@@ -893,7 +894,7 @@ public sealed partial class InventoryHarness : Node
     private static byte[] Read(string file) => Godot.FileAccess.GetFileAsBytes("res://"+file);
     private void Check(string id, bool pass, object detail)
     {
-        _outcomes.Add(new { id, pass, detail }); _failed |= !pass;
+        _outcomes.Add(new { id = _prefix+id, pass, detail }); _failed |= !pass;
     }
     private object Call(object owner, string method, params object[] args) => _type.GetMethod(method,
         BindingFlags.NonPublic | BindingFlags.Instance)!.Invoke(owner,args)!;
@@ -1052,13 +1053,16 @@ public sealed partial class InventoryHarness : Node
     }
     private async Task Backstops()
     {
+        var cardinalities=new List<int>();
         var root=new Node2D();AddChild(root);var owner=New(root,"AU-29");
+        cardinalities.Add(Panel(root).GetNode<OptionButton>("Event").ItemCount);
         Check("AUDIO-AUDITION.populated",Panel(root).GetNode<OptionButton>("Event").ItemCount==1
             &&Panel(root).GetNode<TextEdit>("Details").Text.Contains("source",StringComparison.OrdinalIgnoreCase),Panel(root).GetNode<TextEdit>("Details").Text);
         await Frames();var scroll=root.GetNode<ScrollContainer>("Audio");
         Check("AUDIO-AUDITION.overflow",scroll.FollowFocus&&scroll.GetVScrollBar().MaxValue>scroll.GetVScrollBar().Page,scroll.GetVScrollBar().MaxValue);
         Call(owner,"Close");root.Free();
         root=new Node2D();AddChild(root);owner=New(root,"AU-20",ChangedCatalog(d=>d["events"]=new JsonArray()));
+        cardinalities.Add(Panel(root).GetNode<OptionButton>("Event").ItemCount);
         Check("AUDIO-AUDITION.empty",Panel(root).GetNode<OptionButton>("Event").ItemCount==0
             &&Panel(root).GetNode<Button>("Play").Disabled&&Players(root).Length==0,Players(root).Length);
         Call(owner,"Close");root.Free();
@@ -1067,6 +1071,7 @@ public sealed partial class InventoryHarness : Node
             "assets/audio/actions.wav, field bytes, value read — missing PCM bank",StringComparison.Ordinal),Panel(root).GetNode<TextEdit>("Details").Text);
         Call(owner,"Close");root.Free();
         root=new Node2D();AddChild(root);owner=New(root,"AU-20",file=>Eq(file,"assets/audio/actions.wav")?null:Read(file));
+        cardinalities.Add(Panel(root).GetNode<OptionButton>("Event").ItemCount);
         Check("AUDIO-AUDITION.partial",Panel(root).GetNode<OptionButton>("Event").ItemCount==5&&Players(root).Length==0
             &&Panel(root).GetNode<TextEdit>("Details").Text.Contains("missing PCM bank",StringComparison.Ordinal),Panel(root).GetNode<OptionButton>("Event").ItemCount);
         Call(owner,"Close");root.Free();
@@ -1081,7 +1086,8 @@ public sealed partial class InventoryHarness : Node
         var text=Panel(root).GetNode<TextEdit>("Details");
         Check("AUDIO-AUDITION.long-text",text.Text.Contains(longText,StringComparison.Ordinal)
             &&text.WrapMode==TextEdit.LineWrappingMode.Boundary&&!text.Editable,text.Text);
-        Check("AUDIO-AUDITION.zero-one-many",Panel(root).GetNode<OptionButton>("Event").ItemCount==5,5);
+        Check("AUDIO-AUDITION.zero-one-many",Panel(root).GetNode<OptionButton>("Event").ItemCount==5
+            &&cardinalities.SequenceEqual(new[]{1,0,5}),cardinalities.ToArray());
         Call(owner,"Close");root.Free();
         await Frames();
     }
@@ -1108,6 +1114,179 @@ public sealed partial class InventoryHarness : Node
         RemoveChild(hub);hub.Free();scene.Dispose();await Frames();
     }
 }
+`;
+const AUDIO_HELDOUT_METHODS=String.raw`
+    private static JsonElement Document(string file)
+    {
+        using var document=JsonDocument.Parse(Read(file));return document.RootElement.Clone();
+    }
+    private async Task Heldout()
+    {
+        _prefix="heldout.";
+        HeldoutLimits();HeldoutVariants();HeldoutRestore();HeldoutOwners();HeldoutVolumes();HeldoutDomains();
+        await Backstops();
+        _prefix="";
+    }
+    private void HeldoutLimits()
+    {
+        var catalog=Document(Events);
+        var routes=catalog.GetProperty("events").EnumerateArray().SelectMany(e=>e.GetProperty("routes").EnumerateArray())
+            .ToDictionary(r=>r.GetProperty("id").GetString()!,r=>r,StringComparer.Ordinal);
+        var choices=routes.Values.Where(r=>Eq(r.GetProperty("lifecycle").GetProperty("mode").GetString(),"one-shot"))
+            .Select(r=>r.GetProperty("id").GetString()!).Order(StringComparer.Ordinal).Take(32).ToArray();
+        foreach(var pair in Document(Fixture).GetProperty("heldout").GetProperty("limitPairs").EnumerateArray())
+        {
+            int global=pair.GetProperty("global").GetInt32(),repeated=pair.GetProperty("repeated").GetInt32();
+            var root=new Node2D();AddChild(root);var owner=New(root,"AU-07");int serial=0;bool admitted=true;
+            try
+            {
+                var g=Panel(root).GetNode<SpinBox>("gameplayConcurrentLimit");var p=Panel(root).GetNode<SpinBox>("repeatedEffectLimit");
+                g.Value=global;p.Value=repeated;
+                for(int i=0;i<global;i++)
+                {
+                    Call(owner,"Tick",1.0);admitted&=(bool)Call(owner,"Trigger",choices[i%choices.Length],"h19-"+serial++,Epoch(owner),true,false);
+                }
+                Check("H19-global-"+global,admitted&&Players(root).Length==global&&Players(root).All(x=>x.Playing),Players(root).Length);
+                Check("H19-endpoints-"+global,g.MinValue==1&&g.MaxValue==128&&p.MinValue==1&&p.MaxValue==24
+                    &&g.Value==global&&p.Value==repeated,new{global,repeated});
+                for(int i=0;i<6;i++){Call(owner,"Tick",1.0);Call(owner,"Trigger",choices[0],"repeat-"+serial++,Epoch(owner),true,false);}
+                int sourceMaximum=routes[choices[0]].GetProperty("repetition").GetProperty("maximumOverlap").GetInt32();
+                Check("H19-repeated-"+global,Players(root).Length==global&&Players(root).Count(x=>Eq(x.GetMeta("route").AsString(),choices[0]))
+                    ==Math.Min(global,Math.Min(repeated,sourceMaximum)),Players(root).Select(x=>x.GetMeta("route").AsString()).ToArray());
+                var victim=Players(root).OrderBy(x=>routes[x.GetMeta("route").AsString()].GetProperty("priority").GetInt32()).First();
+                bool accepted=(bool)Call(owner,"Trigger","warning.day-night-retaliation-assault.retaliation","priority",Epoch(owner),true,false);
+                Check("H19-priority-"+global,accepted&&Players(root).Length==global&&!GodotObject.IsInstanceValid(victim)
+                    &&Players(root).Any(x=>Eq(x.GetMeta("route").AsString(),"warning.day-night-retaliation-assault.retaliation")),Players(root).Length);
+                Check("H19-lower-denied-"+global,!(bool)Call(owner,"Trigger","ambience.fire-wind.wind","too-low",Epoch(owner),true,false)
+                    &&Players(root).Length==global,Players(root).Length);
+            }
+            finally{Call(owner,"Close");root.Free();}
+        }
+    }
+    private void HeldoutVariants()
+    {
+        var root=new Node2D();AddChild(root);var owner=New(root,"AU-09");
+        string route="zombie.move-attack-hit-death.death",previous="";var seen=new HashSet<string>(StringComparer.Ordinal);
+        try
+        {
+            for(int i=0;i<24;i++)
+            {
+                Call(owner,"Tick",1.0);bool admitted=(bool)Call(owner,"Trigger",route,"variant-"+i,Epoch(owner),true,false);
+                var player=Players(root).Last();string sample=player.GetMeta("sample").AsString();seen.Add(sample);
+                var pack=Document("content/packs/audio-actions.json");var s=pack.GetProperty("samples").EnumerateArray()
+                    .Single(x=>Eq(x.GetProperty("id").GetString(),sample));var bank=pack.GetProperty("bank");
+                int first=s.GetProperty("regionFrames")[0].GetInt32(),last=s.GetProperty("regionFrames")[1].GetInt32();
+                var stream=(AudioStreamWav)player.Stream;var expected=Read(bank.GetProperty("path").GetString()!).AsSpan(44+first*4,(last-first)*4).ToArray();
+                Check("variants-"+i,admitted&&!Eq(previous,sample)&&stream.Data.SequenceEqual(expected)
+                    &&Eq(Hash(stream.Data),s.GetProperty("pcmSha256").GetString())&&player.Playing,new{sample,first,last});previous=sample;
+            }
+            Check("variants-current-set",seen.SetEquals(new[]{"action.3131.full","action.2804.full","action.3554.full"}),seen.Order(StringComparer.Ordinal).ToArray());
+            Call(owner,"Tick",1.0);
+            bool duplicate=(bool)Call(owner,"Trigger",route,"variant-0",Epoch(owner),true,false);
+            Check("committed-event-deduplicated",!duplicate,Players(root).Length);
+            var foot=new Node2D();AddChild(foot);var other=New(foot,"AU-01");
+            try{bool first=(bool)Call(other,"Trigger","footstep.walk","step-0",Epoch(other),true,false);
+                bool early=(bool)Call(other,"Trigger","footstep.walk","step-1",Epoch(other),true,false);
+                Call(other,"Tick",0.081);bool next=(bool)Call(other,"Trigger","footstep.walk","step-2",Epoch(other),true,false);
+                Check("cooldown-boundary",first&&!early&&next&&Players(foot).Length==2,Players(foot).Length);}
+            finally{Call(other,"Close");foot.Free();}
+        }
+        finally{Call(owner,"Close");root.Free();}
+    }
+    private void HeldoutRestore()
+    {
+        var root=new Node2D();AddChild(root);var owner=New(root,"AU-28");
+        try
+        {
+            Call(owner,"Trigger","save.error.save-failure","historical-save-cue",Epoch(owner),true,false);
+            int historical=Panel(root).GetMeta("one_shots").AsInt32();int state=0;
+            foreach(var value in Document(Fixture).GetProperty("heldout").GetProperty("restores").EnumerateArray())
+            {
+                var wanted=value.EnumerateArray().Select(x=>x.GetString()!).Order(StringComparer.Ordinal).ToArray();
+                Call(owner,"Restore",(object)wanted);var identities=Players(root).Select(x=>x.GetInstanceId()).Order().ToArray();
+                for(int i=0;i<7;i++)
+                {
+                    Call(owner,"Restore",(object)wanted);var actual=Players(root);
+                    Check("H25-"+state+"-"+i,actual.Select(x=>x.GetMeta("route").AsString()).Order(StringComparer.Ordinal).SequenceEqual(wanted,StringComparer.Ordinal)
+                        &&actual.Select(x=>x.GetInstanceId()).Order().SequenceEqual(identities)&&actual.All(x=>x.Playing&&x.GetMeta("state_loop").AsBool())
+                        &&Panel(root).GetMeta("one_shots").AsInt32()==historical,new{wanted,ids=actual.Select(x=>x.GetInstanceId()).ToArray(),historical});
+                }
+                state++;
+            }
+            Check("historical-one-shot-not-restored",!(bool)Call(owner,"Trigger","save.error.save-failure","past",Epoch(owner),false,true),historical);
+        }
+        finally{Call(owner,"Close");root.Free();}
+    }
+    private void HeldoutOwners()
+    {
+        var root=new Node2D();AddChild(root);long retired=0;
+        for(int i=0;i<11;i++)
+        {
+            var owner=New(root,i%2==0?"AU-27":"AU-20");long epoch=Epoch(owner);
+            bool stale=retired>0&&(bool)Call(owner,"Trigger","ambience.day-night.forest-night","old-"+i,retired,true,false);
+            Call(owner,"Restore",(object)new[]{"ambience.day-night.forest-night","ambience.fire-wind.wind"});
+            var players=Players(root);Check("H26-current-"+i,!stale&&epoch>retired&&players.Length==2&&players.All(p=>p.GetMeta("epoch").AsInt64()==epoch),epoch);
+            Call(owner,"Close");Check("H26-retired-"+i,Players(root).Length==0&&players.All(p=>!GodotObject.IsInstanceValid(p)),epoch);
+            Check("H26-closed-callback-"+i,!(bool)Call(owner,"Trigger","ambience.fire-wind.wind","closed",epoch,true,false),epoch);
+            retired=epoch;
+        }
+        root.Free();
+    }
+    private void HeldoutVolumes()
+    {
+        foreach(string bus in new[]{"Master","Effects","Ambience"})
+        {
+            bool ambience=Eq(bus,"Ambience");var root=new Node2D();AddChild(root);var owner=New(root,ambience?"AU-28":"AU-20");
+            try
+            {
+                if(!ambience){var select=Panel(root).GetNode<OptionButton>("Event");Select(root,Enumerable.Range(0,select.ItemCount)
+                    .Single(i=>Eq(select.GetItemText(i),"warning.day-night-retaliation-assault.retaliation")));}
+                Panel(root).GetNode<HSlider>(bus).Value=0;Panel(root).GetNode<CheckButton>("Loop").ButtonPressed=true;Press(root,"Play");
+                string status=Panel(root).GetNode<Label>("Status").Text;var players=Players(root);
+                Check("muted-bus-"+bus,status.Contains("Muted",StringComparison.Ordinal)&&status.Contains("Sound muted",StringComparison.Ordinal)
+                    &&players.Length==1&&players[0].Playing&&players[0].VolumeDb<=-80
+                    &&(ambience||status.Contains("Retaliation warning — prepare camp defenses.",StringComparison.Ordinal)),status);
+                Panel(root).GetNode<HSlider>(bus).Value=100;
+                Check("restored-bus-"+bus,Players(root).Length==1&&players[0].VolumeDb>-80
+                    &&!Panel(root).GetNode<Label>("Status").Text.Contains("Sound muted",StringComparison.Ordinal),players[0].VolumeDb);
+            }
+            finally{Call(owner,"Close");root.Free();}
+        }
+    }
+    private void HeldoutDomains()
+    {
+        var original=Read("assets/audio/actions.wav");var changed=(byte[])original.Clone();changed[44]^=1;
+        var root=new Node2D();AddChild(root);var owner=New(root,"AU-01",file=>Eq(file,"assets/audio/actions.wav")?changed:Read(file));
+        Check("wrong-current-bank-hash",Panel(root).GetNode<OptionButton>("Event").ItemCount==0&&Panel(root).GetNode<TextEdit>("Details").Text.Contains(
+            "assets/audio/actions.wav, field sha256, value fb173a9863cbc2ba1989cea83afddea3497d22bc760ba28803b9d5e8a545e144 — bank hash mismatch",StringComparison.Ordinal),Players(root).Length);
+        Call(owner,"Close");root.Free();
+        root=new Node2D();AddChild(root);owner=New(root,"AU-20",ChangedCatalog(d=>d["events"]!.AsArray()
+            .First(e=>Eq(e!["category"]!.GetValue<string>(),"AU-20"))!["routes"]!.AsArray()
+            .First(r=>Eq(r!["id"]!.GetValue<string>(),"warning.day-night-retaliation-assault.day"))!["gainLinear"]=2));
+        Check("rebound-invalid-current-gain",Panel(root).GetNode<OptionButton>("Event").ItemCount==4&&Panel(root).GetNode<TextEdit>("Details").Text.Contains(
+            "content/audio/events.json, field mix, value warning.day-night-retaliation-assault.day — invalid gain/bus/priority/cooldown",StringComparison.Ordinal),Players(root).Length);
+        Call(owner,"Close");root.Free();
+        var shifted=ShiftedRegion();root=new Node2D();AddChild(root);owner=New(root,"AU-01",shifted);
+        Check("rebound-shifted-pcm-region",Panel(root).GetNode<OptionButton>("Event").ItemCount==0&&Panel(root).GetNode<TextEdit>("Details").Text.Contains(
+            "assets/audio/actions.wav, field pcmSha256, value 7f8e1eb3652fd168b508f5ba4d4db6b76dddcc92d936d34f8e3a772dde897298 — sample PCM hash mismatch",StringComparison.Ordinal),Players(root).Length);
+        Call(owner,"Close");root.Free();
+        root=new Node2D();AddChild(root);owner=New(root,"AU-06",shifted);Press(root,"Play");
+        Check("rebound-pcm-valid-sibling",Panel(root).GetNode<OptionButton>("Event").ItemCount==2&&Players(root).Length==1&&Players(root)[0].Playing,Players(root).Length);
+        Call(owner,"Close");root.Free();
+        root=new Node2D();AddChild(root);owner=New(root,"AU-20");Press(root,"Play");
+        Check("restored-current-positive",Panel(root).GetNode<OptionButton>("Event").ItemCount==5&&Players(root).Length==1&&Players(root)[0].Playing,Players(root).Length);
+        Call(owner,"Close");root.Free();
+    }
+    private Func<string,byte[]?> ShiftedRegion()
+    {
+        const string file="content/packs/audio-actions.json";var pack=JsonNode.Parse(Read(file))!;
+        var sample=pack["samples"]!.AsArray().Single(x=>Eq(x!["id"]!.GetValue<string>(),"action.3294.full"))!;
+        sample["regionFrames"]![0]=1;sample["regionFrames"]![1]=11026;
+        byte[] changed=Encoding.UTF8.GetBytes(pack.ToJsonString());var fixture=JsonNode.Parse(Read(Fixture))!;
+        foreach(var binding in fixture["bindings"]!.AsArray())if(Eq(binding!["file"]!.GetValue<string>(),file))binding["sha256"]=Hash(changed);
+        byte[] bound=Encoding.UTF8.GetBytes(fixture.ToJsonString());
+        return path=>Eq(path,file)?changed:Eq(path,Fixture)?bound:Read(path);
+    }
 `;
 function audioPreviewFiles(){
  const foundation=[];
@@ -1151,6 +1330,7 @@ func run():
  list.select(selected)
  list.item_selected.emit(selected)
  check_case("hub-native-audio-page",hub.has_node("Shell/Workspace/Preview/Surface/Current/AudioPreview/Audio/Content"),status.text)
+ # AUDIO_HELDOUT_HUB
  root.remove_child(hub)
  hub.free()
  await process_frame
@@ -1161,7 +1341,43 @@ func run():
  print("AUDIO_HUB_COMPLETE "+result.nonce+" "+("FAIL" if failed else "PASS"))
  quit(1 if failed else 0)
 `;
-async function audioHub(context,sourceInputs){
+const AUDIO_HELDOUT_HUB=String.raw`
+ var base = "Shell/Workspace/Preview/Surface/Current/AudioPreview"
+ var page = hub.get_node(base)
+ var state = page.get_node("Audio/Content/CurrentState")
+ var night = -1
+ for i in range(state.item_count):
+  if state.get_item_text(i)=="night-wind":
+   night = i
+ state.select(night)
+ state.item_selected.emit(night)
+ var loops = page.get_children().filter(func(n): return n is AudioStreamPlayer)
+ var ids = loops.map(func(n): return n.get_instance_id())
+ var expected = ["ambience.day-night.forest-night","ambience.fire-wind.wind"]
+ for i in range(9):
+  state.item_selected.emit(night)
+ var current = page.get_children().filter(func(n): return n is AudioStreamPlayer)
+ var names = current.map(func(n): return str(n.get_meta("route")))
+ names.sort()
+ check_case("heldout.Hub.H25-exact-loops",names==expected and current.map(func(n): return n.get_instance_id())==ids and current.all(func(n): return n.playing),names)
+ var epoch = int(page.get_node("Audio/Content").get_meta("epoch"))
+ category.select(0)
+ category.item_selected.emit(0)
+ check_case("heldout.Hub.H26-retired-view",loops.all(func(n): return not is_instance_valid(n)),epoch)
+ category.select(5)
+ category.item_selected.emit(5)
+ page = hub.get_node(base)
+ check_case("heldout.Hub.H26-current-binding",int(page.get_node("Audio/Content").get_meta("epoch"))>epoch and page.get_children().filter(func(n): return n is AudioStreamPlayer).is_empty() and hub.get_node("Summary/ResourceId").text=="AU-27",hub.get_node("Summary/ResourceId").text)
+ hub.get_node("Shell/Toolbar/Recheck").pressed.emit()
+ check_case("heldout.AUDIO-AUDITION.loading",status.text.begins_with("Loading") and not hub.has_node(base),status.text)
+ for i in range(500):
+  if not status.text.begins_with("Loading"):
+   break
+  await process_frame
+  await process_frame
+ check_case("heldout.Hub.restored-binding",hub.has_node(base) and hub.get_node(base+"/Audio/Content/Event").item_count==2 and hub.get_node(base).get_children().filter(func(n): return n is AudioStreamPlayer).is_empty(),status.text)
+`;
+async function audioHub(context,sourceInputs,heldout=false){
  const project=inside(context.directory,'native-audio-hub');fs.mkdirSync(project);
  for(const file of ['project.godot','inspection','foundation','icon.svg','content','assets','.godot/mono/temp/bin/Debug'])
   fs.cpSync(inside(ROOT,'src/godot-game/'+file),inside(project,file),{recursive:true});
@@ -1171,7 +1387,7 @@ async function audioHub(context,sourceInputs){
  const controllerClosure=document(context.directory,'inventory-production-assemblies.json');
  need(equal(closure,controllerClosure),'AUDIO_HUB_CLOSURE_MISMATCH');
  write(context.directory,'audio-hub-production-assemblies.json',closure);
- write(project,'audio-hub-probe.gd',Buffer.from(AUDIO_HUB_DRIVER));
+ write(project,'audio-hub-probe.gd',Buffer.from(AUDIO_HUB_DRIVER.replace(' # AUDIO_HELDOUT_HUB',heldout?AUDIO_HELDOUT_HUB:'')));
  const engine=document(context.directory,'inventory-engine.json');
  const pin=document(ROOT,'tools/phase1/toolchain.json').archives['win32-x64'];
  need(hash(fs.readFileSync(inside(ROOT,'.phase1/cache/'+pin.file)))===pin.sha256
@@ -1187,13 +1403,16 @@ async function audioHub(context,sourceInputs){
  need(child.stderr.trim()===''&&!/ERROR:|SCRIPT ERROR:|FATAL|leaked/i.test(child.stdout+child.stderr)
   &&child.stdout.includes('AUDIO_HUB_COMPLETE '+nonce+' PASS'),'AUDIO_HUB_NATIVE_CLEAN');
  need(result.pid===child.pid&&result.nonce===nonce&&!result.failed,'AUDIO_HUB_NATIVE_IDENTITY');
- need(equal(result.outcomes.map(row=>row.id),['AUDIO-AUDITION.loading','hub-all30-reachable','hub-native-audio-page'])
+ const expected=['AUDIO-AUDITION.loading','hub-all30-reachable','hub-native-audio-page',...(heldout?
+  ['heldout.Hub.H25-exact-loops','heldout.Hub.H26-retired-view','heldout.Hub.H26-current-binding',
+   'heldout.AUDIO-AUDITION.loading','heldout.Hub.restored-binding']:[])];
+ need(equal(result.outcomes.map(row=>row.id),expected)
   &&result.outcomes.every(row=>row.pass),'AUDIO_HUB_REQUIRED_OUTCOMES');
  write(context.directory,'audio-hub-observation.json',{...result,group:'actual-project-hub',engine,
   productionAssemblies:closure,sourceInputs});
  return result;
 }
-function controllerOutcomeIds(){
+function controllerOutcomeIds(heldout=false){
  const catalog=document(ROOT,'src/godot-game/content/audio/events.json');
  need(catalog.events.length===30&&catalog.events.flatMap(row=>row.routes).length===91,'AUDIO_CURRENT_CATALOG_SCOPE');
  const ids=['actual-production-alc'];
@@ -1212,9 +1431,22 @@ function controllerOutcomeIds(){
   'H26-close-frees-players','H26-global-owner-fence','H26-current-A-restored','H26-select-stops-A-silent-B',
   'H26-muted-warning','muted-immediate-repeat-cooldown','muted-actual-native-volume',
   ...['populated','overflow','empty','error','partial','long-text','zero-one-many'].map(s=>'AUDIO-AUDITION.'+s));
+ if(heldout){
+  const extra=[];
+  for(const global of [1,7,128])extra.push(...['H19-global-','H19-endpoints-','H19-repeated-','H19-priority-','H19-lower-denied-'].map(s=>s+global));
+  extra.push(...Array.from({length:24},(_,i)=>'variants-'+i),'variants-current-set','committed-event-deduplicated','cooldown-boundary');
+  for(let state=0;state<3;state++)for(let i=0;i<7;i++)extra.push('H25-'+state+'-'+i);
+  extra.push('historical-one-shot-not-restored');
+  for(let i=0;i<11;i++)extra.push('H26-current-'+i,'H26-retired-'+i,'H26-closed-callback-'+i);
+  for(const bus of ['Master','Effects','Ambience'])extra.push('muted-bus-'+bus,'restored-bus-'+bus);
+  extra.push('wrong-current-bank-hash','rebound-invalid-current-gain','rebound-shifted-pcm-region',
+   'rebound-pcm-valid-sibling','restored-current-positive',
+   ...['populated','overflow','empty','error','partial','long-text','zero-one-many'].map(s=>'AUDIO-AUDITION.'+s));
+  ids.push(...extra.map(id=>'heldout.'+id));
+ }
  return ids;
 }
-async function lifecycle(context){
+async function lifecycle(context,heldout=false){
  const files=audioPreviewFiles(),before=Object.fromEntries(files.map(file=>[file,hash(bytes(ROOT,file))]));
  write(context.directory,'audio-inputs.json',before);
  const env=require('./defenses.cjs').isolated();
@@ -1228,15 +1460,17 @@ async function lifecycle(context){
  const paths=files.filter(file=>file.startsWith('src/godot-game/')&&!file.endsWith('.cs')
   &&file!=='src/godot-game/project.godot'&&file!==AUDIO_FIXTURE).map(file=>file.slice(15));
  // Keep the original hub predicates and their final order in a separately qualified actual-project process.
- const harness=AUDIO_HARNESS.replace('        await Hub();','').replace('AUDIO_ROOT_SOURCE_BASE64',
+ const source=heldout?AUDIO_HARNESS.replace('        await Hub();','        await Heldout();')
+  .replace(/\n}\n$/,AUDIO_HELDOUT_METHODS+'\n}\n'):AUDIO_HARNESS.replace('        await Hub();','');
+ const harness=source.replace('AUDIO_ROOT_SOURCE_BASE64',
   bytes(ROOT,'src/godot-game/inspection/InspectionRoot.cs').toString('base64'));
  const native=await require('./ui-inventory.cjs').native(context,{pack:AUDIO_FIXTURE,paths,harness});
  const controller=document(context.directory,'inventory-native-observation.json');
- need(equal(controller.outcomes.map(row=>row.id),controllerOutcomeIds()),'AUDIO_CONTROLLER_REQUIRED_ORDERED_OUTCOMES');
+ need(equal(controller.outcomes.map(row=>row.id),controllerOutcomeIds(heldout)),'AUDIO_CONTROLLER_REQUIRED_ORDERED_OUTCOMES');
  const controllerLog=fs.readFileSync(inside(context.directory,'inventory-native.stdout.log'),'utf8')
   +fs.readFileSync(inside(context.directory,'inventory-native.stderr.log'),'utf8');
  need(!/ERROR:|SCRIPT ERROR:|FATAL|leaked/i.test(controllerLog),'AUDIO_CONTROLLER_CLEAN');
- const hub=await audioHub(context,before);
+ const hub=await audioHub(context,before,heldout);
  const qualify=(result,group)=>result.outcomes.map(row=>({...row,group,pid:result.pid,nonce:result.nonce}));
  const report={groups:[{id:'controller',pid:controller.pid,nonce:controller.nonce,sourceInputs:before,
   productionAssemblies:document(context.directory,'inventory-production-assemblies.json'),
@@ -1249,6 +1483,8 @@ async function lifecycle(context){
  write(context.directory,'audio-native-observation.json',report);
  for(const state of ['empty','loading','error','populated','partial','overflow','zero-one-many','long-text'])
   need(report.outcomes.filter(row=>row.id==='AUDIO-AUDITION.'+state&&row.pass).length===1,'AUDIO_BACKSTOP '+state);
+ if(heldout)for(const state of ['empty','loading','error','populated','partial','overflow','zero-one-many','long-text'])
+  need(report.outcomes.filter(row=>row.id==='heldout.AUDIO-AUDITION.'+state&&row.pass).length===1,'AUDIO_HELDOUT_BACKSTOP '+state);
  for(const file of files)need(hash(bytes(ROOT,file))===before[file],'AUDIO_SOURCE_DRIFT '+file);
  return {native,hub:{pid:hub.pid,nonce:hub.nonce,outcomes:hub.outcomes.length},
   scope:'Two separately qualified source/headless processes; no listening/native mix approval'};
@@ -1265,3 +1501,15 @@ runner.registerCase('audio.lifecycle',{group:'audio',title:'Native Audio control
  evidence:['audio-inputs.json','audio-compiled/tests.xml','inventory-production-assemblies.json','inventory-engine.json',
   'inventory-native-observation.json','result.json']},lifecycle);
 Object.assign(module.exports,{AUDIO_HARNESS,audioPreviewFiles,lifecycle});
+runner.registerCase('audio.heldout',{group:'audio',title:'Independent native audio endpoints restores replacements and backstops',
+ importance:'Critical',rationale:'Wrong limits or stale audio ownership misrepresents current state and muted warnings',
+ needsGameWindow:false,runGroup:'G0-audio-native',order:4,requirements:['ASSET-01','ASSET-02','ASSET-04'],
+ acceptance:['AC-12','AC-14','AC-19'],setup:'Current strict production/controller and actual-project hub in two authenticated owned headless processes',
+ actions:['Assert independent1/7/128global and1/2/24repeated input endpoints with actual admission/priority and source overlap ceilings',
+  'Exercise actual24variant auditions,cooldown and committed-event deduplication','Restore three independently chosen loopsets without historical cues',
+  'Replace eleven owners and actual hub categories,then reject stale callbacks','Mute each configured bus and retain full critical warning',
+  'Independently assert all eight audio backstops and reject wrong current hash/rebound invalid gain before restored positive'],
+ expected:'Every required ordered source/compiled/native observation passes; source/headless supplies no hearing or final mix judgment',
+ reset:'Close every owner and free all players/streams/controls; native groups report naturally before exit',
+ evidence:['audio-inputs.json','audio-compiled/tests.xml','inventory-native-observation.json','audio-hub-observation.json',
+  'audio-native-observation.json','result.json']},context=>lifecycle(context,true));

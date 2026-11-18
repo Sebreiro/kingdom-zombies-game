@@ -49,7 +49,19 @@ internal sealed class AudioPreview : IDisposable
 
     internal static bool IsMuted(bool muted, double master, double channel)
     {
-        return muted || master == 0;
+        return muted || master == 0 || channel == 0;
+    }
+
+    internal static int VariantIndex(int count, int previous, uint draw)
+    {
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(value: count);
+        if (count == 1)
+        {
+            return 0;
+        }
+
+        int selected = (int)(draw % (uint)(previous >= 0 ? count - 1 : count));
+        return previous >= 0 && selected >= previous ? selected + 1 : selected;
     }
 
     internal static string[] Ids(string category)
@@ -202,9 +214,12 @@ internal sealed class AudioPreview : IDisposable
 
         string[] variants = [.. route.GetProperty(propertyName: "variants").EnumerateArray()
                 .Select(selector: value => value.GetString() ?? "")];
-        int next = _variants.GetValueOrDefault(key: routeId);
-        string sample = variants[next % variants.Length];
-        _variants[routeId] = next + 1;
+        int previous = _variants.GetValueOrDefault(key: routeId, defaultValue: -1);
+        int choices = previous >= 0 && variants.Length > 1 ? variants.Length - 1 : variants.Length;
+        int next = VariantIndex(count: variants.Length, previous: previous,
+                draw: DrawVariant(choices: choices));
+        string sample = variants[next];
+        _variants[routeId] = next;
         Start(routeId: routeId, sampleId: sample, route: route, loop: loop, restoring: restoring);
         if (!restoring)
         {
@@ -279,6 +294,7 @@ internal sealed class AudioPreview : IDisposable
     private double _effects = 80;
     private double _ambience = 60;
     private bool _closed;
+    private uint _variantState = 290029;
 
     private static string Text(JsonElement value, string key)
     {
@@ -461,6 +477,9 @@ internal sealed class AudioPreview : IDisposable
         try
         {
             _definition = Parse(bytes: read(arg: Fixture), file: Fixture);
+            _variantState = _definition.GetProperty(propertyName: "variantSeed").GetUInt32();
+            Require(valid: _variantState > 0, file: Fixture, field: "variantSeed", value: "0",
+                    reason: "owned replayable variant seed must be nonzero");
             _catalog = Bound(read: read, file: Events);
             foreach (string pack in new[] { "content/packs/audio-actions.json",
                     "content/packs/audio-interface-ambience.json" })
@@ -782,6 +801,19 @@ internal sealed class AudioPreview : IDisposable
                 Number(value: route, key: "priority"), restoring));
         ApplyVolume(player: player, route: route);
         player.Play(fromPosition: 0);
+    }
+
+    private uint DrawVariant(int choices)
+    {
+        uint maximum = uint.MaxValue - (uint.MaxValue % (uint)choices);
+        do
+        {
+            _variantState ^= _variantState << 13;
+            _variantState ^= _variantState >> 17;
+            _variantState ^= _variantState << 5;
+        }
+        while (_variantState > maximum);
+        return (_variantState - 1) % (uint)choices;
     }
 
     private void ApplyVolume(AudioStreamPlayer player, JsonElement route)
