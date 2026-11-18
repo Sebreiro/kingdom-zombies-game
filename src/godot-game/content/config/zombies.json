@@ -54,7 +54,7 @@
       "spawnAvailability": "stage-weight",
       "guarantee": "common-money-and-trousers",
       "naturalRangedAttack": "none",
-      "deathEffect": "FX-02"
+      "deathEffect": "FX-08"
     },
     {
       "archetypeId": "runner",
@@ -68,7 +68,7 @@
       "spawnAvailability": "stage-weight",
       "guarantee": "common-money-and-trousers",
       "naturalRangedAttack": "none",
-      "deathEffect": "FX-02"
+      "deathEffect": "FX-08"
     },
     {
       "archetypeId": "brute",
@@ -82,7 +82,7 @@
       "spawnAvailability": "stage-weight",
       "guarantee": "common-money-and-trousers",
       "naturalRangedAttack": "none",
-      "deathEffect": "FX-02"
+      "deathEffect": "FX-08"
     },
     {
       "archetypeId": "armored",
@@ -96,7 +96,7 @@
       "spawnAvailability": "stage-weight",
       "guarantee": "usable-body-armor",
       "naturalRangedAttack": "none",
-      "deathEffect": "FX-02"
+      "deathEffect": "FX-08"
     },
     {
       "archetypeId": "spitter",
@@ -110,7 +110,7 @@
       "spawnAvailability": "stage-weight",
       "guarantee": "common-money-and-trousers",
       "naturalRangedAttack": "spitter.spit",
-      "deathEffect": "FX-02"
+      "deathEffect": "FX-08"
     },
     {
       "archetypeId": "archer",
@@ -124,7 +124,7 @@
       "spawnAvailability": "stage-weight",
       "guarantee": "usable-bow-and-24-48-arrows",
       "naturalRangedAttack": "none",
-      "deathEffect": "FX-02"
+      "deathEffect": "FX-08"
     },
     {
       "archetypeId": "bloater",
@@ -138,7 +138,7 @@
       "spawnAvailability": "stage-weight",
       "guarantee": "common-money-and-trousers",
       "naturalRangedAttack": "none",
-      "deathEffect": "FX-11"
+      "deathEffect": "FX-07"
     }
   ],
   "targeting": {

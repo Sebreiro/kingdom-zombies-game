@@ -97,7 +97,7 @@
                 "spawnAvailability": "stage-weight",
                 "guarantee": "common-money-and-trousers",
                 "naturalRangedAttack": "none",
-                "deathEffect": "FX-02"
+                "deathEffect": "FX-08"
               },
               {
                 "archetypeId": "runner",
@@ -111,7 +111,7 @@
                 "spawnAvailability": "stage-weight",
                 "guarantee": "common-money-and-trousers",
                 "naturalRangedAttack": "none",
-                "deathEffect": "FX-02"
+                "deathEffect": "FX-08"
               },
               {
                 "archetypeId": "brute",
@@ -125,7 +125,7 @@
                 "spawnAvailability": "stage-weight",
                 "guarantee": "common-money-and-trousers",
                 "naturalRangedAttack": "none",
-                "deathEffect": "FX-02"
+                "deathEffect": "FX-08"
               },
               {
                 "archetypeId": "armored",
@@ -139,7 +139,7 @@
                 "spawnAvailability": "stage-weight",
                 "guarantee": "usable-body-armor",
                 "naturalRangedAttack": "none",
-                "deathEffect": "FX-02"
+                "deathEffect": "FX-08"
               },
               {
                 "archetypeId": "spitter",
@@ -153,7 +153,7 @@
                 "spawnAvailability": "stage-weight",
                 "guarantee": "common-money-and-trousers",
                 "naturalRangedAttack": "spitter.spit",
-                "deathEffect": "FX-02"
+                "deathEffect": "FX-08"
               },
               {
                 "archetypeId": "archer",
@@ -167,7 +167,7 @@
                 "spawnAvailability": "stage-weight",
                 "guarantee": "usable-bow-and-24-48-arrows",
                 "naturalRangedAttack": "none",
-                "deathEffect": "FX-02"
+                "deathEffect": "FX-08"
               },
               {
                 "archetypeId": "bloater",
@@ -181,7 +181,7 @@
                 "spawnAvailability": "stage-weight",
                 "guarantee": "common-money-and-trousers",
                 "naturalRangedAttack": "none",
-                "deathEffect": "FX-11"
+                "deathEffect": "FX-07"
               }
             ],
             "targeting": {
@@ -358,7 +358,7 @@
           "path": "/common/regenerationPerSecond",
           "type": "number",
           "meaning": "zombies /common/regenerationPerSecond; explicit source baseline or policy: 12",
-          "unit": "count",
+          "unit": "stamina/second",
           "default": 12,
           "allowed": {
             "minimum": 0,
@@ -450,7 +450,7 @@
           "path": "/common/naturalHealthRecovery",
           "type": "number",
           "meaning": "zombies /common/naturalHealthRecovery; explicit source baseline or policy: 0",
-          "unit": "count",
+          "unit": "health/second",
           "default": 0,
           "allowed": {
             "minimum": 0,
@@ -1219,7 +1219,7 @@
               "spawnAvailability": "stage-weight",
               "guarantee": "common-money-and-trousers",
               "naturalRangedAttack": "none",
-              "deathEffect": "FX-02"
+              "deathEffect": "FX-08"
             },
             {
               "archetypeId": "runner",
@@ -1233,7 +1233,7 @@
               "spawnAvailability": "stage-weight",
               "guarantee": "common-money-and-trousers",
               "naturalRangedAttack": "none",
-              "deathEffect": "FX-02"
+              "deathEffect": "FX-08"
             },
             {
               "archetypeId": "brute",
@@ -1247,7 +1247,7 @@
               "spawnAvailability": "stage-weight",
               "guarantee": "common-money-and-trousers",
               "naturalRangedAttack": "none",
-              "deathEffect": "FX-02"
+              "deathEffect": "FX-08"
             },
             {
               "archetypeId": "armored",
@@ -1261,7 +1261,7 @@
               "spawnAvailability": "stage-weight",
               "guarantee": "usable-body-armor",
               "naturalRangedAttack": "none",
-              "deathEffect": "FX-02"
+              "deathEffect": "FX-08"
             },
             {
               "archetypeId": "spitter",
@@ -1275,7 +1275,7 @@
               "spawnAvailability": "stage-weight",
               "guarantee": "common-money-and-trousers",
               "naturalRangedAttack": "spitter.spit",
-              "deathEffect": "FX-02"
+              "deathEffect": "FX-08"
             },
             {
               "archetypeId": "archer",
@@ -1289,7 +1289,7 @@
               "spawnAvailability": "stage-weight",
               "guarantee": "usable-bow-and-24-48-arrows",
               "naturalRangedAttack": "none",
-              "deathEffect": "FX-02"
+              "deathEffect": "FX-08"
             },
             {
               "archetypeId": "bloater",
@@ -1303,7 +1303,7 @@
               "spawnAvailability": "stage-weight",
               "guarantee": "common-money-and-trousers",
               "naturalRangedAttack": "none",
-              "deathEffect": "FX-11"
+              "deathEffect": "FX-07"
             }
           ],
           "allowed": {
@@ -1339,7 +1339,7 @@
             "spawnAvailability": "stage-weight",
             "guarantee": "common-money-and-trousers",
             "naturalRangedAttack": "none",
-            "deathEffect": "FX-02"
+            "deathEffect": "FX-08"
           },
           "allowed": {},
           "dependencies": [
@@ -1610,12 +1610,12 @@
           "id": "zombies:/archetypes/0/deathEffect",
           "path": "/archetypes/0/deathEffect",
           "type": "string",
-          "meaning": "zombies /archetypes/0/deathEffect; explicit source baseline or policy: FX-02",
+          "meaning": "zombies /archetypes/0/deathEffect; explicit source baseline or policy: FX-08",
           "unit": "ordinal-policy-or-identity",
-          "default": "FX-02",
+          "default": "FX-08",
           "allowed": {
             "choices": [
-              "FX-02"
+              "FX-08"
             ]
           },
           "dependencies": [
@@ -1647,7 +1647,7 @@
             "spawnAvailability": "stage-weight",
             "guarantee": "common-money-and-trousers",
             "naturalRangedAttack": "none",
-            "deathEffect": "FX-02"
+            "deathEffect": "FX-08"
           },
           "allowed": {},
           "dependencies": [
@@ -1918,12 +1918,12 @@
           "id": "zombies:/archetypes/1/deathEffect",
           "path": "/archetypes/1/deathEffect",
           "type": "string",
-          "meaning": "zombies /archetypes/1/deathEffect; explicit source baseline or policy: FX-02",
+          "meaning": "zombies /archetypes/1/deathEffect; explicit source baseline or policy: FX-08",
           "unit": "ordinal-policy-or-identity",
-          "default": "FX-02",
+          "default": "FX-08",
           "allowed": {
             "choices": [
-              "FX-02"
+              "FX-08"
             ]
           },
           "dependencies": [
@@ -1955,7 +1955,7 @@
             "spawnAvailability": "stage-weight",
             "guarantee": "common-money-and-trousers",
             "naturalRangedAttack": "none",
-            "deathEffect": "FX-02"
+            "deathEffect": "FX-08"
           },
           "allowed": {},
           "dependencies": [
@@ -2226,12 +2226,12 @@
           "id": "zombies:/archetypes/2/deathEffect",
           "path": "/archetypes/2/deathEffect",
           "type": "string",
-          "meaning": "zombies /archetypes/2/deathEffect; explicit source baseline or policy: FX-02",
+          "meaning": "zombies /archetypes/2/deathEffect; explicit source baseline or policy: FX-08",
           "unit": "ordinal-policy-or-identity",
-          "default": "FX-02",
+          "default": "FX-08",
           "allowed": {
             "choices": [
-              "FX-02"
+              "FX-08"
             ]
           },
           "dependencies": [
@@ -2263,7 +2263,7 @@
             "spawnAvailability": "stage-weight",
             "guarantee": "usable-body-armor",
             "naturalRangedAttack": "none",
-            "deathEffect": "FX-02"
+            "deathEffect": "FX-08"
           },
           "allowed": {},
           "dependencies": [
@@ -2534,12 +2534,12 @@
           "id": "zombies:/archetypes/3/deathEffect",
           "path": "/archetypes/3/deathEffect",
           "type": "string",
-          "meaning": "zombies /archetypes/3/deathEffect; explicit source baseline or policy: FX-02",
+          "meaning": "zombies /archetypes/3/deathEffect; explicit source baseline or policy: FX-08",
           "unit": "ordinal-policy-or-identity",
-          "default": "FX-02",
+          "default": "FX-08",
           "allowed": {
             "choices": [
-              "FX-02"
+              "FX-08"
             ]
           },
           "dependencies": [
@@ -2571,7 +2571,7 @@
             "spawnAvailability": "stage-weight",
             "guarantee": "common-money-and-trousers",
             "naturalRangedAttack": "spitter.spit",
-            "deathEffect": "FX-02"
+            "deathEffect": "FX-08"
           },
           "allowed": {},
           "dependencies": [
@@ -2842,12 +2842,12 @@
           "id": "zombies:/archetypes/4/deathEffect",
           "path": "/archetypes/4/deathEffect",
           "type": "string",
-          "meaning": "zombies /archetypes/4/deathEffect; explicit source baseline or policy: FX-02",
+          "meaning": "zombies /archetypes/4/deathEffect; explicit source baseline or policy: FX-08",
           "unit": "ordinal-policy-or-identity",
-          "default": "FX-02",
+          "default": "FX-08",
           "allowed": {
             "choices": [
-              "FX-02"
+              "FX-08"
             ]
           },
           "dependencies": [
@@ -2879,7 +2879,7 @@
             "spawnAvailability": "stage-weight",
             "guarantee": "usable-bow-and-24-48-arrows",
             "naturalRangedAttack": "none",
-            "deathEffect": "FX-02"
+            "deathEffect": "FX-08"
           },
           "allowed": {},
           "dependencies": [
@@ -3150,12 +3150,12 @@
           "id": "zombies:/archetypes/5/deathEffect",
           "path": "/archetypes/5/deathEffect",
           "type": "string",
-          "meaning": "zombies /archetypes/5/deathEffect; explicit source baseline or policy: FX-02",
+          "meaning": "zombies /archetypes/5/deathEffect; explicit source baseline or policy: FX-08",
           "unit": "ordinal-policy-or-identity",
-          "default": "FX-02",
+          "default": "FX-08",
           "allowed": {
             "choices": [
-              "FX-02"
+              "FX-08"
             ]
           },
           "dependencies": [
@@ -3187,7 +3187,7 @@
             "spawnAvailability": "stage-weight",
             "guarantee": "common-money-and-trousers",
             "naturalRangedAttack": "none",
-            "deathEffect": "FX-11"
+            "deathEffect": "FX-07"
           },
           "allowed": {},
           "dependencies": [
@@ -3458,12 +3458,12 @@
           "id": "zombies:/archetypes/6/deathEffect",
           "path": "/archetypes/6/deathEffect",
           "type": "string",
-          "meaning": "zombies /archetypes/6/deathEffect; explicit source baseline or policy: FX-11",
+          "meaning": "zombies /archetypes/6/deathEffect; explicit source baseline or policy: FX-07",
           "unit": "ordinal-policy-or-identity",
-          "default": "FX-11",
+          "default": "FX-07",
           "allowed": {
             "choices": [
-              "FX-11"
+              "FX-07"
             ]
           },
           "dependencies": [
@@ -3990,7 +3990,7 @@
           "path": "/bloater/slowdown",
           "type": "number",
           "meaning": "zombies /bloater/slowdown; explicit source baseline or policy: 0",
-          "unit": "count",
+          "unit": "ratio",
           "default": 0,
           "allowed": {
             "minimum": 0,
@@ -4013,7 +4013,7 @@
           "path": "/bloater/durabilityLoss",
           "type": "number",
           "meaning": "zombies /bloater/durabilityLoss; explicit source baseline or policy: 0",
-          "unit": "count",
+          "unit": "durability",
           "default": 0,
           "allowed": {
             "minimum": 0,
@@ -4646,7 +4646,7 @@
           "path": "/generation/minimumMoney",
           "type": "number",
           "meaning": "zombie-loot /generation/minimumMoney; explicit source baseline or policy: 1",
-          "unit": "count",
+          "unit": "money",
           "default": 1,
           "allowed": {
             "minimum": 0,
