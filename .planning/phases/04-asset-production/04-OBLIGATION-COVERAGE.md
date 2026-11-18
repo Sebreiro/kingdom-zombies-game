@@ -211,6 +211,8 @@ Revision1 closes the concrete current proof-consumer gap without adding a plan o
 
 Only DT-27 task mapping changes to31 Task2 for final portable docs/export closure; all180 IDs, authoritative names/details/source statements and acceptance statuses remain unchanged.31 Task1 supplies the compatible actual current native consumer supporting that existing obligation.
 
+Prospective source-prerequisite ordering during23R1.2: [exactamendment](04-CURRENT-PACK-INTEGRATION-AMENDMENT.md#dt2627-source-prerequisites-before-the-all180-integration-gate) shares DT26 fixedfixturecatalog/sourcecrosswalk and DT27 actualdelivery/docs/applicationicon sourceproduction with23 beforeits all180sourcegate. Existing03/08–17/26–29 fixtures mustactuallysatisfy everyDT26 requirement;30stillimplements/proves completeexecutableevidence/review/prelaunch/selection gates.31retains finalcurrentobserver/tracer/export/portability/relaunch and32/33actualWindowsjudgments;Linux staysitslaterowner. No resource/AC/H/UI statement,identity,acceptancestatus or futurepass is reduced/changed. NewruntimePNG is exactretainedsource,not anotherobligation;plannedinventory237/formalcounts unchanged.
+
 
 
 ## Frozen generated-authentication prerequisite —37

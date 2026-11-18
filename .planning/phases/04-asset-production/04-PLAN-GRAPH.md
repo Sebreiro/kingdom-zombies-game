@@ -205,6 +205,8 @@ Revision1 closes the concrete current proof-consumer gap without adding a plan o
 
 DT-27 final delivery/docs ownership is31 Task2; existing AC-15/16/17 retain their statements and gain31 Task2 alongside actual consumer proof inTask1. H31 remains31 Task2. The report04-PLAN-CHECK-INTEGRATION-PREREQUISITE.md and all prior planning/evidence records remain historical and unmodified.
 
+Prospective producer-cycle repair during23R1.2: the exact [DT26/27 source prerequisite amendment](04-CURRENT-PACK-INTEGRATION-AMENDMENT.md#dt2627-source-prerequisites-before-the-all180-integration-gate) advances real fixedfixturecatalog and delivery/docs/applicationicon SOURCE portions of30Task1/31Task2 before23's all180sourcegate.30 executableevidence/review/selection gates and31 fullcurrentobserver/tracer/finalexport/portability/relaunch remain laterformalowners;no completioncounter moves. Everyactual180sourceoutput mustvalidate and actualacceptance remains32/33. Formal37plans/74tasks/31waves retained;one exactretainedruntimePNG makescurrentplannedinventory237. Historicalgraph/probe counts remain unchanged.
+
 
 
 ## Frozen generated-authentication prerequisite —37
