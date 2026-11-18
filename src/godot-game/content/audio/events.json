@@ -1,0 +1,3748 @@
+{
+  "schemaVersion": 1,
+  "id": "sound-events",
+  "obligation": "DT-23",
+  "version": 1,
+  "buses": [
+    "Master",
+    "Effects",
+    "Ambience"
+  ],
+  "defaults": {
+    "gameplayConcurrentLimit": 24,
+    "repeatedEffectLimit": 4,
+    "masterPercent": 80,
+    "effectsPercent": 80,
+    "ambiencePercent": 60
+  },
+  "configurableFields": {
+    "gameplayConcurrentLimit": {
+      "unit": "simultaneous-players",
+      "minimum": 1,
+      "maximum": 128
+    },
+    "repeatedEffectLimit": {
+      "unit": "instances-per-effect",
+      "minimum": 1,
+      "maximum": 24
+    },
+    "volumePercent": {
+      "unit": "percent",
+      "minimum": 0,
+      "maximum": 100
+    }
+  },
+  "sourcePreferences": "config/local-preferences.json",
+  "sourcePresentation": "config/presentation.json",
+  "samplePacks": [
+    "packs/audio-actions.json",
+    "packs/audio-interface-ambience.json"
+  ],
+  "events": [
+    {
+      "category": "AU-01",
+      "id": "footstep",
+      "bus": "Effects",
+      "gainLinear": 0.85,
+      "variants": [
+        "action.3294.full",
+        "action.4949.full"
+      ],
+      "routes": [
+        {
+          "id": "footstep.walk",
+          "operation": "walk",
+          "variants": [
+            "action.3294.full",
+            "action.4949.full"
+          ],
+          "selection": "uniform-random-avoid-immediate-repeat",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 80,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted walk event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "footstep.sprint",
+          "operation": "sprint",
+          "variants": [
+            "action.3294.full",
+            "action.4949.full"
+          ],
+          "selection": "uniform-random-avoid-immediate-repeat",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 80,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted sprint event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "footstep.npc-carry-retreat",
+          "operation": "npc-carry-retreat",
+          "variants": [
+            "action.3294.full",
+            "action.4949.full"
+          ],
+          "selection": "uniform-random-avoid-immediate-repeat",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 80,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted npc-carry-retreat event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        }
+      ],
+      "semantics": "Inspect resource routing; future gameplay/integration owns contextual event classification"
+    },
+    {
+      "category": "AU-02",
+      "id": "jump.land",
+      "bus": "Effects",
+      "gainLinear": 0.85,
+      "variants": [
+        "action.3294.jump-trim",
+        "action.4949.jump-trim"
+      ],
+      "routes": [
+        {
+          "id": "jump.land.takeoff",
+          "operation": "takeoff",
+          "variants": [
+            "action.3294.jump-trim"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted takeoff event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "jump.land.landing",
+          "operation": "landing",
+          "variants": [
+            "action.4949.jump-trim"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted landing event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        }
+      ],
+      "semantics": "Inspect resource routing; future gameplay/integration owns contextual event classification"
+    },
+    {
+      "category": "AU-03",
+      "id": "melee.swing",
+      "bus": "Effects",
+      "gainLinear": 0.85,
+      "variants": [
+        "action.3369.full",
+        "action.4872.full"
+      ],
+      "routes": [
+        {
+          "id": "melee.swing.fist-knife-machete",
+          "operation": "fist-knife-machete",
+          "variants": [
+            "action.3369.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted fist-knife-machete event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "melee.swing.club-bat",
+          "operation": "club-bat",
+          "variants": [
+            "action.4872.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted club-bat event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "melee.swing.dual-contact",
+          "operation": "dual-contact",
+          "variants": [
+            "action.3369.full",
+            "action.4872.full"
+          ],
+          "selection": "uniform-random-avoid-immediate-repeat",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted dual-contact event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        }
+      ],
+      "semantics": "Inspect resource routing; future gameplay/integration owns contextual event classification"
+    },
+    {
+      "category": "AU-04",
+      "id": "melee.impact",
+      "bus": "Effects",
+      "gainLinear": 0.85,
+      "variants": [
+        "action.5123.full",
+        "action.2880.full",
+        "action.3700.full"
+      ],
+      "routes": [
+        {
+          "id": "melee.impact.flesh",
+          "operation": "flesh",
+          "variants": [
+            "action.5123.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 100,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted flesh event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "melee.impact.armor-blunt",
+          "operation": "armor-blunt",
+          "variants": [
+            "action.2880.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 100,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted armor-blunt event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "melee.impact.armor-arrow",
+          "operation": "armor-arrow",
+          "variants": [
+            "action.3700.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 100,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted armor-arrow event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        }
+      ],
+      "semantics": "Inspect resource routing; future gameplay/integration owns contextual event classification"
+    },
+    {
+      "category": "AU-05",
+      "id": "equipment.broken",
+      "bus": "Effects",
+      "gainLinear": 0.85,
+      "variants": [
+        "action.4523.break-trim",
+        "action.3574.break-trim"
+      ],
+      "routes": [
+        {
+          "id": "equipment.broken.wood-break",
+          "operation": "wood-break",
+          "variants": [
+            "action.4523.break-trim"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted wood-break event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "equipment.broken.metal-break",
+          "operation": "metal-break",
+          "variants": [
+            "action.3574.break-trim"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted metal-break event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        }
+      ],
+      "semantics": "Inspect resource routing; future gameplay/integration owns contextual event classification"
+    },
+    {
+      "category": "AU-06",
+      "id": "bow.release",
+      "bus": "Effects",
+      "gainLinear": 0.85,
+      "variants": [
+        "action.3288.full"
+      ],
+      "routes": [
+        {
+          "id": "bow.release.ordinary-archer",
+          "operation": "ordinary-archer",
+          "variants": [
+            "action.3288.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted ordinary-archer event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "bow.release.tower-archer",
+          "operation": "tower-archer",
+          "variants": [
+            "action.3288.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted tower-archer event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        }
+      ],
+      "semantics": "Inspect resource routing; future gameplay/integration owns contextual event classification"
+    },
+    {
+      "category": "AU-07",
+      "id": "arrow.contact",
+      "bus": "Effects",
+      "gainLinear": 0.85,
+      "variants": [
+        "action.3640.full",
+        "action.4434.full",
+        "action.5020.full",
+        "action.3357.full",
+        "action.4692.full",
+        "action.5476.full"
+      ],
+      "routes": [
+        {
+          "id": "arrow.contact.terrain",
+          "operation": "terrain",
+          "variants": [
+            "action.3640.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted terrain event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "arrow.contact.wood",
+          "operation": "wood",
+          "variants": [
+            "action.4434.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted wood event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "arrow.contact.metal",
+          "operation": "metal",
+          "variants": [
+            "action.5020.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted metal event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "arrow.contact.prey",
+          "operation": "prey",
+          "variants": [
+            "action.3357.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted prey event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "arrow.contact.portal",
+          "operation": "portal",
+          "variants": [
+            "action.4692.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted portal event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "arrow.contact.generic",
+          "operation": "generic",
+          "variants": [
+            "action.5476.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted generic event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        }
+      ],
+      "semantics": "Only actual first contact; passed allies and fired-arrow pickup emit nothing"
+    },
+    {
+      "category": "AU-08",
+      "id": "spit.release-impact",
+      "bus": "Effects",
+      "gainLinear": 0.85,
+      "variants": [
+        "action.2790.full"
+      ],
+      "routes": [
+        {
+          "id": "spit.release-impact.windup",
+          "operation": "windup",
+          "variants": [
+            "action.2790.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted windup event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "spit.release-impact.release",
+          "operation": "release",
+          "variants": [
+            "action.2790.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted release event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "spit.release-impact.direct-hit",
+          "operation": "direct-hit",
+          "variants": [
+            "action.2790.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted direct-hit event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        }
+      ],
+      "semantics": "Inspect resource routing; future gameplay/integration owns contextual event classification"
+    },
+    {
+      "category": "AU-09",
+      "id": "zombie.move-attack-hit-death",
+      "bus": "Effects",
+      "gainLinear": 0.85,
+      "variants": [
+        "action.2864.full",
+        "action.3150.full",
+        "action.2880.full",
+        "action.3700.full",
+        "action.3131.full",
+        "action.2804.full",
+        "action.3554.full"
+      ],
+      "routes": [
+        {
+          "id": "zombie.move-attack-hit-death.movement",
+          "operation": "movement",
+          "variants": [
+            "action.2864.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted movement event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "zombie.move-attack-hit-death.attack",
+          "operation": "attack",
+          "variants": [
+            "action.3150.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted attack event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "zombie.move-attack-hit-death.hit",
+          "operation": "hit",
+          "variants": [
+            "action.2880.full",
+            "action.3700.full"
+          ],
+          "selection": "uniform-random-avoid-immediate-repeat",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted hit event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "zombie.move-attack-hit-death.death",
+          "operation": "death",
+          "variants": [
+            "action.3131.full",
+            "action.2804.full",
+            "action.3554.full"
+          ],
+          "selection": "uniform-random-avoid-immediate-repeat",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted death event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        }
+      ],
+      "semantics": "Inspect resource routing; future gameplay/integration owns contextual event classification"
+    },
+    {
+      "category": "AU-10",
+      "id": "survivor.hit-death-succession",
+      "bus": "Effects",
+      "gainLinear": 0.85,
+      "variants": [
+        "action.5123.full",
+        "action.5736.full"
+      ],
+      "routes": [
+        {
+          "id": "survivor.hit-death-succession.damage",
+          "operation": "damage",
+          "variants": [
+            "action.5123.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 100,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted damage event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "survivor.hit-death-succession.death",
+          "operation": "death",
+          "variants": [
+            "action.5736.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 100,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted death event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "survivor.hit-death-succession.control-succession",
+          "operation": "control-succession",
+          "variants": [
+            "action.5736.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 100,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted control-succession event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        }
+      ],
+      "semantics": "Inspect resource routing; future gameplay/integration owns contextual event classification"
+    },
+    {
+      "category": "AU-11",
+      "id": "wildlife.flee-hit-death",
+      "bus": "Effects",
+      "gainLinear": 0.85,
+      "variants": [
+        "action.3944.full",
+        "action.4247.full",
+        "action.3811.full",
+        "action.3357.full"
+      ],
+      "routes": [
+        {
+          "id": "wildlife.flee-hit-death.flee",
+          "operation": "flee",
+          "variants": [
+            "action.3944.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted flee event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "wildlife.flee-hit-death.deer-hit-death",
+          "operation": "deer-hit-death",
+          "variants": [
+            "action.4247.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted deer-hit-death event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "wildlife.flee-hit-death.rabbit-hit-death",
+          "operation": "rabbit-hit-death",
+          "variants": [
+            "action.3811.full",
+            "action.3357.full"
+          ],
+          "selection": "uniform-random-avoid-immediate-repeat",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted rabbit-hit-death event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        }
+      ],
+      "semantics": "Inspect resource routing; future gameplay/integration owns contextual event classification"
+    },
+    {
+      "category": "AU-12",
+      "id": "work.build-repair",
+      "bus": "Effects",
+      "gainLinear": 0.85,
+      "variants": [
+        "action.5272.full",
+        "action.3945.full",
+        "action.3804.full",
+        "action.5176.full"
+      ],
+      "routes": [
+        {
+          "id": "work.build-repair.wood-build-repair",
+          "operation": "wood-build-repair",
+          "variants": [
+            "action.5272.full",
+            "action.3945.full"
+          ],
+          "selection": "uniform-random-avoid-immediate-repeat",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted wood-build-repair event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "work.build-repair.metal-build-repair",
+          "operation": "metal-build-repair",
+          "variants": [
+            "action.3804.full",
+            "action.5176.full"
+          ],
+          "selection": "uniform-random-avoid-immediate-repeat",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted metal-build-repair event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        }
+      ],
+      "semantics": "Actual accepted paid work; never free automatic repair"
+    },
+    {
+      "category": "AU-13",
+      "id": "tree.clear",
+      "bus": "Effects",
+      "gainLinear": 0.85,
+      "variants": [
+        "action.4611.full",
+        "action.3741.full",
+        "action.3672.full",
+        "action.4523.full",
+        "action.5654.full"
+      ],
+      "routes": [
+        {
+          "id": "tree.clear.mark",
+          "operation": "mark",
+          "variants": [
+            "action.4611.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted mark event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "tree.clear.chop",
+          "operation": "chop",
+          "variants": [
+            "action.3741.full",
+            "action.3672.full"
+          ],
+          "selection": "uniform-random-avoid-immediate-repeat",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted chop event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "tree.clear.fall",
+          "operation": "fall",
+          "variants": [
+            "action.4523.full",
+            "action.5654.full"
+          ],
+          "selection": "uniform-random-avoid-immediate-repeat",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted fall event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        }
+      ],
+      "semantics": "Inspect resource routing; future gameplay/integration owns contextual event classification"
+    },
+    {
+      "category": "AU-14",
+      "id": "structure.begin-complete",
+      "bus": "Effects",
+      "gainLinear": 0.85,
+      "variants": [
+        "action.2862.full",
+        "action.4543.full",
+        "action.4245.full"
+      ],
+      "routes": [
+        {
+          "id": "structure.begin-complete.accepted-begin",
+          "operation": "accepted-begin",
+          "variants": [
+            "action.2862.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted accepted-begin event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "structure.begin-complete.wood-complete",
+          "operation": "wood-complete",
+          "variants": [
+            "action.4543.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted wood-complete event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "structure.begin-complete.metal-complete",
+          "operation": "metal-complete",
+          "variants": [
+            "action.4245.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted metal-complete event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        }
+      ],
+      "semantics": "Inspect resource routing; future gameplay/integration owns contextual event classification"
+    },
+    {
+      "category": "AU-15",
+      "id": "structure.hit-collapse",
+      "bus": "Effects",
+      "gainLinear": 0.85,
+      "variants": [
+        "action.4169.full",
+        "action.4041.full",
+        "action.4523.full",
+        "action.5654.full",
+        "action.3574.full",
+        "action.5154.full"
+      ],
+      "routes": [
+        {
+          "id": "structure.hit-collapse.wood-hit",
+          "operation": "wood-hit",
+          "variants": [
+            "action.4169.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted wood-hit event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "structure.hit-collapse.metal-hit",
+          "operation": "metal-hit",
+          "variants": [
+            "action.4041.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted metal-hit event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "structure.hit-collapse.wood-collapse",
+          "operation": "wood-collapse",
+          "variants": [
+            "action.4523.full",
+            "action.5654.full"
+          ],
+          "selection": "uniform-random-avoid-immediate-repeat",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted wood-collapse event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "structure.hit-collapse.metal-collapse",
+          "operation": "metal-collapse",
+          "variants": [
+            "action.3574.full",
+            "action.5154.full"
+          ],
+          "selection": "uniform-random-avoid-immediate-repeat",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted metal-collapse event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        }
+      ],
+      "semantics": "Inspect resource routing; future gameplay/integration owns contextual event classification"
+    },
+    {
+      "category": "AU-16",
+      "id": "money.payment",
+      "bus": "Effects",
+      "gainLinear": 0.85,
+      "variants": [
+        "interface.r3254.full",
+        "interface.r4864.full",
+        "action.2862.full"
+      ],
+      "routes": [
+        {
+          "id": "money.payment.pickup",
+          "operation": "pickup",
+          "variants": [
+            "interface.r3254.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted pickup event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "money.payment.drop",
+          "operation": "drop",
+          "variants": [
+            "interface.r4864.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted drop event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "money.payment.accepted-payment",
+          "operation": "accepted-payment",
+          "variants": [
+            "action.2862.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted accepted-payment event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "money.payment.food-sale-proceeds",
+          "operation": "food-sale-proceeds",
+          "variants": [
+            "interface.r3254.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted food-sale-proceeds event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        }
+      ],
+      "semantics": "Committed physical transfer/payment only; failed or duplicate transactions emit nothing"
+    },
+    {
+      "category": "AU-17",
+      "id": "recruit.equip",
+      "bus": "Effects",
+      "gainLinear": 0.85,
+      "variants": [
+        "interface.r4973.full",
+        "interface.r3863.full",
+        "interface.r3195.full"
+      ],
+      "routes": [
+        {
+          "id": "recruit.equip.recruit-appears",
+          "operation": "recruit-appears",
+          "variants": [
+            "interface.r4973.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted recruit-appears event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "recruit.equip.job-assigned",
+          "operation": "job-assigned",
+          "variants": [
+            "interface.r3863.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted job-assigned event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "recruit.equip.equipment-acquired",
+          "operation": "equipment-acquired",
+          "variants": [
+            "interface.r3195.full",
+            "interface.r3863.full"
+          ],
+          "selection": "uniform-random-avoid-immediate-repeat",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted equipment-acquired event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        }
+      ],
+      "semantics": "Inspect resource routing; future gameplay/integration owns contextual event classification"
+    },
+    {
+      "category": "AU-18",
+      "id": "inventory.transfer",
+      "bus": "Effects",
+      "gainLinear": 0.85,
+      "variants": [
+        "interface.s0438.full",
+        "interface.r3755.full",
+        "interface.s0485.full",
+        "interface.s0449.full",
+        "interface.s0420.full",
+        "interface.r3195.full"
+      ],
+      "routes": [
+        {
+          "id": "inventory.transfer.open",
+          "operation": "open",
+          "variants": [
+            "interface.s0438.full",
+            "interface.r3755.full"
+          ],
+          "selection": "uniform-random-avoid-immediate-repeat",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted open event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "inventory.transfer.close",
+          "operation": "close",
+          "variants": [
+            "interface.s0485.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted close event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "inventory.transfer.move",
+          "operation": "move",
+          "variants": [
+            "interface.s0449.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted move event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "inventory.transfer.split",
+          "operation": "split",
+          "variants": [
+            "interface.s0449.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted split event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "inventory.transfer.rotate",
+          "operation": "rotate",
+          "variants": [
+            "interface.s0420.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted rotate event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "inventory.transfer.equip",
+          "operation": "equip",
+          "variants": [
+            "interface.r3195.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted equip event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        }
+      ],
+      "semantics": "Inspect resource routing; future gameplay/integration owns contextual event classification"
+    },
+    {
+      "category": "AU-19",
+      "id": "food.use-sale",
+      "bus": "Effects",
+      "gainLinear": 0.85,
+      "variants": [
+        "interface.food-crunch.v1",
+        "interface.r3254.full"
+      ],
+      "routes": [
+        {
+          "id": "food.use-sale.consume",
+          "operation": "consume",
+          "variants": [
+            "interface.food-crunch.v1"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted consume event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "food.use-sale.sale",
+          "operation": "sale",
+          "variants": [
+            "interface.r3254.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted sale event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        }
+      ],
+      "semantics": "Inspect resource routing; future gameplay/integration owns contextual event classification"
+    },
+    {
+      "category": "AU-20",
+      "id": "warning.day-night-retaliation-assault",
+      "bus": "Effects",
+      "gainLinear": 0.85,
+      "variants": [
+        "interface.s268.full",
+        "interface.r5586.full",
+        "interface.s0485.full"
+      ],
+      "routes": [
+        {
+          "id": "warning.day-night-retaliation-assault.day",
+          "operation": "day",
+          "variants": [
+            "interface.s268.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 100,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted day event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": true,
+          "visualPairs": [
+            "UI-12",
+            "UI-26"
+          ]
+        },
+        {
+          "id": "warning.day-night-retaliation-assault.night",
+          "operation": "night",
+          "variants": [
+            "interface.s268.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 100,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted night event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": true,
+          "visualPairs": [
+            "UI-12",
+            "UI-26"
+          ]
+        },
+        {
+          "id": "warning.day-night-retaliation-assault.retaliation",
+          "operation": "retaliation",
+          "variants": [
+            "interface.r5586.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 100,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted retaliation event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": true,
+          "visualPairs": [
+            "UI-12",
+            "UI-26"
+          ]
+        },
+        {
+          "id": "warning.day-night-retaliation-assault.assault",
+          "operation": "assault",
+          "variants": [
+            "interface.r5586.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 100,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted assault event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": true,
+          "visualPairs": [
+            "UI-12",
+            "UI-26"
+          ]
+        },
+        {
+          "id": "warning.day-night-retaliation-assault.recall",
+          "operation": "recall",
+          "variants": [
+            "interface.s0485.full",
+            "interface.r5586.full"
+          ],
+          "selection": "uniform-random-avoid-immediate-repeat",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 100,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted recall event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": true,
+          "visualPairs": [
+            "UI-12",
+            "UI-26"
+          ]
+        }
+      ],
+      "semantics": "Inspect resource routing; future gameplay/integration owns contextual event classification"
+    },
+    {
+      "category": "AU-21",
+      "id": "portal.active-spawn",
+      "bus": "Ambience",
+      "gainLinear": 0.3,
+      "variants": [
+        "interface.r3558.loop",
+        "interface.r2860.full",
+        "interface.r5582.full"
+      ],
+      "routes": [
+        {
+          "id": "portal.active-spawn.active-loop",
+          "operation": "active-loop",
+          "variants": [
+            "interface.r3558.loop"
+          ],
+          "selection": "single",
+          "bus": "Ambience",
+          "gainLinear": 0.3,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 10,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "reconcile current active-loop state",
+          "lifecycle": {
+            "mode": "current-state-loop",
+            "restore": "reconcile-exact-current-owner",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 750
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "portal.active-spawn.open",
+          "operation": "open",
+          "variants": [
+            "interface.r2860.full"
+          ],
+          "selection": "single",
+          "bus": "Ambience",
+          "gainLinear": 0.3,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted open event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "portal.active-spawn.spawn",
+          "operation": "spawn",
+          "variants": [
+            "interface.r5582.full"
+          ],
+          "selection": "single",
+          "bus": "Ambience",
+          "gainLinear": 0.3,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted spawn event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        }
+      ],
+      "semantics": "Active hostile portal only; no player teleport; destruction stops active loop permanently"
+    },
+    {
+      "category": "AU-22",
+      "id": "portal.destroy",
+      "bus": "Effects",
+      "gainLinear": 0.85,
+      "variants": [
+        "interface.r4364.full"
+      ],
+      "routes": [
+        {
+          "id": "portal.destroy.permanent-destruction",
+          "operation": "permanent-destruction",
+          "variants": [
+            "interface.r4364.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 100,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted permanent-destruction event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": true,
+          "visualPairs": [
+            "FX-05",
+            "UI-20",
+            "UI-26"
+          ]
+        }
+      ],
+      "semantics": "Inspect resource routing; future gameplay/integration owns contextual event classification"
+    },
+    {
+      "category": "AU-23",
+      "id": "outcome",
+      "bus": "Effects",
+      "gainLinear": 0.85,
+      "variants": [
+        "action.4543.full",
+        "action.4523.full"
+      ],
+      "routes": [
+        {
+          "id": "outcome.victory",
+          "operation": "victory",
+          "variants": [
+            "action.4543.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted victory event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": true,
+          "visualPairs": [
+            "UI-24",
+            "UI-26"
+          ]
+        },
+        {
+          "id": "outcome.defeat",
+          "operation": "defeat",
+          "variants": [
+            "action.4523.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted defeat event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": true,
+          "visualPairs": [
+            "UI-24",
+            "UI-26"
+          ]
+        }
+      ],
+      "semantics": "Inspect resource routing; future gameplay/integration owns contextual event classification"
+    },
+    {
+      "category": "AU-24",
+      "id": "session.connection",
+      "bus": "Effects",
+      "gainLinear": 0.85,
+      "variants": [
+        "interface.s0507.full",
+        "interface.s0437.full",
+        "interface.s0485.negative"
+      ],
+      "routes": [
+        {
+          "id": "session.connection.join",
+          "operation": "join",
+          "variants": [
+            "interface.s0507.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 100,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted join event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": true,
+          "visualPairs": [
+            "UI-10",
+            "UI-11",
+            "UI-26"
+          ]
+        },
+        {
+          "id": "session.connection.leave",
+          "operation": "leave",
+          "variants": [
+            "interface.s0437.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 100,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted leave event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": true,
+          "visualPairs": [
+            "UI-10",
+            "UI-11",
+            "UI-26"
+          ]
+        },
+        {
+          "id": "session.connection.failure",
+          "operation": "failure",
+          "variants": [
+            "interface.s0485.negative"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 100,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted failure event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": true,
+          "visualPairs": [
+            "UI-10",
+            "UI-11",
+            "UI-26"
+          ]
+        }
+      ],
+      "semantics": "Inspect resource routing; future gameplay/integration owns contextual event classification"
+    },
+    {
+      "category": "AU-25",
+      "id": "save.error",
+      "bus": "Effects",
+      "gainLinear": 0.85,
+      "variants": [
+        "interface.s0449.full",
+        "interface.s0485.negative"
+      ],
+      "routes": [
+        {
+          "id": "save.error.save-success",
+          "operation": "save-success",
+          "variants": [
+            "interface.s0449.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 100,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted save-success event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": true,
+          "visualPairs": [
+            "UI-22",
+            "UI-23",
+            "UI-26",
+            "UI-27"
+          ]
+        },
+        {
+          "id": "save.error.save-failure",
+          "operation": "save-failure",
+          "variants": [
+            "interface.s0485.negative"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 100,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted save-failure event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": true,
+          "visualPairs": [
+            "UI-22",
+            "UI-23",
+            "UI-26",
+            "UI-27"
+          ]
+        },
+        {
+          "id": "save.error.invalid-action",
+          "operation": "invalid-action",
+          "variants": [
+            "interface.s0485.negative"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 100,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted invalid-action event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": true,
+          "visualPairs": [
+            "UI-22",
+            "UI-23",
+            "UI-26",
+            "UI-27"
+          ]
+        },
+        {
+          "id": "save.error.content-error",
+          "operation": "content-error",
+          "variants": [
+            "interface.s0485.negative"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 100,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted content-error event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": true,
+          "visualPairs": [
+            "UI-22",
+            "UI-23",
+            "UI-26",
+            "UI-27"
+          ]
+        }
+      ],
+      "semantics": "Inspect resource routing; future gameplay/integration owns contextual event classification"
+    },
+    {
+      "category": "AU-26",
+      "id": "ui.action",
+      "bus": "Effects",
+      "gainLinear": 0.85,
+      "variants": [
+        "interface.s0420.full",
+        "interface.s0392.full",
+        "interface.s0449.full",
+        "interface.s0485.full"
+      ],
+      "routes": [
+        {
+          "id": "ui.action.hover",
+          "operation": "hover",
+          "variants": [
+            "interface.s0420.full",
+            "interface.s0392.full"
+          ],
+          "selection": "uniform-random-avoid-immediate-repeat",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 40,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted hover event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "ui.action.confirm",
+          "operation": "confirm",
+          "variants": [
+            "interface.s0449.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 40,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted confirm event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "ui.action.cancel",
+          "operation": "cancel",
+          "variants": [
+            "interface.s0485.full"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 40,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted cancel event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        }
+      ],
+      "semantics": "Inspect resource routing; future gameplay/integration owns contextual event classification"
+    },
+    {
+      "category": "AU-27",
+      "id": "ambience.day-night",
+      "bus": "Ambience",
+      "gainLinear": 0.35,
+      "variants": [
+        "interface.s2125.loop",
+        "interface.s2138.loop"
+      ],
+      "routes": [
+        {
+          "id": "ambience.day-night.forest-day",
+          "operation": "forest-day",
+          "variants": [
+            "interface.s2125.loop"
+          ],
+          "selection": "single",
+          "bus": "Ambience",
+          "gainLinear": 0.35,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 10,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "reconcile current forest-day state",
+          "lifecycle": {
+            "mode": "current-state-loop",
+            "restore": "reconcile-exact-current-owner",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 750
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "ambience.day-night.forest-night",
+          "operation": "forest-night",
+          "variants": [
+            "interface.s2138.loop"
+          ],
+          "selection": "single",
+          "bus": "Ambience",
+          "gainLinear": 0.35,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 10,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "reconcile current forest-night state",
+          "lifecycle": {
+            "mode": "current-state-loop",
+            "restore": "reconcile-exact-current-owner",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 750
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        }
+      ],
+      "semantics": "Inspect resource routing; future gameplay/integration owns contextual event classification"
+    },
+    {
+      "category": "AU-28",
+      "id": "ambience.fire-wind",
+      "bus": "Ambience",
+      "gainLinear": 0.2,
+      "variants": [
+        "interface.r4441.loop",
+        "interface.s2152.loop"
+      ],
+      "routes": [
+        {
+          "id": "ambience.fire-wind.local-fire",
+          "operation": "local-fire",
+          "variants": [
+            "interface.r4441.loop"
+          ],
+          "selection": "single",
+          "bus": "Ambience",
+          "gainLinear": 0.3,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 10,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "reconcile current local-fire state",
+          "lifecycle": {
+            "mode": "current-state-loop",
+            "restore": "reconcile-exact-current-owner",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 750
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "ambience.fire-wind.wind",
+          "operation": "wind",
+          "variants": [
+            "interface.s2152.loop"
+          ],
+          "selection": "single",
+          "bus": "Ambience",
+          "gainLinear": 0.2,
+          "attenuation": {
+            "mode": "distance",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 10,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "reconcile current wind state",
+          "lifecycle": {
+            "mode": "current-state-loop",
+            "restore": "reconcile-exact-current-owner",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 750
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        }
+      ],
+      "semantics": "Inspect resource routing; future gameplay/integration owns contextual event classification"
+    },
+    {
+      "category": "AU-29",
+      "id": "bloater.splash",
+      "bus": "Effects",
+      "gainLinear": 0.85,
+      "variants": [
+        "interface.bloater-burst.v1"
+      ],
+      "routes": [
+        {
+          "id": "bloater.splash.cosmetic-death-burst",
+          "operation": "cosmetic-death-burst",
+          "variants": [
+            "interface.bloater-burst.v1"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted cosmetic-death-burst event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        }
+      ],
+      "semantics": "Cosmetic death splash only; no damage, burning, persistent hazard or stain loop"
+    },
+    {
+      "category": "AU-30",
+      "id": "gather.carry-handle",
+      "bus": "Effects",
+      "gainLinear": 0.85,
+      "variants": [
+        "interface.handling.v1"
+      ],
+      "routes": [
+        {
+          "id": "gather.carry-handle.gather",
+          "operation": "gather",
+          "variants": [
+            "interface.handling.v1"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted gather event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "gather.carry-handle.loot-pickup",
+          "operation": "loot-pickup",
+          "variants": [
+            "interface.handling.v1"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted loot-pickup event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "gather.carry-handle.carry-delivery",
+          "operation": "carry-delivery",
+          "variants": [
+            "interface.handling.v1"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted carry-delivery event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        },
+        {
+          "id": "gather.carry-handle.cloth-bag",
+          "operation": "cloth-bag",
+          "variants": [
+            "interface.handling.v1"
+          ],
+          "selection": "single",
+          "bus": "Effects",
+          "gainLinear": 0.85,
+          "attenuation": {
+            "mode": "non-positional",
+            "referenceDistanceUnits": 2,
+            "maximumDistanceUnits": 40,
+            "rolloff": 1
+          },
+          "priority": 60,
+          "cooldownMilliseconds": 100,
+          "repetition": {
+            "maximumOverlap": 4,
+            "overflow": "steal-oldest-lowest-priority",
+            "deduplicateCommittedEvent": true
+          },
+          "trigger": "accepted cloth-bag event only",
+          "lifecycle": {
+            "mode": "one-shot",
+            "restore": "do-not-replay-past-events",
+            "owner": "preview-generation-and-entity-id",
+            "onSelectionChange": "stop-owned-players",
+            "onStopAll": "stop-all-owned-players",
+            "onDispose": "release-owned-player-and-stream",
+            "crossfadeMilliseconds": 0
+          },
+          "warningsVisibleWhenMuted": false,
+          "visualPairs": []
+        }
+      ],
+      "semantics": "Inspect resource routing; future gameplay/integration owns contextual event classification"
+    }
+  ],
+  "audition": {
+    "autoPlayOnSelection": false,
+    "controls": [
+      "Play sound",
+      "Stop sound",
+      "Stop all audio",
+      "Loop preview"
+    ],
+    "states": [
+      "Playing",
+      "Stopped",
+      "Muted"
+    ],
+    "elapsedUnit": "seconds"
+  },
+  "reconstruction": {
+    "currentLoopsOnly": true,
+    "replayHistoricalOneShots": false,
+    "obsoleteGenerationResults": "reject-before-cancellation"
+  },
+  "acceptance": {
+    "newRecordings": "Not auditioned",
+    "creatorActionApprovalScope": "creator-au01-15-v1",
+    "finalNativeMix": "pending-04-32",
+    "noMusicOrDialogueBank": true,
+    "existingContextSensitiveConsumerRoutes": "pending-04-23-classification"
+  }
+}

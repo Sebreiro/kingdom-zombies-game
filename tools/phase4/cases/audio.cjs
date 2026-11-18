@@ -376,9 +376,476 @@ runner.registerCase('audio.actions',{group:'audio',title:'AU01-15 exact donor so
   expected:'Exact immutable source/sample matrix and literal creator attestation validate; invented or extended approvals reject',
   reset:'Fresh owned evidence directory only; no game window, playback, donor writes or changes to production bytes',
   evidence:['inputs.json','retained-bundle.command.json','negative-controls.json','technical.json','result.json']},actions);
-module.exports={CANDIDATES,COVERAGE,ASSEMBLE,PROMOTE,APPROVAL,decoderRecipe,prepare,promote,validate,technical,actions};
+const INTERFACE_PACK='src/godot-game/content/packs/audio-interface-ambience.json';
+const INTERFACE_BANK='src/godot-game/assets/audio/interface-ambience.wav';
+const INTERFACE_ZIP='production/phase4/audio-interface-ambience.zip';
+const EVENTS='src/godot-game/content/audio/events.json';
+function archiveLimit(relative){return relative===INTERFACE_ZIP?64*1024*1024:32*1024*1024;}
+function archiveFile(file,destinationIdentity,expectedHash){
+  need(typeof expectedHash==='string'&&/^[a-f0-9]{64}$/.test(expectedHash),'AUDIO_ARCHIVE_EXPECTED_HASH');
+  const stat=fs.lstatSync(file);
+  need(!stat.isSymbolicLink()&&stat.isFile()&&stat.nlink===1&&stat.size>0&&stat.size<=archiveLimit(destinationIdentity),'AUDIO_ARCHIVE_SIZE',destinationIdentity);
+  const value=fs.readFileSync(file);need(value.length===stat.size,'AUDIO_ARCHIVE_CHANGED',destinationIdentity);
+  need(hash(value)===expectedHash,'AUDIO_ARCHIVE_HASH',destinationIdentity);return value;
+}
+function archiveBytes(root,relative,expectedHash){return archiveFile(inside(root,relative),relative,expectedHash);}
+function publishArchive(sourceRoot,sourceRelative,destinationRoot,destinationRelative,expectedHash){
+  const source=inside(sourceRoot,sourceRelative),destination=inside(destinationRoot,destinationRelative);
+  const value=archiveFile(source,destinationRelative,expectedHash);
+  if(destinationRelative===INTERFACE_ZIP&&fs.existsSync(destination)){
+    const existing=archiveBytes(destinationRoot,destinationRelative,expectedHash);
+    need(existing.length===value.length&&existing.equals(value),'AUDIO_PUBLICATION_CONFLICT',destinationRelative);
+    return {bytes:value.length,sha256:expectedHash,destination:destinationRelative,cap:archiveLimit(destinationRelative),preservedExisting:true};
+  }
+  need(!fs.existsSync(destination),'AUDIO_PUBLICATION_EXISTS',destinationRelative);fs.mkdirSync(path.dirname(destination),{recursive:true});
+  fs.writeFileSync(destination,value,{flag:'wx'});
+  need(archiveBytes(destinationRoot,destinationRelative,expectedHash).equals(value),'AUDIO_PUBLICATION_CHANGED');
+  return {bytes:value.length,sha256:expectedHash,destination:destinationRelative,cap:archiveLimit(destinationRelative)};
+}
+const serializeEvents=value=>Buffer.from(JSON.stringify(value,null,2)+'\n','utf8');
+function preflightEvents(root,expected){
+  const target=inside(root,EVENTS),exists=fs.existsSync(target);
+  if(exists)need(bytes(root,EVENTS).equals(expected),'AUDIO_EVENTS_CONFLICT',EVENTS);
+  return {existed:exists,bytes:expected.length,sha256:hash(expected)};
+}
+function finishEvents(root,expected,state){
+  need(state.bytes===expected.length&&state.sha256===hash(expected),'AUDIO_EVENTS_EXPECTATION_CHANGED');
+  if(state.existed)need(fs.existsSync(inside(root,EVENTS))&&bytes(root,EVENTS).equals(expected),'AUDIO_EVENTS_CHANGED',EVENTS);
+  else{
+    const target=inside(root,EVENTS);need(!fs.existsSync(target),'AUDIO_EVENTS_APPEARED',EVENTS);
+    fs.mkdirSync(path.dirname(target),{recursive:true});fs.writeFileSync(target,expected,{flag:'wx'});
+  }
+  need(bytes(root,EVENTS).equals(expected),'AUDIO_EVENTS_FINAL_IDENTITY',EVENTS);
+  return {...state,preservedExisting:state.existed,verifiedFinal:true};
+}
+async function publishInterface(directory){
+  const staged=path.resolve(directory);need(staged.startsWith(inside(ROOT,'.phase4')+path.sep),'INTERFACE_STAGING_ROOT');
+  const context={directory:inside(ROOT,'.phase4/audio-publication/'+crypto.randomUUID())};fs.mkdirSync(context.directory,{recursive:true});
+  const p=document(staged,'audio-interface-ambience.json'),e=eventCatalog(p),bank=bytes(staged,'interface-ambience.wav');
+  validateInterface(p,bank,e);const expectedEvents=serializeEvents(e),eventState=preflightEvents(ROOT,expectedEvents);
+  const known={
+    [INTERFACE_BANK]:'e61d445d30ab28d65d163ea89fcc185484b4746f35703cb2ed088f13308ba5b9',
+    [INTERFACE_PACK]:'2e107c4ef6eb57262a8f571a1226b694f552a15b806117bcb67e6be7ddfda069'};
+  for(const [destination,source]of [[INTERFACE_BANK,'interface-ambience.wav'],[INTERFACE_PACK,'audio-interface-ambience.json']]){
+    need(hash(bytes(ROOT,destination))===known[destination]&&hash(bytes(staged,source))===known[destination],'INTERFACE_PARTIAL_IDENTITY',destination);
+  }
+  const result=publishArchive(staged,'audio-interface-ambience.zip',ROOT,INTERFACE_ZIP,p.bundleSha256);
+  const finalEvents=finishEvents(ROOT,expectedEvents,eventState);
+  write(context.directory,'authoring-complete.json',{completed:true,archive:result,events:finalEvents,knownOwnedPartial:known,bankUnchanged:true,manifestUnchanged:true,
+    scope:'Exact local producer archive only; content/provenance consumer compatibility remains04-23/31'});
+  console.log(JSON.stringify({directory:context.directory,completed:true,...result,events:finalEvents}));
+}
+function archiveControls(context){
+  const root=inside(context.directory,'archive-reader-controls');fs.mkdirSync(root);const outcomes=[];
+  const zero32='83ee47245398adee79bd9c0a8bc57b821e92aba10f5f9ade8a5d1fae4d8c4302',zero64='3b6a07d0d404fab4e23b6d34bc6696a6a312dd92821332385e5af7c01c421351';
+  const create=(relative,size)=>{const file=inside(root,relative);fs.mkdirSync(path.dirname(file),{recursive:true});const fd=fs.openSync(file,'wx');try{fs.ftruncateSync(fd,size);}finally{fs.closeSync(fd);}return file;};
+  const resize=(file,size)=>{const fd=fs.openSync(file,'r+');try{fs.ftruncateSync(fd,size);}finally{fs.closeSync(fd);}};
+  const reject=(name,code,run)=>{let diagnostic;try{run();}catch(error){diagnostic=error.message;}need(diagnostic?.split(' ')[0]===code,'ARCHIVE_CONTROL',name+' '+diagnostic);outcomes.push({name,expected:code,diagnostic});};
+  const canonical=create(INTERFACE_ZIP,64*1024*1024);
+  need(archiveBytes(root,INTERFACE_ZIP,zero64).length===64*1024*1024,'ARCHIVE_64_BOUNDARY');outcomes.push({name:'canonical64MiB',status:'accepted'});
+  resize(canonical,64*1024*1024+1);reject('canonical64MiBplus1','AUDIO_ARCHIVE_SIZE',()=>archiveBytes(root,INTERFACE_ZIP,zero64));
+  resize(canonical,64*1024*1024);need(archiveBytes(root,INTERFACE_ZIP,zero64).length===64*1024*1024,'ARCHIVE_64_RESTORED');
+  const ordinary='production/phase4/audio-actions.zip',other=create(ordinary,32*1024*1024);
+  need(archiveBytes(root,ordinary,zero32).length===32*1024*1024,'ARCHIVE_32_BOUNDARY');outcomes.push({name:'ordinary32MiB',status:'accepted'});
+  resize(other,32*1024*1024+1);reject('ordinary32MiBplus1','AUDIO_ARCHIVE_SIZE',()=>archiveBytes(root,ordinary,zero32));
+  resize(other,32*1024*1024);need(archiveBytes(root,ordinary,zero32).length===32*1024*1024,'ARCHIVE_32_RESTORED');
+  reject('wrongcase','PATH_CASE',()=>archiveBytes(root,'production/phase4/Audio-interface-ambience.zip',zero64));
+  for(const relative of ['production/phase4/audio-interface-ambience-copy.zip','production/other/audio-interface-ambience.zip']){
+    create(relative,32*1024*1024+1);reject(relative,'AUDIO_ARCHIVE_SIZE',()=>archiveBytes(root,relative,zero32));
+  }
+  reject('wrong-expected-hash','AUDIO_ARCHIVE_HASH',()=>archiveBytes(root,INTERFACE_ZIP,'0'.repeat(64)));
+  need(archiveBytes(root,INTERFACE_ZIP,zero64).length===64*1024*1024,'ARCHIVE_HASH_RESTORED');
+  const stage='staging/arbitrary-name.zip';create(stage,64*1024*1024);
+  reject('staging-basename-no-read-exception','AUDIO_ARCHIVE_SIZE',()=>archiveBytes(root,stage,zero64));
+  const output=inside(context.directory,'archive-publication-controls');fs.mkdirSync(output);
+  const published=publishArchive(root,stage,output,INTERFACE_ZIP,zero64);need(published.bytes===64*1024*1024,'ARCHIVE_CANONICAL_PUBLICATION');
+  reject('publication-lookalike','AUDIO_ARCHIVE_SIZE',()=>publishArchive(root,stage,output,'production/phase4/audio-interface-ambience-copy.zip',zero64));
+  reject('publication-otherpath','AUDIO_ARCHIVE_SIZE',()=>publishArchive(root,stage,output,'production/phase4/audio-actions.zip',zero64));
+  write(context.directory,'archive-reader-controls.json',{outcomes,restoredActualBoundaries:true,capScope:INTERFACE_ZIP,
+    independentExpectedZeroHashes:'Python hashlib over32/64 one-MiB zero chunks; these fixtures establish reader limits, not ZIP validity'});
+  return outcomes.length;
+}
+function publicationControls(context){
+  const fixture=Buffer.from('audio-publication-r2-fixture\n'),expectedHash=hash(fixture);
+  const expectedEvents=Buffer.from('{\n  "id": "r2-events",\n  "version": 1\n}\n');
+  need(serializeEvents({id:'r2-events',version:1}).equals(expectedEvents),'R2_EXPECTED_SERIALIZATION');
+  const outcomes=[];
+  const create=(name,events,archive)=>{
+    const root=inside(context.directory,'r2-'+name);fs.mkdirSync(root);
+    const put=(relative,value)=>{const f=inside(root,relative);fs.mkdirSync(path.dirname(f),{recursive:true});fs.writeFileSync(f,value,{flag:'wx'});};
+    put('stage/archive.zip',fixture);if(events!==undefined)put(EVENTS,events);if(archive!==undefined)put(INTERFACE_ZIP,archive);return {root,put};
+  };
+  const reject=(name,code,run)=>{let diagnostic;try{run();}catch(error){diagnostic=error.message;}
+    need(diagnostic?.split(' ')[0]===code,'R2_PUBLICATION_CONTROL',name+' '+diagnostic);outcomes.push({name,diagnostic,expected:code});};
+  for(const [name,present]of [['exact-existing',true],['missing-events',false],['restored-positive',true]]){
+    const {root}=create(name,present?expectedEvents:undefined,present?fixture:undefined),state=preflightEvents(root,expectedEvents);
+    const archive=publishArchive(root,'stage/archive.zip',root,INTERFACE_ZIP,expectedHash),events=finishEvents(root,expectedEvents,state);
+    need(events.verifiedFinal&&events.preservedExisting===present&&archiveBytes(root,INTERFACE_ZIP,expectedHash).equals(fixture)&&bytes(root,EVENTS).equals(expectedEvents),'R2_POSITIVE',name);
+    outcomes.push({name,status:'pass',archivePreserved:archive.preservedExisting===true,eventsPreserved:events.preservedExisting});
+  }
+  {
+    const wrong=Buffer.from('conflicting-events\n'),{root}=create('conflicting-events',wrong);
+    reject('conflicting-events-before-publication','AUDIO_EVENTS_CONFLICT',()=>{
+      const state=preflightEvents(root,expectedEvents);publishArchive(root,'stage/archive.zip',root,INTERFACE_ZIP,expectedHash);finishEvents(root,expectedEvents,state);
+    });
+    need(!fs.existsSync(inside(root,INTERFACE_ZIP))&&bytes(root,EVENTS).equals(wrong),'R2_EVENTS_CONFLICT_MUTATED');
+  }
+  {
+    const wrong=Buffer.from('conflicting-archive\n'),{root}=create('conflicting-archive',expectedEvents,wrong),state=preflightEvents(root,expectedEvents);
+    reject('conflicting-archive-preserves-catalog','AUDIO_ARCHIVE_HASH',()=>{publishArchive(root,'stage/archive.zip',root,INTERFACE_ZIP,expectedHash);finishEvents(root,expectedEvents,state);});
+    need(bytes(root,EVENTS).equals(expectedEvents)&&fs.readFileSync(inside(root,INTERFACE_ZIP)).equals(wrong),'R2_ARCHIVE_CONFLICT_MUTATED');
+  }
+  {
+    const {root,put}=create('ordinary-duplicate',expectedEvents);put('production/phase4/audio-actions.zip',fixture);
+    reject('ordinary-duplicate-still-rejected','AUDIO_PUBLICATION_EXISTS',()=>publishArchive(root,'stage/archive.zip',root,'production/phase4/audio-actions.zip',expectedHash));
+  }
+  {
+    const {root}=create('existing-mutation-fence',expectedEvents),state=preflightEvents(root,expectedEvents),wrong=Buffer.from('changed-after-preflight\n');
+    fs.writeFileSync(inside(root,EVENTS),wrong);publishArchive(root,'stage/archive.zip',root,INTERFACE_ZIP,expectedHash);
+    reject('existing-events-mutation-fence','AUDIO_EVENTS_CHANGED',()=>finishEvents(root,expectedEvents,state));
+    need(bytes(root,EVENTS).equals(wrong),'R2_MUTATION_OVERWRITTEN');
+  }
+  {
+    const {root,put}=create('exclusive-creation-fence'),state=preflightEvents(root,expectedEvents),wrong=Buffer.from('appeared-after-preflight\n');
+    publishArchive(root,'stage/archive.zip',root,INTERFACE_ZIP,expectedHash);put(EVENTS,wrong);
+    reject('missing-events-exclusive-fence','AUDIO_EVENTS_APPEARED',()=>finishEvents(root,expectedEvents,state));
+    need(bytes(root,EVENTS).equals(wrong),'R2_RACE_OVERWRITTEN');
+  }
+  write(context.directory,'r2-publication-controls.json',{outcomes,fixtureSha256:expectedHash,expectedEventsSha256:hash(expectedEvents),productionFilesMutated:false});
+  return outcomes.length;
+}
+const INTERFACE_CANDIDATES=[
+  ['r',3254,'coin_pickup_v3'],['r',4864,'coin_drophitgroundv2'],['r',3195,'peasant_pickupbow'],['r',3863,'peasant_pickuphammer_v2'],
+  ['r',4973,'soldiercloth_paid'],['r',3755,'chest_open'],['r',5586,'horn_blown_reverb'],['r',3558,'env_portalnormal'],
+  ['r',2860,'sfx_ruler_heimdall_special_portal_open'],['r',5582,'sfx_ruler_heimdall_special_portal_close'],
+  ['r',4364,'finalportal_collapsev3'],['r',4441,'env_homefire'],['s0',438,'menu_openv3'],['s0',485,'menu_closev2'],
+  ['s0',449,'ui_select'],['s0',507,'ui_playerjoins'],['s0',437,'ui_playerleaves'],['s0',420,'menu_mouseover01'],['s0',392,'menu_mouseover02'],
+  ['s2',68,'ui_daycounter_new_v2'],['s2',125,'amb_forest_123_day01_q0046'],['s2',138,'amb_forest_123_night01_q0064'],
+  ['s2',152,'amblayer_forest_123_wind01_loop_q0003']
+];
+const ownerOf=key=>key==='r'?'resources.assets':key==='s0'?'sharedassets0.assets':'sharedassets2.assets';
+function interfaceDecoder(){
+  const selections=Object.fromEntries(INTERFACE_CANDIDATES.map(([key,id,name])=>['interface.'+key+id,[ownerOf(key),id,name,0]]));
+  return decoderRecipe().replace(/SELECTIONS = [^\n]+/,'SELECTIONS = '+JSON.stringify(selections))
+    .replace('[2880,3700,3131,3554,3811]','[2860,5582]');
+}
+const EVENT_IDS=['footstep','jump.land','melee.swing','melee.impact','equipment.broken','bow.release','arrow.contact','spit.release-impact',
+  'zombie.move-attack-hit-death','survivor.hit-death-succession','wildlife.flee-hit-death','work.build-repair','tree.clear','structure.begin-complete',
+  'structure.hit-collapse','money.payment','recruit.equip','inventory.transfer','food.use-sale','warning.day-night-retaliation-assault',
+  'portal.active-spawn','portal.destroy','outcome','session.connection','save.error','ui.action','ambience.day-night','ambience.fire-wind','bloater.splash','gather.carry-handle'];
+// Each named semantic operation selects its own exact recordings; shared PCM is explicit.
+const ROUTES=[
+  [['walk',['action.3294.full','action.4949.full']],['sprint',['action.3294.full','action.4949.full']],['npc-carry-retreat',['action.3294.full','action.4949.full']]],
+  [['takeoff',['action.3294.jump-trim']],['landing',['action.4949.jump-trim']]],
+  [['fist-knife-machete',['action.3369.full']],['club-bat',['action.4872.full']],['dual-contact',['action.3369.full','action.4872.full']]],
+  [['flesh',['action.5123.full']],['armor-blunt',['action.2880.full']],['armor-arrow',['action.3700.full']]],
+  [['wood-break',['action.4523.break-trim']],['metal-break',['action.3574.break-trim']]],
+  [['ordinary-archer',['action.3288.full']],['tower-archer',['action.3288.full']]],
+  [['terrain',['action.3640.full']],['wood',['action.4434.full']],['metal',['action.5020.full']],['prey',['action.3357.full']],['portal',['action.4692.full']],['generic',['action.5476.full']]],
+  [['windup',['action.2790.full']],['release',['action.2790.full']],['direct-hit',['action.2790.full']]],
+  [['movement',['action.2864.full']],['attack',['action.3150.full']],['hit',['action.2880.full','action.3700.full']],['death',['action.3131.full','action.2804.full','action.3554.full']]],
+  [['damage',['action.5123.full']],['death',['action.5736.full']],['control-succession',['action.5736.full']]],
+  [['flee',['action.3944.full']],['deer-hit-death',['action.4247.full']],['rabbit-hit-death',['action.3811.full','action.3357.full']]],
+  [['wood-build-repair',['action.5272.full','action.3945.full']],['metal-build-repair',['action.3804.full','action.5176.full']]],
+  [['mark',['action.4611.full']],['chop',['action.3741.full','action.3672.full']],['fall',['action.4523.full','action.5654.full']]],
+  [['accepted-begin',['action.2862.full']],['wood-complete',['action.4543.full']],['metal-complete',['action.4245.full']]],
+  [['wood-hit',['action.4169.full']],['metal-hit',['action.4041.full']],['wood-collapse',['action.4523.full','action.5654.full']],['metal-collapse',['action.3574.full','action.5154.full']]],
+  [['pickup',['interface.r3254.full']],['drop',['interface.r4864.full']],['accepted-payment',['action.2862.full']],['food-sale-proceeds',['interface.r3254.full']]],
+  [['recruit-appears',['interface.r4973.full']],['job-assigned',['interface.r3863.full']],['equipment-acquired',['interface.r3195.full','interface.r3863.full']]],
+  [['open',['interface.s0438.full','interface.r3755.full']],['close',['interface.s0485.full']],['move',['interface.s0449.full']],['split',['interface.s0449.full']],['rotate',['interface.s0420.full']],['equip',['interface.r3195.full']]],
+  [['consume',['interface.food-crunch.v1']],['sale',['interface.r3254.full']]],
+  [['day',['interface.s268.full']],['night',['interface.s268.full']],['retaliation',['interface.r5586.full']],['assault',['interface.r5586.full']],['recall',['interface.s0485.full','interface.r5586.full']]],
+  [['active-loop',['interface.r3558.loop']],['open',['interface.r2860.full']],['spawn',['interface.r5582.full']]],
+  [['permanent-destruction',['interface.r4364.full']]],
+  [['victory',['action.4543.full']],['defeat',['action.4523.full']]],
+  [['join',['interface.s0507.full']],['leave',['interface.s0437.full']],['failure',['interface.s0485.negative']]],
+  [['save-success',['interface.s0449.full']],['save-failure',['interface.s0485.negative']],['invalid-action',['interface.s0485.negative']],['content-error',['interface.s0485.negative']]],
+  [['hover',['interface.s0420.full','interface.s0392.full']],['confirm',['interface.s0449.full']],['cancel',['interface.s0485.full']]],
+  [['forest-day',['interface.s2125.loop']],['forest-night',['interface.s2138.loop']]],
+  [['local-fire',['interface.r4441.loop']],['wind',['interface.s2152.loop']]],
+  [['cosmetic-death-burst',['interface.bloater-burst.v1']]],
+  [['gather',['interface.handling.v1']],['loot-pickup',['interface.handling.v1']],['carry-delivery',['interface.handling.v1']],['cloth-bag',['interface.handling.v1']]]
+];
+function eventCatalog(interfacePack){
+  const action=document(ROOT,PACK),sampleMap=new Map([...action.samples,...interfacePack.samples].map(s=>[s.id,s]));
+  const events=EVENT_IDS.map((id,i)=>{
+    const category='AU-'+String(i+1).padStart(2,'0'),loopCategory=[20,26,27].includes(i),bus=loopCategory?'Ambience':'Effects';
+    const gain=i===26?0.35:i===27?0.2:i===20?0.3:0.85;
+    const routes=ROUTES[i].map(([operation,variants])=>{
+      const looping=variants.every(v=>Boolean(sampleMap.get(v)?.loop));
+      return {id:id+'.'+operation,operation,variants,selection:variants.length>1?'uniform-random-avoid-immediate-repeat':'single',bus,
+        gainLinear:operation==='local-fire'?0.3:gain,attenuation:{mode:i>=15&&!loopCategory?'non-positional':'distance',referenceDistanceUnits:2,maximumDistanceUnits:40,rolloff:1},
+        priority:[3,9,19,21,23,24].includes(i)?100:looping?10:60,cooldownMilliseconds:i===0?80:i===25?40:100,
+        repetition:{maximumOverlap:4,overflow:'steal-oldest-lowest-priority',deduplicateCommittedEvent:true},
+        trigger:looping?'reconcile current '+operation+' state':'accepted '+operation+' event only',
+        lifecycle:{mode:looping?'current-state-loop':'one-shot',restore:looping?'reconcile-exact-current-owner':'do-not-replay-past-events',
+          owner:'preview-generation-and-entity-id',onSelectionChange:'stop-owned-players',onStopAll:'stop-all-owned-players',onDispose:'release-owned-player-and-stream',
+          crossfadeMilliseconds:looping?750:0},
+        warningsVisibleWhenMuted:[19,21,22,23,24].includes(i),visualPairs:i===19?['UI-12','UI-26']:i===23?['UI-10','UI-11','UI-26']:
+          i===24?['UI-22','UI-23','UI-26','UI-27']:i===21?['FX-05','UI-20','UI-26']:i===22?['UI-24','UI-26']:[]};
+    });
+    return {category,id,bus,gainLinear:gain,variants:[...new Set(routes.flatMap(r=>r.variants))],routes,
+      semantics:i===20?'Active hostile portal only; no player teleport; destruction stops active loop permanently':
+        i===28?'Cosmetic death splash only; no damage, burning, persistent hazard or stain loop':
+        i===6?'Only actual first contact; passed allies and fired-arrow pickup emit nothing':
+        i===11?'Actual accepted paid work; never free automatic repair':
+        i===15?'Committed physical transfer/payment only; failed or duplicate transactions emit nothing':
+        'Inspect resource routing; future gameplay/integration owns contextual event classification'};
+  });
+  return {schemaVersion:1,id:'sound-events',obligation:'DT-23',version:1,buses:['Master','Effects','Ambience'],
+    defaults:{gameplayConcurrentLimit:24,repeatedEffectLimit:4,masterPercent:80,effectsPercent:80,ambiencePercent:60},
+    configurableFields:{gameplayConcurrentLimit:{unit:'simultaneous-players',minimum:1,maximum:128},repeatedEffectLimit:{unit:'instances-per-effect',minimum:1,maximum:24},
+      volumePercent:{unit:'percent',minimum:0,maximum:100}},
+    sourcePreferences:'config/local-preferences.json',sourcePresentation:'config/presentation.json',
+    samplePacks:['packs/audio-actions.json','packs/audio-interface-ambience.json'],events,
+    audition:{autoPlayOnSelection:false,controls:['Play sound','Stop sound','Stop all audio','Loop preview'],states:['Playing','Stopped','Muted'],elapsedUnit:'seconds'},
+    reconstruction:{currentLoopsOnly:true,replayHistoricalOneShots:false,obsoleteGenerationResults:'reject-before-cancellation'},
+    acceptance:{newRecordings:'Not auditioned',creatorActionApprovalScope:APPROVAL.id,finalNativeMix:'pending-04-32',noMusicOrDialogueBank:true,
+      existingContextSensitiveConsumerRoutes:'pending-04-23-classification'}};
+}
+const INTERFACE_ASSEMBLE=String.raw`import array,base64,hashlib,html,io,json,math,pathlib,random,sys,wave,zipfile
+root=pathlib.Path(sys.argv[1]).resolve();assert root.is_relative_to(pathlib.Path('D:/Work/Games/KingdomZombies/.phase4').resolve())
+sha=lambda x:hashlib.sha256(x).hexdigest()
+config=json.loads((root/'selection.json').read_text());members={};sources=[];samples=[];bank=array.array('h')
+def wav(pcm):
+    out=io.BytesIO()
+    with wave.open(out,'wb') as f:f.setnchannels(2);f.setsampwidth(2);f.setframerate(44100);f.writeframes(pcm)
+    return out.getvalue()
+def add(identity,data,source,trim,gain,loop=None,transform='trim-gain'):
+    pcm=data.tobytes();payload=wav(pcm);first=len(bank)//2;bank.extend(data);end=len(bank)//2;bank.extend([0]*4410)
+    member='variants/'+identity+'.wav';members[member]=payload
+    peak=max(abs(v) for v in data);rms=math.sqrt(sum(v*v for v in data)/len(data))
+    samples.append({'id':identity,'version':1,'sourceId':source,'variantMember':member,'sha256':sha(payload),'pcmSha256':sha(pcm),
+      'frames':len(data)//2,'channels':2,'rate':44100,'sampleWidth':2,'durationSeconds':len(data)/2/44100,'trimFrames':trim,
+      'gainLinear':gain,'gainDb':20*math.log10(gain),'regionFrames':[first,end],'loop':loop,'transform':transform,
+      'listening':{'status':'Not auditioned','listener':None,'verdict':None,'finalOwner':'04-32'},
+      'technical':{'peak':peak,'rms':rms,'nonzeroSamples':sum(v!=0 for v in data),'fullScaleSamples':sum(abs(v)>=32767 for v in data)}})
+for key,object_id,name in config['candidates']:
+    identity=key+str(object_id);folder=root/('interface.'+identity);record=json.loads((folder/'sample.json').read_text())
+    original=(folder/(name+'.wav')).read_bytes();prefix='sources/'+identity
+    members[prefix+'/original.wav']=original;members[prefix+'/stream.fsb']=base64.b64decode(record['bundle']['originalPayloadBase64'])
+    members[prefix+'/audioclip.bin']=base64.b64decode(record['bundle']['rawAudioClipBase64']);del record['bundle']
+    members[prefix+'/provenance.json']=(json.dumps(record,indent=2)+'\n').encode()
+    sources.append({**record,'id':identity,'sourceMember':prefix+'/original.wav'})
+    with wave.open(io.BytesIO(original),'rb') as f:raw=f.readframes(f.getnframes())
+    values=array.array('h');values.frombytes(raw)
+    if record['output']['channels']==1:values=array.array('h',(v for x in values for v in (x,x)))
+    gain=min(1.0,24575/max(abs(v) for v in values))
+    if object_id in [3558,4441,125,138,152]:
+        fade=512;count=min(len(values)//2,44100*8+fade);original_trim=values[:count*2]
+        out=array.array('h')
+        for i in range(count-fade):
+            for channel in range(2):
+                value=original_trim[i*2+channel]
+                if i<fade:
+                    t=i/(fade-1);value=value*t+original_trim[(count-fade+i)*2+channel]*(1-t)
+                out.append(round(value*gain))
+        loop={'mode':'forward','startFrame':0,'endFrame':len(out)//2,'crossfadeFrames':fade,'sourceTrimFrames':[0,count],
+          'method':'tail-head-overlap-add','auditorySeamVerdict':'Not auditioned'}
+        add('interface.'+identity+'.loop',out,identity,[0,count],gain,loop,'trim-overlap-add-gain')
+    else:
+        add('interface.'+identity+'.full',array.array('h',(round(v*gain) for v in values)),identity,[0,len(values)//2],gain)
+    if key=='s0' and object_id==485:
+        count=min(6615,len(values)//2);one=array.array('h',(round(v*gain*0.7) for v in values[:count*2]))
+        add('interface.s0485.negative',one+array.array('h',[0]*4410)+one,identity,[0,count],gain*0.7,None,'two-pulses-with-2205-frame-gap')
+    if key=='r' and object_id==3755:
+        count=min(6615,len(values)//2)
+        add('interface.handling.v1',array.array('h',(round(v*gain*0.5) for v in values[:count*2])),identity,[0,count],gain*0.5)
+# AU19 is an explicit source-backed catalog gap, not an unheard donor rejection.
+# Deterministic non-tonal contact/crunch texture; no music, speech model or downloaded recording.
+rng=random.Random(190021);food=array.array('h');previous=0.0
+for i in range(11025):
+    t=i/44100;noise=rng.uniform(-1,1);high=noise-previous;previous=noise
+    envelope=sum(math.exp(-max(0,t-onset)*55) if t>=onset else 0 for onset in [0.01,0.07,0.13,0.19])
+    value=round(max(-1,min(1,high*envelope*0.15))*16384);food.extend([value,value])
+add('interface.food-crunch.v1',food,'generated-food-crunch',[0,11025],1,None,'seed190021-four-noise-transients')
+with zipfile.ZipFile(config['actionsZip']) as z:
+    a=json.loads(z.read('production/manifest.json'));s=next(x for x in a['samples'] if x['id']=='action.2790.full')
+    with wave.open(io.BytesIO(z.read(s['variantMember'])),'rb') as f:burst=array.array('h');burst.frombytes(f.readframes(min(f.getnframes(),13230)))
+add('interface.bloater-burst.v1',array.array('h',(round(v*0.65) for v in burst)),'action.2790.full',[0,len(burst)//2],0.65,None,'shared-approved-source-new-trim-not-auditioned')
+pack={'schemaVersion':1,'id':'audio-interface-ambience','version':1,'status':'production-resources-listening-pending',
+ 'scope':'AU16-30 actual source/variant resources; all new variants Not auditioned; native mix and loop hearing pending04-32',
+ 'bank':{'path':'assets/audio/interface-ambience.wav','sha256':sha(wav(bank.tobytes())),'frames':len(bank)//2,'channels':2,'rate':44100,'sampleWidth':2},
+ 'sources':sources,'samples':samples,'listening':{'status':'Not auditioned','listener':None,'verdicts':[],'acceptanceOwner':'04-32'},
+ 'donorGap':{'category':'AU-19','authority':'specs/0.1/assets-and-resources.md section10 AU-19',
+ 'evidence':'Food-use detail has no verified suitable human donor in the approved donor inventory; animal-eating recordings are not selected as human food sounds',
+ 'synthesis':'Deterministic non-tonal contact/crunch texture seed190021; needs real audition','unsupportedDonorUnsuitabilityClaims':[]},
+ 'sharedSources':[{'id':'action.2790.full','pack':'packs/audio-actions.json','wavSha256':s['sha256'],'use':'New cosmetic burst trim; creator approval not extended'}],
+ 'recipes':{'decoderMember':'recipes/decode-interface.py','decoderSha256':sha((root/'decode-interface.py').read_bytes()),
+ 'assemblerMember':'recipes/assemble-interface.py','assemblerSha256':sha(pathlib.Path(__file__).read_bytes())}}
+members['recipes/decode-interface.py']=(root/'decode-interface.py').read_bytes();members['recipes/assemble-interface.py']=pathlib.Path(__file__).read_bytes()
+members['recipes/selection.json']=(root/'selection.json').read_bytes()
+rows=[]
+for s in samples:
+    rows.append('<h2>'+s['id']+' v1 — Not auditioned</h2><p>Frames '+str(s['regionFrames'])+'; trim '+str(s['trimFrames'])+'; SHA256 '+s['sha256']+'</p>'
+    +'<audio controls preload="none" '+('loop ' if s['loop'] else '')+'src="../'+s['variantMember']+'"></audio>')
+members['review/index.html']=('<!doctype html><html lang="en"><meta charset="utf-8"><title>AU16-30 source review</title><style>body{font:16px sans-serif;max-width:900px;margin:auto}p{overflow-wrap:anywhere}audio{width:100%}</style>'
+ '<h1>AU16-30 — Not auditioned</h1><p>Deliberate playback only. Check full source and variant for suitability/music/speech/identity/distortion/onset/tail. '
+ 'Repeat ambience across boundaries; record seam/pump/drop observations. No final game mix approval is presumed.</p>'+''.join(rows)+'</html>').encode()
+members['review/questions.txt']=b'For each exact version: suitable category and material? unwanted speech/music/source identity? silence/distortion? onset/tail/punch? For five loops hear several boundaries and quiet action-overlay balance in later native mix. Record actual listener/device/time and verdict; creator action approval does not cover these new versions.'
+pack['bundleMembers']=[{'path':k,'bytes':len(v),'sha256':sha(v)} for k,v in sorted(members.items())]
+members['production/manifest.json']=(json.dumps(pack,indent=2,allow_nan=False)+'\n').encode()
+with zipfile.ZipFile(root/'audio-interface-ambience.zip','w',compression=zipfile.ZIP_DEFLATED,compresslevel=9) as z:
+    for name,payload in sorted(members.items()):
+        info=zipfile.ZipInfo(name,(2026,11,18,0,0,0));info.compress_type=zipfile.ZIP_DEFLATED;z.writestr(info,payload,compresslevel=9)
+pack['bundleSha256']=sha((root/'audio-interface-ambience.zip').read_bytes())
+(root/'audio-interface-ambience.json').write_text(json.dumps(pack,indent=2,allow_nan=False)+'\n',encoding='utf-8',newline='\n')
+(root/'interface-ambience.wav').write_bytes(wav(bank.tobytes()))
+print(json.dumps({'sources':len(sources),'variants':len(samples),'zipBytes':(root/'audio-interface-ambience.zip').stat().st_size,'bankBytes':len(wav(bank.tobytes()))}))
+`;
+async function prepareInterface(){
+  const context={directory:inside(ROOT,'.phase4/audio-interface/'+crypto.randomUUID())};fs.mkdirSync(context.directory,{recursive:true});
+  fs.writeFileSync(inside(context.directory,'decode-interface.py'),interfaceDecoder());fs.writeFileSync(inside(context.directory,'assemble-interface.py'),INTERFACE_ASSEMBLE);
+  write(context.directory,'selection.json',{candidates:INTERFACE_CANDIDATES,actionsZip:inside(ROOT,ZIP)});
+  for(const [key,id]of INTERFACE_CANDIDATES)await runner.command(context,'decode-'+key+id,PYTHON,
+    ['-B',inside(context.directory,'decode-interface.py'),'--child','interface.'+key+id,inside(context.directory,'interface.'+key+id)],{timeout:40000});
+  await runner.command(context,'assemble',PYTHON,['-B',inside(context.directory,'assemble-interface.py'),context.directory],{timeout:40000});
+  const stagedPack=document(context.directory,'audio-interface-ambience.json'),catalog=eventCatalog(stagedPack),expectedEvents=serializeEvents(catalog),eventState=preflightEvents(ROOT,expectedEvents);
+  for(const [source,target]of [['interface-ambience.wav',INTERFACE_BANK],['audio-interface-ambience.json',INTERFACE_PACK],['audio-interface-ambience.zip',INTERFACE_ZIP]]){
+    need(!fs.existsSync(inside(ROOT,target)),'AUDIO_OUTPUT_EXISTS',target);fs.mkdirSync(path.dirname(inside(ROOT,target)),{recursive:true});
+    need(fs.statSync(inside(context.directory,source)).size<=archiveLimit(target),'AUDIO_EXISTING_READER_BOUND',source);fs.copyFileSync(inside(context.directory,source),inside(ROOT,target));
+  }
+  archiveBytes(ROOT,INTERFACE_ZIP,stagedPack.bundleSha256);finishEvents(ROOT,expectedEvents,eventState);console.log(JSON.stringify({directory:context.directory}));
+}
+function validateInterface(pack,bank,events){
+  const f=pcm(bank);need(pack.id==='audio-interface-ambience'&&pack.version===1,'INTERFACE_PACK');
+  need(hash(bank)===pack.bank.sha256&&f.frames===pack.bank.frames,'INTERFACE_BANK_HASH');
+  need(pack.sources.length===23&&pack.samples.length===27,'INTERFACE_COUNTS');
+  need(equal(pack.listening,{status:'Not auditioned',listener:null,verdicts:[],acceptanceOwner:'04-32'}),'INTERFACE_FALSE_AUDITION');
+  for(const [key,id,name]of INTERFACE_CANDIDATES){const s=pack.sources.find(x=>x.id===key+id);
+    need(s&&s.source.owner===ownerOf(key)&&s.source.objectId===id&&s.source.type==='AudioClip'&&s.source.name===name,'INTERFACE_SOURCE_IDENTITY',key+id);
+    need(s.output.channels===([2860,5582].includes(id)?1:2)&&s.output.rate===44100&&s.output.sampleWidth===2,'INTERFACE_SOURCE_FORMAT',key+id);
+    need(s.preservation.verifiedAfter&&equal(s.preservation.originalsBefore,s.preservation.originalsAfter),'INTERFACE_ORIGINAL_MUTATION',key+id);
+  }
+  const raw=bank.subarray(44);let loops=0;const ranges=[];
+  for(const s of pack.samples){
+    need(s.version===1&&s.channels===2&&s.rate===44100&&s.sampleWidth===2,'INTERFACE_SAMPLE_FORMAT',s.id);
+    need(s.listening.status==='Not auditioned'&&s.listening.listener===null&&s.listening.verdict===null,'INTERFACE_FALSE_AUDITION',s.id);
+    const [a,b]=s.regionFrames;need([a,b,s.frames,...s.trimFrames].every(Number.isSafeInteger)&&a>=0&&b>a&&b<=f.frames&&b-a===s.frames,'INTERFACE_REGION',s.id);
+    need(s.durationSeconds===s.frames/44100&&Number.isFinite(s.gainDb)&&s.gainLinear>0&&s.gainLinear<=1&&
+      Math.abs(s.gainDb-20*Math.log10(s.gainLinear))<1e-12,'INTERFACE_METADATA',s.id);
+    const data=raw.subarray(a*4,b*4);need(hash(data)===s.pcmSha256,'INTERFACE_REGION_HASH',s.id);let peak=0,nonzero=0,squares=0;
+    for(let i=0;i<data.length;i+=2){const v=data.readInt16LE(i);peak=Math.max(peak,Math.abs(v));nonzero+=v!==0;squares+=v*v;}
+    need(peak>0&&peak<=24575&&nonzero>0&&peak===s.technical.peak&&nonzero===s.technical.nonzeroSamples&&s.technical.fullScaleSamples===0&&
+      Math.abs(Math.sqrt(squares/(data.length/2))-s.technical.rms)<1e-8,'INTERFACE_PCM_DOMAIN',s.id);
+    if(s.loop){loops++;need(s.loop.startFrame===0&&s.loop.endFrame===s.frames&&s.loop.crossfadeFrames===512&&
+      s.frames===s.trimFrames[1]-s.trimFrames[0]-512&&s.loop.auditorySeamVerdict==='Not auditioned','INTERFACE_LOOP',s.id);}
+    ranges.push([a,b]);
+  }
+  ranges.sort((a,b)=>a[0]-b[0]);need(ranges.every((x,i)=>i===0||x[0]>=ranges[i-1][1])&&loops===5,'INTERFACE_LOOP_COUNT');
+  need(pack.donorGap.category==='AU-19'&&pack.donorGap.unsupportedDonorUnsuitabilityClaims.length===0,'INTERFACE_DONOR_GAP');
+  need(equal(events,eventCatalog(pack)),'AUDIO_EVENT_CONTRACT');
+  need(events.events[27].routes.find(r=>r.operation==='local-fire').gainLinear===0.3&&
+    events.events[27].routes.find(r=>r.operation==='wind').gainLinear===0.2&&events.events[26].gainLinear===0.35&&
+    equal(events.events[29].routes.find(r=>r.operation==='carry-delivery').variants,['interface.handling.v1'])&&
+    events.events[24].routes.every(r=>r.visualPairs.includes('UI-27')&&!r.visualPairs.includes('UI-21'))&&
+    events.events[22].routes.every(r=>r.visualPairs.includes('UI-24')&&r.warningsVisibleWhenMuted),'AUDIO_CANONICAL_ROUTING');
+  const action=document(ROOT,PACK),known=new Map([...action.samples,...pack.samples].map(s=>[s.id,s]));
+  need(equal(events.events.map(e=>e.id),EVENT_IDS)&&events.events.length===30,'AUDIO_EVENT_IDS');
+  for(const e of events.events)for(const r of e.routes){need(r.variants.length>0&&r.variants.every(id=>known.has(id)),'AUDIO_EVENT_SAMPLE',r.id);
+    need(r.lifecycle.mode!=='current-state-loop'||r.variants.every(id=>Boolean(known.get(id).loop)),'AUDIO_EVENT_LOOP',r.id);}
+  const prefs=document(ROOT,'src/godot-game/content/config/local-preferences.json'),presentation=document(ROOT,'src/godot-game/content/config/presentation.json');
+  need(events.defaults.masterPercent===prefs.audio.masterPercent&&events.defaults.effectsPercent===prefs.audio.effectsPercent&&events.defaults.ambiencePercent===prefs.audio.ambiencePercent&&
+    events.defaults.gameplayConcurrentLimit===presentation.audio.gameplayConcurrentLimit&&events.defaults.repeatedEffectLimit===presentation.audio.repeatedEffectLimit,'AUDIO_DEFAULT_SOURCE');
+  return {categories:30,sources:23,newVariants:27,loopCount:loops,events:events.events.length,routes:events.events.reduce((n,e)=>n+e.routes.length,0),listening:'New variants Not auditioned; final04-32 pending'};
+}
+const INTERFACE_ZIP_CHECK=String.raw`import array,hashlib,io,json,math,pathlib,random,sys,wave,zipfile
+root=pathlib.Path(sys.argv[1]);pack=json.loads((root/'src/godot-game/content/packs/audio-interface-ambience.json').read_text());sha=lambda b:hashlib.sha256(b).hexdigest()
+with zipfile.ZipFile(root/'production/phase4/audio-interface-ambience.zip') as z:
+    expected={x['path']:x for x in pack['bundleMembers']}
+    assert len(z.infolist())==len(expected)+1 and set(z.namelist())==set(expected)|{'production/manifest.json'},'INTERFACE_ZIP_MEMBERS'
+    assert sum(i.file_size for i in z.infolist())<=128*1024*1024,'INTERFACE_ZIP_TOTAL'
+    for i in z.infolist():
+        p=pathlib.PurePosixPath(i.filename);assert not p.is_absolute() and '..' not in p.parts and '\\' not in i.filename and ':' not in i.filename and 0<i.file_size<=32*1024*1024,'INTERFACE_ZIP_PATH'
+    for name,record in expected.items():
+        b=z.read(name);assert sha(b)==record['sha256'] and len(b)==record['bytes'],'INTERFACE_ZIP_HASH'
+    assert json.loads(z.read('production/manifest.json'))=={k:v for k,v in pack.items() if k!='bundleSha256'},'INTERFACE_ZIP_REBOUND'
+    for s in pack['sources']:
+        b=z.read(s['sourceMember']);assert sha(b)==s['output']['sha256'],'INTERFACE_ORIGINAL_HASH'
+        prefix='sources/'+s['id'];assert sha(z.read(prefix+'/stream.fsb'))==s['source']['stream']['sha256'] and sha(z.read(prefix+'/audioclip.bin'))==s['source']['rawObjectSha256'],'INTERFACE_RAW_HASH'
+        with wave.open(io.BytesIO(b),'rb') as f:
+            pcm=f.readframes(f.getnframes()+1);assert f.getnframes()==s['output']['frames'] and f.getnchannels()==s['output']['channels'] and f.getframerate()==44100 and len(pcm)==f.getnframes()*f.getnchannels()*2 and sha(pcm)==s['output']['pcmSha256'],'INTERFACE_SOURCE_TRUNCATED'
+    for s in pack['samples']:
+        b=z.read(s['variantMember']);assert sha(b)==s['sha256'],'INTERFACE_VARIANT_HASH'
+        with wave.open(io.BytesIO(b),'rb') as f:
+            pcm=f.readframes(f.getnframes()+1);assert f.getnframes()==s['frames'] and f.getnchannels()==2 and f.getframerate()==44100 and len(pcm)==s['frames']*4 and sha(pcm)==s['pcmSha256'],'INTERFACE_VARIANT_TRUNCATED'
+        if s['sourceId']=='generated-food-crunch':
+            rng=random.Random(190021);out=array.array('h');previous=0.0
+            for i in range(11025):
+                t=i/44100;noise=rng.uniform(-1,1);high=noise-previous;previous=noise
+                envelope=sum(math.exp(-max(0,t-onset)*55) if t>=onset else 0 for onset in [0.01,0.07,0.13,0.19])
+                v=round(max(-1,min(1,high*envelope*0.15))*16384);out.extend([v,v])
+        else:
+            if s['sourceId']=='action.2790.full':
+                with zipfile.ZipFile(root/'production/phase4/audio-actions.zip') as actions:
+                    a=json.loads(actions.read('production/manifest.json'));source=next(v for v in a['samples'] if v['id']==s['sourceId'])
+                    original=actions.read(source['variantMember'])
+            else:
+                source=next(v for v in pack['sources'] if v['id']==s['sourceId']);original=z.read(source['sourceMember'])
+            with wave.open(io.BytesIO(original),'rb') as f:values=array.array('h');values.frombytes(f.readframes(f.getnframes()));channels=f.getnchannels()
+            if channels==1:values=array.array('h',(v for x in values for v in (x,x)))
+            start,end=s['trimFrames'];assert 0<=start<end<=len(values)//2,'INTERFACE_TRIM_BOUNDS';values=values[start*2:end*2]
+            if s['loop']:
+                count=len(values)//2;fade=s['loop']['crossfadeFrames'];out=array.array('h')
+                for i in range(count-fade):
+                    for ch in range(2):
+                        value=values[i*2+ch]
+                        if i<fade:
+                            t=i/(fade-1);value=value*t+values[(count-fade+i)*2+ch]*(1-t)
+                        out.append(round(value*s['gainLinear']))
+            else:
+                out=array.array('h',(round(v*s['gainLinear']) for v in values))
+                if s['transform']=='two-pulses-with-2205-frame-gap':out=out+array.array('h',[0]*4410)+out
+        assert out.tobytes()==pcm,'INTERFACE_RECIPE_REPRODUCTION'
+print(json.dumps({'members':len(expected)+1,'completeSources':len(pack['sources']),'completeVariants':len(pack['samples']),'exactRecipeReproductions':len(pack['samples'])}))
+`;
+async function bank(context){
+  const files=[INTERFACE_PACK,INTERFACE_BANK,INTERFACE_ZIP,EVENTS,PACK,ZIP,'tools/phase4/cases/audio.cjs','tools/phase4/extract-audio.py',
+    'src/godot-game/content/config/presentation.json','src/godot-game/content/config/local-preferences.json'];
+  const p=document(ROOT,INTERFACE_PACK);
+  const before=Object.fromEntries(files.map(file=>[file,hash(file===INTERFACE_ZIP?archiveBytes(ROOT,file,p.bundleSha256):bytes(ROOT,file))]));write(context.directory,'inputs.json',before);
+  const b=bytes(ROOT,INTERFACE_BANK),e=document(ROOT,EVENTS),observations=validateInterface(p,b,e);
+  need(hash(interfaceDecoder())===p.recipes.decoderSha256&&hash(INTERFACE_ASSEMBLE)===p.recipes.assemblerSha256,'INTERFACE_RECIPE_IDENTITY');
+  fs.writeFileSync(inside(context.directory,'check-interface.py'),INTERFACE_ZIP_CHECK);
+  const archive=await runner.command(context,'retained-interface',PYTHON,['-B',inside(context.directory,'check-interface.py'),ROOT],{timeout:40000});
+  const controls=[];
+  for(const [name,code,edit]of [
+    ['missing-source','INTERFACE_COUNTS',x=>x.sources.pop()],['source-rebound','INTERFACE_SOURCE_IDENTITY',x=>{x.sources[0].source.objectId=4864;}],
+    ['fractional-frame','INTERFACE_REGION',x=>{x.samples[0].regionFrames[0]+=0.5;}],['hash-rebound','INTERFACE_REGION_HASH',x=>{x.samples[0].pcmSha256='0'.repeat(64);}],
+    ['false-audition','INTERFACE_FALSE_AUDITION',x=>{x.samples[0].listening.listener='creator';}],
+    ['wrong-loop','INTERFACE_LOOP',x=>{x.samples.find(s=>s.loop).loop.endFrame++;}],['wrong-bank','INTERFACE_BANK_HASH',x=>{x.bank.sha256='0'.repeat(64);}],
+    ['source-mutation','INTERFACE_ORIGINAL_MUTATION',x=>{x.sources[0].preservation.originalsAfter[0].sha256='0'.repeat(64);}],
+    ['wrong-rate','INTERFACE_SAMPLE_FORMAT',x=>{x.samples[0].rate=48000;}],['wrong-channel','INTERFACE_SAMPLE_FORMAT',x=>{x.samples[0].channels=1;}],
+    ['clipping-metadata','INTERFACE_PCM_DOMAIN',x=>{x.samples[0].technical.fullScaleSamples=1;}]
+  ]){const x=structuredClone(p);edit(x);let error;try{validateInterface(x,b,e);}catch(failure){error=failure.message;}need(error?.split(' ')[0]===code,'INTERFACE_NEGATIVE_CONTROL',name+' '+error);controls.push({name,diagnostic:error});validateInterface(p,b,e);}
+  for(const [name,edit]of [['wrong-limit',x=>{x.defaults.gameplayConcurrentLimit=25;}],['wrong-preferences',x=>{x.defaults.masterPercent=81;}],
+    ['wrong-event-category',x=>{x.events[0].category='AU-30';}],['missing-variant',x=>{x.events[0].routes[0].variants=['missing'];}],
+    ['portal-teleport',x=>{x.events[20].semantics='player teleport';}],['acid-hazard',x=>{x.events[28].semantics='persistent damage loop';}],
+    ['loop-replay',x=>{x.reconstruction.replayHistoricalOneShots=true;}]]){
+    const x=structuredClone(e);edit(x);let error;try{validateInterface(p,b,x);}catch(failure){error=failure.message;}
+    need(error?.split(' ')[0]==='AUDIO_EVENT_CONTRACT','INTERFACE_EVENT_CONTROL',name+' '+error);controls.push({name,diagnostic:error});validateInterface(p,b,e);
+  }
+  let truncation;try{validateInterface(p,b.subarray(0,100),e);}catch(error){truncation=error.message;}
+  need(truncation?.split(' ')[0]==='WAV_HEADER','INTERFACE_TRUNCATION_CONTROL');controls.push({name:'truncated-bank',diagnostic:truncation});validateInterface(p,b,e);
+  const boundaryControls=archiveControls(context);
+  const r2Controls=publicationControls(context);
+  need(equal(before,Object.fromEntries(files.map(file=>[file,hash(file===INTERFACE_ZIP?archiveBytes(ROOT,file,p.bundleSha256):bytes(ROOT,file))]))),'INTERFACE_INPUT_CHANGED');write(context.directory,'negative-controls.json',controls);
+  need(archiveBytes(ROOT,INTERFACE_ZIP,p.bundleSha256).length<=64*1024*1024,'INTERFACE_RESTORED_ARCHIVE');
+  return {...observations,archive:JSON.parse(archive.stdout),rejectedControls:controls.length,restoredPositives:controls.length,boundaryControls,r2Controls,scope:'Source/headless definitions and real recordings; no new hearing/mix credit'};
+}
+runner.registerCase('audio.bank',{group:'audio',title:'Thirty canonical sound categories and exact interface/ambience event resources',importance:'Critical',
+  rationale:'Missing sound resources, invalid loops or false approval invalidate required production content',needsGameWindow:false,runGroup:'G0',order:122,
+  requirements:['ASSET-01','ASSET-02','ASSET-04'],acceptance:['AC-03','AC-12','AC-14','AC-19'],
+  setup:'Exact tracked action/interface banks and DT23 catalog; existing pinned Python; no game or automatic audition',
+  actions:['Validate all canonical AU categories and explicit semantic routes','Check complete source/WAV/raw bundles and exact PCM region/loop metadata',
+    'Reject false approval, wrong source/frames/loops/limits/preferences/category/portal/acid/restoration semantics','Retain Not auditioned state for every new recording'],
+  expected:'Thirty categories resolve actual recordings, configurable24/4 and80/80/60 defaults, owned current loops and truthful pending hearing',
+  reset:'Fresh invocation-owned evidence; no source mutation, playback, game window or native mix judgment',
+  evidence:['inputs.json','retained-interface.command.json','negative-controls.json','archive-reader-controls.json','r2-publication-controls.json','result.json']},bank);
+module.exports={CANDIDATES,COVERAGE,ASSEMBLE,PROMOTE,APPROVAL,decoderRecipe,prepare,promote,validate,technical,actions,
+  INTERFACE_CANDIDATES,INTERFACE_ASSEMBLE,interfaceDecoder,eventCatalog,prepareInterface,publishInterface,validateInterface,archiveBytes,publishArchive,bank};
 if(require.main===module){
   const command=process.argv[2];
-  (command==='--prepare'?prepare():command==='--approve-actions'?promote():command==='--technical'?technical({directory:fs.mkdtempSync(inside(ROOT,'.phase4/audio-technical-'))}):
+  (command==='--prepare'?prepare():command==='--approve-actions'?promote():command==='--prepare-interface'?prepareInterface():command==='--publish-interface'?publishInterface(process.argv[3]):command==='--technical'?technical({directory:fs.mkdtempSync(inside(ROOT,'.phase4/audio-technical-'))}):
     Promise.reject(new Error('USAGE --prepare | --technical'))).then(value=>{if(value)console.log(JSON.stringify(value));}).catch(error=>{console.error(error.stack);process.exitCode=1;});
 }
