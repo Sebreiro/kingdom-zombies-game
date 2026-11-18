@@ -5050,14 +5050,14 @@
     "decoderMember": "recipes/decode.py",
     "decoderSha256": "5e0b103e4ecf2591f00744b5c7f0c53a3fa576c807f9def10805e90197a33189",
     "assemblerMember": "recipes/assemble.py",
-    "assemblerSha256": "72b6d91ffdd0d52d8fcf5407d578e1d6001e67948e818753324ec2d2b34416c4",
+    "assemblerSha256": "6faca8a85962900eb7c49247bdabc8f43472c93f14f65eb79df9c7b9ccc667f6",
     "selectionMember": "recipes/selection.json"
   },
   "bundleMembers": [
     {
       "path": "recipes/assemble.py",
-      "bytes": 8225,
-      "sha256": "72b6d91ffdd0d52d8fcf5407d578e1d6001e67948e818753324ec2d2b34416c4"
+      "bytes": 8238,
+      "sha256": "6faca8a85962900eb7c49247bdabc8f43472c93f14f65eb79df9c7b9ccc667f6"
     },
     {
       "path": "recipes/decode.py",
@@ -6100,5 +6100,5 @@
       "sha256": "70146316c11af62a9cd9b676f111127c9e1dd62917593a45663b4cfed60b3b17"
     }
   ],
-  "bundleSha256": "e205665e8cf3bb386e2d4743c87b63db35fcd54e041f0c997baf43b2f0cded85"
+  "bundleSha256": "f37896dadfd5154a2f1c34d47f16f5714fc5bc2b349641159a893eb5eacc73c8"
 }

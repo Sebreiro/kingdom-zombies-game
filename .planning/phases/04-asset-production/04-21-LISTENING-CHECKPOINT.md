@@ -6,7 +6,7 @@ gate: blocking-human
 tasks-completed: 0
 canonical-summary-created: false
 source-head-before: e34e60d0fa22346a0fbc38786e582ec79723fcfb
-recorded-at: "2026-11-18T03:05:00Z"
+recorded-at: "2026-11-18T03:06:33Z"
 ---
 
 # Phase 04 Plan 21 — Real source audition required
@@ -19,9 +19,9 @@ The exact plan prerequisite is Task 1's acceptance criterion: **“missing real 
 
 The agent has extracted the tracked [audio-actions.zip](../../../production/phase4/audio-actions.zip) into this local, disposable review folder:
 
-`D:/Work/Games/KingdomZombies/.phase4/audio-review-04-21-v1/`
+`D:/Work/Games/KingdomZombies/.phase4/audio-review-04-21-v1-lf/`
 
-Open [the prepared review page](../../../.phase4/audio-review-04-21-v1/review/index.html). It has deliberate Play controls for the **complete source** and the **adapted variant**, exact category questions, source owner/object/name, version, trim/gain, integer bank regions and the full adapted WAV SHA256. Nothing autoplays. The human need not extract, install, run commands or open a game. The same page is retained as `review/index.html` inside the ZIP, alongside `review/README.txt` and the complete `review/manifest.json`.
+Open [the prepared review page](../../../.phase4/audio-review-04-21-v1-lf/review/index.html). It has deliberate Play controls for the **complete source** and the **adapted variant**, exact category questions, source owner/object/name, version, trim/gain, integer bank regions and the full adapted WAV SHA256. Nothing autoplays. The human need not extract, install, run commands or open a game. The same page is retained as `review/index.html` inside the ZIP, alongside `review/README.txt` and the complete `review/manifest.json`.
 
 The stereo [candidate bank](../../../src/godot-game/assets/audio/actions.wav) is also directly playable: 2,498,522 frames, 44,100 Hz, PCM16, 56.65582766439909 seconds, 9,994,132 bytes. Its final 50ms separator is outside all sample regions. Individual sources and variants are preferable for final sample-specific verdicts.
 
@@ -70,7 +70,9 @@ Record actual listener name, UTC time, audible output device/player, sample ID/v
 - Retained ZIP independently checks 210 exact members, safe bounded paths/counts/expanded bytes, full member hashes, raw source/object hashes, complete WAV/PCM lengths, original metadata, retained manifest rebound equality and exact reproduction of every adapted trim/gain/channel transform.
 - Thirteen deliberate controls reject with exact intended diagnostics: wrong category (`AUDIO_CATEGORY_IDS`), known-valid wrong source (`AUDIO_SOURCE_IDENTITY`), wrong bank hash (`AUDIO_BANK_HASH`), region rebound (`AUDIO_REGION_HASH`), fractional frame (`AUDIO_REGION`), wrong rate/channel (`AUDIO_SAMPLE_FORMAT`), fabricated listener (`AUDIO_FALSE_AUDITION`), unsupported donor rejection (`AUDIO_FALSE_DONOR_REJECTION`), wrong category binding (`AUDIO_CATEGORY_BINDING`), original mutation (`AUDIO_ORIGINAL_MUTATION`), false peak (`AUDIO_TECHNICAL_METADATA`), truncated bank (`WAV_HEADER`). Twelve restored positive validations pass after the first twelve mutations. Original production bytes remain unchanged.
 
-| Exact tracked artifact | Bytes | SHA256 |
+The following original raw working identities belong to the initial candidate checkpoint `ab6826b`; the LF correction's current identities are recorded separately below.
+
+| Original checkpoint artifact | Bytes | SHA256 |
 | --- | --- | --- |
 | tools/phase4/cases/audio.cjs | 26686 | 057782f69c697862ad34ca1ad4fe5ebb2a956ebb877ded28ee39b5fd553f187c |
 | src/godot-game/content/packs/audio-actions.json | 207612 | c22236ff9c79fa9224bf15e725cb254f633fc1a8108012b9e299441e5cde442a |
@@ -83,7 +85,7 @@ The decoder recipe hash is `5e0b103e4ecf2591f00744b5c7f0c53a3fa576c807f9def10805
 
 Only the original four Task 1 implementation paths and this coordinator-authorized planning checkpoint are changed. No native/C# source, policy, other pack, global planning document, initial specification, recovered input or existing evidence was edited.
 
-`audio.cjs` adds constants `PYTHON`, `PACK`, `BANK`, `ZIP`, independent `CANDIDATES`/`COVERAGE`, embedded `ASSEMBLE`/`ZIP_CHECK`, and functions `ids()`, `sourceChannels(id)`, `decoderRecipe()`, `inputs()`, `prepare()`, `validate(pack,bank)`, `technical(context)`, `actions(context)`. CommonJS exports are `CANDIDATES,COVERAGE,decoderRecipe,prepare,validate,technical,actions`. Standalone commands are `--prepare` and `--technical`; registered case is `audio.actions`, Critical, source/headless group `audio`, G0 order121. Exact native-policy tuples introduced: **none**.
+`audio.cjs` adds constants `PYTHON`, `PACK`, `BANK`, `ZIP`, independent `CANDIDATES`/`COVERAGE`, embedded `ASSEMBLE`/`ZIP_CHECK`, and functions `ids()`, `sourceChannels(id)`, `decoderRecipe()`, `inputs()`, `prepare()`, `validate(pack,bank)`, `technical(context)`, `actions(context)`. CommonJS exports are `CANDIDATES,COVERAGE,ASSEMBLE,decoderRecipe,prepare,validate,technical,actions`. Standalone commands are `--prepare` and `--technical`; registered case is `audio.actions`, Critical, source/headless group `audio`, G0 order121. Exact native-policy tuples introduced: **none**.
 
 The ZIP contains `sources/<objectId>/original.wav`, `stream.fsb`, `audioclip.bin`, `provenance.json` for each of the 40 exact object IDs in the category matrix; `variants/action.<objectId>.full.wav` for all forty; jump trims for 3294/4949 and break trims for 4523/3574; `recipes/decode.py`, `recipes/assemble.py`, `recipes/selection.json`; `review/README.txt`, `review/index.html`, `review/manifest.json`. Every exact member path/hash/byte count is enumerated in manifest `bundleMembers` (the retained manifest is the final additional member, avoiding a self-hash cycle). All 44 version1 sample resource/region IDs are enumerated in manifest `samples`. No generated prompt, layered sound, selected loop, music or dialogue bank is claimed.
 
@@ -91,10 +93,26 @@ The candidate validator deliberately accepts only this unauditioned preparation 
 
 ## Original repair budget and preserved history
 
-Two of the original maximum three Task 1 correction attempts have been consumed; the budget is **not reset** at this checkpoint. No third correction was needed after the technical pass.
+All three original Task 1 correction attempts have been consumed; the budget is **not reset** at this checkpoint. Stop before any fourth technical correction without a prospective amendment. The remaining actual listening prerequisite is separate from this technical repair budget.
 
 1. First genuine preparation `c8cce052-40ae-4b53-a30e-1e2973723366` failed `AUDIO_OUTPUT_ROOT` before decode: the copied recipe's file-relative root resolved under its ignored run directory. Correction1 pinned the actual authorized workspace root while retaining all containment/reparse checks.
 2. Preparation `98259d44-b136-4203-a4fc-908d8d3cc069` reached donor2880 and failed the inherited stereo-only `AUDIO_FORMAT` assumption. A read-only actual AudioClip metadata inspection established exactly five mono originals and all forty 44100Hz PCM16 source records. Correction2 now verifies the exact expected native source channels, source duration within one frame, original PCM preservation and explicitly reproduced mono duplication for the stereo bank. The corrected complete preparation is `02a9625c-3c1c-4590-9208-b01fb2153d96`.
+3. The initial incomplete checkpoint commit `ab6826b152313357715b6b375d87923cdba0668d` exposed Git's `eol=lf` normalization of the Python text writer's CRLF manifest. Its raw working hash `c22236ff...` differed from committed LF blob `010483bd...`, solely because of line endings. Correction3 makes manifest writing explicitly LF and exports the already embedded assembler recipe for controlled reassembly. No decoded source, adapted WAV, bank PCM, category, hearing claim, bound or expectation changed. Original `f2a0d153` evidence and the original preparation's recipe/manifest/ZIP identities are preserved. Fresh assembly `.phase4/audio-candidates-lf/69fe452d-27a1-4721-906a-90d940d56806/` uses copies of the same forty retained decoder outputs without re-decoding donors.
+
+## Current LF-corrected technical checkpoint
+
+Fresh `audio.actions` invocation `febe7b10-7ca1-42fe-a91f-f3d7aa6505bc` again passes all technical assertions, 210-member exact retained bundle reproduction, thirteen deliberate failures and twelve restored positives, then fails **only** `AUDIO_LISTENING_REQUIRED`. Its original revision is the preserved incomplete checkpoint `ab6826b152313357715b6b375d87923cdba0668d` plus the explicit, hash-recorded LF correction WIP. This is not a GREEN result or a committed tracer. The source-only review has been extracted afresh at the current link above; the earlier review folder remains historical.
+
+| Current artifact | Bytes | SHA256 |
+| --- | --- | --- |
+| tools/phase4/cases/audio.cjs | 26708 | b2f2dc65c859686060ee7a76443de49bbdbcc6cad61d12215482eb400db67ab5 |
+| src/godot-game/content/packs/audio-actions.json | 201508 | 826ba6acae7cf2a3b07c18903a0f18756e22893cf16748292513051f048daf69 |
+| src/godot-game/assets/audio/actions.wav | 9994132 | fb173a9863cbc2ba1989cea83afddea3497d22bc760ba28803b9d5e8a545e144 |
+| production/phase4/audio-actions.zip | 15837104 | f37896dadfd5154a2f1c34d47f16f5714fc5bc2b349641159a893eb5eacc73c8 |
+
+The current assembler recipe SHA256 is `6faca8a85962900eb7c49247bdabc8f43472c93f14f65eb79df9c7b9ccc667f6`; the decoder recipe remains `5e0b103e4ecf2591f00744b5c7f0c53a3fa576c807f9def10805e90197a33189`. All 44 actual audio version/hash/region identities above and in the complete manifest remain unchanged.
+
+One redundant ZIP overwrite encountered Windows' “user-mapped section open” restriction. Read-only verification established the existing destination already had exactly the fresh source ZIP hash `f37896da...`; no retry, file deletion or process termination was needed. The saved fresh case independently validated those destination bytes. This environmental file-handle observation consumed no additional correctness correction.
 
 Initial sandbox child creation returned `spawn EPERM`; approved equivalent elevated decoder/check commands succeeded. This environment restriction is not RED or a correctness correction. No approval rejection, authentication gate, install, deadline/output-bound increase, hidden stderr, native game window, playback or actual hearing occurred.
 

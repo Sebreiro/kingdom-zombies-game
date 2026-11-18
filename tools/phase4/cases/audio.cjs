@@ -154,7 +154,7 @@ with zipfile.ZipFile(root/'audio-actions.zip','w',compression=zipfile.ZIP_DEFLAT
         info=zipfile.ZipInfo(key,(2026,11,18,0,0,0));info.compress_type=zipfile.ZIP_DEFLATED;z.writestr(info,value)
 pack['bundleSha256']=sha((root/'audio-actions.zip').read_bytes())
 (root/'actions.wav').write_bytes(bankbytes)
-(root/'audio-actions.json').write_text(json.dumps(pack,indent=2,allow_nan=False)+'\n',encoding='utf-8')
+(root/'audio-actions.json').write_text(json.dumps(pack,indent=2,allow_nan=False)+'\n',encoding='utf-8',newline='\n')
 print(json.dumps({'candidates':len(config['candidates']),'variants':len(samples),'frames':len(bank)//2,'zipBytes':(root/'audio-actions.zip').stat().st_size}))
 `;
 function inputs(){return Object.fromEntries(['tools/phase4/cases/audio.cjs','tools/phase4/extract-audio.py',PACK,BANK,ZIP].map(x=>[x,hash(bytes(ROOT,x))]));}
@@ -301,7 +301,7 @@ runner.registerCase('audio.actions',{group:'audio',title:'AU01-15 exact donor so
   expected:'All technical controls pass; AUDIO_LISTENING_REQUIRED remains until actual hearing records are supplied and independently validated',
   reset:'Fresh owned evidence directory only; no game window, playback, donor writes or changes to production bytes',
   evidence:['inputs.json','retained-bundle.command.json','negative-controls.json','technical.json','result.json']},actions);
-module.exports={CANDIDATES,COVERAGE,decoderRecipe,prepare,validate,technical,actions};
+module.exports={CANDIDATES,COVERAGE,ASSEMBLE,decoderRecipe,prepare,validate,technical,actions};
 if(require.main===module){
   const command=process.argv[2];
   (command==='--prepare'?prepare():command==='--technical'?technical({directory:fs.mkdtempSync(inside(ROOT,'.phase4/audio-technical-'))}):
