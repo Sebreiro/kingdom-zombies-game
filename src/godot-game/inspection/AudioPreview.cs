@@ -47,6 +47,11 @@ internal sealed class AudioPreview : IDisposable
         return accepting && completion == current;
     }
 
+    internal static bool IsMuted(bool muted, double master, double channel)
+    {
+        return muted || master == 0;
+    }
+
     internal static string[] Ids(string category)
     {
         return category is "Audio" or "" ? [.. Enumerable.Range(start: 1, count: 30).Select(selector: number =>
@@ -838,7 +843,7 @@ internal sealed class AudioPreview : IDisposable
             ApplyVolume(player: player, route: _routes[route]);
         }
 
-        bool muted = (_mute?.ButtonPressed ?? false) || _master == 0;
+        bool muted = CurrentMuted();
         _status.Text = (muted ? "Muted · Sound muted" : _players.Count > 0 ? "Playing" : "Stopped")
                 + " · time " + _time.ToString(format: "F2", provider: CultureInfo.InvariantCulture) + "s";
         _panel.SetMeta(name: "epoch", value: _epoch);
@@ -872,5 +877,13 @@ internal sealed class AudioPreview : IDisposable
 
         _details.Text = details + "\nSource/headless playback and lifetime only. New27 variants Not auditioned; "
                 + "listening, loop seams and final mix remain04-32/33.";
+    }
+
+    private bool CurrentMuted()
+    {
+        double channel = _selector is not null && _selector.ItemCount > 0
+                && Text(value: _routes[_selector.GetItemText(idx: _selector.Selected)], key: "bus") is "Ambience"
+                ? _ambience : _effects;
+        return IsMuted(muted: _mute?.ButtonPressed ?? false, master: _master, channel: channel);
     }
 }

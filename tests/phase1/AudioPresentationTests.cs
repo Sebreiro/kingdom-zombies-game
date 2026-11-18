@@ -35,6 +35,13 @@ public sealed class AudioPresentationTests
         Source(id: "interface.bloater-burst.v1").ShouldContain(expected: "2790");
     }
 
+    /// <summary>A zero selected bus is visibly muted even when the master bus remains enabled.</summary>
+    [Fact]
+    public void CriticalBusZero_RemainsVisiblyMuted()
+    {
+        Call(name: "IsMuted", arguments: [false, 80d, 0d]).ShouldBe(expected: true);
+    }
+
     /// <summary>Every current inline, donor, generated and shared variant retains nonempty provenance.</summary>
     [Fact]
     public void Sources_ResolveEveryCurrentVariant()
