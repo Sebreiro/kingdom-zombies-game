@@ -1,0 +1,31 @@
+# Plan 04-22 bounded Task 2 continuation
+
+Prospective coordinator continuation after terminal checkpoint fda4114/04-22-CHECKPOINT.md. Task1 remains committed f7f735e with fresh committed text.catalog tracer207a22ce PASS before Task2. Original Task2 initial strictbuild9errors, correction1 two Root lengtherrors, correction2 two line-lengtherrors, correction3 one SCR0008 member-order error are preserved; original correction budget stays3/3 exhausted. No native proof/currentpolicy/producer or Task2GREEN exists. The remaining declaration-order/build/proof work is technical work already within the authorized Phase4; the checkpoint blocking-human label does not imply a new creator/hearing/credential decision. No new creator confirmation is required for this bounded continuation.
+
+R1 DECOMPOSE into two sequential verifiable outcomes. Each permits its initial implementation/verification and at most TWO separately recorded corrective attempts,without resetting the original3/3. An exhausted substep or distinct outside-scope production defect returns a durable precise checkpoint before another correction. Do not change the original PLAN on disk.
+
+Before any edit snapshot all nine current plan implementation files to an ignored immutable directory and write/verify exact raw hashes. Preserve raw initial/C1/C2/C3 build commands/logs,identify their actual paths/hashes in the continuation record,and keep Task1's five committed outputs bytefixed. Current Task2 starting hashes:
+
+| Exact file | SHA256 |
+| --- | --- |
+| src/godot-game/content/compatibility/appearance-layout.json | 6542abaf267bbf454715a15a8edabd4044408db627de2aecd4bf091200dd196a |
+| src/godot-game/content/packs/compatibility.json | d9502d859a7b72c26b75bc6975e691859b523fed7f746349b5dd022c3a609e2a |
+| src/godot-game/inspection/DataTextPreview.cs | 473c2961f6b5bcce3cfe74ee905d011f664ad85aa6d92db8b3ff7f410ffd42d5 |
+| src/godot-game/inspection/InspectionRoot.cs | de10e4988b189c338298911de8739482cb5bb4f61fefce3384dc66e4e822b37a |
+| tools/phase4/cases/text-data.cjs | 91be5dc9d076a92e782324a1ab82658136766b53c918adef2267839b57e8eb89 |
+
+## R1.1 — declaration order and strict build
+
+Own ONLY DataTextPreview.cs declaration order: move the existing Unknown and Shared internal constant declarations below public Dispose,before the existing internal constructor,without changing values,tokens or any other production behavior. Run the unchanged pinned strict solution build with all analyzers and0warnings/errors. Root/compatibility fixture/pack/case and all other implementation bytes remain fixed during this substep. No new native/public/policy authority,reader/JSON/decompression bound,method signature,Root refactor or semantic correction is authorized. Preserve the original member-order failure as actual pre-fix evidence;no artificial RED is required.
+
+## R1.2 — first actual native text/compatibility proof
+
+After R1.1 strictGREEN,own ONLY tools/phase4/cases/text-data.cjs to finish the previously unimplemented text.compatibility proof and its test-owned native setup/observations,within the planned case file. Production DataTextPreview/Root/compatibility JSONs and all five Task1 outputs stay bytefixed. Use the proven actual KingdomZombies project/mainassembly protocol for real Root/scene behavior,and isolated guarded plain-helper controller only where valid;authenticate exact officialengine,per-process PID/nonce/source/ALC/assembly/resourceclosure,naturalcompletion and clean applicablelogs. No newtracked observer/helperfiles.
+
+Independently exercise actual current fields/messages/typedplaceholders/plurals/bindings,host/local distinction,read-only controls,full bounded authenticated documentation,all16 distinct text/data backstops,and DT24 saved dimensions/placements/orientation/slot/stack/depth beside exactcurrentdestination. Observe actual reused AppearanceState,WorldPreview,BuildingPreview and AudioPreview currentstate/restoration/ownedloops,no historicaldeath/destruction/payment/recruit/warningone-shots. Validate missing/invalid definitions with specific controlled path/field/value/reason,and restored positives/validindependentsiblings;do not accept fixture/bridge/setup failure as semantic rejection. All original49case IDs/predicates/order,4603field/source union,363messages and current catalog corruption controls stay preserved. No observed-value substitution,droppedbackstops,test-ownedproductionmodel,metadata-only native claims or disabled-controlsignal bypass.
+
+Proof-only corrective attempts may fix demonstrated compiler/copiedinput/officialAPI/observation-lifetime errors while preserving independent expectations. Materialize observations before disposing owned controls/streams/images/playbackhandles. No hiddenstderr,forcedGC,sleeps,framepadding,earlyQuit,expandedcaps/deadlines/parserbounds or native grants. A working native bridge that demonstrates a distinct production semantic/ownership/parser failure requires a NEW precise coordinator scope before editing fixed production bytes.
+
+## Original completion contract
+
+After both substeps actualGREEN,commit exact tested planned Task2 scope and run a NEW immutable complete justified executable selection(prior49 plus two new textcases,expected51;independently justify actualselection). Include all activeCritical/newchanged/affected regressions,originalHubfilters and currentAudio/World consumers;keep source.provenance historical failure/source.publication inferredblocker explicit,without unchangedreruns or full-phase acceptance. Freeze relevant inputs,record actualper-case revisions/closures,then exactlyONE final changedpolicy/producer observation on actualfinalsource with complete exactnewtuples/currentinputs for23/31,without grants. CanonicalSUMMARY/selfcheck/commit onlyafteractualcompletion;parentowns globalprogress/wave25post/PR5/push. Preserve exact19publicidentities,unchanged18Rootsignatures/freshboundedRead/latestAudioRowseligibility,inventory236,WINDOWS29/30/31,index0/180,49oldconsumercomparisons and exact64MiBarchiveconsumerownership. Approval stays40sources/44presentedversions,new27Notauditioned. AllASSET/windows/appearance/hearing/mix and actual32/33acceptance remainpending. Never advance Phase5 or recreate removed06-DISCUSS-CHECKPOINT.json.
