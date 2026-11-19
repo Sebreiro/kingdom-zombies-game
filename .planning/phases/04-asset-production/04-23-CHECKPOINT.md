@@ -71,3 +71,7 @@ Review the actual animation-import failure and decide its next authorized diagno
 
 
 Parent documentation validation: docs.navigation d3faf77f-5749-408e-b916-48efbb55ff32 PASS after the new checkpoint was explicitly tracked. Prior e4835dcd dependency-setup failure and f62e843f untracked-target failure remain preserved. Postchecks revalidated all1385 source inputs, all69 copied local files and five actual+retained binary outputs unchanged. This metadata-only validation does not qualify the dirty animation import or complete Task1.
+
+## 2026-11-20 import Unicode failure resolved
+
+The intermittent Unicode parsing errors in harness editor imports come from a Godot 4.7.2 Windows working-directory race during threaded import. The new single-thread runner policy in `tools/phase4/check.cjs` `command()` removes them. Details are in the [debug record](../../debug/phase04-import-surrogates.md). This note claims no 04-23 Task 1 GREEN, clean-output qualification, plan completion or acceptance; the clean-output gate still needs a fresh run under the new runner.

@@ -1,10 +1,34 @@
 ---
-status: investigating
+status: resolved
 trigger: "Phase 04 Plan 23: intermittent Unicode surrogate diagnostics during official Godot fixture import prevent clean verification"
 created: 2026-11-19
-updated: 2026-11-19
+updated: 2026-11-20
 mode: diagnose-only
 ---
+
+## Resolution
+
+The older `## Resolution` block at the end of this file records the earlier inconclusive state. It is kept as history.
+
+**Root cause.** Godot 4.7.2 on Windows has a race on the process-wide working directory. Source: commit ed1daf0bf001b61586d9930840f2f1394092c079, `drivers/windows/dir_access_windows.cpp`, `core/string/ustring.cpp`, `editor/file_system/editor_file_system.cpp` and `editor/register_editor_types.cpp`.
+- `DirAccessWindows::DirAccessWindows()` reads the cwd without a lock in two calls. `GetCurrentDirectoryW(0)` returns the size. The buffer is resized without being initialized. `GetCurrentDirectoryW(n)` then fills it, and its result is ignored.
+- `DirAccessWindows::change_dir()` changes the process cwd for a moment under `GLOBAL_LOCK_FUNCTION`. The constructor does not take that lock.
+- When another thread makes the cwd longer between the two calls, the fill writes nothing. `String::utf16()` decodes the uninitialized heap buffer, which prints the first diagnostic block. The constructor's `change_dir(".")` converts it twice more, which prints the next two blocks.
+- Fonts import on worker threads because `ResourceImporterDynamicFont::can_import_threaded()` returns true. The project setting `editor/import/use_multiple_threads` (default true) enables threaded import.
+
+**Evidence.** A non-intrusive Frida observation trace ran on the original failing animation fixture, four runs each. The local evidence package is `.phase4/temp/animation-import-unicode/README.md`.
+- Threaded import: 13 threads touched the cwd. 4, 4, 3 and 0 `GetCurrentDirectoryW` fills failed.
+- `use_multiple_threads=false`: 1 thread touched the cwd. 0, 0, 0 and 0 fills failed, over the same 6912 events and 1142 size/fill pairs.
+- The 44 imported files are byte-identical between threaded, single-threaded and the original failing run.
+- In all four failing runs the stale bytes matched the tail of a `.fontdata` file the same import had just written.
+
+**Fix.** Commit e15a6c9 adds a runner policy in `tools/phase4/check.cjs` `command()`. Before spawn, it appends `[editor]` / `import/use_multiple_threads=false` to the run-owned `project.godot` of every `--import` command. An existing `false` stays byte-identical. Any other value is rejected with `EDITOR_IMPORT_THREADED`. A missing, unowned or file-less `--path` is rejected with `EDITOR_IMPORT_PROJECT`. The pinned engine is not patched. `override.cfg` is not used because the editor ignores it.
+
+**Verification.** The [RED record](../quick/261120-09v-fix-intermittent-godot-editor-import-uni/261120-09v-RED.json) shows 5 fail / 2 pass before the policy. After the fix the self-test passes 7/7. `node --check` and the export-profile self-tests also pass. No real Godot import ran in this task. The 04-23 clean-output gate still needs a fresh qualifying run under the new runner.
+
+**Follow-ups (not done here).**
+- Developer editor sessions in `src/godot-game/project.godot` still use threaded import. Changing that needs separate approval.
+- Report the engine defect to Godot upstream.
 
 ## Symptoms
 
