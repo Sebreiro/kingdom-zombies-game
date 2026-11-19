@@ -4,7 +4,7 @@ Recorded 2026-11-19T20:12:28.577Z. This is a partial source and verification che
 
 - Branch: feature/04-asset-production. Existing [draft PR #5](https://github.com/Sebreiro/kingdom-zombies-game/pull/5) targets dev; do not merge or mark ready.
 - Phase 04 remains 31/37 plans complete. Plan 04-23 is 0/2 formal tasks; wave 26 remains open. No requirement or asset acceptance is claimed.
-- Actual tested source was HEAD b88dcb0 plus the retained local changes. The 69 modified implementation files remain uncommitted. Parent documentation commits do not change the tested binary identity.
+- Actual tested source was HEAD `b88dcb0` plus the retained local changes. The 69 implementation files were committed as a work in progress in `bcbbcd5`. The stored Git blobs match the preserved snapshot byte for byte in 66 files. In `CharacterPreview.cs`, `InspectionRoot.cs`, and `text-data.cjs`, Git normalized mixed line endings to LF. The affected byte-exact proof bindings still describe the captured working tree, so the existing results cannot certify a fresh checkout of the commit.
 - All 69 exact files are copied to the ignored immutable local snapshot [manifest](../../../.phase4/04-23-local-source-snapshot-cc0a63dd-dd52-44ec-81d1-5f5b492524e8/manifest.json), SHA256 e7130d79a982f64153fdb2ca15a44315d000612e23289b6b1ef233869dc71959; total 12854555 bytes. 68/69 are explicit CURRENT67 frozen inputs. The manifest preserves exact hashes and Git LF-normalization differences; it supplies no fresh-checkout or portable-export proof.
 
 ## Completed independent engineering
@@ -40,6 +40,15 @@ Animation run 0ed41a9d-e6b7-4b15-a180-c68b6beb9dbb emitted 32 unexpected stderr 
 - [Original stderr](../../../.phase4/runs/0ed41a9d-e6b7-4b15-a180-c68b6beb9dbb/animation-native-import.stderr.log): 1,963 bytes, SHA256 8a48e0076626e4d9804ec2b71abaf48e3432b338b0ead96c942806a6168f30e8.
 - Cause remains OPEN/UNRESOLVED. [R15](04-23-REPAIR.md#r15-engineering-order-amendment-after-stopped-inconclusive-debug-workflow) stops the debug investigation at 3/3 resumes with no fourth resume or extra event-capture/import-sampling cohort. No retry, diagnostic resume, clean-output waiver or causal repair is inferred.
 - Task 1 GREEN commit, fresh same-case committed tracer, Task 2, final plan SUMMARY, downstream 30/31/24/32/33 and phase acceptance remain blocked. No further native run is authorized by this checkpoint.
+
+## How to attempt reproduction on Windows
+
+The failure is intermittent. The original run is the recorded reproduction. The follow-up investigation completed 64 attempts without a recurrence.
+
+1. Open PowerShell in the repository root on `feature/04-asset-production`. Use the pinned Windows x64 environment with Node.js 24.22.1, .NET SDK 10.0.404, and Godot 4.7.2 .NET. A fresh machine or checkout needs the [toolchain setup and locked restore](../../../docs/workflow/setup.md) before the case can run.
+2. Run `node tools/phase4/check.cjs --case animation.replacement`. The case builds a fresh temporary project and imports it with Godot in headless editor mode. The command prints the new run directory under `.phase4/runs/`.
+3. In the new run directory, inspect `animation-native-import.stderr.log` and `animation-native-import.command.json`. The failure is the presence of `Unicode parsing error` during the positive import. The original run included `Unpaired trail surrogate` and `Invalid unicode codepoint (1010101)`. The case printed PASS and Godot exited 0, so the import log is the evidence to check. An empty log means the error did not occur on that attempt.
+4. Compare with the [original stderr](../../../.phase4/runs/0ed41a9d-e6b7-4b15-a180-c68b6beb9dbb/animation-native-import.stderr.log) and [original command](../../../.phase4/runs/0ed41a9d-e6b7-4b15-a180-c68b6beb9dbb/animation-native-import.command.json) in the workspace that captured them. Preserve the original folder. Running Godot against that folder directly would reuse generated import state.
 
 ## Immutable reports and recovery history
 

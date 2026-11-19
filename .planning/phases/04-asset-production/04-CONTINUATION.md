@@ -2,7 +2,7 @@
 
 The creator-approved follow-up investigation reached its cap of 64 fresh animation imports on 2026-11-19. All exited naturally with clean output, and all 44 generated import files matched the original run in each replay. No failing UTF-16 call was captured. The original animation import still fails the clean-output gate. Keep Plan 04-23 at 0/2 and Phase 04 at 31/37. The exact result and limits are in the [partial checkpoint](04-23-CHECKPOINT.md).
 
-**Current checkpoint:** [04-23 partial engineering](04-23-CHECKPOINT.md). Governance28 and actual current-binary358 pass. CURRENT67 is66/67clean-qualified with one actual animation-import Unicode failure; debugSTOPPED3/3 and R15 prohibit further sampling. Formal04-23 remains0/2,Phase04 remains31/37.69implementationfiles are preserved locally/uncommitted; noTask1GREEN/tracer/Task2/SUMMARY. The checkpoint supersedes older active-step wording below; history remains immutable.
+**Current checkpoint:** Governance and compiled checks passed on the captured working tree. The full headless run qualified 66 of 67 cases and the additional 64-import investigation did not reproduce the single animation-import failure. The 69 implementation changes are committed as a work in progress in `bcbbcd5`. The checkpoint records the three Git line-ending conversions, the original byte-exact local snapshot, and steps to attempt reproduction. Formal Plan 04-23 remains 0/2 and Phase 04 remains 31/37. See the [partial engineering checkpoint](04-23-CHECKPOINT.md).
 
 - Requested workflow: `$gsd-autonomous --only 4`; do not advance to Phase 5 or run milestone cleanup.
 - Branch: `feature/04-asset-production`, created from freshly fetched `origin/dev` at `5428da8` (Phase 3 merged).
