@@ -128,6 +128,7 @@ Phase 3 has no blocking acceptance item. Its independent [UI audit](phases/03-fo
 | # | Description | Date | Commit | Directory |
 | --- | --- | --- | --- | --- |
 | 261114-we2 | Require phase feature branches and draft-to-ready PRs targeting dev | 2026-11-14 | 9a96240 | [261114-we2-define-phase-feature-branches-and-draft-](./quick/261114-we2-define-phase-feature-branches-and-draft-/261114-we2-SUMMARY.md) |
+| 261119-15c | Require task-end cleanup of ignored outputs and worktrees, with a dry-run-first cleanup command | 2026-11-20 | 855b177 | [261119-15c-agent-cleanup-rules](./quick/261119-15c-agent-cleanup-rules/261119-15c-SUMMARY.md) |
 
 ## Deferred Items
 
