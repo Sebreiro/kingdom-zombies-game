@@ -14,7 +14,13 @@ mode: diagnose-only
 - Timeline: during currentrepairedfrozenR9selection, after earlierfocusedtext.support-native06e6d4a8 emitted3similar diagnostics; oneunchangedfreshsupportae6f7b6apassedclean, originalfailurepreserved. Other97positivecommands inwhole62auditclean. Earliertest-fixtureFoundationclosure/rawImagewarnings/audio-retirement defects separatelyresolved; do not conflate those with currentUnicodefailure.
 - Reproduction: inspect saved failedproject/command/inventory-native-import.stderr.log in .phase4/runs/6edd3316-3e54-44b7-9ebe-340bb8a17f5b and inspector-import logs/project in .phase4/runs/958dd583-8b52-4bc8-be2e-c82e87717822. Use controlledfreshdisposableclones/currentauthenticengine and recordexactdifferences; no blindretryuntilclean or alteredtoolchain/sourceassets.
 
-## Current Focus
+## Latest observation
+
+On 2026-11-19 the creator approved a separate batch of at most 64 fresh imports of the captured animation project from run `0ed41a9d-e6b7-4b15-a180-c68b6beb9dbb`. The batch reached the cap. Each process exited 0 naturally with empty stderr, both pipe EOFs, debugger detachment, and one observed parser entry. None emitted the Unicode failure. Each regenerated the same 44 imported files byte for byte as the original run. The 64 verified archives and raw evidence are indexed in the [Plan 04-23 checkpoint](../phases/04-asset-production/04-23-CHECKPOINT.md).
+
+The malformed buffer, its caller, and ownership remain unobserved. Instrumentation can affect timing and the original environment values and pre-import cache are unavailable. This selection is closed. The original failure remains open and the clean-output gate is still blocked.
+
+## Prior investigation focus
 
 hypothesis: Not established. Varying diagnostic code units may originate from a UTF16 conversion of native data during import; fixed corrupt text, retained-font metadata, resource/assembly lifetime, and native import concurrency remain competing candidates.
 bug_class: heisenbug-mandelbug (provisional; unchanged text fixture has dirty and clean executions)

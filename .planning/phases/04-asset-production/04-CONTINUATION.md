@@ -1,5 +1,7 @@
 # Phase 04 continuation
 
+The creator-approved follow-up investigation reached its cap of 64 fresh animation imports on 2026-11-19. All exited naturally with clean output, and all 44 generated import files matched the original run in each replay. No failing UTF-16 call was captured. The original animation import still fails the clean-output gate. Keep Plan 04-23 at 0/2 and Phase 04 at 31/37. The exact result and limits are in the [partial checkpoint](04-23-CHECKPOINT.md).
+
 **Current checkpoint:** [04-23 partial engineering](04-23-CHECKPOINT.md). Governance28 and actual current-binary358 pass. CURRENT67 is66/67clean-qualified with one actual animation-import Unicode failure; debugSTOPPED3/3 and R15 prohibit further sampling. Formal04-23 remains0/2,Phase04 remains31/37.69implementationfiles are preserved locally/uncommitted; noTask1GREEN/tracer/Task2/SUMMARY. The checkpoint supersedes older active-step wording below; history remains immutable.
 
 - Requested workflow: `$gsd-autonomous --only 4`; do not advance to Phase 5 or run milestone cleanup.

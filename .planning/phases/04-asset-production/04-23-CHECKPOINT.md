@@ -16,6 +16,20 @@ Recorded 2026-11-19T20:12:28.577Z. This is a partial source and verification che
 - Both original Hub regressions pass in the complete current selection: 63 compiled + 25 native and 63 compiled + 50 native.
 - Fresh current-binary qualification: 358/358 pass, zero failures/skips, exact 107 original model/source controls + 251 native-permission boundaries; 358 distinct actual case/test UIDs. Wall 3,779,428.7259ms, longest child 15,040.2765ms within unchanged 45-second child/60-second launcher bounds. All 1,496 input references, 1,385 source subjects, five current binaries and five retained byte copies are unchanged; 2,652 artifact references rehashed.
 
+## Creator-approved animation import investigation
+
+The creator approved one additional batch on 2026-11-19, limited to the captured animation project and capped at 64 fresh imports. The batch reached 64. Every Godot process exited naturally with exit code 0 and empty stderr, and each observer recorded a real UTF-16 parser entry. No Unicode diagnostics or failing parser branch recurred. The longest observed child took 5.297 seconds.
+
+All 64 replay archives contain the same 44 generated import files as the original failing run, byte for byte. The independent check verified 14,464 archive members, 770 raw evidence files, 1,385 frozen source inputs, 69 local snapshot files, and five tested binaries and their retained copies. Godot's original malformed input buffer, caller, and ownership remain unidentified. The debugger can affect timing, and the historical environment values and pre-import cache bytes are unavailable.
+
+The first import completed before an archive command failed to resolve the Windows PowerShell hashing cmdlet. The original setup record was retained. The archive recovered with framework SHA-256 and all members verified before the fresh copy was recycled. The same batch resumed at import two, and the original cap included the first import.
+
+- Batch report: `.phase4/04-23-import-debug/r39-animation-f47846b7-b8bb-48cb-98a4-2ce60d5deef0/terminal-resumed-report.json`, SHA256 `fd7b7445a58fc6fd943c836cfac179451c98810d2790a0a52dc21fb188e0f42c`.
+- Independent verification: `.phase4/04-23-import-debug/r39-animation-f47846b7-b8bb-48cb-98a4-2ce60d5deef0/independent-verification.json`, SHA256 `0c32976b3eddcc00fb32519aeca873330db1da9e864ef03159af262a9b2443cb`.
+- Documentation navigation passed in run `948ecb27-8cc7-4c89-9ef2-dad6d8c5142b`. Its subsequent build refreshed four local binary files. All five original tested binary copies and all source hashes still match the batch's recorded hashes. The separate `post-documentation-binaries.json` receipt has SHA256 `378a987e28764ad5bd5b9e2feb1cc2d76a1a61ae25d5f0bc36baf74905ef8d79`.
+
+The batch is exhausted. The original 66/67 clean qualification, Plan 23 status, and Phase 4 acceptance gate are unchanged.
+
 ## Remaining blocking failure
 
 The fresh CURRENT67 selection executed all 67 cases and passed their assertions, but only 66 qualify as clean passes. Of 137 positive official native commands, 136 were clean. Wall 2,354,899.043ms; case time 2,319,463.793ms.
