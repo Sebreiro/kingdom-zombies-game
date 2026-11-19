@@ -20,19 +20,48 @@ hypothesis: Not established. Varying diagnostic code units may originate from a 
 bug_class: heisenbug-mandelbug (provisional; unchanged text fixture has dirty and clean executions)
 test: Inventory retained dirty and clean fixture inputs, engine identity, helper isolation and native source of exact diagnostic before selecting bounded probes.
 expecting: Fixed malformed input predicts a matching malformed UTF16 or name record; runtime/native defect predicts valid identical input with varying diagnostic units or a native conversion path.
-next_action: Coordinator reviews diagnosis-report.json and scopes native failing-caller/buffer attribution (or an explicitly prospective further diagnostic selection). No more native launch in this selection; no source repair or clean-import closure is justified yet.
+next_action: Coordinator reviews R12terminalreport19873f91 and reproduction-boundariesdb6cb419;64/64 selection is CLOSED with zero Unicodeevents. No furtherlaunch or sourcefix is selected. Missing evidence remains one actual failing nativeconversion with caller/buffer/ownership facts, preferably captured at realhelper spawn boundary with faithful historicalenvironment/path context; separately prospective selection required.
 candidate_causes:
   - data: malformed retained text or font naming records enter a UTF16 decoder.
   - code: native decoder caller reads invalid lifetime or wrong-length bytes.
   - config/environment: concurrent importer or editor font enumeration exposes a native defect.
 and_gate: possible; valid retained data plus concurrent native processing could be jointly required; no contributing cause confirmed.
-probe_selection: Approved finite eight-clone observation only (not acceptance or a corrective retry). Subject is retained dirty audio native-inventory input; tracked current sources are never built or altered. Copy all retained candidate input files except postrun proof results, generated .uid/.import and generated .godot cache; preserve .godot/mono prebuilt data. Record complete source/DLL closure and original-source provenance per clone. Observable variable is --verbose plus stream chunk timestamp instrumentation. Default import parallelism unchanged. Use real runner.command 60000ms/1048576-character-per-stream/5000ms-taskkill/8000ms-final-close bounds. Per-clone environment uses real runner.environment with existing .phase1 package/home caches read paths and owned temp/profile directories; this differs from historical inherited values, so it is not an exact environment replay. No import/assets/scripts skipped. Stop after8 regardless of results; stop earlier on setup/child/output/cleanup failure. No native debugger available in PATH or standard Windows Kits path; no install authorized. Negative result yields precise caller-stack requirement, not causal closure.
+probe_selection: Old eight-slot selection CLOSED with seven attributable imports plus one reserved possible launch. R12 separately authorizes workspace-local pinned Frida setup and observational instrumentation of freshly owned PID/exeSHA matched children only; at most64 fresh actual imports after preregistration, stopping on first useful causal stack/buffer capture or bound/cleanup failure. Preserve 60000ms child/1048576 per-stream output/5000ms taskkill/8000ms final-close bounds and retained mono data. No source fix/acceptance claim; no altered returns, buffers, branch decisions, engine configuration, unrelated process attachment or global installation. Source authority is final R12 in04-23-REPAIR.md commit9d7d3ab.
 
 ## Scope and ownership
 
 Diagnosis only. Debugger/session manager owns this file and ignored .phase4/04-23-import-debug/ artifacts. ALL tracked code/data/producers/14archives/Core/tests/ENEXP/currentmodel/Root/index/tracer/registry and foreignPhase07/08 work stayfixed. No commits/push/PR/phaseglobal changes. R11 exactauthority is final04-23-REPAIR.md section. Do not ask creator routine technical questions; symptoms/authorization are already provided. Return causal findings/minimal exact repair responsibility or concrete missing technical evidence. Parent resumes existing executor after diagnosis; no productionfix yet.
 
 ## Evidence
+
+- timestamp: 2026-11-19T02:07:06Z
+  checked: Completed R12cohortde897d30-da73-4823-bfd7-0563c049a516 and terminalreport19873f91-99df-4343-8f6a-8f9aeb32c240.json.
+  found: Exactly64 actualnativeimports/64wrappers (22audio/21world/21text), allnaturalexit0/4859–5219ms/empty stderr/bothEOF/sessionclosed/noinputmutations;64ready+64realliveentryvalidations, zeroUnicodebranches/output. AllownedPIDfinalqueriesinactive. Separate R12history:two--versionsmokes (onepre-resumeobservercontrolfailure/cleanup0, onecleanvalidation), oneacquisitionnetworkrefusal thenapprovedsuccess. Noauto-reviewrejection. Report412304B/SHA c91d96e1dac1512ed9d69619dde87cc4b844175915c198c84b0215b6cfbab9c2 retains everycommand/rawlog/source/DLL/hash/PID/nonce/timing. Original32501BreportstillSHA28335cc10acf5f65c7860b150a65cb2ad5671c26156e164783f19e084bf4feef.
+  implication: R12capexhausted;noextraimports. Instrumentation readiness is proven, actualcausalstack/bufferisnot. NoR11.2causalrepair, cleanacceptance ororiginalR9closure followsfromabsence.
+- timestamp: 2026-11-19T02:07:05Z
+  checked: Read-only reproduction-boundaries-db6cb419-3fb4-413e-9307-46c37bd68193.json,223756B/SHAfe5d532466f367290e6a511f778950337725a530b7a1840a99eb66334d7a4d97.
+  found: Originaldirtycwd78chars/project95–96 versusR12cwd168–169/project176–177. Originalhelpers isolated() inheritparenthome/profile/APPDATA/XDG andshare.phase1/temp;R12runner.environment usesfreshownedhome/profile/data/config/cache/temp andstripsruntimeprefixesbeforedeclaredoverrides. Historicalenvvalues/editorcacheprelaunchbyteswerenotrecorded;currentselectedparent/OSlocale(en-US)/editorstatesarelabelledcurrentorpostrunonly. Bothcommandsomitexplicitworker/languageflags;selectedprojectsettingsshownoworker/localeoverride. Eachchildfirstentrylength=-1(64events);fullentrytotals/lengthdistributionswerenotcapturedbeforeexitandremainunknown.Noextraattach/rerunperformed.
+  implication: These are uncontrolledreproductionboundaries, not demonstratedcauses. Every-entryJScallbacks also perturb scheduling; faithfulfailing-context/lowertimingimpact capture is a prospectivetechnicalrequirement, not a guessedengine/controllerfix.
+
+- timestamp: 2026-11-19T02:01:13Z
+  checked: First17 completed R12imports in cohortde897d30-da73-4823-bfd7-0563c049a516.
+  found: Sixaudio/sixworld/fivetext imports naturallyexit0 with empty stderr,4937–5219ms, bothstreamEOF, nofixtureinputmutations. Monitorrecords realappend_utf16 entrypointer/length/caller and safereadablerange in everyrun. No actualUnicodebranch/output yet; allselectedinputs unchanged.
+  implication: Continue only predeclared finitefirst-eventselection; absence cannotprove cause/fix. No correctiontoR11.2 helpers justified.
+
+- timestamp: 2026-11-19T01:58:07Z
+  checked: Fresh smoke37542533 PID28904 after only observer-owned memory validation correction.
+  found: Exactengine4.7.2.stable.mono.official.ed1daf0bf output captured with native WriteFile stack/registers and moduleRVAs; mappedappend_utf16/three diagnostic hooks installed onx64; ownsyntheticUTF16 validator correctlyfindsinvalidunit1. Naturalexit0/172ms/38stdoutbytes/emptystderr/bothEOF/sessionclosed. Original smoke37336 remainsseparate. No nativeimports yet.
+  implication: Begin separatelypreregistered at-most64 first-eventimports. Temporaryhook timing is diagnosticobservereffect, never cleanacceptance.
+
+- timestamp: 2026-11-19T01:56:58Z
+  checked: R12 official tool acquisition, offline authenticated PE/string/unwind/disassembly map, first smoke0438e9d2 PID37336.
+  found: Pinned Frida17.5.1 SHA7efdeb7e95c8e025517e203c2d1121c9eb07c9a3f33a1312ed5960c757e2fe98; pefile2024.8.26 SHA76f8b485dcd3b1bb8166f1128d395fa3d87af26360c2358fb75b80019b957c6f; capstone5.0.6 SHA761c3deae00b22ac697081cdae1383bb90659dd0d79387a09cf5bdbb22b17064. Exact exe diagnostic function RVA0x3efaa00 is String::append_utf16 in pinnedsource, correcting previous parse_utf16 name. Diagnostic branches0x3efaad4/0x3efacb0/0x3efad40. First --version smoke attached but failed own-control check before resume; cleanup taskkill0/closedstreams, no import. No engine input/return altered. Acquisition network refusal then successful approved escalation are separate setup records.
+  implication: Native instrumentation works; correct only ignored observer validation, retaining failure/source history before fresh smoke. No causal import finding yet.
+
+- timestamp: 2026-11-19
+  checked: R12 prospective authority, original diagnosis report, exact runner implementation and official Frida installation/JavaScript API guidance.
+  found: Coordinator approved new finite first-event instrumentation selection. Bundled Python is3.12.14/AMD64. Official Frida supports Python user-space attachment and process/module/register/backtrace/read-range APIs. Configured debugger agent-skills query returned no skills; original report and all histories remain fixed.
+  implication: Proceed with task-local authenticated tool acquisition; --version smoke remains separate from native import count and all observer effects must be labelled.
 
 - timestamp: 2026-11-19T01:44:52Z
   checked: Completed finite observation cohorts eda13efa-6349-437d-816b-0ba7103dad4a and ce962c1d-0b74-4005-a0cb-cf9fde6f3096.
@@ -89,7 +118,7 @@ Diagnosis only. Debugger/session manager owns this file and ignored .phase4/04-2
 
 ## Resolution
 
-root_cause: unconfirmed; source of varying bad native UTF16 buffer not attributed
+root_cause: unconfirmed; exact diagnostic implementation mapped to String::append_utf16 RVA0x3efaa00, but no failing caller/buffer/owner was observed
 fix: not applied; diagnosis-only
-verification: Inconclusive. Seven boundedclean observations do not repair or clear original audio/world/text failures. Gategap independently confirmed but not causalexplanation. OriginalR9NOT_GREEN remains.
+verification: Inconclusive. R12finite64instrumentedimports clean with provenobserverreadiness but zeroUnicodeevent;no causalproof oracceptance. Originalseven+reservedoldmatrix/twosetupfailures remainseparate. Actualfailing-caller/pointer/length/extent/NUL/invalidoffset/ownership evidence remainsrequired. Gategap independentlyconfirmed but not causalexplanation. OriginalR9NOT_GREEN remains.
 files_changed: debugmetadata/ignoredprobesonly
