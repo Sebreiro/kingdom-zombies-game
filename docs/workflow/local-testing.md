@@ -53,7 +53,7 @@ Keep group identity distinct from an execution's invocation identity. Shared pro
 
 ## Evidence and broader verification
 
-Preserve original reports, tested revisions, invocation IDs, logs, images, failures and repair attempts. Link initial, focused repair and final selected-set runs. The report shows selection reasons, importance, run-group membership, launches/process roles, results, review status and omissions. Log collection does not turn an assertion failure into success.
+Preserve original reports, tested revisions, invocation IDs, logs, images, failures and repair attempts until the task ends. Then record their results and reproduction steps and delete the local files, as [workspace cleanup](cleanup.md) requires. Link initial, focused repair and final selected-set runs. The report shows selection reasons, importance, run-group membership, launches/process roles, results, review status and omissions. Log collection does not turn an assertion failure into success.
 
 Phase 5 still implements dependency-aware selection and evidence validation. Earlier passing evidence may remain useful history or support explicitly eligible unchanged checks, but it cannot replace the fresh final rendered selected-set pass after repairs. Existing commands are only those documented for delivered tooling; this policy does not invent a priority selector or certify an unfinished reuse mechanism.
 
