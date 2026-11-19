@@ -18,21 +18,26 @@ mode: diagnose-only
 
 hypothesis: Not established. Varying diagnostic code units may originate from a UTF16 conversion of native data during import; fixed corrupt text, retained-font metadata, resource/assembly lifetime, and native import concurrency remain competing candidates.
 bug_class: heisenbug-mandelbug (provisional; unchanged text fixture has dirty and clean executions)
-test: Inventory retained dirty and clean fixture inputs, engine identity, helper isolation and native source of exact diagnostic before selecting bounded probes.
-expecting: Fixed malformed input predicts a matching malformed UTF16 or name record; runtime/native defect predicts valid identical input with varying diagnostic units or a native conversion path.
-next_action: Coordinator reviews R12terminalreport19873f91 and reproduction-boundariesdb6cb419;64/64 selection is CLOSED with zero Unicodeevents. No furtherlaunch or sourcefix is selected. Missing evidence remains one actual failing nativeconversion with caller/buffer/ownership facts, preferably captured at realhelper spawn boundary with faithful historicalenvironment/path context; separately prospective selection required.
+test: R13setup ended before actual-helper imports; preserve terminalreport and static observer corrections without another native launch.
+expecting: No causalconclusion from setupfailure. A future selected capture requires observer API/runtime readiness and bounded cleanup/EOF in the actual permission context before actual-helper imports.
+next_action: Coordinator reviews .phase4/04-23-import-debug/r13-terminal-report-e4fcaee1-5d9a-4d3b-8c3b-b1571fbe40ad.json (17401B/SHA10c242c0cf69e286dec33df90b87c1f9ae38e3cbcce6485093763352824ecd0b). R13STOPPED:0actualimports/1failedseparate--versionsmoke; no furtherGodotlaunch underthisselection. Prospective requirement is same-token5staskkill/8sfinalclose withbothEOF andvalidatedobserverAPI, then unchangedactualhelpercapture at78charcwd/95–96project/currentinheritedenv. Originalcaller/buffer/ownership evidence stillmissing; parent owns disposition.
 candidate_causes:
   - data: malformed retained text or font naming records enter a UTF16 decoder.
   - code: native decoder caller reads invalid lifetime or wrong-length bytes.
   - config/environment: concurrent importer or editor font enumeration exposes a native defect.
 and_gate: possible; valid retained data plus concurrent native processing could be jointly required; no contributing cause confirmed.
-probe_selection: Old eight-slot selection CLOSED with seven attributable imports plus one reserved possible launch. R12 separately authorizes workspace-local pinned Frida setup and observational instrumentation of freshly owned PID/exeSHA matched children only; at most64 fresh actual imports after preregistration, stopping on first useful causal stack/buffer capture or bound/cleanup failure. Preserve 60000ms child/1048576 per-stream output/5000ms taskkill/8000ms final-close bounds and retained mono data. No source fix/acceptance claim; no altered returns, buffers, branch decisions, engine configuration, unrelated process attachment or global installation. Source authority is final R12 in04-23-REPAIR.md commit9d7d3ab.
+probe_selection: Old seven+reserved history and R12exact64 CLOSED. R13STOPPEDoncleanupfailure beforepreregisteredimportcohort:0of64actualimports,1observer--versionsmoke PID6608 notresumed. Remaining64slots doNOTauthorizecontinuation. Onlystaticignoredobservercorrection/reportingafterstop. Preserve60000ms/1048576bytes-per-stream/5000ms-taskkill/8000ms-final-close foranyprospectiveselection. No sourcefix/acceptance/newtools/globalchanges.
 
 ## Scope and ownership
 
 Diagnosis only. Debugger/session manager owns this file and ignored .phase4/04-23-import-debug/ artifacts. ALL tracked code/data/producers/14archives/Core/tests/ENEXP/currentmodel/Root/index/tracer/registry and foreignPhase07/08 work stayfixed. No commits/push/PR/phaseglobal changes. R11 exactauthority is final04-23-REPAIR.md section. Do not ask creator routine technical questions; symptoms/authorization are already provided. Return causal findings/minimal exact repair responsibility or concrete missing technical evidence. Parent resumes existing executor after diagnosis; no productionfix yet.
 
 ## Evidence
+
+- timestamp: 2026-11-19T02:22:37Z
+  checked: R13terminalreport-e4fcaee1-5d9a-4d3b-8c3b-b1571fbe40ad.json,17401B/SHA10c242c0cf69e286dec33df90b87c1f9ae38e3cbcce6485093763352824ecd0b; static source/syntax and ownedPIDquery.
+  found: R13actualimports0,helperbaseline0,cohortnotpreregistered,onefailedseparate--versionsmoke. Fresh PID6608 spawned02:18:21.834Z; CModule rejected undeclaredgum_process_get_current_thread_id at02:18:22.036Z beforemonitor-ready/resume. Taskkill5s commandexit1/Accessdenied02:18:22.060Z; laterpermissions-onlysametaskkill exit0/0.186scommandduration. Smoke closeddetachedafter35313ms, outside8snormalfinalclose; originalcallback lackedreason/timestamp andbothEOFflags, so0/0bytesareNOTstreamEOFproof. PIDabsent inGet-Process02:19:26.009Z andOpenProcesserror87 at02:22:37.078Z. Noauto-reviewrejection. Initialmonitor/smokesource/rawfailure retained; poststopstaticcorrections useexplicitWindowsGetCurrentThreadId symbol/externalstorageaddress semantics/ownedcontrolbounds andretainEOF/8sclose, but onlyNode--check/PythonAST pass, NOcorrectedruntimevalidation. Sixhelper/check/audio/world/text/defenses pluscurrentGame/Core hashes allmatchprior; no trackedimplementation/engine/sourcefix. R12report/boundaryhashesunchanged.
+  implication: R13stopcondition isbinding despite0imports. Parent disposition/newprospectiveselection isneeded for anynextnativecommand; first requirevalidatedobserverAPI andsamepermissioncontextownedcleanupwithin5s/8s/bothEOF, thenactualhelperpath/currentenvcapture. Observer failure doesnotdiagnoseoriginalUnicodecause.
 
 - timestamp: 2026-11-19T02:07:06Z
   checked: Completed R12cohortde897d30-da73-4823-bfd7-0563c049a516 and terminalreport19873f91-99df-4343-8f6a-8f9aeb32c240.json.
@@ -118,7 +123,7 @@ Diagnosis only. Debugger/session manager owns this file and ignored .phase4/04-2
 
 ## Resolution
 
-root_cause: unconfirmed; exact diagnostic implementation mapped to String::append_utf16 RVA0x3efaa00, but no failing caller/buffer/owner was observed
+root_cause: unconfirmed; String::append_utf16 RVA0x3efaa00/three diagnostic branches mapped, but no actual failing caller/buffer/owner observed. R13observerAPI/setup/cleanup failures are separate diagnosticsetup defects, not causes oforiginalUnicodeerror.
 fix: not applied; diagnosis-only
-verification: Inconclusive. R12finite64instrumentedimports clean with provenobserverreadiness but zeroUnicodeevent;no causalproof oracceptance. Originalseven+reservedoldmatrix/twosetupfailures remainseparate. Actualfailing-caller/pointer/length/extent/NUL/invalidoffset/ownership evidence remainsrequired. Gategap independentlyconfirmed but not causalexplanation. OriginalR9NOT_GREEN remains.
+verification: Inconclusive. R13STOPPEDatcleanupfailure with0actualimports/1unresumedfailedobserver--versionsmoke; correctedignoredobserver has syntax-onlychecks, no runtimeproof. PID6608inactiveafterout-of-protocolauthorizedcleanup; bothEOFnotretained. Exactterminalreport17401B/SHA10c242c0cf69e286dec33df90b87c1f9ae38e3cbcce6485093763352824ecd0b. PriorR12finite64clean/zeroevent andoldseven+reserved/twosetupfailures remainseparate. NeedvalidatedAPI/boundedcleanup thenactualhelpercapturecaller/pointer/length/extent/NUL/invalidoffset/ownership. No causalsourcefix/pass/acceptance; originalR9NOT_GREEN andindependentgategap remain.
 files_changed: debugmetadata/ignoredprobesonly
