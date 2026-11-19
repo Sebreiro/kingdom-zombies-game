@@ -22,9 +22,20 @@ The older `## Resolution` block at the end of this file records the earlier inco
 - The 44 imported files are byte-identical between threaded, single-threaded and the original failing run.
 - In all four failing runs the stale bytes matched the tail of a `.fontdata` file the same import had just written.
 
-**Fix.** Commit e15a6c9 adds a runner policy in `tools/phase4/check.cjs` `command()`. Before spawn, it appends `[editor]` / `import/use_multiple_threads=false` to the run-owned `project.godot` of every `--import` command. An existing `false` stays byte-identical. Any other value is rejected with `EDITOR_IMPORT_THREADED`. A missing, unowned or file-less `--path` is rejected with `EDITOR_IMPORT_PROJECT`. The pinned engine is not patched. `override.cfg` is not used because the editor ignores it.
+**Fix.** Commit e15a6c9 adds a runner policy in `tools/phase4/check.cjs` `command()`. Commit 4728211 hardens it after code review.
+- Before spawn, the policy appends `[editor]` / `import/use_multiple_threads=false` as the last block of the run-owned `project.godot` of every `--import` command. Godot keeps the last value it reads, so this block wins.
+- A file that already ends with that block is left unchanged.
+- Keys are read the way Godot's VariantParser reads them. Any assignment of the setting, including feature-tag overrides such as `.windows`, that is not `false` is rejected with `EDITOR_IMPORT_THREADED`.
+- These are rejected with `EDITOR_IMPORT_PROJECT`: a missing, unowned or file-less `--path`; a `project.binary`; a hard-linked `project.godot`; `--main-pack`; a positional project file.
+- The pinned engine is not patched. `override.cfg` is not used because the editor ignores it.
 
-**Verification.** The [RED record](../quick/261120-09v-fix-intermittent-godot-editor-import-uni/261120-09v-RED.json) shows 5 fail / 2 pass before the policy. After the fix the self-test passes 7/7. `node --check` and the export-profile self-tests also pass. No real Godot import ran in this task. The 04-23 clean-output gate still needs a fresh qualifying run under the new runner.
+**Verification.**
+- **Self-test.** The [RED record](../quick/261120-09v-fix-intermittent-godot-editor-import-uni/261120-09v-RED.json) shows 5 fail / 2 pass before the policy. The review cases failed 3 of 7 at commit 8cd2f36. At 4728211 the self-test passes 7/7. `node --check` and the export-profile self-tests pass.
+- **Real cases.** On 2026-11-20, with pinned Node 24.22.1 and official Godot 4.7.2 at revision 4728211, `animation.replacement`, `audio.heldout`, `world.inspector` and `text.support-native` all passed. These are the four cases that originally failed.
+  - All six of their editor imports wrote empty stderr, and every imported `project.godot` contained the appended setting.
+  - The animation fixture's 44 imported files and the audio inventory's 46 matched the original failing runs byte for byte.
+- **Unrelated failure.** One earlier `audio.heldout` run at e15a6c9 failed the native playback check `heldout.rebound-pcm-valid-sibling`. Its import was clean and its imported files were byte-identical. That check has failed once in 16 recorded runs. Two immediate re-runs and the final run passed. It is a separate runtime timing flake, not an import defect.
+- **Still open.** These are focused runs. The 04-23 whole-selection clean-output gate still needs its own qualifying run under the new runner.
 
 **Follow-ups (not done here).**
 - Developer editor sessions in `src/godot-game/project.godot` still use threaded import. Changing that needs separate approval.
