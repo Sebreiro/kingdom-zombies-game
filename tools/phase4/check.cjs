@@ -570,6 +570,7 @@ function editorImportSelfTest(){
   const BASE='; Engine configuration file.\n\nconfig_version=5\n\n[application]\n\nconfig/name="EditorImportFixture"\n',BLOCK='\n[editor]\n\nimport/use_multiple_threads=false\n';
   const FALSE_EDITOR=BASE+BLOCK,FALSE_ROOT=BASE.replace('config_version=5\n','config_version=5\neditor/import/use_multiple_threads=false\n'),FALSE_SECTION=BASE+'\n[editor/import]\n\nuse_multiple_threads=false\n';
   const TRUE_EDITOR=FALSE_EDITOR.replace('=false','=true'),TRUE_ROOT=FALSE_ROOT.replace('=false','=true'),MIXED=FALSE_EDITOR+'\n[editor/import]\n\nuse_multiple_threads=true\n';
+  const FALSE_COMMENT=BASE+'\n[editor]\n\nimport/use_multiple_threads=false ; one import thread\n',FALSE_OVERRIDE=BASE+'\n[editor]\n\nimport/use_multiple_threads.windows=false\n';
   const CRLF=BASE.replaceAll('\n','\r\n'),NO_FINAL=BASE.slice(0,-1);
   const importArgs=project=>['--headless','--path',project,'--editor','--import','--quit'];
   const scratch=body=>async()=>{const dir=path.join(ROOT,'.phase4/tdd/editor-import',crypto.randomUUID());fs.mkdirSync(dir,{recursive:true});
@@ -580,12 +581,14 @@ function editorImportSelfTest(){
   const seen=record=>Buffer.from(record.stdout,'base64'),disk=file=>fs.readFileSync(file);
   const absent=(directory,name)=>{for(const item of [name+'.command.json',name+'.exit.json','home'])assert.equal(fs.existsSync(path.join(directory,item)),false,name+' left '+item);};
   test('editor import appends the single-thread setting the child reads',scratch(async dir=>{
-    const {run,project,file}=setup(dir,'append',BASE),record=await start(run,'import',importArgs(project));
-    assert.deepEqual(seen(record),Buffer.from(BASE+BLOCK));assert.deepEqual(disk(file),seen(record));}));
-  test('editor import leaves an explicit false byte-identical',scratch(async dir=>{
-    for(const [scenario,text]of [['root',FALSE_ROOT],['editor',FALSE_EDITOR],['section',FALSE_SECTION]]){
+    for(const [scenario,args]of [['absolute',project=>importArgs(project)],['relative',()=>importArgs('project')]]){
+      const {run,project,file}=setup(dir,scenario,BASE),record=await start(run,'import-'+scenario,args(project));
+      assert.deepEqual(seen(record),Buffer.from(BASE+BLOCK),scenario);assert.deepEqual(disk(file),seen(record),scenario);}}));
+  test('editor import keeps a final single-thread block and appends after other false spellings',scratch(async dir=>{
+    for(const [scenario,text,expected]of [['editor',FALSE_EDITOR,FALSE_EDITOR],['editor-crlf',FALSE_EDITOR.replaceAll('\n','\r\n'),FALSE_EDITOR.replaceAll('\n','\r\n')],
+      ['root',FALSE_ROOT,FALSE_ROOT+BLOCK],['section',FALSE_SECTION,FALSE_SECTION+BLOCK],['comment',FALSE_COMMENT,FALSE_COMMENT+BLOCK],['override',FALSE_OVERRIDE,FALSE_OVERRIDE+BLOCK]]){
       const {run,project,file}=setup(dir,scenario,text),record=await start(run,'import-'+scenario,importArgs(project));
-      assert.deepEqual(seen(record),Buffer.from(text),scenario);assert.deepEqual(disk(file),Buffer.from(text),scenario);}}));
+      assert.deepEqual(seen(record),Buffer.from(expected),scenario);assert.deepEqual(disk(file),Buffer.from(expected),scenario);}}));
   test('editor import is idempotent on a second import',scratch(async dir=>{
     const {run,project,file}=setup(dir,'twice',BASE),first=await start(run,'import-1',importArgs(project)),second=await start(run,'import-2',importArgs(project));
     assert.deepEqual(seen(first),Buffer.from(BASE+BLOCK));assert.deepEqual(seen(second),seen(first));assert.deepEqual(disk(file),seen(first));}));
@@ -594,7 +597,10 @@ function editorImportSelfTest(){
       ['script-true',TRUE_EDITOR,p=>['--headless','--path',p,'--script','res://probe.gd']],['version',BASE,()=>['--version']]]){
       const {run,project,file}=setup(dir,scenario,text);await start(run,'command-'+scenario,args(project));assert.deepEqual(disk(file),Buffer.from(text),scenario);}}));
   test('editor import rejects a threaded value before spawn',scratch(async dir=>{
-    for(const [scenario,text]of [['editor-true',TRUE_EDITOR],['root-true',TRUE_ROOT],['mixed',MIXED]]){
+    for(const [scenario,text]of [['editor-true',TRUE_EDITOR],['root-true',TRUE_ROOT],['section-true',FALSE_SECTION.replace('=false','=true')],['mixed',MIXED],
+      ['quoted-key',FALSE_EDITOR+'"import/use_multiple_threads"=true\n'],['spaced-key',FALSE_EDITOR+'import/ use_multiple_threads=true\n'],
+      ['header-comment',FALSE_ROOT+'\n[editor] ; note\n\nimport/use_multiple_threads=true\n'],['override-windows',BASE+'\n[editor]\n\nimport/use_multiple_threads.windows=true\n'],
+      ['override-editor',FALSE_EDITOR+'import/use_multiple_threads.editor=true\n']]){
       const {run,project,file}=setup(dir,scenario,text);
       await assert.rejects(start(run,'import-'+scenario,importArgs(project)),{message:/^EDITOR_IMPORT_THREADED /},scenario);
       assert.deepEqual(disk(file),Buffer.from(text),scenario);absent(run,'import-'+scenario);}}));
@@ -602,9 +608,12 @@ function editorImportSelfTest(){
     const cases=[['no-path',s=>['--headless','--editor','--import','--quit']],['path-last',s=>['--headless','--editor','--import','--quit','--path']],
       ['outside',s=>{const other=path.join(s.scenario,'outside');fs.mkdirSync(other);fs.writeFileSync(path.join(other,'project.godot'),BASE);return importArgs(other);}],
       ['prefix',s=>{const other=s.run+'-x';fs.mkdirSync(other);fs.writeFileSync(path.join(other,'project.godot'),BASE);return importArgs(other);}],
-      ['no-project',s=>importArgs(s.project)]];
+      ['no-project',s=>importArgs(s.project)],['binary',s=>{fs.writeFileSync(path.join(s.project,'project.binary'),'binary');return importArgs(s.project);}],
+      ['hard-link',s=>{fs.linkSync(s.file,path.join(s.scenario,'linked.godot'));return importArgs(s.project);}],
+      ['main-pack',s=>[...importArgs(s.project),'--main-pack','game.pck']],['positional',s=>[...importArgs(s.project),path.join(s.project,'project.godot')]]];
     for(const [scenario,args]of cases){const s=setup(dir,scenario,scenario==='no-project'?undefined:BASE);
-      await assert.rejects(start(s.run,'import-'+scenario,args(s)),{message:/^EDITOR_IMPORT_PROJECT /},scenario);absent(s.run,'import-'+scenario);}}));
+      await assert.rejects(start(s.run,'import-'+scenario,args(s)),{message:/^EDITOR_IMPORT_PROJECT /},scenario);absent(s.run,'import-'+scenario);
+      if(fs.existsSync(s.file))assert.deepEqual(disk(s.file),Buffer.from(BASE),scenario);}}));
   test('editor import keeps CRLF and adds a missing final newline',scratch(async dir=>{
     for(const [scenario,text,expected]of [['crlf',CRLF,CRLF+BLOCK.replaceAll('\n','\r\n')],['no-final-newline',NO_FINAL,NO_FINAL+'\n'+BLOCK]]){
       const {run,project,file}=setup(dir,scenario,text),record=await start(run,'import-'+scenario,importArgs(project));
