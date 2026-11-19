@@ -13,6 +13,11 @@ This document records the creator's preferences for AI agents working on Kingdom
 
 The [GSD configuration](../../.planning/config.json) uses phase branching, `feature/{phase}-{slug}` and base branch `dev`. Agents must perform the draft/ready transitions at the lifecycle points above; branch configuration alone does not create or update a PR.
 
+## Workspace Cleanup
+
+- At the end of every task, delete its ignored outputs and remove its worktree as described in [workspace cleanup](cleanup.md). Do not wait for phase completion or merge.
+- First record the results the task relies on and the steps to reproduce them. Every PR description includes a **How to reproduce** section so the creator can rerun the checks.
+
 ## Interactive Questions
 
 - Use the available interactive question controls when asking the creator for information, preferences, or decisions. Do not substitute a numbered chat list when interactive controls are available.
