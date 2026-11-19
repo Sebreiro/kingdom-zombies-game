@@ -5,11 +5,11 @@ milestone_name: Complete playable LAN campaign
 current_phase: 04
 current_phase_name: Asset production
 current_plan: 23
-status: executing
-stopped_at: Completed 04-22; 31/37 local plans summarized; wave 25 complete; next 04-23 in wave 26; concurrent planning decisions preserved; WINDOWS29/30/31 open. Phase 07 context gathered.
-last_updated: "2026-11-18T17:27:26.483Z"
-last_activity: 2026-11-18
-last_activity_desc: Completed English catalog, field documentation and native data/text compatibility; fresh51 cases pass; next04-23 source/native integration in wave26
+status: blocked
+stopped_at: "04-23 partial engineering: governance28 and compiled358 pass; CURRENT67 has66clean/1Unicode-import failure;0/2tasks;31/37plans. DebugSTOPPED3/3; draftPR5; future07/08planning preserved."
+last_updated: "2026-11-19T20:12:28.577Z"
+last_activity: 2026-11-19
+last_activity_desc: "04-23 partial engineering: governance28 and compiled358 pass; CURRENT67 has66clean/1Unicode-import failure;0/2tasks;31/37plans. DebugSTOPPED3/3; draftPR5; future07/08planning preserved."
 progress:
   total_phases: 12
   completed_phases: 3
@@ -26,15 +26,15 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase04 continues on feature/04-asset-production with draftPR5. Thirty-one of37 local plans are summarized. Complete363-message English catalog,3615 source bindings and4603 documented fields are packaged with authenticated2653905-byte reference; native read-only data/text and quiet saved/current compatibility pass82controller+11Hub outcomes and all16 backstops. Fresh51/51 executable cases pass at727faf5 on492 unchanged inputs in1823596ms caseexecution/1844575ms wall. Inventory236;wave25 complete,next23 source/index/native integration. Single finalpolicy749fcabe FAIL2349 adds90 DataText operations; current59-input32-surface producer remains unenrolled. WINDOWS29/30/31,index0/180,49consumer comparisons,allASSET and actual32/33 acceptance remain pending.
+**Current focus:** Phase04 Plan23 is blocked at its clean native-import gate on feature/04-asset-production/draftPR5. Independent source/Core/Root/consumer/native-policy work, governance28 and current-binary358 pass. CURRENT67 has67assertionPASS but66clean-qualified/oneactualanimation-importUnicodeFAIL. CauseOPEN/debugSTOPPED3/3. All180resources are source-ready and natively reached;0accepted. Inventory237;31/37local and56/62global counts remain unchanged. See [partial checkpoint](phases/04-asset-production/04-23-CHECKPOINT.md).
 
 ## Current Position
 
 Phase: 04 — Asset production
 Current Plan: 23
 Total Plans in Phase: 37
-Status: Executing
-Last activity: 2026-11-18 — Completed English catalog, field documentation and native data/text compatibility; fresh51 cases pass; next04-23 source/native integration in wave26
+Status: Blocked at04-23 clean native-import qualification
+Last activity: 2026-11-19 — 04-23 partial engineering: governance28 and compiled358 pass; CURRENT67 has66clean/1Unicode-import failure;0/2tasks;31/37plans. DebugSTOPPED3/3; draftPR5; future07/08planning preserved.
 
 Progress: [███░░░░░░░] 25%
 
@@ -182,6 +182,8 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 
 - [Phase04]: Completed04-22 Task1f7f735e/fresh committed tracer207a22ce,Task2 tested727faf5,SUMMARYb1bcae9. Fresh51/51 executable cases at727faf5 pass on492 unchanged inputs in1823596ms case/1844575ms wall;363messages,3615bindings,4603fields,82controller+11Hub outcomes and16backstops. OriginalTask2=3/3,R1.1initial0/2,R1.2=2/2,R2initial0/2,R3.1C1/2,R3.2initial0/2,R3.3C1/2 preserved with actual failed native evidence. Single finalpolicy749fcabe FAIL2349 adds90DataText tuples; currentproducer59inputs32surfaces unenrolled. Wave25complete,31/37local,next23wave26;inventory236 and all source/native/consumer/actualacceptance obligations remain pending.
 
+- [Phase04 partial checkpoint,2026-11-19]: All180 source-ready/native-reached+4worldviews, currentpolicy2654/251, authenticated57input32emission producer, freshgovernance28 and current-binary358 pass. CURRENT67:67assertionPASS/66clean-qualified/1animationimportUnicodeFAIL.69localimplementationfiles copied immutably, uncommitted; formal04-23 remains0/2 andPhase04 remains31/37. No budget/debug reset, acceptance or phase advance.
+
 ### Pending Todos
 
 No remaining Phase 1 closure gate under the current creator exception. Follow-up work is recorded in the [closure register](phases/01-code-rules-and-documentation/01-CLOSURE-FOLLOWUPS.md); it remains unperformed or unaccepted. The old restart checkpoint is historical and is not the next action.
@@ -197,6 +199,8 @@ Phase 3 has no blocking acceptance item. Its independent [UI audit](phases/03-fo
 - Phase 12 added: Stash and inventory filtering deferred from Phase 6 by creator on 2026-11-16; INV-14 owns filtering, while INV-10 retains pages/access/transfers. Current scope: 135 requirements across 12 phases, 14 complete and 121 pending.
 
 ### Blockers/Concerns
+
+- [Phase04 Plan23] Actual CURRENT67 animation-native-import emits32Unicode diagnostics:66/67clean-qualified, despite67assertionPASS. Independent governance28/current-binary358 pass. Debug isSTOPPED3/3 with no fourth resume underR15. Task1GREEN/tracer/Task2/SUMMARY and downstream phases remain blocked; see [checkpoint](phases/04-asset-production/04-23-CHECKPOINT.md).
 
 - [Phase 1 follow-ups] Full Linux execution and the original graph case remain unaccepted; fourteen individual human reviews remain Pending. See the [closure register](phases/01-code-rules-and-documentation/01-CLOSURE-FOLLOWUPS.md) for actual evidence limits and timing. These are disclosed follow-ups under the creator exception, not current closure gates.
 - [Local VM] The guest is cleanly stopped and preserved. Hardware acceleration is not active in the current Windows session; a creator-chosen restart is needed before attempting the accelerated follow-up. No restart is required for this completed run.
@@ -225,10 +229,10 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 
 ## Session Continuity
 
-Last session: 2026-11-18T17:27:26.122Z
-Stopped at: Completed 04-22; 31/37 local plans summarized; wave 25 complete; next 04-23 in wave 26; concurrent planning decisions preserved; WINDOWS29/30/31 open. Phase 07 context gathered.
-Resume file: .planning/phases/07-camp-economy-and-development/07-CONTEXT.md
+Last session: 2026-11-19T20:12:28.577Z
+Stopped at: 04-23 partial engineering: governance28 and compiled358 pass; CURRENT67 has66clean/1Unicode-import failure;0/2tasks;31/37plans. DebugSTOPPED3/3; draftPR5; future07/08planning preserved.
+Resume file: .planning/phases/04-asset-production/04-CONTINUATION.md
 
-Next action: Execute graph-next04-04 reusable donor kit, animation conversion and assembled scale proof from completed04-26. Fresh phase-plan-index identifies04-04/wave10 as the sole ready plan, not numeric27. Stay on feature/04-asset-production and draftPR#5 todev. Nine of37 Phase4 plans are summarized; allASSET and actual04-32/33 acceptance remain pending.
+Next action: Review the actual04-23 animation-native-import Unicode failure and the closedR15 debug3/3 boundary before authorizing any additional diagnostic sampling. Independent compiled358 is now complete; no Task1GREEN/committedtracer/Task2/SUMMARY or wave26 advancement. Preserve the69-file local snapshot, all evidence and foreign07/08 planning; see04-23-CHECKPOINT.md.
 
 Preserved future context: [Phase 4 context](phases/04-asset-production/04-CONTEXT.md) remains authoritative. Plan 04-01 has source/headless evidence only; complete resource and actual acceptance responsibilities remain with later Phase 4 plans.

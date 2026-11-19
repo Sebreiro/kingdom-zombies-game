@@ -203,6 +203,8 @@ Plans:
 
 **Plans:** 31/37 plans executed
 
+04-23 is a [partial engineering checkpoint](phases/04-asset-production/04-23-CHECKPOINT.md), 0/2 formal tasks. Governance28 and compiled358 pass, but CURRENT67 is66/67clean-qualified due to one actual animation-import Unicode failure. Wave26 and all later acceptance remain open; no phase completion is claimed.
+
 Plans:
 **Wave 1**
 - [x] 04-01-PLAN.md — Production donor-to-inspector tracer and exact provenance

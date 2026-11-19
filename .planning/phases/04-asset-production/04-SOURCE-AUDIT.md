@@ -135,3 +135,8 @@ Final aggregate e3c3135b-f5ea-4ae2-a370-ff5406403f22 passes all 18 generated/exe
 ## Historical source-only audition checkpoint
 
 Historical04-21 pre-approval checkpoint was incomplete at source318f288 after preservedab6826b. Forty donor sources/44candidate variants coverAU01-15 in56.655828seconds;all remain Not auditioned. Fresh committed audio.actions9a5b2af8-40af-4047-a676-f46a9755eb91 passes exact PCM/source/bundle reproduction,13negative controls and12restored positives,then fails onlyAUDIO_LISTENING_REQUIRED. Review: [source-only listening checkpoint](04-21-LISTENING-CHECKPOINT.md),with exact portableZIP and local prepared page. OriginalTask1 corrections3/3 preserved,no technical error remains;noGREEN/tracer/Task2/canonicalSUMMARY or category/ASSET acceptance. Wave23 remains incomplete;local28/37/global53/62 stay fixed. Real listener source/version/device/verdict is required;finalnative mixing/actual32/33 remain later. Inventory236,49existingconsumer comparisons,WINDOWS29/30/31,policy2130/current57-input32-surface producer and index0/180 remain pending.
+
+
+## 2026-11-19 partial execution evidence
+
+See [04-23 checkpoint](04-23-CHECKPOINT.md): actual180source-ready/native-reached+4separateworldviews,14authenticatedarchives/currentpublication/49consumerclosure and governance28/current-binary358 pass. CURRENT67 has67assertionPASS but66clean-qualified/oneactualanimationimportUnicodeFAIL. This is no goal/requirement/judgment acceptance. Formal04-23 remains0/2,Phase04 remains31/37,inventory237,accepted0; closedUnicode debug3/3 and downstream30/31/24/32/33 remain binding.
