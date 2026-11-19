@@ -163,25 +163,32 @@ function terminate(child){
 // The uninitialized buffer is then decoded as UTF-16, which prints the Unicode parsing errors.
 // One import thread (editor/import/use_multiple_threads=false) removes the race. The imported files are byte-identical.
 // The editor ignores override.cfg, so the setting goes into the run-owned project.godot of every --import command.
+// The block is appended last because Godot keeps the last value it reads. Only a file that already ends with it is left unchanged.
 const EDITOR_IMPORT_THREADS='editor/import/use_multiple_threads';
 function editorImportPolicy(base,cwd,name,args){
   if(!args.includes('--import'))return;
   const at=args.indexOf('--path');
-  need(at>=0&&args.indexOf('--path',at+1)<0&&typeof args[at+1]==='string'&&args[at+1].length>0,'EDITOR_IMPORT_PROJECT',name);
+  need(at>=0&&args.indexOf('--path',at+1)<0&&typeof args[at+1]==='string'&&args[at+1].length>0&&!args.includes('--main-pack')&&
+    !args.some(arg=>/(^|[\\/])project\.(godot|binary)$/i.test(arg)),'EDITOR_IMPORT_PROJECT',name);
   const project=path.resolve(cwd,args[at+1]);need(project.startsWith(base+path.sep),'EDITOR_IMPORT_PROJECT',name);
   let file,data,text;
   try{inside(base,path.relative(base,project).replaceAll(path.sep,'/'));if(!fs.statSync(project).isDirectory())throw new Error('not a directory');
-    file=inside(project,'project.godot');if(!fs.lstatSync(file).isFile())throw new Error('project.godot is not a regular file');
+    if(fs.existsSync(path.join(project,'project.binary')))throw new Error('project.binary would be loaded instead of project.godot');
+    file=inside(project,'project.godot');const stat=fs.lstatSync(file);if(!stat.isFile()||stat.nlink!==1)throw new Error('project.godot is not a single-link regular file');
     data=bytes(project,'project.godot');text=new TextDecoder('utf-8',{fatal:true}).decode(data);}
   catch(error){need(false,'EDITOR_IMPORT_PROJECT',name+' '+error.message);}
+  // Keys are read like Godot's VariantParser: a quoted key is unquoted, any other key loses all whitespace, and a header ends at its first ']'.
+  // Feature-tag overrides such as use_multiple_threads.windows beat the base key, so every assignment found must be false.
   let section='';const values=[];
-  for(const raw of text.replace(/^\ufeff/,'').split(/\r?\n/)){const line=raw.trim();if(!line||line.startsWith(';'))continue;
-    const header=/^\[([^\]]+)\]$/.exec(line);if(header){section=header[1].trim();continue;}
-    const eq=line.indexOf('=');if(eq<0)continue;const key=line.slice(0,eq).trim();
-    if((section?section+'/'+key:key)===EDITOR_IMPORT_THREADS)values.push(line.slice(eq+1).trim());}
-  if(values.length){need(values.every(value=>value==='false'),'EDITOR_IMPORT_THREADED',name);return;}
-  const eol=text.includes('\r\n')?'\r\n':'\n';
-  fs.appendFileSync(file,(data.at(-1)===0x0a?'':eol)+eol+'[editor]'+eol+eol+'import/use_multiple_threads=false'+eol);
+  for(const raw of text.split(/\r?\n/)){const line=raw.trim();if(!line||line.startsWith(';'))continue;
+    const close=line.startsWith('[')?line.indexOf(']'):-1;if(close>0){section=line.slice(1,close).trim();continue;}
+    const eq=line.indexOf('=');if(eq<0)continue;const written=line.slice(0,eq).trim();
+    const key=/^".*"$/.test(written)?written.slice(1,-1):written.replace(/[\x00-\x20]/g,''),full=section?section+'/'+key:key;
+    if(full===EDITOR_IMPORT_THREADS||full.startsWith(EDITOR_IMPORT_THREADS+'.'))values.push(line.slice(eq+1).replace(/;.*$/,'').trim());}
+  need(values.every(value=>value==='false'),'EDITOR_IMPORT_THREADED',name);
+  const eol=text.includes('\r\n')?'\r\n':'\n',block='[editor]'+eol+eol+'import/use_multiple_threads=false'+eol;
+  if(text===block||text.endsWith(eol+block))return;
+  fs.appendFileSync(file,(data.at(-1)===0x0a?'':eol)+eol+block);
 }
 async function command(context,name,executable,args,{timeout=60000,interruptMarker,env,cwd}={}){
   need(Number.isInteger(timeout)&&timeout>0&&timeout<=60000,'COMMAND_TIMEOUT_RANGE',name);
