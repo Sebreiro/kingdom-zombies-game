@@ -7,11 +7,12 @@ const {execFileSync} = require('node:child_process');
 
 const DURABLE_PHASE1 = new Set(['cache', 'cli-home', 'dotnet-home', 'feed', 'http-cache', 'packages', 'tools']);
 const BUILD_NAMES = new Set(['bin', 'obj', '.godot']);
-const USAGE = `Usage: node tools/workspace-cleanup.cjs [--apply] [--build] [--remove-worktree <path>]...
+const USAGE = `Usage: node tools/workspace-cleanup.cjs [--apply] [--build] [--worktrees-only] [--remove-worktree <path>]...
 
 Without --apply, only reports what would be deleted.
   --apply                   Delete the listed task outputs and prune missing worktrees.
   --build                   Also delete ignored bin/, obj/ and .godot/ build outputs.
+  --worktrees-only          Leave this checkout's outputs alone; only handle worktrees.
   --remove-worktree <path>  Remove this linked worktree if it is clean and pushed (repeatable).`;
 
 class UsageError extends Error {}
@@ -21,11 +22,12 @@ function git(cwd, args) {
 }
 
 function parseArgs(argv) {
-  const options = {apply: false, build: false, help: false, worktrees: []};
+  const options = {apply: false, build: false, help: false, worktreesOnly: false, worktrees: []};
   for (let index = 0; index < argv.length; index++) {
     const argument = argv[index];
     if (argument === '--apply') options.apply = true;
     else if (argument === '--build') options.build = true;
+    else if (argument === '--worktrees-only') options.worktreesOnly = true;
     else if (argument === '--help' || argument === '-h') options.help = true;
     else if (argument === '--remove-worktree') {
       const value = argv[++index];
@@ -190,7 +192,8 @@ function run(argv, {cwd = process.cwd(), log = console.log, error = console.erro
 function execute(options, {cwd, log, error}) {
   const root = path.resolve(git(cwd, ['rev-parse', '--show-toplevel']).trim());
   const worktrees = planWorktrees(root);
-  const artifacts = planArtifacts(root, {...options, worktreePaths: worktrees.map(worktree => worktree.path)});
+  const artifacts = options.worktreesOnly ? []
+    : planArtifacts(root, {...options, worktreePaths: worktrees.map(worktree => worktree.path)});
   const requested = options.worktrees.map(value => {
     const match = worktrees.find(worktree => samePath(worktree.path, path.resolve(cwd, value)));
     return match ?? {path: path.resolve(cwd, value), removable: false, reason: 'not a worktree of this repository'};

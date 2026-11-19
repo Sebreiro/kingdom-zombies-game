@@ -232,3 +232,14 @@ test('Git failures stop with exit code 1', t => {
   assert.equal(result.code, 1);
   assert.match(result.err, /cleanup stopped/);
 });
+
+test('--worktrees-only removes a worktree and leaves the current checkout outputs', t => {
+  const context = repository(t);
+  write(context.root, '.phase4/runs/r.txt');
+  const target = addWorktree(context, 'only');
+  git(target, 'push', '-q', 'origin', 'feature/only');
+  const result = invoke(context.root, '--apply', '--worktrees-only', '--remove-worktree', target);
+  assert.equal(result.code, 0, result.err);
+  assert.ok(!fs.existsSync(target));
+  assert.ok(exists(context.root, '.phase4/runs/r.txt'));
+});

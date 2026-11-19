@@ -37,7 +37,7 @@ The repository [ignore rules](../../.gitignore) cover every top-level `.phaseN` 
 ## Worktrees
 
 - Create a task worktree outside the checkout, in the system temp folder, named `kz-<task-id>-<short-description>`, on the task's branch. Record its path in the continuation record.
-- At task end, once its commits are pushed and nothing uncommitted remains, remove it from another checkout with `node tools/workspace-cleanup.cjs --apply --remove-worktree <path>`. Removal also deletes the ignored outputs inside it. The branch and pull request remain.
+- At task end, once its commits are pushed and nothing uncommitted remains, remove it from another checkout with `node tools/workspace-cleanup.cjs --apply --worktrees-only --remove-worktree <path>`. Removal also deletes the ignored outputs inside it; `--worktrees-only` leaves the other checkout's own outputs alone. The branch and pull request remain.
 - Remove only worktrees created for the task. A dry run lists every linked worktree; ask the creator before removing any other, because another session may be using it.
 - Delete a local task branch only after its pull request is merged or closed.
 - Do not use `git worktree remove --force` or delete a worktree folder by hand without the creator's approval. The command refuses worktrees with uncommitted changes or unpushed commits.
@@ -61,6 +61,7 @@ The first command is a dry run that lists each output as `delete` or `keep` with
 | --- | --- |
 | `--apply` | Deletes the listed outputs and prunes records of worktrees whose folders are gone. |
 | `--build` | Also lists ignored `bin/`, `obj/` and `.godot/` folders for deletion. |
+| `--worktrees-only` | Skips this checkout's outputs; only lists, prunes and removes worktrees. |
 | `--remove-worktree <path>` | Removes that linked worktree if it is clean and pushed; repeatable. |
 
 The command never deletes outside the checkout, a tracked file, a root that contains tracked files, a root Git does not ignore or a folder that contains a Git worktree or repository. It unlinks junctions and symbolic links without following them. A worktree counts as clean only with no tracked changes, no untracked files (whatever the Git configuration hides), no assume-unchanged or skip-worktree files and no rebase, merge, cherry-pick, revert or bisect in progress.
