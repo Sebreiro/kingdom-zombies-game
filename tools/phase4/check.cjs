@@ -157,6 +157,32 @@ function terminate(child){
     need(!killed.error&&killed.status===0,'OWNED_CLEANUP_FAILED',killed.stderr);
   }else try{process.kill(-child.pid,'SIGKILL');}catch(error){if(error.code!=='ESRCH')throw error;}
 }
+// Godot 4.7.2 on Windows builds each DirAccessWindows by reading the process cwd with two unlocked GetCurrentDirectoryW calls (size, then fill).
+// It ignores a failed fill. change_dir switches the process cwd for a moment under a lock the constructor does not take.
+// When an import worker thread makes the cwd longer between the two calls, the fill writes nothing.
+// The uninitialized buffer is then decoded as UTF-16, which prints the Unicode parsing errors.
+// One import thread (editor/import/use_multiple_threads=false) removes the race. The imported files are byte-identical.
+// The editor ignores override.cfg, so the setting goes into the run-owned project.godot of every --import command.
+const EDITOR_IMPORT_THREADS='editor/import/use_multiple_threads';
+function editorImportPolicy(base,cwd,name,args){
+  if(!args.includes('--import'))return;
+  const at=args.indexOf('--path');
+  need(at>=0&&args.indexOf('--path',at+1)<0&&typeof args[at+1]==='string'&&args[at+1].length>0,'EDITOR_IMPORT_PROJECT',name);
+  const project=path.resolve(cwd,args[at+1]);need(project.startsWith(base+path.sep),'EDITOR_IMPORT_PROJECT',name);
+  let file,data,text;
+  try{inside(base,path.relative(base,project).replaceAll(path.sep,'/'));if(!fs.statSync(project).isDirectory())throw new Error('not a directory');
+    file=inside(project,'project.godot');if(!fs.lstatSync(file).isFile())throw new Error('project.godot is not a regular file');
+    data=bytes(project,'project.godot');text=new TextDecoder('utf-8',{fatal:true}).decode(data);}
+  catch(error){need(false,'EDITOR_IMPORT_PROJECT',name+' '+error.message);}
+  let section='';const values=[];
+  for(const raw of text.replace(/^\ufeff/,'').split(/\r?\n/)){const line=raw.trim();if(!line||line.startsWith(';'))continue;
+    const header=/^\[([^\]]+)\]$/.exec(line);if(header){section=header[1].trim();continue;}
+    const eq=line.indexOf('=');if(eq<0)continue;const key=line.slice(0,eq).trim();
+    if((section?section+'/'+key:key)===EDITOR_IMPORT_THREADS)values.push(line.slice(eq+1).trim());}
+  if(values.length){need(values.every(value=>value==='false'),'EDITOR_IMPORT_THREADED',name);return;}
+  const eol=text.includes('\r\n')?'\r\n':'\n';
+  fs.appendFileSync(file,(data.at(-1)===0x0a?'':eol)+eol+'[editor]'+eol+eol+'import/use_multiple_threads=false'+eol);
+}
 async function command(context,name,executable,args,{timeout=60000,interruptMarker,env,cwd}={}){
   need(Number.isInteger(timeout)&&timeout>0&&timeout<=60000,'COMMAND_TIMEOUT_RANGE',name);
   const childCwd=cwd??context.directory,base=path.resolve(context.directory),resolved=path.resolve(childCwd);
@@ -165,6 +191,7 @@ async function command(context,name,executable,args,{timeout=60000,interruptMark
   need(fs.statSync(resolved).isDirectory(),'COMMAND_CWD_DIRECTORY',name);
   need(env===undefined||(env!==null&&typeof env==='object'&&!Array.isArray(env)&&
     Object.values(env).every(value=>typeof value==='string'||value===undefined)),'COMMAND_ENV_INVALID',name);
+  editorImportPolicy(base,resolved,name,args);
   const childEnv=env??environment(context.directory);
   const startedAt=new Date().toISOString(),child=spawn(executable,args,{cwd:childCwd,env:childEnv,
     windowsHide:true,shell:false,detached:process.platform!=='win32'});
