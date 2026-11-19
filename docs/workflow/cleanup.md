@@ -32,7 +32,7 @@ Within one task, keep reports immutable and reuse them as [verification](verific
 | Files the task wrote outside the checkout, such as scripts or downloads in the system temp folder | Task scratch | Delete |
 | Tracked files, `.planning/state.json`, `.gsd/` and files the task did not create | Project and tool state | Keep |
 
-Do not write task outputs to other ignored locations. A new output location needs a `.phaseN` subfolder, or an update to this page and the cleanup command together.
+The repository [ignore rules](../../.gitignore) cover every top-level `.phaseN` folder. Do not write task outputs to other ignored locations. A new output location needs a `.phaseN` subfolder, or an update to the ignore rules, this page and the cleanup command together.
 
 ## Worktrees
 
@@ -63,4 +63,6 @@ The first command is a dry run that lists each output as `delete` or `keep` with
 | `--build` | Also lists ignored `bin/`, `obj/` and `.godot/` folders for deletion. |
 | `--remove-worktree <path>` | Removes that linked worktree if it is clean and pushed; repeatable. |
 
-The command never deletes outside the checkout, a tracked file, a root that contains tracked files or a root Git does not ignore. It exits with 1 when a deletion or requested removal fails and with 2 for invalid arguments. In the completion report, state what was deleted and what was kept and why. The command's tests run with `node --test tools/workspace-cleanup.test.cjs`.
+The command never deletes outside the checkout, a tracked file, a root that contains tracked files, a root Git does not ignore or a folder that contains a Git worktree or repository. It unlinks junctions and symbolic links without following them. A worktree counts as clean only with no tracked changes, no untracked files (whatever the Git configuration hides), no assume-unchanged or skip-worktree files and no rebase, merge, cherry-pick, revert or bisect in progress.
+
+`--apply` deletes nothing while `.phase1/check.lock` exists, because a checker run is active or stopped uncleanly; inspect the lock first. It also deletes nothing when a requested worktree is refused. The command exits with 1 when it refuses, when a deletion or removal fails or when Git fails, and with 2 for invalid arguments. In the completion report, state what was deleted and what was kept and why. The command's tests run with `node --test tools/workspace-cleanup.test.cjs`.

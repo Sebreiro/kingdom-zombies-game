@@ -62,16 +62,24 @@ function hasTrackedFiles(root, relative) {
   return git(root, ['ls-files', '-z', '--', relative]).length > 0;
 }
 
-/** Classifies children of one ignored output root; unsafe roots are kept whole. */
-function classifyRoot(root, relative, reason, durable) {
+function isWithin(parent, child) {
+  const fold = value => process.platform === 'win32' ? path.resolve(value).toLowerCase() : path.resolve(value);
+  const relative = path.relative(fold(parent), fold(child));
+  return relative === '' || (!relative.startsWith('..') && !path.isAbsolute(relative));
+}
+
+/** Classifies children of one ignored output root; unsafe roots and children are kept whole. */
+function classifyRoot(root, relative, reason, durable, worktreePaths) {
   if (!isRealDirectory(path.join(root, relative))) return [];
   if (hasTrackedFiles(root, relative)) return [{path: relative, action: 'keep', reason: 'contains tracked files'}];
   if (!isIgnored(root, relative + '/')) return [{path: relative, action: 'keep', reason: 'not ignored by Git'}];
   return fs.readdirSync(path.join(root, relative)).sort().map(name => {
-    const child = `${relative}/${name}`;
-    return durable.has(name)
-      ? {path: child, action: 'keep', reason: 'pinned toolchain cache'}
-      : {path: child, action: 'delete', reason};
+    const child = `${relative}/${name}`, absolute = path.join(root, child);
+    if (durable.has(name.toLowerCase())) return {path: child, action: 'keep', reason: 'pinned toolchain cache'};
+    if (worktreePaths.some(worktree => isWithin(absolute, worktree)) || fs.existsSync(path.join(absolute, '.git'))) {
+      return {path: child, action: 'keep', reason: 'contains a Git worktree or repository'};
+    }
+    return {path: child, action: 'delete', reason};
   });
 }
 
@@ -86,13 +94,14 @@ function buildOutputs(root) {
 }
 
 /** Returns keep/delete decisions for ignored outputs in the checkout at root. */
-function planArtifacts(root, {build = false} = {}) {
+function planArtifacts(root, {build = false, worktreePaths = []} = {}) {
   const entries = [];
   const phases = fs.readdirSync(root).filter(name => /^\.phase\d+$/.test(name)).sort();
   for (const name of phases) {
-    entries.push(...classifyRoot(root, name, 'phase output', name === '.phase1' ? DURABLE_PHASE1 : new Set()));
+    const durable = name === '.phase1' ? DURABLE_PHASE1 : new Set();
+    entries.push(...classifyRoot(root, name, 'phase output', durable, worktreePaths));
   }
-  entries.push(...classifyRoot(root, '.planning/tmp', 'workflow scratch', new Set()));
+  entries.push(...classifyRoot(root, '.planning/tmp', 'workflow scratch', new Set(), worktreePaths));
   if (build) entries.push(...buildOutputs(root));
   return entries;
 }
@@ -116,9 +125,17 @@ function parseWorktrees(text) {
 function worktreeState(root, worktree) {
   if (worktree.main) return {removable: false, reason: 'main checkout'};
   if (samePath(worktree.path, root)) return {removable: false, reason: 'current worktree'};
-  if (worktree.prunable || !fs.existsSync(worktree.path)) return {removable: false, prune: true, reason: 'directory missing'};
   if (worktree.locked) return {removable: false, reason: 'locked'};
-  if (git(worktree.path, ['status', '--porcelain']).trim()) return {removable: false, reason: 'uncommitted changes'};
+  if (worktree.prunable || !fs.existsSync(worktree.path)) return {removable: false, prune: true, reason: 'directory missing'};
+  const status = git(worktree.path, ['status', '--porcelain=v1', '--untracked-files=all', '--ignore-submodules=none']);
+  if (status.trim()) return {removable: false, reason: 'uncommitted changes'};
+  if (git(worktree.path, ['ls-files', '-v']).split(/\r?\n/).some(line => /^[a-z]/.test(line))) {
+    return {removable: false, reason: 'files marked assume-unchanged or skip-worktree'};
+  }
+  const gitDirectory = path.resolve(worktree.path, git(worktree.path, ['rev-parse', '--git-dir']).trim());
+  const operation = ['rebase-merge', 'rebase-apply', 'MERGE_HEAD', 'CHERRY_PICK_HEAD', 'REVERT_HEAD', 'BISECT_LOG']
+    .find(name => fs.existsSync(path.join(gitDirectory, name)));
+  if (operation) return {removable: false, reason: `operation in progress (${operation})`};
   if (!git(root, ['branch', '-r', '--contains', worktree.head]).trim()) {
     return {removable: false, reason: 'commits not on any remote branch'};
   }
@@ -140,6 +157,14 @@ function removeInside(root, relative) {
   fs.rmSync(target, {recursive: true, force: true, maxRetries: 3});
 }
 
+/** Removes a worktree; links (such as junctions to shared caches) are unlinked, never followed. */
+function removeWorktree(root, worktreePath) {
+  git(root, ['worktree', 'remove', worktreePath]);
+  // Git leaves folders it cannot fully delete; Node's rmSync unlinks junctions and symlinks without following them.
+  if (fs.existsSync(worktreePath)) fs.rmSync(worktreePath, {recursive: true, force: true, maxRetries: 3});
+  if (fs.existsSync(worktreePath)) throw new Error('folder still exists after removal');
+}
+
 /** Runs the command; returns the process exit code. */
 function run(argv, {cwd = process.cwd(), log = console.log, error = console.error} = {}) {
   let options;
@@ -154,9 +179,18 @@ function run(argv, {cwd = process.cwd(), log = console.log, error = console.erro
     log(USAGE);
     return 0;
   }
+  try {
+    return execute(options, {cwd, log, error});
+  } catch (failure) {
+    error(`cleanup stopped: ${String(failure.stderr || failure.message).trim()}`);
+    return 1;
+  }
+}
+
+function execute(options, {cwd, log, error}) {
   const root = path.resolve(git(cwd, ['rev-parse', '--show-toplevel']).trim());
-  const artifacts = planArtifacts(root, options);
   const worktrees = planWorktrees(root);
+  const artifacts = planArtifacts(root, {...options, worktreePaths: worktrees.map(worktree => worktree.path)});
   const requested = options.worktrees.map(value => {
     const match = worktrees.find(worktree => samePath(worktree.path, path.resolve(cwd, value)));
     return match ?? {path: path.resolve(cwd, value), removable: false, reason: 'not a worktree of this repository'};
@@ -164,6 +198,17 @@ function run(argv, {cwd = process.cwd(), log = console.log, error = console.erro
   let failures = 0;
 
   log(`Workspace cleanup ${options.apply ? '(apply)' : '(dry run)'}: ${root}`);
+  const lock = path.join(root, '.phase1', 'check.lock');
+  if (fs.existsSync(lock)) {
+    error(`  ${lock} exists: a checker run is active or stopped uncleanly. Inspect it; nothing is deleted while it exists.`);
+    if (options.apply) return 1;
+  }
+  const refused = requested.filter(worktree => !worktree.removable);
+  for (const worktree of refused) error(`  refused   ${worktree.path} (${worktree.reason})`);
+  if (options.apply && refused.length) {
+    error('  nothing was deleted because a requested worktree was refused');
+    return 1;
+  }
   for (const entry of artifacts) {
     let status = entry.action;
     if (options.apply && entry.action === 'delete') {
@@ -188,13 +233,11 @@ function run(argv, {cwd = process.cwd(), log = console.log, error = console.erro
     git(root, ['worktree', 'prune']);
     log('  pruned missing worktree records');
   }
-  for (const worktree of requested) {
-    if (!worktree.removable) {
-      failures++;
-      error(`  refused   ${worktree.path} (${worktree.reason})`);
-    } else if (options.apply) {
+  failures += refused.length;
+  for (const worktree of requested.filter(item => item.removable)) {
+    if (options.apply) {
       try {
-        git(root, ['worktree', 'remove', worktree.path]);
+        removeWorktree(root, worktree.path);
         log(`  removed   ${worktree.path}`);
       } catch (failure) {
         failures++;
