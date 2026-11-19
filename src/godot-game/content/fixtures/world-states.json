@@ -12,8 +12,8 @@
     { "file": "inspection/ItemsWearablesPreview.tscn", "sha256": "402f04ae90dbad7817809f5ed79eaa2e49d0aa6e1d955f0d918f93fe167e3331" },
     { "file": "content/packs/main-buildings.json", "sha256": "54fc6b5cc758cd82e69a81abae28ff08f6e05387a86782c934a6b26f458fb346" },
     { "file": "content/packs/defenses.json", "sha256": "973ddb022eb722d0279f47acad1e2112d213a84b6a60cddd8925046c28dbb3a7" },
-    { "file": "content/world/main-assemblies.json", "sha256": "1ca169e2bd8818fac84b4ff19d282aa9d6ed8b19b91adb70a830ef100c51ae1e" },
-    { "file": "content/world/defense-assemblies.json", "sha256": "e8ec43336aa2c79c8b52539bc300d5918c3acc75df8b0506b71caa1f2ef26787" },
+    { "file": "content/world/main-assemblies.json", "sha256": "8c2a51b0398edc691d071dfb11ed0f03adb30764938cc4f07eb6cfb956a1bd24" },
+    { "file": "content/world/defense-assemblies.json", "sha256": "6bdd2955ca227e07e93b8a718d551a127443a7cbd460085f3dc4ab7d1a4ff767" },
     { "file": "content/packs/camp-access.json", "sha256": "4c2c08f4475505b5d5e9dbd991a06930b28fd20538548ececf281020dec567b7" },
     { "file": "content/packs/guards.json", "sha256": "6cb7cb1f9159df55eeb9d258784d62929b3fe0ac110219983ab1c0bf2761056c" }
   ],

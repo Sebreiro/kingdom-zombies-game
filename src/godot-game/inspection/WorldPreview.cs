@@ -28,6 +28,7 @@ internal sealed class WorldPreview
         _map = Read(read: read, file: "content/world/map.json", id: "world-map");
         _effects = Read(read: read, file: "content/packs/effects-portals.json", id: "effects-portals");
         _common = Read(read: read, file: "content/packs/common.json", id: "common");
+        _audioEvents = Read(read: read, file: "content/audio/events.json", id: "sound-events");
         ValidateMedia(read: read, pack: _world, expected: "assets/world/environment.png", size: 2048, height: 1024);
         ValidateMedia(read: read, pack: _effects, expected: "assets/effects/effects.png", size: 2048, height: 2048);
         ValidateWorld();
@@ -121,8 +122,10 @@ internal sealed class WorldPreview
         {
             "Items" => [.. Enumerable.Range(start: 1, count: 24).Select(selector: number => "IT-"
                     + number.ToString(format: "00", provider: CultureInfo.InvariantCulture))],
-            "Buildings/world" => [.. Enumerable.Range(start: 1, count: 9).Select(selector: number => "BL-"
+            "Buildings/world" => [.. Enumerable.Range(start: 1, count: 16).Select(selector: number => "BL-"
                     + number.ToString(format: "00", provider: CultureInfo.InvariantCulture)),
+                .. Enumerable.Range(start: 1, count: 12).Select(selector: number => "FX-"
+                        + number.ToString(format: "00", provider: CultureInfo.InvariantCulture)),
                 "world.assembled", "world.portals", "world.effects", "world.wildlife"],
             _ => [],
         };
@@ -319,9 +322,7 @@ internal sealed class WorldPreview
         {
             if (_inspector)
             {
-                RetireInspector();
-                _selectionEpoch++;
-                _closed = true;
+                CloseInspector();
                 return;
             }
 
@@ -360,6 +361,7 @@ internal sealed class WorldPreview
     private readonly JsonElement _map;
     private readonly JsonElement _effects;
     private readonly JsonElement _common;
+    private readonly JsonElement _audioEvents;
     private readonly List<EffectState> _transients = [];
     private readonly List<Resource> _resources = [];
     private readonly List<Node2D> _owners = [];
@@ -377,7 +379,8 @@ internal sealed class WorldPreview
 
     private static readonly string[] _bindingFiles = ["content/packs/common.json", "content/packs/world.json",
         "content/world/map.json", "content/packs/effects-portals.json", "assets/world/environment.png",
-        "assets/effects/effects.png"];
+        "assets/effects/effects.png", "content/audio/events.json", "content/packs/audio-actions.json",
+        "content/packs/audio-interface-ambience.json"];
 
     private WorldPreview(Node2D root, MainThreadGateway gateway, Func<string, byte[]?> read,
             Dictionary<string, string> choices)
@@ -471,6 +474,29 @@ internal sealed class WorldPreview
         };
     }
 
+    private void CloseInspector()
+    {
+        _gateway.RequireThread();
+        _closed = true;
+        _selectionEpoch++;
+        Node choices = _root.GetNode(path: InspectorBody + "Choices");
+        foreach (string name in new[] { "CurrentState", "Portal", "Light", "Zoom" })
+        {
+            choices.GetNode<OptionButton>(path: name).ItemSelected -= name switch
+            {
+                "CurrentState" => StateInspector,
+                "Portal" => PortalInspector,
+                "Light" => LightInspector,
+                _ => ZoomInspector,
+            };
+        }
+        choices.GetNode<HSlider>(path: "Pan").ValueChanged -= PanInspector;
+        choices.GetNode<Button>(path: "Reset").Pressed -= ResetInspector;
+        choices.GetNode<Button>(path: "Step").Pressed -= StepInspector;
+        RetireInspector();
+        _root.SetMeta(name: "closed", value: true);
+    }
+
     private byte[] InspectorBytes(string file)
     {
         JsonElement binding = Find(rows: _fixture.GetProperty(propertyName: "bindings"), key: "file", value: file);
@@ -499,13 +525,32 @@ internal sealed class WorldPreview
 
         var content = new Node2D { Name = "Content" };
         _root.GetNode(path: InspectorBody + "Art").AddChild(node: content);
+        if (InspectorLibraryBuilding(id: _activeId))
+        {
+            ProjectLibraryBuilding();
+            RestoreInspectorChoices();
+            return;
+        }
         if (_activeId.StartsWith(value: "BL-", comparisonType: StringComparison.Ordinal))
         {
-            ProjectInspectorBuilding();
+            if (_activeId is "BL-15" or "BL-16")
+            {
+                ProjectLibraryWorld(content: content);
+            }
+            else
+            {
+                ProjectInspectorBuilding();
+            }
             RestoreInspectorChoices();
             return;
         }
 
+        if (_activeId.StartsWith(value: "FX-", comparisonType: StringComparison.Ordinal))
+        {
+            ProjectLibraryWorld(content: content);
+            RestoreInspectorChoices();
+            return;
+        }
         _worldView = Open(root: content, gateway: _gateway, read: _read);
         _worldView.Attach();
         _inspectorStates = _activeId is "world.effects" ? _worldView._effects.GetProperty(propertyName: "effects")
@@ -514,6 +559,189 @@ internal sealed class WorldPreview
                         .Select(selector: row => Text(row: row, name: "id")).ToArray();
         PopulateInspectorStates();
         RestoreInspectorChoices();
+    }
+
+    private static bool InspectorLibraryBuilding(string id)
+    {
+        return id is "BL-10" or "BL-11" or "BL-12" or "BL-13" or "BL-14";
+    }
+
+    private void ProjectLibraryBuilding()
+    {
+        _gateway.RequireThread();
+        var states = new List<string>();
+        string[] kinds = _activeId is "BL-13" or "BL-14" ? ["main"]
+                : _activeId is "BL-10" ? ["wall", "tower"] : ["main", "wall", "tower"];
+        foreach (string kind in kinds)
+        {
+            bool main = kind is "main";
+            JsonElement assemblies = InspectorDocument(file: "content/world/" + (main ? "main" : "defense")
+                    + "-assemblies.json", id: main ? "main-assemblies" : "defense-assemblies");
+            for (int tier = 1; tier <= 3; tier++)
+            {
+                int index = 0;
+                foreach (JsonElement sample in assemblies.GetProperty(propertyName: "samples").EnumerateArray())
+                {
+                    states.Add(item: kind + "|" + tier.ToString(provider: CultureInfo.InvariantCulture) + "|"
+                            + index.ToString(provider: CultureInfo.InvariantCulture) + "|" + Text(row: sample,
+                                    name: "label"));
+                    index++;
+                }
+            }
+        }
+
+        _inspectorStates = _activeId is "BL-12" ? states.OrderByDescending(keySelector: state => state.Contains(
+                value: "Defeated remains", comparisonType: StringComparison.Ordinal)).ToArray() : states.ToArray();
+        PopulateInspectorStates();
+    }
+
+    private void SelectLibraryBuilding(string state)
+    {
+        _gateway.RequireThread();
+        string[] pieces = state.Split(separator: '|');
+        Require(valid: pieces.Length == 4 && pieces[0] is "main" or "wall" or "tower",
+                code: "WORLD_LIBRARY_BUILDING_STATE");
+        bool main = pieces[0] is "main";
+        int tier = int.Parse(s: pieces[1], provider: CultureInfo.InvariantCulture);
+        int sampleIndex = int.Parse(s: pieces[2], provider: CultureInfo.InvariantCulture);
+        JsonElement art = InspectorDocument(file: "content/packs/" + (main ? "main-buildings" : "defenses")
+                + ".json", id: main ? "main-buildings" : "defenses");
+        JsonElement assemblies = InspectorDocument(file: "content/world/" + (main ? "main" : "defense")
+                + "-assemblies.json", id: main ? "main-assemblies" : "defense-assemblies");
+        JsonElement access = InspectorDocument(file: "content/packs/" + (main ? "camp-access" : "guards")
+                + ".json", id: main ? "camp-access" : "guards");
+        JsonElement samples = assemblies.GetProperty(propertyName: "samples");
+        Require(valid: tier is >= 1 and <= 3 && sampleIndex >= 0 && sampleIndex < samples.GetArrayLength(),
+                code: "WORLD_LIBRARY_BUILDING_STATE");
+        JsonElement sample = samples[sampleIndex];
+        Require(valid: Same(left: Text(row: sample, name: "label"), right: pieces[3]),
+                code: "WORLD_LIBRARY_BUILDING_STATE");
+        _building?.Detach();
+        Node2D content = _root.GetNode<Node2D>(path: InspectorBody + "Art/Content");
+        foreach (Node child in content.GetChildren())
+        {
+            content.RemoveChild(node: child);
+            child.QueueFree();
+        }
+        _building = main ? new BuildingPreview(root: content, gateway: _gateway, art: art, assemblies: assemblies,
+                access: access, identity: _activeId) : new BuildingPreview(root: content, gateway: _gateway,
+                        art: art, assemblies: assemblies, guards: access, identity: _activeId, read: _read);
+        _building.Attach();
+        OptionButton selector = content.GetNode<OptionButton>(path: "Controls/Tier");
+        selector.Select(idx: pieces[0] is "tower" ? tier + 2 : tier - 1);
+        selector.EmitSignal(signal: OptionButton.SignalName.ItemSelected, (long)selector.Selected);
+        _building.Restore(completedTier: tier, requestedTier: Text(row: sample, name: "work") is "upgrade"
+                ? Math.Min(val1: 3, val2: tier + 1) : tier, progress: Number(row: sample, name: "progress"),
+                defeated: main ? Text(row: sample, name: "visual") is "defeated"
+                        : sample.GetProperty(propertyName: "defeated").GetBoolean());
+        _building.SelectSample(index: sampleIndex);
+        ProjectLibrarySites(content: content);
+        _root.SetMeta(name: "library_view", value: JsonSerializer.Serialize(value: new
+        {
+            id = _activeId, state, kind = pieces[0], tier, sample = pieces[3], epoch = _selectionEpoch,
+            source = _activeId is "BL-10" ? "content/world/map.json"
+                    : main ? "content/world/main-assemblies.json" : "content/world/defense-assemblies.json",
+        }));
+    }
+
+    private void ProjectLibrarySites(Node2D content)
+    {
+        _gateway.RequireThread();
+        if (_activeId is not "BL-10")
+        {
+            return;
+        }
+        WorldPreview source = Open(root: content, gateway: _gateway, read: _read);
+        JsonElement map = source._map;
+        source.Close();
+        foreach (string family in new[] { "walls", "towers" })
+        {
+            foreach (JsonElement site in map.GetProperty(propertyName: family).EnumerateArray())
+            {
+                float x = site.GetProperty(propertyName: "x").GetSingle() * 8;
+                var marker = new Line2D
+                {
+                    Points = [new Vector2(x: x - 8, y: -20), new Vector2(x: x, y: -32),
+                        new Vector2(x: x + 8, y: -20)], Width = 2,
+                };
+                marker.SetMeta(name: "site", value: site.GetRawText());
+                content.AddChild(node: marker);
+                content.AddChild(node: new Label { Position = new Vector2(x: x, y: -52),
+                    Text = Text(row: site, name: "id") + " · " + family });
+            }
+        }
+    }
+
+    private void ProjectLibraryWorld(Node2D content)
+    {
+        _gateway.RequireThread();
+        _worldView = Open(root: content, gateway: _gateway, read: _read);
+        _worldView.Attach();
+        _inspectorStates = _activeId switch
+        {
+            "BL-15" => ["rally.refuge", "rally.expanded", "rally.wall-lost"],
+            "BL-16" => _worldView._definition.GetProperty(propertyName: "samples").EnumerateArray()
+                    .Select(selector: row => Text(row: row, name: "id")).Where(predicate: id => id.StartsWith(
+                            value: "portal.", comparisonType: StringComparison.Ordinal)).ToArray(),
+            "FX-11" => [.. _worldView._effects.GetProperty(propertyName: "effects").EnumerateArray()
+                    .Where(predicate: row => Same(left: Text(row: row, name: "obligation"), right: _activeId))
+                    .Select(selector: row => "effect:" + Text(row: row, name: "id")),
+                .. _worldView._effects.GetProperty(propertyName: "materialProfiles").EnumerateArray()
+                        .Select(selector: row => "material:" + Text(row: row, name: "id"))],
+            _ => _worldView._effects.GetProperty(propertyName: "effects").EnumerateArray()
+                    .Where(predicate: row => Same(left: Text(row: row, name: "obligation"), right: _activeId))
+                    .Select(selector: row => "effect:" + Text(row: row, name: "id")).ToArray(),
+        };
+        Require(valid: _inspectorStates.Length > 0, code: "WORLD_LIBRARY_EMPTY " + _activeId);
+        PopulateInspectorStates();
+    }
+
+    private void FilterLibraryWorld(string state)
+    {
+        _gateway.RequireThread();
+        if (_worldView is null || (_activeId is not "BL-15" and not "BL-16"
+                && !_activeId.StartsWith(value: "FX-", comparisonType: StringComparison.Ordinal)))
+        {
+            return;
+        }
+        string[] rallies = _worldView._map.GetProperty(propertyName: "rallies").EnumerateArray()
+                .Select(selector: row => Text(row: row, name: "id")).ToArray();
+        foreach (CanvasItem node in _root.GetNode(path: InspectorBody + "Art/Content").FindChildren(
+                pattern: "*", type: "CanvasItem", recursive: true, owned: false).OfType<CanvasItem>())
+        {
+            if (_worldView._owners.Any(predicate: owner => ReferenceEquals(objA: owner, objB: node)))
+            {
+                node.Visible = true;
+                continue;
+            }
+            if (!node.HasMeta(name: "resource_id"))
+            {
+                continue;
+            }
+            string id = node.GetMeta(name: "resource_id").AsString();
+            node.Visible = _activeId switch
+            {
+                "BL-15" => rallies.Any(predicate: rally => id.StartsWith(value: rally + ".",
+                        comparisonType: StringComparison.Ordinal)),
+                "BL-16" => id.StartsWith(value: "left.portal.", comparisonType: StringComparison.Ordinal)
+                        || id.StartsWith(value: "right.portal.", comparisonType: StringComparison.Ordinal),
+                _ => id.StartsWith(value: "effect.", comparisonType: StringComparison.Ordinal)
+                        || id is "ground" || state.StartsWith(value: "material:",
+                                comparisonType: StringComparison.Ordinal),
+            };
+            if (state.StartsWith(value: "material:", comparisonType: StringComparison.Ordinal))
+            {
+                node.Modulate = ReadColor(row: Find(rows: _worldView._effects.GetProperty(
+                        propertyName: "materialProfiles"), key: "id", value: state[9..]).GetProperty(
+                                propertyName: "tint"));
+            }
+        }
+        _root.SetMeta(name: "library_view", value: JsonSerializer.Serialize(value: new
+        {
+            id = _activeId, state, epoch = _selectionEpoch,
+            source = _activeId is "BL-15" ? "content/world/map.json" : "content/packs/effects-portals.json",
+            eventCount = _worldView.EventCount, time = _worldView.Time, worldEpoch = _worldView.Epoch,
+        }));
     }
 
     private void RestoreInspectorChoices()
@@ -600,15 +828,24 @@ internal sealed class WorldPreview
         Require(valid: index >= 0 && index < _inspectorStates.Length && !_closed, code: "WORLD_INSPECTOR_STATE");
         string state = _inspectorStates[index];
         _choices[_activeId + ".state"] = state;
+        if (InspectorLibraryBuilding(id: _activeId))
+        {
+            SelectLibraryBuilding(state: state);
+            ShowInspector();
+            ApplyInspectorLight();
+            return;
+        }
         if (_worldView is not null)
         {
             _worldView.Restore(sample: state.StartsWith(value: "effect:", comparisonType: StringComparison.Ordinal)
+                    || state.StartsWith(value: "material:", comparisonType: StringComparison.Ordinal)
                     ? "portal.closed" : state);
             if (!_restoringInspector && state.StartsWith(value: "effect:", comparisonType: StringComparison.Ordinal))
             {
                 _worldView.Trigger(effect: state[7..], source: "friendly", originX: 0, originY: -24,
                         targetX: 64, targetY: -24, epoch: _worldView.Epoch);
             }
+            FilterLibraryWorld(state: state);
         }
 
         RestoreInspectorBuilding(index: (int)index);
@@ -725,6 +962,7 @@ internal sealed class WorldPreview
         {
             _worldView._viewLight = index;
             _worldView.Project();
+            FilterLibraryWorld(state: _choices.GetValueOrDefault(key: _activeId + ".state", defaultValue: ""));
         }
 
         if (_building is not null)
@@ -750,6 +988,7 @@ internal sealed class WorldPreview
         _gateway.RequireThread();
         _worldView?.Advance(elapsedSeconds: 0.125);
         _building?.Tick(delta: 0.125);
+        FilterLibraryWorld(state: _choices.GetValueOrDefault(key: _activeId + ".state", defaultValue: ""));
     }
 
     private void ShowInspector()
@@ -827,7 +1066,7 @@ internal sealed class WorldPreview
     {
         JsonElement rows = _definition.GetProperty(propertyName: "sourceBindings");
         string[] actual = rows.EnumerateArray().Select(selector: row => Text(row: row, name: "file")).ToArray();
-        Require(valid: rows.GetArrayLength() == 6 && actual.Order(comparer: StringComparer.Ordinal).SequenceEqual(
+        Require(valid: rows.GetArrayLength() == 9 && actual.Order(comparer: StringComparer.Ordinal).SequenceEqual(
                 second: _bindingFiles.Order(comparer: StringComparer.Ordinal), comparer: StringComparer.Ordinal),
                 code: "WORLD_BINDING_SET");
         foreach (JsonElement row in rows.EnumerateArray())
@@ -951,7 +1190,7 @@ internal sealed class WorldPreview
     {
         JsonElement rows = _map.GetProperty(propertyName: "native").GetProperty(propertyName: "nodes");
         Unique(rows: rows, key: "id", maximum: 512);
-        Require(valid: rows.GetArrayLength() == 275, code: "WORLD_NODE_COUNT");
+        Require(valid: rows.GetArrayLength() == 287, code: "WORLD_NODE_COUNT");
         foreach (JsonElement node in rows.EnumerateArray())
         {
             Require(valid: Same(left: Text(row: node, name: "type"), right: "Sprite2D")
@@ -976,7 +1215,10 @@ internal sealed class WorldPreview
         foreach (JsonElement effect in effects.EnumerateArray())
         {
             Part(pack: _effects, key: Text(row: effect, name: "part"));
-            Require(valid: Number(row: effect, name: "duration") is > 0 and <= 10
+            Require(valid: Number(row: effect, name: "duration") > 0
+                    && (Same(left: Text(row: effect, name: "id"), right: "bloater.stain")
+                            ? Number(row: effect, name: "duration") == 20
+                            : Number(row: effect, name: "duration") <= 10)
                     && Number(row: effect, name: "amount") is > 0 and <= 12
                     && Number(row: effect, name: "radiusPixels") is > 0 and <= 24
                     && Number(row: effect, name: "speedPixelsPerSecond") is >= 0 and <= 200
@@ -1001,6 +1243,7 @@ internal sealed class WorldPreview
                         name: "soundObligation") + ":", comparisonType: StringComparison.Ordinal),
                         code: "WORLD_SOUND_REFERENCE");
             }
+            ValidateAudioRoute(effect: effect);
         }
 
         Require(valid: Same(left: Text(row: _effects, name: "portalShader"), right: PortalShader),
@@ -1011,6 +1254,46 @@ internal sealed class WorldPreview
                 && !limits.GetProperty(propertyName: "dismemberment").GetBoolean()
                 && limits.GetProperty(propertyName: "cosmeticStainOnly").GetBoolean(), code: "WORLD_EFFECT_LIMITS");
         ValidateClips();
+    }
+
+    private void ValidateAudioRoute(JsonElement effect)
+    {
+        if (effect.TryGetProperty(propertyName: "audioRoute", value: out JsonElement route))
+        {
+            ValidateCanonicalSound(value: route);
+            Require(valid: Same(left: Text(row: effect, name: "soundObligation"),
+                    right: Text(row: route, name: "category")), code: "WORLD_SOUND_CATEGORY");
+        }
+
+        if (effect.TryGetProperty(propertyName: "soundByBody", value: out JsonElement bodies))
+        {
+            Require(valid: bodies.ValueKind is JsonValueKind.Object
+                    && bodies.EnumerateObject().Count() == 8, code: "WORLD_SOUND_ACTOR");
+            for (int index = 1; index <= 8; index++)
+            {
+                string id = "CH-" + index.ToString(format: "D2", provider: CultureInfo.InvariantCulture);
+                JsonElement actor = bodies.GetProperty(propertyName: id);
+                ValidateCanonicalSound(value: actor);
+                Require(valid: Same(left: Text(row: actor, name: "category"),
+                        right: index == 1 ? "AU-10" : "AU-09"), code: "WORLD_SOUND_ACTOR");
+            }
+        }
+    }
+
+    private void ValidateCanonicalSound(JsonElement value)
+    {
+        JsonElement definition = Find(rows: _audioEvents.GetProperty(propertyName: "events"),
+                key: "id", value: Text(row: value, name: "event"));
+        JsonElement route = Find(rows: definition.GetProperty(propertyName: "routes"),
+                key: "id", value: Text(row: value, name: "route"));
+        Require(valid: Same(left: Text(row: value, name: "category"), right: Text(row: definition,
+                name: "category")) && Same(left: Text(row: value, name: "bus"), right: Text(row: route,
+                        name: "bus")) && Same(left: Text(row: value, name: "bus"), right: Text(row: definition,
+                                name: "bus")), code: "WORLD_SOUND_CATEGORY_BUS");
+        Require(valid: value.GetProperty(propertyName: "variants").EnumerateArray().Select(
+                selector: row => row.GetString()).SequenceEqual(second: route.GetProperty(
+                        propertyName: "variants").EnumerateArray().Select(selector: row => row.GetString()),
+                        comparer: StringComparer.Ordinal), code: "WORLD_SOUND_VARIANTS");
     }
 
     private void ValidateSamples()
@@ -1703,8 +1986,13 @@ internal sealed class WorldPreview
         particles.SetMeta(name: "resource_id", value: "effect." + effect.Id);
         particles.SetMeta(name: "source_id", value: effect.Source);
         particles.SetMeta(name: "preview_time", value: age);
-        particles.SetMeta(name: "sound_reference",
-                value: row.GetProperty(propertyName: "sound").GetString() ?? string.Empty);
+        string sound = row.GetProperty(propertyName: "sound").GetString() ?? string.Empty;
+        if (row.TryGetProperty(propertyName: "soundByBody", value: out JsonElement bodies)
+                && bodies.TryGetProperty(propertyName: effect.Source, value: out JsonElement actor))
+        {
+            sound = Text(row: actor, name: "sound");
+        }
+        particles.SetMeta(name: "sound_reference", value: sound);
         _owners[0].AddChild(node: particles);
         particles.RequestParticlesProcess(processTime: (float)(loop ? age % lifetime
                 : Math.Min(val1: age, val2: lifetime)));

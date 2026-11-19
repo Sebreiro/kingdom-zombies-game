@@ -1221,8 +1221,9 @@ internal sealed class BuildingPreview
                 value += tiers[start + index].GetProperty(propertyName: "price").GetInt32();
             }
 
-            return _progress == 1 ? 0 : Math.Max(val1: 1, val2: (int)Math.Ceiling(a: value * 0.5
-                    * (1 - sample.GetProperty(propertyName: "hpRatio").GetDouble())));
+            double health = sample.GetProperty(propertyName: "hpRatio").GetDouble();
+            return _progress == 1 || _defeated || health is <= 0 or >= 1 ? 0
+                    : Math.Max(val1: 1, val2: (int)Math.Ceiling(a: value * 0.5));
         }
 
         return definition.GetProperty(propertyName: work is "rebuild" ? "rebuildPrice" : "price").GetInt32();

@@ -702,9 +702,13 @@ internal sealed class CrowdPreview
         var owner = new Node2D { Name = "Identity", Position = new Vector2(x: 24, y: -12) };
         visual.AddChild(node: owner);
         var color = new Color(code: Text(row: identity, name: "color"));
-        Vector2[] points = _identities.GetProperty(propertyName: "shapePolygons").GetProperty(
-                propertyName: Text(row: identity, name: "shape")).EnumerateArray().Select(selector: value =>
-                        new Vector2(x: value[0].GetSingle(), y: value[1].GetSingle())).ToArray();
+        JsonElement polygon = _identities.GetProperty(propertyName: "shapePolygons").GetProperty(
+                propertyName: Text(row: identity, name: "shape"));
+        var points = new Vector2[polygon.GetArrayLength()];
+        for (int index = 0; index < points.Length; index++)
+        {
+            points[index] = new Vector2(x: polygon[index][0].GetSingle(), y: polygon[index][1].GetSingle());
+        }
         foreach (string form in new[] { "World", "Teammate", "Minimap" })
         {
             var marker = new Node2D { Name = form, Position = new Vector2(x: 0, y: form is "World" ? 0

@@ -790,20 +790,26 @@ internal sealed class SessionLayouts
         int requested = state.GetProperty(propertyName: "preferences").GetProperty(propertyName: "scale").GetInt32();
         scale.Select(idx: requested == 80 ? 0 : requested == 100 ? 1 : 2);
         long generation = _generation;
-        void Apply(long index)
+        OptionButton.ItemSelectedEventHandler apply = index => ApplySelectors(selectors: selectors,
+                generation: generation, index: index);
+        canvas.ItemSelected += apply;
+        scale.ItemSelected += apply;
+        view.ItemSelected += apply;
+        ApplySelectors(selectors: selectors, generation: generation, index: 0);
+    }
+
+    private void ApplySelectors(HBoxContainer selectors, long generation, long index)
+    {
+        _gateway.RequireThread();
+        _ = index;
+        if (_accepting && generation == _generation)
         {
-            _gateway.RequireThread();
-            _ = index;
-            if (_accepting && generation == _generation)
-            {
-                Endpoint(width: canvas.Selected == 0 ? 1280 : 1920, height: canvas.Selected == 0 ? 720 : 1080,
-                        percent: scale.Selected == 0 ? 80 : scale.Selected == 1 ? 100 : 150, fit: view.Selected == 0);
-            }
+            var canvas = selectors.GetNode<OptionButton>(path: "Canvas");
+            var scale = selectors.GetNode<OptionButton>(path: "Scale");
+            var view = selectors.GetNode<OptionButton>(path: "View");
+            Endpoint(width: canvas.Selected == 0 ? 1280 : 1920, height: canvas.Selected == 0 ? 720 : 1080,
+                    percent: scale.Selected == 0 ? 80 : scale.Selected == 1 ? 100 : 150, fit: view.Selected == 0);
         }
-        canvas.ItemSelected += Apply;
-        scale.ItemSelected += Apply;
-        view.ItemSelected += Apply;
-        Apply(index: 0);
     }
 
     private void SettingsFields(JsonElement state, VBoxContainer content)

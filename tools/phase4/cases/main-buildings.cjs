@@ -101,6 +101,7 @@ runner.registerCase('buildings.main-art',{group:'buildings',title:'Three actual 
 const STATE_FILES=[...ART_FILES,'src/godot-game/inspection/BuildingPreview.cs','src/godot-game/content/world/main-assemblies.json','src/godot-game/content/packs/camp-access.json','tests/phase1/BuildingPresentationTests.cs'];
 function validateState(a,s,p){
  need(a.schemaVersion===1&&a.id==='main-assemblies'&&a.sampleDataOnly===true&&s.id==='camp-access','BUILDING_STATE_ID');
+ need(equal(a.tierDefinitions.map(x=>x.repairPrice),[50,150,400]),'BUILDING_FIXED_REPAIR_FEES');
  need(equal(a.tierDefinitions.map(x=>[x.tier,x.health,x.price,x.upgradePrice,x.workSeconds,x.seats]),[[1,600,0,200,0,8],[2,1400,200,500,90,12],[3,3200,500,0,150,16]]),'BUILDING_BASELINE');
  need(equal(a.tierDefinitions.map(x=>x.attachments.length),[0,0,2])&&equal(a.tierDefinitions[2].attachments.map(x=>x.id),['guard-left','guard-right']),'BUILDING_GUARD_SOCKETS');
  need(equal(a.tierDefinitions[2].attachments.map(x=>x.position),[[-30,40],[146,40]])&&equal(a.tierDefinitions[2].attachments.map(x=>x.phase),[0,0.7]),'BUILDING_GUARD_INDEPENDENT');

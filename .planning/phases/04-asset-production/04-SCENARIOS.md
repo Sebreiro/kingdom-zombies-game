@@ -927,3 +927,88 @@ Expected: All native and compiled outcomes pass independently,with stable author
 
 Evidence: inputs.json, production-assemblies.json, native-observation.json, compiled/tests.xml, compiled/tests.json, result.json. Group G0-world, order 4. Reset: Revoke and retire every preview;restore owned copied media and definitions
 
+
+## Additional implemented source census procedures
+
+These four actual source checks add coverage records. Catalog registration supplies no execution, acceptance, final package or judgment verdict.
+
+### content.source-boundaries
+
+Importance: Critical. A source archive exception applied to an alias or unchecked bytes breaks bounded publication identity
+
+Owner: 04-23 Task1. Requirements: ASSET-01, ASSET-02, ASSET-04, ASSET-05. Source acceptance coverage: AC-13, AC-15. Actual acceptance remains pending.
+
+Setup: Actual retained canonical interface archive and independently constructed boundary subjects; all other source caps remain32MiB
+
+Actions: Authenticate actual canonical source bytes and exact recorded size/hash → Exercise exact64MiB and64MiB+1 canonical reads independently → Reject wrongcase/lookalike/default-path oversize and wronghash source identities → Restore the original real archive and preserve every production byte
+
+Expected: Only the exact actual source identity receives the bounded64MiB exception; all invalid subjects fail visibly
+
+Evidence: inputs.json, boundaries.json, result.json. Group G0-content, order 60. Reset: Independent invocation-owned scratch subjects, never mutate retained production archive
+
+Source module: tools/phase4/cases/census.cjs; SHA256 ad6ccfd557d998437b347af2cd31ff84990e0797bc8b3e477e0bf3be6b69fd7e.
+
+### content.archive-boundaries
+
+Importance: Critical. A source archive exception applied to an alias or unchecked bytes breaks bounded publication identity
+
+Owner: 04-23 Task1. Requirements: ASSET-01, ASSET-02, ASSET-04, ASSET-05. Source acceptance coverage: AC-13, AC-15. Actual acceptance remains pending.
+
+Setup: Actual retained common and13other archives, immutable pinned container/member identities and independent small ZIP subjects
+
+Actions: Authenticate complete source file before parsing/inflation → Stream all real members through the production cap/CRC/hash validator → Target the same production bound enforcer with exact/over and unauthorized-member subjects → Reject actual corrupt CRC/data, unsafe/duplicate/case aliases, fullhash tamper and lookalike containers then restore
+
+Expected: Only the exact actual source identity receives the bounded64MiB exception; all invalid subjects fail visibly
+
+Evidence: archive-controls.json, archive-members.json, other-archives.json, result.json. Group G0-content, order 61. Reset: Independent invocation-owned scratch subjects, never mutate retained production archive
+
+Source module: tools/phase4/cases/census.cjs; SHA256 ad6ccfd557d998437b347af2cd31ff84990e0797bc8b3e477e0bf3be6b69fd7e.
+
+### content.source-relations
+
+Importance: Critical. A source archive exception applied to an alias or unchecked bytes breaks bounded publication identity
+
+Owner: 04-23 Task1. Requirements: ASSET-01, ASSET-02, ASSET-04, ASSET-05. Source acceptance coverage: AC-13, AC-15. Actual acceptance remains pending.
+
+Setup: Current actual133file model,14retained production archives and independent mutations of authenticated source/part/recipe relationships
+
+Actions: Authenticate and stream every retained archive through existing bounded CRC/SHA reader → Match actual retained primary JSON/atlas/recipe/generated-master/prompt/member inventories and exact source owner/raw/stream identities → Reject other valid source/member/recipe/part roles and unsafe/duplicate/callback/range mutations at the same production guards → Restore actual inputs and independently repeat complete retained source relation validation
+
+Expected: Real retained bytes and relationships pass; each named independent defect fails for its specific source/field reason, never a fabricated acceptance receipt
+
+Evidence: retained-positive.json, retained-controls.json, retained-restored.json, result.json. Group G0-content, order 62. Reset: Only detached in-memory metadata mutations; every tracked producer/archive byte stays fixed
+
+Source module: tools/phase4/cases/census.cjs; SHA256 ad6ccfd557d998437b347af2cd31ff84990e0797bc8b3e477e0bf3be6b69fd7e.
+
+### content.domain-relations
+
+Importance: Critical. A source archive exception applied to an alias or unchecked bytes breaks bounded publication identity
+
+Owner: 04-23 Task1. Requirements: ASSET-01, ASSET-02, ASSET-04, ASSET-05. Source acceptance coverage: AC-13, AC-15. Actual acceptance remains pending.
+
+Setup: Three actual packaged donor fonts and mixed generated/donor work master, immutable common/work archives and current runtime resources
+
+Actions: Link explicit font roles and candidates to authenticated original donor member bytes, retaining shared body/fallback identity → Check actual generated master/cell/crop/recipe/prompt and donor hammer relationships → Reject other valid sources/roles, wrong regions/references, duplicate identities and forbidden callbacks/gameplay mutation → Restore actual source/runtime bytes after each independent guard
+
+Expected: Exact real domain relationships and all independent failures/restored positives pass with0accepted
+
+Evidence: inputs.json, domain-positive.json, domain-controls.json, result.json. Group G0-content, order 63. Reset: Detached metadata and bounded byte callbacks only, no tracked source/resource mutation
+
+Source module: tools/phase4/cases/census.cjs; SHA256 ad6ccfd557d998437b347af2cd31ff84990e0797bc8b3e477e0bf3be6b69fd7e.
+
+
+### content.census
+
+Importance: Critical. A source archive exception applied to an alias or unchecked bytes breaks bounded publication identity
+
+Owner: 04-23 Task1. Requirements: ASSET-01, ASSET-02, ASSET-04, ASSET-05. Actual appearance/listening/platform/acceptance remains pending.
+
+Setup: All actual current production shards/resources and independently fixed180 authority; bounded retained source archives, completed Core decoder and actual current Godot Root
+
+Actions: Decode and authenticate actual distinct resources/dependencies/shared mappings against independent180 IDs → Reject duplicate-inflated totals,missing unique IDs,partial/empty dependencies,precision and conflicting paths → Preserve valid sibling visibility and order-independent identities without accepted judgment credit → Publish actual full retained source generations atomically and prove interruption/recovery/restored identity → Reach each actual current resource through the genuine compiled native Root and current source/assembly/ALC/PID/nonce closure
+
+Expected: All180 actual source resources and exact independent controls pass; accepted remains0 and later judgment owners stay pending
+
+Evidence: census-inputs.json, census-controls.json, census-source-proof.json, result.json. Group G0-content, order 64. Reset: Owned disposable subjects only; no production mutation; original legacy fixtures preserved
+
+Source module: tools/phase4/cases/census.cjs; SHA256 ad6ccfd557d998437b347af2cd31ff84990e0797bc8b3e477e0bf3be6b69fd7e.

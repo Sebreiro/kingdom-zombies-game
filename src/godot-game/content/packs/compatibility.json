@@ -16,7 +16,7 @@
     },
     {
       "path": "content/packs/text-data.json",
-      "sha256": "a8c56b81d902540139f6a5dd7d763761e4e1c3c2a4da40999f9cc0fd05a30a42"
+      "sha256": "97965947e3f9e9685c50de30a17da98d67a8270f07b772ccad003eed3e132a00"
     },
     {
       "path": "content/packs/corpses-wildlife.json",
@@ -32,7 +32,7 @@
     },
     {
       "path": "content/world/portal-assemblies.json",
-      "sha256": "ee776d242c7485d8cc3ffdf1afc3d9823415fb427e1b48f8d7b2386390f2d64e"
+      "sha256": "23e2c46f92bc47c29e24b822e8ebfcd3113bbd056bec59ad1554c312efbe4de5"
     }
   ]
 }

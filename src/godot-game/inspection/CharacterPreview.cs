@@ -297,6 +297,139 @@ internal sealed class CharacterPreview
         Project();
     }
 
+    internal static CharacterPreview? TryOpenAttached(InspectionShell? shell, MainThreadGateway gateway,
+            Func<string, byte[]?> read, string id, Node2D owner)
+    {
+        gateway.RequireThread();
+        string resource = "content/animation/locomotion-melee.json";
+        try
+        {
+            return OpenAttached(shell: shell, gateway: gateway, read: path => read(arg: resource = path), id: id);
+        }
+        catch (Exception error) when (error is InvalidDataException or JsonException or FormatException)
+        {
+            shell?.Retire();
+            owner.GetNode<TextEdit>(path: "Shell/Workspace/Preview/Failures").Text += "\n" + id
+                    + ": " + resource + " — " + error.Message;
+            owner.GetNode<Label>(path: "Summary/Status").Text = "Error — " + id + "; choose Recheck resources";
+            return null;
+        }
+    }
+
+    internal static CharacterPreview OpenAttached(InspectionShell? shell, MainThreadGateway gateway,
+            Func<string, byte[]?> read, string id)
+    {
+        gateway.RequireThread();
+        if (shell is null)
+        {
+            throw new InvalidDataException(message: "CHARACTER_SHELL_MISSING");
+        }
+
+        var root = new Node2D { Name = "Character" };
+        shell.Install(preview: root);
+        CharacterPreview? result = null;
+        try
+        {
+            result = Open(root: root, gateway: gateway, read: read, body: ObligationBody(id: id));
+            result.Attach();
+            if (HandlesObligation(id: id))
+            {
+                result.SelectObligation(id: id);
+            }
+        }
+        catch (Exception error) when (error is InvalidDataException or JsonException or FormatException)
+        {
+            result?.Detach();
+            throw;
+        }
+
+        return result;
+    }
+
+    internal static bool HandlesObligation(string id)
+    {
+        return id is "CH-09" or "AN-01" or "AN-02" or "AN-03" or "AN-04" or "AN-05" or "AN-06"
+                or "AN-07" or "AN-08" or "AN-09" or "AN-10" or "AN-11" or "AN-12" or "AN-13"
+                or "AN-14" or "AN-15" or "AN-16" or "AN-18";
+    }
+
+    internal static string ObligationBody(string id)
+    {
+        if (id is "CH-01" or "CH-02" or "CH-03" or "CH-04" or "CH-05" or "CH-06" or "CH-07" or "CH-08")
+        {
+            return id;
+        }
+
+        if (!HandlesObligation(id: id))
+        {
+            throw new InvalidDataException(message: "CHARACTER_OBLIGATION " + id);
+        }
+
+        return id switch { "AN-15" => "CH-06", "AN-16" => "CH-08", _ => "CH-01" };
+    }
+
+    internal void SelectObligation(string id)
+    {
+        _gateway.RequireThread();
+        if (!_attached || !HandlesObligation(id: id))
+        {
+            throw new InvalidDataException(message: "CHARACTER_OBLIGATION " + id);
+        }
+
+        if (!StringComparer.Ordinal.Equals(x: _body, y: ObligationBody(id: id)))
+        {
+            throw new InvalidDataException(message: "CHARACTER_OBLIGATION_BODY " + id + " " + _body);
+        }
+
+        Reset();
+        ObligationChoice(name: "WorkAction", value: "Empty");
+        ObligationChoice(name: "Movement", value: id is "AN-02" ? "Walk" : id is "AN-03" ? "Jump" : "Idle");
+        if (id is "AN-04" or "AN-05" or "AN-06")
+        {
+            ObligationChoice(name: "Action", value: "Melee");
+            ObligationChoice(name: "left", value: id is "AN-04" ? "Empty" : "IT-03");
+            ObligationChoice(name: "right", value: id is "AN-06" ? "IT-04" : "Empty");
+        }
+
+        if (id is "AN-07" or "AN-08" or "AN-18" or "CH-09")
+        {
+            ObligationChoice(name: "Action", value: "Bow");
+            ObligationChoice(name: "left", value: "IT-07");
+            ObligationChoice(name: "right", value: "IT-02");
+            ObligationChoice(name: "Ammunition", value: id is "AN-08" ? "0" : "12");
+            ObligationChoice(name: "BowSubject", value: id is "CH-09" or "AN-18" ? "Structural guard" : "Ordinary");
+        }
+
+        string work = id switch
+        {
+            "AN-10" => "Sit",
+            "AN-11" => "Gather",
+            "AN-12" => "Build",
+            "AN-13" => "Pickup",
+            "AN-14" => "Eat",
+            "AN-15" => "Spit",
+            "AN-16" => "Burst",
+            _ => "Empty",
+        };
+        ObligationChoice(name: "WorkAction", value: work);
+        if (id is "AN-09")
+        {
+            PreviewFlinch();
+        }
+
+        Project();
+        _root.SetMeta(name: "obligation", value: id);
+        _root.SetMeta(name: "activation", value: JsonSerializer.Serialize(value: new
+        {
+            id,
+            body = _body,
+            movement = Selected(id: "Movement"),
+            action = Selected(id: "Action"),
+            work = Selected(id: "WorkAction"),
+            guard = Selected(id: "BowSubject"),
+        }));
+    }
+
     private readonly Node2D _root;
     private static readonly string[] Empty = ["Empty"];
     private readonly MainThreadGateway _gateway;
@@ -330,6 +463,26 @@ internal sealed class CharacterPreview
     private float _workOriginY;
     private readonly List<string> _workEvents = [];
     private bool _composition;
+
+    private void ObligationChoice(string name, string value)
+    {
+        _gateway.RequireThread();
+        if (!_controls.TryGetValue(key: name, value: out OptionButton? control))
+        {
+            throw new InvalidDataException(message: "CHARACTER_OBLIGATION_CONTROL " + name);
+        }
+
+        for (int index = 0; index < control.ItemCount; index++)
+        {
+            if (StringComparer.Ordinal.Equals(x: control.GetItemText(idx: index), y: value))
+            {
+                control.Select(idx: index);
+                return;
+            }
+        }
+
+        throw new InvalidDataException(message: "CHARACTER_OBLIGATION_SELECTOR " + name + " " + value);
+    }
 
     private static CharacterPresentation ReadPresentation(Func<string, byte[]?> read)
     {
@@ -728,6 +881,10 @@ internal sealed class CharacterPreview
         ProjectGear(art: art, body: body, pose: pose, lower: lower, facing: facing, poseId: poseId);
         Contact(art: art, pose: pose, facing: facing);
         ProjectWork(art: art, body: body, pose: pose, facing: facing);
+        if (_sample.ValueKind is JsonValueKind.Object)
+        {
+            _root.SetMeta(name: "sample", value: _sample.GetRawText());
+        }
     }
 
     private (JsonElement Upper, JsonElement Lower) Compose(JsonElement body, JsonElement pose, int facing)
@@ -1129,6 +1286,7 @@ internal sealed class CharacterPreview
 
     private void WorkTool(Node2D art, JsonElement pose, int facing)
     {
+        _gateway.RequireThread();
         JsonElement tool = _workClip.GetProperty(propertyName: "tool");
         if (tool.ValueKind is not JsonValueKind.String)
         {
@@ -1147,6 +1305,7 @@ internal sealed class CharacterPreview
 
     private void WorkPayload(Node2D art, JsonElement pose, int facing)
     {
+        _gateway.RequireThread();
         string transfer = Selected(id: "WorkTransfer");
         string id = Text(value: _workClip, name: "id");
         if (transfer is not ("Plant" or "Carried") || id is "Eat" or "Spit" or "Burst")
@@ -1170,6 +1329,7 @@ internal sealed class CharacterPreview
 
     private void ProjectSpit(Node2D art, JsonElement body, int facing)
     {
+        _gateway.RequireThread();
         double time = _workElapsed - 0.6;
         if (time < 0)
         {
@@ -1217,6 +1377,7 @@ internal sealed class CharacterPreview
 
     private void ProjectBurst(Node2D art, int facing)
     {
+        _gateway.RequireThread();
         double time = _workElapsed - 0.1;
         if (time is >= 0 and < 0.4)
         {

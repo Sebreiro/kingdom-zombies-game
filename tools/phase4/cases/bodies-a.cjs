@@ -159,7 +159,7 @@ func run() -> void:
 async function nativeFit(context){
  const project=inside(context.directory,'native-character');fs.mkdirSync(project);
  const game=inside(ROOT,'src/godot-game');
- for(const item of ['project.godot','inspection','content','assets','.godot/mono/temp/bin/Debug'])fs.cpSync(path.join(game,item),path.join(project,item),{recursive:true});
+ for(const item of ['project.godot','foundation','inspection','content','assets','.godot/mono/temp/bin/Debug'])fs.cpSync(path.join(game,item),path.join(project,item),{recursive:true});
  write(project,'probe.gd',Buffer.from(DRIVER));
  const tool=engine(),pin=document(ROOT,'tools/phase1/toolchain.json').archives['win32-x64'];
  const archive=inside(ROOT,'.phase1/cache/'+pin.file);need(fs.statSync(archive).size<=268435456&&hash(fs.readFileSync(archive))===pin.sha256,'CHARACTER_ARCHIVE_PIN');
@@ -168,9 +168,10 @@ async function nativeFit(context){
  const executable=path.join(path.dirname(tool.executable),pin.executable.replace('_console.exe','.exe'));
  need(hash(fs.readFileSync(executable))===authentication.stdout.trim(),'CHARACTER_NATIVE_PIN');
  const env={...isolated(),...runner.environment(context.directory),CHARACTER_PROOF_NONCE:context.nonce};
- await runner.command(context,'character-import',executable,['--headless','--path',project,'--editor','--import','--quit'],{env});
+ const imported=await runner.command(context,'character-import',executable,['--headless','--path',project,'--editor','--import','--quit'],{env});
+ need(imported.stderr.trim()===''&&!/ERROR:|SCRIPT ERROR:|WARNING:|FATAL|leaked/i.test(imported.stdout+imported.stderr),'CHARACTER_IMPORT_CLEAN');
  const child=await runner.command(context,'character-native',executable,['--headless','--path',project,'--script','res://probe.gd','--quit-after','800'],{env});
- need(!/ERROR:|SCRIPT ERROR:/.test(child.stdout+child.stderr)&&child.stdout.includes('CHARACTER_NATIVE_COMPLETE '+context.nonce),'CHARACTER_NATIVE_MARKER');
+ need(child.stderr.trim()===''&&!/ERROR:|SCRIPT ERROR:|WARNING:|FATAL|leaked/i.test(child.stdout+child.stderr)&&child.stdout.includes('CHARACTER_NATIVE_COMPLETE '+context.nonce),'CHARACTER_NATIVE_MARKER');
  const result=document(project,'native-results.json');need(result.pid===child.pid&&result.nonce===context.nonce&&result.script==='res://inspection/InspectionRoot.cs','CHARACTER_NATIVE_IDENTITY');
  need(result.assemblySha256===hash(fs.readFileSync(path.join(game,'.godot/mono/temp/bin/Debug/KingdomZombies.dll'))),'CHARACTER_NATIVE_ASSEMBLY');
  write(context.directory,'native-observation.json',result);return result;

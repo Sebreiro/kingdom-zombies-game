@@ -64,6 +64,15 @@ public sealed partial class InspectionRoot : Node2D
     public override void _Ready()
     {
         _gateway.RequireThread();
+        SetMeta(name: "inspection_runtime", value: GetType().FullName + "|"
+                + GetType().Assembly.ManifestModule.ModuleVersionId.ToString(format: "D") + "|"
+                + typeof(ContentPack).Assembly.ManifestModule.ModuleVersionId.ToString(format: "D") + "|"
+                + System.Runtime.Loader.AssemblyLoadContext.GetLoadContext(assembly: GetType().Assembly)?.GetType()
+                        .FullName + "|" + ReferenceEquals(
+                                objA: System.Runtime.Loader.AssemblyLoadContext.GetLoadContext(
+                                        assembly: GetType().Assembly),
+                                objB: System.Runtime.Loader.AssemblyLoadContext.GetLoadContext(
+                                        assembly: typeof(ContentPack).Assembly)));
         _shell = new InspectionShell(root: this, gateway: _gateway);
         _input = new InspectionInput(root: this, gateway: _gateway);
         _shell.Attach();
@@ -85,6 +94,7 @@ public sealed partial class InspectionRoot : Node2D
         _shell?.Tick(delta: delta);
         _audio?.Tick(delta: delta);
         _data?.Tick(delta: delta);
+        _resource?.Tick(delta: delta);
         _input?.ReconcileFocus();
         if (_pending is null)
         {
@@ -118,6 +128,8 @@ public sealed partial class InspectionRoot : Node2D
         _generation++;
         _loadGeneration++;
         _pending = null;
+        _resource?.Close();
+        _resource = null;
         _data?.Close();
         _data = null;
         _audio?.Close();
@@ -170,6 +182,7 @@ public sealed partial class InspectionRoot : Node2D
     private WorldPreview? _world;
     private AudioPreview? _audio;
     private DataTextPreview? _data;
+    private IdentityKit.ResourceView? _resource;
     private ContentPack _pack = ContentPack.Load(index: null, expectations: null, read: _ => null);
     private Queue<string>? _pending;
     private byte[]? _index;
@@ -192,6 +205,8 @@ public sealed partial class InspectionRoot : Node2D
         _loadGeneration++;
         _files.Clear();
         _pending = null;
+        _resource?.Close();
+        _resource = null;
         _data?.Close();
         _data = null;
         _audio?.Close();
@@ -228,6 +243,8 @@ public sealed partial class InspectionRoot : Node2D
         _generation++;
         _loadGeneration++;
         _pending = null;
+        _resource?.Close();
+        _resource = null;
         _data?.Close();
         _data = null;
         _audio?.Close();
@@ -305,6 +322,8 @@ public sealed partial class InspectionRoot : Node2D
         _gateway.RequireThread();
         _accepting = false;
         _generation++;
+        _resource?.Close();
+        _resource = null;
         _data?.Close();
         _data = null;
         _audio?.Close();
@@ -360,6 +379,8 @@ public sealed partial class InspectionRoot : Node2D
         {
             _accepting = false;
             _generation++;
+            _resource?.Close();
+            _resource = null;
             _data?.Close();
         _data = null;
         _audio?.Close();
@@ -403,8 +424,21 @@ public sealed partial class InspectionRoot : Node2D
     private void Project()
     {
         _gateway.RequireThread();
-        GetNode<Label>(path: "Summary/PackStatus").Text = "0/180 obligations · " + _pack.Status
-                + " · " + _pack.Entries.Count.ToString(provider: CultureInfo.InvariantCulture) + " inspectable outputs";
+        int sourceReady = 0;
+        foreach (JsonElement entry in _pack.Entries.Values)
+        {
+            if (entry.TryGetProperty(propertyName: "sourceStatus", value: out JsonElement status)
+                    && status.GetString() is "runtime-definition-validated; authoring source proof separate")
+            {
+                sourceReady++;
+            }
+        }
+
+        GetNode<Label>(path: "Summary/PackStatus").Text = sourceReady == 0
+                ? "0/180 obligations · " + _pack.Status + " · "
+                        + _pack.Entries.Count.ToString(provider: CultureInfo.InvariantCulture) + " inspectable outputs"
+                : sourceReady.ToString(provider: CultureInfo.InvariantCulture)
+                        + "/180 source-ready · 0/180 accepted · " + _pack.Status;
         GetNode<Button>(path: "Shell/Toolbar/Cancel").Disabled = true;
         GetNode<Label>(path: "Shell/Toolbar/Operation").Text = "Validated; visual/listening acceptance pending";
         Rows();
@@ -460,14 +494,16 @@ public sealed partial class InspectionRoot : Node2D
     private void Selection()
     {
         _gateway.RequireThread();
+        _resource?.Close();
+        _resource = null;
         _data?.Close();
         _audio?.Close();
         _audio = null;
         _world?.Close();
         _world = null;
-        _shell?.Retire();
         _character?.Detach();
         _character = null;
+        _shell?.Retire();
         _readErrors.Clear();
         bool found = _pack.Entries.TryGetValue(key: _selected, value: out JsonElement entry);
         GetNode<Label>(path: "Summary/ResourceId").Text = _selected;
@@ -482,6 +518,13 @@ public sealed partial class InspectionRoot : Node2D
                 : _pack.Expected.GetValueOrDefault(key: _selected, defaultValue: "No validated definition");
         GetNode<TextEdit>(path: "Shell/Workspace/Preview/Failures").Text = WorldPreview.InspectorDiagnostics(
                 diagnostics: _pack.Diagnostics, readErrors: _readErrors, category: _category, selected: _selected);
+        if (IdentityKit.ResourceView.Handles(id: _selected))
+        {
+            _resource = IdentityKit.ResourceView.Open(shell: _shell, gateway: _gateway, read: Read, id: _selected);
+            GetNode<Label>(path: "Summary/Status").Text = _resource.Status;
+            return;
+        }
+
         _data = DataTextPreview.Open(shell: _shell, gateway: _gateway, read: Read, id: _selected, owner: this);
         if (AudioPreview.Handles(id: _selected))
         {
@@ -497,26 +540,11 @@ public sealed partial class InspectionRoot : Node2D
             GetNode<Label>(path: "Summary/ResourceName").Text = "Authored world/item view · " + _selected;
             GetNode<Label>(path: "Summary/Status").Text = _world.InspectorStatus;
         }
-        if (_selected is "CH-01" or "CH-02" or "CH-03" or "CH-04" or "CH-05" or "CH-06" or "CH-07" or "CH-08")
+        if (_selected is "CH-01" or "CH-02" or "CH-03" or "CH-04" or "CH-05" or "CH-06" or "CH-07" or "CH-08"
+                || CharacterPreview.HandlesObligation(id: _selected))
         {
-            var preview = new Node2D { Name = "Character" };
-            _shell?.Install(preview: preview);
-            string resource = "content/animation/locomotion-melee.json";
-            try
-            {
-                _character = CharacterPreview.Open(root: preview, gateway: _gateway,
-                        read: path => Read(path: resource = path), body: _selected);
-            }
-            catch (Exception error) when (error is InvalidDataException or JsonException or FormatException)
-            {
-                _character = null;
-                _shell?.Retire();
-                GetNode<TextEdit>(path: "Shell/Workspace/Preview/Failures").Text += "\n" + _selected
-                        + ": " + resource + " — " + error.Message;
-                GetNode<Label>(path: "Summary/Status").Text = "Error — " + _selected + "; choose Recheck resources";
-                return;
-            }
-            _character.Attach();
+            _character = CharacterPreview.TryOpenAttached(shell: _shell, gateway: _gateway,
+                    read: Read, id: _selected, owner: this);
         }
     }
 

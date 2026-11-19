@@ -191,8 +191,10 @@ async function command(context,name,executable,args,{timeout=60000,interruptMark
   return record;
 }
 function fingerprint(root){
-  return Object.fromEntries([...Object.values(FILES),'tools/phase4/check.cjs','tools/phase1/toolchain.json','src/godot-game/project.godot']
-    .map(file=>[file,hash(bytes(root,file))]));
+  const paths=[...Object.values(FILES),'tools/phase4/check.cjs','tools/phase1/toolchain.json','src/godot-game/project.godot','src/godot-game/content/pack-index.json','src/godot-game/content/expected-obligations.json','src/core/ContentPack.cs'];
+  for(const directory of ['src/godot-game/inspection','src/godot-game/foundation','src/godot-game/.godot/mono/temp/bin/Debug'])for(const file of fs.readdirSync(inside(root,directory)))if(fs.statSync(inside(root,directory+'/'+file)).isFile()&&(file.endsWith('.cs')||directory.endsWith('/Debug')))paths.push(directory+'/'+file);
+  return Object.fromEntries([...new Set(paths)].sort().map(file=>[file,hash(bytes(root,file,
+    file.startsWith('src/godot-game/.godot/mono/temp/bin/Debug/')?16777216:1048576))]));
 }
 function createRun(caseId){
   const nonce=crypto.randomUUID(),directory=inside(ROOT,'.phase4/runs/'+nonce);fs.mkdirSync(directory,{recursive:true});
@@ -233,6 +235,7 @@ function validate(root){
   const entry=pack.resources[0];
   need(entry.id===ID&&entry.path==='assets/common/bow.png'&&entry.scene==='inspection/Inspection.tscn'&&entry.version===1,
     'PACK_BINDING_MISMATCH',FILES.pack);
+  need(equal(entry.obligations,['IT-07'])&&entry.obligationStatus==='partial-master-only','RETAINED_OBLIGATION_MAPPING',FILES.pack);
   need(entry.sha256===hash(png)&&equal(entry.source,EXPECTED)&&
     equal(entry.registration,source.registration)&&equal(entry.image,source.image),
     'SOURCE_IDENTITY_MISMATCH',FILES.pack);
@@ -240,18 +243,27 @@ function validate(root){
   return {source,pack,png};
 }
 function probeScript(nonce,image,interrupt){return `extends SceneTree
+var stage_index = 0
+func stage(name,observed):
+    var file = FileAccess.open("res://tracer-stage-" + str(stage_index) + ".json",FileAccess.WRITE)
+    file.store_string(JSON.stringify({"pid":OS.get_process_id(),"nonce":"${nonce}","stage":name,"observed":observed,"ticksMsec":Time.get_ticks_msec()}))
+    file.close()
+    stage_index += 1
 func _initialize():
+    stage("initialize",{"scope":"Actual bounded startup; census owns exhaustive selection"})
     call_deferred("inspect")
 func reject(reason):
     push_error("TRACER_NATIVE_FAILURE ${nonce} common.bow inspection/Inspection.tscn " + reason)
     quit(1)
 func inspect():
+    stage("scene-load-start",{"path":"res://inspection/Inspection.tscn"})
     var packed = load("res://inspection/Inspection.tscn")
     if not packed is PackedScene:
         reject("SCENE_LOAD")
         return
     var scene = packed.instantiate()
     root.add_child(scene)
+    stage("scene-started",{"script":str(scene.get_script()),"status":scene.get_node("Summary/Status").text})
     var sprite = scene.get_node_or_null("Bow")
     if not sprite is Sprite2D or sprite.texture == null:
         reject("TEXTURE_MISSING")
@@ -262,7 +274,15 @@ func inspect():
         return
     image.convert(Image.FORMAT_RGBA8)
     var pixels = image.get_data()
-    var original = Image.load_from_file("res://assets/common/bow.png")
+    var raw = FileAccess.get_file_as_bytes("res://assets/common/bow.png")
+    if raw.size() != 135:
+        reject("ORIGINAL_BOUNDED_BYTES")
+        return
+    var original = Image.new()
+    var decoded = original.load_png_from_buffer(raw)
+    if decoded != OK:
+        reject("ORIGINAL_DECODE")
+        return
     if original == null or original.get_width() != 16 or original.get_height() != 18:
         reject("ORIGINAL_DECODE")
         return
@@ -291,31 +311,92 @@ func inspect():
     if sprite.centered or sprite.offset != Vector2(-6, -9) or sprite.scale != Vector2.ONE or sprite.texture_filter != CanvasItem.TEXTURE_FILTER_NEAREST:
         reject("REGISTRATION")
         return
-    if scene.get_node("Summary/ResourceId").text != "common.bow" or scene.get_node("Summary/ResourceName").text != "Bow" or scene.get_node("Summary/Status").text != "Source/headless verified; visual review pending":
-        reject("SUMMARY_BINDING")
+    stage("native-bow",{"visiblePixels":visible,"size":[image.get_width(),image.get_height()],"registration":[sprite.offset.x,sprite.offset.y]})
+    while scene.get_node("Summary/Status").text.begins_with("Loading"):
+        await process_frame
+    stage("startup-ready",{"packStatus":scene.get_node("Summary/PackStatus").text,"runtime":str(scene.get_meta("inspection_runtime", "")),"diagnostics":scene.get_node("Shell/Workspace/Preview/Failures").text})
+    if not scene.get_node("Summary/PackStatus").text.begins_with("180/180 source-ready · 0/180 accepted"):
+        reject("CURRENT_SOURCE_READINESS " + scene.get_node("Summary/PackStatus").text)
         return
+    var runtime = str(scene.get_meta("inspection_runtime", ""))
+    var parts = runtime.split("|")
+    if parts.size() != 5 or parts[0] != "KingdomZombies.Inspection.InspectionRoot" or parts[3] == "" or parts[3].contains("DefaultAssemblyLoadContext") or parts[4] != "True":
+        reject("ACTUAL_CORE_GAME_ALC " + runtime)
+        return
+    var category = scene.get_node("Shell/Workspace/Navigation/Category")
+    for index in range(category.item_count):
+        if category.get_item_text(index) == "Register":
+            category.select(index)
+            category.item_selected.emit(index)
+            break
+    var list = scene.get_node("Shell/Workspace/Controls/Browser/Resources")
+    var authority = JSON.parse_string(FileAccess.get_file_as_string("res://content/expected-obligations.json"))
+    var expected_ids = authority.obligations.map(func(row): return row.id)
+    var actual_ids = []
+    for index in range(list.item_count):
+        actual_ids.append(list.get_item_text(index).split(" · ")[0])
+    actual_ids.sort()
+    expected_ids.sort()
+    var inspection_ids = ["world.assembled", "world.effects", "world.portals", "world.wildlife"]
+    var membership = {"pid":OS.get_process_id(),"nonce":"${nonce}","runtime":runtime,"actualRegister":actual_ids,"independentExpected":expected_ids,"inspectionIds":inspection_ids,"inspectionAuthority":"WorldPreview.InspectorIds(Buildings/world); Register passes empty category and includes no authored world views","accepted":0}
+    var membership_output = FileAccess.open("res://tracer-register.json",FileAccess.WRITE)
+    membership_output.store_string(JSON.stringify(membership))
+    membership_output.close()
+    if actual_ids != expected_ids or actual_ids.size() != 180 or not expected_ids.all(func(id): return actual_ids.count(id) == 1):
+        reject("CURRENT_INDEPENDENT_IDS")
+        return
+    stage("register-validated",membership)
+    var pack_bytes = FileAccess.get_file_as_bytes("res://content/packs/tracer.json")
+    stage("retained-mapping-read",{"bytes":pack_bytes.size()})
+    if pack_bytes.size() <= 0 or pack_bytes.size() > 65536:
+        reject("RETAINED_PACK_BOUNDS")
+        return
+    var pack = JSON.parse_string(pack_bytes.get_string_from_utf8())
+    if pack == null or pack.id != "tracer" or pack.resources.size() != 1:
+        reject("RETAINED_PACK_IDENTITY")
+        return
+    var retained = pack.resources[0]
+    stage("retained-mapping",retained)
+    if retained.id != "common.bow" or retained.path != "assets/common/bow.png" or retained.obligations != ["IT-07"] or retained.obligationStatus != "partial-master-only" or retained.source.objectId != 7008:
+        reject("RETAINED_SOURCE_MAPPING")
+        return
+    var receipt = {"pid":OS.get_process_id(),"nonce":"${nonce}","runtime":runtime,"actualRegister":actual_ids,"independentExpected":expected_ids,"retainedMappings":retained.obligations,"bowPixels":visible,"accepted":0,"packStatus":scene.get_node("Summary/PackStatus").text,"reachabilityScope":"Startup/current180Register/retainedbow only; exhaustive180+fourviews belongs content.census"}
+    var output = FileAccess.open("res://tracer-runtime.json",FileAccess.WRITE)
+    output.store_string(JSON.stringify(receipt))
+    output.close()
+    image = null
+    original = null
     print("TRACER_LOADED ${nonce} common.bow inspection/Inspection.tscn pixels=" + str(visible))
     ${interrupt?'await create_timer(30).timeout':'await process_frame'}
+    stage("closing",{"sceneId":scene.get_instance_id(),"spriteId":sprite.get_instance_id()})
     scene.free()
+    stage("closed",{"sceneValid":is_instance_valid(scene),"spriteValid":is_instance_valid(sprite)})
+    if is_instance_valid(scene) or is_instance_valid(sprite):
+        reject("OWNED_SCENE_RETIREMENT")
+        return
     print("TRACER_COMPLETE ${nonce} common.bow")
     quit(0)
 `;}
 async function runTracer(root,context,{interrupt=false}={}){
   const initial=fingerprint(root);save(context.directory,'inputs.json',initial);
-  const {source}=validate(root),tool=engine();save(context.directory,'engine.json',tool);
-  const version=await command(context,'engine-version',tool.executable,['--headless','--version']);
-  need(version.stdout.trim()===tool.version,'ENGINE_VERSION');
+  const {source}=validate(root),tool=engine(),pin=document(ROOT,'tools/phase1/toolchain.json').archives['win32-x64'];
+  const executable=path.join(path.dirname(tool.executable),pin.executable.replace('_console.exe','.exe')),archive=inside(ROOT,'.phase1/cache/'+pin.file),entry=pin.directory+'/'+path.basename(executable);
+  need(hash(fs.readFileSync(archive))===pin.sha256,'ENGINE_ARCHIVE_HASH');
+  const auth=await command(context,'engine-auth',PYTHON,['-B','-c','import sys,zipfile,hashlib; z=zipfile.ZipFile(sys.argv[1]); r=[x for x in z.infolist() if x.filename==sys.argv[2]]; assert len(r)==1 and 0<r[0].file_size<=268435456; print(hashlib.sha256(z.read(r[0])).hexdigest())',archive,entry]);
+  need(hash(fs.readFileSync(executable))===auth.stdout.trim(),'ENGINE_NATIVE_ENTRY_HASH');tool.executable=executable;tool.sha256=auth.stdout.trim();save(context.directory,'engine.json',{...tool,archiveSha256:pin.sha256,entry});
+  const version=await command(context,'engine-version',tool.executable,['--headless','--version']);need(version.stdout.trim()===tool.version,'ENGINE_VERSION');
+  const compiledDirectory=inside(context.directory,'tracer-compiled');fs.mkdirSync(compiledDirectory);const compiled=await require('./cases/data-camp.cjs').compiledRepair({...context,directory:compiledDirectory},false);
   const project=inside(context.directory,'project');fs.mkdirSync(project);
-  for(const [key,file]of Object.entries(FILES))if(key!=='source')save(project,file.replace('src/godot-game/',''),bytes(root,file));
-  save(project,'project.godot','config_version=5\n[application]\nconfig/name="KingdomZombies tracer proof"\n[rendering]\nrenderer/rendering_method="gl_compatibility"\n');
+  for(const file of ['project.godot','inspection','foundation','content','assets','.godot/mono/temp/bin/Debug'])fs.cpSync(inside(root,'src/godot-game/'+file),inside(project,file),{recursive:true});
   save(project,'probe.gd',probeScript(context.nonce,source.image,interrupt));
-  const imported=await command(context,'native-import',tool.executable,['--headless','--path',project,'--editor','--import']);
-  need(!/ERROR:|SCRIPT ERROR:|Failed to load|Error importing/i.test(imported.stdout+imported.stderr),'NATIVE_IMPORT_ERROR',FILES.scene);
+  const imported=await command(context,'native-import',tool.executable,['--headless','--path',project,'--editor','--import','--quit']);
+  need(imported.stderr.trim()===''&&!/Unicode parsing error|ERROR:|SCRIPT ERROR:|FATAL|WARNING:|leaked/i.test(imported.stdout+imported.stderr),'NATIVE_IMPORT_ERROR',FILES.scene);
   let loaded;
   try{loaded=await command(context,'native-loader',tool.executable,['--headless','--path',project,'--script','res://probe.gd'],
     {timeout:15000,interruptMarker:interrupt?'TRACER_LOADED '+context.nonce:undefined});}
   catch(error){if(error.message.startsWith('CHILD_FAILED '))throw new Error('NATIVE_LOAD_ERROR '+ID+' '+FILES.scene+' '+error.message);throw error;}
-  need(!/ERROR:|SCRIPT ERROR:|Failed to load/i.test(loaded.stdout+loaded.stderr),'NATIVE_LOAD_ERROR',FILES.scene);
+  need(loaded.stderr.trim()===''&&!/Unicode parsing error|ERROR:|SCRIPT ERROR:|FATAL|WARNING:|leaked|Failed to load/i.test(loaded.stdout+loaded.stderr),'NATIVE_LOAD_ERROR',FILES.scene);
+  const receipt=document(project,'tracer-runtime.json'),parts=receipt.runtime.split('|');need(receipt.pid===loaded.pid&&receipt.nonce===context.nonce&&receipt.actualRegister.length===180&&equal(receipt.actualRegister,receipt.independentExpected)&&receipt.accepted===0&&equal(receipt.retainedMappings,['IT-07'])&&receipt.bowPixels===42&&compiled.observations.every(x=>x.gameMvid===parts[1]&&x.coreMvid===parts[2]),'NATIVE_RUNTIME_ASSEMBLY_IDENTITY');save(context.directory,'runtime-observation.json',receipt);
   need(loaded.stdout.includes('TRACER_COMPLETE '+context.nonce+' '+ID),'NATIVE_COMPLETION_MISSING',FILES.scene);
   need(JSON.stringify(initial)===JSON.stringify(fingerprint(root)),'SOURCE_CHANGED');
   return {id:ID,mediaSha256:source.image.pngSha256,rgbaSha256:source.image.rgbaSha256,
@@ -357,8 +438,8 @@ async function originalIdentities(){
 }
 function copySubject(directory){
   const root=inside(directory,'subject');fs.mkdirSync(root);
-  for(const file of [...Object.values(FILES),'tools/phase4/check.cjs','tools/phase1/toolchain.json','src/godot-game/project.godot'])
-    save(root,file,bytes(ROOT,file));
+  for(const file of ['project.godot','inspection','foundation','content','assets','.godot/mono/temp/bin/Debug'])fs.cpSync(inside(ROOT,'src/godot-game/'+file),inside(root,'src/godot-game/'+file),{recursive:true});
+  for(const file of ['production/phase4/tracer-source.json','tools/phase4/check.cjs','tools/phase1/toolchain.json','src/core/ContentPack.cs'])save(root,file,bytes(ROOT,file));
   return root;
 }
 async function tracerFailures(context){

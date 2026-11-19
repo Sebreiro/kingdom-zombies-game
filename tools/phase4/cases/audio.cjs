@@ -1466,10 +1466,24 @@ const AUDIO_HELDOUT_HUB=String.raw`
   await process_frame
  check_case("heldout.Hub.restored-binding",hub.has_node(base) and hub.get_node(base+"/Audio/Content/Event").item_count==2 and hub.get_node(base).get_children().filter(func(n): return n is AudioStreamPlayer).is_empty(),status.text)
 `;
+function requireAudioHubImport(result){
+ try{require('./ui-inventory.cjs').requireCleanImport(result,'audio-hub-import');}catch(error){need(false,'AUDIO_HUB_IMPORT_CLEAN',error.message);}
+}
+function audioHubImportControls(){
+ const clean={code:0,stdout:'Godot Engine v4.7.2.stable.mono.official\n[import] complete\n',stderr:''},controls=[];
+ const unicode='Unicode parsing error: Unpaired trail surrogate (f121 [lead?] dd26)';
+ const records=[['clean',clean,false],['unicode-stdout',{...clean,stdout:unicode},true],['unicode-stderr',{...clean,stderr:unicode},true],['warning',{...clean,stdout:'WARNING: import warning'},true],['unknown-stderr',{...clean,stderr:'unexpected native diagnostic'},true],['error',{...clean,stdout:'ERROR: import failed'},true],['script-error',{...clean,stdout:'SCRIPT ERROR: parse failed'},true],['fatal',{...clean,stdout:'FATAL: import failed'},true],['leak',{...clean,stdout:'4 ObjectDB instances were leaked at exit'},true],['nonzero',{...clean,code:1},true],['restored',clean,false]];
+ for(const [id,value,rejected]of records){let caught;try{requireAudioHubImport(value);}catch(error){caught=error;}need(rejected?caught?.message.includes('AUDIO_HUB_IMPORT_CLEAN'):!caught,'AUDIO_HUB_IMPORT_CONTROL',id);controls.push({id,rejected:!!caught});}return controls;
+}
 async function audioHub(context,sourceInputs,heldout=false){
  const project=inside(context.directory,'native-audio-hub');fs.mkdirSync(project);
  for(const file of ['project.godot','inspection','foundation','icon.svg','content','assets','.godot/mono/temp/bin/Debug'])
   fs.cpSync(inside(ROOT,'src/godot-game/'+file),inside(project,file),{recursive:true});
+ const legacy=require('./provenance.cjs').legacyFixture(),inspection=fs.readFileSync(inside(project,'inspection/Inspection.tscn'));
+ for(const output of legacy.index.outputs)for(const dependency of output.dependencies)if(dependency.path==='src/godot-game/inspection/Inspection.tscn'){dependency.bytes=inspection.length;dependency.sha256=hash(inspection);}
+ fs.writeFileSync(inside(project,'content/pack-index.json'),JSON.stringify(legacy.index,null,2)+'\n');
+ fs.writeFileSync(inside(project,'content/packs/tracer.json'),legacy.files.get('src/godot-game/content/packs/tracer.json'));
+ write(context.directory,'legacy-partial-fixture.json',{scope:'Independent historical one-bow/28pending fixture; current actual scene/production assemblies; no actual current180 coverage',indexSha256:hash(fs.readFileSync(inside(project,'content/pack-index.json'))),scene:{bytes:inspection.length,sha256:hash(inspection)},originalDependency:'66702efb9bf9390f6454316ce0ec5bc7808cb5f439addf0430d46abccb589739'});
  const binaries=inside(project,'.godot/mono/temp/bin/Debug');
  const closure=fs.readdirSync(binaries).filter(file=>fs.statSync(path.join(binaries,file)).isFile())
   .map(file=>({file,sha256:hash(fs.readFileSync(path.join(binaries,file)))}));
@@ -1485,7 +1499,7 @@ async function audioHub(context,sourceInputs,heldout=false){
  const nonce=context.nonce+'.hub',env={...require('./defenses.cjs').isolated(),AUDIO_HUB_NONCE:nonce};
  const imported=await runner.command(context,'audio-hub-import',engine.executable,
   ['--headless','--path',project,'--editor','--import','--quit'],{env});
- need(!/ERROR:|SCRIPT ERROR:|FATAL/i.test(imported.stdout+imported.stderr),'AUDIO_HUB_IMPORT_CLEAN');
+ write(context.directory,'audio-hub-import-controls.json',audioHubImportControls());requireAudioHubImport(imported);
  const child=await runner.command(context,'audio-hub-native',engine.executable,
   ['--headless','--path',project,'--script','res://audio-hub-probe.gd','--quit-after','1600'],{env});
  const result=document(project,'audio-hub-results.json');

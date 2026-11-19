@@ -1,8 +1,8 @@
 # Content production and publication
 
-The [resource authority](../../specs/0.1/assets-and-resources.md) defines 180 obligations. The independent [expected register](../../tools/phase4/expected-obligations.json) contains CH-01–13, AN-01–18, IT-01–24, BL-01–16, EN-01–11, FX-01–12, UI-01–27, AU-01–30, DT-01–27 and explicit TXT-01/02. These are obligation identities, not counts of files or finished content.
+The independent180-obligation authority remains unchanged. Current production resources and source fixtures are being integrated through Plan23. Source-ready/inspectable counts must come from the actual authenticated census; no count is asserted from this guide. Actual accepted obligations remain0 until required final current evidence and named judgments.
 
-The [pack index](../../src/godot-game/content/pack-index.json) currently describes one usable partial bow master and 28 pending shard paths. It reports **Incomplete**. Zero obligations have full acceptance evidence. The [tracer shard](../../src/godot-game/content/packs/tracer.json) and [retained production bundle](../../production/phase4/tracer-source.json) preserve exact native pixels, raw Sprite data, source dependencies, registration and extraction recipe. V/M/C describe historical donor inspection only. They provide no current production, native, listening or judgment credit.
+DT-26 has a fixed actual fixture catalog and source crosswalk; executable evidence/review/selection code remains30. DT-27 now has source documentation and the exact retained application PNG; final current Windows packaging/relaunch remains31, actualWindows judgments32/33 and Linux its later owner. Historical partial bow/export evidence remains historical.
 
 ## Index and output contract
 

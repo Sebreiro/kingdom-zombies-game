@@ -85,45 +85,97 @@ public sealed class EngineGeneratedTests
                 location: fixture.DirectoryPath + "/src/godot-game/Subject.cs(7,32)");
     }
 
+    /// <summary>Executes one declared finite portion of the original producer predicate conjunction.</summary>
+    [Theory]
+    [InlineData("origin-build")]
+    [InlineData("origin-shape")]
+    [InlineData("origin-cohort-0")]
+    [InlineData("origin-cohort-1")]
+    [InlineData("origin-cohort-2")]
+    [InlineData("origin-cohort-3")]
+    [InlineData("origin-fixed")]
+    [InlineData("boundary-spans-shape")]
+    [InlineData("boundary-spans-cohort-0")]
+    [InlineData("boundary-spans-cohort-1")]
+    [InlineData("boundary-spans-cohort-2")]
+    [InlineData("boundary-spans-cohort-3")]
+    [InlineData("boundary-calls-shape")]
+    [InlineData("boundary-calls-cohort-0")]
+    [InlineData("boundary-calls-cohort-1")]
+    [InlineData("boundary-calls-cohort-2")]
+    [InlineData("boundary-calls-cohort-3")]
+    [InlineData("boundary-calls-cohort-4")]
+    [InlineData("boundary-calls-cohort-5")]
+    [InlineData("boundary-sealing")]
+    [InlineData("boundary-inventory-missing-observations")]
+    [InlineData("boundary-inventory-extra-row")]
+    [InlineData("boundary-inventory-sha256")]
+    [InlineData("boundary-inventory-packageSha256")]
+    [InlineData("boundary-inventory-surface")]
+    [InlineData("boundary-inventory-member")]
+    [InlineData("boundary-inventory-diagnostic")]
+    [InlineData("boundary-inventory-line")]
+    [InlineData("boundary-inventory-column")]
+    [InlineData("boundary-inventory-length")]
+    [InlineData("boundary-inventory-missing-row")]
+    [InlineData("boundary-inventory-source-input")]
+    [InlineData("boundary-inventory-missing-source")]
+    [InlineData("boundary-inventory-package")]
+    [InlineData("boundary-inventory-missing-package")]
+    [InlineData("boundary-inventory-borrowed-row")]
+    [InlineData("boundary-inventory-wrong-case")]
+    [InlineData("boundary-warm-spans-snapshot-bytes")]
+    [InlineData("boundary-warm-spans-snapshot-missing")]
+    [InlineData("boundary-warm-spans-snapshot-borrowed")]
+    [InlineData("boundary-warm-spans-source-input")]
+    [InlineData("boundary-warm-spans-missing-source")]
+    [InlineData("boundary-warm-spans-package")]
+    [InlineData("boundary-warm-spans-missing-package")]
+    [InlineData("boundary-warm-spans-borrowed-row")]
+    [InlineData("boundary-warm-spans-missing-observations")]
+    [InlineData("boundary-warm-calls-snapshot-bytes")]
+    [InlineData("boundary-warm-calls-snapshot-missing")]
+    [InlineData("boundary-warm-calls-snapshot-borrowed")]
+    [InlineData("boundary-warm-calls-source-input")]
+    [InlineData("boundary-warm-calls-missing-source")]
+    [InlineData("boundary-warm-calls-package")]
+    [InlineData("boundary-warm-calls-missing-package")]
+    [InlineData("boundary-warm-calls-borrowed-row")]
+    [InlineData("boundary-warm-calls-missing-observations")]
+    [InlineData("boundary-extra-call")]
+    [InlineData("boundary-reproduction-live")]
+    [InlineData("boundary-reproduction-changed")]
+    [InlineData("boundary-reproduction-historical")]
+    public void Check_ProducerStage_RequiresCompleteOriginalPredicate(string stageId)
+    {
+        _producerStage = stageId;
+        ProducerProgress(status: "start", detail: "Before manifest or subject assertions");
+        using var manifest = JsonDocument.Parse(json: File.ReadAllText(path: Local(
+                path: "tools/phase1/required-cases.json")));
+        JsonElement owner = manifest.RootElement.GetProperty(propertyName: "cases").EnumerateArray().Single(
+                predicate: item => item.TryGetProperty(propertyName: "producerStages", value: out JsonElement plan)
+                        && plan.GetProperty(propertyName: "stages").EnumerateArray().Any(predicate: stage =>
+                                StringComparer.Ordinal.Equals(x: Text(row: stage, name: "id"), y: stageId)));
+        JsonElement selected = owner.GetProperty(propertyName: "producerStages").GetProperty(propertyName: "stages")
+                .EnumerateArray().Single(predicate: stage => StringComparer.Ordinal.Equals(
+                        x: Text(row: stage, name: "id"), y: stageId));
+        RunProducerStage(stage: selected);
+        ProducerProgress(status: "pass", detail: "All selected original guards returned successfully");
+        ProofProtocol.Record(id: Text(row: owner, name: "id"), diagnostic: Text(row: owner,
+                name: "expectedDiagnostic"), location: "Executed bounded original producer stage " + stageId,
+                artifacts: [LocalStageReceipt()]);
+    }
+
     /// <summary>Authenticates actual bytes and enforcement rows for reuse by production permission checks.</summary>
     internal static void VerifyAuthenticatedOrigin()
     {
-        using JsonDocument contract = Registry();
-        contract.RootElement.TryGetProperty(propertyName: "producerInventories", value: out _)
-                .ShouldBeTrue(customMessage: "Independent baseline/current producer inventories are required");
-        (int Exit, string Output) build = ConfigurationTests.Dotnet("build", ConfigurationTests.Projects[2],
-                "--no-restore", "--disable-build-servers", "-p:UseSharedCompilation=false", "-nodeReuse:false",
-                "-p:NuGetAudit=false");
-        build.Exit.ShouldBe(expected: 0, customMessage: build.Output);
+        BuildProducer();
         using JsonDocument registry = Registry();
-        JsonElement[] rows = [.. registry.RootElement.GetProperty(propertyName: "local").EnumerateArray()];
         VerifyInventories(registry: registry.RootElement, baselineCount: 220,
                 baselineHash: "de69b0e421ada4acfd8d512fe3b47395f5198bd8220de16a4afffb010aa4d62f");
-        foreach (JsonElement row in rows)
-        {
-            string file = Surface(row: row, registry: registry.RootElement);
-            Hash(bytes: File.ReadAllBytes(path: file)).ShouldBe(expected: Text(row: row, name: "sha256"));
-            string source = File.ReadAllText(path: file);
-            Hash(bytes: Encoding.UTF8.GetBytes(s: source)).ShouldBe(expected: Text(row: row, name: "textSha256"));
-            Hash(bytes: File.ReadAllBytes(path: Local(path: Text(row: row, name: "package")))).ShouldBe(
-                    expected: "ce2beb0b75bfb81b94982bdaf7234fc681edd4cf024606c6baf6e40625e0ca4e");
-            Text(row: row, name: "producer").ShouldBe(expected: "Godot.SourceGenerators/4.7.2");
-            SyntaxTree tree = CSharpSyntaxTree.ParseText(text: source, path: file,
-                    options: new CSharpParseOptions(preprocessorSymbols: ["TOOLS"]),
-                    cancellationToken: TestContext.Current.CancellationToken);
-            string member = Member(tree: tree, span: Span(row: row, tree: tree));
-            Text(row: row, name: "member").ShouldBe(expected: member);
-            Permitted(row: row, tree: tree, span: Span(row: row, tree: tree)).ShouldBeTrue(
-                    customMessage: Text(row: row, name: "id"));
-        }
-
-        VerifyBakedRows(rows: rows);
-        ExemptionValidator.ReadPermissions().Count.ShouldBeGreaterThanOrEqualTo(expected: 26);
-        JsonObject exemptions = RegisterValidator.Read(relative: "docs/code/exemptions.json");
-        JsonObject register = RegisterValidator.Read(relative: "docs/code/register.json");
-        register["rules"]?.AsArray().Single(predicate: rule => StringComparer.Ordinal.Equals(
-                x: rule?["sourceId"]?.GetValue<string>(), y: "R-50"))?["engineProofPermissions"]?.ToJsonString()
-                .ShouldBe(expected: exemptions["engineProofPermissions"]?.ToJsonString());
+        VerifyOriginRows(rows: [.. registry.RootElement.GetProperty(propertyName: "local").EnumerateArray()],
+                registry: registry.RootElement);
+        VerifyOriginFixed(registry: registry.RootElement);
     }
 
     /// <summary>Rejects every actual generated permission's changed text, source path and adjacent spans.</summary>
@@ -132,32 +184,8 @@ public sealed class EngineGeneratedTests
         using JsonDocument registry = Registry();
         VerifyInventories(registry: registry.RootElement, baselineCount: 220,
                 baselineHash: "de69b0e421ada4acfd8d512fe3b47395f5198bd8220de16a4afffb010aa4d62f");
-        foreach (JsonElement row in registry.RootElement.GetProperty(propertyName: "local").EnumerateArray())
-        {
-            string path = Surface(row: row, registry: registry.RootElement);
-            string source = File.ReadAllText(path: path);
-            SyntaxTree tree = CSharpSyntaxTree.ParseText(text: source, path: path,
-                    cancellationToken: TestContext.Current.CancellationToken);
-            TextSpan span = Span(row: row, tree: tree);
-            Permitted(row: row, tree: CSharpSyntaxTree.ParseText(text: source + "\n", path: path,
-                    cancellationToken: TestContext.Current.CancellationToken), span: span)
-                    .ShouldBeFalse();
-            Permitted(row: row, tree: CSharpSyntaxTree.ParseText(text: source, path: "Subject.generated.cs",
-                    cancellationToken: TestContext.Current.CancellationToken),
-                    span: span).ShouldBeFalse();
-            Permitted(row: row, tree: tree, span: new TextSpan(start: span.Start + 1, length: span.Length))
-                    .ShouldBeFalse();
-            Permitted(row: row, tree: tree, span: new TextSpan(start: span.Start, length: span.Length + 1))
-                    .ShouldBeFalse();
-            JsonObject changed = JsonNode.Parse(json: row.GetRawText())?.AsObject()
-                    ?? throw new InvalidDataException(message: "ENGINE_ROW_REQUIRED");
-            changed["diagnostic"] = "SCR0999";
-            using var wrong = JsonDocument.Parse(json: changed.ToJsonString());
-            Permitted(row: wrong.RootElement, tree: tree, span: span).ShouldBeFalse();
-            Permitted(row: row, tree: CSharpSyntaxTree.ParseText(text: source, path: path.ToUpperInvariant()),
-                    span: span).ShouldBeFalse();
-        }
-
+        VerifyBoundaryRows(rows: [.. registry.RootElement.GetProperty(propertyName: "local").EnumerateArray()],
+                registry: registry.RootElement);
         RejectSealingNeighbor();
         RejectInventoryMutations(registry: registry.RootElement);
         RejectCallInventoryMutations();
@@ -167,39 +195,31 @@ public sealed class EngineGeneratedTests
     /// <summary>Preserves immutable baseline rows and authenticates each explicitly bounded producer cohort.</summary>
     internal static void VerifyInventories(JsonElement registry, int baselineCount, string baselineHash)
     {
-        JsonElement[] rows = [.. registry.GetProperty(propertyName: "local").EnumerateArray()];
-        rows.Length.ShouldBeGreaterThanOrEqualTo(expected: baselineCount);
-        CanonicalHash(value: rows.Take(count: baselineCount)).ShouldBe(expected: baselineHash);
-        JsonElement[] inventories = [.. registry.GetProperty(propertyName: "producerInventories").EnumerateArray()];
-        (inventories.Length is >= 2 and <= 32).ShouldBeTrue();
-        inventories.Any(predicate: row => StringComparer.Ordinal.Equals(x: Text(row: row, name: "id"),
-                y: "inspection03-08035ba")).ShouldBeTrue();
+        InventoryBaseline(registry: registry, baselineCount: baselineCount, baselineHash: baselineHash);
         var seen = new HashSet<string>(comparer: StringComparer.Ordinal);
-        foreach (JsonElement inventory in inventories)
+        foreach (JsonElement inventory in registry.GetProperty(propertyName: "producerInventories").EnumerateArray())
         {
             VerifyProducer(inventory: inventory, registry: registry);
-            foreach (JsonElement id in inventory.GetProperty(propertyName: "rowIds").EnumerateArray())
+            foreach (JsonElement row in InventoryReferences(registry: registry, inventory: inventory, seen: seen))
             {
-                string key = id.GetString() ?? throw new InvalidDataException(message: "COHORT_ROW_ID");
-                seen.Add(item: key).ShouldBeTrue(customMessage: "COHORT_BORROWED_ROW " + key);
-                JsonElement row = rows.Single(predicate: candidate => StringComparer.Ordinal.Equals(
-                        x: Text(row: candidate, name: "id"), y: key));
-                VerifyCohortRow(row: row, inventory: inventory);
-                if (row.TryGetProperty(propertyName: "length", value: out _))
-                {
-                    string path = Surface(row: row, registry: registry);
-                    SyntaxTree tree = CSharpSyntaxTree.ParseText(text: File.ReadAllText(path: path), path: path,
-                            options: new CSharpParseOptions(preprocessorSymbols: ["TOOLS"]));
-                    TextSpan span = Span(row: row, tree: tree);
-                    Text(row: row, name: "member").ShouldBe(expected: Member(tree: tree, span: span));
-                    Permitted(row: row, tree: tree, span: span).ShouldBeTrue();
-                }
+                VerifyInventoryRow(row: row, inventory: inventory, registry: registry);
             }
         }
 
-        seen.SetEquals(other: rows.Select(selector: row => Text(row: row, name: "id"))).ShouldBeTrue();
-        inventories.Select(selector: row => Text(row: row, name: "id")).Distinct(comparer: StringComparer.Ordinal)
-                .Count().ShouldBe(expected: inventories.Length);
+        InventoryUnion(registry: registry, seen: seen);
+    }
+
+    /// <summary>Uses the actual bounded cohort guards without changing complete helper callers.</summary>
+    internal static JsonElement[] VerifyDeclaredCohort(JsonElement registry, string id, bool calls)
+    {
+        return InventorySubset(registry: registry, id: id, calls: calls);
+    }
+
+    /// <summary>Runs the same original producer guard for a separately authenticated caller stage.</summary>
+    internal static void VerifyCallerStage(JsonElement stage, string stageId)
+    {
+        _producerStage = stageId;
+        RunProducerStage(stage: stage);
     }
 
     /// <summary>Resolves historical assembly output through an actual isolated original producer input.</summary>
@@ -228,6 +248,8 @@ public sealed class EngineGeneratedTests
     }
 
     private const string ObservationHash = "269b35849296cc035e9c8a717b4231c52ba42ca8c4a353d42a020fe1c37a5485";
+    private static string? _producerStage;
+    private static int _producerReceipt;
     private static readonly MethodInfo _permission = PermissionMethod();
     private static readonly JsonSerializerOptions _canonical = new()
     {
@@ -271,6 +293,402 @@ public sealed class EngineGeneratedTests
         return ReplayProducer(inventory: inventory, registry: registry, key: key, expected: expected);
     }
 
+    private static void BuildProducer()
+    {
+        using JsonDocument contract = Registry();
+        contract.RootElement.TryGetProperty(propertyName: "producerInventories", value: out _)
+                .ShouldBeTrue(customMessage: "Independent baseline/current producer inventories are required");
+        ProducerProgress(status: "building-current", detail: "Actual unchanged project");
+        (int Exit, string Output) build = ConfigurationTests.Dotnet("build", ConfigurationTests.Projects[2],
+                "--no-restore", "--disable-build-servers", "-p:UseSharedCompilation=false", "-nodeReuse:false",
+                "-p:NuGetAudit=false");
+        build.Exit.ShouldBe(expected: 0, customMessage: build.Output);
+    }
+
+    private static void VerifyOriginRows(JsonElement[] rows, JsonElement registry)
+    {
+        foreach (JsonElement row in rows)
+        {
+            string file = Surface(row: row, registry: registry);
+            Hash(bytes: File.ReadAllBytes(path: file)).ShouldBe(expected: Text(row: row, name: "sha256"));
+            string source = File.ReadAllText(path: file);
+            Hash(bytes: Encoding.UTF8.GetBytes(s: source)).ShouldBe(expected: Text(row: row, name: "textSha256"));
+            Hash(bytes: File.ReadAllBytes(path: Local(path: Text(row: row, name: "package")))).ShouldBe(
+                    expected: "ce2beb0b75bfb81b94982bdaf7234fc681edd4cf024606c6baf6e40625e0ca4e");
+            Text(row: row, name: "producer").ShouldBe(expected: "Godot.SourceGenerators/4.7.2");
+            SyntaxTree tree = CSharpSyntaxTree.ParseText(text: source, path: file,
+                    options: new CSharpParseOptions(preprocessorSymbols: ["TOOLS"]),
+                    cancellationToken: TestContext.Current.CancellationToken);
+            string member = Member(tree: tree, span: Span(row: row, tree: tree));
+            Text(row: row, name: "member").ShouldBe(expected: member);
+            Permitted(row: row, tree: tree, span: Span(row: row, tree: tree)).ShouldBeTrue(
+                    customMessage: Text(row: row, name: "id"));
+        }
+
+    }
+
+    private static void VerifyOriginFixed(JsonElement registry)
+    {
+        JsonElement[] rows = [.. registry.GetProperty(propertyName: "local").EnumerateArray()];
+        VerifyBakedRows(rows: rows);
+        ExemptionValidator.ReadPermissions().Count.ShouldBeGreaterThanOrEqualTo(expected: 26);
+        JsonObject exemptions = RegisterValidator.Read(relative: "docs/code/exemptions.json");
+        JsonObject register = RegisterValidator.Read(relative: "docs/code/register.json");
+        register["rules"]?.AsArray().Single(predicate: rule => StringComparer.Ordinal.Equals(
+                x: rule?["sourceId"]?.GetValue<string>(), y: "R-50"))?["engineProofPermissions"]?.ToJsonString()
+                .ShouldBe(expected: exemptions["engineProofPermissions"]?.ToJsonString());
+    }
+
+    private static void VerifyBoundaryRows(JsonElement[] rows, JsonElement registry)
+    {
+        foreach (JsonElement row in rows)
+        {
+            string path = Surface(row: row, registry: registry);
+            string source = File.ReadAllText(path: path);
+            SyntaxTree tree = CSharpSyntaxTree.ParseText(text: source, path: path,
+                    cancellationToken: TestContext.Current.CancellationToken);
+            TextSpan span = Span(row: row, tree: tree);
+            Permitted(row: row, tree: CSharpSyntaxTree.ParseText(text: source + "\n", path: path,
+                    cancellationToken: TestContext.Current.CancellationToken), span: span)
+                    .ShouldBeFalse();
+            Permitted(row: row, tree: CSharpSyntaxTree.ParseText(text: source, path: "Subject.generated.cs",
+                    cancellationToken: TestContext.Current.CancellationToken),
+                    span: span).ShouldBeFalse();
+            Permitted(row: row, tree: tree, span: new TextSpan(start: span.Start + 1, length: span.Length))
+                    .ShouldBeFalse();
+            Permitted(row: row, tree: tree, span: new TextSpan(start: span.Start, length: span.Length + 1))
+                    .ShouldBeFalse();
+            JsonObject changed = JsonNode.Parse(json: row.GetRawText())?.AsObject()
+                    ?? throw new InvalidDataException(message: "ENGINE_ROW_REQUIRED");
+            changed["diagnostic"] = "SCR0999";
+            using var wrong = JsonDocument.Parse(json: changed.ToJsonString());
+            Permitted(row: wrong.RootElement, tree: tree, span: span).ShouldBeFalse();
+            Permitted(row: row, tree: CSharpSyntaxTree.ParseText(text: source, path: path.ToUpperInvariant()),
+                    span: span).ShouldBeFalse();
+        }
+
+    }
+
+    private static void InventoryBaseline(JsonElement registry, int baselineCount, string baselineHash)
+    {
+        JsonElement[] rows = [.. registry.GetProperty(propertyName: "local").EnumerateArray()];
+        rows.Length.ShouldBeGreaterThanOrEqualTo(expected: baselineCount);
+        CanonicalHash(value: rows.Take(count: baselineCount)).ShouldBe(expected: baselineHash);
+        JsonElement[] inventories = [.. registry.GetProperty(propertyName: "producerInventories").EnumerateArray()];
+        (inventories.Length is >= 2 and <= 32).ShouldBeTrue();
+        inventories.Any(predicate: row => StringComparer.Ordinal.Equals(x: Text(row: row, name: "id"),
+                y: "inspection03-08035ba")).ShouldBeTrue();
+    }
+
+    private static JsonElement[] InventoryReferences(JsonElement registry, JsonElement inventory,
+            HashSet<string> seen)
+    {
+        var selected = new List<JsonElement>();
+        foreach (JsonElement id in inventory.GetProperty(propertyName: "rowIds").EnumerateArray())
+        {
+            string key = id.GetString() ?? throw new InvalidDataException(message: "COHORT_ROW_ID");
+            seen.Add(item: key).ShouldBeTrue(customMessage: "COHORT_BORROWED_ROW " + key);
+            selected.Add(item: registry.GetProperty(propertyName: "local").EnumerateArray().Single(
+                    predicate: candidate => StringComparer.Ordinal.Equals(x: Text(row: candidate, name: "id"),
+                            y: key)));
+        }
+
+        return [.. selected];
+    }
+
+    private static void VerifyInventoryRow(JsonElement row, JsonElement inventory, JsonElement registry)
+    {
+        VerifyCohortRow(row: row, inventory: inventory);
+        if (row.TryGetProperty(propertyName: "length", value: out _))
+        {
+            string path = Surface(row: row, registry: registry);
+            SyntaxTree tree = CSharpSyntaxTree.ParseText(text: File.ReadAllText(path: path), path: path,
+                    options: new CSharpParseOptions(preprocessorSymbols: ["TOOLS"]));
+            TextSpan span = Span(row: row, tree: tree);
+            Text(row: row, name: "member").ShouldBe(expected: Member(tree: tree, span: span));
+            Permitted(row: row, tree: tree, span: span).ShouldBeTrue();
+        }
+    }
+
+    private static void InventoryUnion(JsonElement registry, HashSet<string> seen)
+    {
+        seen.SetEquals(other: registry.GetProperty(propertyName: "local").EnumerateArray().Select(
+                selector: row => Text(row: row, name: "id"))).ShouldBeTrue();
+        JsonElement[] inventories = [.. registry.GetProperty(propertyName: "producerInventories").EnumerateArray()];
+        inventories.Select(selector: row => Text(row: row, name: "id")).Distinct(comparer: StringComparer.Ordinal)
+                .Count().ShouldBe(expected: inventories.Length);
+    }
+
+    private static void InventoryStructure(JsonElement registry, bool calls)
+    {
+        InventoryBaseline(registry: registry, baselineCount: calls ? 18 : 220, baselineHash: calls
+                ? "ef8ea1e0be872146bcf1f81a2079733bb37be5c2b9718fbf0faa47b164c08d8f"
+                : "de69b0e421ada4acfd8d512fe3b47395f5198bd8220de16a4afffb010aa4d62f");
+        var seen = new HashSet<string>(comparer: StringComparer.Ordinal);
+        foreach (JsonElement inventory in registry.GetProperty(propertyName: "producerInventories").EnumerateArray())
+        {
+            _ = InventoryReferences(registry: registry, inventory: inventory, seen: seen);
+        }
+
+        InventoryUnion(registry: registry, seen: seen);
+    }
+
+    private static JsonElement[] InventorySubset(JsonElement registry, string id, bool calls)
+    {
+        InventoryStructure(registry: registry, calls: calls);
+        JsonElement inventory = registry.GetProperty(propertyName: "producerInventories").EnumerateArray().Single(
+                predicate: row => StringComparer.Ordinal.Equals(x: Text(row: row, name: "id"), y: id));
+        VerifyProducer(inventory: inventory, registry: registry);
+        JsonElement[] rows = InventoryReferences(registry: registry, inventory: inventory,
+                seen: new HashSet<string>(comparer: StringComparer.Ordinal));
+        foreach (JsonElement row in rows)
+        {
+            VerifyInventoryRow(row: row, inventory: inventory, registry: registry);
+        }
+
+        return rows;
+    }
+
+    private static void RunProducerStage(JsonElement stage)
+    {
+        string action = Text(row: stage, name: "action");
+        if (action is "build" or "sealing")
+        {
+            if (action is "build")
+            {
+                BuildProducer();
+            }
+            else
+            {
+                RejectSealingNeighbor();
+            }
+
+            return;
+        }
+
+        bool calls = Text(row: stage, name: "registry") switch
+        {
+            "calls" => true,
+            "spans" => false,
+            _ => throw new InvalidDataException(message: "PRODUCER_STAGE_REGISTRY"),
+        };
+        string path = calls ? "docs/code/generated-callsite-adaptations.json"
+                : "docs/code/engine-generated-spans.json";
+        using var document = JsonDocument.Parse(json: File.ReadAllText(path: Local(path: path)));
+        JsonElement registry = document.RootElement;
+        switch (action)
+        {
+            case "shape": InventoryStructure(registry: registry, calls: calls); break;
+            case "fixed": VerifyOriginFixed(registry: registry); break;
+            case "cohort" or "origin" or "boundary":
+                ProducerCohort(stage: stage, registry: registry, calls: calls);
+                break;
+            case "inventory-negative":
+                ProducerNegative(stage: stage, registry: registry, calls: calls, warm: false);
+                break;
+            case "warm-negative":
+                ProducerNegative(stage: stage, registry: registry, calls: calls, warm: true);
+                break;
+            case "extra-call": ProducerExtraCall(stage: stage, registry: registry); break;
+            case "reproduction":
+                ProducerReproduction(registry: registry, kind: Text(row: stage, name: "field"));
+                break;
+            default: throw new InvalidDataException(message: "PRODUCER_STAGE_ACTION");
+        }
+    }
+
+    private static void ProducerCohort(JsonElement stage, JsonElement registry, bool calls)
+    {
+        string id = Text(row: stage, name: "cohort");
+        ProducerProgress(status: "cohort-start", detail: id);
+        JsonElement[] rows = InventorySubset(registry: registry, id: id, calls: calls);
+        rows.Select(selector: row => Text(row: row, name: "id")).SequenceEqual(second: stage.GetProperty(
+                propertyName: "rowIds").EnumerateArray().Select(selector: row => row.GetString() ?? ""),
+                comparer: StringComparer.Ordinal).ShouldBeTrue(customMessage: "EXACT_DECLARED_ROW_ORDER");
+        if (Text(row: stage, name: "action") is "origin")
+        {
+            VerifyOriginRows(rows: rows, registry: registry);
+        }
+        else if (Text(row: stage, name: "action") is "boundary")
+        {
+            VerifyBoundaryRows(rows: rows, registry: registry);
+        }
+
+        ProducerProgress(status: "cohort-complete", detail: id);
+    }
+
+    private static void ProducerNegative(JsonElement stage, JsonElement registry, bool calls, bool warm)
+    {
+        string id = Text(row: stage, name: "cohort");
+        string field = Text(row: stage, name: "field");
+        string? key = warm ? ProducerWarm(registry: registry, calls: calls) : null;
+        JsonObject changed = JsonNode.Parse(json: registry.GetRawText())?.AsObject()
+                ?? throw new InvalidDataException(message: "COHORT_MUTATION_ROOT");
+        JsonArray rows = changed["local"]?.AsArray()
+                ?? throw new InvalidDataException(message: "COHORT_MUTATION_ROWS");
+        JsonNode inventory = changed["producerInventories"]?.AsArray().Single(predicate: row =>
+                StringComparer.Ordinal.Equals(x: row?["id"]?.GetValue<string>(), y: id))
+                ?? throw new InvalidDataException(message: "COHORT_MUTATION_INVENTORY");
+        if (field.StartsWith(value: "snapshot-", comparisonType: StringComparison.Ordinal))
+        {
+            MutateSnapshot(field: field, changed: changed, inventory: registry.GetProperty(
+                    propertyName: "producerInventories").EnumerateArray().Single(predicate: row =>
+                            StringComparer.Ordinal.Equals(x: Text(row: row, name: "id"), y: id)));
+        }
+        else
+        {
+            MutateInventory(field: field, row: rows[^1]
+                    ?? throw new InvalidDataException(message: "COHORT_MUTATION_ROW"), rows: rows,
+                    inventory: inventory);
+        }
+
+        using var document = JsonDocument.Parse(json: changed.ToJsonString());
+        if (key is not null)
+        {
+            _producerRoots.ContainsKey(key: key).ShouldBeTrue(customMessage: "WARM_REPLAY_RETAINED " + field);
+        }
+
+        ProducerProgress(status: "negative-start", detail: field);
+        Exception failure = Should.Throw<Exception>(actual: () => InventorySubset(registry: document.RootElement,
+                id: id, calls: calls));
+        if (field is "extra-row")
+        {
+            failure.Message.ShouldContain(expected: "COHORT_UNOBSERVED_PERMISSION");
+        }
+
+        ProducerProgress(status: "negative-rejected", detail: field + ": " + failure.Message);
+    }
+
+    private static string ProducerWarm(JsonElement registry, bool calls)
+    {
+        const string Id = "inspection03-08035ba";
+        _ = InventorySubset(registry: registry, id: Id, calls: calls);
+        JsonElement inventory = registry.GetProperty(propertyName: "producerInventories").EnumerateArray().Single(
+                predicate: row => StringComparer.Ordinal.Equals(x: Text(row: row, name: "id"), y: Id));
+        string key = ProofProtocol.Root + ProducerKey(inventory: inventory);
+        _producerRoots.ContainsKey(key: key).ShouldBeTrue(customMessage: "WARM_REPLAY_REQUIRED");
+        StringComparer.Ordinal.Equals(x: _producerRoots[key], y: ProofProtocol.Root).ShouldBeFalse();
+        return key;
+    }
+
+    private static void ProducerExtraCall(JsonElement stage, JsonElement registry)
+    {
+        JsonObject changed = JsonNode.Parse(json: registry.GetRawText())?.AsObject()
+                ?? throw new InvalidDataException(message: "CALL_ROWS");
+        JsonArray rows = changed["local"]?.AsArray() ?? throw new InvalidDataException(message: "CALL_ROWS");
+        JsonNode extra = rows[^1]?.DeepClone() ?? throw new InvalidDataException(message: "CALL_ROW");
+        extra["id"] = "UNOBSERVED_EXTRA_MEMBER";
+        extra["target"] = "~M:KingdomZombies.Inspection.InspectionRoot.Unobserved";
+        rows.Add(item: extra);
+        changed["producerInventories"]?.AsArray()[^1]?["rowIds"]?.AsArray().Add(
+                value: "UNOBSERVED_EXTRA_MEMBER");
+        using var document = JsonDocument.Parse(json: changed.ToJsonString());
+        Exception failure = Should.Throw<Exception>(actual: () => InventorySubset(registry: document.RootElement,
+                id: Text(row: stage, name: "cohort"), calls: true));
+        failure.Message.ShouldContain(expected: "COHORT_UNOBSERVED_PERMISSION");
+    }
+
+    private static void ProducerReproduction(JsonElement registry, string kind)
+    {
+        if (kind is "historical")
+        {
+            JsonElement historical = registry.GetProperty(propertyName: "producerInventories").EnumerateArray()
+                    .Single(predicate: row => StringComparer.Ordinal.Equals(x: Text(row: row, name: "id"),
+                            y: "inspection03-08035ba"));
+            string root = ProducerRoot(inventory: historical, registry: registry);
+            ReproducedSurfaces(inventory: historical, root: root);
+            VerifyCurrentCoverage(inventory: historical, observations: historical.GetProperty(
+                    propertyName: "observations"), registry: registry, root: root);
+            return;
+        }
+
+        JsonElement inventory = CurrentProducer(registry: registry);
+        BuildFixture fixture = ReproductionFixture();
+        string current = ProducerRoot(inventory: inventory, registry: registry, liveRoot: fixture.DirectoryPath);
+        current.ShouldBe(expected: fixture.DirectoryPath);
+        VerifyCurrentCoverage(inventory: inventory, observations: inventory.GetProperty(propertyName: "observations"),
+                registry: registry, root: current);
+        if (kind is "live")
+        {
+            return;
+        }
+
+        kind.ShouldBe(expected: "changed");
+        File.AppendAllText(path: SafePath(root: fixture.DirectoryPath,
+                path: "src/godot-game/inspection/InspectionRoot.cs"), contents: "\n// changed producer bytes\n");
+        _producerRoots.Remove(key: fixture.DirectoryPath + ProducerKey(inventory: inventory));
+        string historicalRoot = ProducerRoot(inventory: inventory, registry: registry,
+                liveRoot: fixture.DirectoryPath);
+        StringComparer.Ordinal.Equals(x: historicalRoot, y: fixture.DirectoryPath).ShouldBe(expected: false);
+        ReproducedSurfaces(inventory: inventory, root: historicalRoot);
+        VerifyCurrentCoverage(inventory: inventory, observations: inventory.GetProperty(propertyName: "observations"),
+                registry: registry, root: historicalRoot);
+    }
+
+    private static BuildFixture ReproductionFixture()
+    {
+        var fixture = new BuildFixture(game: true);
+        File.Delete(path: SafePath(root: fixture.DirectoryPath, path: "src/godot-game/Subject.cs"));
+        foreach (string relative in new[] { "tests/phase1/ContentInspectorTests.cs", "tools/phase4/cases/hub.cjs",
+                "src/godot-game/inspection/Inspection.tscn" })
+        {
+            string path = SafePath(root: fixture.DirectoryPath, path: relative);
+            Directory.CreateDirectory(path: Path.GetDirectoryName(path: path)
+                    ?? throw new InvalidDataException(message: "NONPRODUCER_DIRECTORY"));
+            File.WriteAllText(path: path, contents: "changed nonproducer subject\n");
+        }
+
+        ProducerProgress(status: "reproduction-restore", detail: fixture.DirectoryPath);
+        fixture.Restore();
+        ProducerProgress(status: "reproduction-build", detail: fixture.DirectoryPath);
+        (int Exit, string Output) build = fixture.Build();
+        build.Exit.ShouldBe(expected: 0, customMessage: build.Output);
+        return fixture;
+    }
+
+    private static void ReproducedSurfaces(JsonElement inventory, string root)
+    {
+        foreach (JsonElement surface in inventory.GetProperty(propertyName: "surfaces").EnumerateArray())
+        {
+            Hash(bytes: File.ReadAllBytes(path: SafePath(root: root, path: Text(row: surface, name: "path"))))
+                    .ShouldBe(expected: Text(row: surface, name: "sha256"));
+        }
+    }
+
+    private static string LocalStageReceipt()
+    {
+        string directory = Environment.GetEnvironmentVariable(variable: "PHASE1_RESULT_DIRECTORY")
+                ?? throw new InvalidDataException(message: "PRODUCER_STAGE_DIRECTORY");
+        return Path.Combine(path1: directory, path2: "producer-progress-" + _producerReceipt.ToString(
+                format: "D4", provider: System.Globalization.CultureInfo.InvariantCulture) + ".json");
+    }
+
+    private static void ProducerProgress(string status, string detail)
+    {
+        if (_producerStage is null)
+        {
+            return;
+        }
+
+        _producerReceipt++;
+        using var stream = new FileStream(path: LocalStageReceipt(), mode: FileMode.CreateNew,
+                access: FileAccess.Write);
+        JsonSerializer.Serialize(utf8Json: stream, value: new
+        {
+            stageId = _producerStage,
+            status,
+            detail,
+            at = DateTimeOffset.UtcNow,
+            pid = Environment.ProcessId,
+            caseUid = TestContext.Current.TestCase?.UniqueID,
+            testUid = TestContext.Current.Test?.UniqueID,
+            nonce = Environment.GetEnvironmentVariable(variable: "PHASE1_NONCE"),
+            input = Environment.GetEnvironmentVariable(variable: "PHASE1_INPUT"),
+            tool = Environment.GetEnvironmentVariable(variable: "PHASE1_TOOL"),
+            platform = Environment.GetEnvironmentVariable(variable: "PHASE1_PLATFORM"),
+        });
+    }
+
     private static string ProducerKey(JsonElement inventory)
     {
         return CanonicalHash(value: new
@@ -289,6 +707,7 @@ public sealed class EngineGeneratedTests
 
     private static string ReplayProducer(JsonElement inventory, JsonElement registry, string key, string[] expected)
     {
+        ProducerProgress(status: "replay-start", detail: Text(row: inventory, name: "id"));
         var fixture = new BuildFixture(game: true);
         string project = Path.Combine(path1: fixture.DirectoryPath, path2: ConfigurationTests.Projects[2]);
         foreach (JsonElement input in inventory.GetProperty(propertyName: "sourceInputs").EnumerateArray())
@@ -307,7 +726,9 @@ public sealed class EngineGeneratedTests
                         + "<Compile Include=\"GeneratedCallSiteAdapters.cs;GeneratedReportAdapter.cs\"/>"
                         + "</ItemGroup></Project>",
                 comparisonType: StringComparison.Ordinal));
+        ProducerProgress(status: "restore", detail: Text(row: inventory, name: "id"));
         fixture.Restore();
+        ProducerProgress(status: "build", detail: Text(row: inventory, name: "id"));
         (int Exit, string Output) build = fixture.Build();
         build.Exit.ShouldBe(expected: 0, customMessage: build.Output);
         _producerRoots.Add(key: key, value: fixture.DirectoryPath);
@@ -332,6 +753,7 @@ public sealed class EngineGeneratedTests
 
     private static void VerifyProducer(JsonElement inventory, JsonElement registry)
     {
+        ProducerProgress(status: "verify-producer", detail: Text(row: inventory, name: "id"));
         string producer = Text(row: inventory, name: "producer");
         string package = SafePath(root: ProofProtocol.Root, path: Text(row: inventory, name: "package"));
         Hash(bytes: File.ReadAllBytes(path: package)).ShouldBe(expected: Text(row: inventory, name: "packageSha256"));

@@ -61,10 +61,19 @@
       128,
       256
     ],
-    "currentProjectIcon": "res://icon.svg",
+    "currentProjectIcon": "res://assets/ui/kingdom-zombies-icon.png",
     "appliedToCurrentExport": false,
     "applicationOwner": "04-31",
-    "visualJudgment": "pending-04-32/04-33"
+    "visualJudgment": "pending-04-32/04-33",
+    "sourceApplication": {
+      "path": "assets/ui/kingdom-zombies-icon.png",
+      "sha256": "198b2c20db8b42c23e7a863a1ae39aeef600266911e12f5411ace6cf17fcfc3c",
+      "bytes": 3100,
+      "retainedArchive": "production/phase4/ui-identity.zip",
+      "retainedMember": "outputs/icon-256.png",
+      "projectConfigSha256": "ffd9437ea564f0dda510e738425c755b7344dcbaa60cfd078f21d36036209bb6",
+      "exportApplied": false
+    }
   },
   "provenance": {
     "bundle": "production/phase4/ui-identity.zip",

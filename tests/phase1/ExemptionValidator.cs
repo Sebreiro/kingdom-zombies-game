@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+
+using OriginPair = (string Old, string Target, string Surface, string Raw, string Text);
 
 namespace KingdomZombies.Phase1.Tests;
 /// <summary>Rejects undeclared suppression and generated-origin claims in owned source and effective policy.</summary>
@@ -48,33 +52,49 @@ internal static class ExemptionValidator
     /// <summary>Checks every actual owned tracked source against the exact registered member permissions.</summary>
     internal static IReadOnlyList<string> CheckRepository()
     {
-        IReadOnlyList<string> registryErrors = RegisterValidator.Validate(
-                manifest: RegisterValidator.Read(relative: "docs/code/provenance/manifest.json"),
-                register: RegisterValidator.Read(relative: "docs/code/register.json"),
-                exemptions: RegisterValidator.Read(relative: "docs/code/exemptions.json"));
-        Require(value: registryErrors.Count == 0, message: string.Join(separator: "\n", values: registryErrors));
+        CheckRepositoryRegister();
         IReadOnlySet<string> permissions = ReadPermissions();
         var errors = new List<string>();
         ConsumerCompilation[] consumers = [..ProjectEvaluator.Expected.Select(selector: project =>
                 ConsumerCompilation.Read(root: ProofProtocol.Root, project: project))];
         foreach (string path in SourceFileFormat.ReadTrackedPaths().Where(predicate: SourceFileFormat.IsChecked))
         {
-            string content = File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: path));
-            if (path.EndsWith(value: ".cs", comparisonType: StringComparison.Ordinal))
-            {
-                ConsumerCompilation[] owners = [..consumers.Where(predicate: consumer => consumer.AuthoredPaths
-                        .Contains(value: path, comparer: StringComparer.Ordinal))];
-                errors.AddRange(collection: CheckOwnedSource(path: path, content: content,
-                        permissions: permissions, owners: owners));
-            }
-            else if (path.EndsWith(value: ".editorconfig", comparisonType: StringComparison.Ordinal)
-                    || path.EndsWith(value: ".globalconfig", comparisonType: StringComparison.Ordinal))
-            {
-                errors.AddRange(collection: CheckEditorConfig(path: path, content: content,
-                        requirePermissions: StringComparer.Ordinal.Equals(x: path, y: ".editorconfig")));
-            }
+            errors.AddRange(collection: CheckRepositoryPath(path: path, permissions: permissions,
+                    consumers: consumers));
         }
 
+        return errors;
+    }
+
+    /// <summary>Retains the original repository register conjunction for whole and bounded execution.</summary>
+    internal static void CheckRepositoryRegister()
+    {
+        IReadOnlyList<string> registryErrors = RegisterValidator.Validate(
+                manifest: RegisterValidator.Read(relative: "docs/code/provenance/manifest.json"),
+                register: RegisterValidator.Read(relative: "docs/code/register.json"),
+                exemptions: RegisterValidator.Read(relative: "docs/code/exemptions.json"));
+        Require(value: registryErrors.Count == 0, message: string.Join(separator: "\n", values: registryErrors));
+    }
+
+    /// <summary>Runs the original per-path source/configuration checks in every actual owner.</summary>
+    internal static IReadOnlyList<string> CheckRepositoryPath(string path, IReadOnlySet<string> permissions,
+            ConsumerCompilation[] consumers)
+    {
+        var errors = new List<string>();
+        string content = File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: path));
+        if (path.EndsWith(value: ".cs", comparisonType: StringComparison.Ordinal))
+        {
+            ConsumerCompilation[] owners = [..consumers.Where(predicate: consumer => consumer.AuthoredPaths
+                    .Contains(value: path, comparer: StringComparer.Ordinal))];
+            errors.AddRange(collection: CheckOwnedSource(path: path, content: content,
+                    permissions: permissions, owners: owners));
+        }
+        else if (path.EndsWith(value: ".editorconfig", comparisonType: StringComparison.Ordinal)
+                || path.EndsWith(value: ".globalconfig", comparisonType: StringComparison.Ordinal))
+        {
+            errors.AddRange(collection: CheckEditorConfig(path: path, content: content,
+                    requirePermissions: StringComparer.Ordinal.Equals(x: path, y: ".editorconfig")));
+        }
         return errors;
     }
 
@@ -228,15 +248,96 @@ internal static class ExemptionValidator
         EngineGeneratedTests.VerifyInventories(registry: callsites.RootElement, baselineCount: 18,
                 baselineHash: "ef8ea1e0be872146bcf1f81a2079733bb37be5c2b9718fbf0faa47b164c08d8f");
         int added = callsites.RootElement.GetProperty(propertyName: "local").GetArrayLength() - 18;
-        AddRecords(relative: "docs/code/generated-callsite-adaptations.json", collection: "local", count: 18 + added,
+        int origins = AddRecords(relative: "docs/code/generated-callsite-adaptations.json", collection: "local",
+                count: 18 + added,
                 permissions: permissions, authenticatedRegistry: callsites.RootElement);
         AddRecords(relative: "docs/code/generated-layout-adaptations.json", collection: "members", count: 7,
                 permissions: permissions);
         AddRecords(relative: "docs/code/engine-adaptations.json", collection: "local", count: 1,
                 permissions: permissions);
-        Require(value: permissions.Count == 26 + added, message: "SUPPRESSION_TOTAL_COUNT");
+        Require(value: origins == 8 && permissions.Count == 42 && permissions.Count == 26 + added - origins,
+                message: "SUPPRESSION_TOTAL_COUNT");
         return permissions;
     }
+
+    private static readonly JsonSerializerOptions _originJson = new()
+    {
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+    };
+    private static readonly Dictionary<string, OriginPair> _originPairs = new(comparer: StringComparer.Ordinal)
+    {
+        ["KZ-EX-INSPECTION23-CALLS-1"] = (
+                "KZ-EX-INSPECTION26-CALLS-1",
+                "~M:KingdomZombies.Inspection.InspectionRoot.GetGodotMethodList",
+                "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot"
+                        + ".SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoo"
+                        + "t_ScriptMethods.generated.cs",
+                "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
+                "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697"),
+        ["KZ-EX-INSPECTION23-CALLS-3"] = (
+                "KZ-EX-INSPECTION26-CALLS-2",
+                "~M:KingdomZombies.Inspection.InspectionRoot.HasGodotClassMethod(Godot.NativeInte"
+                        + "rop.godot_string_name@)",
+                "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot"
+                        + ".SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoo"
+                        + "t_ScriptMethods.generated.cs",
+                "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
+                "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697"),
+        ["KZ-EX-INSPECTION23-CALLS-2"] = (
+                "KZ-EX-INSPECTION26-CALLS-3",
+                "~M:KingdomZombies.Inspection.InspectionRoot.InvokeGodotClassMethod(Godot.NativeI"
+                        + "nterop.godot_string_name@,Godot.NativeInterop.NativeVariantPtrArgs,Godot.NativeI"
+                        + "nterop.godot_variant@)",
+                "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot"
+                        + ".SourceGenerators.ScriptMethodsGenerator/KingdomZombies.Inspection.InspectionRoo"
+                        + "t_ScriptMethods.generated.cs",
+                "90670ddae4552b2c26393d581cf4c529a81df89bff8700563891f3320089776d",
+                "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697"),
+        ["KZ-EX-INSPECTION23-CALLS-4"] = (
+                "KZ-EX-INSPECTION26-CALLS-4",
+                "~M:KingdomZombies.Inspection.InspectionRoot.SetGodotClassPropertyValue(Godot.Nat"
+                        + "iveInterop.godot_string_name@,Godot.NativeInterop.godot_variant@)",
+                "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot"
+                        + ".SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.Inspection"
+                        + "Root_ScriptProperties.generated.cs",
+                "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
+                "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b"),
+        ["KZ-EX-INSPECTION23-CALLS-5"] = (
+                "KZ-EX-INSPECTION26-CALLS-5",
+                "~M:KingdomZombies.Inspection.InspectionRoot.GetGodotClassPropertyValue(Godot.Nat"
+                        + "iveInterop.godot_string_name@,Godot.NativeInterop.godot_variant@)",
+                "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot"
+                        + ".SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.Inspection"
+                        + "Root_ScriptProperties.generated.cs",
+                "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
+                "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b"),
+        ["KZ-EX-INSPECTION23-CALLS-6"] = (
+                "KZ-EX-INSPECTION26-CALLS-6",
+                "~M:KingdomZombies.Inspection.InspectionRoot.GetGodotPropertyList",
+                "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot"
+                        + ".SourceGenerators.ScriptPropertiesGenerator/KingdomZombies.Inspection.Inspection"
+                        + "Root_ScriptProperties.generated.cs",
+                "49987c74fe6d557f5b88d57aa9d8f78d849a85e364a1d771d0b387c75990b902",
+                "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b"),
+        ["KZ-EX-INSPECTION23-CALLS-7"] = (
+                "KZ-EX-INSPECTION26-CALLS-7",
+                "~M:KingdomZombies.Inspection.InspectionRoot.SaveGodotObjectData(Godot.Bridge.God"
+                        + "otSerializationInfo)",
+                "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot"
+                        + ".SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.Inspect"
+                        + "ionRoot_ScriptSerialization.generated.cs",
+                "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
+                "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d"),
+        ["KZ-EX-INSPECTION23-CALLS-8"] = (
+                "KZ-EX-INSPECTION26-CALLS-8",
+                "~M:KingdomZombies.Inspection.InspectionRoot.RestoreGodotObjectData(Godot.Bridge."
+                        + "GodotSerializationInfo)",
+                "src/godot-game/.godot/mono/temp/obj/Debug/generated/Godot.SourceGenerators/Godot"
+                        + ".SourceGenerators.ScriptSerializationGenerator/KingdomZombies.Inspection.Inspect"
+                        + "ionRoot_ScriptSerialization.generated.cs",
+                "b1ae41f931f3ddd1d83ca13f9d46ba35e310d1f0ab2eb6b8c4470c7106e0bbd6",
+                "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d"),
+    };
 
     private static readonly string[] _sdkNoWarn = ["1701", "1702"];
     private static readonly string[] _generatedSuffixes = [".g.cs", ".g.i.cs", ".designer.cs", ".generated.cs"];
@@ -379,51 +480,183 @@ internal static class ExemptionValidator
         }
     }
 
-    private static void AddRecords(string relative, string collection, int count, HashSet<string> permissions,
+    private static int AddRecords(string relative, string collection, int count, HashSet<string> permissions,
             JsonElement? authenticatedRegistry = null)
     {
         JsonArray rows = RegisterValidator.Read(relative: relative)[collection]?.AsArray()
                 ?? throw new InvalidDataException(message: "SUPPRESSION_RECORDS_REQUIRED " + relative);
         Require(value: rows.Count == count, message: "SUPPRESSION_RECORD_COUNT " + relative);
+        var owners = new Dictionary<string, JsonNode>(comparer: StringComparer.Ordinal);
+        var pairs = new HashSet<string>(comparer: StringComparer.Ordinal);
         foreach (JsonNode? row in rows)
         {
-            string path = Text(row: row, name: "path");
-            string diagnostic = Text(row: row, name: "diagnostic");
-            string target = Text(row: row, name: "target");
-            Require(value: target.StartsWith(value: "~M:", comparisonType: StringComparison.Ordinal)
-                    && target.IndexOfAny(anyOf: ['*', '?']) < 0, message: "SUPPRESSION_MEMBER_REQUIRED " + target);
-            Require(value: permissions.Add(item: Permission(path: path, diagnostic: diagnostic, target: target)),
-                    message: "SUPPRESSION_RECORD_OVERLAP " + target);
-            string surface = Text(row: row, name: "surface");
-            bool engine = row?["generatedSourceSha256"] is not null;
-            if (authenticatedRegistry is JsonElement registry)
-            {
-                Require(value: relative is "docs/code/generated-callsite-adaptations.json" && collection is "local",
-                        message: "SUPPRESSION_AUTHENTICATED_SCOPE " + relative);
-                string id = Text(row: row, name: "id");
-                JsonElement authenticated = registry.GetProperty(propertyName: "local").EnumerateArray()
-                        .Single(predicate: candidate => StringComparer.Ordinal.Equals(x: candidate.GetProperty(
-                                propertyName: "id").GetString(), y: id));
-                Require(value: JsonNode.DeepEquals(node1: row, node2: JsonNode.Parse(json:
-                        authenticated.GetRawText())), message: "SUPPRESSION_AUTHENTICATED_ROW " + id);
-                surface = EngineGeneratedTests.Surface(row: authenticated, registry: registry);
-            }
-            else if (engine)
-            {
-                surface = "src/godot-game/.godot/mono/temp/obj/Debug/generated/" + surface;
-            }
-
-            string hashName = OperatingSystem.IsLinux() && row?["linuxSha256"] is not null ? "linuxSha256"
-                    : engine ? "generatedSourceSha256" : "sha256";
-            CheckHash(relative: surface, expected: Text(row: row, name: hashName));
-            string package = engine ? ".phase1/feed/Godot.SourceGenerators.4.7.2.nupkg"
-                    : Text(row: row, name: "package");
-            CheckHash(relative: package, expected: Text(row: row, name: "packageSha256"));
-            Require(value: Text(row: row, name: "reason").Length > 0
-                    && Text(row: row, name: "positiveProof").Length > 0
-                    && Text(row: row, name: "negativeProof").Length > 0,
-                    message: "SUPPRESSION_PROOFS_REQUIRED " + target);
+            AuthenticateRecord(relative: relative, collection: collection, row: row,
+                    authenticatedRegistry: authenticatedRegistry);
+            MergeOrigin(row: row ?? throw new InvalidDataException(message: "SUPPRESSION_RECORD_REQUIRED"),
+                    authenticatedRegistry: authenticatedRegistry, permissions: permissions, owners: owners,
+                    pairs: pairs);
         }
+
+        if (authenticatedRegistry is not null)
+        {
+            CompleteOrigins(pairs: pairs);
+        }
+
+        return pairs.Count;
+    }
+
+    private static void AuthenticateRecord(string relative, string collection, JsonNode? row,
+            JsonElement? authenticatedRegistry)
+    {
+        string path = Text(row: row, name: "path");
+        string target = Text(row: row, name: "target");
+        Require(value: target.StartsWith(value: "~M:", comparisonType: StringComparison.Ordinal)
+                && target.IndexOfAny(anyOf: ['*', '?']) < 0, message: "SUPPRESSION_MEMBER_REQUIRED " + target);
+        string surface = Text(row: row, name: "surface");
+        bool engine = row?["generatedSourceSha256"] is not null;
+        if (authenticatedRegistry is JsonElement registry)
+        {
+            Require(value: relative is "docs/code/generated-callsite-adaptations.json" && collection is "local",
+                    message: "SUPPRESSION_AUTHENTICATED_SCOPE " + relative);
+            string id = Text(row: row, name: "id");
+            JsonElement authenticated = registry.GetProperty(propertyName: "local").EnumerateArray()
+                    .Single(predicate: candidate => StringComparer.Ordinal.Equals(x: candidate.GetProperty(
+                            propertyName: "id").GetString(), y: id));
+            Require(value: JsonNode.DeepEquals(node1: row, node2: JsonNode.Parse(json:
+                    authenticated.GetRawText())), message: "SUPPRESSION_AUTHENTICATED_ROW " + id);
+            surface = EngineGeneratedTests.Surface(row: authenticated, registry: registry);
+        }
+        else if (engine)
+        {
+            surface = "src/godot-game/.godot/mono/temp/obj/Debug/generated/" + surface;
+        }
+
+        string hashName = OperatingSystem.IsLinux() && row?["linuxSha256"] is not null ? "linuxSha256"
+                : engine ? "generatedSourceSha256" : "sha256";
+        CheckHash(relative: surface, expected: Text(row: row, name: hashName));
+        string package = engine ? ".phase1/feed/Godot.SourceGenerators.4.7.2.nupkg"
+                : Text(row: row, name: "package");
+        CheckHash(relative: package, expected: Text(row: row, name: "packageSha256"));
+        Require(value: Text(row: row, name: "reason").Length > 0
+                && Text(row: row, name: "positiveProof").Length > 0
+                && Text(row: row, name: "negativeProof").Length > 0,
+                message: "SUPPRESSION_PROOFS_REQUIRED " + target);
+    }
+
+    private static void MergeOrigin(JsonNode row, JsonElement? authenticatedRegistry, HashSet<string> permissions,
+            Dictionary<string, JsonNode> owners, HashSet<string> pairs)
+    {
+        ValidateKnownOrigin(row: row, registry: authenticatedRegistry);
+        string key = Permission(path: Text(row: row, name: "path"), diagnostic: Text(row: row, name: "diagnostic"),
+                target: Text(row: row, name: "target"));
+        if (permissions.Add(item: key))
+        {
+            owners.Add(key: key, value: row);
+            return;
+        }
+
+        Require(value: authenticatedRegistry is not null && owners.ContainsKey(key: key),
+                message: "SUPPRESSION_RECORD_OVERLAP " + Text(row: row, name: "target"));
+        string id = ExactOriginPair(first: owners[key], second: row);
+        Require(value: pairs.Add(item: id), message: "SUPPRESSION_PROVENANCE_DUPLICATE " + id);
+    }
+
+    private static string ExactOriginPair(JsonNode first, JsonNode second)
+    {
+        string left = Text(row: first, name: "id");
+        string right = Text(row: second, name: "id");
+        foreach (KeyValuePair<string, OriginPair> pair in _originPairs)
+        {
+            bool forward = StringComparer.Ordinal.Equals(x: pair.Key, y: left)
+                    && StringComparer.Ordinal.Equals(x: pair.Value.Old, y: right);
+            bool reverse = StringComparer.Ordinal.Equals(x: pair.Key, y: right)
+                    && StringComparer.Ordinal.Equals(x: pair.Value.Old, y: left);
+            if (forward || reverse)
+            {
+                return pair.Key;
+            }
+        }
+
+        throw new InvalidDataException(message: "SUPPRESSION_RECORD_OVERLAP " + right);
+    }
+
+    private static void CompleteOrigins(HashSet<string> pairs)
+    {
+        Require(value: _originPairs.Count == 8 && pairs.Count == 8 && pairs.SetEquals(other: _originPairs.Keys),
+                message: "SUPPRESSION_PROVENANCE_COVERAGE");
+    }
+
+    private static void ValidateKnownOrigin(JsonNode row, JsonElement? registry)
+    {
+        string id = Text(row: row, name: "id");
+        KeyValuePair<string, OriginPair>[] matches = [.. _originPairs.Where(predicate: pair =>
+                StringComparer.Ordinal.Equals(x: pair.Key, y: id)
+                        || StringComparer.Ordinal.Equals(x: pair.Value.Old, y: id))];
+        if (matches.Length == 0)
+        {
+            return;
+        }
+
+        JsonElement originRegistry = registry
+                ?? throw new InvalidDataException(message: "SUPPRESSION_PROVENANCE_REGISTRY " + id);
+        KeyValuePair<string, OriginPair> pair = matches.Single();
+        JsonElement authenticated = originRegistry.GetProperty(propertyName: "local").EnumerateArray().Single(
+                predicate: item => StringComparer.Ordinal.Equals(x: item.GetProperty(propertyName: "id")
+                        .GetString(), y: id));
+        Require(value: JsonNode.DeepEquals(node1: row, node2: JsonNode.Parse(json: authenticated.GetRawText())),
+                message: "SUPPRESSION_AUTHENTICATED_ROW " + id);
+        ValidateOriginCells(row: row, target: pair.Value.Target, surface: pair.Value.Surface,
+                raw: pair.Value.Raw, text: pair.Value.Text);
+        ValidateOriginCohort(registry: originRegistry, id: id,
+                current: StringComparer.Ordinal.Equals(x: pair.Key, y: id));
+    }
+
+    private static void ValidateOriginCells(JsonNode row, string target, string surface, string raw, string text)
+    {
+        var expected = new Dictionary<string, string>(comparer: StringComparer.Ordinal)
+        {
+            ["path"] = "src/godot-game/inspection/InspectionRoot.cs",
+            ["diagnostic"] = "SCR0001",
+            ["target"] = target,
+            ["surface"] = surface,
+            ["sha256"] = raw,
+            ["textSha256"] = text,
+            ["producer"] = "Godot.SourceGenerators/4.7.2",
+            ["package"] = ".phase1/feed/Godot.SourceGenerators.4.7.2.nupkg",
+            ["packageSha256"] = "ce2beb0b75bfb81b94982bdaf7234fc681edd4cf024606c6baf6e40625e0ca4e",
+            ["positiveProof"] = "rules.generated-callsite-origin",
+            ["negativeProof"] = "rules.godot-callsite-boundary",
+        };
+        foreach ((string key, string value) in expected)
+        {
+            Require(value: StringComparer.Ordinal.Equals(x: Text(row: row, name: key), y: value),
+                    message: "SUPPRESSION_PROVENANCE_CELL " + key);
+        }
+    }
+
+    private static void ValidateOriginCohort(JsonElement registry, string id, bool current)
+    {
+        JsonElement owner = registry.GetProperty(propertyName: "producerInventories").EnumerateArray().Single(
+                predicate: cohort => cohort.GetProperty(propertyName: "rowIds").EnumerateArray().Any(
+                        predicate: row => StringComparer.Ordinal.Equals(x: row.GetString(), y: id)));
+        string cohortId = current ? "inspection23-final-547b2407c690" : "inspection26-lifecycle";
+        string inputs = current ? "547b2407c6909cc76990abeed206a4b3d55ebd1d755d93faae45ec69e71b1b4f"
+                : "1dac6bc39f6d0fb7b4f84564fa75f2ac35460dd4160bad8fcab01d25c8c16621";
+        string observations = current ? "96deac2a0cbe21c8fec7ec19fb5b4e79644ae2b56defbda3921c95e091a75d5c"
+                : "ae4e2c92aa344cc9536b143e5fc5a942db411a420d34112f2cee94d2ad2a99cb";
+        Require(value: StringComparer.Ordinal.Equals(x: owner.GetProperty(propertyName: "id").GetString(),
+                y: cohortId), message: "SUPPRESSION_PROVENANCE_COHORT " + id);
+        OriginHash(owner: owner, field: "sourceInputs", hashField: "sourceInputsSha256", expected: inputs);
+        OriginHash(owner: owner, field: "observations", hashField: "observationsSha256", expected: observations);
+    }
+
+    private static void OriginHash(JsonElement owner, string field, string hashField, string expected)
+    {
+        byte[] bytes = JsonSerializer.SerializeToUtf8Bytes(value: owner.GetProperty(propertyName: field),
+                options: _originJson);
+        Require(value: StringComparer.Ordinal.Equals(x: owner.GetProperty(propertyName: hashField).GetString(),
+                y: expected) && StringComparer.Ordinal.Equals(x: Convert.ToHexStringLower(inArray:
+                        SHA256.HashData(source: bytes)), y: expected), message: "SUPPRESSION_PROVENANCE_HASH " + field);
     }
 
     private static void CheckHash(string relative, string expected)

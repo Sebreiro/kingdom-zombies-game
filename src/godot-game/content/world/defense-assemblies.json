@@ -133,7 +133,7 @@
             22,
             6
           ],
-          "phase": 0.0,
+          "phase": 0,
           "facing": 1,
           "projectileOrigin": [
             12,
@@ -174,7 +174,7 @@
             22,
             21
           ],
-          "phase": 0.0,
+          "phase": 0,
           "facing": 1,
           "projectileOrigin": [
             12,
@@ -228,7 +228,7 @@
             18,
             25
           ],
-          "phase": 0.0,
+          "phase": 0,
           "facing": 1,
           "projectileOrigin": [
             12,
@@ -611,5 +611,16 @@
     "appearance": "pending04-32",
     "namedJudgment": "pending04-32/33",
     "completedObligations": []
+  },
+  "repairPolicy": {
+    "fee": "max(1,ceil(0.5*current-full-tier-valuation))",
+    "healthPerWorkerSecond": 10,
+    "target": "full-health",
+    "coversFurtherDamageWhileActive": true,
+    "replacementRetainsPaymentAndProgress": true,
+    "buyerLossRetainsOrder": true,
+    "destructionEndsOrder": true,
+    "destructionRefund": false,
+    "newDamageAfterClosure": "new-explicit-purchase"
   }
 }

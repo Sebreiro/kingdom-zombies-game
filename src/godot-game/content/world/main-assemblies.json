@@ -18,7 +18,7 @@
       "price": 0,
       "upgradePrice": 200,
       "workSeconds": 0,
-      "repairPrice": 30,
+      "repairPrice": 50,
       "seats": 8,
       "partPrefix": "tier-1-",
       "attachments": [],
@@ -30,7 +30,7 @@
       "price": 200,
       "upgradePrice": 500,
       "workSeconds": 90,
-      "repairPrice": 60,
+      "repairPrice": 150,
       "seats": 12,
       "partPrefix": "tier-2-",
       "attachments": [],
@@ -42,7 +42,7 @@
       "price": 500,
       "upgradePrice": 0,
       "workSeconds": 150,
-      "repairPrice": 210,
+      "repairPrice": 400,
       "seats": 16,
       "partPrefix": "tier-3-",
       "attachments": [
@@ -82,7 +82,7 @@
     "loop": "inspection-explicit-clock",
     "frames": [
       {
-        "time": 0.0,
+        "time": 0,
         "part": "guard-shoot-0",
         "anchor": [
           11,
@@ -307,5 +307,16 @@
     "visual": "pending",
     "owner": "04-32/04-33",
     "completedObligations": []
+  },
+  "repairPolicy": {
+    "fee": "max(1,ceil(0.5*current-full-tier-valuation))",
+    "healthPerWorkerSecond": 10,
+    "target": "full-health",
+    "coversFurtherDamageWhileActive": true,
+    "replacementRetainsPaymentAndProgress": true,
+    "buyerLossRetainsOrder": true,
+    "destructionEndsOrder": true,
+    "destructionRefund": false,
+    "newDamageAfterClosure": "new-explicit-purchase"
   }
 }

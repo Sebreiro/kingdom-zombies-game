@@ -153,8 +153,15 @@ internal sealed class AudioPreview : IDisposable
 
         ArgumentOutOfRangeException.ThrowIfNegative(value: delta);
         _time += double.IsFinite(d: delta) ? delta : 0;
-        foreach (long id in _players.Where(predicate: pair => !pair.Value.Player.Playing)
-                .Select(selector: pair => pair.Key).ToArray())
+        var completed = new List<long>();
+        foreach ((long id, var player) in _players)
+        {
+            if (!player.Player.Playing)
+            {
+                completed.Add(item: id);
+            }
+        }
+        foreach (long id in completed)
         {
             Remove(id: id);
         }
@@ -582,6 +589,7 @@ internal sealed class AudioPreview : IDisposable
 
     private void Build()
     {
+        _gateway.RequireThread();
         var scroll = new ScrollContainer { Name = "Audio", CustomMinimumSize = new Vector2(x: 650, y: 500),
             FollowFocus = true };
         _root.AddChild(node: scroll);
@@ -628,6 +636,7 @@ internal sealed class AudioPreview : IDisposable
 
     private void Button(string text, Action action)
     {
+        _gateway.RequireThread();
         var button = new Button { Name = text.Replace(oldValue: " ", newValue: ""), Text = text,
             Disabled = text is "Play" && !_visible.Any(predicate: id => _routes.ContainsKey(key: id)) };
         _panel?.AddChild(node: button);
@@ -636,6 +645,7 @@ internal sealed class AudioPreview : IDisposable
 
     private void Volume(string name, double value)
     {
+        _gateway.RequireThread();
         var label = new Label { Text = name + " volume (%)" };
         _panel?.AddChild(node: label);
         var slider = new HSlider { Name = name, MinValue = 0, MaxValue = 100, Step = 1, Value = value };
@@ -645,6 +655,7 @@ internal sealed class AudioPreview : IDisposable
 
     private void Limits()
     {
+        _gateway.RequireThread();
         foreach (string name in new[] { "gameplayConcurrentLimit", "repeatedEffectLimit" })
         {
             var label = new Label { Text = name };
@@ -726,6 +737,7 @@ internal sealed class AudioPreview : IDisposable
 
     private bool Admit(string routeId, JsonElement route)
     {
+        _gateway.RequireThread();
         int global = (int)(_panel?.GetNode<SpinBox>(path: "gameplayConcurrentLimit").Value ?? 24);
         int effect = (int)(_panel?.GetNode<SpinBox>(path: "repeatedEffectLimit").Value ?? 4);
         effect = Math.Min(val1: effect, val2: Number(value: route.GetProperty(propertyName: "repetition"),
@@ -784,6 +796,7 @@ internal sealed class AudioPreview : IDisposable
 
     private void Start(string routeId, string sampleId, JsonElement route, bool loop, bool restoring)
     {
+        _gateway.RequireThread();
         (JsonElement sample, JsonElement bank, _) = _samples[sampleId];
         byte[] pcm = ExtractPcm(bytes: _banks[Text(value: bank, key: "path")], bank: bank, sample: sample);
         var stream = new AudioStreamWav { Data = pcm, Format = AudioStreamWav.FormatEnum.Format16Bits,
@@ -818,6 +831,7 @@ internal sealed class AudioPreview : IDisposable
 
     private void ApplyVolume(AudioStreamPlayer player, JsonElement route)
     {
+        _gateway.RequireThread();
         double volume = (_mute?.ButtonPressed ?? false) ? 0 : _master / 100 * (Text(value: route, key: "bus")
                 is "Ambience" ? _ambience : _effects) / 100 * route.GetProperty(propertyName: "gainLinear").GetDouble();
         player.VolumeDb = volume <= 0 ? -80 : (float)(20 * Math.Log10(d: volume));
@@ -825,6 +839,7 @@ internal sealed class AudioPreview : IDisposable
 
     private void Remove(long id)
     {
+        _gateway.RequireThread();
         (AudioStreamPlayer player, AudioStreamWav stream, _, _, _, _) = _players[id];
         _players.Remove(key: id);
         player.Stop();
@@ -865,6 +880,7 @@ internal sealed class AudioPreview : IDisposable
 
     private void Refresh()
     {
+        _gateway.RequireThread();
         if (_closed || _panel is null || _status is null || _details is null || _selector is null)
         {
             return;
@@ -913,6 +929,7 @@ internal sealed class AudioPreview : IDisposable
 
     private bool CurrentMuted()
     {
+        _gateway.RequireThread();
         double channel = _selector is not null && _selector.ItemCount > 0
                 && Text(value: _routes[_selector.GetItemText(idx: _selector.Selected)], key: "bus") is "Ambience"
                 ? _ambience : _effects;

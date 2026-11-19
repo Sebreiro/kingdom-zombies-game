@@ -11871,8 +11871,8 @@
       ],
       "loop": false,
       "kind": "projectile",
-      "sound": "AU-03:bow.release",
-      "soundObligation": "AU-03",
+      "sound": "AU-06:bow.release",
+      "soundObligation": "AU-06",
       "speedPixelsPerSecond": 160,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 1,
@@ -11885,6 +11885,15 @@
       "maxConcurrent": 4,
       "contact": "arrow.contact",
       "firstContactOnly": true,
+      "audioRoute": {
+        "event": "bow.release",
+        "route": "bow.release.ordinary-archer",
+        "category": "AU-06",
+        "bus": "Effects",
+        "variants": [
+          "action.3288.full"
+        ]
+      },
       "textureFrames": [
         2,
         1
@@ -11904,8 +11913,8 @@
       ],
       "loop": false,
       "kind": "projectile",
-      "sound": "AU-03:bow.release",
-      "soundObligation": "AU-03",
+      "sound": "AU-06:bow.release",
+      "soundObligation": "AU-06",
       "speedPixelsPerSecond": 160,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 1,
@@ -11918,6 +11927,15 @@
       "maxConcurrent": 4,
       "contact": "arrow.contact",
       "firstContactOnly": true,
+      "audioRoute": {
+        "event": "bow.release",
+        "route": "bow.release.ordinary-archer",
+        "category": "AU-06",
+        "bus": "Effects",
+        "variants": [
+          "action.3288.full"
+        ]
+      },
       "textureFrames": [
         2,
         1
@@ -11937,8 +11955,8 @@
       ],
       "loop": false,
       "kind": "projectile",
-      "sound": "AU-03:bow.release",
-      "soundObligation": "AU-03",
+      "sound": "AU-06:bow.release",
+      "soundObligation": "AU-06",
       "speedPixelsPerSecond": 160,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 1,
@@ -11951,6 +11969,15 @@
       "maxConcurrent": 4,
       "contact": "arrow.contact",
       "firstContactOnly": true,
+      "audioRoute": {
+        "event": "bow.release",
+        "route": "bow.release.tower-archer",
+        "category": "AU-06",
+        "bus": "Effects",
+        "variants": [
+          "action.3288.full"
+        ]
+      },
       "textureFrames": [
         2,
         1
@@ -11970,8 +11997,8 @@
       ],
       "loop": false,
       "kind": "particles",
-      "sound": "AU-04:arrow.wood",
-      "soundObligation": "AU-04",
+      "sound": "AU-07:arrow.wood",
+      "soundObligation": "AU-07",
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -11982,6 +12009,15 @@
       "status": false,
       "emissionSeconds": 0.12,
       "maxConcurrent": 4,
+      "audioRoute": {
+        "event": "arrow.contact",
+        "route": "arrow.contact.wood",
+        "category": "AU-07",
+        "bus": "Effects",
+        "variants": [
+          "action.4434.full"
+        ]
+      },
       "textureFrames": [
         1,
         1
@@ -12001,8 +12037,8 @@
       ],
       "loop": false,
       "kind": "particles",
-      "sound": "AU-04:arrow.metal",
-      "soundObligation": "AU-04",
+      "sound": "AU-07:arrow.metal",
+      "soundObligation": "AU-07",
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -12013,6 +12049,15 @@
       "status": false,
       "emissionSeconds": 0.12,
       "maxConcurrent": 4,
+      "audioRoute": {
+        "event": "arrow.contact",
+        "route": "arrow.contact.metal",
+        "category": "AU-07",
+        "bus": "Effects",
+        "variants": [
+          "action.5020.full"
+        ]
+      },
       "textureFrames": [
         1,
         1
@@ -12032,8 +12077,8 @@
       ],
       "loop": false,
       "kind": "particles",
-      "sound": "AU-04:arrow.ground",
-      "soundObligation": "AU-04",
+      "sound": "AU-07:arrow.ground",
+      "soundObligation": "AU-07",
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -12044,6 +12089,15 @@
       "status": false,
       "emissionSeconds": 0.12,
       "maxConcurrent": 4,
+      "audioRoute": {
+        "event": "arrow.contact",
+        "route": "arrow.contact.terrain",
+        "category": "AU-07",
+        "bus": "Effects",
+        "variants": [
+          "action.3640.full"
+        ]
+      },
       "textureFrames": [
         1,
         1
@@ -12063,8 +12117,8 @@
       ],
       "loop": false,
       "kind": "particles",
-      "sound": "AU-04:arrow.flesh",
-      "soundObligation": "AU-04",
+      "sound": "AU-07:arrow.flesh",
+      "soundObligation": "AU-07",
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -12075,6 +12129,15 @@
       "status": false,
       "emissionSeconds": 0.12,
       "maxConcurrent": 4,
+      "audioRoute": {
+        "event": "arrow.contact",
+        "route": "arrow.contact.generic",
+        "category": "AU-07",
+        "bus": "Effects",
+        "variants": [
+          "action.5476.full"
+        ]
+      },
       "textureFrames": [
         1,
         1
@@ -12094,8 +12157,8 @@
       ],
       "loop": false,
       "kind": "particles",
-      "sound": "AU-04:arrow.armor",
-      "soundObligation": "AU-04",
+      "sound": "AU-07:arrow.armor",
+      "soundObligation": "AU-07",
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -12106,6 +12169,15 @@
       "status": false,
       "emissionSeconds": 0.12,
       "maxConcurrent": 4,
+      "audioRoute": {
+        "event": "arrow.contact",
+        "route": "arrow.contact.generic",
+        "category": "AU-07",
+        "bus": "Effects",
+        "variants": [
+          "action.5476.full"
+        ]
+      },
       "textureFrames": [
         1,
         1
@@ -12125,8 +12197,8 @@
       ],
       "loop": false,
       "kind": "particles",
-      "sound": "AU-04:arrow.portal",
-      "soundObligation": "AU-04",
+      "sound": "AU-07:arrow.portal",
+      "soundObligation": "AU-07",
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -12137,6 +12209,15 @@
       "status": false,
       "emissionSeconds": 0.12,
       "maxConcurrent": 4,
+      "audioRoute": {
+        "event": "arrow.contact",
+        "route": "arrow.contact.portal",
+        "category": "AU-07",
+        "bus": "Effects",
+        "variants": [
+          "action.4692.full"
+        ]
+      },
       "textureFrames": [
         1,
         1
@@ -12156,8 +12237,8 @@
       ],
       "loop": false,
       "kind": "particles",
-      "sound": "AU-02:melee.fists",
-      "soundObligation": "AU-02",
+      "sound": "AU-03:melee.fists",
+      "soundObligation": "AU-03",
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -12175,6 +12256,15 @@
         "metal",
         "portal"
       ],
+      "audioRoute": {
+        "event": "melee.swing",
+        "route": "melee.swing.fist-knife-machete",
+        "category": "AU-03",
+        "bus": "Effects",
+        "variants": [
+          "action.3369.full"
+        ]
+      },
       "textureFrames": [
         1,
         1
@@ -12194,8 +12284,8 @@
       ],
       "loop": false,
       "kind": "particles",
-      "sound": "AU-02:melee.knife",
-      "soundObligation": "AU-02",
+      "sound": "AU-03:melee.knife",
+      "soundObligation": "AU-03",
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -12213,6 +12303,15 @@
         "metal",
         "portal"
       ],
+      "audioRoute": {
+        "event": "melee.swing",
+        "route": "melee.swing.fist-knife-machete",
+        "category": "AU-03",
+        "bus": "Effects",
+        "variants": [
+          "action.3369.full"
+        ]
+      },
       "textureFrames": [
         1,
         1
@@ -12232,8 +12331,8 @@
       ],
       "loop": false,
       "kind": "particles",
-      "sound": "AU-02:melee.club",
-      "soundObligation": "AU-02",
+      "sound": "AU-03:melee.club",
+      "soundObligation": "AU-03",
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -12251,6 +12350,15 @@
         "metal",
         "portal"
       ],
+      "audioRoute": {
+        "event": "melee.swing",
+        "route": "melee.swing.club-bat",
+        "category": "AU-03",
+        "bus": "Effects",
+        "variants": [
+          "action.4872.full"
+        ]
+      },
       "textureFrames": [
         1,
         1
@@ -12270,8 +12378,8 @@
       ],
       "loop": false,
       "kind": "particles",
-      "sound": "AU-02:melee.machete",
-      "soundObligation": "AU-02",
+      "sound": "AU-03:melee.machete",
+      "soundObligation": "AU-03",
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -12289,6 +12397,15 @@
         "metal",
         "portal"
       ],
+      "audioRoute": {
+        "event": "melee.swing",
+        "route": "melee.swing.fist-knife-machete",
+        "category": "AU-03",
+        "bus": "Effects",
+        "variants": [
+          "action.3369.full"
+        ]
+      },
       "textureFrames": [
         1,
         1
@@ -12308,8 +12425,8 @@
       ],
       "loop": false,
       "kind": "particles",
-      "sound": "AU-02:melee.bat",
-      "soundObligation": "AU-02",
+      "sound": "AU-03:melee.bat",
+      "soundObligation": "AU-03",
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -12327,6 +12444,15 @@
         "metal",
         "portal"
       ],
+      "audioRoute": {
+        "event": "melee.swing",
+        "route": "melee.swing.club-bat",
+        "category": "AU-03",
+        "bus": "Effects",
+        "variants": [
+          "action.4872.full"
+        ]
+      },
       "textureFrames": [
         1,
         1
@@ -12346,8 +12472,8 @@
       ],
       "loop": false,
       "kind": "particles",
-      "sound": "AU-02:melee.dual",
-      "soundObligation": "AU-02",
+      "sound": "AU-03:melee.dual",
+      "soundObligation": "AU-03",
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -12365,6 +12491,16 @@
         "metal",
         "portal"
       ],
+      "audioRoute": {
+        "event": "melee.swing",
+        "route": "melee.swing.dual-contact",
+        "category": "AU-03",
+        "bus": "Effects",
+        "variants": [
+          "action.3369.full",
+          "action.4872.full"
+        ]
+      },
       "textureFrames": [
         1,
         1
@@ -12396,6 +12532,16 @@
       "status": false,
       "emissionSeconds": 0.12,
       "maxConcurrent": 4,
+      "audioRoute": {
+        "event": "work.build-repair",
+        "route": "work.build-repair.wood-build-repair",
+        "category": "AU-12",
+        "bus": "Effects",
+        "variants": [
+          "action.5272.full",
+          "action.3945.full"
+        ]
+      },
       "textureFrames": [
         1,
         1
@@ -12427,6 +12573,16 @@
       "status": false,
       "emissionSeconds": 0.12,
       "maxConcurrent": 4,
+      "audioRoute": {
+        "event": "work.build-repair",
+        "route": "work.build-repair.metal-build-repair",
+        "category": "AU-12",
+        "bus": "Effects",
+        "variants": [
+          "action.3804.full",
+          "action.5176.full"
+        ]
+      },
       "textureFrames": [
         1,
         1
@@ -12446,8 +12602,8 @@
       ],
       "loop": false,
       "kind": "particles",
-      "sound": "AU-12:tree.chop",
-      "soundObligation": "AU-12",
+      "sound": "AU-13:tree.chop",
+      "soundObligation": "AU-13",
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -12458,6 +12614,16 @@
       "status": false,
       "emissionSeconds": 0.12,
       "maxConcurrent": 4,
+      "audioRoute": {
+        "event": "tree.clear",
+        "route": "tree.clear.chop",
+        "category": "AU-13",
+        "bus": "Effects",
+        "variants": [
+          "action.3741.full",
+          "action.3672.full"
+        ]
+      },
       "textureFrames": [
         1,
         1
@@ -12477,8 +12643,8 @@
       ],
       "loop": false,
       "kind": "particles",
-      "sound": "AU-12:tree.fall",
-      "soundObligation": "AU-12",
+      "sound": "AU-13:tree.fall",
+      "soundObligation": "AU-13",
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -12489,6 +12655,16 @@
       "status": false,
       "emissionSeconds": 0.12,
       "maxConcurrent": 4,
+      "audioRoute": {
+        "event": "tree.clear",
+        "route": "tree.clear.fall",
+        "category": "AU-13",
+        "bus": "Effects",
+        "variants": [
+          "action.4523.full",
+          "action.5654.full"
+        ]
+      },
       "textureFrames": [
         3,
         1
@@ -12508,8 +12684,8 @@
       ],
       "loop": false,
       "kind": "particles",
-      "sound": "AU-12:collapse.wood",
-      "soundObligation": "AU-12",
+      "sound": "AU-15:collapse.wood",
+      "soundObligation": "AU-15",
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -12520,6 +12696,16 @@
       "status": false,
       "emissionSeconds": 0.12,
       "maxConcurrent": 4,
+      "audioRoute": {
+        "event": "structure.hit-collapse",
+        "route": "structure.hit-collapse.wood-collapse",
+        "category": "AU-15",
+        "bus": "Effects",
+        "variants": [
+          "action.4523.full",
+          "action.5654.full"
+        ]
+      },
       "textureFrames": [
         1,
         1
@@ -12539,8 +12725,8 @@
       ],
       "loop": false,
       "kind": "particles",
-      "sound": "AU-12:collapse.metal",
-      "soundObligation": "AU-12",
+      "sound": "AU-15:collapse.metal",
+      "soundObligation": "AU-15",
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -12551,6 +12737,16 @@
       "status": false,
       "emissionSeconds": 0.12,
       "maxConcurrent": 4,
+      "audioRoute": {
+        "event": "structure.hit-collapse",
+        "route": "structure.hit-collapse.metal-collapse",
+        "category": "AU-15",
+        "bus": "Effects",
+        "variants": [
+          "action.3574.full",
+          "action.5154.full"
+        ]
+      },
       "textureFrames": [
         1,
         1
@@ -12570,8 +12766,8 @@
       ],
       "loop": true,
       "kind": "particles",
-      "sound": "AU-26:fire.loop",
-      "soundObligation": "AU-26",
+      "sound": "AU-28:fire.loop",
+      "soundObligation": "AU-28",
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -12582,6 +12778,15 @@
       "status": false,
       "emissionSeconds": 0.12,
       "maxConcurrent": 4,
+      "audioRoute": {
+        "event": "ambience.fire-wind",
+        "route": "ambience.fire-wind.local-fire",
+        "category": "AU-28",
+        "bus": "Ambience",
+        "variants": [
+          "interface.r4441.loop"
+        ]
+      },
       "textureFrames": [
         8,
         1
@@ -12663,8 +12868,8 @@
       ],
       "loop": false,
       "kind": "warning",
-      "sound": "AU-22:portal.warning",
-      "soundObligation": "AU-22",
+      "sound": "AU-21:portal.warning",
+      "soundObligation": "AU-21",
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -12677,6 +12882,15 @@
       "maxConcurrent": 4,
       "label": "PORTAL PROVOKED",
       "canvasLayer": 100,
+      "audioRoute": {
+        "event": "portal.active-spawn",
+        "route": "portal.active-spawn.open",
+        "category": "AU-21",
+        "bus": "Ambience",
+        "variants": [
+          "interface.r2860.full"
+        ]
+      },
       "textureFrames": [
         1,
         1
@@ -12696,8 +12910,8 @@
       ],
       "loop": false,
       "kind": "particles",
-      "sound": "AU-22:portal.spawn",
-      "soundObligation": "AU-22",
+      "sound": "AU-21:portal.spawn",
+      "soundObligation": "AU-21",
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -12708,6 +12922,15 @@
       "status": false,
       "emissionSeconds": 0.12,
       "maxConcurrent": 4,
+      "audioRoute": {
+        "event": "portal.active-spawn",
+        "route": "portal.active-spawn.spawn",
+        "category": "AU-21",
+        "bus": "Ambience",
+        "variants": [
+          "interface.r5582.full"
+        ]
+      },
       "textureFrames": [
         1,
         1
@@ -12727,8 +12950,8 @@
       ],
       "loop": false,
       "kind": "particles",
-      "sound": "AU-22:portal.hit",
-      "soundObligation": "AU-22",
+      "sound": null,
+      "soundObligation": null,
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -12739,6 +12962,7 @@
       "status": false,
       "emissionSeconds": 0.12,
       "maxConcurrent": 4,
+      "soundPolicy": "Natural regeneration is silent; impacts use the actual attacking material/action; shared character cues require an exact actor body identity.",
       "textureFrames": [
         1,
         1
@@ -12770,6 +12994,15 @@
       "status": false,
       "emissionSeconds": 0.12,
       "maxConcurrent": 4,
+      "audioRoute": {
+        "event": "portal.destroy",
+        "route": "portal.destroy.permanent-destruction",
+        "category": "AU-22",
+        "bus": "Effects",
+        "variants": [
+          "interface.r4364.full"
+        ]
+      },
       "textureFrames": [
         1,
         1
@@ -12803,6 +13036,15 @@
       "maxConcurrent": 4,
       "contact": "spit.splash",
       "firstContactOnly": true,
+      "audioRoute": {
+        "event": "spit.release-impact",
+        "route": "spit.release-impact.release",
+        "category": "AU-08",
+        "bus": "Effects",
+        "variants": [
+          "action.2790.full"
+        ]
+      },
       "textureFrames": [
         8,
         1
@@ -12822,8 +13064,8 @@
       ],
       "loop": false,
       "kind": "particles",
-      "sound": "AU-09:spit.hit",
-      "soundObligation": "AU-09",
+      "sound": "AU-08:spit.hit",
+      "soundObligation": "AU-08",
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -12834,6 +13076,15 @@
       "status": false,
       "emissionSeconds": 0.12,
       "maxConcurrent": 4,
+      "audioRoute": {
+        "event": "spit.release-impact",
+        "route": "spit.release-impact.direct-hit",
+        "category": "AU-08",
+        "bus": "Effects",
+        "variants": [
+          "action.2790.full"
+        ]
+      },
       "textureFrames": [
         1,
         1
@@ -12853,8 +13104,8 @@
       ],
       "loop": false,
       "kind": "particles",
-      "sound": "AU-09:bloater.death",
-      "soundObligation": "AU-09",
+      "sound": "AU-29:bloater.death",
+      "soundObligation": "AU-29",
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -12865,6 +13116,15 @@
       "status": false,
       "emissionSeconds": 0.12,
       "maxConcurrent": 4,
+      "audioRoute": {
+        "event": "bloater.splash",
+        "route": "bloater.splash.cosmetic-death-burst",
+        "category": "AU-29",
+        "bus": "Effects",
+        "variants": [
+          "interface.bloater-burst.v1"
+        ]
+      },
       "textureFrames": [
         1,
         1
@@ -12874,7 +13134,7 @@
       "id": "bloater.stain",
       "obligation": "FX-07",
       "part": "common.s0.11800",
-      "duration": 8,
+      "duration": 20,
       "amount": 1,
       "color": [
         0.4,
@@ -12917,8 +13177,8 @@
       ],
       "loop": false,
       "kind": "particles",
-      "sound": "AU-07:character.hit",
-      "soundObligation": "AU-07",
+      "sound": null,
+      "soundObligation": null,
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -12929,6 +13189,96 @@
       "status": false,
       "emissionSeconds": 0.12,
       "maxConcurrent": 4,
+      "soundPolicy": "Natural regeneration is silent; impacts use the actual attacking material/action; shared character cues require an exact actor body identity.",
+      "soundByBody": {
+        "CH-01": {
+          "sound": "AU-10:character.hit",
+          "event": "survivor.hit-death-succession",
+          "route": "survivor.hit-death-succession.damage",
+          "category": "AU-10",
+          "bus": "Effects",
+          "variants": [
+            "action.5123.full"
+          ]
+        },
+        "CH-02": {
+          "sound": "AU-09:character.hit",
+          "event": "zombie.move-attack-hit-death",
+          "route": "zombie.move-attack-hit-death.hit",
+          "category": "AU-09",
+          "bus": "Effects",
+          "variants": [
+            "action.2880.full",
+            "action.3700.full"
+          ]
+        },
+        "CH-03": {
+          "sound": "AU-09:character.hit",
+          "event": "zombie.move-attack-hit-death",
+          "route": "zombie.move-attack-hit-death.hit",
+          "category": "AU-09",
+          "bus": "Effects",
+          "variants": [
+            "action.2880.full",
+            "action.3700.full"
+          ]
+        },
+        "CH-04": {
+          "sound": "AU-09:character.hit",
+          "event": "zombie.move-attack-hit-death",
+          "route": "zombie.move-attack-hit-death.hit",
+          "category": "AU-09",
+          "bus": "Effects",
+          "variants": [
+            "action.2880.full",
+            "action.3700.full"
+          ]
+        },
+        "CH-05": {
+          "sound": "AU-09:character.hit",
+          "event": "zombie.move-attack-hit-death",
+          "route": "zombie.move-attack-hit-death.hit",
+          "category": "AU-09",
+          "bus": "Effects",
+          "variants": [
+            "action.2880.full",
+            "action.3700.full"
+          ]
+        },
+        "CH-06": {
+          "sound": "AU-09:character.hit",
+          "event": "zombie.move-attack-hit-death",
+          "route": "zombie.move-attack-hit-death.hit",
+          "category": "AU-09",
+          "bus": "Effects",
+          "variants": [
+            "action.2880.full",
+            "action.3700.full"
+          ]
+        },
+        "CH-07": {
+          "sound": "AU-09:character.hit",
+          "event": "zombie.move-attack-hit-death",
+          "route": "zombie.move-attack-hit-death.hit",
+          "category": "AU-09",
+          "bus": "Effects",
+          "variants": [
+            "action.2880.full",
+            "action.3700.full"
+          ]
+        },
+        "CH-08": {
+          "sound": "AU-09:character.hit",
+          "event": "zombie.move-attack-hit-death",
+          "route": "zombie.move-attack-hit-death.hit",
+          "category": "AU-09",
+          "bus": "Effects",
+          "variants": [
+            "action.2880.full",
+            "action.3700.full"
+          ]
+        }
+      },
       "textureFrames": [
         1,
         1
@@ -12948,8 +13298,8 @@
       ],
       "loop": false,
       "kind": "particles",
-      "sound": "AU-07:character.death",
-      "soundObligation": "AU-07",
+      "sound": null,
+      "soundObligation": null,
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -12960,6 +13310,103 @@
       "status": false,
       "emissionSeconds": 0.12,
       "maxConcurrent": 4,
+      "soundPolicy": "Natural regeneration is silent; impacts use the actual attacking material/action; shared character cues require an exact actor body identity.",
+      "soundByBody": {
+        "CH-01": {
+          "sound": "AU-10:character.death",
+          "event": "survivor.hit-death-succession",
+          "route": "survivor.hit-death-succession.death",
+          "category": "AU-10",
+          "bus": "Effects",
+          "variants": [
+            "action.5736.full"
+          ]
+        },
+        "CH-02": {
+          "sound": "AU-09:character.death",
+          "event": "zombie.move-attack-hit-death",
+          "route": "zombie.move-attack-hit-death.death",
+          "category": "AU-09",
+          "bus": "Effects",
+          "variants": [
+            "action.3131.full",
+            "action.2804.full",
+            "action.3554.full"
+          ]
+        },
+        "CH-03": {
+          "sound": "AU-09:character.death",
+          "event": "zombie.move-attack-hit-death",
+          "route": "zombie.move-attack-hit-death.death",
+          "category": "AU-09",
+          "bus": "Effects",
+          "variants": [
+            "action.3131.full",
+            "action.2804.full",
+            "action.3554.full"
+          ]
+        },
+        "CH-04": {
+          "sound": "AU-09:character.death",
+          "event": "zombie.move-attack-hit-death",
+          "route": "zombie.move-attack-hit-death.death",
+          "category": "AU-09",
+          "bus": "Effects",
+          "variants": [
+            "action.3131.full",
+            "action.2804.full",
+            "action.3554.full"
+          ]
+        },
+        "CH-05": {
+          "sound": "AU-09:character.death",
+          "event": "zombie.move-attack-hit-death",
+          "route": "zombie.move-attack-hit-death.death",
+          "category": "AU-09",
+          "bus": "Effects",
+          "variants": [
+            "action.3131.full",
+            "action.2804.full",
+            "action.3554.full"
+          ]
+        },
+        "CH-06": {
+          "sound": "AU-09:character.death",
+          "event": "zombie.move-attack-hit-death",
+          "route": "zombie.move-attack-hit-death.death",
+          "category": "AU-09",
+          "bus": "Effects",
+          "variants": [
+            "action.3131.full",
+            "action.2804.full",
+            "action.3554.full"
+          ]
+        },
+        "CH-07": {
+          "sound": "AU-09:character.death",
+          "event": "zombie.move-attack-hit-death",
+          "route": "zombie.move-attack-hit-death.death",
+          "category": "AU-09",
+          "bus": "Effects",
+          "variants": [
+            "action.3131.full",
+            "action.2804.full",
+            "action.3554.full"
+          ]
+        },
+        "CH-08": {
+          "sound": "AU-09:character.death",
+          "event": "zombie.move-attack-hit-death",
+          "route": "zombie.move-attack-hit-death.death",
+          "category": "AU-09",
+          "bus": "Effects",
+          "variants": [
+            "action.3131.full",
+            "action.2804.full",
+            "action.3554.full"
+          ]
+        }
+      },
       "textureFrames": [
         1,
         1
@@ -12979,8 +13426,8 @@
       ],
       "loop": false,
       "kind": "particles",
-      "sound": "AU-07:recovery.health",
-      "soundObligation": "AU-07",
+      "sound": null,
+      "soundObligation": null,
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -12991,6 +13438,7 @@
       "status": false,
       "emissionSeconds": 0.12,
       "maxConcurrent": 4,
+      "soundPolicy": "Natural regeneration is silent; impacts use the actual attacking material/action; shared character cues require an exact actor body identity.",
       "textureFrames": [
         1,
         1
@@ -13010,8 +13458,8 @@
       ],
       "loop": false,
       "kind": "particles",
-      "sound": "AU-07:recovery.food",
-      "soundObligation": "AU-07",
+      "sound": "AU-19:recovery.food",
+      "soundObligation": "AU-19",
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -13022,6 +13470,15 @@
       "status": false,
       "emissionSeconds": 0.12,
       "maxConcurrent": 4,
+      "audioRoute": {
+        "event": "food.use-sale",
+        "route": "food.use-sale.consume",
+        "category": "AU-19",
+        "bus": "Effects",
+        "variants": [
+          "interface.food-crunch.v1"
+        ]
+      },
       "textureFrames": [
         1,
         1
@@ -13041,8 +13498,8 @@
       ],
       "loop": false,
       "kind": "particles",
-      "sound": "AU-07:recovery.stamina",
-      "soundObligation": "AU-07",
+      "sound": null,
+      "soundObligation": null,
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -13053,6 +13510,7 @@
       "status": false,
       "emissionSeconds": 0.12,
       "maxConcurrent": 4,
+      "soundPolicy": "Natural regeneration is silent; impacts use the actual attacking material/action; shared character cues require an exact actor body identity.",
       "textureFrames": [
         1,
         1
@@ -13264,8 +13722,8 @@
       ],
       "loop": false,
       "kind": "marker",
-      "sound": "AU-18:control.changed",
-      "soundObligation": "AU-18",
+      "sound": "AU-10:control.changed",
+      "soundObligation": "AU-10",
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -13277,6 +13735,15 @@
       "emissionSeconds": 0.12,
       "maxConcurrent": 4,
       "label": "P1 LEADER",
+      "audioRoute": {
+        "event": "survivor.hit-death-succession",
+        "route": "survivor.hit-death-succession.control-succession",
+        "category": "AU-10",
+        "bus": "Effects",
+        "variants": [
+          "action.5736.full"
+        ]
+      },
       "textureFrames": [
         2,
         1
@@ -13328,8 +13795,8 @@
       ],
       "loop": false,
       "kind": "warning",
-      "sound": "AU-25:warning.nightfall",
-      "soundObligation": "AU-25",
+      "sound": "AU-20:warning.nightfall",
+      "soundObligation": "AU-20",
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -13342,6 +13809,15 @@
       "maxConcurrent": 4,
       "label": "NIGHTFALL",
       "canvasLayer": 100,
+      "audioRoute": {
+        "event": "warning.day-night-retaliation-assault",
+        "route": "warning.day-night-retaliation-assault.night",
+        "category": "AU-20",
+        "bus": "Effects",
+        "variants": [
+          "interface.s268.full"
+        ]
+      },
       "textureFrames": [
         1,
         1
@@ -13361,8 +13837,8 @@
       ],
       "loop": false,
       "kind": "warning",
-      "sound": "AU-25:warning.retaliation",
-      "soundObligation": "AU-25",
+      "sound": "AU-20:warning.retaliation",
+      "soundObligation": "AU-20",
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -13375,6 +13851,15 @@
       "maxConcurrent": 4,
       "label": "RETALIATION",
       "canvasLayer": 100,
+      "audioRoute": {
+        "event": "warning.day-night-retaliation-assault",
+        "route": "warning.day-night-retaliation-assault.retaliation",
+        "category": "AU-20",
+        "bus": "Effects",
+        "variants": [
+          "interface.r5586.full"
+        ]
+      },
       "textureFrames": [
         1,
         1
@@ -13394,8 +13879,8 @@
       ],
       "loop": false,
       "kind": "warning",
-      "sound": "AU-25:warning.portal-loss",
-      "soundObligation": "AU-25",
+      "sound": "AU-22:warning.portal-loss",
+      "soundObligation": "AU-22",
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -13408,6 +13893,15 @@
       "maxConcurrent": 4,
       "label": "PORTAL DESTROYED",
       "canvasLayer": 100,
+      "audioRoute": {
+        "event": "portal.destroy",
+        "route": "portal.destroy.permanent-destruction",
+        "category": "AU-22",
+        "bus": "Effects",
+        "variants": [
+          "interface.r4364.full"
+        ]
+      },
       "textureFrames": [
         1,
         1
@@ -13427,8 +13921,8 @@
       ],
       "loop": false,
       "kind": "warning",
-      "sound": "AU-25:outcome.victory",
-      "soundObligation": "AU-25",
+      "sound": "AU-23:outcome.victory",
+      "soundObligation": "AU-23",
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -13441,6 +13935,15 @@
       "maxConcurrent": 4,
       "label": "VICTORY - WORLD CONTINUES",
       "canvasLayer": 100,
+      "audioRoute": {
+        "event": "outcome",
+        "route": "outcome.victory",
+        "category": "AU-23",
+        "bus": "Effects",
+        "variants": [
+          "action.4543.full"
+        ]
+      },
       "textureFrames": [
         1,
         1
@@ -13460,8 +13963,8 @@
       ],
       "loop": false,
       "kind": "warning",
-      "sound": "AU-25:outcome.defeat",
-      "soundObligation": "AU-25",
+      "sound": "AU-23:outcome.defeat",
+      "soundObligation": "AU-23",
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -13474,6 +13977,15 @@
       "maxConcurrent": 4,
       "label": "DEFEAT",
       "canvasLayer": 100,
+      "audioRoute": {
+        "event": "outcome",
+        "route": "outcome.defeat",
+        "category": "AU-23",
+        "bus": "Effects",
+        "variants": [
+          "action.4523.full"
+        ]
+      },
       "textureFrames": [
         1,
         1
@@ -13493,8 +14005,8 @@
       ],
       "loop": false,
       "kind": "warning",
-      "sound": "AU-25:warning.connection-loss",
-      "soundObligation": "AU-25",
+      "sound": "AU-24:warning.connection-loss",
+      "soundObligation": "AU-24",
       "speedPixelsPerSecond": 12,
       "gravityPixelsPerSecondSquared": 18,
       "radiusPixels": 6,
@@ -13507,6 +14019,15 @@
       "maxConcurrent": 4,
       "label": "CONNECTION LOST",
       "canvasLayer": 100,
+      "audioRoute": {
+        "event": "session.connection",
+        "route": "session.connection.failure",
+        "category": "AU-24",
+        "bus": "Effects",
+        "variants": [
+          "interface.s0485.negative"
+        ]
+      },
       "textureFrames": [
         1,
         1
@@ -18963,115 +19484,91 @@
   "sources": {
     "commonBundleSha256": "2f66618305221d32d503bba04be755ae38e606408a7c5d9d8f65a1db19d9e6d9",
     "recipe": "Each sourceMember is read byte-exact from pinned common-selected.zip; threshold alpha at128,zero RGB only alpha0,preserve other RGB,copy native without resampling into2px-separated2048x2048 shelves in ordinal key order",
-    "recipeSha256": "c5d6ddd32f7700d54206aa8898f77b3291aacd5fa4ab74f0d3cb23546378ff0c",
-    "authoringRecipe": "import pathlib,sys,json,io,hashlib,zipfile\nsys.dont_write_bytecode=True\nROOT=pathlib.Path(__file__).resolve().parents[2]\nspec=__import__('importlib.util',fromlist=['']).spec_from_file_location('media',ROOT/'tools/phase4/extract-media.py');m=__import__('importlib.util',fromlist=['']).module_from_spec(spec);spec.loader.exec_module(m);Image=m.image_module()\ndef js(v):return (json.dumps(v,indent=2,ensure_ascii=False,allow_nan=False)+'\\n').encode()\ndef sha(b):return hashlib.sha256(b).hexdigest()\ndef main():\n common=json.loads((ROOT/'src/godot-game/content/packs/common.json').read_bytes());records={r['id']:r for r in common['resources']};clips=[c for c in common['clips'] if c['name'].startswith('portal_')]\n ids={k['sprite'] for c in clips for l in c['layers'] for k in l['keys'] if k.get('sprite')}\n ids.update(r['id'] for r in common['resources'] if 'K11' in r.get('families',[]) or 'K23' in r.get('families',[]) or r.get('family')=='K23' or ('K06' in r.get('families',[]) and r['name'].startswith('fire_mid_burn_')))\n ids.update(['common.s0.6885','common.s0.7985','common.s0.6994','common.s0.7295','common.r.7705','common.s0.7705'])\n ids={x for x in ids if x in records};atlas=Image.new('RGBA',(2048,2048));parts=[];x=y=row=0\n with zipfile.ZipFile(ROOT/'production/phase4/common-selected.zip') as z:\n  for ident in sorted(ids):\n   r=records[ident];raw=z.read(r['member']);im=Image.open(io.BytesIO(raw)).convert('RGBA');im.putalpha(im.getchannel('A').point(lambda a:255 if a>=128 else 0));data=bytearray(im.tobytes())\n   for j in range(0,len(data),4):\n    if not data[j+3]:data[j:j+3]=b'\\x00\\x00\\x00'\n   im=Image.frombytes('RGBA',im.size,bytes(data));w,h=im.size\n   if x+w+2>2048:x=0;y+=row+2;row=0\n   assert y+h<=2048,(ident,y,h)\n   atlas.alpha_composite(im,(x,y));parts.append({'key':ident,'name':r['name'],'sourceMember':r['member'],'sourceSha256':sha(raw),'source':r['source'],'registration':r.get('registration'),'size':[w,h],'atlasRect':[x,y,w,h],'rgbaSha256':sha(im.tobytes()),'operations':['alpha-threshold-128','zero-transparent-rgb','native-pixel-copy'],'visiblePixels':sum(bool(a) for a in im.getchannel('A').tobytes())});x+=w+2;row=max(row,h)\n b=io.BytesIO();atlas.save(b,format='PNG',compress_level=9);atlasbytes=b.getvalue()\n # The portal starts at the exact donor stone/interior purple family; sickly spit and stain stay distinct.\n shader='shader_type canvas_item;\\nuniform float preview_time = 0.0;\\nuniform vec4 tint : source_color = vec4(0.27,0.17,0.35,1.0);\\nvoid fragment(){ vec2 p=(UV-vec2(0.5))*vec2(2.0,1.4); float d=length(p); float bands=step(0.52,fract(d*5.0-preview_time*0.35)); float a=step(d,0.75)*step(0.18,d); COLOR=vec4(tint.rgb*(0.65+0.35*bands),a*tint.a); }\\n'\n effects=[]\n def fx(ident,family,part='common.s0.6967',duration=0.3,amount=3,color=None,loop=False,kind='particles',sound=None):\n  effects.append({'id':ident,'obligation':family,'part':part,'duration':duration,'amount':amount,'color':color or [0.7,0.66,0.55,1],'loop':loop,'kind':kind,'sound':sound,'soundObligation':None if sound is None else sound.split(':')[0],'speedPixelsPerSecond':12,'gravityPixelsPerSecondSquared':18,'radiusPixels':6,'seed':13,'loot':False,'damage':False,'collision':False,'status':False,'emissionSeconds':min(duration,0.12),'maxConcurrent':4})\n for role in ['friendly','enemy','tower']:fx('arrow.'+role,'FX-01','common.s0.6885',1.5,1,kind='projectile',sound='AU-03:bow.release');effects[-1].update(speedPixelsPerSecond=160,radiusPixels=1,contact='arrow.contact',firstContactOnly=True)\n for material in ['wood','metal','ground','flesh','armor','portal']:fx('arrow.contact.'+material,'FX-01',duration=0.18,amount=2,sound='AU-04:arrow.'+material)\n for weapon,weight in [('fists',1),('knife',1),('club',2),('machete',2),('bat',3),('dual',2)]:fx('melee.'+weapon,'FX-02',duration=0.16,amount=weight,sound='AU-02:melee.'+weapon);effects[-1]['materials']=['flesh','armor','wood','metal','portal']\n for ident,part in [('work.wood','common.s0.6967'),('work.metal','common.texture.269'),('tree.chop','common.s0.6967'),('tree.fall','common.texture.453'),('collapse.wood','common.s0.7073'),('collapse.metal','common.texture.269')]:fx(ident,'FX-03',part,duration=0.65,amount=5,sound='AU-12:'+ident)\n for ident,part,col in [('fire.loop','common.texture.217',[1,0.65,0.28,1]),('smoke.loop','common.texture.453',[0.4,0.43,0.44,0.5]),('embers.loop','common.texture.292',[1,0.7,0.3,0.8])]:fx(ident,'FX-04',part,duration=1.0,amount=4,color=col,loop=True,sound='AU-26:fire.loop' if ident=='fire.loop' else None)\n for ident,duration in [('portal.warning',0.8),('portal.spawn',1.5),('portal.hit',0.2),('portal.destroy',7.5714263916015625)]:fx(ident,'FX-05','common.s0.6967',duration=duration,amount=4,color=[0.3,0.18,0.38,1],sound='AU-22:'+ident)\n next(e for e in effects if e['id']=='portal.warning').update(kind='warning',label='PORTAL PROVOKED',canvasLayer=100)\n fx('spit.projectile','FX-06','common.texture.134',duration=1,amount=1,color=[0.55,0.64,0.26,1],kind='projectile',sound='AU-08:spit.release');effects[-1].update(speedPixelsPerSecond=96,contact='spit.splash',firstContactOnly=True)\n fx('spit.splash','FX-06',duration=0.24,amount=3,color=[0.55,0.64,0.26,1],sound='AU-09:spit.hit')\n fx('bloater.burst','FX-07',duration=0.6,amount=6,color=[0.4,0.5,0.28,0.8],sound='AU-09:bloater.death')\n fx('bloater.stain','FX-07','common.s0.11800',duration=8,amount=1,color=[0.4,0.5,0.28,0.5],kind='stain');effects[-1].update(radiusPixels=24,fadeSeconds=3,independentOfCorpse=True)\n for ident in ['character.hit','character.death','recovery.health','recovery.food','recovery.stamina']:fx(ident,'FX-08',duration=0.25,amount=2,color=[0.84,0.8,0.66,0.8],sound='AU-07:'+ident)\n for ident,label in [('selection','SELECTED'),('placement.valid','VALID +'),('placement.invalid','BLOCKED X'),('placement.collision','COLLISION X'),('placement.legacy','LEGACY !'),('ownership','OWNED P1')]:fx(ident,'FX-09','common.s0.7705',duration=0.5,amount=1,kind='marker');effects[-1]['label']=label\n fx('crown.control','FX-10','common.s0.7985',duration=0.45,amount=1,kind='marker',sound='AU-18:control.changed');effects[-1]['label']='P1 LEADER'\n fx('condition.broken','FX-11','common.s0.7705',duration=0.4,amount=1,kind='marker');effects[-1]['label']='BROKEN X'\n for ident,label in [('warning.nightfall','NIGHTFALL'),('warning.retaliation','RETALIATION'),('warning.portal-loss','PORTAL DESTROYED'),('outcome.victory','VICTORY - WORLD CONTINUES'),('outcome.defeat','DEFEAT'),('warning.connection-loss','CONNECTION LOST')]:fx(ident,'FX-12','common.s0.7705',duration=2,amount=1,kind='warning',sound='AU-25:'+ident);effects[-1]['label']=label;effects[-1]['canvasLayer']=100\n for e in effects:\n  r=next(p for p in parts if p['key']==e['part']);w,h=r['size'];e['textureFrames']=[w//h if w>=h and w%h==0 else 1,1]\n pack={'schemaVersion':1,'id':'effects-portals','version':1,'obligations':['BL-16']+['FX-'+str(i).zfill(2) for i in range(1,13)],'atlas':{'path':'res://assets/effects/effects.png','size':[2048,2048],'sha256':sha(atlasbytes),'rgbaSha256':sha(atlas.tobytes())},'parts':parts,'effects':effects,'portalClips':clips,'portalShader':shader,'portalColor':[0.27,0.17,0.35,1],'spitColor':[0.55,0.64,0.26,1],'stainColor':[0.4,0.5,0.28,0.5],'splashFrames':['common.s0.'+str(i) for i in [6967,8451,9175,9878,10561,11192,11800,12320]],'materialProfiles':[{'id':'day','tint':[1,1,1,1]},{'id':'night','tint':[0.48,0.56,0.72,1]},{'id':'wood-damage','tint':[0.68,0.55,0.41,1]},{'id':'metal-damage','tint':[0.54,0.59,0.63,1]},{'id':'broken','tint':[0.5,0.5,0.5,1]}],'limits':{'total':24,'perEffect':4,'particleAmount':12,'bloodParticles':0,'dismemberment':False,'projectilesBecomeLoot':False,'crownBecomesLoot':False,'guardLoot':False,'cosmeticStainOnly':True},'sources':{'commonBundleSha256':sha((ROOT/'production/phase4/common-selected.zip').read_bytes()),'recipe':'Each sourceMember is read byte-exact from pinned common-selected.zip; threshold alpha at128,zero RGB only alpha0,preserve other RGB,copy native without resampling into2px-separated2048x2048 shelves in ordinal key order','recipeSha256':sha(pathlib.Path(__file__).read_bytes()),'authoringRecipe':pathlib.Path(__file__).read_text(encoding='utf-8')},'soundEvents':[{'id':s,'obligation':s.split(':')[0],'audioOwner':'04-21','actualListening':'pending-04-32'} for s in sorted({e['sound'] for e in effects if e['sound']})],'acceptance':{'visual':'pending','listening':'pending','owner':'04-32/04-33','completedObligations':[]}}\n (ROOT/'src/godot-game/assets/effects').mkdir(exist_ok=True);(ROOT/'src/godot-game/assets/effects/effects.png').write_bytes(atlasbytes);(ROOT/'src/godot-game/content/packs/effects-portals.json').write_bytes(js(pack))\n world=json.loads((ROOT/'src/godot-game/content/world/map.json').read_bytes());portals=[]\n for p in world['portals']:portals.append({'id':p['id'],'side':p['side'],'sourceIndex':p['sourceIndex'],'x':p['x'],'front':'common.s0.8291','back':'common.s0.7865','debris':[r['key'] for r in parts if r['name'].startswith(('portal_front_s','portal_back_s'))],'spawnOffset':p['spawnOffset'],'blocker':p['blocker'],'projectileRect':p['projectileRect'],'ruinPassable':True,'ruinPermanent':True,'ruinActive':False,'ruinRegrows':False})\n samples=[{'id':'portal.'+state,'portalState':state,'stock':'full','clearing':'intact','rally':'refuge','reveal':'unknown-portals','lighting':'day','loops':[]} for state in ['closed','idle','warning','spawning','damaged','destroying','ruins']]\n for kind,states,field in [('plants',['full','partial','empty','refilled'],'stock'),('clearings',['intact','marked-paid','chopping','falling-left','falling-right','cleared-stump'],'clearing'),('rally',['refuge','expanded','wall-lost'],'rally'),('map',['unknown-portals','shared-exploration'],'reveal'),('world',['day','night'],'lighting')]:\n  for state in states:samples.append({**samples[0],'id':kind+'.'+state,field:state,'loops':['fire.loop','smoke.loop','embers.loop'] if kind=='world' else (['work.wood'] if state=='chopping' else [])})\n files=['content/packs/common.json','content/packs/world.json','content/world/map.json','content/packs/effects-portals.json','assets/world/environment.png','assets/effects/effects.png']\n assembly={'schemaVersion':1,'id':'portal-assemblies','version':1,'sourceBindings':[{'file':f,'sha256':sha((ROOT/'src/godot-game'/f).read_bytes())} for f in files],'portals':portals,'states':['closed','idle','warning','spawning','damaged','destroying','ruins'],'clips':{'closed':'common.clip.2569','idle':'common.clip.2571','warning':'common.clip.2572','spawning':'common.clip.2572','damaged':'common.clip.2570','destroying':'common.clip.2573'},'restoration':{'silent':True,'replayPastEvents':False,'ruinsPermanent':True,'currentLoopsOnly':True,'revokeOldGenerations':True},'samples':samples,'projectileContacts':['wood','metal','ground','flesh','armor','portal'],'materialDamageThresholds':[0.75,0.4,0],'eventLimit':24,'acceptance':{'visual':'pending','owner':'04-32/04-33','completedObligations':[]}}\n (ROOT/'src/godot-game/content/world/portal-assemblies.json').write_bytes(js(assembly));print(json.dumps({'parts':len(parts),'effects':len(effects),'clips':len(clips),'samples':len(samples),'atlasBytes':len(atlasbytes),'packBytes':len(js(pack))}))\nif __name__=='__main__':main()\n"
+    "recipeSha256": "856af1669d2858ebe4085274e99c2256dee0caecfe00c2bb2f702a51207fc7c1",
+    "authoringRecipe": "import pathlib,sys,json,io,hashlib,zipfile\nsys.dont_write_bytecode=True\nROOT=pathlib.Path(__file__).resolve().parents[2]\nspec=__import__('importlib.util',fromlist=['']).spec_from_file_location('media',ROOT/'tools/phase4/extract-media.py');m=__import__('importlib.util',fromlist=['']).module_from_spec(spec);spec.loader.exec_module(m);Image=m.image_module()\ndef js(v):return (json.dumps(v,indent=2,ensure_ascii=False,allow_nan=False)+'\\n').encode()\ndef sha(b):return hashlib.sha256(b).hexdigest()\ndef build():\n common=json.loads((ROOT/'src/godot-game/content/packs/common.json').read_bytes());records={r['id']:r for r in common['resources']};clips=[c for c in common['clips'] if c['name'].startswith('portal_')]\n ids={k['sprite'] for c in clips for l in c['layers'] for k in l['keys'] if k.get('sprite')}\n ids.update(r['id'] for r in common['resources'] if 'K11' in r.get('families',[]) or 'K23' in r.get('families',[]) or r.get('family')=='K23' or ('K06' in r.get('families',[]) and r['name'].startswith('fire_mid_burn_')))\n ids.update(['common.s0.6885','common.s0.7985','common.s0.6994','common.s0.7295','common.r.7705','common.s0.7705'])\n ids={x for x in ids if x in records};atlas=Image.new('RGBA',(2048,2048));parts=[];x=y=row=0\n with zipfile.ZipFile(ROOT/'production/phase4/common-selected.zip') as z:\n  for ident in sorted(ids):\n   r=records[ident];raw=z.read(r['member']);im=Image.open(io.BytesIO(raw)).convert('RGBA');im.putalpha(im.getchannel('A').point(lambda a:255 if a>=128 else 0));data=bytearray(im.tobytes())\n   for j in range(0,len(data),4):\n    if not data[j+3]:data[j:j+3]=b'\\x00\\x00\\x00'\n   im=Image.frombytes('RGBA',im.size,bytes(data));w,h=im.size\n   if x+w+2>2048:x=0;y+=row+2;row=0\n   assert y+h<=2048,(ident,y,h)\n   atlas.alpha_composite(im,(x,y));parts.append({'key':ident,'name':r['name'],'sourceMember':r['member'],'sourceSha256':sha(raw),'source':r['source'],'registration':r.get('registration'),'size':[w,h],'atlasRect':[x,y,w,h],'rgbaSha256':sha(im.tobytes()),'operations':['alpha-threshold-128','zero-transparent-rgb','native-pixel-copy'],'visiblePixels':sum(bool(a) for a in im.getchannel('A').tobytes())});x+=w+2;row=max(row,h)\n b=io.BytesIO();atlas.save(b,format='PNG',compress_level=9);atlasbytes=b.getvalue()\n # The portal starts at the exact donor stone/interior purple family; sickly spit and stain stay distinct.\n shader='shader_type canvas_item;\\nuniform float preview_time = 0.0;\\nuniform vec4 tint : source_color = vec4(0.27,0.17,0.35,1.0);\\nvoid fragment(){ vec2 p=(UV-vec2(0.5))*vec2(2.0,1.4); float d=length(p); float bands=step(0.52,fract(d*5.0-preview_time*0.35)); float a=step(d,0.75)*step(0.18,d); COLOR=vec4(tint.rgb*(0.65+0.35*bands),a*tint.a); }\\n'\n effects=[]\n def fx(ident,family,part='common.s0.6967',duration=0.3,amount=3,color=None,loop=False,kind='particles',sound=None):\n  effects.append({'id':ident,'obligation':family,'part':part,'duration':duration,'amount':amount,'color':color or [0.7,0.66,0.55,1],'loop':loop,'kind':kind,'sound':sound,'soundObligation':None if sound is None else sound.split(':')[0],'speedPixelsPerSecond':12,'gravityPixelsPerSecondSquared':18,'radiusPixels':6,'seed':13,'loot':False,'damage':False,'collision':False,'status':False,'emissionSeconds':min(duration,0.12),'maxConcurrent':4})\n for role in ['friendly','enemy','tower']:fx('arrow.'+role,'FX-01','common.s0.6885',1.5,1,kind='projectile',sound='AU-03:bow.release');effects[-1].update(speedPixelsPerSecond=160,radiusPixels=1,contact='arrow.contact',firstContactOnly=True)\n for material in ['wood','metal','ground','flesh','armor','portal']:fx('arrow.contact.'+material,'FX-01',duration=0.18,amount=2,sound='AU-04:arrow.'+material)\n for weapon,weight in [('fists',1),('knife',1),('club',2),('machete',2),('bat',3),('dual',2)]:fx('melee.'+weapon,'FX-02',duration=0.16,amount=weight,sound='AU-02:melee.'+weapon);effects[-1]['materials']=['flesh','armor','wood','metal','portal']\n for ident,part in [('work.wood','common.s0.6967'),('work.metal','common.texture.269'),('tree.chop','common.s0.6967'),('tree.fall','common.texture.453'),('collapse.wood','common.s0.7073'),('collapse.metal','common.texture.269')]:fx(ident,'FX-03',part,duration=0.65,amount=5,sound='AU-12:'+ident)\n for ident,part,col in [('fire.loop','common.texture.217',[1,0.65,0.28,1]),('smoke.loop','common.texture.453',[0.4,0.43,0.44,0.5]),('embers.loop','common.texture.292',[1,0.7,0.3,0.8])]:fx(ident,'FX-04',part,duration=1.0,amount=4,color=col,loop=True,sound='AU-26:fire.loop' if ident=='fire.loop' else None)\n for ident,duration in [('portal.warning',0.8),('portal.spawn',1.5),('portal.hit',0.2),('portal.destroy',7.5714263916015625)]:fx(ident,'FX-05','common.s0.6967',duration=duration,amount=4,color=[0.3,0.18,0.38,1],sound='AU-22:'+ident)\n next(e for e in effects if e['id']=='portal.warning').update(kind='warning',label='PORTAL PROVOKED',canvasLayer=100)\n fx('spit.projectile','FX-06','common.texture.134',duration=1,amount=1,color=[0.55,0.64,0.26,1],kind='projectile',sound='AU-08:spit.release');effects[-1].update(speedPixelsPerSecond=96,contact='spit.splash',firstContactOnly=True)\n fx('spit.splash','FX-06',duration=0.24,amount=3,color=[0.55,0.64,0.26,1],sound='AU-09:spit.hit')\n fx('bloater.burst','FX-07',duration=0.6,amount=6,color=[0.4,0.5,0.28,0.8],sound='AU-09:bloater.death')\n fx('bloater.stain','FX-07','common.s0.11800',duration=8,amount=1,color=[0.4,0.5,0.28,0.5],kind='stain');effects[-1].update(radiusPixels=24,fadeSeconds=3,independentOfCorpse=True)\n for ident in ['character.hit','character.death','recovery.health','recovery.food','recovery.stamina']:fx(ident,'FX-08',duration=0.25,amount=2,color=[0.84,0.8,0.66,0.8],sound='AU-07:'+ident)\n for ident,label in [('selection','SELECTED'),('placement.valid','VALID +'),('placement.invalid','BLOCKED X'),('placement.collision','COLLISION X'),('placement.legacy','LEGACY !'),('ownership','OWNED P1')]:fx(ident,'FX-09','common.s0.7705',duration=0.5,amount=1,kind='marker');effects[-1]['label']=label\n fx('crown.control','FX-10','common.s0.7985',duration=0.45,amount=1,kind='marker',sound='AU-18:control.changed');effects[-1]['label']='P1 LEADER'\n fx('condition.broken','FX-11','common.s0.7705',duration=0.4,amount=1,kind='marker');effects[-1]['label']='BROKEN X'\n for ident,label in [('warning.nightfall','NIGHTFALL'),('warning.retaliation','RETALIATION'),('warning.portal-loss','PORTAL DESTROYED'),('outcome.victory','VICTORY - WORLD CONTINUES'),('outcome.defeat','DEFEAT'),('warning.connection-loss','CONNECTION LOST')]:fx(ident,'FX-12','common.s0.7705',duration=2,amount=1,kind='warning',sound='AU-25:'+ident);effects[-1]['label']=label;effects[-1]['canvasLayer']=100\n\n # Reconcile actual effect cues against the canonical AU event/variant/bus authority.\n route_ids={'arrow.friendly': 'bow.release.ordinary-archer', 'arrow.enemy': 'bow.release.ordinary-archer', 'arrow.tower': 'bow.release.tower-archer', 'arrow.contact.wood': 'arrow.contact.wood', 'arrow.contact.metal': 'arrow.contact.metal', 'arrow.contact.ground': 'arrow.contact.terrain', 'arrow.contact.flesh': 'arrow.contact.generic', 'arrow.contact.armor': 'arrow.contact.generic', 'arrow.contact.portal': 'arrow.contact.portal', 'melee.fists': 'melee.swing.fist-knife-machete', 'melee.knife': 'melee.swing.fist-knife-machete', 'melee.club': 'melee.swing.club-bat', 'melee.machete': 'melee.swing.fist-knife-machete', 'melee.bat': 'melee.swing.club-bat', 'melee.dual': 'melee.swing.dual-contact', 'work.wood': 'work.build-repair.wood-build-repair', 'work.metal': 'work.build-repair.metal-build-repair', 'tree.chop': 'tree.clear.chop', 'tree.fall': 'tree.clear.fall', 'collapse.wood': 'structure.hit-collapse.wood-collapse', 'collapse.metal': 'structure.hit-collapse.metal-collapse', 'fire.loop': 'ambience.fire-wind.local-fire', 'portal.warning': 'portal.active-spawn.open', 'portal.spawn': 'portal.active-spawn.spawn', 'portal.destroy': 'portal.destroy.permanent-destruction', 'spit.projectile': 'spit.release-impact.release', 'spit.splash': 'spit.release-impact.direct-hit', 'bloater.burst': 'bloater.splash.cosmetic-death-burst', 'recovery.food': 'food.use-sale.consume', 'crown.control': 'survivor.hit-death-succession.control-succession', 'warning.nightfall': 'warning.day-night-retaliation-assault.night', 'warning.retaliation': 'warning.day-night-retaliation-assault.retaliation', 'warning.portal-loss': 'portal.destroy.permanent-destruction', 'outcome.victory': 'outcome.victory', 'outcome.defeat': 'outcome.defeat', 'warning.connection-loss': 'session.connection.failure'}\n audio=json.loads((ROOT/'src/godot-game/content/audio/events.json').read_bytes())\n canonical={r['id']:(event,r) for event in audio['events'] for r in event['routes']}\n for effect in effects:\n  if effect['id'] in route_ids:\n   event,route=canonical[route_ids[effect['id']]]\n   effect['sound']=event['category']+':'+effect['sound'].split(':',1)[1]\n   effect['soundObligation']=event['category']\n   effect['audioRoute']={'event':event['id'],'route':route['id'],'category':event['category'],'bus':route['bus'],'variants':route['variants']}\n  if effect['id'] in ['recovery.health','recovery.stamina','portal.hit','character.hit','character.death']:\n   effect['sound']=None;effect['soundObligation']=None\n   effect['soundPolicy']='Natural regeneration is silent; impacts use the actual attacking material/action; shared character cues require an exact actor body identity.'\n  if effect['id'] in ['character.hit','character.death']:\n   suffix='hit' if effect['id']=='character.hit' else 'death'\n   effect['soundByBody']={}\n   for body in ['CH-'+str(n).zfill(2) for n in range(1,9)]:\n    route_id=('survivor.hit-death-succession.'+('damage' if suffix=='hit' else 'death')) if body=='CH-01' else 'zombie.move-attack-hit-death.'+suffix\n    event,route=canonical[route_id]\n    effect['soundByBody'][body]={'sound':event['category']+':'+effect['id'],'event':event['id'],'route':route_id,'category':event['category'],'bus':route['bus'],'variants':route['variants']}\n  if effect['id']=='bloater.stain':effect['duration']=20\n for e in effects:\n  r=next(p for p in parts if p['key']==e['part']);w,h=r['size'];e['textureFrames']=[w//h if w>=h and w%h==0 else 1,1]\n pack={'schemaVersion':1,'id':'effects-portals','version':1,'obligations':['BL-16']+['FX-'+str(i).zfill(2) for i in range(1,13)],'atlas':{'path':'res://assets/effects/effects.png','size':[2048,2048],'sha256':sha(atlasbytes),'rgbaSha256':sha(atlas.tobytes())},'parts':parts,'effects':effects,'portalClips':clips,'portalShader':shader,'portalColor':[0.27,0.17,0.35,1],'spitColor':[0.55,0.64,0.26,1],'stainColor':[0.4,0.5,0.28,0.5],'splashFrames':['common.s0.'+str(i) for i in [6967,8451,9175,9878,10561,11192,11800,12320]],'materialProfiles':[{'id':'day','tint':[1,1,1,1]},{'id':'night','tint':[0.48,0.56,0.72,1]},{'id':'wood-damage','tint':[0.68,0.55,0.41,1]},{'id':'metal-damage','tint':[0.54,0.59,0.63,1]},{'id':'broken','tint':[0.5,0.5,0.5,1]}],'limits':{'total':24,'perEffect':4,'particleAmount':12,'bloodParticles':0,'dismemberment':False,'projectilesBecomeLoot':False,'crownBecomesLoot':False,'guardLoot':False,'cosmeticStainOnly':True},'sources':{'commonBundleSha256':sha((ROOT/'production/phase4/common-selected.zip').read_bytes()),'recipe':'Each sourceMember is read byte-exact from pinned common-selected.zip; threshold alpha at128,zero RGB only alpha0,preserve other RGB,copy native without resampling into2px-separated2048x2048 shelves in ordinal key order','recipeSha256':sha(pathlib.Path(__file__).read_bytes()),'authoringRecipe':pathlib.Path(__file__).read_text(encoding='utf-8')},'soundEvents':[{'id':s,'obligation':s.split(':')[0],'audioOwner':'04-21','actualListening':'pending-04-32'} for s in sorted({e['sound'] for e in effects if e['sound']})],'acceptance':{'visual':'pending','listening':'pending','owner':'04-32/04-33','completedObligations':[]}}\n outputs={'assets/effects/effects.png':atlasbytes,'content/packs/effects-portals.json':js(pack)}\n world=json.loads((ROOT/'src/godot-game/content/world/map.json').read_bytes());portals=[]\n for p in world['portals']:portals.append({'id':p['id'],'side':p['side'],'sourceIndex':p['sourceIndex'],'x':p['x'],'front':'common.s0.8291','back':'common.s0.7865','debris':[r['key'] for r in parts if r['name'].startswith(('portal_front_s','portal_back_s'))],'spawnOffset':p['spawnOffset'],'blocker':p['blocker'],'projectileRect':p['projectileRect'],'ruinPassable':True,'ruinPermanent':True,'ruinActive':False,'ruinRegrows':False})\n samples=[{'id':'portal.'+state,'portalState':state,'stock':'full','clearing':'intact','rally':'refuge','reveal':'unknown-portals','lighting':'day','loops':[]} for state in ['closed','idle','warning','spawning','damaged','destroying','ruins']]\n for kind,states,field in [('plants',['full','partial','empty','refilled'],'stock'),('clearings',['intact','marked-paid','chopping','falling-left','falling-right','cleared-stump'],'clearing'),('rally',['refuge','expanded','wall-lost'],'rally'),('map',['unknown-portals','shared-exploration'],'reveal'),('world',['day','night'],'lighting')]:\n  for state in states:samples.append({**samples[0],'id':kind+'.'+state,field:state,'loops':['fire.loop','smoke.loop','embers.loop'] if kind=='world' else (['work.wood'] if state=='chopping' else [])})\n files=['content/packs/common.json','content/packs/world.json','content/world/map.json','content/packs/effects-portals.json','assets/world/environment.png','assets/effects/effects.png','content/audio/events.json','content/packs/audio-actions.json','content/packs/audio-interface-ambience.json']\n assembly={'schemaVersion':1,'id':'portal-assemblies','version':1,'sourceBindings':[{'file':f,'sha256':sha(outputs[f] if f in outputs else (ROOT/'src/godot-game'/f).read_bytes())} for f in files],'portals':portals,'states':['closed','idle','warning','spawning','damaged','destroying','ruins'],'clips':{'closed':'common.clip.2569','idle':'common.clip.2571','warning':'common.clip.2572','spawning':'common.clip.2572','damaged':'common.clip.2570','destroying':'common.clip.2573'},'restoration':{'silent':True,'replayPastEvents':False,'ruinsPermanent':True,'currentLoopsOnly':True,'revokeOldGenerations':True},'samples':samples,'projectileContacts':['wood','metal','ground','flesh','armor','portal'],'materialDamageThresholds':[0.75,0.4,0],'eventLimit':24,'acceptance':{'visual':'pending','owner':'04-32/04-33','completedObligations':[]}}\n outputs['content/world/portal-assemblies.json']=js(assembly)\n return outputs\ndef main():\n for file,value in build().items():\n  target=ROOT/'src/godot-game'/file;target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(value)\nif __name__=='__main__':main()\n"
   },
   "soundEvents": [
     {
-      "id": "AU-02:melee.bat",
-      "obligation": "AU-02",
-      "audioOwner": "04-21",
-      "actualListening": "pending-04-32"
-    },
-    {
-      "id": "AU-02:melee.club",
-      "obligation": "AU-02",
-      "audioOwner": "04-21",
-      "actualListening": "pending-04-32"
-    },
-    {
-      "id": "AU-02:melee.dual",
-      "obligation": "AU-02",
-      "audioOwner": "04-21",
-      "actualListening": "pending-04-32"
-    },
-    {
-      "id": "AU-02:melee.fists",
-      "obligation": "AU-02",
-      "audioOwner": "04-21",
-      "actualListening": "pending-04-32"
-    },
-    {
-      "id": "AU-02:melee.knife",
-      "obligation": "AU-02",
-      "audioOwner": "04-21",
-      "actualListening": "pending-04-32"
-    },
-    {
-      "id": "AU-02:melee.machete",
-      "obligation": "AU-02",
-      "audioOwner": "04-21",
-      "actualListening": "pending-04-32"
-    },
-    {
-      "id": "AU-03:bow.release",
+      "id": "AU-03:melee.bat",
       "obligation": "AU-03",
       "audioOwner": "04-21",
       "actualListening": "pending-04-32"
     },
     {
-      "id": "AU-04:arrow.armor",
-      "obligation": "AU-04",
+      "id": "AU-03:melee.club",
+      "obligation": "AU-03",
       "audioOwner": "04-21",
       "actualListening": "pending-04-32"
     },
     {
-      "id": "AU-04:arrow.flesh",
-      "obligation": "AU-04",
+      "id": "AU-03:melee.dual",
+      "obligation": "AU-03",
       "audioOwner": "04-21",
       "actualListening": "pending-04-32"
     },
     {
-      "id": "AU-04:arrow.ground",
-      "obligation": "AU-04",
+      "id": "AU-03:melee.fists",
+      "obligation": "AU-03",
       "audioOwner": "04-21",
       "actualListening": "pending-04-32"
     },
     {
-      "id": "AU-04:arrow.metal",
-      "obligation": "AU-04",
+      "id": "AU-03:melee.knife",
+      "obligation": "AU-03",
       "audioOwner": "04-21",
       "actualListening": "pending-04-32"
     },
     {
-      "id": "AU-04:arrow.portal",
-      "obligation": "AU-04",
+      "id": "AU-03:melee.machete",
+      "obligation": "AU-03",
       "audioOwner": "04-21",
       "actualListening": "pending-04-32"
     },
     {
-      "id": "AU-04:arrow.wood",
-      "obligation": "AU-04",
+      "id": "AU-06:bow.release",
+      "obligation": "AU-06",
       "audioOwner": "04-21",
       "actualListening": "pending-04-32"
     },
     {
-      "id": "AU-07:character.death",
+      "id": "AU-07:arrow.armor",
       "obligation": "AU-07",
       "audioOwner": "04-21",
       "actualListening": "pending-04-32"
     },
     {
-      "id": "AU-07:character.hit",
+      "id": "AU-07:arrow.flesh",
       "obligation": "AU-07",
       "audioOwner": "04-21",
       "actualListening": "pending-04-32"
     },
     {
-      "id": "AU-07:recovery.food",
+      "id": "AU-07:arrow.ground",
       "obligation": "AU-07",
       "audioOwner": "04-21",
       "actualListening": "pending-04-32"
     },
     {
-      "id": "AU-07:recovery.health",
+      "id": "AU-07:arrow.metal",
       "obligation": "AU-07",
       "audioOwner": "04-21",
       "actualListening": "pending-04-32"
     },
     {
-      "id": "AU-07:recovery.stamina",
+      "id": "AU-07:arrow.portal",
       "obligation": "AU-07",
+      "audioOwner": "04-21",
+      "actualListening": "pending-04-32"
+    },
+    {
+      "id": "AU-07:arrow.wood",
+      "obligation": "AU-07",
+      "audioOwner": "04-21",
+      "actualListening": "pending-04-32"
+    },
+    {
+      "id": "AU-08:spit.hit",
+      "obligation": "AU-08",
       "audioOwner": "04-21",
       "actualListening": "pending-04-32"
     },
@@ -19082,38 +19579,8 @@
       "actualListening": "pending-04-32"
     },
     {
-      "id": "AU-09:bloater.death",
-      "obligation": "AU-09",
-      "audioOwner": "04-21",
-      "actualListening": "pending-04-32"
-    },
-    {
-      "id": "AU-09:spit.hit",
-      "obligation": "AU-09",
-      "audioOwner": "04-21",
-      "actualListening": "pending-04-32"
-    },
-    {
-      "id": "AU-12:collapse.metal",
-      "obligation": "AU-12",
-      "audioOwner": "04-21",
-      "actualListening": "pending-04-32"
-    },
-    {
-      "id": "AU-12:collapse.wood",
-      "obligation": "AU-12",
-      "audioOwner": "04-21",
-      "actualListening": "pending-04-32"
-    },
-    {
-      "id": "AU-12:tree.chop",
-      "obligation": "AU-12",
-      "audioOwner": "04-21",
-      "actualListening": "pending-04-32"
-    },
-    {
-      "id": "AU-12:tree.fall",
-      "obligation": "AU-12",
+      "id": "AU-10:control.changed",
+      "obligation": "AU-10",
       "audioOwner": "04-21",
       "actualListening": "pending-04-32"
     },
@@ -19130,8 +19597,56 @@
       "actualListening": "pending-04-32"
     },
     {
-      "id": "AU-18:control.changed",
-      "obligation": "AU-18",
+      "id": "AU-13:tree.chop",
+      "obligation": "AU-13",
+      "audioOwner": "04-21",
+      "actualListening": "pending-04-32"
+    },
+    {
+      "id": "AU-13:tree.fall",
+      "obligation": "AU-13",
+      "audioOwner": "04-21",
+      "actualListening": "pending-04-32"
+    },
+    {
+      "id": "AU-15:collapse.metal",
+      "obligation": "AU-15",
+      "audioOwner": "04-21",
+      "actualListening": "pending-04-32"
+    },
+    {
+      "id": "AU-15:collapse.wood",
+      "obligation": "AU-15",
+      "audioOwner": "04-21",
+      "actualListening": "pending-04-32"
+    },
+    {
+      "id": "AU-19:recovery.food",
+      "obligation": "AU-19",
+      "audioOwner": "04-21",
+      "actualListening": "pending-04-32"
+    },
+    {
+      "id": "AU-20:warning.nightfall",
+      "obligation": "AU-20",
+      "audioOwner": "04-21",
+      "actualListening": "pending-04-32"
+    },
+    {
+      "id": "AU-20:warning.retaliation",
+      "obligation": "AU-20",
+      "audioOwner": "04-21",
+      "actualListening": "pending-04-32"
+    },
+    {
+      "id": "AU-21:portal.spawn",
+      "obligation": "AU-21",
+      "audioOwner": "04-21",
+      "actualListening": "pending-04-32"
+    },
+    {
+      "id": "AU-21:portal.warning",
+      "obligation": "AU-21",
       "audioOwner": "04-21",
       "actualListening": "pending-04-32"
     },
@@ -19142,62 +19657,38 @@
       "actualListening": "pending-04-32"
     },
     {
-      "id": "AU-22:portal.hit",
+      "id": "AU-22:warning.portal-loss",
       "obligation": "AU-22",
       "audioOwner": "04-21",
       "actualListening": "pending-04-32"
     },
     {
-      "id": "AU-22:portal.spawn",
-      "obligation": "AU-22",
+      "id": "AU-23:outcome.defeat",
+      "obligation": "AU-23",
       "audioOwner": "04-21",
       "actualListening": "pending-04-32"
     },
     {
-      "id": "AU-22:portal.warning",
-      "obligation": "AU-22",
+      "id": "AU-23:outcome.victory",
+      "obligation": "AU-23",
       "audioOwner": "04-21",
       "actualListening": "pending-04-32"
     },
     {
-      "id": "AU-25:outcome.defeat",
-      "obligation": "AU-25",
+      "id": "AU-24:warning.connection-loss",
+      "obligation": "AU-24",
       "audioOwner": "04-21",
       "actualListening": "pending-04-32"
     },
     {
-      "id": "AU-25:outcome.victory",
-      "obligation": "AU-25",
+      "id": "AU-28:fire.loop",
+      "obligation": "AU-28",
       "audioOwner": "04-21",
       "actualListening": "pending-04-32"
     },
     {
-      "id": "AU-25:warning.connection-loss",
-      "obligation": "AU-25",
-      "audioOwner": "04-21",
-      "actualListening": "pending-04-32"
-    },
-    {
-      "id": "AU-25:warning.nightfall",
-      "obligation": "AU-25",
-      "audioOwner": "04-21",
-      "actualListening": "pending-04-32"
-    },
-    {
-      "id": "AU-25:warning.portal-loss",
-      "obligation": "AU-25",
-      "audioOwner": "04-21",
-      "actualListening": "pending-04-32"
-    },
-    {
-      "id": "AU-25:warning.retaliation",
-      "obligation": "AU-25",
-      "audioOwner": "04-21",
-      "actualListening": "pending-04-32"
-    },
-    {
-      "id": "AU-26:fire.loop",
-      "obligation": "AU-26",
+      "id": "AU-29:bloater.death",
+      "obligation": "AU-29",
       "audioOwner": "04-21",
       "actualListening": "pending-04-32"
     }

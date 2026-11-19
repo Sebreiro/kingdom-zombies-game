@@ -116,7 +116,40 @@ func run() -> void:
 	check_case("natural-bow", hub.get_node("Summary/ResourceId").text == "common.bow" and bow.visible and hub.get_node("Summary/Status").text.begins_with("Partial"), hub.get_node("Summary/Status").text)
 	var image = bow.texture.get_image()
 	image.convert(Image.FORMAT_RGBA8)
-	var original = Image.load_from_file("res://assets/common/bow.png")
+	var source_file = FileAccess.open("res://assets/common/bow.png", FileAccess.READ)
+	if source_file == null or source_file.get_length() != 135:
+		source_file = null
+		image = null
+		root.remove_child(hub)
+		hub.free()
+		printerr("HUB_SOURCE_PNG_EXTENT")
+		quit(1)
+		return
+	var source_png = source_file.get_buffer(135)
+	var source_complete = source_png.size() == 135 and source_file.get_error() in [OK, ERR_FILE_EOF]
+	source_file.close()
+	source_file = null
+	var source_png_digest = HashingContext.new()
+	source_png_digest.start(HashingContext.HASH_SHA256)
+	source_png_digest.update(source_png)
+	var source_png_sha = source_png_digest.finish().hex_encode()
+	source_png_digest = null
+	if not source_complete or source_png_sha != "08b53699e459d71cf73f3e7be84af19d04805d5a7a488121e39a514a81701999":
+		image = null
+		root.remove_child(hub)
+		hub.free()
+		printerr("HUB_SOURCE_PNG_IDENTITY")
+		quit(1)
+		return
+	var original = Image.new()
+	if original.load_png_from_buffer(source_png) != OK:
+		original = null
+		image = null
+		root.remove_child(hub)
+		hub.free()
+		printerr("HUB_SOURCE_PNG_DECODE")
+		quit(1)
+		return
 	original.convert(Image.FORMAT_RGBA8)
 	var pixels = image.get_data()
 	var source_pixels = original.get_data()
@@ -131,6 +164,9 @@ func run() -> void:
 	digest.start(HashingContext.HASH_SHA256)
 	digest.update(source_pixels)
 	check_case("native-bow-registration", exact and visible == 42 and bow.texture.resource_path == "res://assets/common/bow.png" and image.get_size() == Vector2i(16,18) and not bow.centered and bow.offset == Vector2(-6,-9) and bow.scale == Vector2.ONE and bow.texture_filter == 1, {"texture": bow.texture.resource_path, "offset": str(bow.offset), "size": str(image.get_size()), "sourceRgbaSha256": digest.finish().hex_encode(), "visiblePixels": visible, "importedVisiblePixelsAndAlphaExact": exact})
+	original = null
+	image = null
+	digest = null
 	check_case("independent-summary", hub.get_node("Summary/PackStatus").text.contains("0/180 obligations") and hub.get_node("Summary/PackStatus").text.contains("Pack incomplete") and not hub.get_node(PREVIEW + "Metadata").visible, hub.get_node("Summary/PackStatus").text)
 	var navigation = hub.get_node("Shell/Workspace/Navigation/Category")
 	var categories: Array = []
@@ -347,8 +383,13 @@ async function native(context,lifecycle=false){
   const build=await runner.command(context,'native-build','dotnet',['build',path.join(game,'KingdomZombies.csproj'),
     '--no-restore','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'],{env:env()});
   assert.match(build.stdout,/0 Warning\(s\)[\s\S]*0 Error\(s\)/);
-  for(const item of ['project.godot','inspection','content','assets/common','assets/ui'])
+  for(const item of ['project.godot','foundation','inspection','content','assets/common','assets/ui'])
     fs.cpSync(path.join(game,item),path.join(project,item),{recursive:true});
+  const legacy=require('./provenance.cjs').legacyFixture(),inspection=fs.readFileSync(path.join(project,'inspection/Inspection.tscn'));
+  for(const output of legacy.index.outputs)for(const dependency of output.dependencies){if(dependency.path==='src/godot-game/inspection/Inspection.tscn'){dependency.bytes=inspection.length;dependency.sha256=runner.hash(inspection);}}
+  fs.writeFileSync(path.join(project,'content/pack-index.json'),JSON.stringify(legacy.index,null,2)+'\n');
+  fs.writeFileSync(path.join(project,'content/packs/tracer.json'),legacy.files.get('src/godot-game/content/packs/tracer.json'));
+  fs.writeFileSync(path.join(context.directory,'legacy-fixture.json'),JSON.stringify({scope:'Independent retained partial bow fixture, current actual production assemblies/UI; original predicates unchanged',indexSha256:runner.hash(fs.readFileSync(path.join(project,'content/pack-index.json'))),inspection:{bytes:inspection.length,sha256:runner.hash(inspection)},historicalDependencySha256:'66702efb9bf9390f6454316ce0ec5bc7808cb5f439addf0430d46abccb589739'},null,2));
   const binaries='.godot/mono/temp/bin/Debug';
   fs.cpSync(path.join(game,binaries),path.join(project,binaries),{recursive:true});
   const closure=Object.fromEntries(fs.readdirSync(path.join(game,binaries)).filter(x=>/\.(dll|json)$/.test(x))
@@ -368,9 +409,10 @@ async function native(context,lifecycle=false){
   const executable=path.join(path.dirname(console),name);
   assert.equal(runner.hash(fs.readFileSync(executable)),authentication.stdout.trim(),'GODOT_NATIVE_ENTRY_PIN');
   const isolated={...env(),...runner.environment(context.directory),NUGET_PACKAGES:path.join(ROOT,'.phase1/packages')};
-  await runner.command(context,'native-import',executable,['--headless','--path',project,'--editor','--import','--quit'],{env:isolated});
+  const imported=await runner.command(context,'native-import',executable,['--headless','--path',project,'--editor','--import','--quit'],{env:isolated});
+  assert.equal(imported.stderr.trim(),'','HUB_IMPORT_STDERR');assert.doesNotMatch(imported.stdout+imported.stderr,/ERROR:|SCRIPT ERROR:|WARNING:|FATAL|leaked/i);
   const run=await runner.command(context,'native-hub',executable,['--headless','--path',project,'--script','res://probe.gd','--quit-after','800'],{env:isolated});
-  assert.doesNotMatch(run.stdout+run.stderr,/ERROR:|SCRIPT ERROR:|Failed to load/i);
+  assert.equal(run.stderr.trim(),'','HUB_NATIVE_STDERR');assert.doesNotMatch(run.stdout+run.stderr,/ERROR:|SCRIPT ERROR:|WARNING:|FATAL|leaked|Failed to load/i);
   const result=JSON.parse(fs.readFileSync(path.join(project,'native-results.json'),'utf8'));
   assert.equal(result.pid,run.pid,'ACTUAL_NATIVE_PID');assert.equal(result.script,'res://inspection/InspectionRoot.cs');
   assert.equal(result.failed,false);assert.ok(result.outcomes.length>=24&&result.outcomes.every(x=>x.pass));

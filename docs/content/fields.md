@@ -5619,7 +5619,7 @@ Source SHA256: `9379b50244a47c16da9da1c613aad621af84be1e152d8996cbd938da63e57009
 
 ### src/godot-game/content/fixtures/crowds.json
 
-Source SHA256: `41bbf06532422683d9784488d39dcb811d66284c19747930b7c7a3b50e8dd840`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
+Source SHA256: `ef019bcaaef27aaafe644c7bceb8502c204e2728da1ba172c0b00e3beda08131`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
 
 | Field shape | Type | Default/example and allowed representation |
 | --- | --- | --- |
@@ -5671,7 +5671,7 @@ Source SHA256: `41bbf06532422683d9784488d39dcb811d66284c19747930b7c7a3b50e8dd840
 
 ### src/godot-game/content/fixtures/world-states.json
 
-Source SHA256: `1154a45993810868138b8b206d154aa095be7c7260c9c3b7daffaf0e03a20ff7`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
+Source SHA256: `3259c4e9b2934784f5a1e67d5e97692ef70a6790acb25241ce5da991456afa51`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
 
 | Field shape | Type | Default/example and allowed representation |
 | --- | --- | --- |
@@ -5697,148 +5697,54 @@ Source SHA256: `1154a45993810868138b8b206d154aa095be7c7260c9c3b7daffaf0e03a20ff7
 
 ### src/godot-game/content/pack-index.json
 
-Source SHA256: `cca59a20691e75e874f7ed4b229e838e43190b683f0885cc2aa5717f6ed92739`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
+Publication instance: actual bytes, paths, hashes, versions and obligations are independently authenticated by the content census and publisher. Field shapes/types are documented here; dynamic publication values do not participate in the documentation payload identity.
 
 | Field shape | Type | Default/example and allowed representation |
 | --- | --- | --- |
-| `` | object | complete children below |
-| `/schemaVersion` | number | 1 |
-| `/id` | string | "kingdom-zombies.v0.1" |
-| `/version` | number | 1 |
-| `/status` | string | "incomplete" |
-| `/acceptanceOwner` | string | "04-32/04-33" |
-| `/expectedObligations` | object | complete children below |
-| `/expectedObligations/path` | string | "src/godot-game/content/expected-obligations.json" |
-| `/expectedObligations/bytes` | number | 25345 |
-| `/expectedObligations/sha256` | string | "a4d9243bda1b512b59c189a3bdc48a7cccc8171a218bbfc5ae16b00274f2fda5" |
-| `/shards` | array | complete children below |
-| `/shards/*` | object | complete children below |
-| `/shards/*/id` | string | "tracer" |
-| `/shards/*/ownerPlan` | string | "04-01" |
-| `/shards/*/status` | string | "selected" |
-| `/shards/*/version` | number | 1 |
-| `/shards/*/path` | string | "src/godot-game/content/packs/tracer.json" |
-| `/shards/*/bytes` | number | 2430 |
-| `/shards/*/sha256` | string | "e21c933b36bacd5f81206b33f7a9680bedd89bd5e580b12f5004ab212895d1f4" |
-| `/origins` | array | complete children below |
-| `/origins/*` | object | complete children below |
-| `/origins/*/owner` | string | "sharedassets0.assets" |
-| `/origins/*/type` | string | "Sprite" |
-| `/origins/*/objectId` | number | 7008 |
-| `/origins/*/name` | string | "tools_bow" |
-| `/origins/*/ownerSha256` | string | "3648658d475170661517c4907e50977a4ab932441b404a681cd0ce485592f3ff" |
-| `/origins/*/rawSha256` | string | "12a7303fa0815fb8cd0ac10630e934dd91b87777c041838ada7cfa8259fa4023" |
-| `/origins/*/streams` | array | complete children below |
-| `/origins/*/streams/*` | object | complete children below |
-| `/origins/*/streams/*/path` | string | "sharedassets0.assets.resS" |
-| `/origins/*/streams/*/offset` | number | 280718128 |
-| `/origins/*/streams/*/bytes` | number | 4194304 |
-| `/origins/*/streams/*/sha256` | string | "2efccae88002a02ca85f050a6d6dc2e5fe894c32de80e36f30cd12f8c7ffb5c2" |
-| `/origins/*/streams/*/rangeSha256` | string | "620d3a6fd3f441ea4e02f07bef8479f118d451076e29917d292797babb3bad53" |
-| `/origins/*/dependencies` | array | complete children below |
-| `/origins/*/dependencies/*` | object | complete children below |
-| `/origins/*/dependencies/*/owner` | string | "sharedassets0.assets" |
-| `/origins/*/dependencies/*/type` | string | "SpriteAtlas" |
-| `/origins/*/dependencies/*/objectId` | number | 25376 |
-| `/origins/*/dependencies/*/name` | string | "objects" |
-| `/outputs` | array | complete children below |
-| `/outputs/*` | object | complete children below |
-| `/outputs/*/id` | string | "common.bow" |
-| `/outputs/*/name` | string | "Bow (partial master)" |
-| `/outputs/*/version` | number | 1 |
-| `/outputs/*/shard` | string | "tracer" |
-| `/outputs/*/path` | string | "src/godot-game/assets/common/bow.png" |
-| `/outputs/*/bytes` | number | 135 |
-| `/outputs/*/sha256` | string | "08b53699e459d71cf73f3e7be84af19d04805d5a7a488121e39a514a81701999" |
-| `/outputs/*/route` | string | "reuse" |
-| `/outputs/*/origins` | array | complete children below |
-| `/outputs/*/origins/*` | object | complete children below |
-| `/outputs/*/origins/*/owner` | string | "sharedassets0.assets" |
-| `/outputs/*/origins/*/type` | string | "Sprite" |
-| `/outputs/*/origins/*/objectId` | number | 7008 |
-| `/outputs/*/origins/*/name` | string | "tools_bow" |
-| `/outputs/*/origins/*/ownerSha256` | string | "3648658d475170661517c4907e50977a4ab932441b404a681cd0ce485592f3ff" |
-| `/outputs/*/origins/*/rawSha256` | string | "12a7303fa0815fb8cd0ac10630e934dd91b87777c041838ada7cfa8259fa4023" |
-| `/outputs/*/origins/*/streams` | array | complete children below |
-| `/outputs/*/origins/*/streams/*` | object | complete children below |
-| `/outputs/*/origins/*/streams/*/path` | string | "sharedassets0.assets.resS" |
-| `/outputs/*/origins/*/streams/*/offset` | number | 280718128 |
-| `/outputs/*/origins/*/streams/*/bytes` | number | 4194304 |
-| `/outputs/*/origins/*/streams/*/sha256` | string | "2efccae88002a02ca85f050a6d6dc2e5fe894c32de80e36f30cd12f8c7ffb5c2" |
-| `/outputs/*/origins/*/streams/*/rangeSha256` | string | "620d3a6fd3f441ea4e02f07bef8479f118d451076e29917d292797babb3bad53" |
-| `/outputs/*/origins/*/dependencies` | array | complete children below |
-| `/outputs/*/origins/*/dependencies/*` | object | complete children below |
-| `/outputs/*/origins/*/dependencies/*/owner` | string | "sharedassets0.assets" |
-| `/outputs/*/origins/*/dependencies/*/type` | string | "SpriteAtlas" |
-| `/outputs/*/origins/*/dependencies/*/objectId` | number | 25376 |
-| `/outputs/*/origins/*/dependencies/*/name` | string | "objects" |
-| `/outputs/*/production` | object | complete children below |
-| `/outputs/*/production/path` | string | "production/phase4/tracer-source.json" |
-| `/outputs/*/production/bytes` | number | 14541 |
-| `/outputs/*/production/sha256` | string | "03673e2f892369263a54fca6aee26684bc5f3f0b9aee540f3c001d190bd45fac" |
-| `/outputs/*/dependencies` | array | complete children below |
-| `/outputs/*/dependencies/*` | object | complete children below |
-| `/outputs/*/dependencies/*/id` | string | "inspection.bow" |
-| `/outputs/*/dependencies/*/path` | string | "src/godot-game/inspection/Inspection.tscn" |
-| `/outputs/*/dependencies/*/bytes` | number | 993 |
-| `/outputs/*/dependencies/*/sha256` | string | "66702efb9bf9390f6454316ce0ec5bc7808cb5f439addf0430d46abccb589739" |
-| `/outputs/*/metadata` | object | complete children below |
-| `/outputs/*/metadata/kind` | string | "image" |
-| `/outputs/*/metadata/width` | number | 16 |
-| `/outputs/*/metadata/height` | number | 18 |
-| `/outputs/*/metadata/rgbaSha256` | string | "88b8e7062f0eb9cfb788ef3658028ba58a6f62d408d3e39ae2e1228bfa6c8905" |
-| `/outputs/*/metadata/registration` | object | complete children below |
-| `/outputs/*/metadata/registration/logicalRect` | object | complete children below |
-| `/outputs/*/metadata/registration/logicalRect/x` | number | 0 |
-| `/outputs/*/metadata/registration/logicalRect/y` | number | 0 |
-| `/outputs/*/metadata/registration/logicalRect/width` | number | 16 |
-| `/outputs/*/metadata/registration/logicalRect/height` | number | 18 |
-| `/outputs/*/metadata/registration/pivotNormalizedBottomLeft` | object | complete children below |
-| `/outputs/*/metadata/registration/pivotNormalizedBottomLeft/x` | number | 0.375 |
-| `/outputs/*/metadata/registration/pivotNormalizedBottomLeft/y` | number | 0.5 |
-| `/outputs/*/metadata/registration/sourcePixelsPerUnit` | number | 32 |
-| `/outputs/*/metadata/registration/sourceOffset` | object | complete children below |
-| `/outputs/*/metadata/registration/sourceOffset/x` | number | -2 |
-| `/outputs/*/metadata/registration/sourceOffset/y` | number | 0 |
-| `/outputs/*/metadata/registration/trimOffset` | object | complete children below |
-| `/outputs/*/metadata/registration/trimOffset/x` | number | 0 |
-| `/outputs/*/metadata/registration/trimOffset/y` | number | 0 |
-| `/outputs/*/metadata/registration/atlasRectOffset` | object | complete children below |
-| `/outputs/*/metadata/registration/atlasRectOffset/x` | number | 576 |
-| `/outputs/*/metadata/registration/atlasRectOffset/y` | number | 526 |
-| `/outputs/*/metadata/registration/atlasTextureRect` | object | complete children below |
-| `/outputs/*/metadata/registration/atlasTextureRect/x` | number | 578 |
-| `/outputs/*/metadata/registration/atlasTextureRect/y` | number | 526 |
-| `/outputs/*/metadata/registration/atlasTextureRect/width` | number | 16 |
-| `/outputs/*/metadata/registration/atlasTextureRect/height` | number | 18 |
-| `/outputs/*/metadata/registration/atlasSettingsRaw` | number | 67 |
-| `/outputs/*/metadata/registration/alphaTextureId` | number | 0 |
-| `/outputs/*/metadata/registration/display` | object | complete children below |
-| `/outputs/*/metadata/registration/display/centered` | boolean | false |
-| `/outputs/*/metadata/registration/display/offsetTopLeft` | array | complete children below |
-| `/outputs/*/metadata/registration/display/offsetTopLeft/*` | number | -6 |
-| `/outputs/*/metadata/registration/display/scale` | array | complete children below |
-| `/outputs/*/metadata/registration/display/scale/*` | number | 1 |
-| `/outputs/*/metadata/registration/display/filter` | string | "nearest" |
-| `/outputs/*/applicability` | object | complete children below |
-| `/outputs/*/applicability/obligations` | string | "IT-07 partial master only; icon/drawn/released/fits/corpse still required" |
-| `/outputs/*/applicability/listening` | string | "not-applicable" |
-| `/outputs/*/inspection` | object | complete children below |
-| `/outputs/*/inspection/route` | string | "res://inspection/Inspection.tscn" |
-| `/outputs/*/inspection/dependency` | string | "inspection.bow" |
-| `/outputs/*/evidence` | object | complete children below |
-| `/outputs/*/evidence/source` | string | "pending" |
-| `/outputs/*/evidence/native` | string | "pending" |
-| `/outputs/*/evidence/listening` | string | "not-applicable" |
-| `/outputs/*/evidence/judgment` | string | "pending" |
-| `/outputs/*/evidence/records` | array | complete children below |
-| `/outputs/*/historicalInputEvidence` | object | complete children below |
-| `/outputs/*/historicalInputEvidence/level` | string | "V" |
-| `/outputs/*/historicalInputEvidence/credit` | string | "No current production/native/visual acceptance credit" |
-| `/outputs/*/obligations` | array | complete children below |
-| `/outputs/*/obligations/*` | object | complete children below |
-| `/outputs/*/obligations/*/id` | string | "IT-07" |
-| `/outputs/*/obligations/*/coverage` | string | "partial" |
+| `` | object | Current publication value; validate with content census/publication |
+| `/schemaVersion` | number | Current publication value; validate with content census/publication |
+| `/id` | string | Current publication value; validate with content census/publication |
+| `/version` | number | Current publication value; validate with content census/publication |
+| `/model` | string | Current publication value; validate with content census/publication |
+| `/status` | string | Current publication value; validate with content census/publication |
+| `/expectedObligations` | object | Current publication value; validate with content census/publication |
+| `/expectedObligations/path` | string | Current publication value; validate with content census/publication |
+| `/expectedObligations/bytes` | number | Current publication value; validate with content census/publication |
+| `/expectedObligations/sha256` | string | Current publication value; validate with content census/publication |
+| `/sourceReadiness` | object | Current publication value; validate with content census/publication |
+| `/sourceReadiness/available` | number | Current publication value; validate with content census/publication |
+| `/sourceReadiness/validated` | number | Current publication value; validate with content census/publication |
+| `/sourceReadiness/accepted` | number | Current publication value; validate with content census/publication |
+| `/files` | array | Current publication value; validate with content census/publication |
+| `/files/*` | object | Current publication value; validate with content census/publication |
+| `/files/*/id` | string | Current publication value; validate with content census/publication |
+| `/files/*/path` | string | Current publication value; validate with content census/publication |
+| `/files/*/bytes` | number | Current publication value; validate with content census/publication |
+| `/files/*/sha256` | string | Current publication value; validate with content census/publication |
+| `/files/*/version` | number | Current publication value; validate with content census/publication |
+| `/files/*/role` | string | Current publication value; validate with content census/publication |
+| `/outputs` | array | Current publication value; validate with content census/publication |
+| `/outputs/*` | object | Current publication value; validate with content census/publication |
+| `/outputs/*/id` | string | Current publication value; validate with content census/publication |
+| `/outputs/*/name` | string | Current publication value; validate with content census/publication |
+| `/outputs/*/version` | number | Current publication value; validate with content census/publication |
+| `/outputs/*/contract` | string | Current publication value; validate with content census/publication |
+| `/outputs/*/file` | string | Current publication value; validate with content census/publication |
+| `/outputs/*/definitionPointers` | array | Current publication value; validate with content census/publication |
+| `/outputs/*/definitionPointers/*` | string | Current publication value; validate with content census/publication |
+| `/outputs/*/dependencies` | array | Current publication value; validate with content census/publication |
+| `/outputs/*/dependencies/*` | string | Current publication value; validate with content census/publication |
+| `/outputs/*/sharedFileId` | string | Current publication value; validate with content census/publication |
+| `/outputs/*/obligations` | array | Current publication value; validate with content census/publication |
+| `/outputs/*/obligations/*` | object | Current publication value; validate with content census/publication |
+| `/outputs/*/obligations/*/id` | string | Current publication value; validate with content census/publication |
+| `/outputs/*/obligations/*/coverage` | string | Current publication value; validate with content census/publication |
+| `/outputs/*/sourceStatus` | string | Current publication value; validate with content census/publication |
+| `/outputs/*/acceptance` | object | Current publication value; validate with content census/publication |
+| `/outputs/*/acceptance/native` | string | Current publication value; validate with content census/publication |
+| `/outputs/*/acceptance/listening` | string | Current publication value; validate with content census/publication |
+| `/outputs/*/acceptance/judgment` | string | Current publication value; validate with content census/publication |
+| `/outputs/*/acceptance/accepted` | boolean | Current publication value; validate with content census/publication |
 
 ### src/godot-game/content/packs/audio-actions.json
 
@@ -7285,9 +7191,79 @@ Source SHA256: `973ddb022eb722d0279f47acad1e2112d213a84b6a60cddd8925046c28dbb3a7
 | `/acceptance/humanApproval` | null | null |
 | `/acceptance/completedObligations` | array | complete children below |
 
+### src/godot-game/content/packs/delivery.json
+
+Publication instance: actual bytes, paths, hashes, versions and obligations are independently authenticated by the content census and publisher. Field shapes/types are documented here; dynamic publication values do not participate in the documentation payload identity.
+
+| Field shape | Type | Default/example and allowed representation |
+| --- | --- | --- |
+| `` | object | Current publication value; validate with content census/publication |
+| `/schemaVersion` | number | Current publication value; validate with content census/publication |
+| `/id` | string | Current publication value; validate with content census/publication |
+| `/version` | number | Current publication value; validate with content census/publication |
+| `/scope` | string | Current publication value; validate with content census/publication |
+| `/sourceReady` | boolean | Current publication value; validate with content census/publication |
+| `/acceptedObligations` | array | Current publication value; validate with content census/publication |
+| `/obligations` | array | Current publication value; validate with content census/publication |
+| `/obligations/*` | string | Current publication value; validate with content census/publication |
+| `/fixtureCatalog` | object | Current publication value; validate with content census/publication |
+| `/fixtureCatalog/sourcePath` | string | Current publication value; validate with content census/publication |
+| `/fixtureCatalog/sha256` | string | Current publication value; validate with content census/publication |
+| `/fixtureCatalog/uncompressedBytes` | number | Current publication value; validate with content census/publication |
+| `/fixtureCatalog/encoding` | string | Current publication value; validate with content census/publication |
+| `/fixtureCatalog/gzipBase64` | string | Current publication value; validate with content census/publication |
+| `/fixtureResources` | array | Current publication value; validate with content census/publication |
+| `/fixtureResources/*` | object | Current publication value; validate with content census/publication |
+| `/fixtureResources/*/path` | string | Current publication value; validate with content census/publication |
+| `/fixtureResources/*/bytes` | number | Current publication value; validate with content census/publication |
+| `/fixtureResources/*/sha256` | string | Current publication value; validate with content census/publication |
+| `/guides` | array | Current publication value; validate with content census/publication |
+| `/guides/*` | object | Current publication value; validate with content census/publication |
+| `/guides/*/path` | string | Current publication value; validate with content census/publication |
+| `/guides/*/bytes` | number | Current publication value; validate with content census/publication |
+| `/guides/*/sha256` | string | Current publication value; validate with content census/publication |
+| `/guides/*/encoding` | string | Current publication value; validate with content census/publication |
+| `/guides/*/text` | string | Current publication value; validate with content census/publication |
+| `/application` | object | Current publication value; validate with content census/publication |
+| `/application/title` | string | Current publication value; validate with content census/publication |
+| `/application/icon` | object | Current publication value; validate with content census/publication |
+| `/application/icon/path` | string | Current publication value; validate with content census/publication |
+| `/application/icon/bytes` | number | Current publication value; validate with content census/publication |
+| `/application/icon/sha256` | string | Current publication value; validate with content census/publication |
+| `/application/retainedArchive` | string | Current publication value; validate with content census/publication |
+| `/application/retainedMember` | string | Current publication value; validate with content census/publication |
+| `/application/appliedToCurrentExport` | boolean | Current publication value; validate with content census/publication |
+| `/platformRecords` | object | Current publication value; validate with content census/publication |
+| `/platformRecords/windowsSource` | string | Current publication value; validate with content census/publication |
+| `/platformRecords/windowsFinalPackage` | object | Current publication value; validate with content census/publication |
+| `/platformRecords/windowsFinalPackage/owner` | string | Current publication value; validate with content census/publication |
+| `/platformRecords/windowsFinalPackage/status` | string | Current publication value; validate with content census/publication |
+| `/platformRecords/windowsAppearanceInputReadabilityListening` | object | Current publication value; validate with content census/publication |
+| `/platformRecords/windowsAppearanceInputReadabilityListening/owner` | string | Current publication value; validate with content census/publication |
+| `/platformRecords/windowsAppearanceInputReadabilityListening/status` | string | Current publication value; validate with content census/publication |
+| `/platformRecords/linuxExecution` | object | Current publication value; validate with content census/publication |
+| `/platformRecords/linuxExecution/owner` | string | Current publication value; validate with content census/publication |
+| `/platformRecords/linuxExecution/status` | string | Current publication value; validate with content census/publication |
+| `/textPackBinding` | object | Current publication value; validate with content census/publication |
+| `/textPackBinding/path` | string | Current publication value; validate with content census/publication |
+| `/textPackBinding/sha256` | string | Current publication value; validate with content census/publication |
+| `/runtimeInclusion` | string | Current publication value; validate with content census/publication |
+| `/futureExecutableGates` | object | Current publication value; validate with content census/publication |
+| `/futureExecutableGates/owner` | string | Current publication value; validate with content census/publication |
+| `/futureExecutableGates/status` | string | Current publication value; validate with content census/publication |
+| `/finalExport` | object | Current publication value; validate with content census/publication |
+| `/finalExport/owner` | string | Current publication value; validate with content census/publication |
+| `/finalExport/status` | string | Current publication value; validate with content census/publication |
+| `/finalExport/nativeEntryComplete` | boolean | Current publication value; validate with content census/publication |
+| `/acceptance` | object | Current publication value; validate with content census/publication |
+| `/acceptance/visual` | string | Current publication value; validate with content census/publication |
+| `/acceptance/listening` | string | Current publication value; validate with content census/publication |
+| `/acceptance/judgments` | array | Current publication value; validate with content census/publication |
+| `/acceptance/completedObligations` | array | Current publication value; validate with content census/publication |
+
 ### src/godot-game/content/packs/effects-portals.json
 
-Source SHA256: `d2736226850b2c7775fc8042d0220ec0ebf701849f788e3ead826e4904dbc334`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
+Source SHA256: `97fe3ff1f1c2733ac8a7b5f9a89ca7bfa80719ad7b6d24c359c1b88f9154e8be`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
 
 | Field shape | Type | Default/example and allowed representation |
 | --- | --- | --- |
@@ -7369,8 +7345,8 @@ Source SHA256: `d2736226850b2c7775fc8042d0220ec0ebf701849f788e3ead826e4904dbc334
 | `/effects/*/color/*` | number | 0.7 |
 | `/effects/*/loop` | boolean | false |
 | `/effects/*/kind` | string | "projectile" |
-| `/effects/*/sound` | string | "AU-03:bow.release" |
-| `/effects/*/soundObligation` | string | "AU-03" |
+| `/effects/*/sound` | string | "AU-06:bow.release" |
+| `/effects/*/soundObligation` | string | "AU-06" |
 | `/effects/*/speedPixelsPerSecond` | number | 160 |
 | `/effects/*/gravityPixelsPerSecondSquared` | number | 18 |
 | `/effects/*/radiusPixels` | number | 1 |
@@ -7383,14 +7359,87 @@ Source SHA256: `d2736226850b2c7775fc8042d0220ec0ebf701849f788e3ead826e4904dbc334
 | `/effects/*/maxConcurrent` | number | 4 |
 | `/effects/*/contact` | string | "arrow.contact" |
 | `/effects/*/firstContactOnly` | boolean | true |
+| `/effects/*/audioRoute` | object | complete children below |
+| `/effects/*/audioRoute/event` | string | "bow.release" |
+| `/effects/*/audioRoute/route` | string | "bow.release.ordinary-archer" |
+| `/effects/*/audioRoute/category` | string | "AU-06" |
+| `/effects/*/audioRoute/bus` | string | "Effects" |
+| `/effects/*/audioRoute/variants` | array | complete children below |
+| `/effects/*/audioRoute/variants/*` | string | "action.3288.full" |
 | `/effects/*/textureFrames` | array | complete children below |
 | `/effects/*/textureFrames/*` | number | 2 |
 | `/effects/*/materials` | array | complete children below |
 | `/effects/*/materials/*` | string | "flesh" |
 | `/effects/*/label` | string | "PORTAL PROVOKED" |
 | `/effects/*/canvasLayer` | number | 100 |
+| `/effects/*/soundPolicy` | string | "Natural regeneration is silent; impacts use the actual attacking material/action; shared character cues require an exact actor body identity." |
 | `/effects/*/fadeSeconds` | number | 3 |
 | `/effects/*/independentOfCorpse` | boolean | true |
+| `/effects/*/soundByBody` | object | complete children below |
+| `/effects/*/soundByBody/CH-01` | object | complete children below |
+| `/effects/*/soundByBody/CH-01/sound` | string | "AU-10:character.hit" |
+| `/effects/*/soundByBody/CH-01/event` | string | "survivor.hit-death-succession" |
+| `/effects/*/soundByBody/CH-01/route` | string | "survivor.hit-death-succession.damage" |
+| `/effects/*/soundByBody/CH-01/category` | string | "AU-10" |
+| `/effects/*/soundByBody/CH-01/bus` | string | "Effects" |
+| `/effects/*/soundByBody/CH-01/variants` | array | complete children below |
+| `/effects/*/soundByBody/CH-01/variants/*` | string | "action.5123.full" |
+| `/effects/*/soundByBody/CH-02` | object | complete children below |
+| `/effects/*/soundByBody/CH-02/sound` | string | "AU-09:character.hit" |
+| `/effects/*/soundByBody/CH-02/event` | string | "zombie.move-attack-hit-death" |
+| `/effects/*/soundByBody/CH-02/route` | string | "zombie.move-attack-hit-death.hit" |
+| `/effects/*/soundByBody/CH-02/category` | string | "AU-09" |
+| `/effects/*/soundByBody/CH-02/bus` | string | "Effects" |
+| `/effects/*/soundByBody/CH-02/variants` | array | complete children below |
+| `/effects/*/soundByBody/CH-02/variants/*` | string | "action.2880.full" |
+| `/effects/*/soundByBody/CH-03` | object | complete children below |
+| `/effects/*/soundByBody/CH-03/sound` | string | "AU-09:character.hit" |
+| `/effects/*/soundByBody/CH-03/event` | string | "zombie.move-attack-hit-death" |
+| `/effects/*/soundByBody/CH-03/route` | string | "zombie.move-attack-hit-death.hit" |
+| `/effects/*/soundByBody/CH-03/category` | string | "AU-09" |
+| `/effects/*/soundByBody/CH-03/bus` | string | "Effects" |
+| `/effects/*/soundByBody/CH-03/variants` | array | complete children below |
+| `/effects/*/soundByBody/CH-03/variants/*` | string | "action.2880.full" |
+| `/effects/*/soundByBody/CH-04` | object | complete children below |
+| `/effects/*/soundByBody/CH-04/sound` | string | "AU-09:character.hit" |
+| `/effects/*/soundByBody/CH-04/event` | string | "zombie.move-attack-hit-death" |
+| `/effects/*/soundByBody/CH-04/route` | string | "zombie.move-attack-hit-death.hit" |
+| `/effects/*/soundByBody/CH-04/category` | string | "AU-09" |
+| `/effects/*/soundByBody/CH-04/bus` | string | "Effects" |
+| `/effects/*/soundByBody/CH-04/variants` | array | complete children below |
+| `/effects/*/soundByBody/CH-04/variants/*` | string | "action.2880.full" |
+| `/effects/*/soundByBody/CH-05` | object | complete children below |
+| `/effects/*/soundByBody/CH-05/sound` | string | "AU-09:character.hit" |
+| `/effects/*/soundByBody/CH-05/event` | string | "zombie.move-attack-hit-death" |
+| `/effects/*/soundByBody/CH-05/route` | string | "zombie.move-attack-hit-death.hit" |
+| `/effects/*/soundByBody/CH-05/category` | string | "AU-09" |
+| `/effects/*/soundByBody/CH-05/bus` | string | "Effects" |
+| `/effects/*/soundByBody/CH-05/variants` | array | complete children below |
+| `/effects/*/soundByBody/CH-05/variants/*` | string | "action.2880.full" |
+| `/effects/*/soundByBody/CH-06` | object | complete children below |
+| `/effects/*/soundByBody/CH-06/sound` | string | "AU-09:character.hit" |
+| `/effects/*/soundByBody/CH-06/event` | string | "zombie.move-attack-hit-death" |
+| `/effects/*/soundByBody/CH-06/route` | string | "zombie.move-attack-hit-death.hit" |
+| `/effects/*/soundByBody/CH-06/category` | string | "AU-09" |
+| `/effects/*/soundByBody/CH-06/bus` | string | "Effects" |
+| `/effects/*/soundByBody/CH-06/variants` | array | complete children below |
+| `/effects/*/soundByBody/CH-06/variants/*` | string | "action.2880.full" |
+| `/effects/*/soundByBody/CH-07` | object | complete children below |
+| `/effects/*/soundByBody/CH-07/sound` | string | "AU-09:character.hit" |
+| `/effects/*/soundByBody/CH-07/event` | string | "zombie.move-attack-hit-death" |
+| `/effects/*/soundByBody/CH-07/route` | string | "zombie.move-attack-hit-death.hit" |
+| `/effects/*/soundByBody/CH-07/category` | string | "AU-09" |
+| `/effects/*/soundByBody/CH-07/bus` | string | "Effects" |
+| `/effects/*/soundByBody/CH-07/variants` | array | complete children below |
+| `/effects/*/soundByBody/CH-07/variants/*` | string | "action.2880.full" |
+| `/effects/*/soundByBody/CH-08` | object | complete children below |
+| `/effects/*/soundByBody/CH-08/sound` | string | "AU-09:character.hit" |
+| `/effects/*/soundByBody/CH-08/event` | string | "zombie.move-attack-hit-death" |
+| `/effects/*/soundByBody/CH-08/route` | string | "zombie.move-attack-hit-death.hit" |
+| `/effects/*/soundByBody/CH-08/category` | string | "AU-09" |
+| `/effects/*/soundByBody/CH-08/bus` | string | "Effects" |
+| `/effects/*/soundByBody/CH-08/variants` | array | complete children below |
+| `/effects/*/soundByBody/CH-08/variants/*` | string | "action.2880.full" |
 | `/portalClips` | array | complete children below |
 | `/portalClips/*` | object | complete children below |
 | `/portalClips/*/name` | string | "portal_close" |
@@ -7480,12 +7529,12 @@ Source SHA256: `d2736226850b2c7775fc8042d0220ec0ebf701849f788e3ead826e4904dbc334
 | `/sources` | object | complete children below |
 | `/sources/commonBundleSha256` | string | "2f66618305221d32d503bba04be755ae38e606408a7c5d9d8f65a1db19d9e6d9" |
 | `/sources/recipe` | string | "Each sourceMember is read byte-exact from pinned common-selected.zip; threshold alpha at128,zero RGB only alpha0,preserve other RGB,copy native without resampling into2px-separated2048x2048 shelves i (full value in authenticated source) |
-| `/sources/recipeSha256` | string | "c5d6ddd32f7700d54206aa8898f77b3291aacd5fa4ab74f0d3cb23546378ff0c" |
+| `/sources/recipeSha256` | string | "856af1669d2858ebe4085274e99c2256dee0caecfe00c2bb2f702a51207fc7c1" |
 | `/sources/authoringRecipe` | string | "import pathlib,sys,json,io,hashlib,zipfile\nsys.dont_write_bytecode=True\nROOT=pathlib.Path(__file__).resolve().parents[2]\nspec=__import__('importlib.util',fromlist=['']).spec_from_file_location('me (full value in authenticated source) |
 | `/soundEvents` | array | complete children below |
 | `/soundEvents/*` | object | complete children below |
-| `/soundEvents/*/id` | string | "AU-02:melee.bat" |
-| `/soundEvents/*/obligation` | string | "AU-02" |
+| `/soundEvents/*/id` | string | "AU-03:melee.bat" |
+| `/soundEvents/*/obligation` | string | "AU-03" |
 | `/soundEvents/*/audioOwner` | string | "04-21" |
 | `/soundEvents/*/actualListening` | string | "pending-04-32" |
 | `/acceptance` | object | complete children below |
@@ -8071,7 +8120,7 @@ Source SHA256: `54fc6b5cc758cd82e69a81abae28ff08f6e05387a86782c934a6b26f458fb346
 
 ### src/godot-game/content/packs/player-identities.json
 
-Source SHA256: `c482e9a52b796b416b11b7bb73fa49aa6926c3b85bcb15cb47ed8cbccc4f93cf`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
+Source SHA256: `4af10f3ed59bb499d845481deed7765db86d487cf358cb1852775aae27bc306d`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
 
 | Field shape | Type | Default/example and allowed representation |
 | --- | --- | --- |
@@ -8170,7 +8219,7 @@ Source SHA256: `c482e9a52b796b416b11b7bb73fa49aa6926c3b85bcb15cb47ed8cbccc4f93cf
 | `/sourceBindings` | array | complete children below |
 | `/sourceBindings/*` | object | complete children below |
 | `/sourceBindings/*/file` | string | "content/packs/ui-identity.json" |
-| `/sourceBindings/*/sha256` | string | "324f6c05f57112cbdb87a58f1c5975fcdfd7ba4d7cc1d6ea9c55e4280b9202ed" |
+| `/sourceBindings/*/sha256` | string | "44c50bf13b1e0cd0ec3bbfa6434cda918fb30d172ccbb1f6273df870006c307a" |
 | `/wildlife` | object | complete children below |
 | `/wildlife/rabbit` | object | complete children below |
 | `/wildlife/rabbit/idle` | string | "bunny_stand" |
@@ -8469,7 +8518,7 @@ Source SHA256: `e21c933b36bacd5f81206b33f7a9680bedd89bd5e580b12f5004ab212895d1f4
 
 ### src/godot-game/content/packs/ui-camp.json
 
-Source SHA256: `e05d78d363fc90ea218c6074c0bc278fc75658c415b697fdcdf1487594bc5505`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
+Source SHA256: `4485b7f44f86cd7ce5ca38c563ab88a056b53d1af1ae14431783e147794f3acf`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
 
 | Field shape | Type | Default/example and allowed representation |
 | --- | --- | --- |
@@ -8492,7 +8541,7 @@ Source SHA256: `e05d78d363fc90ea218c6074c0bc278fc75658c415b697fdcdf1487594bc5505
 
 ### src/godot-game/content/packs/ui-identity.json
 
-Source SHA256: `324f6c05f57112cbdb87a58f1c5975fcdfd7ba4d7cc1d6ea9c55e4280b9202ed`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
+Source SHA256: `44c50bf13b1e0cd0ec3bbfa6434cda918fb30d172ccbb1f6273df870006c307a`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
 
 | Field shape | Type | Default/example and allowed representation |
 | --- | --- | --- |
@@ -8528,10 +8577,18 @@ Source SHA256: `324f6c05f57112cbdb87a58f1c5975fcdfd7ba4d7cc1d6ea9c55e4280b9202ed
 | `/desktop/sha256` | string | "5ca0170350b621993b7ed6c8d2e501360e677371b3f04df798092e2003b01c21" |
 | `/desktop/frames` | array | complete children below |
 | `/desktop/frames/*` | number | 16 |
-| `/desktop/currentProjectIcon` | string | "res://icon.svg" |
+| `/desktop/currentProjectIcon` | string | "res://assets/ui/kingdom-zombies-icon.png" |
 | `/desktop/appliedToCurrentExport` | boolean | false |
 | `/desktop/applicationOwner` | string | "04-31" |
 | `/desktop/visualJudgment` | string | "pending-04-32/04-33" |
+| `/desktop/sourceApplication` | object | complete children below |
+| `/desktop/sourceApplication/path` | string | "assets/ui/kingdom-zombies-icon.png" |
+| `/desktop/sourceApplication/sha256` | string | "198b2c20db8b42c23e7a863a1ae39aeef600266911e12f5411ace6cf17fcfc3c" |
+| `/desktop/sourceApplication/bytes` | number | 3100 |
+| `/desktop/sourceApplication/retainedArchive` | string | "production/phase4/ui-identity.zip" |
+| `/desktop/sourceApplication/retainedMember` | string | "outputs/icon-256.png" |
+| `/desktop/sourceApplication/projectConfigSha256` | string | "ffd9437ea564f0dda510e738425c755b7344dcbaa60cfd078f21d36036209bb6" |
+| `/desktop/sourceApplication/exportApplied` | boolean | false |
 | `/provenance` | object | complete children below |
 | `/provenance/bundle` | string | "production/phase4/ui-identity.zip" |
 | `/provenance/sha256` | string | "718f34b2f8a3b2803b94a9bf6590faa768fb18e3a0b515d43edb5dcd0d92d315" |
@@ -8683,7 +8740,7 @@ Source SHA256: `324f6c05f57112cbdb87a58f1c5975fcdfd7ba4d7cc1d6ea9c55e4280b9202ed
 
 ### src/godot-game/content/packs/ui-inventory.json
 
-Source SHA256: `7452f12311b7bcf07c9d1ebda80870a2aa28ead0d6217f1331231c47ce983df0`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
+Source SHA256: `a305e4fd759b897096a0dcfff9921eadb03b8bb7edcb146e843a3c4ae24586c3`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
 
 | Field shape | Type | Default/example and allowed representation |
 | --- | --- | --- |
@@ -8848,7 +8905,7 @@ Source SHA256: `cdfbbf4880fdcc14d200dcb3df0b4ac173fec4a30c65d15a6736a7d30591341a
 
 ### src/godot-game/content/packs/ui-legacy-stash.json
 
-Source SHA256: `69943745397fe33982ea0f94cb752733911ae7178c0d5e489a0ae8f909b23058`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
+Source SHA256: `2562e38dd378063bddd2470d297174b9efc6804745ff6256e80153816ec7893f`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
 
 | Field shape | Type | Default/example and allowed representation |
 | --- | --- | --- |
@@ -8871,7 +8928,7 @@ Source SHA256: `69943745397fe33982ea0f94cb752733911ae7178c0d5e489a0ae8f909b23058
 
 ### src/godot-game/content/packs/ui-map-warnings.json
 
-Source SHA256: `e34fdbfccabfc076d055c636284a532678b1b24debdeecf52d0bf57bca1fc00f`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
+Source SHA256: `57b6ccd16ff6c679f05775cd07f9366e53ffa29c1a5b936c9a1af7347f068292`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
 
 | Field shape | Type | Default/example and allowed representation |
 | --- | --- | --- |
@@ -8942,7 +8999,7 @@ Source SHA256: `8ba4af559999c082db119c6b7dd5b31bd0ae20e56ecdb885561ad1033e88fe11
 
 ### src/godot-game/content/packs/world.json
 
-Source SHA256: `b79e1afd0bbe6e14a378e141eb32cbb9a57b5ddcd6534ebfda0e962bbfcf5899`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
+Source SHA256: `e53d88ea001b147df2655c502541bb9754cd8cab4bc10ebf66b4871272a9e426`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
 
 | Field shape | Type | Default/example and allowed representation |
 | --- | --- | --- |
@@ -8995,7 +9052,7 @@ Source SHA256: `b79e1afd0bbe6e14a378e141eb32cbb9a57b5ddcd6534ebfda0e962bbfcf5899
 | `/sources/generated/reason` | string | "K02 cliff art has no continuous walking surface; recovered kit has no selected fallen log or exposed root composition" |
 | `/recipe` | object | complete children below |
 | `/recipe/member` | string | "recipes/build-world.py" |
-| `/recipe/sha256` | string | "0725ae3eb869064b2a306555498bf1cfecf1bc3488fc5f9ac5aae8e76365cf7d" |
+| `/recipe/sha256` | string | "a619c71b4980d2e801573ba42ba38b1a4cd1b4421770b1316c5e6cbf72c54204" |
 | `/acceptance` | object | complete children below |
 | `/acceptance/visual` | string | "pending" |
 | `/acceptance/owner` | string | "04-32/04-33" |
@@ -9589,7 +9646,7 @@ Source SHA256: `01dedb6cd8b48adc729ae64f23cacc2c3312f1e35c17a52118a6699e7fcd8dcc
 
 ### src/godot-game/content/world/defense-assemblies.json
 
-Source SHA256: `e8ec43336aa2c79c8b52539bc300d5918c3acc75df8b0506b71caa1f2ef26787`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
+Source SHA256: `6bdd2955ca227e07e93b8a718d551a127443a7cbd460085f3dc4ab7d1a4ff767`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
 
 | Field shape | Type | Default/example and allowed representation |
 | --- | --- | --- |
@@ -9682,10 +9739,20 @@ Source SHA256: `e8ec43336aa2c79c8b52539bc300d5918c3acc75df8b0506b71caa1f2ef26787
 | `/acceptance/appearance` | string | "pending04-32" |
 | `/acceptance/namedJudgment` | string | "pending04-32/33" |
 | `/acceptance/completedObligations` | array | complete children below |
+| `/repairPolicy` | object | complete children below |
+| `/repairPolicy/fee` | string | "max(1,ceil(0.5*current-full-tier-valuation))" |
+| `/repairPolicy/healthPerWorkerSecond` | number | 10 |
+| `/repairPolicy/target` | string | "full-health" |
+| `/repairPolicy/coversFurtherDamageWhileActive` | boolean | true |
+| `/repairPolicy/replacementRetainsPaymentAndProgress` | boolean | true |
+| `/repairPolicy/buyerLossRetainsOrder` | boolean | true |
+| `/repairPolicy/destructionEndsOrder` | boolean | true |
+| `/repairPolicy/destructionRefund` | boolean | false |
+| `/repairPolicy/newDamageAfterClosure` | string | "new-explicit-purchase" |
 
 ### src/godot-game/content/world/main-assemblies.json
 
-Source SHA256: `1ca169e2bd8818fac84b4ff19d282aa9d6ed8b19b91adb70a830ef100c51ae1e`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
+Source SHA256: `8c2a51b0398edc691d071dfb11ed0f03adb30764938cc4f07eb6cfb956a1bd24`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
 
 | Field shape | Type | Default/example and allowed representation |
 | --- | --- | --- |
@@ -9708,7 +9775,7 @@ Source SHA256: `1ca169e2bd8818fac84b4ff19d282aa9d6ed8b19b91adb70a830ef100c51ae1e
 | `/tierDefinitions/*/price` | number | 0 |
 | `/tierDefinitions/*/upgradePrice` | number | 200 |
 | `/tierDefinitions/*/workSeconds` | number | 0 |
-| `/tierDefinitions/*/repairPrice` | number | 30 |
+| `/tierDefinitions/*/repairPrice` | number | 50 |
 | `/tierDefinitions/*/seats` | number | 8 |
 | `/tierDefinitions/*/partPrefix` | string | "tier-1-" |
 | `/tierDefinitions/*/attachments` | array | complete children below |
@@ -9789,10 +9856,20 @@ Source SHA256: `1ca169e2bd8818fac84b4ff19d282aa9d6ed8b19b91adb70a830ef100c51ae1e
 | `/acceptance/visual` | string | "pending" |
 | `/acceptance/owner` | string | "04-32/04-33" |
 | `/acceptance/completedObligations` | array | complete children below |
+| `/repairPolicy` | object | complete children below |
+| `/repairPolicy/fee` | string | "max(1,ceil(0.5*current-full-tier-valuation))" |
+| `/repairPolicy/healthPerWorkerSecond` | number | 10 |
+| `/repairPolicy/target` | string | "full-health" |
+| `/repairPolicy/coversFurtherDamageWhileActive` | boolean | true |
+| `/repairPolicy/replacementRetainsPaymentAndProgress` | boolean | true |
+| `/repairPolicy/buyerLossRetainsOrder` | boolean | true |
+| `/repairPolicy/destructionEndsOrder` | boolean | true |
+| `/repairPolicy/destructionRefund` | boolean | false |
+| `/repairPolicy/newDamageAfterClosure` | string | "new-explicit-purchase" |
 
 ### src/godot-game/content/world/map.json
 
-Source SHA256: `5d0dbde0ed6964996f3c5fbab4334c5c50d732c3e08d82515e2fcd89fe0ad3a1`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
+Source SHA256: `18c0e87276b35c505be1d72a78ce3c40244008da91d399555725275d3724e70f`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
 
 | Field shape | Type | Default/example and allowed representation |
 | --- | --- | --- |
@@ -9907,7 +9984,7 @@ Source SHA256: `5d0dbde0ed6964996f3c5fbab4334c5c50d732c3e08d82515e2fcd89fe0ad3a1
 | `/plants/*/side` | string | "left" |
 | `/plants/*/kind` | string | "berry" |
 | `/plants/*/x` | number | -10 |
-| `/plants/*/capacity` | number | 12 |
+| `/plants/*/capacity` | number | 8 |
 | `/plants/*/refill` | string | "daily-dawn-once" |
 | `/plants/*/interactionRadius` | number | 3 |
 | `/plants/*/clearingRemoves` | boolean | false |
@@ -9935,7 +10012,7 @@ Source SHA256: `5d0dbde0ed6964996f3c5fbab4334c5c50d732c3e08d82515e2fcd89fe0ad3a1
 | `/rallies/*/side` | string | "left" |
 | `/rallies/*/borderSource` | string | "outermost-completed-living-wall" |
 | `/rallies/*/fallbackBorder` | number | -12 |
-| `/rallies/*/offsetInward` | number | 3 |
+| `/rallies/*/offsetInward` | number | 5 |
 | `/rallies/*/states` | array | complete children below |
 | `/rallies/*/states/*` | string | "idle" |
 | `/rallies/*/pole` | string | "banner-pole" |
@@ -10035,7 +10112,7 @@ Source SHA256: `5d0dbde0ed6964996f3c5fbab4334c5c50d732c3e08d82515e2fcd89fe0ad3a1
 
 ### src/godot-game/content/world/portal-assemblies.json
 
-Source SHA256: `ee776d242c7485d8cc3ffdf1afc3d9823415fb427e1b48f8d7b2386390f2d64e`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
+Source SHA256: `23e2c46f92bc47c29e24b822e8ebfcd3113bbd056bec59ad1554c312efbe4de5`. Root field dependencies: stable IDs, packaged project paths and current content version; no network/donor dependency.
 
 | Field shape | Type | Default/example and allowed representation |
 | --- | --- | --- |

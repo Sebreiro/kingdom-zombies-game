@@ -18,11 +18,11 @@
     },
     {
       "path": "content/world/map.json",
-      "sha256": "5d0dbde0ed6964996f3c5fbab4334c5c50d732c3e08d82515e2fcd89fe0ad3a1"
+      "sha256": "18c0e87276b35c505be1d72a78ce3c40244008da91d399555725275d3724e70f"
     },
     {
       "path": "content/packs/ui-identity.json",
-      "sha256": "324f6c05f57112cbdb87a58f1c5975fcdfd7ba4d7cc1d6ea9c55e4280b9202ed"
+      "sha256": "44c50bf13b1e0cd0ec3bbfa6434cda918fb30d172ccbb1f6273df870006c307a"
     },
     {
       "path": "assets/ui/InspectionTheme.tres",

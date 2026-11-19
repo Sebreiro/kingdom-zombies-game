@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using Godot;
@@ -409,6 +410,914 @@ internal sealed class IdentityKit
     private static bool Same(string left, string right)
     {
         return StringComparer.Ordinal.Equals(x: left, y: right);
+    }
+
+
+    /// <summary>Owns exact existing character, corpse, identity and environment inspection presenters.</summary>
+    internal sealed class ResourceView : IDisposable
+    {
+        /// <summary>Revokes the current presenter before its shell retires owned native nodes.</summary>
+        public void Dispose()
+        {
+            Close();
+        }
+
+        internal ResourceView(Node2D root, MainThreadGateway gateway, Func<string, byte[]?> read, string id)
+        {
+            _root = root;
+            _gateway = gateway;
+            _read = read;
+            _id = id;
+        }
+
+        internal string Status => _status;
+
+        internal static bool Handles(string id)
+        {
+            return UiHandles(id: id) || id is "CH-10" or "CH-11" or "CH-12" or "CH-13" or "AN-09" or "AN-17"
+                    or "EN-01" or "EN-02" or "EN-03" or "EN-04" or "EN-05" or "EN-06" or "EN-07"
+                    or "EN-08" or "EN-09" or "EN-10" or "EN-11";
+        }
+
+        internal static ResourceView Open(InspectionShell? shell, MainThreadGateway gateway,
+                Func<string, byte[]?> read, string id)
+        {
+            gateway.RequireThread();
+            if (shell is null || !Handles(id: id))
+            {
+                throw new InvalidDataException(message: "RESOURCE_VIEW_ID " + id);
+            }
+
+            var root = new Node2D { Name = "ResourcePreview", TextureFilter = CanvasItem.TextureFilterEnum.Nearest };
+            shell.Install(preview: root);
+            var result = new ResourceView(root: root, gateway: gateway, read: read, id: id);
+            try
+            {
+                result.Build();
+            }
+            catch (Exception error) when (error is InvalidDataException or JsonException or FormatException
+                    or IOException or KeyNotFoundException)
+            {
+                result.Close();
+                shell.Retire();
+                var failure = new Node2D { Name = "ResourceError" };
+                failure.AddChild(node: new Label { Text = id + " — " + error.Message });
+                shell.Install(preview: failure);
+                result._status = "Error — " + id + " — " + error.Message;
+            }
+
+            return result;
+        }
+
+        internal void Tick(double delta)
+        {
+            _gateway.RequireThread();
+            if (!_closed && _playing && _time is not null)
+            {
+                Clock.Value = Math.Min(val1: 60, val2: Clock.Value + delta);
+            }
+        }
+
+        internal void Close()
+        {
+            _gateway.RequireThread();
+            if (_closed)
+            {
+                return;
+            }
+
+            _closed = true;
+            if (_signalsConnected && _choices is not null)
+            {
+                Choices.ItemSelected -= Changed;
+            }
+            if (_signalsConnected && _time is not null)
+            {
+                Clock.ValueChanged -= Seek;
+            }
+            if (_signalsConnected && _play is not null)
+            {
+                _play.Toggled -= Play;
+            }
+            if (_signalsConnected && _step is not null)
+            {
+                _step.Pressed -= Step;
+            }
+            _signalsConnected = false;
+            _character?.Detach();
+            _corpse?.Close();
+            _pile?.Close();
+            _crowd?.Close();
+            _world?.Close();
+            _inventory?.Close();
+            _camp?.Close();
+            _session?.Close();
+            _gallery?.Close();
+            foreach (AtlasTexture texture in _uiTextures)
+            {
+                texture.Dispose();
+            }
+            _uiTextures.Clear();
+            _root.SetMeta(name: "closed", value: true);
+        }
+
+        private readonly Node2D _root;
+        private readonly MainThreadGateway _gateway;
+        private readonly Func<string, byte[]?> _read;
+        private readonly string _id;
+        private InventoryLayouts? _inventory;
+        private CampLayouts? _camp;
+        private SessionLayouts? _session;
+        private IdentityKit? _gallery;
+        private Control? _surface;
+        private JsonElement _uiDefinition;
+        private JsonElement _uiData;
+        private string _uiSource = "";
+        private readonly List<AtlasTexture> _uiTextures = [];
+        private string _status = "Partial — actual source-bound preview; acceptance pending";
+        private bool _closed;
+        private bool _playing;
+        private bool _signalsConnected;
+        private CharacterPreview? _character;
+        private CorpsePreview? _corpse;
+        private CorpsePreview? _pile;
+        private CrowdPreview? _crowd;
+        private WorldPreview? _world;
+        private Node2D? _art;
+        private OptionButton? _choices;
+        private HSlider? _time;
+        private CheckButton? _play;
+        private Button? _step;
+        private JsonElement _fixture;
+        private JsonElement _map;
+        private string _state = "";
+        private long _epoch;
+        private readonly List<string> _states = [];
+
+        private Node2D Art => _art ?? throw new InvalidOperationException(message: "RESOURCE_ART_MISSING");
+        private OptionButton Choices => _choices
+                ?? throw new InvalidOperationException(message: "RESOURCE_CHOICES_MISSING");
+        private HSlider Clock => _time ?? throw new InvalidOperationException(message: "RESOURCE_CLOCK_MISSING");
+        private CrowdPreview Crowd => _crowd ?? throw new InvalidOperationException(message: "RESOURCE_CROWD_MISSING");
+        private CorpsePreview Corpse => _corpse
+                ?? throw new InvalidOperationException(message: "RESOURCE_CORPSE_MISSING");
+        private Control Surface => _surface ?? throw new InvalidOperationException(message: "RESOURCE_UI_SURFACE");
+
+        private void RequireActive()
+        {
+            _gateway.RequireThread();
+            if (_closed || !_root.IsInsideTree())
+            {
+                throw new InvalidOperationException(message: "RESOURCE_VIEW_CLOSED " + _id);
+            }
+        }
+
+        private JsonElement Read(string path)
+        {
+            byte[] value = _read(arg: path) ?? throw new InvalidDataException(message: "RESOURCE_VIEW_MISSING " + path);
+            return IdentityKit.Read(bytes: value);
+        }
+
+        private void Build()
+        {
+            _gateway.RequireThread();
+            RequireActive();
+            _art = new Node2D { Name = "Art", Position = new Vector2(x: 280, y: 150) };
+            _root.AddChild(node: _art);
+            var controls = new VBoxContainer { Name = "Controls", Position = new Vector2(x: 8, y: 300) };
+            _root.AddChild(node: controls);
+            var identity = new Label { Name = "Identity", Text = _id + " · Source-bound existing presentation" };
+            controls.AddChild(node: identity);
+            _choices = new OptionButton { Name = "State", CustomMinimumSize = new Vector2(x: 280, y: 48) };
+            controls.AddChild(node: _choices);
+            _time = new HSlider { Name = "Time", MinValue = 0, MaxValue = 60, Step = 0.125,
+                CustomMinimumSize = new Vector2(x: 280, y: 32) };
+            controls.AddChild(node: _time);
+            _play = new CheckButton { Name = "Play", Text = "Play explicit preview" };
+            controls.AddChild(node: _play);
+            _step = new Button { Name = "Step", Text = "Step 0.125s" };
+            controls.AddChild(node: _step);
+            if (UiHandles(id: _id))
+            {
+                BuildUi();
+            }
+            else if (_id.StartsWith(value: "EN-", comparisonType: StringComparison.Ordinal))
+            {
+                BuildWorld();
+            }
+            else if (_id is "CH-10" or "CH-11" or "CH-12" or "AN-17")
+            {
+                BuildCrowd();
+            }
+            else
+            {
+                BuildCorpse();
+            }
+
+            if (_states.Count == 0)
+            {
+                throw new InvalidDataException(message: "RESOURCE_VIEW_EMPTY " + _id);
+            }
+            Choices.Select(idx: 0);
+            Choices.ItemSelected += Changed;
+            Clock.ValueChanged += Seek;
+            _play.Toggled += Play;
+            _step.Pressed += Step;
+            _signalsConnected = true;
+            SelectState();
+        }
+
+        private static bool UiHandles(string id)
+        {
+            return Enumerable.Range(start: 1, count: 27).Any(predicate: number => Same(left: id,
+                    right: "UI-" + number.ToString(format: "00", provider: CultureInfo.InvariantCulture)));
+        }
+
+        private void BuildUi()
+        {
+            _gateway.RequireThread();
+            _uiSource = "content/packs/" + (_id switch
+            {
+                "UI-01" or "UI-02" => "ui-kit",
+                "UI-03" or "UI-04" or "UI-07" or "UI-08" => "ui-identity",
+                "UI-05" or "UI-12" or "UI-13" => "ui-inventory",
+                "UI-06" or "UI-14" or "UI-15" => "ui-legacy-stash",
+                "UI-16" or "UI-17" or "UI-18" or "UI-19" => "ui-camp",
+                "UI-20" or "UI-21" or "UI-26" => "ui-map-warnings",
+                "UI-09" or "UI-10" or "UI-11" or "UI-22" or "UI-23" or "UI-24" => "ui-session",
+                "UI-25" or "UI-27" => "ui-settings",
+                _ => throw new InvalidDataException(message: "RESOURCE_UI_ID " + _id),
+            }) + ".json";
+            _uiDefinition = _uiSource is "content/packs/ui-kit.json"
+                    ? DataTextPreview.UiKitDocument(bytes: UiBytes(path: _uiSource)) : Read(path: _uiSource);
+            _ = UiBytes(path: "assets/ui/InspectionTheme.tres");
+            Art.Position = new Vector2(x: 8, y: 8);
+            var scroll = new ScrollContainer { Name = "LibraryScroll", Size = new Vector2(x: 700, y: 280) };
+            Art.AddChild(node: scroll);
+            _surface = new Control { Name = "Surface", CustomMinimumSize = new Vector2(x: 1280, y: 720),
+                Theme = ResourceLoader.Load<Theme>(path: "res://assets/ui/InspectionTheme.tres") };
+            scroll.AddChild(node: _surface);
+            if (_id is "UI-01" or "UI-02")
+            {
+                foreach (JsonElement state in _uiDefinition.GetProperty(propertyName: "states").EnumerateArray())
+                {
+                    AddState(state: state.GetString() ?? throw new InvalidDataException(message: "RESOURCE_UI_STATE"));
+                }
+            }
+            else if (_id is "UI-03" or "UI-04" or "UI-07")
+            {
+                BuildIdentityGallery();
+            }
+            else if (_id is "UI-08")
+            {
+                AddState(state: Text(value: _uiDefinition.GetProperty(propertyName: "desktop"), name: "title"));
+            }
+            else
+            {
+                BuildUiLayout();
+            }
+        }
+
+        private byte[] UiBytes(string path)
+        {
+            byte[] value = _read(arg: path)
+                    ?? throw new InvalidDataException(message: "RESOURCE_UI_MISSING " + path);
+            if (value.Length is 0 or > 16777216)
+            {
+                throw new InvalidDataException(message: "RESOURCE_UI_BYTES " + path);
+            }
+            return value;
+        }
+
+        private byte[] UiBinding(JsonElement binding)
+        {
+            string path = Text(value: binding, name: "path");
+            byte[] value = UiBytes(path: path);
+            if (!Same(left: Convert.ToHexStringLower(inArray: SHA256.HashData(source: value)),
+                    right: Text(value: binding, name: "sha256")))
+            {
+                throw new InvalidDataException(message: "RESOURCE_UI_BINDING " + path);
+            }
+            return value;
+        }
+
+        private void BuildUiLayout()
+        {
+            _gateway.RequireThread();
+            byte[][] inputs = _uiDefinition.GetProperty(propertyName: "bindings").EnumerateArray()
+                    .Select(selector: binding => UiBinding(binding: binding)).ToArray();
+            byte[] pack = UiBytes(path: _uiSource);
+            if (_uiSource.EndsWith(value: "/ui-inventory.json", comparisonType: StringComparison.Ordinal)
+                    || _uiSource.EndsWith(value: "/ui-legacy-stash.json", comparisonType: StringComparison.Ordinal))
+            {
+                _uiData = InventoryLayouts.Read(bytes: inputs[0]);
+                _inventory = new InventoryLayouts(root: Surface, gateway: _gateway, pack: pack, inputs: inputs);
+            }
+            else if (_uiSource.EndsWith(value: "/ui-camp.json", comparisonType: StringComparison.Ordinal))
+            {
+                _uiData = CampLayouts.Read(bytes: inputs[0]);
+                _camp = new CampLayouts(root: Surface, gateway: _gateway, pack: pack, inputs: inputs);
+            }
+            else if (_uiSource.EndsWith(value: "/ui-map-warnings.json", comparisonType: StringComparison.Ordinal))
+            {
+                _uiData = CampLayouts.Read(bytes: inputs[0]);
+                _camp = new CampLayouts(root: Surface, gateway: _gateway, pack: pack,
+                        inputs: inputs, mapWarnings: true);
+            }
+            else
+            {
+                _uiData = SessionLayouts.Read(bytes: inputs[0]);
+                _session = new SessionLayouts(root: Surface, gateway: _gateway, pack: pack, inputs: inputs);
+            }
+            foreach (JsonElement sample in _uiData.GetProperty(propertyName: "samples").EnumerateArray()
+                    .Where(predicate: sample => UiSampleMatches(sample: sample)).OrderByDescending(
+                            keySelector: sample => _id is "UI-12" && Text(value: sample, name: "id")
+                                    is "inventory.broken"))
+            {
+                AddState(state: Text(value: sample, name: "id"));
+            }
+        }
+
+        private bool UiSampleMatches(JsonElement sample)
+        {
+            string id = Text(value: sample, name: "id");
+            string surface = sample.TryGetProperty(propertyName: "surface", value: out JsonElement value)
+                    ? value.GetString() ?? "" : "";
+            return _id switch
+            {
+                "UI-06" => id.StartsWith(value: "legacy.", comparisonType: StringComparison.Ordinal),
+                "UI-14" => id.StartsWith(value: "stash.", comparisonType: StringComparison.Ordinal),
+                "UI-15" => id.StartsWith(value: "target.", comparisonType: StringComparison.Ordinal),
+                "UI-16" => surface is "people",
+                "UI-17" => surface is "sale",
+                "UI-18" => surface is "site",
+                "UI-19" => surface is "rally",
+                "UI-20" => id.StartsWith(value: "map.", comparisonType: StringComparison.Ordinal),
+                "UI-21" => id.StartsWith(value: "spectator.", comparisonType: StringComparison.Ordinal),
+                "UI-26" => id.StartsWith(value: "warning.", comparisonType: StringComparison.Ordinal),
+                "UI-09" => surface is "main" or "solo",
+                "UI-10" => surface is "host" or "browser" or "manual" or "lobby",
+                "UI-11" => surface is "join",
+                "UI-22" => surface is "saves",
+                "UI-23" => surface is "host-exit" or "guest-leave",
+                "UI-24" => surface is "victory" or "defeat",
+                "UI-25" => surface is "settings",
+                "UI-27" => surface is "diagnostics",
+                _ => _id is "UI-05" or "UI-12" or "UI-13",
+            };
+        }
+
+        private void BuildIdentityGallery()
+        {
+            _gateway.RequireThread();
+            var scroll = new ScrollContainer { Name = "Scroll", Size = new Vector2(x: 1280, y: 720) };
+            Surface.AddChild(node: scroll);
+            var content = new VBoxContainer { Name = "Content", CustomMinimumSize = new Vector2(x: 1100, y: 0) };
+            scroll.AddChild(node: content);
+            foreach (string name in new[] { "Bindings", "Statuses", "Players", "Items" })
+            {
+                content.AddChild(node: new VBoxContainer { Name = name });
+            }
+            _gallery = new IdentityKit(root: Surface, gateway: _gateway, identity: UiBytes(path: _uiSource),
+                    definitions: UiBytes(path: "content/config/items.json"),
+                    weapons: UiBytes(path: "content/packs/items-01-10.json"),
+                    clothing: UiBytes(path: "content/packs/items-11-24.json"));
+            AddState(state: "Authored snapshot");
+            if (_id is "UI-07")
+            {
+                foreach (JsonElement state in _uiDefinition.GetProperty(propertyName: "playerStates").EnumerateArray())
+                {
+                    AddState(state: state.GetString() ?? throw new InvalidDataException(message: "RESOURCE_UI_STATE"));
+                }
+            }
+        }
+
+        private byte[] IdentitySnapshot()
+        {
+            return JsonSerializer.SerializeToUtf8Bytes(value: new
+            {
+                bindings = _uiDefinition.GetProperty(propertyName: "bindings"),
+                statuses = _uiDefinition.GetProperty(propertyName: "statuses").EnumerateArray().Select(
+                        selector: row => new { id = Text(value: row, name: "id"),
+                            value = Text(value: row, name: "label") }),
+                players = _uiDefinition.GetProperty(propertyName: "players").EnumerateArray().Select(
+                        selector: row => new
+                        {
+                            id = Text(value: row, name: "id"), number = Text(value: row, name: "number"),
+                            name = Text(value: row, name: "name"), shape = Text(value: row, name: "shape"),
+                            color = Text(value: row, name: "color"),
+                            state = _id is "UI-07" && _state is not "Authored snapshot"
+                                    ? _state : Text(value: row, name: "state"),
+                        }),
+                conditions = _uiDefinition.GetProperty(propertyName: "items").EnumerateArray().Select(
+                        selector: row => new { id = Text(value: row, name: "id"),
+                            current = row.GetProperty(propertyName: "maximum") }),
+            });
+        }
+
+        private void SelectUi()
+        {
+            _gateway.RequireThread();
+            RequireActive();
+            if (_inventory is not null)
+            {
+                _inventory.Open(id: _state);
+            }
+            else if (_camp is not null)
+            {
+                _camp.Open(id: _state);
+            }
+            else if (_session is not null)
+            {
+                _session.Open(id: _state);
+            }
+            else if (_gallery is not null)
+            {
+                _gallery.Project(snapshot: IdentitySnapshot());
+                foreach (string name in new[] { "Bindings", "Statuses", "Players", "Items" })
+                {
+                    Surface.GetNode<Control>(path: "Scroll/Content/" + name).Visible = _id switch
+                    {
+                        "UI-03" => name is "Bindings",
+                        "UI-04" => name is "Statuses",
+                        "UI-07" => name is "Players",
+                        _ => false,
+                    };
+                }
+                if (_id is "UI-03")
+                {
+                    ProjectUiSymbol(parent: Surface, key: "interaction-cursor");
+                }
+            }
+            else
+            {
+                SelectUiGallery();
+            }
+            Surface.SetMeta(name: "ui_library", value: JsonSerializer.Serialize(value: new
+            {
+                id = _id, state = _state, source = _uiSource, epoch = _epoch,
+                controller = _inventory is not null ? "InventoryLayouts" : _camp is not null ? "CampLayouts"
+                        : _session is not null ? "SessionLayouts"
+                                : _gallery is not null ? "IdentityKit" : "Native gallery",
+                fixture = _uiData.ValueKind is JsonValueKind.Object ? Text(value: _uiData, name: "id")
+                        : Text(value: _uiDefinition, name: "id"),
+            }));
+        }
+
+        private void SelectUiGallery()
+        {
+            _gateway.RequireThread();
+            foreach (Node child in Surface.GetChildren())
+            {
+                Surface.RemoveChild(node: child);
+                child.QueueFree();
+            }
+            var rows = new VBoxContainer { Name = "Gallery", CustomMinimumSize = new Vector2(x: 680, y: 0) };
+            Surface.AddChild(node: rows);
+            if (_id is "UI-08")
+            {
+                JsonElement desktop = _uiDefinition.GetProperty(propertyName: "desktop");
+                string path = Text(value: desktop.GetProperty(propertyName: "sourceApplication"), name: "path");
+                _ = UiBytes(path: path);
+                rows.AddChild(node: new Label { Text = Text(value: desktop, name: "title") });
+                ProjectUiSymbol(parent: rows, key: "title-emblem");
+                rows.AddChild(node: new TextureRect { Name = "CurrentIcon",
+                    Texture = ResourceLoader.Load<Texture2D>(path: "res://" + path),
+                    CustomMinimumSize = new Vector2(x: 256, y: 256) });
+            }
+            else if (_id is "UI-02")
+            {
+                ProjectTypography(parent: rows);
+            }
+            else
+            {
+                foreach (JsonElement control in _uiDefinition.GetProperty(propertyName: "controls").EnumerateArray())
+                {
+                    string name = control.GetString() ?? throw new InvalidDataException(message: "RESOURCE_UI_CONTROL");
+                    Node widget = UiWidget(name: name);
+                    widget.Name = name;
+                    widget.SetMeta(name: "ui_control", value: name);
+                    rows.AddChild(node: widget);
+                    if (widget is Control item)
+                    {
+                        item.CustomMinimumSize = new Vector2(x: 360, y: 40);
+                        item.TooltipText = name + " · " + _state;
+                    }
+                }
+            }
+        }
+
+        private Node UiWidget(string name)
+        {
+            _gateway.RequireThread();
+            return name switch
+            {
+                "Button" => new Button { Text = name + " · " + _state, ToggleMode = true,
+                    ButtonPressed = _state is "pressed", Disabled = _state is "disabled" },
+                "PanelContainer" or "TooltipPanel" or "ToastPanel" => new PanelContainer
+                {
+                    ThemeTypeVariation = name,
+                },
+                "TabBar" => UiTabs(),
+                "ItemList" => UiItems(),
+                "HScrollBar" => new HScrollBar { MinValue = 0, MaxValue = 100, Page = 20, Value = 25 },
+                "VScrollBar" => new VScrollBar { MinValue = 0, MaxValue = 100, Page = 20, Value = 25 },
+                "LineEdit" => new LineEdit { Text = _state is "empty" ? "" : "KingdomZombies · " + _state,
+                    PlaceholderText = "Empty input", Editable = _state is not "disabled" },
+                "TextEdit" => new TextEdit { Text = "KingdomZombies · " + _state,
+                    Editable = _state is not "disabled" },
+                "HSlider" => new HSlider { MinValue = 0, MaxValue = 100, Value = 50,
+                    Editable = _state is not "disabled" },
+                "VSlider" => new VSlider { MinValue = 0, MaxValue = 100, Value = 50,
+                    Editable = _state is not "disabled" },
+                "CheckBox" => new CheckBox { Text = name + " · " + _state,
+                    ButtonPressed = _state is "selected", Disabled = _state is "disabled" },
+                "PopupPanel" => new PopupPanel(),
+                _ => throw new InvalidDataException(message: "RESOURCE_UI_CONTROL " + name),
+            };
+        }
+
+        private TabBar UiTabs()
+        {
+            _gateway.RequireThread();
+            var tabs = new TabBar();
+            tabs.AddTab(title: "Resources");
+            tabs.AddTab(title: "Details");
+            tabs.CurrentTab = _state is "selected" ? 1 : 0;
+            return tabs;
+        }
+
+        private void ProjectUiSymbol(Node parent, string key)
+        {
+            _gateway.RequireThread();
+            Node? old = parent.GetNodeOrNull<Node>(path: "SourceSymbol");
+            old?.Free();
+            foreach (AtlasTexture previous in _uiTextures)
+            {
+                previous.Dispose();
+            }
+            _uiTextures.Clear();
+            string path = Text(value: _uiDefinition.GetProperty(propertyName: "atlas"), name: "path");
+            _ = UiBytes(path: path);
+            int[] region = _uiDefinition.GetProperty(propertyName: "regions").GetProperty(propertyName: key)
+                    .EnumerateArray().Select(selector: value => value.GetInt32()).ToArray();
+            var texture = new AtlasTexture { Atlas = ResourceLoader.Load<Texture2D>(path: "res://" + path),
+                Region = new Rect2(x: region[0], y: region[1], width: region[2], height: region[3]),
+                FilterClip = true };
+            _uiTextures.Add(item: texture);
+            var symbol = new TextureRect { Name = "SourceSymbol", Texture = texture,
+                CustomMinimumSize = new Vector2(x: region[2], y: region[3]) };
+            symbol.SetMeta(name: "ui_symbol", value: key);
+            parent.AddChild(node: symbol);
+        }
+
+        private ItemList UiItems()
+        {
+            _gateway.RequireThread();
+            var items = new ItemList();
+            foreach (JsonElement fixture in _uiDefinition.GetProperty(propertyName: "fixtures").EnumerateArray())
+            {
+                items.AddItem(text: Text(value: fixture, name: "label"));
+            }
+            return items;
+        }
+
+        private void ProjectTypography(Node parent)
+        {
+            _gateway.RequireThread();
+            foreach (JsonElement font in _uiDefinition.GetProperty(propertyName: "fonts").EnumerateArray())
+            {
+                string path = Text(value: font, name: "path");
+                byte[] value = UiBytes(path: path);
+                if (!Same(left: Convert.ToHexStringLower(inArray: SHA256.HashData(source: value)),
+                        right: Text(value: font, name: "sha256")))
+                {
+                    throw new InvalidDataException(message: "RESOURCE_UI_FONT " + path);
+                }
+                foreach (JsonElement type in _uiDefinition.GetProperty(propertyName: "typography").EnumerateArray())
+                {
+                    var label = new Label { Text = Text(value: font, name: "role") + " · "
+                            + Text(value: type, name: "role") + " · KingdomZombies Élodie 123" };
+                    label.AddThemeFontOverride(name: "font", font: ResourceLoader.Load<Font>(path: "res://" + path));
+                    label.AddThemeFontSizeOverride(name: "font_size", fontSize: type.GetProperty(
+                            propertyName: "size").GetInt32());
+                    label.SetMeta(name: "font_source", value: path);
+                    parent.AddChild(node: label);
+                }
+            }
+            foreach (JsonProperty color in _uiDefinition.GetProperty(propertyName: "palette").EnumerateObject())
+            {
+                parent.AddChild(node: new Label { Text = color.Name + " " + color.Value.GetString(),
+                    Modulate = Color.FromHtml(rgba: color.Value.GetString() ?? "") });
+            }
+        }
+
+        private void BuildCorpse()
+        {
+            _gateway.RequireThread();
+            _fixture = Read(path: "content/fixtures/crowds.json");
+            var owner = new Node2D { Name = "Corpse" };
+            Art.AddChild(node: owner);
+            _corpse = CorpsePreview.Open(root: owner, gateway: _gateway, read: _read);
+            foreach (string state in new[] { "persistent corpse", "current death", "loot pile" })
+            {
+                AddState(state: state);
+            }
+
+            if (_id is "AN-09")
+            {
+                var character = new Node2D { Name = "Character", Position = new Vector2(x: -120, y: 0) };
+                Art.AddChild(node: character);
+                _character = CharacterPreview.Open(root: character, gateway: _gateway, read: _read, body: "CH-01");
+                _character.Attach();
+                _character.SelectObligation(id: "AN-09");
+            }
+            else
+            {
+                var pile = new Node2D { Name = "Pile", Position = new Vector2(x: 120, y: 0) };
+                Art.AddChild(node: pile);
+                _pile = CorpsePreview.Open(root: pile, gateway: _gateway, read: _read);
+                JsonElement row = Actor(kind: "pile");
+                _pile.Restore(body: "pile", kind: "pile", equipment: row.GetProperty(propertyName: "equipment"),
+                        selected: false);
+            }
+        }
+
+        private void BuildCrowd()
+        {
+            _gateway.RequireThread();
+            _fixture = Read(path: "content/fixtures/crowds.json");
+            _crowd = new CrowdPreview(root: Art, gateway: _gateway, read: _read);
+            Crowd.Attach();
+            if (_id is "CH-12")
+            {
+                foreach (JsonElement row in _fixture.GetProperty(propertyName: "actors").EnumerateArray()
+                        .Where(predicate: row => row.GetProperty(propertyName: "body").GetString() is "CH-01"
+                                && row.GetProperty(propertyName: "kind").GetString() is "alive").Take(count: 4))
+                {
+                    AddState(state: row.GetProperty(propertyName: "id").GetString()
+                            ?? throw new InvalidDataException(message: "RESOURCE_ACTOR_ID"));
+                }
+            }
+            else
+            {
+                JsonElement wildlife = Read(path: "content/packs/player-identities.json")
+                        .GetProperty(propertyName: "wildlife");
+                foreach (string body in _id is "AN-17" ? new[] { "rabbit", "deer" }
+                        : new[] { _id is "CH-11" ? "deer" : "rabbit" })
+                {
+                    foreach (JsonProperty action in wildlife.GetProperty(propertyName: body).EnumerateObject())
+                    {
+                        AddState(state: body + ":" + action.Name);
+                    }
+                }
+            }
+
+            Art.Position = new Vector2(x: _id is "CH-12" ? 24 : -580, y: 100);
+            FilterCrowd();
+        }
+
+        private void FilterCrowd()
+        {
+            _gateway.RequireThread();
+            foreach (Node node in Art.GetNode(path: "Crowd").GetChildren())
+            {
+                if (node is CanvasItem item)
+                {
+                    string name = node.Name.ToString();
+                    item.Visible = _id is "CH-12" ? name is "survivor-000" or "survivor-001" or "survivor-002"
+                            or "survivor-003" : name is "Wildlife_rabbit" or "Wildlife_deer";
+                }
+            }
+        }
+
+        private JsonElement Actor(string kind)
+        {
+            return _fixture.GetProperty(propertyName: "actors").EnumerateArray().First(
+                    predicate: row => StringComparer.Ordinal.Equals(
+                            x: row.GetProperty(propertyName: "kind").GetString(),
+                            y: kind));
+        }
+
+        private void BuildWorld()
+        {
+            _gateway.RequireThread();
+            _map = Read(path: "content/world/map.json");
+            _world = WorldPreview.Open(root: Art, gateway: _gateway, read: _read);
+            _world.Attach();
+            string[] samples = _id switch
+            {
+                "EN-04" => ["world.day", "world.night"],
+                "EN-05" => ["clearings.intact", "clearings.marked-paid", "clearings.chopping",
+                    "clearings.falling-left", "clearings.falling-right", "clearings.cleared-stump"],
+                "EN-06" or "EN-07" => ["plants.full", "plants.partial", "plants.empty", "plants.refilled"],
+                "EN-10" => ["map.shared-exploration", "map.unknown-portals"],
+                _ => ["world.day", "world.night"],
+            };
+            foreach (string state in samples)
+            {
+                AddState(state: state);
+            }
+        }
+
+        private void Changed(long index)
+        {
+            _gateway.RequireThread();
+            RequireActive();
+            if (_choices is null || index < 0 || index >= Choices.ItemCount)
+            {
+                throw new InvalidDataException(message: "RESOURCE_VIEW_SELECTOR " + _id);
+            }
+
+            SelectState();
+        }
+
+        private void AddState(string state)
+        {
+            _gateway.RequireThread();
+            if (state.Length == 0 || _states.Contains(value: state, comparer: StringComparer.Ordinal))
+            {
+                throw new InvalidDataException(message: "RESOURCE_VIEW_STATE " + _id);
+            }
+
+            _states.Add(item: state);
+            Choices.AddItem(label: state);
+        }
+
+        private void Seek(double value)
+        {
+            _gateway.RequireThread();
+            RequireActive();
+            if (!double.IsFinite(d: value) || value is < 0 or > 60)
+            {
+                throw new InvalidDataException(message: "RESOURCE_VIEW_TIME " + _id);
+            }
+
+            SelectState();
+        }
+
+        private void Play(bool value)
+        {
+            _gateway.RequireThread();
+            RequireActive();
+            _playing = value;
+        }
+
+        private void Step()
+        {
+            _gateway.RequireThread();
+            RequireActive();
+            Clock.Value = Math.Min(val1: 60, val2: Clock.Value + 0.125);
+        }
+
+        private void SelectState()
+        {
+            _gateway.RequireThread();
+            RequireActive();
+            if (Choices.Selected < 0 || Choices.Selected >= _states.Count)
+            {
+                throw new InvalidDataException(message: "RESOURCE_VIEW_SELECTOR " + _id);
+            }
+            _state = Choices.GetItemText(idx: Choices.Selected);
+            if (!StringComparer.Ordinal.Equals(x: _state, y: _states[Choices.Selected]))
+            {
+                throw new InvalidDataException(message: "RESOURCE_VIEW_SELECTOR " + _id);
+            }
+            _epoch = checked(_epoch + 1);
+            if (UiHandles(id: _id))
+            {
+                SelectUi();
+            }
+            else if (_world is not null)
+            {
+                _world.Restore(sample: _state);
+                _world.Advance(elapsedSeconds: Clock.Value);
+                FilterWorld();
+            }
+            else if (_crowd is not null)
+            {
+                SelectCrowd();
+            }
+            else if (_corpse is not null)
+            {
+                SelectCorpse();
+            }
+
+            _root.SetMeta(name: "resource_view", value: JsonSerializer.Serialize(value: new
+            {
+                id = _id,
+                state = _state,
+                epoch = _epoch,
+                closed = _closed,
+                time = Clock.Value,
+                controller = UiHandles(id: _id) ? "Source-bound UI presenter" : _world is not null ? "WorldPreview"
+                        : _crowd is not null ? "CrowdPreview" : "CorpsePreview",
+                corpse = _corpse?.Snapshot,
+                crowd = _crowd?.Snapshot,
+                source = UiHandles(id: _id) ? _uiSource
+                        : _world is not null ? "content/world/map.json" : "content/fixtures/crowds.json",
+            }));
+            _root.GetNode<Label>(path: "Controls/Identity").Text = _id + " · " + _state + " · " + _status;
+        }
+
+        private void SelectCrowd()
+        {
+            _gateway.RequireThread();
+            if (_id is "CH-12")
+            {
+                string from = Crowd.Snapshot.GetProperty(propertyName: "controlled").GetString() ?? "";
+                if (!StringComparer.Ordinal.Equals(x: from, y: _state))
+                {
+                    Crowd.TransferControl(from: from, to: _state);
+                }
+                Crowd.Select(id: _state);
+            }
+            else
+            {
+                string[] selection = _state.Split(separator: ':');
+                Crowd.Wildlife(body: selection[0], action: selection[1], elapsedSeconds: Clock.Value,
+                        facing: 1, selected: true);
+            }
+        }
+
+        private void SelectCorpse()
+        {
+            _gateway.RequireThread();
+            bool pile = _state is "loot pile";
+            JsonElement row = Actor(kind: pile ? "pile" : "corpse");
+            Corpse.Restore(body: pile ? "pile" : row.GetProperty(propertyName: "body").GetString()
+                    ?? throw new InvalidDataException(message: "RESOURCE_CORPSE_BODY"),
+                    kind: pile ? "pile" : _state is "current death" ? "alive" : "corpse",
+                    equipment: row.GetProperty(propertyName: "equipment"), selected: true);
+            if (_state is "current death")
+            {
+                Corpse.TriggerDeath();
+                Corpse.Advance(elapsedSeconds: Clock.Value);
+            }
+        }
+
+        private void FilterWorld()
+        {
+            _gateway.RequireThread();
+            foreach (Node node in Art.GetNode(path: "WorldPreview").GetChildren())
+            {
+                if (node is Sprite2D sprite)
+                {
+                    string part = sprite.HasMeta(name: "part") ? sprite.GetMeta(name: "part").AsString() : "";
+                    string id = sprite.HasMeta(name: "resource_id")
+                            ? sprite.GetMeta(name: "resource_id").AsString() : "";
+                    bool selected = EnvironmentPart(part: part, id: id);
+                    sprite.Visible = sprite.Visible && selected;
+                }
+            }
+            if (_id is "EN-08")
+            {
+                ProjectZones();
+            }
+        }
+
+        private void ProjectZones()
+        {
+            _gateway.RequireThread();
+            foreach (JsonElement zone in _map.GetProperty(propertyName: "wildlifeZones").EnumerateArray())
+            {
+                float x = zone.GetProperty(propertyName: "center").GetSingle() * 8;
+                float half = zone.GetProperty(propertyName: "width").GetSingle() * 4;
+                string id = zone.GetProperty(propertyName: "id").GetString()
+                        ?? throw new InvalidDataException(message: "RESOURCE_ZONE_ID");
+                var line = new Line2D
+                {
+                    Name = "Zone_" + id.Replace(oldValue: ".", newValue: "_", comparisonType: StringComparison.Ordinal),
+                    Points = [new Vector2(x: x - half, y: -24), new Vector2(x: x + half, y: -24),
+                        new Vector2(x: x + half, y: 8), new Vector2(x: x - half, y: 8),
+                        new Vector2(x: x - half, y: -24)],
+                    Width = 1,
+                    DefaultColor = new Color(r: 0.45f, g: 0.74f, b: 0.85f, a: 0.6f),
+                };
+                line.SetMeta(name: "zone", value: zone.GetRawText());
+                Art.GetNode(path: "WorldPreview").AddChild(node: line);
+            }
+        }
+
+        private bool EnvironmentPart(string part, string id)
+        {
+            return _id switch
+            {
+                "EN-01" or "EN-04" => true,
+                "EN-02" => part is "ground" or "grass" or "roots" or "contact-shadow",
+                "EN-03" => part is "hill" or "cloud" or "trunk-oak" or "trunk-birch" or "leaves-oak" or "leaves-birch",
+                "EN-05" => _map.GetProperty(propertyName: "clearings").EnumerateArray().Any(
+                        predicate: row => id.StartsWith(value: row.GetProperty(propertyName: "id").GetString() + ".",
+                                comparisonType: StringComparison.Ordinal)),
+                "EN-06" => part.StartsWith(value: "berry-", comparisonType: StringComparison.Ordinal),
+                "EN-07" => part.StartsWith(value: "fruit-", comparisonType: StringComparison.Ordinal),
+                "EN-08" => part is "rabbit" or "deer",
+                "EN-09" => part is "tree-mark" or "banner-0" or "banner-pole",
+                "EN-10" => id.StartsWith(value: "minimap.", comparisonType: StringComparison.Ordinal),
+                "EN-11" => part is "rocks" or "log" or "stump" or "roots" or "grass",
+                _ => throw new InvalidDataException(message: "RESOURCE_ENVIRONMENT_ID " + _id),
+            };
+        }
     }
 
 }

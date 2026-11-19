@@ -88,10 +88,11 @@ async function discovery(context){
     realCliChildren:4,caseBodiesExecutedDuringImport:0};
 }
 runner.registerCase('source.case-discovery',definition,discovery);
-function packaged(context){
-  const source=bytes(ROOT,content.EXPECTED),index=content.document(ROOT,content.INDEX),before=structuredClone(index);
+async function packaged(context){
+  const legacy=require('./provenance.cjs').subject(context,'packaged-legacy'),sourceRoot=legacy.root;
+  const source=bytes(ROOT,content.EXPECTED),index=legacy.index,before=structuredClone(index);
   need(source.length===25345&&hash(source)===EXPECTED_SHA256,'SOURCE_AUTHORITY_DRIFT',content.EXPECTED);
-  const checked=content.validate(ROOT,structuredClone(index));
+  const checked=content.validate(sourceRoot,structuredClone(index));
   need(checked.files.has(PACKAGED)&&checked.files.get(PACKAGED).equals(source),'PACKAGED_EXPECTATIONS_MISSING',PACKAGED);
   const snapshot=()=>Object.fromEntries([content.EXPECTED,PACKAGED,content.INDEX,'tools/phase4/content.cjs',
     'tools/phase4/cases/integration.cjs','src/godot-game/assets/common/bow.png'].map(file=>[file,hash(bytes(ROOT,file))]));
@@ -159,7 +160,7 @@ function packaged(context){
   const independent=content.validate(shared.root,shared.index);partial(independent);
   need(independent.valid.length===1&&independent.valid[0].id==='heldout.second-bow','INDEPENDENT_VALID_OUTPUT_HIDDEN');
   const publicationRoot=path.join(context.directory,'publication');
-  const published=content.publish({sourceRoot:ROOT,index:structuredClone(index),publicationRoot,invocation:context.nonce+'-register'});
+  const published=content.publish({sourceRoot,index:structuredClone(index),publicationRoot,invocation:context.nonce+'-register'});
   const imported=content.readPublished(publicationRoot),generation=path.join(publicationRoot,imported.pointer.generation);
   partial(imported.result);assert.deepEqual(imported.index.expectedObligations,index.expectedObligations);
   assert.deepEqual(imported.index.shards,index.shards);assert.deepEqual(imported.index.outputs,index.outputs);
@@ -173,11 +174,19 @@ function packaged(context){
   const restoredRoot=path.join(context.directory,'missing-register');write(restoredRoot,PACKAGED,source);
   const restoredCopy=content.validate(restoredRoot,structuredClone(index));partial(restoredCopy);
   need(restoredCopy.valid.length===1,'RESTORED_EXPECTATIONS_OUTPUT_LOST');
-  const restored=content.validate(ROOT,structuredClone(index));partial(restored);assert.deepEqual(snapshot(),initial);assert.deepEqual(index,before);
+  const restored=content.validate(sourceRoot,structuredClone(index));partial(restored);assert.deepEqual(snapshot(),initial);assert.deepEqual(index,before);
   write(context.directory,'controls.json',controls);write(context.directory,'publication.json',{published,pointer:imported.pointer,
     indexSha256:hash(bytes(generation,content.INDEX)),registerSha256:hash(bytes(generation,PACKAGED)),
     rows:JSON.parse(bytes(generation,PACKAGED)).obligations,diagnostics:imported.result.diagnostics});
-  return {expected:180,completedObligations:0,validOutputs:1,pendingShards:28,status:'incomplete',expectedRejected:controls.length,
+  const actual=content.normalizeCurrent(ROOT),currentRoot=path.join(context.directory,'current-publication'),current=await content.publish({sourceRoot:ROOT,index:actual,publicationRoot:currentRoot,invocation:context.nonce+'-current-register'}),currentRead=content.readPublished(currentRoot),currentGeneration=path.join(currentRoot,currentRead.pointer.generation);
+  need(current.sourceComplete&&current.accepted===0&&currentRead.result.sourceReady.length===180&&!current.complete,'CURRENT_EXPECTATIONS_SOURCE_READINESS');
+  assert.deepEqual(currentRead.result.sourceReady,content.expected().obligations.map(x=>x.id).sort());
+  need(bytes(currentGeneration,PACKAGED).equals(source)&&!fs.existsSync(path.join(currentGeneration,content.EXPECTED)),'CURRENT_EXPECTATIONS_PORTABLE');
+  const currentRegister=path.join(currentGeneration,PACKAGED);fs.writeFileSync(currentRegister,Buffer.concat([source,Buffer.from(' ')]));let actualFailure;try{content.readPublished(currentRoot);}catch(error){actualFailure=error;}
+  need(actualFailure?.message.startsWith('EXPECTED_PACKAGE_INVALID '+PACKAGED+' '),'CURRENT_EXPECTATIONS_TAMPER_ACCEPTED');fs.writeFileSync(currentRegister,source);
+  const currentRestored=content.readPublished(currentRoot);need(currentRestored.result.sourceComplete&&currentRestored.result.valid.length===180,'CURRENT_EXPECTATIONS_RESTORED');
+  write(context.directory,'current-portable-expectations.json',{current,portablePackageSha256:hash(source),sourceOnlyRegisterAbsent:true,tamperRejected:actualFailure.message,restoredSourceIds:currentRestored.result.sourceReady,runtimePaths:actual.files.filter(x=>x.role==='runtime').length,accepted:0});
+  return {current:{sourceReady:180,accepted:0,portable:true,tamperRejected:true,restored:true},expected:180,completedObligations:0,validOutputs:1,pendingShards:28,status:'incomplete',expectedRejected:controls.length,
     controls,published,restored:true,sourceAuthorityUnchanged:true,independentValidOutputRetained:true,
     finalNativeListeningJudgment:'pending-04-32/04-33'};
 }

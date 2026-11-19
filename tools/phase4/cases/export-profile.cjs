@@ -14,7 +14,7 @@ const CONTRACT={ordinaryProjectSha256:'1f7d242e12521a4866512b6017f25f1868cd6160e
   checkpoint:'.phase4/checkpoints/04-02-entry-93386745/manifest.json',
   fullRunnerBeforeProfileSha256:'2e022d88b462d361bc1807fc54ed031245e93f167edd6c5c7b07837a49d0a021'};
 const RESOURCES=['foundation/Foundation.tscn','inspection/Inspection.tscn','assets/common/bow.png','content/pack-index.json',
-  'content/packs/tracer.json','icon.svg','docs/README.md'].map(file=>'src/godot-game/'+file);
+  'content/packs/tracer.json','assets/ui/kingdom-zombies-icon.png','docs/README.md'].map(file=>'src/godot-game/'+file);
 const PRESET_OPTIONS={platform:'Windows Desktop',export_filter:'all_resources',
   include_filter:'*.json,*.md,*.txt,*.csv,*.ttf,*.otf,*.wav,*.ogg,*.png',
   'custom_template/debug':'@WINDOWS_DEBUG_TEMPLATE@','custom_template/release':'@WINDOWS_RELEASE_TEMPLATE@',
@@ -74,6 +74,9 @@ function validate(root){
     profile.baseScene===FOUNDATION&&profile.inspectionScene===INSPECTION&&profile.preset==='Phase4 Windows inspection',
   'PROFILE_IDENTITY',PROFILE);
   need(profile.scope===SOURCE_ONLY&&profile.nativeEntryComplete===false,'PROFILE_SCOPE',PROFILE);
+  need(profile.currentSourceIcon?.path==='src/godot-game/assets/ui/kingdom-zombies-icon.png'
+    &&profile.currentSourceIcon.sha256==='198b2c20db8b42c23e7a863a1ae39aeef600266911e12f5411ace6cf17fcfc3c'
+    &&profile.currentSourceIcon.appliedToCurrentExport===false,'PROFILE_ICON_SOURCE_SCOPE',PROFILE);
   need(JSON.stringify(profile.sourceContract)===JSON.stringify(CONTRACT),'PROFILE_SOURCE_CONTRACT',PROFILE+' sourceContract');
   need(JSON.stringify(profile.resources)===JSON.stringify(RESOURCES),'PROFILE_RESOURCE_CONTRACT',PROFILE+' resources '+JSON.stringify(profile.resources));
   need(JSON.stringify(profile.requiredPreset)===JSON.stringify(PRESET_OPTIONS),'PROFILE_OPTIONS_CONTRACT',PROFILE+' requiredPreset');
@@ -81,7 +84,10 @@ function validate(root){
   need(project.values.get(QUALIFIED)===JSON.stringify(INSPECTION),'PROFILE_OVERRIDE',PROJECT+' '+QUALIFIED);
   need(preset.values.get('preset.0/name')===JSON.stringify(profile.preset),'PROFILE_PRESET',PRESET+' preset.0/name');
   need(preset.values.get('preset.0/custom_features')===JSON.stringify(FEATURE),'PROFILE_FEATURE',PRESET+' preset.0/custom_features');
-  const original=project.text.replace('run/main_scene.asset_inspection="res://inspection/Inspection.tscn"\n','');
+  need(project.values.get('application/config/icon')==='"res://assets/ui/kingdom-zombies-icon.png"','PROFILE_CURRENT_ICON',PROJECT);
+  need(runner.hash(read(root,'src/godot-game/assets/ui/kingdom-zombies-icon.png'))==='198b2c20db8b42c23e7a863a1ae39aeef600266911e12f5411ace6cf17fcfc3c','PROFILE_CURRENT_ICON_BYTES',PROJECT);
+  const original=project.text.replace('run/main_scene.asset_inspection="res://inspection/Inspection.tscn"\n','')
+    .replace('config/icon="res://assets/ui/kingdom-zombies-icon.png"','config/icon="res://icon.svg"');
   need(runner.hash(original)===profile.sourceContract.ordinaryProjectSha256,'PROFILE_ORDINARY_CONFIG',PROJECT);
   const originalPreset=preset.text.replace('custom_features="asset_inspection"','custom_features=""');
   need(runner.hash(originalPreset)===profile.sourceContract.presetBeforeFeatureSha256,'PROFILE_PRESET_OPTIONS',PRESET);
@@ -456,6 +462,11 @@ function helperSelfTest(){
     assert.equal(fs.existsSync(path.join(directory,'oversized-deadline.command.json')),false);
   });
 }
-module.exports={read,sceneClosure,sourceControls,validate,snapshot,probeScript,observe,profileCase,trialContext,copySubject,mutate,registry,helperControls,boundaries,selfTest,helperSelfTest};
+function applicationIconControls(context){const before=snapshot(ROOT),root=copySubject(context),icon='src/godot-game/assets/ui/kingdom-zombies-icon.png',iconPath=runner.inside(root,icon),projectPath=runner.inside(root,PROJECT),source=fs.readFileSync(iconPath),project=fs.readFileSync(projectPath),controls=[];
+  for(const kind of ['missing','changed','old-project','wrongcase-project']){let caught;try{if(kind==='missing')fs.unlinkSync(iconPath);if(kind==='changed')fs.writeFileSync(iconPath,Buffer.concat([source.subarray(0,-1),Buffer.from([source.at(-1)^1])]));if(kind==='old-project')fs.writeFileSync(projectPath,project.toString('utf8').replace('res://assets/ui/kingdom-zombies-icon.png','res://icon.svg'));if(kind==='wrongcase-project')fs.writeFileSync(projectPath,project.toString('utf8').replace('kingdom-zombies-icon.png','Kingdom-zombies-icon.png'));validate(root);}catch(error){caught=error;}finally{fs.writeFileSync(iconPath,source);fs.writeFileSync(projectPath,project);}
+    need(caught,'PROFILE_ICON_CONTROL_ACCEPTED',kind);controls.push({id:kind,rejected:true,diagnostic:caught.message});validate(root);controls.push({id:kind+'-restored',passed:true});}
+  need(JSON.stringify(snapshot(ROOT))===JSON.stringify(before),'PROFILE_ICON_SOURCE_DRIFT',PROJECT);write(context.directory,'icon-controls.json',{before,controls});return {controls,scope:SOURCE_ONLY,nativeEntryComplete:false};}
+runner.registerCase('export.application-icon',{group:'export',title:'Current source icon config and resource binding without export acceptance',importance:'High',rationale:'Missing or aliased application art invalidates current delivery identity',needsGameWindow:false,runGroup:'G0-source-icon-profile',order:1,requirements:['ASSET-01','ASSET-05'],acceptance:['AC-03','AC-15','AC-23'],setup:'Current exact icon/project/profile bytes and original historical ordinary-config contract',actions:['Validate current source icon and bounded resource closure','Independently remove corrupt and alias icon/config in owned copies','Restore each positive and preserve original sourceContract/support scope'],expected:'Current exact source icon passes; every changed/missing/aliased subject rejects; final native export remains31-owned',reset:'Restore only disposable subject files; never mutate current source or retained archive',evidence:['icon-controls.json','result.json']},applicationIconControls);
+module.exports={read,sceneClosure,sourceControls,validate,snapshot,probeScript,observe,profileCase,trialContext,copySubject,mutate,registry,helperControls,boundaries,selfTest,helperSelfTest,applicationIconControls};
 if(require.main===module&&process.argv[2]==='--self-test')selfTest();
 if(require.main===module&&process.argv[2]==='--self-test-helper')helperSelfTest();

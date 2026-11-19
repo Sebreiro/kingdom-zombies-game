@@ -1031,7 +1031,7 @@
   },
   "recipe": {
     "member": "recipes/build-world.py",
-    "sha256": "0725ae3eb869064b2a306555498bf1cfecf1bc3488fc5f9ac5aae8e76365cf7d"
+    "sha256": "a619c71b4980d2e801573ba42ba38b1a4cd1b4421770b1316c5e6cbf72c54204"
   },
   "acceptance": {
     "visual": "pending",

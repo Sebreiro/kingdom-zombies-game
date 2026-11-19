@@ -21,7 +21,7 @@
     "src/godot-game/assets/common/bow.png",
     "src/godot-game/content/pack-index.json",
     "src/godot-game/content/packs/tracer.json",
-    "src/godot-game/icon.svg",
+    "src/godot-game/assets/ui/kingdom-zombies-icon.png",
     "src/godot-game/docs/README.md"
   ],
   "requiredPreset": {
@@ -47,8 +47,21 @@
     "positiveCase": "export.profile",
     "boundaryCase": "export.profile-boundaries",
     "runGroup": "G0-export-profile",
-    "orders": [350, 351],
-    "nativeQueries": ["base", "qualified", "actual", "empty", "ordinary", "inspection", "wrongCase", "active", "foundationExists"],
+    "orders": [
+      350,
+      351
+    ],
+    "nativeQueries": [
+      "base",
+      "qualified",
+      "actual",
+      "empty",
+      "ordinary",
+      "inspection",
+      "wrongCase",
+      "active",
+      "foundationExists"
+    ],
     "controls": "Independent missing/wrong/duplicate/case/path/profile/setting/scene/resource/preset/options/global activation copies; actual native normalization branches; bounded child env/cwd/default/deadline/output/exit/spawn/descendant controls; original case subsets and unique positions",
     "evidence": "Fresh ignored run directories retain inputs, exact mutations/diagnostics, nonce, revision, engine/probe/source/config hashes, native command streams, ordered cases and all failed attempts.",
     "nativeEntry": "Unfinished 04-02 Task 1 must consume this permanent profile and prove actual packaged Inspection natural startup with fresh binary/PCK/runtime identities."
@@ -57,5 +70,13 @@
     "https://docs.godotengine.org/en/stable/tutorials/export/feature_tags.html",
     "https://raw.githubusercontent.com/godotengine/godot/4.7.2-stable/core/config/project_settings.cpp",
     "https://raw.githubusercontent.com/godotengine/godot/4.7.2-stable/main/main.cpp"
-  ]
+  ],
+  "currentSourceIcon": {
+    "path": "src/godot-game/assets/ui/kingdom-zombies-icon.png",
+    "sha256": "198b2c20db8b42c23e7a863a1ae39aeef600266911e12f5411ace6cf17fcfc3c",
+    "projectSha256": "ffd9437ea564f0dda510e738425c755b7344dcbaa60cfd078f21d36036209bb6",
+    "retainedArchive": "production/phase4/ui-identity.zip",
+    "member": "outputs/icon-256.png",
+    "appliedToCurrentExport": false
+  }
 }

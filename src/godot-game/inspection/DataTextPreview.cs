@@ -51,14 +51,25 @@ internal sealed class DataTextPreview : IDisposable
 
     internal static string[] Ids(string category)
     {
-        return category is "Data/text" or "" ? ["TXT-01", "TXT-02", "DT-18", "DT-24", "DT-25",
+        return category is "Data/text" or "" ? ["TXT-01", "TXT-02", "DT-18", "DT-24", "DT-25", "DT-26", "DT-27",
             .. Enumerable.Range(start: 1, count: 17).Select(selector: number => "DT-"
-                    + number.ToString(format: "00", provider: CultureInfo.InvariantCulture))] : [];
+                    + number.ToString(format: "00", provider: CultureInfo.InvariantCulture)),
+            "DT-19", "DT-20", "DT-21", "DT-22", "DT-23"] : [];
     }
 
     internal static bool Handles(string id)
     {
         return Ids(category: "Data/text").Contains(value: id, comparer: StringComparer.Ordinal);
+    }
+
+    internal static JsonElement UiKitDocument(byte[] bytes)
+    {
+        JsonElement data = Parse(bytes: bytes, file: "content/packs/ui-kit.json");
+        Require(valid: Text(value: data, key: "id") is "ui-kit"
+                && data.GetProperty(propertyName: "schemaVersion").GetInt32() == 1
+                && data.GetProperty(propertyName: "version").TryGetInt32(value: out int version) && version > 0,
+                reason: "ui-kit document identity");
+        return data;
     }
 
     internal static DataTextPreview? Open(InspectionShell? shell, MainThreadGateway gateway,
@@ -91,6 +102,14 @@ internal sealed class DataTextPreview : IDisposable
         }
 
         _closed = true;
+        if (_body is not null)
+        {
+            foreach ((string name, OptionButton.ItemSelectedEventHandler handler) in _selectors)
+            {
+                _body.GetNode<OptionButton>(path: "Choices/" + name).ItemSelected -= handler;
+            }
+        }
+        _selectors.Clear();
         _audio?.Close();
         _audio = null;
         _world?.Close();
@@ -125,6 +144,10 @@ internal sealed class DataTextPreview : IDisposable
     private readonly Dictionary<string, JsonElement> _messages = new(comparer: StringComparer.Ordinal);
     private readonly List<(string File, JsonElement Field)> _fields = [];
     private string _documentation = "";
+    private string _support = "";
+    private readonly List<(string File, JsonElement Data)> _libraries = [];
+    private readonly Dictionary<string, OptionButton.ItemSelectedEventHandler> _selectors =
+            new(comparer: StringComparer.Ordinal);
     private string _failure = "";
     private string _state = "populated";
     private bool _expanded;
@@ -236,6 +259,145 @@ internal sealed class DataTextPreview : IDisposable
         {
             Compatibility();
         }
+
+        if (_id is "DT-26" or "DT-27")
+        {
+            Support();
+        }
+        LoadLibraries();
+    }
+
+    private void LoadLibraries()
+    {
+        string[] files = _id switch
+        {
+            "DT-19" => ["content/packs/delivery.json", "content/packs/compatibility.json"],
+            "DT-20" => ["content/animation/locomotion-melee.json", "content/animation/bow.json",
+                "content/animation/work-special.json", "content/animation/fits-a.json",
+                "content/animation/fits-b.json", "content/animation/fits-c.json"],
+            "DT-21" => ["content/world/map.json", "content/world/main-assemblies.json",
+                "content/world/defense-assemblies.json", "content/world/portal-assemblies.json"],
+            "DT-22" => ["content/packs/ui-kit.json", "content/packs/ui-identity.json",
+                "content/packs/ui-inventory.json", "content/packs/ui-legacy-stash.json",
+                "content/packs/ui-camp.json", "content/packs/ui-map-warnings.json",
+                "content/packs/ui-session.json", "content/packs/ui-settings.json"],
+            "DT-23" => ["content/audio/events.json", "content/packs/audio-actions.json",
+                "content/packs/audio-interface-ambience.json"],
+            _ => [],
+        };
+        foreach (string file in files)
+        {
+            _libraries.Add(item: (file, Read(file: file)));
+        }
+        if (_libraries.Count > 0)
+        {
+            _fieldIndex = 0;
+        }
+    }
+
+    private void Support()
+    {
+        JsonElement delivery = Read(file: "content/packs/delivery.json");
+        Require(valid: delivery.GetProperty(propertyName: "schemaVersion").GetInt32() == 1
+                && Text(value: delivery, key: "id") is "delivery"
+                && delivery.GetProperty(propertyName: "version").GetInt32() > 0,
+                reason: "content/packs/delivery.json, field schemaVersion/id/version");
+        Require(valid: delivery.GetProperty(propertyName: "acceptedObligations").GetArrayLength() == 0
+                && delivery.GetProperty(propertyName: "acceptance").GetProperty(propertyName: "completedObligations")
+                        .GetArrayLength() == 0, reason: "delivery acceptedObligations: actual acceptance pending");
+        JsonElement text = delivery.GetProperty(propertyName: "textPackBinding");
+        Require(valid: Text(value: text, key: "path") is PackPath && Same(left: Text(value: text, key: "sha256"),
+                right: Digest(bytes: _read(PackPath) ?? [])), reason: "delivery textPackBinding sha256");
+        string catalog = Documentation(value: delivery.GetProperty(propertyName: "fixtureCatalog"));
+        JsonElement fixtures = Parse(bytes: Encoding.UTF8.GetBytes(s: catalog), file: "delivery fixture catalog");
+        SupportCatalog(catalog: fixtures);
+        SupportClosure(catalog: fixtures, delivery: delivery);
+        string guides = SupportGuides(delivery: delivery);
+        var details = new StringBuilder(value: _id + " — read-only source support; actual acceptance pending.\n");
+        details.Append(value: _id is "DT-26" ? catalog : guides);
+        foreach (JsonElement resource in delivery.GetProperty(propertyName: "fixtureResources").EnumerateArray())
+        {
+            details.Append(value: "\nAuthenticated fixture: " + SupportResource(resource: resource));
+        }
+
+        details.Append(value: "\nPlatform records: " + delivery.GetProperty(propertyName: "platformRecords")
+                .GetRawText() + "\nDesigner field documentation: DT-18, content/packs/text-data.json; SHA256 "
+                + Digest(bytes: Encoding.UTF8.GetBytes(s: _documentation)));
+        _support = details.ToString();
+    }
+
+    private static void SupportCatalog(JsonElement catalog)
+    {
+        Require(valid: catalog.GetProperty(propertyName: "schemaVersion").GetInt32() == 1
+                && Text(value: catalog, key: "id") is "phase4-fixture-catalog",
+                reason: "delivery fixture catalog schemaVersion/id");
+        foreach ((string key, int count) in new (string, int)[] { ("heldout", 34), ("backstops", 70),
+                ("acceptance", 24), ("decisions", 32), ("judgments", 4), ("fixtures", 9) })
+        {
+            JsonElement rows = catalog.GetProperty(propertyName: key);
+            var identities = new HashSet<string>(comparer: StringComparer.Ordinal);
+            Require(valid: rows.GetArrayLength() == count, reason: "delivery fixture catalog " + key + " count");
+            foreach (JsonElement row in rows.EnumerateArray())
+            {
+                Require(valid: identities.Add(item: Text(value: row, key: "id")),
+                        reason: "delivery fixture catalog duplicate " + key);
+            }
+        }
+
+        Require(valid: catalog.GetProperty(propertyName: "actualAcceptedObligations").GetInt32() == 0,
+                reason: "delivery fixture catalog actualAcceptedObligations");
+    }
+
+    private string SupportResource(JsonElement resource)
+    {
+        string file = Text(value: resource, key: "path");
+        Require(valid: file.StartsWith(value: "src/godot-game/", comparisonType: StringComparison.Ordinal),
+                reason: "delivery fixture path " + file);
+        string safe = WorldPreview.InspectorResourcePath(path: file["src/godot-game/".Length..]);
+        byte[] value = _read(safe) ?? throw new InvalidDataException(message: "Missing definition " + _id
+                + ": " + safe + ", field bytes; choose Recheck resources");
+        Require(valid: value.Length == resource.GetProperty(propertyName: "bytes").GetInt32()
+                && Same(left: Digest(bytes: value), right: Text(value: resource, key: "sha256")),
+                reason: safe + ", field fixture sha256/bytes");
+        JsonElement actual = Parse(bytes: value, file: safe);
+        return safe + " — " + Text(value: actual, key: "id") + " — SHA256 " + Digest(bytes: value);
+    }
+
+    private static void SupportClosure(JsonElement catalog, JsonElement delivery)
+    {
+        JsonElement[] expected = [.. catalog.GetProperty(propertyName: "fixtures").EnumerateArray()
+                .SelectMany(selector: fixture => fixture.GetProperty(propertyName: "resources").EnumerateArray())
+                .DistinctBy(keySelector: resource => Text(value: resource, key: "path"),
+                        comparer: StringComparer.Ordinal)];
+        JsonElement actual = delivery.GetProperty(propertyName: "fixtureResources");
+        Require(valid: actual.GetArrayLength() == expected.Length, reason: "delivery fixture resource closure");
+        for (int index = 0; index < expected.Length; index++)
+        {
+            Require(valid: Same(left: Text(value: actual[index], key: "path"),
+                    right: Text(value: expected[index], key: "path"))
+                    && Same(left: Text(value: actual[index], key: "sha256"),
+                            right: Text(value: expected[index], key: "sha256"))
+                    && actual[index].GetProperty(propertyName: "bytes").GetInt32()
+                            == expected[index].GetProperty(propertyName: "bytes").GetInt32(),
+                    reason: "delivery fixture sha256/path/bytes closure");
+        }
+    }
+
+    private static string SupportGuides(JsonElement delivery)
+    {
+        var text = new StringBuilder(value: "DT-27 Desktop delivery source guides; final export pending.\n");
+        foreach (JsonElement guide in delivery.GetProperty(propertyName: "guides").EnumerateArray())
+        {
+            string value = Text(value: guide, key: "text");
+            byte[] bytes = Encoding.UTF8.GetBytes(s: value);
+            Require(valid: Text(value: guide, key: "encoding") is "UTF-8"
+                    && bytes.Length == guide.GetProperty(propertyName: "bytes").GetInt32()
+                    && Same(left: Digest(bytes: bytes), right: Text(value: guide, key: "sha256")),
+                    reason: Text(value: guide, key: "path") + ", field guide sha256/bytes");
+            text.Append(value: "\n" + Text(value: guide, key: "path") + "\n" + value);
+        }
+
+        return text.ToString();
     }
 
     private static string Documentation(JsonElement value)
@@ -317,8 +479,9 @@ internal sealed class DataTextPreview : IDisposable
         Selector(parent: choices, name: "State", items: _states, selected: 3, changed: State);
         Selector(parent: choices, name: "TextLength", items: ["English", "Expanded replacement"],
                 selected: _expanded ? 1 : 0, changed: TextLength);
-        string[] fields = [.. _fields.Select(selector: field => field.File.Split(separator: '/')[^1]
-                + " " + Text(value: field.Field, key: "path"))];
+        string[] fields = _libraries.Count > 0 ? [.. _libraries.Select(selector: row => row.File)]
+                : [.. _fields.Select(selector: field => field.File.Split(separator: '/')[^1]
+                        + " " + Text(value: field.Field, key: "path"))];
         Selector(parent: choices, name: "Field", items: fields.Length > 0 ? fields : ["Unavailable fields"],
                 selected: (int)_fieldIndex, changed: Field);
         if (_id is "DT-24" && _failure.Length == 0)
@@ -348,6 +511,7 @@ internal sealed class DataTextPreview : IDisposable
         control.Select(idx: selected);
         parent.AddChild(node: control);
         control.ItemSelected += changed;
+        _selectors.Add(key: name, value: changed);
     }
 
     private void State(long index)
@@ -373,7 +537,7 @@ internal sealed class DataTextPreview : IDisposable
     private void Field(long index)
     {
         _gateway.RequireThread();
-        if (!_closed && index >= 0 && index < _fields.Count)
+        if (!_closed && index >= 0 && index < (_libraries.Count > 0 ? _libraries.Count : _fields.Count))
         {
             _fieldIndex = index;
             Project();
@@ -400,6 +564,7 @@ internal sealed class DataTextPreview : IDisposable
         }
 
         _identity.Text = _id + " · " + _state + " · " + Status;
+        ProjectLibrary();
         if (_failure.Length > 0)
         {
             _detail.Text = _failure + "\nRestore the exact definition, then choose Recheck resources.";
@@ -429,6 +594,18 @@ internal sealed class DataTextPreview : IDisposable
 
     private string Current()
     {
+        if (_libraries.Count > 0)
+        {
+            (string libraryFile, JsonElement libraryData) = _libraries[(int)_fieldIndex];
+            return _id + " · Authenticated current resource library\nSource: " + libraryFile
+                    + "\nRead-only source records; export, platform and judgment acceptance remain pending.\n"
+                    + libraryData.GetRawText();
+        }
+        if (_id is "DT-26" or "DT-27")
+        {
+            return _support;
+        }
+
         string authority = "Host balance — shared by the run\nLocal preferences — this player only; "
                 + "DT-25 never overrides host balance.\nRead-only inspection.\n";
         if (_id is "DT-18")
@@ -450,6 +627,20 @@ internal sealed class DataTextPreview : IDisposable
                 + "content/config/zombie-progression.json\n" + _documents["content/config/zombie-progression.json"]
                         .GetRawText() + (_id is "DT-24" ? "\nSaved/current layout:\n" + _documents[CompatibilityPath]
                                 .GetProperty(propertyName: "samples")[(int)_sampleIndex].GetRawText() : "");
+    }
+
+    private void ProjectLibrary()
+    {
+        _gateway.RequireThread();
+        if (_libraries.Count > 0)
+        {
+            (string file, JsonElement data) = _libraries[(int)_fieldIndex];
+            _root.SetMeta(name: "data_library", value: JsonSerializer.Serialize(value: new
+            {
+                id = _id, source = file, sources = _libraries.Select(selector: row => row.File).ToArray(),
+                sourceId = Text(value: data, key: "id"), readOnly = true,
+            }));
+        }
     }
 
     private string Format(string id, int count)

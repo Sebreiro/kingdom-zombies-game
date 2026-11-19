@@ -9,15 +9,15 @@
     },
     {
       "file": "content/packs/world.json",
-      "sha256": "b79e1afd0bbe6e14a378e141eb32cbb9a57b5ddcd6534ebfda0e962bbfcf5899"
+      "sha256": "e53d88ea001b147df2655c502541bb9754cd8cab4bc10ebf66b4871272a9e426"
     },
     {
       "file": "content/world/map.json",
-      "sha256": "5d0dbde0ed6964996f3c5fbab4334c5c50d732c3e08d82515e2fcd89fe0ad3a1"
+      "sha256": "18c0e87276b35c505be1d72a78ce3c40244008da91d399555725275d3724e70f"
     },
     {
       "file": "content/packs/effects-portals.json",
-      "sha256": "d2736226850b2c7775fc8042d0220ec0ebf701849f788e3ead826e4904dbc334"
+      "sha256": "97fe3ff1f1c2733ac8a7b5f9a89ca7bfa80719ad7b6d24c359c1b88f9154e8be"
     },
     {
       "file": "assets/world/environment.png",
@@ -26,6 +26,18 @@
     {
       "file": "assets/effects/effects.png",
       "sha256": "265a86a3d117dc8559eae247b9ea3797868e896b6abcf00b073ad5c0c69575b9"
+    },
+    {
+      "file": "content/audio/events.json",
+      "sha256": "375b8199b0b8b0ff168f6cb5894cf5139bcbdb97fc081c4bee0329bcfe948d05"
+    },
+    {
+      "file": "content/packs/audio-actions.json",
+      "sha256": "252eb90d37440a7176b10afcb1408920a6bf9f19ae466185c9fe3d624d6c9154"
+    },
+    {
+      "file": "content/packs/audio-interface-ambience.json",
+      "sha256": "2e107c4ef6eb57262a8f571a1226b694f552a15b806117bcb67e6be7ddfda069"
     }
   ],
   "portals": [

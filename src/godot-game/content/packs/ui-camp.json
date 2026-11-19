@@ -23,19 +23,19 @@
     },
     {
       "path": "content/world/main-assemblies.json",
-      "sha256": "1ca169e2bd8818fac84b4ff19d282aa9d6ed8b19b91adb70a830ef100c51ae1e"
+      "sha256": "8c2a51b0398edc691d071dfb11ed0f03adb30764938cc4f07eb6cfb956a1bd24"
     },
     {
       "path": "content/world/defense-assemblies.json",
-      "sha256": "e8ec43336aa2c79c8b52539bc300d5918c3acc75df8b0506b71caa1f2ef26787"
+      "sha256": "6bdd2955ca227e07e93b8a718d551a127443a7cbd460085f3dc4ab7d1a4ff767"
     },
     {
       "path": "content/world/map.json",
-      "sha256": "5d0dbde0ed6964996f3c5fbab4334c5c50d732c3e08d82515e2fcd89fe0ad3a1"
+      "sha256": "18c0e87276b35c505be1d72a78ce3c40244008da91d399555725275d3724e70f"
     },
     {
       "path": "content/packs/ui-identity.json",
-      "sha256": "324f6c05f57112cbdb87a58f1c5975fcdfd7ba4d7cc1d6ea9c55e4280b9202ed"
+      "sha256": "44c50bf13b1e0cd0ec3bbfa6434cda918fb30d172ccbb1f6273df870006c307a"
     },
     {
       "path": "assets/ui/InspectionTheme.tres",

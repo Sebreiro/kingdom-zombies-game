@@ -857,7 +857,7 @@
       "side": "left",
       "kind": "berry",
       "x": -10,
-      "capacity": 12,
+      "capacity": 8,
       "refill": "daily-dawn-once",
       "interactionRadius": 3,
       "clearingRemoves": false,
@@ -875,7 +875,7 @@
       "side": "left",
       "kind": "berry",
       "x": -50,
-      "capacity": 12,
+      "capacity": 8,
       "refill": "daily-dawn-once",
       "interactionRadius": 3,
       "clearingRemoves": false,
@@ -893,7 +893,7 @@
       "side": "left",
       "kind": "fruit",
       "x": -16,
-      "capacity": 8,
+      "capacity": 6,
       "refill": "daily-dawn-once",
       "interactionRadius": 3,
       "clearingRemoves": false,
@@ -909,7 +909,7 @@
       "side": "right",
       "kind": "berry",
       "x": 10,
-      "capacity": 12,
+      "capacity": 8,
       "refill": "daily-dawn-once",
       "interactionRadius": 3,
       "clearingRemoves": false,
@@ -927,7 +927,7 @@
       "side": "right",
       "kind": "berry",
       "x": 50,
-      "capacity": 12,
+      "capacity": 8,
       "refill": "daily-dawn-once",
       "interactionRadius": 3,
       "clearingRemoves": false,
@@ -945,7 +945,7 @@
       "side": "right",
       "kind": "fruit",
       "x": 16,
-      "capacity": 8,
+      "capacity": 6,
       "refill": "daily-dawn-once",
       "interactionRadius": 3,
       "clearingRemoves": false,
@@ -975,6 +975,12 @@
           "kind": "deer",
           "x": -48,
           "art": "deer"
+        },
+        {
+          "id": "left.rabbit.1.second",
+          "kind": "rabbit",
+          "x": -45,
+          "art": "rabbit"
         }
       ],
       "retainExisting": true,
@@ -997,6 +1003,12 @@
           "kind": "deer",
           "x": -133,
           "art": "deer"
+        },
+        {
+          "id": "left.rabbit.2.second",
+          "kind": "rabbit",
+          "x": -130,
+          "art": "rabbit"
         }
       ],
       "retainExisting": true,
@@ -1019,6 +1031,12 @@
           "kind": "deer",
           "x": -233,
           "art": "deer"
+        },
+        {
+          "id": "left.rabbit.3.second",
+          "kind": "rabbit",
+          "x": -230,
+          "art": "rabbit"
         }
       ],
       "retainExisting": true,
@@ -1041,6 +1059,12 @@
           "kind": "deer",
           "x": 48,
           "art": "deer"
+        },
+        {
+          "id": "right.rabbit.1.second",
+          "kind": "rabbit",
+          "x": 45,
+          "art": "rabbit"
         }
       ],
       "retainExisting": true,
@@ -1063,6 +1087,12 @@
           "kind": "deer",
           "x": 133,
           "art": "deer"
+        },
+        {
+          "id": "right.rabbit.2.second",
+          "kind": "rabbit",
+          "x": 130,
+          "art": "rabbit"
         }
       ],
       "retainExisting": true,
@@ -1085,6 +1115,12 @@
           "kind": "deer",
           "x": 233,
           "art": "deer"
+        },
+        {
+          "id": "right.rabbit.3.second",
+          "kind": "rabbit",
+          "x": 230,
+          "art": "rabbit"
         }
       ],
       "retainExisting": true,
@@ -1097,7 +1133,7 @@
       "side": "left",
       "borderSource": "outermost-completed-living-wall",
       "fallbackBorder": -12,
-      "offsetInward": 3,
+      "offsetInward": 5,
       "states": [
         "idle",
         "ready",
@@ -1125,7 +1161,7 @@
       "side": "right",
       "borderSource": "outermost-completed-living-wall",
       "fallbackBorder": 12,
-      "offsetInward": -3,
+      "offsetInward": -5,
       "states": [
         "idle",
         "ready",
@@ -1590,8 +1626,8 @@
         155
       ],
       "rallies": [
-        -72,
-        152
+        -70,
+        150
       ]
     },
     {
@@ -1605,8 +1641,8 @@
         25
       ],
       "rallies": [
-        -22,
-        22
+        -20,
+        20
       ]
     }
   ],
@@ -5199,6 +5235,42 @@
         ]
       },
       {
+        "id": "left.rabbit.1.second",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "rabbit",
+        "position": [
+          -368,
+          -16
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.rabbit.1.second.shadow",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "contact-shadow",
+        "position": [
+          -370,
+          -2
+        ],
+        "z": 4,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          0.3
+        ]
+      },
+      {
         "id": "left.rabbit.2",
         "type": "Sprite2D",
         "parent": ".",
@@ -5259,6 +5331,42 @@
         "part": "contact-shadow",
         "position": [
           -1074,
+          -2
+        ],
+        "z": 4,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          0.3
+        ]
+      },
+      {
+        "id": "left.rabbit.2.second",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "rabbit",
+        "position": [
+          -1048,
+          -16
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.rabbit.2.second.shadow",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "contact-shadow",
+        "position": [
+          -1050,
           -2
         ],
         "z": 4,
@@ -5343,6 +5451,42 @@
         ]
       },
       {
+        "id": "left.rabbit.3.second",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "rabbit",
+        "position": [
+          -1848,
+          -16
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.rabbit.3.second.shadow",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "contact-shadow",
+        "position": [
+          -1850,
+          -2
+        ],
+        "z": 4,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          0.3
+        ]
+      },
+      {
         "id": "right.rabbit.1",
         "type": "Sprite2D",
         "parent": ".",
@@ -5403,6 +5547,42 @@
         "part": "contact-shadow",
         "position": [
           374,
+          -2
+        ],
+        "z": 4,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          0.3
+        ]
+      },
+      {
+        "id": "right.rabbit.1.second",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "rabbit",
+        "position": [
+          352,
+          -16
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.rabbit.1.second.shadow",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "contact-shadow",
+        "position": [
+          350,
           -2
         ],
         "z": 4,
@@ -5487,6 +5667,42 @@
         ]
       },
       {
+        "id": "right.rabbit.2.second",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "rabbit",
+        "position": [
+          1032,
+          -16
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.rabbit.2.second.shadow",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "contact-shadow",
+        "position": [
+          1030,
+          -2
+        ],
+        "z": 4,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          0.3
+        ]
+      },
+      {
         "id": "right.rabbit.3",
         "type": "Sprite2D",
         "parent": ".",
@@ -5547,6 +5763,42 @@
         "part": "contact-shadow",
         "position": [
           1854,
+          -2
+        ],
+        "z": 4,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          0.3
+        ]
+      },
+      {
+        "id": "right.rabbit.3.second",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "rabbit",
+        "position": [
+          1832,
+          -16
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.rabbit.3.second.shadow",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "contact-shadow",
+        "position": [
+          1830,
           -2
         ],
         "z": 4,
