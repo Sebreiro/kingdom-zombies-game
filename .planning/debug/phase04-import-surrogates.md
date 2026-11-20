@@ -8,6 +8,8 @@ mode: diagnose-only
 
 ## Resolution
 
+The project-wide description of this defect, its workaround and when the workaround can be removed is in [Known Godot engine defects](../../docs/workflow/engine-defects.md#windows-editor-import-working-directory-race). This record keeps the investigation and its evidence.
+
 The older `## Resolution` block at the end of this file records the earlier inconclusive state. It is kept as history.
 
 **Root cause.** Godot 4.7.2 on Windows has a race on the process-wide working directory. Source: commit ed1daf0bf001b61586d9930840f2f1394092c079, `drivers/windows/dir_access_windows.cpp`, `core/string/ustring.cpp`, `editor/file_system/editor_file_system.cpp` and `editor/register_editor_types.cpp`.

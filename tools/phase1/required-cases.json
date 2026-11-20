@@ -2148,6 +2148,12 @@
             "sha256": null
           },
           {
+            "path": "docs/workflow/engine-defects.md",
+            "kind": "outside-validator",
+            "owners": [],
+            "sha256": null
+          },
+          {
             "path": "docs/workflow/foundation-checks.md",
             "kind": "outside-validator",
             "owners": [],
@@ -5215,7 +5221,7 @@
             "sha256": null
           }
         ],
-        "sourceSetSha256": "c9b767b8af9d9b992dce4b52df45e31aeb00d6b40db64721c96ce79826288c7f",
+        "sourceSetSha256": "0b110e53dd29a813380e2230a0c7d9a7ee98df82c6ff14f268e385a495436d8f",
         "bindings": [
           {
             "path": "docs/code/generated-callsite-adaptations.json",
@@ -8607,7 +8613,7 @@
         "catalog": "tools/phase1/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "EXEMPTIONS_EXACT",
-        "repositorySha256": "3cd49958abe5329c6a59b05891083174f7b39a44d6500631f76b8bdaf2413000",
+        "repositorySha256": "88a43c7a3497a11113bc687f1b42a31cffe7d1d3621ec5b7b75590c5f146e9b9",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 1044000,
@@ -11850,7 +11856,7 @@
         "catalog": "tools/phase1/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "GODOT_CALLSITE_BOUNDARY_REJECTED",
-        "repositorySha256": "3cd49958abe5329c6a59b05891083174f7b39a44d6500631f76b8bdaf2413000",
+        "repositorySha256": "88a43c7a3497a11113bc687f1b42a31cffe7d1d3621ec5b7b75590c5f146e9b9",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 612000,
@@ -16265,7 +16271,7 @@
         "catalog": "tools/phase1/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "GODOT_COMPANION_COMPILED",
-        "repositorySha256": "3cd49958abe5329c6a59b05891083174f7b39a44d6500631f76b8bdaf2413000",
+        "repositorySha256": "88a43c7a3497a11113bc687f1b42a31cffe7d1d3621ec5b7b75590c5f146e9b9",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 516000,
@@ -16383,7 +16389,7 @@
         "catalog": "tools/phase1/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "GODOT_HANDWRITTEN_SCR0001",
-        "repositorySha256": "3cd49958abe5329c6a59b05891083174f7b39a44d6500631f76b8bdaf2413000",
+        "repositorySha256": "88a43c7a3497a11113bc687f1b42a31cffe7d1d3621ec5b7b75590c5f146e9b9",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 516000,
@@ -16536,7 +16542,7 @@
         "catalog": "tools/phase1/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "UNREGISTERED_REAL_BUILD_SUPPRESSION",
-        "repositorySha256": "3cd49958abe5329c6a59b05891083174f7b39a44d6500631f76b8bdaf2413000",
+        "repositorySha256": "88a43c7a3497a11113bc687f1b42a31cffe7d1d3621ec5b7b75590c5f146e9b9",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 1044000,
