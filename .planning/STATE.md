@@ -215,7 +215,7 @@ Phase 3 has no blocking acceptance item. Its independent [UI audit](phases/03-fo
 | # | Description | Date | Commit | Directory |
 | --- | --- | --- | --- | --- |
 | 261114-we2 | Require phase feature branches and draft-to-ready PRs targeting dev | 2026-11-14 | 9a96240 | [261114-we2-define-phase-feature-branches-and-draft-](./quick/261114-we2-define-phase-feature-branches-and-draft-/261114-we2-SUMMARY.md) |
-| 261120-09v | Fix intermittent Godot editor-import Unicode parsing errors (cwd race) | 2026-11-20 | 87c0b80 | [261120-09v-fix-intermittent-godot-editor-import-uni](./quick/261120-09v-fix-intermittent-godot-editor-import-uni/) |
+| 261120-09v | Fix intermittent Godot editor-import Unicode parsing errors (cwd race) | 2026-11-20 | 87c0b80 | [261120-09v-fix-intermittent-godot-editor-import-uni](./quick/261120-09v-fix-intermittent-godot-editor-import-uni/261120-09v-SUMMARY.md) |
 
 ## Deferred Items
 
