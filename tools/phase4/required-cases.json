@@ -3788,7 +3788,7 @@
         "id": "content.source-boundaries",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/census.cjs",
-        "moduleSha256": "ad6ccfd557d998437b347af2cd31ff84990e0797bc8b3e477e0bf3be6b69fd7e",
+        "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -3856,7 +3856,7 @@
         "id": "content.archive-boundaries",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/census.cjs",
-        "moduleSha256": "ad6ccfd557d998437b347af2cd31ff84990e0797bc8b3e477e0bf3be6b69fd7e",
+        "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -3924,7 +3924,7 @@
         "id": "content.source-relations",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/census.cjs",
-        "moduleSha256": "ad6ccfd557d998437b347af2cd31ff84990e0797bc8b3e477e0bf3be6b69fd7e",
+        "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -3992,7 +3992,7 @@
         "id": "content.domain-relations",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/census.cjs",
-        "moduleSha256": "ad6ccfd557d998437b347af2cd31ff84990e0797bc8b3e477e0bf3be6b69fd7e",
+        "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -4061,7 +4061,7 @@
         "id": "content.census",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/census.cjs",
-        "moduleSha256": "ad6ccfd557d998437b347af2cd31ff84990e0797bc8b3e477e0bf3be6b69fd7e",
+        "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -4080,6 +4080,82 @@
         "acceptance": [
           "AC-13",
           "AC-15"
+        ]
+      }
+    },
+    {
+      "group": "content",
+      "importance": "Critical",
+      "rationale": "Every permitted native operation must belong to an actual exact guarded member, and invalid content must stay visible",
+      "needsGameWindow": false,
+      "runGroup": "G0-content",
+      "order": 65,
+      "requirements": [
+        "ASSET-01",
+        "ASSET-02",
+        "ASSET-03",
+        "ASSET-04",
+        "ASSET-05"
+      ],
+      "acceptance": [
+        "AC-01",
+        "AC-16",
+        "AC-19"
+      ],
+      "setup": "Current authored source, pinned SDK and xUnit assembly, exact completed package and independent 180-obligation authority",
+      "actions": [
+        "Authenticate actual independently defined obligations and all retained current sources",
+        "Exercise independent shared, conflicting, encoded and reordered packaged bindings and interrupted publication",
+        "Build the current solution, discover every exact guarded-member test UID and execute each one with the existing limits",
+        "Require authentic passing guarded positives and rejected wrong-path, sibling, unguarded, deferred and worker callsites"
+      ],
+      "expected": "Every exact current native permission case and held-out content control passes with zero skips and zero accepted obligations",
+      "reset": "Use independent invocation-owned directories and leave current source and executable evidence fixed",
+      "evidence": [
+        "census-controls.json",
+        "census-source-proof.json",
+        "native-permissions-packaged-controls.json",
+        "native-permissions-inputs.json",
+        "native-permissions-selection.json",
+        "native-permissions-execution.json",
+        "result.json"
+      ],
+      "title": "Exact final native guarded permissions and held-out content boundaries",
+      "id": "content.native-permissions",
+      "lifecycle": "implemented",
+      "featureTags": [
+        "content",
+        "ASSET-01",
+        "ASSET-02",
+        "ASSET-03",
+        "ASSET-04",
+        "ASSET-05"
+      ],
+      "sourceBinding": {
+        "id": "content.native-permissions",
+        "status": "implemented-source-case",
+        "module": "tools/phase4/cases/census.cjs",
+        "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d",
+        "execution": "no pass inferred from catalog metadata"
+      },
+      "processRoles": [
+        "owned-source-or-headless-processes"
+      ],
+      "boundedWaits": "Existing exact case/child deadlines; no extension implied",
+      "execution": "not supplied by catalog",
+      "owningPlan": "04-23 Task2",
+      "coverage": {
+        "requirements": [
+          "ASSET-01",
+          "ASSET-02",
+          "ASSET-03",
+          "ASSET-04",
+          "ASSET-05"
+        ],
+        "acceptance": [
+          "AC-01",
+          "AC-16",
+          "AC-19"
         ]
       }
     }
@@ -4220,15 +4296,17 @@
       "sourceCases": [
         {
           "id": "content.census",
-          "status": "pending-before-creation",
-          "owner": "04-23",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "execution": "no pass inferred from catalog metadata",
+          "module": "tools/phase4/cases/census.cjs",
+          "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d"
         },
         {
           "id": "content.native-permissions",
-          "status": "pending-before-creation",
-          "owner": "04-23",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "execution": "no pass inferred from catalog metadata",
+          "module": "tools/phase4/cases/census.cjs",
+          "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d"
         }
       ],
       "execution": "not accepted; separate current held-out evidence required"
@@ -4243,15 +4321,17 @@
       "sourceCases": [
         {
           "id": "content.census",
-          "status": "pending-before-creation",
-          "owner": "04-23",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "execution": "no pass inferred from catalog metadata",
+          "module": "tools/phase4/cases/census.cjs",
+          "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d"
         },
         {
           "id": "content.native-permissions",
-          "status": "pending-before-creation",
-          "owner": "04-23",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "execution": "no pass inferred from catalog metadata",
+          "module": "tools/phase4/cases/census.cjs",
+          "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d"
         }
       ],
       "execution": "not accepted; separate current held-out evidence required"
@@ -4266,15 +4346,17 @@
       "sourceCases": [
         {
           "id": "content.census",
-          "status": "pending-before-creation",
-          "owner": "04-23",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "execution": "no pass inferred from catalog metadata",
+          "module": "tools/phase4/cases/census.cjs",
+          "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d"
         },
         {
           "id": "content.native-permissions",
-          "status": "pending-before-creation",
-          "owner": "04-23",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "execution": "no pass inferred from catalog metadata",
+          "module": "tools/phase4/cases/census.cjs",
+          "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d"
         }
       ],
       "execution": "not accepted; separate current held-out evidence required"
@@ -4289,15 +4371,17 @@
       "sourceCases": [
         {
           "id": "content.census",
-          "status": "pending-before-creation",
-          "owner": "04-23",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "execution": "no pass inferred from catalog metadata",
+          "module": "tools/phase4/cases/census.cjs",
+          "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d"
         },
         {
           "id": "content.native-permissions",
-          "status": "pending-before-creation",
-          "owner": "04-23",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "execution": "no pass inferred from catalog metadata",
+          "module": "tools/phase4/cases/census.cjs",
+          "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d"
         }
       ],
       "execution": "not accepted; separate current held-out evidence required"
@@ -4312,15 +4396,17 @@
       "sourceCases": [
         {
           "id": "content.census",
-          "status": "pending-before-creation",
-          "owner": "04-23",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "execution": "no pass inferred from catalog metadata",
+          "module": "tools/phase4/cases/census.cjs",
+          "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d"
         },
         {
           "id": "content.native-permissions",
-          "status": "pending-before-creation",
-          "owner": "04-23",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "execution": "no pass inferred from catalog metadata",
+          "module": "tools/phase4/cases/census.cjs",
+          "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d"
         }
       ],
       "execution": "not accepted; separate current held-out evidence required"
@@ -4335,15 +4421,17 @@
       "sourceCases": [
         {
           "id": "content.census",
-          "status": "pending-before-creation",
-          "owner": "04-23",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "execution": "no pass inferred from catalog metadata",
+          "module": "tools/phase4/cases/census.cjs",
+          "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d"
         },
         {
           "id": "content.native-permissions",
-          "status": "pending-before-creation",
-          "owner": "04-23",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "execution": "no pass inferred from catalog metadata",
+          "module": "tools/phase4/cases/census.cjs",
+          "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d"
         }
       ],
       "execution": "not accepted; separate current held-out evidence required"
@@ -4733,15 +4821,17 @@
       "sourceCases": [
         {
           "id": "content.census",
-          "status": "pending-before-creation",
-          "owner": "04-23",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "execution": "no pass inferred from catalog metadata",
+          "module": "tools/phase4/cases/census.cjs",
+          "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d"
         },
         {
           "id": "content.native-permissions",
-          "status": "pending-before-creation",
-          "owner": "04-23",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "execution": "no pass inferred from catalog metadata",
+          "module": "tools/phase4/cases/census.cjs",
+          "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d"
         }
       ],
       "execution": "not accepted; separate current held-out evidence required"
@@ -4756,15 +4846,17 @@
       "sourceCases": [
         {
           "id": "content.census",
-          "status": "pending-before-creation",
-          "owner": "04-23",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "execution": "no pass inferred from catalog metadata",
+          "module": "tools/phase4/cases/census.cjs",
+          "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d"
         },
         {
           "id": "content.native-permissions",
-          "status": "pending-before-creation",
-          "owner": "04-23",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "execution": "no pass inferred from catalog metadata",
+          "module": "tools/phase4/cases/census.cjs",
+          "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d"
         }
       ],
       "execution": "not accepted; separate current held-out evidence required"
@@ -4779,15 +4871,17 @@
       "sourceCases": [
         {
           "id": "content.census",
-          "status": "pending-before-creation",
-          "owner": "04-23",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "execution": "no pass inferred from catalog metadata",
+          "module": "tools/phase4/cases/census.cjs",
+          "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d"
         },
         {
           "id": "content.native-permissions",
-          "status": "pending-before-creation",
-          "owner": "04-23",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "execution": "no pass inferred from catalog metadata",
+          "module": "tools/phase4/cases/census.cjs",
+          "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d"
         }
       ],
       "execution": "not accepted; separate current held-out evidence required"
@@ -4802,15 +4896,17 @@
       "sourceCases": [
         {
           "id": "content.census",
-          "status": "pending-before-creation",
-          "owner": "04-23",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "execution": "no pass inferred from catalog metadata",
+          "module": "tools/phase4/cases/census.cjs",
+          "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d"
         },
         {
           "id": "content.native-permissions",
-          "status": "pending-before-creation",
-          "owner": "04-23",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "execution": "no pass inferred from catalog metadata",
+          "module": "tools/phase4/cases/census.cjs",
+          "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d"
         }
       ],
       "execution": "not accepted; separate current held-out evidence required"
@@ -4848,15 +4944,17 @@
       "sourceCases": [
         {
           "id": "content.census",
-          "status": "pending-before-creation",
-          "owner": "04-23",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "execution": "no pass inferred from catalog metadata",
+          "module": "tools/phase4/cases/census.cjs",
+          "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d"
         },
         {
           "id": "content.native-permissions",
-          "status": "pending-before-creation",
-          "owner": "04-23",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "execution": "no pass inferred from catalog metadata",
+          "module": "tools/phase4/cases/census.cjs",
+          "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d"
         }
       ],
       "execution": "not accepted; separate current held-out evidence required"
@@ -4896,15 +4994,17 @@
       "sourceCases": [
         {
           "id": "content.census",
-          "status": "pending-before-creation",
-          "owner": "04-23",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "execution": "no pass inferred from catalog metadata",
+          "module": "tools/phase4/cases/census.cjs",
+          "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d"
         },
         {
           "id": "content.native-permissions",
-          "status": "pending-before-creation",
-          "owner": "04-23",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "execution": "no pass inferred from catalog metadata",
+          "module": "tools/phase4/cases/census.cjs",
+          "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d"
         }
       ],
       "execution": "not accepted; separate current held-out evidence required"
@@ -6041,15 +6141,17 @@
       "sourceCases": [
         {
           "id": "content.census",
-          "status": "pending-before-creation",
-          "owner": "04-23",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "execution": "no pass inferred from catalog metadata",
+          "module": "tools/phase4/cases/census.cjs",
+          "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d"
         },
         {
           "id": "content.native-permissions",
-          "status": "pending-before-creation",
-          "owner": "04-23",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "execution": "no pass inferred from catalog metadata",
+          "module": "tools/phase4/cases/census.cjs",
+          "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d"
         }
       ],
       "execution": "unaccepted"
@@ -6765,15 +6867,17 @@
         },
         {
           "id": "content.census",
-          "status": "pending-before-creation",
-          "owner": "04-23",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "execution": "no pass inferred from catalog metadata",
+          "module": "tools/phase4/cases/census.cjs",
+          "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d"
         },
         {
           "id": "content.native-permissions",
-          "status": "pending-before-creation",
-          "owner": "04-23",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "execution": "no pass inferred from catalog metadata",
+          "module": "tools/phase4/cases/census.cjs",
+          "moduleSha256": "cab2eba8d486e0777be6b522056270e4bcb9c9761a5e481eba5663e7c4933b4d"
         },
         {
           "id": "export.hub-consumer",
@@ -8222,18 +8326,6 @@
     }
   ],
   "plannedCases": [
-    {
-      "id": "content.census",
-      "status": "pending-before-creation",
-      "owner": "04-23",
-      "execution": "unperformed; supplies no pass credit"
-    },
-    {
-      "id": "content.native-permissions",
-      "status": "pending-before-creation",
-      "owner": "04-23",
-      "execution": "unperformed; supplies no pass credit"
-    },
     {
       "id": "runner.prelaunch",
       "status": "pending-before-creation",

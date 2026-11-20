@@ -612,7 +612,7 @@ async function nativeCensus(context,{startupDirectory,selectedCohorts}={}){
  const ids=results.filter(x=>x.kind==='obligations').flatMap(x=>x.ids),full=chosen.length===cohorts.length;if(full){assert.deepEqual([...ids].sort(),content.expected().obligations.map(x=>x.id).sort());assert.equal(new Set(ids).size,180);assert.deepEqual(results.filter(x=>x.kind==='inspection-views').flatMap(x=>x.ids),cohorts.at(-1).ids);}
  assert.deepEqual(content.normalizeCurrent(ROOT).files.map(x=>({path:x.path,sha256:x.sha256,bytes:x.bytes})),before);write(context.directory,'native-cohort-union.json',{full,actualObligations:ids,results,accepted:0});return{full,results,actualObligations:ids.length,accepted:0};
 }
-async function census(context){
+async function proveCensusSources(context){
  const model=content.normalizeCurrent(ROOT),before=model.files.map(x=>({path:x.path,bytes:x.bytes,sha256:x.sha256})),positive=content.validate(ROOT,structuredClone(model)),controls=[];
  write(context.directory,'census-inputs.json',{files:before,independent:content.expected(),model});
  need(positive.sourceComplete&&positive.valid.length===180&&positive.expected===180&&positive.covered.length===0&&!positive.complete,'CENSUS_REAL_CURRENT_POSITIVE');
@@ -633,13 +633,177 @@ async function census(context){
  const shuffled=structuredClone(model);shuffled.outputs.reverse();shuffled.files.reverse();const reordered=content.validate(ROOT,shuffled);assert.deepEqual(reordered.sourceReady,positive.sourceReady);need(reordered.sourceComplete,'CENSUS_ORDER_CONTROL');controls.push({id:'H09-H34-shuffled-repeated-identities',sourceReady:reordered.sourceReady,accepted:0});
  const source=await content.validateCompletedSources(ROOT,model);need(source.archiveObservations.length===14&&source.files===model.files.length,'CENSUS_RETAINED_SOURCE_CLOSURE');
  const publicationDirectory=inside(context.directory,'current-publication-controls');fs.mkdirSync(publicationDirectory);const publication=await require('./provenance.cjs').currentPublication({...context,directory:publicationDirectory});
- const nativeDirectory=inside(context.directory,'current-native-controls');fs.mkdirSync(nativeDirectory);await runner.runTracer(ROOT,{...context,directory:nativeDirectory});const native=await nativeCensus(context,{startupDirectory:nativeDirectory});need(native.full&&native.actualObligations===180,'CENSUS_NATIVE_COMPLETE_UNION');
  assert.deepEqual(content.normalizeCurrent(ROOT).files.map(x=>({path:x.path,bytes:x.bytes,sha256:x.sha256})),before);
  write(context.directory,'census-controls.json',controls);write(context.directory,'census-source-proof.json',source);
+ return {model,before,positive,expected,source,publication,controls};
+}
+
+async function census(context){
+ const {model,before,positive,expected,source,publication,controls}=await proveCensusSources(context);
+ const nativeDirectory=inside(context.directory,'current-native-controls');fs.mkdirSync(nativeDirectory);await runner.runTracer(ROOT,{...context,directory:nativeDirectory});const native=await nativeCensus(context,{startupDirectory:nativeDirectory});need(native.full&&native.actualObligations===180,'CENSUS_NATIVE_COMPLETE_UNION');
+ assert.deepEqual(content.normalizeCurrent(ROOT).files.map(x=>({path:x.path,bytes:x.bytes,sha256:x.sha256})),before);
  return{sourceReady:positive.valid.length,independentExpected:expected.length,runtimePaths:model.files.filter(x=>x.role==='runtime').length,accepted:0,source,publication,native,controls:controls.length,scope:'Actual source/compiled/native production reachability; final exact policy and current producer gates are separately mandatory, all later appearance/listening/platform judgments pending'};
 }
 runner.registerCase('content.census',{...metadata,title:'Actual complete independently held-out source census and atomic current native reachability',order:64,setup:'All actual current production shards/resources and independently fixed180 authority; bounded retained source archives, completed Core decoder and actual current Godot Root',actions:['Decode and authenticate actual distinct resources/dependencies/shared mappings against independent180 IDs','Reject duplicate-inflated totals,missing unique IDs,partial/empty dependencies,precision and conflicting paths','Preserve valid sibling visibility and order-independent identities without accepted judgment credit','Publish actual full retained source generations atomically and prove interruption/recovery/restored identity','Reach each actual current resource through the genuine compiled native Root and current source/assembly/ALC/PID/nonce closure'],expected:'All180 actual source resources and exact independent controls pass; accepted remains0 and later judgment owners stay pending',reset:'Owned disposable subjects only; no production mutation; original legacy fixtures preserved',evidence:['census-inputs.json','census-controls.json','census-source-proof.json','result.json']},census);
-Object.assign(module.exports,{census,nativeCohorts,nativeCensus});
+
+function proveHeldoutPackagedPaths(model,positive){
+ const canonical='src/godot-game/content/packs/world.json';
+ const file=model.files.find(row=>row.path===canonical);
+ need(file,'NATIVE_PERMISSIONS_PACKAGED_CONTROL_FILE',canonical);
+ const encoded=canonical.replace('world.json','world%2ejson');
+ assert.throws(()=>inside(ROOT,encoded),error=>error.message===`PATH_INVALID ${encoded}`);
+ const encodedTrial=structuredClone(model);
+ encodedTrial.files.find(row=>row.id===file.id).path=encoded;
+ const encodedResult=content.validate(ROOT,encodedTrial);
+ const encodedError=encodedResult.diagnostics.find(row=>row.id===file.id&&row.path===encoded);
+ need(!encodedResult.sourceComplete&&encodedError?.code==='OUTPUT_INVALID'&&encodedError.message===`FILE_ROLE_IDENTITY ${encoded}`,
+  'NATIVE_PERMISSIONS_ENCODED_PATH',encoded);
+
+ const conflict=structuredClone(model);
+ const conflictingId='file.heldout-conflicting-world';
+ conflict.files.push({...file,id:conflictingId,sha256:'0'.repeat(64)});
+ const conflictResult=content.validate(ROOT,conflict);
+ const conflictError=conflictResult.diagnostics.find(row=>row.id===conflictingId);
+ need(!conflictResult.sourceComplete&&conflictError?.code==='OUTPUT_INVALID'&&conflictError.path===canonical&&
+  conflictError.message===`FILE_DUPLICATE ${canonical}`,'NATIVE_PERMISSIONS_CONFLICTING_PATH',canonical);
+ assert.deepEqual(conflictResult.sourceReady,positive.sourceReady);
+
+ const badBinding=structuredClone(model);
+ badBinding.files.find(row=>row.id===file.id).sha256='0'.repeat(64);
+ const first=content.validate(ROOT,badBinding);
+ badBinding.files.reverse();badBinding.outputs.reverse();
+ const reordered=content.validate(ROOT,badBinding);
+ const healthy=model.outputs.filter(row=>row.file!==file.id&&!row.dependencies.includes(file.id)).map(row=>row.id).sort();
+ const diagnostics=result=>result.diagnostics.map(row=>JSON.stringify(row)).sort();
+ need(!first.sourceComplete&&!reordered.sourceComplete&&healthy.length>0&&healthy.length<180&&
+  first.diagnostics.some(row=>row.id===file.id&&row.path===canonical&&row.message===`FILE_HASH_MISMATCH ${canonical}`),
+  'NATIVE_PERMISSIONS_BAD_PATH_VISIBLE',canonical);
+ assert.deepEqual(first.sourceReady,healthy);
+ assert.deepEqual(reordered.sourceReady,healthy);
+ assert.deepEqual(diagnostics(first),diagnostics(reordered));
+
+ const shared=new Map();
+ for(const row of model.outputs){
+  if(!shared.has(row.sharedFileId))shared.set(row.sharedFileId,[]);
+  shared.get(row.sharedFileId).push({id:row.id,file:row.file,selectors:row.definitionPointers});
+ }
+ const sharedGroups=[...shared].filter(([,rows])=>rows.length>1).map(([id,rows])=>({id,rows}));
+ need(sharedGroups.length>0&&sharedGroups.every(({rows})=>rows.every(row=>row.file===rows[0].file&&
+  positive.sourceReady.includes(row.id))&&new Set(rows.map(row=>row.id)).size===rows.length),
+  'NATIVE_PERMISSIONS_SHARED_IDENTITIES');
+ return [
+  {id:'H07-valid-distinct-shared-file-outputs',sharedGroups},
+  {id:'H27-conflicting-exact-packaged-path',diagnostic:conflictError,valid:conflictResult.sourceReady},
+  {id:'H29-percent-encoded-packaged-path',diagnostic:encodedError,valid:encodedResult.sourceReady},
+  {id:'H30-bad-packaged-binding-permuted',diagnostics:first.diagnostics,valid:healthy},
+ ];
+}
+
+const PERMISSION_DISCOVERY=String.raw`
+$ErrorActionPreference = 'Stop'
+$output = & $env:KZ_DOTNET $env:KZ_TEST_ASSEMBLY --filter-method $env:KZ_PERMISSION_METHOD --list-tests json
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+$discovery = ($output -join [Environment]::NewLine) | ConvertFrom-Json
+$bridge = [Reflection.Assembly]::LoadFrom($env:KZ_XUNIT_COMMON).GetType('Xunit.Sdk.UniqueIDGenerator', $true).GetMethod('ForTest', [type[]]@([string], [int]))
+foreach ($test in $discovery.tests) {
+    $testUid = $bridge.Invoke($null, [object[]]@($test.uid, 0))
+    $test | Add-Member -NotePropertyName testUid -NotePropertyValue $testUid
+}
+$discovery | ConvertTo-Json -Depth 12 -EscapeHandling EscapeNonAscii
+`;
+
+async function proveCompiledNativePermissions(context){
+ const path=require('node:path'),phase1=require('../../phase1/check.cjs');
+ const manifest=content.document(ROOT,'tools/phase1/required-cases.json');
+ const pins=content.document(ROOT,'tools/phase1/toolchain.json');
+ const sourceInputs=()=>phase1.snapshot(ROOT,{inputs:[...manifest.inputs,'tools/phase4','KingdomZombies.slnx']});
+ const source=sourceInputs();
+ need(process.versions.node===pins.node,'NATIVE_PERMISSIONS_NODE_PIN');
+ const dotnet='C:/Program Files/dotnet/dotnet.exe',env=require('./defenses.cjs').isolated();
+ const version=await runner.command(context,'native-permissions-sdk',dotnet,['--version'],{env});
+ need(version.stdout.trim()===pins.sdk&&version.stderr==='','NATIVE_PERMISSIONS_SDK_PIN');
+ const build=await runner.command(context,'native-permissions-strict-build',dotnet,
+  ['build',inside(ROOT,'KingdomZombies.slnx'),'--no-restore','--disable-build-servers','-p:UseSharedCompilation=false',
+   '-nodeReuse:false','-p:NuGetAudit=false','-v:q'],{env});
+ need(/0 Warning\(s\)[\s\S]*0 Error\(s\)/.test(build.stdout)&&build.stderr==='','NATIVE_PERMISSIONS_STRICT_BUILD');
+ const bin='tests/phase1/bin/Debug/net10.0',assembly=inside(ROOT,`${bin}/KingdomZombies.Phase1.Tests.dll`);
+ const xunit=inside(ROOT,`${bin}/xunit.v3.common.dll`);
+ const pinnedBinaries=[...fs.readdirSync(inside(ROOT,bin),{withFileTypes:true}).filter(row=>row.isFile())
+  .map(row=>inside(ROOT,`${bin}/${row.name}`)),inside(ROOT,'src/core/bin/Debug/net10.0/KingdomZombies.Core.dll'),
+  inside(ROOT,'src/godot-game/.godot/mono/temp/bin/Debug/KingdomZombies.dll'),
+  inside(ROOT,'tools/code-rules/bin/Debug/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll'),dotnet];
+ const ref=file=>({file,sha256:hash(fs.readFileSync(file))});
+ const binaryInputs=pinnedBinaries.map(ref);
+ write(context.directory,'native-permissions-inputs.json',{source,binaryInputs,sdk:pins.sdk});
+ const testMethod='Check_PresenterNative_RequiresExactGuardedMember';
+ const typeName='ContentNativePermissionTests',namespace='KingdomZombies.Phase1.Tests';
+ const method=`${namespace}.${typeName}.${testMethod}`;
+ const discoveryCommand=await runner.command(context,'native-permissions-discovery','pwsh',
+  ['-NoLogo','-NoProfile','-NonInteractive','-EncodedCommand',Buffer.from(PERMISSION_DISCOVERY,'utf16le').toString('base64')],
+  {env:{...env,KZ_DOTNET:dotnet,KZ_TEST_ASSEMBLY:assembly,KZ_PERMISSION_METHOD:method,KZ_XUNIT_COMMON:xunit}});
+ need(discoveryCommand.stderr==='','NATIVE_PERMISSIONS_DISCOVERY_STDERR');
+ const discovery=content.parse(Buffer.from(discoveryCommand.stdout),'native permission discovery');
+ const tests=discovery.tests;
+ need(Array.isArray(tests)&&tests.length===251&&new Set(tests.map(test=>test.uid)).size===251&&
+  new Set(tests.map(test=>test.testUid)).size===251&&tests.every(test=>/^[a-f0-9]{64}$/.test(test.uid)&&
+   /^[a-f0-9]{64}$/.test(test.testUid)&&test.type.namespace===namespace&&test.type.typeName===typeName&&
+   test.type.methodName===testMethod&&test.displayName.startsWith(`${method}(`)),
+  'NATIVE_PERMISSIONS_DISCOVERY_SELECTION');
+ const child='45s',launcherMs=60000;
+ write(context.directory,'native-permissions-selection.json',{method,child,launcherMs,bridge:'Xunit.Sdk.UniqueIDGenerator.ForTest',
+  xunit:ref(xunit),tests});
+ console.log(`Native permissions selected ${tests.length} cases`);
+ const results=[];
+ for(const [ordinal,test] of tests.entries()){
+  const name=`native-permissions-${String(ordinal+1).padStart(3,'0')}-${test.uid.slice(0,16)}`;
+  const directory=inside(context.directory,name);fs.mkdirSync(directory);
+  const command=await runner.command({...context,directory},'xunit',dotnet,
+   [assembly,'--filter-uid',test.uid,'--report-xunit-ctrf','--report-xunit-ctrf-filename','tests.json',
+    '--results-directory',directory,'--no-ansi','--progress','off','--parallel','none','--explicit','on','--timeout',child],
+   {timeout:launcherMs,env:{...env,PHASE1_RESULT_DIRECTORY:directory}});
+  const report=content.document(directory,'tests.json').results,[result]=report.tests;
+  const summary=report.summary;
+  need(command.stderr===''&&report.tool.version.split('+')[0]==='4.0.2'&&report.tests.length===1&&
+   result.status==='passed'&&result.name===test.displayName&&result.extra.method===testMethod&&
+   result.extra.id===test.testUid&&summary.tests===1&&summary.passed===1&&summary.failed===0&&summary.skipped===0&&
+   !summary.pending&&!summary.other&&!report.extra?.suites?.some(suite=>suite.errors?.length),
+   'NATIVE_PERMISSIONS_EXECUTION',test.uid);
+  results.push({uid:test.uid,testUid:test.testUid,pid:command.pid,
+   records:['xunit.command.json','xunit.exit.json','xunit.stdout.log','xunit.stderr.log','tests.json']
+    .map(record=>ref(path.join(directory,record)))});
+  if(results.length%25===0||results.length===tests.length)console.log(`Native permissions passed ${results.length}/${tests.length}`);
+ }
+ assert.deepEqual(results.map(row=>row.uid),tests.map(row=>row.uid));
+ assert.deepEqual(sourceInputs(),source);
+ assert.deepEqual(pinnedBinaries.map(ref),binaryInputs);
+ write(context.directory,'native-permissions-execution.json',{selected:tests.length,passed:results.length,failed:0,skipped:0,results});
+ return {selected:tests.length,passed:results.length,skipped:0};
+}
+
+async function nativePermissions(context){
+ const {model,before,positive,source,publication,controls}=await proveCensusSources(context);
+ const paths=proveHeldoutPackagedPaths(model,positive);
+ write(context.directory,'native-permissions-packaged-controls.json',paths);
+ const compiled=await proveCompiledNativePermissions(context);
+ assert.deepEqual(content.normalizeCurrent(ROOT).files.map(x=>({path:x.path,bytes:x.bytes,sha256:x.sha256})),before);
+ return {sourceReady:positive.valid.length,authenticatedArchives:source.archiveObservations.length,
+  heldoutCensusControls:controls.length,packagedControls:paths.map(row=>row.id),publication,compiled,accepted:0};
+}
+
+runner.registerCase('content.native-permissions',{...metadata,title:'Exact final native guarded permissions and held-out content boundaries',
+ order:65,requirements:['ASSET-01','ASSET-02','ASSET-03','ASSET-04','ASSET-05'],acceptance:['AC-01','AC-16','AC-19'],
+ rationale:'Every permitted native operation must belong to an actual exact guarded member, and invalid content must stay visible',
+ setup:'Current authored source, pinned SDK and xUnit assembly, exact completed package and independent 180-obligation authority',
+ actions:['Authenticate actual independently defined obligations and all retained current sources',
+  'Exercise independent shared, conflicting, encoded and reordered packaged bindings and interrupted publication',
+  'Build the current solution, discover every exact guarded-member test UID and execute each one with the existing limits',
+  'Require authentic passing guarded positives and rejected wrong-path, sibling, unguarded, deferred and worker callsites'],
+ expected:'Every exact current native permission case and held-out content control passes with zero skips and zero accepted obligations',
+ reset:'Use independent invocation-owned directories and leave current source and executable evidence fixed',
+ evidence:['census-controls.json','census-source-proof.json','native-permissions-packaged-controls.json','native-permissions-inputs.json',
+  'native-permissions-selection.json','native-permissions-execution.json','result.json']},nativePermissions);
+
+Object.assign(module.exports,{census,nativeCohorts,nativeCensus,nativePermissions});
 
 const ARCHIVE_SUBJECTS=[
   {
