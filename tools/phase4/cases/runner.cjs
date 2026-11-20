@@ -106,18 +106,20 @@ function qualification(context) {
   assert.deepEqual(e.document(context.directory, ref), {value:'original fixture'});
   const terminal = e.writeExclusive(context.directory, 'test-terminal.json', {...process,log:ref,executable:ref});
   const input = e.writeExclusive(context.directory, 'test-input.json', {caseId:item.id,checkpoint:'before',invocation:report.invocation,
-    pid:process.pid,focused:true,at:report.startedAt,clientWidth:1280,clientHeight:720,method:'physical-keyboard',action:'tap'});
+    pid:process.pid,focused:true,at:report.startedAt,clientWidth:1280,clientHeight:720,method:'physical-keyboard',action:'tap',key:9});
   const image = {path:'unwritten.png',bytes:250,sha256:'a'.repeat(64)};
   const draw = e.writeExclusive(context.directory, 'test-draw.json', {caseId:item.id,checkpoint:'before',invocation:report.invocation,
     pid:process.pid,drawn:true,frame:1,at:report.finishedAt,observation:'Owned test observation',imageSha256:image.sha256});
   reject('missing-rendered-png', /EVIDENCE_PATH_MISSING unwritten\.png/, () => e.validateRenderedOutcome(context.directory,
-    {id:item.id,processes:[terminal],checkpoints:[{id:'before',input,draw,image}]},report));
+    {id:item.id,processes:[terminal],checkpoints:[{id:'before',input,draw,image}]},report,{id:item.id,steps:[{id:'before',action:'tap',key:9}]}));
   reject('unnamed-listening', /EVIDENCE_NAMED_LISTENING/, () => e.validateNamed(context.directory,
     {...current,id:'sample',kind:'listening',reviewedAt:review.reviewedAt,verdict:'pass',observations:'test',files:[ref]},
     'listening',{id:'sample'},current));
   reject('missing-judgment-verdict', /EVIDENCE_NAMED_JUDGMENT/, () => e.validateNamed(context.directory,
     {...current,id:'P1',kind:'judgment',reviewer:'Test Reviewer',reviewedAt:review.reviewedAt,observations:'test',files:[ref]},
     'judgment',{id:'P1'},current));
+  renderedDeclarationControls(context.directory,reject);
+  sourceHistoryControls(context.directory,reject);
   const result = {scope:'Source-only negative controls. Fixture identities supply no review or acceptance.', controls:control,
     sourceCases:catalog.cases.length, heldout:catalog.heldout.length, ui:catalog.backstops.length, judgments:catalog.judgments.length, accepted:0};
   e.writeExclusive(context.directory, 'runner-controls.json', result);
@@ -127,6 +129,91 @@ function qualification(context) {
     result.currentSelection = gate.selection;
   }
   return result;
+}
+
+function sourceHistoryControls(directory, reject) {
+  const e = require('../evidence.cjs'), scenarios = require('../scenarios.cjs');
+  const {current,item,report} = baseFixture();
+  const other = 'a'.repeat(40), equivalent = 'b'.repeat(40);
+  const same = (_root, revision) => [current.revision,equivalent].includes(revision);
+  const root = path.join(directory,'source-history');
+  fs.mkdirSync(root);
+  function invocation(revision, at, status, node = 'v24.22.1') {
+    const nonce = crypto.randomUUID(), prefix = '.phase4/runs/'+nonce+'/';
+    const opened = {caseId:item.id,nonce,revision,startedAt:at,platform:'win32',node};
+    e.writeExclusive(root,prefix+'invocation.json',opened);
+    if (status !== null) e.writeExclusive(root,prefix+'result.json',{...opened,status,finishedAt:at});
+    return {...opened,status};
+  }
+  const old = invocation(current.revision,report.startedAt,'pass');
+  const admitted = new Map([[item.id,old]]);
+  e.writeExclusive(root,'tools/phase1/toolchain.json',{node:'24.22.1'});
+  const priorRef = e.reference(root,'.phase4/runs/'+old.nonce+'/result.json');
+  const latest = () => scenarios.latestPhase4Sources(root,admitted,current.revision,same).get(item.id);
+  invocation(other,'2026-11-20T12:00:00.000Z','fail');
+  invocation(current.revision,'2026-11-20T12:30:00.000Z','fail','v24.1.0');
+  assert.equal(latest().nonce,old.nonce,'proven unrelated failure');
+  const failed = invocation(equivalent,'2026-11-20T11:01:00.000Z','fail');
+  assert.deepEqual(latest(),failed,'same source equivalent revision supersedes old pass');
+  const originalIdentify = e.identifySource, originalSame = e.sameCommittedSource;
+  try {
+    e.identifySource = () => current;
+    e.sameCommittedSource = same;
+    const verify = ref => scenarios.sourceReceipts(root,[item],[{id:item.id,result:ref}],current);
+    reject('old-pass-hides-new-exact-fail',/COMPLETION_LATER_SOURCE_FAILURE/,() => verify(priorRef));
+    const blocked = invocation(current.revision,'2026-11-20T11:02:00.000Z','blocked');
+    assert.equal(latest().nonce,blocked.nonce);
+    reject('old-pass-hides-new-exact-block',/COMPLETION_LATER_SOURCE_FAILURE/,() => verify(priorRef));
+    const missing = invocation(current.revision,'2026-11-20T11:03:00.000Z',null);
+    assert.equal(latest().nonce,missing.nonce);
+    reject('old-pass-hides-missing-current-result',/COMPLETION_LATER_SOURCE_FAILURE/,() => verify(priorRef));
+    const repaired = invocation(current.revision,'2026-11-20T11:04:00.000Z','pass');
+    reject('old-pass-cannot-claim-new-pass',/COMPLETION_SOURCE_REFERENCE_SUPERSEDED/,() => verify(priorRef));
+    const repairedRef = e.reference(root,'.phase4/runs/'+repaired.nonce+'/result.json');
+    assert(verify(repairedRef).has(item.id),'fresh selected result can resolve prior failures');
+  } finally {e.identifySource=originalIdentify;e.sameCommittedSource=originalSame;}
+}
+
+function renderedDeclarationControls(directory,reject) {
+  const e = require('../evidence.cjs'), scenarios = require('../scenarios.cjs');
+  const {encode} = require('../native-observer.cjs');
+  const {current,report,process,review} = baseFixture();
+  const invocation = report.invocation, id = 'rendered.packaged-relaunch';
+  const root = path.join(directory,'rendered-declaration');
+  fs.mkdirSync(root);
+  const put = (name,value) => e.writeExclusive(root,name,value);
+  const fake = put('test-executable.bin',Buffer.from('Detached parser fixture'));
+  const image = put('test.png',require('../../phase3/runner-fixture.cjs').png());
+  const tree = put('tree.bin',encode(['scene:scene_tree',1,[1,'root','Window',1,'',0,0,'Inspection','Node',2,'',0]]));
+  const nativeObject = put('object.bin',encode(['scene:inspect_objects',1,[[2,'Node',[['visible',0,0,0,0,true]]]]]));
+  const driver = {id,stimulus:'Observe two detached physical declaration shapes',steps:['first','second'].map(id =>
+    ({id,action:'tap',key:9,node:'/root/Inspection',property:'visible',expected:true}))};
+  const row = {id,checkpoints:[],processes:[]};
+  for (const [index,step] of driver.steps.entries()) {
+    const pid = process.pid + index;
+    const start = new Date(Date.parse(report.startedAt)+index*1000).toISOString();
+    const end = new Date(Date.parse(start)+999).toISOString();
+    row.processes.push(put(step.id+'-process.json',{...process,pid,role:'packaged-inspection',startedAt:start,finishedAt:end,log:fake,executable:fake}));
+    const flags = {caseId:id,checkpoint:step.id,invocation,pid,at:start};
+    const input = put(step.id+'-input.json',{...flags,focused:true,clientWidth:1280,clientHeight:720,method:'physical-keyboard',action:'tap',key:9,
+      acknowledgement:{pid,focused:true,width:1280,height:720,action:'tap'}});
+    const draw = put(step.id+'-draw.json',{...flags,drawn:true,frame:index+1,frameSource:'composited-client-after-DwmFlush',
+      observation:JSON.stringify({node:step.node,property:step.property,value:true}),nativeTree:tree,nativeObject,imageSha256:image.sha256});
+    row.checkpoints.push({id:step.id,input,draw,image});
+  }
+  const gate = {review:{sha256:'7'.repeat(64)},selection:{sha256:'8'.repeat(64)},reviewedAt:review.reviewedAt};
+  const declaration = {...current,schemaVersion:1,reviewSha256:gate.review.sha256,selectionSha256:gate.selection.sha256,
+    campaign:crypto.randomUUID(),declaredAt:review.reviewedAt,kind:'initial',drivers:[driver]};
+  assert.equal(scenarios.reviewedDrivers(declaration,gate,current,[row],'initial').get(id),driver);
+  e.validateRenderedOutcome(root,row,report,driver);
+  reject('omitted-saved-relaunch-checkpoint',/EVIDENCE_SET/,() => e.validateRenderedOutcome(root,{...row,checkpoints:row.checkpoints.slice(0,1)},report,driver));
+  reject('omitted-second-owned-launch',/EVIDENCE_RENDERED_LAUNCHES/,() => e.validateRenderedOutcome(root,{...row,processes:row.processes.slice(0,1)},report,driver));
+  reject('reordered-saved-checkpoints',/EVIDENCE_SET/,() => e.validateRenderedOutcome(root,{...row,checkpoints:row.checkpoints.slice().reverse()},report,driver));
+  reject('declared-physical-action-mismatch',/EVIDENCE_NATIVE_INPUT/,() => e.validateRenderedOutcome(root,row,report,
+    {...driver,steps:[{...driver.steps[0],key:13},driver.steps[1]]}));
+  reject('same-png-wrong-declared-state',/EVIDENCE_DECLARED_OBSERVATION/,() => e.validateRenderedOutcome(root,row,report,
+    {...driver,steps:[{...driver.steps[0],expected:false},driver.steps[1]]}));
+  reject('stale-driver-review',/RENDERED_INPUT_SCHEMA/,() => scenarios.reviewedDrivers({...declaration,reviewSha256:'a'.repeat(64)},gate,current,[row],'initial'));
 }
 
 function selectionFixture() {
@@ -252,11 +339,14 @@ async function artifactControls(context) {
     const source = 'function chooseExact() { return 7; }';
     const file = e.writeExclusive(context.directory,'test-source.cjs',Buffer.from(source + '\n'));
     const symbol = {path:file.path,member:'chooseExact',signature:'chooseExact()',line:1,sourceLine:source};
-    const expected = {files:[file.path],cases:['sample.case'],native:['operation/exact'],archives:[]};
-    const audit = {...current,schemaVersion:1,sourceSymbols:[symbol],archives:[]};
+    const guarded = e.guardedHostTuples(ROOT);
+    assert.equal(guarded.length,251);
+    const expected = {files:[file.path],cases:['sample.case'],native:['operation/exact',...guarded],guarded,archives:[]};
+    const audit = {...current,schemaVersion:1,sourceSymbols:[symbol],nativeHostTuples:guarded,archives:[]};
     const inventory = {...current,schemaVersion:1,files:[file],sourceSymbols:[symbol],caseExports:expected.cases,nativePermits:expected.native,archives:[]};
     const verify = (value, proof=audit) => e.validateArtifactInventory(context.directory,value,expected,proof,current);
     verify(inventory);
+    verify({...inventory,nativePermits:inventory.nativePermits.slice().reverse()},{...audit,nativeHostTuples:guarded.slice().reverse()});
     reject('omitted-source-file',/EVIDENCE_SET/,() => verify({...inventory,files:[]}));
     reject('changed-source-bytes',/EVIDENCE_HASH/,() => verify({...inventory,files:[{...file,bytes:file.bytes+1}]}));
     reject('omitted-symbol',/EVIDENCE_SET/,() => verify({...inventory,sourceSymbols:[]}));
@@ -265,6 +355,9 @@ async function artifactControls(context) {
       verify({...inventory,sourceSymbols:[fake]},{...audit,sourceSymbols:[fake]});
     });
     reject('omitted-native-tuple',/EVIDENCE_SET/,() => verify({...inventory,nativePermits:[]}));
+    reject('omitted-guarded-host',/EVIDENCE_SET/,() => verify(inventory,{...audit,nativeHostTuples:guarded.slice(1)}));
+    reject('duplicate-guarded-host',/EVIDENCE_SET/,() => verify(inventory,{...audit,nativeHostTuples:[guarded[1],...guarded.slice(1)]}));
+    reject('changed-guarded-host',/EVIDENCE_SET/,() => verify(inventory,{...audit,nativeHostTuples:[guarded[0]+' changed',...guarded.slice(1)]}));
     reject('missing-case-export',/EVIDENCE_SET/,() => verify({...inventory,caseExports:[]}));
     reject('older-audit-build',/EVIDENCE_IDENTITY/,() => verify(inventory,{...audit,build:'f'.repeat(64)}));
     return {verifiedFixtureFiles:inventory.files.length};
@@ -311,4 +404,4 @@ if (require.main === module) {
 }
 
 module.exports = {rejectsMissingCompletion,baseFixture,rejectsInvalidWave,qualification,selectionFixture,controlRunner,
-  selectionControls,pcmFixture,judgmentControls,artifactControls};
+  sourceHistoryControls,renderedDeclarationControls,selectionControls,pcmFixture,judgmentControls,artifactControls};

@@ -255,9 +255,13 @@ function finalRendered(root, gate, current, refs, campaign) {
   const final = e.freshFinal(native,reports,current);
   e.need(final.reviewSha256 === gate.review.sha256 && final.selectionSha256 === gate.selection.sha256 &&
     final.startedAt >= gate.reviewedAt,'COMPLETION_CURRENT_RUN');
+  e.need(final.drivers?.path === '.phase4/acceptance/'+final.invocation+'/declared-drivers.json','COMPLETION_DRIVER_SCOPE');
+  const driverRecord = e.document(root,final.drivers);
+  const drivers = reviewedDrivers(driverRecord,gate,current,native,final.kind);
+  e.need(driverRecord.campaign === final.campaign && driverRecord.declaredAt <= final.startedAt,'COMPLETION_DRIVER_TIME');
   for (const [index,row] of final.outcomes.entries()) {
     const item = native[index];
-    if (!item.family) e.validateRenderedOutcome(root,row,final);
+    if (!item.family) e.validateRenderedOutcome(root,row,final,drivers.get(row.id));
     else {
       const {result,bindings} = e.document(root,row.inherited);
       const directory = path.resolve(root,path.dirname(row.inherited.path));
@@ -273,10 +277,35 @@ function finalRendered(root, gate, current, refs, campaign) {
   return final;
 }
 
+function latestPhase4Sources(root, admitted, currentRevision, sameInputs) {
+  const base = path.join(root,'.phase4','runs');
+  const found = new Map(admitted);
+  for (const folder of fs.readdirSync(base,{withFileTypes:true})) {
+    if (!folder.isDirectory() || !e.UUID.test(folder.name)) continue;
+    const prefix = '.phase4/runs/'+folder.name+'/';
+    if (!fs.existsSync(path.join(root,prefix,'invocation.json'))) continue;
+    const invoked = e.document(root,prefix+'invocation.json');
+    const prior = found.get(invoked.caseId);
+    if (!prior || invoked.nonce === prior.nonce) continue;
+    e.need(invoked.nonce === folder.name && e.instant(invoked.startedAt),'COMPLETION_SOURCE_INVOCATION',invoked.caseId);
+    if (invoked.startedAt < prior.startedAt || invoked.node !== prior.node || invoked.platform !== prior.platform ||
+      !sameInputs(root,invoked.revision,currentRevision)) continue;
+    e.need(invoked.startedAt !== prior.startedAt,'COMPLETION_SOURCE_TIME_AMBIGUOUS',invoked.caseId);
+    const relative = prefix+'result.json';
+    const terminal = fs.existsSync(path.join(root,relative)) ? e.document(root,relative) : null;
+    if (terminal) e.need(terminal.caseId === invoked.caseId && terminal.nonce === invoked.nonce && terminal.revision === invoked.revision &&
+      terminal.startedAt === invoked.startedAt && e.instant(terminal.finishedAt) && terminal.finishedAt >= invoked.startedAt,
+    'COMPLETION_SOURCE_HISTORY',invoked.caseId);
+    found.set(invoked.caseId,{...invoked,status:terminal?.status??'missing'});
+  }
+  return found;
+}
+
 function sourceReceipts(root, selected, refs, current) {
   e.need(Array.isArray(refs),'COMPLETION_SOURCE_RECEIPTS');
   e.exact(selected.map(row => row.id),refs.map(row => row.id),'source/headless selected outcomes');
   const revisions = new Map();
+  const admitted = new Map();
   function verifySource(revision) {
     if (!revisions.has(revision)) revisions.set(revision,e.identifySource(root,revision));
     const source = revisions.get(revision);
@@ -293,13 +322,25 @@ function sourceReceipts(root, selected, refs, current) {
         'COMPLETION_SOURCE_SUBJECT',item.id);
       const invocation = e.document(root,directory+'invocation.json');
       e.need(invocation.nonce===result.nonce && invocation.caseId===item.id && invocation.revision===result.revision &&
-        invocation.platform==='win32' && invocation.node==='v'+e.document(root,'tools/phase1/toolchain.json').node,
+        invocation.platform==='win32' && invocation.node==='v'+e.document(root,'tools/phase1/toolchain.json').node &&
+        e.instant(result.startedAt) && invocation.startedAt===result.startedAt && e.instant(result.finishedAt) && result.finishedAt>=result.startedAt,
       'COMPLETION_SOURCE_INVOCATION',item.id);
+      admitted.set(item.id,{...invocation,status:'pass'});
     } else {
       e.need(Array.isArray(result.selected) && result.selected.includes(item.originalId) &&
         result.results?.some(row => row.id===item.originalId && row.status==='pass') &&
         receipt.result.path.startsWith('.'+item.family+'/runs/'),'COMPLETION_INHERITED_SUBJECT',item.id);
     }
+  }
+  const examined = new Map();
+  function sameUnderReview(root,revision,currentRevision) {
+    if (!examined.has(revision)) examined.set(revision,e.sameCommittedSource(root,revision,currentRevision));
+    return examined.get(revision);
+  }
+  const latest = latestPhase4Sources(root,admitted,current.revision,sameUnderReview);
+  for (const [id,invocation] of latest) {
+    e.need(invocation.status==='pass','COMPLETION_LATER_SOURCE_FAILURE',id+' '+invocation.status);
+    e.need(invocation.nonce===admitted.get(id).nonce,'COMPLETION_SOURCE_REFERENCE_SUPERSEDED',id);
   }
   return new Set(selected.map(row => row.id));
 }
@@ -334,6 +375,19 @@ function validateDriver(row, item) {
       ['text','visible','disabled','value','selected','item_count','playing','texture','size'].includes(step.property) &&
       (['string','number','boolean'].includes(typeof step.expected) || step.expected === null), 'RENDERED_CHECKPOINT', row.id);
   }
+}
+
+function reviewedDrivers(data, gate, current, native, kind) {
+  e.identity(current,data,'rendered input');
+  e.need(data.schemaVersion === 1 && data.selectionSha256 === gate.selection.sha256 && data.reviewSha256 === gate.review.sha256 &&
+    e.UUID.test(data.campaign) && e.instant(data.declaredAt) && data.declaredAt>=gate.reviewedAt && data.kind===kind &&
+    Array.isArray(data.drivers),'RENDERED_INPUT_SCHEMA');
+  const files = native.filter(row => !row.family);
+  e.exact(files.map(row => row.id),data.drivers.map(row => row.id),'saved physical drivers');
+  const drivers = new Map(data.drivers.map(row => [row.id,row]));
+  for (const row of files) validateDriver(drivers.get(row.id),row);
+  if (drivers.has('rendered.packaged-relaunch')) e.need(drivers.get('rendered.packaged-relaunch').steps.length >= 2,'RENDERED_RELAUNCH_CHECKPOINTS');
+  return drivers;
 }
 
 function treePaths(raw) {
@@ -516,7 +570,8 @@ async function inspectionSession(root, relative, group, build, adapter) {
     const image = e.reference(root,imagePath,16 * 1024 * 1024);
     const flags = {caseId:item.id,checkpoint:step.id,invocation,pid};
     const inputRef = e.writeExclusive(root,prefix+'-input.json',{...flags,at,focused:true,action:step.action,
-      clientWidth:physical.width,clientHeight:physical.height,method:step.action==='click'?'physical-mouse':'physical-keyboard', acknowledgement:physical});
+      clientWidth:physical.width,clientHeight:physical.height,method:step.action==='click'?'physical-mouse':'physical-keyboard',
+      x:step.x,y:step.y,key:step.key,acknowledgement:physical});
     const draw = e.writeExclusive(root,prefix+'-draw.json',{...flags,at:new Date().toISOString(),drawn:true,frame:++frame,
       observation:JSON.stringify({node:observed.node,property:observed.property,value:observed.value}),
       frameSource:'composited-client-after-DwmFlush',nativeTree,nativeObject,imageSha256:image.sha256});
@@ -623,10 +678,8 @@ async function runRendered(root, registered) {
   const current = currentIdentity(root);
   const relative = runId(), invocation = path.basename(relative);
   const gate = prelaunch(root,catalog,current,relative);
-  const data = e.document(root,RUNS);
-  e.identity(current,data,'rendered input');
-  e.need(data.schemaVersion === 1 && data.selectionSha256 === gate.selection.sha256 &&
-    e.UUID.test(data.campaign) && Array.isArray(data.drivers),'RENDERED_INPUT_SCHEMA');
+  const runInput = e.reference(root,RUNS);
+  const data = e.document(root,runInput);
   const allNative = gate.selected.filter(row => row.needsGameWindow);
   const previous = data.previousRun ? e.document(root,data.previousRun) : null;
   e.need(!previous || previous.campaign === data.campaign && e.UUID.test(previous.invocation) &&
@@ -639,11 +692,7 @@ async function runRendered(root, registered) {
     e.exact(native.map(row => row.id),data.caseIds,'focused selected cases');
     e.need(previous.outcomes.filter(row => row.status!=='pass').every(row => data.caseIds.includes(row.id)), 'RENDERED_FOCUSED_MISSING');
   }
-  const files = native.filter(row => !row.family);
-  e.exact(files.map(row => row.id),data.drivers.map(row => row.id),'saved physical drivers');
-  const drivers = new Map(data.drivers.map(row => [row.id,row]));
-  for (const row of files) validateDriver(drivers.get(row.id),row);
-  if (drivers.has('rendered.packaged-relaunch')) e.need(drivers.get('rendered.packaged-relaunch').steps.length >= 2,'RENDERED_RELAUNCH_CHECKPOINTS');
+  const drivers = reviewedDrivers(data,gate,current,native,data.kind);
   const review = e.document(root,gate.review), build = e.document(root,review.buildReport);
   for (const ref of [build.engine,build.package]) {
     e.need(build.artifacts.some(artifact => equal(artifact,ref)),'RENDERED_BUILD_TARGET');
@@ -652,7 +701,9 @@ async function runRendered(root, registered) {
   const engineHash = '45336315eb6f1a52a8923bc4f2ce8079a03dc4939dcb7d531047890f1f7cdfab';
   e.need(build.engine.sha256 === engineHash && build.package.path.startsWith('.phase4/') &&
     build.package.path.endsWith('.exe'),'RENDERED_EXECUTABLE');
+  const driverRef = e.writeExclusive(root,relative+'/declared-drivers.json',e.artifact(root,runInput).data);
   const startedAt = new Date().toISOString(), outcomes = [];
+  e.need(data.declaredAt <= startedAt,'RENDERED_DRIVER_DECLARATION_TIME');
   for (const group of gate.groups.filter(row => GROUPS.includes(row.id))) {
     const items = native.filter(row => row.runGroup === group.id);
     if (!items.length) continue;
@@ -682,7 +733,13 @@ async function runRendered(root, registered) {
   for (const row of outcomes) if (row.status === 'pass' && !unchanged) {row.status = 'invalid';row.observed = 'Current source or build drifted during this run';}
   const report = {...current,schemaVersion:1,invocation,campaign:data.campaign,startedAt,finishedAt,
     previousInvocation:previous?.invocation??null,kind:data.kind,repairReason:data.repairReason,selected:native.map(row => row.id),outcomes,
-    reviewSha256:gate.review.sha256,selectionSha256:gate.selection.sha256,status:outcomes.every(row => row.status === 'pass')?'pass':'fail'};
+    drivers:driverRef,reviewSha256:gate.review.sha256,selectionSha256:gate.selection.sha256};
+  for (const row of outcomes.filter(row => row.status==='pass' && drivers.has(row.id))) try {
+    e.validateRenderedOutcome(root,row,report,drivers.get(row.id));
+  } catch (error) {
+    row.status = 'invalid';row.observed = error.message.slice(0,4096).replace(/[\r\n]/g,' ');
+  }
+  report.status = outcomes.every(row => row.status === 'pass')?'pass':'fail';
   e.reconcile(native,report,current);
   const ref = e.writeExclusive(root,relative+'/report.json',report);
   return {status:report.status,invocation,executed:outcomes.length,report:ref};
@@ -709,7 +766,9 @@ async function verifyCompletion(root, relative, registered) {
   const review = e.document(root,gate.review), build = e.document(root,review.buildReport);
   e.need(equal(build.package,index.export) && e.artifact(root,index.export).bytes>0,'COMPLETION_EXPORT');
   const artifacts = e.document(root,index.artifacts), audit = e.document(root,index.sourceAudit);
-  e.validateArtifactInventory(root,artifacts,e.inventoryExpectation(root,current.revision,catalog),audit,current);
+  const expected = e.inventoryExpectation(root,current.revision,catalog);
+  e.validateArtifactInventory(root,artifacts,expected,audit,current);
+  e.validateNativeHostProof(root,index.nativeProof,index.sourceResults.find(row => row.id==='content.native-permissions')?.result,expected.guarded);
   for (const row of artifacts.archives) {
     const result = await require('./content.cjs').archive(root,{path:row.path,sha256:row.sha256,bytes:row.bytes});
     e.need(equal(row.members,result.members),'EVIDENCE_ARCHIVE_CURRENT',row.path);
@@ -719,5 +778,5 @@ async function verifyCompletion(root, relative, registered) {
 
 module.exports = {CATALOG, COVERAGE, SCENARIOS, GROUPS, ORDER, coverageRows, validateProcedure, validateCatalog, loadCatalog,
   selectCases, inheritedCases, selectionRows, impactClosure, validateSelection, currentReviewAdapter, prelaunch, currentIdentity, runId,
-  finalRendered, sourceReceipts, coverageExpectation, validateDriver,
+  finalRendered, latestPhase4Sources, sourceReceipts, coverageExpectation, validateDriver, reviewedDrivers,
   treePaths, runInspection, runInherited, runRendered, verifyCompletion};

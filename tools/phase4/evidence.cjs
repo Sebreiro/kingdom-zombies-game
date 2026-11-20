@@ -100,6 +100,13 @@ function committedRef(root, revision, ref) {
   need(committed.length === working.bytes && hash(committed) === working.sha256, 'EVIDENCE_COMMIT_FILE', working.path);
 }
 
+function sameCommittedSource(root, revision, current) {
+  need(REVISION.test(revision) && REVISION.test(current),'EVIDENCE_HISTORY_REVISION');
+  if (revision === current) return true;
+  return git(root,['diff','--name-only','-z',revision,current,'--',...SOURCE_ROOTS]).split('\0')
+    .filter(file => file && file !== TARGETS).length === 0;
+}
+
 function identifySource(root, revision = git(root, ['rev-parse', 'HEAD']).trim()) {
   need(REVISION.test(revision), 'EVIDENCE_REVISION');
   const list = git(root, ['ls-tree', '-r', '-z', revision, '--', ...SOURCE_ROOTS]).split('\0').filter(Boolean);
@@ -178,10 +185,12 @@ function validateProcess(row) {
     Array.isArray(row.remainingPids) && row.remainingPids.length === 0, 'EVIDENCE_PROCESS', row?.role);
 }
 
-function validateRenderedOutcome(root, row, report) {
+function validateRenderedOutcome(root, row, report, driver) {
   need(Array.isArray(row.checkpoints) && row.checkpoints.length > 0 && Array.isArray(row.processes) &&
-    row.processes.length > 0, 'EVIDENCE_RENDERED_MISSING', row.id);
-  exact(row.checkpoints.map(item => item.id), row.checkpoints.map(item => item.id), 'checkpoint IDs');
+    row.processes.length > 0 && driver?.id === row.id && Array.isArray(driver.steps),'EVIDENCE_RENDERED_MISSING',row.id);
+  exact(driver.steps.map(item => item.id),row.checkpoints.map(item => item.id),'declared physical checkpoint IDs',true);
+  const relaunch = row.id === 'rendered.packaged-relaunch';
+  need(row.processes.length === (relaunch ? 2 : 1) && (!relaunch || driver.steps.length >= 2),'EVIDENCE_RENDERED_LAUNCHES',row.id);
   const processes = row.processes.map(ref => document(root, ref));
   for (const process of processes) {
     validateProcess(process);
@@ -189,16 +198,20 @@ function validateRenderedOutcome(root, row, report) {
     artifact(root,process.log,8*1024*1024);artifact(root,process.executable);
   }
   exact(processes.map(process => process.pid), processes.map(process => process.pid), 'rendered process IDs');
-  for (const item of row.checkpoints) {
+  if (relaunch) need(processes[0].finishedAt <= processes[1].startedAt && equal(processes[0].executable,processes[1].executable) &&
+    processes.every(process => process.role === 'packaged-inspection'),'EVIDENCE_RELAUNCH_OWNERSHIP');
+  for (const [index,item] of row.checkpoints.entries()) {
+    const step = driver.steps[index], owner = processes[relaunch && index>0 ? 1 : 0];
     const draw = document(root, item.draw);
     const input = document(root, item.input);
     need(named(item.id) && draw.caseId === row.id && draw.checkpoint === item.id && draw.invocation === report.invocation &&
       draw.drawn === true && Number.isSafeInteger(draw.frame) && draw.frame > 0 && instant(draw.at) && draw.at >= report.startedAt &&
-      draw.at <= report.finishedAt && named(draw.observation) && processes.some(process => process.pid === draw.pid), 'EVIDENCE_NATIVE_DRAW', row.id);
+      draw.at <= owner.finishedAt && named(draw.observation) && owner.pid === draw.pid, 'EVIDENCE_NATIVE_DRAW', row.id);
     need(input.caseId === row.id && input.checkpoint === item.id && input.invocation === report.invocation &&
-      input.pid === draw.pid && input.focused === true && instant(input.at) && input.at >= report.startedAt &&
+      input.pid === draw.pid && input.focused === true && instant(input.at) && input.at >= owner.startedAt &&
       input.at <= draw.at && input.clientWidth === 1280 && input.clientHeight === 720 &&
-      ['physical-keyboard','physical-mouse'].includes(input.method) && named(input.action), 'EVIDENCE_NATIVE_INPUT', row.id);
+      input.action === step.action && (step.action === 'click' ? input.method === 'physical-mouse' && input.x === step.x && input.y === step.y :
+        input.method === 'physical-keyboard' && input.key === step.key),'EVIDENCE_NATIVE_INPUT',row.id);
     const image = artifact(root, item.image, 16 * 1024 * 1024);
     need(draw.imageSha256 === image.sha256 && image.path.endsWith('.png'), 'EVIDENCE_DRAW_PNG', row.id);
     require('../phase2/rendered.cjs').decodePng(inside(root, image.path), 1280, 720);
@@ -208,6 +221,8 @@ function validateRenderedOutcome(root, row, report) {
     const {decode} = require('./native-observer.cjs');
     const tree = decode(artifact(root,draw.nativeTree,1048576).data), object = decode(artifact(root,draw.nativeObject,1048576).data);
     const observation = JSON.parse(draw.observation);
+    need(observation.node === step.node && observation.property === step.property && equal(observation.value,step.expected),
+      'EVIDENCE_DECLARED_OBSERVATION',row.id+' '+step.id);
     const nativeId = require('./scenarios.cjs').treePaths(tree[2]).get(observation.node);
     need(tree[0]==='scene:scene_tree' && object[0]==='scene:inspect_objects' && tree[1]===object[1] && nativeId &&
       object[2].find(item => item[0]===nativeId)?.[2]?.some(prop => prop[0]===observation.property && equal(prop[5],observation.value)),
@@ -325,24 +340,78 @@ function changedFiles(root, revision) {
   return git(root,['diff','--name-only','--diff-filter=ACMRT','-z',PHASE_BASE,revision]).split('\0').filter(Boolean);
 }
 
+function guardedHostTuples(root) {
+  const policy = read(root,'tests/phase1/EngineAccessPolicy.cs').data.toString('utf8');
+  const start = policy.indexOf('private static readonly HashSet<string> _presenters');
+  const end = policy.indexOf('};',start);
+  need(start >= 0 && end > start,'EVIDENCE_NATIVE_HOST_POLICY');
+  const definitions = policy.slice(policy.indexOf('{',start),end);
+  const literals = expression => (expression.match(/"(?:[^"\\]|\\.)*"/g) ?? []).map(value => JSON.parse(value)).join('');
+  const tuples = [];
+  let value = '';
+  for (const token of definitions.match(/"(?:[^"\\]|\\.)*"|,|\+/g) ?? []) {
+    if (token.startsWith('"')) value += JSON.parse(token);
+    if (token === ',' && value) {tuples.push(value);value = '';}
+  }
+  if (value) tuples.push(value);
+  const test = read(root,'tests/phase1/ContentNativePermissionTests.cs').data.toString('utf8');
+  const first = test.indexOf('Actual final native hosts require captured first guards');
+  const last = test.indexOf('public void Check_PresenterNative_RequiresExactGuardedMember(');
+  need(first >= 0 && last > first && tuples.length === 251,'EVIDENCE_NATIVE_HOST_EXTENT');
+  const compiledInputs = [...test.slice(first,last).matchAll(/\[InlineData\(([\s\S]*?)\)\]/g)].map(match => literals(match[1]));
+  exact(tuples,compiledInputs,'guarded policy and compiled case declarations',true);
+  return tuples;
+}
+
+function validateNativeHostProof(root, record, result, expectedTuples) {
+  need(record && result && result.path.endsWith('/result.json'),'EVIDENCE_NATIVE_HOST_RESULT');
+  const subject = document(root,result);
+  const prefix = '.phase4/runs/'+subject.nonce+'/';
+  need(result.path === prefix+'result.json' && subject.caseId === 'content.native-permissions' && subject.status === 'pass' &&
+    subject.observations?.compiled?.selected === expectedTuples.length && subject.observations.compiled.passed === expectedTuples.length &&
+    subject.observations.compiled.skipped === 0,'EVIDENCE_NATIVE_HOST_RESULT');
+  need(record.selection?.path === prefix+'native-permissions-selection.json' &&
+    record.execution?.path === prefix+'native-permissions-execution.json','EVIDENCE_NATIVE_HOST_PROOF_SCOPE');
+  const selection = document(root,record.selection), execution = document(root,record.execution);
+  need(selection.method === 'KingdomZombies.Phase1.Tests.ContentNativePermissionTests.Check_PresenterNative_RequiresExactGuardedMember' &&
+    Array.isArray(selection.tests) && Array.isArray(execution.results) && execution.selected === expectedTuples.length &&
+    execution.passed === expectedTuples.length && execution.failed === 0 && execution.skipped === 0 &&
+    selection.tests.length === expectedTuples.length,'EVIDENCE_NATIVE_HOST_EXECUTION');
+  exact(selection.tests.map(test => test.uid+'/'+test.testUid),execution.results.map(test => test.uid+'/'+test.testUid),
+    'compiled guarded case outcomes',true);
+  for (const test of execution.results) {
+    need(HEX.test(test.uid) && HEX.test(test.testUid) && Array.isArray(test.records) && test.records.length === 5,'EVIDENCE_NATIVE_HOST_CASE');
+    const retained = test.records.find(row => row.file.endsWith('/tests.json') || row.file.endsWith('\\tests.json'));
+    need(retained,'EVIDENCE_NATIVE_HOST_CTRF');
+    const relative = path.relative(root,retained.file).replaceAll('\\','/');
+    need(relative.startsWith(prefix) && reference(root,relative).sha256 === retained.sha256,'EVIDENCE_NATIVE_HOST_CTRF',test.uid);
+    const report = document(root,relative).results;
+    need(report.summary.tests === 1 && report.summary.passed === 1 && report.summary.failed === 0 && report.summary.skipped === 0 &&
+      report.tests.length === 1 && report.tests[0].extra.id === test.testUid,'EVIDENCE_NATIVE_HOST_CTRF',test.uid);
+  }
+}
+
 function inventoryExpectation(root, revision, catalog) {
   const files = changedFiles(root,revision);
   const exemption = document(root,'docs/code/exemptions.json');
   const generated = document(root,'docs/code/generated-callsite-adaptations.json');
   const spans = document(root,'docs/code/engine-generated-spans.json');
   const tracked = files.filter(file => file.startsWith('production/phase4/') && file.endsWith('.zip'));
-  return {files, cases:catalog.cases.map(row => row.id), archives:tracked,
-    native:[...exemption.local,...generated.local,...spans.local].map(row => row.id).sort()};
+  const guarded = guardedHostTuples(root);
+  return {files, cases:catalog.cases.map(row => row.id), archives:tracked, guarded,
+    native:[...exemption.local,...generated.local,...spans.local].map(row => row.id).concat(guarded).sort()};
 }
 
 function validateArtifactInventory(root, record, expected, sourceAudit, current) {
   need(record?.schemaVersion === 1 && sourceAudit?.schemaVersion === 1 && Array.isArray(record.files) &&
     Array.isArray(record.sourceSymbols) && Array.isArray(sourceAudit.sourceSymbols) && Array.isArray(record.archives) &&
-    Array.isArray(sourceAudit.archives) && Array.isArray(record.caseExports) && Array.isArray(record.nativePermits),'EVIDENCE_INVENTORY');
+    Array.isArray(sourceAudit.archives) && Array.isArray(record.caseExports) && Array.isArray(record.nativePermits) &&
+    Array.isArray(sourceAudit.nativeHostTuples),'EVIDENCE_INVENTORY');
   identity(current,record,'artifact inventory');identity(current,sourceAudit,'independent resource and symbol audit');
   exact(expected.files,record.files.map(row => row.path),'changed tracked artifacts');
   exact(expected.cases,record.caseExports,'registered case exports');
   exact(expected.native,record.nativePermits,'native permission tuples');
+  exact(expected.guarded,sourceAudit.nativeHostTuples,'independent compiled guarded-host tuples');
   exact(expected.archives,record.archives.map(row => row.path),'retained source archive paths');
   for (const ref of record.files) artifact(root,ref);
   const signature = row => [row.path,row.member,row.signature].join('\0');
@@ -410,7 +479,7 @@ function freshFinal(selected, reports, expected) {
 }
 
 module.exports = {PHASE, REVIEW, SELECTION, FIXES, TARGETS, PHASE_BASE, LISTENING, JUDGMENTS, COMPLETION, IDENTITY, REVISION, HEX, UUID, need, named, instant, exact,
-  read, reference, artifact, document, writeExclusive, git, committedRef, identifySource, identifyTool, identity,
+  read, reference, artifact, document, writeExclusive, git, committedRef, sameCommittedSource, identifySource, identifyTool, identity,
   textArtifact, validateReview, validateProcess, validateRenderedOutcome, validateNamed, listeningExpectations, judgmentExpectations,
-  validateJudgments, historyDocuments, validateCoverage, changedFiles, inventoryExpectation, validateArtifactInventory,
+  validateJudgments, historyDocuments, validateCoverage, changedFiles, guardedHostTuples, validateNativeHostProof, inventoryExpectation, validateArtifactInventory,
   expectedOutcome, reconcile, freshFinal};
