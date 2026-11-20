@@ -1312,12 +1312,14 @@ const AUDIO_HELDOUT_METHODS=String.raw`
             "assets/audio/actions.wav, field pcmSha256, value 7f8e1eb3652fd168b508f5ba4d4db6b76dddcc92d936d34f8e3a772dde897298 — sample PCM hash mismatch",StringComparison.Ordinal),Players(root).Length);
         Call(owner,"Close");root.Free();
         // Headless Godot mixes on the Dummy driver thread: 4096 frames per wake-up, about every 93 ms. AU-06's 3016-frame
-        // one-shot finishes in one wake-up, so Playing can turn false before an immediate read. Stall to make that deterministic.
+        // one-shot finishes in one wake-up, so Playing can turn false before an immediate read (the control below shows it).
+        // The sibling check therefore loops its audition and stalls past several wake-ups, so a one-shot regression fails every run.
         root=new Node2D();AddChild(root);owner=New(root,"AU-06",shifted);Press(root,"Play");var oneShot=Players(root);int waited=0;
         for(;waited<2000&&oneShot.Length==1&&oneShot[0].Playing;waited+=10)OS.DelayMsec(10);
         Check("one-shot-ends-during-main-thread-stall",oneShot.Length==1&&!oneShot[0].Playing&&Players(root).Length==1,waited);
         Call(owner,"Close");root.Free();
-        root=new Node2D();AddChild(root);owner=New(root,"AU-06",shifted);Press(root,"Play");OS.DelayMsec(500);
+        root=new Node2D();AddChild(root);owner=New(root,"AU-06",shifted);
+        Panel(root).GetNode<CheckButton>("Loop").ButtonPressed=true;Press(root,"Play");OS.DelayMsec(500);
         Check("rebound-pcm-valid-sibling",Panel(root).GetNode<OptionButton>("Event").ItemCount==2&&Players(root).Length==1&&Players(root)[0].Playing,Players(root).Length);
         Call(owner,"Close");root.Free();
         root=new Node2D();AddChild(root);owner=New(root,"AU-20");Press(root,"Play");
