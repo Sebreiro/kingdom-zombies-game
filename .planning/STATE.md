@@ -6,17 +6,17 @@ current_phase: 04
 current_phase_name: Asset production
 current_plan: 30
 status: executing
-stopped_at: "Finished 04-23 and Wave 26. Phase 04 is 32/37 plans complete. Next is 04-30 in Wave 27."
-last_updated: "2026-11-20T20:22:39.296Z"
+stopped_at: Finished 04-23 and Wave 26. Phase 04 is 32/37 plans complete. Next is 04-30 in Wave 27.
+last_updated: "2026-11-20T23:14:17.827Z"
 last_activity: 2026-11-20
-last_activity_desc: "Completed 04-23. The final committed selection passed 68/68 with clean Godot output and all 180 source obligations reached."
-state_head: acc268f9dfc3d50fe45822d2558fac9612a02a0c
+last_activity_desc: Completed 04-23. The final committed selection passed 68/68 with clean Godot output and all 180 source obligations reached.
 progress:
   total_phases: 12
   completed_phases: 3
   total_plans: 62
   completed_plans: 57
   percent: 25
+state_head: acc268f9dfc3d50fe45822d2558fac9612a02a0c
 ---
 
 # Project State
@@ -184,6 +184,7 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - [Phase04]: Completed04-22 Task1f7f735e/fresh committed tracer207a22ce,Task2 tested727faf5,SUMMARYb1bcae9. Fresh51/51 executable cases at727faf5 pass on492 unchanged inputs in1823596ms case/1844575ms wall;363messages,3615bindings,4603fields,82controller+11Hub outcomes and16backstops. OriginalTask2=3/3,R1.1initial0/2,R1.2=2/2,R2initial0/2,R3.1C1/2,R3.2initial0/2,R3.3C1/2 preserved with actual failed native evidence. Single finalpolicy749fcabe FAIL2349 adds90DataText tuples; currentproducer59inputs32surfaces unenrolled. Wave25complete,31/37local,next23wave26;inventory236 and all source/native/consumer/actualacceptance obligations remain pending.
 
 - [Phase04 partial checkpoint,2026-11-19]: All180 source-ready/native-reached+4worldviews, currentpolicy2654/251, authenticated57input32emission producer, freshgovernance28 and current-binary358 pass. CURRENT67:67assertionPASS/66clean-qualified/1animationimportUnicodeFAIL.69localimplementationfiles copied immutably, uncommitted; formal04-23 remains0/2 andPhase04 remains31/37. No budget/debug reset, acceptance or phase advance.
+- [Phase 08]: Context gathered on 2026-11-21 and ready for planning. See [08-CONTEXT.md](phases/08-zombie-campaign-and-outcomes/08-CONTEXT.md) and the [amended specification](phases/08-zombie-campaign-and-outcomes/08-SPEC.md). — Capture the creator-approved campaign interfaces and immediate retaliation without interrupting the current implementation session.
 
 ### Pending Todos
 
