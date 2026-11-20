@@ -6,10 +6,11 @@ current_phase: 04
 current_phase_name: Asset production
 current_plan: 23
 status: blocked
-stopped_at: "04-23 remains blocked at the native import gate. The creator-approved animation investigation reached 64 imports without reproducing the failure. Phase 04 remains 31/37 plans complete."
-last_updated: "2026-11-19T20:36:57.657Z"
-last_activity: 2026-11-19
-last_activity_desc: "Finished the approved 64-import animation investigation. The original Godot Unicode failure did not recur, and all 44 imported outputs matched in every replay."
+stopped_at: "04-23 remains blocked at the native import gate until a qualifying run under the new single-thread import runner. Phase 04 remains 31/37 plans complete."
+last_updated: "2026-11-19T23:57:55.220Z"
+last_activity: 2026-11-20
+last_activity_desc: "Quick task 261120-09v found the Unicode import failure's cause, a Godot Windows working-directory race in threaded editor import, and made the Phase 4 runner force single-threaded imports."
+state_head: 87c0b80dbdf67ad3f45e98c8989440f208176215
 progress:
   total_phases: 12
   completed_phases: 3
@@ -26,7 +27,7 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase04 Plan23 is blocked at its clean native-import gate on feature/04-asset-production/draftPR5. Independent source/Core/Root/consumer/native-policy work, governance28 and current-binary358 pass. CURRENT67 has67assertionPASS but66clean-qualified/oneactualanimation-importUnicodeFAIL. CauseOPEN/debugSTOPPED3/3. All180resources are source-ready and natively reached;0accepted. Inventory237;31/37local and56/62global counts remain unchanged. See [partial checkpoint](phases/04-asset-production/04-23-CHECKPOINT.md).
+**Current focus:** Phase04 Plan23 is blocked at its clean native-import gate on feature/04-asset-production/draftPR5. Independent source/Core/Root/consumer/native-policy work, governance28 and current-binary358 pass. CURRENT67 has67assertionPASS but66clean-qualified/oneactualanimation-importUnicodeFAIL. Cause found: a Windows working-directory race in threaded editor import. The runner fix (quick 261120-09v) still needs a qualifying run. All180resources are source-ready and natively reached;0accepted. Inventory237;31/37local and56/62global counts remain unchanged. See [partial checkpoint](phases/04-asset-production/04-23-CHECKPOINT.md).
 
 ## Current Position
 
@@ -34,7 +35,7 @@ Phase: 04 — Asset production
 Current Plan: 23
 Total Plans in Phase: 37
 Status: Blocked at04-23 clean native-import qualification
-Last activity: 2026-11-19 — Completed 64 fresh imports of the captured animation project. The earlier Unicode diagnostic did not recur. All 44 imported outputs match in every replay. The original clean-output gate remains blocked.
+Last activity: 2026-11-20 - Completed quick task 261120-09v: Fix intermittent Godot editor-import Unicode parsing errors (cwd race). The cause is a Godot 4.7.2 Windows working-directory race in threaded editor import. The Phase 4 runner now forces single-threaded imports. The four originally failing cases pass with clean import stderr. The 04-23 clean-output gate still needs a qualifying whole-selection run.
 
 Progress: [███░░░░░░░] 25%
 
@@ -214,6 +215,7 @@ Phase 3 has no blocking acceptance item. Its independent [UI audit](phases/03-fo
 | # | Description | Date | Commit | Directory |
 | --- | --- | --- | --- | --- |
 | 261114-we2 | Require phase feature branches and draft-to-ready PRs targeting dev | 2026-11-14 | 9a96240 | [261114-we2-define-phase-feature-branches-and-draft-](./quick/261114-we2-define-phase-feature-branches-and-draft-/261114-we2-SUMMARY.md) |
+| 261120-09v | Fix intermittent Godot editor-import Unicode parsing errors (cwd race) | 2026-11-20 | 87c0b80 | [261120-09v-fix-intermittent-godot-editor-import-uni](./quick/261120-09v-fix-intermittent-godot-editor-import-uni/261120-09v-SUMMARY.md) |
 
 ## Deferred Items
 

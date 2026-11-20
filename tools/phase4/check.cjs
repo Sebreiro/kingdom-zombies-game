@@ -157,6 +157,39 @@ function terminate(child){
     need(!killed.error&&killed.status===0,'OWNED_CLEANUP_FAILED',killed.stderr);
   }else try{process.kill(-child.pid,'SIGKILL');}catch(error){if(error.code!=='ESRCH')throw error;}
 }
+// Godot 4.7.2 on Windows builds each DirAccessWindows by reading the process cwd with two unlocked GetCurrentDirectoryW calls (size, then fill).
+// It ignores a failed fill. change_dir switches the process cwd for a moment under a lock the constructor does not take.
+// When an import worker thread makes the cwd longer between the two calls, the fill writes nothing.
+// The uninitialized buffer is then decoded as UTF-16, which prints the Unicode parsing errors.
+// One import thread (editor/import/use_multiple_threads=false) removes the race. The imported files are byte-identical.
+// The editor ignores override.cfg, so the setting goes into the run-owned project.godot of every --import command.
+// The block is appended last because Godot keeps the last value it reads. Only a file that already ends with it is left unchanged.
+const EDITOR_IMPORT_THREADS='editor/import/use_multiple_threads';
+function editorImportPolicy(base,cwd,name,args){
+  if(!args.includes('--import'))return;
+  const at=args.indexOf('--path');
+  need(at>=0&&args.indexOf('--path',at+1)<0&&typeof args[at+1]==='string'&&args[at+1].length>0&&!args.includes('--main-pack')&&
+    !args.some(arg=>/(^|[\\/])project\.(godot|binary)$/i.test(arg)),'EDITOR_IMPORT_PROJECT',name);
+  const project=path.resolve(cwd,args[at+1]);need(project.startsWith(base+path.sep),'EDITOR_IMPORT_PROJECT',name);
+  let file,data,text;
+  try{inside(base,path.relative(base,project).replaceAll(path.sep,'/'));if(!fs.statSync(project).isDirectory())throw new Error('not a directory');
+    if(fs.existsSync(path.join(project,'project.binary')))throw new Error('project.binary would be loaded instead of project.godot');
+    file=inside(project,'project.godot');const stat=fs.lstatSync(file);if(!stat.isFile()||stat.nlink!==1)throw new Error('project.godot is not a single-link regular file');
+    data=bytes(project,'project.godot');text=new TextDecoder('utf-8',{fatal:true}).decode(data);}
+  catch(error){need(false,'EDITOR_IMPORT_PROJECT',name+' '+error.message);}
+  // Keys are read like Godot's VariantParser: a quoted key is unquoted, any other key loses all whitespace, and a header ends at its first ']'.
+  // Feature-tag overrides such as use_multiple_threads.windows beat the base key, so every assignment found must be false.
+  let section='';const values=[];
+  for(const raw of text.split(/\r?\n/)){const line=raw.trim();if(!line||line.startsWith(';'))continue;
+    const close=line.startsWith('[')?line.indexOf(']'):-1;if(close>0){section=line.slice(1,close).trim();continue;}
+    const eq=line.indexOf('=');if(eq<0)continue;const written=line.slice(0,eq).trim();
+    const key=/^".*"$/.test(written)?written.slice(1,-1):written.replace(/[\x00-\x20]/g,''),full=section?section+'/'+key:key;
+    if(full===EDITOR_IMPORT_THREADS||full.startsWith(EDITOR_IMPORT_THREADS+'.'))values.push(line.slice(eq+1).replace(/;.*$/,'').trim());}
+  need(values.every(value=>value==='false'),'EDITOR_IMPORT_THREADED',name);
+  const eol=text.includes('\r\n')?'\r\n':'\n',block='[editor]'+eol+eol+'import/use_multiple_threads=false'+eol;
+  if(text===block||text.endsWith(eol+block))return;
+  fs.appendFileSync(file,(data.at(-1)===0x0a?'':eol)+eol+block);
+}
 async function command(context,name,executable,args,{timeout=60000,interruptMarker,env,cwd}={}){
   need(Number.isInteger(timeout)&&timeout>0&&timeout<=60000,'COMMAND_TIMEOUT_RANGE',name);
   const childCwd=cwd??context.directory,base=path.resolve(context.directory),resolved=path.resolve(childCwd);
@@ -165,6 +198,7 @@ async function command(context,name,executable,args,{timeout=60000,interruptMark
   need(fs.statSync(resolved).isDirectory(),'COMMAND_CWD_DIRECTORY',name);
   need(env===undefined||(env!==null&&typeof env==='object'&&!Array.isArray(env)&&
     Object.values(env).every(value=>typeof value==='string'||value===undefined)),'COMMAND_ENV_INVALID',name);
+  editorImportPolicy(base,resolved,name,args);
   const childEnv=env??environment(context.directory);
   const startedAt=new Date().toISOString(),child=spawn(executable,args,{cwd:childCwd,env:childEnv,
     windowsHide:true,shell:false,detached:process.platform!=='win32'});
@@ -537,5 +571,61 @@ async function main(args){
   }
   if(failed)process.exitCode=1;
 }
+function editorImportSelfTest(){
+  const {test}=require('node:test'),assert=require('node:assert/strict');
+  const STAND_IN="const fs=require('fs'),p=require('path'),a=process.argv,i=a.indexOf('--path'),v=i<0?'':a[i+1]||'',f=v?p.join(v,'project.godot'):'';if(f&&fs.existsSync(f))process.stdout.write(fs.readFileSync(f).toString('base64'));";
+  const BASE='; Engine configuration file.\n\nconfig_version=5\n\n[application]\n\nconfig/name="EditorImportFixture"\n',BLOCK='\n[editor]\n\nimport/use_multiple_threads=false\n';
+  const FALSE_EDITOR=BASE+BLOCK,FALSE_ROOT=BASE.replace('config_version=5\n','config_version=5\neditor/import/use_multiple_threads=false\n'),FALSE_SECTION=BASE+'\n[editor/import]\n\nuse_multiple_threads=false\n';
+  const TRUE_EDITOR=FALSE_EDITOR.replace('=false','=true'),TRUE_ROOT=FALSE_ROOT.replace('=false','=true'),MIXED=FALSE_EDITOR+'\n[editor/import]\n\nuse_multiple_threads=true\n';
+  const FALSE_COMMENT=BASE+'\n[editor]\n\nimport/use_multiple_threads=false ; one import thread\n',FALSE_OVERRIDE=BASE+'\n[editor]\n\nimport/use_multiple_threads.windows=false\n';
+  const CRLF=BASE.replaceAll('\n','\r\n'),NO_FINAL=BASE.slice(0,-1);
+  const importArgs=project=>['--headless','--path',project,'--editor','--import','--quit'];
+  const scratch=body=>async()=>{const dir=path.join(ROOT,'.phase4/tdd/editor-import',crypto.randomUUID());fs.mkdirSync(dir,{recursive:true});
+    try{await body(dir);}finally{fs.rmSync(dir,{recursive:true,force:true,maxRetries:3});}};
+  const setup=(dir,scenario,text)=>{const run=path.join(dir,scenario,'run'),project=path.join(run,'project'),file=path.join(project,'project.godot');
+    fs.mkdirSync(project,{recursive:true});if(text!==undefined)fs.writeFileSync(file,text);return {scenario:path.join(dir,scenario),run,project,file};};
+  const start=(directory,name,args)=>command({directory},name,process.execPath,['-e',STAND_IN,'--',...args],{timeout:20000});
+  const seen=record=>Buffer.from(record.stdout,'base64'),disk=file=>fs.readFileSync(file);
+  const absent=(directory,name)=>{for(const item of [name+'.command.json',name+'.exit.json','home'])assert.equal(fs.existsSync(path.join(directory,item)),false,name+' left '+item);};
+  test('editor import appends the single-thread setting the child reads',scratch(async dir=>{
+    for(const [scenario,args]of [['absolute',project=>importArgs(project)],['relative',()=>importArgs('project')]]){
+      const {run,project,file}=setup(dir,scenario,BASE),record=await start(run,'import-'+scenario,args(project));
+      assert.deepEqual(seen(record),Buffer.from(BASE+BLOCK),scenario);assert.deepEqual(disk(file),seen(record),scenario);}}));
+  test('editor import keeps a final single-thread block and appends after other false spellings',scratch(async dir=>{
+    for(const [scenario,text,expected]of [['editor',FALSE_EDITOR,FALSE_EDITOR],['editor-crlf',FALSE_EDITOR.replaceAll('\n','\r\n'),FALSE_EDITOR.replaceAll('\n','\r\n')],
+      ['root',FALSE_ROOT,FALSE_ROOT+BLOCK],['section',FALSE_SECTION,FALSE_SECTION+BLOCK],['comment',FALSE_COMMENT,FALSE_COMMENT+BLOCK],['override',FALSE_OVERRIDE,FALSE_OVERRIDE+BLOCK]]){
+      const {run,project,file}=setup(dir,scenario,text),record=await start(run,'import-'+scenario,importArgs(project));
+      assert.deepEqual(seen(record),Buffer.from(expected),scenario);assert.deepEqual(disk(file),Buffer.from(expected),scenario);}}));
+  test('editor import is idempotent on a second import',scratch(async dir=>{
+    const {run,project,file}=setup(dir,'twice',BASE),first=await start(run,'import-1',importArgs(project)),second=await start(run,'import-2',importArgs(project));
+    assert.deepEqual(seen(first),Buffer.from(BASE+BLOCK));assert.deepEqual(seen(second),seen(first));assert.deepEqual(disk(file),seen(first));}));
+  test('non-import commands leave project.godot untouched',scratch(async dir=>{
+    for(const [scenario,text,args]of [['script',BASE,p=>['--headless','--path',p,'--script','res://probe.gd']],['export',BASE,p=>['--headless','--path',p,'--export-debug','Windows Desktop','out.exe']],
+      ['script-true',TRUE_EDITOR,p=>['--headless','--path',p,'--script','res://probe.gd']],['version',BASE,()=>['--version']]]){
+      const {run,project,file}=setup(dir,scenario,text);await start(run,'command-'+scenario,args(project));assert.deepEqual(disk(file),Buffer.from(text),scenario);}}));
+  test('editor import rejects a threaded value before spawn',scratch(async dir=>{
+    for(const [scenario,text]of [['editor-true',TRUE_EDITOR],['root-true',TRUE_ROOT],['section-true',FALSE_SECTION.replace('=false','=true')],['mixed',MIXED],
+      ['quoted-key',FALSE_EDITOR+'"import/use_multiple_threads"=true\n'],['spaced-key',FALSE_EDITOR+'import/ use_multiple_threads=true\n'],
+      ['header-comment',FALSE_ROOT+'\n[editor] ; note\n\nimport/use_multiple_threads=true\n'],['override-windows',BASE+'\n[editor]\n\nimport/use_multiple_threads.windows=true\n'],
+      ['override-editor',FALSE_EDITOR+'import/use_multiple_threads.editor=true\n']]){
+      const {run,project,file}=setup(dir,scenario,text);
+      await assert.rejects(start(run,'import-'+scenario,importArgs(project)),{message:/^EDITOR_IMPORT_THREADED /},scenario);
+      assert.deepEqual(disk(file),Buffer.from(text),scenario);absent(run,'import-'+scenario);}}));
+  test('editor import rejects an unowned or missing project before spawn',scratch(async dir=>{
+    const cases=[['no-path',s=>['--headless','--editor','--import','--quit']],['path-last',s=>['--headless','--editor','--import','--quit','--path']],
+      ['outside',s=>{const other=path.join(s.scenario,'outside');fs.mkdirSync(other);fs.writeFileSync(path.join(other,'project.godot'),BASE);return importArgs(other);}],
+      ['prefix',s=>{const other=s.run+'-x';fs.mkdirSync(other);fs.writeFileSync(path.join(other,'project.godot'),BASE);return importArgs(other);}],
+      ['no-project',s=>importArgs(s.project)],['binary',s=>{fs.writeFileSync(path.join(s.project,'project.binary'),'binary');return importArgs(s.project);}],
+      ['hard-link',s=>{fs.linkSync(s.file,path.join(s.scenario,'linked.godot'));return importArgs(s.project);}],
+      ['main-pack',s=>[...importArgs(s.project),'--main-pack','game.pck']],['positional',s=>[...importArgs(s.project),path.join(s.project,'project.godot')]]];
+    for(const [scenario,args]of cases){const s=setup(dir,scenario,scenario==='no-project'?undefined:BASE);
+      await assert.rejects(start(s.run,'import-'+scenario,args(s)),{message:/^EDITOR_IMPORT_PROJECT /},scenario);absent(s.run,'import-'+scenario);
+      if(fs.existsSync(s.file))assert.deepEqual(disk(s.file),Buffer.from(BASE),scenario);}}));
+  test('editor import keeps CRLF and adds a missing final newline',scratch(async dir=>{
+    for(const [scenario,text,expected]of [['crlf',CRLF,CRLF+BLOCK.replaceAll('\n','\r\n')],['no-final-newline',NO_FINAL,NO_FINAL+'\n'+BLOCK]]){
+      const {run,project,file}=setup(dir,scenario,text),record=await start(run,'import-'+scenario,importArgs(project));
+      assert.deepEqual(seen(record),Buffer.from(expected),scenario);assert.deepEqual(disk(file),Buffer.from(expected),scenario);}}));
+}
 module.exports={main,registerCase,cases,runTracer,validate,hash,inside,document,command,environment};
-if(require.main===module)main(process.argv.slice(2)).catch(error=>{console.error(error.stack);process.exitCode=1;});
+if(require.main===module){const argv=process.argv.slice(2);if(argv.length===1&&argv[0]==='--self-test-editor-import')editorImportSelfTest();
+  else main(argv).catch(error=>{console.error(error.stack);process.exitCode=1;});}

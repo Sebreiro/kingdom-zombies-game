@@ -1,10 +1,47 @@
 ---
-status: investigating
+status: resolved
 trigger: "Phase 04 Plan 23: intermittent Unicode surrogate diagnostics during official Godot fixture import prevent clean verification"
 created: 2026-11-19
-updated: 2026-11-19
+updated: 2026-11-20
 mode: diagnose-only
 ---
+
+## Resolution
+
+The project-wide description of this defect, its workaround and when the workaround can be removed is in [Known Godot engine defects](../../docs/workflow/engine-defects.md#windows-editor-import-working-directory-race). This record keeps the investigation and its evidence.
+
+The older `## Resolution` block at the end of this file records the earlier inconclusive state. It is kept as history.
+
+**Root cause.** Godot 4.7.2 on Windows has a race on the process-wide working directory. Source: commit ed1daf0bf001b61586d9930840f2f1394092c079, `drivers/windows/dir_access_windows.cpp`, `core/string/ustring.cpp`, `editor/file_system/editor_file_system.cpp` and `editor/register_editor_types.cpp`.
+- `DirAccessWindows::DirAccessWindows()` reads the cwd without a lock in two calls. `GetCurrentDirectoryW(0)` returns the size. The buffer is resized without being initialized. `GetCurrentDirectoryW(n)` then fills it, and its result is ignored.
+- `DirAccessWindows::change_dir()` changes the process cwd for a moment under `GLOBAL_LOCK_FUNCTION`. The constructor does not take that lock.
+- When another thread makes the cwd longer between the two calls, the fill writes nothing. `String::utf16()` decodes the uninitialized heap buffer, which prints the first diagnostic block. The constructor's `change_dir(".")` converts it twice more, which prints the next two blocks.
+- Fonts import on worker threads because `ResourceImporterDynamicFont::can_import_threaded()` returns true. The project setting `editor/import/use_multiple_threads` (default true) enables threaded import.
+
+**Evidence.** A non-intrusive Frida observation trace ran on the original failing animation fixture, four runs each. The local evidence package is `.phase4/temp/animation-import-unicode/README.md`.
+- Threaded import: 13 threads touched the cwd. 4, 4, 3 and 0 `GetCurrentDirectoryW` fills failed.
+- `use_multiple_threads=false`: 1 thread touched the cwd. 0, 0, 0 and 0 fills failed, over the same 6912 events and 1142 size/fill pairs.
+- The 44 imported files are byte-identical between threaded, single-threaded and the original failing run.
+- In all four failing runs the stale bytes matched the tail of a `.fontdata` file the same import had just written.
+
+**Fix.** Commit e15a6c9 adds a runner policy in `tools/phase4/check.cjs` `command()`. Commit 4728211 hardens it after code review.
+- Before spawn, the policy appends `[editor]` / `import/use_multiple_threads=false` as the last block of the run-owned `project.godot` of every `--import` command. Godot keeps the last value it reads, so this block wins.
+- A file that already ends with that block is left unchanged.
+- Keys are read the way Godot's VariantParser reads them. Any assignment of the setting, including feature-tag overrides such as `.windows`, that is not `false` is rejected with `EDITOR_IMPORT_THREADED`.
+- These are rejected with `EDITOR_IMPORT_PROJECT`: a missing, unowned or file-less `--path`; a `project.binary`; a hard-linked `project.godot`; `--main-pack`; a positional project file.
+- The pinned engine is not patched. `override.cfg` is not used because the editor ignores it.
+
+**Verification.**
+- **Self-test.** The [RED record](../quick/261120-09v-fix-intermittent-godot-editor-import-uni/261120-09v-RED.json) shows 5 fail / 2 pass before the policy. The review cases failed 3 of 7 at commit 8cd2f36. At 4728211 the self-test passes 7/7. `node --check` and the export-profile self-tests pass.
+- **Real cases.** On 2026-11-20, with pinned Node 24.22.1 and official Godot 4.7.2 at revision 4728211, `animation.replacement`, `audio.heldout`, `world.inspector` and `text.support-native` all passed. These are the four cases that originally failed.
+  - All six of their editor imports wrote empty stderr, and every imported `project.godot` contained the appended setting.
+  - The animation fixture's 44 imported files and the audio inventory's 46 matched the original failing runs byte for byte.
+- **Unrelated failure.** One earlier `audio.heldout` run at e15a6c9 failed the native playback check `heldout.rebound-pcm-valid-sibling`. Its import was clean and its imported files were byte-identical. That check has failed once in 16 recorded runs. Two immediate re-runs and the final run passed. It is a separate runtime timing flake, not an import defect.
+- **Still open.** These are focused runs. The 04-23 whole-selection clean-output gate still needs its own qualifying run under the new runner.
+
+**Follow-ups (not done here).**
+- Developer editor sessions in `src/godot-game/project.godot` still use threaded import. Changing that needs separate approval.
+- Report the engine defect to Godot upstream.
 
 ## Symptoms
 
