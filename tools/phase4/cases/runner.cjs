@@ -42,6 +42,18 @@ function baseFixture() {
   return {current, item, report, review, fixes, declarations, process};
 }
 
+function rejectsInvalidWave() {
+  const e = require('../evidence.cjs');
+  const {current,review} = baseFixture();
+  const relative = '.phase4/tdd/04-30-wave-' + crypto.randomUUID();
+  const ref = e.writeExclusive(ROOT,relative+'/sample.wav',Buffer.from('An exact digest does not make text into a WAV.'));
+  const sample = {id:'AU-01/test-wave', version:'1', sampleSha256:ref.sha256};
+  const verdict = {...current,...sample,kind:'listening',reviewer:'Test Reviewer',reviewedAt:review.reviewedAt,
+    verdict:'pass',observations:'Synthetic fixture claim',files:[ref]};
+  assert.throws(() => e.validateNamed(ROOT,verdict,'listening',sample,current), /EVIDENCE_WAV_FORMAT/,
+    'Exact listening bytes must be a genuine WAV and must not gain a verdict from their extension');
+}
+
 function qualification(context) {
   const e = require('../evidence.cjs');
   const scenarios = require('../scenarios.cjs');
@@ -114,6 +126,7 @@ function qualification(context) {
 
 if (require.main === module) {
   require('node:test').test('completion dispatch rejects missing completion evidence', rejectsMissingCompletion);
+  require('node:test').test('listening evidence rejects non-WAV bytes with an exact digest', rejectsInvalidWave);
 } else {
   check.registerCase('runner.prelaunch', {
     group:'runner', title:'Current Phase 4 review and prelaunch gate', importance:'Critical',
@@ -129,4 +142,4 @@ if (require.main === module) {
   }, qualification);
 }
 
-module.exports = {rejectsMissingCompletion, baseFixture, qualification};
+module.exports = {rejectsMissingCompletion, baseFixture, rejectsInvalidWave, qualification};
