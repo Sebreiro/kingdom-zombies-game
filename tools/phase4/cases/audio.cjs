@@ -1311,7 +1311,13 @@ const AUDIO_HELDOUT_METHODS=String.raw`
         Check("rebound-shifted-pcm-region",Panel(root).GetNode<OptionButton>("Event").ItemCount==0&&Panel(root).GetNode<TextEdit>("Details").Text.Contains(
             "assets/audio/actions.wav, field pcmSha256, value 7f8e1eb3652fd168b508f5ba4d4db6b76dddcc92d936d34f8e3a772dde897298 — sample PCM hash mismatch",StringComparison.Ordinal),Players(root).Length);
         Call(owner,"Close");root.Free();
-        root=new Node2D();AddChild(root);owner=New(root,"AU-06",shifted);Press(root,"Play");
+        // Headless Godot mixes on the Dummy driver thread: 4096 frames per wake-up, about every 93 ms. AU-06's 3016-frame
+        // one-shot finishes in one wake-up, so Playing can turn false before an immediate read. Stall to make that deterministic.
+        root=new Node2D();AddChild(root);owner=New(root,"AU-06",shifted);Press(root,"Play");var oneShot=Players(root);int waited=0;
+        for(;waited<2000&&oneShot.Length==1&&oneShot[0].Playing;waited+=10)OS.DelayMsec(10);
+        Check("one-shot-ends-during-main-thread-stall",oneShot.Length==1&&!oneShot[0].Playing&&Players(root).Length==1,waited);
+        Call(owner,"Close");root.Free();
+        root=new Node2D();AddChild(root);owner=New(root,"AU-06",shifted);Press(root,"Play");OS.DelayMsec(500);
         Check("rebound-pcm-valid-sibling",Panel(root).GetNode<OptionButton>("Event").ItemCount==2&&Players(root).Length==1&&Players(root)[0].Playing,Players(root).Length);
         Call(owner,"Close");root.Free();
         root=new Node2D();AddChild(root);owner=New(root,"AU-20");Press(root,"Play");
@@ -1549,7 +1555,7 @@ function controllerOutcomeIds(heldout=false){
   for(let i=0;i<11;i++)extra.push('H26-current-'+i,'H26-retired-'+i,'H26-closed-callback-'+i);
   for(const bus of ['Master','Effects','Ambience'])extra.push('muted-bus-'+bus,'restored-bus-'+bus);
   extra.push('wrong-current-bank-hash','rebound-invalid-current-gain','rebound-shifted-pcm-region',
-   'rebound-pcm-valid-sibling','restored-current-positive',
+   'one-shot-ends-during-main-thread-stall','rebound-pcm-valid-sibling','restored-current-positive',
    ...['populated','overflow','empty','error','partial','long-text','zero-one-many'].map(s=>'AUDIO-AUDITION.'+s));
   ids.push(...extra.map(id=>'heldout.'+id));
  }
