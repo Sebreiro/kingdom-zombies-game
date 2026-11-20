@@ -4,18 +4,18 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 04
 current_phase_name: Asset production
-current_plan: 23
-status: blocked
-stopped_at: "04-23 remains blocked at the native import gate until a qualifying run under the new single-thread import runner. Phase 04 remains 31/37 plans complete."
-last_updated: "2026-11-19T23:57:55.220Z"
+current_plan: 30
+status: executing
+stopped_at: "Finished 04-23 and Wave 26. Phase 04 is 32/37 plans complete. Next is 04-30 in Wave 27."
+last_updated: "2026-11-20T20:22:39.296Z"
 last_activity: 2026-11-20
-last_activity_desc: "Quick task 261120-09v found the Unicode import failure's cause, a Godot Windows working-directory race in threaded editor import, and made the Phase 4 runner force single-threaded imports."
-state_head: 87c0b80dbdf67ad3f45e98c8989440f208176215
+last_activity_desc: "Completed 04-23. The final committed selection passed 68/68 with clean Godot output and all 180 source obligations reached."
+state_head: acc268f9dfc3d50fe45822d2558fac9612a02a0c
 progress:
   total_phases: 12
   completed_phases: 3
   total_plans: 62
-  completed_plans: 56
+  completed_plans: 57
   percent: 25
 ---
 
@@ -27,19 +27,19 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Current focus:** Phase04 Plan23 is blocked at its clean native-import gate on feature/04-asset-production/draftPR5. Independent source/Core/Root/consumer/native-policy work, governance28 and current-binary358 pass. CURRENT67 has67assertionPASS but66clean-qualified/oneactualanimation-importUnicodeFAIL. Cause found: a Windows working-directory race in threaded editor import. The runner fix (quick 261120-09v) still needs a qualifying run. All180resources are source-ready and natively reached;0accepted. Inventory237;31/37local and56/62global counts remain unchanged. See [partial checkpoint](phases/04-asset-production/04-23-CHECKPOINT.md).
+**Current focus:** Phase 04 moves to Plan 30, which owns saved scenarios and evidence validation. Plan 23 passed 68/68 headless cases on `a185ed7`, including 251 native permission checks and 148 clean positive Godot commands. All 180 resources were reached and none are recorded as accepted. See the [Plan 23 summary](phases/04-asset-production/04-23-SUMMARY.md).
 
 ## Current Position
 
 Phase: 04 — Asset production
-Current Plan: 23
+Current Plan: 30
 Total Plans in Phase: 37
-Status: Blocked at04-23 clean native-import qualification
-Last activity: 2026-11-20 - Completed quick task 261120-09v: Fix intermittent Godot editor-import Unicode parsing errors (cwd race). The cause is a Godot 4.7.2 Windows working-directory race in threaded editor import. The Phase 4 runner now forces single-threaded imports. The four originally failing cases pass with clean import stderr. The 04-23 clean-output gate still needs a qualifying whole-selection run.
+Status: Executing
+Last activity: 2026-11-20 — Completed 04-23 with 68/68 clean headless cases on the committed source.
 
 Progress: [███░░░░░░░] 25%
 
-Milestone progress: 3/12 phases complete;56/62 currently planned plans summarized;fourteen of135 requirements complete. Phase4 has31/37 local plans complete. NoASSET requirement completion is claimed.
+Milestone progress: 3 of 12 phases, 57 of 62 currently planned plans, and 14 of 135 requirements complete. Phase 4 has completed 32 of 37 plans. Asset acceptance remains pending.
 
 ## Performance Metrics
 
@@ -231,10 +231,10 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 
 ## Session Continuity
 
-Last session: 2026-11-19T20:36:57.657Z
-Stopped at: Plan 04-23 is still blocked by its original Unicode import failure after the additional 64-import investigation reached its cap without a recurrence.
+Last session: 2026-11-20T20:22:39.296Z
+Stopped at: Plan 04-23 completed with a qualifying 68-case run. Wave 26 is complete.
 Resume file: .planning/phases/04-asset-production/04-CONTINUATION.md
 
-Next action: Review the original animation import failure and the completed follow-up investigation in the partial checkpoint. The extra batch is exhausted and did not identify a source fix. Task 1 verification still requires the clean-output gate. Preserve all original evidence, the local source snapshot, and foreign Phase 07/08 planning.
+Next action: Execute Plan 04-30 in Wave 27 on the same Phase 4 feature branch. Run saved scenario and headless evidence validation before the export and review plans. Keep the original reports and the separate Phase 08 changes intact.
 
 Preserved future context: [Phase 4 context](phases/04-asset-production/04-CONTEXT.md) remains authoritative. Plan 04-01 has source/headless evidence only; complete resource and actual acceptance responsibilities remain with later Phase 4 plans.

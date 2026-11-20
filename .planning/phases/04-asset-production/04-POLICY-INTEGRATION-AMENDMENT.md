@@ -117,6 +117,10 @@ R28 in04-23-REPAIR.md owns exactlynine existing proof/runner/catalog paths liste
 R29 in04-23-REPAIR.md adds seven exactfresh stages for original rules.godot-companion-negative through existing RepositoryCompanionShape/allsixcohort RepositoryCompanion guards, retaining actualviolate:true SCR0001/before-after-sourcepackageorigin/exactrestoration/cleanbuild. Four existing paths ONLY: ExemptionTests,Phase1check/catalog,Phase2catalogderivedrepositorySha256. Checkpointd3d7465492894aa5be2edfa673abff93067829b69b1b92fe65d3ecdd78d4c075 preserves original60sxUnitabort/62souterNOTtimeout/latepassedCTRFexit3, noPASS/internalcauseclaim. One initial+2 outcome preserves R28exhaustedC2/2/R27exhausted/R26C1/2/R1.3C1/2. Other124callerUIDs/72Foundation/alloldpredicates/Stage45s/setup60s/parser1MiB/evidence/validator/policy/cohort/baked/producer remainfixed. Strict/canonicalnegatives/freshcomplete logicalunion inclfivecallers+shared23/25+7+52 required, no duplicateaccounting/oldreportreuse/fakeCTRF. Fullcompiled/currentselection/Task1committedtracer/Task2/finalacceptance remainpending; OPENUnicode/closeddebug/foreignwork/Phase4-only boundaries unchanged.
 
 
-## Final current-binary independent policy checkpoint,2026-11-19
+## Committed policy qualification, 2026-11-20
+
+Plan 04-23 qualified the current LF producer, 28 governance cases, 358 compiled cases and the exact 251 guarded-member checks in the final landed selection. The immediately following source-policy check passed. The scope uses the actual official emitted surfaces and preserves earlier provenance. [Plan 23 summary](04-23-SUMMARY.md)
+
+## Historical current-binary independent policy checkpoint, 2026-11-19
 
 [04-23 partial checkpoint](04-23-CHECKPOINT.md) records actualsourcepolicyPASS2654operations/251hosts, currentauthenticated57input32emission producer,442spanrows/fourcohorts and42callrows/sixcohorts. Eight explicit originpairs conferzeroadditionalprivilege. Fresh28logical/215stage+19ordinary union and both13negative canonical suites pass; current-binary358=107original+251exactboundary cases allPASS/0skip. Original source/permission/baked/history/guard/bounds remain. CURRENT67 animation-import Unicode failure still blocks cleanTask1, not waived by policy/compiledpasses. No formalTask1/tracer/Task2/SUMMARY/acceptance or debugbudget reset.
