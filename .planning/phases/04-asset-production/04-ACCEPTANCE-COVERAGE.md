@@ -1,5 +1,7 @@
 # Phase 04 — Acceptance and held-out task ownership
 
+**Current execution scope (November 21).** The [focused Windows handoff](04-HANDOFF.md) sets the required rendered selection and assigns deferred IDs to Phases 5–9. It supersedes earlier full-matrix execution instructions below.
+
 Planning coverage only. **Nothing below is passed.** Every result remains unchecked until actual execution provides source/media/review/invocation-specific evidence. Source resolved/backstop classification supplies no result. Shared setup/runs do not merge identities. Revision1 appends bounded slices without renumbering any AC/D/H/UI/prohibition identity.
 
 ## All 24 source acceptance criteria

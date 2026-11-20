@@ -1,5 +1,7 @@
 # Phase04 saved source fixtures and acceptance scenarios
 
+**Current execution scope (November 21).** The [focused Windows handoff](04-HANDOFF.md) sets the required rendered selection and assigns deferred IDs to Phases 5–9. It supersedes earlier full-matrix execution instructions below.
+
 This fixed crosswalk binds current fixture resources and saved case definitions. Source and headless results leave appearance, listening and final acceptance pending. Plan 31 owns final packaged delivery. Plans 32 and 33 own actual acceptance and named judgments.
 
 ## Plan 04-30 integration ownership

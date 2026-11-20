@@ -9,6 +9,8 @@ created: 2026-11-16
 
 # Phase 04 — Validation Strategy Draft
 
+**Current execution scope (November 21).** The [focused Windows handoff](04-HANDOFF.md) sets the required rendered selection and assigns deferred IDs to Phases 5–9. It supersedes earlier full-matrix execution instructions below.
+
 This is a planning draft derived from 04-SPEC.md, 04-UI-SPEC.md, 04-RESEARCH.md and the current local-testing policy. No Phase 4 acceptance check, hidden backstop, audio listening or judgment is reported passed. Extracted donor feasibility evidence is separate and supplies no content-completion credit. [CITED: 04-SPEC.md AC-17/19/22; docs/workflow/local-testing.md]
 
 ## Execution boundary

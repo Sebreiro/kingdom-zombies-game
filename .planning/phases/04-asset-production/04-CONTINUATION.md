@@ -1,5 +1,7 @@
 # Phase 04 continuation
 
+**Current execution scope (November 21).** The [focused Windows handoff](04-HANDOFF.md) sets the required rendered selection and assigns deferred IDs to Phases 5–9. It supersedes earlier full-matrix execution instructions below.
+
 **Latest handoff.** Plan 04-23 and Wave 26 completed. Plan 04-30 is the sole ready plan. Task 1 `d63ce3c` passed the committed tracer and census. Task 2 `a185ed7` passed the final 68-case selection with 148 clean Godot commands. Summary `acc268f` preserves the exact evidence and the original failures. Phase 04 is 32/37 plans complete. Asset acceptance remains pending. [Plan 23 summary](04-23-SUMMARY.md)
 
 **Historical investigation.** On 2026-11-19, all 64 fresh animation imports exited cleanly, and all 44 generated import files matched the original in each replay. No failing UTF-16 call was captured. The original failing run and this inconclusive reproduction batch remain in the [partial checkpoint](04-23-CHECKPOINT.md).

@@ -189,6 +189,8 @@ Plans:
 
 ### Phase 4: Asset production
 
+Include the rendered case IDs assigned to Phase ### Phase 4: Asset production in the [asset handoff](phases/04-asset-production/04-HANDOFF.md) when selecting and verifying this phase.
+
 **Goal:** Developers and players can inspect the complete required game content in a self-contained Godot resource pack, with reusable recovered material prioritized and every output traceable.
 **Mode:** mvp
 **Depends on:** Phase 3
@@ -366,6 +368,8 @@ Plans:
 
 ### Phase 5: CI and repeatable game testing
 
+Include the rendered case IDs assigned to Phase ### Phase 5: CI and repeatable game testing in the [asset handoff](phases/04-asset-production/04-HANDOFF.md) when selecting and verifying this phase.
+
 **Goal:** Developers and AI agents can select, execute, inspect, and rerun trustworthy game checks locally and in Windows/Linux CI using stored, traceable cases.
 **Mode:** mvp
 **Depends on:** Phase 4
@@ -387,6 +391,8 @@ Plans:
 
 ### Phase 6: Survivors, inventory, and combat
 
+Include the rendered case IDs assigned to Phase ### Phase 6: Survivors, inventory, and combat in the [asset handoff](phases/04-asset-production/04-HANDOFF.md) when selecting and verifying this phase.
+
 **Goal:** Players in solo and LAN play can control ordinary survivors, manage real belongings, fight with actual equipment, and recover from a player's death without duplication or loss.
 **Mode:** mvp
 **Depends on:** Phase 5
@@ -405,6 +411,8 @@ Plans:
 **Delivery boundary:** Begin with real authoritative elapsed-time, safety/danger, and reachable-access services needed for recovery, cooldowns, cleanup, and interaction; prove these with representative camp/defense/enemy fixtures before integrating the rest of the phase. Include the actual inventory/stash/loot/equipment/health/stamina/quick-slot/succession interfaces and feedback now. Snapshot round trips cover identity, ownership graphs, quantities, condition, cleanup, control eligibility, and saved layout dimensions/placements; legacy representation begins here. NPC/zombie ammunition consumers use the shared combat contract as they arrive, with complete cross-archetype automatic refill/fallback and spit/cosmetic-acid acceptance owned by Phase 8. Autonomous NPC economy and full world campaign remain later increments.
 
 ### Phase 7: Camp economy and development
+
+Include the rendered case IDs assigned to Phase ### Phase 7: Camp economy and development in the [asset handoff](phases/04-asset-production/04-HANDOFF.md) when selecting and verifying this phase.
 
 **Goal:** Players can sustain and expand a working camp through physical-money transactions, recruitment, NPC jobs, food, hauling, and paid development that respects changing safe territory.
 **Mode:** mvp
@@ -497,6 +505,8 @@ Plans:
 
 ### Phase 8: Zombie campaign and outcomes
 
+Include the rendered case IDs assigned to Phase ### Phase 8: Zombie campaign and outcomes in the [asset handoff](phases/04-asset-production/04-HANDOFF.md) when selecting and verifying this phase.
+
 **Goal:** Players can defend the developed camp against the complete zombie campaign and assault six permanent portals through correctly resolved victory, continued play, or defeat.
 **Mode:** mvp
 **Depends on:** Phase 7
@@ -515,6 +525,8 @@ Plans:
 **Delivery boundary:** Integrate produced map/roster/equipment/building resources, shared exploration/minimap, campaign time/HUD, rally controls, warnings, and outcome overlays into actual play now. Full persisted and late-join exploration acceptance remains Phase 9. Carry snapshot proofs for queues, generated loadouts/randomness, warnings, accepted assault orders, once-only event identities, portal destruction, exploration, and outcome precedence. Preserve the documented A-08 interpretation: remaining zombies stop dawn retreat after the final portal; civilian retreat rules remain unchanged. Proposed balance stays configurable and unproven until playtesting.
 
 ### Phase 9: Persistence and complete player experience
+
+Include the rendered case IDs assigned to Phase ### Phase 9: Persistence and complete player experience in the [asset handoff](phases/04-asset-production/04-HANDOFF.md) when selecting and verifying this phase.
 
 **Goal:** Players can reliably save, resume, join, reconnect, and use the complete campaign with safe configuration changes, consistent exploration, and finished presentation.
 **Mode:** mvp

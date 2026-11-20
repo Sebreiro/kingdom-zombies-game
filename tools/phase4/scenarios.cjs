@@ -100,7 +100,19 @@ function validateCatalog(root, catalog, registered = null) {
 }
 
 function loadCatalog(root, registered) {
-  return validateCatalog(root, e.document(root, CATALOG), registered);
+  const catalog = validateCatalog(root, e.document(root, CATALOG), registered);
+  const handoff = e.document(root, 'tools/phase4/handoff.json');
+  e.exact(['4','5','6','7','8','9'], Object.keys(handoff), 'handoff phases');
+  e.need(Object.values(handoff).every(Array.isArray), 'HANDOFF_CASE_LIST');
+  e.exact(catalog.renderedCases.map(row => row.id), Object.values(handoff).flat(), 'handoff owners');
+  const active = new Set(handoff[4]);
+  for (const row of catalog.renderedCases) {
+    if (row.id.startsWith('rendered.') || row.importance === 'Critical') e.need(active.has(row.id), 'HANDOFF_REQUIRED', row.id);
+  }
+  const activeRendered = catalog.renderedCases.filter(row => active.has(row.id));
+  const deferred = Object.fromEntries(Object.entries(handoff).filter(([phase]) => phase !== '4'));
+  const acceptance = catalog.acceptance.map(row => ({...row, actualCases:row.actualCases.filter(id => active.has(id))}));
+  return {...catalog, activeRendered, deferred, acceptance};
 }
 
 function selectCases(registry, option, value) {
@@ -130,7 +142,7 @@ function inheritedCases(root) {
 }
 
 function selectionRows(root, catalog) {
-  return [...catalog.cases, ...catalog.renderedCases, ...inheritedCases(root)];
+  return [...catalog.cases, ...catalog.activeRendered, ...inheritedCases(root)];
 }
 
 function impactClosure(cases, files) {
@@ -347,15 +359,15 @@ function sourceReceipts(root, selected, refs, current) {
 
 function coverageExpectation(catalog, root) {
   const catalogAlpha = new Set(catalog.cases.map(row => row.id));
-  const native = new Set(catalog.renderedCases.map(row => row.id));
+  const native = new Set(catalog.activeRendered.map(row => row.id));
   const resolve = rows => rows.map(row => row.id).filter(id => catalogAlpha.has(id));
   const judgment = e.judgmentExpectations(catalog);
   return {
     obligations:require('./content.cjs').expected(root).obligations.map(row => ({id:row.id,cases:['content.census']})),
     acceptance:catalog.acceptance.map(row => ({id:row.id,cases:[...new Set([...resolve(row.sourceCases),...row.actualCases,
       ...judgment.filter(item => item.criterion===row.id).map(item => item.id)])]})),
-    heldout:catalog.heldout.map(row => ({id:row.id,cases:[row.actualAcceptanceCase]})),
-    backstops:catalog.backstops.map(row => ({id:row.id,cases:[row.id]})),
+    heldout:catalog.heldout.filter(row => native.has(row.actualAcceptanceCase)).map(row => ({id:row.id,cases:[row.actualAcceptanceCase]})),
+    backstops:catalog.backstops.filter(row => native.has(row.id)).map(row => ({id:row.id,cases:[row.id]})),
     decisions:catalog.decisions.map(row => ({id:row.id,cases:row.id==='D-31'||row.id==='D-32'?[row.id]:
       [...new Set([...resolve(row.sourceCases),...(row.actualCases??[]).filter(id => native.has(id))])]})),
     judgments:judgment.map(row => ({id:row.id,cases:[row.id,...row.cases]}))
@@ -750,6 +762,7 @@ async function verifyCompletion(root, relative, registered) {
   e.need(index?.schemaVersion === 1 && index.scope === 'phase-04-windows-resource-delivery' &&
     Array.isArray(index.runs) && index.runs.length > 0, 'COMPLETION_SCHEMA');
   const catalog = loadCatalog(root, registered);
+  e.need(equal(index.deferred, catalog.deferred), 'COMPLETION_DEFERRED_OWNERS');
   const current = currentIdentity(root);
   const gate = prelaunch(root, catalog, current);
   e.identity(current, index, 'completion');

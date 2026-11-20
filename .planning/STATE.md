@@ -27,6 +27,8 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
+**Phase 4 execution amendment (November 21).** Follow the [focused Windows handoff](phases/04-asset-production/04-HANDOFF.md) for the remaining plans.
+
 **Current focus:** Phase 04 moves to Plan 30, which owns saved scenarios and evidence validation. Plan 23 passed 68/68 headless cases on `a185ed7`, including 251 native permission checks and 148 clean positive Godot commands. All 180 resources were reached and none are recorded as accepted. See the [Plan 23 summary](phases/04-asset-production/04-23-SUMMARY.md).
 
 ## Current Position
