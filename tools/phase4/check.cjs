@@ -558,9 +558,19 @@ async function main(args){
   if(args.length===1&&args[0]==='--export-tracer')return exportTracer();
   caseModules??=loadCaseModules(path.join(__dirname,'cases'),registry);
   if(args.length===1&&args[0]==='--list'){console.log(JSON.stringify([...cases.values()].sort(caseOrder).map(({run,...item})=>item),null,2));return;}
-  need(args.length===2&&['--case','--group'].includes(args[0]),'USAGE','--case ID | --group GROUP | --list | --export-tracer');
-  const selected=args[0]==='--case'?[cases.get(args[1])]:[...cases.values()].filter(item=>item.group===args[1]);
-  need(selected.length>0&&selected.every(Boolean),'CASE_PENDING_OR_UNKNOWN',args[1]);
+  need(args.length===2&&['--case','--group','--verify-completion'].includes(args[0]),'USAGE',
+    '--case ID[,ID...] | --group GROUP | --list | --export-tracer | --verify-completion PATH');
+  const scenarios=require('./scenarios.cjs');
+  if(args[0]==='--verify-completion'){
+    const result=scenarios.verifyCompletion(ROOT,args[1],cases);
+    console.log(JSON.stringify(result,null,2));return;
+  }
+  if(args[0]==='--group'&&args[1]==='rendered'){
+    const result=await scenarios.runRendered(ROOT,cases);
+    if(result.status!=='pass')process.exitCode=1;
+    console.log(JSON.stringify(result,null,2));return;
+  }
+  const selected=scenarios.selectCases(cases,args[0],args[1]);
   let failed=false;
   for(const item of selected.sort(caseOrder)){
     const context=createRun(item.id);let result;

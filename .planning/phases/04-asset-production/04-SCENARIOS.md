@@ -1,6 +1,12 @@
 # Phase04 saved source fixtures and acceptance scenarios
 
-This fixed crosswalk binds actual current fixture resources and saved case definitions. Source/headless availability supplies no actual appearance, listening or final acceptance. Executable evidence, review, prelaunch and selection gates remain Plan30; final packaged delivery remains31 and actual judgments32/33.
+This fixed crosswalk binds current fixture resources and saved case definitions. Source and headless results leave appearance, listening and final acceptance pending. Plan 31 owns final packaged delivery. Plans 32 and 33 own actual acceptance and named judgments.
+
+## Plan 04-30 integration ownership
+
+The existing dispatcher accepts one case ID and has no completion route. Plan 04-30 owns the narrow dispatch integration in `tools/phase4/check.cjs` for exact comma-separated IDs, the declared composition and rendered groups, and the completion evidence path. The dynamic loader and editor-import workaround retain their current behavior.
+
+The native DT-26 source view embeds the exact `tools/phase4/required-cases.json` bytes. Updating the catalog therefore requires regenerating only the existing compressed payload, uncompressed length and SHA-256 in `src/godot-game/content/packs/delivery.json`. The stock normalizer supplies the corresponding catalog and delivery byte and digest fields in `src/godot-game/content/pack-index.json`. The existing source fixture records, resource definitions, accepted counts, native permissions and delivery and export status retain their prior values.
 
 ## fixtures
 
@@ -1012,3 +1018,1533 @@ Expected: All180 actual source resources and exact independent controls pass; ac
 Evidence: census-inputs.json, census-controls.json, census-source-proof.json, result.json. Group G0-content, order 64. Reset: Owned disposable subjects only; no production mutation; original legacy fixtures preserved
 
 Source module: tools/phase4/cases/census.cjs; SHA256 ad6ccfd557d998437b347af2cd31ff84990e0797bc8b3e477e0bf3be6b69fd7e.
+
+## Current runner and actual evidence procedures
+
+All actual runs require the independent current review. Each case keeps its own outcome.
+
+### content.native-permissions
+
+Exact final native guarded permissions and held-out content boundaries. Critical. Every permitted native operation must belong to an actual exact guarded member, and invalid content must stay visible.
+
+**Setup and input** Current authored source, pinned SDK and xUnit assembly, exact completed package and independent 180-obligation authority. Current exact resource and source identities from the case setup.
+
+**Actions** Authenticate actual independently defined obligations and all retained current sources → Exercise independent shared, conflicting, encoded and reordered packaged bindings and interrupted publication → Build the current solution, discover every exact guarded-member test UID and execute each one with the existing limits → Require authentic passing guarded positives and rejected wrong-path, sibling, unguarded, deferred and worker callsites.
+
+**Expected** Every exact current native permission case and held-out content control passes with zero skips and zero accepted obligations.
+
+**Evidence** census-controls.json · census-source-proof.json · native-permissions-packaged-controls.json · native-permissions-inputs.json · native-permissions-selection.json · native-permissions-execution.json · result.json.
+
+**Run and reset** G0-content / 65 / owned-source-or-headless-processes. Existing exact case/child deadlines; no extension implied. Use independent invocation-owned directories and leave current source and executable evidence fixed. Use independent invocation-owned directories and leave current source and executable evidence fixed.
+
+### runner.prelaunch
+
+Current Phase 4 review and prelaunch gate. Critical. Running an unreviewed build invalidates all rendered acceptance.
+
+**Setup and input** Current saved case catalog, actual CLI dispatch and isolated evidence fixtures. Current exact resource and source identities from the case setup.
+
+**Actions** Check fixed source and actual-only cases against executable discovery → Reject invalid selection and missing completion evidence → Reject stale or forged review bindings, missing outcomes, later failures, process failures and rewritten history.
+
+**Expected** Every invalid subject fails explicitly and bounded source controls establish zero actual acceptance.
+
+**Evidence** immutable-control.json · runner-controls.json · result.json.
+
+**Run and reset** G0-runner / 300 / owned-source-or-headless-processes. 15 seconds for the nested CLI; source-only fixture evaluation. Preserve existing review, selection and proof files. Preserve existing review, selection and proof files.
+
+### heldout.H01
+
+H01: Same-named donors in different owning files/types and explicitly shared outputs retain the right source/output identities; AC-02/03/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H01 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H01: Same-named donors in different owning files/types and explicitly shared outputs retain the right source/output identities; AC-02/03/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1000 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H02
+
+H02: A selected output with missing origin, identity, recipe or required evidence cannot obtain completed provenance; AC-03/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H02 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H02: A selected output with missing origin, identity, recipe or required evidence cannot obtain completed provenance; AC-03/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1001 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H03
+
+H03: Case/encoding variants cannot silently alias stable IDs/source locators or portable paths; AC-02/03/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H03 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H03: Case/encoding variants cannot silently alias stable IDs/source locators or portable paths; AC-02/03/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1002 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H04
+
+H04: Reordering donor/manifest enumeration preserves exact output-to-origin resolution; AC-02/03/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H04 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H04: Reordering donor/manifest enumeration preserves exact output-to-origin resolution; AC-02/03/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1003 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H05
+
+H05: Interrupted/competing production work preserves originals and cannot publish unvalidated output as verified; AC-02/03/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H05 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H05: Interrupted/competing production work preserves originals and cannot publish unvalidated output as verified; AC-02/03/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1004 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H06
+
+H06: A missing unique obligation remains a failure even when duplicate rows inflate the apparent total to 180; AC-01/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H06 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H06: A missing unique obligation remains a failure even when duplicate rows inflate the apparent total to 180; AC-01/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1005 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H07
+
+H07: Explicitly shared files may satisfy several obligations without collapsing distinct item/resource identities; AC-01/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H07 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H07: Explicitly shared files may satisfy several obligations without collapsing distinct item/resource identities; AC-01/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1006 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H08
+
+H08: Empty/partial packs and absent or empty required output dependencies cannot count as completed coverage; AC-01/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H08 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H08: Empty/partial packs and absent or empty required output dependencies cannot count as completed coverage; AC-01/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1007 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H09
+
+H09: Shuffling resource/mapping order preserves the actual covered-ID set and completeness result; AC-01/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H09 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H09: Shuffling resource/mapping order preserves the actual covered-ID set and completeness result; AC-01/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1008 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H10
+
+H10: Unique integer obligation coverage is exact; percentages, duplicate files or rounding cannot certify an incomplete pack; AC-01/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H10 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H10: Unique integer obligation coverage is exact; percentages, duplicate files or rounding cannot certify an incomplete pack; AC-01/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1009 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H11
+
+H11: Output generation/import interrupted partway through remains visibly incomplete rather than gaining metadata-only coverage; AC-01/16/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H11 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H11: Output generation/import interrupted partway through remains visibly incomplete rather than gaining metadata-only coverage; AC-01/16/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1010 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H12
+
+H12: Empty/last-arrow and broken/usable transitions, required tier/guard counts and persistent-corpse boundaries preserve the intended presentation; AC-06/07/08/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H12 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H12: Empty/last-arrow and broken/usable transitions, required tier/guard counts and persistent-corpse boundaries preserve the intended presentation; AC-06/07/08/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1011 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H13
+
+H13: Overlapping coat/armor/belt/bag/hand layers and nearby bodies keep required gear and target identity readable; AC-05/07/18/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H13 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H13: Overlapping coat/armor/belt/bag/hand layers and nearby bodies keep required gear and target identity readable; AC-05/07/18/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1012 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H14
+
+H14: Empty hands/ammunition/slots, empty versus nonempty corpses and the structural-guard exception do not invent equipment or loot; AC-06/07/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H14 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H14: Empty hands/ammunition/slots, empty versus nonempty corpses and the structural-guard exception do not invent equipment or loot; AC-06/07/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1013 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H15
+
+H15: Facing/action/gear order changes retain correct final equipment, occlusion and logical hand identity; AC-04/05/06/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H15 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H15: Facing/action/gear order changes retain correct final equipment, occlusion and logical hand identity; AC-04/05/06/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1014 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H16
+
+H16: Donor pixel registration, offsets, nonuniform frame timing, held/repeated frames and loop/endpoints survive conversion/composition; AC-03/04/05/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H16 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H16: Donor pixel registration, offsets, nonuniform frame timing, held/repeated frames and loop/endpoints survive conversion/composition; AC-03/04/05/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1015 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H17
+
+H17: Repeated preview reset/state restoration leaves one current composition/loop/corpse state without replaying past one-shots; AC-04/07/14/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H17 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H17: Repeated preview reset/state restoration leaves one current composition/loop/corpse state without replaying past one-shots; AC-04/07/14/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1016 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H18
+
+H18: Mid-action body/gear changes immediately clear replaced visuals, permit a clean restart and retain concurrent walking/combat presentation; AC-04/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H18 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H18: Mid-action body/gear changes immediately clear replaced visuals, permit a clean restart and retain concurrent walking/combat presentation; AC-04/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1017 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H19
+
+H19: Supported resolution/UI-scale endpoints, expanded text and configured sound limits remain inspectable; AC-11/12/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H19 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H19: Supported resolution/UI-scale endpoints, expanded text and configured sound limits remain inspectable; AC-11/12/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1018 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H20
+
+H20: Equal labels/values and touching/overlapping UI or legacy-grid regions do not merge identities or hide critical warning/state information; AC-10/11/14/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H20 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H20: Equal labels/values and touching/overlapping UI or legacy-grid regions do not merge identities or hide critical warning/state information; AC-10/11/14/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1019 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H21
+
+H21: Empty/zero-result examples and missing/invalid text, audio or data refs show the right state/diagnostic without a false resource pass; AC-10/11/12/13/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H21 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H21: Empty/zero-result examples and missing/invalid text, audio or data refs show the right state/diagnostic without a false resource pass; AC-10/11/12/13/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1020 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H22
+
+H22: Catalog encoding, exact IDs/placeholders, accented names/font fallback and longer strings remain readable without corrupting text identity; AC-11/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H22 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H22: Catalog encoding, exact IDs/placeholders, accented names/font fallback and longer strings remain readable without corrupting text identity; AC-11/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1021 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H23
+
+H23: Reordered data/definitions retain bindings and quantities; warning layers and four-player identities remain correct across UI state examples; AC-10/11/13/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H23 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H23: Reordered data/definitions retain bindings and quantities; warning layers and four-player identities remain correct across UI state examples; AC-10/11/13/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1022 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H24
+
+H24: Display scaling, formatting and media conversion do not silently change authored units/defaults, quantities, timing or sound metadata; AC-03/11/12/13/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H24 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H24: Display scaling, formatting and media conversion do not silently change authored units/defaults, quantities, timing or sound metadata; AC-03/11/12/13/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1023 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H25
+
+H25: Repeated UI/audio/current-state example restoration does not accumulate ambience loops or replay old transactional/death/warning cues; AC-12/14/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H25 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H25: Repeated UI/audio/current-state example restoration does not accumulate ambience loops or replay old transactional/death/warning cues; AC-12/14/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1024 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H26
+
+H26: Rapid view/audition/state changes leave correct bindings/current loops and visible muted warnings, without requiring later gameplay interactions; AC-10/12/14/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H26 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H26: Rapid view/audition/state changes leave correct bindings/current loops and visible muted warnings, without requiring later gameplay interactions; AC-10/12/14/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1025 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H33
+
+H33 (manual): Re-export/re-import preserves stable selected-output identities without duplicate provenance records; AC-03/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H33 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H33 (manual): Re-export/re-import preserves stable selected-output identities without duplicate provenance records; AC-03/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1026 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H34
+
+H34 (manual): Recomputing or regenerating coverage cannot count one obligation twice or change completeness solely through repetition; AC-01/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H34 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H34 (manual): Recomputing or regenerating coverage cannot count one obligation twice or change completeness solely through repetition; AC-01/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1027 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.HUB-NAV.loading
+
+HUB-NAV loading backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. HUB-NAV / loading · Current native preview for the named surface.
+
+**Actions** Navigate to HUB-NAV using physical keyboard or mouse → Exercise its declared loading state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1028 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.HUB-NAV.error
+
+HUB-NAV error backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. HUB-NAV / error · Current native preview for the named surface.
+
+**Actions** Navigate to HUB-NAV using physical keyboard or mouse → Exercise its declared error state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown when the load or submit fails (message, retry affordance, partial fallback)?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1029 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.HUB-NAV.overflow
+
+HUB-NAV overflow backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. HUB-NAV / overflow · Current native preview for the named surface.
+
+**Actions** Navigate to HUB-NAV using physical keyboard or mouse → Exercise its declared overflow state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What happens when content exceeds its container — scroll, clip, wrap, or truncate?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1030 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.HUB-NAV.long-text
+
+HUB-NAV long-text backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. HUB-NAV / long-text · Current native preview for the named surface.
+
+**Actions** Navigate to HUB-NAV using physical keyboard or mouse → Exercise its declared long-text state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1031 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.HUB-REGISTER.empty
+
+HUB-REGISTER empty backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. HUB-REGISTER / empty · Current native preview for the named surface.
+
+**Actions** Navigate to HUB-REGISTER using physical keyboard or mouse → Exercise its declared empty state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown when there is no data — zero items, an unfilled form, or absent media?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1032 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.HUB-REGISTER.loading
+
+HUB-REGISTER loading backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. HUB-REGISTER / loading · Current native preview for the named surface.
+
+**Actions** Navigate to HUB-REGISTER using physical keyboard or mouse → Exercise its declared loading state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1033 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.HUB-REGISTER.error
+
+HUB-REGISTER error backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. HUB-REGISTER / error · Current native preview for the named surface.
+
+**Actions** Navigate to HUB-REGISTER using physical keyboard or mouse → Exercise its declared error state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown when the load or submit fails (message, retry affordance, partial fallback)?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1034 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.HUB-REGISTER.populated
+
+HUB-REGISTER populated backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. HUB-REGISTER / populated · Current native preview for the named surface.
+
+**Actions** Navigate to HUB-REGISTER using physical keyboard or mouse → Exercise its declared populated state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What does the normal populated (happy-path) state look like at a typical volume of content?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1035 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.HUB-REGISTER.partial
+
+HUB-REGISTER partial backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. HUB-REGISTER / partial · Current native preview for the named surface.
+
+**Actions** Navigate to HUB-REGISTER using physical keyboard or mouse → Exercise its declared partial state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown for partial or incomplete data — some fields or rows present, others missing?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1036 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.HUB-REGISTER.overflow
+
+HUB-REGISTER overflow backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. HUB-REGISTER / overflow · Current native preview for the named surface.
+
+**Actions** Navigate to HUB-REGISTER using physical keyboard or mouse → Exercise its declared overflow state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What happens when content exceeds its container — scroll, clip, wrap, or truncate?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1037 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.HUB-REGISTER.zero-one-many
+
+HUB-REGISTER zero-one-many backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. HUB-REGISTER / zero-one-many · Current native preview for the named surface.
+
+**Actions** Navigate to HUB-REGISTER using physical keyboard or mouse → Exercise its declared zero-one-many state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** How does the layout read at zero, one, and many items (singular vs plural copy, spacing)?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1038 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.HUB-REGISTER.long-text
+
+HUB-REGISTER long-text backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. HUB-REGISTER / long-text · Current native preview for the named surface.
+
+**Actions** Navigate to HUB-REGISTER using physical keyboard or mouse → Exercise its declared long-text state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1039 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.CHARACTER-PREVIEW.empty
+
+CHARACTER-PREVIEW empty backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. CHARACTER-PREVIEW / empty · Current native preview for the named surface.
+
+**Actions** Navigate to CHARACTER-PREVIEW using physical keyboard or mouse → Exercise its declared empty state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown when there is no data — zero items, an unfilled form, or absent media?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1040 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.CHARACTER-PREVIEW.loading
+
+CHARACTER-PREVIEW loading backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. CHARACTER-PREVIEW / loading · Current native preview for the named surface.
+
+**Actions** Navigate to CHARACTER-PREVIEW using physical keyboard or mouse → Exercise its declared loading state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1041 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.CHARACTER-PREVIEW.error
+
+CHARACTER-PREVIEW error backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. CHARACTER-PREVIEW / error · Current native preview for the named surface.
+
+**Actions** Navigate to CHARACTER-PREVIEW using physical keyboard or mouse → Exercise its declared error state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown when the load or submit fails (message, retry affordance, partial fallback)?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1042 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.CHARACTER-PREVIEW.populated
+
+CHARACTER-PREVIEW populated backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. CHARACTER-PREVIEW / populated · Current native preview for the named surface.
+
+**Actions** Navigate to CHARACTER-PREVIEW using physical keyboard or mouse → Exercise its declared populated state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What does the normal populated (happy-path) state look like at a typical volume of content?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1043 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.CHARACTER-PREVIEW.partial
+
+CHARACTER-PREVIEW partial backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. CHARACTER-PREVIEW / partial · Current native preview for the named surface.
+
+**Actions** Navigate to CHARACTER-PREVIEW using physical keyboard or mouse → Exercise its declared partial state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown for partial or incomplete data — some fields or rows present, others missing?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1044 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.CHARACTER-PREVIEW.overflow
+
+CHARACTER-PREVIEW overflow backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. CHARACTER-PREVIEW / overflow · Current native preview for the named surface.
+
+**Actions** Navigate to CHARACTER-PREVIEW using physical keyboard or mouse → Exercise its declared overflow state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What happens when content exceeds its container — scroll, clip, wrap, or truncate?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1045 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.CHARACTER-PREVIEW.long-text
+
+CHARACTER-PREVIEW long-text backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. CHARACTER-PREVIEW / long-text · Current native preview for the named surface.
+
+**Actions** Navigate to CHARACTER-PREVIEW using physical keyboard or mouse → Exercise its declared long-text state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1046 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.WORLD-ITEM-PREVIEW.empty
+
+WORLD-ITEM-PREVIEW empty backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. WORLD-ITEM-PREVIEW / empty · Current native preview for the named surface.
+
+**Actions** Navigate to WORLD-ITEM-PREVIEW using physical keyboard or mouse → Exercise its declared empty state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown when there is no data — zero items, an unfilled form, or absent media?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1047 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.WORLD-ITEM-PREVIEW.loading
+
+WORLD-ITEM-PREVIEW loading backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. WORLD-ITEM-PREVIEW / loading · Current native preview for the named surface.
+
+**Actions** Navigate to WORLD-ITEM-PREVIEW using physical keyboard or mouse → Exercise its declared loading state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1048 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.WORLD-ITEM-PREVIEW.error
+
+WORLD-ITEM-PREVIEW error backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. WORLD-ITEM-PREVIEW / error · Current native preview for the named surface.
+
+**Actions** Navigate to WORLD-ITEM-PREVIEW using physical keyboard or mouse → Exercise its declared error state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown when the load or submit fails (message, retry affordance, partial fallback)?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1049 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.WORLD-ITEM-PREVIEW.populated
+
+WORLD-ITEM-PREVIEW populated backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. WORLD-ITEM-PREVIEW / populated · Current native preview for the named surface.
+
+**Actions** Navigate to WORLD-ITEM-PREVIEW using physical keyboard or mouse → Exercise its declared populated state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What does the normal populated (happy-path) state look like at a typical volume of content?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1050 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.WORLD-ITEM-PREVIEW.overflow
+
+WORLD-ITEM-PREVIEW overflow backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. WORLD-ITEM-PREVIEW / overflow · Current native preview for the named surface.
+
+**Actions** Navigate to WORLD-ITEM-PREVIEW using physical keyboard or mouse → Exercise its declared overflow state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What happens when content exceeds its container — scroll, clip, wrap, or truncate?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1051 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.WORLD-ITEM-PREVIEW.long-text
+
+WORLD-ITEM-PREVIEW long-text backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. WORLD-ITEM-PREVIEW / long-text · Current native preview for the named surface.
+
+**Actions** Navigate to WORLD-ITEM-PREVIEW using physical keyboard or mouse → Exercise its declared long-text state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1052 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.UI-COLLECTIONS.empty
+
+UI-COLLECTIONS empty backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. UI-COLLECTIONS / empty · Current native preview for the named surface.
+
+**Actions** Navigate to UI-COLLECTIONS using physical keyboard or mouse → Exercise its declared empty state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown when there is no data — zero items, an unfilled form, or absent media?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1053 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.UI-COLLECTIONS.loading
+
+UI-COLLECTIONS loading backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. UI-COLLECTIONS / loading · Current native preview for the named surface.
+
+**Actions** Navigate to UI-COLLECTIONS using physical keyboard or mouse → Exercise its declared loading state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1054 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.UI-COLLECTIONS.error
+
+UI-COLLECTIONS error backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. UI-COLLECTIONS / error · Current native preview for the named surface.
+
+**Actions** Navigate to UI-COLLECTIONS using physical keyboard or mouse → Exercise its declared error state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown when the load or submit fails (message, retry affordance, partial fallback)?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1055 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.UI-COLLECTIONS.populated
+
+UI-COLLECTIONS populated backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. UI-COLLECTIONS / populated · Current native preview for the named surface.
+
+**Actions** Navigate to UI-COLLECTIONS using physical keyboard or mouse → Exercise its declared populated state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What does the normal populated (happy-path) state look like at a typical volume of content?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1056 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.UI-COLLECTIONS.partial
+
+UI-COLLECTIONS partial backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. UI-COLLECTIONS / partial · Current native preview for the named surface.
+
+**Actions** Navigate to UI-COLLECTIONS using physical keyboard or mouse → Exercise its declared partial state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown for partial or incomplete data — some fields or rows present, others missing?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1057 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.UI-COLLECTIONS.overflow
+
+UI-COLLECTIONS overflow backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. UI-COLLECTIONS / overflow · Current native preview for the named surface.
+
+**Actions** Navigate to UI-COLLECTIONS using physical keyboard or mouse → Exercise its declared overflow state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What happens when content exceeds its container — scroll, clip, wrap, or truncate?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1058 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.UI-COLLECTIONS.zero-one-many
+
+UI-COLLECTIONS zero-one-many backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. UI-COLLECTIONS / zero-one-many · Current native preview for the named surface.
+
+**Actions** Navigate to UI-COLLECTIONS using physical keyboard or mouse → Exercise its declared zero-one-many state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** How does the layout read at zero, one, and many items (singular vs plural copy, spacing)?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1059 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.UI-COLLECTIONS.long-text
+
+UI-COLLECTIONS long-text backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. UI-COLLECTIONS / long-text · Current native preview for the named surface.
+
+**Actions** Navigate to UI-COLLECTIONS using physical keyboard or mouse → Exercise its declared long-text state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1060 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.UI-FORMS-CONTROLS.empty
+
+UI-FORMS-CONTROLS empty backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. UI-FORMS-CONTROLS / empty · Current native preview for the named surface.
+
+**Actions** Navigate to UI-FORMS-CONTROLS using physical keyboard or mouse → Exercise its declared empty state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown when there is no data — zero items, an unfilled form, or absent media?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1061 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.UI-FORMS-CONTROLS.loading
+
+UI-FORMS-CONTROLS loading backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. UI-FORMS-CONTROLS / loading · Current native preview for the named surface.
+
+**Actions** Navigate to UI-FORMS-CONTROLS using physical keyboard or mouse → Exercise its declared loading state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1062 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.UI-FORMS-CONTROLS.error
+
+UI-FORMS-CONTROLS error backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. UI-FORMS-CONTROLS / error · Current native preview for the named surface.
+
+**Actions** Navigate to UI-FORMS-CONTROLS using physical keyboard or mouse → Exercise its declared error state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown when the load or submit fails (message, retry affordance, partial fallback)?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1063 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.UI-FORMS-CONTROLS.partial
+
+UI-FORMS-CONTROLS partial backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. UI-FORMS-CONTROLS / partial · Current native preview for the named surface.
+
+**Actions** Navigate to UI-FORMS-CONTROLS using physical keyboard or mouse → Exercise its declared partial state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown for partial or incomplete data — some fields or rows present, others missing?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1064 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.UI-FORMS-CONTROLS.overflow
+
+UI-FORMS-CONTROLS overflow backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. UI-FORMS-CONTROLS / overflow · Current native preview for the named surface.
+
+**Actions** Navigate to UI-FORMS-CONTROLS using physical keyboard or mouse → Exercise its declared overflow state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What happens when content exceeds its container — scroll, clip, wrap, or truncate?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1065 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.UI-FORMS-CONTROLS.long-text
+
+UI-FORMS-CONTROLS long-text backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. UI-FORMS-CONTROLS / long-text · Current native preview for the named surface.
+
+**Actions** Navigate to UI-FORMS-CONTROLS using physical keyboard or mouse → Exercise its declared long-text state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1066 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.UI-TEXT-STATUS.empty
+
+UI-TEXT-STATUS empty backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. UI-TEXT-STATUS / empty · Current native preview for the named surface.
+
+**Actions** Navigate to UI-TEXT-STATUS using physical keyboard or mouse → Exercise its declared empty state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown when there is no data — zero items, an unfilled form, or absent media?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1067 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.UI-TEXT-STATUS.loading
+
+UI-TEXT-STATUS loading backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. UI-TEXT-STATUS / loading · Current native preview for the named surface.
+
+**Actions** Navigate to UI-TEXT-STATUS using physical keyboard or mouse → Exercise its declared loading state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1068 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.UI-TEXT-STATUS.error
+
+UI-TEXT-STATUS error backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. UI-TEXT-STATUS / error · Current native preview for the named surface.
+
+**Actions** Navigate to UI-TEXT-STATUS using physical keyboard or mouse → Exercise its declared error state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown when the load or submit fails (message, retry affordance, partial fallback)?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1069 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.UI-TEXT-STATUS.populated
+
+UI-TEXT-STATUS populated backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. UI-TEXT-STATUS / populated · Current native preview for the named surface.
+
+**Actions** Navigate to UI-TEXT-STATUS using physical keyboard or mouse → Exercise its declared populated state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What does the normal populated (happy-path) state look like at a typical volume of content?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1070 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.UI-TEXT-STATUS.partial
+
+UI-TEXT-STATUS partial backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. UI-TEXT-STATUS / partial · Current native preview for the named surface.
+
+**Actions** Navigate to UI-TEXT-STATUS using physical keyboard or mouse → Exercise its declared partial state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown for partial or incomplete data — some fields or rows present, others missing?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1071 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.UI-TEXT-STATUS.overflow
+
+UI-TEXT-STATUS overflow backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. UI-TEXT-STATUS / overflow · Current native preview for the named surface.
+
+**Actions** Navigate to UI-TEXT-STATUS using physical keyboard or mouse → Exercise its declared overflow state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What happens when content exceeds its container — scroll, clip, wrap, or truncate?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1072 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.UI-TEXT-STATUS.zero-one-many
+
+UI-TEXT-STATUS zero-one-many backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. UI-TEXT-STATUS / zero-one-many · Current native preview for the named surface.
+
+**Actions** Navigate to UI-TEXT-STATUS using physical keyboard or mouse → Exercise its declared zero-one-many state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** How does the layout read at zero, one, and many items (singular vs plural copy, spacing)?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1073 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.UI-TEXT-STATUS.long-text
+
+UI-TEXT-STATUS long-text backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. UI-TEXT-STATUS / long-text · Current native preview for the named surface.
+
+**Actions** Navigate to UI-TEXT-STATUS using physical keyboard or mouse → Exercise its declared long-text state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1074 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.DATA-TEXT-INSPECTOR.empty
+
+DATA-TEXT-INSPECTOR empty backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. DATA-TEXT-INSPECTOR / empty · Current native preview for the named surface.
+
+**Actions** Navigate to DATA-TEXT-INSPECTOR using physical keyboard or mouse → Exercise its declared empty state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown when there is no data — zero items, an unfilled form, or absent media?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1075 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.DATA-TEXT-INSPECTOR.loading
+
+DATA-TEXT-INSPECTOR loading backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. DATA-TEXT-INSPECTOR / loading · Current native preview for the named surface.
+
+**Actions** Navigate to DATA-TEXT-INSPECTOR using physical keyboard or mouse → Exercise its declared loading state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1076 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.DATA-TEXT-INSPECTOR.error
+
+DATA-TEXT-INSPECTOR error backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. DATA-TEXT-INSPECTOR / error · Current native preview for the named surface.
+
+**Actions** Navigate to DATA-TEXT-INSPECTOR using physical keyboard or mouse → Exercise its declared error state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown when the load or submit fails (message, retry affordance, partial fallback)?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1077 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.DATA-TEXT-INSPECTOR.populated
+
+DATA-TEXT-INSPECTOR populated backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. DATA-TEXT-INSPECTOR / populated · Current native preview for the named surface.
+
+**Actions** Navigate to DATA-TEXT-INSPECTOR using physical keyboard or mouse → Exercise its declared populated state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What does the normal populated (happy-path) state look like at a typical volume of content?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1078 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.DATA-TEXT-INSPECTOR.partial
+
+DATA-TEXT-INSPECTOR partial backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. DATA-TEXT-INSPECTOR / partial · Current native preview for the named surface.
+
+**Actions** Navigate to DATA-TEXT-INSPECTOR using physical keyboard or mouse → Exercise its declared partial state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown for partial or incomplete data — some fields or rows present, others missing?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1079 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.DATA-TEXT-INSPECTOR.overflow
+
+DATA-TEXT-INSPECTOR overflow backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. DATA-TEXT-INSPECTOR / overflow · Current native preview for the named surface.
+
+**Actions** Navigate to DATA-TEXT-INSPECTOR using physical keyboard or mouse → Exercise its declared overflow state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What happens when content exceeds its container — scroll, clip, wrap, or truncate?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1080 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.DATA-TEXT-INSPECTOR.zero-one-many
+
+DATA-TEXT-INSPECTOR zero-one-many backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. DATA-TEXT-INSPECTOR / zero-one-many · Current native preview for the named surface.
+
+**Actions** Navigate to DATA-TEXT-INSPECTOR using physical keyboard or mouse → Exercise its declared zero-one-many state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** How does the layout read at zero, one, and many items (singular vs plural copy, spacing)?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1081 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.DATA-TEXT-INSPECTOR.long-text
+
+DATA-TEXT-INSPECTOR long-text backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. DATA-TEXT-INSPECTOR / long-text · Current native preview for the named surface.
+
+**Actions** Navigate to DATA-TEXT-INSPECTOR using physical keyboard or mouse → Exercise its declared long-text state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1082 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.AUDIO-AUDITION.empty
+
+AUDIO-AUDITION empty backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. AUDIO-AUDITION / empty · Current native preview for the named surface.
+
+**Actions** Navigate to AUDIO-AUDITION using physical keyboard or mouse → Exercise its declared empty state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown when there is no data — zero items, an unfilled form, or absent media?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1083 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.AUDIO-AUDITION.loading
+
+AUDIO-AUDITION loading backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. AUDIO-AUDITION / loading · Current native preview for the named surface.
+
+**Actions** Navigate to AUDIO-AUDITION using physical keyboard or mouse → Exercise its declared loading state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1084 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.AUDIO-AUDITION.error
+
+AUDIO-AUDITION error backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. AUDIO-AUDITION / error · Current native preview for the named surface.
+
+**Actions** Navigate to AUDIO-AUDITION using physical keyboard or mouse → Exercise its declared error state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown when the load or submit fails (message, retry affordance, partial fallback)?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1085 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.AUDIO-AUDITION.populated
+
+AUDIO-AUDITION populated backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. AUDIO-AUDITION / populated · Current native preview for the named surface.
+
+**Actions** Navigate to AUDIO-AUDITION using physical keyboard or mouse → Exercise its declared populated state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What does the normal populated (happy-path) state look like at a typical volume of content?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1086 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.AUDIO-AUDITION.partial
+
+AUDIO-AUDITION partial backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. AUDIO-AUDITION / partial · Current native preview for the named surface.
+
+**Actions** Navigate to AUDIO-AUDITION using physical keyboard or mouse → Exercise its declared partial state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown for partial or incomplete data — some fields or rows present, others missing?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1087 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.AUDIO-AUDITION.overflow
+
+AUDIO-AUDITION overflow backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. AUDIO-AUDITION / overflow · Current native preview for the named surface.
+
+**Actions** Navigate to AUDIO-AUDITION using physical keyboard or mouse → Exercise its declared overflow state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What happens when content exceeds its container — scroll, clip, wrap, or truncate?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1088 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.AUDIO-AUDITION.zero-one-many
+
+AUDIO-AUDITION zero-one-many backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. AUDIO-AUDITION / zero-one-many · Current native preview for the named surface.
+
+**Actions** Navigate to AUDIO-AUDITION using physical keyboard or mouse → Exercise its declared zero-one-many state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** How does the layout read at zero, one, and many items (singular vs plural copy, spacing)?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1089 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.AUDIO-AUDITION.long-text
+
+AUDIO-AUDITION long-text backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. AUDIO-AUDITION / long-text · Current native preview for the named surface.
+
+**Actions** Navigate to AUDIO-AUDITION using physical keyboard or mouse → Exercise its declared long-text state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1090 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.UI-FIXTURE-PREVIEW.empty
+
+UI-FIXTURE-PREVIEW empty backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. UI-FIXTURE-PREVIEW / empty · Current native preview for the named surface.
+
+**Actions** Navigate to UI-FIXTURE-PREVIEW using physical keyboard or mouse → Exercise its declared empty state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown when there is no data — zero items, an unfilled form, or absent media?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1091 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.UI-FIXTURE-PREVIEW.loading
+
+UI-FIXTURE-PREVIEW loading backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. UI-FIXTURE-PREVIEW / loading · Current native preview for the named surface.
+
+**Actions** Navigate to UI-FIXTURE-PREVIEW using physical keyboard or mouse → Exercise its declared loading state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1092 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.UI-FIXTURE-PREVIEW.error
+
+UI-FIXTURE-PREVIEW error backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. UI-FIXTURE-PREVIEW / error · Current native preview for the named surface.
+
+**Actions** Navigate to UI-FIXTURE-PREVIEW using physical keyboard or mouse → Exercise its declared error state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown when the load or submit fails (message, retry affordance, partial fallback)?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1093 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.UI-FIXTURE-PREVIEW.populated
+
+UI-FIXTURE-PREVIEW populated backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. UI-FIXTURE-PREVIEW / populated · Current native preview for the named surface.
+
+**Actions** Navigate to UI-FIXTURE-PREVIEW using physical keyboard or mouse → Exercise its declared populated state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What does the normal populated (happy-path) state look like at a typical volume of content?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1094 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.UI-FIXTURE-PREVIEW.partial
+
+UI-FIXTURE-PREVIEW partial backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. UI-FIXTURE-PREVIEW / partial · Current native preview for the named surface.
+
+**Actions** Navigate to UI-FIXTURE-PREVIEW using physical keyboard or mouse → Exercise its declared partial state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What is shown for partial or incomplete data — some fields or rows present, others missing?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1095 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.UI-FIXTURE-PREVIEW.overflow
+
+UI-FIXTURE-PREVIEW overflow backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. UI-FIXTURE-PREVIEW / overflow · Current native preview for the named surface.
+
+**Actions** Navigate to UI-FIXTURE-PREVIEW using physical keyboard or mouse → Exercise its declared overflow state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What happens when content exceeds its container — scroll, clip, wrap, or truncate?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1096 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### UIH.UI-FIXTURE-PREVIEW.long-text
+
+UI-FIXTURE-PREVIEW long-text backstop. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. UI-FIXTURE-PREVIEW / long-text · Current native preview for the named surface.
+
+**Actions** Navigate to UI-FIXTURE-PREVIEW using physical keyboard or mouse → Exercise its declared long-text state → Capture the exact state and its independent readability or diagnostic observation.
+
+**Expected** What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1097 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### rendered.hub-navigation
+
+Current hub controls and exact resource failures. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. Characters, items, buildings/world, UI, data/text and audio category names · Current resource IDs and visible error cases.
+
+**Actions** Exercise the input-driven category nav, explicit resource selection and compact/expanded metadata → Capture the corresponding selected resource and its exact visible diagnostic.
+
+**Expected** Every selected category and exact resource failure remains reachable through current native controls.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1098 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### rendered.audio-audition
+
+Current audio controls and listening handoff. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. Exact selected AU category, sample, source version, loops and mix · Named listener and retained stream/version reference.
+
+**Actions** Navigate to Audio with physical input and exercise ordinary auditions and restoration → Capture current native selection, input and visible controls → Have the named listener record the exact WAV/version and heard verdict.
+
+**Expected** The exact selected cue, loop and mix inputs remain audible and reviewable with independent named file/version verdicts.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G1-hub / 1099 / inspection-hub. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H27
+
+H27: Similar/conflicting resource paths are diagnosed accurately; one bad entry does not conceal independent valid entries; AC-15/16/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H27 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H27: Similar/conflicting resource paths are diagnosed accurately; one bad entry does not conceal independent valid entries; AC-15/16/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G2-packaged / 1000 / packaged-inspection. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H28
+
+H28: An empty or partially missing pack/gallery cannot obtain a successful content result through zero discovery or fallback art; AC-16/17/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H28 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H28: An empty or partially missing pack/gallery cannot obtain a successful content result through zero discovery or fallback art; AC-16/17/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G2-packaged / 1001 / packaged-inspection. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H29
+
+H29: Packaged path/ID spelling and readable exact diagnostics do not depend on development-path aliases or encoding loss; AC-15/16/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H29 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H29: Packaged path/ID spelling and readable exact diagnostics do not depend on development-path aliases or encoding loss; AC-15/16/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G2-packaged / 1002 / packaged-inspection. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H30
+
+H30: Validation/discovery order cannot suppress known resource failures or prevent inspection of unaffected entries; AC-16/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H30 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H30: Validation/discovery order cannot suppress known resource failures or prevent inspection of unaffected entries; AC-16/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G2-packaged / 1003 / packaged-inspection. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H31
+
+H31: Repeated clean launch/close/relaunch uses the same packaged content and does not require hidden donor/editor caches; AC-15/17/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H31 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H31: Repeated clean launch/close/relaunch uses the same packaged content and does not require hidden donor/editor caches; AC-15/17/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G2-packaged / 1004 / packaged-inspection. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### heldout.H32
+
+H32: Partial imports, interrupted checks or failed launch attempts cannot inherit an earlier successful result; unaffected content remains inspectable where the build can run; AC-16/17/19. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. An independently selected case-specific input outside the happy-path presets · Exact observed combination and current file/resource IDs.
+
+**Actions** Declare the independent H32 stimulus and expected checkpoints in the selected run → Apply the exact case stimulus and exercise the relevant authored native control → Capture the individual observed outcome against this held-out intent.
+
+**Expected** H32: Partial imports, interrupted checks or failed launch attempts cannot inherit an earlier successful result; unaffected content remains inspectable where the build can run; AC-16/17/19.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G2-packaged / 1005 / packaged-inspection. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
+
+### rendered.packaged-relaunch
+
+Actual Windows package relaunch and clean exit. High. Missing or misleading resource evidence prevents completion of the corresponding required scenario.
+
+**Setup and input** Complete current Phase 4 implementation and independent review. Use the saved Windows 1280×720 selection on the reviewed build. Exact current export identity and bounded run-owned package location · Donor-free and editor-cache-free environment.
+
+**Actions** Launch and inspect current packaged content → Close through the ordinary window control → Launch the same package again, inspect current resources and close.
+
+**Expected** Both ordinary launches run the exact current exported product with reachable resources, exit normally and leave no children.
+
+**Evidence** Invocation-bound input acknowledgement · Read-only native post-draw observation · Decoded 1280×720 PNG with same observation identity · Individual case outcome with expected and observed details.
+
+**Run and reset** G2-packaged / 1006 / packaged-inspection. 12 seconds per input or observation; 15 seconds to quit normally; compatible group uses the exact predeclared bound. Return through the ordinary navigation or transport controls; restore the authored baseline before the next independent scenario. Release held input, request normal close, and require exited owned game and helper processes.
