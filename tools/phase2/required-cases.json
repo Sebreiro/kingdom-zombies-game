@@ -40,7 +40,7 @@
         "catalog": "tools/phase2/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "EXACT_PRODUCTION_EVENT_GUARD",
-        "repositorySha256": "88a43c7a3497a11113bc687f1b42a31cffe7d1d3621ec5b7b75590c5f146e9b9",
+        "repositorySha256": "3fa9455f4150b14beaeae2291d6057cad2aea285195991a6b16d02f0061d8d25",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 3636000,
@@ -477,7 +477,7 @@
             "action": "producer",
             "sourceCaseId": "engine.generated-origin",
             "sourceStageId": "origin-cohort-3",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "rowIds": [
               "KZ-EX-INSPECTION23-SPAN-001",
               "KZ-EX-INSPECTION23-SPAN-002",
@@ -971,7 +971,7 @@
             "action": "producer",
             "sourceCaseId": "engine.generated-boundary",
             "sourceStageId": "boundary-spans-cohort-3",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "rowIds": [
               "KZ-EX-INSPECTION23-SPAN-001",
               "KZ-EX-INSPECTION23-SPAN-002",
@@ -1145,7 +1145,7 @@
             "action": "producer",
             "sourceCaseId": "engine.generated-boundary",
             "sourceStageId": "boundary-calls-cohort-5",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "rowIds": [
               "KZ-EX-INSPECTION23-CALLS-1",
               "KZ-EX-INSPECTION23-CALLS-2",
@@ -1170,7 +1170,7 @@
             "action": "producer",
             "sourceCaseId": "engine.generated-boundary",
             "sourceStageId": "boundary-inventory-missing-observations",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "rowIds": []
           },
           {
@@ -1178,7 +1178,7 @@
             "action": "producer",
             "sourceCaseId": "engine.generated-boundary",
             "sourceStageId": "boundary-inventory-extra-row",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "rowIds": []
           },
           {
@@ -1186,7 +1186,7 @@
             "action": "producer",
             "sourceCaseId": "engine.generated-boundary",
             "sourceStageId": "boundary-inventory-sha256",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "rowIds": []
           },
           {
@@ -1194,7 +1194,7 @@
             "action": "producer",
             "sourceCaseId": "engine.generated-boundary",
             "sourceStageId": "boundary-inventory-packageSha256",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "rowIds": []
           },
           {
@@ -1202,7 +1202,7 @@
             "action": "producer",
             "sourceCaseId": "engine.generated-boundary",
             "sourceStageId": "boundary-inventory-surface",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "rowIds": []
           },
           {
@@ -1210,7 +1210,7 @@
             "action": "producer",
             "sourceCaseId": "engine.generated-boundary",
             "sourceStageId": "boundary-inventory-member",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "rowIds": []
           },
           {
@@ -1218,7 +1218,7 @@
             "action": "producer",
             "sourceCaseId": "engine.generated-boundary",
             "sourceStageId": "boundary-inventory-diagnostic",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "rowIds": []
           },
           {
@@ -1226,7 +1226,7 @@
             "action": "producer",
             "sourceCaseId": "engine.generated-boundary",
             "sourceStageId": "boundary-inventory-line",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "rowIds": []
           },
           {
@@ -1234,7 +1234,7 @@
             "action": "producer",
             "sourceCaseId": "engine.generated-boundary",
             "sourceStageId": "boundary-inventory-column",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "rowIds": []
           },
           {
@@ -1242,7 +1242,7 @@
             "action": "producer",
             "sourceCaseId": "engine.generated-boundary",
             "sourceStageId": "boundary-inventory-length",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "rowIds": []
           },
           {
@@ -1250,7 +1250,7 @@
             "action": "producer",
             "sourceCaseId": "engine.generated-boundary",
             "sourceStageId": "boundary-inventory-missing-row",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "rowIds": []
           },
           {
@@ -1258,7 +1258,7 @@
             "action": "producer",
             "sourceCaseId": "engine.generated-boundary",
             "sourceStageId": "boundary-inventory-source-input",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "rowIds": []
           },
           {
@@ -1266,7 +1266,7 @@
             "action": "producer",
             "sourceCaseId": "engine.generated-boundary",
             "sourceStageId": "boundary-inventory-missing-source",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "rowIds": []
           },
           {
@@ -1274,7 +1274,7 @@
             "action": "producer",
             "sourceCaseId": "engine.generated-boundary",
             "sourceStageId": "boundary-inventory-package",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "rowIds": []
           },
           {
@@ -1282,7 +1282,7 @@
             "action": "producer",
             "sourceCaseId": "engine.generated-boundary",
             "sourceStageId": "boundary-inventory-missing-package",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "rowIds": []
           },
           {
@@ -1290,7 +1290,7 @@
             "action": "producer",
             "sourceCaseId": "engine.generated-boundary",
             "sourceStageId": "boundary-inventory-borrowed-row",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "rowIds": []
           },
           {
@@ -1298,7 +1298,7 @@
             "action": "producer",
             "sourceCaseId": "engine.generated-boundary",
             "sourceStageId": "boundary-inventory-wrong-case",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "rowIds": []
           },
           {
@@ -1450,7 +1450,7 @@
             "action": "producer",
             "sourceCaseId": "engine.generated-boundary",
             "sourceStageId": "boundary-extra-call",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "rowIds": []
           },
           {
@@ -1557,7 +1557,7 @@
           {
             "id": "foundation-godot-calls-5",
             "action": "godot-cohort",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "rowIds": [
               "KZ-EX-INSPECTION23-CALLS-1",
               "KZ-EX-INSPECTION23-CALLS-2",

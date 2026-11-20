@@ -3314,7 +3314,7 @@
             "owners": [
               "src/godot-game/KingdomZombies.csproj"
             ],
-            "sha256": "d85019e658cfc2e4d003a164db8e06bd9e82e235614e205135db599e426c1441"
+            "sha256": "746e172d6106a6eb88bdb4b1a394f7e1cd1463632ab1323ba781fd7245fb0243"
           },
           {
             "path": "src/godot-game/inspection/CorpsePreview.cs",
@@ -3374,7 +3374,7 @@
             "owners": [
               "src/godot-game/KingdomZombies.csproj"
             ],
-            "sha256": "9004522edf4609ba3ae71d9a250e16342526e8cb1cf26fa7f78286df3a687093"
+            "sha256": "a5608a5297982747b5875882c3529af442e3336cdfb65a52535af74bed70b4eb"
           },
           {
             "path": "src/godot-game/inspection/InspectionShell.cs",
@@ -4004,7 +4004,7 @@
             "owners": [
               "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "4ee53cc5b2d6cda71155566c6cca12c221085e2be497ed78be0c91deed7a91e4"
+            "sha256": "cf40d33a89ace6e4cceb4553d0e0f28bb384a948685e8d09947dd3379f923367"
           },
           {
             "path": "tests/phase1/ExemptionValidator.cs",
@@ -4012,7 +4012,7 @@
             "owners": [
               "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "747a0fdcd6547444650535437091936e1d8d95ad235e2d54b0e8bb925f530d6f"
+            "sha256": "3e2f07233a80bc0e1d751795dc9fee269506c39e4eb1c3b0f91386e992ac4f10"
           },
           {
             "path": "tests/phase1/FoundationCapturePublicationTests.cs",
@@ -5221,15 +5221,15 @@
             "sha256": null
           }
         ],
-        "sourceSetSha256": "0b110e53dd29a813380e2230a0c7d9a7ee98df82c6ff14f268e385a495436d8f",
+        "sourceSetSha256": "54820969439fd4fede5f76d6ee20ef697c1d36716a8a5ddfd04875701b3adc79",
         "bindings": [
           {
             "path": "docs/code/generated-callsite-adaptations.json",
-            "sha256": "674334fab621f2ab32a6c00d3a9e4e494881662cbdd6b1441923965450ed0ae4"
+            "sha256": "bb65b978b696ad5d1cb56762d167856c5bcc1ec0eb22c051ca73f5f45c6d4140"
           },
           {
             "path": "docs/code/engine-generated-spans.json",
-            "sha256": "487d2f1001438bf7d611003f6163d1771cbec2dfee6192bc70a7f032c544ce6e"
+            "sha256": "a846c42333c3cb0bbefe4f443c3d2abf79e74884923b18942df4c20fd24a42fd"
           },
           {
             "path": "docs/code/generated-layout-adaptations.json",
@@ -5367,7 +5367,7 @@
             "observationsSha256": "ae4e2c92aa344cc9536b143e5fc5a942db411a420d34112f2cee94d2ad2a99cb"
           },
           {
-            "id": "inspection23-final-547b2407c690",
+            "id": "inspection23-final-d02510be98e7",
             "rowIds": [
               "KZ-EX-INSPECTION23-CALLS-1",
               "KZ-EX-INSPECTION23-CALLS-2",
@@ -5378,8 +5378,8 @@
               "KZ-EX-INSPECTION23-CALLS-7",
               "KZ-EX-INSPECTION23-CALLS-8"
             ],
-            "sourceInputsSha256": "547b2407c6909cc76990abeed206a4b3d55ebd1d755d93faae45ec69e71b1b4f",
-            "observationsSha256": "96deac2a0cbe21c8fec7ec19fb5b4e79644ae2b56defbda3921c95e091a75d5c"
+            "sourceInputsSha256": "d02510be98e77aac485a31eff61636b20d9e1228292c42e25256448b77d43bbc",
+            "observationsSha256": "0fab7149a4b3724002f2d50615c3376e1ab0f0289f7d6e7c6e24bed807c72a0a"
           }
         ],
         "stages": [
@@ -5789,7 +5789,7 @@
           {
             "id": "repository-companion-cohort-5",
             "action": "repository-companion-cohort",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "rowIds": [
               "KZ-EX-INSPECTION23-CALLS-1",
               "KZ-EX-INSPECTION23-CALLS-2",
@@ -8613,7 +8613,7 @@
         "catalog": "tools/phase1/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "EXEMPTIONS_EXACT",
-        "repositorySha256": "88a43c7a3497a11113bc687f1b42a31cffe7d1d3621ec5b7b75590c5f146e9b9",
+        "repositorySha256": "3fa9455f4150b14beaeae2291d6057cad2aea285195991a6b16d02f0061d8d25",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 1044000,
@@ -11856,7 +11856,7 @@
         "catalog": "tools/phase1/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "GODOT_CALLSITE_BOUNDARY_REJECTED",
-        "repositorySha256": "88a43c7a3497a11113bc687f1b42a31cffe7d1d3621ec5b7b75590c5f146e9b9",
+        "repositorySha256": "3fa9455f4150b14beaeae2291d6057cad2aea285195991a6b16d02f0061d8d25",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 612000,
@@ -11941,7 +11941,7 @@
           {
             "id": "godot-calls-5",
             "action": "godot-cohort",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "rowIds": [
               "KZ-EX-INSPECTION23-CALLS-1",
               "KZ-EX-INSPECTION23-CALLS-2",
@@ -16271,7 +16271,7 @@
         "catalog": "tools/phase1/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "GODOT_COMPANION_COMPILED",
-        "repositorySha256": "88a43c7a3497a11113bc687f1b42a31cffe7d1d3621ec5b7b75590c5f146e9b9",
+        "repositorySha256": "3fa9455f4150b14beaeae2291d6057cad2aea285195991a6b16d02f0061d8d25",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 516000,
@@ -16352,7 +16352,7 @@
           {
             "id": "companion-calls-5",
             "action": "companion-positive",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "rowIds": [
               "KZ-EX-INSPECTION23-CALLS-1",
               "KZ-EX-INSPECTION23-CALLS-2",
@@ -16389,7 +16389,7 @@
         "catalog": "tools/phase1/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "GODOT_HANDWRITTEN_SCR0001",
-        "repositorySha256": "88a43c7a3497a11113bc687f1b42a31cffe7d1d3621ec5b7b75590c5f146e9b9",
+        "repositorySha256": "3fa9455f4150b14beaeae2291d6057cad2aea285195991a6b16d02f0061d8d25",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 516000,
@@ -16470,7 +16470,7 @@
           {
             "id": "companion-negative-calls-5",
             "action": "companion-negative",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "rowIds": [
               "KZ-EX-INSPECTION23-CALLS-1",
               "KZ-EX-INSPECTION23-CALLS-2",
@@ -16542,7 +16542,7 @@
         "catalog": "tools/phase1/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "UNREGISTERED_REAL_BUILD_SUPPRESSION",
-        "repositorySha256": "88a43c7a3497a11113bc687f1b42a31cffe7d1d3621ec5b7b75590c5f146e9b9",
+        "repositorySha256": "3fa9455f4150b14beaeae2291d6057cad2aea285195991a6b16d02f0061d8d25",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 1044000,
@@ -17508,7 +17508,7 @@
         "registries": {
           "spans": {
             "path": "docs/code/engine-generated-spans.json",
-            "sha256": "487d2f1001438bf7d611003f6163d1771cbec2dfee6192bc70a7f032c544ce6e",
+            "sha256": "a846c42333c3cb0bbefe4f443c3d2abf79e74884923b18942df4c20fd24a42fd",
             "cohorts": [
               {
                 "id": "phase1-baseline",
@@ -17890,7 +17890,7 @@
                 ]
               },
               {
-                "id": "inspection23-final-547b2407c690",
+                "id": "inspection23-final-d02510be98e7",
                 "rowIds": [
                   "KZ-EX-INSPECTION23-SPAN-001",
                   "KZ-EX-INSPECTION23-SPAN-002",
@@ -17976,7 +17976,7 @@
           },
           "calls": {
             "path": "docs/code/generated-callsite-adaptations.json",
-            "sha256": "674334fab621f2ab32a6c00d3a9e4e494881662cbdd6b1441923965450ed0ae4",
+            "sha256": "bb65b978b696ad5d1cb56762d167856c5bcc1ec0eb22c051ca73f5f45c6d4140",
             "cohorts": [
               {
                 "id": "phase1-baseline-mtp",
@@ -18038,7 +18038,7 @@
                 ]
               },
               {
-                "id": "inspection23-final-547b2407c690",
+                "id": "inspection23-final-d02510be98e7",
                 "rowIds": [
                   "KZ-EX-INSPECTION23-CALLS-1",
                   "KZ-EX-INSPECTION23-CALLS-2",
@@ -18455,7 +18455,7 @@
             "id": "origin-cohort-3",
             "action": "origin",
             "registry": "spans",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "rowIds": [
               "KZ-EX-INSPECTION23-SPAN-001",
               "KZ-EX-INSPECTION23-SPAN-002",
@@ -18569,7 +18569,7 @@
         "registries": {
           "spans": {
             "path": "docs/code/engine-generated-spans.json",
-            "sha256": "487d2f1001438bf7d611003f6163d1771cbec2dfee6192bc70a7f032c544ce6e",
+            "sha256": "a846c42333c3cb0bbefe4f443c3d2abf79e74884923b18942df4c20fd24a42fd",
             "cohorts": [
               {
                 "id": "phase1-baseline",
@@ -18951,7 +18951,7 @@
                 ]
               },
               {
-                "id": "inspection23-final-547b2407c690",
+                "id": "inspection23-final-d02510be98e7",
                 "rowIds": [
                   "KZ-EX-INSPECTION23-SPAN-001",
                   "KZ-EX-INSPECTION23-SPAN-002",
@@ -19037,7 +19037,7 @@
           },
           "calls": {
             "path": "docs/code/generated-callsite-adaptations.json",
-            "sha256": "674334fab621f2ab32a6c00d3a9e4e494881662cbdd6b1441923965450ed0ae4",
+            "sha256": "bb65b978b696ad5d1cb56762d167856c5bcc1ec0eb22c051ca73f5f45c6d4140",
             "cohorts": [
               {
                 "id": "phase1-baseline-mtp",
@@ -19099,7 +19099,7 @@
                 ]
               },
               {
-                "id": "inspection23-final-547b2407c690",
+                "id": "inspection23-final-d02510be98e7",
                 "rowIds": [
                   "KZ-EX-INSPECTION23-CALLS-1",
                   "KZ-EX-INSPECTION23-CALLS-2",
@@ -19512,7 +19512,7 @@
             "id": "boundary-spans-cohort-3",
             "action": "boundary",
             "registry": "spans",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "rowIds": [
               "KZ-EX-INSPECTION23-SPAN-001",
               "KZ-EX-INSPECTION23-SPAN-002",
@@ -19677,7 +19677,7 @@
             "id": "boundary-calls-cohort-5",
             "action": "cohort",
             "registry": "calls",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "rowIds": [
               "KZ-EX-INSPECTION23-CALLS-1",
               "KZ-EX-INSPECTION23-CALLS-2",
@@ -19697,119 +19697,119 @@
             "id": "boundary-inventory-missing-observations",
             "action": "inventory-negative",
             "registry": "spans",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "field": "missing-observations"
           },
           {
             "id": "boundary-inventory-extra-row",
             "action": "inventory-negative",
             "registry": "spans",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "field": "extra-row"
           },
           {
             "id": "boundary-inventory-sha256",
             "action": "inventory-negative",
             "registry": "spans",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "field": "sha256"
           },
           {
             "id": "boundary-inventory-packageSha256",
             "action": "inventory-negative",
             "registry": "spans",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "field": "packageSha256"
           },
           {
             "id": "boundary-inventory-surface",
             "action": "inventory-negative",
             "registry": "spans",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "field": "surface"
           },
           {
             "id": "boundary-inventory-member",
             "action": "inventory-negative",
             "registry": "spans",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "field": "member"
           },
           {
             "id": "boundary-inventory-diagnostic",
             "action": "inventory-negative",
             "registry": "spans",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "field": "diagnostic"
           },
           {
             "id": "boundary-inventory-line",
             "action": "inventory-negative",
             "registry": "spans",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "field": "line"
           },
           {
             "id": "boundary-inventory-column",
             "action": "inventory-negative",
             "registry": "spans",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "field": "column"
           },
           {
             "id": "boundary-inventory-length",
             "action": "inventory-negative",
             "registry": "spans",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "field": "length"
           },
           {
             "id": "boundary-inventory-missing-row",
             "action": "inventory-negative",
             "registry": "spans",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "field": "missing-row"
           },
           {
             "id": "boundary-inventory-source-input",
             "action": "inventory-negative",
             "registry": "spans",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "field": "source-input"
           },
           {
             "id": "boundary-inventory-missing-source",
             "action": "inventory-negative",
             "registry": "spans",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "field": "missing-source"
           },
           {
             "id": "boundary-inventory-package",
             "action": "inventory-negative",
             "registry": "spans",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "field": "package"
           },
           {
             "id": "boundary-inventory-missing-package",
             "action": "inventory-negative",
             "registry": "spans",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "field": "missing-package"
           },
           {
             "id": "boundary-inventory-borrowed-row",
             "action": "inventory-negative",
             "registry": "spans",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "field": "borrowed-row"
           },
           {
             "id": "boundary-inventory-wrong-case",
             "action": "inventory-negative",
             "registry": "spans",
-            "cohort": "inspection23-final-547b2407c690",
+            "cohort": "inspection23-final-d02510be98e7",
             "field": "wrong-case"
           },
           {
@@ -19942,7 +19942,7 @@
             "id": "boundary-extra-call",
             "action": "extra-call",
             "registry": "calls",
-            "cohort": "inspection23-final-547b2407c690"
+            "cohort": "inspection23-final-d02510be98e7"
           },
           {
             "id": "boundary-reproduction-live",
@@ -20831,7 +20831,7 @@
   "uniquenessPolicy": "Reject all duplicate keys, pins, case IDs and candidates, including identical declarations; do not pick a winner.",
   "callerAuthority": {
     "registry": "docs/code/generated-callsite-adaptations.json",
-    "sha256": "674334fab621f2ab32a6c00d3a9e4e494881662cbdd6b1441923965450ed0ae4",
+    "sha256": "bb65b978b696ad5d1cb56762d167856c5bcc1ec0eb22c051ca73f5f45c6d4140",
     "collisionRowIds": [
       "KZ-EX-GODOT-CALLS-1",
       "KZ-EX-GODOT-CALLS-2",

@@ -419,7 +419,7 @@
         "id": "audio.feasibility",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/audio-feasibility.cjs",
-        "moduleSha256": "37b318c8aa69ffd7a82f7deef3a405719240e8930be4e6e5523d566c45c5732d",
+        "moduleSha256": "96c5aa96440dd13bbe9cb8229748b00d960c0baa6df421afd4815d118a0b8309",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -2140,7 +2140,7 @@
         "id": "audio.actions",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/audio.cjs",
-        "moduleSha256": "9264484ef7aa99026ca6137f9c077411065512535d86bbe6211ff7b7a94e565e",
+        "moduleSha256": "7564a3643812a018b5765b106bf50aa2847fc006ec295156705afe1fc2892af9",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -2197,7 +2197,7 @@
         "id": "audio.bank",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/audio.cjs",
-        "moduleSha256": "9264484ef7aa99026ca6137f9c077411065512535d86bbe6211ff7b7a94e565e",
+        "moduleSha256": "7564a3643812a018b5765b106bf50aa2847fc006ec295156705afe1fc2892af9",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -2311,7 +2311,7 @@
         "id": "audio.lifecycle",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/audio.cjs",
-        "moduleSha256": "9264484ef7aa99026ca6137f9c077411065512535d86bbe6211ff7b7a94e565e",
+        "moduleSha256": "7564a3643812a018b5765b106bf50aa2847fc006ec295156705afe1fc2892af9",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -2369,7 +2369,7 @@
         "id": "audio.heldout",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/audio.cjs",
-        "moduleSha256": "9264484ef7aa99026ca6137f9c077411065512535d86bbe6211ff7b7a94e565e",
+        "moduleSha256": "7564a3643812a018b5765b106bf50aa2847fc006ec295156705afe1fc2892af9",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -3330,7 +3330,7 @@
         "id": "text.catalog",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/text-data.cjs",
-        "moduleSha256": "f62cba0218aa30b85c1f3b1c776ac9558d6c7b884b56588a0403f60ae06785f5",
+        "moduleSha256": "65cfc7a0610371eb660cf81731650fcf29066ead6cf4269d0db1d51f2262fa0e",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -3394,7 +3394,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/text-data.cjs",
-        "moduleSha256": "f62cba0218aa30b85c1f3b1c776ac9558d6c7b884b56588a0403f60ae06785f5",
+        "moduleSha256": "65cfc7a0610371eb660cf81731650fcf29066ead6cf4269d0db1d51f2262fa0e",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -3448,7 +3448,7 @@
         "id": "text.support-catalog",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/text-data.cjs",
-        "moduleSha256": "f62cba0218aa30b85c1f3b1c776ac9558d6c7b884b56588a0403f60ae06785f5",
+        "moduleSha256": "65cfc7a0610371eb660cf81731650fcf29066ead6cf4269d0db1d51f2262fa0e",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -3506,7 +3506,7 @@
         "id": "text.support-native",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/text-data.cjs",
-        "moduleSha256": "f62cba0218aa30b85c1f3b1c776ac9558d6c7b884b56588a0403f60ae06785f5",
+        "moduleSha256": "65cfc7a0610371eb660cf81731650fcf29066ead6cf4269d0db1d51f2262fa0e",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -4685,14 +4685,14 @@
           "id": "audio.lifecycle",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio.cjs",
-          "moduleSha256": "9264484ef7aa99026ca6137f9c077411065512535d86bbe6211ff7b7a94e565e",
+          "moduleSha256": "7564a3643812a018b5765b106bf50aa2847fc006ec295156705afe1fc2892af9",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "audio.heldout",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio.cjs",
-          "moduleSha256": "9264484ef7aa99026ca6137f9c077411065512535d86bbe6211ff7b7a94e565e",
+          "moduleSha256": "7564a3643812a018b5765b106bf50aa2847fc006ec295156705afe1fc2892af9",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -4710,14 +4710,14 @@
           "id": "audio.lifecycle",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio.cjs",
-          "moduleSha256": "9264484ef7aa99026ca6137f9c077411065512535d86bbe6211ff7b7a94e565e",
+          "moduleSha256": "7564a3643812a018b5765b106bf50aa2847fc006ec295156705afe1fc2892af9",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "audio.heldout",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio.cjs",
-          "moduleSha256": "9264484ef7aa99026ca6137f9c077411065512535d86bbe6211ff7b7a94e565e",
+          "moduleSha256": "7564a3643812a018b5765b106bf50aa2847fc006ec295156705afe1fc2892af9",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -5546,7 +5546,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/text-data.cjs",
-        "moduleSha256": "f62cba0218aa30b85c1f3b1c776ac9558d6c7b884b56588a0403f60ae06785f5",
+        "moduleSha256": "65cfc7a0610371eb660cf81731650fcf29066ead6cf4269d0db1d51f2262fa0e",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -5562,7 +5562,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/text-data.cjs",
-        "moduleSha256": "f62cba0218aa30b85c1f3b1c776ac9558d6c7b884b56588a0403f60ae06785f5",
+        "moduleSha256": "65cfc7a0610371eb660cf81731650fcf29066ead6cf4269d0db1d51f2262fa0e",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -5578,7 +5578,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/text-data.cjs",
-        "moduleSha256": "f62cba0218aa30b85c1f3b1c776ac9558d6c7b884b56588a0403f60ae06785f5",
+        "moduleSha256": "65cfc7a0610371eb660cf81731650fcf29066ead6cf4269d0db1d51f2262fa0e",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -5594,7 +5594,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/text-data.cjs",
-        "moduleSha256": "f62cba0218aa30b85c1f3b1c776ac9558d6c7b884b56588a0403f60ae06785f5",
+        "moduleSha256": "65cfc7a0610371eb660cf81731650fcf29066ead6cf4269d0db1d51f2262fa0e",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -5610,7 +5610,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/text-data.cjs",
-        "moduleSha256": "f62cba0218aa30b85c1f3b1c776ac9558d6c7b884b56588a0403f60ae06785f5",
+        "moduleSha256": "65cfc7a0610371eb660cf81731650fcf29066ead6cf4269d0db1d51f2262fa0e",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -5626,7 +5626,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/text-data.cjs",
-        "moduleSha256": "f62cba0218aa30b85c1f3b1c776ac9558d6c7b884b56588a0403f60ae06785f5",
+        "moduleSha256": "65cfc7a0610371eb660cf81731650fcf29066ead6cf4269d0db1d51f2262fa0e",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -5642,7 +5642,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/text-data.cjs",
-        "moduleSha256": "f62cba0218aa30b85c1f3b1c776ac9558d6c7b884b56588a0403f60ae06785f5",
+        "moduleSha256": "65cfc7a0610371eb660cf81731650fcf29066ead6cf4269d0db1d51f2262fa0e",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -5658,7 +5658,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/text-data.cjs",
-        "moduleSha256": "f62cba0218aa30b85c1f3b1c776ac9558d6c7b884b56588a0403f60ae06785f5",
+        "moduleSha256": "65cfc7a0610371eb660cf81731650fcf29066ead6cf4269d0db1d51f2262fa0e",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -5674,7 +5674,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/text-data.cjs",
-        "moduleSha256": "f62cba0218aa30b85c1f3b1c776ac9558d6c7b884b56588a0403f60ae06785f5",
+        "moduleSha256": "65cfc7a0610371eb660cf81731650fcf29066ead6cf4269d0db1d51f2262fa0e",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -5690,7 +5690,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/text-data.cjs",
-        "moduleSha256": "f62cba0218aa30b85c1f3b1c776ac9558d6c7b884b56588a0403f60ae06785f5",
+        "moduleSha256": "65cfc7a0610371eb660cf81731650fcf29066ead6cf4269d0db1d51f2262fa0e",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -5706,7 +5706,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/text-data.cjs",
-        "moduleSha256": "f62cba0218aa30b85c1f3b1c776ac9558d6c7b884b56588a0403f60ae06785f5",
+        "moduleSha256": "65cfc7a0610371eb660cf81731650fcf29066ead6cf4269d0db1d51f2262fa0e",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -5722,7 +5722,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/text-data.cjs",
-        "moduleSha256": "f62cba0218aa30b85c1f3b1c776ac9558d6c7b884b56588a0403f60ae06785f5",
+        "moduleSha256": "65cfc7a0610371eb660cf81731650fcf29066ead6cf4269d0db1d51f2262fa0e",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -5738,7 +5738,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/text-data.cjs",
-        "moduleSha256": "f62cba0218aa30b85c1f3b1c776ac9558d6c7b884b56588a0403f60ae06785f5",
+        "moduleSha256": "65cfc7a0610371eb660cf81731650fcf29066ead6cf4269d0db1d51f2262fa0e",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -5754,7 +5754,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/text-data.cjs",
-        "moduleSha256": "f62cba0218aa30b85c1f3b1c776ac9558d6c7b884b56588a0403f60ae06785f5",
+        "moduleSha256": "65cfc7a0610371eb660cf81731650fcf29066ead6cf4269d0db1d51f2262fa0e",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -5770,7 +5770,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/text-data.cjs",
-        "moduleSha256": "f62cba0218aa30b85c1f3b1c776ac9558d6c7b884b56588a0403f60ae06785f5",
+        "moduleSha256": "65cfc7a0610371eb660cf81731650fcf29066ead6cf4269d0db1d51f2262fa0e",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -5786,7 +5786,7 @@
         "id": "text.compatibility",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/text-data.cjs",
-        "moduleSha256": "f62cba0218aa30b85c1f3b1c776ac9558d6c7b884b56588a0403f60ae06785f5",
+        "moduleSha256": "65cfc7a0610371eb660cf81731650fcf29066ead6cf4269d0db1d51f2262fa0e",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -5802,7 +5802,7 @@
         "id": "audio.heldout",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/audio.cjs",
-        "moduleSha256": "9264484ef7aa99026ca6137f9c077411065512535d86bbe6211ff7b7a94e565e",
+        "moduleSha256": "7564a3643812a018b5765b106bf50aa2847fc006ec295156705afe1fc2892af9",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -5818,7 +5818,7 @@
         "id": "audio.heldout",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/audio.cjs",
-        "moduleSha256": "9264484ef7aa99026ca6137f9c077411065512535d86bbe6211ff7b7a94e565e",
+        "moduleSha256": "7564a3643812a018b5765b106bf50aa2847fc006ec295156705afe1fc2892af9",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -5834,7 +5834,7 @@
         "id": "audio.heldout",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/audio.cjs",
-        "moduleSha256": "9264484ef7aa99026ca6137f9c077411065512535d86bbe6211ff7b7a94e565e",
+        "moduleSha256": "7564a3643812a018b5765b106bf50aa2847fc006ec295156705afe1fc2892af9",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -5850,7 +5850,7 @@
         "id": "audio.heldout",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/audio.cjs",
-        "moduleSha256": "9264484ef7aa99026ca6137f9c077411065512535d86bbe6211ff7b7a94e565e",
+        "moduleSha256": "7564a3643812a018b5765b106bf50aa2847fc006ec295156705afe1fc2892af9",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -5866,7 +5866,7 @@
         "id": "audio.heldout",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/audio.cjs",
-        "moduleSha256": "9264484ef7aa99026ca6137f9c077411065512535d86bbe6211ff7b7a94e565e",
+        "moduleSha256": "7564a3643812a018b5765b106bf50aa2847fc006ec295156705afe1fc2892af9",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -5882,7 +5882,7 @@
         "id": "audio.heldout",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/audio.cjs",
-        "moduleSha256": "9264484ef7aa99026ca6137f9c077411065512535d86bbe6211ff7b7a94e565e",
+        "moduleSha256": "7564a3643812a018b5765b106bf50aa2847fc006ec295156705afe1fc2892af9",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -5898,7 +5898,7 @@
         "id": "audio.heldout",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/audio.cjs",
-        "moduleSha256": "9264484ef7aa99026ca6137f9c077411065512535d86bbe6211ff7b7a94e565e",
+        "moduleSha256": "7564a3643812a018b5765b106bf50aa2847fc006ec295156705afe1fc2892af9",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -5914,7 +5914,7 @@
         "id": "audio.heldout",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/audio.cjs",
-        "moduleSha256": "9264484ef7aa99026ca6137f9c077411065512535d86bbe6211ff7b7a94e565e",
+        "moduleSha256": "7564a3643812a018b5765b106bf50aa2847fc006ec295156705afe1fc2892af9",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6141,14 +6141,14 @@
           "id": "audio.actions",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio.cjs",
-          "moduleSha256": "9264484ef7aa99026ca6137f9c077411065512535d86bbe6211ff7b7a94e565e",
+          "moduleSha256": "7564a3643812a018b5765b106bf50aa2847fc006ec295156705afe1fc2892af9",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "audio.bank",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio.cjs",
-          "moduleSha256": "9264484ef7aa99026ca6137f9c077411065512535d86bbe6211ff7b7a94e565e",
+          "moduleSha256": "7564a3643812a018b5765b106bf50aa2847fc006ec295156705afe1fc2892af9",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -6521,14 +6521,14 @@
           "id": "text.catalog",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/text-data.cjs",
-          "moduleSha256": "f62cba0218aa30b85c1f3b1c776ac9558d6c7b884b56588a0403f60ae06785f5",
+          "moduleSha256": "65cfc7a0610371eb660cf81731650fcf29066ead6cf4269d0db1d51f2262fa0e",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "text.compatibility",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/text-data.cjs",
-          "moduleSha256": "f62cba0218aa30b85c1f3b1c776ac9558d6c7b884b56588a0403f60ae06785f5",
+          "moduleSha256": "65cfc7a0610371eb660cf81731650fcf29066ead6cf4269d0db1d51f2262fa0e",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -6551,35 +6551,35 @@
           "id": "audio.feasibility",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio-feasibility.cjs",
-          "moduleSha256": "37b318c8aa69ffd7a82f7deef3a405719240e8930be4e6e5523d566c45c5732d",
+          "moduleSha256": "96c5aa96440dd13bbe9cb8229748b00d960c0baa6df421afd4815d118a0b8309",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "audio.actions",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio.cjs",
-          "moduleSha256": "9264484ef7aa99026ca6137f9c077411065512535d86bbe6211ff7b7a94e565e",
+          "moduleSha256": "7564a3643812a018b5765b106bf50aa2847fc006ec295156705afe1fc2892af9",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "audio.bank",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio.cjs",
-          "moduleSha256": "9264484ef7aa99026ca6137f9c077411065512535d86bbe6211ff7b7a94e565e",
+          "moduleSha256": "7564a3643812a018b5765b106bf50aa2847fc006ec295156705afe1fc2892af9",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "audio.lifecycle",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio.cjs",
-          "moduleSha256": "9264484ef7aa99026ca6137f9c077411065512535d86bbe6211ff7b7a94e565e",
+          "moduleSha256": "7564a3643812a018b5765b106bf50aa2847fc006ec295156705afe1fc2892af9",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "audio.heldout",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio.cjs",
-          "moduleSha256": "9264484ef7aa99026ca6137f9c077411065512535d86bbe6211ff7b7a94e565e",
+          "moduleSha256": "7564a3643812a018b5765b106bf50aa2847fc006ec295156705afe1fc2892af9",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -6637,14 +6637,14 @@
           "id": "text.catalog",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/text-data.cjs",
-          "moduleSha256": "f62cba0218aa30b85c1f3b1c776ac9558d6c7b884b56588a0403f60ae06785f5",
+          "moduleSha256": "65cfc7a0610371eb660cf81731650fcf29066ead6cf4269d0db1d51f2262fa0e",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "text.compatibility",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/text-data.cjs",
-          "moduleSha256": "f62cba0218aa30b85c1f3b1c776ac9558d6c7b884b56588a0403f60ae06785f5",
+          "moduleSha256": "65cfc7a0610371eb660cf81731650fcf29066ead6cf4269d0db1d51f2262fa0e",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -6688,28 +6688,28 @@
           "id": "audio.lifecycle",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio.cjs",
-          "moduleSha256": "9264484ef7aa99026ca6137f9c077411065512535d86bbe6211ff7b7a94e565e",
+          "moduleSha256": "7564a3643812a018b5765b106bf50aa2847fc006ec295156705afe1fc2892af9",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "audio.heldout",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio.cjs",
-          "moduleSha256": "9264484ef7aa99026ca6137f9c077411065512535d86bbe6211ff7b7a94e565e",
+          "moduleSha256": "7564a3643812a018b5765b106bf50aa2847fc006ec295156705afe1fc2892af9",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "text.catalog",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/text-data.cjs",
-          "moduleSha256": "f62cba0218aa30b85c1f3b1c776ac9558d6c7b884b56588a0403f60ae06785f5",
+          "moduleSha256": "65cfc7a0610371eb660cf81731650fcf29066ead6cf4269d0db1d51f2262fa0e",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "text.compatibility",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/text-data.cjs",
-          "moduleSha256": "f62cba0218aa30b85c1f3b1c776ac9558d6c7b884b56588a0403f60ae06785f5",
+          "moduleSha256": "65cfc7a0610371eb660cf81731650fcf29066ead6cf4269d0db1d51f2262fa0e",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -6732,7 +6732,7 @@
           "id": "audio.feasibility",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio-feasibility.cjs",
-          "moduleSha256": "37b318c8aa69ffd7a82f7deef3a405719240e8930be4e6e5523d566c45c5732d",
+          "moduleSha256": "96c5aa96440dd13bbe9cb8229748b00d960c0baa6df421afd4815d118a0b8309",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -6936,14 +6936,14 @@
           "id": "text.catalog",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/text-data.cjs",
-          "moduleSha256": "f62cba0218aa30b85c1f3b1c776ac9558d6c7b884b56588a0403f60ae06785f5",
+          "moduleSha256": "65cfc7a0610371eb660cf81731650fcf29066ead6cf4269d0db1d51f2262fa0e",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "text.compatibility",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/text-data.cjs",
-          "moduleSha256": "f62cba0218aa30b85c1f3b1c776ac9558d6c7b884b56588a0403f60ae06785f5",
+          "moduleSha256": "65cfc7a0610371eb660cf81731650fcf29066ead6cf4269d0db1d51f2262fa0e",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -7727,7 +7727,7 @@
           "id": "audio.feasibility",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio-feasibility.cjs",
-          "moduleSha256": "37b318c8aa69ffd7a82f7deef3a405719240e8930be4e6e5523d566c45c5732d",
+          "moduleSha256": "96c5aa96440dd13bbe9cb8229748b00d960c0baa6df421afd4815d118a0b8309",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -7749,7 +7749,7 @@
           "id": "audio.feasibility",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio-feasibility.cjs",
-          "moduleSha256": "37b318c8aa69ffd7a82f7deef3a405719240e8930be4e6e5523d566c45c5732d",
+          "moduleSha256": "96c5aa96440dd13bbe9cb8229748b00d960c0baa6df421afd4815d118a0b8309",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -8200,21 +8200,21 @@
           "id": "audio.lifecycle",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio.cjs",
-          "moduleSha256": "9264484ef7aa99026ca6137f9c077411065512535d86bbe6211ff7b7a94e565e",
+          "moduleSha256": "7564a3643812a018b5765b106bf50aa2847fc006ec295156705afe1fc2892af9",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "audio.heldout",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio.cjs",
-          "moduleSha256": "9264484ef7aa99026ca6137f9c077411065512535d86bbe6211ff7b7a94e565e",
+          "moduleSha256": "7564a3643812a018b5765b106bf50aa2847fc006ec295156705afe1fc2892af9",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "text.compatibility",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/text-data.cjs",
-          "moduleSha256": "f62cba0218aa30b85c1f3b1c776ac9558d6c7b884b56588a0403f60ae06785f5",
+          "moduleSha256": "65cfc7a0610371eb660cf81731650fcf29066ead6cf4269d0db1d51f2262fa0e",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
