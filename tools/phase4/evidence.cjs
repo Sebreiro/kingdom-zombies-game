@@ -12,6 +12,10 @@ const REVIEW = PHASE + '04-REVIEW.json';
 const SELECTION = PHASE + '04-SELECTION.json';
 const FIXES = PHASE + '04-REVIEW-FIXES.json';
 const TARGETS = 'tools/phase4/reviewed-source.targets';
+const PHASE_BASE = '5428da86b6dc753d43472ea8460acb997d7e15dd';
+const LISTENING = PHASE + '04-LISTENING.json';
+const JUDGMENTS = PHASE + '04-JUDGMENTS.json';
+const COMPLETION = PHASE + '04-COMPLETION.json';
 const IDENTITY = ['revision', 'source', 'media', 'tool', 'build'];
 const HEX = /^[a-f0-9]{64}$/;
 const REVISION = /^[a-f0-9]{40}$/;
@@ -179,7 +183,11 @@ function validateRenderedOutcome(root, row, report) {
     row.processes.length > 0, 'EVIDENCE_RENDERED_MISSING', row.id);
   exact(row.checkpoints.map(item => item.id), row.checkpoints.map(item => item.id), 'checkpoint IDs');
   const processes = row.processes.map(ref => document(root, ref));
-  for (const process of processes) validateProcess(process);
+  for (const process of processes) {
+    validateProcess(process);
+    need(process.startedAt >= report.startedAt && process.finishedAt <= report.finishedAt,'EVIDENCE_PROCESS_TIME',row.id);
+    artifact(root,process.log,8*1024*1024);artifact(root,process.executable);
+  }
   exact(processes.map(process => process.pid), processes.map(process => process.pid), 'rendered process IDs');
   for (const item of row.checkpoints) {
     const draw = document(root, item.draw);
@@ -194,6 +202,16 @@ function validateRenderedOutcome(root, row, report) {
     const image = artifact(root, item.image, 16 * 1024 * 1024);
     need(draw.imageSha256 === image.sha256 && image.path.endsWith('.png'), 'EVIDENCE_DRAW_PNG', row.id);
     require('../phase2/rendered.cjs').decodePng(inside(root, image.path), 1280, 720);
+    need(draw.frameSource==='composited-client-after-DwmFlush' && input.acknowledgement?.pid===draw.pid &&
+      input.acknowledgement.focused===true && input.acknowledgement.width===1280 && input.acknowledgement.height===720 &&
+      input.acknowledgement.action===input.action,'EVIDENCE_PHYSICAL_RECEIPT',row.id);
+    const {decode} = require('./native-observer.cjs');
+    const tree = decode(artifact(root,draw.nativeTree,1048576).data), object = decode(artifact(root,draw.nativeObject,1048576).data);
+    const observation = JSON.parse(draw.observation);
+    const nativeId = require('./scenarios.cjs').treePaths(tree[2]).get(observation.node);
+    need(tree[0]==='scene:scene_tree' && object[0]==='scene:inspect_objects' && tree[1]===object[1] && nativeId &&
+      object[2].find(item => item[0]===nativeId)?.[2]?.some(prop => prop[0]===observation.property && equal(prop[5],observation.value)),
+    'EVIDENCE_NATIVE_PACKET',row.id);
   }
 }
 
@@ -203,11 +221,146 @@ function validateNamed(root, row, kind, expected, current) {
   'EVIDENCE_NAMED_' + kind.toUpperCase(), expected.id);
   identity(current, row, kind + ' ' + row.id);
   for (const file of row.files) artifact(root, file);
-  if (kind === 'listening') {
-    need(named(row.version) && row.version === expected.version && row.sampleSha256 === expected.sampleSha256 &&
-      row.files.some(file => file.sha256 === expected.sampleSha256 && file.path.endsWith('.wav')), 'EVIDENCE_LISTENING_SAMPLE', row.id);
+  if (kind === 'listening' || kind === 'mix') {
+    const wave = row.files.find(file => file.sha256 === row.sampleSha256 && file.path.endsWith('.wav'));
+    need(named(row.version) && row.version === expected.version && wave &&
+      (!expected.sampleSha256 || row.sampleSha256 === expected.sampleSha256), 'EVIDENCE_LISTENING_SAMPLE', row.id);
+    const data = artifact(root,wave,64*1024*1024).data;
+    try {require('./cases/audio-feasibility.cjs').pcm(data);} catch (error) {throw new Error('EVIDENCE_WAV_FORMAT ' + row.id,{cause:error});}
   }
   return row.verdict === 'pass';
+}
+
+function listeningExpectations(root) {
+  const base = 'src/godot-game/content/';
+  const events = document(root,base+'audio/events.json');
+  const samplePacks = ['packs/audio-actions.json','packs/audio-interface-ambience.json'];
+  exact(samplePacks,events.samplePacks,'audio sample packs');
+  const samples = samplePacks.flatMap(file => document(root,base+file).samples);
+  const sampleById = new Map(samples.map(row => [row.id,row]));
+  exact(samples.map(row => row.id),[...sampleById.keys()],'authored sample IDs');
+  const categories = [...new Set(events.events.map(event => event.category))];
+  exact(Array.from({length:30},(_,index) => 'AU-'+String(index+1).padStart(2,'0')),categories,'listening category coverage');
+  const expected = new Map();
+  function assign(id, variant, mode = 'listening') {
+    const sample = sampleById.get(variant);
+    need(sample && HEX.test(sample.sha256) && Number.isSafeInteger(sample.version),'EVIDENCE_AUDIO_AUTHORITY',variant);
+    expected.set(id,{id,kind:mode,version:String(sample.version),sampleSha256:sample.sha256,variant});
+  }
+  for (const event of events.events) {
+    // Routes and the event union are intentionally both checked. Two categories may use the same bytes.
+    for (const id of new Set([...event.variants,...event.routes.flatMap(row => row.variants)])) assign(event.category+'/'+id,id);
+    for (const route of event.routes.filter(row => row.lifecycle.mode === 'current-state-loop')) {
+      for (const id of route.variants) assign(event.category+'/'+route.id+'/'+id,id);
+    }
+  }
+  for (const id of ['D-31','D-32']) expected.set(id,{id,kind:'mix',version:String(events.version)});
+  return [...expected.values()];
+}
+
+function judgmentExpectations(catalog) {
+  const ids = {'P1':'AC-22','P2':'AC-23','P3':'AC-24','P4':'AC-21'};
+  return catalog.judgments.map(row => ({id:row.id,statement:row.statement,criterion:ids[row.id],
+    cases:catalog.acceptance.find(item => item.id === ids[row.id]).actualCases}));
+}
+
+function validateJudgments(root, listening, judgments, current, expectedAudio, expectedJudgments, final) {
+  const outcomeIds = new Set(final.outcomes.filter(row => row.status === 'pass').map(row => row.id));
+  const images = new Map(final.outcomes.map(row => [row.id,(row.checkpoints??[]).map(point => point.image)]));
+  for (const data of [listening,judgments]) {
+    need(data?.schemaVersion === 1 && data.invocation === final.invocation && Array.isArray(data.verdicts),'EVIDENCE_JUDGMENT_SET');
+    identity(current,data,'named evidence index');
+  }
+  exact(expectedAudio.map(row => row.id),listening.verdicts.map(row => row.id),'required listening cases');
+  exact(expectedJudgments.map(row => row.id),judgments.verdicts.map(row => row.id),'required prohibition judgments');
+  for (const expected of expectedAudio) {
+    const row = listening.verdicts.find(item => item.id === expected.id);
+    need(row.method === 'actual-listening' && row.reviewedAt >= final.startedAt &&
+      row.caseId === 'rendered.audio-audition' && outcomeIds.has(row.caseId), 'EVIDENCE_LISTENING_RUN', row.id);
+    need(validateNamed(root,row,expected.kind,expected,current),'EVIDENCE_LISTENING_FAILED',row.id);
+  }
+  for (const expected of expectedJudgments) {
+    const row = judgments.verdicts.find(item => item.id === expected.id);
+    need(row.method === 'actual-named-review' && row.reviewedAt >= final.startedAt && row.statement === expected.statement &&
+      row.criterion === expected.criterion && expected.cases.length > 0,'EVIDENCE_JUDGMENT_RUN',row.id);
+    exact(expected.cases,row.caseIds,row.id+' individual actual checks');
+    for (const caseId of row.caseIds) need(outcomeIds.has(caseId) && images.get(caseId)?.some(image =>
+      row.files?.some(file => equal(image,file))), 'EVIDENCE_JUDGMENT_IMAGE', row.id+' '+caseId);
+    need(validateNamed(root,row,'judgment',expected,current),'EVIDENCE_JUDGMENT_FAILED',row.id);
+  }
+}
+
+function historyDocuments(root, refs, campaign) {
+  need(UUID.test(campaign) && Array.isArray(refs) && refs.length > 0,'EVIDENCE_CAMPAIGN');
+  const reports = refs.map(ref => {
+    const report = document(root,ref);
+    need(ref.path === '.phase4/acceptance/'+report.invocation+'/report.json' && report.campaign === campaign,'EVIDENCE_CAMPAIGN_REPORT',ref.path);
+    return report;
+  });
+  const base = inside(root,'.phase4/acceptance');
+  const recorded = fs.readdirSync(base,{withFileTypes:true}).filter(row => row.isDirectory() && UUID.test(row.name)).flatMap(row => {
+    const relative = '.phase4/acceptance/'+row.name+'/report.json';
+    return fs.existsSync(inside(root,relative)) && document(root,relative).campaign === campaign ? [row.name] : [];
+  });
+  exact(recorded,reports.map(report => report.invocation),'immutable campaign history');
+  return reports;
+}
+
+function validateCoverage(index, expected, receipts) {
+  for (const key of ['obligations','acceptance','heldout','backstops','decisions','judgments']) {
+    const supplied = index[key];
+    need(Array.isArray(supplied) && expected[key].length > 0,'EVIDENCE_COVERAGE',key);
+    exact(expected[key].map(row => row.id),supplied.map(row => row.id),key);
+    for (const row of expected[key]) {
+      const found = supplied.find(item => item.id === row.id);
+      exact(row.cases,found.cases,row.id+' coverage receipts');
+      need(found.cases.length > 0 && found.cases.every(id => receipts.has(id)),'EVIDENCE_COVERAGE_RECEIPT',row.id);
+    }
+  }
+}
+
+function changedFiles(root, revision) {
+  need(REVISION.test(revision),'EVIDENCE_REVISION');
+  git(root,['merge-base','--is-ancestor',PHASE_BASE,revision]);
+  return git(root,['diff','--name-only','--diff-filter=ACMRT','-z',PHASE_BASE,revision]).split('\0').filter(Boolean);
+}
+
+function inventoryExpectation(root, revision, catalog) {
+  const files = changedFiles(root,revision);
+  const exemption = document(root,'docs/code/exemptions.json');
+  const generated = document(root,'docs/code/generated-callsite-adaptations.json');
+  const spans = document(root,'docs/code/engine-generated-spans.json');
+  const tracked = files.filter(file => file.startsWith('production/phase4/') && file.endsWith('.zip'));
+  return {files, cases:catalog.cases.map(row => row.id), archives:tracked,
+    native:[...exemption.local,...generated.local,...spans.local].map(row => row.id).sort()};
+}
+
+function validateArtifactInventory(root, record, expected, sourceAudit, current) {
+  need(record?.schemaVersion === 1 && sourceAudit?.schemaVersion === 1 && Array.isArray(record.files) &&
+    Array.isArray(record.sourceSymbols) && Array.isArray(sourceAudit.sourceSymbols) && Array.isArray(record.archives) &&
+    Array.isArray(sourceAudit.archives) && Array.isArray(record.caseExports) && Array.isArray(record.nativePermits),'EVIDENCE_INVENTORY');
+  identity(current,record,'artifact inventory');identity(current,sourceAudit,'independent resource and symbol audit');
+  exact(expected.files,record.files.map(row => row.path),'changed tracked artifacts');
+  exact(expected.cases,record.caseExports,'registered case exports');
+  exact(expected.native,record.nativePermits,'native permission tuples');
+  exact(expected.archives,record.archives.map(row => row.path),'retained source archive paths');
+  for (const ref of record.files) artifact(root,ref);
+  const signature = row => [row.path,row.member,row.signature].join('\0');
+  exact(sourceAudit.sourceSymbols.map(signature),record.sourceSymbols.map(signature),'exact emitted source and compiled symbols');
+  const code = expected.files.filter(file => /\.(cs|cjs|py|ps1)$/.test(file));
+  const currentSymbols = new Set(record.sourceSymbols.map(row => row.path));
+  for (const file of code) need(currentSymbols.has(file),'EVIDENCE_SYMBOL_FILE_MISSING',file);
+  for (const row of record.sourceSymbols) {
+    need(expected.files.includes(row.path) && named(row.member) && named(row.signature) &&
+      Number.isSafeInteger(row.line) && row.line > 0 && named(row.sourceLine),'EVIDENCE_SYMBOL',row.path);
+    const source = read(root,row.path).data.toString('utf8').split(/\r?\n/);
+    need(source[row.line-1]?.trim() === row.sourceLine && row.sourceLine.includes(row.member),'EVIDENCE_SYMBOL_SOURCE',row.path+' '+row.member);
+  }
+  exact(sourceAudit.archives.map(row => row.path),record.archives.map(row => row.path),'audited retained archives');
+  for (const row of record.archives) {
+    const other = sourceAudit.archives.find(archive => archive.path === row.path);
+    need(Array.isArray(row.members) && row.members.length > 0 && equal(row,other),'EVIDENCE_ARCHIVE_MEMBERS',row.path);
+  }
 }
 
 function expectedOutcome(item) {
@@ -233,14 +386,22 @@ function reconcile(selected, report, expected) {
 function freshFinal(selected, reports, expected) {
   need(Array.isArray(reports) && reports.length > 0, 'EVIDENCE_HISTORY_EMPTY');
   const ids = new Set();
-  let previous;
+  let previous, repairPending = false;
   for (const [index, report] of reports.entries()) {
     need(UUID.test(report.invocation) && !ids.has(report.invocation) && instant(report.startedAt) && instant(report.finishedAt) &&
       report.startedAt < report.finishedAt && (!previous || report.startedAt >= previous.finishedAt) &&
       report.previousInvocation === (previous?.invocation ?? null), 'EVIDENCE_HISTORY_ORDER');
     need(index === 0 ? report.kind === 'initial' : ['focused','final'].includes(report.kind), 'EVIDENCE_HISTORY_KIND');
+    need(report.schemaVersion === 1 && Array.isArray(report.selected) && report.selected.length > 0 && Array.isArray(report.outcomes),
+      'EVIDENCE_HISTORY_OUTCOMES');
+    exact(report.selected,report.outcomes.map(row => row.id),'historical selected and reported cases',true);
+    need(report.outcomes.every(row => row.invocation === report.invocation && ['pass','fail','blocked','invalid'].includes(row.status)) &&
+      report.status === (report.outcomes.every(row => row.status === 'pass') ? 'pass' : 'fail'),'EVIDENCE_HISTORY_OUTCOMES');
     if (report.kind === 'focused') need(named(report.repairReason) && Array.isArray(report.selected) && report.selected.length > 0,
       'EVIDENCE_REPAIR_PROOF');
+    if (report.kind === 'final') need(!repairPending,'EVIDENCE_REPAIR_PROOF');
+    if (report.status === 'fail') repairPending = true;
+    if (report.kind === 'focused' && report.status === 'pass') repairPending = false;
     ids.add(report.invocation);
     previous = report;
   }
@@ -248,6 +409,8 @@ function freshFinal(selected, reports, expected) {
   return previous;
 }
 
-module.exports = {PHASE, REVIEW, SELECTION, FIXES, TARGETS, IDENTITY, REVISION, HEX, UUID, need, named, instant, exact,
+module.exports = {PHASE, REVIEW, SELECTION, FIXES, TARGETS, PHASE_BASE, LISTENING, JUDGMENTS, COMPLETION, IDENTITY, REVISION, HEX, UUID, need, named, instant, exact,
   read, reference, artifact, document, writeExclusive, git, committedRef, identifySource, identifyTool, identity,
-  textArtifact, validateReview, validateProcess, validateRenderedOutcome, validateNamed, expectedOutcome, reconcile, freshFinal};
+  textArtifact, validateReview, validateProcess, validateRenderedOutcome, validateNamed, listeningExpectations, judgmentExpectations,
+  validateJudgments, historyDocuments, validateCoverage, changedFiles, inventoryExpectation, validateArtifactInventory,
+  expectedOutcome, reconcile, freshFinal};

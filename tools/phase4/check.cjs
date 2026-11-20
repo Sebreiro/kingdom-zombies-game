@@ -562,7 +562,7 @@ async function main(args){
     '--case ID[,ID...] | --group GROUP | --list | --export-tracer | --verify-completion PATH');
   const scenarios=require('./scenarios.cjs');
   if(args[0]==='--verify-completion'){
-    const result=scenarios.verifyCompletion(ROOT,args[1],cases);
+    const result=await scenarios.verifyCompletion(ROOT,args[1],cases);
     console.log(JSON.stringify(result,null,2));return;
   }
   if(args[0]==='--group'&&args[1]==='rendered'){

@@ -118,7 +118,7 @@
         "id": "source.tracer",
         "status": "implemented-inline-case",
         "module": "tools/phase4/check.cjs",
-        "moduleSha256": "f5b3818f564b62d63799b783262e96a704d709612098781de3d9765a96266ff9",
+        "moduleSha256": "c44c6ac446be6b00322c08fc3da2f5c7423251cab92fbad46da3575b153177f4",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -187,7 +187,7 @@
         "id": "source.tracer-failures",
         "status": "implemented-inline-case",
         "module": "tools/phase4/check.cjs",
-        "moduleSha256": "f5b3818f564b62d63799b783262e96a704d709612098781de3d9765a96266ff9",
+        "moduleSha256": "c44c6ac446be6b00322c08fc3da2f5c7423251cab92fbad46da3575b153177f4",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -4372,7 +4372,7 @@
         "id": "runner.prelaunch",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/runner.cjs",
-        "moduleSha256": "d8bde7f2ffb2df3eeb6432476b2bb7844d9b509a2ca8ba46da073ef49b29c653",
+        "moduleSha256": "134f45c9fde735a0a3e508b36303ee293ee73cc277f9538e97f2410014374eb8",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -4387,6 +4387,210 @@
         "Current exact resource and source identities from the case setup"
       ],
       "cleanup": "Preserve existing review, selection and proof files",
+      "heldoutIds": [],
+      "uiIds": []
+    },
+    {
+      "group": "runner",
+      "importance": "Critical",
+      "needsGameWindow": false,
+      "runGroup": "G0-runner",
+      "requirements": [
+        "ASSET-01",
+        "ASSET-02",
+        "ASSET-03",
+        "ASSET-04",
+        "ASSET-05"
+      ],
+      "acceptance": [
+        "AC-17",
+        "AC-19",
+        "AC-20"
+      ],
+      "tags": [
+        "source-only",
+        "runner",
+        "acceptance-integrity"
+      ],
+      "setup": "Fixed current source and invocation-owned negative fixtures",
+      "reset": "Keep original fixtures, review records and every prior invocation immutable",
+      "order": 301,
+      "title": "Exact current and inherited selected cases",
+      "rationale": "Omitting a Critical, new, changed or affected check invalidates the planned evidence",
+      "actions": [
+        "Derive phase-local impact independently from changed source, shared inputs and inherited consumers",
+        "Check exact selected and omitted cases, roles and ordering"
+      ],
+      "expected": "Every required current or inherited case remains selected with an exact process and cleanup declaration",
+      "evidence": [
+        "selection-controls.json",
+        "result.json"
+      ],
+      "id": "runner.selection",
+      "lifecycle": "active-source",
+      "featureTags": [
+        "runner",
+        "ASSET-01",
+        "ASSET-02",
+        "ASSET-03",
+        "ASSET-04",
+        "ASSET-05"
+      ],
+      "sourceBinding": {
+        "id": "runner.selection",
+        "status": "implemented-source-case",
+        "module": "tools/phase4/cases/runner.cjs",
+        "moduleSha256": "134f45c9fde735a0a3e508b36303ee293ee73cc277f9538e97f2410014374eb8",
+        "execution": "no pass inferred from catalog metadata"
+      },
+      "processRoles": [
+        "owned-source-or-headless-processes"
+      ],
+      "boundedWaits": "15 seconds for the nested CLI; source-only fixture evaluation",
+      "execution": "registered case; no acceptance credit",
+      "preconditions": [
+        "Fixed current source and invocation-owned negative fixtures"
+      ],
+      "input": [
+        "Current exact resource and source identities from the case setup"
+      ],
+      "cleanup": "Keep original fixtures, review records and every prior invocation immutable",
+      "heldoutIds": [],
+      "uiIds": []
+    },
+    {
+      "group": "runner",
+      "importance": "Critical",
+      "needsGameWindow": false,
+      "runGroup": "G0-runner",
+      "requirements": [
+        "ASSET-01",
+        "ASSET-02",
+        "ASSET-03",
+        "ASSET-04",
+        "ASSET-05"
+      ],
+      "acceptance": [
+        "AC-17",
+        "AC-19",
+        "AC-20"
+      ],
+      "tags": [
+        "source-only",
+        "runner",
+        "acceptance-integrity"
+      ],
+      "setup": "Fixed current source and invocation-owned negative fixtures",
+      "reset": "Keep original fixtures, review records and every prior invocation immutable",
+      "order": 302,
+      "title": "Named current media and separate prohibition judgments",
+      "rationale": "A missing or stale listening or real named verdict cannot support actual acceptance",
+      "actions": [
+        "Authenticate actual PCM WAV format, exact sample and version, and independent named verdict receipts",
+        "Check one distinct named result for each prohibition and exact current case images"
+      ],
+      "expected": "Every missing, stale, forged or failed named result rejects without mechanical listening or visual credit",
+      "evidence": [
+        "judgments-controls.json",
+        "result.json"
+      ],
+      "id": "acceptance.judgments",
+      "lifecycle": "active-source",
+      "featureTags": [
+        "runner",
+        "ASSET-01",
+        "ASSET-02",
+        "ASSET-03",
+        "ASSET-04",
+        "ASSET-05"
+      ],
+      "sourceBinding": {
+        "id": "acceptance.judgments",
+        "status": "implemented-source-case",
+        "module": "tools/phase4/cases/runner.cjs",
+        "moduleSha256": "134f45c9fde735a0a3e508b36303ee293ee73cc277f9538e97f2410014374eb8",
+        "execution": "no pass inferred from catalog metadata"
+      },
+      "processRoles": [
+        "owned-source-or-headless-processes"
+      ],
+      "boundedWaits": "15 seconds for the nested CLI; source-only fixture evaluation",
+      "execution": "registered case; no acceptance credit",
+      "preconditions": [
+        "Fixed current source and invocation-owned negative fixtures"
+      ],
+      "input": [
+        "Current exact resource and source identities from the case setup"
+      ],
+      "cleanup": "Keep original fixtures, review records and every prior invocation immutable",
+      "heldoutIds": [],
+      "uiIds": []
+    },
+    {
+      "group": "runner",
+      "importance": "Critical",
+      "needsGameWindow": false,
+      "runGroup": "G0-runner",
+      "requirements": [
+        "ASSET-01",
+        "ASSET-02",
+        "ASSET-03",
+        "ASSET-04",
+        "ASSET-05"
+      ],
+      "acceptance": [
+        "AC-17",
+        "AC-19",
+        "AC-20"
+      ],
+      "tags": [
+        "source-only",
+        "runner",
+        "acceptance-integrity"
+      ],
+      "setup": "Fixed current source and invocation-owned negative fixtures",
+      "reset": "Keep original fixtures, review records and every prior invocation immutable",
+      "order": 303,
+      "title": "Current artifact, scope and exact completion inventory",
+      "rationale": "An incomplete or stale artifact inventory can hide unverified production or selected failures",
+      "actions": [
+        "Compare exact tracked artifacts and reviewed symbols, case exports, native tuples and retained archive members",
+        "Reconcile the complete current run, earlier failure history, and required coverage"
+      ],
+      "expected": "Missing, stale or unexpected artifacts, signatures, cases and final evidence are rejected",
+      "evidence": [
+        "artifacts-controls.json",
+        "result.json"
+      ],
+      "id": "acceptance.artifacts",
+      "lifecycle": "active-source",
+      "featureTags": [
+        "runner",
+        "ASSET-01",
+        "ASSET-02",
+        "ASSET-03",
+        "ASSET-04",
+        "ASSET-05"
+      ],
+      "sourceBinding": {
+        "id": "acceptance.artifacts",
+        "status": "implemented-source-case",
+        "module": "tools/phase4/cases/runner.cjs",
+        "moduleSha256": "134f45c9fde735a0a3e508b36303ee293ee73cc277f9538e97f2410014374eb8",
+        "execution": "no pass inferred from catalog metadata"
+      },
+      "processRoles": [
+        "owned-source-or-headless-processes"
+      ],
+      "boundedWaits": "15 seconds for the nested CLI; source-only fixture evaluation",
+      "execution": "registered case; no acceptance credit",
+      "preconditions": [
+        "Fixed current source and invocation-owned negative fixtures"
+      ],
+      "input": [
+        "Current exact resource and source identities from the case setup"
+      ],
+      "cleanup": "Keep original fixtures, review records and every prior invocation immutable",
       "heldoutIds": [],
       "uiIds": []
     },
@@ -7020,14 +7224,14 @@
           "id": "source.tracer",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "f5b3818f564b62d63799b783262e96a704d709612098781de3d9765a96266ff9",
+          "moduleSha256": "c44c6ac446be6b00322c08fc3da2f5c7423251cab92fbad46da3575b153177f4",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "source.tracer-failures",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "f5b3818f564b62d63799b783262e96a704d709612098781de3d9765a96266ff9",
+          "moduleSha256": "c44c6ac446be6b00322c08fc3da2f5c7423251cab92fbad46da3575b153177f4",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -7993,26 +8197,29 @@
           "id": "runner.prelaunch",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "d8bde7f2ffb2df3eeb6432476b2bb7844d9b509a2ca8ba46da073ef49b29c653",
+          "moduleSha256": "134f45c9fde735a0a3e508b36303ee293ee73cc277f9538e97f2410014374eb8",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "runner.selection",
-          "status": "pending-before-creation",
-          "owner": "04-30",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "module": "tools/phase4/cases/runner.cjs",
+          "moduleSha256": "134f45c9fde735a0a3e508b36303ee293ee73cc277f9538e97f2410014374eb8",
+          "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "acceptance.judgments",
-          "status": "pending-before-creation",
-          "owner": "04-30",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "module": "tools/phase4/cases/runner.cjs",
+          "moduleSha256": "134f45c9fde735a0a3e508b36303ee293ee73cc277f9538e97f2410014374eb8",
+          "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "acceptance.artifacts",
-          "status": "pending-before-creation",
-          "owner": "04-30",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "module": "tools/phase4/cases/runner.cjs",
+          "moduleSha256": "134f45c9fde735a0a3e508b36303ee293ee73cc277f9538e97f2410014374eb8",
+          "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "export.hub-consumer",
@@ -8085,26 +8292,29 @@
           "id": "runner.prelaunch",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "d8bde7f2ffb2df3eeb6432476b2bb7844d9b509a2ca8ba46da073ef49b29c653",
+          "moduleSha256": "134f45c9fde735a0a3e508b36303ee293ee73cc277f9538e97f2410014374eb8",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "runner.selection",
-          "status": "pending-before-creation",
-          "owner": "04-30",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "module": "tools/phase4/cases/runner.cjs",
+          "moduleSha256": "134f45c9fde735a0a3e508b36303ee293ee73cc277f9538e97f2410014374eb8",
+          "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "acceptance.judgments",
-          "status": "pending-before-creation",
-          "owner": "04-30",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "module": "tools/phase4/cases/runner.cjs",
+          "moduleSha256": "134f45c9fde735a0a3e508b36303ee293ee73cc277f9538e97f2410014374eb8",
+          "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "acceptance.artifacts",
-          "status": "pending-before-creation",
-          "owner": "04-30",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "module": "tools/phase4/cases/runner.cjs",
+          "moduleSha256": "134f45c9fde735a0a3e508b36303ee293ee73cc277f9538e97f2410014374eb8",
+          "execution": "no pass inferred from catalog metadata"
         }
       ],
       "execution": "unaccepted",
@@ -8566,14 +8776,14 @@
           "id": "source.tracer",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "f5b3818f564b62d63799b783262e96a704d709612098781de3d9765a96266ff9",
+          "moduleSha256": "c44c6ac446be6b00322c08fc3da2f5c7423251cab92fbad46da3575b153177f4",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "source.tracer-failures",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "f5b3818f564b62d63799b783262e96a704d709612098781de3d9765a96266ff9",
+          "moduleSha256": "c44c6ac446be6b00322c08fc3da2f5c7423251cab92fbad46da3575b153177f4",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -8940,14 +9150,14 @@
           "id": "source.tracer",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "f5b3818f564b62d63799b783262e96a704d709612098781de3d9765a96266ff9",
+          "moduleSha256": "c44c6ac446be6b00322c08fc3da2f5c7423251cab92fbad46da3575b153177f4",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "source.tracer-failures",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "f5b3818f564b62d63799b783262e96a704d709612098781de3d9765a96266ff9",
+          "moduleSha256": "c44c6ac446be6b00322c08fc3da2f5c7423251cab92fbad46da3575b153177f4",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -8992,14 +9202,14 @@
           "id": "source.tracer",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "f5b3818f564b62d63799b783262e96a704d709612098781de3d9765a96266ff9",
+          "moduleSha256": "c44c6ac446be6b00322c08fc3da2f5c7423251cab92fbad46da3575b153177f4",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "source.tracer-failures",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "f5b3818f564b62d63799b783262e96a704d709612098781de3d9765a96266ff9",
+          "moduleSha256": "c44c6ac446be6b00322c08fc3da2f5c7423251cab92fbad46da3575b153177f4",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9560,24 +9770,6 @@
     }
   ],
   "plannedCases": [
-    {
-      "id": "runner.selection",
-      "status": "pending-before-creation",
-      "owner": "04-30",
-      "execution": "unperformed; supplies no pass credit"
-    },
-    {
-      "id": "acceptance.judgments",
-      "status": "pending-before-creation",
-      "owner": "04-30",
-      "execution": "unperformed; supplies no pass credit"
-    },
-    {
-      "id": "acceptance.artifacts",
-      "status": "pending-before-creation",
-      "owner": "04-30",
-      "execution": "unperformed; supplies no pass credit"
-    },
     {
       "id": "export.hub-consumer",
       "status": "pending-before-creation",

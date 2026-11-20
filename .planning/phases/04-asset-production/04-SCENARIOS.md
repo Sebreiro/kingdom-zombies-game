@@ -8,6 +8,16 @@ The existing dispatcher accepts one case ID and has no completion route. Plan 04
 
 The native DT-26 source view embeds the exact `tools/phase4/required-cases.json` bytes. Updating the catalog therefore requires regenerating only the existing compressed payload, uncompressed length and SHA-256 in `src/godot-game/content/packs/delivery.json`. The stock normalizer supplies the corresponding catalog and delivery byte and digest fields in `src/godot-game/content/pack-index.json`. The existing source fixture records, resource definitions, accepted counts, native permissions and delivery and export status retain their prior values.
 
+## Running the saved procedures
+
+`node tools/phase4/check.cjs --list` lists executable source checks. `--case ID[,ID...]` takes exact registered identities and rejects duplicate and unknown IDs. The source groups include `content`, `composition`, `layouts`, `audio`, `export` and `runner`. The separate `renderedCases` array in the saved catalog identifies actual-only procedures. `export.hub-consumer` retains its pending Critical status until Plan 31 registers the real consumer and updates its catalog binding.
+
+`--group rendered` first reads the current review, fixes and selection files. Their hashes and the Phase 4 reviewed-source targets must match committed bytes. The source revision must still match every tracked source input byte. The review's build report identifies the exact toolchain, source, media, engine and packaged executable. Select and justify every disposition in `04-SELECTION.json`. Groups record process roles, case order, reset, cleanup and a bounded duration. Runtime files and shared build inputs determine affected inherited consumers. A source change requires a renewed review and selection.
+
+The `04-RUNS.json` input uses the current identity, selection SHA-256 and an invocation campaign UUID. It declares an `initial`, `focused` or `final` attempt. Repairs link the previous immutable report. A focused attempt supplies the reason and exact failed, blocked and newly affected case IDs. An actual driver supplies the saved case ID, independently selected stimulus, and ordered checkpoint steps with physical key or mouse input and exact inspected node properties. The runner records input acknowledgments, raw read-only native observations and composited client PNGs after `DwmFlush`. It records per-case failures and continues while the owned process remains usable. The shared hub and packaged windows preserve the native inspection route. The inherited solo and LAN sets use their existing observers under the current Phase 4 review binding.
+
+`--verify-completion PATH` checks the whole current selection. The index links the initial, repair and final campaign reports, source/headless results, current export, named listening and judgments, and the changed-file and source audit inventories. A focused pass never replaces the fresh full selected run after repairs. Every required audio variant and loop retains its exact WAV hash and version. The two mix decisions require their own named records. The four prohibition judgments retain their individual statements and exact case images. A machine cannot establish who actually listened or reviewed an image. The independent humans must provide those verdicts and their linked evidence.
+
 ## fixtures
 
 - **item-icons-and-all-24-definitions** — src/godot-game/content/packs/items-01-10.json, src/godot-game/content/packs/items-11-24.json
@@ -1050,6 +1060,48 @@ Current Phase 4 review and prelaunch gate. Critical. Running an unreviewed build
 **Evidence** immutable-control.json · runner-controls.json · result.json.
 
 **Run and reset** G0-runner / 300 / owned-source-or-headless-processes. 15 seconds for the nested CLI; source-only fixture evaluation. Preserve existing review, selection and proof files. Preserve existing review, selection and proof files.
+
+### runner.selection
+
+Exact current and inherited selected cases. Critical. Omitting a Critical, new, changed or affected check invalidates the planned evidence.
+
+**Setup and input** Fixed current source and invocation-owned negative fixtures. Current exact resource and source identities from the case setup.
+
+**Actions** Derive phase-local impact independently from changed source, shared inputs and inherited consumers → Check exact selected and omitted cases, roles and ordering.
+
+**Expected** Every required current or inherited case remains selected with an exact process and cleanup declaration.
+
+**Evidence** selection-controls.json · result.json.
+
+**Run and reset** G0-runner / 301 / owned-source-or-headless-processes. 15 seconds for the nested CLI; source-only fixture evaluation. Keep original fixtures, review records and every prior invocation immutable. Keep original fixtures, review records and every prior invocation immutable.
+
+### acceptance.judgments
+
+Named current media and separate prohibition judgments. Critical. A missing or stale listening or real named verdict cannot support actual acceptance.
+
+**Setup and input** Fixed current source and invocation-owned negative fixtures. Current exact resource and source identities from the case setup.
+
+**Actions** Authenticate actual PCM WAV format, exact sample and version, and independent named verdict receipts → Check one distinct named result for each prohibition and exact current case images.
+
+**Expected** Every missing, stale, forged or failed named result rejects without mechanical listening or visual credit.
+
+**Evidence** judgments-controls.json · result.json.
+
+**Run and reset** G0-runner / 302 / owned-source-or-headless-processes. 15 seconds for the nested CLI; source-only fixture evaluation. Keep original fixtures, review records and every prior invocation immutable. Keep original fixtures, review records and every prior invocation immutable.
+
+### acceptance.artifacts
+
+Current artifact, scope and exact completion inventory. Critical. An incomplete or stale artifact inventory can hide unverified production or selected failures.
+
+**Setup and input** Fixed current source and invocation-owned negative fixtures. Current exact resource and source identities from the case setup.
+
+**Actions** Compare exact tracked artifacts and reviewed symbols, case exports, native tuples and retained archive members → Reconcile the complete current run, earlier failure history, and required coverage.
+
+**Expected** Missing, stale or unexpected artifacts, signatures, cases and final evidence are rejected.
+
+**Evidence** artifacts-controls.json · result.json.
+
+**Run and reset** G0-runner / 303 / owned-source-or-headless-processes. 15 seconds for the nested CLI; source-only fixture evaluation. Keep original fixtures, review records and every prior invocation immutable. Keep original fixtures, review records and every prior invocation immutable.
 
 ### heldout.H01
 

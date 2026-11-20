@@ -133,6 +133,25 @@ function selectionRows(root, catalog) {
   return [...catalog.cases, ...catalog.renderedCases, ...inheritedCases(root)];
 }
 
+function impactClosure(cases, files) {
+  const starts = (...prefixes) => files.some(file => prefixes.some(prefix => file === prefix || file.startsWith(prefix+'/')));
+  const shared = starts('Directory.Build.props','Directory.Build.targets','Directory.Packages.props','global.json','NuGet.config');
+  const runtime = shared || starts('src','tools/code-rules','tests/phase1');
+  const inheritedGroups = {
+    engine:['src/godot-game','docs/code','tools/code-rules','tests/phase1'],
+    graph:['src','docs/architecture','docs/code','tests/phase1','tools/phase1/projects.json'],
+    rules:['src','docs/code','tools/code-rules','tests/phase1'],
+    register:['docs/code','tools/code-rules','tests/phase1'],
+    state:['src/core','src/godot-game','tests/phase1'],
+    docs:['docs','specs','src','tools','tests','AGENTS.md'],
+    runner:['tools/phase1','tests/phase1'],
+    coverage:['src','docs/code','tests/phase1'],
+    pins:['tools/phase1/toolchain.json']
+  };
+  return new Map(cases.map(row => [row.id, {new:!row.family, changed:false, affected:row.family==='phase1' ?
+    shared || starts(...inheritedGroups[row.group]??[]) : Boolean(row.family && runtime)}]));
+}
+
 function validateSelection(record, cases, catalogRef, current, expectedImpact = null) {
   e.need(record?.schemaVersion === 1 && record.status === 'declared-before-first-window' && e.instant(record.declaredAt) &&
     record.platform === 'win32-x64' && record.vm === false && equal(record.window, {width:1280,height:720}) &&
@@ -204,12 +223,13 @@ function prelaunch(root, catalog, current, receiptRoot = null) {
   e.validateReview(review, fixes, current, {report:e.textArtifact(root, review.report), verifyProof:ref => e.committedRef(root, head, ref)});
   e.need(selection.declaredAt >= review.reviewedAt, 'SELECTION_BEFORE_REVIEW');
   const adapter = currentReviewAdapter(root, head, review.targets);
-  const resolved = validateSelection(selection, selectionRows(root, catalog), e.reference(root, CATALOG), current);
+  const rows = selectionRows(root,catalog), reviewChanges = e.changedFiles(root,current.revision);
+  const resolved = validateSelection(selection,rows,e.reference(root,CATALOG),current,impactClosure(rows,reviewChanges));
   if (receiptRoot !== null) {
     for (const ref of [reviewRef, selectionRef, fixesRef, review.report, review.targets])
       e.writeExclusive(root, receiptRoot + '/' + path.basename(ref.path), e.artifact(root, ref).data);
   }
-  return {...resolved, review:reviewRef, selection:selectionRef, fixes:fixesRef, reviewedAt:review.reviewedAt, adapter};
+  return {...resolved, review:reviewRef, selection:selectionRef, fixes:fixesRef, reviewedAt:review.reviewedAt, adapter, head};
 }
 
 function currentIdentity(root) {
@@ -227,6 +247,78 @@ function currentIdentity(root) {
 
 function runId() {
   return '.phase4/acceptance/' + crypto.randomUUID();
+}
+
+function finalRendered(root, gate, current, refs, campaign) {
+  const native = gate.selected.filter(row => row.needsGameWindow);
+  const reports = e.historyDocuments(root,refs,campaign);
+  const final = e.freshFinal(native,reports,current);
+  e.need(final.reviewSha256 === gate.review.sha256 && final.selectionSha256 === gate.selection.sha256 &&
+    final.startedAt >= gate.reviewedAt,'COMPLETION_CURRENT_RUN');
+  for (const [index,row] of final.outcomes.entries()) {
+    const item = native[index];
+    if (!item.family) e.validateRenderedOutcome(root,row,final);
+    else {
+      const {result,bindings} = e.document(root,row.inherited);
+      const directory = path.resolve(root,path.dirname(row.inherited.path));
+      e.need(bindings.nonce === final.invocation && bindings.revision === current.revision &&
+        bindings.input === current.source && bindings.tool === current.tool && bindings.platform === 'win32-x64',
+      'COMPLETION_INHERITED_BINDINGS',item.id);
+      const original = {...item,id:item.originalId,runGroup:item.inheritedGroup};
+      const context = {root,directory,...bindings};
+      if (item.family === 'phase2') require('../phase2/evidence.cjs').reconcile([original],[result],context);
+      else require('../phase3/evidence.cjs').reconcile([original],[result],context);
+    }
+  }
+  return final;
+}
+
+function sourceReceipts(root, selected, refs, current) {
+  e.need(Array.isArray(refs),'COMPLETION_SOURCE_RECEIPTS');
+  e.exact(selected.map(row => row.id),refs.map(row => row.id),'source/headless selected outcomes');
+  const revisions = new Map();
+  function verifySource(revision) {
+    if (!revisions.has(revision)) revisions.set(revision,e.identifySource(root,revision));
+    const source = revisions.get(revision);
+    e.need(source.source === current.source && source.media === current.media,'COMPLETION_SOURCE_DRIFT',revision);
+  }
+  for (const item of selected) {
+    const receipt = refs.find(row => row.id === item.id);
+    const result = e.document(root,receipt.result);
+    e.need(result.status==='pass','COMPLETION_SOURCE_FAILURE',item.id);
+    verifySource(result.revision);
+    if (!item.family) {
+      const directory = '.phase4/runs/'+result.nonce+'/';
+      e.need(e.UUID.test(result.nonce) && receipt.result.path===directory+'result.json' && result.caseId===item.id,
+        'COMPLETION_SOURCE_SUBJECT',item.id);
+      const invocation = e.document(root,directory+'invocation.json');
+      e.need(invocation.nonce===result.nonce && invocation.caseId===item.id && invocation.revision===result.revision &&
+        invocation.platform==='win32' && invocation.node==='v'+e.document(root,'tools/phase1/toolchain.json').node,
+      'COMPLETION_SOURCE_INVOCATION',item.id);
+    } else {
+      e.need(Array.isArray(result.selected) && result.selected.includes(item.originalId) &&
+        result.results?.some(row => row.id===item.originalId && row.status==='pass') &&
+        receipt.result.path.startsWith('.'+item.family+'/runs/'),'COMPLETION_INHERITED_SUBJECT',item.id);
+    }
+  }
+  return new Set(selected.map(row => row.id));
+}
+
+function coverageExpectation(catalog, root) {
+  const catalogAlpha = new Set(catalog.cases.map(row => row.id));
+  const native = new Set(catalog.renderedCases.map(row => row.id));
+  const resolve = rows => rows.map(row => row.id).filter(id => catalogAlpha.has(id));
+  const judgment = e.judgmentExpectations(catalog);
+  return {
+    obligations:require('./content.cjs').expected(root).obligations.map(row => ({id:row.id,cases:['content.census']})),
+    acceptance:catalog.acceptance.map(row => ({id:row.id,cases:[...new Set([...resolve(row.sourceCases),...row.actualCases,
+      ...judgment.filter(item => item.criterion===row.id).map(item => item.id)])]})),
+    heldout:catalog.heldout.map(row => ({id:row.id,cases:[row.actualAcceptanceCase]})),
+    backstops:catalog.backstops.map(row => ({id:row.id,cases:[row.id]})),
+    decisions:catalog.decisions.map(row => ({id:row.id,cases:row.id==='D-31'||row.id==='D-32'?[row.id]:
+      [...new Set([...resolve(row.sourceCases),...(row.actualCases??[]).filter(id => native.has(id))])]})),
+    judgments:judgment.map(row => ({id:row.id,cases:[row.id,...row.cases]}))
+  };
 }
 
 function validateDriver(row, item) {
@@ -427,7 +519,7 @@ async function inspectionSession(root, relative, group, build, adapter) {
       clientWidth:physical.width,clientHeight:physical.height,method:step.action==='click'?'physical-mouse':'physical-keyboard', acknowledgement:physical});
     const draw = e.writeExclusive(root,prefix+'-draw.json',{...flags,at:new Date().toISOString(),drawn:true,frame:++frame,
       observation:JSON.stringify({node:observed.node,property:observed.property,value:observed.value}),
-      nativeTree,nativeObject,imageSha256:image.sha256});
+      frameSource:'composited-client-after-DwmFlush',nativeTree,nativeObject,imageSha256:image.sha256});
     return {id:step.id,input:inputRef,draw,image};
   }
   async function close() {
@@ -535,12 +627,23 @@ async function runRendered(root, registered) {
   e.identity(current,data,'rendered input');
   e.need(data.schemaVersion === 1 && data.selectionSha256 === gate.selection.sha256 &&
     e.UUID.test(data.campaign) && Array.isArray(data.drivers),'RENDERED_INPUT_SCHEMA');
-  const native = gate.selected.filter(row => row.needsGameWindow);
+  const allNative = gate.selected.filter(row => row.needsGameWindow);
+  const previous = data.previousRun ? e.document(root,data.previousRun) : null;
+  e.need(!previous || previous.campaign === data.campaign && e.UUID.test(previous.invocation) &&
+    data.previousRun.path === '.phase4/acceptance/'+previous.invocation+'/report.json','RENDERED_PREVIOUS_RUN');
+  e.need(previous ? ['focused','final'].includes(data.kind) : data.kind==='initial','RENDERED_ATTEMPT_KIND');
+  let native = allNative;
+  if (data.kind==='focused') {
+    e.need(Array.isArray(data.caseIds) && data.caseIds.length>0 && e.named(data.repairReason),'RENDERED_FOCUSED_SELECTION');
+    native = allNative.filter(row => data.caseIds.includes(row.id));
+    e.exact(native.map(row => row.id),data.caseIds,'focused selected cases');
+    e.need(previous.outcomes.filter(row => row.status!=='pass').every(row => data.caseIds.includes(row.id)), 'RENDERED_FOCUSED_MISSING');
+  }
   const files = native.filter(row => !row.family);
   e.exact(files.map(row => row.id),data.drivers.map(row => row.id),'saved physical drivers');
   const drivers = new Map(data.drivers.map(row => [row.id,row]));
   for (const row of files) validateDriver(drivers.get(row.id),row);
-  e.need(drivers.get('rendered.packaged-relaunch').steps.length >= 2,'RENDERED_RELAUNCH_CHECKPOINTS');
+  if (drivers.has('rendered.packaged-relaunch')) e.need(drivers.get('rendered.packaged-relaunch').steps.length >= 2,'RENDERED_RELAUNCH_CHECKPOINTS');
   const review = e.document(root,gate.review), build = e.document(root,review.buildReport);
   for (const ref of [build.engine,build.package]) {
     e.need(build.artifacts.some(artifact => equal(artifact,ref)),'RENDERED_BUILD_TARGET');
@@ -549,11 +652,10 @@ async function runRendered(root, registered) {
   const engineHash = '45336315eb6f1a52a8923bc4f2ce8079a03dc4939dcb7d531047890f1f7cdfab';
   e.need(build.engine.sha256 === engineHash && build.package.path.startsWith('.phase4/') &&
     build.package.path.endsWith('.exe'),'RENDERED_EXECUTABLE');
-  const previous = data.previousRun ? e.document(root,data.previousRun) : null;
-  e.need(!previous || previous.campaign === data.campaign && e.UUID.test(previous.invocation),'RENDERED_PREVIOUS_RUN');
   const startedAt = new Date().toISOString(), outcomes = [];
   for (const group of gate.groups.filter(row => GROUPS.includes(row.id))) {
     const items = native.filter(row => row.runGroup === group.id);
+    if (!items.length) continue;
     let unlock;
     try {
       if (group.id !== 'G3-lan') unlock = require('../phase2/check.cjs').acquireLock(root,invocation);
@@ -563,7 +665,13 @@ async function runRendered(root, registered) {
     } catch (error) {
       for (const row of items) outcomes.push({id:row.id,runGroup:row.runGroup,invocation,status:'blocked',execution:'executed-now',
         expected:e.expectedOutcome(row),observed:error.message.slice(0,4096).replace(/[\r\n]/g,' ')});
-    } finally {unlock?.();}
+    } finally {
+      try {unlock?.();} catch (error) {
+        for (const row of outcomes.filter(row => row.runGroup===group.id && row.status==='pass')) {
+          row.status='invalid';row.observed=error.message;
+        }
+      }
+    }
   }
   let finishedAt = new Date().toISOString();
   if (finishedAt === startedAt) finishedAt = new Date(Date.parse(startedAt)+1).toISOString();
@@ -573,14 +681,14 @@ async function runRendered(root, registered) {
   }
   for (const row of outcomes) if (row.status === 'pass' && !unchanged) {row.status = 'invalid';row.observed = 'Current source or build drifted during this run';}
   const report = {...current,schemaVersion:1,invocation,campaign:data.campaign,startedAt,finishedAt,
-    previousInvocation:previous?.invocation??null,kind:previous?'final':'initial',selected:native.map(row => row.id),outcomes,
+    previousInvocation:previous?.invocation??null,kind:data.kind,repairReason:data.repairReason,selected:native.map(row => row.id),outcomes,
     reviewSha256:gate.review.sha256,selectionSha256:gate.selection.sha256,status:outcomes.every(row => row.status === 'pass')?'pass':'fail'};
   e.reconcile(native,report,current);
   const ref = e.writeExclusive(root,relative+'/report.json',report);
   return {status:report.status,invocation,executed:outcomes.length,report:ref};
 }
 
-function verifyCompletion(root, relative, registered) {
+async function verifyCompletion(root, relative, registered) {
   const index = e.document(root, relative);
   e.need(index?.schemaVersion === 1 && index.scope === 'phase-04-windows-resource-delivery' &&
     Array.isArray(index.runs) && index.runs.length > 0, 'COMPLETION_SCHEMA');
@@ -589,10 +697,27 @@ function verifyCompletion(root, relative, registered) {
   const gate = prelaunch(root, catalog, current);
   e.identity(current, index, 'completion');
   e.need(index.reviewSha256 === gate.review.sha256 && index.selectionSha256 === gate.selection.sha256, 'COMPLETION_BINDINGS');
-  const final = e.freshFinal(gate.selected, index.runs.map(ref => e.document(root, ref)), current);
-  return {invocation:final.invocation, executed:final.outcomes.length};
+  const final = finalRendered(root,gate,current,index.runs,index.campaign);
+  const receipts = sourceReceipts(root,gate.selected.filter(row => !row.needsGameWindow),index.sourceResults,current);
+  for (const row of final.outcomes) receipts.add(row.id);
+  e.need(index.listening?.path===e.LISTENING && index.judgments?.path===e.JUDGMENTS,'COMPLETION_NAMED_PATHS');
+  for (const ref of [index.listening,index.judgments]) e.committedRef(root,gate.head,ref);
+  const audio = e.listeningExpectations(root), judgments = e.judgmentExpectations(catalog);
+  e.validateJudgments(root,e.document(root,index.listening),e.document(root,index.judgments),current,audio,judgments,final);
+  for (const row of [...audio,...judgments]) receipts.add(row.id);
+  e.validateCoverage(index,coverageExpectation(catalog,root),receipts);
+  const review = e.document(root,gate.review), build = e.document(root,review.buildReport);
+  e.need(equal(build.package,index.export) && e.artifact(root,index.export).bytes>0,'COMPLETION_EXPORT');
+  const artifacts = e.document(root,index.artifacts), audit = e.document(root,index.sourceAudit);
+  e.validateArtifactInventory(root,artifacts,e.inventoryExpectation(root,current.revision,catalog),audit,current);
+  for (const row of artifacts.archives) {
+    const result = await require('./content.cjs').archive(root,{path:row.path,sha256:row.sha256,bytes:row.bytes});
+    e.need(equal(row.members,result.members),'EVIDENCE_ARCHIVE_CURRENT',row.path);
+  }
+  return {status:'pass',invocation:final.invocation,executed:receipts.size,scope:'Current Windows resource delivery'};
 }
 
 module.exports = {CATALOG, COVERAGE, SCENARIOS, GROUPS, ORDER, coverageRows, validateProcedure, validateCatalog, loadCatalog,
-  selectCases, inheritedCases, selectionRows, validateSelection, currentReviewAdapter, prelaunch, currentIdentity, runId, validateDriver,
+  selectCases, inheritedCases, selectionRows, impactClosure, validateSelection, currentReviewAdapter, prelaunch, currentIdentity, runId,
+  finalRendered, sourceReceipts, coverageExpectation, validateDriver,
   treePaths, runInspection, runInherited, runRendered, verifyCompletion};
