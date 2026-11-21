@@ -264,8 +264,8 @@ function selectionFixture() {
   return {current,catalog,cases,record};
 }
 
-function controlRunner(context, name, run) {
-  const e = require('../evidence.cjs'), controls = [];
+function controlRunner(context, name, run, controls = []) {
+  const e = require('../evidence.cjs');
   function reject(id, pattern, action) {assert.throws(action,pattern,id);controls.push(id);}
   const result = run(reject);
   e.writeExclusive(context.directory,name+'-controls.json',{scope:'Synthetic source-only fixture records; no real windows, reviewers, listening or acceptance.',controls});
@@ -363,9 +363,68 @@ function judgmentControls(context) {
   return result;
 }
 
-async function artifactControls(context) {
+async function completionReceiptControls(context) {
   const e = require('../evidence.cjs'), scenarios = require('../scenarios.cjs');
-  const result = controlRunner(context,'artifacts',reject => {
+  const {current} = baseFixture();
+  const root = path.join(context.directory,'completion-history');
+  fs.mkdirSync(root);
+  e.writeExclusive(root,'tools/phase1/toolchain.json',{node:'24.22.1'});
+  const qualification = {id:'acceptance.artifacts-source'}, prerequisite = {id:'source.publication'}, closure = {id:'acceptance.artifacts'};
+  function invoke(item, minute, status) {
+    const startedAt = `2026-11-20T11:${minute}:00.000Z`, nonce = crypto.randomUUID();
+    const directory = '.phase4/runs/'+nonce+'/';
+    const opened = {caseId:item.id,nonce,revision:current.revision,startedAt,platform:'win32',node:'v24.22.1',
+      scope:'source/headless; zero game windows'};
+    e.writeExclusive(root,directory+'invocation.json',opened);
+    if (status) return {id:item.id,result:e.writeExclusive(root,directory+'result.json',
+      {...opened,finishedAt:startedAt,status,observations:{fixture:true}})};
+    return null;
+  }
+  const sources = [invoke(qualification,'00','pass'),invoke(prerequisite,'01','pass')];
+  const oldClosure = invoke(closure,'02','pass');
+  const selected = [qualification,prerequisite,closure];
+  invoke(closure,'03',null);
+  assert.throws(() => scenarios.sourceReceipts(root,selected,[...sources,oldClosure],current),
+    /COMPLETION_LATER_SOURCE_FAILURE acceptance\.artifacts missing/);
+  const controls = ['legacy-closure-self-receipt-is-missing'];
+  const verify = scenarios.verifyCompletion;
+  const commands = [
+    ['acceptance.artifacts',async () => (await check.cases.get(closure.id).run(context)).completion],
+    ['--verify-completion',() => check.main(['--verify-completion',e.COMPLETION],() => {})]
+  ];
+  // Exercise both entry points against the same detached ledger without publishing acceptance results.
+  scenarios.verifyCompletion = async (project, relative, cases) => {
+    assert.equal(path.resolve(project),ROOT);
+    assert.equal(relative,e.COMPLETION);
+    assert.equal(cases,check.cases);
+    return [...scenarios.completionSourceReceipts(root,selected,sources,current)];
+  };
+  async function reject(name, diagnostic) {
+    for (const [command,run] of commands) {
+      await assert.rejects(run,diagnostic);
+      controls.push(command+' '+name);
+    }
+  }
+  try {
+    for (const [command,run] of commands) {
+      assert.deepEqual(await run(),[qualification.id,prerequisite.id]);
+      controls.push(command+' ignores its own active closure receipt');
+    }
+    invoke(prerequisite,'04',null);
+    await reject('rejects another in-flight prerequisite',/COMPLETION_LATER_SOURCE_FAILURE source\.publication missing/);
+    invoke(prerequisite,'05','fail');
+    await reject('rejects another failed prerequisite',/COMPLETION_LATER_SOURCE_FAILURE source\.publication fail/);
+    sources[1] = invoke(prerequisite,'06','pass');
+    invoke(qualification,'07',null);
+    await reject('rejects a newer missing qualification',/COMPLETION_LATER_SOURCE_FAILURE acceptance\.artifacts-source missing/);
+  } finally {scenarios.verifyCompletion = verify;}
+  return controls;
+}
+
+async function artifactControls(context) {
+  const e = require('../evidence.cjs');
+  const receiptControls = await completionReceiptControls(context);
+  return controlRunner(context,'artifacts',reject => {
     const {current} = baseFixture();
     const source = 'function chooseExact() { return 7; }';
     const file = e.writeExclusive(context.directory,'test-source.cjs',Buffer.from(source + '\n'));
@@ -392,9 +451,7 @@ async function artifactControls(context) {
     reject('missing-case-export',/EVIDENCE_SET/,() => verify({...inventory,caseExports:[]}));
     reject('older-audit-build',/EVIDENCE_IDENTITY/,() => verify(inventory,{...audit,build:'f'.repeat(64)}));
     return {verifiedFixtureFiles:inventory.files.length};
-  });
-  if (fs.existsSync(path.join(ROOT,e.COMPLETION))) result.completion = await scenarios.verifyCompletion(ROOT,e.COMPLETION,check.cases);
-  return result;
+  },receiptControls);
 }
 
 if (require.main === module) {
@@ -430,8 +487,14 @@ if (require.main === module) {
     evidence:['judgments-controls.json','result.json']},judgmentControls);
   check.registerCase('acceptance.artifacts',{...base,order:303,title:'Current artifact, scope and exact completion inventory',
     rationale:'An incomplete or stale artifact inventory can hide unverified production or selected failures',
+    setup:'Current completion index, eligible source receipts and the actual rendered and named outcomes',
     actions:['Compare exact tracked artifacts and reviewed symbols, case exports, native tuples and retained archive members','Reconcile the complete current run, earlier failure history, and required coverage'],
     expected:'Missing, stale or unexpected artifacts, signatures, cases and final evidence are rejected',
+    evidence:['result.json']},async () => ({completion:await require('../scenarios.cjs').verifyCompletion(ROOT,require('../evidence.cjs').COMPLETION,check.cases)}));
+  check.registerCase('acceptance.artifacts-source',{...base,order:305,title:'Detached artifact inventory and receipt-history controls',
+    rationale:'Source qualification must expose invalid evidence independently of the final closure result',
+    actions:['Validate detached artifact, source signature and native permission controls','Require independent prerequisites while a completion check is in progress'],
+    expected:'An active completion check does not require its own receipt and every independent missing or failed receipt blocks closure',
     evidence:['artifacts-controls.json','result.json']},artifactControls);
 }
 

@@ -30,6 +30,8 @@ The `04-RUNS.json` input binds the current identity, review and selection SHA-25
 
 `--verify-completion PATH` checks the whole current selection. The index links the initial, repair and final campaign reports, source/headless results, current export, named listening and judgments, and the changed-file and source audit inventories. A focused pass never replaces the fresh full selected run after repairs. Later same-input source failures, blockers and missing outcomes invalidate earlier passes. Proven unrelated source revisions remain independent. The permission inventory matches all 251 exact guarded host tuples against the current policy, compiled case declarations and the linked per-test execution reports. Every required audio variant and loop retains its exact WAV hash and version. The two mix decisions require their own named records. The four prohibition judgments retain their individual statements and exact case images. The independent humans must provide the actual listening and image verdicts and their linked evidence.
 
+Use `--case acceptance.artifacts-source` for detached artifact and receipt-history qualification. Include its independent passing receipt in both the pre-window source results and the completion index. Use `--case acceptance.artifacts` with the actual `04-COMPLETION.json`, or `--verify-completion PATH` to name the index. Both run the full completion verification. The completion index lists independent source results and the verification publishes its own result after those checks.
+
 ## fixtures
 
 - **item-icons-and-all-24-definitions** — src/godot-game/content/packs/items-01-10.json, src/godot-game/content/packs/items-11-24.json
@@ -1119,15 +1121,29 @@ Named current media and separate prohibition judgments. Critical. A missing or s
 
 Current artifact, scope and exact completion inventory. Critical. An incomplete or stale artifact inventory can hide unverified production or selected failures.
 
-**Setup and input** Fixed current source and invocation-owned negative fixtures. Current exact resource and source identities from the case setup.
+**Setup and input** Current completion index, eligible source receipts and the actual rendered and named outcomes.
 
 **Actions** Compare exact tracked artifacts and reviewed symbols, case exports, native tuples and retained archive members → Reconcile the complete current run, earlier failure history, and required coverage.
 
 **Expected** Missing, stale or unexpected artifacts, signatures, cases and final evidence are rejected.
 
+**Evidence** result.json.
+
+**Run and reset** G0-runner / 303 / owned-source-or-headless-processes. Verify current completion data without opening a game window. Preserve prior invocations.
+
+### acceptance.artifacts-source
+
+Detached artifact inventory and receipt-history controls. Critical. Source qualification must expose invalid evidence independently of the final closure result.
+
+**Setup and input** Fixed current source and invocation-owned negative fixtures.
+
+**Actions** Validate detached artifact, source signature and native permission controls → Require independent prerequisites while a completion check is in progress.
+
+**Expected** An active completion check does not require its own receipt and every independent missing or failed receipt blocks closure.
+
 **Evidence** artifacts-controls.json · result.json.
 
-**Run and reset** G0-runner / 303 / owned-source-or-headless-processes. 15 seconds for the nested CLI; source-only fixture evaluation. Keep original fixtures, review records and every prior invocation immutable. Keep original fixtures, review records and every prior invocation immutable.
+**Run and reset** G0-runner / 305 / owned-source-or-headless-processes. Verify isolated fixtures without opening a game window. Preserve prior invocations.
 
 ### heldout.H01
 

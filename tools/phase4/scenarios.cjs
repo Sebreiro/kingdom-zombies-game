@@ -477,6 +477,11 @@ function sourceReceipts(root, selected, refs, current) {
   return new Set(selected.map(row => row.id));
 }
 
+function completionSourceReceipts(root, selected, refs, current) {
+  // The verifier's own result is published after this check. The independent qualification has its own case ID.
+  return sourceReceipts(root,selected.filter(row => !row.needsGameWindow && row.id!=='acceptance.artifacts'),refs,current);
+}
+
 function coverageExpectation(catalog, root) {
   const catalogAlpha = new Set(catalog.cases.map(row => row.id));
   const native = new Set(catalog.activeRendered.map(row => row.id));
@@ -888,14 +893,13 @@ async function verifyCompletion(root, relative, registered) {
   e.identity(current, index, 'completion');
   e.need(index.reviewSha256 === gate.review.sha256 && index.selectionSha256 === gate.selection.sha256, 'COMPLETION_BINDINGS');
   const final = finalRendered(root,gate,current,index.runs,index.campaign);
-  const receipts = sourceReceipts(root,gate.selected.filter(row => !row.needsGameWindow),index.sourceResults,current);
+  const receipts = completionSourceReceipts(root,gate.selected,index.sourceResults,current);
   for (const row of final.outcomes) receipts.add(row.id);
   e.need(index.listening?.path===e.LISTENING && index.judgments?.path===e.JUDGMENTS,'COMPLETION_NAMED_PATHS');
   for (const ref of [index.listening,index.judgments]) e.committedRef(root,gate.head,ref);
   const audio = e.listeningExpectations(root), judgments = e.judgmentExpectations(catalog);
   e.validateJudgments(root,e.document(root,index.listening),e.document(root,index.judgments),current,audio,judgments,final);
   for (const row of [...audio,...judgments]) receipts.add(row.id);
-  e.validateCoverage(index,coverageExpectation(catalog,root),receipts);
   const review = e.document(root,gate.review), build = e.document(root,review.buildReport);
   e.need(equal(build.package,index.export) && e.artifact(root,index.export).bytes>0,'COMPLETION_EXPORT');
   const artifacts = e.document(root,index.artifacts), audit = e.document(root,index.sourceAudit);
@@ -906,10 +910,12 @@ async function verifyCompletion(root, relative, registered) {
     const result = await require('./content.cjs').archive(root,{path:row.path,sha256:row.sha256,bytes:row.bytes});
     e.need(equal(row.members,result.members),'EVIDENCE_ARCHIVE_CURRENT',row.path);
   }
+  receipts.add('acceptance.artifacts');
+  e.validateCoverage(index,coverageExpectation(catalog,root),receipts);
   return {status:'pass',invocation:final.invocation,executed:receipts.size,scope:'Current Windows resource delivery'};
 }
 
 module.exports = {CATALOG, COVERAGE, SCENARIOS, GROUPS, ORDER, coverageRows, validateProcedure, validateCatalog, loadCatalog,
   selectCases, inheritedCases, selectionRows, impactClosure, validateSelection, currentReviewAdapter, prelaunch, currentIdentity, runId,
-  finalRendered, latestPhase4Sources, sourceReceipts, preWindowCases, verifyFixProof, coverageExpectation, validateDriver, reviewedDrivers,
+  finalRendered, latestPhase4Sources, sourceReceipts, completionSourceReceipts, preWindowCases, verifyFixProof, coverageExpectation, validateDriver, reviewedDrivers,
   treePaths, runInspection, runInherited, runRendered, verifyCompletion};

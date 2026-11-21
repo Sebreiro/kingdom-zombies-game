@@ -566,7 +566,7 @@ registerCase('source.tracer-failures',{group:'source',title:'Bad real tracer sub
   expected:'Eleven fresh deliberate failures; fresh restored and production passes; original bytes unchanged',
   reset:'Copies are run-owned; restore only missing media in its disposable copy; preserve all failure records; bounded descendant cleanup',
   evidence:['inputs.json','originals-before.json','originals-after.json','mutation.json','mutation.bin','native-loader.command.json','result.json']},tracerFailures);
-async function main(args){
+async function main(args,writeCompletion=console.log){
   need(fs.realpathSync.native(ROOT).toLowerCase()===fs.realpathSync.native(path.resolve(__dirname,'../..')).toLowerCase(),'PROJECT_ROOT_PIN');
   if(args.length===1&&args[0]==='--export-tracer')return exportTracer();
   caseModules??=loadCaseModules(path.join(__dirname,'cases'),registry);
@@ -576,7 +576,7 @@ async function main(args){
   const scenarios=require('./scenarios.cjs');
   if(args[0]==='--verify-completion'){
     const result=await scenarios.verifyCompletion(ROOT,args[1],cases);
-    console.log(JSON.stringify(result,null,2));return;
+    writeCompletion(JSON.stringify(result,null,2));return result;
   }
   if(args[0]==='--group'&&args[1]==='rendered'){
     const result=await scenarios.runRendered(ROOT,cases);
@@ -596,7 +596,8 @@ async function main(args){
       result={status:'pass',observations};
     }
     catch(error){result={status:'fail',message:error.message,stack:error.stack};failed=true;}
-    save(context.directory,'result.json',{...context,...result,finishedAt:new Date().toISOString(),scope:'source/headless only; acceptance pending 04-32'});
+    const scope=item.id==='acceptance.artifacts'?'No-window current completion verification':'source/headless only; acceptance pending 04-32';
+    save(context.directory,'result.json',{...context,...result,finishedAt:new Date().toISOString(),scope});
     console.log(result.status.toUpperCase()+' '+item.id+' '+context.directory);if(result.message)console.error(result.message);
   }
   if(failed)process.exitCode=1;

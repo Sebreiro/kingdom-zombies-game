@@ -118,7 +118,7 @@
         "id": "source.tracer",
         "status": "implemented-inline-case",
         "module": "tools/phase4/check.cjs",
-        "moduleSha256": "e9fcff0d83226e55d2bbb25d86b7d13abba1c86a3a7bd273190ade077489279b",
+        "moduleSha256": "228f13380c0f6fab067996ef99a1eee4fe397d5611193c6a1ee76cbfa96437a9",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -187,7 +187,7 @@
         "id": "source.tracer-failures",
         "status": "implemented-inline-case",
         "module": "tools/phase4/check.cjs",
-        "moduleSha256": "e9fcff0d83226e55d2bbb25d86b7d13abba1c86a3a7bd273190ade077489279b",
+        "moduleSha256": "228f13380c0f6fab067996ef99a1eee4fe397d5611193c6a1ee76cbfa96437a9",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -4369,7 +4369,7 @@
         "id": "runner.prelaunch",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/runner.cjs",
-        "moduleSha256": "30535818db09e3780c8bd795f243ed125454ae9206bd5b196b50ca89dd88856d",
+        "moduleSha256": "0b6720968319538549a9c53fac3db070d874b3995dc7fecee2926bdd8e44a8e1",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -4436,7 +4436,7 @@
         "id": "runner.selection",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/runner.cjs",
-        "moduleSha256": "30535818db09e3780c8bd795f243ed125454ae9206bd5b196b50ca89dd88856d",
+        "moduleSha256": "0b6720968319538549a9c53fac3db070d874b3995dc7fecee2926bdd8e44a8e1",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -4504,7 +4504,7 @@
         "id": "acceptance.judgments",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/runner.cjs",
-        "moduleSha256": "30535818db09e3780c8bd795f243ed125454ae9206bd5b196b50ca89dd88856d",
+        "moduleSha256": "0b6720968319538549a9c53fac3db070d874b3995dc7fecee2926bdd8e44a8e1",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -4544,7 +4544,7 @@
         "runner",
         "acceptance-integrity"
       ],
-      "setup": "Fixed current source and invocation-owned negative fixtures",
+      "setup": "Current completion index, eligible source receipts and the actual rendered and named outcomes",
       "reset": "Keep original fixtures, review records and every prior invocation immutable",
       "order": 303,
       "title": "Current artifact, scope and exact completion inventory",
@@ -4555,7 +4555,6 @@
       ],
       "expected": "Missing, stale or unexpected artifacts, signatures, cases and final evidence are rejected",
       "evidence": [
-        "artifacts-controls.json",
         "result.json"
       ],
       "id": "acceptance.artifacts",
@@ -4572,7 +4571,7 @@
         "id": "acceptance.artifacts",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/runner.cjs",
-        "moduleSha256": "30535818db09e3780c8bd795f243ed125454ae9206bd5b196b50ca89dd88856d",
+        "moduleSha256": "0b6720968319538549a9c53fac3db070d874b3995dc7fecee2926bdd8e44a8e1",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -4581,7 +4580,7 @@
       "boundedWaits": "No game window; synchronous evidence validation",
       "execution": "registered case; no acceptance credit",
       "preconditions": [
-        "Fixed current source and invocation-owned negative fixtures"
+        "Current completion index, eligible source receipts and the actual rendered and named outcomes"
       ],
       "input": [
         "Current exact resource and source identities from the case setup"
@@ -4644,7 +4643,75 @@
         "id": "runner.prelaunch-source",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/runner.cjs",
-        "moduleSha256": "30535818db09e3780c8bd795f243ed125454ae9206bd5b196b50ca89dd88856d",
+        "moduleSha256": "0b6720968319538549a9c53fac3db070d874b3995dc7fecee2926bdd8e44a8e1",
+        "execution": "no pass inferred from catalog metadata"
+      },
+      "processRoles": [
+        "owned-source-or-headless-processes"
+      ],
+      "boundedWaits": "15 seconds for the nested CLI; source-only fixture evaluation",
+      "execution": "registered case; no acceptance credit",
+      "preconditions": [
+        "Fixed current source and invocation-owned negative fixtures"
+      ],
+      "input": [
+        "Current exact resource and source identities from the case setup"
+      ],
+      "cleanup": "Keep original fixtures, review records and every prior invocation immutable",
+      "heldoutIds": [],
+      "uiIds": []
+    },
+    {
+      "group": "runner",
+      "importance": "Critical",
+      "needsGameWindow": false,
+      "runGroup": "G0-runner",
+      "requirements": [
+        "ASSET-01",
+        "ASSET-02",
+        "ASSET-03",
+        "ASSET-04",
+        "ASSET-05"
+      ],
+      "acceptance": [
+        "AC-17",
+        "AC-19",
+        "AC-20"
+      ],
+      "tags": [
+        "source-only",
+        "runner",
+        "acceptance-integrity"
+      ],
+      "setup": "Fixed current source and invocation-owned negative fixtures",
+      "reset": "Keep original fixtures, review records and every prior invocation immutable",
+      "order": 305,
+      "title": "Detached artifact inventory and receipt-history controls",
+      "rationale": "Source qualification must expose invalid evidence independently of the final closure result",
+      "actions": [
+        "Validate detached artifact, source signature and native permission controls",
+        "Require independent prerequisites while a completion check is in progress"
+      ],
+      "expected": "An active completion check does not require its own receipt and every independent missing or failed receipt blocks closure",
+      "evidence": [
+        "artifacts-controls.json",
+        "result.json"
+      ],
+      "id": "acceptance.artifacts-source",
+      "lifecycle": "active-source",
+      "featureTags": [
+        "runner",
+        "ASSET-01",
+        "ASSET-02",
+        "ASSET-03",
+        "ASSET-04",
+        "ASSET-05"
+      ],
+      "sourceBinding": {
+        "id": "acceptance.artifacts-source",
+        "status": "implemented-source-case",
+        "module": "tools/phase4/cases/runner.cjs",
+        "moduleSha256": "0b6720968319538549a9c53fac3db070d874b3995dc7fecee2926bdd8e44a8e1",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -7430,14 +7497,14 @@
           "id": "source.tracer",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "e9fcff0d83226e55d2bbb25d86b7d13abba1c86a3a7bd273190ade077489279b",
+          "moduleSha256": "228f13380c0f6fab067996ef99a1eee4fe397d5611193c6a1ee76cbfa96437a9",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "source.tracer-failures",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "e9fcff0d83226e55d2bbb25d86b7d13abba1c86a3a7bd273190ade077489279b",
+          "moduleSha256": "228f13380c0f6fab067996ef99a1eee4fe397d5611193c6a1ee76cbfa96437a9",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -8407,28 +8474,28 @@
           "id": "runner.prelaunch",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "30535818db09e3780c8bd795f243ed125454ae9206bd5b196b50ca89dd88856d",
+          "moduleSha256": "0b6720968319538549a9c53fac3db070d874b3995dc7fecee2926bdd8e44a8e1",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "runner.selection",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "30535818db09e3780c8bd795f243ed125454ae9206bd5b196b50ca89dd88856d",
+          "moduleSha256": "0b6720968319538549a9c53fac3db070d874b3995dc7fecee2926bdd8e44a8e1",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "acceptance.judgments",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "30535818db09e3780c8bd795f243ed125454ae9206bd5b196b50ca89dd88856d",
+          "moduleSha256": "0b6720968319538549a9c53fac3db070d874b3995dc7fecee2926bdd8e44a8e1",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "acceptance.artifacts",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "30535818db09e3780c8bd795f243ed125454ae9206bd5b196b50ca89dd88856d",
+          "moduleSha256": "0b6720968319538549a9c53fac3db070d874b3995dc7fecee2926bdd8e44a8e1",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -8449,7 +8516,14 @@
           "id": "runner.prelaunch-source",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "30535818db09e3780c8bd795f243ed125454ae9206bd5b196b50ca89dd88856d",
+          "moduleSha256": "0b6720968319538549a9c53fac3db070d874b3995dc7fecee2926bdd8e44a8e1",
+          "execution": "no pass inferred from catalog metadata"
+        },
+        {
+          "id": "acceptance.artifacts-source",
+          "status": "implemented-source-case",
+          "module": "tools/phase4/cases/runner.cjs",
+          "moduleSha256": "0b6720968319538549a9c53fac3db070d874b3995dc7fecee2926bdd8e44a8e1",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -8511,35 +8585,42 @@
           "id": "runner.prelaunch",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "30535818db09e3780c8bd795f243ed125454ae9206bd5b196b50ca89dd88856d",
+          "moduleSha256": "0b6720968319538549a9c53fac3db070d874b3995dc7fecee2926bdd8e44a8e1",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "runner.selection",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "30535818db09e3780c8bd795f243ed125454ae9206bd5b196b50ca89dd88856d",
+          "moduleSha256": "0b6720968319538549a9c53fac3db070d874b3995dc7fecee2926bdd8e44a8e1",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "acceptance.judgments",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "30535818db09e3780c8bd795f243ed125454ae9206bd5b196b50ca89dd88856d",
+          "moduleSha256": "0b6720968319538549a9c53fac3db070d874b3995dc7fecee2926bdd8e44a8e1",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "acceptance.artifacts",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "30535818db09e3780c8bd795f243ed125454ae9206bd5b196b50ca89dd88856d",
+          "moduleSha256": "0b6720968319538549a9c53fac3db070d874b3995dc7fecee2926bdd8e44a8e1",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "runner.prelaunch-source",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "30535818db09e3780c8bd795f243ed125454ae9206bd5b196b50ca89dd88856d",
+          "moduleSha256": "0b6720968319538549a9c53fac3db070d874b3995dc7fecee2926bdd8e44a8e1",
+          "execution": "no pass inferred from catalog metadata"
+        },
+        {
+          "id": "acceptance.artifacts-source",
+          "status": "implemented-source-case",
+          "module": "tools/phase4/cases/runner.cjs",
+          "moduleSha256": "0b6720968319538549a9c53fac3db070d874b3995dc7fecee2926bdd8e44a8e1",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9002,14 +9083,14 @@
           "id": "source.tracer",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "e9fcff0d83226e55d2bbb25d86b7d13abba1c86a3a7bd273190ade077489279b",
+          "moduleSha256": "228f13380c0f6fab067996ef99a1eee4fe397d5611193c6a1ee76cbfa96437a9",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "source.tracer-failures",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "e9fcff0d83226e55d2bbb25d86b7d13abba1c86a3a7bd273190ade077489279b",
+          "moduleSha256": "228f13380c0f6fab067996ef99a1eee4fe397d5611193c6a1ee76cbfa96437a9",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9376,14 +9457,14 @@
           "id": "source.tracer",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "e9fcff0d83226e55d2bbb25d86b7d13abba1c86a3a7bd273190ade077489279b",
+          "moduleSha256": "228f13380c0f6fab067996ef99a1eee4fe397d5611193c6a1ee76cbfa96437a9",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "source.tracer-failures",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "e9fcff0d83226e55d2bbb25d86b7d13abba1c86a3a7bd273190ade077489279b",
+          "moduleSha256": "228f13380c0f6fab067996ef99a1eee4fe397d5611193c6a1ee76cbfa96437a9",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9428,14 +9509,14 @@
           "id": "source.tracer",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "e9fcff0d83226e55d2bbb25d86b7d13abba1c86a3a7bd273190ade077489279b",
+          "moduleSha256": "228f13380c0f6fab067996ef99a1eee4fe397d5611193c6a1ee76cbfa96437a9",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "source.tracer-failures",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "e9fcff0d83226e55d2bbb25d86b7d13abba1c86a3a7bd273190ade077489279b",
+          "moduleSha256": "228f13380c0f6fab067996ef99a1eee4fe397d5611193c6a1ee76cbfa96437a9",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
