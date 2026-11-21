@@ -448,7 +448,7 @@ function validatePreparedManaged(root,build) {
   const owner=/^\.phase4\/runs\/([a-f0-9-]+)\/source\/src\/godot-game$/.exec(prepared?.path ?? '');
   e.need(owner && e.UUID.test(owner[1]),'RENDERED_SOURCE_PROJECT');
   const managedPath=prepared.path+'/.godot/mono/temp/bin/Debug';
-  const managed=delivery.inventory(e.inside(root,managedPath));
+  const managed=delivery.inventory(require('./content.cjs').inside(root,managedPath));
   e.need(equal(managed,prepared.managed),'RENDERED_SOURCE_MANAGED_CLOSURE');
   return Object.fromEntries(MANAGED_NAMES.map(name => {
     const file=managedPath+'/'+name+'.dll';
