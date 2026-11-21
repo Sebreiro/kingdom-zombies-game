@@ -59,7 +59,7 @@ function rejectsInvalidWave() {
     'Exact listening bytes must be a genuine WAV and must not gain a verdict from their extension');
 }
 
-function qualification(context) {
+async function qualification(context) {
   const e = require('../evidence.cjs');
   const scenarios = require('../scenarios.cjs');
   const catalog = scenarios.loadCatalog(ROOT, check.cases);
@@ -129,7 +129,10 @@ function qualification(context) {
   const failed = {...report, invocation:later, previousInvocation:report.invocation, kind:'final', status:'fail',
     startedAt:report.finishedAt, finishedAt:'2026-11-20T11:02:00.000Z', outcomes:[{...report.outcomes[0],invocation:later,status:'fail'}]};
   reject('later-failure-hidden', /EVIDENCE_FINAL_PASS/, () => e.freshFinal([item], [report,failed], current));
-  reject('focused-pass-is-not-full-rerun', /EVIDENCE_FINAL_PASS/, () => e.freshFinal([item], [report,{...failed,kind:'focused',repairReason:'Control'}], current));
+  reject('focused-pass-is-not-full-rerun', /EVIDENCE_FINAL_PASS/, () => e.freshFinal([item], [
+    {...report,status:'fail',outcomes:[{...report.outcomes[0],status:'blocked'}]},
+    {...failed,kind:'focused',repairReason:'Control',status:'pass',outcomes:[{...failed.outcomes[0],status:'pass'}]}
+  ], current));
   const ref = e.writeExclusive(context.directory, 'immutable-control.json', {value:'original fixture'});
   reject('overwrite-history', /EEXIST/, () => e.writeExclusive(context.directory, ref.path, {value:'replacement'}));
   reject('forged-file-hash', /EVIDENCE_HASH/, () => e.artifact(context.directory, {...ref,sha256:'f'.repeat(64)}));
@@ -143,11 +146,70 @@ function qualification(context) {
   renderedDeclarationControls(context.directory,reject);
   sourceHistoryControls(context.directory,reject);
   campaignHistoryControls(context.directory,reject);
+  repairHistoryControls(reject);
   buildIdentityControls(context.directory,reject);
-  const result = {scope:'Source-only negative controls. Fixture identities supply no review or acceptance.', controls:control,
+  const desktop=desktopHelperControl(context.directory);
+  const recovery=await inspectionRecoveryControls(context.directory);
+  const result = {scope:'Source-only negative controls. Fixture identities supply no review or acceptance.', controls:control,desktop,recovery,
     sourceCases:catalog.cases.length, heldout:catalog.heldout.length, ui:catalog.backstops.length, judgments:catalog.judgments.length, accepted:0};
   e.writeExclusive(context.directory, 'runner-controls.json', result);
   return result;
+}
+
+async function inspectionRecoveryControls(directory) {
+  const {runInspectionLane}=require('../scenarios.cjs'), e=require('../evidence.cjs');
+  const items=['heldout.H12','heldout.H13'].map(id=>({id}));
+  const steps=[{id:'initial',lifetime:1},{id:'screenshot',lifetime:1},
+    {id:'navigate-return-items',lifetime:1,navigate:true},{id:'reset-1',lifetime:1}];
+  const drivers=new Map(items.map(item=>[item.id,{steps}]));
+  const records=[];
+  for (const resetWorks of [true,false]) {
+    const calls=[], outcomes=items.map(({id})=>({id,status:'pass',checkpoints:[]}));
+    const session={usable:true,async checkpoint(item,step) {
+      calls.push([item.id,step.id]);
+      if (item===items[0] && step.id==='screenshot') throw new Error('Detached original screenshot failure');
+      return {id:step.id};
+    },async restore(item,repair) {
+      calls.push([item.id,...repair.map(step=>step.id)]);
+      assert.deepEqual(repair,steps.slice(2));
+      if (!resetWorks) throw new Error('Detached baseline was not restored');
+      return {baseline:'detached verification'};
+    }};
+    const attempted=await runInspectionLane(session,{items,lifetime:1},outcomes,drivers,'detached',()=>500,()=>{});
+    assert.equal(outcomes[0].status,'fail');
+    assert.equal(outcomes[0].observed,'Detached original screenshot failure');
+    assert.deepEqual(outcomes[0].checkpoints,[{id:'initial'}]);
+    assert.deepEqual(calls[2],[items[0].id,...steps.slice(2).map(step=>step.id)]);
+    assert.equal(outcomes[1].status,resetWorks?'pass':'blocked');
+    assert.equal(attempted.length,resetWorks?2:1);
+    assert.equal(calls.some(([id])=>id===items[1].id),resetWorks);
+    if (resetWorks) assert.equal(outcomes[0].recovery.baseline,'detached verification');
+    else {
+      assert.equal(outcomes[0].resetFailure,'Detached baseline was not restored');
+      assert.equal(outcomes[1].execution,'not-executed');
+    }
+    records.push({resetWorks,calls,outcomes});
+  }
+  return e.writeExclusive(directory,'inspection-recovery-controls.json',records);
+}
+
+function desktopHelperControl(directory) {
+  const e=require('../evidence.cjs'), tool=require('../export.cjs');
+  const executable=require('../rendered-process.cjs').windowsPowerShell();
+  const profile=path.join(directory,'desktop-helper-profile'), trace=path.join(directory,'desktop-helper-host.log');
+  const env=tool.validatePortableEnvironment({...tool.cleanEnvironment(profile),COREHOST_TRACE:'1',COREHOST_TRACEFILE:trace},profile,trace);
+  const invoke=args=>spawnSync(executable,args,{cwd:ROOT,env,encoding:'utf8',windowsHide:true,timeout:12000});
+  const inert=invoke(['-NoProfile','-NonInteractive','-Command','Write-Output KZ_HELPER_OK']);
+  assert.ifError(inert.error);
+  assert.equal(inert.status,0,inert.stderr);
+  assert.equal(inert.stdout.trim(),'KZ_HELPER_OK');
+  const probe=invoke(['-NoProfile','-NonInteractive','-ExecutionPolicy','Bypass','-File',path.join(ROOT,'tools/phase2/windows-input.ps1'),
+    '-OwnedPid','0','-Action','probe','-X','0','-Y','0','-Key','0']);
+  assert.ifError(probe.error);
+  assert.equal(probe.status,1,probe.stdout);
+  assert.match(probe.stderr,/OWNED_WINDOW_MISSING/);
+  return e.writeExclusive(directory,'desktop-helper-control.json',{executable,path:env.PATH,inert:inert.stdout.trim(),
+    inertPid:0,probe:probe.status,ownedWindow:'missing',physicalInput:false});
 }
 
 function buildIdentityControls(directory,reject) {
@@ -170,6 +232,16 @@ function buildIdentityControls(directory,reject) {
   tool.validatePortableEnvironment(env,profile,trace);
   reject('foreign-runtime-path',/RUNTIME_SEARCH_OVERRIDE/,() => tool.validatePortableEnvironment({...env,DOTNET_ROOT:'foreign'},profile,trace));
   reject('foreign-runtime-search-case',/RUNTIME_SEARCH_OVERRIDE/,() => tool.validatePortableEnvironment({...env,Path:'foreign'},profile,trace));
+  const project='prepared-source', sourceFiles={files:[{path:'src/godot-game/project.godot'}]};
+  e.writeExclusive(directory,project+'/project.godot',Buffer.from('config_version=5'));
+  e.writeExclusive(directory,project+'/.godot/uid_cache.bin',Buffer.from('detached cache'));
+  e.writeExclusive(directory,project+'/.godot/global_script_class_cache.cfg',Buffer.from('list=[]'));
+  assert.equal(s.sourceImportCompanions(directory,project,sourceFiles).length,2);
+  for (const alias of ['project.binary','Override.cfg','.godot/extension_list.cfg','.godot/imported/substitute.remap']) {
+    const extra=e.writeExclusive(directory,project+'/'+alias,Buffer.from('detached alternate'));
+    reject('alternate-source-'+alias,/RENDERED_SOURCE_RUNTIME_REDIRECT/,() => s.sourceImportCompanions(directory,project,sourceFiles));
+    fs.unlinkSync(path.join(directory,extra.path));
+  }
   const revision='c'.repeat(40), launch=crypto.randomUUID(), names=['KingdomZombies','KingdomZombies.Core','KingdomZombies.Multiplayer.Abstractions'];
   const source={revision,engine:{path:'engine.exe'},sourceManaged:Object.fromEntries(names.map(name=>[name,
     {file:'source-project/.godot/mono/temp/bin/Debug/'+name+'.dll',mvid:crypto.randomUUID()}]))};
@@ -224,6 +296,47 @@ function campaignHistoryControls(directory,reject) {
   reject('group-deadline-cannot-start-late-helper',/RENDERED_GROUP_DEADLINE/,() => budget());
   controller.abort(new Error('Detached signal control'));
   reject('cancelled-group-cannot-start-helper',/Detached signal control/,() => budget());
+}
+
+function repairHistoryControls(reject) {
+  const e=require('../evidence.cjs'), s=require('../scenarios.cjs');
+  const {current,report:base}=baseFixture();
+  const items=['heldout.H12','heldout.H13'].map(id=>({id,runGroup:'G1-hub',expected:id+' expected state'}));
+  const [h12,h13]=items.map(row=>row.id), campaign=crypto.randomUUID();
+  function report(kind,previous,cases,affected=[]) {
+    const invocation=crypto.randomUUID(), startedAt=previous?.finishedAt??base.startedAt;
+    const outcomes=cases.map(([index,status])=>({...items[index],invocation,status,execution:'executed-now',observed:'Detached history control'}));
+    return {...current,campaign,schemaVersion:1,invocation,kind,previousInvocation:previous?.invocation??null,startedAt,
+      finishedAt:new Date(Date.parse(startedAt)+1000).toISOString(),repairReason:kind==='focused'?'Scoped repair':undefined,
+      selected:outcomes.map(row=>row.id),outcomes,newlyAffectedCaseIds:affected,status:outcomes.every(row=>row.status==='pass')?'pass':'fail'};
+  }
+  const initial=report('initial',null,[[0,'fail'],[1,'pass']]);
+  const unrelated=report('focused',initial,[[1,'pass']]);
+  const invalidFinal=report('final',unrelated,[[0,'pass'],[1,'pass']]);
+  reject('focused-unrelated-H13-cannot-clear-H12',/EVIDENCE_REPAIR_PROOF.*heldout\.H12/,() => e.freshFinal(items,[initial,unrelated,invalidFinal],current));
+  const repaired=report('focused',initial,[[0,'pass']]);
+  const final=report('final',repaired,[[0,'pass'],[1,'pass']]);
+  assert.equal(e.freshFinal(items,[initial,repaired,final],current),final);
+  const partial=report('focused',initial,[[0,'pass'],[1,'invalid']],[h13]);
+  const remaining=report('focused',partial,[[1,'pass']]);
+  const rest=report('final',remaining,[[0,'pass'],[1,'pass']]);
+  assert.equal(e.freshFinal(items,[initial,partial,remaining,rest],current),rest);
+  reject('final-skips-unresolved-invalid-case',/EVIDENCE_REPAIR_PROOF/,() =>
+    e.freshFinal(items,[initial,partial,report('final',partial,[[0,'pass'],[1,'pass']])],current));
+  const selection={...current,groups:[{id:'G1-hub',cases:[h12,h13]}],selected:[
+    {id:h12,dependencies:['src/godot-game/inspection/BuildingPreview.cs']},{id:h13,dependencies:['src/godot-game/inspection/CharacterPreview.cs']}]};
+  const affected=s.repairAffected(selection,selection,['src/godot-game/inspection/CharacterPreview.cs']);
+  assert.deepEqual(affected,[h13]);
+  const previous={path:'detached/initial.json',sha256:'a'.repeat(64),bytes:1};
+  const declaration={...current,campaign,kind:'focused',declaredAt:initial.startedAt,previousRun:previous,repairReason:partial.repairReason,
+    caseIds:partial.selected,newlyAffectedCaseIds:[h13]};
+  assert.deepEqual(s.attemptDeclaration(partial,declaration,selection,previous,affected).map(row=>row.id),[h12,h13]);
+  reject('focused-report-does-not-match-own-declaration',/EVIDENCE_SET/,() =>
+    s.attemptDeclaration(partial,{...declaration,caseIds:[h13]},selection,previous,affected));
+  reject('focused-declaration-omits-real-new-impact',/EVIDENCE_SET/,() =>
+    s.attemptDeclaration(partial,{...declaration,newlyAffectedCaseIds:[]},selection,previous,affected));
+  reject('focused-declaration-substitutes-prior-input',/EVIDENCE_ATTEMPT_DECLARATION/,() =>
+    s.attemptDeclaration(partial,{...declaration,previousRun:{...previous,bytes:2}},selection,previous,affected));
 }
 
 function sourceHistoryControls(directory, reject) {
@@ -696,6 +809,7 @@ async function artifactControls(context) {
   const e = require('../evidence.cjs');
   const receiptControls = await completionReceiptControls(context);
   return controlRunner(context,'artifacts',reject => {
+    repairHistoryControls(reject);
     const {current} = baseFixture();
     const source = 'function chooseExact() { return 7; }';
     const file = e.writeExclusive(context.directory,'test-source.cjs',Buffer.from(source + '\n'));

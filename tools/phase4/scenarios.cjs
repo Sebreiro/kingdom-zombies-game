@@ -432,14 +432,17 @@ function validateSourceProject(root,build,source) {
 function sourceImportCompanions(root,relative,source) {
   const authored=new Set(source.files.filter(ref=>ref.path.startsWith('src/godot-game/'))
     .map(ref=>ref.path.slice('src/godot-game/'.length)));
+  const project=path.resolve(root,relative);
+  e.need(fs.lstatSync(project).isDirectory()&&!fs.lstatSync(project).isSymbolicLink(),'RENDERED_SOURCE_REPARSE',relative);
   const generated=[];
-  function visit(directory,prefix) {
+  function visit(directory,prefix,cache=false) {
     for (const entry of fs.readdirSync(directory,{withFileTypes:true})) {
       const name=prefix+entry.name;
       e.need(!entry.isSymbolicLink(),'RENDERED_SOURCE_REPARSE',name);
-      if (name==='.godot') continue;
-      if (entry.isDirectory()) visit(path.join(directory,entry.name),name+'/');
-      else if (!authored.has(name)) {
+      e.need(!/^(?:project\.binary|override\.cfg|extension_list\.cfg)$|\.(?:remap|gdextension)$/i.test(entry.name),
+        'RENDERED_SOURCE_RUNTIME_REDIRECT',name);
+      if (entry.isDirectory()) visit(path.join(directory,entry.name),name+'/',cache||name==='.godot');
+      else if (!cache && !authored.has(name)) {
         const base=name.replace(/\.(?:uid|import)$/,'');
         e.need(base!==name&&authored.has(base),'RENDERED_SOURCE_UNEXPECTED_FILE',name);
         const {data,...ref}=e.read(root,relative+'/'+name);
@@ -455,7 +458,7 @@ function sourceImportCompanions(root,relative,source) {
       }
     }
   }
-  visit(path.resolve(root,relative),'');
+  visit(project,'');
   for(const name of ['uid_cache.bin','global_script_class_cache.cfg'])generated.push(e.reference(root,relative+'/.godot/'+name));
   return generated.sort((a,b)=>a.path.localeCompare(b.path));
 }
@@ -493,10 +496,104 @@ function runId() {
   return '.phase4/acceptance/' + crypto.randomUUID();
 }
 
+function nativeSelection(selection) {
+  return selection.groups.filter(group=>GROUPS.includes(group.id))
+    .flatMap(group=>group.cases.map(id=>({id,runGroup:group.id,family:id.startsWith('phase2/')?'phase2':id.startsWith('phase3/')?'phase3':null})));
+}
+
+function repairAffected(before,after,changed) {
+  const prior=new Map(before.selected.map(row=>[row.id,row]));
+  const entries=new Map(after.selected.map(row=>[row.id,row]));
+  return nativeSelection(after).map(row=>row.id).filter(id=>{
+    const was=prior.get(id), is=entries.get(id);
+    e.need(is && Array.isArray(is.dependencies),'EVIDENCE_REPAIR_DEPENDENCIES',id);
+    return !was || ['changed','affected'].some(flag=>is[flag]&&!was[flag]) ||
+      changed.some(file=>is.dependencies.some(dependency=>file===dependency||file.startsWith(dependency+'/')));
+  });
+}
+
+function newlyAffected(root,previous,revision,prior,selection) {
+  if (!previous) return [];
+  e.git(root,['merge-base','--is-ancestor',previous.revision,revision]);
+  const changed=e.git(root,['diff','--name-only','-z',previous.revision,revision]).split('\0').filter(Boolean);
+  return repairAffected(prior,selection,changed);
+}
+
+function attemptDeclaration(report,data,selection,previousRef,affected) {
+  e.identity(report,data,'campaign attempt declaration');
+  e.identity(report,selection,'campaign attempt selection');
+  e.need(data.campaign===report.campaign && data.kind===report.kind &&
+    data.reviewSha256===report.reviewSha256 && data.selectionSha256===report.selectionSha256 &&
+    equal(data.previousRun??null,previousRef??null) && data.repairReason===report.repairReason &&
+    e.instant(data.declaredAt) && data.declaredAt<=report.startedAt,'EVIDENCE_ATTEMPT_DECLARATION');
+  const all=nativeSelection(selection);
+  const rows=report.kind==='focused'?all.filter(row=>data.caseIds?.includes(row.id)):all;
+  e.exact(rows.map(row=>row.id),report.selected,'attempt selection',true);
+  e.need(report.outcomes.every((row,index)=>row.runGroup===rows[index]?.runGroup &&
+    (row.status!=='pass'||row.execution==='executed-now')),'EVIDENCE_ATTEMPT_OUTCOMES');
+  if (report.kind==='focused') {
+    e.exact(report.selected,data.caseIds,'declared focused cases',true);
+    e.exact(affected,report.newlyAffectedCaseIds,'derived newly affected cases',true);
+    e.exact(affected,data.newlyAffectedCaseIds,'declared newly affected cases',true);
+  } else e.need(affected.length===0 && (data.newlyAffectedCaseIds?.length??0)===0,
+    'EVIDENCE_REPAIR_PROOF','newly affected cases must receive a focused run first');
+  return rows;
+}
+
+function savedAttempt(root,report) {
+  e.need(e.REVISION.test(report.gateRevision),'EVIDENCE_ATTEMPT_GATE');
+  const directory='.phase4/acceptance/'+report.invocation+'/';
+  function committedCopy(canonical,digest) {
+    const record=e.read(root,directory+path.posix.basename(canonical));
+    const committed=e.git(root,['show',report.gateRevision+':'+canonical],null);
+    e.need(record.sha256===digest && record.data.equals(committed),'EVIDENCE_ATTEMPT_COMMITTED_FILE',canonical);
+    return e.document(root,record);
+  }
+  e.git(root,['merge-base','--is-ancestor',report.revision,report.gateRevision]);
+  const review=committedCopy(e.REVIEW,report.reviewSha256);
+  const selection=committedCopy(e.SELECTION,report.selectionSha256);
+  e.identity(report,review,'campaign attempt review');
+  e.need(review.buildReport?.sha256===report.build && e.instant(review.reviewedAt) && report.startedAt>=review.reviewedAt,
+    'EVIDENCE_ATTEMPT_BUILD');
+  const build=e.document(root,review.buildReport);
+  e.identity(report,{...build,build:review.buildReport.sha256},'campaign attempt build');
+  return {review,selection,build,data:e.document(root,report.drivers)};
+}
+
+function validateAttemptHistory(root,attempts) {
+  let prior=null;
+  for (const {report,terminal} of attempts) {
+    const {review,selection,build,data}=savedAttempt(root,report);
+    const affected=newlyAffected(root,prior?.report,report.revision,prior?.selection,selection);
+    const rows=attemptDeclaration(report,data,selection,prior?.terminal,affected);
+    const gate={review:{sha256:report.reviewSha256},selection:{sha256:report.selectionSha256},reviewedAt:review.reviewedAt};
+    const drivers=reviewedDrivers(data,gate,report,rows,report.kind);
+    for (const driver of drivers.values()) {
+      const fixture=driver.fixture;
+      const expected=fixture.kind==='portable-negative'?build.renderedFixtures?.[driver.id]?.sha256:build.pck?.sha256;
+      e.need(fixture.kind==='inspection-source'?fixture.sourceSha256===report.source:fixture.pckSha256===expected,
+        'EVIDENCE_ATTEMPT_FIXTURE',driver.id);
+    }
+    if (report.kind==='focused') for (const [index,row] of report.outcomes.entries()) {
+      if (row.status!=='pass') continue;
+      if (!rows[index].family) e.validateRenderedOutcome(root,row,report,drivers.get(row.id));
+      else {
+        const {result,bindings}=e.document(root,row.inherited);
+        e.need(bindings.nonce===report.invocation && bindings.revision===report.revision && bindings.input===report.source &&
+          bindings.tool===report.tool && bindings.platform==='win32-x64' && result?.id===row.id.split('/')[1] &&
+          result.status==='pass','EVIDENCE_ATTEMPT_INHERITED',row.id);
+      }
+    }
+    prior={report,terminal,selection};
+  }
+  return prior;
+}
+
 function finalRendered(root, gate, current, refs, campaign) {
   const native = gate.selected.filter(row => row.needsGameWindow);
   const reports = e.historyDocuments(root,refs,campaign);
   const final = e.freshFinal(native,reports,current);
+  validateAttemptHistory(root,reports.map((report,index)=>({report,terminal:refs[index]})));
   e.need(final.reviewSha256 === gate.review.sha256 && final.selectionSha256 === gate.selection.sha256 &&
     final.startedAt >= gate.reviewedAt,'COMPLETION_CURRENT_RUN');
   e.need(final.drivers?.path === '.phase4/acceptance/'+final.invocation+'/declared-drivers.json','COMPLETION_DRIVER_SCOPE');
@@ -909,7 +1006,7 @@ try {
 `;
 
 function desktopCommand(root, script, env, limit, owner, signal) {
-  return owned.command(owner,'powershell.exe', ['-NoProfile','-NonInteractive','-EncodedCommand',
+  return owned.command(owner,owned.windowsPowerShell(), ['-NoProfile','-NonInteractive','-EncodedCommand',
     Buffer.from(script,'utf16le').toString('base64')], {cwd:root,env}, limit,signal);
 }
 
@@ -936,6 +1033,8 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
   const env = loaded?.env ?? delivery.validatePortableEnvironment({...delivery.cleanEnvironment(profile),COREHOST_TRACE:'1',
     COREHOST_TRACEFILE:tracePath},profile,tracePath);
   const environment = e.writeExclusive(root,relative+'/environment.json',env);
+  const powerShell=owned.windowsPowerShell();
+  budget();
   const native = await nativeObserver(budget,signal);
   const args = ['--resolution','1280x720','--remote-debug',native.endpoint,...project];
   const startedAt = new Date().toISOString();
@@ -955,7 +1054,7 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
   let runtime, observedImage, ready;
   const input = adapter.physical(async (action,x,y,key) => {
     e.need(pid && !terminal && !error, 'RENDERED_PROCESS_LOST', role);
-    const result = await owned.command(owner,'powershell.exe',['-NoProfile','-ExecutionPolicy','Bypass','-File',
+    const result = await owned.command(owner,powerShell,['-NoProfile','-NonInteractive','-ExecutionPolicy','Bypass','-File',
       path.join(root,'tools/phase2/windows-input.ps1'),'-OwnedPid',String(pid),'-Action',action,'-X',String(x),'-Y',String(y),'-Key',String(key)],
       {cwd:root,env},closing?3000:budget(12000),closing?undefined:signal);
     acknowledgement = JSON.parse(result.stdout.trim());
@@ -979,8 +1078,8 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
       packet:e.writeExclusive(root,prefix+'-object-'+index+'.bin',packet.raw)}));
     return e.writeExclusive(root,prefix+'.json',{at:snapshot.at,tree,objects});
   }
-  async function checkpoint(item,step,invocation) {
-    const prefix = relative + '/' + item.id + '-' + step.id;
+  async function checkpoint(item,step,invocation,recovery=false) {
+    const prefix = relative + '/' + item.id + (recovery?'-recovery-':'-') + step.id;
     const deadline = Date.now() + budget(12000);
     for (;;) {
       try {await input.input('probe');break;} catch (failure) {
@@ -1041,6 +1140,17 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
       point.playback=e.audioPlayback(e.audioAuthority(root),step.id,before.values[0],observed.values[0]);
     return point;
   }
+  async function restore(item,steps,invocation,lifetime) {
+    const checkpoints=[];
+    for (const step of steps) {
+      const state=await native.snapshot(pid,step.checks);
+      if (step.checks.every((check,index)=>contracts.matches(check,state.values[index].value))) continue;
+      checkpoints.push(await checkpoint(item,step,invocation,true));
+    }
+    const baseline=await settle(contracts.baseline);
+    const prefix=relative+'/'+item.id+'-recovery-'+lifetime;
+    return {checkpoints,baseline:snapshotRef(prefix+'-baseline',baseline)};
+  }
   async function close() {
     closing = true;
     try {
@@ -1063,7 +1173,50 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
     if (runtime && subject && fs.existsSync(path.join(root,trace))) record.hostTrace=e.reference(root,trace,16*1024*1024);
     return {record,ref:e.writeExclusive(root,relative+'/terminal.json',record)};
   }
-  return {checkpoint,close,get usable(){return Boolean(pid && !terminal && !error);}};
+  return {checkpoint,restore,close,get usable(){return Boolean(pid && !terminal && !error);}};
+}
+
+function resetSequence(steps,lifetime) {
+  const reset=steps.at(-1);
+  e.need(reset?.id==='reset-'+lifetime,'RENDERED_RECOVERY_DECLARATION');
+  let start=steps.length-1;
+  while (steps[start-1]?.navigate) start--;
+  return steps.slice(start);
+}
+
+async function runInspectionLane(session,lane,outcomes,drivers,invocation,budget,onPass) {
+  const attempted=[];
+  let recoveryFailure=null;
+  for (const item of lane.items) {
+    const row=outcomes.find(outcome=>outcome.id===item.id);
+    if (row.status!=='pass') continue;
+    const steps=drivers.get(item.id).steps.filter(step=>step.lifetime===lane.lifetime);
+    try {
+      budget();
+      e.need(session.usable&&!recoveryFailure,'RENDERED_GROUP_UNAVAILABLE',recoveryFailure??item.id);
+    } catch (error) {
+      row.status='blocked';row.execution='not-executed';row.observed=error.message;
+      continue;
+    }
+    attempted.push(row);
+    let resetVerified=false;
+    try {
+      for (const step of steps) row.checkpoints.push(await session.checkpoint(item,step,invocation));
+      resetVerified=true;
+      onPass(item,row);
+    } catch (error) {
+      row.status='fail';
+      row.observed=error.message.slice(0,4096).replace(/[\r\n]/g,' ');
+      if (!resetVerified && session.usable) {
+        try {row.recovery=await session.restore(item,resetSequence(steps,lane.lifetime),invocation,lane.lifetime);}
+        catch (failure) {
+          recoveryFailure=failure.message.slice(0,4096).replace(/[\r\n]/g,' ');
+          row.resetFailure=recoveryFailure;
+        }
+      }
+    }
+  }
+  return attempted;
 }
 
 function packagedSubject(root, relative, build, fixture) {
@@ -1117,24 +1270,9 @@ async function runInspection(root, relative, group, items, drivers, build, adapt
       else validateSourceProject(root,build,e.identifySource(root,build.revision));
       budget();
       session = await inspectionSession(root,owned,group.id,build,adapter,budget,signal,subject);
-      let reset = true;
-      for (const item of lane.items) {
-        const row = outcomes.find(outcome => outcome.id === item.id);
-        if (row.status !== 'pass') continue;
-        currentAttempt.push(row);
-        try {
-          budget();
-          e.need(session?.usable && reset,'RENDERED_GROUP_UNAVAILABLE',group.id);
-          reset = false;
-          const steps = drivers.get(item.id).steps.filter(step => (step.lifetime ?? 1) === lane.lifetime);
-          for (const step of steps) row.checkpoints.push(await session.checkpoint(item,step,invocation));
-          reset = true;
-          if (item.id===contracts.AUDIO_CASE) row.listeningMedia=e.writeAuditionMedia(root,invocation);
-        } catch (error) {
-          row.status = row.checkpoints.length || session?.usable ? 'fail' : 'blocked';
-          row.observed = error.message.slice(0,4096).replace(/[\r\n]/g,' ');
-        }
-      }
+      currentAttempt=await runInspectionLane(session,lane,outcomes,drivers,invocation,budget,(item,row)=>{
+        if (item.id===contracts.AUDIO_CASE) row.listeningMedia=e.writeAuditionMedia(root,invocation);
+      });
     } catch (error) {
       for (const row of outcomes.filter(row => lane.items.some(item => item.id === row.id) && row.status === 'pass')) {
         row.status = 'blocked';
@@ -1142,7 +1280,12 @@ async function runInspection(root, relative, group, items, drivers, build, adapt
       }
     } finally {await finish();}
   }
-  budget();
+  try {budget();}
+  catch (error) {
+    for (const row of outcomes.filter(row=>row.status==='pass')) {
+      row.status='invalid';row.observed=error.message;
+    }
+  }
   return outcomes;
 }
 
@@ -1261,8 +1404,10 @@ async function runRendered(root, registered) {
   const data = e.document(root,runInput);
   const allNative = gate.selected.filter(row => row.needsGameWindow);
   const attempts = e.campaignAttempts(root,data.campaign);
-  const last = attempts.at(-1);
-  const previous = last?.report ?? null;
+  const {previous,pending}=e.repairHistory(attempts.map(row=>row.report));
+  const last=validateAttemptHistory(root,attempts);
+  const selection=e.document(root,gate.selection);
+  const affected=newlyAffected(root,previous,current.revision,last?.selection,selection);
   e.need(equal(data.previousRun ?? null,last?.terminal ?? null),'RENDERED_PREVIOUS_RUN');
   e.need(previous ? ['focused','final'].includes(data.kind) : data.kind==='initial','RENDERED_ATTEMPT_KIND');
   let native = allNative;
@@ -1270,8 +1415,10 @@ async function runRendered(root, registered) {
     e.need(Array.isArray(data.caseIds) && data.caseIds.length>0 && e.named(data.repairReason),'RENDERED_FOCUSED_SELECTION');
     native = allNative.filter(row => data.caseIds.includes(row.id));
     e.exact(native.map(row => row.id),data.caseIds,'focused selected cases');
-    e.need(previous.outcomes.filter(row => row.status!=='pass').every(row => data.caseIds.includes(row.id)), 'RENDERED_FOCUSED_MISSING');
-  }
+    e.exact(affected,data.newlyAffectedCaseIds,'declared newly affected cases',true);
+    e.exact([...new Set([...pending,...affected])],data.caseIds,'focused repair denominator');
+  } else e.need(!pending.size && affected.length===0 && (data.newlyAffectedCaseIds?.length??0)===0,
+    'EVIDENCE_REPAIR_PROOF','focused repair still pending');
   const drivers = reviewedDrivers(data,gate,current,native,data.kind);
   const review = e.document(root,gate.review);
   const build = validateBuild(root,e.document(root,review.buildReport),e.identifySource(root,current.revision),current.tool);
@@ -1281,7 +1428,8 @@ async function runRendered(root, registered) {
   e.need(data.declaredAt <= startedAt,'RENDERED_DRIVER_DECLARATION_TIME');
   const opening = {...current,schemaVersion:1,invocation,campaign:data.campaign,startedAt,
     previousInvocation:previous?.invocation??null,kind:data.kind,repairReason:data.repairReason,selected:native.map(row => row.id),
-    drivers:driverRef,reviewSha256:gate.review.sha256,selectionSha256:gate.selection.sha256};
+    drivers:driverRef,reviewSha256:gate.review.sha256,selectionSha256:gate.selection.sha256,gateRevision:gate.head,
+    newlyAffectedCaseIds:affected};
   const start = e.writeExclusive(root,relative+'/start.json',opening);
   const controller = new AbortController();
   const interrupt = name => controller.abort(new Error('RENDERED_INTERRUPTED '+name));
@@ -1380,5 +1528,7 @@ module.exports = {CATALOG, COVERAGE, SCENARIOS, GROUPS, ORDER, coverageRows, val
   selectCases, inheritedCases, selectionRows, impactClosure, validateSelection, currentReviewAdapter, prelaunch, currentIdentity, runId,
   finalRendered, latestPhase4Sources, sourceReceipts, completionSourceReceipts, preWindowCases, verifyFixProof, coverageExpectation, validateDriver, reviewedDrivers,
   treePaths, savedNativeSnapshot, relaunchCase, packagedSubject, prepareSource, validateBuild, validateSourceProject,
+  repairAffected, attemptDeclaration, validateAttemptHistory,
+  runInspectionLane,
   sourceImportCompanions, validateLoadedSource, validateProcessRuntime, validateProcessPackageFiles, runInspection, runInherited,
   runRendered, verifyCompletion};

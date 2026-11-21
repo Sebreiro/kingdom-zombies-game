@@ -646,7 +646,7 @@ function campaignAttempts(root, campaign) {
     const terminal = reference(root,exists(reportPath)?reportPath:interruptionPath), report = document(root,terminal);
     identity(opening,report,'campaign start');
     const startFields = ['invocation','campaign','startedAt','kind','selected','previousInvocation','repairReason',
-      'drivers','reviewSha256','selectionSha256'];
+      'drivers','reviewSha256','selectionSha256','gateRevision','newlyAffectedCaseIds'];
     need(equal(start,report.start) && startFields.every(key => equal(opening[key],report[key])) &&
       (terminal.path === reportPath || (report.status === 'fail' && named(report.interruption))),
       'EVIDENCE_CAMPAIGN_REPORT',terminal.path);
@@ -797,10 +797,9 @@ function reconcile(selected, report, expected) {
   return allPass;
 }
 
-function freshFinal(selected, reports, expected) {
-  need(Array.isArray(reports) && reports.length > 0, 'EVIDENCE_HISTORY_EMPTY');
-  const ids = new Set();
-  let previous, repairPending = false;
+function repairHistory(reports) {
+  const ids = new Set(), pending = new Set();
+  let previous;
   for (const [index, report] of reports.entries()) {
     need(UUID.test(report.invocation) && !ids.has(report.invocation) && instant(report.startedAt) && instant(report.finishedAt) &&
       report.startedAt < report.finishedAt && (!previous || report.startedAt >= previous.finishedAt) &&
@@ -811,14 +810,31 @@ function freshFinal(selected, reports, expected) {
     exact(report.selected,report.outcomes.map(row => row.id),'historical selected and reported cases',true);
     need(report.outcomes.every(row => row.invocation === report.invocation && ['pass','fail','blocked','invalid'].includes(row.status)) &&
       report.status === (report.outcomes.every(row => row.status === 'pass') ? 'pass' : 'fail'),'EVIDENCE_HISTORY_OUTCOMES');
-    if (report.kind === 'focused') need(named(report.repairReason) && Array.isArray(report.selected) && report.selected.length > 0,
-      'EVIDENCE_REPAIR_PROOF');
-    if (report.kind === 'final') need(!repairPending,'EVIDENCE_REPAIR_PROOF');
-    if (report.status === 'fail') repairPending = true;
-    if (report.kind === 'focused' && report.status === 'pass') repairPending = false;
+    const affected=report.newlyAffectedCaseIds??[];
+    exact(affected,affected,'newly affected repair IDs');
+    if (report.kind === 'focused') {
+      need(named(report.repairReason),'EVIDENCE_REPAIR_PROOF');
+      for (const id of affected) pending.add(id);
+      need(pending.size>0 && [...pending].every(id=>report.selected.includes(id)),
+        'EVIDENCE_REPAIR_PROOF','required focused cases '+[...pending].join(', '));
+      exact([...pending],report.selected,'focused repair denominator');
+    } else {
+      need(affected.length===0,'EVIDENCE_REPAIR_PROOF','additional cases must appear in a focused repair');
+      if (report.kind === 'final') need(!pending.size,'EVIDENCE_REPAIR_PROOF','focused repair still pending');
+    }
+    for (const row of report.outcomes) {
+      if (row.status!=='pass') pending.add(row.id);
+      else if (report.kind==='focused') pending.delete(row.id);
+    }
     ids.add(report.invocation);
     previous = report;
   }
+  return {previous,pending};
+}
+
+function freshFinal(selected, reports, expected) {
+  need(Array.isArray(reports) && reports.length > 0, 'EVIDENCE_HISTORY_EMPTY');
+  const {previous}=repairHistory(reports);
   need(previous.kind !== 'focused' && reconcile(selected, previous, expected), 'EVIDENCE_FINAL_PASS');
   return previous;
 }
@@ -828,4 +844,4 @@ module.exports = {PHASE, REVIEW, REVIEW_REPORT, ORIGINAL_REVIEW, SELECTION, FIXE
   textArtifact, reviewReport, validateReview, validateProcess, validateRenderedOutcome, validateNamed, listeningExpectations, judgmentExpectations,
   audioAuthority, audioPlayback, writeAuditionMedia, listeningSubjects,
   validateJudgments, campaignAttempts, historyDocuments, validateCoverage, changedFiles, guardedHostTuples, validateNativeHostProof, inventoryExpectation, validateArtifactInventory,
-  expectedOutcome, reconcile, freshFinal};
+  expectedOutcome, reconcile, repairHistory, freshFinal};

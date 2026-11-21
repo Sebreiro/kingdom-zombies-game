@@ -1,9 +1,38 @@
 'use strict';
 
 const {spawn,spawnSync} = require('node:child_process');
+const fs = require('node:fs');
+const path = require('node:path');
 const {performance} = require('node:perf_hooks');
 const {setTimeout:delay} = require('node:timers/promises');
 const {need} = require('./evidence.cjs');
+
+let systemPowerShell;
+function windowsPowerShell() {
+  if (systemPowerShell) return systemPowerShell;
+  const root=process.env.SystemRoot;
+  need(process.platform==='win32' && typeof root==='string' && /^[A-Z]:\\/i.test(root),'RENDERED_WINDOWS_ROOT');
+  const executable=path.resolve(root,'System32','WindowsPowerShell','v1.0','powershell.exe');
+  need(fs.realpathSync.native(executable).toLowerCase()===executable.toLowerCase() &&
+    fs.lstatSync(executable).isFile(),'RENDERED_POWERSHELL_PATH');
+  const script=[
+    "$ErrorActionPreference='Stop'",
+    "$ProgressPreference='SilentlyContinue'",
+    "Import-Module ([IO.Path]::Combine($PSHOME,'Modules','Microsoft.PowerShell.Security','Microsoft.PowerShell.Security.psd1'))",
+    "$binary=(Get-Process -Id $PID).Path",
+    "$signature=Get-AuthenticodeSignature -LiteralPath $binary",
+    "[pscustomobject]@{image=$binary;status=[string]$signature.Status;publisher=$signature.SignerCertificate.Subject}|ConvertTo-Json -Compress"
+  ].join(';');
+  const result=spawnSync(executable,['-NoProfile','-NonInteractive','-EncodedCommand',Buffer.from(script,'utf16le').toString('base64')],
+    {encoding:'utf8',windowsHide:true,timeout:10000,maxBuffer:65536});
+  need(!result.error && result.status===0,'RENDERED_POWERSHELL_AUTHENTICATION',
+    result.error?.message??String(result.stderr).slice(0,512));
+  const proof=JSON.parse(result.stdout);
+  need(proof.image?.toLowerCase()===executable.toLowerCase() && proof.status==='Valid' &&
+    /^CN=Microsoft Windows, O=Microsoft Corporation,/.test(proof.publisher),'RENDERED_POWERSHELL_PUBLISHER');
+  systemPowerShell=executable;
+  return systemPowerShell;
+}
 
 function managedMvid(data) {
   const u16=at=>data.readUInt16LE(at), u32=at=>data.readUInt32LE(at);
@@ -66,7 +95,7 @@ function observeChildren() {
     if (!owned.size) return [];
     // Windows retains the creating PID even if its parent has already exited.
     const command = 'Get-CimInstance Win32_Process | ForEach-Object { "$($_.ProcessId) $($_.ParentProcessId)" }';
-    const inventory = spawnSync('powershell.exe',['-NoProfile','-NonInteractive','-Command',command],
+    const inventory = spawnSync(windowsPowerShell(),['-NoProfile','-NonInteractive','-Command',command],
       {windowsHide:true,encoding:'utf8',timeout:5000,maxBuffer:1024*1024});
     need(!inventory.error && inventory.status === 0,'RENDERED_PROCESS_INVENTORY');
     const rows = inventory.stdout.trim().split(/\r?\n/).map(row => {
@@ -130,4 +159,4 @@ async function command(owner, executable, args, options, timeout, signal) {
   });
 }
 
-module.exports = {managedMvid,timeBudget,observeChildren,command};
+module.exports = {managedMvid,timeBudget,observeChildren,command,windowsPowerShell};
