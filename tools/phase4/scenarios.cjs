@@ -319,6 +319,12 @@ async function prepareSource(root,revision) {
     const stored=e.writeExclusive(root,copy+ref.path,e.artifact(root,ref).data,ref.bytes);
     e.need(stored.bytes===ref.bytes&&stored.sha256===ref.sha256,'RENDERED_SOURCE_COPY',ref.path);
   }
+  const godotFeed=pin.godotPackages.map(pkg=>{
+    const file='.phase1/feed/'+pkg.id+'.'+pkg.version+'.nupkg';
+    const packageFile=e.read(root,file);
+    e.need(packageFile.sha256===pkg.sha256,'RENDERED_SOURCE_GODOT_FEED',file);
+    return e.writeExclusive(root,copy+file,packageFile.data,packageFile.bytes);
+  });
   const env=environment(directory);
   const sdk=await command(context,'rendered-source-sdk',DOTNET,['--version'],{env});
   e.need(sdk.stdout.trim()===pin.sdk,'RENDERED_SOURCE_SDK');
@@ -326,14 +332,14 @@ async function prepareSource(root,revision) {
   await command(context,'rendered-source-import',path.resolve(root,engine.path),importArgs,{env});
   const isolated=['--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false',
     '-p:RestorePackagesPath='+path.join(root,'.phase1/packages'),
-    '-p:RestoreSources='+path.join(root,'.phase1/feed'),'-v:minimal'];
+    '-p:RestoreSources='+path.join(root,copy,'.phase1/feed'),'-v:minimal'];
   await command(context,'rendered-source-build',DOTNET,['build',path.join(project,'KingdomZombies.csproj'),'-c','Debug',...isolated,
     '-p:SourceRevisionId='+revision,'-p:IncludeSourceRevisionInInformationalVersion=true',
     '-p:CustomAfterMicrosoftCommonTargets='+path.join(root,e.TARGETS)],{env});
   const build={revision,source:source.source,media:source.media,tool:tool.tool,engine,sourceProject:{path:relative,
     import:e.reference(root,ownership+'rendered-source-import.command.json'),
     build:e.reference(root,ownership+'rendered-source-build.command.json'),
-    sdk:e.reference(root,ownership+'rendered-source-sdk.command.json'),
+    sdk:e.reference(root,ownership+'rendered-source-sdk.command.json'),godotFeed,
     imports:delivery.inventory(path.join(project,'.godot','imported')),
     importCompanions:sourceImportCompanions(root,relative,source),
     managed:delivery.inventory(path.join(project,'.godot','mono','temp','bin','Debug'))}};
@@ -397,6 +403,10 @@ function validateSourceProject(root,build,source) {
   const compiled=execution(prepared.build,'rendered-source-build');
   const sdk=execution(prepared.sdk,'rendered-source-sdk');
   const pin=e.document(root,'tools/phase1/toolchain.json');
+  const expectedFeed=pin.godotPackages.map(pkg=>({path:copy+'.phase1/feed/'+pkg.id+'.'+pkg.version+'.nupkg',sha256:pkg.sha256}));
+  e.need(Array.isArray(prepared.godotFeed)&&equal(prepared.godotFeed.map(({path,sha256})=>({path,sha256})),expectedFeed),
+    'RENDERED_SOURCE_GODOT_FEED');
+  for (const ref of prepared.godotFeed) e.artifact(root,ref);
   e.need(sdk.stdout.trim()===pin.sdk && equal(sdk.args,['--version']) && [sdk,compiled].every(row =>
     path.resolve(row.executable)===path.resolve(DOTNET)),
     'RENDERED_SOURCE_SDK');
@@ -404,7 +414,8 @@ function validateSourceProject(root,build,source) {
     path.resolve(imported.executable)===path.resolve(root,build.engine.path),'RENDERED_SOURCE_IMPORT_ENGINE');
   e.need(compiled.args?.includes(path.join(project,'KingdomZombies.csproj')) &&
     compiled.args.includes('-p:SourceRevisionId='+source.revision) && compiled.args.includes('-p:IncludeSourceRevisionInInformationalVersion=true') &&
-    compiled.args.includes('-p:CustomAfterMicrosoftCommonTargets='+path.join(root,e.TARGETS)),
+    compiled.args.includes('-p:CustomAfterMicrosoftCommonTargets='+path.join(root,e.TARGETS)) &&
+    compiled.args.includes('-p:RestoreSources='+path.join(root,copy,'.phase1/feed')),
     'RENDERED_SOURCE_COMPILED_REVISION');
   const imports=delivery.inventory(path.join(project,'.godot','imported'));
   e.need(imports.length>0 && equal(imports,prepared.imports),'RENDERED_SOURCE_IMPORT_CLOSURE');
