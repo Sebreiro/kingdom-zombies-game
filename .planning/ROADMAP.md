@@ -203,9 +203,9 @@ Include the rendered case IDs assigned to Phase ### Phase 4: Asset production in
 4. A developer can inspect every required UI/text/data resource and error/legacy layout, test longer strings and supported scales, and audition all required sound/ambience categories through documented event bindings.
 5. The packaged content and inspection scenes import and run without the recovered-material folder or other absolute development paths; missing references and unfitted combinations are visible failures.
 
-**Plans:** 33/37 plans executed
+**Plans:** 34/37 plans executed
 
-04-30 is complete. The saved runner passed the focused verification for 18 active rendered procedures and 89 deferred procedures. Wave 28 starts with 04-31, the portable Windows inspection build. Asset acceptance remains pending. [04-30 summary](phases/04-asset-production/04-30-SUMMARY.md)
+04-31 is complete. All seven export cases passed, and the portable Windows inspection package is retained for independent review in Wave 29. Asset acceptance remains pending. [04-31 summary](phases/04-asset-production/04-31-SUMMARY.md)
 
 Plans:
 **Wave 1**
@@ -296,7 +296,7 @@ Plans:
 - [x] 04-30-PLAN.md — Saved scenario/evidence runner and prelaunch/acceptance validation code
 
 **Wave 28** *(blocked on Wave 27 completion)*
-- [ ] 04-31-PLAN.md — Complete portable Windows inspection export and clean failure/relaunch proof
+- [x] 04-31-PLAN.md — Complete portable Windows inspection export and clean failure/relaunch proof
 
 **Wave 29** *(blocked on Wave 28 completion)*
 - [ ] 04-24-PLAN.md — Independent whole-phase review and exact prelaunch selection

@@ -4,19 +4,19 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 04
 current_phase_name: Asset production
-current_plan: 31
+current_plan: 24
 status: executing
-stopped_at: "Finished 04-30 and Wave 27. Phase 04 is 33/37 plans complete. Next is 04-31 in Wave 28."
-last_updated: "2026-11-21T00:06:33.240Z"
+stopped_at: "Finished 04-31 and Wave 28. Phase 04 is 34/37 plans complete. Next is independent review for 04-24 in Wave 29."
+last_updated: "2026-11-21T01:24:57.785Z"
 last_activity: 2026-11-21
-last_activity_desc: "Completed 04-30 with fresh focused verification of the saved runner and the Windows handoff."
+last_activity_desc: "Completed 04-31 and verified the retained portable Windows inspection package."
 progress:
   total_phases: 12
   completed_phases: 3
   total_plans: 62
-  completed_plans: 58
+  completed_plans: 59
   percent: 25
-state_head: 9fa32b6
+state_head: 3ad71c9
 ---
 
 # Project State
@@ -29,19 +29,19 @@ Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUM
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
 **Phase 4 execution amendment (November 21).** Follow the [focused Windows handoff](phases/04-asset-production/04-HANDOFF.md) for the remaining plans.
 
-**Current focus:** Phase 04 moves to Plan 31 for portable Windows packaging. Plan 30 verified the saved selection and evidence validators on the focused handoff. The handoff retains 18 rendered procedures for Phase 4 and assigns 89 to Phases 5–9. [Plan 30 summary](phases/04-asset-production/04-30-SUMMARY.md)
+**Current focus:** Plan 24 independently reviews the finished Phase 4 source and retained Windows package before rendered acceptance. Plan 31 passed all seven export cases, including two natural headless lifetimes and exact missing-resource attribution with a usable sibling. [Plan 31 summary](phases/04-asset-production/04-31-SUMMARY.md)
 
 ## Current Position
 
 Phase: 04 — Asset production
-Current Plan: 31
+Current Plan: 24
 Total Plans in Phase: 37
 Status: Executing
-Last activity: 2026-11-21 — Completed 04-30 and verified the focused Windows handoff.
+Last activity: 2026-11-21 — Completed 04-31 and verified the portable inspection export.
 
 Progress: [███░░░░░░░] 25%
 
-Milestone progress: 3 of 12 phases, 58 of 62 currently planned plans, and 14 of 135 requirements complete. Phase 4 has completed 33 of 37 plans. Asset acceptance remains pending.
+Milestone progress: 3 of 12 phases, 59 of 62 currently planned plans, and 14 of 135 requirements complete. Phase 4 has completed 34 of 37 plans. Asset acceptance remains pending.
 
 ## Performance Metrics
 
@@ -234,10 +234,10 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 
 ## Session Continuity
 
-Last session: 2026-11-21T00:06:33.240Z
-Stopped at: Completed Plan 04-30 and Wave 27 under the focused Windows handoff.
+Last session: 2026-11-21T01:24:57.785Z
+Stopped at: Completed Plan 04-31 and Wave 28 with the verified Windows export.
 Resume file: .planning/phases/04-asset-production/04-CONTINUATION.md
 
-Next action: Execute 04-31 in Wave 28 on the Phase 4 feature branch. Build and verify the portable Windows inspection package before independent review.
+Next action: Independently review the complete Phase 4 source and exact Plan 31 package for Plan 04-24 in Wave 29.
 
 Preserved future context: [Phase 4 context](phases/04-asset-production/04-CONTEXT.md) remains authoritative. Plan 04-01 has source/headless evidence only; complete resource and actual acceptance responsibilities remain with later Phase 4 plans.

@@ -4,6 +4,8 @@
 
 ## Execution amendments
 
+Completed [04-31](04-31-SUMMARY.md). The summary inventories 11 implementation and delivery paths. The full export group passed 7/7 at `155c4e0`, and the independently rehashed portable output includes 202 files and 235 PCK entries. The same package is retained for review and rendered acceptance. Phase 04 is 34/37 plans complete.
+
 Completed [04-30](04-30-SUMMARY.md). The evidence, scenarios, and runner modules validate current review and run receipts. The separately authored handoff assigns each of 107 rendered procedures to exactly one phase. The summary records fresh focused verification on `0138c1d` and preserves earlier execution identities. Phase 04 is 33/37 plans complete. Asset acceptance remains pending.
 
 The [November 21 handoff amendment](04-HANDOFF.md) adds one tracked implementation file, [handoff.json](../../../tools/phase4/handoff.json), and its planning record. Plan 30 reads this register for selection. Plan 33 verifies the register's deferred ownership against the final delivery record.
