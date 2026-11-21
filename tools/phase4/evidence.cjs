@@ -81,11 +81,13 @@ function document(root, value) {
   return parse(row.data, row.path);
 }
 
-function writeExclusive(root, relative, value) {
+function writeExclusive(root, relative, value, limit = 8 * 1024 * 1024) {
+  const data = Buffer.isBuffer(value) ? value : Buffer.from(JSON.stringify(value, null, 2) + '\n');
+  need(Number.isSafeInteger(limit) && limit >= 0 && limit <= MAX_BYTES && data.length <= limit, 'EVIDENCE_WRITE_SIZE', relative);
   const file = inside(root, relative);
   fs.mkdirSync(path.dirname(file), {recursive:true});
-  fs.writeFileSync(inside(root, relative), Buffer.isBuffer(value) ? value : JSON.stringify(value, null, 2) + '\n', {flag:'wx'});
-  return reference(root, relative);
+  fs.writeFileSync(inside(root, relative), data, {flag:'wx'});
+  return reference(root, relative, limit);
 }
 
 function git(root, args, encoding = 'utf8') {

@@ -315,8 +315,10 @@ async function prepareSource(root,revision) {
   const engine=e.reference(root,'.phase1/tools/'+win.directory+'/'+win.executable.replace('_console.exe','.exe'),256*1024*1024);
   e.need(engine.sha256===NATIVE_ENGINE_HASH,'RENDERED_EXECUTABLE');
   e.committedRef(root,e.git(root,['rev-parse','HEAD']).trim(),e.reference(root,e.TARGETS));
-  for (const ref of source.files.filter(row=>/^(?:src\/|tools\/code-rules\/|Directory\.|BannedSymbols|\.(?:editorconfig|gitattributes)$|global\.json$|NuGet\.config$|KingdomZombies\.slnx$)/.test(row.path)))
-    e.writeExclusive(root,copy+ref.path,e.artifact(root,ref).data);
+  for (const ref of source.files.filter(row=>/^(?:src\/|tools\/code-rules\/|Directory\.|BannedSymbols|\.(?:editorconfig|gitattributes)$|global\.json$|NuGet\.config$|KingdomZombies\.slnx$)/.test(row.path))) {
+    const stored=e.writeExclusive(root,copy+ref.path,e.artifact(root,ref).data,ref.bytes);
+    e.need(stored.bytes===ref.bytes&&stored.sha256===ref.sha256,'RENDERED_SOURCE_COPY',ref.path);
+  }
   const env=environment(directory);
   const sdk=await command(context,'rendered-source-sdk',DOTNET,['--version'],{env});
   e.need(sdk.stdout.trim()===pin.sdk,'RENDERED_SOURCE_SDK');
