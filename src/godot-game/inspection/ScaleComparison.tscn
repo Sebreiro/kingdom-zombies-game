@@ -1,0 +1,267 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/common/scale-pilot.png" id="1_pilot"]
+
+[sub_resource type="AtlasTexture" id="Atlas_survivor"]
+atlas = ExtResource("1_pilot")
+region = Rect2(1, 1, 8, 30)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="Atlas_zombie"]
+atlas = ExtResource("1_pilot")
+region = Rect2(11, 1, 32, 34)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="Atlas_metal"]
+atlas = ExtResource("1_pilot")
+region = Rect2(45, 1, 32, 43)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="Atlas_shelter"]
+atlas = ExtResource("1_pilot")
+region = Rect2(79, 1, 128, 62)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="Atlas_wall_wood"]
+atlas = ExtResource("1_pilot")
+region = Rect2(209, 1, 32, 35)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="Atlas_wall_reinforced"]
+atlas = ExtResource("1_pilot")
+region = Rect2(243, 1, 32, 43)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="Atlas_tower"]
+atlas = ExtResource("1_pilot")
+region = Rect2(277, 1, 44, 48)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="Atlas_base_donor"]
+atlas = ExtResource("1_pilot")
+region = Rect2(323, 1, 97, 8)
+filter_clip = true
+
+[node name="ScaleComparison" type="Node2D"]
+texture_filter = 1
+metadata/logical_density = "one-art-pixel-per-world-pixel"
+metadata/acceptance = "Source production choice; actual04-32 review pending"
+
+[node name="Day" type="Node2D" parent="."]
+position = Vector2(40, 40)
+scale = Vector2(3, 3)
+
+[node name="Background" type="Polygon2D" parent="Day"]
+polygon = PackedVector2Array(0, 0, 400, 0, 400, 112, 0, 112)
+color = Color(0.545, 0.616, 0.502, 1)
+
+[node name="Artwork" type="Node2D" parent="Day"]
+modulate = Color(1, 1, 1, 1)
+
+[node name="Contact16" type="Polygon2D" parent="Day/Artwork"]
+position = Vector2(16, 92)
+polygon = PackedVector2Array(-4, 0, -2, -1, 2, -1, 4, 0, 2, 1, -2, 1)
+color = Color(0.09, 0.10, 0.085, 0.32)
+
+[node name="Contact56" type="Polygon2D" parent="Day/Artwork"]
+position = Vector2(56, 92)
+polygon = PackedVector2Array(-11, 0, -9, -1, 8, -1, 10, 0, 8, 1, -9, 1)
+color = Color(0.09, 0.10, 0.085, 0.32)
+
+[node name="Contact100" type="Polygon2D" parent="Day/Artwork"]
+position = Vector2(100, 92)
+polygon = PackedVector2Array(-11, 0, -9, -1, 9, -1, 11, 0, 9, 1, -9, 1)
+color = Color(0.09, 0.10, 0.085, 0.32)
+
+[node name="Contact140" type="Polygon2D" parent="Day/Artwork"]
+position = Vector2(140, 92)
+polygon = PackedVector2Array(-11, 0, -9, -1, 9, -1, 11, 0, 9, 1, -9, 1)
+color = Color(0.09, 0.10, 0.085, 0.32)
+
+[node name="Contact180" type="Polygon2D" parent="Day/Artwork"]
+position = Vector2(180, 92)
+polygon = PackedVector2Array(-11, 0, -9, -1, 9, -1, 11, 0, 9, 1, -9, 1)
+color = Color(0.09, 0.10, 0.085, 0.32)
+
+[node name="Contact228" type="Polygon2D" parent="Day/Artwork"]
+position = Vector2(228, 92)
+polygon = PackedVector2Array(-14, 0, -12, -1, 12, -1, 14, 0, 12, 1, -12, 1)
+color = Color(0.09, 0.10, 0.085, 0.32)
+
+[node name="Contact320" type="Polygon2D" parent="Day/Artwork"]
+position = Vector2(320, 92)
+polygon = PackedVector2Array(-52, 0, -50, -1, 50, -1, 52, 0, 50, 1, -50, 1)
+color = Color(0.09, 0.10, 0.085, 0.32)
+
+[node name="survivor" type="Sprite2D" parent="Day/Artwork"]
+position = Vector2(16, 92)
+z_index = 0
+texture = SubResource("Atlas_survivor")
+centered = false
+offset = Vector2(-4, -30)
+
+[node name="zombie" type="Sprite2D" parent="Day/Artwork"]
+position = Vector2(56, 92)
+z_index = 0
+texture = SubResource("Atlas_zombie")
+centered = false
+offset = Vector2(-16, -34)
+
+[node name="wall_wood" type="Sprite2D" parent="Day/Artwork"]
+position = Vector2(100, 92)
+z_index = 0
+texture = SubResource("Atlas_wall_wood")
+centered = false
+offset = Vector2(-16, -35)
+
+[node name="wall_reinforced" type="Sprite2D" parent="Day/Artwork"]
+position = Vector2(140, 92)
+z_index = 0
+texture = SubResource("Atlas_wall_reinforced")
+centered = false
+offset = Vector2(-16, -43)
+
+[node name="metal_backing" type="Sprite2D" parent="Day/Artwork"]
+position = Vector2(180, 92)
+z_index = 0
+texture = SubResource("Atlas_wall_reinforced")
+centered = false
+offset = Vector2(-16, -43)
+
+[node name="metal" type="Sprite2D" parent="Day/Artwork"]
+position = Vector2(180, 92)
+z_index = 1
+texture = SubResource("Atlas_metal")
+centered = false
+offset = Vector2(-16, -43)
+
+[node name="tower" type="Sprite2D" parent="Day/Artwork"]
+position = Vector2(228, 92)
+z_index = 0
+texture = SubResource("Atlas_tower")
+centered = false
+offset = Vector2(-22, -48)
+
+[node name="shelter" type="Sprite2D" parent="Day/Artwork"]
+position = Vector2(320, 92)
+z_index = 0
+texture = SubResource("Atlas_shelter")
+centered = false
+offset = Vector2(-64, -62)
+
+[node name="base_donor" type="Sprite2D" parent="Day/Artwork"]
+position = Vector2(320, 92)
+z_index = 1
+texture = SubResource("Atlas_base_donor")
+centered = false
+offset = Vector2(-48, -8)
+
+[node name="Night" type="Node2D" parent="."]
+position = Vector2(40, 390)
+scale = Vector2(3, 3)
+
+[node name="Background" type="Polygon2D" parent="Night"]
+polygon = PackedVector2Array(0, 0, 400, 0, 400, 112, 0, 112)
+color = Color(0.122, 0.169, 0.22, 1)
+
+[node name="Artwork" type="Node2D" parent="Night"]
+modulate = Color(0.63, 0.72, 0.88, 1)
+
+[node name="Contact16" type="Polygon2D" parent="Night/Artwork"]
+position = Vector2(16, 92)
+polygon = PackedVector2Array(-4, 0, -2, -1, 2, -1, 4, 0, 2, 1, -2, 1)
+color = Color(0.09, 0.10, 0.085, 0.32)
+
+[node name="Contact56" type="Polygon2D" parent="Night/Artwork"]
+position = Vector2(56, 92)
+polygon = PackedVector2Array(-11, 0, -9, -1, 8, -1, 10, 0, 8, 1, -9, 1)
+color = Color(0.09, 0.10, 0.085, 0.32)
+
+[node name="Contact100" type="Polygon2D" parent="Night/Artwork"]
+position = Vector2(100, 92)
+polygon = PackedVector2Array(-11, 0, -9, -1, 9, -1, 11, 0, 9, 1, -9, 1)
+color = Color(0.09, 0.10, 0.085, 0.32)
+
+[node name="Contact140" type="Polygon2D" parent="Night/Artwork"]
+position = Vector2(140, 92)
+polygon = PackedVector2Array(-11, 0, -9, -1, 9, -1, 11, 0, 9, 1, -9, 1)
+color = Color(0.09, 0.10, 0.085, 0.32)
+
+[node name="Contact180" type="Polygon2D" parent="Night/Artwork"]
+position = Vector2(180, 92)
+polygon = PackedVector2Array(-11, 0, -9, -1, 9, -1, 11, 0, 9, 1, -9, 1)
+color = Color(0.09, 0.10, 0.085, 0.32)
+
+[node name="Contact228" type="Polygon2D" parent="Night/Artwork"]
+position = Vector2(228, 92)
+polygon = PackedVector2Array(-14, 0, -12, -1, 12, -1, 14, 0, 12, 1, -12, 1)
+color = Color(0.09, 0.10, 0.085, 0.32)
+
+[node name="Contact320" type="Polygon2D" parent="Night/Artwork"]
+position = Vector2(320, 92)
+polygon = PackedVector2Array(-52, 0, -50, -1, 50, -1, 52, 0, 50, 1, -50, 1)
+color = Color(0.09, 0.10, 0.085, 0.32)
+
+[node name="survivor" type="Sprite2D" parent="Night/Artwork"]
+position = Vector2(16, 92)
+z_index = 0
+texture = SubResource("Atlas_survivor")
+centered = false
+offset = Vector2(-4, -30)
+
+[node name="zombie" type="Sprite2D" parent="Night/Artwork"]
+position = Vector2(56, 92)
+z_index = 0
+texture = SubResource("Atlas_zombie")
+centered = false
+offset = Vector2(-16, -34)
+
+[node name="wall_wood" type="Sprite2D" parent="Night/Artwork"]
+position = Vector2(100, 92)
+z_index = 0
+texture = SubResource("Atlas_wall_wood")
+centered = false
+offset = Vector2(-16, -35)
+
+[node name="wall_reinforced" type="Sprite2D" parent="Night/Artwork"]
+position = Vector2(140, 92)
+z_index = 0
+texture = SubResource("Atlas_wall_reinforced")
+centered = false
+offset = Vector2(-16, -43)
+
+[node name="metal_backing" type="Sprite2D" parent="Night/Artwork"]
+position = Vector2(180, 92)
+z_index = 0
+texture = SubResource("Atlas_wall_reinforced")
+centered = false
+offset = Vector2(-16, -43)
+
+[node name="metal" type="Sprite2D" parent="Night/Artwork"]
+position = Vector2(180, 92)
+z_index = 1
+texture = SubResource("Atlas_metal")
+centered = false
+offset = Vector2(-16, -43)
+
+[node name="tower" type="Sprite2D" parent="Night/Artwork"]
+position = Vector2(228, 92)
+z_index = 0
+texture = SubResource("Atlas_tower")
+centered = false
+offset = Vector2(-22, -48)
+
+[node name="shelter" type="Sprite2D" parent="Night/Artwork"]
+position = Vector2(320, 92)
+z_index = 0
+texture = SubResource("Atlas_shelter")
+centered = false
+offset = Vector2(-64, -62)
+
+[node name="base_donor" type="Sprite2D" parent="Night/Artwork"]
+position = Vector2(320, 92)
+z_index = 1
+texture = SubResource("Atlas_base_donor")
+centered = false
+offset = Vector2(-48, -8)
+

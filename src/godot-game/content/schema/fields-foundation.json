@@ -1,0 +1,4830 @@
+{
+  "id": "fields-foundation",
+  "schemaVersion": 1,
+  "sourceRevision": "0c6e9590c66ad2f3fe975bb36ce09d24ea72adca",
+  "sourceSha256": "f5aa78ee3bbb8d3b1cdd49bf5da89d687d75f164aaf975676fcf57e43c6e688e",
+  "sourceStatus": "Proposed balance, not playtested; confirmed defaults retain their source status",
+  "files": [
+    {
+      "path": "src/godot-game/content/config/run.json",
+      "domain": "run",
+      "fields": [
+        {
+          "id": "run.",
+          "path": "",
+          "type": "object",
+          "meaning": "Complete run authored configuration",
+          "unit": "document",
+          "default": {
+            "id": "DT-01",
+            "version": 1,
+            "startingSurvivors": 8,
+            "playerLimit": 4,
+            "recruitedSurvivorCap": 100,
+            "activeZombieCap": 300,
+            "livingWildlifeCap": 24,
+            "defaultMap": "EN-01",
+            "initialDay": 1,
+            "initialPhase": "dawn",
+            "initialMainTier": 1,
+            "livingPortals": 6,
+            "initialSiteState": "unbuilt",
+            "initialUncontrolledRole": "unassigned",
+            "startingOutfit": [
+              "IT-11",
+              "IT-12",
+              "IT-17"
+            ],
+            "startingPersonalSupplies": "outfit-only",
+            "stashPerRunNotPerPlayer": true,
+            "recruitsReplenishStash": false,
+            "initialStash": [
+              {
+                "item": "IT-01",
+                "quantity": 200,
+                "stackQuantity": 100,
+                "stacks": 2,
+                "condition": "not-applicable",
+                "contents": "empty"
+              },
+              {
+                "item": "IT-04",
+                "quantity": 4,
+                "stackQuantity": 1,
+                "stacks": 4,
+                "condition": "full",
+                "contents": "empty"
+              },
+              {
+                "item": "IT-07",
+                "quantity": 4,
+                "stackQuantity": 1,
+                "stacks": 4,
+                "condition": "full",
+                "contents": "empty"
+              },
+              {
+                "item": "IT-02",
+                "quantity": 240,
+                "stackQuantity": 30,
+                "stacks": 8,
+                "condition": "not-applicable",
+                "contents": "empty"
+              },
+              {
+                "item": "IT-23",
+                "quantity": 4,
+                "stackQuantity": 1,
+                "stacks": 4,
+                "condition": "not-applicable",
+                "contents": "empty"
+              },
+              {
+                "item": "IT-21",
+                "quantity": 4,
+                "stackQuantity": 1,
+                "stacks": 4,
+                "condition": "not-applicable",
+                "contents": "empty"
+              },
+              {
+                "item": "IT-08",
+                "quantity": 20,
+                "stackQuantity": 10,
+                "stacks": 2,
+                "condition": "not-applicable",
+                "contents": "empty"
+              },
+              {
+                "item": "IT-09",
+                "quantity": 10,
+                "stackQuantity": 5,
+                "stacks": 2,
+                "condition": "not-applicable",
+                "contents": "empty"
+              },
+              {
+                "item": "IT-10",
+                "quantity": 10,
+                "stackQuantity": 5,
+                "stacks": 2,
+                "condition": "not-applicable",
+                "contents": "empty"
+              }
+            ],
+            "succession": {
+              "delaySeconds": 1,
+              "selection": "random-eligible-uncontrolled-recruit",
+              "waitingOrder": "fifo",
+              "preserveActualState": true,
+              "reconnectPreviousPriority": true,
+              "crownConsumesSlot": false,
+              "crownBecomesLoot": false
+            },
+            "outcomes": {
+              "victory": "all-six-portals-destroyed",
+              "defeat": "main-destroyed-or-no-eligible-living-recruit",
+              "simultaneousPrecedence": "defeat",
+              "continueAfterVictory": true,
+              "retainAwardedVictory": true,
+              "cancelDestroyedPortalPendingSpawns": true
+            }
+          },
+          "allowed": {
+            "additionalFields": false
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.id",
+          "path": "/id",
+          "type": "string",
+          "meaning": "Stable data-domain or item identity",
+          "unit": "identity",
+          "default": "DT-01",
+          "allowed": {
+            "choices": [
+              "DT-01"
+            ]
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.version",
+          "path": "/version",
+          "type": "number",
+          "meaning": "Authored format revision",
+          "unit": "revision",
+          "default": 1,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.startingSurvivors",
+          "path": "/startingSurvivors",
+          "type": "number",
+          "meaning": "Total starting recruited survivors independent of player count",
+          "unit": "survivors",
+          "default": 8,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.playerLimit",
+          "path": "/playerLimit",
+          "type": "number",
+          "meaning": "Supported simultaneous players including host",
+          "unit": "players",
+          "default": 4,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 4,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.recruitedSurvivorCap",
+          "path": "/recruitedSurvivorCap",
+          "type": "number",
+          "meaning": "Maximum total recruits including controlled survivors",
+          "unit": "survivors",
+          "default": 100,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 100000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 6.4"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "6.4",
+            "evidence": "### 6.4 Main-building recruitment"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.activeZombieCap",
+          "path": "/activeZombieCap",
+          "type": "number",
+          "meaning": "Maximum simultaneous active zombies",
+          "unit": "zombies",
+          "default": 300,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 100000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 9.6"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "9.6",
+            "evidence": "### 9.6 Population and spawning limits"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.livingWildlifeCap",
+          "path": "/livingWildlifeCap",
+          "type": "number",
+          "meaning": "Maximum living wildlife; excess dawn additions skipped",
+          "unit": "animals",
+          "default": 24,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 100000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 6.3"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "6.3",
+            "evidence": "### 6.3 Gathering and hunting — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.defaultMap",
+          "path": "/defaultMap",
+          "type": "string",
+          "meaning": "Default handcrafted world obligation; resolution owned by map production",
+          "unit": "content-obligation",
+          "default": "EN-01",
+          "allowed": {},
+          "dependencies": [
+            "expected-obligations.json"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "content-obligation"
+        },
+        {
+          "id": "run.initialDay",
+          "path": "/initialDay",
+          "type": "number",
+          "meaning": "Day at new-run dawn",
+          "unit": "days",
+          "default": 1,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialPhase",
+          "path": "/initialPhase",
+          "type": "string",
+          "meaning": "New-run time boundary",
+          "unit": "phase",
+          "default": "dawn",
+          "allowed": {
+            "choices": [
+              "dawn"
+            ]
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialMainTier",
+          "path": "/initialMainTier",
+          "type": "number",
+          "meaning": "Completed starting main-building tier",
+          "unit": "tier",
+          "default": 1,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.livingPortals",
+          "path": "/livingPortals",
+          "type": "number",
+          "meaning": "Initially surviving portals in both directions",
+          "unit": "portals",
+          "default": 6,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialSiteState",
+          "path": "/initialSiteState",
+          "type": "string",
+          "meaning": "Initial marked construction-site state",
+          "unit": "state",
+          "default": "unbuilt",
+          "allowed": {
+            "choices": [
+              "unbuilt"
+            ]
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialUncontrolledRole",
+          "path": "/initialUncontrolledRole",
+          "type": "string",
+          "meaning": "Starting role of survivors not controlled by players",
+          "unit": "role",
+          "default": "unassigned",
+          "allowed": {
+            "choices": [
+              "unassigned"
+            ]
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.startingOutfit",
+          "path": "/startingOutfit",
+          "type": "array",
+          "meaning": "Basic outfit worn by starters and purchased recruits",
+          "unit": "item-reference-list",
+          "default": [
+            "IT-11",
+            "IT-12",
+            "IT-17"
+          ],
+          "allowed": {
+            "minItems": 3,
+            "maxItems": 3
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.startingOutfit.0",
+          "path": "/startingOutfit/0",
+          "type": "string",
+          "meaning": "Basic outfit worn by starters and purchased recruits (ordinal entry 0)",
+          "unit": "item-reference-list",
+          "default": "IT-11",
+          "allowed": {},
+          "dependencies": [
+            "packs/items-01-10.json",
+            "packs/items-11-24.json"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "item"
+        },
+        {
+          "id": "run.startingOutfit.1",
+          "path": "/startingOutfit/1",
+          "type": "string",
+          "meaning": "Basic outfit worn by starters and purchased recruits (ordinal entry 1)",
+          "unit": "item-reference-list",
+          "default": "IT-12",
+          "allowed": {},
+          "dependencies": [
+            "packs/items-01-10.json",
+            "packs/items-11-24.json"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "item"
+        },
+        {
+          "id": "run.startingOutfit.2",
+          "path": "/startingOutfit/2",
+          "type": "string",
+          "meaning": "Basic outfit worn by starters and purchased recruits (ordinal entry 2)",
+          "unit": "item-reference-list",
+          "default": "IT-17",
+          "allowed": {},
+          "dependencies": [
+            "packs/items-01-10.json",
+            "packs/items-11-24.json"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "item"
+        },
+        {
+          "id": "run.startingPersonalSupplies",
+          "path": "/startingPersonalSupplies",
+          "type": "string",
+          "meaning": "No personal supplies beyond the basic outfit",
+          "unit": "policy",
+          "default": "outfit-only",
+          "allowed": {
+            "choices": [
+              "outfit-only"
+            ]
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.stashPerRunNotPerPlayer",
+          "path": "/stashPerRunNotPerPlayer",
+          "type": "boolean",
+          "meaning": "Initial stash is shared once and never multiplied by participants",
+          "unit": "boolean",
+          "default": true,
+          "allowed": {
+            "choices": [
+              true
+            ]
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.recruitsReplenishStash",
+          "path": "/recruitsReplenishStash",
+          "type": "boolean",
+          "meaning": "Purchasing a recruit never replenishes initial supplies",
+          "unit": "boolean",
+          "default": false,
+          "allowed": {
+            "choices": [
+              false
+            ]
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash",
+          "path": "/initialStash",
+          "type": "array",
+          "meaning": "Initial shared supplies in legal stacks",
+          "unit": "stack-list",
+          "default": [
+            {
+              "item": "IT-01",
+              "quantity": 200,
+              "stackQuantity": 100,
+              "stacks": 2,
+              "condition": "not-applicable",
+              "contents": "empty"
+            },
+            {
+              "item": "IT-04",
+              "quantity": 4,
+              "stackQuantity": 1,
+              "stacks": 4,
+              "condition": "full",
+              "contents": "empty"
+            },
+            {
+              "item": "IT-07",
+              "quantity": 4,
+              "stackQuantity": 1,
+              "stacks": 4,
+              "condition": "full",
+              "contents": "empty"
+            },
+            {
+              "item": "IT-02",
+              "quantity": 240,
+              "stackQuantity": 30,
+              "stacks": 8,
+              "condition": "not-applicable",
+              "contents": "empty"
+            },
+            {
+              "item": "IT-23",
+              "quantity": 4,
+              "stackQuantity": 1,
+              "stacks": 4,
+              "condition": "not-applicable",
+              "contents": "empty"
+            },
+            {
+              "item": "IT-21",
+              "quantity": 4,
+              "stackQuantity": 1,
+              "stacks": 4,
+              "condition": "not-applicable",
+              "contents": "empty"
+            },
+            {
+              "item": "IT-08",
+              "quantity": 20,
+              "stackQuantity": 10,
+              "stacks": 2,
+              "condition": "not-applicable",
+              "contents": "empty"
+            },
+            {
+              "item": "IT-09",
+              "quantity": 10,
+              "stackQuantity": 5,
+              "stacks": 2,
+              "condition": "not-applicable",
+              "contents": "empty"
+            },
+            {
+              "item": "IT-10",
+              "quantity": 10,
+              "stackQuantity": 5,
+              "stacks": 2,
+              "condition": "not-applicable",
+              "contents": "empty"
+            }
+          ],
+          "allowed": {
+            "minItems": 9,
+            "maxItems": 9
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.0",
+          "path": "/initialStash/0",
+          "type": "object",
+          "meaning": "Initial shared supplies in legal stacks (ordinal entry 0)",
+          "unit": "stack-list",
+          "default": {
+            "item": "IT-01",
+            "quantity": 200,
+            "stackQuantity": 100,
+            "stacks": 2,
+            "condition": "not-applicable",
+            "contents": "empty"
+          },
+          "allowed": {
+            "additionalFields": false
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.0.item",
+          "path": "/initialStash/0/item",
+          "type": "string",
+          "meaning": "Exact item definition reference",
+          "unit": "item-reference",
+          "default": "IT-01",
+          "allowed": {},
+          "dependencies": [
+            "packs/items-01-10.json",
+            "packs/items-11-24.json"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "item"
+        },
+        {
+          "id": "run.initialStash.0.quantity",
+          "path": "/initialStash/0/quantity",
+          "type": "number",
+          "meaning": "Total individual units of this supply",
+          "unit": "items",
+          "default": 200,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.0.stackQuantity",
+          "path": "/initialStash/0/stackQuantity",
+          "type": "number",
+          "meaning": "Individual units in each initial stack",
+          "unit": "items/stack",
+          "default": 100,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.0.stacks",
+          "path": "/initialStash/0/stacks",
+          "type": "number",
+          "meaning": "Number of identical initial stacks",
+          "unit": "stacks",
+          "default": 2,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.0.condition",
+          "path": "/initialStash/0/condition",
+          "type": "string",
+          "meaning": "Initial condition policy; only durable items may be full",
+          "unit": "condition",
+          "default": "not-applicable",
+          "allowed": {
+            "choices": [
+              "not-applicable"
+            ]
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.0.contents",
+          "path": "/initialStash/0/contents",
+          "type": "string",
+          "meaning": "Initial containers contain no cargo",
+          "unit": "state",
+          "default": "empty",
+          "allowed": {
+            "choices": [
+              "empty"
+            ]
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.1",
+          "path": "/initialStash/1",
+          "type": "object",
+          "meaning": "Initial shared supplies in legal stacks (ordinal entry 1)",
+          "unit": "stack-list",
+          "default": {
+            "item": "IT-04",
+            "quantity": 4,
+            "stackQuantity": 1,
+            "stacks": 4,
+            "condition": "full",
+            "contents": "empty"
+          },
+          "allowed": {
+            "additionalFields": false
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.1.item",
+          "path": "/initialStash/1/item",
+          "type": "string",
+          "meaning": "Exact item definition reference",
+          "unit": "item-reference",
+          "default": "IT-04",
+          "allowed": {},
+          "dependencies": [
+            "packs/items-01-10.json",
+            "packs/items-11-24.json"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "item"
+        },
+        {
+          "id": "run.initialStash.1.quantity",
+          "path": "/initialStash/1/quantity",
+          "type": "number",
+          "meaning": "Total individual units of this supply",
+          "unit": "items",
+          "default": 4,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.1.stackQuantity",
+          "path": "/initialStash/1/stackQuantity",
+          "type": "number",
+          "meaning": "Individual units in each initial stack",
+          "unit": "items/stack",
+          "default": 1,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.1.stacks",
+          "path": "/initialStash/1/stacks",
+          "type": "number",
+          "meaning": "Number of identical initial stacks",
+          "unit": "stacks",
+          "default": 4,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.1.condition",
+          "path": "/initialStash/1/condition",
+          "type": "string",
+          "meaning": "Initial condition policy; only durable items may be full",
+          "unit": "condition",
+          "default": "full",
+          "allowed": {
+            "choices": [
+              "full"
+            ]
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.1.contents",
+          "path": "/initialStash/1/contents",
+          "type": "string",
+          "meaning": "Initial containers contain no cargo",
+          "unit": "state",
+          "default": "empty",
+          "allowed": {
+            "choices": [
+              "empty"
+            ]
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.2",
+          "path": "/initialStash/2",
+          "type": "object",
+          "meaning": "Initial shared supplies in legal stacks (ordinal entry 2)",
+          "unit": "stack-list",
+          "default": {
+            "item": "IT-07",
+            "quantity": 4,
+            "stackQuantity": 1,
+            "stacks": 4,
+            "condition": "full",
+            "contents": "empty"
+          },
+          "allowed": {
+            "additionalFields": false
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.2.item",
+          "path": "/initialStash/2/item",
+          "type": "string",
+          "meaning": "Exact item definition reference",
+          "unit": "item-reference",
+          "default": "IT-07",
+          "allowed": {},
+          "dependencies": [
+            "packs/items-01-10.json",
+            "packs/items-11-24.json"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "item"
+        },
+        {
+          "id": "run.initialStash.2.quantity",
+          "path": "/initialStash/2/quantity",
+          "type": "number",
+          "meaning": "Total individual units of this supply",
+          "unit": "items",
+          "default": 4,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.2.stackQuantity",
+          "path": "/initialStash/2/stackQuantity",
+          "type": "number",
+          "meaning": "Individual units in each initial stack",
+          "unit": "items/stack",
+          "default": 1,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.2.stacks",
+          "path": "/initialStash/2/stacks",
+          "type": "number",
+          "meaning": "Number of identical initial stacks",
+          "unit": "stacks",
+          "default": 4,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.2.condition",
+          "path": "/initialStash/2/condition",
+          "type": "string",
+          "meaning": "Initial condition policy; only durable items may be full",
+          "unit": "condition",
+          "default": "full",
+          "allowed": {
+            "choices": [
+              "full"
+            ]
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.2.contents",
+          "path": "/initialStash/2/contents",
+          "type": "string",
+          "meaning": "Initial containers contain no cargo",
+          "unit": "state",
+          "default": "empty",
+          "allowed": {
+            "choices": [
+              "empty"
+            ]
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.3",
+          "path": "/initialStash/3",
+          "type": "object",
+          "meaning": "Initial shared supplies in legal stacks (ordinal entry 3)",
+          "unit": "stack-list",
+          "default": {
+            "item": "IT-02",
+            "quantity": 240,
+            "stackQuantity": 30,
+            "stacks": 8,
+            "condition": "not-applicable",
+            "contents": "empty"
+          },
+          "allowed": {
+            "additionalFields": false
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.3.item",
+          "path": "/initialStash/3/item",
+          "type": "string",
+          "meaning": "Exact item definition reference",
+          "unit": "item-reference",
+          "default": "IT-02",
+          "allowed": {},
+          "dependencies": [
+            "packs/items-01-10.json",
+            "packs/items-11-24.json"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "item"
+        },
+        {
+          "id": "run.initialStash.3.quantity",
+          "path": "/initialStash/3/quantity",
+          "type": "number",
+          "meaning": "Total individual units of this supply",
+          "unit": "items",
+          "default": 240,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.3.stackQuantity",
+          "path": "/initialStash/3/stackQuantity",
+          "type": "number",
+          "meaning": "Individual units in each initial stack",
+          "unit": "items/stack",
+          "default": 30,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.3.stacks",
+          "path": "/initialStash/3/stacks",
+          "type": "number",
+          "meaning": "Number of identical initial stacks",
+          "unit": "stacks",
+          "default": 8,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.3.condition",
+          "path": "/initialStash/3/condition",
+          "type": "string",
+          "meaning": "Initial condition policy; only durable items may be full",
+          "unit": "condition",
+          "default": "not-applicable",
+          "allowed": {
+            "choices": [
+              "not-applicable"
+            ]
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.3.contents",
+          "path": "/initialStash/3/contents",
+          "type": "string",
+          "meaning": "Initial containers contain no cargo",
+          "unit": "state",
+          "default": "empty",
+          "allowed": {
+            "choices": [
+              "empty"
+            ]
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.4",
+          "path": "/initialStash/4",
+          "type": "object",
+          "meaning": "Initial shared supplies in legal stacks (ordinal entry 4)",
+          "unit": "stack-list",
+          "default": {
+            "item": "IT-23",
+            "quantity": 4,
+            "stackQuantity": 1,
+            "stacks": 4,
+            "condition": "not-applicable",
+            "contents": "empty"
+          },
+          "allowed": {
+            "additionalFields": false
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.4.item",
+          "path": "/initialStash/4/item",
+          "type": "string",
+          "meaning": "Exact item definition reference",
+          "unit": "item-reference",
+          "default": "IT-23",
+          "allowed": {},
+          "dependencies": [
+            "packs/items-01-10.json",
+            "packs/items-11-24.json"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "item"
+        },
+        {
+          "id": "run.initialStash.4.quantity",
+          "path": "/initialStash/4/quantity",
+          "type": "number",
+          "meaning": "Total individual units of this supply",
+          "unit": "items",
+          "default": 4,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.4.stackQuantity",
+          "path": "/initialStash/4/stackQuantity",
+          "type": "number",
+          "meaning": "Individual units in each initial stack",
+          "unit": "items/stack",
+          "default": 1,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.4.stacks",
+          "path": "/initialStash/4/stacks",
+          "type": "number",
+          "meaning": "Number of identical initial stacks",
+          "unit": "stacks",
+          "default": 4,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.4.condition",
+          "path": "/initialStash/4/condition",
+          "type": "string",
+          "meaning": "Initial condition policy; only durable items may be full",
+          "unit": "condition",
+          "default": "not-applicable",
+          "allowed": {
+            "choices": [
+              "not-applicable"
+            ]
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.4.contents",
+          "path": "/initialStash/4/contents",
+          "type": "string",
+          "meaning": "Initial containers contain no cargo",
+          "unit": "state",
+          "default": "empty",
+          "allowed": {
+            "choices": [
+              "empty"
+            ]
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.5",
+          "path": "/initialStash/5",
+          "type": "object",
+          "meaning": "Initial shared supplies in legal stacks (ordinal entry 5)",
+          "unit": "stack-list",
+          "default": {
+            "item": "IT-21",
+            "quantity": 4,
+            "stackQuantity": 1,
+            "stacks": 4,
+            "condition": "not-applicable",
+            "contents": "empty"
+          },
+          "allowed": {
+            "additionalFields": false
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.5.item",
+          "path": "/initialStash/5/item",
+          "type": "string",
+          "meaning": "Exact item definition reference",
+          "unit": "item-reference",
+          "default": "IT-21",
+          "allowed": {},
+          "dependencies": [
+            "packs/items-01-10.json",
+            "packs/items-11-24.json"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "item"
+        },
+        {
+          "id": "run.initialStash.5.quantity",
+          "path": "/initialStash/5/quantity",
+          "type": "number",
+          "meaning": "Total individual units of this supply",
+          "unit": "items",
+          "default": 4,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.5.stackQuantity",
+          "path": "/initialStash/5/stackQuantity",
+          "type": "number",
+          "meaning": "Individual units in each initial stack",
+          "unit": "items/stack",
+          "default": 1,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.5.stacks",
+          "path": "/initialStash/5/stacks",
+          "type": "number",
+          "meaning": "Number of identical initial stacks",
+          "unit": "stacks",
+          "default": 4,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.5.condition",
+          "path": "/initialStash/5/condition",
+          "type": "string",
+          "meaning": "Initial condition policy; only durable items may be full",
+          "unit": "condition",
+          "default": "not-applicable",
+          "allowed": {
+            "choices": [
+              "not-applicable"
+            ]
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.5.contents",
+          "path": "/initialStash/5/contents",
+          "type": "string",
+          "meaning": "Initial containers contain no cargo",
+          "unit": "state",
+          "default": "empty",
+          "allowed": {
+            "choices": [
+              "empty"
+            ]
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.6",
+          "path": "/initialStash/6",
+          "type": "object",
+          "meaning": "Initial shared supplies in legal stacks (ordinal entry 6)",
+          "unit": "stack-list",
+          "default": {
+            "item": "IT-08",
+            "quantity": 20,
+            "stackQuantity": 10,
+            "stacks": 2,
+            "condition": "not-applicable",
+            "contents": "empty"
+          },
+          "allowed": {
+            "additionalFields": false
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.6.item",
+          "path": "/initialStash/6/item",
+          "type": "string",
+          "meaning": "Exact item definition reference",
+          "unit": "item-reference",
+          "default": "IT-08",
+          "allowed": {},
+          "dependencies": [
+            "packs/items-01-10.json",
+            "packs/items-11-24.json"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "item"
+        },
+        {
+          "id": "run.initialStash.6.quantity",
+          "path": "/initialStash/6/quantity",
+          "type": "number",
+          "meaning": "Total individual units of this supply",
+          "unit": "items",
+          "default": 20,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.6.stackQuantity",
+          "path": "/initialStash/6/stackQuantity",
+          "type": "number",
+          "meaning": "Individual units in each initial stack",
+          "unit": "items/stack",
+          "default": 10,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.6.stacks",
+          "path": "/initialStash/6/stacks",
+          "type": "number",
+          "meaning": "Number of identical initial stacks",
+          "unit": "stacks",
+          "default": 2,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.6.condition",
+          "path": "/initialStash/6/condition",
+          "type": "string",
+          "meaning": "Initial condition policy; only durable items may be full",
+          "unit": "condition",
+          "default": "not-applicable",
+          "allowed": {
+            "choices": [
+              "not-applicable"
+            ]
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.6.contents",
+          "path": "/initialStash/6/contents",
+          "type": "string",
+          "meaning": "Initial containers contain no cargo",
+          "unit": "state",
+          "default": "empty",
+          "allowed": {
+            "choices": [
+              "empty"
+            ]
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.7",
+          "path": "/initialStash/7",
+          "type": "object",
+          "meaning": "Initial shared supplies in legal stacks (ordinal entry 7)",
+          "unit": "stack-list",
+          "default": {
+            "item": "IT-09",
+            "quantity": 10,
+            "stackQuantity": 5,
+            "stacks": 2,
+            "condition": "not-applicable",
+            "contents": "empty"
+          },
+          "allowed": {
+            "additionalFields": false
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.7.item",
+          "path": "/initialStash/7/item",
+          "type": "string",
+          "meaning": "Exact item definition reference",
+          "unit": "item-reference",
+          "default": "IT-09",
+          "allowed": {},
+          "dependencies": [
+            "packs/items-01-10.json",
+            "packs/items-11-24.json"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "item"
+        },
+        {
+          "id": "run.initialStash.7.quantity",
+          "path": "/initialStash/7/quantity",
+          "type": "number",
+          "meaning": "Total individual units of this supply",
+          "unit": "items",
+          "default": 10,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.7.stackQuantity",
+          "path": "/initialStash/7/stackQuantity",
+          "type": "number",
+          "meaning": "Individual units in each initial stack",
+          "unit": "items/stack",
+          "default": 5,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.7.stacks",
+          "path": "/initialStash/7/stacks",
+          "type": "number",
+          "meaning": "Number of identical initial stacks",
+          "unit": "stacks",
+          "default": 2,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.7.condition",
+          "path": "/initialStash/7/condition",
+          "type": "string",
+          "meaning": "Initial condition policy; only durable items may be full",
+          "unit": "condition",
+          "default": "not-applicable",
+          "allowed": {
+            "choices": [
+              "not-applicable"
+            ]
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.7.contents",
+          "path": "/initialStash/7/contents",
+          "type": "string",
+          "meaning": "Initial containers contain no cargo",
+          "unit": "state",
+          "default": "empty",
+          "allowed": {
+            "choices": [
+              "empty"
+            ]
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.8",
+          "path": "/initialStash/8",
+          "type": "object",
+          "meaning": "Initial shared supplies in legal stacks (ordinal entry 8)",
+          "unit": "stack-list",
+          "default": {
+            "item": "IT-10",
+            "quantity": 10,
+            "stackQuantity": 5,
+            "stacks": 2,
+            "condition": "not-applicable",
+            "contents": "empty"
+          },
+          "allowed": {
+            "additionalFields": false
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.8.item",
+          "path": "/initialStash/8/item",
+          "type": "string",
+          "meaning": "Exact item definition reference",
+          "unit": "item-reference",
+          "default": "IT-10",
+          "allowed": {},
+          "dependencies": [
+            "packs/items-01-10.json",
+            "packs/items-11-24.json"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "item"
+        },
+        {
+          "id": "run.initialStash.8.quantity",
+          "path": "/initialStash/8/quantity",
+          "type": "number",
+          "meaning": "Total individual units of this supply",
+          "unit": "items",
+          "default": 10,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.8.stackQuantity",
+          "path": "/initialStash/8/stackQuantity",
+          "type": "number",
+          "meaning": "Individual units in each initial stack",
+          "unit": "items/stack",
+          "default": 5,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.8.stacks",
+          "path": "/initialStash/8/stacks",
+          "type": "number",
+          "meaning": "Number of identical initial stacks",
+          "unit": "stacks",
+          "default": 2,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.8.condition",
+          "path": "/initialStash/8/condition",
+          "type": "string",
+          "meaning": "Initial condition policy; only durable items may be full",
+          "unit": "condition",
+          "default": "not-applicable",
+          "allowed": {
+            "choices": [
+              "not-applicable"
+            ]
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.initialStash.8.contents",
+          "path": "/initialStash/8/contents",
+          "type": "string",
+          "meaning": "Initial containers contain no cargo",
+          "unit": "state",
+          "default": "empty",
+          "allowed": {
+            "choices": [
+              "empty"
+            ]
+          },
+          "dependencies": [
+            "Source section 2.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.1",
+            "evidence": "### 2.1 Starting a run"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.succession",
+          "path": "/succession",
+          "type": "object",
+          "meaning": "Automatic leadership reassignment parameters",
+          "unit": "policy",
+          "default": {
+            "delaySeconds": 1,
+            "selection": "random-eligible-uncontrolled-recruit",
+            "waitingOrder": "fifo",
+            "preserveActualState": true,
+            "reconnectPreviousPriority": true,
+            "crownConsumesSlot": false,
+            "crownBecomesLoot": false
+          },
+          "allowed": {
+            "additionalFields": false
+          },
+          "dependencies": [
+            "Source section 2.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.2",
+            "evidence": "### 2.2 Leadership and death"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.succession.delaySeconds",
+          "path": "/succession/delaySeconds",
+          "type": "number",
+          "meaning": "Delay before automatic control transfer",
+          "unit": "seconds",
+          "default": 1,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": false
+          },
+          "dependencies": [
+            "Source section 2.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.2",
+            "evidence": "### 2.2 Leadership and death"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.succession.selection",
+          "path": "/succession/selection",
+          "type": "string",
+          "meaning": "Random eligible living recruited survivor not already controlled",
+          "unit": "policy",
+          "default": "random-eligible-uncontrolled-recruit",
+          "allowed": {
+            "choices": [
+              "random-eligible-uncontrolled-recruit"
+            ]
+          },
+          "dependencies": [
+            "Source section 2.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.2",
+            "evidence": "### 2.2 Leadership and death"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.succession.waitingOrder",
+          "path": "/succession/waitingOrder",
+          "type": "string",
+          "meaning": "Waiting spectator assignment order",
+          "unit": "policy",
+          "default": "fifo",
+          "allowed": {
+            "choices": [
+              "fifo"
+            ]
+          },
+          "dependencies": [
+            "Source section 2.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.2",
+            "evidence": "### 2.2 Leadership and death"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.succession.preserveActualState",
+          "path": "/succession/preserveActualState",
+          "type": "boolean",
+          "meaning": "Transfer retains actual health stamina equipment position and cargo",
+          "unit": "boolean",
+          "default": true,
+          "allowed": {
+            "choices": [
+              true
+            ]
+          },
+          "dependencies": [
+            "Source section 2.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.2",
+            "evidence": "### 2.2 Leadership and death"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.succession.reconnectPreviousPriority",
+          "path": "/succession/reconnectPreviousPriority",
+          "type": "boolean",
+          "meaning": "Returning player has priority for available prior survivor",
+          "unit": "boolean",
+          "default": true,
+          "allowed": {
+            "choices": [
+              true
+            ]
+          },
+          "dependencies": [
+            "Source section 2.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.2",
+            "evidence": "### 2.2 Leadership and death"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.succession.crownConsumesSlot",
+          "path": "/succession/crownConsumesSlot",
+          "type": "boolean",
+          "meaning": "Cosmetic control crown consumes no gear slot",
+          "unit": "boolean",
+          "default": false,
+          "allowed": {
+            "choices": [
+              false
+            ]
+          },
+          "dependencies": [
+            "Source section 2.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.2",
+            "evidence": "### 2.2 Leadership and death"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.succession.crownBecomesLoot",
+          "path": "/succession/crownBecomesLoot",
+          "type": "boolean",
+          "meaning": "Control crown never becomes corpse loot",
+          "unit": "boolean",
+          "default": false,
+          "allowed": {
+            "choices": [
+              false
+            ]
+          },
+          "dependencies": [
+            "Source section 2.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.2",
+            "evidence": "### 2.2 Leadership and death"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.outcomes",
+          "path": "/outcomes",
+          "type": "object",
+          "meaning": "Immediate victory defeat and continuation policies",
+          "unit": "policy",
+          "default": {
+            "victory": "all-six-portals-destroyed",
+            "defeat": "main-destroyed-or-no-eligible-living-recruit",
+            "simultaneousPrecedence": "defeat",
+            "continueAfterVictory": true,
+            "retainAwardedVictory": true,
+            "cancelDestroyedPortalPendingSpawns": true
+          },
+          "allowed": {
+            "additionalFields": false
+          },
+          "dependencies": [
+            "Source section 2.3"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.3",
+            "evidence": "### 2.3 Victory, defeat, and continued play"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.outcomes.victory",
+          "path": "/outcomes/victory",
+          "type": "string",
+          "meaning": "Victory trigger after destruction of all six portals",
+          "unit": "policy",
+          "default": "all-six-portals-destroyed",
+          "allowed": {
+            "choices": [
+              "all-six-portals-destroyed"
+            ]
+          },
+          "dependencies": [
+            "Source section 2.3"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.3",
+            "evidence": "### 2.3 Victory, defeat, and continued play"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.outcomes.defeat",
+          "path": "/outcomes/defeat",
+          "type": "string",
+          "meaning": "Defeat trigger independent of money or unfilled recruitment capacity",
+          "unit": "policy",
+          "default": "main-destroyed-or-no-eligible-living-recruit",
+          "allowed": {
+            "choices": [
+              "main-destroyed-or-no-eligible-living-recruit"
+            ]
+          },
+          "dependencies": [
+            "Source section 2.3"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.3",
+            "evidence": "### 2.3 Victory, defeat, and continued play"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.outcomes.simultaneousPrecedence",
+          "path": "/outcomes/simultaneousPrecedence",
+          "type": "string",
+          "meaning": "Outcome chosen when both triggers first resolve together",
+          "unit": "policy",
+          "default": "defeat",
+          "allowed": {
+            "choices": [
+              "defeat"
+            ]
+          },
+          "dependencies": [
+            "Source section 2.3"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.3",
+            "evidence": "### 2.3 Victory, defeat, and continued play"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.outcomes.continueAfterVictory",
+          "path": "/outcomes/continueAfterVictory",
+          "type": "boolean",
+          "meaning": "Offer continuing with surviving enemies",
+          "unit": "boolean",
+          "default": true,
+          "allowed": {
+            "choices": [
+              true
+            ]
+          },
+          "dependencies": [
+            "Source section 2.3"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.3",
+            "evidence": "### 2.3 Victory, defeat, and continued play"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.outcomes.retainAwardedVictory",
+          "path": "/outcomes/retainAwardedVictory",
+          "type": "boolean",
+          "meaning": "Retain victory record after later continuation defeat",
+          "unit": "boolean",
+          "default": true,
+          "allowed": {
+            "choices": [
+              true
+            ]
+          },
+          "dependencies": [
+            "Source section 2.3"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.3",
+            "evidence": "### 2.3 Victory, defeat, and continued play"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "run.outcomes.cancelDestroyedPortalPendingSpawns",
+          "path": "/outcomes/cancelDestroyedPortalPendingSpawns",
+          "type": "boolean",
+          "meaning": "Cancel pending spawns from destroyed portals only",
+          "unit": "boolean",
+          "default": true,
+          "allowed": {
+            "choices": [
+              true
+            ]
+          },
+          "dependencies": [
+            "Source section 2.3"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "2.3",
+            "evidence": "### 2.3 Victory, defeat, and continued play"
+          },
+          "referenceKind": "none"
+        }
+      ]
+    },
+    {
+      "path": "src/godot-game/content/config/time.json",
+      "domain": "time",
+      "fields": [
+        {
+          "id": "time.",
+          "path": "",
+          "type": "object",
+          "meaning": "Complete time authored configuration",
+          "unit": "document",
+          "default": {
+            "id": "DT-02",
+            "version": 1,
+            "daylightSeconds": 600,
+            "nightSeconds": 300,
+            "openingWaveFreeDays": 1,
+            "escalationIntervalDays": 3,
+            "stageOriginDay": 1,
+            "stageOriginIndex": 0,
+            "stageBoundary": "dawn",
+            "firstScheduledNight": 2,
+            "regularWavesPerLivingPortalPerNight": 1,
+            "graceSuppressesProvocation": false,
+            "graceSuppressesRetaliation": false,
+            "activeGamePauses": false,
+            "dailyEventPolicy": "once-per-dawn-no-replay-on-load-or-join",
+            "dawnEvents": [
+              "advance-day",
+              "update-stage",
+              "refill-plants",
+              "introduce-wildlife",
+              "retreat-eligible-zombies",
+              "autosave"
+            ],
+            "transitionTiming": "at-phase-boundary",
+            "visualTransitionChangesDuration": false
+          },
+          "allowed": {
+            "additionalFields": false
+          },
+          "dependencies": [
+            "Source section 3.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "3.2",
+            "evidence": "### 3.2 Time and daily events"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "time.id",
+          "path": "/id",
+          "type": "string",
+          "meaning": "Stable data-domain or item identity",
+          "unit": "identity",
+          "default": "DT-02",
+          "allowed": {
+            "choices": [
+              "DT-02"
+            ]
+          },
+          "dependencies": [
+            "Source section 3.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "3.2",
+            "evidence": "### 3.2 Time and daily events"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "time.version",
+          "path": "/version",
+          "type": "number",
+          "meaning": "Authored format revision",
+          "unit": "revision",
+          "default": 1,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 3.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "3.2",
+            "evidence": "### 3.2 Time and daily events"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "time.daylightSeconds",
+          "path": "/daylightSeconds",
+          "type": "number",
+          "meaning": "Active daylight phase duration",
+          "unit": "seconds",
+          "default": 600,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": false
+          },
+          "dependencies": [
+            "Source section 3.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "3.2",
+            "evidence": "### 3.2 Time and daily events"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "time.nightSeconds",
+          "path": "/nightSeconds",
+          "type": "number",
+          "meaning": "Active night phase duration",
+          "unit": "seconds",
+          "default": 300,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": false
+          },
+          "dependencies": [
+            "Source section 3.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "3.2",
+            "evidence": "### 3.2 Time and daily events"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "time.openingWaveFreeDays",
+          "path": "/openingWaveFreeDays",
+          "type": "number",
+          "meaning": "Opening days without scheduled waves",
+          "unit": "days",
+          "default": 1,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 3.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "3.2",
+            "evidence": "### 3.2 Time and daily events"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "time.escalationIntervalDays",
+          "path": "/escalationIntervalDays",
+          "type": "number",
+          "meaning": "Days between dawn escalation stages",
+          "unit": "days",
+          "default": 3,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 3.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "3.2",
+            "evidence": "### 3.2 Time and daily events"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "time.stageOriginDay",
+          "path": "/stageOriginDay",
+          "type": "number",
+          "meaning": "First day used by floor((day-origin)/interval)",
+          "unit": "days",
+          "default": 1,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 3.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "3.2",
+            "evidence": "### 3.2 Time and daily events"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "time.stageOriginIndex",
+          "path": "/stageOriginIndex",
+          "type": "number",
+          "meaning": "Stage index at origin day",
+          "unit": "stage",
+          "default": 0,
+          "allowed": {
+            "minimum": 0,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 3.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "3.2",
+            "evidence": "### 3.2 Time and daily events"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "time.stageBoundary",
+          "path": "/stageBoundary",
+          "type": "string",
+          "meaning": "When the escalation stage changes",
+          "unit": "phase",
+          "default": "dawn",
+          "allowed": {
+            "choices": [
+              "dawn"
+            ]
+          },
+          "dependencies": [
+            "Source section 3.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "3.2",
+            "evidence": "### 3.2 Time and daily events"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "time.firstScheduledNight",
+          "path": "/firstScheduledNight",
+          "type": "number",
+          "meaning": "First night eligible for regular waves",
+          "unit": "day-number",
+          "default": 2,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 3.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "3.2",
+            "evidence": "### 3.2 Time and daily events"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "time.regularWavesPerLivingPortalPerNight",
+          "path": "/regularWavesPerLivingPortalPerNight",
+          "type": "number",
+          "meaning": "Regular wave count per surviving portal on eligible nights",
+          "unit": "waves/portal/night",
+          "default": 1,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 3.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "3.2",
+            "evidence": "### 3.2 Time and daily events"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "time.graceSuppressesProvocation",
+          "path": "/graceSuppressesProvocation",
+          "type": "boolean",
+          "meaning": "Opening grace never suppresses provoked defenders",
+          "unit": "boolean",
+          "default": false,
+          "allowed": {
+            "choices": [
+              false
+            ]
+          },
+          "dependencies": [
+            "Source section 3.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "3.2",
+            "evidence": "### 3.2 Time and daily events"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "time.graceSuppressesRetaliation",
+          "path": "/graceSuppressesRetaliation",
+          "type": "boolean",
+          "meaning": "Opening grace never suppresses retaliation",
+          "unit": "boolean",
+          "default": false,
+          "allowed": {
+            "choices": [
+              false
+            ]
+          },
+          "dependencies": [
+            "Source section 3.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "3.2",
+            "evidence": "### 3.2 Time and daily events"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "time.activeGamePauses",
+          "path": "/activeGamePauses",
+          "type": "boolean",
+          "meaning": "All active world menus and solo play continue time",
+          "unit": "boolean",
+          "default": false,
+          "allowed": {
+            "choices": [
+              false
+            ]
+          },
+          "dependencies": [
+            "Source section 3.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "3.2",
+            "evidence": "### 3.2 Time and daily events"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "time.dailyEventPolicy",
+          "path": "/dailyEventPolicy",
+          "type": "string",
+          "meaning": "Dawn processing is idempotent across loading and joining",
+          "unit": "policy",
+          "default": "once-per-dawn-no-replay-on-load-or-join",
+          "allowed": {
+            "choices": [
+              "once-per-dawn-no-replay-on-load-or-join"
+            ]
+          },
+          "dependencies": [
+            "Source section 3.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "3.2",
+            "evidence": "### 3.2 Time and daily events"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "time.dawnEvents",
+          "path": "/dawnEvents",
+          "type": "array",
+          "meaning": "Ordered once-per-dawn actions",
+          "unit": "event-list",
+          "default": [
+            "advance-day",
+            "update-stage",
+            "refill-plants",
+            "introduce-wildlife",
+            "retreat-eligible-zombies",
+            "autosave"
+          ],
+          "allowed": {
+            "minItems": 6,
+            "maxItems": 6
+          },
+          "dependencies": [
+            "Source section 3.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "3.2",
+            "evidence": "### 3.2 Time and daily events"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "time.dawnEvents.0",
+          "path": "/dawnEvents/0",
+          "type": "string",
+          "meaning": "Ordered once-per-dawn actions (ordinal entry 0)",
+          "unit": "identity",
+          "default": "advance-day",
+          "allowed": {
+            "choices": [
+              "advance-day"
+            ]
+          },
+          "dependencies": [
+            "Source section 3.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "3.2",
+            "evidence": "### 3.2 Time and daily events"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "time.dawnEvents.1",
+          "path": "/dawnEvents/1",
+          "type": "string",
+          "meaning": "Ordered once-per-dawn actions (ordinal entry 1)",
+          "unit": "identity",
+          "default": "update-stage",
+          "allowed": {
+            "choices": [
+              "update-stage"
+            ]
+          },
+          "dependencies": [
+            "Source section 3.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "3.2",
+            "evidence": "### 3.2 Time and daily events"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "time.dawnEvents.2",
+          "path": "/dawnEvents/2",
+          "type": "string",
+          "meaning": "Ordered once-per-dawn actions (ordinal entry 2)",
+          "unit": "identity",
+          "default": "refill-plants",
+          "allowed": {
+            "choices": [
+              "refill-plants"
+            ]
+          },
+          "dependencies": [
+            "Source section 3.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "3.2",
+            "evidence": "### 3.2 Time and daily events"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "time.dawnEvents.3",
+          "path": "/dawnEvents/3",
+          "type": "string",
+          "meaning": "Ordered once-per-dawn actions (ordinal entry 3)",
+          "unit": "identity",
+          "default": "introduce-wildlife",
+          "allowed": {
+            "choices": [
+              "introduce-wildlife"
+            ]
+          },
+          "dependencies": [
+            "Source section 3.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "3.2",
+            "evidence": "### 3.2 Time and daily events"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "time.dawnEvents.4",
+          "path": "/dawnEvents/4",
+          "type": "string",
+          "meaning": "Ordered once-per-dawn actions (ordinal entry 4)",
+          "unit": "identity",
+          "default": "retreat-eligible-zombies",
+          "allowed": {
+            "choices": [
+              "retreat-eligible-zombies"
+            ]
+          },
+          "dependencies": [
+            "Source section 3.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "3.2",
+            "evidence": "### 3.2 Time and daily events"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "time.dawnEvents.5",
+          "path": "/dawnEvents/5",
+          "type": "string",
+          "meaning": "Ordered once-per-dawn actions (ordinal entry 5)",
+          "unit": "identity",
+          "default": "autosave",
+          "allowed": {
+            "choices": [
+              "autosave"
+            ]
+          },
+          "dependencies": [
+            "Source section 3.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "3.2",
+            "evidence": "### 3.2 Time and daily events"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "time.transitionTiming",
+          "path": "/transitionTiming",
+          "type": "string",
+          "meaning": "Boundary ownership of phase changes; no invented blend duration",
+          "unit": "policy",
+          "default": "at-phase-boundary",
+          "allowed": {
+            "choices": [
+              "at-phase-boundary"
+            ]
+          },
+          "dependencies": [
+            "Source section 3.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "3.2",
+            "evidence": "### 3.2 Time and daily events"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "time.visualTransitionChangesDuration",
+          "path": "/visualTransitionChangesDuration",
+          "type": "boolean",
+          "meaning": "Visual conversion cannot change authored gameplay seconds",
+          "unit": "boolean",
+          "default": false,
+          "allowed": {
+            "choices": [
+              false
+            ]
+          },
+          "dependencies": [
+            "Source section 3.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "3.2",
+            "evidence": "### 3.2 Time and daily events"
+          },
+          "referenceKind": "none"
+        }
+      ]
+    },
+    {
+      "path": "src/godot-game/content/config/survivors.json",
+      "domain": "survivors",
+      "fields": [
+        {
+          "id": "survivors.",
+          "path": "",
+          "type": "object",
+          "meaning": "Complete survivors authored configuration",
+          "unit": "document",
+          "default": {
+            "id": "DT-03",
+            "version": 1,
+            "maximumHealth": 100,
+            "maximumStamina": 100,
+            "walkSpeedUnitsPerSecond": 3,
+            "sprintSpeedUnitsPerSecond": 5,
+            "jumpHeightUnits": 1.5,
+            "jumpAirborneSeconds": 0.8,
+            "airWalkControlMultiplier": 0.75,
+            "sprintStaminaPerSecond": 10,
+            "jumpStaminaCost": 12,
+            "walkStaminaCost": 0,
+            "staminaRegenerationPerSecond": 14,
+            "staminaRegenerationDelaySeconds": 0.5,
+            "safeHealthRegenerationPerSecond": 2,
+            "safeRestDelaySeconds": 5,
+            "unsafeHealthRegenerationPerSecond": 0,
+            "safeEnemyDistanceUnits": 12,
+            "refugeDistanceUnits": 12,
+            "foodCooldownSeconds": 2,
+            "foodRecoveryTiming": "immediate-clamped-to-maxima",
+            "safeRest": {
+              "insideCamp": true,
+              "sprinting": false,
+              "jumping": false,
+              "attacking": false,
+              "ordinaryWalkingAllowed": true
+            },
+            "staminaRecoveryDuringCombat": true,
+            "spendingRestartsRegenerationDelay": true,
+            "requireSufficientStamina": true,
+            "load": {
+              "softKilograms": 20,
+              "severeKilograms": 35,
+              "minimumSpeedMultiplier": 0.55,
+              "maximumActionCostMultiplier": 1.5,
+              "curve": "linear-between-thresholds-clamped",
+              "severeSprintAllowed": false,
+              "severeJumpAllowed": false,
+              "walkingAlwaysAllowed": true,
+              "countNestedAndEquippedExactlyOnce": true
+            },
+            "appearance": {
+              "pack": "content/packs/bodies-a.json",
+              "bodyIds": [
+                "CH-01"
+              ],
+              "outfitRefs": [
+                "IT-11",
+                "IT-12",
+                "IT-17"
+              ],
+              "crown": "cosmetic-control-marker"
+            },
+            "controls": {
+              "moveLeft": [
+                "A",
+                "Left"
+              ],
+              "moveRight": [
+                "D",
+                "Right"
+              ],
+              "sprint": "Shift",
+              "jump": "Space",
+              "attack": "MouseLeft",
+              "aim": "mouse-position",
+              "interact": "E",
+              "inventory": "I",
+              "rotate": "R",
+              "quickTransfer": "Ctrl+click",
+              "splitStack": "Shift+drag-choose-quantity",
+              "quickFood": [
+                "1",
+                "2",
+                "3",
+                "4"
+              ],
+              "map": "Tab",
+              "closePanelOrMenu": "Escape",
+              "scope": "local-preferences",
+              "remappable": true,
+              "resetToDefaults": true
+            }
+          },
+          "allowed": {
+            "additionalFields": false
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.id",
+          "path": "/id",
+          "type": "string",
+          "meaning": "Stable data-domain or item identity",
+          "unit": "identity",
+          "default": "DT-03",
+          "allowed": {
+            "choices": [
+              "DT-03"
+            ]
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.version",
+          "path": "/version",
+          "type": "number",
+          "meaning": "Authored format revision",
+          "unit": "revision",
+          "default": 1,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.maximumHealth",
+          "path": "/maximumHealth",
+          "type": "number",
+          "meaning": "Survivor health ceiling",
+          "unit": "health",
+          "default": 100,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.maximumStamina",
+          "path": "/maximumStamina",
+          "type": "number",
+          "meaning": "Survivor stamina ceiling",
+          "unit": "stamina",
+          "default": 100,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.walkSpeedUnitsPerSecond",
+          "path": "/walkSpeedUnitsPerSecond",
+          "type": "number",
+          "meaning": "Unloaded ground walking speed",
+          "unit": "u/second",
+          "default": 3,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": false
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.sprintSpeedUnitsPerSecond",
+          "path": "/sprintSpeedUnitsPerSecond",
+          "type": "number",
+          "meaning": "Unloaded ground sprinting speed",
+          "unit": "u/second",
+          "default": 5,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": false
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.jumpHeightUnits",
+          "path": "/jumpHeightUnits",
+          "type": "number",
+          "meaning": "Maximum level-ground jump height",
+          "unit": "u",
+          "default": 1.5,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": false
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.jumpAirborneSeconds",
+          "path": "/jumpAirborneSeconds",
+          "type": "number",
+          "meaning": "Level-ground airborne jump duration",
+          "unit": "seconds",
+          "default": 0.8,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": false
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.airWalkControlMultiplier",
+          "path": "/airWalkControlMultiplier",
+          "type": "number",
+          "meaning": "Air control as fraction of ground walking control",
+          "unit": "ratio",
+          "default": 0.75,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1,
+            "integer": false
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.sprintStaminaPerSecond",
+          "path": "/sprintStaminaPerSecond",
+          "type": "number",
+          "meaning": "Continuous sprint stamina consumption",
+          "unit": "stamina/second",
+          "default": 10,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": false
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.jumpStaminaCost",
+          "path": "/jumpStaminaCost",
+          "type": "number",
+          "meaning": "Stamina consumed once per jump",
+          "unit": "stamina/jump",
+          "default": 12,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.walkStaminaCost",
+          "path": "/walkStaminaCost",
+          "type": "number",
+          "meaning": "Walking never consumes stamina",
+          "unit": "stamina",
+          "default": 0,
+          "allowed": {
+            "minimum": 0,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.staminaRegenerationPerSecond",
+          "path": "/staminaRegenerationPerSecond",
+          "type": "number",
+          "meaning": "Natural stamina recovery after spending delay",
+          "unit": "stamina/second",
+          "default": 14,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": false
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.staminaRegenerationDelaySeconds",
+          "path": "/staminaRegenerationDelaySeconds",
+          "type": "number",
+          "meaning": "Time since last stamina-spending action before recovery",
+          "unit": "seconds",
+          "default": 0.5,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": false
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.safeHealthRegenerationPerSecond",
+          "path": "/safeHealthRegenerationPerSecond",
+          "type": "number",
+          "meaning": "Health recovery while safe rest holds",
+          "unit": "health/second",
+          "default": 2,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": false
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.safeRestDelaySeconds",
+          "path": "/safeRestDelaySeconds",
+          "type": "number",
+          "meaning": "Continuous safe-rest time required before health recovery",
+          "unit": "seconds",
+          "default": 5,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": false
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.unsafeHealthRegenerationPerSecond",
+          "path": "/unsafeHealthRegenerationPerSecond",
+          "type": "number",
+          "meaning": "No natural healing outside safe rest",
+          "unit": "health/second",
+          "default": 0,
+          "allowed": {
+            "minimum": 0,
+            "maximum": 1000000,
+            "integer": false
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.safeEnemyDistanceUnits",
+          "path": "/safeEnemyDistanceUnits",
+          "type": "number",
+          "meaning": "Required clearance from enemies for rest and civilian safety",
+          "unit": "u",
+          "default": 12,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.refugeDistanceUnits",
+          "path": "/refugeDistanceUnits",
+          "type": "number",
+          "meaning": "Main-building safe border distance without a living wall",
+          "unit": "u",
+          "default": 12,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": true
+          },
+          "dependencies": [
+            "Source section 3.3"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "3.3",
+            "evidence": "### 3.3 Safe territory and retreat — proposed supporting rules"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.foodCooldownSeconds",
+          "path": "/foodCooldownSeconds",
+          "type": "number",
+          "meaning": "Player delay between food uses",
+          "unit": "seconds",
+          "default": 2,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": false
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.foodRecoveryTiming",
+          "path": "/foodRecoveryTiming",
+          "type": "string",
+          "meaning": "Food immediately recovers health and stamina clamped to ceilings",
+          "unit": "policy",
+          "default": "immediate-clamped-to-maxima",
+          "allowed": {
+            "choices": [
+              "immediate-clamped-to-maxima"
+            ]
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.safeRest",
+          "path": "/safeRest",
+          "type": "object",
+          "meaning": "Conditions for safe-camp health regeneration",
+          "unit": "policy",
+          "default": {
+            "insideCamp": true,
+            "sprinting": false,
+            "jumping": false,
+            "attacking": false,
+            "ordinaryWalkingAllowed": true
+          },
+          "allowed": {
+            "additionalFields": false
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.safeRest.insideCamp",
+          "path": "/safeRest/insideCamp",
+          "type": "boolean",
+          "meaning": "Safe rest requires location inside current borders",
+          "unit": "boolean",
+          "default": true,
+          "allowed": {
+            "choices": [
+              true
+            ]
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.safeRest.sprinting",
+          "path": "/safeRest/sprinting",
+          "type": "boolean",
+          "meaning": "Safe-rest sprint state",
+          "unit": "boolean",
+          "default": false,
+          "allowed": {
+            "choices": [
+              false
+            ]
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.safeRest.jumping",
+          "path": "/safeRest/jumping",
+          "type": "boolean",
+          "meaning": "Safe-rest jump state",
+          "unit": "boolean",
+          "default": false,
+          "allowed": {
+            "choices": [
+              false
+            ]
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.safeRest.attacking",
+          "path": "/safeRest/attacking",
+          "type": "boolean",
+          "meaning": "Safe-rest attack state",
+          "unit": "boolean",
+          "default": false,
+          "allowed": {
+            "choices": [
+              false
+            ]
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.safeRest.ordinaryWalkingAllowed",
+          "path": "/safeRest/ordinaryWalkingAllowed",
+          "type": "boolean",
+          "meaning": "Walking does not invalidate safe rest",
+          "unit": "boolean",
+          "default": true,
+          "allowed": {
+            "choices": [
+              true
+            ]
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.staminaRecoveryDuringCombat",
+          "path": "/staminaRecoveryDuringCombat",
+          "type": "boolean",
+          "meaning": "Combat alone does not prevent stamina regeneration",
+          "unit": "boolean",
+          "default": true,
+          "allowed": {
+            "choices": [
+              true
+            ]
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.spendingRestartsRegenerationDelay",
+          "path": "/spendingRestartsRegenerationDelay",
+          "type": "boolean",
+          "meaning": "Any spending action resets recovery delay",
+          "unit": "boolean",
+          "default": true,
+          "allowed": {
+            "choices": [
+              true
+            ]
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.requireSufficientStamina",
+          "path": "/requireSufficientStamina",
+          "type": "boolean",
+          "meaning": "Reject action unless enough current stamina",
+          "unit": "boolean",
+          "default": true,
+          "allowed": {
+            "choices": [
+              true
+            ]
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.load",
+          "path": "/load",
+          "type": "object",
+          "meaning": "Continuous carried-load curve and severe restrictions",
+          "unit": "curve",
+          "default": {
+            "softKilograms": 20,
+            "severeKilograms": 35,
+            "minimumSpeedMultiplier": 0.55,
+            "maximumActionCostMultiplier": 1.5,
+            "curve": "linear-between-thresholds-clamped",
+            "severeSprintAllowed": false,
+            "severeJumpAllowed": false,
+            "walkingAlwaysAllowed": true,
+            "countNestedAndEquippedExactlyOnce": true
+          },
+          "allowed": {
+            "additionalFields": false
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.load.softKilograms",
+          "path": "/load/softKilograms",
+          "type": "number",
+          "meaning": "Load where penalties begin",
+          "unit": "kg",
+          "default": 20,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": false
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.load.severeKilograms",
+          "path": "/load/severeKilograms",
+          "type": "number",
+          "meaning": "Load where penalties saturate and sprint/jump stop",
+          "unit": "kg",
+          "default": 35,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1000000,
+            "integer": false
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.load.minimumSpeedMultiplier",
+          "path": "/load/minimumSpeedMultiplier",
+          "type": "number",
+          "meaning": "Minimum walk/sprint speed fraction at severe load",
+          "unit": "ratio",
+          "default": 0.55,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 1,
+            "integer": false
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.load.maximumActionCostMultiplier",
+          "path": "/load/maximumActionCostMultiplier",
+          "type": "number",
+          "meaning": "Maximum action stamina-cost fraction at severe load",
+          "unit": "ratio",
+          "default": 1.5,
+          "allowed": {
+            "minimum": 0.000001,
+            "maximum": 10,
+            "integer": false
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.load.curve",
+          "path": "/load/curve",
+          "type": "string",
+          "meaning": "Linear interpolation between thresholds with endpoint clamping",
+          "unit": "policy",
+          "default": "linear-between-thresholds-clamped",
+          "allowed": {
+            "choices": [
+              "linear-between-thresholds-clamped"
+            ]
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.load.severeSprintAllowed",
+          "path": "/load/severeSprintAllowed",
+          "type": "boolean",
+          "meaning": "Sprinting at or above severe threshold",
+          "unit": "boolean",
+          "default": false,
+          "allowed": {
+            "choices": [
+              false
+            ]
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.load.severeJumpAllowed",
+          "path": "/load/severeJumpAllowed",
+          "type": "boolean",
+          "meaning": "Jumping at or above severe threshold",
+          "unit": "boolean",
+          "default": false,
+          "allowed": {
+            "choices": [
+              false
+            ]
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.load.walkingAlwaysAllowed",
+          "path": "/load/walkingAlwaysAllowed",
+          "type": "boolean",
+          "meaning": "Overloaded characters retain walking movement",
+          "unit": "boolean",
+          "default": true,
+          "allowed": {
+            "choices": [
+              true
+            ]
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.load.countNestedAndEquippedExactlyOnce",
+          "path": "/load/countNestedAndEquippedExactlyOnce",
+          "type": "boolean",
+          "meaning": "All carried nested/equipped items counted once",
+          "unit": "boolean",
+          "default": true,
+          "allowed": {
+            "choices": [
+              true
+            ]
+          },
+          "dependencies": [
+            "Source section 4.1"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "4.1",
+            "evidence": "### 4.1 Character attributes — proposed baseline"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.appearance",
+          "path": "/appearance",
+          "type": "object",
+          "meaning": "Production survivor/body and outfit bindings",
+          "unit": "reference-group",
+          "default": {
+            "pack": "content/packs/bodies-a.json",
+            "bodyIds": [
+              "CH-01"
+            ],
+            "outfitRefs": [
+              "IT-11",
+              "IT-12",
+              "IT-17"
+            ],
+            "crown": "cosmetic-control-marker"
+          },
+          "allowed": {
+            "additionalFields": false
+          },
+          "dependencies": [
+            "Source section 13.3"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.3",
+            "evidence": "### 13.3 Art and animation completeness"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.appearance.pack",
+          "path": "/appearance/pack",
+          "type": "string",
+          "meaning": "Existing body production pack relative to Godot project",
+          "unit": "resource-path",
+          "default": "content/packs/bodies-a.json",
+          "allowed": {},
+          "dependencies": [
+            "Source section 13.3"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.3",
+            "evidence": "### 13.3 Art and animation completeness"
+          },
+          "referenceKind": "resource"
+        },
+        {
+          "id": "survivors.appearance.bodyIds",
+          "path": "/appearance/bodyIds",
+          "type": "array",
+          "meaning": "Applicable survivor body identities; excludes zombie bodies",
+          "unit": "body-reference-list",
+          "default": [
+            "CH-01"
+          ],
+          "allowed": {
+            "minItems": 1,
+            "maxItems": 1
+          },
+          "dependencies": [
+            "Source section 13.3"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.3",
+            "evidence": "### 13.3 Art and animation completeness"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.appearance.bodyIds.0",
+          "path": "/appearance/bodyIds/0",
+          "type": "string",
+          "meaning": "Applicable survivor body identities; excludes zombie bodies (ordinal entry 0)",
+          "unit": "body-reference-list",
+          "default": "CH-01",
+          "allowed": {},
+          "dependencies": [
+            "packs/bodies-a.json"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.3",
+            "evidence": "### 13.3 Art and animation completeness"
+          },
+          "referenceKind": "body"
+        },
+        {
+          "id": "survivors.appearance.outfitRefs",
+          "path": "/appearance/outfitRefs",
+          "type": "array",
+          "meaning": "Actual starter item visual definitions",
+          "unit": "item-reference-list",
+          "default": [
+            "IT-11",
+            "IT-12",
+            "IT-17"
+          ],
+          "allowed": {
+            "minItems": 3,
+            "maxItems": 3
+          },
+          "dependencies": [
+            "Source section 13.3"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.3",
+            "evidence": "### 13.3 Art and animation completeness"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.appearance.outfitRefs.0",
+          "path": "/appearance/outfitRefs/0",
+          "type": "string",
+          "meaning": "Actual starter item visual definitions (ordinal entry 0)",
+          "unit": "item-reference-list",
+          "default": "IT-11",
+          "allowed": {},
+          "dependencies": [
+            "packs/items-01-10.json",
+            "packs/items-11-24.json"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.3",
+            "evidence": "### 13.3 Art and animation completeness"
+          },
+          "referenceKind": "item"
+        },
+        {
+          "id": "survivors.appearance.outfitRefs.1",
+          "path": "/appearance/outfitRefs/1",
+          "type": "string",
+          "meaning": "Actual starter item visual definitions (ordinal entry 1)",
+          "unit": "item-reference-list",
+          "default": "IT-12",
+          "allowed": {},
+          "dependencies": [
+            "packs/items-01-10.json",
+            "packs/items-11-24.json"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.3",
+            "evidence": "### 13.3 Art and animation completeness"
+          },
+          "referenceKind": "item"
+        },
+        {
+          "id": "survivors.appearance.outfitRefs.2",
+          "path": "/appearance/outfitRefs/2",
+          "type": "string",
+          "meaning": "Actual starter item visual definitions (ordinal entry 2)",
+          "unit": "item-reference-list",
+          "default": "IT-17",
+          "allowed": {},
+          "dependencies": [
+            "packs/items-01-10.json",
+            "packs/items-11-24.json"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.3",
+            "evidence": "### 13.3 Art and animation completeness"
+          },
+          "referenceKind": "item"
+        },
+        {
+          "id": "survivors.appearance.crown",
+          "path": "/appearance/crown",
+          "type": "string",
+          "meaning": "Non-slot cosmetic control identity; no item definition",
+          "unit": "policy",
+          "default": "cosmetic-control-marker",
+          "allowed": {
+            "choices": [
+              "cosmetic-control-marker"
+            ]
+          },
+          "dependencies": [
+            "Source section 13.3"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.3",
+            "evidence": "### 13.3 Art and animation completeness"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.controls",
+          "path": "/controls",
+          "type": "object",
+          "meaning": "Resettable local default input bindings, never shared balance",
+          "unit": "binding-group",
+          "default": {
+            "moveLeft": [
+              "A",
+              "Left"
+            ],
+            "moveRight": [
+              "D",
+              "Right"
+            ],
+            "sprint": "Shift",
+            "jump": "Space",
+            "attack": "MouseLeft",
+            "aim": "mouse-position",
+            "interact": "E",
+            "inventory": "I",
+            "rotate": "R",
+            "quickTransfer": "Ctrl+click",
+            "splitStack": "Shift+drag-choose-quantity",
+            "quickFood": [
+              "1",
+              "2",
+              "3",
+              "4"
+            ],
+            "map": "Tab",
+            "closePanelOrMenu": "Escape",
+            "scope": "local-preferences",
+            "remappable": true,
+            "resetToDefaults": true
+          },
+          "allowed": {
+            "additionalFields": false
+          },
+          "dependencies": [
+            "Source section 13.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.2",
+            "evidence": "### 13.2 Proposed default controls"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.controls.moveLeft",
+          "path": "/controls/moveLeft",
+          "type": "array",
+          "meaning": "Alternative left movement bindings",
+          "unit": "binding-list",
+          "default": [
+            "A",
+            "Left"
+          ],
+          "allowed": {
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "dependencies": [
+            "Source section 13.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.2",
+            "evidence": "### 13.2 Proposed default controls"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.controls.moveLeft.0",
+          "path": "/controls/moveLeft/0",
+          "type": "string",
+          "meaning": "Alternative left movement bindings (ordinal entry 0)",
+          "unit": "identity",
+          "default": "A",
+          "allowed": {
+            "choices": [
+              "A"
+            ]
+          },
+          "dependencies": [
+            "Source section 13.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.2",
+            "evidence": "### 13.2 Proposed default controls"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.controls.moveLeft.1",
+          "path": "/controls/moveLeft/1",
+          "type": "string",
+          "meaning": "Alternative left movement bindings (ordinal entry 1)",
+          "unit": "identity",
+          "default": "Left",
+          "allowed": {
+            "choices": [
+              "Left"
+            ]
+          },
+          "dependencies": [
+            "Source section 13.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.2",
+            "evidence": "### 13.2 Proposed default controls"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.controls.moveRight",
+          "path": "/controls/moveRight",
+          "type": "array",
+          "meaning": "Alternative right movement bindings",
+          "unit": "binding-list",
+          "default": [
+            "D",
+            "Right"
+          ],
+          "allowed": {
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "dependencies": [
+            "Source section 13.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.2",
+            "evidence": "### 13.2 Proposed default controls"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.controls.moveRight.0",
+          "path": "/controls/moveRight/0",
+          "type": "string",
+          "meaning": "Alternative right movement bindings (ordinal entry 0)",
+          "unit": "identity",
+          "default": "D",
+          "allowed": {
+            "choices": [
+              "D"
+            ]
+          },
+          "dependencies": [
+            "Source section 13.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.2",
+            "evidence": "### 13.2 Proposed default controls"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.controls.moveRight.1",
+          "path": "/controls/moveRight/1",
+          "type": "string",
+          "meaning": "Alternative right movement bindings (ordinal entry 1)",
+          "unit": "identity",
+          "default": "Right",
+          "allowed": {
+            "choices": [
+              "Right"
+            ]
+          },
+          "dependencies": [
+            "Source section 13.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.2",
+            "evidence": "### 13.2 Proposed default controls"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.controls.sprint",
+          "path": "/controls/sprint",
+          "type": "string",
+          "meaning": "Held sprint binding",
+          "unit": "binding",
+          "default": "Shift",
+          "allowed": {
+            "choices": [
+              "Shift"
+            ]
+          },
+          "dependencies": [
+            "Source section 13.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.2",
+            "evidence": "### 13.2 Proposed default controls"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.controls.jump",
+          "path": "/controls/jump",
+          "type": "string",
+          "meaning": "Jump binding",
+          "unit": "binding",
+          "default": "Space",
+          "allowed": {
+            "choices": [
+              "Space"
+            ]
+          },
+          "dependencies": [
+            "Source section 13.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.2",
+            "evidence": "### 13.2 Proposed default controls"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.controls.attack",
+          "path": "/controls/attack",
+          "type": "string",
+          "meaning": "Manual attack/fire binding",
+          "unit": "binding",
+          "default": "MouseLeft",
+          "allowed": {
+            "choices": [
+              "MouseLeft"
+            ]
+          },
+          "dependencies": [
+            "Source section 13.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.2",
+            "evidence": "### 13.2 Proposed default controls"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.controls.aim",
+          "path": "/controls/aim",
+          "type": "string",
+          "meaning": "Bow aim source",
+          "unit": "binding",
+          "default": "mouse-position",
+          "allowed": {
+            "choices": [
+              "mouse-position"
+            ]
+          },
+          "dependencies": [
+            "Source section 13.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.2",
+            "evidence": "### 13.2 Proposed default controls"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.controls.interact",
+          "path": "/controls/interact",
+          "type": "string",
+          "meaning": "Nearby target interaction binding",
+          "unit": "binding",
+          "default": "E",
+          "allowed": {
+            "choices": [
+              "E"
+            ]
+          },
+          "dependencies": [
+            "Source section 13.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.2",
+            "evidence": "### 13.2 Proposed default controls"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.controls.inventory",
+          "path": "/controls/inventory",
+          "type": "string",
+          "meaning": "Own-inventory binding",
+          "unit": "binding",
+          "default": "I",
+          "allowed": {
+            "choices": [
+              "I"
+            ]
+          },
+          "dependencies": [
+            "Source section 13.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.2",
+            "evidence": "### 13.2 Proposed default controls"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.controls.rotate",
+          "path": "/controls/rotate",
+          "type": "string",
+          "meaning": "Dragged-item rotation binding",
+          "unit": "binding",
+          "default": "R",
+          "allowed": {
+            "choices": [
+              "R"
+            ]
+          },
+          "dependencies": [
+            "Source section 13.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.2",
+            "evidence": "### 13.2 Proposed default controls"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.controls.quickTransfer",
+          "path": "/controls/quickTransfer",
+          "type": "string",
+          "meaning": "Quick transfer input chord",
+          "unit": "binding",
+          "default": "Ctrl+click",
+          "allowed": {
+            "choices": [
+              "Ctrl+click"
+            ]
+          },
+          "dependencies": [
+            "Source section 13.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.2",
+            "evidence": "### 13.2 Proposed default controls"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.controls.splitStack",
+          "path": "/controls/splitStack",
+          "type": "string",
+          "meaning": "Stack split input chord and quantity prompt",
+          "unit": "binding",
+          "default": "Shift+drag-choose-quantity",
+          "allowed": {
+            "choices": [
+              "Shift+drag-choose-quantity"
+            ]
+          },
+          "dependencies": [
+            "Source section 13.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.2",
+            "evidence": "### 13.2 Proposed default controls"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.controls.quickFood",
+          "path": "/controls/quickFood",
+          "type": "array",
+          "meaning": "Four carried-stack reference bindings",
+          "unit": "binding-list",
+          "default": [
+            "1",
+            "2",
+            "3",
+            "4"
+          ],
+          "allowed": {
+            "minItems": 4,
+            "maxItems": 4
+          },
+          "dependencies": [
+            "Source section 13.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.2",
+            "evidence": "### 13.2 Proposed default controls"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.controls.quickFood.0",
+          "path": "/controls/quickFood/0",
+          "type": "string",
+          "meaning": "Four carried-stack reference bindings (ordinal entry 0)",
+          "unit": "identity",
+          "default": "1",
+          "allowed": {
+            "choices": [
+              "1"
+            ]
+          },
+          "dependencies": [
+            "Source section 13.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.2",
+            "evidence": "### 13.2 Proposed default controls"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.controls.quickFood.1",
+          "path": "/controls/quickFood/1",
+          "type": "string",
+          "meaning": "Four carried-stack reference bindings (ordinal entry 1)",
+          "unit": "identity",
+          "default": "2",
+          "allowed": {
+            "choices": [
+              "2"
+            ]
+          },
+          "dependencies": [
+            "Source section 13.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.2",
+            "evidence": "### 13.2 Proposed default controls"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.controls.quickFood.2",
+          "path": "/controls/quickFood/2",
+          "type": "string",
+          "meaning": "Four carried-stack reference bindings (ordinal entry 2)",
+          "unit": "identity",
+          "default": "3",
+          "allowed": {
+            "choices": [
+              "3"
+            ]
+          },
+          "dependencies": [
+            "Source section 13.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.2",
+            "evidence": "### 13.2 Proposed default controls"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.controls.quickFood.3",
+          "path": "/controls/quickFood/3",
+          "type": "string",
+          "meaning": "Four carried-stack reference bindings (ordinal entry 3)",
+          "unit": "identity",
+          "default": "4",
+          "allowed": {
+            "choices": [
+              "4"
+            ]
+          },
+          "dependencies": [
+            "Source section 13.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.2",
+            "evidence": "### 13.2 Proposed default controls"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.controls.map",
+          "path": "/controls/map",
+          "type": "string",
+          "meaning": "Expand/minimize map binding",
+          "unit": "binding",
+          "default": "Tab",
+          "allowed": {
+            "choices": [
+              "Tab"
+            ]
+          },
+          "dependencies": [
+            "Source section 13.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.2",
+            "evidence": "### 13.2 Proposed default controls"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.controls.closePanelOrMenu",
+          "path": "/controls/closePanelOrMenu",
+          "type": "string",
+          "meaning": "Close current panel before opening in-run menu",
+          "unit": "binding",
+          "default": "Escape",
+          "allowed": {
+            "choices": [
+              "Escape"
+            ]
+          },
+          "dependencies": [
+            "Source section 13.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.2",
+            "evidence": "### 13.2 Proposed default controls"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.controls.scope",
+          "path": "/controls/scope",
+          "type": "string",
+          "meaning": "Preference ownership; local input does not override host balance",
+          "unit": "policy",
+          "default": "local-preferences",
+          "allowed": {
+            "choices": [
+              "local-preferences"
+            ]
+          },
+          "dependencies": [
+            "Source section 13.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.2",
+            "evidence": "### 13.2 Proposed default controls"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.controls.remappable",
+          "path": "/controls/remappable",
+          "type": "boolean",
+          "meaning": "All gameplay bindings can be changed locally",
+          "unit": "boolean",
+          "default": true,
+          "allowed": {
+            "choices": [
+              true
+            ]
+          },
+          "dependencies": [
+            "Source section 13.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.2",
+            "evidence": "### 13.2 Proposed default controls"
+          },
+          "referenceKind": "none"
+        },
+        {
+          "id": "survivors.controls.resetToDefaults",
+          "path": "/controls/resetToDefaults",
+          "type": "boolean",
+          "meaning": "Essential controls can be restored",
+          "unit": "boolean",
+          "default": true,
+          "allowed": {
+            "choices": [
+              true
+            ]
+          },
+          "dependencies": [
+            "Source section 13.2"
+          ],
+          "source": {
+            "document": "specs/0.1/initial-spec.md",
+            "section": "13.2",
+            "evidence": "### 13.2 Proposed default controls"
+          },
+          "referenceKind": "none"
+        }
+      ]
+    }
+  ]
+}

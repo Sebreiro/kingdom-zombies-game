@@ -1,0 +1,153 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Theme" path="res://assets/ui/InspectionTheme.tres" id="1_theme"]
+[ext_resource type="Texture2D" path="res://assets/ui/identity-symbols.png" id="2_symbols"]
+
+[sub_resource type="AtlasTexture" id="TitleEmblem"]
+atlas = ExtResource("2_symbols")
+region = Rect2(0, 0, 32, 32)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="InteractionCursor"]
+atlas = ExtResource("2_symbols")
+region = Rect2(40, 0, 32, 32)
+filter_clip = true
+
+[sub_resource type="StyleBoxTexture" id="KeycapFrame"]
+texture = ExtResource("2_symbols")
+region_rect = Rect2(80, 0, 60, 26)
+texture_margin_left = 12.0
+texture_margin_right = 12.0
+texture_margin_top = 8.0
+texture_margin_bottom = 8.0
+content_margin_left = 16.0
+content_margin_right = 16.0
+content_margin_top = 8.0
+content_margin_bottom = 8.0
+draw_center = false
+
+[node name="IdentityKit" type="PanelContainer"]
+custom_minimum_size = Vector2(320, 240)
+offset_right = 1000.0
+offset_bottom = 640.0
+theme = ExtResource("1_theme")
+texture_filter = 1
+
+[node name="Scroll" type="ScrollContainer" parent="."]
+layout_mode = 2
+follow_focus = true
+horizontal_scroll_mode = 0
+
+[node name="Content" type="VBoxContainer" parent="Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 16
+
+[node name="TitleRow" type="HBoxContainer" parent="Scroll/Content"]
+layout_mode = 2
+
+[node name="Emblem" type="TextureRect" parent="Scroll/Content/TitleRow"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = SubResource("TitleEmblem")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="Scroll/Content/TitleRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"Display"
+text = "KingdomZombies"
+autowrap_mode = 3
+
+[node name="Scope" type="Label" parent="Scroll/Content"]
+layout_mode = 2
+text = "Resource inspection only · Current fixture values · Appearance and desktop embedding review pending"
+autowrap_mode = 3
+
+[node name="Cursors" type="Control" parent="Scroll/Content"]
+custom_minimum_size = Vector2(320, 64)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Arrow" type="Polygon2D" parent="Scroll/Content/Cursors"]
+position = Vector2(8, 8)
+polygon = PackedVector2Array(0, 0, 0, 24, 6, 18, 12, 28, 17, 25, 11, 15, 21, 15)
+color = Color(0.956863, 0.94902, 0.909804, 1)
+
+[node name="Reticle" type="Line2D" parent="Scroll/Content/Cursors"]
+position = Vector2(96, 24)
+points = PackedVector2Array(-12, -4, -12, -12, -4, -12, -12, -12, -12, -4, -12, 4, -12, 12, -4, 12, 4, 12, 12, 12, 12, 4, 12, -4, 12, -12, 4, -12)
+width = 1.0
+default_color = Color(0.956863, 0.94902, 0.909804, 1)
+
+[node name="Interaction" type="TextureRect" parent="Scroll/Content/Cursors"]
+offset_left = 160.0
+offset_right = 192.0
+offset_bottom = 32.0
+texture = SubResource("InteractionCursor")
+
+[node name="Selection" type="Line2D" parent="Scroll/Content/Cursors"]
+position = Vector2(240, 8)
+points = PackedVector2Array(0, 0, 32, 0, 32, 32, 0, 32)
+closed = true
+width = 1.0
+default_color = Color(0.956863, 0.94902, 0.909804, 1)
+
+[node name="Marker" type="Polygon2D" parent="Scroll/Content/Cursors/Selection"]
+position = Vector2(16, -5)
+polygon = PackedVector2Array(0, -3, 3, 0, 0, 3, -3, 0)
+color = Color(0.956863, 0.94902, 0.909804, 1)
+
+[node name="CursorLabels" type="Label" parent="Scroll/Content"]
+layout_mode = 2
+text = "Cursor · Aim reticle · Interact · Selected object (steady outline + marker)"
+autowrap_mode = 3
+
+[node name="BindingHeading" type="Label" parent="Scroll/Content"]
+layout_mode = 2
+text = "Current bindings"
+
+[node name="Bindings" type="VBoxContainer" parent="Scroll/Content"]
+layout_mode = 2
+
+[node name="KeycapExample" type="PanelContainer" parent="Scroll/Content"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("KeycapFrame")
+
+[node name="Text" type="Label" parent="Scroll/Content/KeycapExample"]
+layout_mode = 2
+text = "Keyboard / Mouse / Ctrl + Shift · Current binding text is native"
+autowrap_mode = 3
+
+[node name="ResetBinding" type="Button" parent="Scroll/Content"]
+layout_mode = 2
+text = "Reset binding"
+disabled = true
+tooltip_text = "Resource fixture only; Reset restores the source-backed default snapshot through the production projector."
+
+[node name="ResetReason" type="Label" parent="Scroll/Content"]
+layout_mode = 2
+text = "Reset state is shown by restoring current defaults in the fixture selector; gameplay remapping is later work."
+autowrap_mode = 3
+
+[node name="StatusHeading" type="Label" parent="Scroll/Content"]
+layout_mode = 2
+text = "Status glyphs and explicit labels"
+
+[node name="Statuses" type="VBoxContainer" parent="Scroll/Content"]
+layout_mode = 2
+
+[node name="PlayerHeading" type="Label" parent="Scroll/Content"]
+layout_mode = 2
+text = "Players · Number / name / shape / color"
+
+[node name="Players" type="VBoxContainer" parent="Scroll/Content"]
+layout_mode = 2
+
+[node name="ItemHeading" type="Label" parent="Scroll/Content"]
+layout_mode = 2
+text = "Canonical item icons · Numeric condition only where durability exists"
+
+[node name="Items" type="VBoxContainer" parent="Scroll/Content"]
+layout_mode = 2

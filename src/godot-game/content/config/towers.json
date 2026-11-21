@@ -1,0 +1,190 @@
+{
+  "id": "DT-11",
+  "version": 1,
+  "profiles": [
+    {
+      "profileId": "tower.guard.1",
+      "tier": 1,
+      "archers": 1,
+      "rangeUnits": 20,
+      "damagePerArcher": 14,
+      "intervalSeconds": 1.4
+    },
+    {
+      "profileId": "tower.guard.2",
+      "tier": 2,
+      "archers": 2,
+      "rangeUnits": 24,
+      "damagePerArcher": 20,
+      "intervalSeconds": 1.4
+    },
+    {
+      "profileId": "tower.guard.3",
+      "tier": 3,
+      "archers": 3,
+      "rangeUnits": 28,
+      "damagePerArcher": 26,
+      "intervalSeconds": 1.4
+    }
+  ],
+  "intrinsic": {
+    "suppliedByPrice": true,
+    "recruits": 0,
+    "stashGear": 0,
+    "unlimitedArrows": true,
+    "partOfTower": true,
+    "leaderEligible": false,
+    "inventory": false,
+    "corpse": false,
+    "loot": false,
+    "population": 0,
+    "bowDurability": "none",
+    "hauling": false
+  },
+  "targeting": {
+    "independentArchers": true,
+    "selection": "nearest-zombie-in-range",
+    "equalDistancePriority": "enemy-attacking-defended-structure",
+    "wildlife": false,
+    "portals": false
+  },
+  "mainAttachments": {
+    "completedMainTier": 3,
+    "attackProfileTier": 1,
+    "attachments": [
+      {
+        "id": "guard-left",
+        "position": [
+          -30,
+          40
+        ],
+        "guard": "main.single-guard",
+        "phase": 0,
+        "health": "main-instance"
+      },
+      {
+        "id": "guard-right",
+        "position": [
+          146,
+          40
+        ],
+        "guard": "main.single-guard",
+        "phase": 0.7,
+        "health": "main-instance"
+      }
+    ],
+    "archersPerAttachment": 1,
+    "totalArchers": 2,
+    "rangeUnits": 20,
+    "damagePerArcher": 14,
+    "intervalSeconds": 1.4,
+    "shareMainHealth": true,
+    "separateDestroyed": false,
+    "separateDisabled": false,
+    "separateRepaired": false,
+    "separateRebuilt": false,
+    "separateInventory": false,
+    "separateCorpse": false,
+    "separateLoot": false
+  },
+  "resources": {
+    "mainAssembly": "content/world/main-assemblies.json",
+    "defenseAssembly": "content/world/defense-assemblies.json",
+    "guardPack": "content/packs/guards.json",
+    "sockets": [
+      {
+        "structureId": "tower-1",
+        "sockets": [
+          {
+            "id": "guard-0",
+            "position": [
+              22,
+              6
+            ],
+            "phase": 0,
+            "facing": 1,
+            "projectileOrigin": [
+              12,
+              -11
+            ]
+          }
+        ]
+      },
+      {
+        "structureId": "tower-2",
+        "sockets": [
+          {
+            "id": "guard-0",
+            "position": [
+              22,
+              21
+            ],
+            "phase": 0,
+            "facing": 1,
+            "projectileOrigin": [
+              12,
+              -11
+            ]
+          },
+          {
+            "id": "guard-1",
+            "position": [
+              50,
+              21
+            ],
+            "phase": 0.45,
+            "facing": -1,
+            "projectileOrigin": [
+              12,
+              -11
+            ]
+          }
+        ]
+      },
+      {
+        "structureId": "tower-3",
+        "sockets": [
+          {
+            "id": "guard-0",
+            "position": [
+              18,
+              25
+            ],
+            "phase": 0,
+            "facing": 1,
+            "projectileOrigin": [
+              12,
+              -11
+            ]
+          },
+          {
+            "id": "guard-1",
+            "position": [
+              48,
+              25
+            ],
+            "phase": 0.45,
+            "facing": -1,
+            "projectileOrigin": [
+              12,
+              -11
+            ]
+          },
+          {
+            "id": "guard-2",
+            "position": [
+              78,
+              25
+            ],
+            "phase": 0.9,
+            "facing": 1,
+            "projectileOrigin": [
+              12,
+              -11
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

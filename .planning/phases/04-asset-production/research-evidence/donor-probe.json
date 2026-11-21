@@ -1,0 +1,724 @@
+{
+  "python": "3.12.14 (main, Aug 25 2026, 14:01:42) [MSC v.1944 64 bit (AMD64)]",
+  "UnityPy": "1.23.0",
+  "Pillow": "13.0.0",
+  "scope": "Feasibility only. No production acceptance, rendered checks or audio listening.",
+  "originals": [
+    {
+      "path": "app.info",
+      "bytes": 21,
+      "matches": true,
+      "sha256": "e933c25158c0afe86108433b0083bf4868b8a8361a16412909ef4067265ee3dd"
+    },
+    {
+      "path": "boot.config",
+      "bytes": 93,
+      "matches": true,
+      "sha256": "317587080a65711bf5fec8bf8a067bd551b6f73c12b9bac1d059c9e6da581166"
+    },
+    {
+      "path": "globalgamemanagers",
+      "bytes": 7119092,
+      "matches": true,
+      "sha256": "e7fa284b8b5d4ca8d639959ad0c00dbee71380599cc53d665dd97c1899b2979d"
+    },
+    {
+      "path": "globalgamemanagers.assets",
+      "bytes": 344208,
+      "matches": true,
+      "sha256": "fc16aab10626c62a60d10db746c0ae3eb04adca5bff9c779f291217e83164932"
+    },
+    {
+      "path": "level0",
+      "bytes": 1158140,
+      "matches": true,
+      "sha256": "a89c76d9b7743143b68b2d2f3ac9d2dbb2a1ec1a9df0749b85a67b60857dbeec"
+    },
+    {
+      "path": "level1",
+      "bytes": 1888412,
+      "matches": true,
+      "sha256": "03048765ccee02b024708ccc354ef63d9c73f5b04cc2f2b8cdba5c6381277e40"
+    },
+    {
+      "path": "level2",
+      "bytes": 1615048,
+      "matches": true,
+      "sha256": "02fb03bc2efc8d92f88df4dc1622ab33357365349733bdf195eb75b24e54ede6"
+    },
+    {
+      "path": "level3",
+      "bytes": 1623724,
+      "matches": true,
+      "sha256": "1a5062a46cefde1ba2a07c99ff231ab004c1356e61e03d5632ac5c5f929df71a"
+    },
+    {
+      "path": "level4",
+      "bytes": 4284152,
+      "matches": true,
+      "sha256": "c037477d21a52d74af417c891936619e8fb08989bc5ac162d958cc2c39972865"
+    },
+    {
+      "path": "level5",
+      "bytes": 220400,
+      "matches": true,
+      "sha256": "e9f61857e5dcc7d191e46a162fa81b6080a2d0c1030defb0613c7531cc64359b"
+    },
+    {
+      "path": "Resources/unity default resources",
+      "bytes": 1564256,
+      "matches": true,
+      "sha256": "cfec053f11e7933532225c8cfca6989dab5895d5f3a76a3cb1fec61057d4cc22"
+    },
+    {
+      "path": "Resources/unity_builtin_extra",
+      "bytes": 376300,
+      "matches": true,
+      "sha256": "3f61ce2b625d21484b5f6d48e1c9956ee51b41d16a3448586e0fb8578799f74f"
+    },
+    {
+      "path": "resources.assets",
+      "bytes": 52481896,
+      "matches": true,
+      "sha256": "878915bf9ed642977abf5712bb86f804c8b59c1e8651d888816813c89bace91c"
+    },
+    {
+      "path": "resources.assets.resS",
+      "bytes": 686916720,
+      "matches": true,
+      "sha256": "574c8e44a1660acbe8455626c73469db1abe99e5163a1d22f069ecd48614b19f"
+    },
+    {
+      "path": "resources.resource",
+      "bytes": 835645856,
+      "matches": true,
+      "sha256": "0c85df55f5b01645b2bfadda5efffa52bbeb1193aeb5c294c200f83cae9892ea"
+    },
+    {
+      "path": "RuntimeInitializeOnLoads.json",
+      "bytes": 2827,
+      "matches": true,
+      "sha256": "385e5bd0e60273462d6531c6e36cb240fd56afc1a94fd15d884ebcc4b77b596f"
+    },
+    {
+      "path": "ScriptingAssemblies.json",
+      "bytes": 4701,
+      "matches": true,
+      "sha256": "f97c7df79cd3b0cb985fae973dfb488a2b01ce70d609fdefb7924a2ea82da81a"
+    },
+    {
+      "path": "sharedassets0.assets",
+      "bytes": 58725896,
+      "matches": true,
+      "sha256": "3648658d475170661517c4907e50977a4ab932441b404a681cd0ce485592f3ff"
+    },
+    {
+      "path": "sharedassets0.assets.resS",
+      "bytes": 303786800,
+      "matches": true,
+      "sha256": "2efccae88002a02ca85f050a6d6dc2e5fe894c32de80e36f30cd12f8c7ffb5c2"
+    },
+    {
+      "path": "sharedassets0.resource",
+      "bytes": 28215703,
+      "matches": true,
+      "sha256": "b5076a8d66e709ef80f4386f0de1985a4ab1742898d3f1de185ddd2fdea6d4cf"
+    },
+    {
+      "path": "sharedassets1.assets",
+      "bytes": 393441,
+      "matches": true,
+      "sha256": "3389a6aa5ab4923fd643e808d89d29fa790b6064b2cd9ea574da529fadf0de4c"
+    },
+    {
+      "path": "sharedassets2.assets",
+      "bytes": 568856,
+      "matches": true,
+      "sha256": "58c3a8ae2dd7deab8e80244aab7e61e1ad77a390bcae064476b7c11500195097"
+    },
+    {
+      "path": "sharedassets2.assets.resS",
+      "bytes": 131072,
+      "matches": true,
+      "sha256": "8e3c8987322c14e45c026d84a1ea9f69904e50067d02e6d60f5218f158860b68"
+    },
+    {
+      "path": "sharedassets2.resource",
+      "bytes": 425571296,
+      "matches": true,
+      "sha256": "38f34ff139b564996630278b68558469de2b2a02e6db9d42b7b39aae5da58870"
+    },
+    {
+      "path": "sharedassets3.assets",
+      "bytes": 410541,
+      "matches": true,
+      "sha256": "2746a9210a2ab38e8771a482ab06df588b1420275335faaf9b44bb8803774402"
+    },
+    {
+      "path": "sharedassets4.assets",
+      "bytes": 534093,
+      "matches": true,
+      "sha256": "9c57afb3571efc93372f2c270a3e07ee43a1cc116b0fdf9f4dc9e5e0983b6c05"
+    },
+    {
+      "path": "sharedassets5.assets",
+      "bytes": 575157,
+      "matches": true,
+      "sha256": "e76f9f93029baff6dfb8765ce19b73052d1d9fed8a845596dafec4c421a8751b"
+    },
+    {
+      "path": "StreamingAssets/BackgroundAudio.at9",
+      "bytes": 2033764,
+      "matches": true,
+      "sha256": "a1b6dae19a4632623442421ab8ebcb41086b9c9925167ece3a5064efbc186795"
+    },
+    {
+      "path": "StreamingAssets/BackgroundImage.png",
+      "bytes": 23628,
+      "matches": true,
+      "sha256": "b6c87e0bc92489e3f1ae314f335e750ae05f52a91d6d9885eba0ea66a3a4cd39"
+    },
+    {
+      "path": "StreamingAssets/PS4SessionImage.jpg",
+      "bytes": 73734,
+      "matches": true,
+      "sha256": "33a4fad356b6a5b1189c719b0eb787f2e9cbab41c99d4eee364614dd15d88daa"
+    },
+    {
+      "path": "StreamingAssets/SaveIcon.png",
+      "bytes": 37410,
+      "matches": true,
+      "sha256": "91a4659f4bf9e4f11e16cc98746789c351c3568d76266353ded93c38602bc2be"
+    },
+    {
+      "path": "StreamingAssets/UnityServicesProjectConfiguration.json",
+      "bytes": 1320,
+      "matches": true,
+      "sha256": "3b1f6827c4e45a5d49ed41b1a61d76e5587cb6506bd997daa1aa553e9a980a42"
+    }
+  ],
+  "sprites": [
+    {
+      "owner": "resources.assets",
+      "id": 9758,
+      "name": "wall_2",
+      "type": "Sprite",
+      "size": [
+        32,
+        43
+      ],
+      "bbox": [
+        1,
+        2,
+        30,
+        41
+      ],
+      "pixelsToUnits": 32.0,
+      "rect": {
+        "x": 0.0,
+        "y": 0.0,
+        "width": 32.0,
+        "height": 88.0
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.0
+      },
+      "textureRectOffset": {
+        "x": 0.0,
+        "y": 26.076120376586914
+      },
+      "path": "resources.assets-9758.png"
+    },
+    {
+      "owner": "resources.assets",
+      "id": 8711,
+      "name": "tower_2",
+      "type": "Sprite",
+      "size": [
+        44,
+        48
+      ],
+      "bbox": [
+        2,
+        2,
+        42,
+        46
+      ],
+      "pixelsToUnits": 32.0,
+      "rect": {
+        "x": 0.0,
+        "y": 0.0,
+        "width": 96.0,
+        "height": 124.0
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.0
+      },
+      "textureRectOffset": {
+        "x": 33.02675247192383,
+        "y": 24.076120376586914
+      },
+      "path": "resources.assets-8711.png"
+    },
+    {
+      "owner": "sharedassets0.assets",
+      "id": 2361,
+      "name": "peasant_idle_0",
+      "type": "Sprite",
+      "size": [
+        32,
+        32
+      ],
+      "bbox": [
+        11,
+        12,
+        21,
+        32
+      ],
+      "pixelsToUnits": 32.0,
+      "rect": {
+        "x": 0.0,
+        "y": 64.0,
+        "width": 32.0,
+        "height": 32.0
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.0
+      },
+      "textureRectOffset": {
+        "x": 0.0,
+        "y": 0.0
+      },
+      "path": "sharedassets0.assets-2361.png"
+    },
+    {
+      "owner": "resources.assets",
+      "id": 8557,
+      "name": "deer_walk_0",
+      "type": "Sprite",
+      "size": [
+        35,
+        31
+      ],
+      "bbox": [
+        2,
+        2,
+        33,
+        31
+      ],
+      "pixelsToUnits": 32.0,
+      "rect": {
+        "x": 0.0,
+        "y": 0.0,
+        "width": 48.0,
+        "height": 48.0
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.0
+      },
+      "textureRectOffset": {
+        "x": 10.026750564575195,
+        "y": 0.0
+      },
+      "path": "resources.assets-8557.png"
+    },
+    {
+      "owner": "sharedassets0.assets",
+      "id": 7837,
+      "name": "menu_button_wood_big_normal",
+      "type": "Sprite",
+      "size": [
+        62,
+        25
+      ],
+      "bbox": [
+        0,
+        0,
+        62,
+        25
+      ],
+      "pixelsToUnits": 32.0,
+      "rect": {
+        "x": 0.0,
+        "y": 0.0,
+        "width": 62.0,
+        "height": 25.0
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      },
+      "textureRectOffset": {
+        "x": 0.0,
+        "y": 0.0
+      },
+      "path": "sharedassets0.assets-7837.png"
+    },
+    {
+      "owner": "sharedassets0.assets",
+      "id": 7865,
+      "name": "portal_back",
+      "type": "Sprite",
+      "size": [
+        45,
+        70
+      ],
+      "bbox": [
+        2,
+        2,
+        43,
+        68
+      ],
+      "pixelsToUnits": 32.0,
+      "rect": {
+        "x": 0.0,
+        "y": 0.0,
+        "width": 96.0,
+        "height": 96.0
+      },
+      "pivot": {
+        "x": 0.5,
+        "y": 0.0
+      },
+      "textureRectOffset": {
+        "x": 39.02675247192383,
+        "y": 26.076120376586914
+      },
+      "path": "sharedassets0.assets-7865.png"
+    }
+  ],
+  "fonts": [
+    {
+      "owner": "resources.assets",
+      "id": 6003,
+      "name": "PerfectDOSVGA437",
+      "bytes": 81192,
+      "magic": "00010000",
+      "sha256": "ab5f7798ce9d05aa09380fce2142b11690ba3216a73208954f87c6c63a035102"
+    },
+    {
+      "owner": "resources.assets",
+      "id": 6004,
+      "name": "LiberationSans",
+      "bytes": 350200,
+      "magic": "00010000",
+      "sha256": "e5b0af421ea2bfbc1ac8d251d647268087ae82786234c57f757d1f0b90fa8b49"
+    },
+    {
+      "owner": "sharedassets0.assets",
+      "id": 558,
+      "name": "Kingdom",
+      "bytes": 25652,
+      "magic": "00010000",
+      "sha256": "994fac0fa8885056318dcc4f13a69311c2e86fb06cabb6f893a45313302539c6"
+    },
+    {
+      "owner": "sharedassets0.assets",
+      "id": 564,
+      "name": "KingdomMenu",
+      "bytes": 18336,
+      "magic": "00010000",
+      "sha256": "be5a5e54c490afdf856904894536411037c59734378dfca92a29acf4b3786666"
+    }
+  ],
+  "audio": [
+    {
+      "owner": "sharedassets2.assets",
+      "id": 125,
+      "name": "amb_forest_123_day01_q0046",
+      "resource": {
+        "m_Source": "sharedassets2.resource",
+        "m_Offset": 309225312,
+        "m_Size": 5129536
+      },
+      "seconds": 92.0,
+      "samples": [
+        {
+          "name": "amb_forest_123_day01_q0046.wav",
+          "bytes": 16228844,
+          "magic": "52494646e4a1f700",
+          "channels": 2,
+          "rate": 44100,
+          "frames": 4057200,
+          "seconds": 92.0
+        }
+      ]
+    }
+  ],
+  "clips": [
+    {
+      "id": 1214,
+      "name": "peasant_walk",
+      "sampleRate": 7.0,
+      "spriteCurves": 0,
+      "events": [],
+      "settings": null,
+      "keys": [
+        "m_Name",
+        "m_Legacy",
+        "m_Compressed",
+        "m_UseHighQualityCurve",
+        "m_RotationCurves",
+        "m_CompressedRotationCurves",
+        "m_EulerCurves",
+        "m_PositionCurves",
+        "m_ScaleCurves",
+        "m_FloatCurves",
+        "m_PPtrCurves",
+        "m_SampleRate",
+        "m_WrapMode",
+        "m_Bounds",
+        "m_MuscleClipSize",
+        "m_MuscleClip",
+        "m_ClipBindingConstant",
+        "m_HasGenericRootTransform",
+        "m_HasMotionFloatCurves",
+        "m_Events"
+      ]
+    },
+    {
+      "id": 783,
+      "name": "archer_shoot",
+      "sampleRate": 8.0,
+      "spriteCurves": 0,
+      "events": [],
+      "settings": null,
+      "keys": [
+        "m_Name",
+        "m_Legacy",
+        "m_Compressed",
+        "m_UseHighQualityCurve",
+        "m_RotationCurves",
+        "m_CompressedRotationCurves",
+        "m_EulerCurves",
+        "m_PositionCurves",
+        "m_ScaleCurves",
+        "m_FloatCurves",
+        "m_PPtrCurves",
+        "m_SampleRate",
+        "m_WrapMode",
+        "m_Bounds",
+        "m_MuscleClipSize",
+        "m_MuscleClip",
+        "m_ClipBindingConstant",
+        "m_HasGenericRootTransform",
+        "m_HasMotionFloatCurves",
+        "m_Events"
+      ]
+    },
+    {
+      "id": 1245,
+      "name": "worker_hammer",
+      "sampleRate": 12.0,
+      "spriteCurves": 0,
+      "events": [
+        {
+          "time": 0.4166666567325592,
+          "functionName": "OnAnimHammerHit",
+          "data": "",
+          "objectReferenceParameter": {
+            "m_FileID": 0,
+            "m_PathID": 0
+          },
+          "floatParameter": 0.0,
+          "intParameter": 0,
+          "messageOptions": 0
+        }
+      ],
+      "settings": null,
+      "keys": [
+        "m_Name",
+        "m_Legacy",
+        "m_Compressed",
+        "m_UseHighQualityCurve",
+        "m_RotationCurves",
+        "m_CompressedRotationCurves",
+        "m_EulerCurves",
+        "m_PositionCurves",
+        "m_ScaleCurves",
+        "m_FloatCurves",
+        "m_PPtrCurves",
+        "m_SampleRate",
+        "m_WrapMode",
+        "m_Bounds",
+        "m_MuscleClipSize",
+        "m_MuscleClip",
+        "m_ClipBindingConstant",
+        "m_HasGenericRootTransform",
+        "m_HasMotionFloatCurves",
+        "m_Events"
+      ]
+    },
+    {
+      "id": 2568,
+      "name": "portal_close",
+      "sampleRate": 8.0,
+      "spriteCurves": 0,
+      "events": [],
+      "settings": null,
+      "keys": [
+        "m_Name",
+        "m_Legacy",
+        "m_Compressed",
+        "m_UseHighQualityCurve",
+        "m_RotationCurves",
+        "m_CompressedRotationCurves",
+        "m_EulerCurves",
+        "m_PositionCurves",
+        "m_ScaleCurves",
+        "m_FloatCurves",
+        "m_PPtrCurves",
+        "m_SampleRate",
+        "m_WrapMode",
+        "m_Bounds",
+        "m_MuscleClipSize",
+        "m_MuscleClip",
+        "m_ClipBindingConstant",
+        "m_HasGenericRootTransform",
+        "m_HasMotionFloatCurves",
+        "m_Events"
+      ]
+    },
+    {
+      "id": 2573,
+      "name": "portal_permanent_destroy",
+      "sampleRate": 7.0,
+      "spriteCurves": 0,
+      "events": [
+        {
+          "time": 1.7142857313156128,
+          "functionName": "SpitOutHermits",
+          "data": "",
+          "objectReferenceParameter": {
+            "m_FileID": 0,
+            "m_PathID": 0
+          },
+          "floatParameter": 0.0,
+          "intParameter": 0,
+          "messageOptions": 0
+        },
+        {
+          "time": 3.4285714626312256,
+          "functionName": "SpitOutGems",
+          "data": "",
+          "objectReferenceParameter": {
+            "m_FileID": 0,
+            "m_PathID": 0
+          },
+          "floatParameter": 0.0,
+          "intParameter": 0,
+          "messageOptions": 0
+        }
+      ],
+      "settings": null,
+      "keys": [
+        "m_Name",
+        "m_Legacy",
+        "m_Compressed",
+        "m_UseHighQualityCurve",
+        "m_RotationCurves",
+        "m_CompressedRotationCurves",
+        "m_EulerCurves",
+        "m_PositionCurves",
+        "m_ScaleCurves",
+        "m_FloatCurves",
+        "m_PPtrCurves",
+        "m_SampleRate",
+        "m_WrapMode",
+        "m_Bounds",
+        "m_MuscleClipSize",
+        "m_MuscleClip",
+        "m_ClipBindingConstant",
+        "m_HasGenericRootTransform",
+        "m_HasMotionFloatCurves",
+        "m_Events"
+      ]
+    },
+    {
+      "id": 2298,
+      "name": "deer_walk",
+      "sampleRate": 14.0,
+      "spriteCurves": 0,
+      "events": [],
+      "settings": null,
+      "keys": [
+        "m_Name",
+        "m_Legacy",
+        "m_Compressed",
+        "m_UseHighQualityCurve",
+        "m_RotationCurves",
+        "m_CompressedRotationCurves",
+        "m_EulerCurves",
+        "m_PositionCurves",
+        "m_ScaleCurves",
+        "m_FloatCurves",
+        "m_PPtrCurves",
+        "m_SampleRate",
+        "m_WrapMode",
+        "m_Bounds",
+        "m_MuscleClipSize",
+        "m_MuscleClip",
+        "m_ClipBindingConstant",
+        "m_HasGenericRootTransform",
+        "m_HasMotionFloatCurves",
+        "m_Events"
+      ]
+    },
+    {
+      "id": 2193,
+      "name": "bunny_dead",
+      "sampleRate": 1.0,
+      "spriteCurves": 0,
+      "events": [],
+      "settings": null,
+      "keys": [
+        "m_Name",
+        "m_Legacy",
+        "m_Compressed",
+        "m_UseHighQualityCurve",
+        "m_RotationCurves",
+        "m_CompressedRotationCurves",
+        "m_EulerCurves",
+        "m_PositionCurves",
+        "m_ScaleCurves",
+        "m_FloatCurves",
+        "m_PPtrCurves",
+        "m_SampleRate",
+        "m_WrapMode",
+        "m_Bounds",
+        "m_MuscleClipSize",
+        "m_MuscleClip",
+        "m_ClipBindingConstant",
+        "m_HasGenericRootTransform",
+        "m_HasMotionFloatCurves",
+        "m_Events"
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "kind": "audio",
+      "id": 3288,
+      "error": "FmodError('FORMAT')"
+    },
+    {
+      "kind": "audio",
+      "id": 5272,
+      "error": "FmodError('INVALID PARAM')"
+    },
+    {
+      "kind": "audio",
+      "id": 4441,
+      "error": "FmodError('FORMAT')"
+    },
+    {
+      "kind": "audio",
+      "id": 449,
+      "error": "FmodError('FORMAT')"
+    }
+  ]
+}

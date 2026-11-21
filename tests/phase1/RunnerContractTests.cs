@@ -190,6 +190,7 @@ public sealed class RunnerContractTests
         }
 
         AssertPidsExited(fixture: fixture);
+        VerifyCapacityExecution();
         ProofProtocol.Record(id: "runner.process.repeat", diagnostic: "NORMALIZED_EQUAL",
                 location: "two complete real C# runs");
     }
@@ -411,10 +412,11 @@ public sealed class RunnerContractTests
         (int Exit, string Output) result = ProofProtocol.Node(script: script);
         result.Exit.ShouldBe(expected: 0);
         result.Output.ShouldContain(expected: "SELECTION_REJECTED");
+        VerifyCapacityDeclarations();
         ProofProtocol.Record(id: "runner.selection", diagnostic: "SELECTION_REJECTED", location: "CLI selection");
     }
 
-    /// <summary>Keeps every implemented obligation and transfers only the eight explicit certification IDs.</summary>
+    /// <summary>Pins the Phase1 baseline and exact Phase4 export and Phase5 certification partitions.</summary>
     [Fact, Trait("Case", "runner.phase-membership")]
     public void Select_DeclaredPhases_RetainsImplementedCases()
     {
@@ -422,10 +424,20 @@ public sealed class RunnerContractTests
                 + "const m=require('./tools/phase1/required-cases.json'),s=c.select(m,['--phase','1']);"
                 + "const ids=['ac-02.complete','ac-06.complete','ac-07.complete','ac-09.complete',"
                 + "'R-49.positive','R-49.negative','R-82.positive','R-82.negative'].sort();"
-                + "a.deepEqual(s.deferred.map(r=>r.id).sort(),ids);a.equal(s.selected.length,676);"
-                + "a.ok(s.deferred.every(r=>r.acceptancePhase===5&&r.owner==='Phase 5'));"
-                + "a.deepEqual(s.selected,m.cases.filter(r=>!ids.includes(r.id)));"
-                + "a.ok(m.cases.filter(r=>r.implementation==='csharp').every(r=>s.selected.includes(r)));"
+                + "const exports=['rules.export-layout-origin','rules.export-layout-boundary'].sort();"
+                + "const deferred=[...ids,...exports].sort();a.equal(m.cases.length,686);"
+                + "a.equal(s.selected.length,676);a.deepEqual(s.deferred.map(r=>r.id).sort(),deferred);"
+                + "a.deepEqual(s.deferred.filter(r=>ids.includes(r.id)).map(r=>"
+                + "[r.id,r.acceptancePhase,r.owner]).sort(),ids.map(id=>[id,5,'Phase 5']));"
+                + "a.deepEqual(s.deferred.filter(r=>exports.includes(r.id)).map(r=>"
+                + "[r.id,r.acceptancePhase,r.owner]).sort(),exports.map(id=>[id,4,'04-34']));"
+                + "a.deepEqual(s.selected,m.cases.filter(r=>!deferred.includes(r.id)));"
+                + "a.ok(s.selected.every(r=>(r.acceptancePhase??1)===1&&r.implementation==='csharp'));"
+                + "a.deepEqual(m.cases.filter(r=>r.implementation==='csharp'&&!s.selected.includes(r))"
+                + ".map(r=>r.id).sort(),exports);"
+                + "a.ok(m.cases.filter(r=>r.implementation==='csharp'&&!exports.includes(r.id))"
+                + ".every(r=>s.selected.includes(r)));"
+                + "a.deepEqual(c.select(m,['--phase','4']).selected,m.cases.filter(r=>!ids.includes(r.id)));"
                 + "a.deepEqual(c.select(m,['--all']).selected,m.cases);"
                 + "a.deepEqual(c.select(m,['--phase','5']).selected,m.cases);"
                 + "a.deepEqual(c.select(m,['--list']).selected,m.cases);"
@@ -435,7 +447,7 @@ public sealed class RunnerContractTests
                 + "console.log('PHASE_MEMBERSHIP_EXACT')";
         ProofProtocol.Node(script: script).Exit.ShouldBe(expected: 0);
         ProofProtocol.Record(id: "runner.phase-membership", diagnostic: "PHASE_MEMBERSHIP_EXACT",
-                location: "independent declarations: 676 Phase 1, eight Phase 5; exhaustive 684");
+                location: "independent declarations: 676 Phase1, two Phase4, eight Phase5; exhaustive686");
     }
 
     /// <summary>Rejects malformed declarations even when their case would be outside the requested phase.</summary>
@@ -507,6 +519,83 @@ public sealed class RunnerContractTests
         result.Output.ShouldContain(expected: "RESULT_MISSING");
         ProofProtocol.Record(id: "runner.phase-required", diagnostic: "PHASE_REQUIRED_FAILURE",
                 location: "actual CLI: unresolved default Phase 1 and deleted selected proof reject acceptance");
+    }
+
+    private static void VerifyCapacityDeclarations()
+    {
+        string script = "const c=require('./tools/phase1/check.cjs'),a=require('node:assert/strict');"
+                + "const m=require('./tools/phase1/required-cases.json'),row=m.cases[0];"
+                + "a.deepEqual(m.cases.filter(r=>Object.hasOwn(r,'childTimeoutMs'))"
+                + ".map(r=>[r.id,r.childTimeoutMs]).sort(),[['ac-08.complete',75000],"
+                + "['engine.generated-boundary',120000],['rules.godot-companion-negative',60000]]);"
+                + "for(const [id,argument,outerMs] of [['ac-08.complete','75s',77000],"
+                + "['engine.generated-boundary','120s',122000],"
+                + "['rules.godot-companion-negative','60s',62000],"
+                + "['rules.godot-companion-positive','45s',45000]]){"
+                + "a.deepEqual(c.caseTimeout(m.cases.find(r=>r.id===id),m),{argument,outerMs})}"
+                + "a.deepEqual(c.caseTimeout(row,{}),{argument:'45s',outerMs:45000});"
+                + "a.deepEqual(c.caseTimeout(row,{childTimeoutMs:1800}),{argument:'45s',outerMs:1800});"
+                + "for(const n of [1,999,1000,1001,120000]){const r={...row,childTimeoutMs:n};"
+                + "a.equal(c.select({...m,cases:[r]},['--all']).selected[0],r);"
+                + "const t=c.caseTimeout(r,m),s=Math.ceil(n/1000);"
+                + "a.equal(t.argument,s+'s');a.equal(t.outerMs,s*1000+2000);"
+                + "a.deepEqual(c.caseTimeout(row,{}),{argument:'45s',outerMs:45000})}"
+                + "for(const n of [null,0,-1,1.5,'120000',true,{},[],NaN,Infinity,120001,9007199254740992]){"
+                + "const bad={...row,id:'fixture.bad',acceptancePhase:5,childTimeoutMs:n};"
+                + "a.throws(()=>c.select({...m,cases:[row,bad]},['--phase','1']),"
+                + "e=>e.diagnostic==='MANIFEST_TIMEOUT')}console.log('CASE_CAPACITY_VALIDATED')";
+        (int Exit, string Output) result = ProofProtocol.Node(script: script);
+        result.Exit.ShouldBe(expected: 0, customMessage: result.Output);
+        result.Output.ShouldContain(expected: "CASE_CAPACITY_VALIDATED");
+        using var fixture = RunnerProcessFixture.Create(mode: "pass");
+        SetCaseCapacity(fixture: fixture, capacity: 0);
+        result = fixture.Run();
+        result.Exit.ShouldBe(expected: 1);
+        result.Output.ShouldContain(expected: "MANIFEST_TIMEOUT");
+        File.Exists(path: Path.Combine(path1: fixture.Root, path2: "child.pid")).ShouldBeFalse();
+        Directory.Exists(path: Path.Combine(path1: fixture.Root, path2: ".phase1/runs")).ShouldBeFalse();
+    }
+
+    private static void VerifyCapacityExecution()
+    {
+        using var fixture = RunnerProcessFixture.Create(mode: "pass");
+        (int? Capacity, string Argument, int Outer)[] cases =
+        [
+            (120000, "120s", 122000), (75000, "75s", 77000), (60000, "60s", 62000),
+            (null, "45s", 1800), (1, "1s", 3000),
+        ];
+        foreach ((int? Capacity, string Argument, int Outer) item in cases)
+        {
+            SetCaseCapacity(fixture: fixture, capacity: item.Capacity);
+            (int Exit, string Output) result = fixture.Run();
+            result.Exit.ShouldBe(expected: 0, customMessage: result.Output);
+            JsonNode command = fixture.Summary()["commands"]?.AsArray().Single(predicate: row =>
+                    StringComparer.Ordinal.Equals(x: row?["log"]?.GetValue<string>(), y: "test.process.log"))
+                    ?? throw new InvalidDataException(message: "CASE_COMMAND_REQUIRED");
+            JsonArray args = command["args"]?.AsArray()
+                    ?? throw new InvalidDataException(message: "CASE_ARGUMENTS_REQUIRED");
+            args[^1]?.GetValue<string>().ShouldBe(expected: item.Argument);
+            command["timeoutMs"]?.GetValue<int>().ShouldBe(expected: item.Outer);
+            AssertPidsExited(fixture: fixture);
+        }
+    }
+
+    private static void SetCaseCapacity(RunnerProcessFixture fixture, int? capacity)
+    {
+        string path = Path.Combine(path1: fixture.Root, path2: "tools/phase1/required-cases.json");
+        JsonObject manifest = RegisterValidator.Parse(bytes: File.ReadAllBytes(path: path));
+        JsonObject row = manifest["cases"]?.AsArray()[0]?.AsObject()
+                ?? throw new InvalidDataException(message: "CASE_CAPACITY_ROW_REQUIRED");
+        if (capacity is { } value)
+        {
+            row["childTimeoutMs"] = value;
+        }
+        else
+        {
+            row.Remove(propertyName: "childTimeoutMs");
+        }
+
+        File.WriteAllText(path: path, contents: manifest.ToJsonString());
     }
 
     private static void AddPendingDeclaration(RunnerProcessFixture fixture, int? phase)

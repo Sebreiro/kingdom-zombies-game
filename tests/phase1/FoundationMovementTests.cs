@@ -11,7 +11,7 @@ public sealed class FoundationMovementTests
 {
     /// <summary>Aliases cancel and release through the exact production input helper.</summary>
     [Fact]
-    public void PhysicalAliasesCancelAndRelease()
+    public void Move_PhysicalAliases_CancelAndRelease()
     {
         var input = new FoundationInput();
         input.Set(key: 65, pressed: true);
@@ -33,7 +33,7 @@ public sealed class FoundationMovementTests
 
     /// <summary>A rightward command advances exactly three units and preserves ownership.</summary>
     [Fact]
-    public void IdentifiedRightwardCommandAdvancesThreeUnits()
+    public void Move_IdentifiedRightwardCommand_AdvancesThreeUnits()
     {
         var session = new FoundationSession(sessionId: "session-1", playerId: "local", actorId: "actor-1");
         var command = new FoundationMovementCommand(sessionId: "session-1", playerId: "local",

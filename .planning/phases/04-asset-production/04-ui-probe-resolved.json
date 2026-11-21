@@ -1,0 +1,644 @@
+{
+  "items": [
+    {
+      "requirement_id": "HUB-NAV",
+      "category": "loading",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?",
+      "reason": null,
+      "probe": "What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?"
+    },
+    {
+      "requirement_id": "HUB-NAV",
+      "category": "error",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown when the load or submit fails (message, retry affordance, partial fallback)?",
+      "reason": null,
+      "probe": "What is shown when the load or submit fails (message, retry affordance, partial fallback)?"
+    },
+    {
+      "requirement_id": "HUB-NAV",
+      "category": "overflow",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What happens when content exceeds its container — scroll, clip, wrap, or truncate?",
+      "reason": null,
+      "probe": "What happens when content exceeds its container — scroll, clip, wrap, or truncate?"
+    },
+    {
+      "requirement_id": "HUB-NAV",
+      "category": "long-text",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?",
+      "reason": null,
+      "probe": "What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?"
+    },
+    {
+      "requirement_id": "HUB-REGISTER",
+      "category": "empty",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown when there is no data — zero items, an unfilled form, or absent media?",
+      "reason": null,
+      "probe": "What is shown when there is no data — zero items, an unfilled form, or absent media?"
+    },
+    {
+      "requirement_id": "HUB-REGISTER",
+      "category": "loading",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?",
+      "reason": null,
+      "probe": "What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?"
+    },
+    {
+      "requirement_id": "HUB-REGISTER",
+      "category": "error",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown when the load or submit fails (message, retry affordance, partial fallback)?",
+      "reason": null,
+      "probe": "What is shown when the load or submit fails (message, retry affordance, partial fallback)?"
+    },
+    {
+      "requirement_id": "HUB-REGISTER",
+      "category": "populated",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What does the normal populated (happy-path) state look like at a typical volume of content?",
+      "reason": null,
+      "probe": "What does the normal populated (happy-path) state look like at a typical volume of content?"
+    },
+    {
+      "requirement_id": "HUB-REGISTER",
+      "category": "partial",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown for partial or incomplete data — some fields or rows present, others missing?",
+      "reason": null,
+      "probe": "What is shown for partial or incomplete data — some fields or rows present, others missing?"
+    },
+    {
+      "requirement_id": "HUB-REGISTER",
+      "category": "overflow",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What happens when content exceeds its container — scroll, clip, wrap, or truncate?",
+      "reason": null,
+      "probe": "What happens when content exceeds its container — scroll, clip, wrap, or truncate?"
+    },
+    {
+      "requirement_id": "HUB-REGISTER",
+      "category": "zero-one-many",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "How does the layout read at zero, one, and many items (singular vs plural copy, spacing)?",
+      "reason": null,
+      "probe": "How does the layout read at zero, one, and many items (singular vs plural copy, spacing)?"
+    },
+    {
+      "requirement_id": "HUB-REGISTER",
+      "category": "long-text",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?",
+      "reason": null,
+      "probe": "What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?"
+    },
+    {
+      "requirement_id": "CHARACTER-PREVIEW",
+      "category": "empty",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown when there is no data — zero items, an unfilled form, or absent media?",
+      "reason": null,
+      "probe": "What is shown when there is no data — zero items, an unfilled form, or absent media?"
+    },
+    {
+      "requirement_id": "CHARACTER-PREVIEW",
+      "category": "loading",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?",
+      "reason": null,
+      "probe": "What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?"
+    },
+    {
+      "requirement_id": "CHARACTER-PREVIEW",
+      "category": "error",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown when the load or submit fails (message, retry affordance, partial fallback)?",
+      "reason": null,
+      "probe": "What is shown when the load or submit fails (message, retry affordance, partial fallback)?"
+    },
+    {
+      "requirement_id": "CHARACTER-PREVIEW",
+      "category": "populated",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What does the normal populated (happy-path) state look like at a typical volume of content?",
+      "reason": null,
+      "probe": "What does the normal populated (happy-path) state look like at a typical volume of content?"
+    },
+    {
+      "requirement_id": "CHARACTER-PREVIEW",
+      "category": "partial",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown for partial or incomplete data — some fields or rows present, others missing?",
+      "reason": null,
+      "probe": "What is shown for partial or incomplete data — some fields or rows present, others missing?"
+    },
+    {
+      "requirement_id": "CHARACTER-PREVIEW",
+      "category": "overflow",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What happens when content exceeds its container — scroll, clip, wrap, or truncate?",
+      "reason": null,
+      "probe": "What happens when content exceeds its container — scroll, clip, wrap, or truncate?"
+    },
+    {
+      "requirement_id": "CHARACTER-PREVIEW",
+      "category": "long-text",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?",
+      "reason": null,
+      "probe": "What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?"
+    },
+    {
+      "requirement_id": "WORLD-ITEM-PREVIEW",
+      "category": "empty",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown when there is no data — zero items, an unfilled form, or absent media?",
+      "reason": null,
+      "probe": "What is shown when there is no data — zero items, an unfilled form, or absent media?"
+    },
+    {
+      "requirement_id": "WORLD-ITEM-PREVIEW",
+      "category": "loading",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?",
+      "reason": null,
+      "probe": "What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?"
+    },
+    {
+      "requirement_id": "WORLD-ITEM-PREVIEW",
+      "category": "error",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown when the load or submit fails (message, retry affordance, partial fallback)?",
+      "reason": null,
+      "probe": "What is shown when the load or submit fails (message, retry affordance, partial fallback)?"
+    },
+    {
+      "requirement_id": "WORLD-ITEM-PREVIEW",
+      "category": "populated",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What does the normal populated (happy-path) state look like at a typical volume of content?",
+      "reason": null,
+      "probe": "What does the normal populated (happy-path) state look like at a typical volume of content?"
+    },
+    {
+      "requirement_id": "WORLD-ITEM-PREVIEW",
+      "category": "overflow",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What happens when content exceeds its container — scroll, clip, wrap, or truncate?",
+      "reason": null,
+      "probe": "What happens when content exceeds its container — scroll, clip, wrap, or truncate?"
+    },
+    {
+      "requirement_id": "WORLD-ITEM-PREVIEW",
+      "category": "long-text",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?",
+      "reason": null,
+      "probe": "What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?"
+    },
+    {
+      "requirement_id": "UI-COLLECTIONS",
+      "category": "empty",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown when there is no data — zero items, an unfilled form, or absent media?",
+      "reason": null,
+      "probe": "What is shown when there is no data — zero items, an unfilled form, or absent media?"
+    },
+    {
+      "requirement_id": "UI-COLLECTIONS",
+      "category": "loading",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?",
+      "reason": null,
+      "probe": "What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?"
+    },
+    {
+      "requirement_id": "UI-COLLECTIONS",
+      "category": "error",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown when the load or submit fails (message, retry affordance, partial fallback)?",
+      "reason": null,
+      "probe": "What is shown when the load or submit fails (message, retry affordance, partial fallback)?"
+    },
+    {
+      "requirement_id": "UI-COLLECTIONS",
+      "category": "populated",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What does the normal populated (happy-path) state look like at a typical volume of content?",
+      "reason": null,
+      "probe": "What does the normal populated (happy-path) state look like at a typical volume of content?"
+    },
+    {
+      "requirement_id": "UI-COLLECTIONS",
+      "category": "partial",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown for partial or incomplete data — some fields or rows present, others missing?",
+      "reason": null,
+      "probe": "What is shown for partial or incomplete data — some fields or rows present, others missing?"
+    },
+    {
+      "requirement_id": "UI-COLLECTIONS",
+      "category": "overflow",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What happens when content exceeds its container — scroll, clip, wrap, or truncate?",
+      "reason": null,
+      "probe": "What happens when content exceeds its container — scroll, clip, wrap, or truncate?"
+    },
+    {
+      "requirement_id": "UI-COLLECTIONS",
+      "category": "zero-one-many",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "How does the layout read at zero, one, and many items (singular vs plural copy, spacing)?",
+      "reason": null,
+      "probe": "How does the layout read at zero, one, and many items (singular vs plural copy, spacing)?"
+    },
+    {
+      "requirement_id": "UI-COLLECTIONS",
+      "category": "long-text",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?",
+      "reason": null,
+      "probe": "What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?"
+    },
+    {
+      "requirement_id": "UI-FORMS-CONTROLS",
+      "category": "empty",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown when there is no data — zero items, an unfilled form, or absent media?",
+      "reason": null,
+      "probe": "What is shown when there is no data — zero items, an unfilled form, or absent media?"
+    },
+    {
+      "requirement_id": "UI-FORMS-CONTROLS",
+      "category": "loading",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?",
+      "reason": null,
+      "probe": "What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?"
+    },
+    {
+      "requirement_id": "UI-FORMS-CONTROLS",
+      "category": "error",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown when the load or submit fails (message, retry affordance, partial fallback)?",
+      "reason": null,
+      "probe": "What is shown when the load or submit fails (message, retry affordance, partial fallback)?"
+    },
+    {
+      "requirement_id": "UI-FORMS-CONTROLS",
+      "category": "partial",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown for partial or incomplete data — some fields or rows present, others missing?",
+      "reason": null,
+      "probe": "What is shown for partial or incomplete data — some fields or rows present, others missing?"
+    },
+    {
+      "requirement_id": "UI-FORMS-CONTROLS",
+      "category": "overflow",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What happens when content exceeds its container — scroll, clip, wrap, or truncate?",
+      "reason": null,
+      "probe": "What happens when content exceeds its container — scroll, clip, wrap, or truncate?"
+    },
+    {
+      "requirement_id": "UI-FORMS-CONTROLS",
+      "category": "long-text",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?",
+      "reason": null,
+      "probe": "What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?"
+    },
+    {
+      "requirement_id": "UI-TEXT-STATUS",
+      "category": "empty",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown when there is no data — zero items, an unfilled form, or absent media?",
+      "reason": null,
+      "probe": "What is shown when there is no data — zero items, an unfilled form, or absent media?"
+    },
+    {
+      "requirement_id": "UI-TEXT-STATUS",
+      "category": "loading",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?",
+      "reason": null,
+      "probe": "What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?"
+    },
+    {
+      "requirement_id": "UI-TEXT-STATUS",
+      "category": "error",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown when the load or submit fails (message, retry affordance, partial fallback)?",
+      "reason": null,
+      "probe": "What is shown when the load or submit fails (message, retry affordance, partial fallback)?"
+    },
+    {
+      "requirement_id": "UI-TEXT-STATUS",
+      "category": "populated",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What does the normal populated (happy-path) state look like at a typical volume of content?",
+      "reason": null,
+      "probe": "What does the normal populated (happy-path) state look like at a typical volume of content?"
+    },
+    {
+      "requirement_id": "UI-TEXT-STATUS",
+      "category": "partial",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown for partial or incomplete data — some fields or rows present, others missing?",
+      "reason": null,
+      "probe": "What is shown for partial or incomplete data — some fields or rows present, others missing?"
+    },
+    {
+      "requirement_id": "UI-TEXT-STATUS",
+      "category": "overflow",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What happens when content exceeds its container — scroll, clip, wrap, or truncate?",
+      "reason": null,
+      "probe": "What happens when content exceeds its container — scroll, clip, wrap, or truncate?"
+    },
+    {
+      "requirement_id": "UI-TEXT-STATUS",
+      "category": "zero-one-many",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "How does the layout read at zero, one, and many items (singular vs plural copy, spacing)?",
+      "reason": null,
+      "probe": "How does the layout read at zero, one, and many items (singular vs plural copy, spacing)?"
+    },
+    {
+      "requirement_id": "UI-TEXT-STATUS",
+      "category": "long-text",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?",
+      "reason": null,
+      "probe": "What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?"
+    },
+    {
+      "requirement_id": "DATA-TEXT-INSPECTOR",
+      "category": "empty",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown when there is no data — zero items, an unfilled form, or absent media?",
+      "reason": null,
+      "probe": "What is shown when there is no data — zero items, an unfilled form, or absent media?"
+    },
+    {
+      "requirement_id": "DATA-TEXT-INSPECTOR",
+      "category": "loading",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?",
+      "reason": null,
+      "probe": "What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?"
+    },
+    {
+      "requirement_id": "DATA-TEXT-INSPECTOR",
+      "category": "error",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown when the load or submit fails (message, retry affordance, partial fallback)?",
+      "reason": null,
+      "probe": "What is shown when the load or submit fails (message, retry affordance, partial fallback)?"
+    },
+    {
+      "requirement_id": "DATA-TEXT-INSPECTOR",
+      "category": "populated",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What does the normal populated (happy-path) state look like at a typical volume of content?",
+      "reason": null,
+      "probe": "What does the normal populated (happy-path) state look like at a typical volume of content?"
+    },
+    {
+      "requirement_id": "DATA-TEXT-INSPECTOR",
+      "category": "partial",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown for partial or incomplete data — some fields or rows present, others missing?",
+      "reason": null,
+      "probe": "What is shown for partial or incomplete data — some fields or rows present, others missing?"
+    },
+    {
+      "requirement_id": "DATA-TEXT-INSPECTOR",
+      "category": "overflow",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What happens when content exceeds its container — scroll, clip, wrap, or truncate?",
+      "reason": null,
+      "probe": "What happens when content exceeds its container — scroll, clip, wrap, or truncate?"
+    },
+    {
+      "requirement_id": "DATA-TEXT-INSPECTOR",
+      "category": "zero-one-many",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "How does the layout read at zero, one, and many items (singular vs plural copy, spacing)?",
+      "reason": null,
+      "probe": "How does the layout read at zero, one, and many items (singular vs plural copy, spacing)?"
+    },
+    {
+      "requirement_id": "DATA-TEXT-INSPECTOR",
+      "category": "long-text",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?",
+      "reason": null,
+      "probe": "What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?"
+    },
+    {
+      "requirement_id": "AUDIO-AUDITION",
+      "category": "empty",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown when there is no data — zero items, an unfilled form, or absent media?",
+      "reason": null,
+      "probe": "What is shown when there is no data — zero items, an unfilled form, or absent media?"
+    },
+    {
+      "requirement_id": "AUDIO-AUDITION",
+      "category": "loading",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?",
+      "reason": null,
+      "probe": "What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?"
+    },
+    {
+      "requirement_id": "AUDIO-AUDITION",
+      "category": "error",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown when the load or submit fails (message, retry affordance, partial fallback)?",
+      "reason": null,
+      "probe": "What is shown when the load or submit fails (message, retry affordance, partial fallback)?"
+    },
+    {
+      "requirement_id": "AUDIO-AUDITION",
+      "category": "populated",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What does the normal populated (happy-path) state look like at a typical volume of content?",
+      "reason": null,
+      "probe": "What does the normal populated (happy-path) state look like at a typical volume of content?"
+    },
+    {
+      "requirement_id": "AUDIO-AUDITION",
+      "category": "partial",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown for partial or incomplete data — some fields or rows present, others missing?",
+      "reason": null,
+      "probe": "What is shown for partial or incomplete data — some fields or rows present, others missing?"
+    },
+    {
+      "requirement_id": "AUDIO-AUDITION",
+      "category": "overflow",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What happens when content exceeds its container — scroll, clip, wrap, or truncate?",
+      "reason": null,
+      "probe": "What happens when content exceeds its container — scroll, clip, wrap, or truncate?"
+    },
+    {
+      "requirement_id": "AUDIO-AUDITION",
+      "category": "zero-one-many",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "How does the layout read at zero, one, and many items (singular vs plural copy, spacing)?",
+      "reason": null,
+      "probe": "How does the layout read at zero, one, and many items (singular vs plural copy, spacing)?"
+    },
+    {
+      "requirement_id": "AUDIO-AUDITION",
+      "category": "long-text",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?",
+      "reason": null,
+      "probe": "What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?"
+    },
+    {
+      "requirement_id": "UI-FIXTURE-PREVIEW",
+      "category": "empty",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown when there is no data — zero items, an unfilled form, or absent media?",
+      "reason": null,
+      "probe": "What is shown when there is no data — zero items, an unfilled form, or absent media?"
+    },
+    {
+      "requirement_id": "UI-FIXTURE-PREVIEW",
+      "category": "loading",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?",
+      "reason": null,
+      "probe": "What is shown while data or content is still loading (skeleton, spinner, progressive reveal)?"
+    },
+    {
+      "requirement_id": "UI-FIXTURE-PREVIEW",
+      "category": "error",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown when the load or submit fails (message, retry affordance, partial fallback)?",
+      "reason": null,
+      "probe": "What is shown when the load or submit fails (message, retry affordance, partial fallback)?"
+    },
+    {
+      "requirement_id": "UI-FIXTURE-PREVIEW",
+      "category": "populated",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What does the normal populated (happy-path) state look like at a typical volume of content?",
+      "reason": null,
+      "probe": "What does the normal populated (happy-path) state look like at a typical volume of content?"
+    },
+    {
+      "requirement_id": "UI-FIXTURE-PREVIEW",
+      "category": "partial",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What is shown for partial or incomplete data — some fields or rows present, others missing?",
+      "reason": null,
+      "probe": "What is shown for partial or incomplete data — some fields or rows present, others missing?"
+    },
+    {
+      "requirement_id": "UI-FIXTURE-PREVIEW",
+      "category": "overflow",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What happens when content exceeds its container — scroll, clip, wrap, or truncate?",
+      "reason": null,
+      "probe": "What happens when content exceeds its container — scroll, clip, wrap, or truncate?"
+    },
+    {
+      "requirement_id": "UI-FIXTURE-PREVIEW",
+      "category": "long-text",
+      "status": "resolved",
+      "verification": "backstop",
+      "resolution": "What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?",
+      "reason": null,
+      "probe": "What happens with unusually long text — truncation, wrapping, ellipsis, or reflow?"
+    }
+  ],
+  "coverage": {
+    "applicable": 70,
+    "resolved": 70,
+    "unresolved": 0,
+    "unclassified": 0,
+    "byVerification": {
+      "explicit": 0,
+      "backstop": 70
+    }
+  }
+}

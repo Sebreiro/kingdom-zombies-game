@@ -1,0 +1,626 @@
+{
+  "schemaVersion": 1,
+  "id": "defense-assemblies",
+  "version": 1,
+  "artPack": "res://content/packs/defenses.json",
+  "guardPack": "res://content/packs/guards.json",
+  "sampleDataOnly": true,
+  "presenter": {
+    "type": "KingdomZombies.Inspection.BuildingPreview",
+    "method": "Attach",
+    "hubAdoptionOwner": "04-23"
+  },
+  "resourceBindings": {
+    "defenses": {
+      "path": "res://assets/buildings/defenses.png",
+      "size": [
+        1024,
+        512
+      ],
+      "sha256": "ad4d29bac2d5683af592baa2ced8fdd0e2e14df026719f2872473a42be8235e9",
+      "rgbaSha256": "48c171781808ca55bded74e73969b187b72a29a795146bf33a08c78ea5c69ced",
+      "alphaValues": [
+        0,
+        255
+      ]
+    },
+    "guards": {
+      "path": "res://assets/characters/structural-guard.png",
+      "size": [
+        256,
+        64
+      ],
+      "sha256": "8efd6431d869fc122acd6b341b4421aa1a0e990681715a05dc16b43adf519c56",
+      "rgbaSha256": "7ba61f9fe4bb653da862c22c2fdc5994d5cea157dda0088fc909b16a955a18e0"
+    }
+  },
+  "tierDefinitions": [
+    {
+      "id": "wall-1",
+      "kind": "wall",
+      "tier": 1,
+      "health": 250,
+      "price": 20,
+      "workSeconds": 20,
+      "rebuildPrice": 20,
+      "range": 0,
+      "arrowDamage": 0,
+      "sockets": [],
+      "collision": {
+        "rect": [
+          12,
+          8,
+          8,
+          27
+        ],
+        "source": "independent-gameplay-shape",
+        "factionBlocker": "zombies-only"
+      },
+      "workAnchor": [
+        16,
+        33
+      ],
+      "sitePart": "site-wall"
+    },
+    {
+      "id": "wall-2",
+      "kind": "wall",
+      "tier": 2,
+      "health": 900,
+      "price": 60,
+      "workSeconds": 35,
+      "rebuildPrice": 80,
+      "range": 0,
+      "arrowDamage": 0,
+      "sockets": [],
+      "collision": {
+        "rect": [
+          12,
+          8,
+          8,
+          35
+        ],
+        "source": "independent-gameplay-shape",
+        "factionBlocker": "zombies-only"
+      },
+      "workAnchor": [
+        16,
+        41
+      ],
+      "sitePart": "site-wall"
+    },
+    {
+      "id": "wall-3",
+      "kind": "wall",
+      "tier": 3,
+      "health": 2200,
+      "price": 140,
+      "workSeconds": 50,
+      "rebuildPrice": 220,
+      "range": 0,
+      "arrowDamage": 0,
+      "sockets": [],
+      "collision": {
+        "rect": [
+          20,
+          8,
+          8,
+          40
+        ],
+        "source": "independent-gameplay-shape",
+        "factionBlocker": "zombies-only"
+      },
+      "workAnchor": [
+        24,
+        46
+      ],
+      "sitePart": "site-wall"
+    },
+    {
+      "id": "tower-1",
+      "kind": "tower",
+      "tier": 1,
+      "health": 300,
+      "price": 40,
+      "workSeconds": 30,
+      "rebuildPrice": 40,
+      "range": 20,
+      "arrowDamage": 14,
+      "sockets": [
+        {
+          "id": "guard-0",
+          "position": [
+            22,
+            6
+          ],
+          "phase": 0,
+          "facing": 1,
+          "projectileOrigin": [
+            12,
+            -11
+          ]
+        }
+      ],
+      "collision": {
+        "rect": [
+          18,
+          8,
+          8,
+          40
+        ],
+        "source": "independent-gameplay-shape",
+        "factionBlocker": "none"
+      },
+      "workAnchor": [
+        22,
+        46
+      ],
+      "sitePart": "site-tower"
+    },
+    {
+      "id": "tower-2",
+      "kind": "tower",
+      "tier": 2,
+      "health": 800,
+      "price": 90,
+      "workSeconds": 45,
+      "rebuildPrice": 130,
+      "range": 24,
+      "arrowDamage": 20,
+      "sockets": [
+        {
+          "id": "guard-0",
+          "position": [
+            22,
+            21
+          ],
+          "phase": 0,
+          "facing": 1,
+          "projectileOrigin": [
+            12,
+            -11
+          ]
+        },
+        {
+          "id": "guard-1",
+          "position": [
+            50,
+            21
+          ],
+          "phase": 0.45,
+          "facing": -1,
+          "projectileOrigin": [
+            12,
+            -11
+          ]
+        }
+      ],
+      "collision": {
+        "rect": [
+          32,
+          8,
+          8,
+          56
+        ],
+        "source": "independent-gameplay-shape",
+        "factionBlocker": "none"
+      },
+      "workAnchor": [
+        36,
+        62
+      ],
+      "sitePart": "site-tower"
+    },
+    {
+      "id": "tower-3",
+      "kind": "tower",
+      "tier": 3,
+      "health": 1600,
+      "price": 180,
+      "workSeconds": 60,
+      "rebuildPrice": 310,
+      "range": 28,
+      "arrowDamage": 26,
+      "sockets": [
+        {
+          "id": "guard-0",
+          "position": [
+            18,
+            25
+          ],
+          "phase": 0,
+          "facing": 1,
+          "projectileOrigin": [
+            12,
+            -11
+          ]
+        },
+        {
+          "id": "guard-1",
+          "position": [
+            48,
+            25
+          ],
+          "phase": 0.45,
+          "facing": -1,
+          "projectileOrigin": [
+            12,
+            -11
+          ]
+        },
+        {
+          "id": "guard-2",
+          "position": [
+            78,
+            25
+          ],
+          "phase": 0.9,
+          "facing": 1,
+          "projectileOrigin": [
+            12,
+            -11
+          ]
+        }
+      ],
+      "collision": {
+        "rect": [
+          44,
+          8,
+          8,
+          72
+        ],
+        "source": "independent-gameplay-shape",
+        "factionBlocker": "none"
+      },
+      "workAnchor": [
+        48,
+        78
+      ],
+      "sitePart": "site-tower"
+    }
+  ],
+  "samples": [
+    {
+      "id": "unbuilt",
+      "label": "unbuilt",
+      "visual": "intact",
+      "work": "none",
+      "progress": 0,
+      "hpRatio": 1,
+      "site": true,
+      "newConstruction": false,
+      "defeated": false,
+      "waiting": false,
+      "quiet": false
+    },
+    {
+      "id": "available",
+      "label": "available",
+      "visual": "intact",
+      "work": "none",
+      "progress": 0,
+      "hpRatio": 1,
+      "site": true,
+      "newConstruction": false,
+      "defeated": false,
+      "waiting": false,
+      "quiet": false
+    },
+    {
+      "id": "tree-blocked",
+      "label": "tree blocked",
+      "visual": "intact",
+      "work": "none",
+      "progress": 0,
+      "hpRatio": 1,
+      "site": true,
+      "newConstruction": false,
+      "defeated": false,
+      "waiting": false,
+      "quiet": false
+    },
+    {
+      "id": "portal-blocked",
+      "label": "portal blocked",
+      "visual": "intact",
+      "work": "none",
+      "progress": 0,
+      "hpRatio": 1,
+      "site": true,
+      "newConstruction": false,
+      "defeated": false,
+      "waiting": false,
+      "quiet": false
+    },
+    {
+      "id": "main-tier-blocked",
+      "label": "main tier blocked",
+      "visual": "intact",
+      "work": "none",
+      "progress": 0,
+      "hpRatio": 1,
+      "site": true,
+      "newConstruction": false,
+      "defeated": false,
+      "waiting": false,
+      "quiet": false
+    },
+    {
+      "id": "unaffordable",
+      "label": "unaffordable",
+      "visual": "intact",
+      "work": "none",
+      "progress": 0,
+      "hpRatio": 1,
+      "site": true,
+      "newConstruction": false,
+      "defeated": false,
+      "waiting": false,
+      "quiet": false
+    },
+    {
+      "id": "new-frame",
+      "label": "new frame",
+      "visual": "intact",
+      "work": "build",
+      "progress": 0.5,
+      "hpRatio": 1,
+      "site": false,
+      "newConstruction": true,
+      "defeated": false,
+      "waiting": false,
+      "quiet": false
+    },
+    {
+      "id": "damaged-unfinished",
+      "label": "damaged unfinished",
+      "visual": "intact",
+      "work": "build",
+      "progress": 0.5,
+      "hpRatio": 0.2,
+      "site": false,
+      "newConstruction": true,
+      "defeated": false,
+      "waiting": false,
+      "quiet": false
+    },
+    {
+      "id": "intact",
+      "label": "intact",
+      "visual": "intact",
+      "work": "none",
+      "progress": 0,
+      "hpRatio": 1,
+      "site": false,
+      "newConstruction": false,
+      "defeated": false,
+      "waiting": false,
+      "quiet": false
+    },
+    {
+      "id": "damage-light",
+      "label": "damage light",
+      "visual": "damage-light",
+      "work": "none",
+      "progress": 0,
+      "hpRatio": 0.65,
+      "site": false,
+      "newConstruction": false,
+      "defeated": false,
+      "waiting": false,
+      "quiet": false
+    },
+    {
+      "id": "damage-heavy",
+      "label": "damage heavy",
+      "visual": "damage-heavy",
+      "work": "none",
+      "progress": 0,
+      "hpRatio": 0.35,
+      "site": false,
+      "newConstruction": false,
+      "defeated": false,
+      "waiting": false,
+      "quiet": false
+    },
+    {
+      "id": "upgrade-paid",
+      "label": "upgrade paid",
+      "visual": "intact",
+      "work": "upgrade",
+      "progress": 0.5,
+      "hpRatio": 1,
+      "site": false,
+      "newConstruction": false,
+      "defeated": false,
+      "waiting": false,
+      "quiet": false
+    },
+    {
+      "id": "upgrade-complete",
+      "label": "upgrade complete",
+      "visual": "intact",
+      "work": "upgrade",
+      "progress": 1,
+      "hpRatio": 1,
+      "site": false,
+      "newConstruction": false,
+      "defeated": false,
+      "waiting": false,
+      "quiet": false
+    },
+    {
+      "id": "repair-paid",
+      "label": "repair paid",
+      "visual": "damage-heavy",
+      "work": "repair",
+      "progress": 0.5,
+      "hpRatio": 0.35,
+      "site": false,
+      "newConstruction": false,
+      "defeated": false,
+      "waiting": false,
+      "quiet": false
+    },
+    {
+      "id": "repair-complete",
+      "label": "repair complete",
+      "visual": "intact",
+      "work": "repair",
+      "progress": 1,
+      "hpRatio": 1,
+      "site": false,
+      "newConstruction": false,
+      "defeated": false,
+      "waiting": false,
+      "quiet": false
+    },
+    {
+      "id": "unsafe-waiting",
+      "label": "unsafe waiting",
+      "visual": "damage-heavy",
+      "work": "repair",
+      "progress": 0.5,
+      "hpRatio": 0.35,
+      "site": false,
+      "newConstruction": false,
+      "defeated": false,
+      "waiting": true,
+      "quiet": false
+    },
+    {
+      "id": "no-worker-waiting",
+      "label": "no worker waiting",
+      "visual": "damage-heavy",
+      "work": "repair",
+      "progress": 0.5,
+      "hpRatio": 0.35,
+      "site": false,
+      "newConstruction": false,
+      "defeated": false,
+      "waiting": true,
+      "quiet": false
+    },
+    {
+      "id": "destroyed",
+      "label": "destroyed",
+      "visual": "destroyed",
+      "work": "none",
+      "progress": 0,
+      "hpRatio": 0,
+      "site": false,
+      "newConstruction": false,
+      "defeated": true,
+      "waiting": false,
+      "quiet": false
+    },
+    {
+      "id": "rebuild-paid",
+      "label": "rebuild paid",
+      "visual": "intact",
+      "work": "rebuild",
+      "progress": 0.5,
+      "hpRatio": 1,
+      "site": false,
+      "newConstruction": true,
+      "defeated": false,
+      "waiting": false,
+      "quiet": false
+    },
+    {
+      "id": "rebuild-complete",
+      "label": "rebuild complete",
+      "visual": "intact",
+      "work": "rebuild",
+      "progress": 1,
+      "hpRatio": 1,
+      "site": false,
+      "newConstruction": false,
+      "defeated": false,
+      "waiting": false,
+      "quiet": false
+    },
+    {
+      "id": "restore-destroyed",
+      "label": "restore destroyed",
+      "visual": "destroyed",
+      "work": "none",
+      "progress": 0,
+      "hpRatio": 0,
+      "site": false,
+      "newConstruction": false,
+      "defeated": true,
+      "waiting": false,
+      "quiet": true
+    },
+    {
+      "id": "restore-upgrade",
+      "label": "restore upgrade",
+      "visual": "intact",
+      "work": "upgrade",
+      "progress": 0.5,
+      "hpRatio": 1,
+      "site": false,
+      "newConstruction": false,
+      "defeated": false,
+      "waiting": false,
+      "quiet": true
+    }
+  ],
+  "restoration": {
+    "replayAttack": false,
+    "replayDestruction": false,
+    "previousCompletedTierPermanent": true,
+    "newGuardsOnlyAtProgressOne": true
+  },
+  "scenarios": [
+    {
+      "id": "H12-defense-boundaries",
+      "importance": "Critical",
+      "setup": "Fresh tower2; paid upgrade0.999 then1; destroy; advance300s; quiet restore tower2; rebuild0.999 then1",
+      "expected": "2 then3 guards, none at destroyed/new frames, previous tier2 remains permanent and rebuild supplies2 only at completion",
+      "runGroup": "G-defenses-reviewed",
+      "order": 1,
+      "imageCheckpoints": [
+        "old-tier-0.999",
+        "new-tier-1",
+        "ruin-after-effects",
+        "previous-tier-rebuild-complete"
+      ],
+      "inputCheckpoint": "Use current reviewed actual selectors after whole phase review04-32",
+      "status": "actual input/appearance pending04-32"
+    },
+    {
+      "id": "H14-structural-empty",
+      "importance": "Critical",
+      "setup": "Independently select tower3 empty site, destroyed, unfinished rebuild, then complete; clear preview",
+      "expected": "No structural corpse/loot/inventory/population; completed3guards retain intrinsic arrows across64cycles/facing; removal retires arrows",
+      "runGroup": "G-defenses-reviewed",
+      "order": 2,
+      "imageCheckpoints": [
+        "empty-site",
+        "destroyed-no-bodies",
+        "complete-three-independent-guards"
+      ],
+      "inputCheckpoint": "Use current reviewed actual selectors after whole phase review04-32",
+      "status": "actual input/appearance pending04-32"
+    }
+  ],
+  "acceptance": {
+    "actualInput": "pending04-32",
+    "appearance": "pending04-32",
+    "namedJudgment": "pending04-32/33",
+    "completedObligations": []
+  },
+  "repairPolicy": {
+    "fee": "max(1,ceil(0.5*current-full-tier-valuation))",
+    "healthPerWorkerSecond": 10,
+    "target": "full-health",
+    "coversFurtherDamageWhileActive": true,
+    "replacementRetainsPaymentAndProgress": true,
+    "buyerLossRetainsOrder": true,
+    "destructionEndsOrder": true,
+    "destructionRefund": false,
+    "newDamageAfterClosure": "new-explicit-purchase"
+  }
+}

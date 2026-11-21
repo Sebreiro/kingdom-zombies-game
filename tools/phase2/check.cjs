@@ -28,6 +28,19 @@ function acquireLock(root,nonce) {
   };
 }
 async function csharp(context,item) {
+  if (item.callerStages) {
+    requireTrue(item.id==='core.permissions','STAGED_CASE_UNKNOWN');
+    baseline.callerPlan(item,context.root);
+    const directory=inside(context.directory,item.id);fs.mkdirSync(directory);
+    const child={...context,directory,children:new Set(),commands:[]},assembly=inside(context.root,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll');
+    const beforeBinary=hash(fs.readFileSync(assembly));
+    try {
+      const build=await baseline.command('dotnet',['build','tests/phase1/KingdomZombies.Phase1.Tests.csproj','--no-restore','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'],child,'caller-setup-build',60000);
+      requireTrue(build.code===0,'STAGED_BUILD_FAILED');
+      requireTrue(hash(fs.readFileSync(assembly))===beforeBinary,'STAGED_BINARY_CHANGED');
+      return await baseline.runProducerStages(item,child,'dotnet',assembly);
+    } finally {for(const process of child.children)baseline.killTree(process);}
+  }
   const env={...context.env,PHASE1_ROOT:context.root,PHASE1_RESULT_DIRECTORY:context.directory,PHASE1_NONCE:context.nonce,PHASE1_INPUT:context.input,PHASE1_TOOL:context.tool,PHASE1_PLATFORM:context.platform};
   let run;
   try {
@@ -72,6 +85,7 @@ async function main(root,args) {
   fs.mkdirSync(directory,{recursive:true});
   const started=Date.now(),results=[],failures=[];
   const manifest={inputs:['src','tests/phase1','tools/phase2','tools/phase1/toolchain.json','Directory.Build.props','Directory.Build.targets','Directory.Packages.props','.editorconfig','BannedSymbols.txt','BannedSymbols.Pure.txt','docs/code']};
+  if(selection.selected.some(row=>row.callerStages))manifest.inputs.push('tools/phase1/check.cjs','tools/phase1/required-cases.json','tools/phase1/bootstrap.cjs');
   const env={...process.env,DOTNET_CLI_HOME:path.join(root,'.phase1/cli-home'),NUGET_PACKAGES:path.join(root,'.phase1/packages'),NUGET_HTTP_CACHE_PATH:path.join(root,'.phase1/http-cache'),TEMP:path.join(root,'.phase1/temp'),TMP:path.join(root,'.phase1/temp')};
   const context={root,directory,nonce,platform,input:null,tool:null,env};
   let unlock;

@@ -1,0 +1,11 @@
+# 04-28 bounded native identity consumer amendment
+
+Coordinator approval received2026-11-17 before either added implementation path was edited. The original five paths cannot supply an actual native reusable projector for current binding/status/player/condition snapshots: existing InspectionRoot/Input/Shell do not consume ui-identity.
+
+Add exactly `src/godot-game/inspection/IdentityKit.cs` and `src/godot-game/inspection/IdentityKit.tscn`. IdentityKit is an internal sealed composition/projector, never a public/Godot-derived script. The scene is scriptless native Controls using the exact04-14 theme/font resources. Bounded detached validated snapshots drive real native labels, stable IDs, shape/color and item condition/icon resources. Source-backed foundation defaults and explicit remapped/unbound/conflict fixtures do not claim gameplay remapping or InputMap mutation.
+
+Task1 retains its five media/definition/case paths, then the scene/projector/case/JSON part; Task2 refines JSON/case/scene/projector only. Seven distinct implementation paths replace five; two new distinct phase paths raise the actual union234→236. Formal37plans/74tasks/31waves stay unchanged. No correction budget resets.
+
+Preserve synchronous captured-thread guards, acceptance/lifetime fencing and cleanup; independently reject malformed/thread/detached state. Cases instantiate the actual scene and production projector rather than recreating its behavior. Native tuples/current producer impacts are observations handed to04-23, never authorization. No Root/Inspection.tscn/project/export/policy change is authorized. Full-hub dispatch belongs04-23, icon application/embedding04-31, actual appearance and judgments04-32/33. Current `res://icon.svg` remains an explicit integration obligation.
+
+Retain exact original generated master, expanded prompt, references, recipes and original source bytes. Logo normalization uses nearest sampling and explicit alpha cleanup preserving sampled RGB; any earlier nonselected palette-normalized variant is historical authoring output only. The original04-14 kit/theme cases, source controls and native outcomes remain intact. The parent owns global progress and inventory reconciliation after terminal SUMMARY.

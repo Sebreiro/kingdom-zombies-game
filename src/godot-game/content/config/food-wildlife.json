@@ -1,0 +1,107 @@
+{
+  "id": "DT-08",
+  "version": 1,
+  "food": [
+    {
+      "itemRef": "IT-08",
+      "name": "Berries",
+      "health": 8,
+      "stamina": 15,
+      "salePrice": 1
+    },
+    {
+      "itemRef": "IT-09",
+      "name": "Fruit",
+      "health": 15,
+      "stamina": 25,
+      "salePrice": 2
+    },
+    {
+      "itemRef": "IT-10",
+      "name": "Meat",
+      "health": 30,
+      "stamina": 40,
+      "salePrice": 4
+    }
+  ],
+  "consumption": {
+    "restores": "health-and-stamina-clamped-to-maxima",
+    "quickSlots": true,
+    "hunger": false,
+    "cooking": false,
+    "npcReserveItems": 3,
+    "healthThresholdFraction": 0.6,
+    "staminaThresholdFraction": 0.3,
+    "thresholdComparison": "at-or-below-either",
+    "cooldownSeconds": 6,
+    "restock": "safe-only",
+    "starvationDamage": 0
+  },
+  "sale": {
+    "location": "separate-main-building-food-menu",
+    "source": "shared-stash-food-only",
+    "carriedFood": "deposit-first",
+    "quantity": "selected",
+    "price": "fixed-per-item",
+    "dailyQuota": "unlimited",
+    "proceeds": "physical-money-in-shared-stash",
+    "automaticExpensePayment": false,
+    "sellerCashTransfer": false,
+    "competition": "same-real-items-consumption-sale-withdrawal"
+  },
+  "plants": [
+    {
+      "plantId": "berry",
+      "itemRef": "IT-08",
+      "dawnStock": 8
+    },
+    {
+      "plantId": "fruit",
+      "itemRef": "IT-09",
+      "dawnStock": 6
+    }
+  ],
+  "gathering": {
+    "secondsPerItem": 3,
+    "destination": "gatherer-inventory",
+    "refill": "to-limit-not-additive-once-per-dawn",
+    "constructionTreesRemovePlants": false
+  },
+  "wildlife": {
+    "batchPerZone": {
+      "rabbit": 2,
+      "deer": 1
+    },
+    "livingCap": 24,
+    "excess": "skip-additions-never-delete-existing",
+    "remainingPersist": true,
+    "dawnBatch": "once-only-no-load-or-join-replay",
+    "prey": [
+      {
+        "preyId": "rabbit",
+        "health": 15,
+        "fleeSpeedUnitsPerSecond": 4,
+        "meat": 2
+      },
+      {
+        "preyId": "deer",
+        "health": 40,
+        "fleeSpeedUnitsPerSecond": 4.5,
+        "meat": 5
+      }
+    ],
+    "dangerDistanceUnits": 8,
+    "dangerSource": "camp-characters",
+    "hunterBeyondBorderUnits": 60,
+    "activePortalCrossing": false,
+    "reachableOnly": true,
+    "actualBowAmmunition": true,
+    "meatItemRef": "IT-10",
+    "meat": "actual-carried-loot-no-death-reroll",
+    "recruitable": false,
+    "playerControlEligible": false,
+    "attacks": false,
+    "zombiesTarget": false,
+    "corpseHauling": "idle-non-busy-npcs-common-hauling-rules"
+  }
+}

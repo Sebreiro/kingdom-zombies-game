@@ -1,0 +1,322 @@
+{
+  "schemaVersion": 1,
+  "id": "main-assemblies",
+  "version": 1,
+  "artPack": "res://content/packs/main-buildings.json",
+  "accessPack": "res://content/packs/camp-access.json",
+  "presenter": {
+    "type": "KingdomZombies.Inspection.BuildingPreview",
+    "method": "Attach",
+    "kind": "guarded-native-composition",
+    "hubAdoptionOwner": "04-23"
+  },
+  "sampleDataOnly": true,
+  "tierDefinitions": [
+    {
+      "tier": 1,
+      "health": 600,
+      "price": 0,
+      "upgradePrice": 200,
+      "workSeconds": 0,
+      "repairPrice": 50,
+      "seats": 8,
+      "partPrefix": "tier-1-",
+      "attachments": [],
+      "valuesOwner": "initial-spec section8 proposed baseline; inspection sample only"
+    },
+    {
+      "tier": 2,
+      "health": 1400,
+      "price": 200,
+      "upgradePrice": 500,
+      "workSeconds": 90,
+      "repairPrice": 150,
+      "seats": 12,
+      "partPrefix": "tier-2-",
+      "attachments": [],
+      "valuesOwner": "initial-spec section8 proposed baseline; inspection sample only"
+    },
+    {
+      "tier": 3,
+      "health": 3200,
+      "price": 500,
+      "upgradePrice": 0,
+      "workSeconds": 150,
+      "repairPrice": 400,
+      "seats": 16,
+      "partPrefix": "tier-3-",
+      "attachments": [
+        {
+          "id": "guard-left",
+          "position": [
+            -30,
+            40
+          ],
+          "guard": "main.single-guard",
+          "phase": 0,
+          "health": "main-instance"
+        },
+        {
+          "id": "guard-right",
+          "position": [
+            146,
+            40
+          ],
+          "guard": "main.single-guard",
+          "phase": 0.7,
+          "health": "main-instance"
+        }
+      ],
+      "valuesOwner": "initial-spec section8 proposed baseline; inspection sample only"
+    }
+  ],
+  "guard": {
+    "id": "main.single-guard",
+    "count": 1,
+    "presentationTier": 1,
+    "sourceClip": "common.clip.783",
+    "sourceClipMember": "sources/guard-shoot.json",
+    "start": 0,
+    "stop": 0.625,
+    "sampleRate": 8,
+    "loop": "inspection-explicit-clock",
+    "frames": [
+      {
+        "time": 0,
+        "part": "guard-shoot-0",
+        "anchor": [
+          11,
+          21
+        ]
+      },
+      {
+        "time": 0.125,
+        "part": "guard-shoot-1",
+        "anchor": [
+          10,
+          21
+        ]
+      },
+      {
+        "time": 0.25,
+        "part": "guard-shoot-2",
+        "anchor": [
+          10,
+          21
+        ]
+      },
+      {
+        "time": 0.375,
+        "part": "guard-shoot-3",
+        "anchor": [
+          10,
+          21
+        ]
+      },
+      {
+        "time": 0.5,
+        "part": "guard-shoot-4",
+        "anchor": [
+          9,
+          21
+        ]
+      }
+    ],
+    "equipment": {
+      "bowPart": "bow",
+      "arrowPart": "arrow",
+      "bodyPixelsIncludeDonorBow": true,
+      "neverDoubleDrawBow": true
+    },
+    "arrowRelease": {
+      "time": 0.25,
+      "position": [
+        12,
+        -14
+      ],
+      "speedPixelsPerSecond": 72,
+      "lifetime": 0.375,
+      "kind": "cosmetic-preview-only"
+    },
+    "healthOwner": "main-instance",
+    "repair": false,
+    "destruction": false,
+    "loot": [],
+    "populationUse": 0,
+    "onRestore": "current-frame-only; no attack or destruction events",
+    "attackProfile": {
+      "tier": 1,
+      "archers": 1,
+      "rangeUnits": 20,
+      "arrowDamage": 14,
+      "intervalSeconds": 1.4,
+      "targets": [
+        "zombie"
+      ],
+      "inventory": false,
+      "leaderEligible": false,
+      "bowDurability": false
+    }
+  },
+  "samples": [
+    {
+      "id": "intact",
+      "label": "Intact",
+      "visual": "intact",
+      "hpRatio": 1,
+      "work": "none",
+      "progress": 0,
+      "quiet": false,
+      "stashOpen": false,
+      "stashSelected": false
+    },
+    {
+      "id": "damage-light",
+      "label": "Light damage",
+      "visual": "damage-light",
+      "hpRatio": 0.7,
+      "work": "none",
+      "progress": 0,
+      "quiet": false,
+      "stashOpen": false,
+      "stashSelected": false
+    },
+    {
+      "id": "damage-heavy",
+      "label": "Heavy damage",
+      "visual": "damage-heavy",
+      "hpRatio": 0.25,
+      "work": "none",
+      "progress": 0,
+      "quiet": false,
+      "stashOpen": false,
+      "stashSelected": false
+    },
+    {
+      "id": "repair-paid",
+      "label": "Paid repair 50%",
+      "visual": "damage-heavy",
+      "hpRatio": 0.4,
+      "work": "repair",
+      "progress": 0.5,
+      "quiet": false,
+      "stashOpen": false,
+      "stashSelected": false
+    },
+    {
+      "id": "repair-complete",
+      "label": "Repair complete",
+      "visual": "intact",
+      "hpRatio": 1,
+      "work": "repair",
+      "progress": 1,
+      "quiet": false,
+      "stashOpen": false,
+      "stashSelected": false
+    },
+    {
+      "id": "upgrade-paid",
+      "label": "Paid upgrade 50%",
+      "visual": "intact",
+      "hpRatio": 0.75,
+      "work": "upgrade",
+      "progress": 0.5,
+      "quiet": false,
+      "stashOpen": false,
+      "stashSelected": false
+    },
+    {
+      "id": "upgrade-complete",
+      "label": "Upgrade complete",
+      "visual": "intact",
+      "hpRatio": 1,
+      "work": "upgrade",
+      "progress": 1,
+      "quiet": false,
+      "stashOpen": false,
+      "stashSelected": false
+    },
+    {
+      "id": "defeated",
+      "label": "Defeated remains",
+      "visual": "defeated",
+      "hpRatio": 0,
+      "work": "none",
+      "progress": 0,
+      "quiet": false,
+      "stashOpen": false,
+      "stashSelected": false
+    },
+    {
+      "id": "restore-defeated",
+      "label": "Quiet restored defeat",
+      "visual": "defeated",
+      "hpRatio": 0,
+      "work": "none",
+      "progress": 0,
+      "quiet": true,
+      "stashOpen": false,
+      "stashSelected": false
+    },
+    {
+      "id": "restore-upgrade",
+      "label": "Quiet restored paid upgrade",
+      "visual": "intact",
+      "hpRatio": 0.75,
+      "work": "upgrade",
+      "progress": 0.5,
+      "quiet": true,
+      "stashOpen": false,
+      "stashSelected": false
+    },
+    {
+      "id": "stash-open",
+      "label": "Shared stash open (2 viewers)",
+      "visual": "intact",
+      "hpRatio": 1,
+      "work": "none",
+      "progress": 0,
+      "quiet": false,
+      "stashOpen": true,
+      "stashSelected": false
+    },
+    {
+      "id": "stash-selected",
+      "label": "Selected stash marker",
+      "visual": "intact",
+      "hpRatio": 1,
+      "work": "none",
+      "progress": 0,
+      "quiet": false,
+      "stashOpen": true,
+      "stashSelected": true
+    }
+  ],
+  "restoration": {
+    "replayDestruction": false,
+    "replayAttack": false,
+    "preservePaidWork": true,
+    "functionalTier": "completed-until-progress-is-one"
+  },
+  "resourceBindings": {
+    "atlas": "res://assets/buildings/main-tiers.png",
+    "atlasSha256": "9159b358520ff5731d86c1911406749d14f3bdb7e1bd5c96a29f1a1de95a788a",
+    "partsSha256": "138e74cf354901592755358390b854b184f19771a516b6f10eedcc1f6e78900e"
+  },
+  "acceptance": {
+    "visual": "pending",
+    "owner": "04-32/04-33",
+    "completedObligations": []
+  },
+  "repairPolicy": {
+    "fee": "max(1,ceil(0.5*current-full-tier-valuation))",
+    "healthPerWorkerSecond": 10,
+    "target": "full-health",
+    "coversFurtherDamageWhileActive": true,
+    "replacementRetainsPaymentAndProgress": true,
+    "buyerLossRetainsOrder": true,
+    "destructionEndsOrder": true,
+    "destructionRefund": false,
+    "newDamageAfterClosure": "new-explicit-purchase"
+  }
+}

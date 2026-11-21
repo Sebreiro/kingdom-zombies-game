@@ -1,0 +1,1311 @@
+{
+  "schemaVersion": 1,
+  "id": "corpses-wildlife",
+  "version": 1,
+  "bodies": [
+    "CH-01",
+    "CH-02",
+    "CH-03",
+    "CH-04",
+    "CH-05",
+    "CH-06",
+    "CH-07",
+    "CH-08"
+  ],
+  "wildlife": [
+    "rabbit",
+    "deer"
+  ],
+  "slots": {
+    "headwear": [
+      "IT-14",
+      "IT-18"
+    ],
+    "face": [
+      "IT-15"
+    ],
+    "torso": [
+      "IT-11",
+      "IT-13"
+    ],
+    "legs": [
+      "IT-12"
+    ],
+    "armor": [
+      "IT-19",
+      "IT-20"
+    ],
+    "gloves": [
+      "IT-16"
+    ],
+    "boots": [
+      "IT-17"
+    ],
+    "backpack": [
+      "IT-23",
+      "IT-24"
+    ],
+    "belt": [
+      "IT-21"
+    ],
+    "left": [
+      "IT-02",
+      "IT-03",
+      "IT-04",
+      "IT-05",
+      "IT-06",
+      "IT-07",
+      "IT-08",
+      "IT-09",
+      "IT-10"
+    ],
+    "right": [
+      "IT-02",
+      "IT-03",
+      "IT-04",
+      "IT-05",
+      "IT-06",
+      "IT-07",
+      "IT-08",
+      "IT-09",
+      "IT-10"
+    ],
+    "crown": [
+      "K21"
+    ],
+    "meat": [
+      "IT-10"
+    ]
+  },
+  "collapseSeconds": 0.32,
+  "effectSeconds": 0.8,
+  "obligations": [
+    "CH-10",
+    "CH-11",
+    "CH-13",
+    "AN-09",
+    "AN-17"
+  ],
+  "poses": [
+    "collapse-a",
+    "collapse-b",
+    "corpse"
+  ],
+  "endpoints": {
+    "rabbit": "common.r.9577",
+    "deer": "common.r.10791"
+  },
+  "wildlifeClips": [
+    {
+      "id": "common.clip.2193",
+      "name": "bunny_dead",
+      "stop": 1,
+      "layers": [
+        {
+          "binding": {
+            "path": 0,
+            "attribute": 0,
+            "script": {
+              "m_FileID": 0,
+              "m_PathID": 0
+            },
+            "typeID": 212,
+            "customType": 23,
+            "isPPtrCurve": 1,
+            "isIntCurve": 0,
+            "isSerializeReferenceCurve": 0
+          },
+          "component": 0,
+          "curve": 0,
+          "interpolation": "discrete",
+          "keys": [
+            {
+              "time": 0,
+              "value": 0,
+              "coefficients": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "sourceTime": "initial",
+              "sprite": "common.r.9577"
+            }
+          ],
+          "endpoint": "common.r.9577"
+        }
+      ],
+      "loop": true
+    },
+    {
+      "id": "common.clip.2197",
+      "name": "bunny_stand",
+      "stop": 1,
+      "layers": [
+        {
+          "binding": {
+            "path": 0,
+            "attribute": 0,
+            "script": {
+              "m_FileID": 0,
+              "m_PathID": 0
+            },
+            "typeID": 212,
+            "customType": 23,
+            "isPPtrCurve": 1,
+            "isIntCurve": 0,
+            "isSerializeReferenceCurve": 0
+          },
+          "component": 0,
+          "curve": 0,
+          "interpolation": "discrete",
+          "keys": [
+            {
+              "time": 0,
+              "value": 0,
+              "coefficients": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "sourceTime": "initial",
+              "sprite": "common.r.9243"
+            }
+          ],
+          "endpoint": "common.r.9243"
+        }
+      ],
+      "loop": true
+    },
+    {
+      "id": "common.clip.2201",
+      "name": "bunny_walk",
+      "stop": 0.625,
+      "layers": [
+        {
+          "binding": {
+            "path": 0,
+            "attribute": 0,
+            "script": {
+              "m_FileID": 0,
+              "m_PathID": 0
+            },
+            "typeID": 212,
+            "customType": 23,
+            "isPPtrCurve": 1,
+            "isIntCurve": 0,
+            "isSerializeReferenceCurve": 0
+          },
+          "component": 0,
+          "curve": 0,
+          "interpolation": "discrete",
+          "keys": [
+            {
+              "time": 0,
+              "value": 0,
+              "coefficients": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "sourceTime": "initial",
+              "sprite": "common.r.10160"
+            },
+            {
+              "time": 0.0625,
+              "value": 1,
+              "coefficients": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "sourceTime": 0.0625,
+              "sprite": "common.r.11517"
+            },
+            {
+              "time": 0.125,
+              "value": 2,
+              "coefficients": [
+                0,
+                0,
+                0,
+                2
+              ],
+              "sourceTime": 0.125,
+              "sprite": "common.r.11763"
+            },
+            {
+              "time": 0.1875,
+              "value": 3,
+              "coefficients": [
+                0,
+                0,
+                0,
+                3
+              ],
+              "sourceTime": 0.1875,
+              "sprite": "common.r.12003"
+            },
+            {
+              "time": 0.25,
+              "value": 4,
+              "coefficients": [
+                0,
+                0,
+                0,
+                4
+              ],
+              "sourceTime": 0.25,
+              "sprite": "common.r.12232"
+            },
+            {
+              "time": 0.3125,
+              "value": 5,
+              "coefficients": [
+                0,
+                0,
+                0,
+                5
+              ],
+              "sourceTime": 0.3125,
+              "sprite": "common.r.12450"
+            },
+            {
+              "time": 0.375,
+              "value": 6,
+              "coefficients": [
+                0,
+                0,
+                0,
+                6
+              ],
+              "sourceTime": 0.375,
+              "sprite": "common.r.12642"
+            },
+            {
+              "time": 0.4375,
+              "value": 7,
+              "coefficients": [
+                0,
+                0,
+                0,
+                7
+              ],
+              "sourceTime": 0.4375,
+              "sprite": "common.r.12812"
+            },
+            {
+              "time": 0.5,
+              "value": 8,
+              "coefficients": [
+                0,
+                0,
+                0,
+                8
+              ],
+              "sourceTime": 0.5,
+              "sprite": "common.r.12961"
+            },
+            {
+              "time": 0.5625,
+              "value": 9,
+              "coefficients": [
+                0,
+                0,
+                0,
+                9
+              ],
+              "sourceTime": 0.5625,
+              "sprite": "common.r.13102"
+            }
+          ],
+          "endpoint": "common.r.13102"
+        }
+      ],
+      "loop": true
+    },
+    {
+      "id": "common.clip.2278",
+      "name": "deer_die",
+      "stop": 0.5,
+      "layers": [
+        {
+          "binding": {
+            "path": 0,
+            "attribute": 0,
+            "script": {
+              "m_FileID": 0,
+              "m_PathID": 0
+            },
+            "typeID": 212,
+            "customType": 23,
+            "isPPtrCurve": 1,
+            "isIntCurve": 0,
+            "isSerializeReferenceCurve": 0
+          },
+          "component": 0,
+          "curve": 0,
+          "interpolation": "discrete",
+          "keys": [
+            {
+              "time": 0,
+              "value": 0,
+              "coefficients": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "sourceTime": "initial",
+              "sprite": "common.r.7981"
+            },
+            {
+              "time": 0.10000000149011612,
+              "value": 1,
+              "coefficients": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "sourceTime": 0.10000000149011612,
+              "sprite": "common.r.9425"
+            },
+            {
+              "time": 0.20000000298023224,
+              "value": 2,
+              "coefficients": [
+                0,
+                0,
+                0,
+                2
+              ],
+              "sourceTime": 0.20000000298023224,
+              "sprite": "common.r.8319"
+            },
+            {
+              "time": 0.25,
+              "value": 3,
+              "coefficients": [
+                0,
+                0,
+                0,
+                3
+              ],
+              "sourceTime": 0.25,
+              "sprite": "common.r.9751"
+            },
+            {
+              "time": 0.30000001192092896,
+              "value": 4,
+              "coefficients": [
+                0,
+                0,
+                0,
+                4
+              ],
+              "sourceTime": 0.30000001192092896,
+              "sprite": "common.r.8464"
+            },
+            {
+              "time": 0.3499999940395355,
+              "value": 5,
+              "coefficients": [
+                0,
+                0,
+                0,
+                5
+              ],
+              "sourceTime": 0.3499999940395355,
+              "sprite": "common.r.7914"
+            },
+            {
+              "time": 0.4000000059604645,
+              "value": 6,
+              "coefficients": [
+                0,
+                0,
+                0,
+                6
+              ],
+              "sourceTime": 0.4000000059604645,
+              "sprite": "common.r.10791"
+            },
+            {
+              "time": 0.44999998807907104,
+              "value": 7,
+              "coefficients": [
+                0,
+                0,
+                0,
+                7
+              ],
+              "sourceTime": 0.44999998807907104,
+              "sprite": "common.r.8301"
+            }
+          ],
+          "endpoint": "common.r.8301"
+        }
+      ],
+      "loop": false
+    },
+    {
+      "id": "common.clip.2282",
+      "name": "deer_eat",
+      "stop": 6.3333330154418945,
+      "layers": [
+        {
+          "binding": {
+            "path": 0,
+            "attribute": 0,
+            "script": {
+              "m_FileID": 0,
+              "m_PathID": 0
+            },
+            "typeID": 212,
+            "customType": 23,
+            "isPPtrCurve": 1,
+            "isIntCurve": 0,
+            "isSerializeReferenceCurve": 0
+          },
+          "component": 0,
+          "curve": 0,
+          "interpolation": "discrete",
+          "keys": [
+            {
+              "time": 0,
+              "value": 0,
+              "coefficients": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "sourceTime": "initial",
+              "sprite": "common.r.11237"
+            },
+            {
+              "time": 0.1666666716337204,
+              "value": 1,
+              "coefficients": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "sourceTime": 0.1666666716337204,
+              "sprite": "common.r.9726"
+            },
+            {
+              "time": 0.3333333432674408,
+              "value": 2,
+              "coefficients": [
+                0,
+                0,
+                0,
+                2
+              ],
+              "sourceTime": 0.3333333432674408,
+              "sprite": "common.r.9617"
+            },
+            {
+              "time": 0.5,
+              "value": 3,
+              "coefficients": [
+                0,
+                0,
+                0,
+                3
+              ],
+              "sourceTime": 0.5,
+              "sprite": "common.r.9191"
+            },
+            {
+              "time": 0.8333333134651184,
+              "value": 4,
+              "coefficients": [
+                0,
+                0,
+                0,
+                4
+              ],
+              "sourceTime": 0.8333333134651184,
+              "sprite": "common.r.9140"
+            },
+            {
+              "time": 1.1666666269302368,
+              "value": 5,
+              "coefficients": [
+                0,
+                0,
+                0,
+                5
+              ],
+              "sourceTime": 1.1666666269302368,
+              "sprite": "common.r.9191"
+            },
+            {
+              "time": 1.5,
+              "value": 6,
+              "coefficients": [
+                0,
+                0,
+                0,
+                6
+              ],
+              "sourceTime": 1.5,
+              "sprite": "common.r.9140"
+            },
+            {
+              "time": 1.8333333730697632,
+              "value": 7,
+              "coefficients": [
+                0,
+                0,
+                0,
+                7
+              ],
+              "sourceTime": 1.8333333730697632,
+              "sprite": "common.r.9191"
+            },
+            {
+              "time": 2.1666667461395264,
+              "value": 8,
+              "coefficients": [
+                0,
+                0,
+                0,
+                8
+              ],
+              "sourceTime": 2.1666667461395264,
+              "sprite": "common.r.9140"
+            },
+            {
+              "time": 2.5,
+              "value": 9,
+              "coefficients": [
+                0,
+                0,
+                0,
+                9
+              ],
+              "sourceTime": 2.5,
+              "sprite": "common.r.9191"
+            },
+            {
+              "time": 2.8333332538604736,
+              "value": 10,
+              "coefficients": [
+                0,
+                0,
+                0,
+                10
+              ],
+              "sourceTime": 2.8333332538604736,
+              "sprite": "common.r.9140"
+            },
+            {
+              "time": 3.1666667461395264,
+              "value": 11,
+              "coefficients": [
+                0,
+                0,
+                0,
+                11
+              ],
+              "sourceTime": 3.1666667461395264,
+              "sprite": "common.r.9191"
+            },
+            {
+              "time": 3.5,
+              "value": 12,
+              "coefficients": [
+                0,
+                0,
+                0,
+                12
+              ],
+              "sourceTime": 3.5,
+              "sprite": "common.r.9140"
+            },
+            {
+              "time": 3.8333332538604736,
+              "value": 13,
+              "coefficients": [
+                0,
+                0,
+                0,
+                13
+              ],
+              "sourceTime": 3.8333332538604736,
+              "sprite": "common.r.9191"
+            },
+            {
+              "time": 4.166666507720947,
+              "value": 14,
+              "coefficients": [
+                0,
+                0,
+                0,
+                14
+              ],
+              "sourceTime": 4.166666507720947,
+              "sprite": "common.r.9140"
+            },
+            {
+              "time": 4.5,
+              "value": 15,
+              "coefficients": [
+                0,
+                0,
+                0,
+                15
+              ],
+              "sourceTime": 4.5,
+              "sprite": "common.r.9191"
+            },
+            {
+              "time": 4.833333492279053,
+              "value": 16,
+              "coefficients": [
+                0,
+                0,
+                0,
+                16
+              ],
+              "sourceTime": 4.833333492279053,
+              "sprite": "common.r.9140"
+            },
+            {
+              "time": 5.166666507720947,
+              "value": 17,
+              "coefficients": [
+                0,
+                0,
+                0,
+                17
+              ],
+              "sourceTime": 5.166666507720947,
+              "sprite": "common.r.9191"
+            },
+            {
+              "time": 5.5,
+              "value": 18,
+              "coefficients": [
+                0,
+                0,
+                0,
+                18
+              ],
+              "sourceTime": 5.5,
+              "sprite": "common.r.9140"
+            },
+            {
+              "time": 5.833333492279053,
+              "value": 19,
+              "coefficients": [
+                0,
+                0,
+                0,
+                19
+              ],
+              "sourceTime": 5.833333492279053,
+              "sprite": "common.r.9191"
+            },
+            {
+              "time": 6.166666507720947,
+              "value": 20,
+              "coefficients": [
+                0,
+                0,
+                0,
+                20
+              ],
+              "sourceTime": 6.166666507720947,
+              "sprite": "common.r.9140"
+            }
+          ],
+          "endpoint": "common.r.9140"
+        }
+      ],
+      "loop": true
+    },
+    {
+      "id": "common.clip.2286",
+      "name": "deer_eat_short",
+      "stop": 3.1666667461395264,
+      "layers": [
+        {
+          "binding": {
+            "path": 0,
+            "attribute": 0,
+            "script": {
+              "m_FileID": 0,
+              "m_PathID": 0
+            },
+            "typeID": 212,
+            "customType": 23,
+            "isPPtrCurve": 1,
+            "isIntCurve": 0,
+            "isSerializeReferenceCurve": 0
+          },
+          "component": 0,
+          "curve": 0,
+          "interpolation": "discrete",
+          "keys": [
+            {
+              "time": 0,
+              "value": 0,
+              "coefficients": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "sourceTime": "initial",
+              "sprite": "common.r.9726"
+            },
+            {
+              "time": 0.1666666716337204,
+              "value": 1,
+              "coefficients": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "sourceTime": 0.1666666716337204,
+              "sprite": "common.r.9617"
+            },
+            {
+              "time": 0.3333333432674408,
+              "value": 2,
+              "coefficients": [
+                0,
+                0,
+                0,
+                2
+              ],
+              "sourceTime": 0.3333333432674408,
+              "sprite": "common.r.9191"
+            },
+            {
+              "time": 0.6666666865348816,
+              "value": 3,
+              "coefficients": [
+                0,
+                0,
+                0,
+                3
+              ],
+              "sourceTime": 0.6666666865348816,
+              "sprite": "common.r.9140"
+            },
+            {
+              "time": 1,
+              "value": 4,
+              "coefficients": [
+                0,
+                0,
+                0,
+                4
+              ],
+              "sourceTime": 1,
+              "sprite": "common.r.9191"
+            },
+            {
+              "time": 1.3333333730697632,
+              "value": 5,
+              "coefficients": [
+                0,
+                0,
+                0,
+                5
+              ],
+              "sourceTime": 1.3333333730697632,
+              "sprite": "common.r.9140"
+            },
+            {
+              "time": 1.6666666269302368,
+              "value": 6,
+              "coefficients": [
+                0,
+                0,
+                0,
+                6
+              ],
+              "sourceTime": 1.6666666269302368,
+              "sprite": "common.r.9191"
+            },
+            {
+              "time": 2,
+              "value": 7,
+              "coefficients": [
+                0,
+                0,
+                0,
+                7
+              ],
+              "sourceTime": 2,
+              "sprite": "common.r.9140"
+            },
+            {
+              "time": 2.3333332538604736,
+              "value": 8,
+              "coefficients": [
+                0,
+                0,
+                0,
+                8
+              ],
+              "sourceTime": 2.3333332538604736,
+              "sprite": "common.r.9191"
+            },
+            {
+              "time": 2.6666667461395264,
+              "value": 9,
+              "coefficients": [
+                0,
+                0,
+                0,
+                9
+              ],
+              "sourceTime": 2.6666667461395264,
+              "sprite": "common.r.9140"
+            },
+            {
+              "time": 3,
+              "value": 10,
+              "coefficients": [
+                0,
+                0,
+                0,
+                10
+              ],
+              "sourceTime": 3,
+              "sprite": "common.r.9191"
+            }
+          ],
+          "endpoint": "common.r.9191"
+        }
+      ],
+      "loop": false
+    },
+    {
+      "id": "common.clip.2290",
+      "name": "deer_look",
+      "stop": 4.25,
+      "layers": [
+        {
+          "binding": {
+            "path": 0,
+            "attribute": 0,
+            "script": {
+              "m_FileID": 0,
+              "m_PathID": 0
+            },
+            "typeID": 212,
+            "customType": 23,
+            "isPPtrCurve": 1,
+            "isIntCurve": 0,
+            "isSerializeReferenceCurve": 0
+          },
+          "component": 0,
+          "curve": 0,
+          "interpolation": "discrete",
+          "keys": [
+            {
+              "time": 0,
+              "value": 0,
+              "coefficients": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "sourceTime": "initial",
+              "sprite": "common.r.10440"
+            },
+            {
+              "time": 1.75,
+              "value": 1,
+              "coefficients": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "sourceTime": 1.75,
+              "sprite": "common.r.9143"
+            },
+            {
+              "time": 2,
+              "value": 2,
+              "coefficients": [
+                0,
+                0,
+                0,
+                2
+              ],
+              "sourceTime": 2,
+              "sprite": "common.r.8695"
+            },
+            {
+              "time": 3.25,
+              "value": 3,
+              "coefficients": [
+                0,
+                0,
+                0,
+                3
+              ],
+              "sourceTime": 3.25,
+              "sprite": "common.r.9143"
+            },
+            {
+              "time": 4,
+              "value": 4,
+              "coefficients": [
+                0,
+                0,
+                0,
+                4
+              ],
+              "sourceTime": 4,
+              "sprite": "common.r.10440"
+            }
+          ],
+          "endpoint": "common.r.10440"
+        }
+      ],
+      "loop": true
+    },
+    {
+      "id": "common.clip.2294",
+      "name": "deer_run",
+      "stop": 0.6800000071525574,
+      "layers": [
+        {
+          "binding": {
+            "path": 0,
+            "attribute": 0,
+            "script": {
+              "m_FileID": 0,
+              "m_PathID": 0
+            },
+            "typeID": 212,
+            "customType": 23,
+            "isPPtrCurve": 1,
+            "isIntCurve": 0,
+            "isSerializeReferenceCurve": 0
+          },
+          "component": 0,
+          "curve": 0,
+          "interpolation": "discrete",
+          "keys": [
+            {
+              "time": 0,
+              "value": 0,
+              "coefficients": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "sourceTime": "initial",
+              "sprite": "common.r.11040"
+            },
+            {
+              "time": 0.07999999821186066,
+              "value": 1,
+              "coefficients": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "sourceTime": 0.07999999821186066,
+              "sprite": "common.r.7963"
+            },
+            {
+              "time": 0.1599999964237213,
+              "value": 2,
+              "coefficients": [
+                0,
+                0,
+                0,
+                2
+              ],
+              "sourceTime": 0.1599999964237213,
+              "sprite": "common.r.8337"
+            },
+            {
+              "time": 0.23999999463558197,
+              "value": 3,
+              "coefficients": [
+                0,
+                0,
+                0,
+                3
+              ],
+              "sourceTime": 0.23999999463558197,
+              "sprite": "common.r.10574"
+            },
+            {
+              "time": 0.36000001430511475,
+              "value": 4,
+              "coefficients": [
+                0,
+                0,
+                0,
+                4
+              ],
+              "sourceTime": 0.36000001430511475,
+              "sprite": "common.r.8228"
+            },
+            {
+              "time": 0.4399999976158142,
+              "value": 5,
+              "coefficients": [
+                0,
+                0,
+                0,
+                5
+              ],
+              "sourceTime": 0.4399999976158142,
+              "sprite": "common.r.8494"
+            },
+            {
+              "time": 0.5600000023841858,
+              "value": 6,
+              "coefficients": [
+                0,
+                0,
+                0,
+                6
+              ],
+              "sourceTime": 0.5600000023841858,
+              "sprite": "common.r.10769"
+            },
+            {
+              "time": 0.6399999856948853,
+              "value": 7,
+              "coefficients": [
+                0,
+                0,
+                0,
+                7
+              ],
+              "sourceTime": 0.6399999856948853,
+              "sprite": "common.r.8584"
+            }
+          ],
+          "endpoint": "common.r.8584"
+        }
+      ],
+      "loop": true
+    },
+    {
+      "id": "common.clip.2298",
+      "name": "deer_walk",
+      "stop": 1.0714285373687744,
+      "layers": [
+        {
+          "binding": {
+            "path": 0,
+            "attribute": 0,
+            "script": {
+              "m_FileID": 0,
+              "m_PathID": 0
+            },
+            "typeID": 212,
+            "customType": 23,
+            "isPPtrCurve": 1,
+            "isIntCurve": 0,
+            "isSerializeReferenceCurve": 0
+          },
+          "component": 0,
+          "curve": 0,
+          "interpolation": "discrete",
+          "keys": [
+            {
+              "time": 0,
+              "value": 0,
+              "coefficients": [
+                0,
+                0,
+                0,
+                0
+              ],
+              "sourceTime": "initial",
+              "sprite": "common.r.8557"
+            },
+            {
+              "time": 0.1428571492433548,
+              "value": 1,
+              "coefficients": [
+                0,
+                0,
+                0,
+                1
+              ],
+              "sourceTime": 0.1428571492433548,
+              "sprite": "common.r.8799"
+            },
+            {
+              "time": 0.2857142984867096,
+              "value": 2,
+              "coefficients": [
+                0,
+                0,
+                0,
+                2
+              ],
+              "sourceTime": 0.2857142984867096,
+              "sprite": "common.r.9040"
+            },
+            {
+              "time": 0.4285714328289032,
+              "value": 3,
+              "coefficients": [
+                0,
+                0,
+                0,
+                3
+              ],
+              "sourceTime": 0.4285714328289032,
+              "sprite": "common.r.8395"
+            },
+            {
+              "time": 0.5714285969734192,
+              "value": 4,
+              "coefficients": [
+                0,
+                0,
+                0,
+                4
+              ],
+              "sourceTime": 0.5714285969734192,
+              "sprite": "common.r.11065"
+            },
+            {
+              "time": 0.7142857313156128,
+              "value": 5,
+              "coefficients": [
+                0,
+                0,
+                0,
+                5
+              ],
+              "sourceTime": 0.7142857313156128,
+              "sprite": "common.r.9884"
+            },
+            {
+              "time": 0.8571428656578064,
+              "value": 6,
+              "coefficients": [
+                0,
+                0,
+                0,
+                6
+              ],
+              "sourceTime": 0.8571428656578064,
+              "sprite": "common.r.11203"
+            },
+            {
+              "time": 1,
+              "value": 7,
+              "coefficients": [
+                0,
+                0,
+                0,
+                7
+              ],
+              "sourceTime": 1,
+              "sprite": "common.r.7943"
+            }
+          ],
+          "endpoint": "common.r.7943"
+        }
+      ],
+      "loop": true
+    }
+  ],
+  "sourceBindings": [
+    {
+      "file": "content/packs/common.json",
+      "sha256": "96a6328ef771e2418358d5bfd9d31ee1f2b34c5c785e6985884887827c0289c5"
+    },
+    {
+      "file": "assets/common/donor-kit.png",
+      "sha256": "bf3b0b91be9b772184f034d8e681e4a8b21210cfa5197aac2c03fc773c4b88d4"
+    },
+    {
+      "file": "content/animation/fits-a.json",
+      "sha256": "66f5e551bcff45ec4832c408743ca13c0c5a19310dd0d90f002a5e21784b0a0c"
+    },
+    {
+      "file": "content/packs/bodies-a.json",
+      "sha256": "71f49b2b6c7c0f87c108e2d9db025d577c319ea3bea928131464ea8d6ae86de1"
+    },
+    {
+      "file": "assets/characters/bodies-a.png",
+      "sha256": "002148ddb40d3cc5a4c2695e45e3ebca765e79c06f53e0f7d120d22cdf9f5141"
+    },
+    {
+      "file": "content/animation/fits-b.json",
+      "sha256": "e730aaf7a60b15677149f9c8b7587dff1247b6d676a3e826873db0ea60e3f20b"
+    },
+    {
+      "file": "content/packs/bodies-b.json",
+      "sha256": "b68027421b7bf489824cb78f8a1335f25cdd80a05cbd24fc192ccda16a74dd66"
+    },
+    {
+      "file": "assets/characters/bodies-b.png",
+      "sha256": "ce3b0528737039b3e88afde4ade2688ee3f611410418cf33f10e92887db056ff"
+    },
+    {
+      "file": "content/animation/fits-c.json",
+      "sha256": "47b29fbafea490d2d3a5b9b6f9f5d3c90956a4c79a6994502e3ee457c3170f2d"
+    },
+    {
+      "file": "content/packs/bodies-c.json",
+      "sha256": "b0320abb367f4667a304830450354c4a608edc65803b2626205ab36ab8a5680a"
+    },
+    {
+      "file": "assets/characters/bodies-c.png",
+      "sha256": "cb659d3e0d09ffbda3d5098ff7dad3aff80643ea9e3de32507948124dca1531d"
+    },
+    {
+      "file": "content/packs/items-01-10.json",
+      "sha256": "9402295cc6457d42d53a7b4a8ada19bc06711d6db8f600386f49b05a238686b7"
+    },
+    {
+      "file": "assets/equipment/items-01-10.png",
+      "sha256": "3d8b8e3d6aa0a2e94dc3fba8b64cc54573b62031be257db76c79fa2cac53cfe9"
+    },
+    {
+      "file": "content/packs/items-11-24.json",
+      "sha256": "78761a40c0e0b7a22ef9885ee847338fd7315ce69014756608a0bc965fe0a826"
+    },
+    {
+      "file": "assets/equipment/items-11-24.png",
+      "sha256": "b5dafe0a20348a9b667e9eda74c4250fdcbf2ce2fffac38ab7193b19059a4219"
+    }
+  ],
+  "selection": {
+    "outline": "steady one-pixel cream exterior silhouette",
+    "marker": "modest downward marker",
+    "selectedOnly": true,
+    "pulse": false
+  },
+  "acceptance": {
+    "sourceHeadless": "pending-proof",
+    "appearance": "pending-04-32",
+    "performance": "not-certified",
+    "gameplay": "presentation-only"
+  }
+}

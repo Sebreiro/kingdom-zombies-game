@@ -1,0 +1,2997 @@
+{
+  "scope": "Format feasibility only; no listening or production acceptance.",
+  "pcm": [
+    {
+      "owner": "resources.assets",
+      "id": 3288,
+      "codec": 2,
+      "frames": 3016,
+      "channels": 2,
+      "rate": 44100,
+      "seconds": 0.06839002267573696,
+      "peak": 22925,
+      "pcmSha256": "96ceeaf3ad4a49a0f7e196ec8f5440af14a193ca6fdbbabc339fb2b5d6754451"
+    },
+    {
+      "owner": "resources.assets",
+      "id": 5272,
+      "codec": 2,
+      "frames": 14401,
+      "channels": 2,
+      "rate": 44100,
+      "seconds": 0.3265532879818594,
+      "peak": 21952,
+      "pcmSha256": "022a01850349433431006446581688845edda1057203e5e36df43fe7ea5cdc4c"
+    },
+    {
+      "owner": "sharedassets0.assets",
+      "id": 449,
+      "codec": 2,
+      "frames": 9242,
+      "channels": 2,
+      "rate": 44100,
+      "seconds": 0.20956916099773243,
+      "peak": 10526,
+      "pcmSha256": "480e054ca5025606565f00bc59b5709590971a6328d879ad51330975902edfcb"
+    }
+  ],
+  "curves": [
+    {
+      "id": 1214,
+      "name": "peasant_walk",
+      "sampleRate": 7.0,
+      "start": 0.0,
+      "stop": 0.8571428656578064,
+      "loop": true,
+      "frames": [
+        {
+          "time": -3.4028234663852886e+38,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 0.0
+            }
+          ]
+        },
+        {
+          "time": 0.1428571492433548,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 1.0
+            }
+          ]
+        },
+        {
+          "time": 0.2857142984867096,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 2.0
+            }
+          ]
+        },
+        {
+          "time": 0.4285714328289032,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 3.0
+            }
+          ]
+        },
+        {
+          "time": 0.5714285969734192,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 4.0
+            }
+          ]
+        },
+        {
+          "time": 0.7142857313156128,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 5.0
+            }
+          ]
+        },
+        {
+          "time": "positive-infinity-sentinel",
+          "keys": []
+        }
+      ],
+      "mapping": [
+        {
+          "file": "sharedassets0.assets",
+          "id": 8101,
+          "type": "Sprite",
+          "name": "peasant_walk_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 8966,
+          "type": "Sprite",
+          "name": "peasant_walk_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 9677,
+          "type": "Sprite",
+          "name": "peasant_walk_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 10365,
+          "type": "Sprite",
+          "name": "peasant_walk_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 11008,
+          "type": "Sprite",
+          "name": "peasant_walk_4"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 11621,
+          "type": "Sprite",
+          "name": "peasant_walk_5"
+        }
+      ],
+      "events": [],
+      "genericBindings": [
+        {
+          "path": 0,
+          "attribute": 0,
+          "script": {
+            "m_FileID": 0,
+            "m_PathID": 0
+          },
+          "typeID": 212,
+          "customType": 23,
+          "isPPtrCurve": 1,
+          "isIntCurve": 0,
+          "isSerializeReferenceCurve": 0
+        }
+      ],
+      "dense": {
+        "m_FrameCount": 8,
+        "m_CurveCount": 0,
+        "m_SampleRate": 7.0,
+        "m_BeginTime": 0.0,
+        "m_SampleArray": []
+      },
+      "constant": {
+        "data": []
+      }
+    },
+    {
+      "id": 783,
+      "name": "archer_shoot",
+      "sampleRate": 8.0,
+      "start": 0.0,
+      "stop": 0.625,
+      "loop": false,
+      "frames": [
+        {
+          "time": -3.4028234663852886e+38,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 0.0
+            }
+          ]
+        },
+        {
+          "time": 0.125,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 1.0
+            }
+          ]
+        },
+        {
+          "time": 0.25,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 2.0
+            }
+          ]
+        },
+        {
+          "time": 0.375,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 3.0
+            }
+          ]
+        },
+        {
+          "time": 0.5,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 4.0
+            }
+          ]
+        },
+        {
+          "time": "positive-infinity-sentinel",
+          "keys": []
+        }
+      ],
+      "mapping": [
+        {
+          "file": "sharedassets0.assets",
+          "id": 6762,
+          "type": "Sprite",
+          "name": "archer_shoot_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 8351,
+          "type": "Sprite",
+          "name": "archer_shoot_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 9078,
+          "type": "Sprite",
+          "name": "archer_shoot_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 9783,
+          "type": "Sprite",
+          "name": "archer_shoot_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 10471,
+          "type": "Sprite",
+          "name": "archer_shoot_4"
+        }
+      ],
+      "events": [],
+      "genericBindings": [
+        {
+          "path": 0,
+          "attribute": 0,
+          "script": {
+            "m_FileID": 0,
+            "m_PathID": 0
+          },
+          "typeID": 212,
+          "customType": 23,
+          "isPPtrCurve": 1,
+          "isIntCurve": 0,
+          "isSerializeReferenceCurve": 0
+        }
+      ],
+      "dense": {
+        "m_FrameCount": 7,
+        "m_CurveCount": 0,
+        "m_SampleRate": 8.0,
+        "m_BeginTime": 0.0,
+        "m_SampleArray": []
+      },
+      "constant": {
+        "data": []
+      }
+    },
+    {
+      "id": 1245,
+      "name": "worker_hammer",
+      "sampleRate": 12.0,
+      "start": 0.0,
+      "stop": 1.0,
+      "loop": true,
+      "frames": [
+        {
+          "time": -3.4028234663852886e+38,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 0.0
+            }
+          ]
+        },
+        {
+          "time": 0.0833333358168602,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 1.0
+            }
+          ]
+        },
+        {
+          "time": 0.1666666716337204,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 2.0
+            }
+          ]
+        },
+        {
+          "time": 0.3333333432674408,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 3.0
+            }
+          ]
+        },
+        {
+          "time": 0.4166666567325592,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 4.0
+            }
+          ]
+        },
+        {
+          "time": 0.5,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 5.0
+            }
+          ]
+        },
+        {
+          "time": 0.5833333134651184,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 6.0
+            }
+          ]
+        },
+        {
+          "time": 0.9166666865348816,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 7.0
+            }
+          ]
+        },
+        {
+          "time": "positive-infinity-sentinel",
+          "keys": []
+        }
+      ],
+      "mapping": [
+        {
+          "file": "sharedassets0.assets",
+          "id": 7986,
+          "type": "Sprite",
+          "name": "worker_work_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 8911,
+          "type": "Sprite",
+          "name": "worker_work_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 9623,
+          "type": "Sprite",
+          "name": "worker_work_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 10312,
+          "type": "Sprite",
+          "name": "worker_work_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 10960,
+          "type": "Sprite",
+          "name": "worker_work_4"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 11576,
+          "type": "Sprite",
+          "name": "worker_work_5"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 12125,
+          "type": "Sprite",
+          "name": "worker_work_6"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 12125,
+          "type": "Sprite",
+          "name": "worker_work_6"
+        }
+      ],
+      "events": [
+        {
+          "time": 0.4166666567325592,
+          "functionName": "OnAnimHammerHit",
+          "data": "",
+          "objectReferenceParameter": {
+            "m_FileID": 0,
+            "m_PathID": 0
+          },
+          "floatParameter": 0.0,
+          "intParameter": 0,
+          "messageOptions": 0
+        }
+      ],
+      "genericBindings": [
+        {
+          "path": 0,
+          "attribute": 0,
+          "script": {
+            "m_FileID": 0,
+            "m_PathID": 0
+          },
+          "typeID": 212,
+          "customType": 23,
+          "isPPtrCurve": 1,
+          "isIntCurve": 0,
+          "isSerializeReferenceCurve": 0
+        }
+      ],
+      "dense": {
+        "m_FrameCount": 14,
+        "m_CurveCount": 0,
+        "m_SampleRate": 12.0,
+        "m_BeginTime": 0.0,
+        "m_SampleArray": []
+      },
+      "constant": {
+        "data": []
+      }
+    },
+    {
+      "id": 2568,
+      "name": "portal_close",
+      "sampleRate": 8.0,
+      "start": 0.0,
+      "stop": 1.5,
+      "loop": false,
+      "frames": [
+        {
+          "time": -3.4028234663852886e+38,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 0.0
+            },
+            {
+              "curve": 1,
+              "value": 12.0
+            },
+            {
+              "curve": 2,
+              "value": 24.0
+            },
+            {
+              "curve": 3,
+              "value": 36.0
+            },
+            {
+              "curve": 4,
+              "value": 48.0
+            },
+            {
+              "curve": 5,
+              "value": 60.0
+            },
+            {
+              "curve": 6,
+              "value": 72.0
+            },
+            {
+              "curve": 7,
+              "value": 84.0
+            },
+            {
+              "curve": 8,
+              "value": 96.0
+            },
+            {
+              "curve": 9,
+              "value": 108.0
+            }
+          ]
+        },
+        {
+          "time": 0.125,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 1.0
+            },
+            {
+              "curve": 1,
+              "value": 13.0
+            },
+            {
+              "curve": 2,
+              "value": 25.0
+            },
+            {
+              "curve": 3,
+              "value": 37.0
+            },
+            {
+              "curve": 4,
+              "value": 49.0
+            },
+            {
+              "curve": 5,
+              "value": 61.0
+            },
+            {
+              "curve": 6,
+              "value": 73.0
+            },
+            {
+              "curve": 7,
+              "value": 85.0
+            },
+            {
+              "curve": 8,
+              "value": 97.0
+            },
+            {
+              "curve": 9,
+              "value": 109.0
+            }
+          ]
+        },
+        {
+          "time": 0.25,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 2.0
+            },
+            {
+              "curve": 1,
+              "value": 14.0
+            },
+            {
+              "curve": 2,
+              "value": 26.0
+            },
+            {
+              "curve": 3,
+              "value": 38.0
+            },
+            {
+              "curve": 4,
+              "value": 50.0
+            },
+            {
+              "curve": 5,
+              "value": 62.0
+            },
+            {
+              "curve": 6,
+              "value": 74.0
+            },
+            {
+              "curve": 7,
+              "value": 86.0
+            },
+            {
+              "curve": 8,
+              "value": 98.0
+            },
+            {
+              "curve": 9,
+              "value": 110.0
+            }
+          ]
+        },
+        {
+          "time": 0.375,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 3.0
+            },
+            {
+              "curve": 1,
+              "value": 15.0
+            },
+            {
+              "curve": 2,
+              "value": 27.0
+            },
+            {
+              "curve": 3,
+              "value": 39.0
+            },
+            {
+              "curve": 4,
+              "value": 51.0
+            },
+            {
+              "curve": 5,
+              "value": 63.0
+            },
+            {
+              "curve": 6,
+              "value": 75.0
+            },
+            {
+              "curve": 7,
+              "value": 87.0
+            },
+            {
+              "curve": 8,
+              "value": 99.0
+            },
+            {
+              "curve": 9,
+              "value": 111.0
+            }
+          ]
+        },
+        {
+          "time": 0.5,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 4.0
+            },
+            {
+              "curve": 1,
+              "value": 16.0
+            },
+            {
+              "curve": 2,
+              "value": 28.0
+            },
+            {
+              "curve": 3,
+              "value": 40.0
+            },
+            {
+              "curve": 4,
+              "value": 52.0
+            },
+            {
+              "curve": 5,
+              "value": 64.0
+            },
+            {
+              "curve": 6,
+              "value": 76.0
+            },
+            {
+              "curve": 7,
+              "value": 88.0
+            },
+            {
+              "curve": 8,
+              "value": 100.0
+            },
+            {
+              "curve": 9,
+              "value": 112.0
+            }
+          ]
+        },
+        {
+          "time": 0.625,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 5.0
+            },
+            {
+              "curve": 1,
+              "value": 17.0
+            },
+            {
+              "curve": 2,
+              "value": 29.0
+            },
+            {
+              "curve": 3,
+              "value": 41.0
+            },
+            {
+              "curve": 4,
+              "value": 53.0
+            },
+            {
+              "curve": 5,
+              "value": 65.0
+            },
+            {
+              "curve": 6,
+              "value": 77.0
+            },
+            {
+              "curve": 7,
+              "value": 89.0
+            },
+            {
+              "curve": 8,
+              "value": 101.0
+            },
+            {
+              "curve": 9,
+              "value": 113.0
+            }
+          ]
+        },
+        {
+          "time": 0.75,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 6.0
+            },
+            {
+              "curve": 1,
+              "value": 18.0
+            },
+            {
+              "curve": 2,
+              "value": 30.0
+            },
+            {
+              "curve": 3,
+              "value": 42.0
+            },
+            {
+              "curve": 4,
+              "value": 54.0
+            },
+            {
+              "curve": 5,
+              "value": 66.0
+            },
+            {
+              "curve": 6,
+              "value": 78.0
+            },
+            {
+              "curve": 7,
+              "value": 90.0
+            },
+            {
+              "curve": 8,
+              "value": 102.0
+            },
+            {
+              "curve": 9,
+              "value": 114.0
+            }
+          ]
+        },
+        {
+          "time": 0.875,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 7.0
+            },
+            {
+              "curve": 1,
+              "value": 19.0
+            },
+            {
+              "curve": 2,
+              "value": 31.0
+            },
+            {
+              "curve": 3,
+              "value": 43.0
+            },
+            {
+              "curve": 4,
+              "value": 55.0
+            },
+            {
+              "curve": 5,
+              "value": 67.0
+            },
+            {
+              "curve": 6,
+              "value": 79.0
+            },
+            {
+              "curve": 7,
+              "value": 91.0
+            },
+            {
+              "curve": 8,
+              "value": 103.0
+            },
+            {
+              "curve": 9,
+              "value": 115.0
+            }
+          ]
+        },
+        {
+          "time": 1.0,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 8.0
+            },
+            {
+              "curve": 1,
+              "value": 20.0
+            },
+            {
+              "curve": 2,
+              "value": 32.0
+            },
+            {
+              "curve": 3,
+              "value": 44.0
+            },
+            {
+              "curve": 4,
+              "value": 56.0
+            },
+            {
+              "curve": 5,
+              "value": 68.0
+            },
+            {
+              "curve": 6,
+              "value": 80.0
+            },
+            {
+              "curve": 7,
+              "value": 92.0
+            },
+            {
+              "curve": 8,
+              "value": 104.0
+            },
+            {
+              "curve": 9,
+              "value": 116.0
+            }
+          ]
+        },
+        {
+          "time": 1.125,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 9.0
+            },
+            {
+              "curve": 1,
+              "value": 21.0
+            },
+            {
+              "curve": 2,
+              "value": 33.0
+            },
+            {
+              "curve": 3,
+              "value": 45.0
+            },
+            {
+              "curve": 4,
+              "value": 57.0
+            },
+            {
+              "curve": 5,
+              "value": 69.0
+            },
+            {
+              "curve": 6,
+              "value": 81.0
+            },
+            {
+              "curve": 7,
+              "value": 93.0
+            },
+            {
+              "curve": 8,
+              "value": 105.0
+            },
+            {
+              "curve": 9,
+              "value": 117.0
+            }
+          ]
+        },
+        {
+          "time": 1.25,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 10.0
+            },
+            {
+              "curve": 1,
+              "value": 22.0
+            },
+            {
+              "curve": 2,
+              "value": 34.0
+            },
+            {
+              "curve": 3,
+              "value": 46.0
+            },
+            {
+              "curve": 4,
+              "value": 58.0
+            },
+            {
+              "curve": 5,
+              "value": 70.0
+            },
+            {
+              "curve": 6,
+              "value": 82.0
+            },
+            {
+              "curve": 7,
+              "value": 94.0
+            },
+            {
+              "curve": 8,
+              "value": 106.0
+            },
+            {
+              "curve": 9,
+              "value": 118.0
+            }
+          ]
+        },
+        {
+          "time": 1.375,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 11.0
+            },
+            {
+              "curve": 1,
+              "value": 23.0
+            },
+            {
+              "curve": 2,
+              "value": 35.0
+            },
+            {
+              "curve": 3,
+              "value": 47.0
+            },
+            {
+              "curve": 4,
+              "value": 59.0
+            },
+            {
+              "curve": 5,
+              "value": 71.0
+            },
+            {
+              "curve": 6,
+              "value": 83.0
+            },
+            {
+              "curve": 7,
+              "value": 95.0
+            },
+            {
+              "curve": 8,
+              "value": 107.0
+            },
+            {
+              "curve": 9,
+              "value": 119.0
+            }
+          ]
+        },
+        {
+          "time": "positive-infinity-sentinel",
+          "keys": []
+        }
+      ],
+      "mapping": [
+        {
+          "file": "sharedassets0.assets",
+          "id": 13783,
+          "type": "Sprite",
+          "name": "trollcave_surface_open_10"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 13441,
+          "type": "Sprite",
+          "name": "trollcave_surface_open_9"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 13089,
+          "type": "Sprite",
+          "name": "trollcave_surface_open_8"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 12668,
+          "type": "Sprite",
+          "name": "trollcave_surface_open_7"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 12180,
+          "type": "Sprite",
+          "name": "trollcave_surface_open_6"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 11646,
+          "type": "Sprite",
+          "name": "trollcave_surface_open_5"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 11033,
+          "type": "Sprite",
+          "name": "trollcave_surface_open_4"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 10391,
+          "type": "Sprite",
+          "name": "trollcave_surface_open_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 9703,
+          "type": "Sprite",
+          "name": "trollcave_surface_open_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 8993,
+          "type": "Sprite",
+          "name": "trollcave_surface_open_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 8161,
+          "type": "Sprite",
+          "name": "trollcave_surface_open_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 15397,
+          "type": "Sprite",
+          "name": "trollcave_surface_destroy_18"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 7951,
+          "type": "Sprite",
+          "name": "beach_portal_back_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 8900,
+          "type": "Sprite",
+          "name": "beach_portal_back_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 9613,
+          "type": "Sprite",
+          "name": "beach_portal_back_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 10302,
+          "type": "Sprite",
+          "name": "beach_portal_back_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 7951,
+          "type": "Sprite",
+          "name": "beach_portal_back_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 8900,
+          "type": "Sprite",
+          "name": "beach_portal_back_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 9613,
+          "type": "Sprite",
+          "name": "beach_portal_back_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 10302,
+          "type": "Sprite",
+          "name": "beach_portal_back_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 7951,
+          "type": "Sprite",
+          "name": "beach_portal_back_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 8900,
+          "type": "Sprite",
+          "name": "beach_portal_back_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 9613,
+          "type": "Sprite",
+          "name": "beach_portal_back_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 10302,
+          "type": "Sprite",
+          "name": "beach_portal_back_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 6801,
+          "type": "Sprite",
+          "name": "beach_portal_front_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 8371,
+          "type": "Sprite",
+          "name": "beach_portal_front_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 9096,
+          "type": "Sprite",
+          "name": "beach_portal_front_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 9800,
+          "type": "Sprite",
+          "name": "beach_portal_front_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 6801,
+          "type": "Sprite",
+          "name": "beach_portal_front_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 8371,
+          "type": "Sprite",
+          "name": "beach_portal_front_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 9096,
+          "type": "Sprite",
+          "name": "beach_portal_front_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 9800,
+          "type": "Sprite",
+          "name": "beach_portal_front_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 6801,
+          "type": "Sprite",
+          "name": "beach_portal_front_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 8371,
+          "type": "Sprite",
+          "name": "beach_portal_front_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 9096,
+          "type": "Sprite",
+          "name": "beach_portal_front_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 9800,
+          "type": "Sprite",
+          "name": "beach_portal_front_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 17193,
+          "type": "Sprite",
+          "name": "beach_portal_wound_01_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 18348,
+          "type": "Sprite",
+          "name": "beach_portal_wound_01_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 21004,
+          "type": "Sprite",
+          "name": "beach_portal_wound_01_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 19652,
+          "type": "Sprite",
+          "name": "beach_portal_wound_01_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 17193,
+          "type": "Sprite",
+          "name": "beach_portal_wound_01_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 18348,
+          "type": "Sprite",
+          "name": "beach_portal_wound_01_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 21004,
+          "type": "Sprite",
+          "name": "beach_portal_wound_01_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 19652,
+          "type": "Sprite",
+          "name": "beach_portal_wound_01_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 17193,
+          "type": "Sprite",
+          "name": "beach_portal_wound_01_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 18348,
+          "type": "Sprite",
+          "name": "beach_portal_wound_01_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 21004,
+          "type": "Sprite",
+          "name": "beach_portal_wound_01_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 19652,
+          "type": "Sprite",
+          "name": "beach_portal_wound_01_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 18839,
+          "type": "Sprite",
+          "name": "beach_portal_wound_02_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 20103,
+          "type": "Sprite",
+          "name": "beach_portal_wound_02_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 5826,
+          "type": "Sprite",
+          "name": "beach_portal_wound_02_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 19587,
+          "type": "Sprite",
+          "name": "beach_portal_wound_02_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 18839,
+          "type": "Sprite",
+          "name": "beach_portal_wound_02_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 20103,
+          "type": "Sprite",
+          "name": "beach_portal_wound_02_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 5826,
+          "type": "Sprite",
+          "name": "beach_portal_wound_02_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 19587,
+          "type": "Sprite",
+          "name": "beach_portal_wound_02_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 18839,
+          "type": "Sprite",
+          "name": "beach_portal_wound_02_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 20103,
+          "type": "Sprite",
+          "name": "beach_portal_wound_02_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 5826,
+          "type": "Sprite",
+          "name": "beach_portal_wound_02_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 19587,
+          "type": "Sprite",
+          "name": "beach_portal_wound_02_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 6240,
+          "type": "Sprite",
+          "name": "beach_portal_wound_03_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 20694,
+          "type": "Sprite",
+          "name": "beach_portal_wound_03_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 4952,
+          "type": "Sprite",
+          "name": "beach_portal_wound_03_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 3378,
+          "type": "Sprite",
+          "name": "beach_portal_wound_03_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 6240,
+          "type": "Sprite",
+          "name": "beach_portal_wound_03_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 20694,
+          "type": "Sprite",
+          "name": "beach_portal_wound_03_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 4952,
+          "type": "Sprite",
+          "name": "beach_portal_wound_03_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 3378,
+          "type": "Sprite",
+          "name": "beach_portal_wound_03_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 6240,
+          "type": "Sprite",
+          "name": "beach_portal_wound_03_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 20694,
+          "type": "Sprite",
+          "name": "beach_portal_wound_03_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 4952,
+          "type": "Sprite",
+          "name": "beach_portal_wound_03_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 3378,
+          "type": "Sprite",
+          "name": "beach_portal_wound_03_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 20392,
+          "type": "Sprite",
+          "name": "beach_portal_wound_04_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 4231,
+          "type": "Sprite",
+          "name": "beach_portal_wound_04_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 17583,
+          "type": "Sprite",
+          "name": "beach_portal_wound_04_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 19959,
+          "type": "Sprite",
+          "name": "beach_portal_wound_04_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 20392,
+          "type": "Sprite",
+          "name": "beach_portal_wound_04_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 4231,
+          "type": "Sprite",
+          "name": "beach_portal_wound_04_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 17583,
+          "type": "Sprite",
+          "name": "beach_portal_wound_04_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 19959,
+          "type": "Sprite",
+          "name": "beach_portal_wound_04_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 20392,
+          "type": "Sprite",
+          "name": "beach_portal_wound_04_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 4231,
+          "type": "Sprite",
+          "name": "beach_portal_wound_04_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 17583,
+          "type": "Sprite",
+          "name": "beach_portal_wound_04_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 19959,
+          "type": "Sprite",
+          "name": "beach_portal_wound_04_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 5705,
+          "type": "Sprite",
+          "name": "beach_portal_wound_05_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 6229,
+          "type": "Sprite",
+          "name": "beach_portal_wound_05_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16976,
+          "type": "Sprite",
+          "name": "beach_portal_wound_05_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 18356,
+          "type": "Sprite",
+          "name": "beach_portal_wound_05_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 5705,
+          "type": "Sprite",
+          "name": "beach_portal_wound_05_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 6229,
+          "type": "Sprite",
+          "name": "beach_portal_wound_05_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16976,
+          "type": "Sprite",
+          "name": "beach_portal_wound_05_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 18356,
+          "type": "Sprite",
+          "name": "beach_portal_wound_05_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 5705,
+          "type": "Sprite",
+          "name": "beach_portal_wound_05_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 6229,
+          "type": "Sprite",
+          "name": "beach_portal_wound_05_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16976,
+          "type": "Sprite",
+          "name": "beach_portal_wound_05_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 18356,
+          "type": "Sprite",
+          "name": "beach_portal_wound_05_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 17604,
+          "type": "Sprite",
+          "name": "beach_portal_wound_06_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 17849,
+          "type": "Sprite",
+          "name": "beach_portal_wound_06_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 19003,
+          "type": "Sprite",
+          "name": "beach_portal_wound_06_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 19892,
+          "type": "Sprite",
+          "name": "beach_portal_wound_06_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 17604,
+          "type": "Sprite",
+          "name": "beach_portal_wound_06_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 17849,
+          "type": "Sprite",
+          "name": "beach_portal_wound_06_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 19003,
+          "type": "Sprite",
+          "name": "beach_portal_wound_06_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 19892,
+          "type": "Sprite",
+          "name": "beach_portal_wound_06_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 17604,
+          "type": "Sprite",
+          "name": "beach_portal_wound_06_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 17849,
+          "type": "Sprite",
+          "name": "beach_portal_wound_06_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 19003,
+          "type": "Sprite",
+          "name": "beach_portal_wound_06_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 19892,
+          "type": "Sprite",
+          "name": "beach_portal_wound_06_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 18441,
+          "type": "Sprite",
+          "name": "beach_portal_wound_07_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 20316,
+          "type": "Sprite",
+          "name": "beach_portal_wound_07_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 3192,
+          "type": "Sprite",
+          "name": "beach_portal_wound_07_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 17732,
+          "type": "Sprite",
+          "name": "beach_portal_wound_07_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 18441,
+          "type": "Sprite",
+          "name": "beach_portal_wound_07_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 20316,
+          "type": "Sprite",
+          "name": "beach_portal_wound_07_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 3192,
+          "type": "Sprite",
+          "name": "beach_portal_wound_07_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 17732,
+          "type": "Sprite",
+          "name": "beach_portal_wound_07_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 18441,
+          "type": "Sprite",
+          "name": "beach_portal_wound_07_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 20316,
+          "type": "Sprite",
+          "name": "beach_portal_wound_07_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 3192,
+          "type": "Sprite",
+          "name": "beach_portal_wound_07_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 17732,
+          "type": "Sprite",
+          "name": "beach_portal_wound_07_3"
+        }
+      ],
+      "events": [],
+      "genericBindings": [
+        {
+          "path": 1945937906,
+          "attribute": 0,
+          "script": {
+            "m_FileID": 0,
+            "m_PathID": 0
+          },
+          "typeID": 212,
+          "customType": 23,
+          "isPPtrCurve": 1,
+          "isIntCurve": 0,
+          "isSerializeReferenceCurve": 0
+        },
+        {
+          "path": 4081612379,
+          "attribute": 0,
+          "script": {
+            "m_FileID": 0,
+            "m_PathID": 0
+          },
+          "typeID": 212,
+          "customType": 23,
+          "isPPtrCurve": 1,
+          "isIntCurve": 0,
+          "isSerializeReferenceCurve": 0
+        },
+        {
+          "path": 3126970674,
+          "attribute": 0,
+          "script": {
+            "m_FileID": 0,
+            "m_PathID": 0
+          },
+          "typeID": 212,
+          "customType": 23,
+          "isPPtrCurve": 1,
+          "isIntCurve": 0,
+          "isSerializeReferenceCurve": 0
+        },
+        {
+          "path": 1427582978,
+          "attribute": 0,
+          "script": {
+            "m_FileID": 0,
+            "m_PathID": 0
+          },
+          "typeID": 212,
+          "customType": 23,
+          "isPPtrCurve": 1,
+          "isIntCurve": 0,
+          "isSerializeReferenceCurve": 0
+        },
+        {
+          "path": 3424543160,
+          "attribute": 0,
+          "script": {
+            "m_FileID": 0,
+            "m_PathID": 0
+          },
+          "typeID": 212,
+          "customType": 23,
+          "isPPtrCurve": 1,
+          "isIntCurve": 0,
+          "isSerializeReferenceCurve": 0
+        },
+        {
+          "path": 3138998574,
+          "attribute": 0,
+          "script": {
+            "m_FileID": 0,
+            "m_PathID": 0
+          },
+          "typeID": 212,
+          "customType": 23,
+          "isPPtrCurve": 1,
+          "isIntCurve": 0,
+          "isSerializeReferenceCurve": 0
+        },
+        {
+          "path": 628999309,
+          "attribute": 0,
+          "script": {
+            "m_FileID": 0,
+            "m_PathID": 0
+          },
+          "typeID": 212,
+          "customType": 23,
+          "isPPtrCurve": 1,
+          "isIntCurve": 0,
+          "isSerializeReferenceCurve": 0
+        },
+        {
+          "path": 1383789595,
+          "attribute": 0,
+          "script": {
+            "m_FileID": 0,
+            "m_PathID": 0
+          },
+          "typeID": 212,
+          "customType": 23,
+          "isPPtrCurve": 1,
+          "isIntCurve": 0,
+          "isSerializeReferenceCurve": 0
+        },
+        {
+          "path": 3413353889,
+          "attribute": 0,
+          "script": {
+            "m_FileID": 0,
+            "m_PathID": 0
+          },
+          "typeID": 212,
+          "customType": 23,
+          "isPPtrCurve": 1,
+          "isIntCurve": 0,
+          "isSerializeReferenceCurve": 0
+        },
+        {
+          "path": 3161756983,
+          "attribute": 0,
+          "script": {
+            "m_FileID": 0,
+            "m_PathID": 0
+          },
+          "typeID": 212,
+          "customType": 23,
+          "isPPtrCurve": 1,
+          "isIntCurve": 0,
+          "isSerializeReferenceCurve": 0
+        }
+      ],
+      "dense": {
+        "m_FrameCount": 14,
+        "m_CurveCount": 0,
+        "m_SampleRate": 8.0,
+        "m_BeginTime": 0.0,
+        "m_SampleArray": []
+      },
+      "constant": {
+        "data": []
+      }
+    },
+    {
+      "id": 2573,
+      "name": "portal_permanent_destroy",
+      "sampleRate": 7.0,
+      "start": 0.0,
+      "stop": 7.5714263916015625,
+      "loop": false,
+      "frames": [
+        {
+          "time": -3.4028234663852886e+38,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 0.0
+            }
+          ]
+        },
+        {
+          "time": 0.1428571492433548,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 1.0
+            }
+          ]
+        },
+        {
+          "time": 0.2857142984867096,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 2.0
+            }
+          ]
+        },
+        {
+          "time": 0.4285714328289032,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 3.0
+            }
+          ]
+        },
+        {
+          "time": 0.5714285969734192,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 4.0
+            }
+          ]
+        },
+        {
+          "time": 0.7142857313156128,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 5.0
+            }
+          ]
+        },
+        {
+          "time": 0.8571428656578064,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 6.0
+            }
+          ]
+        },
+        {
+          "time": 1.0,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 7.0
+            }
+          ]
+        },
+        {
+          "time": 1.1428571939468384,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 8.0
+            }
+          ]
+        },
+        {
+          "time": 1.2857143878936768,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 9.0
+            }
+          ]
+        },
+        {
+          "time": 1.4285715818405151,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 10.0
+            }
+          ]
+        },
+        {
+          "time": 1.5714287757873535,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 11.0
+            }
+          ]
+        },
+        {
+          "time": 1.714285969734192,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 12.0
+            }
+          ]
+        },
+        {
+          "time": 1.8571431636810303,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 13.0
+            }
+          ]
+        },
+        {
+          "time": 2.000000238418579,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 14.0
+            }
+          ]
+        },
+        {
+          "time": 2.142857313156128,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 15.0
+            }
+          ]
+        },
+        {
+          "time": 2.2857143878936768,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 16.0
+            }
+          ]
+        },
+        {
+          "time": 2.4285714626312256,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 17.0
+            }
+          ]
+        },
+        {
+          "time": 2.5714285373687744,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 18.0
+            }
+          ]
+        },
+        {
+          "time": 2.7142856121063232,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 19.0
+            }
+          ]
+        },
+        {
+          "time": 2.857142686843872,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 20.0
+            }
+          ]
+        },
+        {
+          "time": 2.999999761581421,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 21.0
+            }
+          ]
+        },
+        {
+          "time": 3.1428568363189697,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 22.0
+            }
+          ]
+        },
+        {
+          "time": 3.2857139110565186,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 23.0
+            }
+          ]
+        },
+        {
+          "time": 3.4285709857940674,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 24.0
+            }
+          ]
+        },
+        {
+          "time": 3.571428060531616,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 25.0
+            }
+          ]
+        },
+        {
+          "time": 3.714285135269165,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 26.0
+            }
+          ]
+        },
+        {
+          "time": 3.857142210006714,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 27.0
+            }
+          ]
+        },
+        {
+          "time": 3.9999992847442627,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 28.0
+            }
+          ]
+        },
+        {
+          "time": 4.142856597900391,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 29.0
+            }
+          ]
+        },
+        {
+          "time": 4.2857136726379395,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 30.0
+            }
+          ]
+        },
+        {
+          "time": 4.428570747375488,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 31.0
+            }
+          ]
+        },
+        {
+          "time": 4.571427822113037,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 32.0
+            }
+          ]
+        },
+        {
+          "time": 4.714284896850586,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 33.0
+            }
+          ]
+        },
+        {
+          "time": 4.857141971588135,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 34.0
+            }
+          ]
+        },
+        {
+          "time": 4.999999046325684,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 35.0
+            }
+          ]
+        },
+        {
+          "time": 5.142856121063232,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 36.0
+            }
+          ]
+        },
+        {
+          "time": 5.285713195800781,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 37.0
+            }
+          ]
+        },
+        {
+          "time": 5.42857027053833,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 38.0
+            }
+          ]
+        },
+        {
+          "time": 5.571427345275879,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 39.0
+            }
+          ]
+        },
+        {
+          "time": 5.714284420013428,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 40.0
+            }
+          ]
+        },
+        {
+          "time": 5.857141494750977,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 41.0
+            }
+          ]
+        },
+        {
+          "time": 5.999998569488525,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 42.0
+            }
+          ]
+        },
+        {
+          "time": 6.142855644226074,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 43.0
+            }
+          ]
+        },
+        {
+          "time": 6.285712718963623,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 44.0
+            }
+          ]
+        },
+        {
+          "time": 6.428569793701172,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 45.0
+            }
+          ]
+        },
+        {
+          "time": 6.571426868438721,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 46.0
+            }
+          ]
+        },
+        {
+          "time": 6.7142839431762695,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 47.0
+            }
+          ]
+        },
+        {
+          "time": 6.857141017913818,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 48.0
+            }
+          ]
+        },
+        {
+          "time": 6.999998092651367,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 49.0
+            }
+          ]
+        },
+        {
+          "time": 7.142855167388916,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 50.0
+            }
+          ]
+        },
+        {
+          "time": 7.285712242126465,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 51.0
+            }
+          ]
+        },
+        {
+          "time": 7.428569316864014,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 52.0
+            }
+          ]
+        },
+        {
+          "time": "positive-infinity-sentinel",
+          "keys": []
+        }
+      ],
+      "mapping": [
+        {
+          "file": "sharedassets0.assets",
+          "id": 8329,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_0"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 9060,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_1"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 9765,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_2"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 10453,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_3"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 11090,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_4"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 11704,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_5"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 12235,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_6"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 12713,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_7"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 13124,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_8"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 13473,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_9"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 13814,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_10"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 14147,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_11"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 14415,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_12"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 14647,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_13"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 14851,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_14"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 15040,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_15"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 15190,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_16"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 15326,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_17"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 15459,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_18"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 15582,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_19"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 15693,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_20"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 15799,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_21"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 15901,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_22"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16003,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_23"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16087,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_24"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16168,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_25"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16234,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_26"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16294,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_27"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16341,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_28"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16385,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_29"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16427,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_30"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16466,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_31"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16492,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_32"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16517,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_33"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16541,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_34"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16565,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_35"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16585,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_36"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16604,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_37"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16623,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_38"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16639,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_39"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16654,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_40"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16667,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_41"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16676,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_42"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16686,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_43"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16696,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_44"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16706,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_45"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16715,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_46"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16724,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_47"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16730,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_48"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16736,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_49"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16742,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_50"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16747,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_51"
+        },
+        {
+          "file": "sharedassets0.assets",
+          "id": 16752,
+          "type": "Sprite",
+          "name": "cave_outside_explosion_52"
+        }
+      ],
+      "events": [
+        {
+          "time": 1.7142857313156128,
+          "functionName": "SpitOutHermits",
+          "data": "",
+          "objectReferenceParameter": {
+            "m_FileID": 0,
+            "m_PathID": 0
+          },
+          "floatParameter": 0.0,
+          "intParameter": 0,
+          "messageOptions": 0
+        },
+        {
+          "time": 3.4285714626312256,
+          "functionName": "SpitOutGems",
+          "data": "",
+          "objectReferenceParameter": {
+            "m_FileID": 0,
+            "m_PathID": 0
+          },
+          "floatParameter": 0.0,
+          "intParameter": 0,
+          "messageOptions": 0
+        }
+      ],
+      "genericBindings": [
+        {
+          "path": 1945937906,
+          "attribute": 0,
+          "script": {
+            "m_FileID": 0,
+            "m_PathID": 0
+          },
+          "typeID": 212,
+          "customType": 23,
+          "isPPtrCurve": 1,
+          "isIntCurve": 0,
+          "isSerializeReferenceCurve": 0
+        },
+        {
+          "path": 1945937906,
+          "attribute": 1,
+          "script": {
+            "m_FileID": 0,
+            "m_PathID": 0
+          },
+          "typeID": 4,
+          "customType": 0,
+          "isPPtrCurve": 0,
+          "isIntCurve": 0,
+          "isSerializeReferenceCurve": 0
+        },
+        {
+          "path": 1945937906,
+          "attribute": 3,
+          "script": {
+            "m_FileID": 0,
+            "m_PathID": 0
+          },
+          "typeID": 4,
+          "customType": 0,
+          "isPPtrCurve": 0,
+          "isIntCurve": 0,
+          "isSerializeReferenceCurve": 0
+        }
+      ],
+      "dense": {
+        "m_FrameCount": 54,
+        "m_CurveCount": 0,
+        "m_SampleRate": 7.0,
+        "m_BeginTime": 0.0,
+        "m_SampleArray": []
+      },
+      "constant": {
+        "data": [
+          -7.940000057220459,
+          -0.029999999329447746,
+          -0.10000000149011612,
+          -1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "id": 2298,
+      "name": "deer_walk",
+      "sampleRate": 14.0,
+      "start": 0.0,
+      "stop": 1.0714285373687744,
+      "loop": true,
+      "frames": [
+        {
+          "time": -3.4028234663852886e+38,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 0.0
+            }
+          ]
+        },
+        {
+          "time": 0.1428571492433548,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 1.0
+            }
+          ]
+        },
+        {
+          "time": 0.2857142984867096,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 2.0
+            }
+          ]
+        },
+        {
+          "time": 0.4285714328289032,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 3.0
+            }
+          ]
+        },
+        {
+          "time": 0.5714285969734192,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 4.0
+            }
+          ]
+        },
+        {
+          "time": 0.7142857313156128,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 5.0
+            }
+          ]
+        },
+        {
+          "time": 0.8571428656578064,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 6.0
+            }
+          ]
+        },
+        {
+          "time": 1.0,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 7.0
+            }
+          ]
+        },
+        {
+          "time": "positive-infinity-sentinel",
+          "keys": []
+        }
+      ],
+      "mapping": [
+        {
+          "file": "resources.assets",
+          "id": 8557,
+          "type": "Sprite",
+          "name": "deer_walk_0"
+        },
+        {
+          "file": "resources.assets",
+          "id": 8799,
+          "type": "Sprite",
+          "name": "deer_walk_1"
+        },
+        {
+          "file": "resources.assets",
+          "id": 9040,
+          "type": "Sprite",
+          "name": "deer_walk_2"
+        },
+        {
+          "file": "resources.assets",
+          "id": 8395,
+          "type": "Sprite",
+          "name": "deer_walk_3"
+        },
+        {
+          "file": "resources.assets",
+          "id": 11065,
+          "type": "Sprite",
+          "name": "deer_walk_4"
+        },
+        {
+          "file": "resources.assets",
+          "id": 9884,
+          "type": "Sprite",
+          "name": "deer_walk_5"
+        },
+        {
+          "file": "resources.assets",
+          "id": 11203,
+          "type": "Sprite",
+          "name": "deer_walk_6"
+        },
+        {
+          "file": "resources.assets",
+          "id": 7943,
+          "type": "Sprite",
+          "name": "deer_walk_7"
+        }
+      ],
+      "events": [],
+      "genericBindings": [
+        {
+          "path": 0,
+          "attribute": 0,
+          "script": {
+            "m_FileID": 0,
+            "m_PathID": 0
+          },
+          "typeID": 212,
+          "customType": 23,
+          "isPPtrCurve": 1,
+          "isIntCurve": 0,
+          "isSerializeReferenceCurve": 0
+        }
+      ],
+      "dense": {
+        "m_FrameCount": 17,
+        "m_CurveCount": 0,
+        "m_SampleRate": 14.0,
+        "m_BeginTime": 0.0,
+        "m_SampleArray": []
+      },
+      "constant": {
+        "data": []
+      }
+    },
+    {
+      "id": 2193,
+      "name": "bunny_dead",
+      "sampleRate": 1.0,
+      "start": 0.0,
+      "stop": 1.0,
+      "loop": true,
+      "frames": [
+        {
+          "time": -3.4028234663852886e+38,
+          "keys": [
+            {
+              "curve": 0,
+              "value": 0.0
+            }
+          ]
+        },
+        {
+          "time": "positive-infinity-sentinel",
+          "keys": []
+        }
+      ],
+      "mapping": [
+        {
+          "file": "resources.assets",
+          "id": 9577,
+          "type": "Sprite",
+          "name": "bunny_dead"
+        }
+      ],
+      "events": [],
+      "genericBindings": [
+        {
+          "path": 0,
+          "attribute": 0,
+          "script": {
+            "m_FileID": 0,
+            "m_PathID": 0
+          },
+          "typeID": 212,
+          "customType": 23,
+          "isPPtrCurve": 1,
+          "isIntCurve": 0,
+          "isSerializeReferenceCurve": 0
+        }
+      ],
+      "dense": {
+        "m_FrameCount": 3,
+        "m_CurveCount": 0,
+        "m_SampleRate": 1.0,
+        "m_BeginTime": 0.0,
+        "m_SampleArray": []
+      },
+      "constant": {
+        "data": []
+      }
+    }
+  ]
+}

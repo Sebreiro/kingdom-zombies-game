@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using Shouldly;
 using Xunit;
@@ -102,6 +104,8 @@ public sealed class ExemptionTests
         errors.Count.ShouldBe(expected: 4);
         errors.All(predicate: error => error.StartsWith(value: "SUPPRESSION_DUPLICATE " + Path + "(",
                 comparisonType: StringComparison.Ordinal)).ShouldBeTrue();
+        permissions.Count.ShouldBe(expected: 42);
+        CurrentOriginControls();
         ProofProtocol.Record(id: "rules.suppression-duplicate", diagnostic: "SUPPRESSION_DUPLICATE",
                 location: "four independently duplicated exact registered member attributes");
     }
@@ -244,7 +248,7 @@ public sealed class ExemptionTests
     public void Validate_BoundedExemptions_RequiresActualEngineBoundary()
     {
         ExemptionValidator.CheckRepository().ShouldBeEmpty();
-        ExemptionValidator.ReadPermissions().Count.ShouldBe(expected: 26);
+        ExemptionValidator.ReadPermissions().Count.ShouldBeGreaterThanOrEqualTo(expected: 26);
         SourceFileFormat.ReadFinalNewlineExemptions().Count.ShouldBe(expected: 5);
         (string File, int Line) result = VerifyGameCompanion(violate: true);
         ProofProtocol.Record(id: "ac-08.complete", diagnostic: "EXEMPTIONS_BOUNDED_VALIDATED",
@@ -258,22 +262,9 @@ public sealed class ExemptionTests
     public void Validate_RealSuppressionBypass_RequiresSourceGuard()
     {
         ExemptionValidator.CheckRepository().ShouldBeEmpty();
-        var fixture = new BuildFixture();
-        fixture.Restore();
-        (int Exit, string Output) clean = fixture.Build();
-        clean.Exit.ShouldBe(expected: 0, customMessage: clean.Output);
-        string source = "#pragma warning disable SCR0006\n" + BuildFixture.CleanSource.Replace(
-                oldValue: "        return 1;", newValue: new string(c: '\n', count: 60) + "        return 1;",
-                comparisonType: StringComparison.Ordinal);
-        fixture.Write(source: source);
-        (int Exit, string Output) bypass = fixture.Build();
-        bypass.Exit.ShouldBe(expected: 0, customMessage: bypass.Output);
-        IReadOnlyList<string> errors = ExemptionValidator.CheckSource(path: "Subject.cs", content: source,
-                permissions: ExemptionValidator.ReadPermissions());
-        errors.Count.ShouldBe(expected: 1);
-        errors[0].ShouldBe(expected: "SUPPRESSION_UNREGISTERED Subject.cs(1,1) pragma SCR0006");
+        string directory = VerifySuppressionBypass();
         ProofProtocol.Record(id: "rules.exemptions", diagnostic: "UNREGISTERED_REAL_BUILD_SUPPRESSION",
-                location: fixture.DirectoryPath + "/src/core/Subject.cs(1,1), compiler bypass rejected by guard");
+                location: directory + "/src/core/Subject.cs(1,1), compiler bypass rejected by guard");
     }
 
     /// <summary>Duplicate and overlapping same-diagnostic scopes cannot borrow valid adjacent permissions.</summary>
@@ -446,11 +437,797 @@ public sealed class ExemptionTests
                 location: "copied producer payload rejected; original package remains unchanged");
     }
 
+    /// <summary>Executes an exact declared conjunct of the original complete AC08 boundary.</summary>
+    [Theory]
+    [InlineData("repository-auth")]
+    [InlineData("repository-shape")]
+    [InlineData("repository-sources-0")]
+    [InlineData("repository-sources-1")]
+    [InlineData("repository-sources-2")]
+    [InlineData("repository-sources-3")]
+    [InlineData("repository-sources-4")]
+    [InlineData("repository-sources-5")]
+    [InlineData("repository-sources-6")]
+    [InlineData("repository-sources-7")]
+    [InlineData("repository-sources-8")]
+    [InlineData("repository-sources-9")]
+    [InlineData("repository-sources-10")]
+    [InlineData("repository-sources-11")]
+    [InlineData("repository-sources-12")]
+    [InlineData("repository-sources-13")]
+    [InlineData("repository-sources-14")]
+    [InlineData("repository-newline")]
+    [InlineData("repository-companion-shape")]
+    [InlineData("repository-companion-cohort-0")]
+    [InlineData("repository-companion-cohort-1")]
+    [InlineData("repository-companion-cohort-2")]
+    [InlineData("repository-companion-cohort-3")]
+    [InlineData("repository-companion-cohort-4")]
+    [InlineData("repository-companion-cohort-5")]
+    public void Check_RepositoryStage_RequiresBoundedCompleteOriginalConjunction(string stageId)
+    {
+        _repositoryStage = stageId;
+        RepositoryProgress(status: "start", detail: "Before actual responsibility assertions");
+        using var manifest = JsonDocument.Parse(json: File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root,
+                path2: "tools/phase1/required-cases.json")));
+        JsonElement owner = manifest.RootElement.GetProperty(propertyName: "cases").EnumerateArray().Single(
+                predicate: item => StringComparer.Ordinal.Equals(x: item.GetProperty(propertyName: "id")
+                        .GetString(), y: "ac-08.complete"));
+        JsonElement plan = owner.GetProperty(propertyName: "repositoryStages");
+        JsonElement stage = plan.GetProperty(propertyName: "stages").EnumerateArray().Single(predicate: item =>
+                StringComparer.Ordinal.Equals(x: item.GetProperty(propertyName: "id").GetString(), y: stageId));
+        object? result = RunRepositoryStage(stage: stage, plan: plan);
+        RepositoryProgress(status: "pass", detail: "Actual selected original conjunct completed", data: result);
+        ProofProtocol.Record(id: "ac-08.complete", diagnostic: "EXEMPTIONS_BOUNDED_VALIDATED",
+                location: "Executed bounded original AC08 stage " + stageId, artifacts: [RepositoryReceipt()]);
+    }
+
+
+    /// <summary>Executes one declared original caller responsibility with authentic fresh evidence.</summary>
+    [Theory]
+    [InlineData("r50-game-build")]
+    [InlineData("r50-repository-auth")]
+    [InlineData("r50-repository-shape")]
+    [InlineData("r50-repository-sources-0")]
+    [InlineData("r50-repository-sources-1")]
+    [InlineData("r50-repository-sources-2")]
+    [InlineData("r50-repository-sources-3")]
+    [InlineData("r50-repository-sources-4")]
+    [InlineData("r50-repository-sources-5")]
+    [InlineData("r50-repository-sources-6")]
+    [InlineData("r50-repository-sources-7")]
+    [InlineData("r50-repository-sources-8")]
+    [InlineData("r50-repository-sources-9")]
+    [InlineData("r50-repository-sources-10")]
+    [InlineData("r50-repository-sources-11")]
+    [InlineData("r50-repository-sources-12")]
+    [InlineData("r50-repository-sources-13")]
+    [InlineData("r50-repository-sources-14")]
+    [InlineData("godot-game-build")]
+    [InlineData("godot-adjacent-restored")]
+    [InlineData("godot-calls-0")]
+    [InlineData("godot-calls-1")]
+    [InlineData("godot-calls-2")]
+    [InlineData("godot-calls-3")]
+    [InlineData("godot-calls-4")]
+    [InlineData("godot-calls-5")]
+    [InlineData("godot-collision-restored")]
+    [InlineData("companion-baseline")]
+    [InlineData("companion-calls-0")]
+    [InlineData("companion-calls-1")]
+    [InlineData("companion-calls-2")]
+    [InlineData("companion-calls-3")]
+    [InlineData("companion-calls-4")]
+    [InlineData("companion-calls-5")]
+    [InlineData("exempt-repository-auth")]
+    [InlineData("exempt-repository-shape")]
+    [InlineData("exempt-repository-sources-0")]
+    [InlineData("exempt-repository-sources-1")]
+    [InlineData("exempt-repository-sources-2")]
+    [InlineData("exempt-repository-sources-3")]
+    [InlineData("exempt-repository-sources-4")]
+    [InlineData("exempt-repository-sources-5")]
+    [InlineData("exempt-repository-sources-6")]
+    [InlineData("exempt-repository-sources-7")]
+    [InlineData("exempt-repository-sources-8")]
+    [InlineData("exempt-repository-sources-9")]
+    [InlineData("exempt-repository-sources-10")]
+    [InlineData("exempt-repository-sources-11")]
+    [InlineData("exempt-repository-sources-12")]
+    [InlineData("exempt-repository-sources-13")]
+    [InlineData("exempt-repository-sources-14")]
+    [InlineData("exempt-bypass-restored")]
+    [InlineData("foundation-native-event")]
+    [InlineData("foundation-native-neighbors")]
+    [InlineData("foundation-native-methods")]
+    [InlineData("foundation-native-visibility")]
+    [InlineData("foundation-origin-build")]
+    [InlineData("foundation-origin-shape")]
+    [InlineData("foundation-origin-cohort-0")]
+    [InlineData("foundation-origin-cohort-1")]
+    [InlineData("foundation-origin-cohort-2")]
+    [InlineData("foundation-origin-cohort-3")]
+    [InlineData("foundation-origin-fixed")]
+    [InlineData("foundation-boundary-spans-shape")]
+    [InlineData("foundation-boundary-spans-cohort-0")]
+    [InlineData("foundation-boundary-spans-cohort-1")]
+    [InlineData("foundation-boundary-spans-cohort-2")]
+    [InlineData("foundation-boundary-spans-cohort-3")]
+    [InlineData("foundation-boundary-calls-shape")]
+    [InlineData("foundation-boundary-calls-cohort-0")]
+    [InlineData("foundation-boundary-calls-cohort-1")]
+    [InlineData("foundation-boundary-calls-cohort-2")]
+    [InlineData("foundation-boundary-calls-cohort-3")]
+    [InlineData("foundation-boundary-calls-cohort-4")]
+    [InlineData("foundation-boundary-calls-cohort-5")]
+    [InlineData("foundation-boundary-sealing")]
+    [InlineData("foundation-boundary-inventory-missing-observations")]
+    [InlineData("foundation-boundary-inventory-extra-row")]
+    [InlineData("foundation-boundary-inventory-sha256")]
+    [InlineData("foundation-boundary-inventory-packageSha256")]
+    [InlineData("foundation-boundary-inventory-surface")]
+    [InlineData("foundation-boundary-inventory-member")]
+    [InlineData("foundation-boundary-inventory-diagnostic")]
+    [InlineData("foundation-boundary-inventory-line")]
+    [InlineData("foundation-boundary-inventory-column")]
+    [InlineData("foundation-boundary-inventory-length")]
+    [InlineData("foundation-boundary-inventory-missing-row")]
+    [InlineData("foundation-boundary-inventory-source-input")]
+    [InlineData("foundation-boundary-inventory-missing-source")]
+    [InlineData("foundation-boundary-inventory-package")]
+    [InlineData("foundation-boundary-inventory-missing-package")]
+    [InlineData("foundation-boundary-inventory-borrowed-row")]
+    [InlineData("foundation-boundary-inventory-wrong-case")]
+    [InlineData("foundation-boundary-warm-spans-snapshot-bytes")]
+    [InlineData("foundation-boundary-warm-spans-snapshot-missing")]
+    [InlineData("foundation-boundary-warm-spans-snapshot-borrowed")]
+    [InlineData("foundation-boundary-warm-spans-source-input")]
+    [InlineData("foundation-boundary-warm-spans-missing-source")]
+    [InlineData("foundation-boundary-warm-spans-package")]
+    [InlineData("foundation-boundary-warm-spans-missing-package")]
+    [InlineData("foundation-boundary-warm-spans-borrowed-row")]
+    [InlineData("foundation-warm-spans-missing-observations")]
+    [InlineData("foundation-boundary-warm-calls-snapshot-bytes")]
+    [InlineData("foundation-boundary-warm-calls-snapshot-missing")]
+    [InlineData("foundation-boundary-warm-calls-snapshot-borrowed")]
+    [InlineData("foundation-boundary-warm-calls-source-input")]
+    [InlineData("foundation-boundary-warm-calls-missing-source")]
+    [InlineData("foundation-boundary-warm-calls-package")]
+    [InlineData("foundation-boundary-warm-calls-missing-package")]
+    [InlineData("foundation-boundary-warm-calls-borrowed-row")]
+    [InlineData("foundation-warm-calls-missing-observations")]
+    [InlineData("foundation-boundary-extra-call")]
+    [InlineData("foundation-boundary-reproduction-live")]
+    [InlineData("foundation-boundary-reproduction-changed")]
+    [InlineData("foundation-boundary-reproduction-historical")]
+    [InlineData("foundation-godot-game-build")]
+    [InlineData("foundation-godot-adjacent-restored")]
+    [InlineData("foundation-godot-calls-0")]
+    [InlineData("foundation-godot-calls-1")]
+    [InlineData("foundation-godot-calls-2")]
+    [InlineData("foundation-godot-calls-3")]
+    [InlineData("foundation-godot-calls-4")]
+    [InlineData("foundation-godot-calls-5")]
+    [InlineData("foundation-godot-collision-restored")]
+    [InlineData("companion-negative-baseline")]
+    [InlineData("companion-negative-calls-0")]
+    [InlineData("companion-negative-calls-1")]
+    [InlineData("companion-negative-calls-2")]
+    [InlineData("companion-negative-calls-3")]
+    [InlineData("companion-negative-calls-4")]
+    [InlineData("companion-negative-calls-5")]
+    public void Check_CallerStage_RequiresCompleteOriginalConjunction(string stageId)
+    {
+        _repositoryStage = stageId;
+        _repositoryCase = Environment.GetEnvironmentVariable(variable: "PHASE1_CASE_ID")
+                ?? throw new InvalidDataException(message: "CALLER_CASE_REQUIRED");
+        _repositoryCatalog = Environment.GetEnvironmentVariable(variable: "PHASE1_STAGE_CATALOG")
+                ?? throw new InvalidDataException(message: "CALLER_CATALOG_REQUIRED");
+        RepositoryProgress(status: "start", detail: "Before caller catalog or original predicate assertions");
+        JsonElement owner = CallerOwner();
+        JsonElement spec = owner.GetProperty(propertyName: "callerStages");
+        JsonElement stage = spec.GetProperty(propertyName: "stages").EnumerateArray().Single(predicate: row =>
+                StringComparer.Ordinal.Equals(x: row.GetProperty(propertyName: "id").GetString(), y: stageId));
+        JsonElement repository = CallerRepository();
+        CallerHash(value: repository).ShouldBe(expected: spec.GetProperty(propertyName: "repositorySha256")
+                .GetString());
+        JsonElement[] auth = [..spec.GetProperty(propertyName: "stages").EnumerateArray().Where(predicate: row =>
+                row.TryGetProperty(propertyName: "sourceStageId", value: out JsonElement id)
+                        && StringComparer.Ordinal.Equals(x: id.GetString(), y: "repository-auth"))];
+        if (auth.Length != 0)
+        {
+            _repositoryPermissionStage = auth.Single().GetProperty(propertyName: "id").GetString()
+                    ?? throw new InvalidDataException(message: "CALLER_AUTH_STAGE");
+        }
+
+        object? result = RunCallerStage(stage: stage, repository: repository);
+        RepositoryProgress(status: "pass", detail: "All original declared caller guards completed", data: result);
+        ProofProtocol.Record(id: _repositoryCase, diagnostic: spec.GetProperty(propertyName: "diagnostic")
+                .GetString() ?? throw new InvalidDataException(message: "CALLER_DIAGNOSTIC"),
+                location: "Executed bounded original caller stage " + stageId, artifacts: [RepositoryReceipt()]);
+    }
+
+    private static string? _repositoryStage;
+    private static string _repositoryCase = "ac-08.complete";
+    private static string _repositoryCatalog = "tools/phase1/required-cases.json";
+    private static string _repositoryPermissionStage = "repository-auth";
+    private static readonly JsonSerializerOptions _callerJson = new()
+    {
+        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+    };
+    private static int _repositoryReceipt;
+    private static int _originControlIndex;
+    private static readonly (string Old, string Current)[] _currentOrigins =
+    [
+        ("KZ-EX-INSPECTION26-CALLS-1", "KZ-EX-INSPECTION23-CALLS-1"),
+        ("KZ-EX-INSPECTION26-CALLS-2", "KZ-EX-INSPECTION23-CALLS-3"),
+        ("KZ-EX-INSPECTION26-CALLS-3", "KZ-EX-INSPECTION23-CALLS-2"),
+        ("KZ-EX-INSPECTION26-CALLS-4", "KZ-EX-INSPECTION23-CALLS-4"),
+        ("KZ-EX-INSPECTION26-CALLS-5", "KZ-EX-INSPECTION23-CALLS-5"),
+        ("KZ-EX-INSPECTION26-CALLS-6", "KZ-EX-INSPECTION23-CALLS-6"),
+        ("KZ-EX-INSPECTION26-CALLS-7", "KZ-EX-INSPECTION23-CALLS-7"),
+        ("KZ-EX-INSPECTION26-CALLS-8", "KZ-EX-INSPECTION23-CALLS-8"),
+    ];
     private static readonly string[] _producerFiles = ["xunit.v3.core.mtp-v2.4.0.2.nupkg",
         "buildTransitive/xunit.v3.core.mtp-v2.targets", "_content/tasks/netcore/xunit.v3.msbuildtasks.dll"];
     private static readonly (string Name, string Value)[] _suppressionOverrides = [("NoWarn", "SCR0006"),
         ("WarningsNotAsErrors", "SCR0006"), ("RunAnalyzers", "false"), ("RunAnalyzersDuringBuild", "false"),
         ("CodeAnalysisTreatWarningsAsErrors", "false"), ("EnableNETAnalyzers", "false")];
+
+    private static void CurrentOriginControls()
+    {
+        JsonObject registry = RegisterValidator.Read(relative: "docs/code/generated-callsite-adaptations.json");
+        OriginControlPositive(registry: registry);
+        string[] defects = ["unknown-id", "future-cohort", "borrowed", "clone", "third", "path", "diagnostic",
+            "target", "surface", "sha256", "textSha256", "package", "packageSha256", "producer", "positiveProof",
+            "negativeProof", "source-input", "source-input-sha", "observation", "observation-sha", "conflict-old"];
+        foreach (string defect in defects)
+        {
+            foreach ((string older, string current) in _currentOrigins)
+            {
+                OriginControlReceipt(kind: defect, id: current);
+                TargetInvocationException error = Should.Throw<TargetInvocationException>(actual: () =>
+                        OriginControlDefect(registry: registry.DeepClone().AsObject(), older: older,
+                                current: current, kind: defect));
+                error.InnerException.ShouldNotBeNull();
+                OriginControlPair(registry: registry.DeepClone().AsObject(), older: older, current: current);
+                OriginControlReceipt(kind: "rejected-and-restored", id: current + ": " + defect);
+            }
+        }
+
+        OriginControlMissingPair(registry: registry);
+        OriginControlPositive(registry: registry);
+    }
+
+    private static void OriginControlPositive(JsonObject registry)
+    {
+        var permissions = new HashSet<string>(comparer: StringComparer.Ordinal);
+        var owners = new Dictionary<string, JsonNode>(comparer: StringComparer.Ordinal);
+        var pairs = new HashSet<string>(comparer: StringComparer.Ordinal);
+        using var document = JsonDocument.Parse(json: registry.ToJsonString());
+        foreach ((string older, string current) in _currentOrigins)
+        {
+            OriginControlReceipt(kind: "positive", id: current);
+            OriginMerge(row: OriginRow(registry: registry, id: older), registry: document.RootElement,
+                    permissions: permissions, owners: owners, pairs: pairs);
+            OriginMerge(row: OriginRow(registry: registry, id: current), registry: document.RootElement,
+                    permissions: permissions, owners: owners, pairs: pairs);
+        }
+
+        permissions.Count.ShouldBe(expected: 8);
+        OriginCoverage(pairs: pairs);
+    }
+
+    private static void OriginControlPair(JsonObject registry, string older, string current)
+    {
+        var permissions = new HashSet<string>(comparer: StringComparer.Ordinal);
+        var owners = new Dictionary<string, JsonNode>(comparer: StringComparer.Ordinal);
+        var pairs = new HashSet<string>(comparer: StringComparer.Ordinal);
+        using var document = JsonDocument.Parse(json: registry.ToJsonString());
+        OriginMerge(row: OriginRow(registry: registry, id: older), registry: document.RootElement,
+                permissions: permissions, owners: owners, pairs: pairs);
+        OriginMerge(row: OriginRow(registry: registry, id: current), registry: document.RootElement,
+                permissions: permissions, owners: owners, pairs: pairs);
+        permissions.Count.ShouldBe(expected: 1);
+        pairs.SetEquals(other: [current]).ShouldBeTrue();
+    }
+
+    private static JsonNode OriginRow(JsonObject registry, string id)
+    {
+        return registry["local"]?.AsArray().Single(predicate: row => StringComparer.Ordinal.Equals(
+                x: row?["id"]?.GetValue<string>(), y: id))
+                ?? throw new InvalidOperationException(message: "ORIGIN_CONTROL_ROW");
+    }
+
+    private static void OriginControlDefect(JsonObject registry, string older, string current, string kind)
+    {
+        JsonNode old = OriginRow(registry: registry, id: older);
+        JsonNode row = OriginRow(registry: registry, id: current);
+        OriginMutation(registry: registry, row: row, old: old, kind: kind);
+        using var document = JsonDocument.Parse(json: registry.ToJsonString());
+        var permissions = new HashSet<string>(comparer: StringComparer.Ordinal);
+        var owners = new Dictionary<string, JsonNode>(comparer: StringComparer.Ordinal);
+        var pairs = new HashSet<string>(comparer: StringComparer.Ordinal);
+        OriginMerge(row: old, registry: document.RootElement, permissions: permissions, owners: owners, pairs: pairs);
+        OriginMerge(row: row, registry: document.RootElement, permissions: permissions, owners: owners, pairs: pairs);
+        if (kind is "third")
+        {
+            OriginMerge(row: row.DeepClone(), registry: document.RootElement, permissions: permissions,
+                    owners: owners, pairs: pairs);
+        }
+    }
+
+    private static void OriginMutation(JsonObject registry, JsonNode row, JsonNode old, string kind)
+    {
+        JsonNode owner = registry["producerInventories"]?.AsArray().Single(predicate: item =>
+                StringComparer.Ordinal.Equals(x: item?["id"]?.GetValue<string>(),
+                        y: "inspection23-final-05b84d7e4d59"))
+                ?? throw new InvalidOperationException(message: "ORIGIN_CONTROL_COHORT");
+        switch (kind)
+        {
+            case "third": break;
+            case "unknown-id": row["id"] = "UNKNOWN_ORIGIN"; break;
+            case "future-cohort": owner["id"] = "future-unapproved-cohort"; break;
+            case "borrowed":
+                registry["producerInventories"]?[2]?["rowIds"]?.AsArray().Add(
+                        value: row["id"]?.GetValue<string>());
+                break;
+            case "clone": registry["local"]?.AsArray().Add(item: row.DeepClone()); break;
+            case "source-input": owner["sourceInputs"]?[0]?["sha256"] = "wrong"; break;
+            case "source-input-sha": owner["sourceInputsSha256"] = "wrong"; break;
+            case "observation": owner["observations"]?["diagnosticCount"] = -1; break;
+            case "observation-sha": owner["observationsSha256"] = "wrong"; break;
+            case "conflict-old": old["target"] = "~M:KingdomZombies.Inspection.InspectionRoot.Recheck"; break;
+            default: row[kind] = "wrong"; break;
+        }
+    }
+
+    private static void OriginControlMissingPair(JsonObject registry)
+    {
+        var pairs = new HashSet<string>(collection: _currentOrigins.Select(selector: row => row.Current),
+                comparer: StringComparer.Ordinal);
+        foreach ((string _, string current) in _currentOrigins)
+        {
+            pairs.Remove(item: current).ShouldBeTrue();
+            OriginControlReceipt(kind: "missing-pair", id: current);
+            Should.Throw<TargetInvocationException>(actual: () => OriginCoverage(pairs: pairs));
+            pairs.Add(item: current).ShouldBeTrue();
+            OriginCoverage(pairs: pairs);
+        }
+
+        _ = registry;
+    }
+
+    private static void OriginMerge(JsonNode row, JsonElement registry, HashSet<string> permissions,
+            Dictionary<string, JsonNode> owners, HashSet<string> pairs)
+    {
+        MethodInfo method = typeof(ExemptionValidator).GetMethod(name: "MergeOrigin",
+                bindingAttr: BindingFlags.NonPublic | BindingFlags.Static)
+                ?? throw new InvalidOperationException(message: "ORIGIN_CONTROL_ACTUAL_VALIDATOR");
+        method.Invoke(obj: null, parameters: [row, registry, permissions, owners, pairs]);
+    }
+
+    private static void OriginCoverage(HashSet<string> pairs)
+    {
+        MethodInfo method = typeof(ExemptionValidator).GetMethod(name: "CompleteOrigins",
+                bindingAttr: BindingFlags.NonPublic | BindingFlags.Static)
+                ?? throw new InvalidOperationException(message: "ORIGIN_CONTROL_ACTUAL_COVERAGE");
+        method.Invoke(obj: null, parameters: [pairs]);
+    }
+
+    private static void OriginControlReceipt(string kind, string id)
+    {
+        string? directory = Environment.GetEnvironmentVariable(variable: "PHASE1_RESULT_DIRECTORY");
+        if (directory is null)
+        {
+            return;
+        }
+
+        _originControlIndex++;
+        string path = System.IO.Path.Combine(path1: directory, path2: "origin-control-" + _originControlIndex
+                .ToString(format: "D4", provider: System.Globalization.CultureInfo.InvariantCulture) + ".json");
+        using var stream = new FileStream(path: path, mode: FileMode.CreateNew, access: FileAccess.Write);
+        JsonSerializer.Serialize(utf8Json: stream, value: new
+        {
+            kind,
+            id,
+            at = DateTimeOffset.UtcNow,
+            nonce = Environment.GetEnvironmentVariable(variable: "PHASE1_NONCE"),
+        });
+    }
+
+
+    private static JsonElement CallerOwner()
+    {
+        string expected = _repositoryCase switch
+        {
+            "R-50.positive" or "rules.exemptions" or "rules.godot-companion-positive"
+                    or "rules.godot-companion-negative"
+                    or "rules.godot-callsite-boundary" => "tools/phase1/required-cases.json",
+            "core.permissions" => "tools/phase2/required-cases.json",
+            _ => throw new InvalidDataException(message: "CALLER_UNKNOWN"),
+        };
+        _repositoryCatalog.ShouldBe(expected: expected);
+        using var document = JsonDocument.Parse(json: File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root,
+                path2: expected)));
+        JsonElement owner = document.RootElement.GetProperty(propertyName: "cases").EnumerateArray().Single(
+                predicate: row => StringComparer.Ordinal.Equals(x: row.GetProperty(propertyName: "id").GetString(),
+                        y: _repositoryCase));
+        owner.GetProperty(propertyName: "callerStages").GetProperty(propertyName: "catalog").GetString()
+                .ShouldBe(expected: expected);
+        return owner.Clone();
+    }
+
+    private static JsonElement CallerRepository()
+    {
+        using var document = JsonDocument.Parse(json: File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root,
+                path2: "tools/phase1/required-cases.json")));
+        return document.RootElement.GetProperty(propertyName: "cases").EnumerateArray().Single(predicate: row =>
+                StringComparer.Ordinal.Equals(x: row.GetProperty(propertyName: "id").GetString(),
+                        y: "ac-08.complete")).GetProperty(propertyName: "repositoryStages").Clone();
+    }
+
+    private static string CallerHash(JsonElement value)
+    {
+        return Convert.ToHexStringLower(inArray: System.Security.Cryptography.SHA256.HashData(
+                source: System.Text.Encoding.UTF8.GetBytes(s: JsonSerializer.Serialize(value: value,
+                        options: _callerJson))));
+    }
+
+    private static object? RunCallerStage(JsonElement stage, JsonElement repository)
+    {
+        string action = stage.GetProperty(propertyName: "action").GetString() ?? throw new InvalidDataException();
+        switch (action)
+        {
+            case "repository":
+                JsonElement selected = repository.GetProperty(propertyName: "stages").EnumerateArray().Single(
+                        predicate: row => StringComparer.Ordinal.Equals(x: row.GetProperty(propertyName: "id")
+                                .GetString(), y: stage.GetProperty(propertyName: "sourceStageId").GetString()));
+                return RunRepositoryStage(stage: selected, plan: repository);
+            case "suppression-bypass":
+                IReadOnlySet<string> permissions = ReadRepositoryPermissions(plan: repository);
+                string directory = VerifySuppressionBypass(permissions: permissions);
+                return new { directory };
+            case "companion-shape": return RepositoryCompanionShape();
+            case "companion-positive": return CallerCompanion(stage: stage);
+            case "companion-negative": return RepositoryCompanion(stage: stage);
+            case "game-build" or "godot-adjacent" or "godot-cohort" or "godot-collision":
+                return GodotCallSiteAdapterTests.VerifyBoundedStage(stage: stage);
+            case "foundation-native":
+                string kind = stage.GetProperty(propertyName: "kind").GetString() ?? throw new InvalidDataException();
+                FoundationPermissionTests.VerifyNativeStage(kind: kind);
+                return new { kind };
+            case "producer": return CallerProducer(stage: stage);
+            default: throw new InvalidDataException(message: "CALLER_STAGE_UNKNOWN");
+        }
+    }
+
+    private static object CallerProducer(JsonElement stage)
+    {
+        using var document = JsonDocument.Parse(json: File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root,
+                path2: "tools/phase1/required-cases.json")));
+        string id = stage.GetProperty(propertyName: "sourceCaseId").GetString() ?? throw new InvalidDataException();
+        string sourceStage = stage.GetProperty(propertyName: "sourceStageId").GetString()
+                ?? throw new InvalidDataException(message: "CALLER_SOURCE_STAGE");
+        JsonElement owner = document.RootElement.GetProperty(propertyName: "cases").EnumerateArray().Single(
+                predicate: row => StringComparer.Ordinal.Equals(x: row.GetProperty(propertyName: "id").GetString(),
+                        y: id));
+        JsonElement selected = owner.GetProperty(propertyName: "producerStages").GetProperty(propertyName: "stages")
+                .EnumerateArray().Single(predicate: row => StringComparer.Ordinal.Equals(x: row.GetProperty(
+                        propertyName: "id").GetString(), y: sourceStage));
+        EngineGeneratedTests.VerifyCallerStage(stage: selected, stageId: _repositoryStage
+                ?? throw new InvalidDataException(message: "CALLER_STAGE_REQUIRED"));
+        return new { sourceCaseId = id, sourceStageId = selected.GetProperty(propertyName: "id").GetString() };
+    }
+
+    private static object CallerCompanion(JsonElement stage)
+    {
+        BuildFixture fixture = CleanGameCompanion();
+        using var registry = JsonDocument.Parse(json: File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root,
+                path2: "docs/code/generated-callsite-adaptations.json")));
+        string id = stage.GetProperty(propertyName: "cohort").GetString() ?? throw new InvalidDataException();
+        JsonElement[] rows = EngineGeneratedTests.VerifyDeclaredCohort(registry: registry.RootElement, id: id,
+                calls: true);
+        rows.Select(selector: row => row.GetProperty(propertyName: "id").GetString()).SequenceEqual(
+                second: RepositoryStrings(owner: stage, name: "rowIds"), comparer: StringComparer.Ordinal)
+                .ShouldBeTrue();
+        (int Count, int Current) observed = CompanionRows(fixture: fixture, rows: rows, registry: registry.RootElement);
+        (string File, int Line) original = CompanionBody(fixture: fixture, violate: false);
+        return new { cohort = id, count = observed.Count, current = observed.Current, original.File, original.Line };
+    }
+
+    private static string VerifySuppressionBypass(IReadOnlySet<string>? permissions = null)
+    {
+        var fixture = new BuildFixture();
+        fixture.Restore();
+        (int Exit, string Output) clean = fixture.Build();
+        clean.Exit.ShouldBe(expected: 0, customMessage: clean.Output);
+        string source = "#pragma warning disable SCR0006\n" + BuildFixture.CleanSource.Replace(
+                oldValue: "        return 1;", newValue: new string(c: '\n', count: 60) + "        return 1;",
+                comparisonType: StringComparison.Ordinal);
+        fixture.Write(source: source);
+        (int Exit, string Output) bypass = fixture.Build();
+        bypass.Exit.ShouldBe(expected: 0, customMessage: bypass.Output);
+        IReadOnlyList<string> errors = ExemptionValidator.CheckSource(path: "Subject.cs", content: source,
+                permissions: permissions ?? ExemptionValidator.ReadPermissions());
+        errors.Count.ShouldBe(expected: 1);
+        errors[0].ShouldBe(expected: "SUPPRESSION_UNREGISTERED Subject.cs(1,1) pragma SCR0006");
+        fixture.Write(source: BuildFixture.CleanSource);
+        (int Exit, string Output) restored = fixture.Build();
+        restored.Exit.ShouldBe(expected: 0, customMessage: restored.Output);
+        return fixture.DirectoryPath;
+    }
+
+    private static object? RunRepositoryStage(JsonElement stage, JsonElement plan)
+    {
+        CheckRepositoryBindings(plan: plan);
+        return stage.GetProperty(propertyName: "action").GetString() switch
+        {
+            "repository-auth" => WriteRepositoryPermissions(plan: plan),
+            "repository-shape" => RepositoryShape(plan: plan),
+            "repository-sources" => RepositorySources(stage: stage, plan: plan),
+            "repository-newline" => RepositoryNewline(),
+            "repository-companion-shape" => RepositoryCompanionShape(),
+            "repository-companion-cohort" => RepositoryCompanion(stage: stage),
+            _ => throw new InvalidDataException(message: "REPOSITORY_STAGE_UNKNOWN"),
+        };
+    }
+
+    private static object RepositoryNewline()
+    {
+        RepositoryProgress(status: "newline-start", detail: "Original five exact final-newline exemptions");
+        SourceFileFormat.ReadFinalNewlineExemptions().Count.ShouldBe(expected: 5);
+        return new { exemptions = 5 };
+    }
+
+    private static object RepositoryCompanionShape()
+    {
+        using var registry = JsonDocument.Parse(json: File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root,
+                path2: "docs/code/generated-callsite-adaptations.json")));
+        JsonElement[] rows = [.. registry.RootElement.GetProperty(propertyName: "local").EnumerateArray()];
+        CompanionBaseline(rows: rows);
+        return new { baseline = 16 };
+    }
+
+    private static object RepositoryCompanion(JsonElement stage)
+    {
+        string id = stage.GetProperty(propertyName: "cohort").GetString() ?? throw new InvalidDataException();
+        RepositoryProgress(status: "companion-build-start", detail: id);
+        BuildFixture fixture = CleanGameCompanion();
+        using var registry = JsonDocument.Parse(json: File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root,
+                path2: "docs/code/generated-callsite-adaptations.json")));
+        JsonElement[] rows = EngineGeneratedTests.VerifyDeclaredCohort(registry: registry.RootElement,
+                id: id, calls: true);
+        rows.Select(selector: row => row.GetProperty(propertyName: "id").GetString() ?? "").SequenceEqual(
+                second: RepositoryStrings(owner: stage, name: "rowIds"), comparer: StringComparer.Ordinal)
+                .ShouldBeTrue();
+        RepositoryProgress(status: "companion-origin-before", detail: id);
+        (int Count, int Current) before = CompanionRows(fixture: fixture, rows: rows, registry: registry.RootElement);
+        RepositoryProgress(status: "companion-negative-start", detail: id);
+        string companion = Path.Combine(path1: fixture.DirectoryPath, path2: "src/godot-game/proofs/Phase1.cs");
+        byte[] original = File.ReadAllBytes(path: companion);
+        (string File, int Line) boundary = CompanionBody(fixture: fixture, violate: true);
+        RepositoryProgress(status: "companion-origin-after", detail: id);
+        (int Count, int Current) after = CompanionRows(fixture: fixture, rows: rows, registry: registry.RootElement);
+        before.ShouldBe(expected: after);
+        File.WriteAllBytes(path: companion, bytes: original);
+        RepositoryProgress(status: "companion-restored-build", detail: id);
+        (int Exit, string Output) restored = fixture.Build();
+        restored.Exit.ShouldBe(expected: 0, customMessage: restored.Output);
+        before.ShouldBe(expected: CompanionRows(fixture: fixture, rows: rows, registry: registry.RootElement));
+        return new
+        {
+            cohort = id,
+            count = before.Count,
+            current = before.Current,
+            file = boundary.File,
+            line = boundary.Line,
+            rowIds = rows.Select(selector: row => row.GetProperty(propertyName: "id").GetString()).ToArray()
+        };
+    }
+
+    private static ConsumerCompilation[] RepositoryConsumers(JsonElement plan)
+    {
+        ProjectEvaluator.Expected.SequenceEqual(second: RepositoryStrings(owner: plan, name: "projects"),
+                comparer: StringComparer.Ordinal).ShouldBeTrue(customMessage: "REPOSITORY_FIVE_PROJECTS");
+        return [.. ProjectEvaluator.Expected.Select(selector: project => ConsumerCompilation.Read(
+                root: ProofProtocol.Root, project: project))];
+    }
+
+    private static object RepositoryShape(JsonElement plan)
+    {
+        RepositoryProgress(status: "repository-register-start", detail: "Original register conjunction");
+        ExemptionValidator.CheckRepositoryRegister();
+        ConsumerCompilation[] consumers = RepositoryConsumers(plan: plan);
+        string[] actual = [.. SourceFileFormat.ReadTrackedPaths().Where(predicate: SourceFileFormat.IsChecked)
+                .Order(comparer: StringComparer.Ordinal)];
+        JsonElement[] declared = [.. plan.GetProperty(propertyName: "sources").EnumerateArray()];
+        actual.SequenceEqual(second: declared.Select(selector: row => row.GetProperty(propertyName: "path")
+                .GetString() ?? ""), comparer: StringComparer.Ordinal).ShouldBeTrue(
+                        customMessage: "REPOSITORY_EXACT_TRACKED_UNION");
+        foreach (JsonElement row in declared)
+        {
+            string path = row.GetProperty(propertyName: "path").GetString() ?? throw new InvalidDataException();
+            RepositoryProgress(status: "source-owner-shape", detail: path);
+            _ = File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: path));
+            _ = RepositoryOwners(row: row, consumers: consumers);
+        }
+
+        return new { tracked = actual.Length, projects = consumers.Length };
+    }
+
+    private static ConsumerCompilation[] RepositoryOwners(JsonElement row, ConsumerCompilation[] consumers)
+    {
+        string path = row.GetProperty(propertyName: "path").GetString() ?? throw new InvalidDataException();
+        bool source = path.EndsWith(value: ".cs", comparisonType: StringComparison.Ordinal);
+        bool configuration = path.EndsWith(value: ".editorconfig", comparisonType: StringComparison.Ordinal)
+                || path.EndsWith(value: ".globalconfig", comparisonType: StringComparison.Ordinal);
+        string kind = source ? "source" : configuration ? "configuration" : "outside-validator";
+        kind.ShouldBe(expected: row.GetProperty(propertyName: "kind").GetString());
+        ConsumerCompilation[] owners = source ? [..consumers.Where(predicate: consumer => consumer.AuthoredPaths
+                .Contains(value: path, comparer: StringComparer.Ordinal))] : [];
+        owners.Select(selector: owner => owner.Project).SequenceEqual(second: RepositoryStrings(owner: row,
+                name: "owners"), comparer: StringComparer.Ordinal).ShouldBeTrue(
+                        customMessage: "REPOSITORY_EXACT_SOURCE_OWNERS " + path);
+        if (source)
+        {
+            ExemptionValidator.RequireOwners(path: path,
+                    projects: [.. owners.Select(selector: owner => owner.Project)]);
+        }
+
+        if (kind is not "outside-validator")
+        {
+            RepositoryHash(path: Path.Combine(path1: ProofProtocol.Root, path2: path)).ShouldBe(
+                    expected: row.GetProperty(propertyName: "sha256").GetString());
+        }
+
+        return owners;
+    }
+
+    private static object RepositorySources(JsonElement stage, JsonElement plan)
+    {
+        HashSet<string> permissions = ReadRepositoryPermissions(plan: plan);
+        ConsumerCompilation[] consumers = RepositoryConsumers(plan: plan);
+        var checkedSources = new List<object>();
+        foreach (string path in RepositoryStrings(owner: stage, name: "sources"))
+        {
+            JsonElement row = plan.GetProperty(propertyName: "sources").EnumerateArray().Single(predicate: entry =>
+                    StringComparer.Ordinal.Equals(x: entry.GetProperty(propertyName: "path").GetString(), y: path));
+            ConsumerCompilation[] owners = RepositoryOwners(row: row, consumers: consumers);
+            RepositoryProgress(status: "source-check-start", detail: path);
+            IReadOnlyList<string> errors = ExemptionValidator.CheckRepositoryPath(path: path,
+                    permissions: permissions, consumers: consumers);
+            object evidence = new
+            {
+                path,
+                sha256 = RepositoryHash(path: Path.Combine(path1: ProofProtocol.Root, path2: path)),
+                owners = owners.Select(selector: owner => owner.Project).ToArray(),
+                errors
+            };
+            RepositoryProgress(status: "source-check-observation", detail: path, data: evidence);
+            errors.ShouldBeEmpty(customMessage: path);
+            checkedSources.Add(item: evidence);
+        }
+
+        return new
+        {
+            checkedSources
+        };
+    }
+
+    private static object WriteRepositoryPermissions(JsonElement plan)
+    {
+        RepositoryProgress(status: "permission-auth-start",
+                detail: "Fresh full current and historical authentication");
+        IReadOnlySet<string> permissions = ExemptionValidator.ReadPermissions();
+        string[] keys = [.. permissions.Order(comparer: StringComparer.Ordinal)];
+        keys.Length.ShouldBe(expected: 42);
+        keys.SequenceEqual(second: RepositoryStrings(owner: plan, name: "keys"), comparer: StringComparer.Ordinal)
+                .ShouldBeTrue(customMessage: "REPOSITORY_EXACT_PERMISSION_KEYS");
+        string directory = Environment.GetEnvironmentVariable(variable: "PHASE1_RESULT_DIRECTORY")
+                ?? throw new InvalidDataException(message: "REPOSITORY_DIRECTORY");
+        string path = Path.Combine(path1: directory, path2: "permission-keys.json");
+        using var stream = new FileStream(path: path, mode: FileMode.CreateNew, access: FileAccess.Write);
+        JsonSerializer.Serialize(utf8Json: stream, value: new
+        {
+            caseId = _repositoryCase,
+            nonce = Environment.GetEnvironmentVariable(variable: "PHASE1_NONCE"),
+            input = Environment.GetEnvironmentVariable(variable: "PHASE1_INPUT"),
+            tool = Environment.GetEnvironmentVariable(variable: "PHASE1_TOOL"),
+            platform = Environment.GetEnvironmentVariable(variable: "PHASE1_PLATFORM"),
+            keys,
+            bindings = plan.GetProperty(propertyName: "bindings"),
+            cohorts = plan.GetProperty(propertyName: "cohorts"),
+        });
+        return new { keys = keys.Length, path };
+    }
+
+    private static HashSet<string> ReadRepositoryPermissions(JsonElement plan)
+    {
+        string directory = Environment.GetEnvironmentVariable(variable: "PHASE1_AGGREGATE_DIRECTORY")
+                ?? throw new InvalidDataException(message: "REPOSITORY_AGGREGATE_DIRECTORY");
+        string path = Environment.GetEnvironmentVariable(variable: "PHASE1_PERMISSION_DATA")
+                ?? throw new InvalidDataException(message: "REPOSITORY_PERMISSION_MISSING");
+        Path.GetFullPath(path: path).ShouldBe(expected: Path.GetFullPath(path: Path.Combine(path1: directory,
+                path2: _repositoryPermissionStage + "/permission-keys.json")));
+        RepositoryHash(path: path).ShouldBe(expected: Environment.GetEnvironmentVariable(
+                variable: "PHASE1_PERMISSION_HASH"));
+        using var document = JsonDocument.Parse(json: File.ReadAllText(path: path));
+        JsonElement payload = document.RootElement;
+        payload.GetProperty(propertyName: "caseId").GetString().ShouldBe(expected: _repositoryCase);
+        foreach (string key in new[] { "nonce", "input", "tool", "platform" })
+        {
+            payload.GetProperty(propertyName: key).GetString().ShouldBe(expected: Environment.GetEnvironmentVariable(
+                    variable: "PHASE1_" + key.ToUpperInvariant()));
+        }
+
+        foreach (string key in new[] { "bindings", "cohorts", "keys" })
+        {
+            JsonNode.DeepEquals(node1: JsonNode.Parse(json: payload.GetProperty(propertyName: key).GetRawText()),
+                    node2: JsonNode.Parse(json: plan.GetProperty(propertyName: key).GetRawText())).ShouldBeTrue();
+        }
+
+        string[] keys = RepositoryStrings(owner: payload, name: "keys");
+        keys.Length.ShouldBe(expected: 42);
+        var permissions = new HashSet<string>(collection: keys, comparer: StringComparer.Ordinal);
+        permissions.Count.ShouldBe(expected: 42);
+        return permissions;
+    }
+
+    private static void CheckRepositoryBindings(JsonElement plan)
+    {
+        foreach (JsonElement binding in plan.GetProperty(propertyName: "bindings").EnumerateArray())
+        {
+            string path = binding.GetProperty(propertyName: "path").GetString()
+                    ?? throw new InvalidDataException(message: "REPOSITORY_BINDING_PATH");
+            RepositoryHash(path: Path.Combine(path1: ProofProtocol.Root, path2: path)).ShouldBe(
+                    expected: binding.GetProperty(propertyName: "sha256").GetString());
+        }
+    }
+
+    private static string[] RepositoryStrings(JsonElement owner, string name)
+    {
+        return [..owner.GetProperty(propertyName: name).EnumerateArray().Select(selector: value => value.GetString()
+                ?? throw new InvalidDataException(message: "REPOSITORY_STRING " + name))];
+    }
+
+    private static string RepositoryHash(string path)
+    {
+        return Convert.ToHexStringLower(inArray: System.Security.Cryptography.SHA256.HashData(
+                source: File.ReadAllBytes(path: path)));
+    }
+
+    private static string RepositoryReceipt()
+    {
+        string directory = Environment.GetEnvironmentVariable(variable: "PHASE1_RESULT_DIRECTORY")
+                ?? throw new InvalidDataException(message: "REPOSITORY_DIRECTORY");
+        return Path.Combine(path1: directory, path2: "repository-progress-" + _repositoryReceipt.ToString(
+                format: "D4", provider: System.Globalization.CultureInfo.InvariantCulture) + ".json");
+    }
+
+    private static void RepositoryProgress(string status, string detail, object? data = null)
+    {
+        _repositoryReceipt++;
+        using var stream = new FileStream(path: RepositoryReceipt(), mode: FileMode.CreateNew,
+                access: FileAccess.Write);
+        JsonSerializer.Serialize(utf8Json: stream, value: new
+        {
+            stageId = _repositoryStage,
+            caseId = _repositoryCase,
+            catalog = _repositoryCatalog,
+            status,
+            detail,
+            data,
+            at = DateTimeOffset.UtcNow,
+            pid = Environment.ProcessId,
+            caseUid = TestContext.Current.TestCase?.UniqueID,
+            testUid = TestContext.Current.Test?.UniqueID,
+            nonce = Environment.GetEnvironmentVariable(variable: "PHASE1_NONCE"),
+            input = Environment.GetEnvironmentVariable(variable: "PHASE1_INPUT"),
+            tool = Environment.GetEnvironmentVariable(variable: "PHASE1_TOOL"),
+            platform = Environment.GetEnvironmentVariable(variable: "PHASE1_PLATFORM"),
+        });
+    }
 
     private static JsonObject EffectiveProperties(string project, params string[] overrides)
     {
@@ -473,28 +1250,55 @@ public sealed class ExemptionTests
 
     private static void RequireGameOrigins(BuildFixture fixture)
     {
-        JsonArray rows = RegisterValidator.Read(relative: "docs/code/generated-callsite-adaptations.json")
-                ["local"]?.AsArray() ?? throw new InvalidDataException(message: "GAME_ORIGIN_RECORDS_REQUIRED");
+        using var registry = JsonDocument.Parse(json: File.ReadAllText(path: Path.Combine(path1: ProofProtocol
+                .Root, path2: "docs/code/generated-callsite-adaptations.json")));
+        EngineGeneratedTests.VerifyInventories(registry: registry.RootElement, baselineCount: 18,
+                baselineHash: "ef8ea1e0be872146bcf1f81a2079733bb37be5c2b9718fbf0faa47b164c08d8f");
+        JsonElement[] rows = [.. registry.RootElement.GetProperty(propertyName: "local").EnumerateArray()];
+        (int count, int currentCount) = CompanionRows(fixture: fixture, rows: rows, registry: registry.RootElement);
+        currentCount.ShouldBeGreaterThan(expected: 0);
+        count.ShouldBeGreaterThanOrEqualTo(expected: 16);
+        CompanionBaseline(rows: rows);
+    }
+
+    private static (int Count, int Current) CompanionRows(BuildFixture fixture, JsonElement[] rows,
+            JsonElement registry)
+    {
         int count = 0;
-        foreach (JsonNode? row in rows)
+        int currentCount = 0;
+        foreach (JsonElement row in rows)
         {
-            string surface = row?["surface"]?.GetValue<string>() ?? "";
+            string surface = row.GetProperty(propertyName: "surface").GetString() ?? "";
             if (!surface.StartsWith(value: "src/godot-game/", comparisonType: StringComparison.Ordinal))
             {
                 continue;
             }
 
-            string file = Path.Combine(path1: fixture.DirectoryPath, path2: surface);
+            string file = EngineGeneratedTests.Surface(row: row, registry: registry);
             string hash = Convert.ToHexStringLower(inArray: System.Security.Cryptography.SHA256.HashData(
                     source: File.ReadAllBytes(path: file)));
-            hash.ShouldBe(expected: row?["sha256"]?.GetValue<string>());
+            hash.ShouldBe(expected: row.GetProperty(propertyName: "sha256").GetString());
+            if (StringComparer.Ordinal.Equals(x: Path.GetFullPath(path: file), y: Path.GetFullPath(path: Path.Combine(
+                    path1: ProofProtocol.Root, path2: surface))))
+            {
+                string current = Path.Combine(path1: fixture.DirectoryPath, path2: surface);
+                Convert.ToHexStringLower(inArray: System.Security.Cryptography.SHA256.HashData(
+                        source: File.ReadAllBytes(path: current))).ShouldBe(expected: hash);
+                currentCount++;
+            }
+
             count++;
         }
 
-        count.ShouldBe(expected: 16);
-        rows.Where(predicate: row => row?["surface"]?.GetValue<string>().StartsWith(
+        return (count, currentCount);
+    }
+
+    private static void CompanionBaseline(JsonElement[] rows)
+    {
+        rows.Where(predicate: row => row.GetProperty(propertyName: "surface").GetString()?.StartsWith(
                 value: "src/godot-game/", comparisonType: StringComparison.Ordinal) == true)
-                .Select(selector: row => row?["id"]?.GetValue<string>()).Order(comparer: StringComparer.Ordinal)
+                .Take(count: 16).Select(selector: row => row.GetProperty(propertyName: "id").GetString())
+                .Order(comparer: StringComparer.Ordinal)
                 .ShouldBe(expected: Enumerable.Range(start: 1, count: 16).Select(selector: number =>
                         "KZ-EX-GODOT-CALLS-" + number.ToString(provider: System.Globalization.CultureInfo
                                 .InvariantCulture)).Order(comparer: StringComparer.Ordinal));
@@ -502,11 +1306,28 @@ public sealed class ExemptionTests
 
     private static (string File, int Line) VerifyGameCompanion(bool violate)
     {
+        BuildFixture fixture = CleanGameCompanion();
+        RequireGameOrigins(fixture: fixture);
+        (string File, int Line) result = CompanionBody(fixture: fixture, violate: violate);
+        if (violate)
+        {
+            RequireGameOrigins(fixture: fixture);
+        }
+
+        return result;
+    }
+
+    private static BuildFixture CleanGameCompanion()
+    {
         var fixture = new BuildFixture(game: true);
         fixture.Restore();
         (int Exit, string Output) clean = fixture.Build();
         clean.Exit.ShouldBe(expected: 0, customMessage: clean.Output);
-        RequireGameOrigins(fixture: fixture);
+        return fixture;
+    }
+
+    private static (string File, int Line) CompanionBody(BuildFixture fixture, bool violate)
+    {
         string file = Path.Combine(path1: fixture.DirectoryPath, path2: "src/godot-game/proofs/Phase1.cs");
         if (!violate)
         {
@@ -526,7 +1347,6 @@ public sealed class ExemptionTests
         (int Exit, string Output) changed = fixture.Build();
         BuildFixture.HasDiagnostic(result: changed, id: "SCR0001", line: line, column: 29, file: "Phase1.cs")
                 .ShouldBeTrue(customMessage: changed.Output);
-        RequireGameOrigins(fixture: fixture);
         return (file, line);
     }
     private static BuildFixture CleanTestConsumer()

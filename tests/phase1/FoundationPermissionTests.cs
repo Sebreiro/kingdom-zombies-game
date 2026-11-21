@@ -14,9 +14,36 @@ public sealed class FoundationPermissionTests
 {
     /// <summary>Rejects an unguarded native event subscription after accepting the exact guarded source.</summary>
     [Fact]
-    public void ProductionEventAccessRequiresAuthenticPrecedingGuard()
+    public void EventAccess_ProductionCalls_RequireAuthenticPrecedingGuard()
     {
         var consumer = ConsumerCompilation.Read(root: ProofProtocol.Root, project: ProjectEvaluator.Expected[2]);
+        CheckEvent(consumer: consumer);
+        CheckNativeNeighbors(consumer: consumer);
+        CheckEveryProductionMethod(consumer: consumer);
+        CheckVisibility(consumer: consumer);
+        EngineGeneratedTests.VerifyAuthenticatedOrigin();
+        EngineGeneratedTests.VerifyGeneratedBoundaries();
+        GodotCallSiteAdapterTests.VerifyGeneratedMemberBoundaries();
+        ProofProtocol.Record(id: "core.permissions", diagnostic: "EXACT_PRODUCTION_EVENT_GUARD");
+    }
+
+    /// <summary>Executes an exact original native and visibility responsibility without skipping
+    /// direct callers.</summary>
+    internal static void VerifyNativeStage(string kind)
+    {
+        var consumer = ConsumerCompilation.Read(root: ProofProtocol.Root, project: ProjectEvaluator.Expected[2]);
+        switch (kind)
+        {
+            case "event": CheckEvent(consumer: consumer); break;
+            case "neighbors": CheckNativeNeighbors(consumer: consumer); break;
+            case "methods": CheckEveryProductionMethod(consumer: consumer); break;
+            case "visibility": CheckVisibility(consumer: consumer); break;
+            default: throw new InvalidDataException(message: "FOUNDATION_STAGE_UNKNOWN");
+        }
+    }
+
+    private static void CheckEvent(ConsumerCompilation consumer)
+    {
         const string Path = "src/godot-game/foundation/FoundationView.cs";
         const string Prefix = "using Godot; using KingdomZombies.Core; using KingdomZombies.Proofs; "
                 + "namespace KingdomZombies.Foundation; internal static class FoundationView { "
@@ -32,13 +59,6 @@ public sealed class FoundationPermissionTests
         EngineAccessPolicy.Check(source: Prefix + Body + Suffix, path: Path, consumer: consumer)
                 .Any(predicate: error => error.Contains(value: "Godot.CanvasItem.VisibilityChanged",
                         comparisonType: StringComparison.Ordinal)).ShouldBeTrue();
-        CheckNativeNeighbors(consumer: consumer);
-        CheckEveryProductionMethod(consumer: consumer);
-        CheckVisibility(consumer: consumer);
-        EngineGeneratedTests.VerifyAuthenticatedOrigin();
-        EngineGeneratedTests.VerifyGeneratedBoundaries();
-        GodotCallSiteAdapterTests.VerifyGeneratedMemberBoundaries();
-        ProofProtocol.Record(id: "core.permissions", diagnostic: "EXACT_PRODUCTION_EVENT_GUARD");
     }
 
     private static void CheckNativeNeighbors(ConsumerCompilation consumer)
