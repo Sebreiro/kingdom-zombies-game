@@ -346,6 +346,40 @@ function cloneOutput(context,name,directory,rows){
   for(const row of rows)write(target,row.path,fs.readFileSync(inside(directory,row.path)));
   return target;
 }
+async function missingCoreClr(context,directory,closure,missing,contract){
+  const member=inside(directory,missing.path),runtime=path.dirname(member);
+  const config=path.join(runtime,'KingdomZombies.runtimeconfig.json');
+  const executable=inside(directory,'KingdomZombies.exe'),name='bad-runtime-native';
+  const actual=inventory(directory);
+  need(equal(actual,closure.rows.filter(row=>row.path!==missing.path))&&!fs.existsSync(member)&&
+    fs.existsSync(path.join(runtime,'hostpolicy.dll'))&&fs.existsSync(config),'CORECLR_ONLY_MISSING_MEMBER',missing.path);
+  let failure;
+  try{await portable(context,name,directory,contract);}catch(error){failure=error;}
+  const command=document(context.directory,name+'.command.json');
+  const exit=document(context.directory,name+'.exit.json');
+  const debuggerRecord=document(context.directory,name+'-debugger.json');
+  const trace=bytes(context.directory,name+'-host.log').toString('utf8');
+  need(failure&&command.pid>0&&exit.pid===command.pid&&exit.code===command.code&&debuggerRecord.reportedPid===command.pid&&
+    debuggerRecord.nonce===context.nonce&&command.executable===executable&&debuggerRecord.executable===executable&&
+    command.cwd===directory&&command.streamsClosed&&!command.reason&&!command.cleanupError&&!command.spawnError&&
+    !command.signal&&!exit.signal&&!fs.existsSync(inside(context.directory,name+'-observation.json')),
+    'CORECLR_STARTUP_IDENTITY',missing.path);
+  need(trace.includes('Checking if CoreCLR path exists=['+member+']')&&
+    trace.includes('Executing as a self-contained app as per config file ['+config+']')&&
+    trace.includes('Failed to run as a self-contained app.'),'CORECLR_HOST_EVIDENCE',missing.path);
+  const structured=failure.message.startsWith('DEBUG_ENGINE_ERROR')&&
+    debuggerRecord.packets.some(([event])=>event==='error'||event==='debug_enter');
+  const pinnedWindowsExit=failure.message.startsWith('CHILD_FAILED ')&&command.code===3221225477&&
+    command.stderr.includes("The library 'hostpolicy.dll' required to execute the application was not found")&&
+    command.stderr.includes('hostfxr_initialize_for_dotnet_command_line failed with code: -2147450749')&&
+    command.stderr.includes('CrashHandlerException: Program crashed with signal 11')&&
+    command.stderr.includes('Godot Engine v4.7.2.stable.mono.official');
+  need(structured||pinnedWindowsExit,'CORECLR_UNEXPECTED_FAILURE',failure.message);
+  write(context.directory,name+'-missing-member.json',{missing,pid:command.pid,exitCode:exit.code,
+    closureDifference:[missing.path],command:name+'.command.json',hostTrace:name+'-host.log',
+    debugger:name+'-debugger.json',observed:failure.message,structuredDebuggerError:structured});
+  throw new Error('CORECLR_STARTUP_REJECTED '+missing.path+' '+failure.message);
+}
 async function negatives(context,output,closure,pin,engine,selected,contract){
   const outcomes=[];
   async function rejected(name,code,action){
@@ -374,7 +408,7 @@ async function negatives(context,output,closure,pin,engine,selected,contract){
   const coreclr=closure.rows.find(row=>row.path.endsWith('/coreclr.dll'));need(coreclr,'NEGATIVE_RUNTIME_TARGET');
   fs.unlinkSync(inside(missingRuntime,coreclr.path));
   await rejected('missing-coreclr','DEPENDENCY_MISSING',()=>dependencies(missingRuntime,pin));
-  await rejected('actual-missing-coreclr','DEBUG_ENGINE_ERROR',()=>portable(context,'bad-runtime-native',missingRuntime,contract));
+  await rejected('actual-missing-coreclr','CORECLR_STARTUP_REJECTED',()=>missingCoreClr(context,missingRuntime,closure,coreclr,contract));
   const config=closure.rows.find(row=>row.path.endsWith('/KingdomZombies.runtimeconfig.json'));
   const dependent=structuredClone(closure.config);dependent.runtimeOptions.frameworks=dependent.runtimeOptions.includedFrameworks;delete dependent.runtimeOptions.includedFrameworks;
   fs.writeFileSync(inside(badImports,config.path),JSON.stringify(dependent));
@@ -456,4 +490,4 @@ async function exportTracer(context){
   return {scope:'source/headless Windows tracer only',runtime:pin.runtime,framework:pin.framework,files:closure.rows.length,
     genuineTemplate:true,nativeInspection:executed,packagedResources:resources,portableCompletion:true,acceptance:'pending-04-32/04-33'};
 }
-module.exports={digest,snapshot,templates,cleanEnvironment,runtimeEnvironment,cleanCommand,inventory,dependencies,pack,packBytes,packaged,probe,packagedProbe,mountPackage,portable,cloneOutput,negatives,exportTracer,buildPackage,verifyInputs,sourceContract};
+module.exports={digest,snapshot,templates,cleanEnvironment,runtimeEnvironment,cleanCommand,inventory,dependencies,pack,packBytes,packaged,probe,packagedProbe,mountPackage,portable,cloneOutput,missingCoreClr,negatives,exportTracer,buildPackage,verifyInputs,sourceContract};
