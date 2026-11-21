@@ -639,10 +639,10 @@ internal static class ExemptionValidator
         JsonElement owner = registry.GetProperty(propertyName: "producerInventories").EnumerateArray().Single(
                 predicate: cohort => cohort.GetProperty(propertyName: "rowIds").EnumerateArray().Any(
                         predicate: row => StringComparer.Ordinal.Equals(x: row.GetString(), y: id)));
-        string cohortId = current ? "inspection23-final-d02510be98e7" : "inspection26-lifecycle";
-        string inputs = current ? "d02510be98e77aac485a31eff61636b20d9e1228292c42e25256448b77d43bbc"
+        string cohortId = current ? "inspection23-final-05b84d7e4d59" : "inspection26-lifecycle";
+        string inputs = current ? "05b84d7e4d595ec7053a0c71a192a6335d5fc497af58009f91f7fafa81df6e00"
                 : "1dac6bc39f6d0fb7b4f84564fa75f2ac35460dd4160bad8fcab01d25c8c16621";
-        string observations = current ? "0fab7149a4b3724002f2d50615c3376e1ab0f0289f7d6e7c6e24bed807c72a0a"
+        string observations = current ? "1ab0010fbffc209d551b86a0ae33e4b1a6fe3b435108df2b4cac129b5de2b0f6"
                 : "ae4e2c92aa344cc9536b143e5fc5a942db411a420d34112f2cee94d2ad2a99cb";
         Require(value: StringComparer.Ordinal.Equals(x: owner.GetProperty(propertyName: "id").GetString(),
                 y: cohortId), message: "SUPPRESSION_PROVENANCE_COHORT " + id);
