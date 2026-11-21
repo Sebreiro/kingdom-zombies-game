@@ -411,7 +411,12 @@ func inspect():
     print("TRACER_COMPLETE ${nonce} common.bow")
     quit(0)
 `;}
-async function runTracer(root,context,{interrupt=false}={}){
+async function tracerAssemblies(context){
+  const directory=inside(context.directory,'tracer-build');fs.mkdirSync(directory);
+  return require('./cases/data-camp.cjs').compiledRepair({...context,directory});
+}
+async function runTracer(root,context,{interrupt=false,compiled}={}){
+  compiled??=await tracerAssemblies(context);
   const initial=fingerprint(root);save(context.directory,'inputs.json',initial);
   const {source}=validate(root),tool=engine(),pin=document(ROOT,'tools/phase1/toolchain.json').archives['win32-x64'];
   const executable=path.join(path.dirname(tool.executable),pin.executable.replace('_console.exe','.exe')),archive=inside(ROOT,'.phase1/cache/'+pin.file),entry=pin.directory+'/'+path.basename(executable);
@@ -419,7 +424,6 @@ async function runTracer(root,context,{interrupt=false}={}){
   const auth=await command(context,'engine-auth',PYTHON,['-B','-c','import sys,zipfile,hashlib; z=zipfile.ZipFile(sys.argv[1]); r=[x for x in z.infolist() if x.filename==sys.argv[2]]; assert len(r)==1 and 0<r[0].file_size<=268435456; print(hashlib.sha256(z.read(r[0])).hexdigest())',archive,entry]);
   need(hash(fs.readFileSync(executable))===auth.stdout.trim(),'ENGINE_NATIVE_ENTRY_HASH');tool.executable=executable;tool.sha256=auth.stdout.trim();save(context.directory,'engine.json',{...tool,archiveSha256:pin.sha256,entry});
   const version=await command(context,'engine-version',tool.executable,['--headless','--version']);need(version.stdout.trim()===tool.version,'ENGINE_VERSION');
-  const compiledDirectory=inside(context.directory,'tracer-compiled');fs.mkdirSync(compiledDirectory);const compiled=await require('./cases/data-camp.cjs').compiledRepair({...context,directory:compiledDirectory},false);
   const project=inside(context.directory,'project');fs.mkdirSync(project);
   for(const file of ['project.godot','inspection','foundation','content','assets','.godot/mono/temp/bin/Debug'])fs.cpSync(inside(root,'src/godot-game/'+file),inside(project,file),{recursive:true});
   save(project,'probe.gd',probeScript(context.nonce,source.image,interrupt));
@@ -477,6 +481,7 @@ function copySubject(directory){
   return root;
 }
 async function tracerFailures(context){
+  const compiled=await tracerAssemblies(context);
   const initial=fingerprint(ROOT),originalsBefore=await originalIdentities(),outcomes=[];
   save(context.directory,'inputs.json',initial);save(context.directory,'originals-before.json',originalsBefore);
   const trials=[
@@ -504,7 +509,7 @@ async function tracerFailures(context){
     if(fs.existsSync(file))save(invocation.directory,'mutation.bin',fs.readFileSync(file));
     save(invocation.directory,'mutation.json',mutation);
     let failure;
-    try{await runTracer(subject,invocation,{interrupt:trial.interrupt});}
+    try{await runTracer(subject,invocation,{interrupt:trial.interrupt,compiled});}
     catch(error){failure=error;}
     save(invocation.directory,'result.json',{...invocation,status:failure?'fail':'pass',
       message:failure?.message,stack:failure?.stack,mutation,finishedAt:new Date().toISOString()});
@@ -522,9 +527,9 @@ async function tracerFailures(context){
   need(missingSubject,'RESTORE_SUBJECT_MISSING');
   save(missingSubject,FILES.media,bytes(ROOT,FILES.media));
   need(equal(fingerprint(missingSubject),initial),'RESTORE_INPUT_MISMATCH');
-  const restored=createRun('source.tracer-failures/restored-control'),restoredResult=await runTracer(missingSubject,restored);
+  const restored=createRun('source.tracer-failures/restored-control'),restoredResult=await runTracer(missingSubject,restored,{compiled});
   save(restored.directory,'result.json',{...restored,status:'pass',observations:restoredResult,restoredFrom:outcomes[0].nonce});
-  const production=createRun('source.tracer-failures/production-control'),productionResult=await runTracer(ROOT,production);
+  const production=createRun('source.tracer-failures/production-control'),productionResult=await runTracer(ROOT,production,{compiled});
   save(production.directory,'result.json',{...production,status:'pass',observations:productionResult});
   const originalsAfter=await originalIdentities();save(context.directory,'originals-after.json',originalsAfter);
   need(equal(originalsBefore,originalsAfter)&&equal(fingerprint(ROOT),initial),'ORIGINAL_CHANGED','production-or-donor');
