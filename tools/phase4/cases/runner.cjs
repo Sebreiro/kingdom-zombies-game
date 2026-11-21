@@ -150,10 +150,46 @@ function qualification(context) {
     'judgment',{id:'P1'},current));
   renderedDeclarationControls(context.directory,reject);
   sourceHistoryControls(context.directory,reject);
+  campaignHistoryControls(context.directory,reject);
   const result = {scope:'Source-only negative controls. Fixture identities supply no review or acceptance.', controls:control,
     sourceCases:catalog.cases.length, heldout:catalog.heldout.length, ui:catalog.backstops.length, judgments:catalog.judgments.length, accepted:0};
   e.writeExclusive(context.directory, 'runner-controls.json', result);
   return result;
+}
+
+function campaignHistoryControls(directory,reject) {
+  const e = require('../evidence.cjs');
+  const {timeBudget} = require('../rendered-process.cjs');
+  const {current,report} = baseFixture();
+  const campaign = crypto.randomUUID();
+  const create = (row,terminal) => {
+    const relative = '.phase4/acceptance/'+row.invocation;
+    const drivers = e.writeExclusive(directory,relative+'/declared-drivers.json',{campaign});
+    const identity = {...current,...row,campaign,drivers};
+    const start = e.writeExclusive(directory,relative+'/start.json',identity);
+    return terminal && (() => e.writeExclusive(directory,relative+'/'+terminal+'.json',{...identity,start,
+      ...(terminal === 'interrupted' ? {status:'fail',interruption:'Detached interruption fixture'} : {})}));
+  };
+  const first = create(report,'report')();
+  assert.equal(e.historyDocuments(directory,[first],campaign)[0].invocation,report.invocation);
+  const later = {...report,invocation:crypto.randomUUID(),previousInvocation:report.invocation,startedAt:report.finishedAt};
+  const finish = create(later,'interrupted');
+  reject('opened-campaign-without-terminal',/EVIDENCE_CAMPAIGN_TERMINAL/,() => e.historyDocuments(directory,[first],campaign));
+  const end = finish();
+  reject('interrupted-campaign-omitted',/EVIDENCE_SET/,() => e.historyDocuments(directory,[first],campaign));
+  assert.equal(e.historyDocuments(directory,[first,end],campaign)[1].status,'fail');
+  reject('submitted-campaign-terminal-mismatch',/EVIDENCE_CAMPAIGN_REFERENCE/,() =>
+    e.historyDocuments(directory,[first,{...end,sha256:'f'.repeat(64)}],campaign));
+  let now = 100;
+  const controller = new AbortController();
+  const budget = timeBudget(50,controller.signal,() => now);
+  assert.equal(budget(100),50);
+  now = 149;
+  assert.equal(budget(100),1);
+  now = 150;
+  reject('group-deadline-cannot-start-late-helper',/RENDERED_GROUP_DEADLINE/,() => budget());
+  controller.abort(new Error('Detached signal control'));
+  reject('cancelled-group-cannot-start-helper',/Detached signal control/,() => budget());
 }
 
 function sourceHistoryControls(directory, reject) {

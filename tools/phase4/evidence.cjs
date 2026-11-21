@@ -366,19 +366,48 @@ function validateJudgments(root, listening, judgments, current, expectedAudio, e
   }
 }
 
+function campaignAttempts(root, campaign) {
+  need(UUID.test(campaign),'EVIDENCE_CAMPAIGN');
+  const base = inside(root,'.phase4/acceptance');
+  if (!fs.existsSync(base)) return [];
+  const attempts = [];
+  for (const row of fs.readdirSync(base,{withFileTypes:true})) {
+    if (!row.isDirectory() || !UUID.test(row.name)) continue;
+    const directory = '.phase4/acceptance/'+row.name;
+    const startPath = directory+'/start.json', reportPath = directory+'/report.json', interruptionPath = directory+'/interrupted.json';
+    const exists = relative => fs.existsSync(inside(root,relative));
+    if (!exists(startPath)) {
+      // A legacy run cannot be adopted by a current campaign.
+      for (const relative of [reportPath,directory+'/declared-drivers.json'])
+        if (exists(relative)) need(document(root,relative).campaign !== campaign,'EVIDENCE_CAMPAIGN_START_MISSING',row.name);
+      continue;
+    }
+    const start = reference(root,startPath), opening = document(root,start);
+    if (opening.campaign !== campaign) continue;
+    need(opening.schemaVersion === 1 && opening.invocation === row.name && instant(opening.startedAt) &&
+      opening.drivers?.path === directory+'/declared-drivers.json','EVIDENCE_CAMPAIGN_START',row.name);
+    artifact(root,opening.drivers,8*1024*1024);
+    need(exists(reportPath) !== exists(interruptionPath),'EVIDENCE_CAMPAIGN_TERMINAL',row.name);
+    const terminal = reference(root,exists(reportPath)?reportPath:interruptionPath), report = document(root,terminal);
+    identity(opening,report,'campaign start');
+    const startFields = ['invocation','campaign','startedAt','kind','selected','previousInvocation','repairReason',
+      'drivers','reviewSha256','selectionSha256'];
+    need(equal(start,report.start) && startFields.every(key => equal(opening[key],report[key])) &&
+      (terminal.path === reportPath || (report.status === 'fail' && named(report.interruption))),
+      'EVIDENCE_CAMPAIGN_REPORT',terminal.path);
+    attempts.push({terminal,report});
+  }
+  return attempts.sort((a,b) => a.report.startedAt.localeCompare(b.report.startedAt));
+}
+
 function historyDocuments(root, refs, campaign) {
-  need(UUID.test(campaign) && Array.isArray(refs) && refs.length > 0,'EVIDENCE_CAMPAIGN');
-  const reports = refs.map(ref => {
-    const report = document(root,ref);
-    need(ref.path === '.phase4/acceptance/'+report.invocation+'/report.json' && report.campaign === campaign,'EVIDENCE_CAMPAIGN_REPORT',ref.path);
+  need(Array.isArray(refs) && refs.length > 0,'EVIDENCE_CAMPAIGN');
+  const attempts = campaignAttempts(root,campaign);
+  exact(attempts.map(row => row.terminal.path),refs.map(ref => ref.path),'immutable campaign history',true);
+  const reports = attempts.map(({terminal,report},index) => {
+    need(equal(terminal,refs[index]),'EVIDENCE_CAMPAIGN_REFERENCE',terminal.path);
     return report;
   });
-  const base = inside(root,'.phase4/acceptance');
-  const recorded = fs.readdirSync(base,{withFileTypes:true}).filter(row => row.isDirectory() && UUID.test(row.name)).flatMap(row => {
-    const relative = '.phase4/acceptance/'+row.name+'/report.json';
-    return fs.existsSync(inside(root,relative)) && document(root,relative).campaign === campaign ? [row.name] : [];
-  });
-  exact(recorded,reports.map(report => report.invocation),'immutable campaign history');
   return reports;
 }
 
@@ -542,5 +571,5 @@ function freshFinal(selected, reports, expected) {
 module.exports = {PHASE, REVIEW, REVIEW_REPORT, ORIGINAL_REVIEW, SELECTION, FIXES, TARGETS, PHASE_BASE, LISTENING, JUDGMENTS, COMPLETION, IDENTITY, REVISION, HEX, UUID, need, named, instant, exact,
   read, reference, artifact, document, writeExclusive, git, committedRef, sameCommittedSource, identifySource, identifyTool, identity,
   textArtifact, reviewReport, validateReview, validateProcess, validateRenderedOutcome, validateNamed, listeningExpectations, judgmentExpectations,
-  validateJudgments, historyDocuments, validateCoverage, changedFiles, guardedHostTuples, validateNativeHostProof, inventoryExpectation, validateArtifactInventory,
+  validateJudgments, campaignAttempts, historyDocuments, validateCoverage, changedFiles, guardedHostTuples, validateNativeHostProof, inventoryExpectation, validateArtifactInventory,
   expectedOutcome, reconcile, freshFinal};

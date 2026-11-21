@@ -9,6 +9,7 @@ const {spawn} = require('node:child_process');
 const {setTimeout:delay} = require('node:timers/promises');
 const {isDeepStrictEqual:equal} = require('node:util');
 const e = require('./evidence.cjs');
+const owned = require('./rendered-process.cjs');
 
 const CATALOG = 'tools/phase4/required-cases.json';
 const COVERAGE = e.PHASE + '04-ACCEPTANCE-COVERAGE.md';
@@ -545,7 +546,7 @@ function treePaths(raw) {
   return result;
 }
 
-async function nativeObserver() {
+async function nativeObserver(budget, signal) {
   const {encode, decode} = require('./native-observer.cjs');
   const {hash} = require('./content.cjs');
   let channel, pid, thread, pending, trouble, received = 0;
@@ -575,13 +576,13 @@ async function nativeObserver() {
   });
   await new Promise((resolve,reject) => {server.once('error',reject);server.listen(0,'127.0.0.1',resolve);});
   async function waitFor(test) {
-    const end = Date.now() + 12000;
+    const end = Date.now() + budget(12000);
     for (;;) {
       if (trouble) throw trouble;
       const value = test();
       if (value) return value;
       e.need(Date.now() < end, 'RENDERED_NATIVE_DEADLINE');
-      await delay(40);
+      await delay(Math.min(40,budget()),undefined,{signal});
     }
   }
   async function request(message, response, args) {
@@ -646,13 +647,14 @@ try {
 } finally { if ($stream) { $stream.Dispose() }; $graphics.Dispose(); $bitmap.Dispose() }
 `;
 
-function desktopCommand(root, script, env, limit) {
-  return require('../phase2/rendered.cjs').command('powershell.exe', ['-NoProfile','-NonInteractive','-EncodedCommand',
-    Buffer.from(script,'utf16le').toString('base64')], {cwd:root,env}, limit);
+function desktopCommand(root, script, env, limit, owner, signal) {
+  return owned.command(owner,'powershell.exe', ['-NoProfile','-NonInteractive','-EncodedCommand',
+    Buffer.from(script,'utf16le').toString('base64')], {cwd:root,env}, limit,signal);
 }
 
-async function inspectionSession(root, relative, group, build, adapter) {
+async function inspectionSession(root, relative, group, build, adapter, budget, signal) {
   const phase2 = require('../phase2/rendered.cjs');
+  const owner = owned.observeChildren();
   const role = group === 'G1-hub' ? 'inspection-hub' : 'packaged-inspection';
   const target = role === 'inspection-hub' ? build.engine : build.package;
   e.artifact(root,target);
@@ -663,11 +665,11 @@ async function inspectionSession(root, relative, group, build, adapter) {
   const profile = path.join(directory,'profile');
   fs.mkdirSync(profile);
   const env = {...adapter.env, APPDATA:profile, LOCALAPPDATA:profile, USERPROFILE:profile};
-  const native = await nativeObserver();
+  const native = await nativeObserver(budget,signal);
   const args = ['--resolution','1280x720','--remote-debug',native.endpoint,...project];
   const startedAt = new Date().toISOString();
   let log = '', error, inputReleased = false, timedOut = false, terminal, frame = 0;
-  const child = spawn(executable,args,{cwd:path.dirname(executable),env,windowsHide:false,shell:false,stdio:['ignore','pipe','pipe']});
+  const child = owner.track(spawn(executable,args,{cwd:path.dirname(executable),env,windowsHide:false,shell:false,stdio:['ignore','pipe','pipe']}));
   const pid = child.pid;
   const closed = new Promise(resolve => child.once('close',(exitCode,signal) => {
     terminal = {exitCode,signal};resolve(terminal);
@@ -678,21 +680,23 @@ async function inspectionSession(root, relative, group, build, adapter) {
     else {error ??= new Error('RENDERED_LOG_LIMIT');phase2.killTree(child);}
   });
   let acknowledgement;
+  let closing = false;
   const input = adapter.physical(async (action,x,y,key) => {
     e.need(pid && !terminal && !error, 'RENDERED_PROCESS_LOST', role);
-    const result = await phase2.command('powershell.exe',['-NoProfile','-ExecutionPolicy','Bypass','-File',
-      path.join(root,'tools/phase2/windows-input.ps1'),'-OwnedPid',String(pid),'-Action',action,'-X',String(x),'-Y',String(y),'-Key',String(key)],{cwd:root,env},12000);
+    const result = await owned.command(owner,'powershell.exe',['-NoProfile','-ExecutionPolicy','Bypass','-File',
+      path.join(root,'tools/phase2/windows-input.ps1'),'-OwnedPid',String(pid),'-Action',action,'-X',String(x),'-Y',String(y),'-Key',String(key)],
+      {cwd:root,env},closing?3000:budget(12000),closing?undefined:signal);
     acknowledgement = JSON.parse(result.stdout.trim());
     e.need(acknowledgement.pid === pid && acknowledgement.focused && acknowledgement.action === action &&
       acknowledgement.width === 1280 && acknowledgement.height === 720, 'RENDERED_INPUT_ACK');
   });
   async function checkpoint(item,step,invocation) {
     const prefix = relative + '/' + item.id + '-' + step.id;
-    const deadline = Date.now() + 12000;
+    const deadline = Date.now() + budget(12000);
     for (;;) {
       try {await input.input('probe');break;} catch (failure) {
         if (terminal || error || Date.now() >= deadline) throw failure;
-        await delay(150);
+        await delay(Math.min(150,budget()),undefined,{signal});
       }
     }
     await input.input(step.action,step.x ?? 0,step.y ?? 0,step.key ?? 0);
@@ -702,7 +706,8 @@ async function inspectionSession(root, relative, group, build, adapter) {
     const nativeObject = e.writeExclusive(root,prefix+'-native-object.bin',observed.inspected.raw);
     const imagePath = prefix + '.png';
     await desktopCommand(root,CAPTURE_CLIENT,{...env,KZ_PHASE4_PID:String(pid),KZ_PHASE4_WINDOW:String(physical.window),
-      KZ_PHASE4_PNG:path.join(root,imagePath)},12000);
+      KZ_PHASE4_PNG:path.join(root,imagePath)},budget(12000),owner,signal);
+    budget();
     adapter.decodePng(path.join(root,imagePath),1280,720);
     const image = e.reference(root,imagePath,16 * 1024 * 1024);
     const flags = {caseId:item.id,checkpoint:step.id,invocation,pid};
@@ -715,31 +720,33 @@ async function inspectionSession(root, relative, group, build, adapter) {
     return {id:step.id,input:inputRef,draw,image};
   }
   async function close() {
+    closing = true;
     try {
       await input.release();inputReleased = true;
       if (!terminal && pid) await desktopCommand(root,"$ErrorActionPreference='Stop'; $p=Get-Process -Id ([int]$env:KZ_PHASE4_PID); if(-not $p.CloseMainWindow()){throw 'OWNED_QUIT'}",
-        {...env,KZ_PHASE4_PID:String(pid)},6000);
-      if (!terminal) await Promise.race([closed,delay(12000)]);
+        {...env,KZ_PHASE4_PID:String(pid)},signal.aborted?3000:budget(4000),owner);
+      if (!terminal) await Promise.race([closed,delay(signal.aborted?2000:budget(10000))]);
     } catch (caught) {error ??= caught;}
     finally {
       if (!terminal) {timedOut = true;phase2.killTree(child);await Promise.race([closed,delay(3000)]);}
       await native.close();
     }
+    const remainingPids = await owner.cleanup();
     const logRef = e.writeExclusive(root,relative+'/console.log',Buffer.from(log));
     const record = {role,pid,startedAt,finishedAt:new Date().toISOString(),timedOut,
       crashed:Boolean(error) || terminal?.exitCode !== 0 || /ERROR:|SCRIPT ERROR:|Failed to load/i.test(log),
       exitCode:terminal?.exitCode ?? null,signal:terminal?.signal ?? null,streamsClosed:Boolean(terminal),inputReleased,
-      remainingPids:terminal?[]:[pid],log:logRef,executable:target};
+      ownedPids:owner.pids(),remainingPids,log:logRef,executable:target};
     return {record,ref:e.writeExclusive(root,relative+'/terminal.json',record)};
   }
   return {checkpoint,close,get usable(){return Boolean(pid && !terminal && !error);}};
 }
 
-async function runInspection(root, relative, group, items, drivers, build, adapter, invocation) {
+async function runInspection(root, relative, group, items, drivers, build, adapter, invocation, signal) {
   const outcomes = [];
   const sessions = [];
   let session, currentAttempt = [];
-  const deadline = Date.now() + group.timeoutMs;
+  const budget = owned.timeBudget(group.timeoutMs,signal);
   const finish = async () => {
     if (!session) return;
     try {
@@ -754,7 +761,8 @@ async function runInspection(root, relative, group, items, drivers, build, adapt
   };
   const launch = async () => {
     const owned = relative + '/' + group.id + '-launch-' + (sessions.length + 1);
-    session = await inspectionSession(root,owned,group.id,build,adapter);
+    budget();
+    session = await inspectionSession(root,owned,group.id,build,adapter,budget,signal);
     sessions.push(owned);
   };
   try {
@@ -765,10 +773,11 @@ async function runInspection(root, relative, group, items, drivers, build, adapt
       try {
         if (!sessions.length) await launch();
         currentAttempt.push(row);
-        e.need(session?.usable && Date.now() < deadline,'RENDERED_GROUP_UNAVAILABLE',group.id);
+        budget();
+        e.need(session?.usable,'RENDERED_GROUP_UNAVAILABLE',group.id);
         const driver = drivers.get(item.id);
         for (const [index,step] of driver.steps.entries()) {
-          e.need(Date.now() < deadline,'RENDERED_GROUP_DEADLINE',group.id);
+          budget();
           row.checkpoints.push(await session.checkpoint(item,step,invocation));
           if (item.id === 'rendered.packaged-relaunch' && index === 0) {
             await finish();e.need(row.status === 'pass','RENDERED_RELAUNCH_FIRST_EXIT');
@@ -781,6 +790,7 @@ async function runInspection(root, relative, group, items, drivers, build, adapt
       }
     }
   } finally {await finish();}
+  budget();
   return outcomes;
 }
 
@@ -818,9 +828,10 @@ async function runRendered(root, registered) {
   const runInput = e.reference(root,RUNS);
   const data = e.document(root,runInput);
   const allNative = gate.selected.filter(row => row.needsGameWindow);
-  const previous = data.previousRun ? e.document(root,data.previousRun) : null;
-  e.need(!previous || previous.campaign === data.campaign && e.UUID.test(previous.invocation) &&
-    data.previousRun.path === '.phase4/acceptance/'+previous.invocation+'/report.json','RENDERED_PREVIOUS_RUN');
+  const attempts = e.campaignAttempts(root,data.campaign);
+  const last = attempts.at(-1);
+  const previous = last?.report ?? null;
+  e.need(equal(data.previousRun ?? null,last?.terminal ?? null),'RENDERED_PREVIOUS_RUN');
   e.need(previous ? ['focused','final'].includes(data.kind) : data.kind==='initial','RENDERED_ATTEMPT_KIND');
   let native = allNative;
   if (data.kind==='focused') {
@@ -841,18 +852,29 @@ async function runRendered(root, registered) {
   const driverRef = e.writeExclusive(root,relative+'/declared-drivers.json',e.artifact(root,runInput).data);
   const startedAt = new Date().toISOString(), outcomes = [];
   e.need(data.declaredAt <= startedAt,'RENDERED_DRIVER_DECLARATION_TIME');
-  for (const group of gate.groups.filter(row => GROUPS.includes(row.id))) {
+  const opening = {...current,schemaVersion:1,invocation,campaign:data.campaign,startedAt,
+    previousInvocation:previous?.invocation??null,kind:data.kind,repairReason:data.repairReason,selected:native.map(row => row.id),
+    drivers:driverRef,reviewSha256:gate.review.sha256,selectionSha256:gate.selection.sha256};
+  const start = e.writeExclusive(root,relative+'/start.json',opening);
+  const controller = new AbortController();
+  const interrupt = name => controller.abort(new Error('RENDERED_INTERRUPTED '+name));
+  const signals = ['SIGINT','SIGTERM','SIGBREAK'].map(name => [name,() => interrupt(name)]);
+  for (const [name,handle] of signals) process.on(name,handle);
+  const blocked = (row, error) => ({id:row.id,runGroup:row.runGroup,invocation,status:'blocked',
+    execution:'executed-now',expected:e.expectedOutcome(row),observed:error.message.slice(0,4096).replace(/[\r\n]/g,' ')});
+  try {
+    for (const group of gate.groups.filter(row => GROUPS.includes(row.id))) {
     const items = native.filter(row => row.runGroup === group.id);
     if (!items.length) continue;
     let unlock;
     try {
+      controller.signal.throwIfAborted();
       if (group.id !== 'G3-lan') unlock = require('../phase2/check.cjs').acquireLock(root,invocation);
-      const result = group.id.startsWith('G3') ? await runInherited(root,relative,group,items,build,gate.adapter,current,invocation) :
-        await runInspection(root,relative,group,items,drivers,build,gate.adapter,invocation);
+      const result = group.id.startsWith('G3') ? await runInherited(root,relative,group,items,build,gate.adapter,current,invocation,controller.signal) :
+        await runInspection(root,relative,group,items,drivers,build,gate.adapter,invocation,controller.signal);
       outcomes.push(...result);
     } catch (error) {
-      for (const row of items) outcomes.push({id:row.id,runGroup:row.runGroup,invocation,status:'blocked',execution:'executed-now',
-        expected:e.expectedOutcome(row),observed:error.message.slice(0,4096).replace(/[\r\n]/g,' ')});
+      outcomes.push(...items.map(row => blocked(row,error)));
     } finally {
       try {unlock?.();} catch (error) {
         for (const row of outcomes.filter(row => row.runGroup===group.id && row.status==='pass')) {
@@ -868,18 +890,28 @@ async function runRendered(root, registered) {
     e.writeExclusive(root,relative+'/identity-failure.json',{at:finishedAt,message:error.message});
   }
   for (const row of outcomes) if (row.status === 'pass' && !unchanged) {row.status = 'invalid';row.observed = 'Current source or build drifted during this run';}
-  const report = {...current,schemaVersion:1,invocation,campaign:data.campaign,startedAt,finishedAt,
-    previousInvocation:previous?.invocation??null,kind:data.kind,repairReason:data.repairReason,selected:native.map(row => row.id),outcomes,
-    drivers:driverRef,reviewSha256:gate.review.sha256,selectionSha256:gate.selection.sha256};
+  const report = {...opening,start,finishedAt,outcomes};
   for (const row of outcomes.filter(row => row.status==='pass' && drivers.has(row.id))) try {
     e.validateRenderedOutcome(root,row,report,drivers.get(row.id));
   } catch (error) {
     row.status = 'invalid';row.observed = error.message.slice(0,4096).replace(/[\r\n]/g,' ');
   }
+  if (controller.signal.aborted) for (const row of outcomes.filter(row => row.status === 'pass')) {
+    row.status = 'invalid';row.observed = controller.signal.reason.message;
+  }
   report.status = outcomes.every(row => row.status === 'pass')?'pass':'fail';
   e.reconcile(native,report,current);
   const ref = e.writeExclusive(root,relative+'/report.json',report);
   return {status:report.status,invocation,executed:outcomes.length,report:ref};
+  } catch (error) {
+    const interruption = error.message.slice(0,4096).replace(/[\r\n]/g,' ');
+    const finishedAt = new Date(Math.max(Date.now(),Date.parse(startedAt)+1)).toISOString();
+    const ref = e.writeExclusive(root,relative+'/interrupted.json',{...opening,start,finishedAt,interruption,status:'fail',
+      outcomes:native.map(row => blocked(row,error))});
+    return {status:'fail',invocation,executed:outcomes.length,report:ref};
+  } finally {
+    for (const [name,handle] of signals) process.removeListener(name,handle);
+  }
 }
 
 async function verifyCompletion(root, relative, registered) {
