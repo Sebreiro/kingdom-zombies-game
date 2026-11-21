@@ -867,12 +867,19 @@ internal sealed class CharacterPreview
                 predicate: value => StringComparer.Ordinal.Equals(x: Text(value: value, name: "id"), y: poseId));
         (pose, JsonElement lower) = Compose(body: body, pose: pose, facing: facing);
         (pose, lower) = WorkPose(body: body, pose: pose, lower: lower);
+        if (_sample.ValueKind is JsonValueKind.Object)
+        {
+            _root.SetMeta(name: "sample", value: _sample.GetRawText());
+        }
+        else
+        {
+            _root.RemoveMeta(name: "sample");
+        }
 
         if (_sample.ValueKind is JsonValueKind.Object && Selected(id: "Action") is "Bow"
                 && Selected(id: "BowSubject") is "Structural guard")
         {
             AddGuard(art: art, facing: facing);
-            _root.SetMeta(name: "sample", value: _sample.GetRawText());
             _root.GetNode<Label>(path: "Status").Text = "Structural guard · built-in bow · no loot";
             return;
         }
@@ -881,10 +888,6 @@ internal sealed class CharacterPreview
         ProjectGear(art: art, body: body, pose: pose, lower: lower, facing: facing, poseId: poseId);
         Contact(art: art, pose: pose, facing: facing);
         ProjectWork(art: art, body: body, pose: pose, facing: facing);
-        if (_sample.ValueKind is JsonValueKind.Object)
-        {
-            _root.SetMeta(name: "sample", value: _sample.GetRawText());
-        }
     }
 
     private (JsonElement Upper, JsonElement Lower) Compose(JsonElement body, JsonElement pose, int facing)
@@ -1664,7 +1667,6 @@ internal sealed class CharacterPreview
         _root.SetMeta(name: "diagnostics", value: string.Join(separator: "\n", values: diagnostics));
         if (_sample.ValueKind is JsonValueKind.Object)
         {
-            _root.SetMeta(name: "sample", value: _sample.GetRawText());
             _root.GetNode<Label>(path: "Status").Text += " · " + Text(value: _sample, name: "stage") + " · t="
                     + _sample.GetProperty(propertyName: "actionSeconds").GetDouble().ToString(format: "F3",
                             provider: CultureInfo.InvariantCulture);

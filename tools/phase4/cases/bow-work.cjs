@@ -159,7 +159,20 @@ const BOW_METHOD=String.raw`
   Select(root,"Action","None");Select(root,"left","IT-07");Select(root,"right","IT-02");Select(root,"Condition","Usable");
   var options=root.GetNode<OptionButton>("Controls/Slots/Action/Select");var values=Enumerable.Range(0,options.ItemCount).Select(i=>options.GetItemText(i)).ToArray();
   _bow=new{offered=values.Contains("Bow",StringComparer.Ordinal),options=values,leftItem=Gear(root,"left").Single().GetMeta("item").AsString(),rightItem=Gear(root,"right").Single().GetMeta("item").AsString(),condition=root.GetNode<OptionButton>("Controls/Slots/Condition/Select").GetItemText(0)};
-  if(values.Contains("Bow",StringComparer.Ordinal)){BowMatrix(root,preview);GuardMatrix(root,preview);GuardSustained(root,preview);}
+  if(values.Contains("Bow",StringComparer.Ordinal)){BowMatrix(root,preview);GuardMatrix(root,preview);GuardSustained(root,preview);StaticSample(root,preview);}
+ }
+ private void StaticSample(Node2D root,object preview){
+  Select(root,"Action","None");Select(root,"Movement","Static pose");Select(root,"BowSubject","Ordinary");
+  Select(root,"Body","CH-01");Select(root,"Condition","Usable");Select(root,"Ammunition","1");
+  Select(root,"left","IT-07");Select(root,"right","IT-02");Select(root,"Action","Bow");Invoke(preview,"Tick",.601);
+  var last=Sample(root);
+  Boundary(last.GetProperty("released").GetBoolean()&&!last.GetProperty("nocked").GetBoolean()
+   &&root.HasNode("Art/SpentArrow"),"last-arrow-before-static");
+  Select(root,"Action","None");
+  Boundary(!root.HasMeta("sample")&&!root.HasNode("Art/SpentArrow")&&!root.HasNode("Art/BowArm_left")
+   &&root.HasNode("Art/Body_head"),"static-retires-native-sample");
+  Invoke(preview,"Tick",1d);
+  Boundary(!root.HasMeta("sample")&&!root.HasNode("Art/SpentArrow"),"static-sample-stays-retired");
  }
 `;
 function harness(){return animation.HARNESS.replace(' public override async void _Ready()',BOW_METHOD+' public override async void _Ready()').replace('await Matrix(root,preview);','BowBindings();Bow(root,preview);await Matrix(root,preview);').replace('restoredBindingAccepted=_restoredBindingAccepted};','restoredBindingAccepted=_restoredBindingAccepted,bow=_bow,bowSamples=_bowSamples,bowBoundaries=_bowBoundaries,bowBindingControls=_bowBindingControls,guardSamples=_guardSamples,bowExtra=_bowExtra,guardSustained=_guardSustained,guardAuthority=_guardAuthority};');}

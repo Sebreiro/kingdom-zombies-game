@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using KingdomZombies.Core;
@@ -145,7 +146,10 @@ public sealed class CharacterBowTests
                 ?? throw new InvalidOperationException(message: "BOW_NATIVE_REPORT_REQUIRED");
         using var report = JsonDocument.Parse(utf8Json: File.ReadAllBytes(path: path));
         report.RootElement.GetProperty(propertyName: "bowSamples").GetArrayLength().ShouldBe(expected: 448);
-        report.RootElement.GetProperty(propertyName: "bowBoundaries").GetArrayLength().ShouldBe(expected: 14);
+        JsonElement boundaries = report.RootElement.GetProperty(propertyName: "bowBoundaries");
+        boundaries.GetArrayLength().ShouldBe(expected: 17);
+        boundaries.EnumerateArray().Any(predicate: row => row.GetProperty(propertyName: "pass").GetBoolean()
+                && row.GetProperty(propertyName: "id").GetString() is "static-retires-native-sample").ShouldBeTrue();
         var keys = new HashSet<string>(comparer: StringComparer.Ordinal);
         foreach (JsonElement row in report.RootElement.GetProperty(propertyName: "bowSamples").EnumerateArray())
         {
