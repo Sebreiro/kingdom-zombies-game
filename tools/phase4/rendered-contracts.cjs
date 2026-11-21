@@ -8,6 +8,7 @@ const BROWSER=WORKSPACE+'/Controls/Browser', CURRENT=PREVIEW+'/Surface/Current',
 const TOOLBAR=HUB+'/Shell/Toolbar', CATEGORY=WORKSPACE+'/Navigation/Category';
 const SEARCH=BROWSER+'/Search';
 const METADATA=PREVIEW+'/Metadata', FAILURES=PREVIEW+'/Failures', CHAR=CURRENT+'/Character';
+const DETAILS=PREVIEW+'/Actions/Details';
 const WORLD=CURRENT+'/WorldItems', RESOURCE=CURRENT+'/ResourcePreview';
 const DATA=CURRENT+'/DataText/Body', AUDIO=CURRENT+'/AudioPreview/Audio/Content';
 const RESOURCES=BROWSER+'/Resources', SELECT=id=>CHAR+'/Controls/Slots/'+id+'/Select';
@@ -54,9 +55,10 @@ const cleanPackage=[
   open('reachable-second','IT-07',[...itemBody('IT-07'),...readyChecks.slice(0,2)])
 ];
 const character=field(CHAR,'metadata/sample','action','bow');
-const detail=(id,resource,shared)=>stage(id,PREVIEW+'/Actions/Details',[subject(resource),show(METADATA),
-  contains(METADATA,'text','"id": "'+resource+'"'),contains(METADATA,'text','"sharedFileId": "'+shared+'"'),
+const detail=(id,resource,shared)=>stage(id,DETAILS,[subject(resource),show(METADATA),
+  contains(METADATA,'text','"id":"'+resource+'"'),contains(METADATA,'text','"sharedFileId":"'+shared+'"'),
   contains(METADATA,'text','Explicit shared mappings: ')]);
+const dismissDetails=id=>stage(id,DETAILS,[eq(METADATA,'visible',false),label(DETAILS,'Show details')]);
 const resourceState=(name,value)=>field(RESOURCE,'metadata/resource_view',name,value);
 const cancel=(id,checks)=>({...stage(id,TOOLBAR+'/Cancel',checks),recheck:true});
 const AUDIO_CASE='rendered.audio-audition', AUDITION_PROPERTY='metadata/audition';
@@ -101,7 +103,9 @@ const P4_DEATH_CHECKPOINTS=['death-step','death-retired'];
 const CASES = new Map([
   ['heldout.H01',[
     detail('owner-first','IT-07','shared.file.6d61b47b9b52574a102f'),
-    detail('owner-second','IT-08','shared.file.6d61b47b9b52574a102f')
+    dismissDetails('dismiss-first-owner'),
+    detail('owner-second','IT-08','shared.file.6d61b47b9b52574a102f'),
+    dismissDetails('dismiss-second-owner')
   ]],
   ['heldout.H12',[
     choice('stage-bow',SELECT('Ammunition'),2,[subject('AN-08'),character]),
@@ -177,6 +181,7 @@ const CASES = new Map([
     choice('portal-ruins-focus',WORLD_CHOICES+'/Portal',1,[eq(WORLD_CHOICES+'/Pan','value',-800),...ruin])
   ]],
   ['UIH.UI-TEXT-STATUS.long-text',[
+    choice('english-text',DATA+'/Choices/TextLength',0,[subject('TXT-02'),show(DATA+'/Detail')]),
     choice('expanded-text',DATA+'/Choices/TextLength',1,[subject('TXT-02'),show(DATA+'/Detail')]),
     choice('long-text',DATA+'/Choices/State',7,[subject('TXT-02'),show(DATA+'/Detail'),
       eq(DATA+'/Detail','wrap_mode',1),contains(DATA+'/Detail','text','Élodie · Jérôme · İpek · Zoë')])
@@ -191,7 +196,7 @@ const CASES = new Map([
   ['rendered.hub-navigation',[
     ...[0,1,2,3,4,5].map((index)=>choice('category-'+index,CATEGORY,index,[show(RESOURCES)])),
     detail('details','AU-01','shared.file.c0761264b172c09e69c9'),
-    stage('dismiss-details',PREVIEW+'/Actions/Details',[eq(METADATA,'visible',false),label(PREVIEW+'/Actions/Details','Show details')]),
+    dismissDetails('dismiss-details'),
     cancel('visible-error',[label(SUMMARY+'/Status','Unavailable — validation cancelled; choose Recheck resources')]),
     stage('retry-after-error',TOOLBAR+'/Recheck',readyChecks)
   ]],
@@ -238,7 +243,7 @@ function template(id) {
   return [{...required[0],lifetime:1},reset(1),{...required[1],lifetime:2},reset(2)];
 }
 
-const NAVIGATION = new Set([CATEGORY,RESOURCES,SEARCH,BROWSER+'/Status',TOOLBAR+'/Recheck',METADATA,PREVIEW+'/Actions/Details']);
+const NAVIGATION = new Set([CATEGORY,RESOURCES,SEARCH,BROWSER+'/Status',TOOLBAR+'/Recheck',METADATA,DETAILS]);
 const NAVIGATION_MENUS = new Map([[CATEGORY,8],[BROWSER+'/Status',4]]);
 const NAVIGATION_SCROLLS = new Set([CHAR+'/Controls',WORLD+'/InspectorScroll',WORLD+'/InspectorScroll/Body/Art']);
 
