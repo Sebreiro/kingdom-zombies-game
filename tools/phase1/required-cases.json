@@ -4442,7 +4442,7 @@
             "owners": [
               "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "3f3b6689758d6313f5a3785a10cc2bb1bbc14af2495dbf70dc9598e11df8e8c4"
+            "sha256": "ac0db633353b97fdcbdfc6f187b2694dfc272811f57e3e0e7be54246249950f0"
           },
           {
             "path": "tests/phase1/RunnerProcessFixture.cs",
@@ -5269,7 +5269,7 @@
             "sha256": null
           }
         ],
-        "sourceSetSha256": "675fa1b7758584a39d215e22028447ce69ca7806a1355864c46b4d0ddba418fb",
+        "sourceSetSha256": "f3fe104f951dcdb58fc71f38904ff44a68aed42bfd87fd4a00632e511767c5d5",
         "bindings": [
           {
             "path": "docs/code/generated-callsite-adaptations.json",
@@ -8661,7 +8661,7 @@
         "catalog": "tools/phase1/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "EXEMPTIONS_EXACT",
-        "repositorySha256": "d56a7e9bcc0f3e97aa02b35add31db0d93cf24054b950e6427443cdaf9a43ecf",
+        "repositorySha256": "70bf1369085c16f24dfef98caeb7596af1df48564f64a740ad859ae50e3a5167",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 1044000,
@@ -9384,6 +9384,7 @@
       "polarity": "positive",
       "closureOwner": "01-14",
       "test": "KingdomZombies.Phase1.Tests.SuppressionTests.Scan_ActualRepository_AcceptsExactPermissions",
+      "childTimeoutMs": 60000,
       "expectedDiagnostic": "SUPPRESSION_REPOSITORY_EXACT"
     },
     {
@@ -11904,7 +11905,7 @@
         "catalog": "tools/phase1/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "GODOT_CALLSITE_BOUNDARY_REJECTED",
-        "repositorySha256": "d56a7e9bcc0f3e97aa02b35add31db0d93cf24054b950e6427443cdaf9a43ecf",
+        "repositorySha256": "70bf1369085c16f24dfef98caeb7596af1df48564f64a740ad859ae50e3a5167",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 612000,
@@ -16319,7 +16320,7 @@
         "catalog": "tools/phase1/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "GODOT_COMPANION_COMPILED",
-        "repositorySha256": "d56a7e9bcc0f3e97aa02b35add31db0d93cf24054b950e6427443cdaf9a43ecf",
+        "repositorySha256": "70bf1369085c16f24dfef98caeb7596af1df48564f64a740ad859ae50e3a5167",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 516000,
@@ -16437,7 +16438,7 @@
         "catalog": "tools/phase1/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "GODOT_HANDWRITTEN_SCR0001",
-        "repositorySha256": "d56a7e9bcc0f3e97aa02b35add31db0d93cf24054b950e6427443cdaf9a43ecf",
+        "repositorySha256": "70bf1369085c16f24dfef98caeb7596af1df48564f64a740ad859ae50e3a5167",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 516000,
@@ -16590,7 +16591,7 @@
         "catalog": "tools/phase1/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "UNREGISTERED_REAL_BUILD_SUPPRESSION",
-        "repositorySha256": "d56a7e9bcc0f3e97aa02b35add31db0d93cf24054b950e6427443cdaf9a43ecf",
+        "repositorySha256": "70bf1369085c16f24dfef98caeb7596af1df48564f64a740ad859ae50e3a5167",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 1044000,
