@@ -473,14 +473,47 @@ function write(root,name,value){
   const file=inside(root,name);fs.mkdirSync(path.dirname(file),{recursive:true});const fd=fs.openSync(file,'wx');
   try{fs.writeFileSync(fd,Buffer.isBuffer(value)?value:Buffer.from(JSON.stringify(value,null,2)+'\n'));fs.fsyncSync(fd);}finally{fs.closeSync(fd);}
 }
+function takePublicationOwnership(root,name,invocation,conflict){
+  const owner={invocation,pid:process.pid,token:crypto.randomUUID()};
+  const temporary='publication-owner-'+owner.token+'.json',lock=inside(root,name);
+  try{
+    write(root,temporary,owner);
+    try{fs.linkSync(inside(root,temporary),lock);}
+    catch(error){if(error.code==='EEXIST')throw new Error(conflict+' '+name);throw error;}
+  }finally{
+    const file=inside(root,temporary);if(fs.existsSync(file))fs.unlinkSync(file);
+  }
+  return owner;
+}
+function publicationOwner(root,name){
+  const fd=fs.openSync(inside(root,name),'r');
+  try{
+    const stat=fs.fstatSync(fd);
+    need(stat.isFile()&&stat.size>0&&stat.size<=512,'FILE_INVALID',name);
+    const owner=parse(fs.readFileSync(fd),name);
+    need(typeof owner?.invocation==='string'&&/^[a-z0-9-]{1,80}$/.test(owner.invocation)&&
+      Number.isSafeInteger(owner.pid)&&owner.pid>0&&
+      (owner.token===undefined||(typeof owner.token==='string'&&/^[a-f0-9-]{36}$/.test(owner.token))),
+      'RECOVERY_OWNER',name);
+    if(stat.nlink!==1){
+      const temporary=inside(root,'publication-owner-'+owner.token+'.json');
+      const same=fs.statSync(temporary,{throwIfNoEntry:false});
+      need(stat.nlink===2&&owner.token&&(same?stat.dev===same.dev&&stat.ino===same.ino:fs.fstatSync(fd).nlink===1),
+        'FILE_INVALID',name);
+    }
+    return owner;
+  }finally{fs.closeSync(fd);}
+}
+function releasePublicationOwnership(root,name,owner){
+  need(equal(publicationOwner(root,name),owner),'LOCK_OWNERSHIP',name);
+  fs.unlinkSync(inside(root,name));
+}
 function publish({sourceRoot,index,publicationRoot,invocation=crypto.randomUUID(),observe=()=>{}}){
   if(index?.model==='completed-shards-v1')return publishCompleted({sourceRoot,index,publicationRoot,invocation,observe});
   need(/^[a-z0-9-]{1,80}$/.test(invocation),'INVOCATION_INVALID');const root=destination(publicationRoot);fs.mkdirSync(root,{recursive:true});
-  const lock=inside(root,'publication.lock');let descriptor;
-  try{descriptor=fs.openSync(lock,'wx');}catch(error){if(error.code==='EEXIST')throw new Error('PUBLICATION_LOCKED '+lock);throw error;}
+  const owner=takePublicationOwnership(root,'publication.lock',invocation,'PUBLICATION_LOCKED');
   const stage='stage-'+invocation,generation='generations/'+invocation,pointer='current-'+invocation+'.json';let committed=false,moved=false;
   try{
-    fs.writeFileSync(descriptor,JSON.stringify({invocation,pid:process.pid}));fs.fsyncSync(descriptor);
     observe('locked');const checked=validate(sourceRoot,structuredClone(index));need(!checked.diagnostics.some(x=>x.code==='OUTPUT_INVALID'),'PUBLICATION_INVALID_OUTPUT');
     if(fs.existsSync(inside(root,'current.json'))){const current=readPublished(root);merge(current.index,index);
       need(current.index.outputs.every(x=>index.outputs.some(y=>equal(x,y)))&&current.index.shards.filter(x=>x.status==='selected').every(x=>index.shards.some(y=>y.id===x.id&&y.status==='selected'&&y.version>=x.version)),'PUBLICATION_REGRESSION');}
@@ -496,15 +529,15 @@ function publish({sourceRoot,index,publicationRoot,invocation=crypto.randomUUID(
     if(fs.existsSync(inside(root,pointer)))fs.unlinkSync(inside(root,pointer));
     const cleanup=moved?generation:stage;
     if(!committed&&fs.existsSync(inside(root,cleanup)))fs.rmSync(inside(root,cleanup),{recursive:true});
-    fs.closeSync(descriptor);need(document(root,'publication.lock').invocation===invocation,'LOCK_OWNERSHIP');fs.unlinkSync(lock);
+    releasePublicationOwnership(root,'publication.lock',owner);
   }
 }
 async function publishCompleted({sourceRoot,index,publicationRoot,invocation,observe}){
   need(/^[a-z0-9-]{1,80}$/.test(invocation),'INVOCATION_INVALID');const root=destination(publicationRoot);fs.mkdirSync(root,{recursive:true});
-  const lock=inside(root,'publication.lock');let descriptor;try{descriptor=fs.openSync(lock,'wx');}catch(error){if(error.code==='EEXIST')throw new Error('PUBLICATION_LOCKED '+lock);throw error;}
+  const owner=takePublicationOwnership(root,'publication.lock',invocation,'PUBLICATION_LOCKED');
   const stage='stage-'+invocation,generation='generations/'+invocation,pointer='current-'+invocation+'.json';let committed=false,moved=false;
   try{
-    fs.writeFileSync(descriptor,JSON.stringify({invocation,pid:process.pid}));fs.fsyncSync(descriptor);observe('locked');
+    observe('locked');
     const checked=validate(sourceRoot,structuredClone(index));need(checked.sourceComplete,'PUBLICATION_INVALID_OUTPUT');
     const sourceProof=await validateCompletedSources(sourceRoot,index);
     if(fs.existsSync(inside(root,'current.json'))){const previous=readPublished(root);need(previous.index.model==='completed-shards-v1'&&previous.index.outputs.every(x=>index.outputs.some(y=>equal(x,y))),'PUBLICATION_REGRESSION');}
@@ -516,7 +549,7 @@ async function publishCompleted({sourceRoot,index,publicationRoot,invocation,obs
     return{invocation,generation,status:proof.status,complete:false,sourceComplete:true,accepted:0,sourceProof,outputs:proof.valid.map(({id,version,sha256})=>({id,version,sha256}))};
   }finally{
     if(fs.existsSync(inside(root,pointer)))fs.unlinkSync(inside(root,pointer));const cleanup=moved?generation:stage;if(!committed&&fs.existsSync(inside(root,cleanup)))fs.rmSync(inside(root,cleanup),{recursive:true});
-    fs.closeSync(descriptor);need(document(root,'publication.lock').invocation===invocation,'LOCK_OWNERSHIP');fs.unlinkSync(lock);
+    releasePublicationOwnership(root,'publication.lock',owner);
   }
 }
 function readPublished(publicationRoot){
@@ -526,17 +559,45 @@ function readPublished(publicationRoot){
   const index=parse(value,INDEX),result=validate(generation,index);need(!result.diagnostics.some(x=>x.code==='OUTPUT_INVALID')&&result.status===pointer.status&&(index.model!=='completed-shards-v1'||result.sourceComplete),'PUBLICATION_INVALID');
   return {pointer,index,result};
 }
-function recoverPublication({publicationRoot,invocation}){
-  const root=destination(publicationRoot),owner=document(root,'publication.lock');
-  need(owner.invocation===invocation&&Number.isSafeInteger(owner.pid)&&owner.pid>0,'RECOVERY_OWNER');
-  let absent=false;try{process.kill(owner.pid,0);}catch(error){if(error.code==='ESRCH')absent=true;else throw error;}
-  need(absent,'RECOVERY_OWNER_ALIVE');
-  const current=fs.existsSync(inside(root,'current.json'))?readPublished(root):undefined;
-  for(const name of ['stage-'+invocation,'current-'+invocation+'.json',...(current?.pointer.invocation===invocation?[]:['generations/'+invocation])]){
-    const file=inside(root,name);if(fs.existsSync(file))fs.rmSync(file,{recursive:true});
+function requireDeadOwner(owner,code){
+  try{process.kill(owner.pid,0);}
+  catch(error){if(error.code==='ESRCH')return;throw error;}
+  throw new Error(code+' '+owner.pid);
+}
+function claimPublicationRecovery(root,owner){
+  let previous=owner;
+  const interrupted=[];
+  // Each claim is exclusive for a specific owner token. A dead claimant can itself be claimed.
+  while(interrupted.length<16){
+    const name='publication-recovery-'+(previous.token??hash(JSON.stringify(previous)))+'.json';
+    try{
+      return {name,claim:takePublicationOwnership(root,name,owner.invocation,'RECOVERY_LOCKED'),interrupted};
+    }catch(error){if(!error.message.startsWith('RECOVERY_LOCKED '))throw error;}
+    previous=publicationOwner(root,name);
+    need(previous.invocation===owner.invocation,'RECOVERY_LOCK_CHANGED',name);
+    requireDeadOwner(previous,'RECOVERY_LOCKED');
+    interrupted.push({name,owner:previous});
   }
-  need(equal(document(root,'publication.lock'),owner),'RECOVERY_LOCK_CHANGED');fs.unlinkSync(inside(root,'publication.lock'));
-  return {invocation,status:'interrupted',published:current?.pointer.invocation===invocation,cleanup:'owned-stage-pointer-and-unreferenced-generation-only'};
+  throw new Error('RECOVERY_CLAIM_LIMIT');
+}
+function recoverPublication({publicationRoot,invocation,observe=()=>{}}){
+  const root=destination(publicationRoot),owner=publicationOwner(root,'publication.lock');
+  need(owner.invocation===invocation,'RECOVERY_OWNER');
+  requireDeadOwner(owner,'RECOVERY_OWNER_ALIVE');
+  observe('owner-read');
+  const {name,claim,interrupted}=claimPublicationRecovery(root,owner);
+  try{
+    need(equal(publicationOwner(root,'publication.lock'),owner),'RECOVERY_LOCK_CHANGED');
+    const current=fs.existsSync(inside(root,'current.json'))?readPublished(root):undefined;
+    for(const name of ['stage-'+invocation,'current-'+invocation+'.json',...(current?.pointer.invocation===invocation?[]:['generations/'+invocation])]){
+      const file=inside(root,name);if(fs.existsSync(file))fs.rmSync(file,{recursive:true});
+    }
+    need(equal(publicationOwner(root,'publication.lock'),owner),'RECOVERY_LOCK_CHANGED');
+    observe('before-unlock');
+    fs.unlinkSync(inside(root,'publication.lock'));
+    for(const prior of interrupted.reverse())releasePublicationOwnership(root,prior.name,prior.owner);
+    return {invocation,status:'interrupted',published:current?.pointer.invocation===invocation,cleanup:'owned-stage-pointer-and-unreferenced-generation-only'};
+  }finally{releasePublicationOwnership(root,name,claim);}
 }
 async function worker(args){
   need(args.length===5&&args[0]==='--publish-worker','WORKER_USAGE');

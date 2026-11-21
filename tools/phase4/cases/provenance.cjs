@@ -1,6 +1,8 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path');
 const {isDeepStrictEqual:equal}=require('node:util');
+const {spawnSync}=require('node:child_process');
+const {setTimeout:delay}=require('node:timers/promises');
 const content=require('../content.cjs'),runner=require('../check.cjs');
 const {ROOT,INDEX,EXPECTED,hash,need,inside,bytes,document,expected,validate,write,publish,readPublished}=content;
 function snapshot(){return Object.fromEntries([INDEX,EXPECTED,'tools/phase4/content.cjs','tools/phase4/cases/provenance.cjs',
@@ -108,6 +110,95 @@ const definition={group:'source',title:'Exact independent census, provenance and
   reset:'Run-owned copies and generations only; no game/audio; preserve failure evidence and originals',
   evidence:['inputs.json','pack-diagnostics.json','h01-wrong-owner.json','h05-interrupted-before-validation.json','h05-competing-lock.json','inputs-after.json','result.json']};
 runner.registerCase('source.provenance',definition,provenance);
+async function waitForPublicationMarker(directory,name){
+  const deadline=Date.now()+5000;
+  while(!fs.existsSync(inside(directory,name))){
+    need(Date.now()<deadline,'PUBLICATION_RACE_MARKER_TIMEOUT',name);
+    await delay(25);
+  }
+  return document(directory,name);
+}
+async function publicationRecoveryRace(context,{sourceRoot,publicationRoot,script}){
+  const dead=context.nonce+'-race-dead',fresh=context.nonce+'-race-new';
+  const pointer=hash(bytes(publicationRoot,'current.json'));
+  const interrupted=await runner.command(context,'race-dead-owner',process.execPath,[script,'--publish-worker',
+    sourceRoot,publicationRoot,dead,'before-commit'],{interruptMarker:'PUBLICATION_PAUSED '+dead+' before-commit'}).catch(error=>error);
+  need(interrupted.message?.includes('LOADER_INTERRUPTED'),'PUBLICATION_RACE_DEAD_OWNER');
+  const harness=`
+    const [script,root,publication,invocation,mode]=process.argv.slice(1);
+    const fs=require('node:fs'),content=require(script),directory=process.cwd();
+    const wait=(name)=>{const limit=Date.now()+15000;
+      while(!fs.existsSync(content.inside(directory,name))){
+        if(Date.now()>=limit)throw new Error('PUBLICATION_RACE_RELEASE_TIMEOUT '+name);
+        Atomics.wait(new Int32Array(new SharedArrayBuffer(4)),0,0,20);
+      }
+    };
+    const observe=(step,key)=>{
+      content.write(directory,key+'-ready.json',{pid:process.pid,invocation,step});
+      wait(key+'-go.json');
+    };
+    async function run(){
+      if(mode==='new-writer'){
+        const result=await content.publish({sourceRoot:root,index:content.document(root,content.INDEX),
+          publicationRoot:publication,invocation,observe:step=>{if(step==='locked')observe(step,'writer');}});
+        console.log(JSON.stringify(result));
+      }else{
+        const result=content.recoverPublication({publicationRoot:publication,invocation,
+          observe:step=>{if(step==='owner-read'&&mode==='stale-recoverer')observe(step,'recoverer');}});
+        console.log(JSON.stringify(result));
+      }
+    }
+    run().catch(error=>{console.error(error.message);process.exitCode=1;});
+  `;
+  const args=(invocation,mode)=>['-e',harness,script,sourceRoot,publicationRoot,invocation,mode];
+  const launched=[];
+  function launch(name,invocation,mode){
+    const child=runner.command(context,name,process.execPath,args(invocation,mode),{timeout:22000}).catch(error=>error);
+    launched.push(child);return child;
+  }
+  function permit(name){write(context.directory,name+'-go.json',{release:true});}
+  function blocked(args,code){
+    const result=spawnSync(process.execPath,args,{cwd:context.directory,windowsHide:true,encoding:'utf8',timeout:5000});
+    need(!result.error&&result.status===1&&result.stderr.startsWith(code+' '),'PUBLICATION_RACE_CONTEST',result.stderr);
+    return {exitCode:result.status,stderr:result.stderr.trim()};
+  }
+  const stale=launch('race-stale-recoverer',dead,'stale-recoverer');
+  try{
+    const staleOwner=await waitForPublicationMarker(context.directory,'recoverer-ready.json');
+    need(staleOwner.pid!==process.pid&&staleOwner.invocation===dead&&staleOwner.step==='owner-read','PUBLICATION_RACE_STALE_READ');
+    let refused;
+    const recovered=content.recoverPublication({publicationRoot,invocation:dead,observe:step=>{
+      if(step!=='before-unlock')return;
+      refused={
+        recoverer:blocked(args(dead,'competing-recoverer'),'RECOVERY_LOCKED'),
+        writer:blocked([script,'--publish-worker',sourceRoot,publicationRoot,fresh,'none'],'Error: PUBLICATION_LOCKED')
+      };
+      need(document(publicationRoot,'publication.lock').invocation===dead&&
+        hash(bytes(publicationRoot,'current.json'))===pointer,'PUBLICATION_RACE_BEFORE_UNLOCK');
+    }});
+    need(refused&&!recovered.published,'PUBLICATION_RACE_RECOVERY');
+    const writer=launch('race-new-writer',fresh,'new-writer');
+    const writerOwner=await waitForPublicationMarker(context.directory,'writer-ready.json');
+    const liveLock=document(publicationRoot,'publication.lock');
+    need(writerOwner.pid===liveLock.pid&&writerOwner.invocation===fresh&&liveLock.invocation===fresh&&
+      writerOwner.step==='locked','PUBLICATION_RACE_NEW_OWNER');
+    permit('recoverer');
+    const rejected=await stale,record=document(context.directory,'race-stale-recoverer.command.json');
+    need(rejected instanceof Error&&record.pid===staleOwner.pid&&record.code===1&&record.streamsClosed&&
+      !record.cleanupError&&record.stderr.startsWith('RECOVERY_LOCK_CHANGED'),'PUBLICATION_RACE_STALE_REJECTION',record.stderr);
+    need(equal(document(publicationRoot,'publication.lock'),liveLock)&&
+      hash(bytes(publicationRoot,'current.json'))===pointer,'PUBLICATION_RACE_WINNER_UNCHANGED');
+    permit('writer');
+    const completed=await writer;
+    need(!(completed instanceof Error)&&completed.pid===writerOwner.pid&&
+      readPublished(publicationRoot).pointer.invocation===fresh&&
+      !fs.existsSync(inside(publicationRoot,'publication.lock')),'PUBLICATION_RACE_NEW_PUBLICATION');
+    const evidence={dead,recovered,refused,staleRecovererPid:staleOwner.pid,winningWriterPid:writerOwner.pid,
+      currentUnchangedDuringRecovery:true,winningLockUnchanged:true,published:fresh};
+    write(context.directory,'publication-recovery-race.json',evidence);
+    return evidence;
+  }finally{await Promise.all(launched);}
+}
 async function publication(context){
   const before=snapshot(),legacy=subject(context,'legacy-baseline'),index=legacy.index,sourceRoot=legacy.root,publicationRoot=path.join(context.directory,'publication'),script=path.join(ROOT,'tools/phase4/content.cjs');
   write(context.directory,'inputs.json',before);const baseline=publish({sourceRoot,index,publicationRoot,invocation:context.nonce+'-baseline'});
@@ -170,10 +261,11 @@ async function publication(context){
   const forward=content.merge(index,{outputs:[],origins:[],shards:[{...index.shards.find(x=>x.status==='pending'),status:'selected',version:1,bytes:15,sha256:'a'.repeat(64)}]});
   need(forward.shards.filter(x=>x.status==='selected').length===2,'PENDING_SHARD_TRANSITION');
   need(equal(snapshot(),before),'PRODUCTION_CHANGED');write(context.directory,'inputs-after.json',snapshot());
-  write(context.directory,'publication-trials.json',{observations,runs,unchangedOriginals:true});
+  const recoveryRace=await publicationRecoveryRace(context,{sourceRoot,publicationRoot,script});
+  write(context.directory,'publication-trials.json',{observations,runs,recoveryRace,unchangedOriginals:true});
   const current=await currentPublication(context);
   return {current,heldout:{H05:'pass-source-actual-process-interruption-and-contention',H33:'pass-source-repeat-export-import'},
-    observations,runs,liveCompetition,finalNativeListeningJudgment:'pending-04-32/04-33',wholePack:'incomplete'};
+    observations,runs,liveCompetition,recoveryRace,finalNativeListeningJudgment:'pending-04-32/04-33',wholePack:'incomplete'};
 }
 async function currentPublication(context){
   const index=content.normalizeCurrent(ROOT),publicationRoot=path.join(context.directory,'current-publication'),before=snapshot(),controls=[];
