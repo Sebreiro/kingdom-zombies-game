@@ -46,7 +46,9 @@ function decodePng(file, width = 1280, height = 720) {
 }
 async function command(executable, args, options = {}, timeoutMilliseconds = 12000) {
   return new Promise((resolve, reject) => {
-    const child = spawn(executable, args, { ...options, shell: false, windowsHide: true, detached: process.platform !== 'win32' });
+    const {watchChild, ...launchOptions} = options;
+    const child = spawn(executable, args, { ...launchOptions, shell: false, windowsHide: true, detached: process.platform !== 'win32' });
+    watchChild?.(child);
     let stdout = '', stderr = '', timedOut = false;
     child.stdout?.on('data', chunk => { stdout += chunk; });
     child.stderr?.on('data', chunk => { stderr += chunk; });
@@ -82,11 +84,13 @@ function ownedInput(dispatch) {
 function createSession(context) {
   const { root, directory, nonce, engine, env } = context;
   const width = 1280, height = 720;
-  const game = spawn(engine, ['--path', path.join(root, 'src/godot-game'), '--rendering-method', 'gl_compatibility', '--resolution', `${width}x${height}`], {
-    cwd: root, env: { ...env, PHASE2_NONCE: nonce, PHASE2_OUTPUT: directory,
+  const launch = context.beforeGame?.('solo',directory,engine);
+  const game = spawn(engine, ['--path', context.project ?? path.join(root, 'src/godot-game'), '--rendering-method', 'gl_compatibility', '--resolution', `${width}x${height}`], {
+    cwd: root, env: { ...(launch?.env ?? env), PHASE2_NONCE: nonce, PHASE2_OUTPUT: directory,
       PHASE3_PROFILE_ROOT:path.join(directory,'profiles'),
       ...(context.includeMenu?{PHASE2_FAIL_ENTRY_ONCE:nonce}:{}) }, shell: false, windowsHide: false, detached:process.platform !== 'win32',
   });
+  context.watchChild?.(game,launch);
   let log = '', exited = false, exitCode;
   game.stdout.on('data', chunk => { log += chunk; }); game.stderr.on('data', chunk => { log += chunk; });
   game.on('error', error => { log += error.stack; exited = true; });
@@ -97,7 +101,8 @@ function createSession(context) {
     const windows = process.platform === 'win32';
     const result = await command(windows ? 'powershell.exe' : '/bin/sh', windows
       ? ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', path.join(root, 'tools/phase2/windows-input.ps1'), '-OwnedPid', String(game.pid), '-Action', action, '-X', String(x), '-Y', String(y), '-Key', String(key)]
-      : [path.join(root, 'tools/phase2/linux-input.sh'), String(game.pid), action, String(x), String(y), String(key)], { cwd: root, env });
+      : [path.join(root, 'tools/phase2/linux-input.sh'), String(game.pid), action, String(x), String(y), String(key)],
+      { cwd:root,env,watchChild:context.watchChild },context.budget?.(12000) ?? 12000);
     const acknowledgement = JSON.parse(result.stdout.trim());
     requireTrue(acknowledgement.pid === game.pid && acknowledgement.focused === true && acknowledgement.action === action, 'INPUT_ACKNOWLEDGEMENT');
     inputs.push(acknowledgement);
@@ -110,7 +115,7 @@ function createSession(context) {
     fs.appendFileSync(path.join(directory,'requests.jsonl'),JSON.stringify({checkpoint,request,at:new Date().toISOString()})+'\n');
     fs.writeFileSync(path.join(directory, 'observe.request.tmp'), request, { flag: 'wx' });
     fs.renameSync(path.join(directory, 'observe.request.tmp'), path.join(directory, 'observe.request'));
-    const target = path.join(directory, requestId + '.json'), deadline = Date.now() + 12000;
+    const target = path.join(directory, requestId + '.json'), deadline = Date.now() + (context.budget?.(12000) ?? 12000);
     while (!fs.existsSync(target)) {
       requireTrue(!exited && Date.now() < deadline, 'OBSERVATION_DEADLINE ' + checkpoint + ': ' + log);
       await delay(50);

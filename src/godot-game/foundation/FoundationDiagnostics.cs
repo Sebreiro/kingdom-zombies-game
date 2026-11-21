@@ -1,6 +1,9 @@
 using System;
 using System.IO;
+using System.Reflection;
 using System.Text.Json;
+using KingdomZombies.Core;
+using KingdomZombies.Multiplayer.Abstractions;
 using KingdomZombies.Proofs;
 
 namespace KingdomZombies.Foundation;
@@ -10,8 +13,48 @@ internal sealed class FoundationDiagnostics
 {
     internal void Attach(Godot.Control root, MainThreadGateway gateway)
     {
+        RecordLoadedAssemblies();
         _draw = new FoundationDrawObserver(root: root, gateway: gateway);
         _draw.Start();
+    }
+
+    private static void RecordLoadedAssemblies()
+    {
+        string? launch = Environment.GetEnvironmentVariable(variable: "KZ_PHASE4_ATTEST_ID");
+        string? nonce = Environment.GetEnvironmentVariable(variable: "PHASE2_NONCE")
+                ?? Environment.GetEnvironmentVariable(variable: "PHASE3_NONCE");
+        if (!Guid.TryParseExact(input: launch, format: "D", result: out _)
+                || !Guid.TryParseExact(input: nonce, format: "D", result: out _))
+        {
+            return;
+        }
+
+        string? baseDirectory = Environment.GetEnvironmentVariable(variable: "PHASE2_OUTPUT")
+                ?? FoundationObservationScope.Directory();
+        if (baseDirectory is null) { return; }
+        var destination = new DirectoryInfo(path: Path.Combine(path1: baseDirectory, path2: "phase4-runtime"));
+        string marker = Path.Combine(path1: destination.FullName, path2: "owner");
+        if (!destination.Exists || destination.Attributes.HasFlag(flag: FileAttributes.ReparsePoint)
+                || !StringComparer.Ordinal.Equals(x: File.ReadAllText(path: marker), y: launch))
+        {
+            throw new InvalidDataException(message: "PHASE4_RUNTIME_OBSERVATION_OWNER");
+        }
+
+        Assembly[] assemblies = [typeof(FoundationDiagnostics).Assembly, typeof(ContentPack).Assembly,
+            typeof(IDiscoveryService).Assembly];
+        using var stream = new FileStream(path: Path.Combine(path1: destination.FullName, path2: "loaded-assemblies.ndjson"),
+                mode: FileMode.CreateNew, access: FileAccess.Write);
+        using var writer = new StreamWriter(stream: stream);
+        foreach (Assembly assembly in assemblies)
+        {
+            writer.WriteLine(value: JsonSerializer.Serialize(value: new
+            {
+                launch, pid = Environment.ProcessId, executable = Environment.ProcessPath,
+                name = assembly.GetName().Name, file = assembly.Location,
+                mvid = assembly.ManifestModule.ModuleVersionId.ToString(format: "D"),
+                version = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion,
+            }));
+        }
     }
 
     internal void Detach()

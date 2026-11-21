@@ -5,6 +5,42 @@ const {performance} = require('node:perf_hooks');
 const {setTimeout:delay} = require('node:timers/promises');
 const {need} = require('./evidence.cjs');
 
+function managedMvid(data) {
+  const u16=at=>data.readUInt16LE(at), u32=at=>data.readUInt32LE(at);
+  const pe=u32(0x3c), optional=pe+24, format=u16(optional);
+  need(u16(0)===0x5a4d && u32(pe)===0x4550 && [0x10b,0x20b].includes(format),'RENDERED_MANAGED_PE');
+  const sections=optional+u16(pe+20), count=u16(pe+6);
+  function fileOffset(rva) {
+    for (let index=0;index<count;index++) {
+      const at=sections+index*40, address=u32(at+12), bytes=u32(at+16);
+      if (rva>=address && rva<address+bytes) return u32(at+20)+rva-address;
+    }
+    throw new Error('RENDERED_MANAGED_RVA');
+  }
+  const directories=optional+(format===0x10b?96:112), cli=fileOffset(u32(directories+14*8));
+  const metadata=fileOffset(u32(cli+8)), streams=metadata+16+u32(metadata+12);
+  need(u32(metadata)===0x424a5342 && u16(streams+2)<=32,'RENDERED_MANAGED_METADATA');
+  let cursor=streams+4;
+  const entries=new Map();
+  for (let index=0;index<u16(streams+2);index++) {
+    const nameAt=cursor+8, end=data.indexOf(0,nameAt);
+    need(end>=nameAt && end-nameAt<32,'RENDERED_MANAGED_STREAM');
+    entries.set(data.toString('ascii',nameAt,end),{at:metadata+u32(cursor),size:u32(cursor+4)});
+    cursor=nameAt+Math.ceil((end-nameAt+1)/4)*4;
+  }
+  const tables=entries.get('#~')??entries.get('#-'), guids=entries.get('#GUID');
+  need(tables && guids,'RENDERED_MANAGED_TABLES');
+  const flags=data[tables.at+6], mask=data.readBigUInt64LE(tables.at+8);
+  need(Boolean(mask&1n) && u32(tables.at+24)===1,'RENDERED_MANAGED_MODULE');
+  let tableCount=0;
+  for (let valid=mask;valid;valid>>=1n) if (valid&1n) tableCount++;
+  const indexAt=tables.at+24+4*tableCount+2+(flags&1?4:2), index=flags&2?u32(indexAt):u16(indexAt);
+  const guid=guids.at+(index-1)*16;
+  need(index>0 && index*16<=guids.size && guid+16<=data.length,'RENDERED_MANAGED_MVID');
+  return [u32(guid).toString(16).padStart(8,'0'),u16(guid+4).toString(16).padStart(4,'0'),
+    u16(guid+6).toString(16).padStart(4,'0'),data.toString('hex',guid+8,guid+10),data.toString('hex',guid+10,guid+16)].join('-');
+}
+
 function timeBudget(milliseconds, signal, now = () => performance.now()) {
   const end = now() + milliseconds;
   return (limit = milliseconds) => {
@@ -94,4 +130,4 @@ async function command(owner, executable, args, options, timeout, signal) {
   });
 }
 
-module.exports = {timeBudget,observeChildren,command};
+module.exports = {managedMvid,timeBudget,observeChildren,command};

@@ -294,16 +294,160 @@ function currentIdentity(root) {
   const source = e.identifySource(root, review.revision);
   const tools = e.identifyTool(root);
   const build = e.document(root, review.buildReport);
-  e.need(build.schemaVersion === 1 && build.status === 'pass' && build.revision === source.revision &&
-    build.source === source.source && build.media === source.media && build.tool === tools.tool &&
-    build.sourceLinkRevision === source.revision && Array.isArray(build.artifacts) && build.artifacts.length > 0, 'REVIEW_BUILD');
-  for (const ref of build.artifacts) e.artifact(root, ref);
+  validateBuild(root,build,source,tools.tool);
+  return {revision:source.revision, source:source.source, media:source.media, tool:tools.tool, build:review.buildReport.sha256};
+}
+
+const MANAGED_NAMES = ['KingdomZombies','KingdomZombies.Core','KingdomZombies.Multiplayer.Abstractions','GodotSharp'];
+const NATIVE_ENGINE_HASH = '45336315eb6f1a52a8923bc4f2ce8079a03dc4939dcb7d531047890f1f7cdfab';
+const DOTNET='C:/Program Files/dotnet/dotnet.exe';
+
+async function prepareSource(root,revision) {
+  const source=e.identifySource(root,revision),tool=e.identifyTool(root);
+  const nonce=crypto.randomUUID(), ownership='.phase4/runs/'+nonce+'/', directory=path.resolve(root,ownership);
+  const copy=ownership+'source/', relative=copy+'src/godot-game', project=path.resolve(root,relative);
+  const {command,environment}=require('./check.cjs');
+  const context={directory,nonce,revision,caseId:'rendered-source-preparation'};
+  const pin=e.document(root,'tools/phase1/toolchain.json');
+  const win=pin.archives['win32-x64'];
+  const engine=e.reference(root,'.phase1/tools/'+win.directory+'/'+win.executable.replace('_console.exe','.exe'),256*1024*1024);
+  e.need(engine.sha256===NATIVE_ENGINE_HASH,'RENDERED_EXECUTABLE');
+  e.committedRef(root,e.git(root,['rev-parse','HEAD']).trim(),e.reference(root,e.TARGETS));
+  for (const ref of source.files.filter(row=>/^(?:src\/|tools\/code-rules\/|Directory\.|BannedSymbols|\.(?:editorconfig|gitattributes)$|global\.json$|NuGet\.config$|KingdomZombies\.slnx$)/.test(row.path)))
+    e.writeExclusive(root,copy+ref.path,e.artifact(root,ref).data);
+  const env=environment(directory);
+  const sdk=await command(context,'rendered-source-sdk',DOTNET,['--version'],{env});
+  e.need(sdk.stdout.trim()===pin.sdk,'RENDERED_SOURCE_SDK');
+  const importArgs=['--headless','--path',project,'--editor','--import'];
+  await command(context,'rendered-source-import',path.resolve(root,engine.path),importArgs,{env});
+  const isolated=['--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false',
+    '-p:RestorePackagesPath='+path.join(root,'.phase1/packages'),
+    '-p:RestoreSources='+path.join(root,'.phase1/feed'),'-v:minimal'];
+  await command(context,'rendered-source-build',DOTNET,['build',path.join(project,'KingdomZombies.csproj'),'-c','Debug',...isolated,
+    '-p:SourceRevisionId='+revision,'-p:IncludeSourceRevisionInInformationalVersion=true',
+    '-p:CustomAfterMicrosoftCommonTargets='+path.join(root,e.TARGETS)],{env});
+  const build={revision,source:source.source,media:source.media,tool:tool.tool,engine,sourceProject:{path:relative,
+    import:e.reference(root,ownership+'rendered-source-import.command.json'),
+    build:e.reference(root,ownership+'rendered-source-build.command.json'),
+    sdk:e.reference(root,ownership+'rendered-source-sdk.command.json'),
+    imports:delivery.inventory(path.join(project,'.godot','imported')),
+    managed:delivery.inventory(path.join(project,'.godot','mono','temp','bin','Debug'))}};
+  validateSourceProject(root,build,source);
+  return e.writeExclusive(root,ownership+'rendered-source.json',build);
+}
+
+function validateBuild(root,build,source,tool) {
+  e.need(build.schemaVersion === 2 && build.status === 'pass' && build.revision === source.revision &&
+    build.source === source.source && build.media === source.media && build.tool === tool,'REVIEW_BUILD');
+  const pin = e.document(root,'tools/phase1/toolchain.json').archives['win32-x64'];
+  e.need(build.engine?.path === '.phase1/tools/'+pin.directory+'/'+pin.executable.replace('_console.exe','.exe') &&
+    build.engine.sha256 === NATIVE_ENGINE_HASH,'RENDERED_EXECUTABLE');
+  e.artifact(root,build.engine);
+  const item = loadCatalog(root).cases.find(row => row.id === 'export.portability');
+  const {result} = phase4SourceReceipt(root,item,{result:build.deliveryResult},source);
+  const receipt = e.document(root,build.delivery);
+  const directory = '.phase4/runs/'+result.nonce+'/portable/';
+  e.need(build.delivery.path === '.phase4/runs/'+result.nonce+'/portable-delivery.json' &&
+    build.package?.path === directory+'KingdomZombies.exe' && build.pck?.path === directory+'KingdomZombies.pck' &&
+    equal(receipt,result.observations) && receipt.revision === result.revision && receipt.nonce === result.nonce &&
+    equal(result.testedSource,{source:source.source,media:source.media}) && e.sameCommittedSource(root,result.revision,source.revision),
+    'REVIEW_BUILD_DELIVERY_RECEIPT');
+  const portable = delivery.validatePortableReceipt(root,build,receipt);
   const pack = e.artifact(root,build.pck,64*1024*1024);
-  e.need(build.pck.path === path.posix.join(path.posix.dirname(build.package?.path ?? ''),'KingdomZombies.pck'),
-    'REVIEW_BUILD_PCK');
   e.exact(Object.keys(delivery.RENDERED_FIXTURES),Object.keys(build.renderedFixtures ?? {}),'rendered PCK fixtures');
   for (const id of Object.keys(delivery.RENDERED_FIXTURES)) delivery.verifyRenderedFixture(pack.data,id,build.renderedFixtures[id]);
-  return {revision:source.revision, source:source.source, media:source.media, tool:tools.tool, build:review.buildReport.sha256};
+  delivery.packaged(path.dirname(path.join(root,build.package.path)));
+  const sourceManaged=validateSourceProject(root,build,source);
+  return {...build,portable,sourceManaged};
+}
+
+function validateSourceProject(root,build,source) {
+  const prepared = build.sourceProject;
+  const match = /^\.phase4\/runs\/([a-f0-9-]+)\/source\/src\/godot-game$/.exec(prepared?.path ?? '');
+  e.need(match && e.UUID.test(match[1]),'RENDERED_SOURCE_PROJECT');
+  const ownership = '.phase4/runs/'+match[1]+'/', copy = ownership+'source/';
+  const project = path.resolve(root,prepared.path);
+  const tracked = source.files.filter(ref => ref.path.startsWith('src/godot-game/'));
+  const authored = [];
+  function visit(directory,prefix) {
+    for (const entry of fs.readdirSync(directory,{withFileTypes:true})) {
+      if (prefix === '' && entry.name === '.godot') continue;
+      const name = prefix+entry.name;
+      e.need(!entry.isSymbolicLink(),'RENDERED_SOURCE_REPARSE',name);
+      if (entry.isDirectory()) visit(path.join(directory,entry.name),name+'/');
+      else authored.push('src/godot-game/'+name);
+    }
+  }
+  visit(project,'');
+  e.exact(tracked.map(ref => ref.path),authored,'prepared source project files');
+  for (const ref of tracked) {
+    if (ref.path !== 'src/godot-game/project.godot') e.artifact(root,{...ref,path:copy+ref.path});
+    else {
+      const original=e.artifact(root,ref).data.toString('utf8'), actual=e.read(root,copy+ref.path).data.toString('utf8');
+      const newline=original.includes('\r\n')?'\r\n':'\n';
+      const block=['[editor]','','import/use_multiple_threads=false',''].join(newline);
+      const expected=original.endsWith(newline+block)?original:original+(original.endsWith('\n')?'':newline)+newline+block;
+      e.need(actual===expected,'RENDERED_SOURCE_PROJECT_SETTINGS');
+    }
+  }
+  function execution(ref, name) {
+    e.need(ref?.path === ownership+name+'.command.json','RENDERED_SOURCE_PREPARATION',name);
+    const row=e.document(root,ref);
+    e.need(row.name===name && row.code===0 && row.signal===null && row.streamsClosed===true && !row.reason &&
+      !row.spawnError && !row.cleanupError && !/ERROR:|SCRIPT ERROR:|Unpaired surrogate/i.test(row.stdout+row.stderr),
+      'RENDERED_SOURCE_PREPARATION',name);
+    return row;
+  }
+  const imported=execution(prepared.import,'rendered-source-import');
+  const compiled=execution(prepared.build,'rendered-source-build');
+  const sdk=execution(prepared.sdk,'rendered-source-sdk');
+  const pin=e.document(root,'tools/phase1/toolchain.json');
+  e.need(sdk.stdout.trim()===pin.sdk && equal(sdk.args,['--version']) && [sdk,compiled].every(row =>
+    path.resolve(row.executable)===path.resolve(DOTNET)),
+    'RENDERED_SOURCE_SDK');
+  e.need(equal(imported.args,['--headless','--path',project,'--editor','--import']) &&
+    path.resolve(imported.executable)===path.resolve(root,build.engine.path),'RENDERED_SOURCE_IMPORT_ENGINE');
+  e.need(compiled.args?.includes(path.join(project,'KingdomZombies.csproj')) &&
+    compiled.args.includes('-p:SourceRevisionId='+source.revision) && compiled.args.includes('-p:IncludeSourceRevisionInInformationalVersion=true') &&
+    compiled.args.includes('-p:CustomAfterMicrosoftCommonTargets='+path.join(root,e.TARGETS)),
+    'RENDERED_SOURCE_COMPILED_REVISION');
+  const imports=delivery.inventory(path.join(project,'.godot','imported'));
+  e.need(imports.length>0 && equal(imports,prepared.imports),'RENDERED_SOURCE_IMPORT_CLOSURE');
+  const managed=delivery.inventory(path.join(project,'.godot','mono','temp','bin','Debug'));
+  e.need(equal(managed,prepared.managed),'RENDERED_SOURCE_MANAGED_CLOSURE');
+  return Object.fromEntries(MANAGED_NAMES.map(name => {
+    const file=prepared.path+'/.godot/mono/temp/bin/Debug/'+name+'.dll';
+    const artifact=e.read(root,file,64*1024*1024);
+    e.need(name==='GodotSharp' || artifact.data.includes(Buffer.from('+'+source.revision)),'RENDERED_SOURCE_STALE_DLL',name);
+    return [name,{sha256:artifact.sha256,mvid:owned.managedMvid(artifact.data),file}];
+  }));
+}
+
+function sourceLaunch(root,relative,build,role) {
+  const launch = crypto.randomUUID(), stream = relative+'/loaded-assemblies.ndjson';
+  fs.mkdirSync(path.resolve(root,relative),{recursive:true});
+  e.writeExclusive(root,relative+'/owner',Buffer.from(launch));
+  const env = {...delivery.cleanEnvironment(path.resolve(root,relative,'profile')),
+    DOTNET_ROOT:'C:\\Program Files\\dotnet', DOTNET_ROOT_X64:'C:\\Program Files\\dotnet',
+    KZ_PHASE4_ATTEST_ID:launch};
+  return {launch,stream,env,role};
+}
+
+function validateLoadedSource(root,build,run) {
+  const data=e.artifact(root,run.assemblies,1024*1024).data.toString('utf8');
+  e.need(data.endsWith('\n'),'RENDERED_SOURCE_RUNTIME_STREAM');
+  const observations=data.trimEnd().split('\n').map(line => JSON.parse(line));
+  const required=MANAGED_NAMES.filter(name=>name!=='GodotSharp');
+  e.exact(observations.map(row=>row.name),observations.map(row=>row.name),'distinct loaded assemblies');
+  e.need(required.every(name=>observations.some(row=>row.name===name)),'RENDERED_SOURCE_RUNTIME_ASSEMBLIES',run.role);
+  for (const row of observations) {
+    const declared=build.sourceManaged[row.name];
+    e.need(declared && row.launch===run.launch && row.pid===run.pid &&
+      path.resolve(row.executable)===path.resolve(root,build.engine.path) && path.resolve(row.file)===path.resolve(root,declared.file) &&
+      row.mvid===declared.mvid &&
+      (row.name==='GodotSharp'||row.version?.endsWith('+'+build.revision)),'RENDERED_SOURCE_RUNTIME_IDENTITY',String(row.name));
+  }
+  return observations;
 }
 
 function runId() {
@@ -319,19 +463,20 @@ function finalRendered(root, gate, current, refs, campaign) {
   e.need(final.drivers?.path === '.phase4/acceptance/'+final.invocation+'/declared-drivers.json','COMPLETION_DRIVER_SCOPE');
   const driverRecord = e.document(root,final.drivers);
   const drivers = reviewedDrivers(driverRecord,gate,current,native,final.kind);
-  const build = e.document(root,e.document(root,gate.review).buildReport);
+  const build = validateBuild(root,e.document(root,e.document(root,gate.review).buildReport),e.identifySource(root,current.revision),current.tool);
   e.need(driverRecord.campaign === final.campaign && driverRecord.declaredAt <= final.startedAt,'COMPLETION_DRIVER_TIME');
   for (const [index,row] of final.outcomes.entries()) {
     const item = native[index];
     if (!item.family) e.validateRenderedOutcome(root,row,final,drivers.get(row.id),build);
     else {
-      const {result,bindings} = e.document(root,row.inherited);
+      const {result,bindings,runtime} = e.document(root,row.inherited);
       const directory = path.resolve(root,path.dirname(row.inherited.path));
       e.need(bindings.nonce === final.invocation && bindings.revision === current.revision &&
         bindings.input === current.source && bindings.tool === current.tool && bindings.platform === 'win32-x64',
       'COMPLETION_INHERITED_BINDINGS',item.id);
       const original = {...item,id:item.originalId,runGroup:item.inheritedGroup};
       const context = {root,directory,...bindings};
+      validateInheritedRuntime(root,build,item.family,result,runtime);
       if (item.family === 'phase2') require('../phase2/evidence.cjs').reconcile([original],[result],context);
       else require('../phase3/evidence.cjs').reconcile([original],[result],context);
     }
@@ -571,7 +716,7 @@ function treePaths(raw) {
 async function nativeObserver(budget, signal) {
   const {encode, decode} = require('./native-observer.cjs');
   const {hash} = require('./content.cjs');
-  let channel, pid, thread, pending, trouble, received = 0;
+  let channel, pid, pidPacket, thread, pending, trouble, received = 0;
   const server = net.createServer(socket => {
     if (channel || socket.remoteAddress !== '127.0.0.1') {socket.destroy();return;}
     channel = socket;
@@ -589,9 +734,16 @@ async function nativeObserver(budget, signal) {
           const raw = buffer.subarray(4, size + 4);
           buffer = buffer.subarray(size + 4);
           const [message, sourceThread, payload] = decode(raw);
-          if (message === 'set_pid') {pid = payload[0];thread = sourceThread;}
+          if (message === 'set_pid') {
+            e.need(pid===undefined && Array.isArray(payload) && payload.length===1 && Number.isSafeInteger(payload[0]) &&
+              payload[0]>0 && Number.isSafeInteger(sourceThread) && sourceThread>0,'RENDERED_NATIVE_PID_PACKET');
+            [pid]=payload;thread=sourceThread;pidPacket=raw;
+          }
           if (['error','debug_enter'].includes(message)) throw new Error('RENDERED_NATIVE_ERROR ' + message);
-          if (pending?.response === message) pending.value = {payload,raw,sha256:hash(raw)};
+          if (pending?.response === message) {
+            e.need(sourceThread===thread && !pending.value,'RENDERED_NATIVE_RESPONSE');
+            pending.value = {payload,raw,sha256:hash(raw)};
+          }
         }
       } catch (error) {trouble ??= error;socket.destroy();}
     });
@@ -624,10 +776,10 @@ async function nativeObserver(budget, signal) {
     const inspected = await request('scene:inspect_objects','scene:inspect_objects',[[id],false]);
     const item = inspected.payload.find(value => value[0] === id);
     const property = item?.[2]?.find(value => value[0] === step.property);
-    e.need(property && equal(property[5],step.expected), 'RENDERED_NATIVE_PROPERTY', step.node + ' ' + step.property);
+    e.need(property && (step.collect === true || equal(property[5],step.expected)), 'RENDERED_NATIVE_PROPERTY', step.node + ' ' + step.property);
     return {node:step.node,property:step.property,value:property[5],tree,inspected};
   }
-  return {endpoint:'tcp://127.0.0.1:' + server.address().port, probe, close:() => {
+  return {endpoint:'tcp://127.0.0.1:' + server.address().port, probe, get pidPacket(){return pidPacket;}, close:() => {
     channel?.destroy();return new Promise(resolve => server.close(resolve));
   }};
 }
@@ -681,12 +833,17 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
   const target = role === 'inspection-hub' ? build.engine : subject.executable;
   e.artifact(root,target);
   const executable = path.join(root,target.path);
-  const project = role === 'inspection-hub' ? ['--path',path.join(root,'src/godot-game'),'res://inspection/Inspection.tscn'] : [];
+  const project = role === 'inspection-hub' ? ['--path',path.join(root,build.sourceProject.path),'res://inspection/Inspection.tscn'] : [];
   const directory = path.join(root,relative);
   fs.mkdirSync(directory,{recursive:true});
   const profile = path.join(directory,'profile');
   fs.mkdirSync(profile);
-  const env = {...adapter.env, APPDATA:profile, LOCALAPPDATA:profile, USERPROFILE:profile};
+  const loaded = role === 'inspection-hub' ? sourceLaunch(root,relative,build,role) : null;
+  const trace = relative+'/runtime-host.log';
+  const tracePath=path.join(root,trace);
+  const env = loaded?.env ?? delivery.validatePortableEnvironment({...delivery.cleanEnvironment(profile),COREHOST_TRACE:'1',
+    COREHOST_TRACEFILE:tracePath},profile,tracePath);
+  const environment = e.writeExclusive(root,relative+'/environment.json',env);
   const native = await nativeObserver(budget,signal);
   const args = ['--resolution','1280x720','--remote-debug',native.endpoint,...project];
   const startedAt = new Date().toISOString();
@@ -703,6 +860,7 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
   });
   let acknowledgement;
   let closing = false;
+  let runtime, observedImage;
   const input = adapter.physical(async (action,x,y,key) => {
     e.need(pid && !terminal && !error, 'RENDERED_PROCESS_LOST', role);
     const result = await owned.command(owner,'powershell.exe',['-NoProfile','-ExecutionPolicy','Bypass','-File',
@@ -720,6 +878,20 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
         if (terminal || error || Date.now() >= deadline) throw failure;
         await delay(Math.min(150,budget()),undefined,{signal});
       }
+    }
+    if (!runtime) {
+      const observer = require('./native-observer.cjs');
+      const state = await native.probe(pid,{node:observer.HUB,property:observer.RUNTIME_PROPERTY,collect:true});
+      const marker = observer.runtimeMarker(state.value);
+      e.need(loaded || marker === build.portable.managedRuntime,'RENDERED_PORTABLE_LIVE_ASSEMBLY');
+      const imageResult = await desktopCommand(root,"$ErrorActionPreference='Stop'; (Get-Process -Id ([int]$env:KZ_PHASE4_PID)).Path",
+        {...env,KZ_PHASE4_PID:String(pid)},budget(6000),owner,signal);
+      observedImage = imageResult.stdout.trim();
+      e.need(path.resolve(observedImage)===path.resolve(executable),'RENDERED_LIVE_IMAGE');
+      runtime = e.writeExclusive(root,relative+'/runtime.json',{pid,marker,observedImage,
+        pidPacket:e.writeExclusive(root,relative+'/runtime-pid.bin',native.pidPacket),
+        tree:e.writeExclusive(root,relative+'/runtime-tree.bin',state.tree.raw),
+        object:e.writeExclusive(root,relative+'/runtime-object.bin',state.inspected.raw)});
     }
     await input.input(step.action,step.x ?? 0,step.y ?? 0,step.key ?? 0);
     const at = new Date().toISOString(), physical = acknowledgement;
@@ -755,11 +927,12 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
     }
     const remainingPids = await owner.cleanup();
     const logRef = e.writeExclusive(root,relative+'/console.log',Buffer.from(log));
-    const record = {role,pid,startedAt,finishedAt:new Date().toISOString(),timedOut,
+    const record = {role,pid,startedAt,finishedAt:new Date().toISOString(),timedOut,environment,runtime,
       crashed:Boolean(error) || terminal?.exitCode !== 0 || /ERROR:|SCRIPT ERROR:|Failed to load/i.test(log),
       exitCode:terminal?.exitCode ?? null,signal:terminal?.signal ?? null,streamsClosed:Boolean(terminal),inputReleased,
       ownedPids:owner.pids(),remainingPids,log:logRef,executable:target,package:subject?.pck ?? null,
       fixture:subject?.fixture ?? null,profile:path.posix.join(relative,'profile')};
+    if (runtime && subject && fs.existsSync(path.join(root,trace))) record.hostTrace=e.reference(root,trace,16*1024*1024);
     return {record,ref:e.writeExclusive(root,relative+'/terminal.json',record)};
   }
   return {checkpoint,close,get usable(){return Boolean(pid && !terminal && !error);}};
@@ -809,6 +982,8 @@ async function runInspection(root, relative, group, items, drivers, build, adapt
     try {
       budget();
       const subject = packaged ? packagedSubject(root,relative,build,lane.fixture) : null;
+      if (packaged) validateProcessPackageFiles(root,build,subject);
+      else validateSourceProject(root,build,e.identifySource(root,build.revision));
       budget();
       session = await inspectionSession(root,owned,group.id,build,adapter,budget,signal,subject);
       for (const item of lane.items) {
@@ -836,26 +1011,105 @@ async function runInspection(root, relative, group, items, drivers, build, adapt
   return outcomes;
 }
 
-async function runInherited(root, relative, group, items, build, adapter, identity, invocation) {
+function validateProcessPackageFiles(root,build,subject) {
+  const prefix=path.posix.dirname(subject.executable.path);
+  const current=delivery.inventory(path.join(root,prefix));
+  const expected=build.portable.files.map(row => row.path==='KingdomZombies.pck'
+    ? {path:row.path,bytes:subject.pck.bytes,sha256:subject.pck.sha256} : row);
+  e.need(equal(current,expected),'RENDERED_LIVE_PORTABLE_CLOSURE',subject.fixture ?? 'positive');
+}
+
+function validateProcessRuntime(root,build,owner) {
+  const observer=require('./native-observer.cjs'), runtime=e.document(root,owner.runtime);
+  const tree=observer.decode(e.artifact(root,runtime.tree,1048576).data);
+  const object=observer.decode(e.artifact(root,runtime.object,1048576).data);
+  const handshake=observer.decode(e.artifact(root,runtime.pidPacket,1048576).data);
+  const id=treePaths(tree[2]).get(observer.HUB);
+  e.need(owner.pid===runtime.pid && path.resolve(runtime.observedImage)===path.resolve(root,owner.executable.path) &&
+    handshake[0]==='set_pid' && equal(handshake[2],[owner.pid]) && tree[1]===handshake[1] &&
+    tree[0]==='scene:scene_tree' && object[0]==='scene:inspect_objects' && tree[1]===object[1] && id &&
+    object[2].find(row=>row[0]===id)?.[2]?.some(row=>row[0]===observer.RUNTIME_PROPERTY&&row[5]===runtime.marker),'RENDERED_LIVE_RUNTIME_OWNER');
+  observer.runtimeMarker(runtime.marker);
+  if (owner.role==='inspection-hub') {
+    e.need(equal(owner.executable,build.engine),'RENDERED_SOURCE_ENGINE');
+    const [game,core]=runtime.marker.split('|').slice(1,3);
+    e.need(build.sourceManaged.KingdomZombies.mvid===game && build.sourceManaged['KingdomZombies.Core'].mvid===core,
+      'RENDERED_SOURCE_RUNTIME_MARKER');
+  } else {
+    e.need(owner.role==='packaged-inspection' && runtime.marker===build.portable.managedRuntime,'RENDERED_PORTABLE_LIVE_ASSEMBLY');
+    e.artifact(root,owner.hostTrace,16*1024*1024);
+    delivery.validatePortableEnvironment(e.document(root,owner.environment),path.resolve(root,owner.profile),path.resolve(root,owner.hostTrace.path));
+    const directory=path.dirname(path.resolve(root,owner.hostTrace.path));
+    const subject=path.dirname(path.resolve(root,owner.executable.path));
+    e.need(path.basename(owner.hostTrace.path)==='runtime-host.log','RENDERED_HOST_TRACE_SCOPE');
+    delivery.hostTrace({directory},'runtime',subject);
+    validateProcessPackageFiles(root,build,{fixture:owner.fixture,executable:owner.executable,pck:owner.package});
+  }
+}
+
+function validateInheritedRuntime(root,build,family,result,runtime) {
+  const expected=family==='phase2' ? [{role:'solo',pid:result.pid}] :
+    result.ownedProcesses?.map(({role,pid})=>({role,pid}));
+  e.need(expected?.length>0 && Array.isArray(runtime),'RENDERED_INHERITED_RUNTIME');
+  e.exact(expected.map(row=>row.role+'@'+row.pid),runtime.map(row=>row.role+'@'+row.pid),'inherited runtime owner roles');
+  for (const row of runtime) validateLoadedSource(root,build,row);
+}
+
+async function runInherited(root, relative, group, items, build, adapter, identity, invocation, signal) {
   const original = items.map(item => ({...item,id:item.originalId,runGroup:item.inheritedGroup}));
   const directory = path.join(root,relative,group.id);
   fs.mkdirSync(directory,{recursive:true});
   const engine = path.join(root,build.engine.path);
   const {revision,source:input,tool} = identity;
+  const children = owned.observeChildren(), launches = new Map();
+  const groupSignal = AbortSignal.any([signal,AbortSignal.timeout(group.timeoutMs)]);
+  const budget = owned.timeBudget(group.timeoutMs,groupSignal), currentSource=e.identifySource(root,revision);
+  const cancel=()=>{void children.cleanup().catch(() => {});};
+  groupSignal.addEventListener('abort',cancel,{once:true});
   const context = {root,directory,engine,env:adapter.env,revision,input,tool,nonce:invocation,platform:'win32-x64',
+    ownsDesktopLock:true,project:path.resolve(root,build.sourceProject.path),runRoot:path.resolve(root,relative),budget,
+    beforeGame(role,where,target) {
+      budget();
+      e.need(path.resolve(target)===path.resolve(engine),'RENDERED_INHERITED_ENGINE',role);
+      e.artifact(root,build.engine);
+      validateSourceProject(root,build,currentSource);
+      const destination=path.relative(root,where).replaceAll(path.sep,'/')+'/phase4-runtime';
+      return sourceLaunch(root,destination,build,role);
+    },
+    watchChild(child,launch) {
+      children.track(child);
+      if (launch && child.pid) launches.set(child.pid,launch);
+    },
     osFingerprint:require('./content.cjs').hash(JSON.stringify({platform:process.platform,architecture:process.arch,release:os.release(),version:os.version()}))};
   const solo = group.id === 'G3-solo';
-  const executed = solo ? {results:await adapter.solo(context,original)} : await adapter.lan(context,original);
+  if (!solo) e.writeExclusive(root,relative+'/observation.owner',Buffer.from(invocation));
+  let executed;
+  try {
+    executed = solo ? {results:await adapter.solo(context,original)} : await adapter.lan(context,original);
+  } finally {
+    groupSignal.removeEventListener('abort',cancel);
+    const remainingPids=await children.cleanup();
+    e.writeExclusive(root,relative+'/'+group.id+'/phase4-owned-cleanup.json',{ownedPids:children.pids(),remainingPids});
+    e.need(remainingPids.length===0,'RENDERED_INHERITED_PROCESS_REMAINDER',group.id);
+  }
+  budget();
   const bindings = {nonce:invocation,input,tool,revision,platform:context.platform,osFingerprint:context.osFingerprint};
   const outcomes = [];
   for (const [index,item] of items.entries()) {
     const result = executed.results.find(row => row.id === item.originalId);
     let status = result?.status ?? 'blocked', observed = result?.message ?? 'Inherited original case executed on current Phase 4 build';
+    const runtime=[];
     if (status === 'pass') try {
       if (solo) require('../phase2/evidence.cjs').reconcile([original[index]],[result],context);
       else require('../phase3/evidence.cjs').reconcile([original[index]],[result],context);
+      for (const pid of solo?[result.pid]:result.ownedProcesses.map(row=>row.pid)) {
+        const subject=launches.get(pid);
+        e.need(subject,'RENDERED_INHERITED_RUNTIME_OWNER',String(pid));
+        runtime.push({pid,role:subject.role,launch:subject.launch,assemblies:e.reference(root,subject.stream,1024*1024)});
+      }
+      validateInheritedRuntime(root,build,item.family,result,runtime);
     } catch (error) {status = 'invalid';observed = error.message;}
-    const inherited = e.writeExclusive(root,relative+'/'+group.id+'/'+item.originalId+'-result.json', {bindings,result:result??null});
+    const inherited = e.writeExclusive(root,relative+'/'+group.id+'/'+item.originalId+'-result.json', {bindings,runtime,result:result??null});
     outcomes.push({id:item.id,runGroup:item.runGroup,invocation,status,execution:'executed-now',
       expected:e.expectedOutcome(item),observed:observed.slice(0,4096).replace(/[\r\n]/g,' '),inherited});
   }
@@ -883,16 +1137,10 @@ async function runRendered(root, registered) {
     e.need(previous.outcomes.filter(row => row.status!=='pass').every(row => data.caseIds.includes(row.id)), 'RENDERED_FOCUSED_MISSING');
   }
   const drivers = reviewedDrivers(data,gate,current,native,data.kind);
-  const review = e.document(root,gate.review), build = e.document(root,review.buildReport);
+  const review = e.document(root,gate.review);
+  const build = validateBuild(root,e.document(root,review.buildReport),e.identifySource(root,current.revision),current.tool);
   for (const [id,driver] of drivers) if (Object.hasOwn(delivery.RENDERED_FIXTURES,id))
     e.need(driver.fixture.pckSha256 === build.renderedFixtures[id].sha256,'RENDERED_DRIVER_FIXTURE',id);
-  for (const ref of [build.engine,build.package]) {
-    e.need(build.artifacts.some(artifact => equal(artifact,ref)),'RENDERED_BUILD_TARGET');
-    e.artifact(root,ref);
-  }
-  const engineHash = '45336315eb6f1a52a8923bc4f2ce8079a03dc4939dcb7d531047890f1f7cdfab';
-  e.need(build.engine.sha256 === engineHash && build.package.path.startsWith('.phase4/') &&
-    build.package.path.endsWith('.exe'),'RENDERED_EXECUTABLE');
   const driverRef = e.writeExclusive(root,relative+'/declared-drivers.json',e.artifact(root,runInput).data);
   const startedAt = new Date().toISOString(), outcomes = [];
   e.need(data.declaredAt <= startedAt,'RENDERED_DRIVER_DECLARATION_TIME');
@@ -913,7 +1161,7 @@ async function runRendered(root, registered) {
     let unlock;
     try {
       controller.signal.throwIfAborted();
-      if (group.id !== 'G3-lan') unlock = require('../phase2/check.cjs').acquireLock(root,invocation);
+      unlock = require('../phase2/check.cjs').acquireLock(root,invocation);
       const result = group.id.startsWith('G3') ? await runInherited(root,relative,group,items,build,gate.adapter,current,invocation,controller.signal) :
         await runInspection(root,relative,group,items,drivers,build,gate.adapter,invocation,controller.signal);
       outcomes.push(...result);
@@ -977,7 +1225,7 @@ async function verifyCompletion(root, relative, registered) {
   e.validateJudgments(root,e.document(root,index.listening),e.document(root,index.judgments),current,audio,judgments,final);
   for (const row of [...audio,...judgments]) receipts.add(row.id);
   const review = e.document(root,gate.review), build = e.document(root,review.buildReport);
-  e.need(equal(build.package,index.export) && e.artifact(root,index.export).bytes>0,'COMPLETION_EXPORT');
+  e.need(equal(build.delivery,index.export) && e.artifact(root,index.export).bytes>0,'COMPLETION_EXPORT');
   const artifacts = e.document(root,index.artifacts), audit = e.document(root,index.sourceAudit);
   const expected = e.inventoryExpectation(root,current.revision,catalog);
   e.validateArtifactInventory(root,artifacts,expected,audit,current);
@@ -994,4 +1242,5 @@ async function verifyCompletion(root, relative, registered) {
 module.exports = {CATALOG, COVERAGE, SCENARIOS, GROUPS, ORDER, coverageRows, validateProcedure, validateCatalog, loadCatalog,
   selectCases, inheritedCases, selectionRows, impactClosure, validateSelection, currentReviewAdapter, prelaunch, currentIdentity, runId,
   finalRendered, latestPhase4Sources, sourceReceipts, completionSourceReceipts, preWindowCases, verifyFixProof, coverageExpectation, validateDriver, reviewedDrivers,
-  treePaths, relaunchCase, packagedSubject, runInspection, runInherited, runRendered, verifyCompletion};
+  treePaths, relaunchCase, packagedSubject, prepareSource, validateBuild, validateSourceProject, validateLoadedSource, validateProcessRuntime,
+  validateProcessPackageFiles, runInspection, runInherited, runRendered, verifyCompletion};

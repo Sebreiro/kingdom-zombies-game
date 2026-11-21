@@ -151,10 +151,49 @@ function qualification(context) {
   renderedDeclarationControls(context.directory,reject);
   sourceHistoryControls(context.directory,reject);
   campaignHistoryControls(context.directory,reject);
+  buildIdentityControls(context.directory,reject);
   const result = {scope:'Source-only negative controls. Fixture identities supply no review or acceptance.', controls:control,
     sourceCases:catalog.cases.length, heldout:catalog.heldout.length, ui:catalog.backstops.length, judgments:catalog.judgments.length, accepted:0};
   e.writeExclusive(context.directory, 'runner-controls.json', result);
   return result;
+}
+
+function buildIdentityControls(directory,reject) {
+  const e=require('../evidence.cjs'), s=require('../scenarios.cjs'), tool=require('../export.cjs');
+  const relative='detached-package', target=path.join(directory,relative);
+  const packageRef=e.writeExclusive(directory,relative+'/KingdomZombies.exe',Buffer.from('Template fixture'));
+  const pck=e.writeExclusive(directory,relative+'/KingdomZombies.pck',Buffer.from('Healthy PCK fixture'));
+  e.writeExclusive(directory,relative+'/KingdomZombies.dll',Buffer.from('Current assembly fixture'));
+  const build={portable:{files:tool.inventory(target)}}, subject={fixture:null,executable:packageRef,pck};
+  s.validateProcessPackageFiles(directory,build,subject);
+  fs.writeFileSync(path.join(target,'KingdomZombies.pck'),'Changed PCK fixture');
+  reject('changed-pck-under-same-executable',/RENDERED_LIVE_PORTABLE_CLOSURE/,() => s.validateProcessPackageFiles(directory,build,subject));
+  fs.writeFileSync(path.join(target,'KingdomZombies.pck'),'Healthy PCK fixture');
+  const unapproved=path.join(target,'override.cfg');
+  fs.writeFileSync(unapproved,'fixture');
+  reject('unexpected-portable-companion',/RENDERED_LIVE_PORTABLE_CLOSURE/,() => s.validateProcessPackageFiles(directory,build,subject));
+  fs.unlinkSync(unapproved);
+  const profile=path.join(directory,'profile'),trace=path.join(directory,'host.log');
+  const env={...tool.cleanEnvironment(profile),COREHOST_TRACE:'1',COREHOST_TRACEFILE:trace};
+  tool.validatePortableEnvironment(env,profile,trace);
+  reject('foreign-runtime-path',/RUNTIME_SEARCH_OVERRIDE/,() => tool.validatePortableEnvironment({...env,DOTNET_ROOT:'foreign'},profile,trace));
+  reject('foreign-runtime-search-case',/RUNTIME_SEARCH_OVERRIDE/,() => tool.validatePortableEnvironment({...env,Path:'foreign'},profile,trace));
+  const revision='c'.repeat(40), launch=crypto.randomUUID(), names=['KingdomZombies','KingdomZombies.Core','KingdomZombies.Multiplayer.Abstractions'];
+  const source={revision,engine:{path:'engine.exe'},sourceManaged:Object.fromEntries(names.map(name=>[name,
+    {file:'source-project/.godot/mono/temp/bin/Debug/'+name+'.dll',mvid:crypto.randomUUID()}]))};
+  const observations=names.map(name=>({name,launch,pid:1234,executable:path.join(directory,source.engine.path),
+    file:path.join(directory,source.sourceManaged[name].file),version:'0.1.0+'+revision,mvid:source.sourceManaged[name].mvid}));
+  const record=(name,rows) => ({role:'solo',pid:1234,launch,assemblies:e.writeExclusive(directory,name+'.ndjson',
+    Buffer.from(rows.map(row=>JSON.stringify(row)).join('\n')+'\n'))});
+  s.validateLoadedSource(directory,source,record('current-runtime',observations));
+  reject('stale-loaded-dll',/RENDERED_SOURCE_RUNTIME_IDENTITY/,() => s.validateLoadedSource(directory,source,
+    record('stale-dll',observations.map(row=>({...row,version:'0.1.0+'+'a'.repeat(40)})))));
+  reject('substituted-managed-module-id',/RENDERED_SOURCE_RUNTIME_IDENTITY/,() => s.validateLoadedSource(directory,source,
+    record('substituted-dll',observations.map(row=>({...row,mvid:crypto.randomUUID()})))));
+  reject('wrong-managed-runtime-owner',/RENDERED_SOURCE_RUNTIME_IDENTITY/,() => s.validateLoadedSource(directory,source,
+    record('wrong-owner',observations.map(row=>({...row,pid:5678})))));
+  reject('wrong-observed-engine',/RENDERED_SOURCE_RUNTIME_IDENTITY/,() => s.validateLoadedSource(directory,source,
+    record('wrong-engine',observations.map(row=>({...row,executable:packageRef.path})))));
 }
 
 function campaignHistoryControls(directory,reject) {

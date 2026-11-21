@@ -53,6 +53,16 @@ function runtimeEnvironment(env){
     env.PATH===path.join(process.env.SystemRoot,'System32'),'RUNTIME_SEARCH_OVERRIDE');
   return env;
 }
+function validatePortableEnvironment(env,profile,trace){
+  runtimeEnvironment(env);
+  const allowed=new Set(['SystemRoot','WINDIR','COMSPEC','PATHEXT','TEMP','TMP','HOME','USERPROFILE','APPDATA','LOCALAPPDATA','PATH',
+    'COREHOST_TRACE','COREHOST_TRACEFILE']);
+  need(Object.keys(env).every(key=>allowed.has(key))&&env.COREHOST_TRACE==='1'&&
+    path.resolve(env.COREHOST_TRACEFILE)===path.resolve(trace)&&
+    ['TEMP','TMP','HOME','USERPROFILE','APPDATA','LOCALAPPDATA'].every(key=>path.resolve(env[key]).startsWith(path.resolve(profile)+path.sep)),
+    'RUNTIME_SEARCH_OVERRIDE');
+  return env;
+}
 async function cleanCommand(context,name,executable,args,extra={}){
   const env=runtimeEnvironment({...cleanEnvironment(context.directory),...extra});
   write(context.directory,name+'-environment.json',env);
@@ -359,6 +369,39 @@ function hostTrace(context,name,directory){
     registeredInstallationProbe:trace.includes('Found registered install location'),sharedStoreDiscovery:trace.includes('Shared store (global)'),
     limit:'Installed SDK/registry exists; resolved local dependencies do not claim a machine without those installations'};
 }
+function validatePortableReceipt(root,build,receipt){
+  const pin=document(root,PIN),directory=path.posix.dirname(build.package.path);
+  const absolute=path.resolve(root,directory),files=dependencies(absolute,pin).rows;
+  const resolve=row=>path.resolve(root,row);
+  const exe=files.find(row=>row.path==='KingdomZombies.exe'), pck=files.find(row=>row.path===PCK);
+  const matching=(actual,ref)=>actual&&actual.bytes===ref.bytes&&actual.sha256===ref.sha256;
+  need(build.package.path===directory+'/KingdomZombies.exe'&&build.pck.path===directory+'/'+PCK&&
+    matching(exe,build.package)&&matching(exe,pin.templateMembers['windows_debug_x86_64.exe'])&&matching(pck,build.pck),
+    'RENDERED_PORTABLE_TARGET');
+  need(equal(files,receipt.files)&&resolve(receipt.portable)===absolute&&resolve(receipt.executable)===resolve(build.package.path)&&
+    resolve(receipt.pck)===resolve(build.pck.path)&&receipt.pckSha256===build.pck.sha256,'RENDERED_PORTABLE_CLOSURE');
+  need(equal(receipt.renderedFixtures,build.renderedFixtures)&&receipt.launches?.length===2&&receipt.runtime?.length===2&&
+    new Set(receipt.launches.map(row=>row.pid)).size===2&&new Set(receipt.launches.map(row=>row.launchId)).size===2,
+    'RENDERED_PORTABLE_RELEASE');
+  const native=require('./native-observer.cjs');
+  const marker=native.runtimeMarker(receipt.launches[0].managedRuntime);
+  const {managedMvid}=require('./rendered-process.cjs');
+  const assemblyIds=['KingdomZombies.dll','KingdomZombies.Core.dll'].map(name=>{
+    const matches=files.filter(row=>path.posix.basename(row.path)===name);
+    need(matches.length===1,'RENDERED_PORTABLE_ASSEMBLY',name);
+    return managedMvid(fs.readFileSync(inside(absolute,matches[0].path)));
+  });
+  need(equal(marker.split('|').slice(1,3),assemblyIds),'RENDERED_PORTABLE_ASSEMBLY_MARKER');
+  for(const row of receipt.launches)need(row.nonce===receipt.nonce&&row.packageSha256===pck.sha256&&
+    row.managedRuntime===marker&&resolve(row.executable)===resolve(build.package.path)&&row.scene==='res://inspection/Inspection.tscn',
+    'RENDERED_PORTABLE_RUNTIME');
+  for(const row of receipt.runtime){
+    need(row.assemblyPaths?.length>0&&row.nativeSearchPaths?.length>0&&row.assemblyPaths.every(file=>
+      files.some(entry=>resolve(directory+'/'+entry.path)===resolve(file)))&&row.nativeSearchPaths.every(file=>
+      files.some(entry=>path.dirname(resolve(directory+'/'+entry.path))===resolve(file))),'RENDERED_PORTABLE_SEARCH');
+  }
+  return {files,managedRuntime:marker};
+}
 function cloneOutput(context,name,directory,rows){
   const target=inside(context.directory,name);fs.mkdirSync(target);
   for(const row of rows)write(target,row.path,fs.readFileSync(inside(directory,row.path)));
@@ -509,5 +552,6 @@ async function exportTracer(context){
     genuineTemplate:true,nativeInspection:executed,packagedResources:resources,portableCompletion:true,acceptance:'pending-04-32/04-33'};
 }
 module.exports={digest,snapshot,templates,cleanEnvironment,runtimeEnvironment,cleanCommand,inventory,dependencies,pack,packBytes,
-  RENDERED_FIXTURES,renderedFixture,verifyRenderedFixture,packaged,probe,packagedProbe,mountPackage,portable,cloneOutput,missingCoreClr,
+  RENDERED_FIXTURES,renderedFixture,verifyRenderedFixture,packaged,probe,packagedProbe,mountPackage,portable,hostTrace,validatePortableReceipt,
+  validatePortableEnvironment,cloneOutput,missingCoreClr,
   negatives,exportTracer,buildPackage,verifyInputs,sourceContract};

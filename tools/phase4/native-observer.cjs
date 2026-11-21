@@ -8,6 +8,7 @@ const WORKSPACE=HUB+'/Shell/Workspace',NAVIGATION=WORKSPACE+'/Navigation';
 const BROWSER=WORKSPACE+'/Controls/Browser',PREVIEW=WORKSPACE+'/Preview';
 const SCRIPT='res://inspection/InspectionRoot.cs',SCENE='res://inspection/Inspection.tscn';
 const READY='Validated; visual/listening acceptance pending';
+const RUNTIME_PROPERTY='metadata/inspection_runtime';
 const ROLES=new Map([
   ['/root','Window'],[HUB,SCRIPT],[HUB+'/Background','ColorRect'],[HUB+'/Bow','Sprite2D'],
   [SUMMARY,'VBoxContainer'],...['Title','ResourceId','ResourceName','Status','PackStatus'].map(x=>[SUMMARY+'/'+x,'Label']),
@@ -108,6 +109,13 @@ function properties(value,node,full){
   need(result.size===value[2].length,'DEBUG_PROPERTY_DUPLICATE',full);
   return Object.fromEntries(result);
 }
+function runtimeMarker(value){
+  const parts=typeof value==='string'?value.split('|'):[];
+  need(parts.length===5&&parts[0]==='KingdomZombies.Inspection.InspectionRoot'&&
+    parts.slice(1,3).every(x=>/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/.test(x))&&
+    parts[3]==='Internal.Runtime.InteropServices.IsolatedComponentLoadContext'&&parts[4]==='True','DEBUG_RUNTIME_MARKER');
+  return value;
+}
 function validate(record,launch,contract){
   need(launch&&record.nonce===launch.nonce&&record.launchId===launch.launchId&&
     record.packageSha256===launch.packageSha256&&record.executable===launch.executable,'DEBUG_LAUNCH_IDENTITY');
@@ -147,7 +155,9 @@ function validate(record,launch,contract){
   const metadata=observed[PREVIEW+'/Metadata'],failures=observed[PREVIEW+'/Failures'];
   need(metadata.visible===false&&metadata.text===contract.metadata&&failures.visible===true&&
     failures.text===contract.diagnostics,'PACKAGED_NATIVE_DIAGNOSTICS',String(failures.text).slice(0,4096));
-  return {pid,launchId:launch.launchId,nonce:launch.nonce,packageSha256:launch.packageSha256,root:inspection.name,
+  const managedRuntime=runtimeMarker(observed[HUB][RUNTIME_PROPERTY]);
+  return {pid,launchId:launch.launchId,nonce:launch.nonce,packageSha256:launch.packageSha256,executable:launch.executable,
+    managedRuntime,root:inspection.name,
     scene:inspection.scene,instanceId:inspection.id,texture:bow.texture,textureVisible:bow.visible,
     resourceId:label('ResourceId').text,resourceName:label('ResourceName').text,status:label('Status').text,
     packStatus:label('PackStatus').text,items:rows,categories:contract.categories,diagnostics:failures.text,
@@ -278,4 +288,4 @@ function diagnostics(record,launch,contract){
   ]){let error;try{action();}catch(e){error=e.message;}need(error?.startsWith(code),'DEBUG_NEGATIVE_CONTROL',name+' '+error);outcomes.push({name,expected:code,observed:error});}
   return outcomes;
 }
-module.exports={encode,decode,tree,validate,observe,diagnostics};
+module.exports={encode,decode,tree,validate,observe,diagnostics,RUNTIME_PROPERTY,runtimeMarker,READY,HUB,TOOLBAR};

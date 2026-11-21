@@ -250,7 +250,7 @@ function validateRenderedOutcome(root, row, report, driver, build = null) {
   need(Array.isArray(row.checkpoints) && row.checkpoints.length > 0 && Array.isArray(row.processes) &&
     row.processes.length > 0 && driver?.id === row.id && Array.isArray(driver.steps),'EVIDENCE_RENDERED_MISSING',row.id);
   exact(driver.steps.map(item => item.id),row.checkpoints.map(item => item.id),'declared physical checkpoint IDs',true);
-  const {relaunchCase} = require('./scenarios.cjs');
+  const {relaunchCase,validateProcessRuntime} = require('./scenarios.cjs');
   const relaunch = relaunchCase(row.id);
   need(row.processes.length === (relaunch ? 2 : 1) && (!relaunch || driver.steps.length >= 2),'EVIDENCE_RENDERED_LAUNCHES',row.id);
   const processes = row.processes.map(ref => document(root, ref));
@@ -258,6 +258,16 @@ function validateRenderedOutcome(root, row, report, driver, build = null) {
     validateProcess(process);
     need(process.startedAt >= report.startedAt && process.finishedAt <= report.finishedAt,'EVIDENCE_PROCESS_TIME',row.id);
     artifact(root,process.log,8*1024*1024);artifact(root,process.executable);
+    if (build) {
+      const prefix='.phase4/acceptance/'+report.invocation+'/'+row.runGroup+'-launch-';
+      const relative=path.posix.dirname(process.log.path);
+      need(relative.startsWith(prefix) && /^\d+$/.test(relative.slice(prefix.length)) &&
+        process.profile===relative+'/profile' && process.runtime?.path===relative+'/runtime.json' &&
+        Array.isArray(process.ownedPids) && process.ownedPids.includes(process.pid) &&
+        process.role===(row.runGroup==='G1-hub'?'inspection-hub':'packaged-inspection'),
+        'EVIDENCE_PROCESS_ROLE',row.id);
+      validateProcessRuntime(root,build,process);
+    }
     if (build && row.runGroup === 'G2-packaged') {
       const id = Object.hasOwn(require('./export.cjs').RENDERED_FIXTURES,row.id) ? row.id : null;
       need(process.role === 'packaged-inspection' && process.fixture === id,'EVIDENCE_PACKAGE_SUBJECT',row.id);
