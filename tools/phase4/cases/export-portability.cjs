@@ -120,7 +120,7 @@ async function inspectItems(context,engine,name,pck,reason){
     (reason==='WORLD_INSPECTOR_HASH'||missing.diagnostics.includes('res://'+MISSING+', field bytes, value read — ')),
     'PORTABLE_EXACT_MISSING_ENTRY',JSON.stringify(missing));
   need(sibling.id===SIBLING_ID&&sibling.name==='Authored world/item view · '+SIBLING_ID&&
-    sibling.status==='Populated — authored view; pack adoption and acceptance pending'&&sibling.nativeClip===SIBLING_ID,
+    sibling.status==='Partial — validated bytes; native/visual/listening acceptance pending'&&sibling.nativeClip===SIBLING_ID,
     'PORTABLE_VALID_SIBLING',JSON.stringify(sibling));
   const evidence={...observed,pckSha256:mounted.pckSha256,scope:mounted.scope};
   write(context.directory,name+'-item-evidence.json',evidence);

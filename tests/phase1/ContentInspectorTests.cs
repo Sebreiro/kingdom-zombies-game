@@ -92,9 +92,8 @@ public sealed class ContentInspectorTests
                         selector: signature =>
                                 InspectionPath + "|KingdomZombies.Inspection|InspectionRoot|" + signature));
         SyntaxTree tree = consumer.Parse(source: source, path: InspectionPath);
-        BaseMethodDeclarationSyntax[] methods = [.. tree.GetRoot(cancellationToken:
-                TestContext.Current.CancellationToken).DescendantNodes()
-                .OfType<BaseMethodDeclarationSyntax>()];
+        TypeDeclarationSyntax owner = InspectionDeclaration(tree: tree, owner: "InspectionRoot");
+        BaseMethodDeclarationSyntax[] methods = [.. owner.Members.OfType<BaseMethodDeclarationSyntax>()];
         methods.Length.ShouldBe(expected: signatures.Length);
         CheckOwnership(consumer: consumer, source: source);
     }
@@ -804,8 +803,8 @@ public sealed class ContentInspectorTests
         string path = "src/godot-game/inspection/" + type + ".cs";
         string source = File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: path));
         SyntaxTree tree = consumer.Parse(source: source, path: path);
-        BaseMethodDeclarationSyntax[] methods = [.. tree.GetRoot(cancellationToken:
-                TestContext.Current.CancellationToken).DescendantNodes().OfType<BaseMethodDeclarationSyntax>()];
+        TypeDeclarationSyntax owner = InspectionDeclaration(tree: tree, owner: type);
+        BaseMethodDeclarationSyntax[] methods = [.. owner.Members.OfType<BaseMethodDeclarationSyntax>()];
         methods.Length.ShouldBe(expected: type switch
         {
             "InspectionRoot" => 18,
@@ -924,13 +923,15 @@ public sealed class ContentInspectorTests
         CSharpCompilation sibling = compilation.AddSyntaxTrees(trees: clone);
         ConsumerCompilation.RequireValid(compilation: sibling);
         EngineAccessPolicy.CheckTree(tree: clone, compilation: sibling).ShouldNotBeEmpty();
-        TypeDeclarationSyntax type = tree.GetRoot().DescendantNodes().OfType<TypeDeclarationSyntax>().Single();
+        TypeDeclarationSyntax type = InspectionDeclaration(tree: tree, owner: "InspectionRoot");
         foreach (string member in new[]
         {
             "private void Adjacent() { _gateway.RequireThread(); " + Native + " }",
             "private void Recheck(int extra) { _gateway.RequireThread(); " + Native + " }",
             "private async System.Threading.Tasks.Task Recheck(string extra) { _gateway.RequireThread(); "
                     + "await System.Threading.Tasks.Task.Delay(millisecondsDelay: 1); " + Native + " }",
+            "private sealed class BrowserControl { private readonly KingdomZombies.Proofs.MainThreadGateway "
+                    + "_gateway = new(); private void Recheck() { _gateway.RequireThread(); " + Native + " } }",
         })
         {
             MemberDeclarationSyntax added = SyntaxFactory.ParseMemberDeclaration(text: member)
@@ -939,6 +940,13 @@ public sealed class ContentInspectorTests
                     .ToFullString();
             EngineAccessPolicy.Check(source: changed, path: InspectionPath, consumer: consumer).ShouldNotBeEmpty();
         }
+    }
+
+    private static TypeDeclarationSyntax InspectionDeclaration(SyntaxTree tree, string owner)
+    {
+        return tree.GetRoot(cancellationToken: TestContext.Current.CancellationToken).DescendantNodes()
+                .OfType<TypeDeclarationSyntax>().Single(predicate: type =>
+                        StringComparer.Ordinal.Equals(x: type.Identifier.ValueText, y: owner));
     }
 
     private static byte[]? Read(string path)

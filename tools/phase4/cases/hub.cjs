@@ -239,6 +239,63 @@ func run() -> void:
 	await process_frame
 	quit(1 if failed else 0)
 `;
+const STATUS_CONTROLS=String.raw`
+func run() -> void:
+	hub = load("res://inspection/Inspection.tscn").instantiate()
+	root.add_child(hub)
+	await settle()
+	check_case("current-startup-selection", hub.get_node("Summary/ResourceId").text == "common.bow", hub.get_node("Summary/ResourceId").text)
+	category(1)
+	status(3)
+	check_case("healthy-error-empty", rows().is_empty() and hub.get_node("Summary/ResourceId").text.is_empty()
+		and hub.get_node("Summary/Status").text.begins_with("Unavailable"), rows())
+	status(1)
+	query("IT-07")
+	check_case("healthy-sibling-partial", rows().size() == 1 and rows()[0].ends_with(" · Partial")
+		and choose("IT-07") and hub.get_node("Summary/Status").text.begins_with("Partial"), rows())
+	query("NO-SUCH-RESOURCE")
+	check_case("empty-search-selection", rows().is_empty() and hub.get_node("Summary/ResourceId").text.is_empty()
+		and hub.get_node("Summary/ResourceName").text == "No resource selected", rows())
+	query("IT-07")
+	category(0)
+	var list = hub.get_node(BROWSER + "Resources")
+	var character_rows = list.get_selected_items()
+	check_case("new-category-valid-selection", character_rows.size() == 1
+		and list.get_item_text(character_rows[0]).begins_with(hub.get_node("Summary/ResourceId").text + " · ")
+		and hub.get_node("Summary/ResourceId").text.begins_with("AN-"), hub.get_node("Summary/ResourceId").text)
+	category(1)
+	check_case("restored-category-selection", hub.get_node(BROWSER + "Search").text == "IT-07"
+		and hub.get_node(BROWSER + "Status").selected == 1 and hub.get_node("Summary/ResourceId").text == "IT-07", rows())
+	var missing_path = "res://content/packs/items-11-24.json"
+	var original = FileAccess.get_file_as_bytes(missing_path)
+	check_case("actual-missing-fixture", not original.is_empty()
+		and DirAccess.remove_absolute(ProjectSettings.globalize_path(missing_path)) == OK, missing_path)
+	button("Shell/Toolbar/Recheck")
+	await settle()
+	check_case("broken-shard-sibling-partial", rows().size() == 1 and rows()[0].ends_with(" · Partial")
+		and hub.get_node("Summary/ResourceId").text == "IT-07", rows())
+	status(3)
+	check_case("error-excludes-healthy-sibling", rows().is_empty() and hub.get_node("Summary/ResourceId").text.is_empty(), rows())
+	query("IT-11")
+	check_case("broken-definition-error", rows().size() == 1 and rows()[0].ends_with(" · Error")
+		and choose("IT-11") and hub.get_node("Summary/Status").text.begins_with("Error — IT-11")
+		and hub.get_node(PREVIEW + "Failures").text.contains(missing_path), hub.get_node(PREVIEW + "Failures").text)
+	status(2)
+	check_case("incomplete-excludes-actual-error", rows().is_empty(), rows())
+	restore(missing_path, original)
+	button("Shell/Toolbar/Recheck")
+	await settle()
+	status(1)
+	check_case("restored-definition-partial", rows().size() == 1 and rows()[0].ends_with(" · Partial")
+		and hub.get_node("Summary/ResourceId").text == "IT-11"
+		and hub.get_node("Summary/Status").text.begins_with("Partial"), rows())
+	var result = {"pid":OS.get_process_id(),"outcomes":outcomes,"failed":failed}
+	restore("res://status-results.json", JSON.stringify(result, "\t").to_utf8_buffer())
+	root.remove_child(hub)
+	hub.free()
+	await process_frame
+	quit(1 if failed else 0)
+`;
 const LIFECYCLE=String.raw`
 	check_case("preview-transport-exists", hub.has_node("Shell/Workspace/Preview/Transport/Play"), "The current preview owns explicit play/pause, speed, step and reset Controls")
 	if hub.has_node(PREVIEW + "Transport/Play"):
@@ -383,7 +440,7 @@ async function native(context,lifecycle=false){
   const build=await runner.command(context,'native-build','dotnet',['build',path.join(game,'KingdomZombies.csproj'),
     '--no-restore','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'],{env:env()});
   assert.match(build.stdout,/0 Warning\(s\)[\s\S]*0 Error\(s\)/);
-  for(const item of ['project.godot','foundation','inspection','content','assets/common','assets/ui'])
+  for(const item of ['project.godot','foundation','inspection','content',...(lifecycle?['assets/common','assets/ui']:['assets'])])
     fs.cpSync(path.join(game,item),path.join(project,item),{recursive:true});
   const legacy=require('./provenance.cjs').legacyFixture(),inspection=fs.readFileSync(path.join(project,'inspection/Inspection.tscn'));
   for(const output of legacy.index.outputs)for(const dependency of output.dependencies){if(dependency.path==='src/godot-game/inspection/Inspection.tscn'){dependency.bytes=inspection.length;dependency.sha256=runner.hash(inspection);}}
@@ -418,6 +475,23 @@ async function native(context,lifecycle=false){
   assert.equal(result.failed,false);assert.ok(result.outcomes.length>=24&&result.outcomes.every(x=>x.pass));
   const image=result.outcomes.find(x=>x.id==='native-bow-registration').observed;
   assert.equal(image.sourceRgbaSha256,'88b8e7062f0eb9cfb788ef3658028ba58a6f62d408d3e39ae2e1228bfa6c8905');
+  if(!lifecycle){
+    fs.copyFileSync(path.join(game,'content/pack-index.json'),path.join(project,'content/pack-index.json'));
+    fs.writeFileSync(path.join(project,'status-probe.gd'),DRIVER.slice(0,DRIVER.indexOf('func run()'))+STATUS_CONTROLS);
+    const current=await runner.command(context,'native-current-status',executable,
+      ['--headless','--path',project,'--script','res://status-probe.gd','--quit-after','800'],{env:isolated});
+    assert.equal(current.stderr.trim(),'','HUB_CURRENT_STATUS_STDERR');
+    assert.doesNotMatch(current.stdout,/ERROR:|SCRIPT ERROR:|WARNING:|FATAL|leaked|Failed to load/i);
+    result.current=JSON.parse(fs.readFileSync(path.join(project,'status-results.json'),'utf8'));
+    assert.equal(result.current.pid,current.pid,'ACTUAL_CURRENT_NATIVE_PID');
+    assert.equal(result.current.failed,false);
+    assert.deepEqual(result.current.outcomes.map(row=>row.id),[
+      'current-startup-selection','healthy-error-empty','healthy-sibling-partial','empty-search-selection',
+      'new-category-valid-selection','restored-category-selection','actual-missing-fixture','broken-shard-sibling-partial',
+      'error-excludes-healthy-sibling','broken-definition-error','incomplete-excludes-actual-error','restored-definition-partial'
+    ]);
+    assert.ok(result.current.outcomes.every(row=>row.pass));
+  }
   fs.writeFileSync(path.join(context.directory,'native-observation.json'),JSON.stringify(result,null,2));
   for(const [file,digest]of Object.entries(themeInputs)){
     assert.equal(runner.hash(fs.readFileSync(path.join(ROOT,file))),digest,'HUB_THEME_SOURCE_CHANGED');
@@ -444,6 +518,7 @@ runner.registerCase('hub.source',{group:'hub',title:'Independent portable regist
     fs.writeFileSync(path.join(context.directory,'inputs.json'),JSON.stringify(inputs,null,2));
     const observed=await native(context);
     return {compiled:true,discovered:result.discovered,native:observed.outcomes.length,pid:observed.pid,
+      currentNative:observed.current.outcomes.length,currentPid:observed.current.pid,
       scope:'actual compiled pure loader and C# native hub behavior; exact source policy Task2; no rendered acceptance'};
   });
 runner.registerCase('hub.lifecycle',{group:'hub',title:'Inspection input, transport and owned generation lifecycle',importance:'Critical',
