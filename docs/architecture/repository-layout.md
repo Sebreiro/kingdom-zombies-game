@@ -4,7 +4,7 @@
 
 All authored game runtime code, scenes, shipped assets, reference artwork and C# game/architecture verification tests belong beneath [src/godot-game](../../src/godot-game/README.md). Its `game/` directory is the actual Godot project and resource root. Core, service contracts, tests and build policy are workspace siblings outside that resource tree. Keep distinct project assemblies and the [checked dependency boundaries](boundaries.md).
 
-Game-specific verification, gameplay, LAN and asset-production programs belong under [src/godot-game/tools](../../src/godot-game/tools/README.md), beside their self-tests. Name folders by responsibility: `verification`, `gameplay-checks`, `lan-checks`, and `asset-pipeline` when unfinished Phase 4 tooling integrates. Keep these outside the Godot runtime resource tree. Phase numbers belong to delivery records and historical evidence, not current tool-folder names.
+Game-specific verification, gameplay, LAN and asset-production programs belong under [src/godot-game/tools](../../src/godot-game/tools/README.md), beside their self-tests. Name folders by responsibility: `verification`, `gameplay-checks`, `lan-checks`, and `asset-pipeline` for the Phase 4 asset tooling after integration. Keep these outside the Godot runtime resource tree. Phase numbers belong to delivery records and historical evidence, not current tool-folder names.
 
 All current tools belong in the game workspace. The analyzer's generic rules are reusable, but its configured copy embeds exact KingdomZombies/Godot generated-source permissions and therefore lives in `src/godot-game/tools/code-rules` too. It still has no game assembly references. A future product-independent package extraction would need to remove that configuration coupling before earning a separate repository-level home. Game behavior tests also belong in the workspace. Put explanatory rules, architecture and workflow documents under `docs/`, approved game specifications under `specs/`, and delivery records under `.planning/`.
 
@@ -16,7 +16,7 @@ The [layout regression checks](../../src/godot-game/tools/repository-layout.test
 
 Open [game/project.godot](../../src/godot-game/game/project.godot) in Godot and [KingdomZombies.slnx](../../src/godot-game/KingdomZombies.slnx) in the C# IDE. Node runners start from the repository root. Direct .NET commands start from `src/godot-game`; SDK selection begins at the process working directory. All five C# projects inherit the workspace's shared build and package settings.
 
-Existing ignored `.phase1/`, `.phase2/` and `.phase3/` cache/report locations remain stable. This cleanup moves authored content and configuration, not historical execution evidence. Do not commit generated `bin/`, `obj/`, `.godot/`, caches or local reports. See [setup](../workflow/setup.md) and [verification](../workflow/verification.md).
+Existing ignored `.phase1/`, `.phase2/` and `.phase3/` cache/report locations remain stable. Phase 4 adds `.phase4/` with the same checkout-root ownership. This cleanup moves authored content and configuration, not historical execution evidence. Do not commit generated `bin/`, `obj/`, `.godot/`, caches or local reports. See [setup](../workflow/setup.md) and [verification](../workflow/verification.md).
 
 ## Historical paths
 
@@ -37,6 +37,9 @@ Completed phase summaries, review records, captured donor provenance and immutab
 | `tools/phase3/` | `src/godot-game/tools/lan-checks/` |
 | `tools/code-rules/` | `src/godot-game/tools/code-rules/` |
 | `tools/dotnet.cjs`, `tools/repository-layout.test.cjs` | Same names under `src/godot-game/tools/` |
-| Unfinished Phase 4 asset tools | `src/godot-game/tools/asset-pipeline/` when integrated |
+| `tools/phase4/` | `src/godot-game/tools/asset-pipeline/` after integration |
+| `production/phase4/` | `src/godot-game/production/assets/` after integration |
 
 When integrating unfinished work from another feature branch, apply this mapping to new files, project references, runner paths and live navigation. Keep `res://` paths relative to the new `game/` resource root. Revalidate builds, permissions and affected scenarios; a previous branch's execution reports describe its original inputs.
+
+Apply the [Phase 4 integration guide](../workflow/phase4-layout-integration.md) after its asset-production PR lands.
