@@ -134,14 +134,6 @@ function qualification(context) {
   reject('overwrite-history', /EEXIST/, () => e.writeExclusive(context.directory, ref.path, {value:'replacement'}));
   reject('forged-file-hash', /EVIDENCE_HASH/, () => e.artifact(context.directory, {...ref,sha256:'f'.repeat(64)}));
   assert.deepEqual(e.document(context.directory, ref), {value:'original fixture'});
-  const terminal = e.writeExclusive(context.directory, 'test-terminal.json', {...processFixture,log:ref,executable:ref});
-  const input = e.writeExclusive(context.directory, 'test-input.json', {caseId:item.id,checkpoint:'before',invocation:report.invocation,
-    pid:processFixture.pid,focused:true,at:report.startedAt,clientWidth:1280,clientHeight:720,method:'physical-keyboard',action:'tap',key:9});
-  const image = {path:'unwritten.png',bytes:250,sha256:'a'.repeat(64)};
-  const draw = e.writeExclusive(context.directory, 'test-draw.json', {caseId:item.id,checkpoint:'before',invocation:report.invocation,
-    pid:processFixture.pid,drawn:true,frame:1,at:report.finishedAt,observation:'Owned test observation',imageSha256:image.sha256});
-  reject('missing-rendered-png', /EVIDENCE_PATH_MISSING unwritten\.png/, () => e.validateRenderedOutcome(context.directory,
-    {id:item.id,processes:[terminal],checkpoints:[{id:'before',input,draw,image}]},report,{id:item.id,steps:[{id:'before',action:'tap',key:9}]}));
   reject('unnamed-listening', /EVIDENCE_NAMED_LISTENING/, () => e.validateNamed(context.directory,
     {...current,id:'sample',kind:'listening',reviewedAt:review.reviewedAt,verdict:'pass',observations:'test',files:[ref]},
     'listening',{id:'sample'},current));
@@ -182,7 +174,8 @@ function buildIdentityControls(directory,reject) {
   const source={revision,engine:{path:'engine.exe'},sourceManaged:Object.fromEntries(names.map(name=>[name,
     {file:'source-project/.godot/mono/temp/bin/Debug/'+name+'.dll',mvid:crypto.randomUUID()}]))};
   const observations=names.map(name=>({name,launch,pid:1234,executable:path.join(directory,source.engine.path),
-    file:path.join(directory,source.sourceManaged[name].file),version:'0.1.0+'+revision,mvid:source.sourceManaged[name].mvid}));
+    file:'',loadContext:'GodotPlugins.PluginLoadContext',
+    version:'0.1.0+'+revision,mvid:source.sourceManaged[name].mvid}));
   const record=(name,rows) => ({role:'solo',pid:1234,launch,assemblies:e.writeExclusive(directory,name+'.ndjson',
     Buffer.from(rows.map(row=>JSON.stringify(row)).join('\n')+'\n'))});
   s.validateLoadedSource(directory,source,record('current-runtime',observations));
@@ -190,6 +183,8 @@ function buildIdentityControls(directory,reject) {
     record('stale-dll',observations.map(row=>({...row,version:'0.1.0+'+'a'.repeat(40)})))));
   reject('substituted-managed-module-id',/RENDERED_SOURCE_RUNTIME_IDENTITY/,() => s.validateLoadedSource(directory,source,
     record('substituted-dll',observations.map(row=>({...row,mvid:crypto.randomUUID()})))));
+  reject('substituted-managed-loader',/RENDERED_SOURCE_RUNTIME_IDENTITY/,() => s.validateLoadedSource(directory,source,
+    record('substituted-loader',observations.map(row=>({...row,loadContext:'foreign-context'})))));
   reject('wrong-managed-runtime-owner',/RENDERED_SOURCE_RUNTIME_IDENTITY/,() => s.validateLoadedSource(directory,source,
     record('wrong-owner',observations.map(row=>({...row,pid:5678})))));
   reject('wrong-observed-engine',/RENDERED_SOURCE_RUNTIME_IDENTITY/,() => s.validateLoadedSource(directory,source,
@@ -281,45 +276,91 @@ function sourceHistoryControls(directory, reject) {
 function renderedDeclarationControls(directory,reject) {
   const e = require('../evidence.cjs'), scenarios = require('../scenarios.cjs');
   const {encode} = require('../native-observer.cjs');
+  const contracts=require('../rendered-contracts.cjs');
   const {current,report,process,review} = baseFixture();
-  const invocation = report.invocation, id = 'rendered.packaged-relaunch';
+  const invocation=report.invocation,id='heldout.H31',runGroup='G2-packaged';
   const root = path.join(directory,'rendered-declaration');
   fs.mkdirSync(root);
   const put = (name,value) => e.writeExclusive(root,name,value);
   const fake = put('test-executable.bin',Buffer.from('Detached parser fixture'));
   const image = put('test.png',require('../../phase3/runner-fixture.cjs').png());
-  const tree = put('tree.bin',encode(['scene:scene_tree',1,[1,'root','Window',1,'',0,0,'Inspection','Node',2,'',0]]));
-  const nativeObject = put('object.bin',encode(['scene:inspect_objects',1,[[2,'Node',[['visible',0,0,0,0,true]]]]]));
-  const driver = {id,stimulus:'Observe two detached physical declaration shapes',steps:['first','second'].map(id =>
-    ({id,action:'tap',key:9,node:'/root/Inspection',property:'visible',expected:true,lifetime:id==='first'?1:2}))};
-  const row = {id,checkpoints:[],processes:[]};
-  for (const [index,step] of driver.steps.entries()) {
-    const pid = process.pid + index;
-    const start = new Date(Date.parse(report.startedAt)+index*1000).toISOString();
-    const end = new Date(Date.parse(start)+999).toISOString();
-    row.processes.push(put(step.id+'-process.json',{...process,pid,role:'packaged-inspection',startedAt:start,finishedAt:end,
-      log:fake,executable:fake,profile:'profiles/'+step.id}));
-    const flags = {caseId:id,checkpoint:step.id,invocation,pid,at:start};
-    const input = put(step.id+'-input.json',{...flags,focused:true,clientWidth:1280,clientHeight:720,method:'physical-keyboard',action:'tap',key:9,
-      acknowledgement:{pid,focused:true,width:1280,height:720,action:'tap'}});
-    const draw = put(step.id+'-draw.json',{...flags,drawn:true,frame:index+1,frameSource:'composited-client-after-DwmFlush',
-      observation:JSON.stringify({node:step.node,property:step.property,value:true}),nativeTree:tree,nativeObject,imageSha256:image.sha256});
-    row.checkpoints.push({id:step.id,input,draw,image});
+  const time=milliseconds=>new Date(Date.parse(report.startedAt)+milliseconds).toISOString();
+  function snapshot(prefix,checks,at,before=false) {
+    const paths=new Map([['/root',{id:1,name:'root'}]]);
+    for(const check of checks) {
+      let parent='/root';
+      for(const name of check.node.split('/').slice(2)) {
+        const full=parent+'/'+name;
+        if(!paths.has(full))paths.set(full,{id:paths.size+1,parent,name});
+        parent=full;
+      }
+    }
+    function walk(full) {
+      const node=paths.get(full),children=[...paths].filter(([,child])=>child.parent===full);
+      return [children.length,node.name,'Node',node.id,'',0,...children.flatMap(([name])=>walk(name))];
+    }
+    const tree=put(prefix+'-tree.bin',encode(['scene:scene_tree',1,walk('/root')]));
+    const objects=[...new Set(checks.map(check=>check.node))].map((node,index)=>{
+      const rows=new Map(checks.filter(check=>check.node===node).map(check=>[check.property,
+        before&&check===checks[0]?'detached previous observation':check.value]));
+      const properties=[...rows].map(([property,value])=>[property,0,0,'',0,value]);
+      return {node,packet:put(prefix+'-object-'+index+'.bin',encode(['scene:inspect_objects',1,[[paths.get(node).id,'Node',properties]]]))};
+    });
+    return put(prefix+'.json',{at,tree,objects});
+  }
+  const driver={id,fixture:{id,kind:'portable-positive'},stimulus:'Observe two detached physical declaration shapes',
+    steps:contracts.template(id).map(step=>({...step,action:'click',x:100,y:200}))};
+  const row={id,runGroup,checkpoints:[],processes:[]};
+  for(const lifetime of [1,2]) {
+    const offset=(lifetime-1)*1000,pid=process.pid+lifetime;
+    const runtime=put('runtime-'+lifetime+'.json',{pidPacket:put('pid-'+lifetime+'.bin',encode(['set_pid',1,[pid]]))});
+    const ready=snapshot('ready-'+lifetime,contracts.readyChecks,time(offset+10));
+    row.processes.push(put('process-'+lifetime+'.json',{...process,pid,role:'packaged-inspection',
+      startedAt:time(offset),finishedAt:time(offset+990),runtime,ready,log:fake,executable:fake,profile:'profiles/'+lifetime}));
+    for(const [index,step] of driver.steps.filter(step=>step.lifetime===lifetime).entries()) {
+      const tick=offset+100+index*100,token=crypto.randomUUID();
+      const flags={caseId:id,checkpoint:step.id,invocation,pid,token};
+      const input=put(step.id+'-input.json',{...flags,at:time(tick+2),actionStartedAt:time(tick+1),focused:true,
+        clientWidth:1280,clientHeight:720,method:'physical-mouse',action:'click',x:100,y:200,control:step.control,
+        acknowledgement:{pid,focused:true,width:1280,height:720,action:'click',window:71}});
+      const draw=put(step.id+'-draw.json',{...flags,at:time(tick+6),drawn:true,frame:index+1,
+        frameSource:'composited-client-between-native-observations',ready,
+        before:snapshot(step.id+'-before',step.checks,time(tick),true),
+        observed:snapshot(step.id+'-observed',step.checks,time(tick+3)),
+        after:snapshot(step.id+'-after',step.checks,time(tick+5)),imageSha256:image.sha256,
+        capture:{pid,window:71,token,at:time(tick+4),imageSha256:image.sha256}});
+      row.checkpoints.push({id:step.id,input,draw,image});
+    }
   }
   const gate = {review:{sha256:'7'.repeat(64)},selection:{sha256:'8'.repeat(64)},reviewedAt:review.reviewedAt};
-  const declaration = {...current,schemaVersion:1,reviewSha256:gate.review.sha256,selectionSha256:gate.selection.sha256,
+  const declaration = {...current,schemaVersion:2,reviewSha256:gate.review.sha256,selectionSha256:gate.selection.sha256,
     campaign:crypto.randomUUID(),declaredAt:review.reviewedAt,kind:'initial',drivers:[driver]};
+  assert.deepEqual([...contracts.CASES.keys()].sort(),require('../handoff.json')['4'].slice().sort());
   assert.equal(scenarios.reviewedDrivers(declaration,gate,current,[row],'initial').get(id),driver);
   e.validateRenderedOutcome(root,row,report,driver);
   reject('omitted-saved-relaunch-checkpoint',/EVIDENCE_SET/,() => e.validateRenderedOutcome(root,{...row,checkpoints:row.checkpoints.slice(0,1)},report,driver));
   reject('omitted-second-owned-launch',/EVIDENCE_RENDERED_LAUNCHES/,() => e.validateRenderedOutcome(root,{...row,processes:row.processes.slice(0,1)},report,driver));
-  reject('heldout-single-owned-launch',/EVIDENCE_RENDERED_LAUNCHES/,() => e.validateRenderedOutcome(root,
-    {...row,id:'heldout.H31',processes:row.processes.slice(0,1)},report,{...driver,id:'heldout.H31'}));
   reject('reordered-saved-checkpoints',/EVIDENCE_SET/,() => e.validateRenderedOutcome(root,{...row,checkpoints:row.checkpoints.slice().reverse()},report,driver));
   reject('declared-physical-action-mismatch',/EVIDENCE_NATIVE_INPUT/,() => e.validateRenderedOutcome(root,row,report,
-    {...driver,steps:[{...driver.steps[0],key:13},driver.steps[1]]}));
-  reject('same-png-wrong-declared-state',/EVIDENCE_DECLARED_OBSERVATION/,() => e.validateRenderedOutcome(root,row,report,
-    {...driver,steps:[{...driver.steps[0],expected:false},driver.steps[1]]}));
+    {...driver,steps:[{...driver.steps[0],x:101},...driver.steps.slice(1)]}));
+  reject('missing-rendered-png',/EVIDENCE_PATH_MISSING unwritten\.png/,() => e.validateRenderedOutcome(root,
+    {...row,checkpoints:[{...row.checkpoints[0],image:{...image,path:'unwritten.png'}},...row.checkpoints.slice(1)]},report,driver));
+  const preflight=steps=>scenarios.reviewedDrivers({...declaration,drivers:[{...driver,steps}]},gate,current,[row],'initial');
+  reject('no-ordinary-reset',/EVIDENCE_SET/,()=>preflight(driver.steps.filter(step=>!step.id.startsWith('reset-'))));
+  reject('title-only-declaration',/RENDERED_CASE_OBSERVATIONS/,()=>preflight([{...driver.steps[0],
+    checks:[{node:'/root/Inspection/Summary/Title',property:'text',match:'equal',value:'Title fixture'}]},...driver.steps.slice(1)]));
+  reject('tab-only-action',/RENDERED_CASE_ACTION/,()=>preflight([{...driver.steps[0],action:'tap',key:9},...driver.steps.slice(1)]));
+  const draw=e.document(root,row.checkpoints[0].draw),mutate=(name,pattern,edit)=>reject(name,pattern,()=>{
+    const changed=put(name+'.json',edit(structuredClone(draw)));
+    e.validateRenderedOutcome(root,{...row,checkpoints:[{...row.checkpoints[0],draw:changed},...row.checkpoints.slice(1)]},report,driver);
+  });
+  mutate('draw-for-another-physical-input',/EVIDENCE_PHYSICAL_RECEIPT/,value=>({...value,capture:{...value.capture,token:crypto.randomUUID()}}));
+  mutate('stale-before-ready-draw',/EVIDENCE_NATIVE_CAPTURE_ORDER/,value=>({...value,
+    observed:snapshot('old-state',driver.steps[0].checks,time(2))}));
+  mutate('absent-native-transition',/EVIDENCE_NATIVE_TRANSITION/,value=>({...value,
+    before:snapshot('unchanged-before',driver.steps[0].checks,time(100))}));
+  mutate('native-change-around-visible-capture',/EVIDENCE_NATIVE_CAPTURE_DRIFT/,value=>({...value,
+    after:snapshot('changed-after',driver.steps[0].checks,time(105),true)}));
   reject('stale-driver-review',/RENDERED_INPUT_SCHEMA/,() => scenarios.reviewedDrivers({...declaration,reviewSha256:'a'.repeat(64)},gate,current,[row],'initial'));
   const tool = require('../export.cjs'), header = Buffer.alloc(112);
   header.write('GDPC');

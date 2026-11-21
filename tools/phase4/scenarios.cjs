@@ -11,6 +11,7 @@ const {isDeepStrictEqual:equal} = require('node:util');
 const e = require('./evidence.cjs');
 const owned = require('./rendered-process.cjs');
 const delivery = require('./export.cjs');
+const contracts = require('./rendered-contracts.cjs');
 
 const CATALOG = 'tools/phase4/required-cases.json';
 const COVERAGE = e.PHASE + '04-ACCEPTANCE-COVERAGE.md';
@@ -300,6 +301,7 @@ function currentIdentity(root) {
 
 const MANAGED_NAMES = ['KingdomZombies','KingdomZombies.Core','KingdomZombies.Multiplayer.Abstractions','GodotSharp'];
 const NATIVE_ENGINE_HASH = '45336315eb6f1a52a8923bc4f2ce8079a03dc4939dcb7d531047890f1f7cdfab';
+const SOURCE_LOAD_CONTEXT = 'GodotPlugins.PluginLoadContext';
 const DOTNET='C:/Program Files/dotnet/dotnet.exe';
 
 async function prepareSource(root,revision) {
@@ -331,6 +333,7 @@ async function prepareSource(root,revision) {
     build:e.reference(root,ownership+'rendered-source-build.command.json'),
     sdk:e.reference(root,ownership+'rendered-source-sdk.command.json'),
     imports:delivery.inventory(path.join(project,'.godot','imported')),
+    importCompanions:sourceImportCompanions(root,relative,source),
     managed:delivery.inventory(path.join(project,'.godot','mono','temp','bin','Debug'))}};
   validateSourceProject(root,build,source);
   return e.writeExclusive(root,ownership+'rendered-source.json',build);
@@ -368,18 +371,8 @@ function validateSourceProject(root,build,source) {
   const ownership = '.phase4/runs/'+match[1]+'/', copy = ownership+'source/';
   const project = path.resolve(root,prepared.path);
   const tracked = source.files.filter(ref => ref.path.startsWith('src/godot-game/'));
-  const authored = [];
-  function visit(directory,prefix) {
-    for (const entry of fs.readdirSync(directory,{withFileTypes:true})) {
-      if (prefix === '' && entry.name === '.godot') continue;
-      const name = prefix+entry.name;
-      e.need(!entry.isSymbolicLink(),'RENDERED_SOURCE_REPARSE',name);
-      if (entry.isDirectory()) visit(path.join(directory,entry.name),name+'/');
-      else authored.push('src/godot-game/'+name);
-    }
-  }
-  visit(project,'');
-  e.exact(tracked.map(ref => ref.path),authored,'prepared source project files');
+  e.need(equal(prepared.importCompanions,sourceImportCompanions(root,prepared.path,source)),
+    'RENDERED_SOURCE_IMPORT_COMPANIONS');
   for (const ref of tracked) {
     if (ref.path !== 'src/godot-game/project.godot') e.artifact(root,{...ref,path:copy+ref.path});
     else {
@@ -423,6 +416,37 @@ function validateSourceProject(root,build,source) {
   }));
 }
 
+function sourceImportCompanions(root,relative,source) {
+  const authored=new Set(source.files.filter(ref=>ref.path.startsWith('src/godot-game/'))
+    .map(ref=>ref.path.slice('src/godot-game/'.length)));
+  const generated=[];
+  function visit(directory,prefix) {
+    for (const entry of fs.readdirSync(directory,{withFileTypes:true})) {
+      const name=prefix+entry.name;
+      e.need(!entry.isSymbolicLink(),'RENDERED_SOURCE_REPARSE',name);
+      if (name==='.godot') continue;
+      if (entry.isDirectory()) visit(path.join(directory,entry.name),name+'/');
+      else if (!authored.has(name)) {
+        const base=name.replace(/\.(?:uid|import)$/,'');
+        e.need(base!==name&&authored.has(base),'RENDERED_SOURCE_UNEXPECTED_FILE',name);
+        const {data,...ref}=e.read(root,relative+'/'+name);
+        if (name.endsWith('.uid')) e.need(/^uid:\/\/[a-z0-9]+\r?\n?$/.test(data.toString('utf8')),'RENDERED_SOURCE_SCRIPT_UID',name);
+        else {
+          const text=data.toString('utf8');
+          e.need(text.includes('source_file="res://'+base+'"'),'RENDERED_SOURCE_IMPORT_OWNER',name);
+          const targets=[...text.matchAll(/^(?:path(?:\.[\w]+)?)="res:\/\/(\.godot\/imported\/[^"\r\n]+)"/gm)];
+          e.need(targets.length>0,'RENDERED_SOURCE_IMPORT_TARGET',name);
+          for(const target of targets)e.reference(root,relative+'/'+target[1],64*1024*1024);
+        }
+        generated.push(ref);
+      }
+    }
+  }
+  visit(path.resolve(root,relative),'');
+  for(const name of ['uid_cache.bin','global_script_class_cache.cfg'])generated.push(e.reference(root,relative+'/.godot/'+name));
+  return generated.sort((a,b)=>a.path.localeCompare(b.path));
+}
+
 function sourceLaunch(root,relative,build,role) {
   const launch = crypto.randomUUID(), stream = relative+'/loaded-assemblies.ndjson';
   fs.mkdirSync(path.resolve(root,relative),{recursive:true});
@@ -443,7 +467,9 @@ function validateLoadedSource(root,build,run) {
   for (const row of observations) {
     const declared=build.sourceManaged[row.name];
     e.need(declared && row.launch===run.launch && row.pid===run.pid &&
-      path.resolve(row.executable)===path.resolve(root,build.engine.path) && path.resolve(row.file)===path.resolve(root,declared.file) &&
+      path.resolve(row.executable)===path.resolve(root,build.engine.path) &&
+      (row.file==='' || path.resolve(row.file)===path.resolve(root,declared.file)) &&
+      row.loadContext===SOURCE_LOAD_CONTEXT &&
       row.mvid===declared.mvid &&
       (row.name==='GodotSharp'||row.version?.endsWith('+'+build.revision)),'RENDERED_SOURCE_RUNTIME_IDENTITY',String(row.name));
   }
@@ -464,6 +490,7 @@ function finalRendered(root, gate, current, refs, campaign) {
   const driverRecord = e.document(root,final.drivers);
   const drivers = reviewedDrivers(driverRecord,gate,current,native,final.kind);
   const build = validateBuild(root,e.document(root,e.document(root,gate.review).buildReport),e.identifySource(root,current.revision),current.tool);
+  validateDriverFixtures(root,drivers,build,gate,current);
   e.need(driverRecord.campaign === final.campaign && driverRecord.declaredAt <= final.startedAt,'COMPLETION_DRIVER_TIME');
   for (const [index,row] of final.outcomes.entries()) {
     const item = native[index];
@@ -653,18 +680,7 @@ function coverageExpectation(catalog, root) {
 }
 
 function validateDriver(row, item) {
-  e.need(row.id === item.id && e.named(row.stimulus) && Array.isArray(row.steps) && row.steps.length > 0 && row.steps.length <= 24,
-    'RENDERED_STIMULUS', item.id);
-  e.exact(row.steps.map(step => step.id), row.steps.map(step => step.id), 'physical checkpoint IDs');
-  for (const step of row.steps) {
-    const click = step.action === 'click' && Number.isInteger(step.x) && step.x >= 0 && step.x < 1280 &&
-      Number.isInteger(step.y) && step.y >= 0 && step.y < 720;
-    const tap = step.action === 'tap' && Number.isInteger(step.key) && step.key > 0 && step.key < 256;
-    e.need(/^[a-z][a-z0-9-]{0,47}$/.test(step.id) && (click || tap) && typeof step.node === 'string' &&
-      /^\/root\/Inspection(?:\/[a-zA-Z0-9_.@-]+)*$/.test(step.node) &&
-      ['text','visible','disabled','value','selected','item_count','playing','texture','size'].includes(step.property) &&
-      (['string','number','boolean'].includes(typeof step.expected) || step.expected === null), 'RENDERED_CHECKPOINT', row.id);
-  }
+  return contracts.validateDeclaration(row,item);
 }
 
 function relaunchCase(id) {
@@ -673,7 +689,7 @@ function relaunchCase(id) {
 
 function reviewedDrivers(data, gate, current, native, kind) {
   e.identity(current,data,'rendered input');
-  e.need(data.schemaVersion === 1 && data.selectionSha256 === gate.selection.sha256 && data.reviewSha256 === gate.review.sha256 &&
+  e.need(data.schemaVersion === 2 && data.selectionSha256 === gate.selection.sha256 && data.reviewSha256 === gate.review.sha256 &&
     e.UUID.test(data.campaign) && e.instant(data.declaredAt) && data.declaredAt>=gate.reviewedAt && data.kind===kind &&
     Array.isArray(data.drivers),'RENDERED_INPUT_SCHEMA');
   const files = native.filter(row => !row.family);
@@ -682,7 +698,10 @@ function reviewedDrivers(data, gate, current, native, kind) {
   for (const row of files) {
     const driver = drivers.get(row.id);
     validateDriver(driver,row);
-    if (Object.hasOwn(delivery.RENDERED_FIXTURES,row.id)) {
+    const kind = Object.hasOwn(delivery.RENDERED_FIXTURES,row.id)?'portable-negative':
+      row.runGroup==='G2-packaged'?'portable-positive':'inspection-source';
+    e.need(driver.fixture?.id===row.id && driver.fixture.kind===kind,'RENDERED_DRIVER_FIXTURE',row.id);
+    if (kind==='portable-negative') {
       e.need(driver.fixture?.id === row.id && e.HEX.test(driver.fixture.pckSha256),'RENDERED_DRIVER_FIXTURE',row.id);
     }
     if (relaunchCase(row.id)) {
@@ -695,17 +714,37 @@ function reviewedDrivers(data, gate, current, native, kind) {
   return drivers;
 }
 
+function validateDriverFixtures(root,drivers,build,gate,current) {
+  for (const [id,driver] of drivers) {
+    const fixture=driver.fixture;
+    if (fixture.kind==='inspection-source') {
+      e.need(fixture.sourceSha256===current.source,'RENDERED_DRIVER_FIXTURE',id);
+      if (id==='heldout.H01') {
+        const declared=e.document(root,gate.selection).sourceResults.find(row=>row.id==='source.provenance')?.result;
+        e.need(equal(fixture.provenance,declared) && declared,'RENDERED_H01_PROVENANCE');
+        const item=loadCatalog(root).cases.find(row=>row.id==='source.provenance');
+        const {result}=phase4SourceReceipt(root,item,{result:declared},current);
+        e.need(result.observations.heldout?.H01==='pass-source','RENDERED_H01_PROVENANCE');
+      }
+    } else {
+      const expected=fixture.kind==='portable-negative'?build.renderedFixtures[id]:build.pck;
+      e.need(fixture.pckSha256===expected.sha256,'RENDERED_DRIVER_FIXTURE',id);
+    }
+  }
+}
+
 function treePaths(raw) {
   e.need(Array.isArray(raw) && raw.length % 6 === 0 && raw.length > 0 && raw.length <= 8190, 'RENDERED_NATIVE_TREE');
-  const result = new Map(), parents = [];
+  const result = new Map(), parents = [], ids=new Set();
   for (let offset = 0; offset < raw.length; offset += 6) {
     while (parents.at(-1)?.remaining === 0) parents.pop();
     const [children, name, , id] = raw.slice(offset, offset + 4), parent = parents.at(-1);
     e.need(Number.isInteger(children) && children >= 0 && e.named(name) && Number.isSafeInteger(id) && id > 0 &&
       (offset === 0 ? name === 'root' : parent), 'RENDERED_NATIVE_TREE');
     const node = (parent?.node ?? '') + '/' + name;
-    e.need(!result.has(node), 'RENDERED_NATIVE_TREE_DUPLICATE', node);
+    e.need(!result.has(node) && !ids.has(id), 'RENDERED_NATIVE_TREE_DUPLICATE', node);
     result.set(node, id);
+    ids.add(id);
     if (parent) parent.remaining--;
     parents.push({node, remaining:children});
   }
@@ -749,8 +788,8 @@ async function nativeObserver(budget, signal) {
     });
   });
   await new Promise((resolve,reject) => {server.once('error',reject);server.listen(0,'127.0.0.1',resolve);});
-  async function waitFor(test) {
-    const end = Date.now() + budget(12000);
+  async function waitFor(test,deadline) {
+    const end = Math.min(deadline,Date.now() + budget(12000));
     for (;;) {
       if (trouble) throw trouble;
       const value = test();
@@ -759,29 +798,56 @@ async function nativeObserver(budget, signal) {
       await delay(Math.min(40,budget()),undefined,{signal});
     }
   }
-  async function request(message, response, args) {
+  async function request(message, response, args, deadline) {
     e.need(!pending && channel && !channel.destroyed, 'RENDERED_NATIVE_CONNECTION');
     const body = encode([message,thread,args]), header = Buffer.alloc(4);
     header.writeUInt32LE(body.length);
     pending = {response};
     channel.write(Buffer.concat([header,body]));
-    try {return await waitFor(() => pending.value);} finally {pending = null;}
+    try {return await waitFor(() => pending.value,deadline);} finally {pending = null;}
   }
-  async function probe(ownedPid, step) {
-    await waitFor(() => pid);
+  async function snapshot(ownedPid, checks, deadline=Date.now()+budget(12000)) {
+    await waitFor(() => pid,deadline);
     e.need(pid === ownedPid, 'RENDERED_NATIVE_PID');
-    const tree = await request('scene:request_scene_tree','scene:scene_tree',[]);
-    const id = treePaths(tree.payload).get(step.node);
-    e.need(id, 'RENDERED_NATIVE_NODE', step.node);
-    const inspected = await request('scene:inspect_objects','scene:inspect_objects',[[id],false]);
-    const item = inspected.payload.find(value => value[0] === id);
-    const property = item?.[2]?.find(value => value[0] === step.property);
-    e.need(property && (step.collect === true || equal(property[5],step.expected)), 'RENDERED_NATIVE_PROPERTY', step.node + ' ' + step.property);
-    return {node:step.node,property:step.property,value:property[5],tree,inspected};
+    const tree = await request('scene:request_scene_tree','scene:scene_tree',[],deadline);
+    const nodes=treePaths(tree.payload),objects=new Map();
+    for(const node of new Set(checks.filter(check=>check.property!==null).map(check=>check.node))) {
+      const id=nodes.get(node);
+      if (id) objects.set(node,await request('scene:inspect_objects','scene:inspect_objects',[[id],false],deadline));
+    }
+    const values=nativeValues(nodes,objects,checks);
+    return {tree,objects,values,at:new Date().toISOString()};
   }
-  return {endpoint:'tcp://127.0.0.1:' + server.address().port, probe, get pidPacket(){return pidPacket;}, close:() => {
+  return {endpoint:'tcp://127.0.0.1:' + server.address().port, snapshot, get pidPacket(){return pidPacket;}, close:() => {
     channel?.destroy();return new Promise(resolve => server.close(resolve));
   }};
+}
+
+function nativeValues(nodes,objects,checks) {
+  return checks.map(check => {
+    const id = nodes.get(check.node) ?? null;
+    const object=objects.get(check.node);
+    const properties=object?.payload.find(row=>row[0]===id)?.[2];
+    const values=properties?.filter(row=>row[0]===check.property);
+    const value=check.property===null ? id!==null : values?.length===1 ? values[0][5] : null;
+    return {id,value};
+  });
+}
+
+function savedNativeSnapshot(root,ref,checks,thread) {
+  const snapshot=e.document(root,ref), decode=require('./native-observer.cjs').decode;
+  e.need(e.instant(snapshot.at) && Array.isArray(snapshot.objects),'EVIDENCE_NATIVE_SNAPSHOT');
+  const tree=decode(e.artifact(root,snapshot.tree,1048576).data), nodes=treePaths(tree[2]);
+  e.need(tree[0]==='scene:scene_tree' && tree[1]===thread,'EVIDENCE_NATIVE_SNAPSHOT_THREAD');
+  const required=[...new Set(checks.filter(check=>check.property!==null&&nodes.has(check.node)).map(check=>check.node))];
+  e.exact(required,snapshot.objects.map(row=>row.node),'native snapshot subjects');
+  const objects=new Map(snapshot.objects.map(row=>{
+    const object=decode(e.artifact(root,row.packet,1048576).data);
+    e.need(object[0]==='scene:inspect_objects' && object[1]===thread && object[2]?.length===1 &&
+      object[2][0][0]===nodes.get(row.node),'EVIDENCE_NATIVE_SNAPSHOT_OBJECT',row.node);
+    return [row.node,{payload:object[2]}];
+  }));
+  return {at:snapshot.at,values:nativeValues(nodes,objects,checks)};
 }
 
 const CAPTURE_CLIENT = String.raw`
@@ -819,11 +885,20 @@ try {
  $stream = [IO.File]::Open($env:KZ_PHASE4_PNG,[IO.FileMode]::CreateNew)
  $bitmap.Save($stream,[Drawing.Imaging.ImageFormat]::Png)
 } finally { if ($stream) { $stream.Dispose() }; $graphics.Dispose(); $bitmap.Dispose() }
+@{ pid = $processId; window = $window.ToInt64(); token = $env:KZ_PHASE4_DRAW_TOKEN;
+   at = [DateTime]::UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+   imageSha256 = (Get-FileHash -LiteralPath $env:KZ_PHASE4_PNG -Algorithm SHA256).Hash.ToLowerInvariant() } |
+   ConvertTo-Json -Compress
 `;
 
 function desktopCommand(root, script, env, limit, owner, signal) {
   return owned.command(owner,'powershell.exe', ['-NoProfile','-NonInteractive','-EncodedCommand',
     Buffer.from(script,'utf16le').toString('base64')], {cwd:root,env}, limit,signal);
+}
+
+async function verifiedCleanup(owner) {
+  try {return await owner.cleanup();}
+  catch(error) {throw Object.assign(error,{unconfirmedCleanup:true});}
 }
 
 async function inspectionSession(root, relative, group, build, adapter, budget, signal, subject = null) {
@@ -860,7 +935,7 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
   });
   let acknowledgement;
   let closing = false;
-  let runtime, observedImage;
+  let runtime, observedImage, ready;
   const input = adapter.physical(async (action,x,y,key) => {
     e.need(pid && !terminal && !error, 'RENDERED_PROCESS_LOST', role);
     const result = await owned.command(owner,'powershell.exe',['-NoProfile','-ExecutionPolicy','Bypass','-File',
@@ -870,6 +945,23 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
     e.need(acknowledgement.pid === pid && acknowledgement.focused && acknowledgement.action === action &&
       acknowledgement.width === 1280 && acknowledgement.height === 720, 'RENDERED_INPUT_ACK');
   });
+  async function settle(checks,{match=true,previous=null}={}) {
+    const end=Date.now()+budget(12000);
+    for (;;) {
+      const observed=await native.snapshot(pid,checks,end);
+      const valid=checks.every((check,index)=>contracts.matches(check,observed.values[index].value));
+      if ((!match || valid) && previous && observed.at>previous.at && equal(previous.values,observed.values)) return observed;
+      previous=(!match || valid)?observed:null;
+      e.need(!terminal && !error && Date.now()<end,'RENDERED_NATIVE_SETTLE',checks.map(check=>check.node+' '+check.property).join(', '));
+      await delay(Math.min(50,budget()),undefined,{signal});
+    }
+  }
+  function snapshotRef(prefix,snapshot) {
+    const tree=e.writeExclusive(root,prefix+'-tree.bin',snapshot.tree.raw);
+    const objects=[...snapshot.objects].map(([node,packet],index)=>({node,
+      packet:e.writeExclusive(root,prefix+'-object-'+index+'.bin',packet.raw)}));
+    return e.writeExclusive(root,prefix+'.json',{at:snapshot.at,tree,objects});
+  }
   async function checkpoint(item,step,invocation) {
     const prefix = relative + '/' + item.id + '-' + step.id;
     const deadline = Date.now() + budget(12000);
@@ -881,8 +973,10 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
     }
     if (!runtime) {
       const observer = require('./native-observer.cjs');
-      const state = await native.probe(pid,{node:observer.HUB,property:observer.RUNTIME_PROPERTY,collect:true});
-      const marker = observer.runtimeMarker(state.value);
+      const settled=await settle(contracts.readyChecks);
+      ready=snapshotRef(relative+'/ready',settled);
+      const state = await native.snapshot(pid,[{node:observer.HUB,property:observer.RUNTIME_PROPERTY}]);
+      const marker = observer.runtimeMarker(state.values[0].value,loaded?SOURCE_LOAD_CONTEXT:undefined);
       e.need(loaded || marker === build.portable.managedRuntime,'RENDERED_PORTABLE_LIVE_ASSEMBLY');
       const imageResult = await desktopCommand(root,"$ErrorActionPreference='Stop'; (Get-Process -Id ([int]$env:KZ_PHASE4_PID)).Path",
         {...env,KZ_PHASE4_PID:String(pid)},budget(6000),owner,signal);
@@ -891,26 +985,36 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
       runtime = e.writeExclusive(root,relative+'/runtime.json',{pid,marker,observedImage,
         pidPacket:e.writeExclusive(root,relative+'/runtime-pid.bin',native.pidPacket),
         tree:e.writeExclusive(root,relative+'/runtime-tree.bin',state.tree.raw),
-        object:e.writeExclusive(root,relative+'/runtime-object.bin',state.inspected.raw)});
+        object:e.writeExclusive(root,relative+'/runtime-object.bin',state.objects.get(observer.HUB).raw)});
+    }
+    const before=await native.snapshot(pid,step.checks);
+    const token=crypto.randomUUID(), actionStartedAt=new Date().toISOString();
+    let recheck;
+    if(step.recheck) {
+      await input.input('click',step.recheck.x,step.recheck.y,0);
+      recheck={...step.recheck,at:new Date().toISOString(),acknowledgement};
     }
     await input.input(step.action,step.x ?? 0,step.y ?? 0,step.key ?? 0);
     const at = new Date().toISOString(), physical = acknowledgement;
-    const observed = await native.probe(pid,step);
-    const nativeTree = e.writeExclusive(root,prefix+'-native-tree.bin',observed.tree.raw);
-    const nativeObject = e.writeExclusive(root,prefix+'-native-object.bin',observed.inspected.raw);
+    const observed = await settle(step.checks);
+    e.need(!equal(observed.values,before.values),'RENDERED_NATIVE_TRANSITION',item.id+' '+step.id);
     const imagePath = prefix + '.png';
-    await desktopCommand(root,CAPTURE_CLIENT,{...env,KZ_PHASE4_PID:String(pid),KZ_PHASE4_WINDOW:String(physical.window),
-      KZ_PHASE4_PNG:path.join(root,imagePath)},budget(12000),owner,signal);
+    const capture=await desktopCommand(root,CAPTURE_CLIENT,{...env,KZ_PHASE4_PID:String(pid),KZ_PHASE4_WINDOW:String(physical.window),
+      KZ_PHASE4_DRAW_TOKEN:token,KZ_PHASE4_PNG:path.join(root,imagePath)},budget(12000),owner,signal);
+    const visible=JSON.parse(capture.stdout.trim());
+    const after=await native.snapshot(pid,step.checks);
+    e.need(equal(observed.values,after.values),'RENDERED_NATIVE_DRAW_DRIFT',step.id);
     budget();
     adapter.decodePng(path.join(root,imagePath),1280,720);
     const image = e.reference(root,imagePath,16 * 1024 * 1024);
-    const flags = {caseId:item.id,checkpoint:step.id,invocation,pid};
-    const inputRef = e.writeExclusive(root,prefix+'-input.json',{...flags,at,focused:true,action:step.action,
+    const flags = {caseId:item.id,checkpoint:step.id,invocation,pid,token};
+    const inputRef = e.writeExclusive(root,prefix+'-input.json',{...flags,at,actionStartedAt,focused:true,action:step.action,
       clientWidth:physical.width,clientHeight:physical.height,method:step.action==='click'?'physical-mouse':'physical-keyboard',
-      x:step.x,y:step.y,key:step.key,acknowledgement:physical});
+      control:step.control,x:step.x,y:step.y,key:step.key,acknowledgement:physical,recheck});
     const draw = e.writeExclusive(root,prefix+'-draw.json',{...flags,at:new Date().toISOString(),drawn:true,frame:++frame,
-      observation:JSON.stringify({node:observed.node,property:observed.property,value:observed.value}),
-      frameSource:'composited-client-after-DwmFlush',nativeTree,nativeObject,imageSha256:image.sha256});
+      before:snapshotRef(prefix+'-before',before),observed:snapshotRef(prefix+'-observed',observed),
+      after:snapshotRef(prefix+'-after',after),capture:visible,ready,frameSource:'composited-client-between-native-observations',
+      imageSha256:image.sha256});
     return {id:step.id,input:inputRef,draw,image};
   }
   async function close() {
@@ -925,9 +1029,9 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
       if (!terminal) {timedOut = true;phase2.killTree(child);await Promise.race([closed,delay(3000)]);}
       await native.close();
     }
-    const remainingPids = await owner.cleanup();
+    const remainingPids = await verifiedCleanup(owner);
     const logRef = e.writeExclusive(root,relative+'/console.log',Buffer.from(log));
-    const record = {role,pid,startedAt,finishedAt:new Date().toISOString(),timedOut,environment,runtime,
+    const record = {role,pid,startedAt,finishedAt:new Date().toISOString(),timedOut,environment,runtime,ready,
       crashed:Boolean(error) || terminal?.exitCode !== 0 || /ERROR:|SCRIPT ERROR:|Failed to load/i.test(log),
       exitCode:terminal?.exitCode ?? null,signal:terminal?.signal ?? null,streamsClosed:Boolean(terminal),inputReleased,
       ownedPids:owner.pids(),remainingPids,log:logRef,executable:target,package:subject?.pck ?? null,
@@ -970,11 +1074,14 @@ async function runInspection(root, relative, group, items, drivers, build, adapt
     try {
       const terminal = await session.close();
       for (const row of currentAttempt) row.processes.push(terminal.ref);
+      if(terminal.record.remainingPids.length) throw Object.assign(new Error('RENDERED_PROCESS_REMAINDER'),
+        {unconfirmedCleanup:true});
       e.validateProcess(terminal.record);
     } catch (error) {
       for (const row of currentAttempt.filter(row => row.status === 'pass')) {
         row.status = 'invalid';row.observed = error.message;
       }
+      if (error.unconfirmedCleanup) throw error;
     } finally {session = null;currentAttempt = [];}
   };
   for (const lane of schedule) {
@@ -986,15 +1093,18 @@ async function runInspection(root, relative, group, items, drivers, build, adapt
       else validateSourceProject(root,build,e.identifySource(root,build.revision));
       budget();
       session = await inspectionSession(root,owned,group.id,build,adapter,budget,signal,subject);
+      let reset = true;
       for (const item of lane.items) {
         const row = outcomes.find(outcome => outcome.id === item.id);
         if (row.status !== 'pass') continue;
         currentAttempt.push(row);
         try {
           budget();
-          e.need(session?.usable,'RENDERED_GROUP_UNAVAILABLE',group.id);
+          e.need(session?.usable && reset,'RENDERED_GROUP_UNAVAILABLE',group.id);
+          reset = false;
           const steps = drivers.get(item.id).steps.filter(step => (step.lifetime ?? 1) === lane.lifetime);
           for (const step of steps) row.checkpoints.push(await session.checkpoint(item,step,invocation));
+          reset = true;
         } catch (error) {
           row.status = row.checkpoints.length || session?.usable ? 'fail' : 'blocked';
           row.observed = error.message.slice(0,4096).replace(/[\r\n]/g,' ');
@@ -1029,7 +1139,7 @@ function validateProcessRuntime(root,build,owner) {
     handshake[0]==='set_pid' && equal(handshake[2],[owner.pid]) && tree[1]===handshake[1] &&
     tree[0]==='scene:scene_tree' && object[0]==='scene:inspect_objects' && tree[1]===object[1] && id &&
     object[2].find(row=>row[0]===id)?.[2]?.some(row=>row[0]===observer.RUNTIME_PROPERTY&&row[5]===runtime.marker),'RENDERED_LIVE_RUNTIME_OWNER');
-  observer.runtimeMarker(runtime.marker);
+  observer.runtimeMarker(runtime.marker,owner.role==='inspection-hub'?SOURCE_LOAD_CONTEXT:undefined);
   if (owner.role==='inspection-hub') {
     e.need(equal(owner.executable,build.engine),'RENDERED_SOURCE_ENGINE');
     const [game,core]=runtime.marker.split('|').slice(1,3);
@@ -1088,9 +1198,10 @@ async function runInherited(root, relative, group, items, build, adapter, identi
     executed = solo ? {results:await adapter.solo(context,original)} : await adapter.lan(context,original);
   } finally {
     groupSignal.removeEventListener('abort',cancel);
-    const remainingPids=await children.cleanup();
+    const remainingPids=await verifiedCleanup(children);
     e.writeExclusive(root,relative+'/'+group.id+'/phase4-owned-cleanup.json',{ownedPids:children.pids(),remainingPids});
-    e.need(remainingPids.length===0,'RENDERED_INHERITED_PROCESS_REMAINDER',group.id);
+    if(remainingPids.length) throw Object.assign(new Error('RENDERED_INHERITED_PROCESS_REMAINDER '+group.id),
+      {unconfirmedCleanup:true});
   }
   budget();
   const bindings = {nonce:invocation,input,tool,revision,platform:context.platform,osFingerprint:context.osFingerprint};
@@ -1139,8 +1250,7 @@ async function runRendered(root, registered) {
   const drivers = reviewedDrivers(data,gate,current,native,data.kind);
   const review = e.document(root,gate.review);
   const build = validateBuild(root,e.document(root,review.buildReport),e.identifySource(root,current.revision),current.tool);
-  for (const [id,driver] of drivers) if (Object.hasOwn(delivery.RENDERED_FIXTURES,id))
-    e.need(driver.fixture.pckSha256 === build.renderedFixtures[id].sha256,'RENDERED_DRIVER_FIXTURE',id);
+  validateDriverFixtures(root,drivers,build,gate,current);
   const driverRef = e.writeExclusive(root,relative+'/declared-drivers.json',e.artifact(root,runInput).data);
   const startedAt = new Date().toISOString(), outcomes = [];
   e.need(data.declaredAt <= startedAt,'RENDERED_DRIVER_DECLARATION_TIME');
@@ -1158,7 +1268,7 @@ async function runRendered(root, registered) {
     for (const group of gate.groups.filter(row => GROUPS.includes(row.id))) {
     const items = native.filter(row => row.runGroup === group.id);
     if (!items.length) continue;
-    let unlock;
+    let unlock, lockRetained=false;
     try {
       controller.signal.throwIfAborted();
       unlock = require('../phase2/check.cjs').acquireLock(root,invocation);
@@ -1166,9 +1276,11 @@ async function runRendered(root, registered) {
         await runInspection(root,relative,group,items,drivers,build,gate.adapter,invocation,controller.signal);
       outcomes.push(...result);
     } catch (error) {
+      lockRetained=Boolean(error.unconfirmedCleanup);
+      if (lockRetained) e.writeExclusive(root,relative+'/'+group.id+'-cleanup-unconfirmed.json',{invocation,group:group.id,error:error.message});
       outcomes.push(...items.map(row => blocked(row,error)));
     } finally {
-      try {unlock?.();} catch (error) {
+      try {if(!lockRetained)unlock?.();} catch (error) {
         for (const row of outcomes.filter(row => row.runGroup===group.id && row.status==='pass')) {
           row.status='invalid';row.observed=error.message;
         }
@@ -1242,5 +1354,6 @@ async function verifyCompletion(root, relative, registered) {
 module.exports = {CATALOG, COVERAGE, SCENARIOS, GROUPS, ORDER, coverageRows, validateProcedure, validateCatalog, loadCatalog,
   selectCases, inheritedCases, selectionRows, impactClosure, validateSelection, currentReviewAdapter, prelaunch, currentIdentity, runId,
   finalRendered, latestPhase4Sources, sourceReceipts, completionSourceReceipts, preWindowCases, verifyFixProof, coverageExpectation, validateDriver, reviewedDrivers,
-  treePaths, relaunchCase, packagedSubject, prepareSource, validateBuild, validateSourceProject, validateLoadedSource, validateProcessRuntime,
-  validateProcessPackageFiles, runInspection, runInherited, runRendered, verifyCompletion};
+  treePaths, savedNativeSnapshot, relaunchCase, packagedSubject, prepareSource, validateBuild, validateSourceProject,
+  sourceImportCompanions, validateLoadedSource, validateProcessRuntime, validateProcessPackageFiles, runInspection, runInherited,
+  runRendered, verifyCompletion};

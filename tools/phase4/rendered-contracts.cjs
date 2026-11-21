@@ -1,0 +1,207 @@
+'use strict';
+
+const {isDeepStrictEqual:equal}=require('node:util');
+const {need,exact,named}=require('./evidence.cjs');
+
+const HUB='/root/Inspection', WORKSPACE=HUB+'/Shell/Workspace', PREVIEW=WORKSPACE+'/Preview';
+const BROWSER=WORKSPACE+'/Controls/Browser', CURRENT=PREVIEW+'/Surface/Current', SUMMARY=HUB+'/Summary';
+const TOOLBAR=HUB+'/Shell/Toolbar', CATEGORY=WORKSPACE+'/Navigation/Category';
+const METADATA=PREVIEW+'/Metadata', FAILURES=PREVIEW+'/Failures', CHAR=CURRENT+'/Character';
+const WORLD=CURRENT+'/WorldItems', RESOURCE=CURRENT+'/ResourcePreview';
+const DATA=CURRENT+'/DataText/Body', AUDIO=CURRENT+'/AudioPreview/Audio/Content';
+const RESOURCES=BROWSER+'/Resources', SELECT=id=>CHAR+'/Controls/Slots/'+id+'/Select';
+const ITEM_SELECT=WORLD+'/InspectorScroll/Body/Art/ItemsWeaponsPreview/Selection';
+const DEFENSE=WORLD+'/InspectorScroll/Body/Art/Content';
+const WORLD_STATE=WORLD+'/InspectorScroll/Body/Choices/CurrentState';
+const READY='Validated; visual/listening acceptance pending';
+const PARTIAL='Partial — validated bytes; native/visual/listening acceptance pending';
+const eq=(node,property,value)=>({node,property,match:'equal',value});
+const contains=(node,property,value)=>({node,property,match:'contains',value});
+const field=(node,property,key,value)=>({node,property,match:'field',key,value});
+const exists=node=>({node,property:null,match:'present'});
+const absent=node=>({node,property:null,match:'absent'});
+const label=(node,text)=>eq(node,'text',text);
+const subject=id=>label(SUMMARY+'/ResourceId',id);
+const show=node=>eq(node,'visible',true);
+const stage=(id,control,checks)=>({id,control,checks});
+const choice=(id,control,selected,checks=[])=>stage(id,control,[eq(control,'selected',selected),...checks]);
+const open=(id,resource,checks)=>stage(id,RESOURCES,[subject(resource),...checks]);
+const view=(name,id,checks)=>open(name,id,[field(RESOURCE,'metadata/resource_view','id',id),...checks]);
+const readyChecks=[label(TOOLBAR+'/Operation',READY),eq(TOOLBAR+'/Cancel','disabled',true),show(TOOLBAR+'/Operation')];
+const baseline=[eq(CATEGORY,'selected',1),label(BROWSER+'/Search',''),eq(BROWSER+'/Status','selected',0),
+  subject('IT-07'),eq(METADATA,'visible',false),...readyChecks.slice(0,2)];
+const itemBody=(id)=>[show(WORLD),eq(ITEM_SELECT,'assigned_animation',id)];
+const missing=[
+  subject('IT-11'),
+  label(SUMMARY+'/Status','Error — IT-11 — WORLD_INSPECTOR_MISSING content/packs/items-11-24.json; choose another resource or Recheck'),
+  contains(FAILURES,'text','IT-11: res://content/pack-index.json, field outputs, value '),
+  contains(FAILURES,'text','actual named completed definition unavailable'),
+  contains(FAILURES,'text','res://content/packs/items-11-24.json, field bytes, value read — missing or oversized resource'),
+  show(FAILURES)
+];
+const missingCase=[
+  open('missing-resource','IT-11',missing.slice(1)),
+  open('valid-sibling','IT-07',[label(SUMMARY+'/ResourceName','Authored world/item view · IT-07'),
+    label(SUMMARY+'/Status',PARTIAL),...itemBody('IT-07')])
+];
+const cleanPackage=[
+  open('reachable-first','IT-07',[...itemBody('IT-07'),...readyChecks.slice(0,2)]),
+  open('reachable-second','IT-07',[...itemBody('IT-07'),...readyChecks.slice(0,2)])
+];
+const character=field(CHAR,'metadata/sample','action','bow');
+const detail=(id,resource,shared)=>stage(id,PREVIEW+'/Actions/Details',[subject(resource),show(METADATA),
+  contains(METADATA,'text','"id": "'+resource+'"'),contains(METADATA,'text','"sharedFileId": "'+shared+'"'),
+  contains(METADATA,'text','Explicit shared mappings: ')]);
+const resourceState=(name,value)=>field(RESOURCE,'metadata/resource_view',name,value);
+const cancel=(id,checks)=>({...stage(id,TOOLBAR+'/Cancel',checks),recheck:true});
+function gear(slot,part,id) {
+  const node=CHAR+'/Art/'+slot+'_'+part;
+  return [show(node),eq(node,'metadata/item',id),eq(node,'metadata/slot',slot)];
+}
+
+const CASES = new Map([
+  ['heldout.H01',[
+    detail('owner-first','IT-07','shared.file.6d61b47b9b52574a102f'),
+    detail('owner-second','IT-08','shared.file.6d61b47b9b52574a102f')
+  ]],
+  ['heldout.H12',[
+    choice('stage-bow',SELECT('Ammunition'),2,[subject('AN-08'),character]),
+    choice('empty-arrows',SELECT('Ammunition'),0,[subject('AN-08'),character,field(CHAR,'metadata/sample','nocked',false)]),
+    choice('last-arrow',SELECT('Ammunition'),1,[subject('AN-08'),character,field(CHAR,'metadata/sample','nocked',true)]),
+    choice('broken',SELECT('Condition'),1,[subject('AN-08'),field(CHAR,'metadata/sample','nocked',false)]),
+    choice('usable',SELECT('Condition'),0,[subject('AN-08'),character]),
+    ...[1,2,3].flatMap(count=>[
+      open('tower-'+count,'BL-0'+(6+count),[show(DEFENSE+'/Status')]),
+      choice('ready-guards-'+count,WORLD_STATE,8,[eq(DEFENSE,'metadata/functional_tier',count),
+        eq(DEFENSE,'metadata/guard_count',count),show(DEFENSE+'/Status'),contains(DEFENSE+'/Status','text','guards '+count)])
+    ]),
+    view('persistent-corpse','CH-13',[resourceState('controller','CorpsePreview'),resourceState('state','persistent corpse'),
+      exists(RESOURCE+'/Art/Corpse/Visual')]),
+    stage('corpse-time-boundary',RESOURCE+'/Controls/Step',[resourceState('state','persistent corpse'),
+      resourceState('time',0.125),exists(RESOURCE+'/Art/Corpse/Visual')])
+  ]],
+  ['heldout.H13',[
+    choice('coat',SELECT('torso'),2,[subject('CH-01'),...gear('torso','torso-front','IT-13')]),
+    choice('armor',SELECT('armor'),2,[...gear('armor','torso-front','IT-20')]),
+    choice('belt',SELECT('belt'),1,[...gear('belt','belt-front','IT-21')]),
+    choice('bag',SELECT('backpack'),2,[...gear('backpack','bag-body','IT-24')]),
+    stage('overlap',SELECT('right'),[subject('CH-01'),...gear('right','held','IT-07'),
+      ...gear('torso','torso-front','IT-13'),...gear('armor','torso-front','IT-20'),
+      ...gear('belt','belt-front','IT-21'),...gear('backpack','bag-body','IT-24')]),
+    view('nearby-bodies','CH-12',[resourceState('controller','CrowdPreview'),exists(RESOURCE+'/Art/Crowd/survivor-001')]),
+    choice('nearby-target',RESOURCE+'/Controls/State',1,[resourceState('state','survivor-001'),
+      exists(RESOURCE+'/Art/Crowd/survivor-001/Visual/SelectedMarker'),show(RESOURCE+'/Controls/Identity')])
+  ]],
+  ['heldout.H15',[
+    choice('facing',SELECT('Facing'),1,[subject('AN-07'),eq(CHAR,'metadata/facing',-1)]),
+    choice('melee',SELECT('Action'),1,[subject('AN-07'),field(CHAR,'metadata/sample','action','melee'),eq(CHAR,'metadata/facing',-1)]),
+    choice('action',SELECT('Action'),2,[subject('AN-07'),character,eq(CHAR,'metadata/facing',-1)]),
+    stage('gear-away',SELECT('left'),[eq(CHAR,'metadata/facing',-1),...gear('left','held','IT-03')]),
+    stage('gear-order',SELECT('left'),[subject('AN-07'),eq(CHAR,'metadata/facing',-1),...gear('left','held','IT-07'),
+      eq(CHAR+'/Art/left_held','metadata/logical_hand','left'),field(CHAR,'metadata/sample','bowHand','left'),show(CHAR+'/Status')])
+  ]],
+  ['heldout.H21',[
+    stage('zero-results',BROWSER+'/Search',[label(BROWSER+'/Count','0 results — No resources match. Clear the filter or choose another category.')]),
+    choice('invalid-reference',DATA+'/Choices/State',2,[subject('DT-24'),show(DATA+'/Detail'),
+      contains(DATA+'/Detail','text','Missing definition TXT-unknown: content/text/en.json, field /rows/TXT-unknown.')])
+  ]],
+  ['UIH.HUB-NAV.error',[
+    cancel('cancel-error',[label(TOOLBAR+'/Operation','Cancelled; no earlier validation reused'),
+      label(SUMMARY+'/Status','Unavailable — validation cancelled; choose Recheck resources'),show(TOOLBAR+'/Recheck')]),
+    stage('retry',TOOLBAR+'/Recheck',readyChecks)
+  ]],
+  ['UIH.HUB-REGISTER.partial',[
+    choice('register',CATEGORY,6,[contains(SUMMARY+'/PackStatus','text','180/180 source-ready · 0/180 accepted'),
+      show(RESOURCES),show(SUMMARY+'/PackStatus')])
+  ]],
+  ['UIH.CHARACTER-PREVIEW.populated',[
+    open('character','CH-01',[eq(CHAR,'metadata/body','CH-01'),show(CHAR+'/Status'),show(CHAR+'/Art/Body_upper')])
+  ]],
+  ['UIH.WORLD-ITEM-PREVIEW.populated',[
+    open('world-item','IT-07',[...itemBody('IT-07'),show(SUMMARY+'/ResourceName')])
+  ]],
+  ['UIH.UI-TEXT-STATUS.long-text',[
+    choice('expanded-text',DATA+'/Choices/TextLength',1,[subject('TXT-02'),show(DATA+'/Detail')]),
+    choice('long-text',DATA+'/Choices/State',7,[subject('TXT-02'),show(DATA+'/Detail'),
+      eq(DATA+'/Detail','wrap_mode',1),contains(DATA+'/Detail','text','Élodie · Jérôme · İpek · Zoë')])
+  ]],
+  ['UIH.AUDIO-AUDITION.populated',[
+    open('audio','AU-01',[show(AUDIO+'/Event'),show(AUDIO+'/Details'),contains(AUDIO+'/Details','text','Source ')])
+  ]],
+  ['UIH.UI-FIXTURE-PREVIEW.populated',[
+    view('ui-fixture','UI-01',[resourceState('controller','Source-bound UI presenter'),
+      show(RESOURCE+'/Controls/Identity'),exists(RESOURCE+'/Art/LibraryScroll/Surface')])
+  ]],
+  ['rendered.hub-navigation',[
+    ...[0,1,2,3,4,5].map((index)=>choice('category-'+index,CATEGORY,index,[show(RESOURCES)])),
+    detail('details','AU-01','shared.file.c0761264b172c09e69c9'),
+    stage('dismiss-details',PREVIEW+'/Actions/Details',[eq(METADATA,'visible',false),label(PREVIEW+'/Actions/Details','Show details')]),
+    cancel('visible-error',[label(SUMMARY+'/Status','Unavailable — validation cancelled; choose Recheck resources')]),
+    stage('retry-after-error',TOOLBAR+'/Recheck',readyChecks)
+  ]],
+  ['rendered.audio-audition',[
+    open('cue','AU-01',[show(AUDIO+'/Details'),contains(AUDIO+'/Details','text','Source ')]),
+    stage('play',AUDIO+'/Play',[show(AUDIO+'/Status'),eq(AUDIO,'metadata/one_shots',1)]),
+    choice('restore-loop',AUDIO+'/CurrentState',1,[show(AUDIO+'/Details'),
+      eq(AUDIO,'metadata/loops','ambience.day-night.forest-day,ambience.fire-wind.local-fire')]),
+    stage('stop-audio',AUDIO+'/Stopall',[eq(AUDIO,'metadata/players',0),eq(AUDIO,'metadata/loops','')])
+  ]],
+  ['heldout.H27',missingCase],
+  ['heldout.H28',missingCase],
+  ['heldout.H31',cleanPackage],
+  ['rendered.packaged-relaunch',cleanPackage]
+]);
+
+function matches(check,value) {
+  if(check.match==='present')return value===true;
+  if(check.match==='absent')return value===false;
+  if(check.match==='equal')return equal(value,check.value);
+  if(check.match==='contains')return typeof value==='string'&&value.includes(check.value);
+  if(check.match==='field'&&typeof value==='string') {
+    try{return equal(JSON.parse(value)?.[check.key],check.value);}catch{return false;}
+  }
+  return false;
+}
+
+function template(id) {
+  const required=CASES.get(id);
+  need(required,'RENDERED_CASE_CONTRACT',id);
+  const repeated=id==='heldout.H31'||id==='rendered.packaged-relaunch';
+  const reset=lifetime=>({...stage('reset-'+lifetime,RESOURCES,baseline),lifetime,reset:true});
+  if (!repeated) return [...required.map(row=>({...row,lifetime:1})),reset(1)];
+  return [{...required[0],lifetime:1},reset(1),{...required[1],lifetime:2},reset(2)];
+}
+
+const NAVIGATION = new Set([CATEGORY,RESOURCES,BROWSER+'/Search',BROWSER+'/Status',TOOLBAR+'/Recheck',METADATA,PREVIEW+'/Actions/Details']);
+
+function validateDeclaration(driver,item) {
+  const required=template(item.id);
+  need(driver.id===item.id&&named(driver.stimulus)&&Array.isArray(driver.steps)&&driver.steps.length<=64,
+    'RENDERED_STIMULUS',item.id);
+  exact(driver.steps.map(step=>step.id),driver.steps.map(step=>step.id),'physical checkpoint IDs');
+  exact(required.map(step=>step.id),driver.steps.filter(step=>!step.navigate).map(step=>step.id),item.id+' required checkpoints',true);
+  let next=0;
+  for(const step of driver.steps) {
+    need(/^[a-z][a-z0-9-]{0,47}$/.test(step.id)&&(step.lifetime===1||step.lifetime===2),'RENDERED_CHECKPOINT',item.id);
+    const coordinates=point=>Number.isInteger(point?.x)&&point.x>=0&&point.x<1280&&Number.isInteger(point?.y)&&point.y>=0&&point.y<720;
+    const click=step.action==='click'&&coordinates(step);
+    const tap=step.action==='tap'&&Number.isInteger(step.key)&&step.key>0&&step.key<256&&step.key!==9;
+    need(click||tap,'RENDERED_CASE_ACTION',item.id+' '+step.id);
+    if(step.navigate) {
+      need(!step.recheck&&step.id.startsWith('navigate-')&&required[next]?.lifetime===step.lifetime&&NAVIGATION.has(step.control)&&
+        Array.isArray(step.checks)&&step.checks.length===1&&
+        (step.checks[0].node===step.control || step.control===RESOURCES&&step.checks[0].node===SUMMARY+'/ResourceId')&&
+        ['text','selected','visible'].includes(step.checks[0].property)&&step.checks[0].match==='equal'&&
+        ['string','number','boolean'].includes(typeof step.checks[0].value),'RENDERED_NAVIGATION_CHECKPOINT',step.id);
+    } else {
+      const expected=required[next++];
+      need(step.control===expected.control&&step.lifetime===expected.lifetime&&equal(step.checks,expected.checks),
+        'RENDERED_CASE_OBSERVATIONS',item.id+' '+step.id);
+      need(expected.recheck ? click&&coordinates(step.recheck)&&!equal([step.x,step.y],[step.recheck.x,step.recheck.y]) : !step.recheck,
+        'RENDERED_CASE_RECHECK',item.id+' '+step.id);
+    }
+  }
+  return driver;
+}
+
+module.exports={CASES,template,validateDeclaration,matches,readyChecks,baseline};

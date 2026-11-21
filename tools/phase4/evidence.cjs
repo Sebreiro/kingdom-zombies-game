@@ -250,7 +250,8 @@ function validateRenderedOutcome(root, row, report, driver, build = null) {
   need(Array.isArray(row.checkpoints) && row.checkpoints.length > 0 && Array.isArray(row.processes) &&
     row.processes.length > 0 && driver?.id === row.id && Array.isArray(driver.steps),'EVIDENCE_RENDERED_MISSING',row.id);
   exact(driver.steps.map(item => item.id),row.checkpoints.map(item => item.id),'declared physical checkpoint IDs',true);
-  const {relaunchCase,validateProcessRuntime} = require('./scenarios.cjs');
+  const {relaunchCase,validateProcessRuntime,savedNativeSnapshot} = require('./scenarios.cjs');
+  const contracts=require('./rendered-contracts.cjs');
   const relaunch = relaunchCase(row.id);
   need(row.processes.length === (relaunch ? 2 : 1) && (!relaunch || driver.steps.length >= 2),'EVIDENCE_RENDERED_LAUNCHES',row.id);
   const processes = row.processes.map(ref => document(root, ref));
@@ -287,34 +288,58 @@ function validateRenderedOutcome(root, row, report, driver, build = null) {
   if (relaunch) need(processes[0].finishedAt <= processes[1].startedAt && equal(processes[0].executable,processes[1].executable) &&
     equal(processes[0].package,processes[1].package) && processes[0].profile !== processes[1].profile &&
     processes.every(process => process.role === 'packaged-inspection'),'EVIDENCE_RELAUNCH_OWNERSHIP');
+  const frames=new Map(), tokens=new Set();
   for (const [index,item] of row.checkpoints.entries()) {
     const step = driver.steps[index], owner = processes[(step.lifetime ?? 1)-1];
     need(owner,'EVIDENCE_RENDERED_LIFETIME',row.id);
     const draw = document(root, item.draw);
     const input = document(root, item.input);
+    if (build) {
+      const prefix=path.posix.dirname(owner.log.path)+'/'+row.id+'-'+step.id;
+      need(item.draw.path===prefix+'-draw.json' && item.input.path===prefix+'-input.json' && item.image.path===prefix+'.png' &&
+        draw.before?.path===prefix+'-before.json' && draw.observed?.path===prefix+'-observed.json' &&
+        draw.after?.path===prefix+'-after.json','EVIDENCE_RENDERED_CHECKPOINT_SCOPE',row.id+' '+step.id);
+    }
+    const runtime=document(root,owner.runtime);
+    const handshake=require('./native-observer.cjs').decode(artifact(root,runtime.pidPacket,1048576).data);
     need(named(item.id) && draw.caseId === row.id && draw.checkpoint === item.id && draw.invocation === report.invocation &&
-      draw.drawn === true && Number.isSafeInteger(draw.frame) && draw.frame > 0 && instant(draw.at) && draw.at >= report.startedAt &&
-      draw.at <= owner.finishedAt && named(draw.observation) && owner.pid === draw.pid, 'EVIDENCE_NATIVE_DRAW', row.id);
+      draw.drawn === true && Number.isSafeInteger(draw.frame) && draw.frame > (frames.get(owner.pid)??0) &&
+      instant(draw.at) && draw.at >= report.startedAt && draw.at <= owner.finishedAt && owner.pid === draw.pid &&
+      handshake[0]==='set_pid' && equal(handshake[2],[owner.pid]) && UUID.test(draw.token) && !tokens.has(draw.token),
+      'EVIDENCE_NATIVE_DRAW', row.id);
+    frames.set(owner.pid,draw.frame);tokens.add(draw.token);
     need(input.caseId === row.id && input.checkpoint === item.id && input.invocation === report.invocation &&
-      input.pid === draw.pid && input.focused === true && instant(input.at) && input.at >= owner.startedAt &&
+      input.pid === draw.pid && input.token===draw.token && input.control===step.control && input.focused === true &&
+      instant(input.actionStartedAt) && instant(input.at) && input.at >= input.actionStartedAt && input.actionStartedAt >= owner.startedAt &&
       input.at <= draw.at && input.clientWidth === 1280 && input.clientHeight === 720 &&
       input.action === step.action && (step.action === 'click' ? input.method === 'physical-mouse' && input.x === step.x && input.y === step.y :
         input.method === 'physical-keyboard' && input.key === step.key),'EVIDENCE_NATIVE_INPUT',row.id);
     const image = artifact(root, item.image, 16 * 1024 * 1024);
     need(draw.imageSha256 === image.sha256 && image.path.endsWith('.png'), 'EVIDENCE_DRAW_PNG', row.id);
     require('../phase2/rendered.cjs').decodePng(inside(root, image.path), 1280, 720);
-    need(draw.frameSource==='composited-client-after-DwmFlush' && input.acknowledgement?.pid===draw.pid &&
+    need(draw.frameSource==='composited-client-between-native-observations' && input.acknowledgement?.pid===draw.pid &&
       input.acknowledgement.focused===true && input.acknowledgement.width===1280 && input.acknowledgement.height===720 &&
-      input.acknowledgement.action===input.action,'EVIDENCE_PHYSICAL_RECEIPT',row.id);
-    const {decode} = require('./native-observer.cjs');
-    const tree = decode(artifact(root,draw.nativeTree,1048576).data), object = decode(artifact(root,draw.nativeObject,1048576).data);
-    const observation = JSON.parse(draw.observation);
-    need(observation.node === step.node && observation.property === step.property && equal(observation.value,step.expected),
-      'EVIDENCE_DECLARED_OBSERVATION',row.id+' '+step.id);
-    const nativeId = require('./scenarios.cjs').treePaths(tree[2]).get(observation.node);
-    need(tree[0]==='scene:scene_tree' && object[0]==='scene:inspect_objects' && tree[1]===object[1] && nativeId &&
-      object[2].find(item => item[0]===nativeId)?.[2]?.some(prop => prop[0]===observation.property && equal(prop[5],observation.value)),
-    'EVIDENCE_NATIVE_PACKET',row.id);
+      input.acknowledgement.action===input.action && (input.action!=='tap'||input.acknowledgement.key===input.key) &&
+      draw.capture?.token===draw.token && draw.capture.pid===draw.pid && draw.capture.window===input.acknowledgement.window &&
+      draw.capture.imageSha256===image.sha256 && instant(draw.capture.at),'EVIDENCE_PHYSICAL_RECEIPT',row.id);
+    if(step.recheck) need(input.recheck?.x===step.recheck.x && input.recheck.y===step.recheck.y && instant(input.recheck.at) &&
+      input.recheck.at>=input.actionStartedAt && input.recheck.at<input.at && input.recheck.acknowledgement?.pid===owner.pid &&
+      input.recheck.acknowledgement.action==='click' && input.recheck.acknowledgement.focused===true &&
+      input.recheck.acknowledgement.window===input.acknowledgement.window,'EVIDENCE_PHYSICAL_RECHECK',row.id);
+    need(equal(draw.ready,owner.ready),'EVIDENCE_NATIVE_READY_OWNER',row.id);
+    const ready=savedNativeSnapshot(root,draw.ready,contracts.readyChecks,handshake[1]);
+    const before=savedNativeSnapshot(root,draw.before,step.checks,handshake[1]);
+    const observed=savedNativeSnapshot(root,draw.observed,step.checks,handshake[1]);
+    const after=savedNativeSnapshot(root,draw.after,step.checks,handshake[1]);
+    need(owner.startedAt<=ready.at && ready.at<before.at && before.at<=input.actionStartedAt && input.at<observed.at &&
+      observed.at<=draw.capture.at && draw.capture.at<=after.at && after.at<=draw.at,
+      'EVIDENCE_NATIVE_CAPTURE_ORDER',row.id+' '+step.id);
+    need(contracts.readyChecks.every((check,index)=>contracts.matches(check,ready.values[index].value)),
+      'EVIDENCE_NATIVE_READY',row.id);
+    need(step.checks.every((check,index)=>contracts.matches(check,observed.values[index].value)) &&
+      before.values.some((row,index)=>!equal(row.value,observed.values[index].value)),
+      'EVIDENCE_NATIVE_TRANSITION',row.id+' '+step.id);
+    need(equal(observed.values,after.values),'EVIDENCE_NATIVE_CAPTURE_DRIFT',row.id+' '+step.id);
   }
 }
 
