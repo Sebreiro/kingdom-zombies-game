@@ -12,7 +12,11 @@ The native DT-26 source view embeds the exact `tools/phase4/required-cases.json`
 
 ## Running the saved procedures
 
-`node tools/phase4/check.cjs --list` lists executable source checks. `--case ID[,ID...]` takes exact registered identities and rejects duplicate and unknown IDs. The source groups include `content`, `composition`, `layouts`, `audio`, `export` and `runner`. The separate `renderedCases` array in the saved catalog identifies actual-only procedures. `export.hub-consumer` retains its pending Critical status until Plan 31 registers the real consumer and updates its catalog binding.
+`node tools/phase4/check.cjs --list` lists executable source checks. `--case ID[,ID...]` takes exact registered identities and rejects duplicate and unknown IDs. The source groups include `content`, `composition`, `layouts`, `audio`, `export` and `runner`. The separate `renderedCases` array in the saved catalog identifies actual-only procedures.
+
+### export.hub-consumer
+
+Critical source/headless case for ASSET-05 and AC-15/16/17. Use the pinned Windows export toolchain and a fresh run-owned directory. Build and export the current project, check the bundled runtime and PCK members, then start the exported executable headlessly in its own directory and profile. Inspect the settled hub with read-only loopback scene tree and object queries. Require the current bow texture and registration, visible resource and status labels, the independent 180-count and exact Items rows, and the real navigation and preview controls. Exercise each required rejection on a separate copy of the captured data. A separate editor-mounted probe checks the Bow pixels and exact Register membership using the same PCK and exported managed assemblies. Retain the run, child, packet and package receipts. This group requires zero game windows.
 
 `--group rendered` first reads the current review, fixes and selection files. Their hashes and the Phase 4 reviewed-source targets must match committed bytes. The source revision must still match every tracked source input byte. The review's build report identifies the exact toolchain, source, media, engine and packaged executable. Select and justify every disposition in `04-SELECTION.json`. Groups record process roles, case order, reset, cleanup and a bounded duration. Runtime files and shared build inputs determine affected inherited consumers. A source change requires a renewed review and selection.
 

@@ -2,9 +2,12 @@
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
 const runner={command:(...args)=>require('./check.cjs').command(...args),
   environment:(...args)=>require('./check.cjs').environment(...args),validate:(...args)=>require('./check.cjs').validate(...args)};
-const {ROOT,need,inside,bytes,parse,document,write,hash}=require('./content.cjs');
+const content=require('./content.cjs');
+const {ROOT,need,inside,bytes,parse,document,write,hash}=content;
+const {isDeepStrictEqual:equal}=require('node:util');
 const PYTHON='C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe';
 const PIN='production/phase4/export-toolchain.json';
+const GAME='src/godot-game/',PCK='KingdomZombies.pck',PACKAGE_LIMIT=67108864;
 async function digest(file,algorithm='sha256'){
   const value=crypto.createHash(algorithm);for await(const part of fs.createReadStream(file))value.update(part);return value.digest('hex');
 }
@@ -15,7 +18,8 @@ function snapshot(){
     'src/godot-game/inspection/Inspection.tscn','src/godot-game/assets/common/bow.png','tools/phase1/projects.json',
     'tools/phase4/cases/export-layout.cjs','tools/code-rules/GeneratedLayout.cs','docs/code/generated-layout-adaptations.json',
     'production/phase4/export-layout-origin.json','tools/phase1/toolchain.json','tools/phase4/native-observer.cjs',
-    'production/phase4/export-profile.json','tools/phase4/cases/export-profile.cjs']
+    'production/phase4/export-profile.json','tools/phase4/cases/export-profile.cjs',
+    'tools/phase4/cases/export-portability.cjs','tools/phase4/content.cjs',content.EXPECTED,content.PACKAGED_EXPECTED]
     .map(file=>[file,hash(bytes(ROOT,file))]));
 }
 async function templates(context,pin){
@@ -82,18 +86,18 @@ function dependencies(directory,pin){
   return {rows,config,deps};
 }
 function pack(value){
-  need(value.length>=108&&value.length<=67108864&&value.toString('ascii',0,4)==='GDPC'&&value.readUInt32LE(4)===4&&
+  need(value.length>=108&&value.length<=PACKAGE_LIMIT&&value.toString('ascii',0,4)==='GDPC'&&value.readUInt32LE(4)===4&&
     value.readUInt32LE(8)===4&&value.readUInt32LE(12)===7&&value.readUInt32LE(16)===2&&value.readUInt32LE(20)===2,'PCK_HEADER');
   const base=Number(value.readBigUInt64LE(24)),directory=Number(value.readBigUInt64LE(32));
   need(Number.isSafeInteger(base)&&Number.isSafeInteger(directory)&&base>=104&&directory>base&&directory+4<=value.length,'PCK_BOUNDS');
-  let cursor=directory;const count=value.readUInt32LE(cursor),files=new Map();cursor+=4;
+  let cursor=directory;const count=value.readUInt32LE(cursor),files=new Map(),folded=new Set();cursor+=4;
   need(count>0&&count<=4096,'PCK_COUNT');
   for(let index=0;index<count;index++){
     need(cursor+4<=value.length,'PCK_TRUNCATED');const length=value.readUInt32LE(cursor);cursor+=4;
     need(length>0&&length<=512&&cursor+length+36<=value.length,'PCK_PATH_SIZE');
     const name=new TextDecoder('utf-8',{fatal:true}).decode(value.subarray(cursor,cursor+length)).replace(/\0+$/,'');cursor+=length;
-    need(name.length>0&&!name.includes('\0')&&!files.has(name)&&!name.startsWith('/')&&!name.includes('\\')&&
-      !name.includes(':')&&name.split('/').every(x=>x&&x!=='.'&&x!=='..'),'PCK_PATH',name);
+    content.relative(name);
+    const alias=name.toLowerCase();need(!folded.has(alias),'PCK_PATH_CONFLICT',name);folded.add(alias);
     const offset=base+Number(value.readBigUInt64LE(cursor)),size=Number(value.readBigUInt64LE(cursor+8));cursor+=16;
     const md5=value.subarray(cursor,cursor+16).toString('hex');cursor+=16;const flags=value.readUInt32LE(cursor);cursor+=4;
     need(flags===0&&Number.isSafeInteger(offset)&&Number.isSafeInteger(size)&&size>0&&offset>=base&&offset+size<=directory,'PCK_MEMBER_BOUNDS',name);
@@ -101,21 +105,108 @@ function pack(value){
     need(crypto.createHash('md5').update(data).digest('hex')===md5,'PCK_MEMBER_HASH',name);
     files.set(name,{path:name,offset,bytes:size,sha256:hash(data),data});
   }
-  need(cursor===value.length,'PCK_TRAILING_DATA');return files;
+  need(cursor===value.length,'PCK_TRAILING_DATA');
+  let end=base;
+  for(const item of [...files.values()].sort((a,b)=>a.offset-b.offset)){
+    need(item.offset>=end,'PCK_OVERLAP',item.path);end=item.offset+item.bytes;
+  }
+  return files;
 }
-function packaged(directory){
-  const file=inside(directory,'KingdomZombies.pck');need(fs.existsSync(file),'EXPORT_FILES_MISSING','KingdomZombies.pck');
+function packBytes(header,members){
+  const base=Number(header.readBigUInt64LE(24)),parts=[Buffer.from(header.subarray(0,base))],directory=[Buffer.alloc(4)];
+  need(base>=104&&base<=4096&&members.size<=4096,'PCK_BUILD_BOUNDS');
+  directory[0].writeUInt32LE(members.size);
+  let position=base;
+  for(const [name,data] of [...members].sort(([a],[b])=>a<b?-1:a>b?1:0)){
+    content.relative(name);need(Buffer.isBuffer(data)&&data.length>0,'PCK_BUILD_DATA',name);
+    const encoded=Buffer.from(name),length=Math.ceil(encoded.length/4)*4,row=Buffer.alloc(4+length+36);
+    row.writeUInt32LE(length);encoded.copy(row,4);
+    row.writeBigUInt64LE(BigInt(position-base),4+length);row.writeBigUInt64LE(BigInt(data.length),12+length);
+    crypto.createHash('md5').update(data).digest().copy(row,20+length);directory.push(row);
+    const padding=(32-data.length%32)%32;
+    parts.push(data,Buffer.alloc(padding));position+=data.length+padding;
+    need(position<=PACKAGE_LIMIT,'PCK_BUILD_BOUNDS',name);
+  }
+  parts[0].writeBigUInt64LE(BigInt(position),32);
+  const result=Buffer.concat([...parts,...directory]);pack(result);return result;
+}
+function sourceContract(){
+  const index=document(ROOT,content.INDEX),expected=content.expected(),validation=content.validate(ROOT,index,expected);
+  const tracer=runner.validate(ROOT).pack.resources[0];
+  need(validation.sourceComplete&&validation.accepted===0&&index.status==='incomplete'&&
+    equal(validation.sourceReady,expected.obligations.map(x=>x.id).sort()),'EXPORT_SOURCE_CENSUS');
+  const found=index.outputs.find(row=>row.id===tracer.id);
+  const fallback=expected.obligations.find(row=>row.id===tracer.id);
+  const items=expected.obligations.filter(row=>row.id.startsWith('IT-')).map(row=>{
+    const output=index.outputs.find(item=>item.id===row.id);
+    return row.id+' · '+output.name+' · Partial';
+  }).sort();
+  const scene=bytes(ROOT,GAME+'inspection/Inspection.tscn').toString('utf8');
+  function menu(name,parent){
+    const section=scene.split('\n').findIndex(line=>line.includes('[node name="'+name+'" type="OptionButton" parent="'+parent+'"]'));
+    need(section>=0,'EXPORT_SOURCE_MENU',name);
+    const lines=scene.split('\n').slice(section+1);
+    const end=lines.findIndex(line=>line.startsWith('[node '));
+    const choices=lines.slice(0,end).filter(line=>/^popup\/item_\d+\/text/.test(line));
+    return choices.map((line,index)=>{
+      const item=line.match(/^popup\/item_(\d+)\/text = (".*")\r?$/);
+      need(item&&Number(item[1])===index,'EXPORT_SOURCE_MENU',name);return JSON.parse(item[2]);
+    });
+  }
+  return {index,expected,tracer,found:Boolean(found),texture:'res://'+tracer.path,resourceId:tracer.id,
+    resourceName:found?.name??fallback?.name??'Unavailable resource; choose a listed ID',
+    status:found?'Partial — validated bytes; native/visual/listening acceptance pending':
+      'Incomplete — required resource or current evidence missing',
+    metadata:found?undefined:(fallback?.name??'No validated definition'),diagnostics:'',
+    packStatus:validation.sourceReady.length+'/'+validation.expected+' source-ready · '+validation.accepted+'/'+validation.expected+
+      ' accepted · Pack '+index.status+' — acceptance pending 04-32/04-33',
+    categories:menu('Category','Shell/Workspace/Navigation'),filters:menu('Status','Shell/Workspace/Browser'),items};
+}
+function runtimeMembers(contract){
+  return contract.index.files.filter(row=>row.role==='runtime').map(row=>{
+    need(row.path.startsWith(GAME),'EXPORT_RUNTIME_PATH',row.path);return {...row,name:row.path.slice(GAME.length)};
+  });
+}
+function completePack(context,output,contract){
+  const current=fs.readFileSync(inside(output,PCK)),members=new Map([...pack(current)].map(([name,row])=>[name,row.data]));
+  const additions=[];
+  for(const row of runtimeMembers(contract)){
+    const raw=bytes(ROOT,row.path),existing=members.get(row.name);
+    need(raw.length===row.bytes&&hash(raw)===row.sha256,'EXPORT_RUNTIME_IDENTITY',row.path);
+    if(existing){need(existing.equals(raw),'EXPORT_DISTINCT_RUNTIME_MEMBER',row.name);continue;}
+    // Godot's imported and remapped resources serve ResourceLoader; ContentPack also reads the exact source bytes through FileAccess.
+    need(members.has(row.name+'.import')||members.has(row.name+'.remap'),'EXPORT_NATIVE_REMAP_MISSING',row.name);
+    members.set(row.name,raw);additions.push({name:row.name,sha256:row.sha256,bytes:row.bytes});
+  }
+  const omitted=members.delete('packages.lock.json')?['packages.lock.json']:[];
+  const complete=packBytes(current,members);
+  fs.renameSync(inside(output,PCK),inside(context.directory,'godot-export.pck'));
+  write(output,PCK,complete);
+  write(context.directory,'pck-runtime-closure.json',{godotExportSha256:hash(current),completeSha256:hash(complete),additions,omitted});
+}
+function packaged(directory,contract=sourceContract()){
+  const file=inside(directory,PCK);need(fs.existsSync(file),'EXPORT_FILES_MISSING',PCK);
   const files=pack(fs.readFileSync(file)),required=['content/pack-index.json','content/packs/tracer.json','docs/README.md',
     'inspection/Inspection.tscn.remap','assets/common/bow.png.import','foundation/Foundation.tscn.remap','project.binary'];
   for(const name of required)need(files.has(name),'PACKAGED_RESOURCE_MISSING',name);
   for(const name of ['content/pack-index.json','content/packs/tracer.json','docs/README.md'])
     need(files.get(name).sha256===hash(bytes(ROOT,'src/godot-game/'+name)),'PACKAGED_SOURCE_MISMATCH',name);
-  const remap=files.get('inspection/Inspection.tscn.remap').data.toString('utf8').match(/path="res:\/\/([^"\r\n]+)"/);
-  const texture=files.get('assets/common/bow.png.import').data.toString('utf8').match(/path="res:\/\/([^"\r\n]+)"/);
-  need(remap&&files.has(remap[1])&&texture&&files.has(texture[1]),'PACKAGED_IMPORT_CLOSURE');
-  return {files,inspection:remap[1],texture:texture[1]};
+  for(const row of runtimeMembers(contract))need(files.get(row.name)?.sha256===row.sha256,
+    'PACKAGED_RUNTIME_MEMBER',row.name);
+  const authority=files.get('content/expected-obligations.json');
+  need(authority?.sha256===contract.index.expectedObligations.sha256&&authority.data.equals(bytes(ROOT,content.EXPECTED)),
+    'PACKAGED_EXPECTED_AUTHORITY');
+  need([...files.keys()].every(name=>!/(^|\/)(?:override\.cfg|packages\.lock\.json|production|\.phase1|\.phase4)(?:$|\/)/i.test(name)),
+    'PACKAGED_AUTHORING_MEMBER');
+  const links=new Map();
+  for(const [name,entry] of files)if(name.endsWith('.import')||name.endsWith('.remap')){
+    const targets=[...entry.data.toString('utf8').matchAll(/^path(?:\.[\w]+)?="res:\/\/([^"\r\n]+)"/gm)].map(match=>match[1]);
+    need(targets.length>0&&targets.every(target=>files.has(target)),'PACKAGED_IMPORT_CLOSURE',name);
+    links.set(name,targets);
+  }
+  return {files,inspection:links.get('inspection/Inspection.tscn.remap')?.[0],texture:links.get('assets/common/bow.png.import')?.[0]};
 }
-function probe(nonce,pck){return `extends SceneTree
+function probe(nonce,pck,contract){return `extends SceneTree
 func _initialize():
     call_deferred("inspect")
 func inspect():
@@ -127,6 +218,10 @@ func inspect():
         quit(12)
         return
     var scene = packed.instantiate()
+    if scene.get_script() == null or scene.get_script().resource_path != "res://inspection/InspectionRoot.cs":
+        scene.free()
+        quit(18)
+        return
     root.add_child(scene)
     var sprite = scene.get_node_or_null("Bow")
     if not sprite is Sprite2D or sprite.texture == null or sprite.texture.get_width() != 16 or sprite.texture.get_height() != 18:
@@ -139,36 +234,100 @@ func inspect():
     if not FileAccess.file_exists("res://docs/README.md") or not ResourceLoader.exists("res://foundation/Foundation.tscn"):
         quit(14)
         return
-    if sprite.centered or sprite.offset != Vector2(-6, -9):
+    if sprite.centered or sprite.offset != Vector2(-6, -9) or sprite.scale != Vector2.ONE or sprite.texture_filter != CanvasItem.TEXTURE_FILTER_NEAREST:
         quit(15)
+        return
+    var raw = FileAccess.get_file_as_bytes("res://assets/common/bow.png")
+    var digest = HashingContext.new()
+    digest.start(HashingContext.HASH_SHA256)
+    digest.update(raw)
+    if raw.size() != 135 or digest.finish().hex_encode() != "${contract.tracer.sha256}":
+        quit(17)
+        return
+    var original = Image.new()
+    if original.load_png_from_buffer(raw) != OK:
+        quit(17)
+        return
+    original.convert(Image.FORMAT_RGBA8)
+    var original_pixels = original.get_data()
+    digest.start(HashingContext.HASH_SHA256)
+    digest.update(original_pixels)
+    if digest.finish().hex_encode() != "${contract.tracer.image.rgbaSha256}":
+        quit(17)
         return
     var image = sprite.texture.get_image()
     image.convert(Image.FORMAT_RGBA8)
     var pixels = image.get_data()
     var visible = 0
     for index in range(3, pixels.size(), 4):
+        if pixels[index] != original_pixels[index]:
+            quit(17)
+            return
         if pixels[index] > 0:
             visible += 1
+            if pixels[index-3] != original_pixels[index-3] or pixels[index-2] != original_pixels[index-2] or pixels[index-1] != original_pixels[index-1]:
+                quit(17)
+                return
     if visible != 42 or scene.get_node("Summary/ResourceId").text != "common.bow":
         quit(16)
         return
+    while scene.get_node("Summary/Status").text.begins_with("Loading"):
+        await process_frame
+    if scene.get_node("Summary/Status").text != ${JSON.stringify(contract.status)} or scene.get_node("Summary/PackStatus").text != ${JSON.stringify(contract.packStatus)}:
+        quit(19)
+        return
+    var runtime = str(scene.get_meta("inspection_runtime", ""))
+    if not runtime.begins_with("KingdomZombies.Inspection.InspectionRoot|") or not runtime.ends_with("|True"):
+        quit(18)
+        return
+    var chooser = scene.get_node("Shell/Workspace/Navigation/Category")
+    chooser.select(6)
+    chooser.item_selected.emit(6)
+    var list = scene.get_node("Shell/Workspace/Controls/Browser/Resources")
+    var observed_ids = []
+    for index in range(list.item_count):
+        observed_ids.append(list.get_item_text(index).split(" · ")[0])
+    if observed_ids != ${JSON.stringify(contract.expected.obligations.map(row=>row.id).sort())}:
+        quit(20)
+        return
+    original = null
+    image = null
     scene.free()
-    print("PACKAGED_RESOURCE_COMPLETE ${nonce} common.bow visible=42")
+    print("PACKAGED_RESOURCE_COMPLETE ${nonce} common.bow visible=42 independent=180")
     quit(0)
 `;}
-async function packagedProbe(context,name,engine,pck){
+async function mountPackage(context,name,engine,pck,script){
   const project=inside(context.directory,name+'-probe');fs.mkdirSync(project);
-  write(project,'project.godot',Buffer.from('config_version=5\n[application]\nconfig/name="Pack resource headless probe"\n[rendering]\nrenderer/rendering_method="gl_compatibility"\n'));
-  write(project,'probe.gd',Buffer.from(probe(context.nonce,pck)));
-  const result=await runner.command(context,name,engine,['--headless','--path',project,'--script','res://probe.gd'],{timeout:15000});
-  need(result.stdout.includes('PACKAGED_RESOURCE_COMPLETE '+context.nonce+' common.bow visible=42')&&
-    !/ERROR:|SCRIPT ERROR:|Failed to load/i.test(result.stdout+result.stderr),'PACKAGED_NATIVE_RESOURCE');
-  return {scope:'pinned editor resource loader of exact exported PCK; separate from executable startup',pckSha256:await digest(pck)};
+  write(project,'project.godot',Buffer.from('config_version=5\n[application]\nconfig/name="KingdomZombies"\n[dotnet]\nproject/assembly_name="KingdomZombies"\n[rendering]\nrenderer/rendering_method="gl_compatibility"\n'));
+  const runtime=inside(path.dirname(pck),'data_KingdomZombies_windows_x86_64');
+  const assemblies={};
+  for(const file of ['KingdomZombies.dll','KingdomZombies.Core.dll','KingdomZombies.Multiplayer.Abstractions.dll',
+    'KingdomZombies.deps.json','KingdomZombies.runtimeconfig.json']){
+    const value=bytes(runtime,file);write(project,'.godot/mono/temp/bin/Debug/'+file,value);assemblies[file]=hash(value);
+  }
+  write(project,'probe.gd',Buffer.from(script));
+  const pckSha256=await digest(pck);
+  write(context.directory,name+'-inputs.json',{pckSha256,assemblies});
+  const command=await runner.command(context,name,engine,['--headless','--path',project,'--script','res://probe.gd'],{timeout:15000});
+  need(command.stderr===''&&!/Unicode parsing error|ERROR:|SCRIPT ERROR:|Failed to load|leaked/i.test(command.stdout),
+    'PACKAGED_EDITOR_RESOURCE',name);
+  need(pckSha256===await digest(pck),'PACKAGED_EDITOR_INPUT_CHANGED',name);
+  return {command,scope:'Pinned editor resource loader with the exact exported PCK and managed assemblies',pckSha256,assemblies};
 }
-async function portable(context,name,directory){
-  const env=runtimeEnvironment({...cleanEnvironment(context.directory),COREHOST_TRACE:'1',COREHOST_TRACEFILE:inside(context.directory,name+'-host.log')});
+async function packagedProbe(context,name,engine,pck,contract){
+  const {command,...evidence}=await mountPackage(context,name,engine,pck,probe(context.nonce,pck,contract));
+  need(command.stdout.includes('PACKAGED_RESOURCE_COMPLETE '+context.nonce+' common.bow visible=42 independent=180'),
+    'PACKAGED_NATIVE_RESOURCE',name);
+  return evidence;
+}
+async function portable(context,name,directory,contract){
+  const profile=inside(context.directory,name+'-profile');fs.mkdirSync(profile);
+  const env=runtimeEnvironment({...cleanEnvironment(profile),COREHOST_TRACE:'1',COREHOST_TRACEFILE:inside(context.directory,name+'-host.log')});
   write(context.directory,name+'-environment.json',env);
-  return require('./native-observer.cjs').observe(context,name,inside(directory,'KingdomZombies.exe'),env);
+  const packageSha256=await digest(inside(directory,PCK));
+  const observation=await require('./native-observer.cjs').observe(context,name,inside(directory,'KingdomZombies.exe'),env,contract,packageSha256);
+  need(await digest(inside(directory,PCK))===packageSha256,'PORTABLE_PACKAGE_CHANGED',name);
+  return {...observation,runtimeResolution:hostTrace(context,name,directory)};
 }
 function hostTrace(context,name,directory){
   const trace=fs.readFileSync(inside(context.directory,name+'-host.log'),'utf8');need(trace.length<16777216,'HOST_TRACE_SIZE');
@@ -187,7 +346,7 @@ function cloneOutput(context,name,directory,rows){
   for(const row of rows)write(target,row.path,fs.readFileSync(inside(directory,row.path)));
   return target;
 }
-async function negatives(context,output,closure,pin,engine,selected){
+async function negatives(context,output,closure,pin,engine,selected,contract){
   const outcomes=[];
   async function rejected(name,code,action){
     let diagnostic;try{await action();}catch(error){diagnostic=error.message;}
@@ -201,21 +360,21 @@ async function negatives(context,output,closure,pin,engine,selected){
   });
   const original=fs.readFileSync(inside(output,'KingdomZombies.pck'));
   await rejected('truncated-pck','PCK_HEADER',()=>pack(original.subarray(0,60)));
-  const badHash=Buffer.from(original);badHash[112]^=1;
+  const badHash=Buffer.from(original);badHash[pack(original).values().next().value.offset]^=1;
   write(context.directory,'bad-member-hash.pck',badHash);
   await rejected('pck-member-hash','PCK_MEMBER_HASH',()=>pack(badHash));
   const noPack=inside(context.directory,'no-pck');fs.mkdirSync(noPack);
-  await rejected('missing-pck','EXPORT_FILES_MISSING',()=>packaged(noPack));
-  const badImports=cloneOutput(context,'bad-imports',output,closure.rows),importBytes=Buffer.from(original),texture=packaged(output).texture;
+  await rejected('missing-pck','EXPORT_FILES_MISSING',()=>packaged(noPack,contract));
+  const badImports=cloneOutput(context,'bad-imports',output,closure.rows),importBytes=Buffer.from(original),texture=packaged(output,contract).texture;
   const nameOffset=importBytes.lastIndexOf(Buffer.from(texture));need(nameOffset>0,'NEGATIVE_PCK_DIRECTORY');
   Buffer.from(texture.replace(/\.ctex$/,'.xtex')).copy(importBytes,nameOffset);fs.writeFileSync(inside(badImports,'KingdomZombies.pck'),importBytes);
-  await rejected('missing-imported-texture','PACKAGED_IMPORT_CLOSURE',()=>packaged(badImports));
-  await rejected('native-missing-imported-texture','CHILD_FAILED',()=>packagedProbe(context,'bad-resource-native',engine,inside(badImports,'KingdomZombies.pck')));
+  await rejected('missing-imported-texture','PACKAGED_IMPORT_CLOSURE',()=>packaged(badImports,contract));
+  await rejected('native-missing-imported-texture','CHILD_FAILED',()=>packagedProbe(context,'bad-resource-native',engine,inside(badImports,PCK),contract));
   const missingRuntime=cloneOutput(context,'missing-runtime',output,closure.rows);
   const coreclr=closure.rows.find(row=>row.path.endsWith('/coreclr.dll'));need(coreclr,'NEGATIVE_RUNTIME_TARGET');
   fs.unlinkSync(inside(missingRuntime,coreclr.path));
   await rejected('missing-coreclr','DEPENDENCY_MISSING',()=>dependencies(missingRuntime,pin));
-  await rejected('actual-missing-coreclr','DEBUG_ENGINE_ERROR',()=>portable(context,'bad-runtime-native',missingRuntime));
+  await rejected('actual-missing-coreclr','DEBUG_ENGINE_ERROR',()=>portable(context,'bad-runtime-native',missingRuntime,contract));
   const config=closure.rows.find(row=>row.path.endsWith('/KingdomZombies.runtimeconfig.json'));
   const dependent=structuredClone(closure.config);dependent.runtimeOptions.frameworks=dependent.runtimeOptions.includedFrameworks;delete dependent.runtimeOptions.includedFrameworks;
   fs.writeFileSync(inside(badImports,config.path),JSON.stringify(dependent));
@@ -225,9 +384,9 @@ async function negatives(context,output,closure,pin,engine,selected){
   await rejected('runtime-search-override','RUNTIME_SEARCH_OVERRIDE',()=>runtimeEnvironment({...cleanEnvironment(context.directory),DOTNET_ROOT:'unavailable-runtime-root'}));
   write(context.directory,'negative-controls.json',outcomes);return outcomes;
 }
-async function exportTracer(context){
+async function buildPackage(context){
   const initial=snapshot();write(context.directory,'inputs.json',initial);
-  runner.validate(ROOT);require('./cases/export-profile.cjs').validate(ROOT);
+  const contract=sourceContract();require('./cases/export-profile.cjs').validate(ROOT);
   const pin=document(ROOT,PIN),tools=document(ROOT,'tools/phase1/toolchain.json');
   need(process.platform==='win32'&&process.arch==='x64'&&process.version==='v'+tools.node,'PLATFORM_PIN');
   const engine=inside(ROOT,'.phase1/tools/'+tools.archives['win32-x64'].directory+'/'+tools.archives['win32-x64'].executable);
@@ -270,20 +429,25 @@ async function exportTracer(context){
   const exported=await runner.command(context,'native-export',engine,['--headless','--path',project,'--export-debug',pin.preset,binary,'--quit-after','2'],{timeout:60000,env:authoring});
   need(!/ERROR:|SCRIPT ERROR:|Failed to load|Export failed/i.test(exported.stdout+exported.stderr),'NATIVE_EXPORT');
   need(fs.existsSync(binary)&&fs.existsSync(inside(output,'KingdomZombies.pck')),'EXPORT_FILES_MISSING');
-  const closure=dependencies(output,pin),packageData=packaged(output);
+  completePack(context,output,contract);
+  const closure=dependencies(output,pin),packageData=packaged(output,contract);
   need(await digest(binary)===pin.templateMembers['windows_debug_x86_64.exe'].sha256,'TEMPLATE_BINARY_MISMATCH');
   need(await digest(binary)!==await digest(engine),'EDITOR_AS_OUTPUT');
-  const clean=inside(context.directory,'portable');fs.mkdirSync(clean);
-  for(const row of closure.rows)write(clean,row.path,fs.readFileSync(inside(output,row.path)));
-  const executed=await portable(context,'portable-headless',clean);
-  const runtimeResolution=hostTrace(context,'portable-headless',clean);
-  const debuggerRecord=document(context.directory,'portable-headless-debugger.json');
-  const observerControls=require('./native-observer.cjs').diagnostics(debuggerRecord,executed.pid);
-  write(context.directory,'observer-controls.json',observerControls);
-  const resources=await packagedProbe(context,'packaged-resource',engine,inside(clean,'KingdomZombies.pck'));
-  const rejected=await negatives(context,output,closure,pin,engine,selected);
+  const clean=cloneOutput(context,'portable',output,closure.rows);
+  return {binary,closure,packageData,clean,engine,initial,inputHashes,output,pin,selected,contract,project,authoring};
+}
+function verifyInputs({initial,inputHashes}){
   need(Object.entries(inputHashes).every(([file,digest])=>hash(bytes(ROOT,file))===digest),'BUILD_SOURCE_CHANGED');
   need(JSON.stringify(snapshot())===JSON.stringify(initial),'SOURCE_CHANGED');
+}
+async function exportTracer(context){
+  const built=await buildPackage(context);
+  const {closure,packageData,clean,engine,inputHashes,output,pin,selected,contract}=built;
+  const {result:executed,controls:observerControls,runtimeResolution}=await portable(context,'portable-headless',clean,contract);
+  write(context.directory,'observer-controls.json',observerControls);
+  const resources=await packagedProbe(context,'packaged-resource',engine,inside(clean,PCK),contract);
+  const rejected=await negatives(context,output,closure,pin,engine,selected,contract);
+  verifyInputs(built);
   write(context.directory,'closure.json',{engineSha256:await digest(engine),pythonSha256:await digest(PYTHON),
     dotnetSha256:await digest('C:/Program Files/dotnet/dotnet.exe'),templates:selected.rows,files:closure.rows,
     runtimeconfig:closure.config,runtimeTarget:closure.deps.runtimeTarget,portable:inventory(clean),inputHashes,
@@ -292,4 +456,4 @@ async function exportTracer(context){
   return {scope:'source/headless Windows tracer only',runtime:pin.runtime,framework:pin.framework,files:closure.rows.length,
     genuineTemplate:true,nativeInspection:executed,packagedResources:resources,portableCompletion:true,acceptance:'pending-04-32/04-33'};
 }
-module.exports={digest,snapshot,templates,cleanEnvironment,runtimeEnvironment,cleanCommand,inventory,dependencies,pack,packaged,probe,packagedProbe,portable,cloneOutput,negatives,exportTracer};
+module.exports={digest,snapshot,templates,cleanEnvironment,runtimeEnvironment,cleanCommand,inventory,dependencies,pack,packBytes,packaged,probe,packagedProbe,mountPackage,portable,cloneOutput,negatives,exportTracer,buildPackage,verifyInputs,sourceContract};

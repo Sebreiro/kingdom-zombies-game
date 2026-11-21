@@ -5206,6 +5206,76 @@
       "cleanup": "Revoke and retire every preview;restore owned copied media and definitions",
       "heldoutIds": [],
       "uiIds": []
+    },
+    {
+      "title": "Current packaged inspection hub and consumer",
+      "rationale": "The actual packaged hub must independently load and diagnose current content before acceptance",
+      "group": "export",
+      "importance": "Critical",
+      "needsGameWindow": false,
+      "runGroup": "G0-export-hub",
+      "order": 310,
+      "requirements": [
+        "ASSET-05"
+      ],
+      "acceptance": [
+        "AC-15",
+        "AC-16",
+        "AC-17"
+      ],
+      "setup": "Pinned official Windows debug export template, production scene and C# projects, runtime source and independent obligation register",
+      "actions": [
+        "Publish and export the current production project",
+        "Check runtime and PCK member closures",
+        "Start the exported executable naturally with only read-only debugger observations",
+        "Verify exact hub paths, resource and register bindings, and independent rejection controls",
+        "Check the same exported PCK and assemblies with the separate editor-mounted resource probe"
+      ],
+      "expected": "Clean exported headless exit with exact current hub, selected bow binding, register and controls; edited records fail independently",
+      "reset": "Use fresh owned package and profile directories and a bounded loopback observer; retain child and packet receipts",
+      "evidence": [
+        "project-inputs.json",
+        "pck-runtime-closure.json",
+        "hub-source-contract.json",
+        "hub-native.command.json",
+        "hub-native-debugger.json",
+        "hub-native-observation.json",
+        "observer-controls.json",
+        "hub-package-resource.command.json",
+        "hub-package.json",
+        "result.json"
+      ],
+      "id": "export.hub-consumer",
+      "lifecycle": "active-source",
+      "featureTags": [
+        "export",
+        "ASSET-05"
+      ],
+      "sourceBinding": {
+        "id": "export.hub-consumer",
+        "status": "implemented-source-case",
+        "module": "tools/phase4/cases/export-portability.cjs",
+        "moduleSha256": "44b9c5279151bc2c00430445f3c404df051627266f92cb1d366a9e168f37d8d5",
+        "execution": "no pass inferred from catalog metadata"
+      },
+      "processRoles": [
+        "owned-pinned-authoring-and-headless-export-processes"
+      ],
+      "boundedWaits": "Every owned child has a specific deadline of 60 seconds or less",
+      "execution": "not supplied by catalog",
+      "preconditions": [
+        "Pinned official Windows debug export template, production scene and C# projects, runtime source and independent obligation register"
+      ],
+      "input": [
+        "Publish and export the current production project",
+        "Check runtime and PCK member closures",
+        "Start the exported executable naturally with only read-only debugger observations",
+        "Verify exact hub paths, resource and register bindings, and independent rejection controls",
+        "Check the same exported PCK and assemblies with the separate editor-mounted resource probe"
+      ],
+      "cleanup": "Use fresh owned package and profile directories and a bounded loopback observer; retain child and packet receipts",
+      "heldoutIds": [],
+      "uiIds": []
     }
   ],
   "heldout": [
@@ -5969,9 +6039,10 @@
       "sourceCases": [
         {
           "id": "export.hub-consumer",
-          "status": "pending-before-creation",
-          "owner": "04-31",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "module": "tools/phase4/cases/export-portability.cjs",
+          "moduleSha256": "44b9c5279151bc2c00430445f3c404df051627266f92cb1d366a9e168f37d8d5",
+          "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "export.portability",
@@ -8116,9 +8187,10 @@
         },
         {
           "id": "export.hub-consumer",
-          "status": "pending-before-creation",
-          "owner": "04-31",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "module": "tools/phase4/cases/export-portability.cjs",
+          "moduleSha256": "44b9c5279151bc2c00430445f3c404df051627266f92cb1d366a9e168f37d8d5",
+          "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "export.portability",
@@ -8164,9 +8236,10 @@
         },
         {
           "id": "export.hub-consumer",
-          "status": "pending-before-creation",
-          "owner": "04-31",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "module": "tools/phase4/cases/export-portability.cjs",
+          "moduleSha256": "44b9c5279151bc2c00430445f3c404df051627266f92cb1d366a9e168f37d8d5",
+          "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "export.portability",
@@ -8223,9 +8296,10 @@
         },
         {
           "id": "export.hub-consumer",
-          "status": "pending-before-creation",
-          "owner": "04-31",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "module": "tools/phase4/cases/export-portability.cjs",
+          "moduleSha256": "44b9c5279151bc2c00430445f3c404df051627266f92cb1d366a9e168f37d8d5",
+          "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "export.portability",
@@ -9770,26 +9844,6 @@
     }
   ],
   "plannedCases": [
-    {
-      "id": "export.hub-consumer",
-      "status": "pending-before-creation",
-      "owner": "04-31",
-      "execution": "unperformed; supplies no pass credit",
-      "title": "Current packaged inspection hub and consumer",
-      "rationale": "The actual packaged hub must independently load and diagnose current content before acceptance",
-      "group": "export",
-      "importance": "Critical",
-      "runGroup": "G0-export-hub",
-      "order": 310,
-      "requirements": [
-        "ASSET-05"
-      ],
-      "acceptance": [
-        "AC-15",
-        "AC-16",
-        "AC-17"
-      ]
-    },
     {
       "id": "export.portability",
       "status": "pending-before-creation",

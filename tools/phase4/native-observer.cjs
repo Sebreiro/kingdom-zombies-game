@@ -1,7 +1,30 @@
 'use strict';
-const net=require('node:net'),path=require('node:path');
+const net=require('node:net'),path=require('node:path'),crypto=require('node:crypto');
+const {isDeepStrictEqual:equal}=require('node:util');
 const {need,write}=require('./content.cjs');
 const MAX=1048576;
+const HUB='/root/Inspection',SUMMARY=HUB+'/Summary',TOOLBAR=HUB+'/Shell/Toolbar';
+const WORKSPACE=HUB+'/Shell/Workspace',NAVIGATION=WORKSPACE+'/Navigation';
+const BROWSER=WORKSPACE+'/Controls/Browser',PREVIEW=WORKSPACE+'/Preview';
+const SCRIPT='res://inspection/InspectionRoot.cs',SCENE='res://inspection/Inspection.tscn';
+const READY='Validated; visual/listening acceptance pending';
+const ROLES=new Map([
+  ['/root','Window'],[HUB,SCRIPT],[HUB+'/Background','ColorRect'],[HUB+'/Bow','Sprite2D'],
+  [SUMMARY,'VBoxContainer'],...['Title','ResourceId','ResourceName','Status','PackStatus'].map(x=>[SUMMARY+'/'+x,'Label']),
+  [HUB+'/Shell','VBoxContainer'],[TOOLBAR,'HBoxContainer'],[TOOLBAR+'/Recheck','Button'],
+  [TOOLBAR+'/Cancel','Button'],[TOOLBAR+'/Operation','Label'],[WORKSPACE,'BoxContainer'],
+  [NAVIGATION,'VBoxContainer'],[NAVIGATION+'/Category','OptionButton'],[NAVIGATION+'/Scope','Label'],
+  [WORKSPACE+'/Controls','ScrollContainer'],[BROWSER,'VBoxContainer'],[BROWSER+'/Search','LineEdit'],
+  [BROWSER+'/Status','OptionButton'],[BROWSER+'/Count','Label'],[BROWSER+'/Resources','ItemList'],
+  [PREVIEW,'VBoxContainer'],[PREVIEW+'/Title','Label'],[PREVIEW+'/Surface','PanelContainer'],
+  [PREVIEW+'/Surface/Current','Node2D'],[PREVIEW+'/Metadata','TextEdit'],[PREVIEW+'/Failures','TextEdit'],
+  [PREVIEW+'/Actions','HBoxContainer'],[PREVIEW+'/Actions/Details','Button'],[PREVIEW+'/Actions/Copy','Button'],
+  [PREVIEW+'/Transport','HFlowContainer'],[PREVIEW+'/Transport/Play','Button'],
+  [PREVIEW+'/Transport/Step','Button'],[PREVIEW+'/Transport/Reset','Button'],[PREVIEW+'/Transport/Speed','OptionButton']
+]);
+const INSPECT=[HUB,HUB+'/Bow',...['ResourceId','ResourceName','Status','PackStatus'].map(x=>SUMMARY+'/'+x),
+  TOOLBAR+'/Cancel',NAVIGATION+'/Category',BROWSER+'/Status',BROWSER+'/Count',BROWSER+'/Resources',
+  PREVIEW+'/Metadata',PREVIEW+'/Failures'];
 function u32(value){const out=Buffer.alloc(4);out.writeUInt32LE(value);return out;}
 function encode(value){
   if(typeof value==='string'){const data=Buffer.from(value),pad=Buffer.alloc((4-data.length%4)%4);return Buffer.concat([u32(4),u32(data.length),data,pad]);}
@@ -52,37 +75,109 @@ function decode(buffer){
 }
 function tree(data){
   need(Array.isArray(data)&&data.length>0&&data.length%6===0&&data.length<=1536,'DEBUG_TREE_SHAPE');
-  const rows=[];for(let i=0;i<data.length;i+=6)rows.push({children:data[i],name:data[i+1],type:data[i+2],id:data[i+3],scene:data[i+4],flags:data[i+5]});
-  need(rows.every(x=>Number.isSafeInteger(x.children)&&x.children>=0&&typeof x.name==='string'&&typeof x.type==='string'&&Number.isSafeInteger(x.id)&&x.id>0),'DEBUG_TREE_FIELDS');return rows;
+  const rows=new Map(),ids=new Set(),ancestors=[];
+  for(let i=0;i<data.length;i+=6){
+    const [children,name,type,id,scene,flags]=data.slice(i,i+6);
+    need(Number.isSafeInteger(children)&&children>=0&&children<=(data.length-i-6)/6&&
+      typeof name==='string'&&name.length<=128&&/^[A-Za-z0-9_@-]+$/.test(name)&&
+      typeof type==='string'&&type.length>0&&type.length<=128&&Number.isSafeInteger(id)&&id>0&&
+      typeof scene==='string'&&scene.length<=220&&Number.isInteger(flags)&&flags>=0,'DEBUG_TREE_FIELDS',String(i/6));
+    while(ancestors.at(-1)?.left===0)ancestors.pop();
+    need((i===0||ancestors.length>0)&&ancestors.length<24,'DEBUG_TREE_CHILDREN',name);
+    const parent=ancestors.at(-1);
+    const full=(parent?.full??'')+'/'+name;
+    if(parent)parent.left--;
+    need(!ids.has(id)&&!rows.has(full),'DEBUG_TREE_DUPLICATE',full);
+    rows.set(full,{children,name,type,id,scene,flags});ids.add(id);
+    ancestors.push({full,left:children});
+  }
+  need(ancestors.every(x=>x.left===0),'DEBUG_TREE_CHILDREN');
+  return rows;
 }
-function validate(record,pid){
-  need(record.reportedPid===pid&&Number.isSafeInteger(pid),'DEBUG_PID_MISMATCH');
-  const nodes=tree(record.tree),inspection=nodes.find(x=>x.name==='Inspection');
-  need(nodes.length===9&&new Set(nodes.map(x=>x.id)).size===9&&
-    nodes.map(x=>x.name).join(',')==='root,Inspection,Bow,Summary,Title,ResourceId,ResourceName,Status,PackStatus'&&
-    nodes.map(x=>x.children).join(',')==='1,2,0,5,0,0,0,0,0'&&
-    inspection&&inspection.type==='Node2D'&&inspection.scene==='res://inspection/Inspection.tscn'&&
-    nodes[0].name==='root'&&nodes[0].children===1&&nodes.every(x=>x.name!=='Foundation'),'PACKAGED_INSPECTION_ROOT');
-  function object(name){const node=nodes.find(x=>x.name===name),value=record.objects.find(x=>x[0]===node?.id);
-    need(value&&value.length===3&&value[1]===node.type&&Array.isArray(value[2])&&value[2].every(x=>Array.isArray(x)&&x.length===6),'DEBUG_OBJECT_MISSING',name);
-    return Object.fromEntries(value[2].map(x=>[x[0],x[5]]));}
-  const bow=object('Bow'),id=object('ResourceId'),status=object('Status');
-  need(bow.texture==='res://assets/common/bow.png'&&bow.centered===false&&bow.offset?.values[0]===-6&&bow.offset?.values[1]===-9,
-    'PACKAGED_NATIVE_TEXTURE');
-  need(id.text==='common.bow'&&status.text==='Source/headless verified; visual review pending','PACKAGED_NATIVE_LABELS');
-  return {pid,root:'Inspection',scene:inspection.scene,instanceId:inspection.id,texture:bow.texture,resourceId:id.text,
-    nodes:nodes.length,scope:'actual natural exported headless startup; read-only native object observations; no rendered credit'};
+function hub(data){
+  const nodes=tree(data),root=nodes.get('/root'),inspection=nodes.get(HUB);
+  need(root?.children===1&&inspection?.scene===SCENE,'PACKAGED_INSPECTION_ROOT');
+  for(const [full,type] of ROLES)need(nodes.get(full)?.type===type,'DEBUG_REQUIRED_NODE',full+' '+type);
+  return nodes;
 }
-async function observe(context,name,executable,env){
-  const runner=require('./check.cjs'),packets=[],sent=[],objects=[],record={reportedPid:null,tree:null,objects};
-  let socket,buffer=Buffer.alloc(0),failure,received=0,requested=false,timer;
+function properties(value,node,full){
+  need(Array.isArray(value)&&value.length===3&&value[0]===node.id&&value[1]===(full===HUB?'Node2D':node.type)&&
+    Array.isArray(value[2])&&value[2].length<=1024&&value[2].every(x=>Array.isArray(x)&&x.length===6&&typeof x[0]==='string'),
+    'DEBUG_OBJECT_MISSING',full);
+  const result=new Map(value[2].map(x=>[x[0],x[5]]));
+  need(result.size===value[2].length,'DEBUG_PROPERTY_DUPLICATE',full);
+  return Object.fromEntries(result);
+}
+function validate(record,launch,contract){
+  need(launch&&record.nonce===launch.nonce&&record.launchId===launch.launchId&&
+    record.packageSha256===launch.packageSha256&&record.executable===launch.executable,'DEBUG_LAUNCH_IDENTITY');
+  const {pid}=launch;
+  need(record.reportedPid===pid&&Number.isSafeInteger(pid)&&pid>0,'DEBUG_PID_MISMATCH');
+  const nodes=hub(record.tree),inspection=nodes.get(HUB);
+  const expectedObjects=[TOOLBAR+'/Operation',...INSPECT];
+  need(Array.isArray(record.objects)&&record.objects.length===expectedObjects.length&&
+    new Set(record.objects.map(x=>x[0])).size===record.objects.length,'DEBUG_OBJECT_SET');
+  const observed=Object.fromEntries(expectedObjects.map(full=>{
+    const node=nodes.get(full);
+    return [full,properties(record.objects.find(x=>x[0]===node.id),node,full)];
+  }));
+  const bow=observed[HUB+'/Bow'],op=observed[TOOLBAR+'/Operation'];
+  need(observed[HUB].script===SCRIPT&&op.text===READY&&op.visible===true&&
+    observed[TOOLBAR+'/Cancel'].disabled===true,'PACKAGED_NATIVE_READY');
+  need(bow.texture===contract.texture&&bow.centered===false&&bow.texture_filter===1&&
+    equal(bow.offset,{type:5,values:[-6,-9]})&&equal(bow.scale,{type:5,values:[1,1]})&&
+    bow.visible===contract.found,'PACKAGED_NATIVE_TEXTURE');
+  const label=role=>observed[SUMMARY+'/'+role];
+  need(label('ResourceId').text===contract.resourceId&&label('ResourceName').text===contract.resourceName&&
+    label('Status').text===contract.status&&['ResourceId','ResourceName','Status','PackStatus'].every(role=>label(role).visible===true),
+    'PACKAGED_NATIVE_LABELS',JSON.stringify(['ResourceId','ResourceName','Status'].map(x=>label(x).text)));
+  need(label('PackStatus').text===contract.packStatus,'PACKAGED_NATIVE_REGISTER',label('PackStatus').text);
+  const category=observed[NAVIGATION+'/Category'],filter=observed[BROWSER+'/Status'];
+  function options(value,field,items,selected){
+    need(value.visible===true&&value.selected===selected&&items.every((text,index)=>value['popup/item_'+index+'/text']===text)&&
+      Object.keys(value).filter(key=>/^popup\/item_\d+\/text$/.test(key)).length===items.length,field);
+  }
+  options(category,'PACKAGED_NATIVE_CATEGORY',contract.categories,1);
+  options(filter,'PACKAGED_NATIVE_FILTER',contract.filters,0);
+  const resources=observed[BROWSER+'/Resources'],count=observed[BROWSER+'/Count'];
+  const rows=Object.entries(resources).filter(([key])=>/^item_\d+\/text$/.test(key))
+    .sort(([a],[b])=>Number(a.slice(5,-5))-Number(b.slice(5,-5))).map(([,value])=>value);
+  need(resources.visible===true&&count.text===contract.items.length+' results'&&equal(rows,contract.items),
+    'PACKAGED_NATIVE_ITEM_REGISTER',JSON.stringify({count:count.text,rows}));
+  const metadata=observed[PREVIEW+'/Metadata'],failures=observed[PREVIEW+'/Failures'];
+  need(metadata.visible===false&&metadata.text===contract.metadata&&failures.visible===true&&
+    failures.text===contract.diagnostics,'PACKAGED_NATIVE_DIAGNOSTICS',String(failures.text).slice(0,4096));
+  return {pid,launchId:launch.launchId,nonce:launch.nonce,packageSha256:launch.packageSha256,root:inspection.name,
+    scene:inspection.scene,instanceId:inspection.id,texture:bow.texture,textureVisible:bow.visible,
+    resourceId:label('ResourceId').text,resourceName:label('ResourceName').text,status:label('Status').text,
+    packStatus:label('PackStatus').text,items:rows,categories:contract.categories,diagnostics:failures.text,
+    nodes:nodes.size,roles:[...ROLES.keys()],
+    scope:'Natural exported headless startup and clean exit using read-only engine observations'};
+}
+async function observe(context,name,executable,env,contract,packageSha256){
+  const runner=require('./check.cjs'),packets=[],sent=[],objects=[];
+  const launch={nonce:context.nonce,launchId:crypto.randomUUID(),packageSha256,executable};
+  const record={...launch,reportedPid:null,tree:null,objects};
+  let socket,buffer=Buffer.alloc(0),failure,received=0,pending,timer;
   const server=net.createServer(peer=>{
     if(socket||peer.remoteAddress!=='127.0.0.1'){peer.destroy();failure='DEBUG_PEER';return;}socket=peer;
     function send(command,args){
       need(['scene:request_scene_tree','scene:inspect_objects'].includes(command),'DEBUG_WRITE_FORBIDDEN');
       const body=encode([command,record.threadId,args]);sent.push({command,threadId:record.threadId,args});peer.write(Buffer.concat([u32(body.length),body]));
     }
-    timer=setInterval(()=>{if(record.reportedPid&&!record.tree)send('scene:request_scene_tree',[]);},150);
+    function request(command,args,response){
+      need(!pending,'DEBUG_OVERLAPPING_REQUEST');
+      pending=response;
+      send(command,args);
+    }
+    function inspect(nodes,data,paths){
+      // The engine's default selection limit is one, even when selection updates are disabled.
+      request('scene:inspect_objects',[[nodes.get(paths[0]).id],false],{command:'scene:inspect_objects',nodes,data,paths});
+    }
+    timer=setInterval(()=>{
+      if(record.reportedPid&&!record.tree&&!pending&&!peer.destroyed)
+        request('scene:request_scene_tree',[],{command:'scene:scene_tree'});
+    },150);
     peer.on('error',error=>{failure??=error.message;});
     peer.on('data',part=>{try{
       received+=part.length;need(received<=8*MAX,'DEBUG_TOTAL_LIMIT');buffer=Buffer.concat([buffer,part]);need(buffer.length<=2*MAX,'DEBUG_BUFFER_LIMIT');
@@ -91,15 +186,38 @@ async function observe(context,name,executable,env){
         write(context.directory,name+'-packet-'+String(packets.length).padStart(3,'0')+'.bin',raw);
         const message=decode(raw);packets.push(message);
         need(Array.isArray(message)&&message.length===3&&typeof message[0]==='string','DEBUG_MESSAGE');
-        const [command,,data]=message;
-        if(command==='set_pid'){record.reportedPid=data[0];record.threadId=message[1];}
-        if(command==='scene:scene_tree'){
-          const nodes=tree(data);if(nodes.some(x=>x.name==='Inspection')){
-            record.tree=data;
-            if(!requested){requested=true;const ids=['Inspection','Bow','ResourceId','Status'].map(name=>nodes.find(x=>x.name===name)?.id);need(ids.every(Number.isSafeInteger),'DEBUG_REQUIRED_NODES');for(const id of ids)send('scene:inspect_objects',[[id],false]);}
-          }
+        const [command,threadId,data]=message;
+        if(command==='set_pid'){
+          need(record.reportedPid===null&&Array.isArray(data)&&data.length===1&&Number.isSafeInteger(data[0])&&
+            data[0]>0&&Number.isSafeInteger(threadId)&&threadId>0,'DEBUG_PID_PACKET');
+          record.reportedPid=data[0];record.threadId=threadId;
         }
-        if(command==='scene:inspect_objects')for(const obj of data)if(!objects.some(x=>x[0]===obj[0]))objects.push(obj);
+        if(command!=='scene:scene_tree'&&command!=='scene:inspect_objects')continue;
+        // Godot may publish an unsolicited scene tree while the main scene is still loading.
+        if(command==='scene:scene_tree'&&pending?.command!==command)continue;
+        need(pending?.command===command&&threadId===record.threadId,'DEBUG_UNSOLICITED_RESPONSE',command);
+        const response=pending;pending=undefined;
+        if(command==='scene:scene_tree'){
+          const nodes=tree(data);
+          if(!nodes.has(HUB))continue;
+          const full=TOOLBAR+'/Operation';
+          need(nodes.get(full)?.type==='Label','DEBUG_REQUIRED_NODE',full);
+          inspect(nodes,data,[full]);
+          continue;
+        }
+        need(Array.isArray(data)&&data.length===1,'DEBUG_OBJECT_SET');
+        const [full,...remaining]=response.paths;
+        const object=properties(data[0],response.nodes.get(full),full);
+        if(full===TOOLBAR+'/Operation'){
+          const op=object;
+          if(op.text!==READY)continue;
+          hub(response.data);
+          record.tree=response.data;objects.push(data[0]);
+          inspect(response.nodes,response.data,INSPECT);
+        }else{
+          objects.push(data[0]);
+          if(remaining.length)inspect(response.nodes,response.data,remaining);
+        }
       }
     }catch(error){failure??=error.message;peer.destroy();}});
   });
@@ -107,7 +225,7 @@ async function observe(context,name,executable,env){
   try{
     await new Promise((resolve,reject)=>{server.once('error',reject);server.listen(0,'127.0.0.1',resolve);});
     const address=server.address();write(context.directory,name+'-endpoint.json',{host:'127.0.0.1',port:address.port,scope:'owned loopback read-only debugger'});
-    command=await runner.command(context,name,executable,['--headless','--remote-debug','tcp://127.0.0.1:'+address.port,'--quit-after','180'],
+    command=await runner.command(context,name,executable,['--headless','--remote-debug','tcp://127.0.0.1:'+address.port,'--quit-after','360'],
       {timeout:15000,cwd:path.dirname(executable),env});
   }catch(caught){error=caught;}
   finally{clearInterval(timer);socket?.destroy();await new Promise(resolve=>server.close(resolve));
@@ -115,17 +233,48 @@ async function observe(context,name,executable,env){
   if(error)throw error;need(!failure&&buffer.length===0,'DEBUG_PROTOCOL',failure);
   need(!packets.some(x=>['error','debug_enter'].includes(x[0])),'DEBUG_ENGINE_ERROR');
   need(!/ERROR:|SCRIPT ERROR:|Failed to load/i.test(command.stdout+command.stderr),'PACKAGED_STARTUP_ERROR');
-  const result=validate(record,command.pid);write(context.directory,name+'-observation.json',result);return result;
+  const result=validate(record,{...launch,pid:command.pid},contract);
+  const controls=diagnostics(record,{...launch,pid:command.pid},contract);
+  write(context.directory,name+'-observation.json',result);
+  return {result,controls};
 }
-function diagnostics(record,pid){
+function diagnostics(record,launch,contract){
+  const roles=hub(record.tree);
+  const row=full=>[...roles.keys()].indexOf(full)*6;
+  function altered(edit,changedLaunch=launch){
+    const copy=structuredClone(record);edit(copy);return validate(copy,changedLaunch,contract);
+  }
+  function property(copy,full,key,value){
+    copy.objects.find(object=>object[0]===roles.get(full).id)[2].find(x=>x[0]===key)[5]=value;
+  }
   const outcomes=[];
   for(const [name,code,action]of [
     ['truncated','DEBUG_TRUNCATED',()=>decode(Buffer.from([28,0,0,0]))],
     ['unsupported','DEBUG_VARIANT_UNSUPPORTED',()=>decode(u32(255))],
-    ['forged-pid','DEBUG_PID_MISMATCH',()=>validate(record,pid+1)],
-    ['missing-tree','DEBUG_TREE_SHAPE',()=>validate({...record,tree:[]},pid)],
-    ['wrong-root','PACKAGED_INSPECTION_ROOT',()=>{const copy=structuredClone(record);copy.tree[7]='Foundation';validate(copy,pid);}],
-    ['missing-properties','DEBUG_OBJECT_MISSING',()=>validate({...record,objects:[]},pid)]
+    ['forged-pid','DEBUG_PID_MISMATCH',()=>altered(()=>{},{...launch,pid:launch.pid+1})],
+    ['borrowed-launch','DEBUG_LAUNCH_IDENTITY',()=>altered(()=>{},{...launch,launchId:crypto.randomUUID()})],
+    ['borrowed-package','DEBUG_LAUNCH_IDENTITY',()=>altered(copy=>{copy.packageSha256='0'.repeat(64);})],
+    ['missing-tree','DEBUG_TREE_SHAPE',()=>altered(copy=>{copy.tree=[];})],
+    ['malformed-tree','DEBUG_TREE_CHILDREN',()=>altered(copy=>{copy.tree[0]=0;})],
+    ['old-tracer-tree','DEBUG_REQUIRED_NODE',()=>altered(copy=>{
+      const original=copy.tree;
+      copy.tree=['/root',HUB,HUB+'/Bow',SUMMARY,...['Title','ResourceId','ResourceName','Status','PackStatus']
+        .map(name=>SUMMARY+'/'+name)].flatMap(full=>original.slice(row(full),row(full)+6));
+      copy.tree[6]=2;copy.tree[8]='Node2D';copy.tree[18]=5;
+    })],
+    ['wrong-root','PACKAGED_INSPECTION_ROOT',()=>altered(copy=>{copy.tree[7]='Foundation';})],
+    ['aliased-path','DEBUG_REQUIRED_NODE',()=>altered(copy=>{copy.tree[row(SUMMARY+'/ResourceId')+1]='ResourceID';})],
+    ['wrong-type','DEBUG_REQUIRED_NODE',()=>altered(copy=>{copy.tree[row(NAVIGATION+'/Category')+2]='Button';})],
+    ['duplicate-node-id','DEBUG_TREE_DUPLICATE',()=>altered(copy=>{copy.tree[row(SUMMARY+'/ResourceId')+3]=copy.tree[row(SUMMARY+'/Status')+3];})],
+    ['duplicate-path','DEBUG_TREE_DUPLICATE',()=>altered(copy=>{copy.tree[row(SUMMARY+'/ResourceId')+1]='Status';})],
+    ['missing-properties','DEBUG_OBJECT_SET',()=>altered(copy=>{copy.objects=[];})],
+    ['wrong-resource','PACKAGED_NATIVE_LABELS',()=>altered(copy=>property(copy,SUMMARY+'/ResourceId','text','IT-07'))],
+    ['wrong-name','PACKAGED_NATIVE_LABELS',()=>altered(copy=>property(copy,SUMMARY+'/ResourceName','text','Other bow'))],
+    ['wrong-texture','PACKAGED_NATIVE_TEXTURE',()=>altered(copy=>property(copy,HUB+'/Bow','texture','res://assets/common/alias.png'))],
+    ['wrong-status','PACKAGED_NATIVE_LABELS',()=>altered(copy=>property(copy,SUMMARY+'/Status','text','Accepted'))],
+    ['wrong-register','PACKAGED_NATIVE_REGISTER',()=>altered(copy=>property(copy,SUMMARY+'/PackStatus','text','179/180 source-ready'))],
+    ['wrong-category','PACKAGED_NATIVE_CATEGORY',()=>altered(copy=>property(copy,NAVIGATION+'/Category','popup/item_6/text','Unrelated'))],
+    ['wrong-item-register','PACKAGED_NATIVE_ITEM_REGISTER',()=>altered(copy=>property(copy,BROWSER+'/Resources','item_0/text','IT-00'))]
   ]){let error;try{action();}catch(e){error=e.message;}need(error?.startsWith(code),'DEBUG_NEGATIVE_CONTROL',name+' '+error);outcomes.push({name,expected:code,observed:error});}
   return outcomes;
 }
