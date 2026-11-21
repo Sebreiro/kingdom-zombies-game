@@ -252,6 +252,7 @@ function validateRenderedOutcome(root, row, report, driver, build = null) {
   exact(driver.steps.map(item => item.id),row.checkpoints.map(item => item.id),'declared physical checkpoint IDs',true);
   const {relaunchCase,validateProcessRuntime,savedNativeSnapshot} = require('./scenarios.cjs');
   const contracts=require('./rendered-contracts.cjs');
+  const audition = row.id === contracts.AUDIO_CASE ? audioAuthority(root) : null;
   const relaunch = relaunchCase(row.id);
   need(row.processes.length === (relaunch ? 2 : 1) && (!relaunch || driver.steps.length >= 2),'EVIDENCE_RENDERED_LAUNCHES',row.id);
   const processes = row.processes.map(ref => document(root, ref));
@@ -326,6 +327,11 @@ function validateRenderedOutcome(root, row, report, driver, build = null) {
       input.recheck.at>=input.actionStartedAt && input.recheck.at<input.at && input.recheck.acknowledgement?.pid===owner.pid &&
       input.recheck.acknowledgement.action==='click' && input.recheck.acknowledgement.focused===true &&
       input.recheck.acknowledgement.window===input.acknowledgement.window,'EVIDENCE_PHYSICAL_RECHECK',row.id);
+    if(step.openMenu) need(input.openMenu?.x===step.openMenu.x && input.openMenu.y===step.openMenu.y &&
+      instant(input.openMenu.at) && input.openMenu.at>=input.actionStartedAt && input.openMenu.at<input.at &&
+      input.openMenu.acknowledgement?.pid===owner.pid && input.openMenu.acknowledgement.action==='click' &&
+      input.openMenu.acknowledgement.focused===true && input.openMenu.acknowledgement.window===input.acknowledgement.window,
+      'EVIDENCE_PHYSICAL_AUDIO_MENU',step.id);
     need(equal(draw.ready,owner.ready),'EVIDENCE_NATIVE_READY_OWNER',row.id);
     const ready=savedNativeSnapshot(root,draw.ready,contracts.readyChecks,handshake[1]);
     const before=savedNativeSnapshot(root,draw.before,step.checks,handshake[1]);
@@ -340,6 +346,16 @@ function validateRenderedOutcome(root, row, report, driver, build = null) {
       before.values.some((row,index)=>!equal(row.value,observed.values[index].value)),
       'EVIDENCE_NATIVE_TRANSITION',row.id+' '+step.id);
     need(equal(observed.values,after.values),'EVIDENCE_NATIVE_CAPTURE_DRIFT',row.id+' '+step.id);
+    const playback = audition && contracts.AUDIO_PLAYBACK.has(step.id);
+    if (playback) {
+      const exactPlayback = audioPlayback(audition,step.id,before.values[0],observed.values[0]);
+      need(equal(item.playback,exactPlayback),'EVIDENCE_AUDIO_CHECKPOINT',step.id);
+    } else need(item.playback === undefined,'EVIDENCE_AUDIO_CHECKPOINT',step.id);
+  }
+  if (audition) {
+    const media = validateAudioMedia(root,row,report);
+    need(media.preparedAt>=document(root,row.checkpoints.at(-1).draw).at &&
+      media.preparedAt<=report.finishedAt,'EVIDENCE_AUDIO_MEDIA_TIME',row.id);
   }
 }
 
@@ -349,7 +365,7 @@ function validateNamed(root, row, kind, expected, current) {
   'EVIDENCE_NAMED_' + kind.toUpperCase(), expected.id);
   identity(current, row, kind + ' ' + row.id);
   for (const file of row.files) artifact(root, file);
-  if (kind === 'listening' || kind === 'mix') {
+  if (kind === 'listening') {
     const wave = row.files.find(file => file.sha256 === row.sampleSha256 && file.path.endsWith('.wav'));
     need(named(row.version) && row.version === expected.version && wave &&
       (!expected.sampleSha256 || row.sampleSha256 === expected.sampleSha256), 'EVIDENCE_LISTENING_SAMPLE', row.id);
@@ -359,31 +375,220 @@ function validateNamed(root, row, kind, expected, current) {
   return row.verdict === 'pass';
 }
 
-function listeningExpectations(root) {
-  const base = 'src/godot-game/content/';
-  const events = document(root,base+'audio/events.json');
+const AUDIO_ROOT = 'src/godot-game/';
+const LOOP_REPETITIONS = 3;
+
+function audioAuthority(root) {
+  const base = AUDIO_ROOT+'content/';
+  const catalog = read(root,base+'audio/events.json');
+  const events = parse(catalog.data,catalog.path);
+  const fixture = document(root,base+'fixtures/audio-states.json');
   const samplePacks = ['packs/audio-actions.json','packs/audio-interface-ambience.json'];
   exact(samplePacks,events.samplePacks,'audio sample packs');
-  const samples = samplePacks.flatMap(file => document(root,base+file).samples);
+  const samples = samplePacks.flatMap(file => {
+    const pack = document(root,base+file);
+    return pack.samples.map(sample => ({...sample,pack:file,bank:pack.bank}));
+  });
   const sampleById = new Map(samples.map(row => [row.id,row]));
   exact(samples.map(row => row.id),[...sampleById.keys()],'authored sample IDs');
+  const routes = new Map(events.events.flatMap(event => event.routes.map(route => [route.id,route])));
+  exact(events.events.flatMap(event => event.routes.map(route => route.id)),[...routes.keys()],'audio routes');
   const categories = [...new Set(events.events.map(event => event.category))];
   exact(Array.from({length:30},(_,index) => 'AU-'+String(index+1).padStart(2,'0')),categories,'listening category coverage');
+  return {events,catalogSha256:catalog.sha256,routes,states:new Map(fixture.states.map(state=>[state.id,state.loops])),sampleById};
+}
+
+function listeningExpectations(root) {
+  const {events,catalogSha256,sampleById} = audioAuthority(root);
+  const {AUDIO_DECISIONS} = require('./rendered-contracts.cjs');
   const expected = new Map();
-  function assign(id, variant, mode = 'listening') {
+  function assign(id, variant, routes, loop = false) {
     const sample = sampleById.get(variant);
-    need(sample && HEX.test(sample.sha256) && Number.isSafeInteger(sample.version),'EVIDENCE_AUDIO_AUTHORITY',variant);
-    expected.set(id,{id,kind:mode,version:String(sample.version),sampleSha256:sample.sha256,variant});
+    need(sample && HEX.test(sample.sha256) && HEX.test(sample.pcmSha256) && Number.isSafeInteger(sample.version) &&
+      /^[a-z\d][a-z\d.-]+$/.test(variant) && routes.length > 0,'EVIDENCE_AUDIO_AUTHORITY',variant);
+    const loopFrames = loop ? [sample.loop?.startFrame,sample.loop?.endFrame] : null;
+    if (loop) need(sample.loop?.mode==='forward' && equal(loopFrames,[0,sample.frames]),'EVIDENCE_AUDIO_LOOP_AUTHORITY',id);
+    expected.set(id,{id,kind:'listening',version:String(sample.version),sampleSha256:sample.sha256,pcmSha256:sample.pcmSha256,
+      catalogSha256,variant,routes,pack:sample.pack,bank:sample.bank.path,bankSha256:sample.bank.sha256,
+      regionFrames:sample.regionFrames,frames:sample.frames,loopFrames});
   }
   for (const event of events.events) {
-    // Routes and the event union are intentionally both checked. Two categories may use the same bytes.
-    for (const id of new Set([...event.variants,...event.routes.flatMap(row => row.variants)])) assign(event.category+'/'+id,id);
+    // Two categories can use the same wave, but each exact category / variant must be heard in context.
+    for (const variant of new Set([...event.variants,...event.routes.flatMap(row => row.variants)]))
+      assign(event.category+'/'+variant,variant,event.routes.filter(route=>route.variants.includes(variant)).map(route=>route.id));
     for (const route of event.routes.filter(row => row.lifecycle.mode === 'current-state-loop')) {
-      for (const id of route.variants) assign(event.category+'/'+route.id+'/'+id,id);
+      for (const variant of route.variants) assign(event.category+'/'+route.id+'/'+variant,variant,[route.id],true);
     }
   }
-  for (const id of ['D-31','D-32']) expected.set(id,{id,kind:'mix',version:String(events.version)});
+  exact([...sampleById.keys()],[...new Set([...expected.values()].map(row=>row.variant))],'all production audio variants');
+  for (const [id,steps] of AUDIO_DECISIONS) expected.set(id,{id,kind:'mix',version:String(events.version),catalogSha256,steps});
   return [...expected.values()];
+}
+
+function audioPlayback(authority, step, previous, observed) {
+  need(observed?.id && observed.id===previous?.id,'EVIDENCE_AUDIO_CHECKPOINT',step);
+  const decode = item => item.value === null ? null : parse(Buffer.from(item.value),step);
+  const before = decode(previous), play = decode(observed);
+  need(play && Number.isSafeInteger(play.epoch) && play.epoch>0 && Number.isSafeInteger(play.serial) &&
+    Number.isSafeInteger(play.oneShots) && play.oneShots===(before?.oneShots??0)+1 &&
+    (before ? play.epoch===before.epoch && play.serial>before.serial : play.serial>0),'EVIDENCE_AUDIO_PLAY_TRANSITION',step);
+  validateAudioMix(authority,step,play);
+  return play;
+}
+
+function validateAudioMix(authority, step, play) {
+  const required = require('./rendered-contracts.cjs').AUDIO_PLAYBACK.get(step);
+  need(required,'EVIDENCE_AUDIO_CHECKPOINT',step);
+  const defaults = authority.events.defaults;
+  need(play.catalogVersion===authority.events.version && play.masterPercent===defaults.masterPercent &&
+    play.effectsPercent===defaults.effectsPercent && play.ambiencePercent===defaults.ambiencePercent &&
+    play.muted===false,'EVIDENCE_AUDIO_MIX_SETTINGS',step);
+  const ambient = authority.states.get(required.state);
+  need(Array.isArray(ambient) && Array.isArray(play.overlap) &&
+    (required.state==='quiet' ? ambient.length===0 : ambient.length===2),'EVIDENCE_AUDIO_OVERLAP',step);
+  exact([...ambient].sort(),play.overlap.map(clip=>clip.route),step+' overlapping routes',true);
+  checkClip(play.cue,required.route,false);
+  for (const clip of play.overlap) checkClip(clip,clip.route,true);
+
+  function checkClip(clip,id,loop) {
+    const route = authority.routes.get(id);
+    const sample = authority.sampleById.get(clip?.variant);
+    need(clip?.route===id && route?.variants.length===1 && route.variants[0]===clip.variant &&
+      clip.version===sample?.version && clip.wavSha256===sample.sha256 &&
+      clip.pcmSha256===sample.pcmSha256,'EVIDENCE_AUDIO_CLIP',step+' '+id);
+    if (loop) need(route.lifecycle.mode==='current-state-loop' && route.bus==='Ambience' &&
+      sample.loop?.mode==='forward' && equal(clip.loopFrames,[sample.loop.startFrame,sample.loop.endFrame]) &&
+      equal(clip.loopFrames,[0,sample.frames]),'EVIDENCE_AUDIO_LOOP',step+' '+id);
+    else need(route.lifecycle.mode==='one-shot' && route.bus==='Effects' && clip.loopFrames===null,
+      'EVIDENCE_AUDIO_LOOP',step+' '+id);
+    const channel = loop ? play.ambiencePercent : play.effectsPercent;
+    const volumeDb = 20*Math.log10(play.masterPercent*channel*route.gainLinear/10000);
+    need(clip.playing===true && clip.stateLoop===loop && clip.bus===route.bus &&
+      clip.gainLinear===route.gainLinear && Number.isFinite(clip.volumeDb) &&
+      Math.abs(clip.volumeDb-volumeDb)<0.00001,'EVIDENCE_AUDIO_GAIN',step+' '+id);
+  }
+}
+
+function auditionMedia(root, invocation, preparedAt, emit = false) {
+  const {AUDIO_CASE} = require('./rendered-contracts.cjs');
+  const expected = listeningExpectations(root).filter(row=>row.kind==='listening');
+  need(UUID.test(invocation) && instant(preparedAt),'EVIDENCE_AUDIO_MEDIA_INVOCATION');
+  const prefix = '.phase4/acceptance/'+invocation+'/audio-media/';
+  const banks = new Map(), samples = new Map(), loops = new Map();
+  const readPcm = require('./cases/audio-feasibility.cjs').pcm;
+  function wave(header, pcm, repeats = 1) {
+    const data = Buffer.concat([header,...Array(repeats).fill(pcm)]);
+    data.writeUInt32LE(data.length-8,4);
+    data.writeUInt32LE(data.length-44,40);
+    return data;
+  }
+  function retain(name, data) {
+    const ref = {path:prefix+name,sha256:hash(data),bytes:data.length};
+    if (emit) writeExclusive(root,ref.path,data);
+    else artifact(root,ref,16*1024*1024);
+    return ref;
+  }
+  const rows = expected.map(item => {
+    if (!banks.has(item.bank)) {
+      const bank = read(root,AUDIO_ROOT+item.bank,16*1024*1024);
+      need(bank.sha256===item.bankSha256 && bank.data.toString('ascii',8,16)==='WAVEfmt ' &&
+        bank.data.toString('ascii',36,40)==='data' && readPcm(bank.data).pcmBytes===bank.bytes-44,
+      'EVIDENCE_AUDIO_BANK',item.bank);
+      banks.set(item.bank,bank.data);
+    }
+    const bank = banks.get(item.bank);
+    if (!samples.has(item.variant)) {
+      const [first,last] = item.regionFrames;
+      const pcm = bank.subarray(44+first*4,44+last*4), header = bank.subarray(0,44);
+      const data = wave(header,pcm);
+      need(first>=0 && last>first && pcm.length===item.frames*4 && hash(pcm)===item.pcmSha256 &&
+        hash(data)===item.sampleSha256,'EVIDENCE_AUDIO_EXTRACT',item.id);
+      samples.set(item.variant,retain(item.variant+'.wav',data));
+    }
+    if (item.loopFrames && !loops.has(item.variant)) {
+      const [first,last] = item.regionFrames;
+      const pcm = bank.subarray(44+first*4,44+last*4);
+      loops.set(item.variant,retain(item.variant+'-three-iterations.wav',wave(bank.subarray(0,44),pcm,LOOP_REPETITIONS)));
+    }
+    return {sample:item,wav:samples.get(item.variant),loop:item.loopFrames?loops.get(item.variant):null};
+  });
+  return {schemaVersion:1,invocation,caseId:AUDIO_CASE,preparedAt,rows};
+}
+
+function writeAuditionMedia(root, invocation) {
+  const data = auditionMedia(root,invocation,new Date().toISOString(),true);
+  return writeExclusive(root,'.phase4/acceptance/'+invocation+'/audio-media/index.json',data);
+}
+
+function validateAudioMedia(root, outcome, final) {
+  const ref = outcome.listeningMedia;
+  need(ref?.path==='.phase4/acceptance/'+final.invocation+'/audio-media/index.json','EVIDENCE_AUDIO_MEDIA_SCOPE');
+  const data = document(root,ref);
+  need(equal(data,auditionMedia(root,final.invocation,data.preparedAt)),'EVIDENCE_AUDIO_MEDIA_CATALOG');
+  return data;
+}
+
+function listeningSubjects(root, final) {
+  const {AUDIO_CASE,AUDIO_DECISIONS} = require('./rendered-contracts.cjs');
+  const outcome = final.outcomes.find(row=>row.id===AUDIO_CASE && row.status==='pass');
+  need(outcome?.invocation===final.invocation && Array.isArray(outcome.checkpoints),'EVIDENCE_LISTENING_RUN',AUDIO_CASE);
+  const media = validateAudioMedia(root,outcome,final);
+  const samples = new Map(media.rows.map(row=>[row.sample.id,row]));
+  const waves = new Map(media.rows.map(row=>[row.sample.variant,row.wav]));
+  const authority = audioAuthority(root);
+  const decisions = new Map();
+  for (const [id,steps] of AUDIO_DECISIONS) {
+    const checkpoints = steps.map(stepId=>{
+      const point = outcome.checkpoints.find(row=>row.id===stepId);
+      need(point?.playback,'EVIDENCE_AUDIO_DECISION_CHECKPOINT',stepId);
+      const draw = document(root,point.draw), input = document(root,point.input);
+      need(draw.caseId===AUDIO_CASE && input.caseId===AUDIO_CASE && draw.checkpoint===stepId &&
+        input.checkpoint===stepId && draw.invocation===final.invocation && input.invocation===final.invocation &&
+        draw.token===input.token && draw.imageSha256===point.image.sha256 && draw.drawn===true,
+      'EVIDENCE_AUDIO_DECISION_CHECKPOINT',stepId);
+      validateAudioMix(authority,stepId,point.playback);
+      const files = [point.playback.cue,...point.playback.overlap].map(binding=>{
+        const ref = waves.get(binding.variant);
+        need(ref?.sha256===binding.wavSha256,'EVIDENCE_AUDIO_DECISION_WAV',stepId);
+        return ref;
+      });
+      return {id:stepId,draw:point.draw,input:point.input,image:point.image,playback:point.playback,files,
+        actionStartedAt:input.actionStartedAt,drawnAt:draw.at};
+    });
+    decisions.set(id,checkpoints);
+  }
+  return {media:outcome.listeningMedia,preparedAt:media.preparedAt,samples,decisions};
+}
+
+function validateListeningRow(root, row, expected, current, final, subjects) {
+  const mix = expected.kind==='mix';
+  need(row.method==='actual-listening' && row.invocation===final.invocation && row.caseId===require('./rendered-contracts.cjs').AUDIO_CASE &&
+    row.listenerCapability==='actual-hearing' && named(row.outputDevice) && named(row.player) &&
+    instant(row.listenedFrom) && instant(row.listenedThrough) && row.listenedFrom>=final.startedAt &&
+    row.listenedFrom<row.listenedThrough && row.listenedThrough<=row.reviewedAt &&
+    equal(row.mediaIndex,subjects.media),'EVIDENCE_LISTENING_RUN',row.id);
+  need(row.version===expected.version && row.catalogSha256===expected.catalogSha256,'EVIDENCE_LISTENING_SAMPLE',row.id);
+  if (mix) {
+    const checkpoints = subjects.decisions.get(row.id);
+    need(row.playbackMethod==='live-native-mix' && row.heardEveryCue===true && equal(row.checkpoints,checkpoints) &&
+      checkpoints.every(point=>row.listenedFrom<=point.actionStartedAt && point.drawnAt<=row.listenedThrough),
+    'EVIDENCE_AUDIO_DECISION_BINDING',row.id);
+    const findings = row.id==='D-31' ? ['swing','impact','confirmation'] : ['dayFire','nightWind','actionAndConfirmation'];
+    need(findings.every(field=>named(row.findings?.[field])),'EVIDENCE_AUDIO_HEARD_FINDINGS',row.id);
+    const files = [...new Map(checkpoints.flatMap(point=>point.files).map(ref=>[ref.path,ref])).values()];
+    need(equal(files,row.files),'EVIDENCE_AUDIO_DECISION_WAV',row.id);
+  } else {
+    const item = subjects.samples.get(row.id);
+    const files = item.loop ? [item.wav,item.loop] : [item.wav];
+    need(equal(row.sample,item.sample) && equal(files,row.files) && row.sampleSha256===expected.sampleSha256 &&
+      row.playbackMethod===(item.loop?'repeated-loop-extract':'exact-wav-extract') && row.heardEntireSample===true &&
+      row.listenedFrom>=subjects.preparedAt,'EVIDENCE_AUDIO_SAMPLE_BINDING',row.id);
+    if (item.loop) need(row.heardLoopBoundaries===LOOP_REPETITIONS-1 &&
+      named(row.findings?.loopSeam),'EVIDENCE_AUDIO_HEARD_FINDINGS',row.id);
+    need(['suitability','sourceIdentity','onsetTail','silence','distortion','music','speech']
+      .every(field=>named(row.findings?.[field])),'EVIDENCE_AUDIO_HEARD_FINDINGS',row.id);
+  }
+  need(validateNamed(root,row,expected.kind,expected,current),'EVIDENCE_LISTENING_FAILED',row.id);
 }
 
 function judgmentExpectations(catalog) {
@@ -395,18 +600,14 @@ function judgmentExpectations(catalog) {
 function validateJudgments(root, listening, judgments, current, expectedAudio, expectedJudgments, final) {
   const outcomeIds = new Set(final.outcomes.filter(row => row.status === 'pass').map(row => row.id));
   const images = new Map(final.outcomes.map(row => [row.id,(row.checkpoints??[]).map(point => point.image)]));
-  for (const data of [listening,judgments]) {
-    need(data?.schemaVersion === 1 && data.invocation === final.invocation && Array.isArray(data.verdicts),'EVIDENCE_JUDGMENT_SET');
+  for (const [data,schemaVersion] of [[listening,2],[judgments,1]]) {
+    need(data?.schemaVersion === schemaVersion && data.invocation === final.invocation && Array.isArray(data.verdicts),'EVIDENCE_JUDGMENT_SET');
     identity(current,data,'named evidence index');
   }
   exact(expectedAudio.map(row => row.id),listening.verdicts.map(row => row.id),'required listening cases');
   exact(expectedJudgments.map(row => row.id),judgments.verdicts.map(row => row.id),'required prohibition judgments');
-  for (const expected of expectedAudio) {
-    const row = listening.verdicts.find(item => item.id === expected.id);
-    need(row.method === 'actual-listening' && row.reviewedAt >= final.startedAt &&
-      row.caseId === 'rendered.audio-audition' && outcomeIds.has(row.caseId), 'EVIDENCE_LISTENING_RUN', row.id);
-    need(validateNamed(root,row,expected.kind,expected,current),'EVIDENCE_LISTENING_FAILED',row.id);
-  }
+  const subjects = listeningSubjects(root,final);
+  for (const expected of expectedAudio) validateListeningRow(root,listening.verdicts.find(row=>row.id===expected.id),expected,current,final,subjects);
   for (const expected of expectedJudgments) {
     const row = judgments.verdicts.find(item => item.id === expected.id);
     need(row.method === 'actual-named-review' && row.reviewedAt >= final.startedAt && row.statement === expected.statement &&
@@ -623,5 +824,6 @@ function freshFinal(selected, reports, expected) {
 module.exports = {PHASE, REVIEW, REVIEW_REPORT, ORIGINAL_REVIEW, SELECTION, FIXES, TARGETS, PHASE_BASE, LISTENING, JUDGMENTS, COMPLETION, IDENTITY, REVISION, HEX, UUID, need, named, instant, exact,
   read, reference, artifact, document, writeExclusive, git, committedRef, sameCommittedSource, identifySource, identifyTool, identity,
   textArtifact, reviewReport, validateReview, validateProcess, validateRenderedOutcome, validateNamed, listeningExpectations, judgmentExpectations,
+  audioAuthority, audioPlayback, writeAuditionMedia, listeningSubjects,
   validateJudgments, campaignAttempts, historyDocuments, validateCoverage, changedFiles, guardedHostTuples, validateNativeHostProof, inventoryExpectation, validateArtifactInventory,
   expectedOutcome, reconcile, freshFinal};

@@ -54,6 +54,27 @@ const detail=(id,resource,shared)=>stage(id,PREVIEW+'/Actions/Details',[subject(
   contains(METADATA,'text','Explicit shared mappings: ')]);
 const resourceState=(name,value)=>field(RESOURCE,'metadata/resource_view',name,value);
 const cancel=(id,checks)=>({...stage(id,TOOLBAR+'/Cancel',checks),recheck:true});
+const AUDIO_CASE='rendered.audio-audition', AUDITION_PROPERTY='metadata/audition';
+const SWING='melee.swing.fist-knife-machete', IMPACT='melee.impact.flesh', CONFIRM='ui.action.confirm';
+const AUDIO_PLAYBACK=new Map([
+  ['play-swing',{route:SWING,state:'quiet'}],
+  ['play-day-swing',{route:SWING,state:'day-fire'}],
+  ['play-night-swing',{route:SWING,state:'night-wind'}],
+  ['play-impact',{route:IMPACT,state:'quiet'}],
+  ['play-confirmation',{route:CONFIRM,state:'quiet'}],
+  ['play-day-confirmation',{route:CONFIRM,state:'day-fire'}],
+  ['play-night-confirmation',{route:CONFIRM,state:'night-wind'}]
+]);
+const AUDIO_DECISIONS=new Map([
+  ['D-31',['play-swing','play-impact','play-confirmation']],
+  ['D-32',['play-day-swing','play-night-swing','play-day-confirmation','play-night-confirmation']]
+]);
+const audioMenu=(id,control,index,checks=[])=>({...choice(id,AUDIO+'/'+control,index,checks),openMenu:true});
+const audition=id=>stage(id,AUDIO+'/Play',[{node:AUDIO,property:AUDITION_PROPERTY,match:'audition',value:AUDIO_PLAYBACK.get(id).route}]);
+const dayFire='ambience.day-night.forest-day,ambience.fire-wind.local-fire';
+const nightWind='ambience.day-night.forest-night,ambience.fire-wind.wind';
+const restoreAudio=(id,index,loops)=>audioMenu(id,'CurrentState',index,[eq(AUDIO,'metadata/loops',loops)]);
+const stopAudio=id=>stage(id,AUDIO+'/Stopall',[eq(AUDIO,'metadata/players',0),eq(AUDIO,'metadata/loops','')]);
 function gear(slot,part,id) {
   const node=CHAR+'/Art/'+slot+'_'+part;
   return [show(node),eq(node,'metadata/item',id),eq(node,'metadata/slot',slot)];
@@ -139,12 +160,17 @@ const CASES = new Map([
     cancel('visible-error',[label(SUMMARY+'/Status','Unavailable — validation cancelled; choose Recheck resources')]),
     stage('retry-after-error',TOOLBAR+'/Recheck',readyChecks)
   ]],
-  ['rendered.audio-audition',[
-    open('cue','AU-01',[show(AUDIO+'/Details'),contains(AUDIO+'/Details','text','Source ')]),
-    stage('play',AUDIO+'/Play',[show(AUDIO+'/Status'),eq(AUDIO,'metadata/one_shots',1)]),
-    choice('restore-loop',AUDIO+'/CurrentState',1,[show(AUDIO+'/Details'),
-      eq(AUDIO,'metadata/loops','ambience.day-night.forest-day,ambience.fire-wind.local-fire')]),
-    stage('stop-audio',AUDIO+'/Stopall',[eq(AUDIO,'metadata/players',0),eq(AUDIO,'metadata/loops','')])
+  [AUDIO_CASE,[
+    open('cue','AU-03',[show(AUDIO+'/Details'),contains(AUDIO+'/Details','text','Source ')]),
+    audioMenu('select-swing','Event',2),
+    audition('play-swing'),
+    restoreAudio('restore-loop',1,dayFire),audition('play-day-swing'),
+    restoreAudio('restore-night-swing',2,nightWind),audition('play-night-swing'),stopAudio('stop-audio'),
+    open('cue-impact','AU-04',[show(AUDIO+'/Status')]),audioMenu('select-impact','Event',2),audition('play-impact'),
+    open('cue-confirmation','AU-26',[show(AUDIO+'/Status')]),audioMenu('select-confirmation','Event',1),
+    audition('play-confirmation'),
+    restoreAudio('restore-day-confirmation',1,dayFire),audition('play-day-confirmation'),
+    restoreAudio('restore-night-confirmation',2,nightWind),audition('play-night-confirmation'),stopAudio('stop-confirmation')
   ]],
   ['heldout.H27',missingCase],
   ['heldout.H28',missingCase],
@@ -157,6 +183,9 @@ function matches(check,value) {
   if(check.match==='absent')return value===false;
   if(check.match==='equal')return equal(value,check.value);
   if(check.match==='contains')return typeof value==='string'&&value.includes(check.value);
+  if(check.match==='audition'&&typeof value==='string') {
+    try{return JSON.parse(value)?.cue?.route===check.value;}catch{return false;}
+  }
   if(check.match==='field'&&typeof value==='string') {
     try{return equal(JSON.parse(value)?.[check.key],check.value);}catch{return false;}
   }
@@ -188,7 +217,7 @@ function validateDeclaration(driver,item) {
     const tap=step.action==='tap'&&Number.isInteger(step.key)&&step.key>0&&step.key<256&&step.key!==9;
     need(click||tap,'RENDERED_CASE_ACTION',item.id+' '+step.id);
     if(step.navigate) {
-      need(!step.recheck&&step.id.startsWith('navigate-')&&required[next]?.lifetime===step.lifetime&&NAVIGATION.has(step.control)&&
+      need(!step.recheck&&!step.openMenu&&step.id.startsWith('navigate-')&&required[next]?.lifetime===step.lifetime&&NAVIGATION.has(step.control)&&
         Array.isArray(step.checks)&&step.checks.length===1&&
         (step.checks[0].node===step.control || step.control===RESOURCES&&step.checks[0].node===SUMMARY+'/ResourceId')&&
         ['text','selected','visible'].includes(step.checks[0].property)&&step.checks[0].match==='equal'&&
@@ -199,9 +228,11 @@ function validateDeclaration(driver,item) {
         'RENDERED_CASE_OBSERVATIONS',item.id+' '+step.id);
       need(expected.recheck ? click&&coordinates(step.recheck)&&!equal([step.x,step.y],[step.recheck.x,step.recheck.y]) : !step.recheck,
         'RENDERED_CASE_RECHECK',item.id+' '+step.id);
+      need(expected.openMenu ? click&&coordinates(step.openMenu)&&!equal([step.x,step.y],[step.openMenu.x,step.openMenu.y]) : !step.openMenu,
+        'RENDERED_CASE_AUDIO_MENU',item.id+' '+step.id);
     }
   }
   return driver;
 }
 
-module.exports={CASES,template,validateDeclaration,matches,readyChecks,baseline};
+module.exports={CASES,template,validateDeclaration,matches,readyChecks,baseline,AUDIO_CASE,AUDITION_PROPERTY,AUDIO_PLAYBACK,AUDIO_DECISIONS};

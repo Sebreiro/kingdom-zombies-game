@@ -455,34 +455,92 @@ function judgmentControls(context) {
   const result = controlRunner(context,'judgments',reject => {
     rejectsInvalidWave();
     const {current,report} = baseFixture();
-    const file = e.writeExclusive(context.directory,'fixture.wav',pcmFixture());
-    const picture = e.writeExclusive(context.directory,'fixture-image-reference.bin',Buffer.from('Synthetic image reference on detached fixture'));
-    const item = {id:'AU-01/fixture',kind:'listening',version:'1',sampleSha256:file.sha256};
+    const root = context.directory;
+    const file = e.writeExclusive(root,'fixture.wav',pcmFixture());
+    const picture = e.writeExclusive(root,'fixture-image-reference.bin',Buffer.from('Synthetic image reference on detached fixture'));
     const authority = {id:'P1',statement:'Synthetic procedure text',criterion:'AC-22',cases:['heldout.H01']};
-    const final = {...report,outcomes:[{id:'heldout.H01',status:'pass',checkpoints:[{image:picture}]},{id:'rendered.audio-audition',status:'pass'}]};
+    const audio = audioJudgmentFixture(root,report,picture,reject);
+    const final = {...report,outcomes:[{id:'heldout.H01',status:'pass',checkpoints:[{image:picture}]},audio]};
+    const subjects = e.listeningSubjects(root,final), expected = e.listeningExpectations(root);
+    const time = (at,delta) => new Date(Date.parse(at)+delta).toISOString();
     const row = (kind, id, fields) => ({...current,id,kind,reviewer:'Fixture Reviewer',reviewedAt:final.finishedAt,
       observations:'Synthetic check of file identity and verdict fields.',verdict:'pass',...fields});
-    const listening = {...current,schemaVersion:1,invocation:final.invocation,verdicts:[row('listening',item.id,
-      {method:'actual-listening',caseId:'rendered.audio-audition',version:'1',sampleSha256:file.sha256,files:[file]})]};
+    const listening = {...current,schemaVersion:2,invocation:final.invocation,verdicts:expected.map(item=>{
+      const subject = {method:'actual-listening',caseId:audio.id,invocation:final.invocation,version:item.version,
+        catalogSha256:item.catalogSha256,mediaIndex:subjects.media,reviewedAt:time(subjects.preparedAt,2000),
+        listenerCapability:'actual-hearing',player:'Fixture player',outputDevice:'Fixture output'};
+      if (item.kind==='mix') {
+        const checkpoints = subjects.decisions.get(item.id);
+        const files = [...new Map(checkpoints.flatMap(point=>point.files).map(ref=>[ref.path,ref])).values()];
+        return row('mix',item.id,{...subject,checkpoints,files,playbackMethod:'live-native-mix',heardEveryCue:true,
+          listenedFrom:final.startedAt,listenedThrough:final.finishedAt,
+          findings:{swing:'Fixture swing',impact:'Fixture impact',confirmation:'Fixture confirmation',dayFire:'Fixture day',
+            nightWind:'Fixture night',actionAndConfirmation:'Fixture action and confirmation'}});
+      }
+      const {wav,loop} = subjects.samples.get(item.id);
+      return row('listening',item.id,{...subject,sample:item,sampleSha256:item.sampleSha256,files:loop?[wav,loop]:[wav],
+        playbackMethod:loop?'repeated-loop-extract':'exact-wav-extract',heardEntireSample:true,heardLoopBoundaries:2,
+        listenedFrom:time(subjects.preparedAt,10),listenedThrough:time(subjects.preparedAt,1500),
+        findings:{suitability:'Fixture suitability',sourceIdentity:'Fixture source',onsetTail:'Fixture onset',silence:'Fixture silence',
+          distortion:'Fixture distortion',music:'Fixture music',speech:'Fixture speech',loopSeam:'Fixture seam'}});
+    })};
     const judgments = {...current,schemaVersion:1,invocation:final.invocation,verdicts:[row('judgment',authority.id,
       {method:'actual-named-review',statement:authority.statement,criterion:authority.criterion,caseIds:authority.cases,files:[picture]})]};
-    const verify = (a,b) => e.validateJudgments(context.directory,a,b,current,[item],[authority],final);
+    const verify = (a,b=judgments,outcome=audio) => e.validateJudgments(root,a,b,current,expected,[authority],
+      {...final,outcomes:[final.outcomes[0],outcome]});
     verify(listening,judgments);
     reject('absent-listening',/EVIDENCE_SET/,() => verify({...listening,verdicts:[]},judgments));
     reject('absent-judgment',/EVIDENCE_SET/,() => verify(listening,{...judgments,verdicts:[]}));
-    const change = (data, fields) => ({...data,verdicts:[{...data.verdicts[0],...fields}]});
+    const change = (data, fields, id=data.verdicts[0].id) => ({...data,verdicts:data.verdicts.map(row=>row.id===id?{...row,...fields}:row)});
     reject('listener-missing',/EVIDENCE_NAMED_LISTENING/,() => verify(change(listening,{reviewer:''}),judgments));
     reject('sample-version-stale',/EVIDENCE_LISTENING_SAMPLE/,() => verify(change(listening,{version:'2'}),judgments));
     reject('audio-review-output-only',/EVIDENCE_LISTENING_RUN/,() => verify(change(listening,{method:'successful-play'}),judgments));
     reject('audible-required-failure',/EVIDENCE_LISTENING_FAILED/,() => verify(change(listening,{verdict:'fail'}),judgments));
-    reject('wrong-sample-digest',/EVIDENCE_LISTENING_SAMPLE/,() => verify(change(listening,{sampleSha256:'f'.repeat(64)}),judgments));
+    reject('wrong-sample-digest',/EVIDENCE_AUDIO_SAMPLE_BINDING/,() => verify(change(listening,{sampleSha256:'f'.repeat(64)})));
+    const sample = expected[0], loop = expected.find(row=>row.loopFrames);
+    reject('unrelated-sample-route',/EVIDENCE_AUDIO_SAMPLE_BINDING/,() =>
+      verify(change(listening,{sample:{...sample,routes:['other.route']}},sample.id)));
+    reject('unrelated-sample-wav',/EVIDENCE_AUDIO_SAMPLE_BINDING/,() => verify(change(listening,{files:[file]})));
+    reject('missing-listened-loop-iteration',/EVIDENCE_AUDIO_HEARD_FINDINGS/,() =>
+      verify(change(listening,{heardLoopBoundaries:1},loop.id)));
+    reject('historical-listening-context',/EVIDENCE_LISTENING_RUN/,() =>
+      verify(change(listening,{invocation:crypto.randomUUID()})));
+    reject('legacy-verdict-schema',/EVIDENCE_JUDGMENT_SET/,() => verify({...listening,schemaVersion:1}));
+    reject('unrelated-mix-wav',/EVIDENCE_AUDIO_DECISION_WAV/,() => verify(change(listening,{files:[file]},'D-31')));
+    reject('stale-mix-version',/EVIDENCE_LISTENING_SAMPLE/,() => verify(change(listening,{version:'2'},'D-32')));
+    reject('missing-mix-listening',/EVIDENCE_SET/,() =>
+      verify({...listening,verdicts:listening.verdicts.filter(row=>row.id!=='D-32')}));
+    reject('other-decision-checkpoints',/EVIDENCE_AUDIO_DECISION_BINDING/,() =>
+      verify(change(listening,{checkpoints:subjects.decisions.get('D-31')},'D-32')));
+    reject('unrelated-mix-screenshot',/EVIDENCE_AUDIO_DECISION_BINDING/,() => {
+      const checkpoints=structuredClone(subjects.decisions.get('D-32'));
+      checkpoints[0].image=file;
+      verify(change(listening,{checkpoints},'D-32'));
+    });
+    reject('mix-without-independent-heard-finding',/EVIDENCE_AUDIO_HEARD_FINDINGS/,() =>
+      verify(change(listening,{findings:{dayFire:'Only one condition'}},'D-32')));
+    reject('listening-outside-live-play',/EVIDENCE_AUDIO_DECISION_BINDING/,() =>
+      verify(change(listening,{listenedFrom:final.finishedAt,listenedThrough:time(final.finishedAt,100)},'D-32')));
+    reject('stale-owned-audio-draw',/EVIDENCE_AUDIO_DECISION_CHECKPOINT/,() => {
+      const checkpoints=structuredClone(audio.checkpoints);
+      const draw=e.document(root,checkpoints[0].draw);
+      checkpoints[0].draw=e.writeExclusive(root,'old-audio-draw.json',{...draw,invocation:crypto.randomUUID()});
+      verify(listening,judgments,{...audio,checkpoints});
+    });
+    reject('wrong-audio-draw-step-id',/EVIDENCE_AUDIO_DECISION_CHECKPOINT/,() => {
+      const checkpoints=structuredClone(audio.checkpoints);
+      checkpoints[0].draw=checkpoints[1].draw;
+      verify(listening,judgments,{...audio,checkpoints});
+    });
     reject('missing-actual-image',/EVIDENCE_JUDGMENT_IMAGE/,() => verify(listening,change(judgments,{files:[file]})));
     reject('prohibition-failure',/EVIDENCE_JUDGMENT_FAILED/,() => verify(listening,change(judgments,{verdict:'fail'})));
     reject('old-judgment-source',/EVIDENCE_IDENTITY/,() => verify(listening,change(judgments,{source:'f'.repeat(64)})));
     reject('wrong-judgment-statement',/EVIDENCE_JUDGMENT_RUN/,() => verify(listening,change(judgments,{statement:'Different prohibition'})));
-    const expected = e.listeningExpectations(ROOT);
-    assert(expected.length>30 && expected.some(item=>item.id==='D-31') && expected.some(item=>item.id==='D-32'));
-    return {audioExpectations:expected.length,actualNamedVerdicts:0};
+    assert.equal(subjects.samples.size,93);
+    assert.equal(new Set([...subjects.samples.values()].filter(row=>row.sample.pack==='packs/audio-interface-ambience.json')
+      .map(row=>row.sample.variant)).size,27);
+    assert.equal(subjects.decisions.size,2);
+    return {audioExpectations:expected.length,sampleAndLoopRows:subjects.samples.size,mixDecisions:subjects.decisions.size,actualNamedVerdicts:0};
   });
   const listeningPresent = fs.existsSync(path.join(ROOT,e.LISTENING));
   const judgmentsPresent = fs.existsSync(path.join(ROOT,e.JUDGMENTS));
@@ -495,6 +553,67 @@ function judgmentControls(context) {
     result.actualNamedVerdicts = listening.verdicts.length + judgments.verdicts.length;
   }
   return result;
+}
+
+function audioJudgmentFixture(root,report,picture,reject) {
+  const e = require('../evidence.cjs');
+  const {AUDIO_CASE,AUDIO_PLAYBACK,template,validateDeclaration} = require('../rendered-contracts.cjs');
+  const base = 'src/godot-game/';
+  for (const file of ['content/audio/events.json','content/fixtures/audio-states.json','content/packs/audio-actions.json',
+    'content/packs/audio-interface-ambience.json','assets/audio/actions.wav','assets/audio/interface-ambience.wav']) {
+    fs.mkdirSync(path.dirname(path.join(root,base+file)),{recursive:true});
+    fs.copyFileSync(path.join(ROOT,base+file),path.join(root,base+file),fs.constants.COPYFILE_EXCL);
+  }
+  const authority = e.audioAuthority(root);
+  const id = AUDIO_CASE, invocation = report.invocation;
+  const steps = template(id).map(step=>({...step,action:'click',x:100,y:200,
+    ...(step.openMenu?{openMenu:{x:110,y:210}}:{})}));
+  const driver = {id,stimulus:'Fixture audio controls',steps};
+  validateDeclaration(driver,{id});
+  reject('missing-physical-audio-menu-open',/RENDERED_CASE_AUDIO_MENU/,()=>validateDeclaration({...driver,
+    steps:steps.map(step=>step.id==='select-swing'?{...step,openMenu:null}:step)},{id}));
+  const {masterPercent,effectsPercent,ambiencePercent}=authority.events.defaults;
+  function clip(routeId,loop) {
+    const route=authority.routes.get(routeId),sample=authority.sampleById.get(route.variants[0]);
+    return {route:routeId,variant:sample.id,version:sample.version,wavSha256:sample.sha256,pcmSha256:sample.pcmSha256,
+      bus:route.bus,gainLinear:route.gainLinear,loopFrames:loop?[0,sample.frames]:null,stateLoop:loop,playing:true,
+      volumeDb:20*Math.log10(masterPercent*(loop?ambiencePercent:effectsPercent)*route.gainLinear/10000)};
+  }
+  let previous = null;
+  const checkpoints = [...AUDIO_PLAYBACK].map(([step,{route,state}])=>{
+    if (step==='play-impact'||step==='play-confirmation') previous=null;
+    const play = {epoch:1,serial:(previous?.serial??0)+1,oneShots:(previous?.oneShots??0)+1,
+      catalogVersion:authority.events.version,masterPercent,effectsPercent,ambiencePercent,muted:false,
+      cue:clip(route,false),overlap:authority.states.get(state).slice().sort().map(route=>clip(route,true))};
+    const native = (value) => ({id:62,value:value?JSON.stringify(value):null});
+    const playback = e.audioPlayback(authority,step,native(previous),native(play));
+    if (step==='play-day-swing') {
+      const before=native(previous);
+      const mutate=(name,pattern,edit)=>reject(name,pattern,()=>{
+        const changed=structuredClone(play);
+        edit(changed);
+        e.audioPlayback(authority,step,before,native(changed));
+      });
+      mutate('wrong-selected-variant',/EVIDENCE_AUDIO_CLIP/,value=>{value.cue.variant='action.4872.full';});
+      mutate('wrong-cue-route',/EVIDENCE_AUDIO_CLIP/,value=>{value.cue.route='melee.swing.club-bat';});
+      mutate('wrong-playback-sample-version',/EVIDENCE_AUDIO_CLIP/,value=>{value.cue.version++;});
+      mutate('wrong-cue-wav',/EVIDENCE_AUDIO_CLIP/,value=>{value.cue.wavSha256=value.overlap[0].wavSha256;});
+      mutate('no-overlapping-action',/EVIDENCE_AUDIO_CLIP/,value=>{value.cue=null;});
+      mutate('missing-active-ambience',/EVIDENCE_SET/,value=>{value.overlap.pop();});
+      mutate('wrong-overlapping-ambience',/EVIDENCE_SET/,value=>{value.overlap[0]=clip('ambience.day-night.forest-night',true);});
+      mutate('missing-live-loop-configuration',/EVIDENCE_AUDIO_LOOP/,value=>{value.overlap[0].loopFrames=null;});
+      mutate('wrong-live-loop-configuration',/EVIDENCE_AUDIO_LOOP/,value=>{value.overlap[0].loopFrames[1]--;});
+      mutate('wrong-effective-gain',/EVIDENCE_AUDIO_GAIN/,value=>{value.cue.volumeDb=-80;});
+      mutate('muted-audio-playback',/EVIDENCE_AUDIO_MIX_SETTINGS/,value=>{value.muted=true;});
+      reject('stale-native-audition-record',/EVIDENCE_AUDIO_PLAY_TRANSITION/,()=>e.audioPlayback(authority,step,before,before));
+    }
+    previous = play;
+    const flags = {caseId:id,checkpoint:step,invocation,token:crypto.randomUUID()};
+    const draw = e.writeExclusive(root,step+'-draw.json',{...flags,at:'2026-11-20T11:00:03.000Z',drawn:true,imageSha256:picture.sha256});
+    const input = e.writeExclusive(root,step+'-input.json',{...flags,actionStartedAt:'2026-11-20T11:00:02.000Z'});
+    return {id:step,playback,draw,input,image:picture};
+  });
+  return {id,invocation,status:'pass',checkpoints,listeningMedia:e.writeAuditionMedia(root,invocation)};
 }
 
 async function completionReceiptControls(context) {

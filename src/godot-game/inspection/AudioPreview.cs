@@ -609,6 +609,16 @@ internal sealed class AudioPreview : IDisposable
         _mute = new CheckButton { Name = "Mute", Text = "Mute" };
         _panel.AddChild(node: _mute);
         _mute.Toggled += Muted;
+        var states = new OptionButton { Name = "CurrentState" };
+        _panel.AddChild(node: states);
+        IEnumerable<JsonElement> examples = _definition.ValueKind is JsonValueKind.Object
+                ? _definition.GetProperty(propertyName: "states").EnumerateArray() : [];
+        foreach (JsonElement state in examples)
+        {
+            states.AddItem(label: Text(value: state, key: "id"));
+        }
+
+        states.ItemSelected += RestoreSelection;
         Button(text: "Play", action: Play);
         Button(text: "Stop", action: StopAudition);
         Button(text: "Stop all", action: StopAll);
@@ -621,16 +631,6 @@ internal sealed class AudioPreview : IDisposable
         Volume(name: "Effects", value: _effects);
         Volume(name: "Ambience", value: _ambience);
         Limits();
-        var states = new OptionButton { Name = "CurrentState" };
-        _panel.AddChild(node: states);
-        IEnumerable<JsonElement> examples = _definition.ValueKind is JsonValueKind.Object
-                ? _definition.GetProperty(propertyName: "states").EnumerateArray() : [];
-        foreach (JsonElement state in examples)
-        {
-            states.AddItem(label: Text(value: state, key: "id"));
-        }
-
-        states.ItemSelected += RestoreSelection;
         Refresh();
     }
 
@@ -710,6 +710,7 @@ internal sealed class AudioPreview : IDisposable
         }
     }
 
+    // Retain admitted streams at Play time because short one-shots may retire before the post-draw observation.
     private void Play()
     {
         _gateway.RequireThread();
@@ -719,9 +720,73 @@ internal sealed class AudioPreview : IDisposable
         }
 
         StopAudition();
-        Trigger(routeId: _selector.GetItemText(idx: _selector.Selected), eventId: "audition."
+        if (!Trigger(routeId: _selector.GetItemText(idx: _selector.Selected), eventId: "audition."
                 + (++_serial).ToString(provider: CultureInfo.InvariantCulture), epoch: _epoch,
-                loop: _loop?.ButtonPressed ?? false, restoring: false);
+                loop: _loop?.ButtonPressed ?? false, restoring: false))
+        {
+            return;
+        }
+
+        var overlap = new List<object>();
+        object? cue = null;
+        foreach ((long id, var active) in _players.OrderBy(keySelector: pair => pair.Value.Route,
+                comparer: StringComparer.Ordinal))
+        {
+            bool playing = active.Player.Playing;
+            if (id != _serial && (!active.State || !playing))
+            {
+                continue;
+            }
+
+            object binding = PlaybackBinding(routeId: active.Route, sampleId: active.Sample,
+                    volumeDb: active.Player.VolumeDb, playing: playing, state: active.State,
+                    loopFrames: active.Stream.LoopMode == AudioStreamWav.LoopModeEnum.Forward
+                            ? [active.Stream.LoopBegin, active.Stream.LoopEnd] : null);
+            if (id == _serial)
+            {
+                cue = binding;
+            }
+            else
+            {
+                overlap.Add(item: binding);
+            }
+        }
+
+        var receipt = new
+        {
+            epoch = _epoch,
+            serial = _serial,
+            oneShots = _oneShots,
+            catalogVersion = Number(value: _catalog, key: "version"),
+            masterPercent = _master,
+            effectsPercent = _effects,
+            ambiencePercent = _ambience,
+            muted = _mute?.ButtonPressed ?? false,
+            cue,
+            overlap,
+        };
+        _panel?.SetMeta(name: "audition", value: JsonSerializer.Serialize(value: receipt));
+    }
+
+    private object PlaybackBinding(string routeId, string sampleId, float volumeDb, bool playing, bool state,
+            int[]? loopFrames)
+    {
+        JsonElement route = _routes[routeId];
+        (JsonElement sample, _, _) = _samples[sampleId];
+        return new
+        {
+            route = routeId,
+            variant = sampleId,
+            version = Number(value: sample, key: "version"),
+            wavSha256 = Text(value: sample, key: "sha256"),
+            pcmSha256 = Text(value: sample, key: "pcmSha256"),
+            bus = Text(value: route, key: "bus"),
+            gainLinear = route.GetProperty(propertyName: "gainLinear").GetDouble(),
+            volumeDb,
+            playing,
+            stateLoop = state,
+            loopFrames,
+        };
     }
 
     private void RestoreSelection(long index)

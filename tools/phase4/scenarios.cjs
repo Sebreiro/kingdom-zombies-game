@@ -26,7 +26,7 @@ const REVIEW_PROOF_CASES = new Map([
   ['CR-01',['runner.prelaunch-source']], ['CR-02',['runner.prelaunch-source','export.portability']],
   ['CR-03',['runner.prelaunch-source']], ['CR-04',['runner.prelaunch-source','export.portability']],
   ['CR-05',['runner.prelaunch-source']], ['CR-06',['acceptance.artifacts-source']],
-  ['CR-07',['acceptance.judgments','audio.lifecycle']], ['CR-08',['hub.source','export.hub-consumer','content.census']],
+  ['CR-07',['acceptance.judgments','audio.lifecycle','audio.heldout']], ['CR-08',['hub.source','export.hub-consumer','content.census']],
   ['CR-09',['source.publication','content.census']], ['WR-01',['runner.prelaunch-source']], ['WR-02',['animation.bow']]
 ]);
 const RUNTIME_FIELDS = ['title','importance','rationale','needsGameWindow','runGroup','order','requirements',
@@ -989,10 +989,14 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
     }
     const before=await native.snapshot(pid,step.checks);
     const token=crypto.randomUUID(), actionStartedAt=new Date().toISOString();
-    let recheck;
+    let recheck,openMenu;
     if(step.recheck) {
       await input.input('click',step.recheck.x,step.recheck.y,0);
       recheck={...step.recheck,at:new Date().toISOString(),acknowledgement};
+    }
+    if (step.openMenu) {
+      await input.input('click',step.openMenu.x,step.openMenu.y,0);
+      openMenu={...step.openMenu,at:new Date().toISOString(),acknowledgement};
     }
     await input.input(step.action,step.x ?? 0,step.y ?? 0,step.key ?? 0);
     const at = new Date().toISOString(), physical = acknowledgement;
@@ -1010,12 +1014,15 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
     const flags = {caseId:item.id,checkpoint:step.id,invocation,pid,token};
     const inputRef = e.writeExclusive(root,prefix+'-input.json',{...flags,at,actionStartedAt,focused:true,action:step.action,
       clientWidth:physical.width,clientHeight:physical.height,method:step.action==='click'?'physical-mouse':'physical-keyboard',
-      control:step.control,x:step.x,y:step.y,key:step.key,acknowledgement:physical,recheck});
+      control:step.control,x:step.x,y:step.y,key:step.key,acknowledgement:physical,recheck,openMenu});
     const draw = e.writeExclusive(root,prefix+'-draw.json',{...flags,at:new Date().toISOString(),drawn:true,frame:++frame,
       before:snapshotRef(prefix+'-before',before),observed:snapshotRef(prefix+'-observed',observed),
       after:snapshotRef(prefix+'-after',after),capture:visible,ready,frameSource:'composited-client-between-native-observations',
       imageSha256:image.sha256});
-    return {id:step.id,input:inputRef,draw,image};
+    const point = {id:step.id,input:inputRef,draw,image};
+    if (item.id===contracts.AUDIO_CASE && contracts.AUDIO_PLAYBACK.has(step.id))
+      point.playback=e.audioPlayback(e.audioAuthority(root),step.id,before.values[0],observed.values[0]);
+    return point;
   }
   async function close() {
     closing = true;
@@ -1105,6 +1112,7 @@ async function runInspection(root, relative, group, items, drivers, build, adapt
           const steps = drivers.get(item.id).steps.filter(step => (step.lifetime ?? 1) === lane.lifetime);
           for (const step of steps) row.checkpoints.push(await session.checkpoint(item,step,invocation));
           reset = true;
+          if (item.id===contracts.AUDIO_CASE) row.listeningMedia=e.writeAuditionMedia(root,invocation);
         } catch (error) {
           row.status = row.checkpoints.length || session?.usable ? 'fail' : 'blocked';
           row.observed = error.message.slice(0,4096).replace(/[\r\n]/g,' ');

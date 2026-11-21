@@ -954,6 +954,7 @@ public sealed partial class InventoryHarness : Node
         }
         Limits();
         await Lifetime();
+        AuditionReceipt();
         PartialStops();
         await Backstops();
         PartialResourcesRetired();
@@ -1077,6 +1078,45 @@ public sealed partial class InventoryHarness : Node
                 &&panel.GetMeta("one_shots").AsInt32()==historical,historical);
         }
         finally{Call(owner,"Close");root.Free();}
+    }
+    private void AuditionReceipt()
+    {
+        var root=new Node2D();AddChild(root);var owner=New(root,"AU-26");
+        try
+        {
+            var panel=Panel(root);
+            Select(root,1);
+            var state=panel.GetNode<OptionButton>("CurrentState");
+            state.Select(1);state.EmitSignal(OptionButton.SignalName.ItemSelected,1);
+            Press(root,"Play");
+            string exact=panel.GetMeta("audition").AsString();
+            using var verified=JsonDocument.Parse(exact);
+            var receipt=verified.RootElement;
+            var cue=receipt.GetProperty("cue");
+            var overlap=receipt.GetProperty("overlap").EnumerateArray().ToArray();
+            var audible=Players(root).ToDictionary(p=>p.GetMeta("route").AsString(),StringComparer.Ordinal);
+            Check("current-audition-cue",receipt.GetProperty("epoch").GetInt64()==Epoch(owner)
+                &&receipt.GetProperty("oneShots").GetInt32()==1&&Eq(cue.GetProperty("route").GetString(),"ui.action.confirm")
+                &&Eq(cue.GetProperty("variant").GetString(),"interface.s0449.full")
+                &&cue.GetProperty("loopFrames").ValueKind==JsonValueKind.Null&&MatchesNative(cue),cue);
+            Check("current-audition-overlap",overlap.Select(clip=>clip.GetProperty("route").GetString()).SequenceEqual(
+                new[]{"ambience.day-night.forest-day","ambience.fire-wind.local-fire"},StringComparer.Ordinal)
+                &&overlap.All(clip=>MatchesNative(clip)&&clip.GetProperty("stateLoop").GetBoolean()
+                    &&clip.GetProperty("loopFrames")[0].GetInt32()==0
+                    &&clip.GetProperty("loopFrames")[1].GetInt32()==((AudioStreamWav)audible[clip.GetProperty("route").GetString()!].Stream).LoopEnd),overlap);
+            Press(root,"Stop");
+            Check("retired-cue-audition-receipt",!GodotObject.IsInstanceValid(audible["ui.action.confirm"])
+                &&Eq(panel.GetMeta("audition").AsString(),exact)&&Players(root).Length==2,receipt.GetProperty("serial").GetInt64());
+
+            bool MatchesNative(JsonElement clip)
+            {
+                var player=audible[clip.GetProperty("route").GetString()!];
+                return player.Playing&&clip.GetProperty("playing").GetBoolean()
+                    &&clip.GetProperty("volumeDb").GetSingle()==player.VolumeDb
+                    &&Eq(clip.GetProperty("pcmSha256").GetString(),Hash(((AudioStreamWav)player.Stream).Data));
+            }
+        }
+        finally { Call(owner,"Close");root.Free(); }
     }
     private void PartialResourcesRetired()
     {
@@ -1544,6 +1584,7 @@ function controllerOutcomeIds(heldout=false){
   'H19-low-priority-denied',...Array.from({length:19},(_,i)=>'H25-restore-'+i),
   'H26-close-frees-players','H26-global-owner-fence','H26-current-A-restored','H26-select-stops-A-silent-B',
   'H26-muted-warning','muted-immediate-repeat-cooldown','muted-actual-native-volume',
+  'current-audition-cue','current-audition-overlap','retired-cue-audition-receipt',
   'partial-independent-current-loops','partial-play-disabled','partial-stop-controls-reachable',
   'partial-stopall-stops-and-frees','partial-empty-stop-harmless',
   ...['populated','overflow','empty','error','partial','long-text','zero-one-many'].map(s=>'AUDIO-AUDITION.'+s),
