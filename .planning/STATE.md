@@ -5,18 +5,18 @@ milestone_name: Complete playable LAN campaign
 current_phase: 04
 current_phase_name: Asset production
 current_plan: 24
-status: executing
-stopped_at: "Plan 04-24 field-reference repair and fresh portable Windows proof passed. Remaining full verification needs more free space on D:. Phase 04 is 34/37 plans complete."
-last_updated: "2026-11-21T09:31:49.030Z"
-last_activity: 2026-11-21
-last_activity_desc: "Repaired the packaged field reference and verified the updated portable Windows inspection package and targeted regressions at 0690d36."
+status: paused
+stopped_at: "The user paused Plan 04-24 during layouts.endpoints. The current build has 49 authenticated pre-window results. Phase 04 is 34/37 plans complete."
+last_updated: "2026-11-21T23:18:44.852Z"
+last_activity: 2026-11-22
+last_activity_desc: "Saved the updated portable build, 109 headless transitions and 49 pre-window results for Phase 4."
 progress:
   total_phases: 12
   completed_phases: 3
   total_plans: 62
   completed_plans: 59
   percent: 25
-state_head: 0690d36
+state_head: fee2a0e
 ---
 
 # Project State
@@ -29,15 +29,15 @@ Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUM
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
 **Phase 4 execution amendment (November 21).** Follow the [focused Windows handoff](phases/04-asset-production/04-HANDOFF.md) for the remaining plans.
 
-The Plan 24 field-reference repair, strict solution build, fresh portable delivery and targeted Windows checks passed on `0690d36`. Complete the remaining current-source verification when D: has room for the full run, then renew independent review before rendered acceptance. [Phase 4 checkpoint](phases/04-asset-production/04-CONTINUATION.md)
+The strict solution build, fresh portable delivery, and focused Windows checks passed on `fee2a0e`. The user paused the remaining verification with 49 of 749 pre-window results authenticated. [Phase 4 pause handoff](phases/04-asset-production/.continue-here.md)
 
 ## Current Position
 
 Phase: 04 — Asset production
 Current Plan: 24
 Total Plans in Phase: 37
-Status: Executing
-Last activity: 2026-11-21 — Verified the updated portable inspection export and targeted regressions after repairing the packaged field reference.
+Status: Paused at the user's request
+Last activity: 2026-11-22 — Saved the current build, verified results, and exact remaining checks.
 
 Progress: [███░░░░░░░] 25%
 
@@ -235,10 +235,10 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 
 ## Session Continuity
 
-Last session: 2026-11-21T09:31:49.030Z
-Stopped at: Plan 04-24 in Wave 29 after current-source targeted checks and portable delivery.
-Resume file: .planning/phases/04-asset-production/04-CONTINUATION.md
+Last session: 2026-11-21T23:18:44.852Z
+Stopped at: Plan 04-24 in Wave 29 during `layouts.endpoints`.
+Resume file: .planning/phases/04-asset-production/.continue-here.md
 
-Next action: Finish current-source Windows verification once D: has sufficient space. Renew the independent review on the verified source and portable build before Plan 04-32.
+Next action: On resume, reuse the 49 authenticated results and finish current-source Windows verification with the saved command. Renew the independent review before the visible run and coordinate live listening with the user.
 
 Preserved future context: [Phase 4 context](phases/04-asset-production/04-CONTEXT.md) remains authoritative. Plan 04-01 has source/headless evidence only; complete resource and actual acceptance responsibilities remain with later Phase 4 plans.
