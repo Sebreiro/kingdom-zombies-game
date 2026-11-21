@@ -526,8 +526,12 @@ function renderedDeclarationControls(directory,reject) {
     });
     return put(prefix+'.json',{at,tree,objects});
   }
+  const searchPath='/root/Inspection/Shell/Workspace/Controls/Browser/Search';
+  const searchStep={id:'navigate-search',lifetime:1,navigate:true,control:searchPath,action:'tap',key:81,focusClick:{x:110,y:210},
+    checks:[{node:searchPath,property:'text',match:'equal',value:'q'}]};
   const driver={id,fixture:{id,kind:'portable-positive'},stimulus:'Observe two detached physical declaration shapes',
     steps:contracts.template(id).map(step=>({...step,action:'click',x:100,y:200}))};
+  driver.steps.splice(1,0,searchStep);
   const row={id,runGroup,checkpoints:[],processes:[]};
   for(const lifetime of [1,2]) {
     const offset=(lifetime-1)*1000,pid=process.pid+lifetime;
@@ -538,9 +542,12 @@ function renderedDeclarationControls(directory,reject) {
     for(const [index,step] of driver.steps.filter(step=>step.lifetime===lifetime).entries()) {
       const tick=offset+100+index*100,token=crypto.randomUUID();
       const flags={caseId:id,checkpoint:step.id,invocation,pid,token};
+      const acknowledged={pid,focused:true,width:1280,height:720,window:71};
       const input=put(step.id+'-input.json',{...flags,at:time(tick+2),actionStartedAt:time(tick+1),focused:true,
-        clientWidth:1280,clientHeight:720,method:'physical-mouse',action:'click',x:100,y:200,control:step.control,
-        acknowledgement:{pid,focused:true,width:1280,height:720,action:'click',window:71}});
+        clientWidth:1280,clientHeight:720,method:step.action==='tap'?'physical-keyboard':'physical-mouse',
+        action:step.action,x:step.x,y:step.y,key:step.key,control:step.control,
+        acknowledgement:{...acknowledged,action:step.action,key:step.key},
+        focusClick:step.focusClick&&{...step.focusClick,at:time(tick+1),acknowledgement:{...acknowledged,action:'click'}}});
       const draw=put(step.id+'-draw.json',{...flags,at:time(tick+6),drawn:true,frame:index+1,
         frameSource:'composited-client-between-native-observations',ready,
         before:snapshot(step.id+'-before',step.checks,time(tick),true),
@@ -555,11 +562,29 @@ function renderedDeclarationControls(directory,reject) {
     campaign:crypto.randomUUID(),declaredAt:review.reviewedAt,kind:'initial',drivers:[driver]};
   assert.deepEqual([...contracts.CASES.keys()].sort(),require('../handoff.json')['4'].slice().sort());
   assert.equal(scenarios.reviewedDrivers(declaration,gate,current,[row],'initial').get(id),driver);
+  const declarations=new Map();
   for (const caseId of contracts.CASES.keys()) {
-    const steps=contracts.template(caseId).map(step=>({...step,action:'click',x:100,y:200,
-      ...(step.openMenu?{openMenu:{x:110,y:210}}:{}),...(step.recheck?{recheck:{x:120,y:220}}:{})}));
-    contracts.validateDeclaration({id:caseId,stimulus:'Detached retained procedure',steps},{id:caseId});
+    const steps=contracts.template(caseId).map(step=>({...step,action:step.key===undefined?'click':'tap',x:100,y:200,
+      ...(step.openMenu?{openMenu:{x:110,y:210}}:{}),...(step.recheck?{recheck:{x:120,y:220}}:{}),
+      ...(step.focusClick?{focusClick:{x:130,y:230}}:{})}));
+    const authored={id:caseId,stimulus:'Detached retained procedure',steps};
+    contracts.validateDeclaration(authored,{id:caseId});
+    declarations.set(caseId,authored);
   }
+  function alterStep(caseId,id,change) {
+    const authored=declarations.get(caseId);
+    const steps=authored.steps.map(step=>step.id===id?{...step,...change}:step);
+    return contracts.validateDeclaration({...authored,steps},{id:caseId});
+  }
+  for (const [caseId,id,index] of [['heldout.H13','overlap',6],['heldout.H15','gear-away',2],['heldout.H15','gear-order',6]]) {
+    assert.equal(declarations.get(caseId).steps.find(step=>step.id===id).checks[0].value,index);
+    reject('missing-gear-menu-'+id,/RENDERED_CASE_MENU/,()=>alterStep(caseId,id,{openMenu:null}));
+  }
+  reject('search-key-without-focus-click',/RENDERED_SEARCH_FOCUS/,
+    ()=>alterStep('heldout.H21','zero-results',{focusClick:undefined}));
+  reject('search-click-without-key',/RENDERED_SEARCH_FOCUS/,
+    ()=>alterStep('heldout.H21','zero-results',{action:'click'}));
+  reject('search-with-wrong-key',/RENDERED_CASE_KEY/,()=>alterStep('heldout.H21','zero-results',{key:90}));
   const bowId='heldout.H12',category='/root/Inspection/Shell/Workspace/Navigation/Category';
   const bowSteps=contracts.template(bowId).map(step=>({...step,action:'click',x:100,y:200,
     ...(step.openMenu?{openMenu:{x:110,y:210}}:{})}));
@@ -574,6 +599,14 @@ function renderedDeclarationControls(directory,reject) {
   reject('unavailable-navigation-menu-item',/RENDERED_NAVIGATION_MENU/,()=>bow([
     {...navigate,checks:[{...navigate.checks[0],value:8}]},...bowSteps]));
   e.validateRenderedOutcome(root,row,report,driver);
+  const searchPoint=row.checkpoints.find(point=>point.id===searchStep.id);
+  const searchInput=e.document(root,searchPoint.input);
+  for (const [label,focusClick] of [['missing',undefined],['wrong-window',{...searchInput.focusClick,
+    acknowledgement:{...searchInput.focusClick.acknowledgement,window:72}}]]) {
+    const input=put(label+'-search-focus.json',{...searchInput,focusClick});
+    reject(label+'-physical-search-focus',/EVIDENCE_PHYSICAL_SEARCH_FOCUS/,()=>e.validateRenderedOutcome(root,
+      {...row,checkpoints:row.checkpoints.map(point=>point===searchPoint?{...point,input}:point)},report,driver));
+  }
   reject('omitted-saved-relaunch-checkpoint',/EVIDENCE_SET/,() => e.validateRenderedOutcome(root,{...row,checkpoints:row.checkpoints.slice(0,1)},report,driver));
   reject('omitted-second-owned-launch',/EVIDENCE_RENDERED_LAUNCHES/,() => e.validateRenderedOutcome(root,{...row,processes:row.processes.slice(0,1)},report,driver));
   reject('reordered-saved-checkpoints',/EVIDENCE_SET/,() => e.validateRenderedOutcome(root,{...row,checkpoints:row.checkpoints.slice().reverse()},report,driver));

@@ -6,6 +6,7 @@ const {need,exact,named}=require('./evidence.cjs');
 const HUB='/root/Inspection', WORKSPACE=HUB+'/Shell/Workspace', PREVIEW=WORKSPACE+'/Preview';
 const BROWSER=WORKSPACE+'/Controls/Browser', CURRENT=PREVIEW+'/Surface/Current', SUMMARY=HUB+'/Summary';
 const TOOLBAR=HUB+'/Shell/Toolbar', CATEGORY=WORKSPACE+'/Navigation/Category';
+const SEARCH=BROWSER+'/Search';
 const METADATA=PREVIEW+'/Metadata', FAILURES=PREVIEW+'/Failures', CHAR=CURRENT+'/Character';
 const WORLD=CURRENT+'/WorldItems', RESOURCE=CURRENT+'/ResourcePreview';
 const DATA=CURRENT+'/DataText/Body', AUDIO=CURRENT+'/AudioPreview/Audio/Content';
@@ -32,7 +33,7 @@ const choice=(id,control,selected,checks=[])=>({...stage(id,control,[eq(control,
 const open=(id,resource,checks)=>stage(id,RESOURCES,[subject(resource),...checks]);
 const view=(name,id,checks)=>open(name,id,[field(RESOURCE,'metadata/resource_view','id',id),...checks]);
 const readyChecks=[label(TOOLBAR+'/Operation',READY),eq(TOOLBAR+'/Cancel','disabled',true),show(TOOLBAR+'/Operation')];
-const baseline=[eq(CATEGORY,'selected',1),label(BROWSER+'/Search',''),eq(BROWSER+'/Status','selected',0),
+const baseline=[eq(CATEGORY,'selected',1),label(SEARCH,''),eq(BROWSER+'/Status','selected',0),
   subject('IT-07'),eq(METADATA,'visible',false),...readyChecks.slice(0,2)];
 const itemBody=(id)=>[show(WORLD),eq(ITEM_SELECT,'assigned_animation',id)];
 const missing=[
@@ -127,7 +128,7 @@ const CASES = new Map([
     choice('armor',SELECT('armor'),2,[...gear('armor','torso-front','IT-20')]),
     choice('belt',SELECT('belt'),1,[...gear('belt','belt-front','IT-21')]),
     choice('bag',SELECT('backpack'),2,[...gear('backpack','bag-body','IT-24')]),
-    stage('overlap',SELECT('right'),[subject('CH-01'),...gear('right','held','IT-07'),
+    choice('overlap',SELECT('right'),6,[subject('CH-01'),...gear('right','held','IT-07'),
       ...gear('torso','torso-front','IT-13'),...gear('armor','torso-front','IT-20'),
       ...gear('belt','belt-front','IT-21'),...gear('backpack','bag-body','IT-24')]),
     view('nearby-bodies','CH-12',[resourceState('controller','CrowdPreview'),exists(RESOURCE+'/Art/Crowd/survivor-001')]),
@@ -138,12 +139,16 @@ const CASES = new Map([
     choice('facing',SELECT('Facing'),1,[subject('AN-07'),eq(CHAR,'metadata/facing',-1)]),
     choice('melee',SELECT('Action'),1,[subject('AN-07'),field(CHAR,'metadata/sample','action','melee'),eq(CHAR,'metadata/facing',-1)]),
     choice('action',SELECT('Action'),2,[subject('AN-07'),character,eq(CHAR,'metadata/facing',-1)]),
-    stage('gear-away',SELECT('left'),[eq(CHAR,'metadata/facing',-1),...gear('left','held','IT-03')]),
-    stage('gear-order',SELECT('left'),[subject('AN-07'),eq(CHAR,'metadata/facing',-1),...gear('left','held','IT-07'),
+    choice('gear-away',SELECT('left'),2,[eq(CHAR,'metadata/facing',-1),...gear('left','held','IT-03')]),
+    choice('gear-order',SELECT('left'),6,[subject('AN-07'),eq(CHAR,'metadata/facing',-1),...gear('left','held','IT-07'),
       eq(CHAR+'/Art/left_held','metadata/logical_hand','left'),field(CHAR,'metadata/sample','bowHand','left'),show(CHAR+'/Status')])
   ]],
   ['heldout.H21',[
-    stage('zero-results',BROWSER+'/Search',[label(BROWSER+'/Count','0 results — No resources match. Clear the filter or choose another category.')]),
+    choice('search-data-category',CATEGORY,4,[show(RESOURCES)]),
+    {...stage('zero-results',SEARCH,[label(SEARCH,'q'),
+      label(BROWSER+'/Count','0 results — No resources match. Clear the filter or choose another category.')]),
+      key:81,focusClick:true},
+    {...stage('clear-search',SEARCH,[label(SEARCH,'')]),key:8},
     choice('invalid-reference',DATA+'/Choices/State',2,[subject('DT-24'),show(DATA+'/Detail'),
       contains(DATA+'/Detail','text','Missing definition TXT-unknown: content/text/en.json, field /rows/TXT-unknown.')])
   ]],
@@ -233,7 +238,7 @@ function template(id) {
   return [{...required[0],lifetime:1},reset(1),{...required[1],lifetime:2},reset(2)];
 }
 
-const NAVIGATION = new Set([CATEGORY,RESOURCES,BROWSER+'/Search',BROWSER+'/Status',TOOLBAR+'/Recheck',METADATA,PREVIEW+'/Actions/Details']);
+const NAVIGATION = new Set([CATEGORY,RESOURCES,SEARCH,BROWSER+'/Status',TOOLBAR+'/Recheck',METADATA,PREVIEW+'/Actions/Details']);
 const NAVIGATION_MENUS = new Map([[CATEGORY,8],[BROWSER+'/Status',4]]);
 const NAVIGATION_SCROLLS = new Set([CHAR+'/Controls',WORLD+'/InspectorScroll',WORLD+'/InspectorScroll/Body/Art']);
 
@@ -250,8 +255,14 @@ function validateDeclaration(driver,item) {
     const click=step.action==='click'&&coordinates(step);
     const tap=step.action==='tap'&&Number.isInteger(step.key)&&step.key>0&&step.key<256&&step.key!==9;
     need(click||tap,'RENDERED_CASE_ACTION',item.id+' '+step.id);
+    const expected=step.navigate?null:required[next];
+    const focusRequired=expected?.focusClick===true;
+    if (focusRequired || step.focusClick!==undefined) {
+      need((focusRequired||step.navigate)&&step.control===SEARCH&&tap&&coordinates(step.focusClick),
+        'RENDERED_SEARCH_FOCUS',item.id+' '+step.id);
+    }
     const optionCount=step.navigate?NAVIGATION_MENUS.get(step.control):undefined;
-    const menuRequired=step.navigate?optionCount!==undefined:required[next].openMenu===true;
+    const menuRequired=step.navigate?optionCount!==undefined:expected.openMenu===true;
     need(menuRequired ? click&&coordinates(step.openMenu)&&!equal([step.x,step.y],[step.openMenu.x,step.openMenu.y]) : !step.openMenu,
       'RENDERED_CASE_MENU',item.id+' '+step.id);
     if(step.navigate) {
@@ -267,9 +278,10 @@ function validateDeclaration(driver,item) {
         need(property==='selected'&&Number.isInteger(value)&&value>=0&&value<optionCount,'RENDERED_NAVIGATION_MENU',step.id);
       }
     } else {
-      const expected=required[next++];
+      next++;
       need(step.control===expected.control&&step.lifetime===expected.lifetime&&equal(step.checks,expected.checks),
         'RENDERED_CASE_OBSERVATIONS',item.id+' '+step.id);
+      need(expected.key===undefined||tap&&step.key===expected.key,'RENDERED_CASE_KEY',item.id+' '+step.id);
       need(expected.recheck ? click&&coordinates(step.recheck)&&!equal([step.x,step.y],[step.recheck.x,step.recheck.y]) : !step.recheck,
         'RENDERED_CASE_RECHECK',item.id+' '+step.id);
     }

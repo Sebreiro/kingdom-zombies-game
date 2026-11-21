@@ -334,6 +334,13 @@ function validateRenderedOutcome(root, row, report, driver, build = null) {
       input.openMenu.acknowledgement?.pid===owner.pid && input.openMenu.acknowledgement.action==='click' &&
       input.openMenu.acknowledgement.focused===true && input.openMenu.acknowledgement.window===input.acknowledgement.window,
       'EVIDENCE_PHYSICAL_MENU',step.id);
+    if (step.focusClick || input.focusClick) {
+      const click=input.focusClick, ack=click?.acknowledgement;
+      need(step.focusClick && click?.x===step.focusClick.x && click.y===step.focusClick.y &&
+        instant(click.at) && click.at>=input.actionStartedAt && click.at<input.at && ack?.pid===owner.pid &&
+        ack.action==='click' && ack.focused===true && ack.width===1280 && ack.height===720 &&
+        ack.window===input.acknowledgement.window,'EVIDENCE_PHYSICAL_SEARCH_FOCUS',step.id);
+    }
     need(equal(draw.ready,owner.ready),'EVIDENCE_NATIVE_READY_OWNER',row.id);
     const ready=savedNativeSnapshot(root,draw.ready,contracts.readyChecks,handshake[1]);
     const before=savedNativeSnapshot(root,draw.before,step.checks,handshake[1]);

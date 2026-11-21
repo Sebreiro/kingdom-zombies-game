@@ -1157,7 +1157,7 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
     const before=await native.snapshot(pid,step.checks);
     const beforeRef=snapshotRef(prefix+'-before',before);
     const token=crypto.randomUUID(), actionStartedAt=new Date().toISOString();
-    let recheck,openMenu;
+    let recheck,openMenu,focusClick;
     if(step.recheck) {
       await input.input('click',step.recheck.x,step.recheck.y,0);
       recheck={...step.recheck,at:new Date().toISOString(),acknowledgement};
@@ -1166,12 +1166,16 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
       await input.input('click',step.openMenu.x,step.openMenu.y,0);
       openMenu={...step.openMenu,at:new Date().toISOString(),acknowledgement};
     }
+    if (step.focusClick) {
+      await input.input('click',step.focusClick.x,step.focusClick.y,0);
+      focusClick={...step.focusClick,at:new Date().toISOString(),acknowledgement};
+    }
     await input.input(step.action,step.x ?? 0,step.y ?? 0,step.key ?? 0);
     const at = new Date().toISOString(), physical = acknowledgement;
     const flags = {caseId:item.id,checkpoint:step.id,invocation,pid,token};
     const inputRef = e.writeExclusive(root,prefix+'-input.json',{...flags,at,actionStartedAt,focused:true,action:step.action,
       clientWidth:physical.width,clientHeight:physical.height,method:step.action==='click'?'physical-mouse':'physical-keyboard',
-      control:step.control,x:step.x,y:step.y,key:step.key,acknowledgement:physical,recheck,openMenu});
+      control:step.control,x:step.x,y:step.y,key:step.key,acknowledgement:physical,recheck,openMenu,focusClick});
     const observed = await settle(step.checks,{onFailure:state=>snapshotRef(prefix+'-failed-settle',state)});
     const observedRef=snapshotRef(prefix+'-observed',observed);
     e.need(!equal(observed.values,before.values),'RENDERED_NATIVE_TRANSITION',item.id+' '+step.id);
