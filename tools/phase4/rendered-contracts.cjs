@@ -24,7 +24,7 @@ const label=(node,text)=>eq(node,'text',text);
 const subject=id=>label(SUMMARY+'/ResourceId',id);
 const show=node=>eq(node,'visible',true);
 const stage=(id,control,checks)=>({id,control,checks});
-const choice=(id,control,selected,checks=[])=>stage(id,control,[eq(control,'selected',selected),...checks]);
+const choice=(id,control,selected,checks=[])=>({...stage(id,control,[eq(control,'selected',selected),...checks]),openMenu:true});
 const open=(id,resource,checks)=>stage(id,RESOURCES,[subject(resource),...checks]);
 const view=(name,id,checks)=>open(name,id,[field(RESOURCE,'metadata/resource_view','id',id),...checks]);
 const readyChecks=[label(TOOLBAR+'/Operation',READY),eq(TOOLBAR+'/Cancel','disabled',true),show(TOOLBAR+'/Operation')];
@@ -69,8 +69,7 @@ const AUDIO_DECISIONS=new Map([
   ['D-31',['play-swing','play-impact','play-confirmation']],
   ['D-32',['play-day-swing','play-night-swing','play-day-confirmation','play-night-confirmation']]
 ]);
-const menu=(id,control,index,checks=[])=>({...choice(id,control,index,checks),openMenu:true});
-const audioMenu=(id,control,index,checks=[])=>menu(id,AUDIO+'/'+control,index,checks);
+const audioMenu=(id,control,index,checks=[])=>choice(id,AUDIO+'/'+control,index,checks);
 const audition=id=>stage(id,AUDIO+'/Play',[{node:AUDIO,property:AUDITION_PROPERTY,match:'audition',value:AUDIO_PLAYBACK.get(id).route}]);
 const dayFire='ambience.day-night.forest-day,ambience.fire-wind.local-fire';
 const nightWind='ambience.day-night.forest-night,ambience.fire-wind.wind';
@@ -162,7 +161,7 @@ const CASES = new Map([
     stage('retry-after-error',TOOLBAR+'/Recheck',readyChecks)
   ]],
   [AUDIO_CASE,[
-    menu('enter-audio',CATEGORY,5,[show(RESOURCES)]),
+    choice('enter-audio',CATEGORY,5,[show(RESOURCES)]),
     open('cue','AU-03',[show(AUDIO+'/Details'),contains(AUDIO+'/Details','text','Source ')]),
     audioMenu('select-swing','Event',2),
     audition('play-swing'),
@@ -173,7 +172,7 @@ const CASES = new Map([
     audition('play-confirmation'),
     restoreAudio('restore-day-confirmation',1,dayFire),audition('play-day-confirmation'),
     restoreAudio('restore-night-confirmation',2,nightWind),audition('play-night-confirmation'),stopAudio('stop-confirmation'),
-    menu('return-items',CATEGORY,1,[show(RESOURCES)])
+    choice('return-items',CATEGORY,1,[show(RESOURCES)])
   ]],
   ['heldout.H27',missingCase],
   ['heldout.H28',missingCase],
@@ -205,6 +204,7 @@ function template(id) {
 }
 
 const NAVIGATION = new Set([CATEGORY,RESOURCES,BROWSER+'/Search',BROWSER+'/Status',TOOLBAR+'/Recheck',METADATA,PREVIEW+'/Actions/Details']);
+const NAVIGATION_MENUS = new Map([[CATEGORY,8],[BROWSER+'/Status',4]]);
 
 function validateDeclaration(driver,item) {
   const required=template(item.id);
@@ -219,20 +219,26 @@ function validateDeclaration(driver,item) {
     const click=step.action==='click'&&coordinates(step);
     const tap=step.action==='tap'&&Number.isInteger(step.key)&&step.key>0&&step.key<256&&step.key!==9;
     need(click||tap,'RENDERED_CASE_ACTION',item.id+' '+step.id);
+    const optionCount=step.navigate?NAVIGATION_MENUS.get(step.control):undefined;
+    const menuRequired=step.navigate?optionCount!==undefined:required[next].openMenu===true;
+    need(menuRequired ? click&&coordinates(step.openMenu)&&!equal([step.x,step.y],[step.openMenu.x,step.openMenu.y]) : !step.openMenu,
+      'RENDERED_CASE_MENU',item.id+' '+step.id);
     if(step.navigate) {
-      need(!step.recheck&&!step.openMenu&&step.id.startsWith('navigate-')&&required[next]?.lifetime===step.lifetime&&NAVIGATION.has(step.control)&&
+      need(!step.recheck&&step.id.startsWith('navigate-')&&required[next]?.lifetime===step.lifetime&&NAVIGATION.has(step.control)&&
         Array.isArray(step.checks)&&step.checks.length===1&&
         (step.checks[0].node===step.control || step.control===RESOURCES&&step.checks[0].node===SUMMARY+'/ResourceId')&&
         ['text','selected','visible'].includes(step.checks[0].property)&&step.checks[0].match==='equal'&&
         ['string','number','boolean'].includes(typeof step.checks[0].value),'RENDERED_NAVIGATION_CHECKPOINT',step.id);
+      if (menuRequired) {
+        const {property,value}=step.checks[0];
+        need(property==='selected'&&Number.isInteger(value)&&value>=0&&value<optionCount,'RENDERED_NAVIGATION_MENU',step.id);
+      }
     } else {
       const expected=required[next++];
       need(step.control===expected.control&&step.lifetime===expected.lifetime&&equal(step.checks,expected.checks),
         'RENDERED_CASE_OBSERVATIONS',item.id+' '+step.id);
       need(expected.recheck ? click&&coordinates(step.recheck)&&!equal([step.x,step.y],[step.recheck.x,step.recheck.y]) : !step.recheck,
         'RENDERED_CASE_RECHECK',item.id+' '+step.id);
-      need(expected.openMenu ? click&&coordinates(step.openMenu)&&!equal([step.x,step.y],[step.openMenu.x,step.openMenu.y]) : !step.openMenu,
-        'RENDERED_CASE_AUDIO_MENU',item.id+' '+step.id);
     }
   }
   return driver;

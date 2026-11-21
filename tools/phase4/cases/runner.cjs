@@ -337,6 +337,24 @@ function renderedDeclarationControls(directory,reject) {
     campaign:crypto.randomUUID(),declaredAt:review.reviewedAt,kind:'initial',drivers:[driver]};
   assert.deepEqual([...contracts.CASES.keys()].sort(),require('../handoff.json')['4'].slice().sort());
   assert.equal(scenarios.reviewedDrivers(declaration,gate,current,[row],'initial').get(id),driver);
+  for (const caseId of contracts.CASES.keys()) {
+    const steps=contracts.template(caseId).map(step=>({...step,action:'click',x:100,y:200,
+      ...(step.openMenu?{openMenu:{x:110,y:210}}:{}),...(step.recheck?{recheck:{x:120,y:220}}:{})}));
+    contracts.validateDeclaration({id:caseId,stimulus:'Detached retained procedure',steps},{id:caseId});
+  }
+  const bowId='heldout.H12',category='/root/Inspection/Shell/Workspace/Navigation/Category';
+  const bowSteps=contracts.template(bowId).map(step=>({...step,action:'click',x:100,y:200,
+    ...(step.openMenu?{openMenu:{x:110,y:210}}:{})}));
+  const navigate={id:'navigate-characters',lifetime:1,navigate:true,action:'click',x:100,y:200,
+    openMenu:{x:110,y:210},control:category,checks:[{node:category,property:'selected',match:'equal',value:0}]};
+  const bow=steps=>contracts.validateDeclaration({id:bowId,stimulus:'Detached bow menu controls',steps},{id:bowId});
+  bow([navigate,...bowSteps]);
+  reject('missing-physical-character-menu-open',/RENDERED_CASE_MENU/,()=>bow([
+    {...bowSteps[0],openMenu:null},...bowSteps.slice(1)]));
+  reject('missing-physical-category-menu-open',/RENDERED_CASE_MENU/,()=>bow([{...navigate,openMenu:null},...bowSteps]));
+  reject('non-distinct-physical-menu-clicks',/RENDERED_CASE_MENU/,()=>bow([{...navigate,openMenu:{x:100,y:200}},...bowSteps]));
+  reject('unavailable-navigation-menu-item',/RENDERED_NAVIGATION_MENU/,()=>bow([
+    {...navigate,checks:[{...navigate.checks[0],value:8}]},...bowSteps]));
   e.validateRenderedOutcome(root,row,report,driver);
   reject('omitted-saved-relaunch-checkpoint',/EVIDENCE_SET/,() => e.validateRenderedOutcome(root,{...row,checkpoints:row.checkpoints.slice(0,1)},report,driver));
   reject('omitted-second-owned-launch',/EVIDENCE_RENDERED_LAUNCHES/,() => e.validateRenderedOutcome(root,{...row,processes:row.processes.slice(0,1)},report,driver));
@@ -570,7 +588,7 @@ function audioJudgmentFixture(root,report,picture,reject) {
     ...(step.openMenu?{openMenu:{x:110,y:210}}:{})}));
   const driver = {id,stimulus:'Fixture audio controls',steps};
   validateDeclaration(driver,{id});
-  reject('missing-physical-audio-menu-open',/RENDERED_CASE_AUDIO_MENU/,()=>validateDeclaration({...driver,
+  reject('missing-physical-audio-menu-open',/RENDERED_CASE_MENU/,()=>validateDeclaration({...driver,
     steps:steps.map(step=>step.id==='select-swing'?{...step,openMenu:null}:step)},{id}));
   const {masterPercent,effectsPercent,ambiencePercent}=authority.events.defaults;
   function clip(routeId,loop) {

@@ -331,7 +331,7 @@ function validateRenderedOutcome(root, row, report, driver, build = null) {
       instant(input.openMenu.at) && input.openMenu.at>=input.actionStartedAt && input.openMenu.at<input.at &&
       input.openMenu.acknowledgement?.pid===owner.pid && input.openMenu.acknowledgement.action==='click' &&
       input.openMenu.acknowledgement.focused===true && input.openMenu.acknowledgement.window===input.acknowledgement.window,
-      'EVIDENCE_PHYSICAL_AUDIO_MENU',step.id);
+      'EVIDENCE_PHYSICAL_MENU',step.id);
     need(equal(draw.ready,owner.ready),'EVIDENCE_NATIVE_READY_OWNER',row.id);
     const ready=savedNativeSnapshot(root,draw.ready,contracts.readyChecks,handshake[1]);
     const before=savedNativeSnapshot(root,draw.before,step.checks,handshake[1]);
