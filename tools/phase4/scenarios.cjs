@@ -579,7 +579,7 @@ function inheritedSourceReceipt(root, item, receipt) {
   const directory = path.posix.dirname(receipt.result.path);
   const familyPath = item.family==='phase1' ? '.phase1/runs/' : '.'+item.family+'/runs/win32-x64/';
   const subject = result.results?.filter(row => row.id===item.originalId);
-  e.need(result.status==='pass' && e.UUID.test(result.nonce) && result.platform==='win32-x64' &&
+  e.need(result.status==='pass' && e.UUID.test(result.nonce) && result.platform===inheritedWindowsPlatform(item.family) &&
     receipt.result.path===familyPath+result.nonce+'/summary.json' && result.selected?.includes(item.originalId) &&
     subject?.length===1 && subject[0].status==='pass','COMPLETION_INHERITED_SUBJECT',item.id);
   const expected = {...item,id:item.originalId};
@@ -608,6 +608,10 @@ function inheritedSourceReceipt(root, item, receipt) {
   return result;
 }
 
+function inheritedWindowsPlatform(family) {
+  return family==='phase1' ? 'win32-x64-'+os.release() : 'win32-x64';
+}
+
 function inheritedSourceTime(root, ref, result) {
   if (Number.isSafeInteger(result.startedAt)) return result.startedAt;
   const firstCommand = Date.parse(result.commands?.[0]?.started);
@@ -623,7 +627,7 @@ function verifyInheritedHistory(root, admitted, current, sameInputs) {
       const relative = directory+folder.name+'/summary.json';
       if (!fs.existsSync(path.join(root,relative))) continue;
       const result = e.document(root,relative);
-      if (result.platform!=='win32-x64' || !Array.isArray(result.selected)) continue;
+      if (result.platform!==inheritedWindowsPlatform(family) || !Array.isArray(result.selected)) continue;
       const candidates = result.selected.map(id => admitted.get(family+'/'+id)).filter(row => row && row.result.nonce!==result.nonce);
       if (!candidates.length) continue;
       const time = inheritedSourceTime(root,{path:relative},result);
