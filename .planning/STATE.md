@@ -6,17 +6,17 @@ current_phase: 04
 current_phase_name: Asset production
 current_plan: 24
 status: executing
-stopped_at: "Finished 04-31 and Wave 28. Phase 04 is 34/37 plans complete. Next is independent review for 04-24 in Wave 29."
-last_updated: "2026-11-21T01:24:57.785Z"
+stopped_at: "Plan 04-24 field-reference repair and fresh portable Windows proof passed. Remaining full verification needs more free space on D:. Phase 04 is 34/37 plans complete."
+last_updated: "2026-11-21T09:31:49.030Z"
 last_activity: 2026-11-21
-last_activity_desc: "Completed 04-31 and verified the retained portable Windows inspection package."
+last_activity_desc: "Repaired the packaged field reference and verified the updated portable Windows inspection package and targeted regressions at 0690d36."
 progress:
   total_phases: 12
   completed_phases: 3
   total_plans: 62
   completed_plans: 59
   percent: 25
-state_head: 3ad71c9
+state_head: 0690d36
 ---
 
 # Project State
@@ -29,7 +29,7 @@ Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUM
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
 **Phase 4 execution amendment (November 21).** Follow the [focused Windows handoff](phases/04-asset-production/04-HANDOFF.md) for the remaining plans.
 
-**Current focus:** Plan 24 independently reviews the finished Phase 4 source and retained Windows package before rendered acceptance. Plan 31 passed all seven export cases, including two natural headless lifetimes and exact missing-resource attribution with a usable sibling. [Plan 31 summary](phases/04-asset-production/04-31-SUMMARY.md)
+The Plan 24 field-reference repair, strict solution build, fresh portable delivery and targeted Windows checks passed on `0690d36`. Complete the remaining current-source verification when D: has room for the full run, then renew independent review before rendered acceptance. [Phase 4 checkpoint](phases/04-asset-production/04-CONTINUATION.md)
 
 ## Current Position
 
@@ -37,7 +37,7 @@ Phase: 04 — Asset production
 Current Plan: 24
 Total Plans in Phase: 37
 Status: Executing
-Last activity: 2026-11-21 — Completed 04-31 and verified the portable inspection export.
+Last activity: 2026-11-21 — Verified the updated portable inspection export and targeted regressions after repairing the packaged field reference.
 
 Progress: [███░░░░░░░] 25%
 
@@ -234,10 +234,10 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 
 ## Session Continuity
 
-Last session: 2026-11-21T01:24:57.785Z
-Stopped at: Completed Plan 04-31 and Wave 28 with the verified Windows export.
+Last session: 2026-11-21T09:31:49.030Z
+Stopped at: Plan 04-24 in Wave 29 after current-source targeted checks and portable delivery.
 Resume file: .planning/phases/04-asset-production/04-CONTINUATION.md
 
-Next action: Independently review the complete Phase 4 source and exact Plan 31 package for Plan 04-24 in Wave 29.
+Next action: Finish current-source Windows verification once D: has sufficient space. Renew the independent review on the verified source and portable build before Plan 04-32.
 
 Preserved future context: [Phase 4 context](phases/04-asset-production/04-CONTEXT.md) remains authoritative. Plan 04-01 has source/headless evidence only; complete resource and actual acceptance responsibilities remain with later Phase 4 plans.
