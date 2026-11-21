@@ -140,8 +140,29 @@ function selectCases(registry, option, value) {
   return selected.sort(ORDER);
 }
 
+function inheritedCatalog(root, family, revision = null) {
+  e.need(['phase1','phase2','phase3'].includes(family),'INHERITED_FAMILY',family);
+  const path = 'tools/' + family + '/required-cases.json';
+  return (revision ? JSON.parse(e.git(root,['show',revision+':'+path])) : e.document(root,path)).cases;
+}
+
+function inheritedDeclaration(root, item, catalogs, revision = null) {
+  const family = item.family;
+  const [prefix,id] = item.id.split('/');
+  e.need(prefix===family && id && item.id===family+'/'+id,'INHERITED_CASE_ID',item.id);
+  if (!catalogs.has(family)) {
+    const rows = inheritedCatalog(root,family,revision);
+    e.exact(rows.map(row=>row.id),rows.map(row=>row.id),'inherited catalog '+family);
+    catalogs.set(family,new Map(rows.map(row=>[row.id,row])));
+  }
+  const declared = catalogs.get(family).get(id);
+  e.need(declared && declared.implementation!=='pending' && (declared.acceptancePhase??1)<=4,
+    'INHERITED_CASE_DECLARATION',item.id);
+  return declared;
+}
+
 function inheritedCases(root) {
-  return [1,2,3].flatMap(phase => e.document(root, 'tools/phase' + phase + '/required-cases.json').cases
+  return [1,2,3].flatMap(phase => inheritedCatalog(root,'phase'+phase)
     .filter(row => row.implementation !== 'pending' && (row.acceptancePhase ?? 1) <= 4)
     .map((row, index) => {
       const rendered = row.needsGameWindow === true || phase === 2 && row.implementation === 'native';
@@ -419,12 +440,20 @@ function validateSourceProject(root,build,source) {
     'RENDERED_SOURCE_COMPILED_REVISION');
   const imports=delivery.inventory(path.join(project,'.godot','imported'));
   e.need(imports.length>0 && equal(imports,prepared.imports),'RENDERED_SOURCE_IMPORT_CLOSURE');
-  const managed=delivery.inventory(path.join(project,'.godot','mono','temp','bin','Debug'));
+  return validatePreparedManaged(root,build);
+}
+
+function validatePreparedManaged(root,build) {
+  const prepared=build.sourceProject;
+  const owner=/^\.phase4\/runs\/([a-f0-9-]+)\/source\/src\/godot-game$/.exec(prepared?.path ?? '');
+  e.need(owner && e.UUID.test(owner[1]),'RENDERED_SOURCE_PROJECT');
+  const managedPath=prepared.path+'/.godot/mono/temp/bin/Debug';
+  const managed=delivery.inventory(e.inside(root,managedPath));
   e.need(equal(managed,prepared.managed),'RENDERED_SOURCE_MANAGED_CLOSURE');
   return Object.fromEntries(MANAGED_NAMES.map(name => {
-    const file=prepared.path+'/.godot/mono/temp/bin/Debug/'+name+'.dll';
+    const file=managedPath+'/'+name+'.dll';
     const artifact=e.read(root,file,64*1024*1024);
-    e.need(name==='GodotSharp' || artifact.data.includes(Buffer.from('+'+source.revision)),'RENDERED_SOURCE_STALE_DLL',name);
+    e.need(name==='GodotSharp' || artifact.data.includes(Buffer.from('+'+build.revision)),'RENDERED_SOURCE_STALE_DLL',name);
     return [name,{sha256:artifact.sha256,mvid:owned.managedMvid(artifact.data),file}];
   }));
 }
@@ -560,6 +589,20 @@ function savedAttempt(root,report) {
   return {review,selection,build,data:e.document(root,report.drivers)};
 }
 
+function verifyInheritedRendered(root, report, outcome, item, build, catalogs) {
+  const original = inheritedDeclaration(root,item,catalogs,report.revision);
+  const owned = '.phase4/acceptance/'+report.invocation+'/'+item.runGroup+'/';
+  e.need(outcome.inherited?.path===owned+original.id+'-result.json','EVIDENCE_INHERITED_RESULT_PATH',item.id);
+  const {result,bindings,runtime} = e.document(root,outcome.inherited);
+  e.need(bindings?.nonce===report.invocation && bindings.revision===report.revision &&
+    bindings.input===report.source && bindings.tool===report.tool && bindings.platform==='win32-x64',
+    'COMPLETION_INHERITED_BINDINGS',item.id);
+  const context = {...bindings,root,directory:path.resolve(root,owned)};
+  const verifier = item.family==='phase2'?require('../phase2/evidence.cjs'):require('../phase3/evidence.cjs');
+  verifier.reconcile([original],[result],context);
+  validateInheritedRuntime(root,build,item.family,result,runtime);
+}
+
 function validateAttemptHistory(root,attempts) {
   let prior=null;
   for (const {report,terminal} of attempts) {
@@ -574,14 +617,14 @@ function validateAttemptHistory(root,attempts) {
       e.need(fixture.kind==='inspection-source'?fixture.sourceSha256===report.source:fixture.pckSha256===expected,
         'EVIDENCE_ATTEMPT_FIXTURE',driver.id);
     }
-    if (report.kind==='focused') for (const [index,row] of report.outcomes.entries()) {
-      if (row.status!=='pass') continue;
-      if (!rows[index].family) e.validateRenderedOutcome(root,row,report,drivers.get(row.id));
-      else {
-        const {result,bindings}=e.document(root,row.inherited);
-        e.need(bindings.nonce===report.invocation && bindings.revision===report.revision && bindings.input===report.source &&
-          bindings.tool===report.tool && bindings.platform==='win32-x64' && result?.id===row.id.split('/')[1] &&
-          result.status==='pass','EVIDENCE_ATTEMPT_INHERITED',row.id);
+    if (report.kind==='focused' && report.outcomes.some(row=>row.status==='pass')) {
+      const runtimeBuild={...build,sourceManaged:validatePreparedManaged(root,build),
+        portable:delivery.validatePortableReceipt(root,build,e.document(root,build.delivery))};
+      const catalogs = new Map();
+      for (const [index,row] of report.outcomes.entries()) {
+        if (row.status!=='pass') continue;
+        if (!rows[index].family) e.validateRenderedOutcome(root,row,report,drivers.get(row.id),runtimeBuild);
+        else verifyInheritedRendered(root,report,row,rows[index],runtimeBuild,catalogs);
       }
     }
     prior={report,terminal,selection};
@@ -602,21 +645,11 @@ function finalRendered(root, gate, current, refs, campaign) {
   const build = validateBuild(root,e.document(root,e.document(root,gate.review).buildReport),e.identifySource(root,current.revision),current.tool);
   validateDriverFixtures(root,drivers,build,gate,current);
   e.need(driverRecord.campaign === final.campaign && driverRecord.declaredAt <= final.startedAt,'COMPLETION_DRIVER_TIME');
+  const catalogs = new Map();
   for (const [index,row] of final.outcomes.entries()) {
     const item = native[index];
     if (!item.family) e.validateRenderedOutcome(root,row,final,drivers.get(row.id),build);
-    else {
-      const {result,bindings,runtime} = e.document(root,row.inherited);
-      const directory = path.resolve(root,path.dirname(row.inherited.path));
-      e.need(bindings.nonce === final.invocation && bindings.revision === current.revision &&
-        bindings.input === current.source && bindings.tool === current.tool && bindings.platform === 'win32-x64',
-      'COMPLETION_INHERITED_BINDINGS',item.id);
-      const original = {...item,id:item.originalId,runGroup:item.inheritedGroup};
-      const context = {root,directory,...bindings};
-      validateInheritedRuntime(root,build,item.family,result,runtime);
-      if (item.family === 'phase2') require('../phase2/evidence.cjs').reconcile([original],[result],context);
-      else require('../phase3/evidence.cjs').reconcile([original],[result],context);
-    }
+    else verifyInheritedRendered(root,final,row,item,build,catalogs);
   }
   return final;
 }
@@ -671,7 +704,7 @@ function phase4SourceReceipt(root, item, receipt, current) {
   return {result,invocation};
 }
 
-function inheritedSourceReceipt(root, item, receipt) {
+function inheritedSourceReceipt(root, item, receipt, catalogs) {
   const result = e.document(root,receipt.result);
   const directory = path.posix.dirname(receipt.result.path);
   const familyPath = item.family==='phase1' ? '.phase1/runs/' : '.'+item.family+'/runs/win32-x64/';
@@ -679,7 +712,7 @@ function inheritedSourceReceipt(root, item, receipt) {
   e.need(result.status==='pass' && e.UUID.test(result.nonce) && result.platform===inheritedWindowsPlatform(item.family) &&
     receipt.result.path===familyPath+result.nonce+'/summary.json' && result.selected?.includes(item.originalId) &&
     subject?.length===1 && subject[0].status==='pass','COMPLETION_INHERITED_SUBJECT',item.id);
-  const expected = {...item,id:item.originalId};
+  const expected = inheritedDeclaration(root,item,catalogs);
   const context = {...result,root,directory:path.join(root,directory)};
   if (item.family==='phase1') {
     const baseline = require('../phase1/check.cjs'), row = subject[0];
@@ -688,10 +721,10 @@ function inheritedSourceReceipt(root, item, receipt) {
       e.need(actual.sha256===ref.sha256,'COMPLETION_INHERITED_HASH',item.id);
       return actual;
     };
-    if (item.callerStages) baseline.verifyCallerResult(expected,row,{...context,directory:path.join(context.directory,item.originalId)});
+    if (expected.callerStages) baseline.verifyCallerResult(expected,row,{...context,directory:path.join(context.directory,item.originalId)});
     else {
       const report = e.document(root,readProof(directory,row.report));
-      if (item.repositoryStages || item.producerStages) {
+      if (expected.repositoryStages || expected.producerStages) {
         e.need(report.caseId===item.originalId && report.status==='pass' && report.monolithicExecuted===false &&
           equal(report.stages,row.stages),'COMPLETION_INHERITED_STAGES',item.id);
       } else {
@@ -744,6 +777,7 @@ function sourceReceipts(root, selected, refs, current) {
   e.exact(selected.map(row => row.id),refs.map(row => row.id),'source/headless selected outcomes');
   const admitted = new Map();
   const inherited = new Map();
+  const catalogs = new Map();
   const examined = new Map();
   function sameUnderReview(root,revision,currentRevision) {
     if (!examined.has(revision)) examined.set(revision,e.sameCommittedSource(root,revision,currentRevision));
@@ -757,7 +791,7 @@ function sourceReceipts(root, selected, refs, current) {
       result = source.result;
       admitted.set(item.id,{...source.invocation,status:'pass'});
     } else {
-      result = inheritedSourceReceipt(root,item,receipt);
+      result = inheritedSourceReceipt(root,item,receipt,catalogs);
       inherited.set(item.id,{item,result,time:inheritedSourceTime(root,receipt.result,result)});
     }
     e.need(sameUnderReview(root,result.revision,current.revision),'COMPLETION_SOURCE_DRIFT',item.id);
@@ -1358,7 +1392,8 @@ function validateInheritedRuntime(root,build,family,result,runtime) {
 }
 
 async function runInherited(root, relative, group, items, build, adapter, identity, invocation, signal) {
-  const original = items.map(item => ({...item,id:item.originalId,runGroup:item.inheritedGroup}));
+  const catalogs = new Map();
+  const original = items.map(item => inheritedDeclaration(root,item,catalogs,identity.revision));
   const directory = path.join(root,relative,group.id);
   fs.mkdirSync(directory,{recursive:true});
   const engine = path.join(root,build.engine.path);
@@ -1552,7 +1587,7 @@ module.exports = {CATALOG, COVERAGE, SCENARIOS, GROUPS, ORDER, coverageRows, val
   selectCases, inheritedCases, selectionRows, impactClosure, validateSelection, currentReviewAdapter, prelaunch, currentIdentity, runId,
   finalRendered, latestPhase4Sources, sourceReceipts, completionSourceReceipts, preWindowCases, verifyFixProof, coverageExpectation, validateDriver, reviewedDrivers,
   treePaths, savedNativeSnapshot, relaunchCase, packagedSubject, prepareSource, validateBuild, validateSourceProject,
-  repairAffected, attemptDeclaration, validateAttemptHistory,
+  repairAffected, attemptDeclaration, validateAttemptHistory, verifyInheritedRendered,
   runInspectionLane,
   sourceImportCompanions, validateLoadedSource, validateProcessRuntime, validateProcessPackageFiles, runInspection, runInherited,
   runRendered, verifyCompletion};

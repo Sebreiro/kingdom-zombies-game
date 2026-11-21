@@ -146,6 +146,7 @@ async function qualification(context) {
   renderedDeclarationControls(context.directory,reject);
   authoredCoverageControls(context.directory,reject);
   sourceHistoryControls(context.directory,reject);
+  inheritedReceiptControls(context.directory,reject);
   campaignHistoryControls(context.directory,reject);
   repairHistoryControls(reject);
   buildIdentityControls(context.directory,reject);
@@ -432,6 +433,60 @@ function sourceHistoryControls(directory, reject) {
     const repairedRef = e.reference(root,'.phase4/runs/'+repaired.nonce+'/result.json');
     assert(verify(repairedRef).has(item.id),'fresh selected result can resolve prior failures');
   } finally {e.identifySource=originalIdentify;e.sameCommittedSource=originalSame;}
+}
+
+function inheritedReceiptControls(directory,reject) {
+  const e = require('../evidence.cjs'), scenarios = require('../scenarios.cjs');
+  const baseline = require('../../phase1/check.cjs'), phase2 = require('../../phase2/evidence.cjs');
+  const {current} = baseFixture();
+  const root = path.join(directory,'inherited-receipts');
+  fs.mkdirSync(root);
+  const originals = new Map([
+    ['phase1',{id:'R-50.positive',implementation:'csharp',callerStages:{catalog:'phase1'}}],
+    ['phase2',{id:'core.permissions',implementation:'csharp',callerStages:{catalog:'phase2'}}]
+  ]);
+  const refs = [];
+  for (const [family,item] of originals) {
+    e.writeExclusive(root,'tools/'+family+'/required-cases.json',{cases:[item]});
+    const nonce = crypto.randomUUID(), platform = family==='phase1'?'win32-x64-'+require('node:os').release():'win32-x64';
+    const result = {id:item.id,status:'pass'};
+    const prefix = family==='phase1'?'.phase1/runs/':'.phase2/runs/win32-x64/';
+    const ref = e.writeExclusive(root,prefix+nonce+'/summary.json',{
+      nonce,platform,revision:current.revision,startedAt:1,status:'pass',selected:[item.id],results:[result]
+    });
+    refs.push({id:family+'/'+item.id,result:ref});
+  }
+  e.writeExclusive(root,'tools/phase3/required-cases.json',{cases:[]});
+  const selected = scenarios.inheritedCases(root), called = [];
+  const phase1Verifier = baseline.verifyCallerResult, phase2Verifier = phase2.reconcile;
+  try {
+    baseline.verifyCallerResult = item => {
+      assert.deepEqual(item,originals.get('phase1'));
+      called.push('phase1');
+    };
+    phase2.reconcile = items => {
+      assert.deepEqual(items,[originals.get('phase2')]);
+      called.push('phase2');
+    };
+    assert.deepEqual([...scenarios.sourceReceipts(root,selected,refs,current)],refs.map(row=>row.id));
+    assert.deepEqual(called,['phase1','phase2']);
+  } finally {
+    baseline.verifyCallerResult = phase1Verifier;
+    phase2.reconcile = phase2Verifier;
+  }
+
+  const original = phase2.catalog(ROOT).cases.find(row=>row.implementation==='native');
+  const item = {id:'phase2/'+original.id,family:'phase2',runGroup:'G3-solo'};
+  const report = {...current,revision:e.git(ROOT,['rev-parse','HEAD']).trim(),invocation:crypto.randomUUID()};
+  const bindings = {nonce:report.invocation,input:report.source,tool:report.tool,revision:report.revision,platform:'win32-x64'};
+  const subject = {bindings,result:{...bindings,id:original.id,status:'pass'},runtime:[]};
+  const owned = '.phase4/acceptance/'+report.invocation+'/'+item.runGroup+'/';
+  const fixture = e.writeExclusive(root,owned+original.id+'-result.json',subject);
+  const copied = e.writeExclusive(root,owned+'copied-result.json',subject);
+  reject('historical-inherited-copied-receipt',/EVIDENCE_INHERITED_RESULT_PATH/,() =>
+    scenarios.verifyInheritedRendered(root,report,{inherited:copied},item,{},new Map()));
+  reject('historical-inherited-passes-without-family-evidence',/RESULT_IMAGE_MISSING|NATIVE_SESSION_REQUIRED/,() =>
+    scenarios.verifyInheritedRendered(root,report,{inherited:fixture},item,{},new Map()));
 }
 
 function renderedDeclarationControls(directory,reject) {
