@@ -109,11 +109,11 @@ function properties(value,node,full){
   need(result.size===value[2].length,'DEBUG_PROPERTY_DUPLICATE',full);
   return Object.fromEntries(result);
 }
-function runtimeMarker(value){
+function runtimeMarker(value,loadContext='Internal.Runtime.InteropServices.IsolatedComponentLoadContext'){
   const parts=typeof value==='string'?value.split('|'):[];
   need(parts.length===5&&parts[0]==='KingdomZombies.Inspection.InspectionRoot'&&
     parts.slice(1,3).every(x=>/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/.test(x))&&
-    parts[3]==='Internal.Runtime.InteropServices.IsolatedComponentLoadContext'&&parts[4]==='True','DEBUG_RUNTIME_MARKER');
+    parts[3]===loadContext&&parts[4]==='True','DEBUG_RUNTIME_MARKER');
   return value;
 }
 function validate(record,launch,contract){
