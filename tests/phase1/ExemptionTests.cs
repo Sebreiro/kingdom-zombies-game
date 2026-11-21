@@ -761,7 +761,7 @@ public sealed class ExemptionTests
     {
         JsonNode owner = registry["producerInventories"]?.AsArray().Single(predicate: item =>
                 StringComparer.Ordinal.Equals(x: item?["id"]?.GetValue<string>(),
-                        y: "inspection23-final-05b84d7e4d59"))
+                        y: "inspection23-final-5943a86f6eb2"))
                 ?? throw new InvalidOperationException(message: "ORIGIN_CONTROL_COHORT");
         switch (kind)
         {

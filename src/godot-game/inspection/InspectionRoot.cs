@@ -454,6 +454,8 @@ public sealed partial class InspectionRoot : Node2D
         _gateway.RequireThread();
         _browser.RetireSelection();
         _readErrors.Clear();
+        GetNode<TextEdit>(path: "Shell/Workspace/Preview/Failures").Text = WorldPreview.InspectorDiagnostics(
+                diagnostics: _pack.Diagnostics, readErrors: _readErrors, category: _category, selected: _selected);
         string? previewStatus = null;
         if (_selected.Length > 0
                 && (_browser.OpenIncomplete || _browser.SourceStatus(id: _selected) is not "Incomplete"))
@@ -499,8 +501,6 @@ public sealed partial class InspectionRoot : Node2D
         GetNode<TextEdit>(path: "Shell/Workspace/Preview/Metadata").Text = found ? entry.GetRawText()
                 + DataTextPreview.Shared + string.Join(separator: ", ", values: ContentPack.Mappings(entry: entry))
                 : _pack.Expected.GetValueOrDefault(key: _selected, defaultValue: "No validated definition");
-        GetNode<TextEdit>(path: "Shell/Workspace/Preview/Failures").Text = WorldPreview.InspectorDiagnostics(
-                diagnostics: _pack.Diagnostics, readErrors: _readErrors, category: _category, selected: _selected);
     }
 
     private sealed class ResourceBrowser
