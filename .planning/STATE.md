@@ -7,10 +7,9 @@ current_phase_name: Asset production
 current_plan: Not started
 status: planning
 stopped_at: Phase 3 verified complete; requested --only 3 boundary reached
-last_updated: "2026-11-16T15:25:42.139Z"
-last_activity: 2026-11-16
-last_activity_desc: Completed quick task 261116-m0w; all game-configured tools use purpose-based workspace folders
-state_head: 4ea92b5a849df34e695da23746ba6f09605096f5
+last_updated: "2026-11-21T13:15:11.852Z"
+last_activity: 2026-11-21
+last_activity_desc: Completed quick task 261121-jmu and recorded the Phase 4 integration work
 progress:
   total_phases: 11
   completed_phases: 3
@@ -35,7 +34,7 @@ Phase: 04 — Asset production
 Current Plan: Not started
 Total Plans in Phase: TBD
 Status: Ready to plan
-Last activity: 2026-11-16 — Completed quick task 261116-m0w: all game-configured tools are in purpose-based workspace folders; PR #6 ready for review.
+Last activity: 2026-11-21 - Completed quick task 261121-jmu: freshened PR #6 documentation and recorded the Phase 4 integration work.
 
 Progress: [███░░░░░░░] 27%
 
@@ -131,6 +130,7 @@ Phase 3 has no blocking acceptance item. Its independent [UI audit](phases/03-fo
 | 261114-we2 | Require phase feature branches and draft-to-ready PRs targeting dev | 2026-11-14 | 9a96240 | — | [261114-we2-define-phase-feature-branches-and-draft-](quick/261114-we2-define-phase-feature-branches-and-draft-/261114-we2-SUMMARY.md) |
 | 261116-k3u | Consolidate the game workspace; explain tooling and add the PR review entry point | 2026-11-16 | de5f40f | Verified | [261116-k3u-consolidate-the-game-workspace-and-docum](quick/261116-k3u-consolidate-the-game-workspace-and-docum/261116-k3u-SUMMARY.md) |
 | 261116-m0w | Move all game-configured tools into purpose-based workspace folders | 2026-11-16 | 4ea92b5 | Verified | [261116-m0w-organize-game-specific-tools-by-purpose-](./quick/261116-m0w-organize-game-specific-tools-by-purpose-/261116-m0w-SUMMARY.md) |
+| 261121-jmu | Refresh repository layout PR for Phase 4 | 2026-11-21 | 8832a16 | Verified | [261121-jmu-refresh-repository-layout-pr-for-phase-4](./quick/261121-jmu-refresh-repository-layout-pr-for-phase-4/261121-jmu-SUMMARY.md) |
 
 ## Deferred Items
 
