@@ -714,8 +714,8 @@
     {
       "id": "file.ed8cf7ea71864c983adc",
       "path": "src/godot-game/content/packs/delivery.json",
-      "bytes": 102160,
-      "sha256": "22d91b8f53c46b9b7ba0739a4ceea4d8acadb51bd7da5efa76852935c9a575b3",
+      "bytes": 102168,
+      "sha256": "d71f1575c2f3e84d31db912cf637b00bc6c339965315c0b6f7ed35aeb37b5868",
       "version": 1,
       "role": "runtime"
     },
