@@ -4,6 +4,8 @@
 
 ## Execution amendments
 
+Completed [04-30](04-30-SUMMARY.md). The evidence, scenarios, and runner modules validate current review and run receipts. The separately authored handoff assigns each of 107 rendered procedures to exactly one phase. The summary records fresh focused verification on `0138c1d` and preserves earlier execution identities. Phase 04 is 33/37 plans complete. Asset acceptance remains pending.
+
 The [November 21 handoff amendment](04-HANDOFF.md) adds one tracked implementation file, [handoff.json](../../../tools/phase4/handoff.json), and its planning record. Plan 30 reads this register for selection. Plan 33 verifies the register's deferred ownership against the final delivery record.
 
 Completed [04-23](04-23-SUMMARY.md). The summary inventories 85 scoped paths and their produced identities. The current pack reaches 180 resources and four separate world views. Final verification passed 68/68 cases at `a185ed7`. Phase 04 is 32/37 plans complete with 237 implementation paths and no asset acceptance.
