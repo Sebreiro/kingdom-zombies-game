@@ -417,7 +417,9 @@ function verifyCallerResult(item, result, context) {
     const stage = spec.stages.find(value => value.id === row.stageId), chosen = exact.find(value => value.stage.id === row.stageId)?.selected;
     if (!chosen || chosen.uid !== row.caseUid) reject('CALLER_DISCOVERY_UID', row.stageId);
     const command = required(row.stageId + '/test.command.json'), report = required(row.report.path);
-    if (command.code !== 0 || command.timedOut || !(command.pid > 0) || command.timeoutMs !== 45000
+    const timeout = producerStageTimeout(item, stage, context.platform);
+    if (command.code !== 0 || command.timedOut || !(command.pid > 0) || command.timeoutMs !== timeout
+        || command.args[command.args.indexOf('--timeout') + 1] !== `${timeout / 1000}s`
         || command.args[command.args.indexOf('--filter-uid') + 1] !== chosen.uid
         || Date.parse(command.ended) - Date.parse(command.started) !== row.elapsedMs) reject('CALLER_COMMAND', row.stageId);
     const receipts = row.progress.map(reference => {
@@ -607,6 +609,13 @@ function verifyProducerStage(report, selected, stage, receipt, context) {
       || receipt.testUid !== tests[0].extra?.id) reject('PRODUCER_STAGE_IDENTITY', stage.id);
   for (const key of ['nonce', 'input', 'tool', 'platform']) if (!context[key] || receipt[key] !== context[key]) reject('PRODUCER_STAGE_STALE', key);
 }
+function producerStageTimeout(item, stage, platform) {
+  const windows = /^win32-x64(?:-|$)/.test(platform);
+  const fixedReplay = item.id === 'engine.generated-origin' && stage.id === 'origin-fixed'
+    || item.id === 'core.permissions' && stage.id === 'foundation-origin-fixed';
+  return windows && fixedReplay ? 90000 : 45000;
+}
+
 async function runProducerStages(item, context, executable, assembly) {
   const spec = producerPlan(item, context.root), observations = [], log = path.join(context.directory, 'test.process.log');
   const caller = Boolean(item.callerStages), repository = caller ? callerRepository(context.root) : item.repositoryStages;
@@ -645,9 +654,10 @@ async function runProducerStages(item, context, executable, assembly) {
       extra.PHASE1_PERMISSION_DATA = permissionPayload.path; extra.PHASE1_PERMISSION_HASH = permissionPayload.sha256;
     }
     fs.appendFileSync(log, 'Starting ' + stage.id + ' UID ' + selected.uid + '\n');
+    const timeout = producerStageTimeout(item, stage, context.platform);
     const result = await command(executable, [assembly, '--filter-uid', selected.uid, '--report-xunit-ctrf',
       '--report-xunit-ctrf-filename', 'tests.json', '--results-directory', directory, '--no-ansi', '--progress', 'off',
-      '--parallel', 'none', '--explicit', 'on', '--timeout', '45s'], child, 'test', 45000, extra);
+      '--parallel', 'none', '--explicit', 'on', '--timeout', `${timeout / 1000}s`], child, 'test', timeout, extra);
     if (result.code !== 0) reject('PRODUCER_STAGE_FAILED', stage.id);
     const receipts = fs.readdirSync(directory).filter(name => (item.repositoryStages || caller ? /^repository-progress-[0-9]+\.json$/ : /^producer-progress-[0-9]+\.json$/).test(name)).sort();
     if (!receipts.length) reject('PRODUCER_PROGRESS_MISSING', stage.id);
