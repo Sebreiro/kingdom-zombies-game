@@ -1,14 +1,28 @@
 # Windows inspection and evidence
 
-The Godot project contains reusable production resources and inspection fixtures. Foundation solo/LAN entry points retain their existing gameplay scope; production gameplay integration remains with later phases. Source readiness, actual native/headless observations, final Windows delivery and named visual/listening acceptance are separate records.
+## Launch the portable package
 
-Open the existing Godot .NET project and run `inspection/Inspection.tscn` for source inspection. Use Characters, Items, Buildings/world, UI, Data/text and Audio. Register retains every independent required ID; search/status filters never change the expected180 census. Play/Pause/Speed/Step/Reset operate only the selected preview. Trigger actions deliberately; restoring current state does not replay historical cues.
+Copy or extract the entire portable folder to a writable directory. Keep `KingdomZombies.exe`, `KingdomZombies.pck` and `data_KingdomZombies_windows_x86_64` together. The folder supplies the Godot executable, self-contained .NET runtime and the current content pack.
 
-Data/text DT-18 exposes the complete authenticated field reference; DT-26 lists the actual fixture/scenario corpus; DT-27 exposes current delivery/source documentation. English uses TXT-01; TXT-02 is expanded inspection replacement text, not a shipped second locale.
+1. Open `KingdomZombies.exe` from that folder. The `asset_inspection` feature selects the Inspection hub. Use 1280×720 for the Phase 4 Windows review session.
+2. Wait for **Validated; visual/listening acceptance pending**. The hub shows the current pack count. Select `IT-07` in Items to inspect the Bow.
+3. Use the window close button and wait for the process to exit. Open the same executable from the same folder and check the same resource again.
 
-For a missing/invalid resource, preserve its exact ID/path/field/reason, use Copy details, restore the exact required definition and choose Recheck resources. Independent valid entries remain inspectable. A fallback or stale successful run cannot certify a missing output.
+For a headless launch and natural exit, run the following command from the portable folder in PowerShell.
 
-Windows final self-contained packaging and clean natural startup/relaunch remain Plan31. Actual Windows1280×720 appearance, input, readability, listening and four named judgments remain32/33 after complete implementation and independent review/fixes. Linux execution remains its later owner; none is claimed here. Authoring bundles preserve raw donors, generated masters/prompts and recipes and are not runtime donor-folder dependencies.
+```powershell
+.\KingdomZombies.exe --headless --quit-after 360
+```
 
+## Build and verify
 
-The permanent `asset_inspection` export feature selects Inspection while ordinary source launches retain Foundation. The final Windows package will be produced and verified by Plan31; existing partial feasibility reports do not certify the current complete pack. Do not depend on SDK/recovered/cache paths in runtime content. Source inspection requires the existing pinned developer setup; a self-contained final runtime claim requires its actual export proof.
+From the repository root, run the complete export group and the portability case with the pinned Windows tools. The portability case writes the retained folder path, file hashes, fresh launch and relaunch identities, exact missing-resource and valid-sibling observations, and runtime-resolution evidence to `portable-delivery.json` in its run directory. Use that identified folder for the focused review and acceptance. [Development setup](../workflow/setup.md) · [Phase 4 evidence handoff](../../.planning/phases/04-asset-production/04-HANDOFF.md)
+
+```powershell
+node tools/phase4/check.cjs --group export
+node tools/phase4/check.cjs --case export.portability
+```
+
+The export uses the permanent **Phase4 Windows inspection** preset and the authenticated official Godot 4.7.2 .NET Windows template. Runtime content includes the English catalog, the supporting documentation, fonts, audio, layouts and exact indexed data from the game project. The Windows executable uses the official template metadata. The game application title and icon are part of the project and packaged resources.
+
+For source inspection, open the pinned Godot .NET project and run `inspection/Inspection.tscn` as the current scene. The ordinary project launch opens Foundation. The portability receipt records headless Windows results. Actual Windows input, appearance, readability, listening and judgments follow independent review. Linux execution has a separate platform owner. [Resource inspection index](README.md)

@@ -6,17 +6,15 @@ The existing Godot launch target composes Core and service ports. Its small nati
 
 ## Resource inspection
 
-The Godot project contains reusable production resources and inspection fixtures. Foundation solo/LAN entry points retain their existing gameplay scope; production gameplay integration remains with later phases. Source readiness, actual native/headless observations, final Windows delivery and named visual/listening acceptance are separate records.
+The Godot project contains production resources and inspection fixtures. The ordinary project launch opens Foundation for solo and LAN. The Windows inspection export opens the resource hub through the `asset_inspection` feature.
 
-Open the existing Godot .NET project and run `inspection/Inspection.tscn` for source inspection. Use Characters, Items, Buildings/world, UI, Data/text and Audio. Register retains every independent required ID; search/status filters never change the expected180 census. Play/Pause/Speed/Step/Reset operate only the selected preview. Trigger actions deliberately; restoring current state does not replay historical cues.
+For source inspection, run `inspection/Inspection.tscn` as the current scene. In a portable Windows folder, launch `KingdomZombies.exe` beside `KingdomZombies.pck` and `data_KingdomZombies_windows_x86_64`. Close the window and relaunch the same executable to repeat an inspection.
 
-Data/text DT-18 exposes the complete authenticated field reference; DT-26 lists the actual fixture/scenario corpus; DT-27 exposes current delivery/source documentation. English uses TXT-01; TXT-02 is expanded inspection replacement text, not a shipped second locale.
+Use Characters, Items, Buildings/world, UI, Data/text or Audio. Register lists all 180 required IDs. The summary shows the current ID, name and status. Use **Show details** and **Copy details** to capture exact resource information. For a missing resource, record its ID, path, field and reason, open a valid sibling and use **Recheck resources** after restoring the missing bytes.
 
-For a missing/invalid resource, preserve its exact ID/path/field/reason, use Copy details, restore the exact required definition and choose Recheck resources. Independent valid entries remain inspectable. A fallback or stale successful run cannot certify a missing output.
+In Data/text, DT-18 opens the designer fields, DT-19–DT-23 open the production libraries, DT-26 lists the saved fixtures and DT-27 opens the Windows guides. TXT-01 provides the English catalog and TXT-02 provides expanded text for inspection. [Content index](../content/pack-index.json) · [English catalog](../content/text/en.json) · [Delivery crosswalk](../content/packs/delivery.json) · [Designer fields](../content/packs/text-data.json)
 
-Windows final self-contained packaging and clean natural startup/relaunch remain Plan31. Actual Windows1280×720 appearance, input, readability, listening and four named judgments remain32/33 after complete implementation and independent review/fixes. Linux execution remains its later owner; none is claimed here. Authoring bundles preserve raw donors, generated masters/prompts and recipes and are not runtime donor-folder dependencies.
-
-Source [content index](../content/pack-index.json), [English](../content/text/en.json), [delivery/source views](../content/packs/delivery.json) and [field-document payload](../content/packs/text-data.json) are packaged resource contracts. Full designer text is authenticated gzip inside the text pack and is readable through DT-18.
+The portability receipt records the headless package result. Phase 4's focused Windows review records the final appearance, input, readability and listening evidence. Linux execution follows separate platform verification.
 
 ## Reference declaration
 

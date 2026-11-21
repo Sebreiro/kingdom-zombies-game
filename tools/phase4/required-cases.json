@@ -118,7 +118,7 @@
         "id": "source.tracer",
         "status": "implemented-inline-case",
         "module": "tools/phase4/check.cjs",
-        "moduleSha256": "c44c6ac446be6b00322c08fc3da2f5c7423251cab92fbad46da3575b153177f4",
+        "moduleSha256": "2df46e9c9817120b919f882056af941899e0ab951a0a155fda4b636b764bbe22",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -187,7 +187,7 @@
         "id": "source.tracer-failures",
         "status": "implemented-inline-case",
         "module": "tools/phase4/check.cjs",
-        "moduleSha256": "c44c6ac446be6b00322c08fc3da2f5c7423251cab92fbad46da3575b153177f4",
+        "moduleSha256": "2df46e9c9817120b919f882056af941899e0ab951a0a155fda4b636b764bbe22",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -5255,7 +5255,7 @@
         "id": "export.hub-consumer",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/export-portability.cjs",
-        "moduleSha256": "44b9c5279151bc2c00430445f3c404df051627266f92cb1d366a9e168f37d8d5",
+        "moduleSha256": "a4db14a41994d058ee51f5308c2dce25972096ba674c15fb8def9b158b57b2a1",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -5274,6 +5274,72 @@
         "Check the same exported PCK and assemblies with the separate editor-mounted resource probe"
       ],
       "cleanup": "Use fresh owned package and profile directories and a bounded loopback observer; retain child and packet receipts",
+      "heldoutIds": [],
+      "uiIds": []
+    },
+    {
+      "title": "Portable Windows package launch, close, relaunch and failure isolation",
+      "rationale": "An external dependency, false successful startup or a failure hiding a valid sibling blocks inspection delivery",
+      "group": "export",
+      "importance": "Critical",
+      "needsGameWindow": false,
+      "runGroup": "G0-export-hub",
+      "order": 320,
+      "requirements": [
+        "ASSET-05"
+      ],
+      "acceptance": [
+        "AC-15",
+        "AC-16",
+        "AC-17",
+        "AC-19"
+      ],
+      "setup": "Current genuine Windows inspection export, exact authored delivery crosswalk, canonical PCK and independent 180-obligation register",
+      "actions": [
+        "Build and launch the genuine package with a fresh runtime profile and local dependency resolution",
+        "Exercise independent missing, changed, nearby and wrong-case resources while selecting a valid sibling",
+        "Reject encoded and conflicting paths, empty discovery, invalid authority, a failed launch and an interrupted import",
+        "Relaunch the same unmodified package in a second clean profile and match all retained hashes"
+      ],
+      "expected": "Two clean natural headless lifetimes of one package; exact resource and diagnostic bindings; valid sibling remains inspectable",
+      "reset": "Keep each altered PCK separately, use bounded children and isolated profiles, and preserve all process and packet receipts",
+      "evidence": [
+        "portable-delivery.json",
+        "pck-runtime-closure.json",
+        "clean-start-observation.json",
+        "clean-relaunch-observation.json",
+        "missing-entry-item-evidence.json",
+        "interrupt-editor-import.command.json",
+        "result.json"
+      ],
+      "id": "export.portability",
+      "lifecycle": "active-source",
+      "featureTags": [
+        "export",
+        "ASSET-05"
+      ],
+      "sourceBinding": {
+        "id": "export.portability",
+        "status": "implemented-source-case",
+        "module": "tools/phase4/cases/export-portability.cjs",
+        "moduleSha256": "a4db14a41994d058ee51f5308c2dce25972096ba674c15fb8def9b158b57b2a1",
+        "execution": "no pass inferred from catalog metadata"
+      },
+      "processRoles": [
+        "owned-pinned-authoring-and-headless-export-processes"
+      ],
+      "boundedWaits": "Every owned child has a specific deadline of 60 seconds or less",
+      "execution": "not supplied by catalog",
+      "preconditions": [
+        "Current genuine Windows inspection export, exact authored delivery crosswalk, canonical PCK and independent 180-obligation register"
+      ],
+      "input": [
+        "Build and launch the genuine package with a fresh runtime profile and local dependency resolution",
+        "Exercise independent missing, changed, nearby and wrong-case resources while selecting a valid sibling",
+        "Reject encoded and conflicting paths, empty discovery, invalid authority, a failed launch and an interrupted import",
+        "Relaunch the same unmodified package in a second clean profile and match all retained hashes"
+      ],
+      "cleanup": "Keep each altered PCK separately, use bounded children and isolated profiles, and preserve all process and packet receipts",
       "heldoutIds": [],
       "uiIds": []
     }
@@ -6041,14 +6107,15 @@
           "id": "export.hub-consumer",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/export-portability.cjs",
-          "moduleSha256": "44b9c5279151bc2c00430445f3c404df051627266f92cb1d366a9e168f37d8d5",
+          "moduleSha256": "a4db14a41994d058ee51f5308c2dce25972096ba674c15fb8def9b158b57b2a1",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "export.portability",
-          "status": "pending-before-creation",
-          "owner": "04-31",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "module": "tools/phase4/cases/export-portability.cjs",
+          "moduleSha256": "a4db14a41994d058ee51f5308c2dce25972096ba674c15fb8def9b158b57b2a1",
+          "execution": "no pass inferred from catalog metadata"
         }
       ],
       "execution": "not accepted; separate current held-out evidence required"
@@ -7295,14 +7362,14 @@
           "id": "source.tracer",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "c44c6ac446be6b00322c08fc3da2f5c7423251cab92fbad46da3575b153177f4",
+          "moduleSha256": "2df46e9c9817120b919f882056af941899e0ab951a0a155fda4b636b764bbe22",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "source.tracer-failures",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "c44c6ac446be6b00322c08fc3da2f5c7423251cab92fbad46da3575b153177f4",
+          "moduleSha256": "2df46e9c9817120b919f882056af941899e0ab951a0a155fda4b636b764bbe22",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -8189,14 +8256,15 @@
           "id": "export.hub-consumer",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/export-portability.cjs",
-          "moduleSha256": "44b9c5279151bc2c00430445f3c404df051627266f92cb1d366a9e168f37d8d5",
+          "moduleSha256": "a4db14a41994d058ee51f5308c2dce25972096ba674c15fb8def9b158b57b2a1",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "export.portability",
-          "status": "pending-before-creation",
-          "owner": "04-31",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "module": "tools/phase4/cases/export-portability.cjs",
+          "moduleSha256": "a4db14a41994d058ee51f5308c2dce25972096ba674c15fb8def9b158b57b2a1",
+          "execution": "no pass inferred from catalog metadata"
         }
       ],
       "execution": "unaccepted",
@@ -8238,14 +8306,15 @@
           "id": "export.hub-consumer",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/export-portability.cjs",
-          "moduleSha256": "44b9c5279151bc2c00430445f3c404df051627266f92cb1d366a9e168f37d8d5",
+          "moduleSha256": "a4db14a41994d058ee51f5308c2dce25972096ba674c15fb8def9b158b57b2a1",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "export.portability",
-          "status": "pending-before-creation",
-          "owner": "04-31",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "module": "tools/phase4/cases/export-portability.cjs",
+          "moduleSha256": "a4db14a41994d058ee51f5308c2dce25972096ba674c15fb8def9b158b57b2a1",
+          "execution": "no pass inferred from catalog metadata"
         }
       ],
       "execution": "unaccepted",
@@ -8298,14 +8367,15 @@
           "id": "export.hub-consumer",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/export-portability.cjs",
-          "moduleSha256": "44b9c5279151bc2c00430445f3c404df051627266f92cb1d366a9e168f37d8d5",
+          "moduleSha256": "a4db14a41994d058ee51f5308c2dce25972096ba674c15fb8def9b158b57b2a1",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "export.portability",
-          "status": "pending-before-creation",
-          "owner": "04-31",
-          "execution": "unperformed; supplies no pass credit"
+          "status": "implemented-source-case",
+          "module": "tools/phase4/cases/export-portability.cjs",
+          "moduleSha256": "a4db14a41994d058ee51f5308c2dce25972096ba674c15fb8def9b158b57b2a1",
+          "execution": "no pass inferred from catalog metadata"
         }
       ],
       "execution": "unaccepted",
@@ -8850,14 +8920,14 @@
           "id": "source.tracer",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "c44c6ac446be6b00322c08fc3da2f5c7423251cab92fbad46da3575b153177f4",
+          "moduleSha256": "2df46e9c9817120b919f882056af941899e0ab951a0a155fda4b636b764bbe22",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "source.tracer-failures",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "c44c6ac446be6b00322c08fc3da2f5c7423251cab92fbad46da3575b153177f4",
+          "moduleSha256": "2df46e9c9817120b919f882056af941899e0ab951a0a155fda4b636b764bbe22",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9224,14 +9294,14 @@
           "id": "source.tracer",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "c44c6ac446be6b00322c08fc3da2f5c7423251cab92fbad46da3575b153177f4",
+          "moduleSha256": "2df46e9c9817120b919f882056af941899e0ab951a0a155fda4b636b764bbe22",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "source.tracer-failures",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "c44c6ac446be6b00322c08fc3da2f5c7423251cab92fbad46da3575b153177f4",
+          "moduleSha256": "2df46e9c9817120b919f882056af941899e0ab951a0a155fda4b636b764bbe22",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9276,14 +9346,14 @@
           "id": "source.tracer",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "c44c6ac446be6b00322c08fc3da2f5c7423251cab92fbad46da3575b153177f4",
+          "moduleSha256": "2df46e9c9817120b919f882056af941899e0ab951a0a155fda4b636b764bbe22",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "source.tracer-failures",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "c44c6ac446be6b00322c08fc3da2f5c7423251cab92fbad46da3575b153177f4",
+          "moduleSha256": "2df46e9c9817120b919f882056af941899e0ab951a0a155fda4b636b764bbe22",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9843,14 +9913,7 @@
       "actualAppearance": "pending32/33"
     }
   ],
-  "plannedCases": [
-    {
-      "id": "export.portability",
-      "status": "pending-before-creation",
-      "owner": "04-31",
-      "execution": "unperformed; supplies no pass credit"
-    }
-  ],
+  "plannedCases": [],
   "excludedSelfAuthentication": [
     "pack-index publication bytes",
     "delivery publication bytes",
