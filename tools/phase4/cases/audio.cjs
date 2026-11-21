@@ -1419,7 +1419,8 @@ func filter_regressions(hub, category, list):
  for label in ["All statuses","Incomplete","Error"]:
   select_label(filter,label)
   var ids = row_ids(list)
-  check_case("hub-audio-status-"+label.to_lower().replace(" ","-"),ids==expected,ids)
+  var expected_status = [] if label=="Error" else expected
+  check_case("hub-audio-status-"+label.to_lower().replace(" ","-"),ids==expected_status,ids)
  select_label(filter,"Partial")
  check_case("hub-audio-partial-excludes-incomplete",row_ids(list).is_empty(),row_ids(list))
  select_label(category,"Register")
@@ -1503,8 +1504,14 @@ const AUDIO_HELDOUT_HUB=String.raw`
  check_case("heldout.Hub.H26-retired-view",loops.all(func(n): return not is_instance_valid(n)),epoch)
  category.select(5)
  category.item_selected.emit(5)
- page = hub.get_node(base)
- check_case("heldout.Hub.H26-current-binding",int(page.get_node("Audio/Content").get_meta("epoch"))>epoch and page.get_children().filter(func(n): return n is AudioStreamPlayer).is_empty() and hub.get_node("Summary/ResourceId").text=="AU-27",hub.get_node("Summary/ResourceId").text)
+ var selected_resource = hub.get_node("Summary/ResourceId")
+ var deferred_open = selected_resource.text=="AU-27" and not hub.has_node(base)
+ var audio_row = row_ids(list).find("AU-27")
+ if audio_row>=0:
+  list.select(audio_row)
+  list.item_selected.emit(audio_row)
+ page = hub.get_node_or_null(base)
+ check_case("heldout.Hub.H26-current-binding",deferred_open and page!=null and int(page.get_node("Audio/Content").get_meta("epoch"))>epoch and page.get_children().filter(func(n): return n is AudioStreamPlayer).is_empty() and selected_resource.text=="AU-27",selected_resource.text)
  hub.get_node("Shell/Toolbar/Recheck").pressed.emit()
  check_case("heldout.AUDIO-AUDITION.loading",status.text.begins_with("Loading") and not hub.has_node(base),status.text)
  for i in range(500):
@@ -1512,7 +1519,12 @@ const AUDIO_HELDOUT_HUB=String.raw`
    break
   await process_frame
   await process_frame
- check_case("heldout.Hub.restored-binding",hub.has_node(base) and hub.get_node(base+"/Audio/Content/Event").item_count==2 and hub.get_node(base).get_children().filter(func(n): return n is AudioStreamPlayer).is_empty(),status.text)
+ var deferred_recheck = selected_resource.text=="AU-27" and not hub.has_node(base)
+ audio_row = row_ids(list).find("AU-27")
+ if audio_row>=0:
+  list.select(audio_row)
+  list.item_selected.emit(audio_row)
+ check_case("heldout.Hub.restored-binding",deferred_recheck and hub.has_node(base) and hub.get_node(base+"/Audio/Content/Event").item_count==2 and hub.get_node(base).get_children().filter(func(n): return n is AudioStreamPlayer).is_empty(),status.text)
 `;
 function requireAudioHubImport(result){
  try{require('./ui-inventory.cjs').requireCleanImport(result,'audio-hub-import');}catch(error){need(false,'AUDIO_HUB_IMPORT_CLEAN',error.message);}

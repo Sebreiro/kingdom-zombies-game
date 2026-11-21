@@ -69,7 +69,8 @@ const AUDIO_DECISIONS=new Map([
   ['D-31',['play-swing','play-impact','play-confirmation']],
   ['D-32',['play-day-swing','play-night-swing','play-day-confirmation','play-night-confirmation']]
 ]);
-const audioMenu=(id,control,index,checks=[])=>({...choice(id,AUDIO+'/'+control,index,checks),openMenu:true});
+const menu=(id,control,index,checks=[])=>({...choice(id,control,index,checks),openMenu:true});
+const audioMenu=(id,control,index,checks=[])=>menu(id,AUDIO+'/'+control,index,checks);
 const audition=id=>stage(id,AUDIO+'/Play',[{node:AUDIO,property:AUDITION_PROPERTY,match:'audition',value:AUDIO_PLAYBACK.get(id).route}]);
 const dayFire='ambience.day-night.forest-day,ambience.fire-wind.local-fire';
 const nightWind='ambience.day-night.forest-night,ambience.fire-wind.wind';
@@ -161,6 +162,7 @@ const CASES = new Map([
     stage('retry-after-error',TOOLBAR+'/Recheck',readyChecks)
   ]],
   [AUDIO_CASE,[
+    menu('enter-audio',CATEGORY,5,[show(RESOURCES)]),
     open('cue','AU-03',[show(AUDIO+'/Details'),contains(AUDIO+'/Details','text','Source ')]),
     audioMenu('select-swing','Event',2),
     audition('play-swing'),
@@ -170,7 +172,8 @@ const CASES = new Map([
     open('cue-confirmation','AU-26',[show(AUDIO+'/Status')]),audioMenu('select-confirmation','Event',1),
     audition('play-confirmation'),
     restoreAudio('restore-day-confirmation',1,dayFire),audition('play-day-confirmation'),
-    restoreAudio('restore-night-confirmation',2,nightWind),audition('play-night-confirmation'),stopAudio('stop-confirmation')
+    restoreAudio('restore-night-confirmation',2,nightWind),audition('play-night-confirmation'),stopAudio('stop-confirmation'),
+    menu('return-items',CATEGORY,1,[show(RESOURCES)])
   ]],
   ['heldout.H27',missingCase],
   ['heldout.H28',missingCase],
