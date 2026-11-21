@@ -460,12 +460,14 @@ function inheritedReceiptControls(directory,reject) {
   const selected = scenarios.inheritedCases(root), called = [];
   const phase1Verifier = baseline.verifyCallerResult, phase2Verifier = phase2.reconcile;
   try {
-    baseline.verifyCallerResult = item => {
+    baseline.verifyCallerResult = (item,_result,context) => {
       assert.deepEqual(item,originals.get('phase1'));
+      assert.equal(context.directory,path.join(root,path.posix.dirname(refs[0].result.path)));
       called.push('phase1');
     };
-    phase2.reconcile = items => {
+    phase2.reconcile = (items,_results,context) => {
       assert.deepEqual(items,[originals.get('phase2')]);
+      assert.equal(context.directory,path.join(root,path.posix.dirname(refs[1].result.path)));
       called.push('phase2');
     };
     assert.deepEqual([...scenarios.sourceReceipts(root,selected,refs,current)],refs.map(row=>row.id));

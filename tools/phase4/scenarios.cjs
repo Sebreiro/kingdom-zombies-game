@@ -721,7 +721,7 @@ function inheritedSourceReceipt(root, item, receipt, catalogs) {
       e.need(actual.sha256===ref.sha256,'COMPLETION_INHERITED_HASH',item.id);
       return actual;
     };
-    if (expected.callerStages) baseline.verifyCallerResult(expected,row,{...context,directory:path.join(context.directory,item.originalId)});
+    if (expected.callerStages) baseline.verifyCallerResult(expected,row,context);
     else {
       const report = e.document(root,readProof(directory,row.report));
       if (expected.repositoryStages || expected.producerStages) {
