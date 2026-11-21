@@ -118,7 +118,7 @@
         "id": "source.tracer",
         "status": "implemented-inline-case",
         "module": "tools/phase4/check.cjs",
-        "moduleSha256": "2df46e9c9817120b919f882056af941899e0ab951a0a155fda4b636b764bbe22",
+        "moduleSha256": "e9fcff0d83226e55d2bbb25d86b7d13abba1c86a3a7bd273190ade077489279b",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -187,7 +187,7 @@
         "id": "source.tracer-failures",
         "status": "implemented-inline-case",
         "module": "tools/phase4/check.cjs",
-        "moduleSha256": "2df46e9c9817120b919f882056af941899e0ab951a0a155fda4b636b764bbe22",
+        "moduleSha256": "e9fcff0d83226e55d2bbb25d86b7d13abba1c86a3a7bd273190ade077489279b",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -258,7 +258,7 @@
         "id": "source.provenance",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/provenance.cjs",
-        "moduleSha256": "9499db2d43da6fbe2a9ebc838de2b68f8c07b2bbe955859b55fbb5fa674b74a7",
+        "moduleSha256": "626dde514252cc09bb206993da10d69279abcca40d2ef90dbae454b33f94acb6",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -337,7 +337,7 @@
         "id": "source.publication",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/provenance.cjs",
-        "moduleSha256": "9499db2d43da6fbe2a9ebc838de2b68f8c07b2bbe955859b55fbb5fa674b74a7",
+        "moduleSha256": "626dde514252cc09bb206993da10d69279abcca40d2ef90dbae454b33f94acb6",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -2261,7 +2261,7 @@
         "id": "animation.bow",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/bow-work.cjs",
-        "moduleSha256": "ee0ad0ab27be163b4bd29702c12e00ecee741bff3ed7101b8d93627aea615128",
+        "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -2328,7 +2328,7 @@
         "id": "animation.work-special",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/bow-work.cjs",
-        "moduleSha256": "ee0ad0ab27be163b4bd29702c12e00ecee741bff3ed7101b8d93627aea615128",
+        "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -4044,7 +4044,7 @@
         "id": "hub.source",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/hub.cjs",
-        "moduleSha256": "e9df4d4494e75aeaa15720cc66f1d20da3c00ca88ef377c4748afe96eac7dec2",
+        "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -4180,7 +4180,7 @@
         "id": "hub.lifecycle",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/hub.cjs",
-        "moduleSha256": "e9df4d4494e75aeaa15720cc66f1d20da3c00ca88ef377c4748afe96eac7dec2",
+        "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -4342,20 +4342,17 @@
       ],
       "tags": [
         "source-only",
-        "review",
-        "selection"
+        "runner",
+        "acceptance-integrity"
       ],
-      "setup": "Current saved case catalog, actual CLI dispatch and isolated evidence fixtures",
+      "setup": "Current independent review, exact saved selection and selected no-window receipts",
       "actions": [
-        "Check fixed source and actual-only cases against executable discovery",
-        "Reject invalid selection and missing completion evidence",
-        "Reject stale or forged review bindings, missing outcomes, later failures, process failures and rewritten history"
+        "Authenticate the committed independent review and each finding disposition",
+        "Verify every selected pre-window source receipt and later outcome"
       ],
-      "expected": "Every invalid subject fails explicitly and bounded source controls establish zero actual acceptance",
-      "reset": "Preserve existing review, selection and proof files",
+      "expected": "Current independent review, selected groups and eligible no-window prerequisites authorize the prelaunch gate",
+      "reset": "Keep original fixtures, review records and every prior invocation immutable",
       "evidence": [
-        "immutable-control.json",
-        "runner-controls.json",
         "result.json"
       ],
       "id": "runner.prelaunch",
@@ -4372,21 +4369,21 @@
         "id": "runner.prelaunch",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/runner.cjs",
-        "moduleSha256": "2eb8df093c57e3d8e6430bad69f14802a9d8deb3b89261c99728d3da089bd728",
+        "moduleSha256": "30535818db09e3780c8bd795f243ed125454ae9206bd5b196b50ca89dd88856d",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
         "owned-source-or-headless-processes"
       ],
-      "boundedWaits": "15 seconds for the nested CLI; source-only fixture evaluation",
+      "boundedWaits": "No game window; synchronous evidence validation",
       "execution": "registered case; no acceptance credit",
       "preconditions": [
-        "Current saved case catalog, actual CLI dispatch and isolated evidence fixtures"
+        "Current independent review, exact saved selection and selected no-window receipts"
       ],
       "input": [
         "Current exact resource and source identities from the case setup"
       ],
-      "cleanup": "Preserve existing review, selection and proof files",
+      "cleanup": "Keep original fixtures, review records and every prior invocation immutable",
       "heldoutIds": [],
       "uiIds": []
     },
@@ -4412,7 +4409,7 @@
         "runner",
         "acceptance-integrity"
       ],
-      "setup": "Fixed current source and invocation-owned negative fixtures",
+      "setup": "Current independent review and exact committed selection",
       "reset": "Keep original fixtures, review records and every prior invocation immutable",
       "order": 301,
       "title": "Exact current and inherited selected cases",
@@ -4423,7 +4420,6 @@
       ],
       "expected": "Every required current or inherited case remains selected with an exact process and cleanup declaration",
       "evidence": [
-        "selection-controls.json",
         "result.json"
       ],
       "id": "runner.selection",
@@ -4440,16 +4436,16 @@
         "id": "runner.selection",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/runner.cjs",
-        "moduleSha256": "2eb8df093c57e3d8e6430bad69f14802a9d8deb3b89261c99728d3da089bd728",
+        "moduleSha256": "30535818db09e3780c8bd795f243ed125454ae9206bd5b196b50ca89dd88856d",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
         "owned-source-or-headless-processes"
       ],
-      "boundedWaits": "15 seconds for the nested CLI; source-only fixture evaluation",
+      "boundedWaits": "No game window; synchronous evidence validation",
       "execution": "registered case; no acceptance credit",
       "preconditions": [
-        "Fixed current source and invocation-owned negative fixtures"
+        "Current independent review and exact committed selection"
       ],
       "input": [
         "Current exact resource and source identities from the case setup"
@@ -4508,7 +4504,7 @@
         "id": "acceptance.judgments",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/runner.cjs",
-        "moduleSha256": "2eb8df093c57e3d8e6430bad69f14802a9d8deb3b89261c99728d3da089bd728",
+        "moduleSha256": "30535818db09e3780c8bd795f243ed125454ae9206bd5b196b50ca89dd88856d",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -4576,7 +4572,79 @@
         "id": "acceptance.artifacts",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/runner.cjs",
-        "moduleSha256": "2eb8df093c57e3d8e6430bad69f14802a9d8deb3b89261c99728d3da089bd728",
+        "moduleSha256": "30535818db09e3780c8bd795f243ed125454ae9206bd5b196b50ca89dd88856d",
+        "execution": "no pass inferred from catalog metadata"
+      },
+      "processRoles": [
+        "owned-source-or-headless-processes"
+      ],
+      "boundedWaits": "No game window; synchronous evidence validation",
+      "execution": "registered case; no acceptance credit",
+      "preconditions": [
+        "Fixed current source and invocation-owned negative fixtures"
+      ],
+      "input": [
+        "Current exact resource and source identities from the case setup"
+      ],
+      "cleanup": "Keep original fixtures, review records and every prior invocation immutable",
+      "heldoutIds": [],
+      "uiIds": []
+    },
+    {
+      "group": "runner",
+      "importance": "Critical",
+      "needsGameWindow": false,
+      "runGroup": "G0-runner",
+      "requirements": [
+        "ASSET-01",
+        "ASSET-02",
+        "ASSET-03",
+        "ASSET-04",
+        "ASSET-05"
+      ],
+      "acceptance": [
+        "AC-17",
+        "AC-19",
+        "AC-20"
+      ],
+      "tags": [
+        "source-only",
+        "runner",
+        "acceptance-integrity"
+      ],
+      "setup": "Fixed current source and invocation-owned negative fixtures",
+      "reset": "Keep original fixtures, review records and every prior invocation immutable",
+      "order": 304,
+      "title": "Detached review, selection and runner evidence controls",
+      "rationale": "Missing, misbound or superseded evidence must fail before a game window opens",
+      "actions": [
+        "Exercise detached review, selection and actual CLI dispatch failure controls",
+        "Reject invalid results, process failures and rewritten history",
+        "Exercise current inherited project resource roles without a game window"
+      ],
+      "expected": "Every invalid subject fails explicitly and bounded source controls establish zero actual acceptance",
+      "evidence": [
+        "immutable-control.json",
+        "runner-controls.json",
+        "selection-controls.json",
+        "inherited-resource-control.log",
+        "result.json"
+      ],
+      "id": "runner.prelaunch-source",
+      "lifecycle": "active-source",
+      "featureTags": [
+        "runner",
+        "ASSET-01",
+        "ASSET-02",
+        "ASSET-03",
+        "ASSET-04",
+        "ASSET-05"
+      ],
+      "sourceBinding": {
+        "id": "runner.prelaunch-source",
+        "status": "implemented-source-case",
+        "module": "tools/phase4/cases/runner.cjs",
+        "moduleSha256": "30535818db09e3780c8bd795f243ed125454ae9206bd5b196b50ca89dd88856d",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -5255,7 +5323,7 @@
         "id": "export.hub-consumer",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/export-portability.cjs",
-        "moduleSha256": "a4db14a41994d058ee51f5308c2dce25972096ba674c15fb8def9b158b57b2a1",
+        "moduleSha256": "8eabbda316c9222a7dedec6b44a66fc492950811983b0409343d6e2d152a76cb",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -5322,7 +5390,7 @@
         "id": "export.portability",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/export-portability.cjs",
-        "moduleSha256": "a4db14a41994d058ee51f5308c2dce25972096ba674c15fb8def9b158b57b2a1",
+        "moduleSha256": "8eabbda316c9222a7dedec6b44a66fc492950811983b0409343d6e2d152a76cb",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -5357,14 +5425,14 @@
           "id": "source.provenance",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/provenance.cjs",
-          "moduleSha256": "9499db2d43da6fbe2a9ebc838de2b68f8c07b2bbe955859b55fbb5fa674b74a7",
+          "moduleSha256": "626dde514252cc09bb206993da10d69279abcca40d2ef90dbae454b33f94acb6",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "source.publication",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/provenance.cjs",
-          "moduleSha256": "9499db2d43da6fbe2a9ebc838de2b68f8c07b2bbe955859b55fbb5fa674b74a7",
+          "moduleSha256": "626dde514252cc09bb206993da10d69279abcca40d2ef90dbae454b33f94acb6",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -5382,14 +5450,14 @@
           "id": "source.provenance",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/provenance.cjs",
-          "moduleSha256": "9499db2d43da6fbe2a9ebc838de2b68f8c07b2bbe955859b55fbb5fa674b74a7",
+          "moduleSha256": "626dde514252cc09bb206993da10d69279abcca40d2ef90dbae454b33f94acb6",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "source.publication",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/provenance.cjs",
-          "moduleSha256": "9499db2d43da6fbe2a9ebc838de2b68f8c07b2bbe955859b55fbb5fa674b74a7",
+          "moduleSha256": "626dde514252cc09bb206993da10d69279abcca40d2ef90dbae454b33f94acb6",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -5407,14 +5475,14 @@
           "id": "source.provenance",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/provenance.cjs",
-          "moduleSha256": "9499db2d43da6fbe2a9ebc838de2b68f8c07b2bbe955859b55fbb5fa674b74a7",
+          "moduleSha256": "626dde514252cc09bb206993da10d69279abcca40d2ef90dbae454b33f94acb6",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "source.publication",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/provenance.cjs",
-          "moduleSha256": "9499db2d43da6fbe2a9ebc838de2b68f8c07b2bbe955859b55fbb5fa674b74a7",
+          "moduleSha256": "626dde514252cc09bb206993da10d69279abcca40d2ef90dbae454b33f94acb6",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -5432,14 +5500,14 @@
           "id": "source.provenance",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/provenance.cjs",
-          "moduleSha256": "9499db2d43da6fbe2a9ebc838de2b68f8c07b2bbe955859b55fbb5fa674b74a7",
+          "moduleSha256": "626dde514252cc09bb206993da10d69279abcca40d2ef90dbae454b33f94acb6",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "source.publication",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/provenance.cjs",
-          "moduleSha256": "9499db2d43da6fbe2a9ebc838de2b68f8c07b2bbe955859b55fbb5fa674b74a7",
+          "moduleSha256": "626dde514252cc09bb206993da10d69279abcca40d2ef90dbae454b33f94acb6",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -5457,14 +5525,14 @@
           "id": "source.provenance",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/provenance.cjs",
-          "moduleSha256": "9499db2d43da6fbe2a9ebc838de2b68f8c07b2bbe955859b55fbb5fa674b74a7",
+          "moduleSha256": "626dde514252cc09bb206993da10d69279abcca40d2ef90dbae454b33f94acb6",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "source.publication",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/provenance.cjs",
-          "moduleSha256": "9499db2d43da6fbe2a9ebc838de2b68f8c07b2bbe955859b55fbb5fa674b74a7",
+          "moduleSha256": "626dde514252cc09bb206993da10d69279abcca40d2ef90dbae454b33f94acb6",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -5632,14 +5700,14 @@
           "id": "animation.bow",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "ee0ad0ab27be163b4bd29702c12e00ecee741bff3ed7101b8d93627aea615128",
+          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "animation.work-special",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "ee0ad0ab27be163b4bd29702c12e00ecee741bff3ed7101b8d93627aea615128",
+          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -5682,14 +5750,14 @@
           "id": "animation.bow",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "ee0ad0ab27be163b4bd29702c12e00ecee741bff3ed7101b8d93627aea615128",
+          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "animation.work-special",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "ee0ad0ab27be163b4bd29702c12e00ecee741bff3ed7101b8d93627aea615128",
+          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -6107,14 +6175,14 @@
           "id": "export.hub-consumer",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/export-portability.cjs",
-          "moduleSha256": "a4db14a41994d058ee51f5308c2dce25972096ba674c15fb8def9b158b57b2a1",
+          "moduleSha256": "8eabbda316c9222a7dedec6b44a66fc492950811983b0409343d6e2d152a76cb",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "export.portability",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/export-portability.cjs",
-          "moduleSha256": "a4db14a41994d058ee51f5308c2dce25972096ba674c15fb8def9b158b57b2a1",
+          "moduleSha256": "8eabbda316c9222a7dedec6b44a66fc492950811983b0409343d6e2d152a76cb",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -6157,14 +6225,14 @@
           "id": "source.provenance",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/provenance.cjs",
-          "moduleSha256": "9499db2d43da6fbe2a9ebc838de2b68f8c07b2bbe955859b55fbb5fa674b74a7",
+          "moduleSha256": "626dde514252cc09bb206993da10d69279abcca40d2ef90dbae454b33f94acb6",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "source.publication",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/provenance.cjs",
-          "moduleSha256": "9499db2d43da6fbe2a9ebc838de2b68f8c07b2bbe955859b55fbb5fa674b74a7",
+          "moduleSha256": "626dde514252cc09bb206993da10d69279abcca40d2ef90dbae454b33f94acb6",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -6208,7 +6276,7 @@
         "id": "hub.lifecycle",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/hub.cjs",
-        "moduleSha256": "e9df4d4494e75aeaa15720cc66f1d20da3c00ca88ef377c4748afe96eac7dec2",
+        "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6224,7 +6292,7 @@
         "id": "hub.lifecycle",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/hub.cjs",
-        "moduleSha256": "e9df4d4494e75aeaa15720cc66f1d20da3c00ca88ef377c4748afe96eac7dec2",
+        "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6240,7 +6308,7 @@
         "id": "hub.lifecycle",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/hub.cjs",
-        "moduleSha256": "e9df4d4494e75aeaa15720cc66f1d20da3c00ca88ef377c4748afe96eac7dec2",
+        "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6256,7 +6324,7 @@
         "id": "hub.lifecycle",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/hub.cjs",
-        "moduleSha256": "e9df4d4494e75aeaa15720cc66f1d20da3c00ca88ef377c4748afe96eac7dec2",
+        "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6272,7 +6340,7 @@
         "id": "hub.source",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/hub.cjs",
-        "moduleSha256": "e9df4d4494e75aeaa15720cc66f1d20da3c00ca88ef377c4748afe96eac7dec2",
+        "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6288,7 +6356,7 @@
         "id": "hub.source",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/hub.cjs",
-        "moduleSha256": "e9df4d4494e75aeaa15720cc66f1d20da3c00ca88ef377c4748afe96eac7dec2",
+        "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6304,7 +6372,7 @@
         "id": "hub.source",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/hub.cjs",
-        "moduleSha256": "e9df4d4494e75aeaa15720cc66f1d20da3c00ca88ef377c4748afe96eac7dec2",
+        "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6320,7 +6388,7 @@
         "id": "hub.source",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/hub.cjs",
-        "moduleSha256": "e9df4d4494e75aeaa15720cc66f1d20da3c00ca88ef377c4748afe96eac7dec2",
+        "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6336,7 +6404,7 @@
         "id": "hub.source",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/hub.cjs",
-        "moduleSha256": "e9df4d4494e75aeaa15720cc66f1d20da3c00ca88ef377c4748afe96eac7dec2",
+        "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6352,7 +6420,7 @@
         "id": "hub.source",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/hub.cjs",
-        "moduleSha256": "e9df4d4494e75aeaa15720cc66f1d20da3c00ca88ef377c4748afe96eac7dec2",
+        "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6368,7 +6436,7 @@
         "id": "hub.source",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/hub.cjs",
-        "moduleSha256": "e9df4d4494e75aeaa15720cc66f1d20da3c00ca88ef377c4748afe96eac7dec2",
+        "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6384,7 +6452,7 @@
         "id": "hub.source",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/hub.cjs",
-        "moduleSha256": "e9df4d4494e75aeaa15720cc66f1d20da3c00ca88ef377c4748afe96eac7dec2",
+        "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7362,28 +7430,28 @@
           "id": "source.tracer",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "2df46e9c9817120b919f882056af941899e0ab951a0a155fda4b636b764bbe22",
+          "moduleSha256": "e9fcff0d83226e55d2bbb25d86b7d13abba1c86a3a7bd273190ade077489279b",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "source.tracer-failures",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "2df46e9c9817120b919f882056af941899e0ab951a0a155fda4b636b764bbe22",
+          "moduleSha256": "e9fcff0d83226e55d2bbb25d86b7d13abba1c86a3a7bd273190ade077489279b",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "source.provenance",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/provenance.cjs",
-          "moduleSha256": "9499db2d43da6fbe2a9ebc838de2b68f8c07b2bbe955859b55fbb5fa674b74a7",
+          "moduleSha256": "626dde514252cc09bb206993da10d69279abcca40d2ef90dbae454b33f94acb6",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "source.publication",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/provenance.cjs",
-          "moduleSha256": "9499db2d43da6fbe2a9ebc838de2b68f8c07b2bbe955859b55fbb5fa674b74a7",
+          "moduleSha256": "626dde514252cc09bb206993da10d69279abcca40d2ef90dbae454b33f94acb6",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -7419,14 +7487,14 @@
           "id": "source.provenance",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/provenance.cjs",
-          "moduleSha256": "9499db2d43da6fbe2a9ebc838de2b68f8c07b2bbe955859b55fbb5fa674b74a7",
+          "moduleSha256": "626dde514252cc09bb206993da10d69279abcca40d2ef90dbae454b33f94acb6",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "source.publication",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/provenance.cjs",
-          "moduleSha256": "9499db2d43da6fbe2a9ebc838de2b68f8c07b2bbe955859b55fbb5fa674b74a7",
+          "moduleSha256": "626dde514252cc09bb206993da10d69279abcca40d2ef90dbae454b33f94acb6",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -7480,14 +7548,14 @@
           "id": "hub.source",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/hub.cjs",
-          "moduleSha256": "e9df4d4494e75aeaa15720cc66f1d20da3c00ca88ef377c4748afe96eac7dec2",
+          "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "hub.lifecycle",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/hub.cjs",
-          "moduleSha256": "e9df4d4494e75aeaa15720cc66f1d20da3c00ca88ef377c4748afe96eac7dec2",
+          "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -7508,14 +7576,14 @@
           "id": "animation.bow",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "ee0ad0ab27be163b4bd29702c12e00ecee741bff3ed7101b8d93627aea615128",
+          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "animation.work-special",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "ee0ad0ab27be163b4bd29702c12e00ecee741bff3ed7101b8d93627aea615128",
+          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -7607,14 +7675,14 @@
           "id": "animation.bow",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "ee0ad0ab27be163b4bd29702c12e00ecee741bff3ed7101b8d93627aea615128",
+          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "animation.work-special",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "ee0ad0ab27be163b4bd29702c12e00ecee741bff3ed7101b8d93627aea615128",
+          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -8256,14 +8324,14 @@
           "id": "export.hub-consumer",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/export-portability.cjs",
-          "moduleSha256": "a4db14a41994d058ee51f5308c2dce25972096ba674c15fb8def9b158b57b2a1",
+          "moduleSha256": "8eabbda316c9222a7dedec6b44a66fc492950811983b0409343d6e2d152a76cb",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "export.portability",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/export-portability.cjs",
-          "moduleSha256": "a4db14a41994d058ee51f5308c2dce25972096ba674c15fb8def9b158b57b2a1",
+          "moduleSha256": "8eabbda316c9222a7dedec6b44a66fc492950811983b0409343d6e2d152a76cb",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -8285,7 +8353,7 @@
           "id": "hub.source",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/hub.cjs",
-          "moduleSha256": "e9df4d4494e75aeaa15720cc66f1d20da3c00ca88ef377c4748afe96eac7dec2",
+          "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -8306,14 +8374,14 @@
           "id": "export.hub-consumer",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/export-portability.cjs",
-          "moduleSha256": "a4db14a41994d058ee51f5308c2dce25972096ba674c15fb8def9b158b57b2a1",
+          "moduleSha256": "8eabbda316c9222a7dedec6b44a66fc492950811983b0409343d6e2d152a76cb",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "export.portability",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/export-portability.cjs",
-          "moduleSha256": "a4db14a41994d058ee51f5308c2dce25972096ba674c15fb8def9b158b57b2a1",
+          "moduleSha256": "8eabbda316c9222a7dedec6b44a66fc492950811983b0409343d6e2d152a76cb",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -8339,42 +8407,49 @@
           "id": "runner.prelaunch",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "2eb8df093c57e3d8e6430bad69f14802a9d8deb3b89261c99728d3da089bd728",
+          "moduleSha256": "30535818db09e3780c8bd795f243ed125454ae9206bd5b196b50ca89dd88856d",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "runner.selection",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "2eb8df093c57e3d8e6430bad69f14802a9d8deb3b89261c99728d3da089bd728",
+          "moduleSha256": "30535818db09e3780c8bd795f243ed125454ae9206bd5b196b50ca89dd88856d",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "acceptance.judgments",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "2eb8df093c57e3d8e6430bad69f14802a9d8deb3b89261c99728d3da089bd728",
+          "moduleSha256": "30535818db09e3780c8bd795f243ed125454ae9206bd5b196b50ca89dd88856d",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "acceptance.artifacts",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "2eb8df093c57e3d8e6430bad69f14802a9d8deb3b89261c99728d3da089bd728",
+          "moduleSha256": "30535818db09e3780c8bd795f243ed125454ae9206bd5b196b50ca89dd88856d",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "export.hub-consumer",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/export-portability.cjs",
-          "moduleSha256": "a4db14a41994d058ee51f5308c2dce25972096ba674c15fb8def9b158b57b2a1",
+          "moduleSha256": "8eabbda316c9222a7dedec6b44a66fc492950811983b0409343d6e2d152a76cb",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "export.portability",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/export-portability.cjs",
-          "moduleSha256": "a4db14a41994d058ee51f5308c2dce25972096ba674c15fb8def9b158b57b2a1",
+          "moduleSha256": "8eabbda316c9222a7dedec6b44a66fc492950811983b0409343d6e2d152a76cb",
+          "execution": "no pass inferred from catalog metadata"
+        },
+        {
+          "id": "runner.prelaunch-source",
+          "status": "implemented-source-case",
+          "module": "tools/phase4/cases/runner.cjs",
+          "moduleSha256": "30535818db09e3780c8bd795f243ed125454ae9206bd5b196b50ca89dd88856d",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -8436,28 +8511,35 @@
           "id": "runner.prelaunch",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "2eb8df093c57e3d8e6430bad69f14802a9d8deb3b89261c99728d3da089bd728",
+          "moduleSha256": "30535818db09e3780c8bd795f243ed125454ae9206bd5b196b50ca89dd88856d",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "runner.selection",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "2eb8df093c57e3d8e6430bad69f14802a9d8deb3b89261c99728d3da089bd728",
+          "moduleSha256": "30535818db09e3780c8bd795f243ed125454ae9206bd5b196b50ca89dd88856d",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "acceptance.judgments",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "2eb8df093c57e3d8e6430bad69f14802a9d8deb3b89261c99728d3da089bd728",
+          "moduleSha256": "30535818db09e3780c8bd795f243ed125454ae9206bd5b196b50ca89dd88856d",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "acceptance.artifacts",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "2eb8df093c57e3d8e6430bad69f14802a9d8deb3b89261c99728d3da089bd728",
+          "moduleSha256": "30535818db09e3780c8bd795f243ed125454ae9206bd5b196b50ca89dd88856d",
+          "execution": "no pass inferred from catalog metadata"
+        },
+        {
+          "id": "runner.prelaunch-source",
+          "status": "implemented-source-case",
+          "module": "tools/phase4/cases/runner.cjs",
+          "moduleSha256": "30535818db09e3780c8bd795f243ed125454ae9206bd5b196b50ca89dd88856d",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -8580,7 +8662,7 @@
           "id": "hub.source",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/hub.cjs",
-          "moduleSha256": "e9df4d4494e75aeaa15720cc66f1d20da3c00ca88ef377c4748afe96eac7dec2",
+          "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -8654,14 +8736,14 @@
           "id": "source.provenance",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/provenance.cjs",
-          "moduleSha256": "9499db2d43da6fbe2a9ebc838de2b68f8c07b2bbe955859b55fbb5fa674b74a7",
+          "moduleSha256": "626dde514252cc09bb206993da10d69279abcca40d2ef90dbae454b33f94acb6",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "source.publication",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/provenance.cjs",
-          "moduleSha256": "9499db2d43da6fbe2a9ebc838de2b68f8c07b2bbe955859b55fbb5fa674b74a7",
+          "moduleSha256": "626dde514252cc09bb206993da10d69279abcca40d2ef90dbae454b33f94acb6",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -8709,14 +8791,14 @@
           "id": "animation.bow",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "ee0ad0ab27be163b4bd29702c12e00ecee741bff3ed7101b8d93627aea615128",
+          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "animation.work-special",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "ee0ad0ab27be163b4bd29702c12e00ecee741bff3ed7101b8d93627aea615128",
+          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -8854,14 +8936,14 @@
           "id": "animation.bow",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "ee0ad0ab27be163b4bd29702c12e00ecee741bff3ed7101b8d93627aea615128",
+          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "animation.work-special",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "ee0ad0ab27be163b4bd29702c12e00ecee741bff3ed7101b8d93627aea615128",
+          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -8920,14 +9002,14 @@
           "id": "source.tracer",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "2df46e9c9817120b919f882056af941899e0ab951a0a155fda4b636b764bbe22",
+          "moduleSha256": "e9fcff0d83226e55d2bbb25d86b7d13abba1c86a3a7bd273190ade077489279b",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "source.tracer-failures",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "2df46e9c9817120b919f882056af941899e0ab951a0a155fda4b636b764bbe22",
+          "moduleSha256": "e9fcff0d83226e55d2bbb25d86b7d13abba1c86a3a7bd273190ade077489279b",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9008,14 +9090,14 @@
           "id": "animation.bow",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "ee0ad0ab27be163b4bd29702c12e00ecee741bff3ed7101b8d93627aea615128",
+          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "animation.work-special",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "ee0ad0ab27be163b4bd29702c12e00ecee741bff3ed7101b8d93627aea615128",
+          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9294,14 +9376,14 @@
           "id": "source.tracer",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "2df46e9c9817120b919f882056af941899e0ab951a0a155fda4b636b764bbe22",
+          "moduleSha256": "e9fcff0d83226e55d2bbb25d86b7d13abba1c86a3a7bd273190ade077489279b",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "source.tracer-failures",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "2df46e9c9817120b919f882056af941899e0ab951a0a155fda4b636b764bbe22",
+          "moduleSha256": "e9fcff0d83226e55d2bbb25d86b7d13abba1c86a3a7bd273190ade077489279b",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9316,7 +9398,7 @@
           "id": "hub.source",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/hub.cjs",
-          "moduleSha256": "e9df4d4494e75aeaa15720cc66f1d20da3c00ca88ef377c4748afe96eac7dec2",
+          "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9331,7 +9413,7 @@
           "id": "hub.source",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/hub.cjs",
-          "moduleSha256": "e9df4d4494e75aeaa15720cc66f1d20da3c00ca88ef377c4748afe96eac7dec2",
+          "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9346,14 +9428,14 @@
           "id": "source.tracer",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "2df46e9c9817120b919f882056af941899e0ab951a0a155fda4b636b764bbe22",
+          "moduleSha256": "e9fcff0d83226e55d2bbb25d86b7d13abba1c86a3a7bd273190ade077489279b",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "source.tracer-failures",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "2df46e9c9817120b919f882056af941899e0ab951a0a155fda4b636b764bbe22",
+          "moduleSha256": "e9fcff0d83226e55d2bbb25d86b7d13abba1c86a3a7bd273190ade077489279b",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9642,14 +9724,14 @@
           "id": "animation.bow",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "ee0ad0ab27be163b4bd29702c12e00ecee741bff3ed7101b8d93627aea615128",
+          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "animation.work-special",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "ee0ad0ab27be163b4bd29702c12e00ecee741bff3ed7101b8d93627aea615128",
+          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
           "execution": "no pass inferred from catalog metadata"
         }
       ],

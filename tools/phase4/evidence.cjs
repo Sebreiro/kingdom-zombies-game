@@ -9,6 +9,8 @@ const {inside, parse, hash} = require('./content.cjs');
 
 const PHASE = '.planning/phases/04-asset-production/';
 const REVIEW = PHASE + '04-REVIEW.json';
+const REVIEW_REPORT = PHASE + '04-REVIEW.md';
+const ORIGINAL_REVIEW = 'e9a1bc4ff9d66f3c79aaf4d572e7f2a78db73be2';
 const SELECTION = PHASE + '04-SELECTION.json';
 const FIXES = PHASE + '04-REVIEW-FIXES.json';
 const TARGETS = 'tools/phase4/reviewed-source.targets';
@@ -158,23 +160,82 @@ function textArtifact(root, ref) {
   return text;
 }
 
+function reviewReport(text) {
+  const match = /^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/.exec(text);
+  need(match, 'REVIEW_REPORT_ATTESTATION');
+  const [, header, body] = match;
+  function field(text, key, indentation = '') {
+    const rows = [...text.matchAll(new RegExp('^' + indentation + key + ': ([^\\r\\n]+)$', 'gm'))];
+    need(rows.length === 1 && named(rows[0][1]), 'REVIEW_REPORT_ATTESTATION', key);
+    return rows[0][1];
+  }
+  // Headings inside fenced examples are data rather than finding declarations.
+  let fence = null;
+  const narrative = body.split(/\r?\n/).filter(line => {
+    const marker = /^ {0,3}(`{3,}|~{3,})/.exec(line)?.[1];
+    if (marker && !fence) fence = marker;
+    else if (marker && marker[0] === fence?.[0] && marker.length >= fence.length) fence = null;
+    else return !fence;
+    return false;
+  }).join('\n');
+  need(!fence, 'REVIEW_REPORT_ATTESTATION', 'unclosed fence');
+  const findings = narrative.split(/^### /m).slice(1).flatMap(section => {
+    const heading = /^((?:CR|BL|WR|IN)-\d+) (?:— |- )([^\n]+)\n|^((?:CR|BL|WR|IN)-\d+): ([^\n]+)\n/.exec(section);
+    if (!heading) {
+      need(!/^(?:CR|BL|WR|IN)-/.test(section), 'REVIEW_REPORT_ATTESTATION', 'invalid finding heading');
+      return [];
+    }
+    const id = heading[1] ?? heading[3], summary = heading[2] ?? heading[4];
+    const severityFields = [...section.matchAll(/^\*\*Severity:\*\* (critical|high|medium|low|info)[ \t]*$/gm)];
+    const severity = severityFields.length === 1 ? severityFields[0][1] : null;
+    const classification = /^\*\*Classification:\*\* ([A-Z]+)[ \t]*$/m.exec(section)?.[1];
+    const file = /^\*\*File:\*\* ([^\n]+)$/m.exec(section)?.[1];
+    const paths = [...(file ?? '').matchAll(/`([^`:]+?)(?::[^`]*)?`/g)].map(row => row[1]);
+    need(severity && named(summary) && paths.length > 0 &&
+      (!/^(CR|BL)-/.test(id) || ['critical','high'].includes(severity)), 'REVIEW_REPORT_ATTESTATION', id);
+    return [{id, summary, severity, classification, paths}];
+  });
+  const status = field(header, 'status');
+  need(status === (findings.length ? 'issues_found' : 'clean'), 'REVIEW_REPORT_STATUS', status);
+  const counts = {critical:findings.filter(row => /^(CR|BL)-/.test(row.id)).length,
+    warning:findings.filter(row => row.id.startsWith('WR-')).length,
+    info:findings.filter(row => row.id.startsWith('IN-')).length, total:findings.length};
+  for (const [key, count] of Object.entries(counts)) {
+    need(field(header, key, '  ') === String(count), 'REVIEW_REPORT_COUNT', key);
+  }
+  exact(findings.map(row => row.id),findings.map(row => row.id),'independent report finding IDs');
+  return {status, findings, reviewedBy:field(header, 'reviewer'), reviewedAt:field(header, 'reviewed'),
+    revision:field(header, 'revision'), source:field(header, 'source'), media:field(header, 'media'), tool:field(header, 'tool')};
+}
+
 function validateReview(review, fixes, current, declarations) {
   need(review?.schemaVersion === 1 && review.status === 'complete' && review.scope === 'phase-04-whole-source' &&
     review.independent === true && named(review.reviewedBy) && named(review.implementedBy) &&
     review.reviewedBy.toLowerCase() !== review.implementedBy.toLowerCase() && instant(review.reviewedAt), 'REVIEW_SCHEMA');
   identity(current, review, 'review');
-  need(declarations.report.includes(review.reviewedBy) && declarations.report.includes(review.revision) &&
-    declarations.report.includes(review.source), 'REVIEW_REPORT_ATTESTATION');
-  need(fixes?.schemaVersion === 1 && fixes.reviewReport === review.report.sha256, 'REVIEW_FIX_BINDING');
+  const report = reviewReport(declarations.report);
+  need(['reviewedBy','reviewedAt','revision','source','media','tool'].every(key => report[key] === review[key]) &&
+    report.status === review.reportStatus, 'REVIEW_REPORT_ATTESTATION');
+  need(fixes?.schemaVersion === 1 && fixes.reviewReport === review.report.sha256 &&
+    fixes.originalReport === declarations.originalReport.sha256, 'REVIEW_FIX_BINDING');
   need(Array.isArray(review.findings) && Array.isArray(fixes.findings), 'REVIEW_FINDINGS');
-  exact(review.findings.map(row => row.id), fixes.findings.map(row => row.id), 'review dispositions');
-  for (const finding of review.findings) {
+  exact(report.findings.map(row => row.id), review.findings.map(row => row.id), 'current review findings');
+  const required = new Map(reviewReport(declarations.originalReport.text).findings.map(row => [row.id,row]));
+  for (const finding of report.findings) {
+    const declared = review.findings.find(row => row.id === finding.id);
+    need(declared.severity === finding.severity && declared.summary === finding.summary, 'REVIEW_FINDING_IDENTITY', finding.id);
+    const original = required.get(finding.id);
+    need(!original || original.severity === finding.severity && original.summary === finding.summary,
+      'REVIEW_FINDING_ID_COLLISION', finding.id);
+    if (!original) required.set(finding.id, finding);
+  }
+  exact([...required.keys()], fixes.findings.map(row => row.id), 'review dispositions');
+  for (const finding of required.values()) {
     const disposition = fixes.findings.find(row => row.id === finding.id);
-    const mandatory = ['critical', 'high'].includes(finding.severity);
-    need(named(finding.id) && named(finding.summary) && ['critical','high','medium','low','info'].includes(finding.severity) &&
-      named(disposition.reason) && (disposition.status === 'resolved' && disposition.proof ||
-        !mandatory && disposition.status === 'accepted'), 'REVIEW_FINDINGS_UNRESOLVED', finding.id);
-    if (disposition.status === 'resolved') declarations.verifyProof(disposition.proof);
+    const cosmetic = ['low','info'].includes(finding.severity) && finding.classification === 'COSMETIC';
+    need(named(disposition.reason) && (disposition.status === 'resolved' && disposition.proof ||
+      cosmetic && disposition.status === 'accepted'), 'REVIEW_FINDINGS_UNRESOLVED', finding.id);
+    if (disposition.status === 'resolved') declarations.verifyProof(finding, disposition.proof);
   }
 }
 
@@ -478,8 +539,8 @@ function freshFinal(selected, reports, expected) {
   return previous;
 }
 
-module.exports = {PHASE, REVIEW, SELECTION, FIXES, TARGETS, PHASE_BASE, LISTENING, JUDGMENTS, COMPLETION, IDENTITY, REVISION, HEX, UUID, need, named, instant, exact,
+module.exports = {PHASE, REVIEW, REVIEW_REPORT, ORIGINAL_REVIEW, SELECTION, FIXES, TARGETS, PHASE_BASE, LISTENING, JUDGMENTS, COMPLETION, IDENTITY, REVISION, HEX, UUID, need, named, instant, exact,
   read, reference, artifact, document, writeExclusive, git, committedRef, sameCommittedSource, identifySource, identifyTool, identity,
-  textArtifact, validateReview, validateProcess, validateRenderedOutcome, validateNamed, listeningExpectations, judgmentExpectations,
+  textArtifact, reviewReport, validateReview, validateProcess, validateRenderedOutcome, validateNamed, listeningExpectations, judgmentExpectations,
   validateJudgments, historyDocuments, validateCoverage, changedFiles, guardedHostTuples, validateNativeHostProof, inventoryExpectation, validateArtifactInventory,
   expectedOutcome, reconcile, freshFinal};

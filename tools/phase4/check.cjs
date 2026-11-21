@@ -236,6 +236,14 @@ function createRun(caseId){
   if(revision.status!==0){save(directory,'setup-failure.json',{caseId,nonce,status:'fail',code:'REVISION_UNAVAILABLE',error:revision.error?.message,stderr:revision.stderr});
     need(false,'REVISION_UNAVAILABLE',revision.error?.message??revision.stderr);}
   const context={directory,nonce,caseId,revision:revision.stdout.trim(),startedAt:new Date().toISOString()};
+  const evidence=require('./evidence.cjs');
+  try {
+    const {source,media}=evidence.identifySource(ROOT,context.revision);
+    context.testedSource={source,media};
+  } catch(error) {
+    // A work-in-progress run remains available for diagnosis but cannot substantiate a reviewed fix.
+    context.unverifiedSource=error.message;
+  }
   save(directory,'invocation.json',{...context,node:process.version,platform:process.platform,caseModules,
     scope:'source/headless; zero game windows'});
   return context;
@@ -579,7 +587,14 @@ async function main(args){
   let failed=false;
   for(const item of selected.sort(caseOrder)){
     const context=createRun(item.id);let result;
-    try{result={status:'pass',observations:await item.run(context)};}
+    try{
+      const observations=await item.run(context);
+      if(context.testedSource){
+        const {source,media}=require('./evidence.cjs').identifySource(ROOT,context.revision);
+        need(equal(context.testedSource,{source,media}),'RUN_SOURCE_CHANGED',item.id);
+      }
+      result={status:'pass',observations};
+    }
     catch(error){result={status:'fail',message:error.message,stack:error.stack};failed=true;}
     save(context.directory,'result.json',{...context,...result,finishedAt:new Date().toISOString(),scope:'source/headless only; acceptance pending 04-32'});
     console.log(result.status.toUpperCase()+' '+item.id+' '+context.directory);if(result.message)console.error(result.message);

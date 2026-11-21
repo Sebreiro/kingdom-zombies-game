@@ -24,6 +24,8 @@ Critical source/headless case for ASSET-05 and AC-15/16/17/19. Use the same pinn
 
 `--group rendered` first reads the current review, fixes and selection files. Their hashes and the Phase 4 reviewed-source targets must match committed bytes. The source revision must still match every tracked source input byte. The review's build report identifies the exact toolchain, source, media, engine and packaged executable. Select and justify every disposition in `04-SELECTION.json`. Groups record process roles, case order, reset, cleanup and a bounded duration. Runtime files and shared build inputs determine affected inherited consumers. A source change requires a renewed review and selection.
 
+`--case runner.prelaunch-source` runs the detached review and selection controls before actual review data exists. `--case runner.selection` validates the actual committed review and selection. `--case runner.prelaunch` and `--group rendered` additionally require `04-SELECTION.json` to provide `sourceResults` with one `id` and hash-bound `result` reference for every selected pre-window source or headless case. Both entry points verify review and selection directly. The named judgments and final artifact verification run after the rendered campaign.
+
 The `04-RUNS.json` input binds the current identity, review and selection SHA-256 hashes, declaration time and invocation campaign UUID. It declares an `initial`, `focused` or `final` attempt. Repairs link the previous immutable report. A focused attempt supplies the reason and exact failed, blocked and newly affected case IDs. An actual driver supplies the saved case ID, independently selected stimulus, and ordered checkpoint steps with physical key or mouse input and exact inspected node properties. The runner copies the driver declaration into the invocation before starting the owned processes. It records input acknowledgments, raw read-only native observations and composited client PNGs after `DwmFlush`. Each recorded checkpoint must match the saved input and observed property. The packaged relaunch procedure requires two distinct lifetimes of the same executable. The runner retains per-case failures and continues while the owned process remains usable. The inherited solo and LAN sets use their existing observers under the current Phase 4 review binding.
 
 `--verify-completion PATH` checks the whole current selection. The index links the initial, repair and final campaign reports, source/headless results, current export, named listening and judgments, and the changed-file and source audit inventories. A focused pass never replaces the fresh full selected run after repairs. Later same-input source failures, blockers and missing outcomes invalidate earlier passes. Proven unrelated source revisions remain independent. The permission inventory matches all 251 exact guarded host tuples against the current policy, compiled case declarations and the linked per-test execution reports. Every required audio variant and loop retains its exact WAV hash and version. The two mix decisions require their own named records. The four prohibition judgments retain their individual statements and exact case images. The independent humans must provide the actual listening and image verdicts and their linked evidence.
@@ -1061,29 +1063,43 @@ Exact final native guarded permissions and held-out content boundaries. Critical
 
 Current Phase 4 review and prelaunch gate. Critical. Running an unreviewed build invalidates all rendered acceptance.
 
-**Setup and input** Current saved case catalog, actual CLI dispatch and isolated evidence fixtures. Current exact resource and source identities from the case setup.
+**Setup and input** Current independent review, exact saved selection and selected no-window receipts.
 
-**Actions** Check fixed source and actual-only cases against executable discovery → Reject invalid selection and missing completion evidence → Reject stale or forged review bindings, missing outcomes, later failures, process failures and rewritten history.
+**Actions** Authenticate the committed independent review and each finding disposition → Verify every selected pre-window source receipt and later outcome.
 
-**Expected** Every invalid subject fails explicitly and bounded source controls establish zero actual acceptance.
+**Expected** Current independent review, selected groups and eligible no-window prerequisites authorize the prelaunch gate.
 
-**Evidence** immutable-control.json · runner-controls.json · result.json.
+**Evidence** result.json.
 
-**Run and reset** G0-runner / 300 / owned-source-or-headless-processes. 15 seconds for the nested CLI; source-only fixture evaluation. Preserve existing review, selection and proof files. Preserve existing review, selection and proof files.
+**Run and reset** G0-runner / 300 / owned-source-or-headless-processes. Validate the actual committed records without opening a game window. Preserve prior invocations.
 
 ### runner.selection
 
 Exact current and inherited selected cases. Critical. Omitting a Critical, new, changed or affected check invalidates the planned evidence.
 
-**Setup and input** Fixed current source and invocation-owned negative fixtures. Current exact resource and source identities from the case setup.
+**Setup and input** Current independent review and exact committed selection.
 
 **Actions** Derive phase-local impact independently from changed source, shared inputs and inherited consumers → Check exact selected and omitted cases, roles and ordering.
 
 **Expected** Every required current or inherited case remains selected with an exact process and cleanup declaration.
 
-**Evidence** selection-controls.json · result.json.
+**Evidence** result.json.
 
-**Run and reset** G0-runner / 301 / owned-source-or-headless-processes. 15 seconds for the nested CLI; source-only fixture evaluation. Keep original fixtures, review records and every prior invocation immutable. Keep original fixtures, review records and every prior invocation immutable.
+**Run and reset** G0-runner / 301 / owned-source-or-headless-processes. Validate the actual committed records without opening a game window. Preserve prior invocations.
+
+### runner.prelaunch-source
+
+Detached review, selection and runner evidence controls. Critical. Missing, misbound or superseded evidence must fail before a game window opens.
+
+**Setup and input** Fixed current source and invocation-owned negative fixtures.
+
+**Actions** Exercise detached review, selection and actual CLI dispatch failure controls → Reject invalid results, process failures and rewritten history → Exercise current inherited project resource roles without a game window.
+
+**Expected** Every invalid subject fails explicitly and bounded source controls establish zero actual acceptance.
+
+**Evidence** immutable-control.json · runner-controls.json · selection-controls.json · inherited-resource-control.log · result.json.
+
+**Run and reset** G0-runner / 304 / owned-source-or-headless-processes. Bound each nested CLI to 15 seconds. Preserve all prior records.
 
 ### acceptance.judgments
 

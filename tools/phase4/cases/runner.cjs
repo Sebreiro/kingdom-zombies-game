@@ -30,13 +30,18 @@ function baseFixture() {
   const report = {...current, schemaVersion:1, invocation, previousInvocation:null, kind:'initial', status:'pass',
     startedAt, finishedAt, selected:[item.id], outcomes:[{id:item.id, runGroup:item.runGroup, invocation,
       status:'pass', execution:'executed-now', expected:item.expected, observed:'Both observations retain separate source locators'}]};
-  const review = {...current, schemaVersion:1, reviewedAt, independent:true, status:'complete',
+  const review = {...current, schemaVersion:1, reviewedAt, independent:true, status:'complete', reportStatus:'issues_found',
     scope:'phase-04-whole-source', reviewedBy:'Test Reviewer', implementedBy:'Test Author', report:{sha256:'6'.repeat(64)},
-    findings:[{id:'TEST-1', severity:'high', summary:'Fixture finding'}]};
-  const fixes = {schemaVersion:1, reviewReport:review.report.sha256,
-    findings:[{id:'TEST-1',status:'resolved',reason:'Fixture fix proof',proof:{id:'test-proof'}}]};
-  const declarations = {report:[review.reviewedBy, current.revision, current.source].join('\n'),
-    verifyProof:proof => assert.equal(proof.id, 'test-proof')};
+    findings:[{id:'CR-01', severity:'high', summary:'Fixture finding'}]};
+  const reportText = ['---',`reviewer: ${review.reviewedBy}`,`reviewed: ${reviewedAt}`,`revision: ${current.revision}`,
+    `source: ${current.source}`,`media: ${current.media}`,`tool: ${current.tool}`,'findings:','  critical: 1','  warning: 0',
+    '  info: 0','  total: 1','status: issues_found','---','','### CR-01 — Fixture finding','',
+    '**Severity:** high  ','**File:** `tools/phase2/rendered.cjs:10-12`',''].join('\n');
+  const originalReport = {text:reportText,sha256:crypto.createHash('sha256').update(reportText).digest('hex')};
+  const fixes = {schemaVersion:1, reviewReport:review.report.sha256, originalReport:originalReport.sha256,
+    findings:[{id:'CR-01',status:'resolved',reason:'Fixture fix proof',proof:{id:'test-proof'}}]};
+  const declarations = {report:reportText, originalReport,
+    verifyProof:(finding,proof) => {assert.equal(finding.id,'CR-01');assert.equal(proof.id,'test-proof');}};
   const process = {role:'hub', pid:4242, startedAt, finishedAt, timedOut:false, crashed:false, exitCode:0,
     signal:null, streamsClosed:true, inputReleased:true, remainingPids:[]};
   return {current, item, report, review, fixes, declarations, process};
@@ -64,6 +69,16 @@ function qualification(context) {
     control.push(name);
   }
   rejectsMissingCompletion();
+  const absent = path.join(context.directory,'missing-actual-review');
+  fs.mkdirSync(absent);
+  reject('missing-actual-review',/EVIDENCE_PATH_MISSING .*04-REVIEW\.json/,() => scenarios.currentIdentity(absent));
+  const resourceControl = spawnSync(process.execPath,['tools/phase2/runner-fixture.cjs','resource-roles'],
+    {cwd:ROOT,encoding:'utf8',windowsHide:true,timeout:15000});
+  assert.ifError(resourceControl.error);
+  assert.equal(resourceControl.status,0,resourceControl.stderr);
+  assert.match(resourceControl.stdout,/PASS current three resource roles/);
+  e.writeExclusive(context.directory,'inherited-resource-control.log',Buffer.from(resourceControl.stdout));
+  selectionControls(context);
   assert.equal(scenarios.selectCases(check.cases, '--case', 'content.census,runner.prelaunch').length, 2);
   reject('empty-discovery', /CASE_DISCOVERY_EMPTY/, () => scenarios.selectCases(new Map(), '--group', 'runner'));
   reject('wrong-group', /CASE_PENDING_OR_UNKNOWN/, () => scenarios.selectCases(check.cases, '--group', 'nonexistent'));
@@ -74,11 +89,14 @@ function qualification(context) {
   reject('missing-h-catalog-entry', /EVIDENCE_SET/, () => scenarios.validateCatalog(ROOT,
     {...catalog,renderedCases:catalog.renderedCases.filter(row => row.id !== 'heldout.H01')}));
   const fixture = baseFixture();
-  const {current, item, report, review, fixes, declarations, process} = fixture;
+  const {current, item, report, review, fixes, declarations, process:processFixture} = fixture;
+  const originalReport = e.reviewReport(e.git(ROOT,['show',e.ORIGINAL_REVIEW+':'+e.REVIEW_REPORT]));
+  assert.deepEqual(originalReport.findings.map(row => row.id),
+    ['CR-01','CR-02','CR-03','CR-04','CR-05','CR-06','CR-07','CR-08','CR-09','WR-01','WR-02']);
   assert.equal(e.freshFinal([item], [report], current), report);
   e.validateReview(review, fixes, current, declarations);
-  e.validateProcess(process);
-  const reviewMutation = (name, mutate) => reject(name, /REVIEW_|EVIDENCE_IDENTITY/, () => {
+  e.validateProcess(processFixture);
+  const reviewMutation = (name, mutate) => reject(name, /REVIEW_|EVIDENCE_IDENTITY|EVIDENCE_SET/, () => {
     const changed = structuredClone({review, fixes});
     mutate(changed);
     e.validateReview(changed.review, changed.fixes, current, declarations);
@@ -88,10 +106,22 @@ function qualification(context) {
   reviewMutation('stale-media', value => {value.review.media = 'a'.repeat(64);});
   reviewMutation('stale-tool', value => {value.review.tool = 'a'.repeat(64);});
   reviewMutation('unresolved-high', value => {value.fixes.findings[0].status = 'accepted';});
+  reviewMutation('omitted-independent-finding', value => {value.fixes.findings=[];value.review.findings=[];});
+  reviewMutation('omitted-finding-disposition', value => {value.fixes.findings=[];});
+  reviewMutation('downgraded-independent-finding', value => {value.review.findings[0].severity='medium';});
+  reviewMutation('wrong-report-status', value => {value.review.reportStatus='clean';});
   reject('forged-review-report', /REVIEW_REPORT_ATTESTATION/, () => e.validateReview(review, fixes, current, {...declarations,report:'forged'}));
-  reject('crash', /EVIDENCE_PROCESS/, () => e.validateProcess({...process,crashed:true}));
-  reject('timeout', /EVIDENCE_PROCESS/, () => e.validateProcess({...process,timedOut:true}));
-  reject('cleanup-leak', /EVIDENCE_PROCESS/, () => e.validateProcess({...process,remainingPids:[4243]}));
+  const currentRevision=e.git(ROOT,['rev-parse','HEAD']).trim();
+  const wrongCommit=e.git(ROOT,['rev-parse','5597c6d']).trim();
+  const actualCommit=e.git(ROOT,['rev-parse','ef9e58c']).trim();
+  const finding={id:'CR-01',paths:['tools/phase2/rendered.cjs']};
+  reject('unrelated-fix-commit',/REVIEW_PROOF_COMMIT/,() => scenarios.verifyFixProof(ROOT,catalog,{revision:currentRevision},finding,
+    {commit:wrongCommit,cases:[{id:'runner.prelaunch-source'}]}));
+  reject('unrelated-passing-case',/REVIEW_PROOF_CASE/,() => scenarios.verifyFixProof(ROOT,catalog,{revision:currentRevision},finding,
+    {commit:actualCommit,cases:[{id:'content.census'}]}));
+  reject('crash', /EVIDENCE_PROCESS/, () => e.validateProcess({...processFixture,crashed:true}));
+  reject('timeout', /EVIDENCE_PROCESS/, () => e.validateProcess({...processFixture,timedOut:true}));
+  reject('cleanup-leak', /EVIDENCE_PROCESS/, () => e.validateProcess({...processFixture,remainingPids:[4243]}));
   reject('outcome-absent', /EVIDENCE_SET/, () => e.reconcile([item], {...report,outcomes:[]}, current));
   reject('wrong-expectation', /EVIDENCE_OUTCOME/, () => e.reconcile([item], {...report,
     outcomes:[{...report.outcomes[0],expected:'Changed the expected result'}]}, current));
@@ -104,12 +134,12 @@ function qualification(context) {
   reject('overwrite-history', /EEXIST/, () => e.writeExclusive(context.directory, ref.path, {value:'replacement'}));
   reject('forged-file-hash', /EVIDENCE_HASH/, () => e.artifact(context.directory, {...ref,sha256:'f'.repeat(64)}));
   assert.deepEqual(e.document(context.directory, ref), {value:'original fixture'});
-  const terminal = e.writeExclusive(context.directory, 'test-terminal.json', {...process,log:ref,executable:ref});
+  const terminal = e.writeExclusive(context.directory, 'test-terminal.json', {...processFixture,log:ref,executable:ref});
   const input = e.writeExclusive(context.directory, 'test-input.json', {caseId:item.id,checkpoint:'before',invocation:report.invocation,
-    pid:process.pid,focused:true,at:report.startedAt,clientWidth:1280,clientHeight:720,method:'physical-keyboard',action:'tap',key:9});
+    pid:processFixture.pid,focused:true,at:report.startedAt,clientWidth:1280,clientHeight:720,method:'physical-keyboard',action:'tap',key:9});
   const image = {path:'unwritten.png',bytes:250,sha256:'a'.repeat(64)};
   const draw = e.writeExclusive(context.directory, 'test-draw.json', {caseId:item.id,checkpoint:'before',invocation:report.invocation,
-    pid:process.pid,drawn:true,frame:1,at:report.finishedAt,observation:'Owned test observation',imageSha256:image.sha256});
+    pid:processFixture.pid,drawn:true,frame:1,at:report.finishedAt,observation:'Owned test observation',imageSha256:image.sha256});
   reject('missing-rendered-png', /EVIDENCE_PATH_MISSING unwritten\.png/, () => e.validateRenderedOutcome(context.directory,
     {id:item.id,processes:[terminal],checkpoints:[{id:'before',input,draw,image}]},report,{id:item.id,steps:[{id:'before',action:'tap',key:9}]}));
   reject('unnamed-listening', /EVIDENCE_NAMED_LISTENING/, () => e.validateNamed(context.directory,
@@ -123,11 +153,6 @@ function qualification(context) {
   const result = {scope:'Source-only negative controls. Fixture identities supply no review or acceptance.', controls:control,
     sourceCases:catalog.cases.length, heldout:catalog.heldout.length, ui:catalog.backstops.length, judgments:catalog.judgments.length, accepted:0};
   e.writeExclusive(context.directory, 'runner-controls.json', result);
-  if (fs.existsSync(path.join(ROOT,e.REVIEW))) {
-    const gate = scenarios.prelaunch(ROOT,catalog,scenarios.currentIdentity(ROOT));
-    result.currentReview = gate.review;
-    result.currentSelection = gate.selection;
-  }
   return result;
 }
 
@@ -140,9 +165,9 @@ function sourceHistoryControls(directory, reject) {
   fs.mkdirSync(root);
   function invocation(revision, at, status, node = 'v24.22.1') {
     const nonce = crypto.randomUUID(), prefix = '.phase4/runs/'+nonce+'/';
-    const opened = {caseId:item.id,nonce,revision,startedAt:at,platform:'win32',node};
+    const opened = {caseId:item.id,nonce,revision,startedAt:at,platform:'win32',node,scope:'source/headless; zero game windows'};
     e.writeExclusive(root,prefix+'invocation.json',opened);
-    if (status !== null) e.writeExclusive(root,prefix+'result.json',{...opened,status,finishedAt:at});
+    if (status !== null) e.writeExclusive(root,prefix+'result.json',{...opened,status,finishedAt:at,observations:{fixture:true}});
     return {...opened,status};
   }
   const old = invocation(current.revision,report.startedAt,'pass');
@@ -159,7 +184,11 @@ function sourceHistoryControls(directory, reject) {
   try {
     e.identifySource = () => current;
     e.sameCommittedSource = same;
-    const verify = ref => scenarios.sourceReceipts(root,[item],[{id:item.id,result:ref}],current);
+    const selected = [item,{id:'runner.prelaunch'},{id:'runner.selection'},{id:'acceptance.judgments'},{id:'acceptance.artifacts'},
+      {id:'rendered-case',needsGameWindow:true}];
+    assert.deepEqual(scenarios.preWindowCases(selected),[item]);
+    const verify = ref => scenarios.sourceReceipts(root,scenarios.preWindowCases(selected),[{id:item.id,result:ref}],current);
+    reject('unselected-prerequisite-receipt',/EVIDENCE_SET/,() => scenarios.sourceReceipts(root,[item],[],current));
     reject('old-pass-hides-new-exact-fail',/COMPLETION_LATER_SOURCE_FAILURE/,() => verify(priorRef));
     const blocked = invocation(current.revision,'2026-11-20T11:02:00.000Z','blocked');
     assert.equal(latest().nonce,blocked.nonce);
@@ -244,8 +273,8 @@ function controlRunner(context, name, run) {
 }
 
 function selectionControls(context) {
-  const scenarios = require('../scenarios.cjs'), e = require('../evidence.cjs');
-  const result = controlRunner(context,'selection',reject => {
+  const scenarios = require('../scenarios.cjs');
+  return controlRunner(context,'selection',reject => {
     const {current,catalog,cases,record} = selectionFixture();
     const impact = scenarios.impactClosure(cases,['src/godot-game/inspection/InspectionRoot.cs']);
     const verify = value => scenarios.validateSelection(value,cases,catalog,current,impact);
@@ -269,12 +298,14 @@ function selectionControls(context) {
     reject('incomplete-native-tree',/RENDERED_NATIVE_TREE_INCOMPLETE/,() => scenarios.treePaths([2,...first.slice(1)]));
     return {selected:record.selected.length,omitted:record.omitted.length};
   });
-  if (fs.existsSync(path.join(ROOT,e.REVIEW)) || fs.existsSync(path.join(ROOT,e.SELECTION))) {
-    const gate = scenarios.prelaunch(ROOT,scenarios.loadCatalog(ROOT,check.cases),scenarios.currentIdentity(ROOT));
-    result.currentSelection = gate.selection;
-    result.actualSelected = gate.selected.length;
-  }
-  return result;
+}
+
+function actualPrelaunch(prerequisites) {
+  const scenarios = require('../scenarios.cjs');
+  const current = scenarios.currentIdentity(ROOT);
+  const gate = scenarios.prelaunch(ROOT,scenarios.loadCatalog(ROOT,check.cases),current,{prerequisites});
+  return {currentReview:gate.review,currentSelection:gate.selection,actualSelected:gate.selected.length,
+    checkedSourcePrerequisites:prerequisites ? scenarios.preWindowCases(gate.selected).length : 0};
 }
 
 function pcmFixture() {
@@ -323,7 +354,7 @@ function judgmentControls(context) {
   const judgmentsPresent = fs.existsSync(path.join(ROOT,e.JUDGMENTS));
   if (listeningPresent || judgmentsPresent || fs.existsSync(path.join(ROOT,e.PHASE+'04-RUNS.json'))) {
     const current = scenarios.currentIdentity(ROOT), catalog = scenarios.loadCatalog(ROOT,check.cases);
-    const gate = scenarios.prelaunch(ROOT,catalog,current);
+    const gate = scenarios.prelaunch(ROOT,catalog,current,{prerequisites:false});
     const listening = e.document(ROOT,e.LISTENING), judgments = e.document(ROOT,e.JUDGMENTS);
     const final = scenarios.finalRendered(ROOT,gate,current,judgments.runs,judgments.campaign);
     e.validateJudgments(ROOT,listening,judgments,current,e.listeningExpectations(ROOT),e.judgmentExpectations(catalog),final);
@@ -370,27 +401,28 @@ if (require.main === module) {
   require('node:test').test('completion dispatch rejects missing completion evidence', rejectsMissingCompletion);
   require('node:test').test('listening evidence rejects non-WAV bytes with an exact digest', rejectsInvalidWave);
 } else {
-  check.registerCase('runner.prelaunch', {
-    group:'runner', title:'Current Phase 4 review and prelaunch gate', importance:'Critical',
-    rationale:'Running an unreviewed build invalidates all rendered acceptance',
-    needsGameWindow:false, runGroup:'G0-runner', order:300,
-    requirements:['ASSET-01','ASSET-02','ASSET-03','ASSET-04','ASSET-05'],
-    acceptance:['AC-17','AC-19','AC-20'], tags:['source-only','review','selection'],
-    setup:'Current saved case catalog, actual CLI dispatch and isolated evidence fixtures',
-    actions:['Check fixed source and actual-only cases against executable discovery', 'Reject invalid selection and missing completion evidence',
-      'Reject stale or forged review bindings, missing outcomes, later failures, process failures and rewritten history'],
-    expected:'Every invalid subject fails explicitly and bounded source controls establish zero actual acceptance',
-    reset:'Preserve existing review, selection and proof files', evidence:['immutable-control.json','runner-controls.json','result.json']
-  }, qualification);
   const base = {group:'runner',importance:'Critical',needsGameWindow:false,runGroup:'G0-runner',
     requirements:['ASSET-01','ASSET-02','ASSET-03','ASSET-04','ASSET-05'],acceptance:['AC-17','AC-19','AC-20'],
     tags:['source-only','runner','acceptance-integrity'],setup:'Fixed current source and invocation-owned negative fixtures',
     reset:'Keep original fixtures, review records and every prior invocation immutable'};
+  check.registerCase('runner.prelaunch',{...base,order:300,title:'Current Phase 4 review and prelaunch gate',
+    rationale:'Running an unreviewed build invalidates all rendered acceptance',
+    setup:'Current independent review, exact saved selection and selected no-window receipts',
+    actions:['Authenticate the committed independent review and each finding disposition','Verify every selected pre-window source receipt and later outcome'],
+    expected:'Current independent review, selected groups and eligible no-window prerequisites authorize the prelaunch gate',
+    evidence:['result.json']},() => actualPrelaunch(true));
   check.registerCase('runner.selection',{...base,order:301,title:'Exact current and inherited selected cases',
     rationale:'Omitting a Critical, new, changed or affected check invalidates the planned evidence',
+    setup:'Current independent review and exact committed selection',
     actions:['Derive phase-local impact independently from changed source, shared inputs and inherited consumers','Check exact selected and omitted cases, roles and ordering'],
     expected:'Every required current or inherited case remains selected with an exact process and cleanup declaration',
-    evidence:['selection-controls.json','result.json']},selectionControls);
+    evidence:['result.json']},() => actualPrelaunch(false));
+  check.registerCase('runner.prelaunch-source',{...base,order:304,title:'Detached review, selection and runner evidence controls',
+    rationale:'Missing, misbound or superseded evidence must fail before a game window opens',
+    actions:['Exercise detached review, selection and actual CLI dispatch failure controls','Reject invalid results, process failures and rewritten history',
+      'Exercise current inherited project resource roles without a game window'],
+    expected:'Every invalid subject fails explicitly and bounded source controls establish zero actual acceptance',
+    evidence:['immutable-control.json','runner-controls.json','selection-controls.json','inherited-resource-control.log','result.json']},qualification);
   check.registerCase('acceptance.judgments',{...base,order:302,title:'Named current media and separate prohibition judgments',
     rationale:'A missing or stale listening or real named verdict cannot support actual acceptance',
     actions:['Authenticate actual PCM WAV format, exact sample and version, and independent named verdict receipts','Check one distinct named result for each prohibition and exact current case images'],
