@@ -110,6 +110,7 @@
       "group": "core",
       "implementation": "csharp",
       "test": "KingdomZombies.Phase1.Tests.FoundationLanPermissionTests.ExactLanPermissionsRejectAdjacentMisuse",
+      "csharpTimeoutMs": 600000,
       "title": "Exact LAN public and native permission boundaries",
       "importance": "Critical",
       "rationale": "Expanded native or public permissions undermine architecture enforcement.",
