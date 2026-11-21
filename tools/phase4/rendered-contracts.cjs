@@ -13,11 +13,15 @@ const RESOURCES=BROWSER+'/Resources', SELECT=id=>CHAR+'/Controls/Slots/'+id+'/Se
 const ITEM_SELECT=WORLD+'/InspectorScroll/Body/Art/ItemsWeaponsPreview/Selection';
 const DEFENSE=WORLD+'/InspectorScroll/Body/Art/Content';
 const WORLD_STATE=WORLD+'/InspectorScroll/Body/Choices/CurrentState';
+const WORLD_OWNER=DEFENSE+'/WorldPreview', WORLD_CHOICES=WORLD+'/InspectorScroll/Body/Choices';
+const WORLD_STEP=WORLD_CHOICES+'/Step', CHAR_STEP=CHAR+'/Controls/Slots/Step';
 const READY='Validated; visual/listening acceptance pending';
 const PARTIAL='Partial — validated bytes; native/visual/listening acceptance pending';
 const eq=(node,property,value)=>({node,property,match:'equal',value});
 const contains=(node,property,value)=>({node,property,match:'contains',value});
 const field=(node,property,key,value)=>({node,property,match:'field',key,value});
+const child=(childClass,childIndex,property,value)=>({...eq(WORLD_OWNER,property,value),childClass,childIndex});
+const childCount=(childClass,value)=>({node:WORLD_OWNER,property:null,match:'child-count',childClass,value});
 const exists=node=>({node,property:null,match:'present'});
 const absent=node=>({node,property:null,match:'absent'});
 const label=(node,text)=>eq(node,'text',text);
@@ -79,6 +83,19 @@ function gear(slot,part,id) {
   const node=CHAR+'/Art/'+slot+'_'+part;
   return [show(node),eq(node,'metadata/item',id),eq(node,'metadata/slot',slot)];
 }
+const worldMeta=(key,value)=>field(WORLD,'metadata/library_view',key,value);
+const terrain=[show(WORLD_OWNER),child('Sprite2D',20,'metadata/resource_id','ground_20'),child('Sprite2D',20,'visible',true)];
+const ruin=[worldMeta('id','BL-16'),worldMeta('state','portal.ruins'),eq(WORLD_OWNER,'metadata/resource_id','portal.ruins'),
+  child('Sprite2D',275,'metadata/resource_id','left.portal.1.ruin.0'),child('Sprite2D',275,'metadata/permanent',true),
+  child('Sprite2D',275,'visible',true)];
+const death=(time)=>[subject('FX-08'),worldMeta('id','FX-08'),worldMeta('state','effect:character.death'),
+  worldMeta('eventCount',1),worldMeta('time',time),childCount('CPUParticles2D',time<0.25?1:0),
+  ...(time<0.25?[child('CPUParticles2D',0,'metadata/resource_id','effect.character.death'),
+    child('CPUParticles2D',0,'metadata/preview_time',time),child('CPUParticles2D',0,'visible',true)]:[])];
+const walk=(pose,stride)=>[subject('CH-01'),field(CHAR,'metadata/sample','movement','walk'),
+  field(CHAR,'metadata/sample','lowerPose',pose),field(CHAR,'metadata/sample','strideSeconds',stride),
+  show(CHAR+'/Art/Body_lower'),...gear('right','held','IT-03')];
+const P4_DEATH_CHECKPOINTS=['death-step','death-retired'];
 
 const CASES = new Map([
   ['heldout.H01',[
@@ -99,7 +116,11 @@ const CASES = new Map([
     view('persistent-corpse','CH-13',[resourceState('controller','CorpsePreview'),resourceState('state','persistent corpse'),
       exists(RESOURCE+'/Art/Corpse/Visual')]),
     stage('corpse-time-boundary',RESOURCE+'/Controls/Step',[resourceState('state','persistent corpse'),
-      resourceState('time',0.125),exists(RESOURCE+'/Art/Corpse/Visual')])
+      resourceState('time',0.125),exists(RESOURCE+'/Art/Corpse/Visual')]),
+    open('death-gallery','FX-08',[worldMeta('id','FX-08'),show(WORLD_OWNER)]),
+    choice('death-effect',WORLD_STATE,1,death(0)),
+    stage('death-step',WORLD_STEP,death(0.125)),
+    stage('death-retired',WORLD_STEP,death(0.25))
   ]],
   ['heldout.H13',[
     choice('coat',SELECT('torso'),2,[subject('CH-01'),...gear('torso','torso-front','IT-13')]),
@@ -136,10 +157,19 @@ const CASES = new Map([
       show(RESOURCES),show(SUMMARY+'/PackStatus')])
   ]],
   ['UIH.CHARACTER-PREVIEW.populated',[
-    open('character','CH-01',[eq(CHAR,'metadata/body','CH-01'),show(CHAR+'/Status'),show(CHAR+'/Art/Body_upper')])
+    open('character','CH-01',[eq(CHAR,'metadata/body','CH-01'),show(CHAR+'/Status'),show(CHAR+'/Art/Body_upper')]),
+    choice('equip-walking-character',SELECT('right'),2,[subject('CH-01'),...gear('right','held','IT-03')]),
+    choice('start-walking',SELECT('Movement'),2,walk('walk-near',0)),
+    stage('walk-far',CHAR_STEP,walk('walk-far',0.12)),
+    stage('walk-near',CHAR_STEP,walk('walk-near',0))
   ]],
   ['UIH.WORLD-ITEM-PREVIEW.populated',[
-    open('world-item','IT-07',[...itemBody('IT-07'),show(SUMMARY+'/ResourceName')])
+    open('world-item','IT-07',[...itemBody('IT-07'),show(SUMMARY+'/ResourceName')]),
+    open('assembled-world','world.assembled',terrain),
+    choice('assembled-world-day',WORLD_STATE,22,[subject('world.assembled'),eq(WORLD_OWNER,'metadata/resource_id','world.day'),...terrain]),
+    open('portal-library','BL-16',[worldMeta('id','BL-16'),show(WORLD_OWNER)]),
+    choice('portal-ruins',WORLD_STATE,6,ruin),
+    choice('portal-ruins-focus',WORLD_CHOICES+'/Portal',1,[eq(WORLD_CHOICES+'/Pan','value',-800),...ruin])
   ]],
   ['UIH.UI-TEXT-STATUS.long-text',[
     choice('expanded-text',DATA+'/Choices/TextLength',1,[subject('TXT-02'),show(DATA+'/Detail')]),
@@ -183,7 +213,7 @@ const CASES = new Map([
 function matches(check,value) {
   if(check.match==='present')return value===true;
   if(check.match==='absent')return value===false;
-  if(check.match==='equal')return equal(value,check.value);
+  if(check.match==='equal'||check.match==='child-count')return equal(value,check.value);
   if(check.match==='contains')return typeof value==='string'&&value.includes(check.value);
   if(check.match==='audition'&&typeof value==='string') {
     try{return JSON.parse(value)?.cue?.route===check.value;}catch{return false;}
@@ -205,6 +235,7 @@ function template(id) {
 
 const NAVIGATION = new Set([CATEGORY,RESOURCES,BROWSER+'/Search',BROWSER+'/Status',TOOLBAR+'/Recheck',METADATA,PREVIEW+'/Actions/Details']);
 const NAVIGATION_MENUS = new Map([[CATEGORY,8],[BROWSER+'/Status',4]]);
+const NAVIGATION_SCROLLS = new Set([CHAR+'/Controls',WORLD+'/InspectorScroll',WORLD+'/InspectorScroll/Body/Art']);
 
 function validateDeclaration(driver,item) {
   const required=template(item.id);
@@ -224,10 +255,12 @@ function validateDeclaration(driver,item) {
     need(menuRequired ? click&&coordinates(step.openMenu)&&!equal([step.x,step.y],[step.openMenu.x,step.openMenu.y]) : !step.openMenu,
       'RENDERED_CASE_MENU',item.id+' '+step.id);
     if(step.navigate) {
-      need(!step.recheck&&step.id.startsWith('navigate-')&&required[next]?.lifetime===step.lifetime&&NAVIGATION.has(step.control)&&
+      const scroll=NAVIGATION_SCROLLS.has(step.control);
+      need(!step.recheck&&step.id.startsWith('navigate-')&&required[next]?.lifetime===step.lifetime&&(NAVIGATION.has(step.control)||scroll)&&
         Array.isArray(step.checks)&&step.checks.length===1&&
         (step.checks[0].node===step.control || step.control===RESOURCES&&step.checks[0].node===SUMMARY+'/ResourceId')&&
-        ['text','selected','visible'].includes(step.checks[0].property)&&step.checks[0].match==='equal'&&
+        (scroll?step.checks[0].property==='scroll_vertical'&&Number.isInteger(step.checks[0].value)&&step.checks[0].value>=0:
+          ['text','selected','visible'].includes(step.checks[0].property))&&step.checks[0].match==='equal'&&
         ['string','number','boolean'].includes(typeof step.checks[0].value),'RENDERED_NAVIGATION_CHECKPOINT',step.id);
       if (menuRequired) {
         const {property,value}=step.checks[0];
@@ -244,4 +277,5 @@ function validateDeclaration(driver,item) {
   return driver;
 }
 
-module.exports={CASES,template,validateDeclaration,matches,readyChecks,baseline,AUDIO_CASE,AUDITION_PROPERTY,AUDIO_PLAYBACK,AUDIO_DECISIONS};
+module.exports={CASES,template,validateDeclaration,matches,readyChecks,baseline,P4_DEATH_CHECKPOINTS,
+  AUDIO_CASE,AUDITION_PROPERTY,AUDIO_PLAYBACK,AUDIO_DECISIONS};

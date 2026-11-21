@@ -144,6 +144,7 @@ async function qualification(context) {
     {...current,id:'P1',kind:'judgment',reviewer:'Test Reviewer',reviewedAt:review.reviewedAt,observations:'test',files:[ref]},
     'judgment',{id:'P1'},current));
   renderedDeclarationControls(context.directory,reject);
+  authoredCoverageControls(context.directory,reject);
   sourceHistoryControls(context.directory,reject);
   campaignHistoryControls(context.directory,reject);
   repairHistoryControls(reject);
@@ -178,6 +179,7 @@ async function inspectionRecoveryControls(directory) {
     const attempted=await runInspectionLane(session,{items,lifetime:1},outcomes,drivers,'detached',()=>500,()=>{});
     assert.equal(outcomes[0].status,'fail');
     assert.equal(outcomes[0].observed,'Detached original screenshot failure');
+    assert.equal(outcomes[0].failedCheckpoint,'screenshot');
     assert.deepEqual(outcomes[0].checkpoints,[{id:'initial'}]);
     assert.deepEqual(calls[2],[items[0].id,...steps.slice(2).map(step=>step.id)]);
     assert.equal(outcomes[1].status,resetWorks?'pass':'blocked');
@@ -191,6 +193,52 @@ async function inspectionRecoveryControls(directory) {
     records.push({resetWorks,calls,outcomes});
   }
   return e.writeExclusive(directory,'inspection-recovery-controls.json',records);
+}
+
+function authoredCoverageControls(directory,reject) {
+  const contracts=require('../rendered-contracts.cjs'), e=require('../evidence.cjs');
+  const {encode}=require('../native-observer.cjs'),{savedNativeSnapshot}=require('../scenarios.cjs');
+  for (const [id,keypoints] of [
+    ['UIH.CHARACTER-PREVIEW.populated',['walk-far','walk-near']],
+    ['UIH.WORLD-ITEM-PREVIEW.populated',['assembled-world-day','portal-ruins-focus']],
+    ['heldout.H12',['death-effect','death-step','death-retired']]
+  ]) {
+    const steps=contracts.template(id).map(step=>({...step,action:'click',x:100,y:200,
+      ...(step.openMenu?{openMenu:{x:90,y:190}}:{})}));
+    const driver={id,stimulus:'Detached case-specific checkpoints',steps};
+    contracts.validateDeclaration(driver,{id});
+    for (const point of keypoints) {
+      const step=steps.find(row=>row.id===point);
+      assert.ok(step?.checks.length>1);
+      reject('resource-ID-alone-cannot-prove-'+point,/RENDERED_CASE_OBSERVATIONS/,() =>
+        contracts.validateDeclaration({...driver,steps:steps.map(row=>row===step?{...row,checks:[row.checks[0]]}:row)},{id}));
+    }
+  }
+  const put=(name,value)=>e.writeExclusive(directory,'authored-coverage/'+name,value);
+  const tree=put('tree.bin',encode(['scene:scene_tree',1,[1,'root','Window',1,'',0,1,'WorldPreview','Node2D',2,'',0,
+    0,'@CPUParticles2D@942','CPUParticles2D',3,'',0]]));
+  const child='/root/WorldPreview/@CPUParticles2D@942';
+  const packet=put('effect.bin',encode(['scene:inspect_objects',1,[[3,'CPUParticles2D',[
+    ['metadata/resource_id',0,0,'',0,'effect.character.death']
+  ]]]]));
+  const at='2026-11-20T11:00:00.000Z', objects=[{node:child,packet}];
+  const exactNative=put('effect.json',{at,tree,objects});
+  const checks=[{node:'/root/WorldPreview',childClass:'CPUParticles2D',childIndex:0,property:'metadata/resource_id',
+    match:'equal',value:'effect.character.death'}];
+  assert.deepEqual(savedNativeSnapshot(directory,exactNative,checks,1).values,[{id:3,value:'effect.character.death'}]);
+  const stray=put('wrong-node.json',{at,tree,objects:[{node:'/root/WorldPreview',packet}]});
+  reject('foreign-particle-object-path',/EVIDENCE_SET/,()=>savedNativeSnapshot(directory,stray,checks,1));
+  const corpse=put('corpse.png',Buffer.from('detached image reference'));
+  const live=put('active-death.png',Buffer.from('detached active image reference'));
+  const retired=put('retired-death.png',Buffer.from('detached retired image reference'));
+  const final={outcomes:[{id:'heldout.H12',status:'pass',checkpoints:[{id:'persistent-corpse',image:corpse},
+    {id:'death-step',image:live},{id:'death-retired',image:retired}]}]};
+  const judgment={id:'P4',caseIds:['heldout.H12'],files:[live,retired]};
+  e.validateJudgmentImages(judgment,final);
+  reject('corpse-only-does-not-prove-P4',/EVIDENCE_JUDGMENT_DEATH_IMAGE death-step/,() =>
+    e.validateJudgmentImages({...judgment,files:[corpse]},final));
+  reject('P4-requires-effect-retirement-frame',/EVIDENCE_JUDGMENT_DEATH_IMAGE death-retired/,() =>
+    e.validateJudgmentImages({...judgment,files:[live]},final));
 }
 
 function desktopHelperControl(directory) {

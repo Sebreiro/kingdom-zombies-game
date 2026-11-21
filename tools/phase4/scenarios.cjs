@@ -847,17 +847,18 @@ function validateDriverFixtures(root,drivers,build,gate,current) {
   }
 }
 
-function treePaths(raw) {
+function treePaths(raw, types = null) {
   e.need(Array.isArray(raw) && raw.length % 6 === 0 && raw.length > 0 && raw.length <= 8190, 'RENDERED_NATIVE_TREE');
   const result = new Map(), parents = [], ids=new Set();
   for (let offset = 0; offset < raw.length; offset += 6) {
     while (parents.at(-1)?.remaining === 0) parents.pop();
-    const [children, name, , id] = raw.slice(offset, offset + 4), parent = parents.at(-1);
+    const [children, name, type, id] = raw.slice(offset, offset + 4), parent = parents.at(-1);
     e.need(Number.isInteger(children) && children >= 0 && e.named(name) && Number.isSafeInteger(id) && id > 0 &&
       (offset === 0 ? name === 'root' : parent), 'RENDERED_NATIVE_TREE');
     const node = (parent?.node ?? '') + '/' + name;
     e.need(!result.has(node) && !ids.has(id), 'RENDERED_NATIVE_TREE_DUPLICATE', node);
     result.set(node, id);
+    types?.set(node,type);
     ids.add(id);
     if (parent) parent.remaining--;
     parents.push({node, remaining:children});
@@ -924,12 +925,11 @@ async function nativeObserver(budget, signal) {
     await waitFor(() => pid,deadline);
     e.need(pid === ownedPid, 'RENDERED_NATIVE_PID');
     const tree = await request('scene:request_scene_tree','scene:scene_tree',[],deadline);
-    const nodes=treePaths(tree.payload),objects=new Map();
-    for(const node of new Set(checks.filter(check=>check.property!==null).map(check=>check.node))) {
-      const id=nodes.get(node);
-      if (id) objects.set(node,await request('scene:inspect_objects','scene:inspect_objects',[[id],false],deadline));
-    }
-    const values=nativeValues(nodes,objects,checks);
+    const types=new Map(),nodes=treePaths(tree.payload,types),objects=new Map();
+    const targets=nativeTargets(nodes,types,checks);
+    for(const node of observationNodes(targets))
+      objects.set(node,await request('scene:inspect_objects','scene:inspect_objects',[[nodes.get(node)],false],deadline));
+    const values=nativeValues(nodes,objects,targets);
     return {tree,objects,values,at:new Date().toISOString()};
   }
   return {endpoint:'tcp://127.0.0.1:' + server.address().port, snapshot, get pidPacket(){return pidPacket;}, close:() => {
@@ -937,13 +937,27 @@ async function nativeObserver(budget, signal) {
   }};
 }
 
-function nativeValues(nodes,objects,checks) {
-  return checks.map(check => {
-    const id = nodes.get(check.node) ?? null;
-    const object=objects.get(check.node);
+function nativeTargets(nodes,types,checks) {
+  return checks.map(check=>{
+    if (!check.childClass) return {...check,target:nodes.has(check.node)?check.node:null};
+    const children=[...types].filter(([node,type])=>type===check.childClass&&path.posix.dirname(node)===check.node);
+    if (check.match==='child-count') return {...check,target:nodes.has(check.node)?check.node:null,childCount:children.length};
+    return {...check,target:children[check.childIndex]?.[0]??null};
+  });
+}
+
+function observationNodes(targets) {
+  return [...new Set(targets.filter(row=>row.target&&row.property!==null).map(row=>row.target))];
+}
+
+function nativeValues(nodes,objects,targets) {
+  return targets.map(check => {
+    const id = nodes.get(check.target) ?? null;
+    const object=objects.get(check.target);
     const properties=object?.payload.find(row=>row[0]===id)?.[2];
     const values=properties?.filter(row=>row[0]===check.property);
-    const value=check.property===null ? id!==null : values?.length===1 ? values[0][5] : null;
+    const value=check.match==='child-count' ? (id===null?null:check.childCount) :
+      check.property===null ? id!==null : values?.length===1 ? values[0][5] : null;
     return {id,value};
   });
 }
@@ -951,9 +965,10 @@ function nativeValues(nodes,objects,checks) {
 function savedNativeSnapshot(root,ref,checks,thread) {
   const snapshot=e.document(root,ref), decode=require('./native-observer.cjs').decode;
   e.need(e.instant(snapshot.at) && Array.isArray(snapshot.objects),'EVIDENCE_NATIVE_SNAPSHOT');
-  const tree=decode(e.artifact(root,snapshot.tree,1048576).data), nodes=treePaths(tree[2]);
+  const tree=decode(e.artifact(root,snapshot.tree,1048576).data), types=new Map(),nodes=treePaths(tree[2],types);
   e.need(tree[0]==='scene:scene_tree' && tree[1]===thread,'EVIDENCE_NATIVE_SNAPSHOT_THREAD');
-  const required=[...new Set(checks.filter(check=>check.property!==null&&nodes.has(check.node)).map(check=>check.node))];
+  const targets=nativeTargets(nodes,types,checks);
+  const required=observationNodes(targets);
   e.exact(required,snapshot.objects.map(row=>row.node),'native snapshot subjects');
   const objects=new Map(snapshot.objects.map(row=>{
     const object=decode(e.artifact(root,row.packet,1048576).data);
@@ -961,7 +976,7 @@ function savedNativeSnapshot(root,ref,checks,thread) {
       object[2][0][0]===nodes.get(row.node),'EVIDENCE_NATIVE_SNAPSHOT_OBJECT',row.node);
     return [row.node,{payload:object[2]}];
   }));
-  return {at:snapshot.at,values:nativeValues(nodes,objects,checks)};
+  return {at:snapshot.at,values:nativeValues(nodes,objects,targets)};
 }
 
 const CAPTURE_CLIENT = String.raw`
@@ -1061,13 +1076,14 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
     e.need(acknowledgement.pid === pid && acknowledgement.focused && acknowledgement.action === action &&
       acknowledgement.width === 1280 && acknowledgement.height === 720, 'RENDERED_INPUT_ACK');
   });
-  async function settle(checks,{match=true,previous=null}={}) {
+  async function settle(checks,{match=true,previous=null,onFailure=null}={}) {
     const end=Date.now()+budget(12000);
     for (;;) {
       const observed=await native.snapshot(pid,checks,end);
       const valid=checks.every((check,index)=>contracts.matches(check,observed.values[index].value));
       if ((!match || valid) && previous && observed.at>previous.at && equal(previous.values,observed.values)) return observed;
       previous=(!match || valid)?observed:null;
+      if (terminal || error || Date.now()>=end) onFailure?.(observed);
       e.need(!terminal && !error && Date.now()<end,'RENDERED_NATIVE_SETTLE',checks.map(check=>check.node+' '+check.property).join(', '));
       await delay(Math.min(50,budget()),undefined,{signal});
     }
@@ -1104,6 +1120,7 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
         object:e.writeExclusive(root,relative+'/runtime-object.bin',state.objects.get(observer.HUB).raw)});
     }
     const before=await native.snapshot(pid,step.checks);
+    const beforeRef=snapshotRef(prefix+'-before',before);
     const token=crypto.randomUUID(), actionStartedAt=new Date().toISOString();
     let recheck,openMenu;
     if(step.recheck) {
@@ -1116,24 +1133,25 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
     }
     await input.input(step.action,step.x ?? 0,step.y ?? 0,step.key ?? 0);
     const at = new Date().toISOString(), physical = acknowledgement;
-    const observed = await settle(step.checks);
+    const flags = {caseId:item.id,checkpoint:step.id,invocation,pid,token};
+    const inputRef = e.writeExclusive(root,prefix+'-input.json',{...flags,at,actionStartedAt,focused:true,action:step.action,
+      clientWidth:physical.width,clientHeight:physical.height,method:step.action==='click'?'physical-mouse':'physical-keyboard',
+      control:step.control,x:step.x,y:step.y,key:step.key,acknowledgement:physical,recheck,openMenu});
+    const observed = await settle(step.checks,{onFailure:state=>snapshotRef(prefix+'-failed-settle',state)});
+    const observedRef=snapshotRef(prefix+'-observed',observed);
     e.need(!equal(observed.values,before.values),'RENDERED_NATIVE_TRANSITION',item.id+' '+step.id);
     const imagePath = prefix + '.png';
     const capture=await desktopCommand(root,CAPTURE_CLIENT,{...env,KZ_PHASE4_PID:String(pid),KZ_PHASE4_WINDOW:String(physical.window),
       KZ_PHASE4_DRAW_TOKEN:token,KZ_PHASE4_PNG:path.join(root,imagePath)},budget(12000),owner,signal);
     const visible=JSON.parse(capture.stdout.trim());
     const after=await native.snapshot(pid,step.checks);
+    const afterRef=snapshotRef(prefix+'-after',after);
     e.need(equal(observed.values,after.values),'RENDERED_NATIVE_DRAW_DRIFT',step.id);
     budget();
     adapter.decodePng(path.join(root,imagePath),1280,720);
     const image = e.reference(root,imagePath,16 * 1024 * 1024);
-    const flags = {caseId:item.id,checkpoint:step.id,invocation,pid,token};
-    const inputRef = e.writeExclusive(root,prefix+'-input.json',{...flags,at,actionStartedAt,focused:true,action:step.action,
-      clientWidth:physical.width,clientHeight:physical.height,method:step.action==='click'?'physical-mouse':'physical-keyboard',
-      control:step.control,x:step.x,y:step.y,key:step.key,acknowledgement:physical,recheck,openMenu});
     const draw = e.writeExclusive(root,prefix+'-draw.json',{...flags,at:new Date().toISOString(),drawn:true,frame:++frame,
-      before:snapshotRef(prefix+'-before',before),observed:snapshotRef(prefix+'-observed',observed),
-      after:snapshotRef(prefix+'-after',after),capture:visible,ready,frameSource:'composited-client-between-native-observations',
+      before:beforeRef,observed:observedRef,after:afterRef,capture:visible,ready,frameSource:'composited-client-between-native-observations',
       imageSha256:image.sha256});
     const point = {id:step.id,input:inputRef,draw,image};
     if (item.id===contracts.AUDIO_CASE && contracts.AUDIO_PLAYBACK.has(step.id))
@@ -1200,13 +1218,19 @@ async function runInspectionLane(session,lane,outcomes,drivers,invocation,budget
     }
     attempted.push(row);
     let resetVerified=false;
+    let activeCheckpoint=null;
     try {
-      for (const step of steps) row.checkpoints.push(await session.checkpoint(item,step,invocation));
+      for (const step of steps) {
+        activeCheckpoint=step.id;
+        row.checkpoints.push(await session.checkpoint(item,step,invocation));
+      }
       resetVerified=true;
+      activeCheckpoint=null;
       onPass(item,row);
     } catch (error) {
       row.status='fail';
       row.observed=error.message.slice(0,4096).replace(/[\r\n]/g,' ');
+      row.failedCheckpoint=activeCheckpoint;
       if (!resetVerified && session.usable) {
         try {row.recovery=await session.restore(item,resetSequence(steps,lane.lifetime),invocation,lane.lifetime);}
         catch (failure) {

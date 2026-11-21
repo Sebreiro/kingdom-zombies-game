@@ -599,9 +599,20 @@ function judgmentExpectations(catalog) {
     cases:catalog.acceptance.find(item => item.id === ids[row.id]).actualCases}));
 }
 
+function validateJudgmentImages(row, final) {
+  const outcomes=new Map(final.outcomes.filter(item=>item.status==='pass').map(item=>[item.id,item]));
+  const includes=image=>Boolean(image && row.files?.some(file=>equal(image,file)));
+  for (const id of row.caseIds)
+    need(outcomes.get(id)?.checkpoints?.some(point=>includes(point.image)),'EVIDENCE_JUDGMENT_IMAGE',row.id+' '+id);
+  if (row.id==='P4') {
+    const {P4_DEATH_CHECKPOINTS}=require('./rendered-contracts.cjs');
+    const death=outcomes.get('heldout.H12')?.checkpoints??[];
+    for (const id of P4_DEATH_CHECKPOINTS)
+      need(includes(death.find(point=>point.id===id)?.image),'EVIDENCE_JUDGMENT_DEATH_IMAGE',id);
+  }
+}
+
 function validateJudgments(root, listening, judgments, current, expectedAudio, expectedJudgments, final) {
-  const outcomeIds = new Set(final.outcomes.filter(row => row.status === 'pass').map(row => row.id));
-  const images = new Map(final.outcomes.map(row => [row.id,(row.checkpoints??[]).map(point => point.image)]));
   for (const [data,schemaVersion] of [[listening,2],[judgments,1]]) {
     need(data?.schemaVersion === schemaVersion && data.invocation === final.invocation && Array.isArray(data.verdicts),'EVIDENCE_JUDGMENT_SET');
     identity(current,data,'named evidence index');
@@ -615,8 +626,7 @@ function validateJudgments(root, listening, judgments, current, expectedAudio, e
     need(row.method === 'actual-named-review' && row.reviewedAt >= final.startedAt && row.statement === expected.statement &&
       row.criterion === expected.criterion && expected.cases.length > 0,'EVIDENCE_JUDGMENT_RUN',row.id);
     exact(expected.cases,row.caseIds,row.id+' individual actual checks');
-    for (const caseId of row.caseIds) need(outcomeIds.has(caseId) && images.get(caseId)?.some(image =>
-      row.files?.some(file => equal(image,file))), 'EVIDENCE_JUDGMENT_IMAGE', row.id+' '+caseId);
+    validateJudgmentImages(row,final);
     need(validateNamed(root,row,'judgment',expected,current),'EVIDENCE_JUDGMENT_FAILED',row.id);
   }
 }
@@ -843,5 +853,5 @@ module.exports = {PHASE, REVIEW, REVIEW_REPORT, ORIGINAL_REVIEW, SELECTION, FIXE
   read, reference, artifact, document, writeExclusive, git, committedRef, sameCommittedSource, identifySource, identifyTool, identity,
   textArtifact, reviewReport, validateReview, validateProcess, validateRenderedOutcome, validateNamed, listeningExpectations, judgmentExpectations,
   audioAuthority, audioPlayback, writeAuditionMedia, listeningSubjects,
-  validateJudgments, campaignAttempts, historyDocuments, validateCoverage, changedFiles, guardedHostTuples, validateNativeHostProof, inventoryExpectation, validateArtifactInventory,
+  validateJudgments, validateJudgmentImages, campaignAttempts, historyDocuments, validateCoverage, changedFiles, guardedHostTuples, validateNativeHostProof, inventoryExpectation, validateArtifactInventory,
   expectedOutcome, reconcile, repairHistory, freshFinal};
