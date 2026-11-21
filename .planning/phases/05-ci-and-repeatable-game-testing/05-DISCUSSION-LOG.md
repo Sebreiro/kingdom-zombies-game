@@ -4,6 +4,7 @@
 
 **Date:** 2026-11-14 (Europe/Paris)
 **Amended:** 2026-11-15 (Europe/Paris) — local testing discussion below supersedes older execution/closure choices where they conflict.
+**Amended:** 2026-11-21 (Europe/Paris) — artifact retention and time spent on verification.
 **Phase:** 05-ci-and-repeatable-game-testing
 **Areas discussed:** Failure reports/reproduction; PR selection; visual-review handoff; test groups/feedback time.
 
@@ -261,3 +262,18 @@ Every phase stores stable IDs/source/requirement/owner, importance/rationale, de
 ### Documentation validation
 
 The roadmap validator and strict state validator passed. A focused consistency check found 134 distinct requirements, one matching primary owner per requirement, TEST-11 owned by Phase 11 and AC-01–AC-38 in Phase 5; active Phase 02 / plan 02-02 stayed unchanged. Current repository navigation passed in invocation `eb106758-1ff4-4c9c-83b9-7f821f35d5f2`; documentation portability passed in `e4ee9e1b-a4d0-40dc-b2e2-542d6ca131d4`. Reports remain under their original `.phase1/runs/<invocation>/summary.json` identities. The initial restricted navigation attempt `9d4734a9-6a48-4724-b9cf-f7b6c4172003` stopped during locked restore before any case executed; the same command passed with access to the existing local build tools, without source edits between attempts. Preserve that blocked report. No game window or VM was launched for these checks.
+
+## Artifact retention and test time — 2026-11-21
+
+The creator asked Phase 5 to prevent the accumulation of test-proof builds seen in Phase 4 and shorten phase execution while keeping good results. They expect [PR #7](https://github.com/Sebreiro/kingdom-zombies-game/pull/7) to merge before Phase 5 starts. GitHub was unavailable during the discussion, so the review used the local `origin/feature/261119-15c-agent-cleanup` ref at `f373400`. Its cleanup runs at task end and requires preserving the results and reproduction instructions the task relies on.
+
+A read-only scan found 98.2 GiB in `.phase4`, of which 86.4 GiB was in 2,920 populated run directories. JSON accounted for 16.0 GiB of the total. Two qualifying source and headless runs took 97.8 and 97.4 minutes, with `content.native-permissions` accounting for 57.1 and 56.9 minutes respectively. The original completion and per-case records are indexed by [Plan 04-23](../04-asset-production/04-23-SUMMARY.md) and [Plan 04-30](../04-asset-production/04-30-SUMMARY.md). These measurements describe existing runs and do not claim a Phase 5 improvement.
+
+The proposed policy uses shared builds and focused checks during implementation, keeps the required final proofs, and automatically removes scratch builds after their last test finishes and the evidence is saved.
+
+| Option | Selected |
+| --- | --- |
+| Adopt both rules. Keep exact builds only when explicitly needed for diagnosis or handoff. | Yes |
+| Adopt the faster test workflow and also keep the latest failed build until the next successful run. | |
+
+The creator selected the first option. The context records the policy in D-31–D-34. Planning will choose the evidence store and cleanup mechanics, measure storage and execution costs, and profile `content.native-permissions` first. The agreed approach preserves the required assertions, final rendered selection, hosted Windows/Linux runs, LAN checks, coverage targets and eight inherited certification cases.

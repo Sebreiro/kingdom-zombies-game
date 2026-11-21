@@ -187,6 +187,7 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 
 - [Phase04 partial checkpoint,2026-11-19]: All180 source-ready/native-reached+4worldviews, currentpolicy2654/251, authenticated57input32emission producer, freshgovernance28 and current-binary358 pass. CURRENT67:67assertionPASS/66clean-qualified/1animationimportUnicodeFAIL.69localimplementationfiles copied immutably, uncommitted; formal04-23 remains0/2 andPhase04 remains31/37. No budget/debug reset, acceptance or phase advance.
 - [Phase 08]: Context gathered on 2026-11-21 and ready for planning. See [08-CONTEXT.md](phases/08-zombie-campaign-and-outcomes/08-CONTEXT.md) and the [amended specification](phases/08-zombie-campaign-and-outcomes/08-SPEC.md). — Capture the creator-approved campaign interfaces and immediate retaliation without interrupting the current implementation session.
+- [Phase 05]: Approved shared test preparation, focused checks and automatic scratch cleanup after durable evidence is saved. Exact builds are kept only for diagnosis or handoff. See [05-CONTEXT.md](phases/05-ci-and-repeatable-game-testing/05-CONTEXT.md). — Reduce the disk footprint and repeated setup measured in Phase 4 while retaining required verification.
 
 ### Pending Todos
 

@@ -2,6 +2,7 @@
 
 **Gathered:** 2026-11-14 (Europe/Paris)
 **Amended:** 2026-11-15 (Europe/Paris) — permanent local testing policy, immediate reduced selection, scenario importance/run groups and Phase 11 nightly follow-on.
+**Amended:** 2026-11-21 (Europe/Paris) — bounded scratch retention, shared test preparation and measured test costs.
 **Status:** Ready for planning; execution depends on the delivered Phases 1–4 foundations.
 
 <domain>
@@ -97,9 +98,16 @@ The creator's 2026-11-15 decisions supersede earlier complete-catalog closure, t
 - **D-29:** Every phase saves AI-readable scenarios alongside implementation, including phases before Phase 5. Include stable ID/source/requirement/owner, importance/rationale, status/dependencies, setup/seed, ordered production actions, expected results, evidence and replay procedure. Each case declares a persistent game-run group and order, ordinary reset/recovery, roles and fresh-process reason when needed; pure cases declare no window. Each group lists shared setup, ordered cases, resets and exits. Phase 5 integrates and validates these definitions for later regression use.
 - **D-30:** Add **Phase 11: Nightly full regression testing**, after Phase 10, to schedule the complete active catalog across all importance levels with existing game-run groups and retained results/artifacts. Keep manual full execution. The schedule and execution environment are later planning decisions; reduced local selection does not wait for nightly implementation. The new TEST-11 requirement belongs to Phase 11, while TEST-01–TEST-10 remain Phase 5-owned.
 
+### Artifact retention and test time — 2026-11-21
+
+- **D-31:** Publish compact, durable evidence with the original source, tools, environment and invocation identities, exact selected scope and per-case results, replay inputs, failure history and required logs, observations, images and coverage data. Store shared evidence once where cases can cite the same artifact. Evidence cited for acceptance or reuse must still exist and validate after task-end cleanup. A fingerprint or summary alone cannot replace a required artifact. If required evidence is gone or invalid, rerun the affected obligation before claiming acceptance.
+- **D-32:** Treat intermediate builds, import trees, fixture copies and generated media that are not required evidence as scratch. Reclaim run-owned scratch automatically during long tasks once evidence publication succeeds, active processes have exited and the last dependent check has finished. Keep an exact build only when explicitly needed for diagnosis or handoff. Record its owner, reason, path and identity, then release it when that need ends. Integrate with the task-end cleanup policy from [PR #7](https://github.com/Sebreiro/kingdom-zombies-game/pull/7). Prove that cleanup preserves active work, explicitly retained builds, required evidence and tracked inputs.
+- **D-33:** During implementation, use focused checks and prepare a verified build/import once for compatible checks with matching inputs, configuration, tools and environment. Keep mutable fixtures, profiles and deliberate defect subjects isolated. Use the cheapest check that proves the same production behavior, and group compatible engine checks so they share setup or a launch. Export packages when the case exercises an exported build. Schedule broad runs when their scope requires them, and use D-07–D-12 to validate eligible unchanged evidence. Preserve the declared phase-end selection, the fresh final rendered pass after repairs, the real LAN and hosted platform checks, coverage targets, all eight certification cases and each required assertion.
+- **D-34:** Measure peak scratch and retained evidence sizes, plus elapsed setup, build, import, launch and case time. Compare representative runs of the same scope and account for retry or reuse differences. Profile Phase 4's `content.native-permissions` first, then prioritize the largest measured costs. Show that repeated focused runs reclaim scratch and preserve replay and evidence reuse. Set any numeric storage budget or runtime target from measured runs during planning and implementation. The existing approximate ten-minute basic PR target still applies.
+
 ### Agent's Discretion
 
-No new library, report schema, exact CLI spelling, hashing algorithm, instrumentation method, concurrency level or individual future-group budget was selected. Research/planning must choose and prove these mechanisms within the specification. They should investigate building once per OS/revision, verified dependency/engine caches, compatible test batching, immutable within-run preparation and bounded isolated parallelism. These are candidate implementation techniques, not proven speedups or permission to share mutable subjects/focus.
+Research and planning choose the evidence store, cleanup mechanism, report schema, exact CLI, instrumentation, concurrency and measured budgets. Investigate verified dependency/engine caches, immutable shared preparation and bounded isolated parallelism. Establish a clean hosted path independent of previous run outputs, and measure the effect of faster preparation before claiming a speedup.
 
 Retain independent case discovery/accounting, isolated defective subjects, intended diagnostics, bounded waits and ownership cleanup. Do not turn the illustrative seconds-to-one-minute edit-loop suggestion or the earlier 3–5-minute PR proposal into approved targets. The selected PR target is approximately ten minutes; future gameplay, content, LAN and coverage timings remain unmeasured.
 
@@ -130,6 +138,8 @@ Retain independent case discovery/accounting, isolated defective subjects, inten
 - `.planning/phases/03-four-player-lan-foundation/03-CONTEXT.md` — same basic scene and service/gameplay boundaries.
 - `.planning/phases/04-asset-production/04-SPEC.md` — census, required inspection scope, content checks and bounded cosmetic exception.
 - `.planning/phases/04-asset-production/04-CONTEXT.md` — selected pixel scale/style, motion, equipment, inspection, UI/text and sound treatment to inspect.
+- `.planning/phases/04-asset-production/04-HANDOFF.md` — Phase 5 ownership of deferred inspection, catalog, provenance and packaging checks.
+- `.planning/phases/04-asset-production/04-23-SUMMARY.md` and `.planning/phases/04-asset-production/04-30-SUMMARY.md` — qualifying Phase 4 source runs and original receipt identities for the cost baseline below.
 - `.planning/phases/01-code-rules-and-documentation/01-SPEC.md` — enforced rules and original production/native/state contracts; interpret closure through its later exception and the current handoff.
 - `.planning/phases/01-code-rules-and-documentation/01-CLOSURE-EXCEPTION.md` — separate no-restart Phase 1 closure scope; this amendment does not fabricate a complete Linux or individual human pass.
 - `.planning/phases/01-code-rules-and-documentation/01-CLOSURE-FOLLOWUPS.md` — still-visible original Linux/graph/human follow-ups.
@@ -141,6 +151,7 @@ Retain independent case discovery/accounting, isolated defective subjects, inten
 - `docs/workflow/verification.md` — current executable commands, exact evidence handling and future Phase 5 policy; no reuse command exists yet.
 - `docs/workflow/setup.md` — pinned, isolated tools, authenticated archives/feed and caches; historical VM preparation is not a current local testing requirement.
 - `docs/workflow/gsd.md` — planning workflow and document navigation.
+- `docs/workflow/cleanup.md` and `tools/workspace-cleanup.cjs` — task-end cleanup delivered by [PR #7](https://github.com/Sebreiro/kingdom-zombies-game/pull/7), which the creator expects to merge before Phase 5 starts. Read the merged versions when planning integration.
 - `docs/code/README.md` — executable code rules, permissions and independent qualitative review.
 - `docs/architecture/README.md` — five-project graph, engine, state and service policies.
 - `docs/architecture/decisions/0002-boundaries.md` — gameplay/engine/service dependency rationale.
@@ -152,6 +163,7 @@ Retain independent case discovery/accounting, isolated defective subjects, inten
 - `tools/phase2/required-cases.json` — delivered/in-progress foundation catalog to retain and enrich with importance and persistent run groups.
 - `tools/phase2/rendered.cjs` — in-progress shared-session ordering, ordinary resets, per-case failures and Quit-last behavior; not a certified Phase 5 framework.
 - `tools/phase2/check.cjs` — existing exact/group/failed-case entry points and evidence integration to extend, without claiming an implemented priority selector.
+- `tools/phase4/check.cjs` and `tools/phase4/evidence.cjs` — per-case workspaces, process logs and current Phase 4 evidence validation. Inspect these paths for repeated preparation and required evidence before changing how they run.
 - `tests/phase1/docs/README.md` — test responsibility and allowed inspection/tool edges.
 - `tests/phase1/BuildFixture.cs` — real isolated restore/build controls; repeated setup is an optimization candidate, not a disposable proof.
 - `tests/phase1/GraphFixture.cs` — clean baseline plus separately compiled graph mutations.
@@ -189,6 +201,9 @@ Retain independent case discovery/accounting, isolated defective subjects, inten
 
 These are exhaustive proof-group costs, not a mandate to place those whole groups in basic PRs. No accepted timing exists yet for the future complete gameplay/content/LAN/coverage groups.
 
+- The 2026-11-21 read-only scan measured **98.2 GiB** of logical file sizes in `.phase4`, with **86.4 GiB across 2,920 populated run directories** and **16.0 GiB of JSON** across the whole tree. Copied binaries, archives and decoded audio were also major contributors. This snapshot predates task-end cleanup.
+- Phase 4's qualifying 68-case run at `a185ed7` took **97.8 minutes** and the 72-case run at `b7e5cab` took **97.4 minutes**. Both recorded 148 clean positive Godot commands. The single `content.native-permissions` case took **57.1 minutes** and **56.9 minutes**, respectively. Durations come from the original completion and case records referenced by Plans 04-23 and 04-30. These are baselines, and the two selections differ.
+
 ### Integration Points
 
 - Add independently declared logical groups and their dependency/input scopes, with basic PR, focused execution, full execution and completion-validation selections clearly distinguished.
@@ -196,6 +211,7 @@ These are exhaustive proof-group costs, not a mandate to place those whole group
 - Automate delivered production commands/input and read-only observations, with isolated profiles, bounded real host-plus-three-guest execution, rendered checkpoints and review records. Keep test-only authority controls absent from release builds.
 - Add genuine native-hosted coverage and all transferred aggregate controls through acyclic collection/validation/publication. Reconcile complete expected modules and keep analyzer/production counts separate.
 - Implement selected report presentation and reproduction over linked human/machine artifacts without requiring a results application.
+- Publish and validate reusable evidence before releasing any scratch it depends on. Verify the evidence remains usable after the cleanup prescribed by PR #7.
 
 </code_context>
 
@@ -222,4 +238,4 @@ Phase 11 owns scheduled nightly full regression testing (TEST-11); its exact sch
 ---
 
 *Phase: 05-ci-and-repeatable-game-testing*
-*Context gathered: 2026-11-14; amended: 2026-11-15 (Europe/Paris)*
+*Context gathered 2026-11-14. Amended 2026-11-15 and 2026-11-21 (Europe/Paris).*
