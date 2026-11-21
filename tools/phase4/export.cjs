@@ -8,6 +8,8 @@ const {isDeepStrictEqual:equal}=require('node:util');
 const PYTHON='C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe';
 const PIN='production/phase4/export-toolchain.json';
 const GAME='src/godot-game/',PCK='KingdomZombies.pck',PACKAGE_LIMIT=67108864;
+const MISSING_ITEM='content/packs/items-11-24.json',NEARBY_ITEM='content/packs/items-11-24-copy.json';
+const RENDERED_FIXTURES=Object.freeze({'heldout.H27':NEARBY_ITEM,'heldout.H28':null});
 async function digest(file,algorithm='sha256'){
   const value=crypto.createHash(algorithm);for await(const part of fs.createReadStream(file))value.update(part);return value.digest('hex');
 }
@@ -129,6 +131,22 @@ function packBytes(header,members){
   }
   parts[0].writeBigUInt64LE(BigInt(position),32);
   const result=Buffer.concat([...parts,...directory]);pack(result);return result;
+}
+function renderedFixture(positive,id){
+  need(Object.hasOwn(RENDERED_FIXTURES,id),'PORTABLE_RENDERED_FIXTURE',id);
+  const baseline=pack(positive),source=baseline.get(MISSING_ITEM),alias=RENDERED_FIXTURES[id];
+  need(source&&!baseline.has(NEARBY_ITEM)&&baseline.has('content/packs/items-01-10.json'),
+    'PORTABLE_FIXTURE_BASELINE',id);
+  const members=new Map([...baseline].map(([name,row])=>[name,row.data]));
+  members.delete(MISSING_ITEM);
+  if(alias)members.set(alias,source.data);
+  const data=packBytes(positive,members);
+  return {data,sha256:hash(data),bytes:data.length};
+}
+function verifyRenderedFixture(positive,id,declared){
+  const {data,...actual}=renderedFixture(positive,id);
+  need(equal(declared,actual)&&actual.sha256!==hash(positive),'PORTABLE_FIXTURE_HASH',id);
+  return data;
 }
 function sourceContract(){
   const index=document(ROOT,content.INDEX),expected=content.expected(),validation=content.validate(ROOT,index,expected);
@@ -490,4 +508,6 @@ async function exportTracer(context){
   return {scope:'source/headless Windows tracer only',runtime:pin.runtime,framework:pin.framework,files:closure.rows.length,
     genuineTemplate:true,nativeInspection:executed,packagedResources:resources,portableCompletion:true,acceptance:'pending-04-32/04-33'};
 }
-module.exports={digest,snapshot,templates,cleanEnvironment,runtimeEnvironment,cleanCommand,inventory,dependencies,pack,packBytes,packaged,probe,packagedProbe,mountPackage,portable,cloneOutput,missingCoreClr,negatives,exportTracer,buildPackage,verifyInputs,sourceContract};
+module.exports={digest,snapshot,templates,cleanEnvironment,runtimeEnvironment,cleanCommand,inventory,dependencies,pack,packBytes,
+  RENDERED_FIXTURES,renderedFixture,verifyRenderedFixture,packaged,probe,packagedProbe,mountPackage,portable,cloneOutput,missingCoreClr,
+  negatives,exportTracer,buildPackage,verifyInputs,sourceContract};

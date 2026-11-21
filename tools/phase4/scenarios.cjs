@@ -10,6 +10,7 @@ const {setTimeout:delay} = require('node:timers/promises');
 const {isDeepStrictEqual:equal} = require('node:util');
 const e = require('./evidence.cjs');
 const owned = require('./rendered-process.cjs');
+const delivery = require('./export.cjs');
 
 const CATALOG = 'tools/phase4/required-cases.json';
 const COVERAGE = e.PHASE + '04-ACCEPTANCE-COVERAGE.md';
@@ -297,6 +298,11 @@ function currentIdentity(root) {
     build.source === source.source && build.media === source.media && build.tool === tools.tool &&
     build.sourceLinkRevision === source.revision && Array.isArray(build.artifacts) && build.artifacts.length > 0, 'REVIEW_BUILD');
   for (const ref of build.artifacts) e.artifact(root, ref);
+  const pack = e.artifact(root,build.pck,64*1024*1024);
+  e.need(build.pck.path === path.posix.join(path.posix.dirname(build.package?.path ?? ''),'KingdomZombies.pck'),
+    'REVIEW_BUILD_PCK');
+  e.exact(Object.keys(delivery.RENDERED_FIXTURES),Object.keys(build.renderedFixtures ?? {}),'rendered PCK fixtures');
+  for (const id of Object.keys(delivery.RENDERED_FIXTURES)) delivery.verifyRenderedFixture(pack.data,id,build.renderedFixtures[id]);
   return {revision:source.revision, source:source.source, media:source.media, tool:tools.tool, build:review.buildReport.sha256};
 }
 
@@ -313,10 +319,11 @@ function finalRendered(root, gate, current, refs, campaign) {
   e.need(final.drivers?.path === '.phase4/acceptance/'+final.invocation+'/declared-drivers.json','COMPLETION_DRIVER_SCOPE');
   const driverRecord = e.document(root,final.drivers);
   const drivers = reviewedDrivers(driverRecord,gate,current,native,final.kind);
+  const build = e.document(root,e.document(root,gate.review).buildReport);
   e.need(driverRecord.campaign === final.campaign && driverRecord.declaredAt <= final.startedAt,'COMPLETION_DRIVER_TIME');
   for (const [index,row] of final.outcomes.entries()) {
     const item = native[index];
-    if (!item.family) e.validateRenderedOutcome(root,row,final,drivers.get(row.id));
+    if (!item.family) e.validateRenderedOutcome(root,row,final,drivers.get(row.id),build);
     else {
       const {result,bindings} = e.document(root,row.inherited);
       const directory = path.resolve(root,path.dirname(row.inherited.path));
@@ -515,6 +522,10 @@ function validateDriver(row, item) {
   }
 }
 
+function relaunchCase(id) {
+  return id === 'heldout.H31' || id === 'rendered.packaged-relaunch';
+}
+
 function reviewedDrivers(data, gate, current, native, kind) {
   e.identity(current,data,'rendered input');
   e.need(data.schemaVersion === 1 && data.selectionSha256 === gate.selection.sha256 && data.reviewSha256 === gate.review.sha256 &&
@@ -523,8 +534,19 @@ function reviewedDrivers(data, gate, current, native, kind) {
   const files = native.filter(row => !row.family);
   e.exact(files.map(row => row.id),data.drivers.map(row => row.id),'saved physical drivers');
   const drivers = new Map(data.drivers.map(row => [row.id,row]));
-  for (const row of files) validateDriver(drivers.get(row.id),row);
-  if (drivers.has('rendered.packaged-relaunch')) e.need(drivers.get('rendered.packaged-relaunch').steps.length >= 2,'RENDERED_RELAUNCH_CHECKPOINTS');
+  for (const row of files) {
+    const driver = drivers.get(row.id);
+    validateDriver(driver,row);
+    if (Object.hasOwn(delivery.RENDERED_FIXTURES,row.id)) {
+      e.need(driver.fixture?.id === row.id && e.HEX.test(driver.fixture.pckSha256),'RENDERED_DRIVER_FIXTURE',row.id);
+    }
+    if (relaunchCase(row.id)) {
+      const lifetimes = driver.steps.map(step => step.lifetime);
+      e.need(lifetimes[0] === 1 && lifetimes.at(-1) === 2 &&
+        lifetimes.every((value,index) => [1,2].includes(value) && (index === 0 || value >= lifetimes[index-1])),
+        'RENDERED_RELAUNCH_CHECKPOINTS',row.id);
+    }
+  }
   return drivers;
 }
 
@@ -652,11 +674,11 @@ function desktopCommand(root, script, env, limit, owner, signal) {
     Buffer.from(script,'utf16le').toString('base64')], {cwd:root,env}, limit,signal);
 }
 
-async function inspectionSession(root, relative, group, build, adapter, budget, signal) {
+async function inspectionSession(root, relative, group, build, adapter, budget, signal, subject = null) {
   const phase2 = require('../phase2/rendered.cjs');
   const owner = owned.observeChildren();
   const role = group === 'G1-hub' ? 'inspection-hub' : 'packaged-inspection';
-  const target = role === 'inspection-hub' ? build.engine : build.package;
+  const target = role === 'inspection-hub' ? build.engine : subject.executable;
   e.artifact(root,target);
   const executable = path.join(root,target.path);
   const project = role === 'inspection-hub' ? ['--path',path.join(root,'src/godot-game'),'res://inspection/Inspection.tscn'] : [];
@@ -736,15 +758,38 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
     const record = {role,pid,startedAt,finishedAt:new Date().toISOString(),timedOut,
       crashed:Boolean(error) || terminal?.exitCode !== 0 || /ERROR:|SCRIPT ERROR:|Failed to load/i.test(log),
       exitCode:terminal?.exitCode ?? null,signal:terminal?.signal ?? null,streamsClosed:Boolean(terminal),inputReleased,
-      ownedPids:owner.pids(),remainingPids,log:logRef,executable:target};
+      ownedPids:owner.pids(),remainingPids,log:logRef,executable:target,package:subject?.pck ?? null,
+      fixture:subject?.fixture ?? null,profile:path.posix.join(relative,'profile')};
     return {record,ref:e.writeExclusive(root,relative+'/terminal.json',record)};
   }
   return {checkpoint,close,get usable(){return Boolean(pid && !terminal && !error);}};
 }
 
+function packagedSubject(root, relative, build, fixture) {
+  const source = path.posix.dirname(build.package.path);
+  const positive = e.artifact(root,build.pck,64*1024*1024).data;
+  if (!fixture) return {fixture:null,executable:build.package,pck:build.pck};
+  const data = delivery.verifyRenderedFixture(positive,fixture,build.renderedFixtures[fixture]);
+  const sibling = relative+'/'+fixture+'-subject';
+  const rows = delivery.inventory(path.join(root,source)).filter(row => row.path !== 'KingdomZombies.pck');
+  delivery.cloneOutput({directory:path.join(root,relative)},path.posix.basename(sibling),path.join(root,source),rows);
+  const pck = sibling+'/KingdomZombies.pck';
+  fs.writeFileSync(path.join(root,pck),data,{flag:'wx'});
+  return {fixture,executable:e.reference(root,sibling+'/KingdomZombies.exe',256*1024*1024),
+    pck:e.reference(root,pck,64*1024*1024)};
+}
+
 async function runInspection(root, relative, group, items, drivers, build, adapter, invocation, signal) {
-  const outcomes = [];
-  const sessions = [];
+  const outcomes = items.map(item => ({id:item.id,runGroup:item.runGroup,invocation,status:'pass',execution:'executed-now',
+    expected:e.expectedOutcome(item),observed:'Current native observation and physical input recorded',checkpoints:[],processes:[]}));
+  const packaged = group.id === 'G2-packaged';
+  const negative = items.filter(item => Object.hasOwn(delivery.RENDERED_FIXTURES,item.id));
+  const positive = items.filter(item => !negative.includes(item));
+  const schedule = [...negative.map(item => ({fixture:item.id,lifetime:1,items:[item]}))];
+  if (positive.length) schedule.push({fixture:null,lifetime:1,items:positive});
+  const repeated = positive.filter(item => relaunchCase(item.id));
+  if (repeated.length) schedule.push({fixture:null,lifetime:2,items:repeated});
+  let launchNumber = 0;
   let session, currentAttempt = [];
   const budget = owned.timeBudget(group.timeoutMs,signal);
   const finish = async () => {
@@ -759,37 +804,34 @@ async function runInspection(root, relative, group, items, drivers, build, adapt
       }
     } finally {session = null;currentAttempt = [];}
   };
-  const launch = async () => {
-    const owned = relative + '/' + group.id + '-launch-' + (sessions.length + 1);
-    budget();
-    session = await inspectionSession(root,owned,group.id,build,adapter,budget,signal);
-    sessions.push(owned);
-  };
-  try {
-    for (const item of items) {
-      const row = {id:item.id,runGroup:item.runGroup,invocation,status:'pass',execution:'executed-now',
-        expected:e.expectedOutcome(item),observed:'Current native observation and physical input recorded',checkpoints:[],processes:[]};
-      outcomes.push(row);
-      try {
-        if (!sessions.length) await launch();
+  for (const lane of schedule) {
+    const owned = relative + '/' + group.id + '-launch-' + (++launchNumber);
+    try {
+      budget();
+      const subject = packaged ? packagedSubject(root,relative,build,lane.fixture) : null;
+      budget();
+      session = await inspectionSession(root,owned,group.id,build,adapter,budget,signal,subject);
+      for (const item of lane.items) {
+        const row = outcomes.find(outcome => outcome.id === item.id);
+        if (row.status !== 'pass') continue;
         currentAttempt.push(row);
-        budget();
-        e.need(session?.usable,'RENDERED_GROUP_UNAVAILABLE',group.id);
-        const driver = drivers.get(item.id);
-        for (const [index,step] of driver.steps.entries()) {
+        try {
           budget();
-          row.checkpoints.push(await session.checkpoint(item,step,invocation));
-          if (item.id === 'rendered.packaged-relaunch' && index === 0) {
-            await finish();e.need(row.status === 'pass','RENDERED_RELAUNCH_FIRST_EXIT');
-            await launch();currentAttempt.push(row);
-          }
+          e.need(session?.usable,'RENDERED_GROUP_UNAVAILABLE',group.id);
+          const steps = drivers.get(item.id).steps.filter(step => (step.lifetime ?? 1) === lane.lifetime);
+          for (const step of steps) row.checkpoints.push(await session.checkpoint(item,step,invocation));
+        } catch (error) {
+          row.status = row.checkpoints.length || session?.usable ? 'fail' : 'blocked';
+          row.observed = error.message.slice(0,4096).replace(/[\r\n]/g,' ');
         }
-      } catch (error) {
-        row.status = row.checkpoints.length || session?.usable ? 'fail' : 'blocked';
+      }
+    } catch (error) {
+      for (const row of outcomes.filter(row => lane.items.some(item => item.id === row.id) && row.status === 'pass')) {
+        row.status = 'blocked';
         row.observed = error.message.slice(0,4096).replace(/[\r\n]/g,' ');
       }
-    }
-  } finally {await finish();}
+    } finally {await finish();}
+  }
   budget();
   return outcomes;
 }
@@ -842,6 +884,8 @@ async function runRendered(root, registered) {
   }
   const drivers = reviewedDrivers(data,gate,current,native,data.kind);
   const review = e.document(root,gate.review), build = e.document(root,review.buildReport);
+  for (const [id,driver] of drivers) if (Object.hasOwn(delivery.RENDERED_FIXTURES,id))
+    e.need(driver.fixture.pckSha256 === build.renderedFixtures[id].sha256,'RENDERED_DRIVER_FIXTURE',id);
   for (const ref of [build.engine,build.package]) {
     e.need(build.artifacts.some(artifact => equal(artifact,ref)),'RENDERED_BUILD_TARGET');
     e.artifact(root,ref);
@@ -892,7 +936,7 @@ async function runRendered(root, registered) {
   for (const row of outcomes) if (row.status === 'pass' && !unchanged) {row.status = 'invalid';row.observed = 'Current source or build drifted during this run';}
   const report = {...opening,start,finishedAt,outcomes};
   for (const row of outcomes.filter(row => row.status==='pass' && drivers.has(row.id))) try {
-    e.validateRenderedOutcome(root,row,report,drivers.get(row.id));
+    e.validateRenderedOutcome(root,row,report,drivers.get(row.id),build);
   } catch (error) {
     row.status = 'invalid';row.observed = error.message.slice(0,4096).replace(/[\r\n]/g,' ');
   }
@@ -950,4 +994,4 @@ async function verifyCompletion(root, relative, registered) {
 module.exports = {CATALOG, COVERAGE, SCENARIOS, GROUPS, ORDER, coverageRows, validateProcedure, validateCatalog, loadCatalog,
   selectCases, inheritedCases, selectionRows, impactClosure, validateSelection, currentReviewAdapter, prelaunch, currentIdentity, runId,
   finalRendered, latestPhase4Sources, sourceReceipts, completionSourceReceipts, preWindowCases, verifyFixProof, coverageExpectation, validateDriver, reviewedDrivers,
-  treePaths, runInspection, runInherited, runRendered, verifyCompletion};
+  treePaths, relaunchCase, packagedSubject, runInspection, runInherited, runRendered, verifyCompletion};

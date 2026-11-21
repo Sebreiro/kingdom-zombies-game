@@ -192,6 +192,12 @@ async function portability(context){
   for(const [name,alias] of [['nearby-file','content/packs/items-11-24-copy.json'],['wrong-case','content/packs/Items-11-24.json']]){
     aliases.push(await mountedVariant(name,remove(MISSING,alias),'WORLD_INSPECTOR_MISSING'));
   }
+  const renderedFixtures=Object.fromEntries(Object.keys(tool.RENDERED_FIXTURES).map((id,index)=>{
+    const {data,...identity}=tool.renderedFixture(positive,id);
+    need(identity.sha256===[aliases[0],missing][index].pckSha256,'PORTABLE_RENDERED_FIXTURE_SUBJECT',id);
+    tool.verifyRenderedFixture(positive,id,identity);
+    return [id,identity];
+  }));
   const reordered=await mountedVariant('reordered-missing-entry',members=>{
     remove(MISSING)(members);changeIndex(members,index=>{index.files.reverse();index.outputs.reverse();});
   },'WORLD_INSPECTOR_MISSING');
@@ -254,7 +260,7 @@ async function portability(context){
     launches:[initial.result,relaunch.result],observerControls:relaunch.controls.length,
     runtime:[initial.runtimeResolution,relaunch.runtimeResolution],
     fixtureScope:'Pin-matched editor observations with genuine PCK variants and exported assemblies',
-    variants:{missing,aliases,reordered,changed},controls,interruptedPid:stopped.pid,
+    variants:{missing,aliases,reordered,changed},renderedFixtures,controls,interruptedPid:stopped.pid,
     scope:'Windows portable delivery and natural headless launch, close and relaunch'};
   write(context.directory,'portable-delivery.json',receipt);
   return receipt;

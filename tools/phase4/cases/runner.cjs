@@ -252,13 +252,14 @@ function renderedDeclarationControls(directory,reject) {
   const tree = put('tree.bin',encode(['scene:scene_tree',1,[1,'root','Window',1,'',0,0,'Inspection','Node',2,'',0]]));
   const nativeObject = put('object.bin',encode(['scene:inspect_objects',1,[[2,'Node',[['visible',0,0,0,0,true]]]]]));
   const driver = {id,stimulus:'Observe two detached physical declaration shapes',steps:['first','second'].map(id =>
-    ({id,action:'tap',key:9,node:'/root/Inspection',property:'visible',expected:true}))};
+    ({id,action:'tap',key:9,node:'/root/Inspection',property:'visible',expected:true,lifetime:id==='first'?1:2}))};
   const row = {id,checkpoints:[],processes:[]};
   for (const [index,step] of driver.steps.entries()) {
     const pid = process.pid + index;
     const start = new Date(Date.parse(report.startedAt)+index*1000).toISOString();
     const end = new Date(Date.parse(start)+999).toISOString();
-    row.processes.push(put(step.id+'-process.json',{...process,pid,role:'packaged-inspection',startedAt:start,finishedAt:end,log:fake,executable:fake}));
+    row.processes.push(put(step.id+'-process.json',{...process,pid,role:'packaged-inspection',startedAt:start,finishedAt:end,
+      log:fake,executable:fake,profile:'profiles/'+step.id}));
     const flags = {caseId:id,checkpoint:step.id,invocation,pid,at:start};
     const input = put(step.id+'-input.json',{...flags,focused:true,clientWidth:1280,clientHeight:720,method:'physical-keyboard',action:'tap',key:9,
       acknowledgement:{pid,focused:true,width:1280,height:720,action:'tap'}});
@@ -273,12 +274,29 @@ function renderedDeclarationControls(directory,reject) {
   e.validateRenderedOutcome(root,row,report,driver);
   reject('omitted-saved-relaunch-checkpoint',/EVIDENCE_SET/,() => e.validateRenderedOutcome(root,{...row,checkpoints:row.checkpoints.slice(0,1)},report,driver));
   reject('omitted-second-owned-launch',/EVIDENCE_RENDERED_LAUNCHES/,() => e.validateRenderedOutcome(root,{...row,processes:row.processes.slice(0,1)},report,driver));
+  reject('heldout-single-owned-launch',/EVIDENCE_RENDERED_LAUNCHES/,() => e.validateRenderedOutcome(root,
+    {...row,id:'heldout.H31',processes:row.processes.slice(0,1)},report,{...driver,id:'heldout.H31'}));
   reject('reordered-saved-checkpoints',/EVIDENCE_SET/,() => e.validateRenderedOutcome(root,{...row,checkpoints:row.checkpoints.slice().reverse()},report,driver));
   reject('declared-physical-action-mismatch',/EVIDENCE_NATIVE_INPUT/,() => e.validateRenderedOutcome(root,row,report,
     {...driver,steps:[{...driver.steps[0],key:13},driver.steps[1]]}));
   reject('same-png-wrong-declared-state',/EVIDENCE_DECLARED_OBSERVATION/,() => e.validateRenderedOutcome(root,row,report,
     {...driver,steps:[{...driver.steps[0],expected:false},driver.steps[1]]}));
   reject('stale-driver-review',/RENDERED_INPUT_SCHEMA/,() => scenarios.reviewedDrivers({...declaration,reviewSha256:'a'.repeat(64)},gate,current,[row],'initial'));
+  const tool = require('../export.cjs'), header = Buffer.alloc(112);
+  header.write('GDPC');
+  [4,4,7,2,2].forEach((value,index) => header.writeUInt32LE(value,4+index*4));
+  header.writeBigUInt64LE(112n,24);
+  const named = 'content/packs/items-11-24.json', sibling = 'content/packs/items-01-10.json';
+  const positive = tool.packBytes(header,new Map([[named,Buffer.from('subject')],[sibling,Buffer.from('sibling')]]));
+  for (const [fixture,alias] of Object.entries(tool.RENDERED_FIXTURES)) {
+    const {data,...ref} = tool.renderedFixture(positive,fixture);
+    const files = tool.pack(tool.verifyRenderedFixture(positive,fixture,ref));
+    assert.equal(files.has(named),false);
+    assert.equal(files.get(sibling).data.toString(),'sibling');
+    assert.equal(files.has('content/packs/items-11-24-copy.json'),Boolean(alias));
+    reject('healthy-pck-used-for-'+fixture,/PORTABLE_FIXTURE_HASH/,() =>
+      tool.verifyRenderedFixture(positive,fixture,{bytes:positive.length,sha256:require('../content.cjs').hash(positive)}));
+  }
 }
 
 function selectionFixture() {

@@ -246,23 +246,40 @@ function validateProcess(row) {
     Array.isArray(row.remainingPids) && row.remainingPids.length === 0, 'EVIDENCE_PROCESS', row?.role);
 }
 
-function validateRenderedOutcome(root, row, report, driver) {
+function validateRenderedOutcome(root, row, report, driver, build = null) {
   need(Array.isArray(row.checkpoints) && row.checkpoints.length > 0 && Array.isArray(row.processes) &&
     row.processes.length > 0 && driver?.id === row.id && Array.isArray(driver.steps),'EVIDENCE_RENDERED_MISSING',row.id);
   exact(driver.steps.map(item => item.id),row.checkpoints.map(item => item.id),'declared physical checkpoint IDs',true);
-  const relaunch = row.id === 'rendered.packaged-relaunch';
+  const {relaunchCase} = require('./scenarios.cjs');
+  const relaunch = relaunchCase(row.id);
   need(row.processes.length === (relaunch ? 2 : 1) && (!relaunch || driver.steps.length >= 2),'EVIDENCE_RENDERED_LAUNCHES',row.id);
   const processes = row.processes.map(ref => document(root, ref));
   for (const process of processes) {
     validateProcess(process);
     need(process.startedAt >= report.startedAt && process.finishedAt <= report.finishedAt,'EVIDENCE_PROCESS_TIME',row.id);
     artifact(root,process.log,8*1024*1024);artifact(root,process.executable);
+    if (build && row.runGroup === 'G2-packaged') {
+      const id = Object.hasOwn(require('./export.cjs').RENDERED_FIXTURES,row.id) ? row.id : null;
+      need(process.role === 'packaged-inspection' && process.fixture === id,'EVIDENCE_PACKAGE_SUBJECT',row.id);
+      artifact(root,process.package,64*1024*1024);
+      if (id) {
+        const subject = '.phase4/acceptance/'+report.invocation+'/'+id+'-subject/';
+        const approved = build.renderedFixtures[id];
+        need(driver.fixture?.pckSha256 === approved.sha256 && process.package.path === subject+'KingdomZombies.pck' &&
+          process.package.sha256 === approved.sha256 && process.package.bytes === approved.bytes &&
+          process.executable.path === subject+'KingdomZombies.exe' && process.executable.sha256 === build.package.sha256,
+          'EVIDENCE_PACKAGE_FIXTURE',row.id);
+      } else need(equal(process.package,build.pck) && equal(process.executable,build.package),
+        'EVIDENCE_PACKAGE_IDENTITY',row.id);
+    }
   }
   exact(processes.map(process => process.pid), processes.map(process => process.pid), 'rendered process IDs');
   if (relaunch) need(processes[0].finishedAt <= processes[1].startedAt && equal(processes[0].executable,processes[1].executable) &&
+    equal(processes[0].package,processes[1].package) && processes[0].profile !== processes[1].profile &&
     processes.every(process => process.role === 'packaged-inspection'),'EVIDENCE_RELAUNCH_OWNERSHIP');
   for (const [index,item] of row.checkpoints.entries()) {
-    const step = driver.steps[index], owner = processes[relaunch && index>0 ? 1 : 0];
+    const step = driver.steps[index], owner = processes[(step.lifetime ?? 1)-1];
+    need(owner,'EVIDENCE_RENDERED_LIFETIME',row.id);
     const draw = document(root, item.draw);
     const input = document(root, item.input);
     need(named(item.id) && draw.caseId === row.id && draw.checkpoint === item.id && draw.invocation === report.invocation &&
