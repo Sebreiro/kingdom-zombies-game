@@ -321,7 +321,7 @@ function callerPlan(item, root) {
     'rules.godot-companion-positive': ['KingdomZombies.Phase1.Tests.ExemptionTests.Build_GenuineGodotAndHandwrittenCompanion_AcceptsExactOutput', 'GODOT_COMPANION_COMPILED'],
     'rules.godot-companion-negative': ['KingdomZombies.Phase1.Tests.ExemptionTests.Build_HandwrittenGodotBody_RetainsExactDiagnostic', 'GODOT_HANDWRITTEN_SCR0001'],
     'rules.godot-callsite-boundary': ['KingdomZombies.Phase1.Tests.GodotCallSiteAdapterTests.Analyze_GodotCallSitePermissions_RejectsOutsideMembers', 'GODOT_CALLSITE_BOUNDARY_REJECTED'],
-    'core.permissions': ['*FoundationPermissionTests.ProductionEventAccessRequiresAuthenticPrecedingGuard', 'EXACT_PRODUCTION_EVENT_GUARD']
+    'core.permissions': ['*FoundationPermissionTests.EventAccess_ProductionCalls_RequireAuthenticPrecedingGuard', 'EXACT_PRODUCTION_EVENT_GUARD']
   };
   const identity = identities[item.id], spec = item.callerStages;
   if (!identity || item.test !== identity[0] || spec?.diagnostic !== identity[1]

@@ -210,7 +210,7 @@ async function compiled(context){
  const assembly=inside(ROOT,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll');
  const discovery=await runner.command(context,'buildings-discovery','dotnet',[assembly,'--list-tests','--filter-class','*BuildingPresentationTests','--no-ansi'],{env:isolated()});
  const names=[...discovery.stdout.matchAll(/BuildingPresentationTests\.([A-Za-z0-9_]+)/g)].map(x=>x[1]);
- const expected={Pending_Upgrade_RetainsCompletedTier:1,Work_ProjectsCapacityAndGuardsTogether:8,Work_RejectsInvalidState:7,Definition_DetachesAndRejectsAmbiguousInput:1};
+ const expected={Pending_Upgrade_RetainsCompletedTier:1,Work_UpgradeProgress_ProjectsCapacityAndGuardsTogether:8,Work_InvalidState_IsRejected:7,Definition_ValidAndAmbiguousInputs_DetachesAndRejects:1};
  need(names.length===17&&equal(Object.keys(expected).sort(),[...new Set(names)].sort()),'BUILDING_DISCOVERY');
  const dir=inside(context.directory,'compiled');fs.mkdirSync(dir);await runner.command(context,'buildings-compiled','dotnet',[assembly,'--filter-class','*BuildingPresentationTests','--report-xunit-ctrf','--report-xunit-ctrf-filename','tests.json','--results-directory',dir,'--no-ansi','--progress','off','--parallel','none','--timeout','45s'],{env:isolated()});
  const report=document(dir,'tests.json');need(report.results.summary.tests===17&&report.results.summary.passed===17&&report.results.summary.failed===0&&report.results.summary.skipped===0&&report.results.tests.length===17,'BUILDING_COMPILED_RESULTS');

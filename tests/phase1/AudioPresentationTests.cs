@@ -14,7 +14,7 @@ public sealed class AudioPresentationTests
 {
     /// <summary>Replacement owners cannot revive an earlier owner with the same local state.</summary>
     [Fact]
-    public void ReplacementOwners_ReceiveStrictlyIncreasingEpochs()
+    public void Replace_AudioOwners_IncreasesEpochs()
     {
         long first = (long)(Call(name: "NextEpoch", arguments: []) ?? throw new InvalidOperationException());
         long second = (long)(Call(name: "NextEpoch", arguments: []) ?? throw new InvalidOperationException());
@@ -23,21 +23,21 @@ public sealed class AudioPresentationTests
 
     /// <summary>The actual generated food source resolves its declared deterministic provenance.</summary>
     [Fact]
-    public void Sources_ResolveGeneratedFoodAuthority()
+    public void Sources_GeneratedFood_ResolvesAuthority()
     {
         Source(id: "interface.food-crunch.v1").ShouldContain(expected: "seed190021");
     }
 
     /// <summary>The derived burst resolves its current shared source without approval extension.</summary>
     [Fact]
-    public void Sources_ResolveCurrentSharedAction()
+    public void Sources_CurrentSharedAction_ResolvesExactBinding()
     {
         Source(id: "interface.bloater-burst.v1").ShouldContain(expected: "2790");
     }
 
     /// <summary>A zero selected bus is visibly muted even when the master bus remains enabled.</summary>
     [Fact]
-    public void CriticalBusZero_RemainsVisiblyMuted()
+    public void Audition_ZeroCriticalBus_RemainsVisiblyMuted()
     {
         Call(name: "IsMuted", arguments: [false, 80d, 0d]).ShouldBe(expected: true);
     }
@@ -50,14 +50,14 @@ public sealed class AudioPresentationTests
     [InlineData(3, 1, 1u, 2)]
     [InlineData(3, 2, 0u, 0)]
     [InlineData(3, 2, 1u, 1)]
-    public void VariantDraw_ExcludesPreviousAndPreservesChoices(int count, int previous, uint draw, int expected)
+    public void VariantDraw_Previous_ExcludesItAndKeepsChoices(int count, int previous, uint draw, int expected)
     {
         Call(name: "VariantIndex", arguments: [count, previous, draw]).ShouldBe(expected: expected);
     }
 
     /// <summary>Every current inline, donor, generated and shared variant retains nonempty provenance.</summary>
     [Fact]
-    public void Sources_ResolveEveryCurrentVariant()
+    public void Sources_CurrentVariants_ResolvesEveryBinding()
     {
         int count = 0;
         JsonElement actions = Pack(file: "audio-actions");
@@ -86,7 +86,7 @@ public sealed class AudioPresentationTests
     [InlineData("generated-authority", "donorGap")]
     [InlineData("generated-recipe", "recipes")]
     [InlineData("generated-recipe-hash", "recipes")]
-    public void Sources_RejectWrongAuthoritiesAndRestore(string control, string field)
+    public void Sources_WrongAuthorities_RejectsAndRestores(string control, string field)
     {
         JsonElement original = Pack(file: "audio-interface-ambience");
         JsonObject pack = Object(json: original.GetRawText());

@@ -14,7 +14,7 @@ public sealed class FoundationPermissionTests
 {
     /// <summary>Rejects an unguarded native event subscription after accepting the exact guarded source.</summary>
     [Fact]
-    public void ProductionEventAccessRequiresAuthenticPrecedingGuard()
+    public void EventAccess_ProductionCalls_RequireAuthenticPrecedingGuard()
     {
         var consumer = ConsumerCompilation.Read(root: ProofProtocol.Root, project: ProjectEvaluator.Expected[2]);
         CheckEvent(consumer: consumer);

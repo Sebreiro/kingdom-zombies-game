@@ -17,7 +17,7 @@ public sealed class AppearanceStateTests
 {
     /// <summary>Explicit death fades its effect while current corpse and gear remain.</summary>
     [Fact]
-    public void Death_AfterTransientExpiryPreservesCurrentEquippedCorpse()
+    public void Death_ExpiredTransients_PreservesCurrentEquippedCorpse()
     {
         var subject = new AppearanceState(definition: Encoding.UTF8.GetBytes(s: Definition));
         JsonElement equipment = JsonSerializer.SerializeToElement(value: new { backpack = "IT-23" });
@@ -33,7 +33,7 @@ public sealed class AppearanceStateTests
 
     /// <summary>Current gear replaces all previous gear and silent restore never replays death events.</summary>
     [Fact]
-    public void Restore_ReplacesGearSilentlyAndDetachesInputs()
+    public void Restore_ReplacementGear_AppliesSilentlyAndDetachesInputs()
     {
         AppearanceState subject = Actual();
         using var equipment = JsonDocument.Parse(json:
@@ -70,7 +70,7 @@ public sealed class AppearanceStateTests
     [InlineData("CH-06")]
     [InlineData("CH-07")]
     [InlineData("CH-08")]
-    public void Death_AllBodiesPreserveGearAndRemoveCrown(string body)
+    public void Death_AllBodies_PreservesGearAndRemovesCrown(string body)
     {
         AppearanceState subject = Actual();
         subject.Restore(body: body, kind: "alive", equipment: JsonSerializer.SerializeToElement(
@@ -92,7 +92,7 @@ public sealed class AppearanceStateTests
 
     /// <summary>Empty and repopulated piles, wildlife meat and structural exclusions remain independent.</summary>
     [Fact]
-    public void Endpoint_RulesAndResetFencePastEvents()
+    public void Endpoint_ExistingState_PreservesRulesAndFencesPastEvents()
     {
         AppearanceState subject = Actual();
         subject.Restore(body: "pile", kind: "pile", equipment: Gear(), selected: true);
@@ -127,7 +127,7 @@ public sealed class AppearanceStateTests
 
     /// <summary>Malformed clocks, identities and ambiguous or mismatched gear fail before state replacement.</summary>
     [Fact]
-    public void InvalidInput_PreservesCurrentPublication()
+    public void Publish_InvalidInput_PreservesCurrentPublication()
     {
         AppearanceState subject = Actual();
         subject.Restore(body: "CH-01", kind: "corpse", equipment: Gear(backpack: "IT-24"), selected: true);
@@ -157,7 +157,7 @@ public sealed class AppearanceStateTests
 
     /// <summary>Only the exact new identity is public; compiler-valid neighboring declarations remain denied.</summary>
     [Fact]
-    public void Visibility_ExactIdentityAndCompilerValidNegativeControls()
+    public void Visibility_CompilerValidControls_EnforcesExactIdentity()
     {
         const string Identity = "namespace KingdomZombies.Core; public sealed class AppearanceState { }";
         string registry = File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root,

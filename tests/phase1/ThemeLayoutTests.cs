@@ -10,7 +10,7 @@ public sealed class ThemeLayoutTests
 {
     /// <summary>The existing hub must use the packaged reusable theme.</summary>
     [Fact]
-    public void Scene_AppliesPackagedTheme()
+    public void Scene_PackagedTheme_IsApplied()
     {
         string scene = File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root,
                 path2: "src/godot-game/inspection/Inspection.tscn"));
@@ -20,7 +20,7 @@ public sealed class ThemeLayoutTests
 
     /// <summary>Both text roles declare explicit packaged fallback and bounded Unicode coverage.</summary>
     [Fact]
-    public void Fonts_DeclarePackagedFallbackAndMissingDiagnostic()
+    public void Fonts_PackagedFontSet_DeclaresFallbackAndMissingDiagnostic()
     {
         using JsonDocument pack = ReadPack();
         JsonElement fonts = pack.RootElement.GetProperty(propertyName: "fonts");
@@ -36,7 +36,7 @@ public sealed class ThemeLayoutTests
 
     /// <summary>Authored scales remain UI values and never change the registered world sprite scale.</summary>
     [Fact]
-    public void Scales_KeepWorldZoomIndependent()
+    public void Scales_UiScale_KeepsWorldZoomIndependent()
     {
         using JsonDocument pack = ReadPack();
         JsonElement scales = pack.RootElement.GetProperty(propertyName: "scales");

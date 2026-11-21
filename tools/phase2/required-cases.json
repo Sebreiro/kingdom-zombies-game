@@ -17,30 +17,30 @@
       "id": "core.authority",
       "group": "core",
       "implementation": "csharp",
-      "test": "*FoundationMovementTests.IdentifiedRightwardCommandAdvancesThreeUnits"
+      "test": "*FoundationMovementTests.Move_IdentifiedRightwardCommand_AdvancesThreeUnits"
     },
     {
       "id": "core.input",
       "group": "core",
       "implementation": "csharp",
-      "test": "*FoundationMovementTests.PhysicalAliasesCancelAndRelease"
+      "test": "*FoundationMovementTests.Move_PhysicalAliases_CancelAndRelease"
     },
     {
       "id": "core.lifecycle",
       "group": "core",
       "implementation": "csharp",
-      "test": "*FoundationLifecycleTests.ClosedAuthorityAndHeldKeysCannotCrossLifetimes"
+      "test": "*FoundationLifecycleTests.Lifetime_ClosedAuthorityAndHeldKeys_CannotCross"
     },
     {
       "id": "core.permissions",
       "group": "core",
       "implementation": "csharp",
-      "test": "*FoundationPermissionTests.ProductionEventAccessRequiresAuthenticPrecedingGuard",
+      "test": "*FoundationPermissionTests.EventAccess_ProductionCalls_RequireAuthenticPrecedingGuard",
       "callerStages": {
         "catalog": "tools/phase2/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "EXACT_PRODUCTION_EVENT_GUARD",
-        "repositorySha256": "8586d43ae0203e6c755c7b36a60c4fcd23e940ffa44f5d08007299ef7f7309bf",
+        "repositorySha256": "d56a7e9bcc0f3e97aa02b35add31db0d93cf24054b950e6427443cdaf9a43ecf",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 3636000,
@@ -1735,19 +1735,19 @@
       "id": "runner.integrity",
       "group": "runner",
       "implementation": "csharp",
-      "test": "*FoundationRunnerTests.InvalidEvidenceCannotPass"
+      "test": "*FoundationRunnerTests.Evidence_InvalidRecords_CannotPass"
     },
     {
       "id": "runner.processes",
       "group": "runner",
       "implementation": "csharp",
-      "test": "*FoundationRunnerTests.FailingChildrenCannotPass"
+      "test": "*FoundationRunnerTests.Child_FailingProcesses_CannotPass"
     },
     {
       "id": "runner.repeatability",
       "group": "runner",
       "implementation": "csharp",
-      "test": "*FoundationRunnerTests.RepairedEvidenceRetainsOriginalIdentity"
+      "test": "*FoundationRunnerTests.Evidence_RepairedRuns_RetainOriginalIdentity"
     }
   ]
 }

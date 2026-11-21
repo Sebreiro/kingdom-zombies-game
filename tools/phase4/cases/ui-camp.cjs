@@ -19,7 +19,7 @@ async function compiled(context){
  const dll=inside(ROOT,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll'),dir=inside(context.directory,'compiled');fs.mkdirSync(dir);
  const discover=await runner.command(context,'camp-discovery','dotnet',[dll,'--list-tests','--filter-class','*CampLayoutTests','--no-ansi'],{env:isolated()});
  const names=[...discover.stdout.matchAll(/CampLayoutTests\.([A-Za-z0-9_]+)/g)].map(x=>x[1]).sort();
- need(equal(names,['Main_PendingUpgradeKeepsCompletedCapacity','Map_UnknownPortalIsHidden','Rally_NoTargetAndActiveHaveDistinctReasons','Reader_GenericArraysKeep256Limit','Sale_UsesStashFoodAndStashMoney','Spectator_UnavailableOwnershipHasReason','Warning_MutedRetainsFullInformation']),'CAMP_DISCOVERY');
+ need(equal(names,['Main_PendingUpgrade_KeepsCompletedCapacity','Map_UnknownPortal_IsHidden','Rally_NoTargetAndActive_HaveDistinctReasons','Reader_GenericArrays_Keeps256Limit','Sale_StashInventory_UsesStashFoodAndMoney','Spectator_UnavailableOwnership_ShowsReason','Warning_Muted_RetainsFullInformation']),'CAMP_DISCOVERY');
  await runner.command(context,'camp-compiled','dotnet',[dll,'--filter-class','*CampLayoutTests','--report-xunit-ctrf','--report-xunit-ctrf-filename','tests.json','--results-directory',dir,'--no-ansi','--progress','off','--parallel','none','--timeout','45s'],{env:isolated()});
  const summary=document(dir,'tests.json').results.summary;need(summary.tests===names.length&&summary.passed===names.length&&summary.failed===0&&summary.skipped===0,'CAMP_COMPILED');return {names,...summary};
 }

@@ -13,7 +13,7 @@ public sealed class SessionLayoutTests
 {
     /// <summary>Guest departure must explicitly preserve the other players' running world.</summary>
     [Fact]
-    public void Departure_GuestSaysOthersContinue()
+    public void Departure_Guest_ShowsOthersContinue()
     {
         Call(name: "Departure", arguments: [false]).ShouldBe(expected:
                 "Leave session? Other players can continue.");
@@ -21,14 +21,14 @@ public sealed class SessionLayoutTests
 
     /// <summary>Host departure explicitly affects every participant.</summary>
     [Fact]
-    public void Departure_HostEndsForEveryone()
+    public void Departure_Host_EndsForEveryone()
     {
         Call(name: "Departure", arguments: [true]).ShouldBe(expected: "End session for everyone?");
     }
 
     /// <summary>The exact current packaged theme is accepted by the real compiled binding validator.</summary>
     [Fact]
-    public void Bind_CurrentThemeAccepted()
+    public void Bind_CurrentTheme_IsAccepted()
     {
         string project = Path.Combine(path1: ProofProtocol.Root, path2: "src/godot-game");
         using var pack = JsonDocument.Parse(utf8Json: File.ReadAllBytes(path: Path.Combine(path1: project,
@@ -51,7 +51,7 @@ public sealed class SessionLayoutTests
 
     /// <summary>Active-world settings support the largest UI scale and actual remapped references.</summary>
     [Fact]
-    public void Validate_Accepts150PercentActiveWorldSettings()
+    public void Validate_ActiveWorldSettingsAt150Percent_AreAccepted()
     {
         using var state = JsonDocument.Parse(json: """
                 {"id":"settings.held-out","surface":"settings","title":"Élodie's settings",

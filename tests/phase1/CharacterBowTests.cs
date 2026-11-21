@@ -15,7 +15,7 @@ public sealed class CharacterBowTests
 {
     /// <summary>Explicit melee preserves its fist fallback when a bow is selected.</summary>
     [Fact]
-    public void Melee_WithBowPreservesFistFallback()
+    public void Melee_WithBow_PreservesFistFallback()
     {
         CharacterPresentation subject = Create();
         subject.Configure(body: "CH-01", movement: "walk", action: "melee", leftItem: "IT-07",
@@ -26,7 +26,7 @@ public sealed class CharacterBowTests
 
     /// <summary>The actual live usable bow and arrow preview offers its required bow action.</summary>
     [Fact]
-    public void Native_UsableBowOffersBowAction()
+    public void Native_UsableBow_OffersBowAction()
     {
         string path = Environment.GetEnvironmentVariable(variable: "BOW_NATIVE_REPORT")
                 ?? throw new InvalidOperationException(message: "BOW_NATIVE_REPORT_REQUIRED");
@@ -43,7 +43,7 @@ public sealed class CharacterBowTests
     [InlineData(0, false)]
     [InlineData(1, true)]
     [InlineData(12, true)]
-    public void ActualAmmunition_ControlsNocking(int count, bool expected)
+    public void Nock_ActualAmmunition_FollowsQuantityAndCondition(int count, bool expected)
     {
         foreach (int facing in new[] { -1, 1 })
         {
@@ -63,7 +63,7 @@ public sealed class CharacterBowTests
 
     /// <summary>Release is one shot per generation, last arrows vanish and replacement is immediate.</summary>
     [Fact]
-    public void LastArrow_ReleaseReplacementAndDetachedSamples()
+    public void LastArrow_ReleaseAndReplacement_PreserveDetachedSamples()
     {
         CharacterPresentation subject = Create(bow: true);
         subject.Configure(body: "CH-01", movement: "walk", action: "bow", leftItem: "IT-07",
@@ -92,7 +92,7 @@ public sealed class CharacterBowTests
 
     /// <summary>Actual authored stack bounds and finite angle bounds reject impossible presentation inputs.</summary>
     [Fact]
-    public void BowSelection_UsesActualStackDefinitionAndFiniteAngles()
+    public void BowSelection_ActualStack_UsesDefinitionAndFiniteAngles()
     {
         CharacterPresentation subject = Create(bow: true);
         foreach (double angle in new[] { double.NaN, double.PositiveInfinity, -2, 2 })
@@ -124,7 +124,7 @@ public sealed class CharacterBowTests
     [InlineData("IT-03", "Empty", false, true, 0.7)]
     [InlineData("Empty", "IT-06", true, true, 1.1)]
     [InlineData("Empty", "IT-06", true, false, 0.7)]
-    public void BowFallback_UsesUsableMeleeOrFists(string left, string right, bool leftUsable,
+    public void BowFallback_EmptyOrUnavailableBow_UsesUsableMeleeOrFists(string left, string right, bool leftUsable,
             bool rightUsable, double interval)
     {
         CharacterPresentation subject = Create(bow: true);
@@ -140,7 +140,7 @@ public sealed class CharacterBowTests
 
     /// <summary>Native samples cover independently chosen aim angles, both hands, facing and every body.</summary>
     [Fact]
-    public void Native_BowMatrixAndIndependentBoundaries()
+    public void Native_BowMatrix_RespectsIndependentBoundaries()
     {
         string path = Environment.GetEnvironmentVariable(variable: "BOW_NATIVE_REPORT")
                 ?? throw new InvalidOperationException(message: "BOW_NATIVE_REPORT_REQUIRED");
@@ -189,7 +189,7 @@ public sealed class CharacterBowTests
     [InlineData("fallback", "\"invented-bow\"")]
     [InlineData("recoverable", "true")]
     [InlineData("aimRangeRadians", "[-1,1]")]
-    public void InvalidBowDefinition_IsRejected(string field, string value)
+    public void BowDefinition_InvalidInput_IsRejected(string field, string value)
     {
         Should.Throw<InvalidDataException>(actual: () => Create(bow: true,
                 alterBow: document => document[field] = JsonNode.Parse(json: value)));
@@ -197,7 +197,7 @@ public sealed class CharacterBowTests
 
     /// <summary>Aim preserves time and generations; replacement invalidates a release even after it was due.</summary>
     [Fact]
-    public void AimAndLateGeneration_PreserveDetachedAuthority()
+    public void AimAndRelease_LateGeneration_PreservesDetachedAuthority()
     {
         CharacterPresentation subject = Create(bow: true);
         subject.Configure(body: "CH-01", movement: "walk", action: "bow", leftItem: "IT-07",
@@ -226,7 +226,7 @@ public sealed class CharacterBowTests
     [Theory]
     [InlineData(-1)]
     [InlineData(1)]
-    public void IntrinsicAmmunition_SustainsConfiguredCycles(int facing)
+    public void IntrinsicAmmunition_StructuralBow_SustainsConfiguredCycles(int facing)
     {
         CharacterPresentation subject = Create(bow: true);
         subject.Configure(body: "CH-01", movement: "walk", action: "bow", leftItem: "IT-07",
@@ -269,7 +269,7 @@ public sealed class CharacterBowTests
     [InlineData(0)]
     [InlineData(1)]
     [InlineData(30)]
-    public void OrdinaryAmmunition_RemainsFinite(int count)
+    public void OrdinaryAmmunition_FiniteStack_IsConsumed(int count)
     {
         CharacterPresentation subject = Create(bow: true);
         subject.Configure(body: "CH-01", movement: "walk", action: "bow", leftItem: "IT-07",
@@ -298,7 +298,7 @@ public sealed class CharacterBowTests
     [InlineData("ordinary")]
     [InlineData("none")]
     [InlineData("melee")]
-    public void IntrinsicAmmunition_RevokesAuthority(string mode)
+    public void IntrinsicAmmunition_InvalidatedSelection_RevokesAuthority(string mode)
     {
         CharacterPresentation subject = Create(bow: true);
         subject.Configure(body: "CH-01", movement: "walk", action: "bow", leftItem: "IT-07",
@@ -329,7 +329,7 @@ public sealed class CharacterBowTests
 
     /// <summary>The actual native guard completes 64 consecutive cycles in each facing and revokes authority.</summary>
     [Fact]
-    public void Native_IntrinsicAmmunitionSustainsAndRevokes()
+    public void Native_IntrinsicAmmunition_SustainsAndRevokes()
     {
         string path = Environment.GetEnvironmentVariable(variable: "BOW_NATIVE_REPORT")
                 ?? throw new InvalidOperationException(message: "BOW_NATIVE_REPORT_REQUIRED");
@@ -365,7 +365,7 @@ public sealed class CharacterBowTests
     [InlineData("bow", "IT-02", 0)]
     [InlineData("bow", "Empty", 1)]
     [InlineData("none", "Empty", 0)]
-    public void IntrinsicAmmunition_RejectsInventedInventory(string action, string opposite, int count)
+    public void IntrinsicAmmunition_InvalidSetup_RejectsInventedInventory(string action, string opposite, int count)
     {
         CharacterPresentation subject = Create(bow: true);
         subject.Configure(body: "CH-01", movement: "walk", action: action, leftItem: "IT-07",

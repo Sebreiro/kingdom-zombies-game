@@ -13,7 +13,7 @@ public sealed class CampLayoutTests
 {
     /// <summary>Sale proceeds belong to stash and carried food cannot increase its selected stock.</summary>
     [Fact]
-    public void Sale_UsesStashFoodAndStashMoney()
+    public void Sale_StashInventory_UsesStashFoodAndMoney()
     {
         Call(name: "SaleMoney", arguments: [7, 3, 2, 31, 99]).ShouldBe(expected: 37);
         Call(name: "SaleMoney", arguments: [0, 0, 4, 31, 99]).ShouldBe(expected: 31);
@@ -21,7 +21,7 @@ public sealed class CampLayoutTests
 
     /// <summary>A paid but unfinished upgrade leaves the old fireside capacity available.</summary>
     [Fact]
-    public void Main_PendingUpgradeKeepsCompletedCapacity()
+    public void Main_PendingUpgrade_KeepsCompletedCapacity()
     {
         Call(name: "Capacity", arguments: [1, 2]).ShouldBe(expected: 8);
         Call(name: "Capacity", arguments: [2, 3]).ShouldBe(expected: 12);
@@ -29,7 +29,7 @@ public sealed class CampLayoutTests
 
     /// <summary>No target and an existing assault are separate actionable explanations.</summary>
     [Fact]
-    public void Rally_NoTargetAndActiveHaveDistinctReasons()
+    public void Rally_NoTargetAndActive_HaveDistinctReasons()
     {
         Call(name: "RallyReason", arguments: [false, false, 8, 25])
                 .ShouldBe(expected: "No surviving portal on this side.");
@@ -39,7 +39,7 @@ public sealed class CampLayoutTests
 
     /// <summary>The generic entry point never inherits the authenticated map dependency allowance.</summary>
     [Fact]
-    public void Reader_GenericArraysKeep256Limit()
+    public void Reader_GenericArrays_Keeps256Limit()
     {
         byte[] accepted = Encoding.UTF8.GetBytes(s: "[" + string.Join(separator: ",",
                 values: Enumerable.Repeat(element: "0", count: 256)) + "]");
@@ -53,7 +53,7 @@ public sealed class CampLayoutTests
 
     /// <summary>Muting adds status while retaining the entire critical warning.</summary>
     [Fact]
-    public void Warning_MutedRetainsFullInformation()
+    public void Warning_Muted_RetainsFullInformation()
     {
         Call(name: "WarningText", arguments: ["Retaliation: left portal in10 seconds.", true])
                 .ShouldBe(expected: "Retaliation: left portal in10 seconds. · Sound muted");
@@ -62,7 +62,7 @@ public sealed class CampLayoutTests
 
     /// <summary>An undiscovered portal is omitted from every presentation.</summary>
     [Fact]
-    public void Map_UnknownPortalIsHidden()
+    public void Map_UnknownPortal_IsHidden()
     {
         Call(name: "PortalVisible", arguments: [false]).ShouldBe(expected: false);
         Call(name: "PortalVisible", arguments: [true]).ShouldBe(expected: true);
@@ -70,7 +70,7 @@ public sealed class CampLayoutTests
 
     /// <summary>Waiting spectators receive an explicit reason instead of ownership controls.</summary>
     [Fact]
-    public void Spectator_UnavailableOwnershipHasReason()
+    public void Spectator_UnavailableOwnership_ShowsReason()
     {
         Call(name: "SpectatorReason", arguments: [false])
                 .ShouldBe(expected: "No eligible survivor; request waits without ownership actions.");

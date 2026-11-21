@@ -31,7 +31,7 @@ public sealed class BuildingPresentationTests
     [InlineData(2, 3, 0.999, 12, 0)]
     [InlineData(2, 3, 1.0, 16, 2)]
     [InlineData(3, 3, 0.0, 16, 2)]
-    public void Work_ProjectsCapacityAndGuardsTogether(int completed, int requested, double progress,
+    public void Work_UpgradeProgress_ProjectsCapacityAndGuardsTogether(int completed, int requested, double progress,
             int capacity, int guards)
     {
         Type subject = Subject();
@@ -50,7 +50,7 @@ public sealed class BuildingPresentationTests
     [InlineData(2, 3, 1.1)]
     [InlineData(2, 3, double.NaN)]
     [InlineData(2, 3, double.PositiveInfinity)]
-    public void Work_RejectsInvalidState(int completed, int requested, double progress)
+    public void Work_InvalidState_IsRejected(int completed, int requested, double progress)
     {
         MethodInfo method = Subject().GetMethod(name: "FunctionalTier", bindingAttr:
                 BindingFlags.NonPublic | BindingFlags.Static) ?? throw new InvalidOperationException();
@@ -61,7 +61,7 @@ public sealed class BuildingPresentationTests
 
     /// <summary>Definitions are detached from parser lifetime and reject duplicate keys and wrong identities.</summary>
     [Fact]
-    public void Definition_DetachesAndRejectsAmbiguousInput()
+    public void Definition_ValidAndAmbiguousInputs_DetachesAndRejects()
     {
         MethodInfo method = Subject().GetMethod(name: "ReadDefinition", bindingAttr:
                 BindingFlags.NonPublic | BindingFlags.Static) ?? throw new InvalidOperationException();

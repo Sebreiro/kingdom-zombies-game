@@ -16,7 +16,7 @@ public sealed class WorldInspectorTests
     [InlineData(false, 3)]
     [InlineData(true, 2)]
     [InlineData(true, 4)]
-    public void Reader_RejectsFailedShortAndChangedLengthReads(bool successful, int actual)
+    public void Reader_FailedShortAndChangedLengthReads_AreRejected(bool successful, int actual)
     {
         TargetInvocationException error = Should.Throw<TargetInvocationException>(actual: () =>
                 Call(name: "InspectorReadComplete", arguments: [new byte[actual], 3L, successful]));
@@ -27,7 +27,7 @@ public sealed class WorldInspectorTests
 
     /// <summary>Repeated runtime reads reserve one transient slot alongside the fixed validation snapshot.</summary>
     [Fact]
-    public void Reader_BoundsSnapshotAndCurrentReadWithoutCumulativeCharges()
+    public void Reader_SnapshotAndCurrentRead_StayBoundedWithoutCumulativeCharges()
     {
         for (int read = 0; read < 300; read++)
         {
@@ -46,7 +46,7 @@ public sealed class WorldInspectorTests
 
     /// <summary>Returning to the same resource in a replacement owner cannot admit its old completion.</summary>
     [Fact]
-    public void ReplacementOwner_RejectsLateSameResourceCompletion()
+    public void Replace_SameResource_RejectsLateCompletion()
     {
         long oldEpoch = Next(previous: 0);
         long replacementEpoch = Next(previous: 0);
@@ -56,7 +56,7 @@ public sealed class WorldInspectorTests
 
     /// <summary>Late A cannot replace B and revoked owners cannot publish even a matching result.</summary>
     [Fact]
-    public void Completion_RejectsOlderDifferentAndRevokedSelection()
+    public void Completion_StaleDifferentAndRevokedSelections_AreRejected()
     {
         long first = Next(previous: 0), second = Next(previous: first);
         Accepts(completion: first, current: second, oldId: "IT-07", currentId: "world.assembled",
@@ -71,7 +71,7 @@ public sealed class WorldInspectorTests
 
     /// <summary>Every new owner in a rapid replacement sequence receives a distinct fence.</summary>
     [Fact]
-    public void RapidReplacement_DoesNotReuseOwnerEpochs()
+    public void Replace_RapidSelections_DoesNotReuseOwnerEpochs()
     {
         long[] epochs = [.. Enumerable.Range(start: 0, count: 64).Select(selector: _ => Next(previous: 0))];
         epochs.Distinct().Count().ShouldBe(expected: 64);
@@ -79,7 +79,7 @@ public sealed class WorldInspectorTests
 
     /// <summary>The two authorized scenes retain ordinal paths and reject aliases independently.</summary>
     [Fact]
-    public void SceneBoundary_RejectsAliasWithoutWeakeningCanonicalPath()
+    public void SceneBoundary_Alias_IsRejectedWhileCanonicalPathRemains()
     {
         Call(name: "InspectorResourcePath", arguments: ["inspection/ItemsWeaponsPreview.tscn"])
                 .ShouldBe(expected: "inspection/ItemsWeaponsPreview.tscn");
@@ -91,7 +91,7 @@ public sealed class WorldInspectorTests
 
     /// <summary>Six held-out UI states have separate successful observations from the real native hub.</summary>
     [Fact]
-    public void Native_BackstopsHaveSixIndependentOutcomes()
+    public void Native_Backstops_HaveSixIndependentOutcomes()
     {
         using JsonDocument report = Native();
         JsonElement outcomes = report.RootElement.GetProperty(propertyName: "outcomes");
@@ -106,7 +106,7 @@ public sealed class WorldInspectorTests
 
     /// <summary>Native transforms and partial failures retain independent positive controls.</summary>
     [Fact]
-    public void Native_RestoresValidNeighborsAndAuthoredPositions()
+    public void Native_ValidNeighbors_RestoresAuthoredPositions()
     {
         using JsonDocument report = Native();
         JsonElement[] rows = [.. report.RootElement.GetProperty(propertyName: "outcomes").EnumerateArray()];

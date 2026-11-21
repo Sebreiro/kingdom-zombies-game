@@ -406,7 +406,7 @@ public sealed partial class ThemeHarness : Node
 }
 `;
 async function compiled(context){
- const assembly=inside(ROOT,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll');const discovery=await runner.command(context,'ui-discovery','dotnet',[assembly,'--list-tests','--filter-class','*ThemeLayoutTests','--no-ansi'],{env:isolated()});const names=[...discovery.stdout.matchAll(/ThemeLayoutTests\.([A-Za-z0-9_]+)/g)].map(x=>x[1]);need(equal(names.sort(),['Fonts_DeclarePackagedFallbackAndMissingDiagnostic','Scales_KeepWorldZoomIndependent','Scene_AppliesPackagedTheme']),'UI_COMPILED_DISCOVERY');
+ const assembly=inside(ROOT,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll');const discovery=await runner.command(context,'ui-discovery','dotnet',[assembly,'--list-tests','--filter-class','*ThemeLayoutTests','--no-ansi'],{env:isolated()});const names=[...discovery.stdout.matchAll(/ThemeLayoutTests\.([A-Za-z0-9_]+)/g)].map(x=>x[1]);need(equal(names.sort(),['Fonts_PackagedFontSet_DeclaresFallbackAndMissingDiagnostic','Scales_UiScale_KeepsWorldZoomIndependent','Scene_PackagedTheme_IsApplied']),'UI_COMPILED_DISCOVERY');
  const dir=inside(context.directory,'compiled');fs.mkdirSync(dir);await runner.command(context,'ui-compiled','dotnet',[assembly,'--filter-class','*ThemeLayoutTests','--report-xunit-ctrf','--report-xunit-ctrf-filename','tests.json','--results-directory',dir,'--no-ansi','--progress','off','--parallel','none','--timeout','45s'],{env:isolated()});const report=document(dir,'tests.json');need(report.results.summary.tests===3&&report.results.summary.passed===3&&report.results.summary.failed===0&&report.results.summary.skipped===0,'UI_COMPILED_RESULTS');return {discovered:3,passed:3};
 }
 async function nativeTheme(context){

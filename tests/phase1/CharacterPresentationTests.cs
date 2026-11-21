@@ -16,7 +16,7 @@ public sealed class CharacterPresentationTests
 {
     /// <summary>A malformed selected character retains its exact error while the real hub stays usable.</summary>
     [Fact]
-    public void Native_InvalidDefinitionKeepsVisibleErrorAndTransport()
+    public void Native_InvalidDefinition_KeepsVisibleErrorAndTransport()
     {
         using JsonDocument report = Native();
         JsonElement observed = report.RootElement.GetProperty(propertyName: "replacementError");
@@ -27,7 +27,7 @@ public sealed class CharacterPresentationTests
 
     /// <summary>Both canonical cases execute actual replacement, lifecycle, isolation and transport controls.</summary>
     [Fact]
-    public void Native_ReplacementControlsHaveIndependentObservations()
+    public void Native_ReplacementControls_HaveIndependentObservations()
     {
         using JsonDocument report = Native();
         JsonElement checks = report.RootElement.GetProperty(propertyName: "replacementChecks");
@@ -46,7 +46,7 @@ public sealed class CharacterPresentationTests
 
     /// <summary>Seven independent native character surfaces retain distinct setup and actual observations.</summary>
     [Fact]
-    public void Native_CharacterStatesAreCompleteAndDistinct()
+    public void Native_CharacterStates_AreCompleteAndDistinct()
     {
         using JsonDocument report = Native();
         JsonElement states = report.RootElement.GetProperty(propertyName: "states");
@@ -61,7 +61,7 @@ public sealed class CharacterPresentationTests
 
     /// <summary>Moving lower segments must advance while the same upper strike remains active.</summary>
     [Fact]
-    public void Native_StrideContinuesDuringMelee()
+    public void Native_Melee_KeepsStride()
     {
         using JsonDocument report = Native();
         report.RootElement.GetProperty(propertyName: "strideAdvancesDuringMelee").GetBoolean().ShouldBeTrue();
@@ -77,7 +77,7 @@ public sealed class CharacterPresentationTests
     [InlineData("CH-06")]
     [InlineData("CH-07")]
     [InlineData("CH-08")]
-    public void AllBodies_KeepStrideDuringEveryWeapon(string body)
+    public void Stride_AllBodiesAndWeapons_Continues(string body)
     {
         foreach ((string item, double interval) in new[] { ("Empty", 0.7), ("IT-03", 0.5), ("IT-04", 0.9),
             ("IT-05", 0.75), ("IT-06", 1.1) })
@@ -102,7 +102,7 @@ public sealed class CharacterPresentationTests
 
     /// <summary>Mixed actions use the slower interval and one contact per generation.</summary>
     [Fact]
-    public void MixedPair_UsesSlowerIntervalAndSingleContact()
+    public void MixedPair_TwoWeaponTimings_UsesSlowerIntervalAndSingleContact()
     {
         CharacterPresentation subject = Create();
         subject.Configure(body: "CH-04", movement: "faster", action: "melee", leftItem: "IT-03",
@@ -120,7 +120,7 @@ public sealed class CharacterPresentationTests
 
     /// <summary>Flinch never delays movement or accepted attack timing, and its small offset expires.</summary>
     [Fact]
-    public void Flinch_LeavesBothClocksAndGenerationUnchanged()
+    public void Flinch_ActivePresentation_LeavesClocksAndGenerationUnchanged()
     {
         CharacterPresentation subject = Create();
         subject.Configure(body: "CH-08", movement: "walk", action: "melee", leftItem: "IT-06",
@@ -141,7 +141,7 @@ public sealed class CharacterPresentationTests
 
     /// <summary>The survivor has four distinct authored takeoff, up, down and landing samples.</summary>
     [Fact]
-    public void Jump_ExposesAllFourRegisteredStages()
+    public void Jump_AuthoredTrack_ExposesAllFourRegisteredStages()
     {
         CharacterPresentation subject = Create();
         subject.Configure(body: "CH-01", movement: "jump", action: "melee", leftItem: "IT-05",
@@ -171,7 +171,7 @@ public sealed class CharacterPresentationTests
     [InlineData(double.PositiveInfinity)]
     [InlineData(-0.001)]
     [InlineData(60.001)]
-    public void Elapsed_RejectsInvalidValues(double elapsed)
+    public void Elapsed_InvalidValues_AreRejected(double elapsed)
     {
         CharacterPresentation subject = Create();
         string before = subject.Snapshot.GetRawText();
@@ -184,7 +184,7 @@ public sealed class CharacterPresentationTests
     [InlineData("src/core/CharacterPresentation.cs", "CharacterPresentation", true)]
     [InlineData("src/core/Neighbor.cs", "CharacterPresentation", false)]
     [InlineData("src/core/CharacterPresentation.cs", "CharacterPresentationNeighbor", false)]
-    public void PublicBoundary_PreservesExactIdentity(string path, string type, bool allowed)
+    public void PublicBoundary_ExpectedDeclaration_PreservesExactIdentity(string path, string type, bool allowed)
     {
         string source = "namespace KingdomZombies.Core; public sealed class " + type + " {}";
         var options = new CSharpParseOptions(languageVersion: LanguageVersion.CSharp14);
@@ -205,7 +205,7 @@ public sealed class CharacterPresentationTests
 
     /// <summary>Expanding the independent registry is rejected even with a compiler-valid new type.</summary>
     [Fact]
-    public void PublicBoundary_RejectsExpandedRegistry()
+    public void PublicBoundary_ExpandedRegistry_IsRejected()
     {
         string directory = Path.Combine(path1: Root(), path2: ".phase1/temp/animation-visibility-"
                 + Guid.NewGuid().ToString(format: "N"));
@@ -239,7 +239,7 @@ public sealed class CharacterPresentationTests
     [InlineData("contact")]
     [InlineData("clock")]
     [InlineData("events")]
-    public void Definitions_RejectIndependentMalformedTracks(string defect)
+    public void Definitions_IndependentMalformedTracks_AreRejected(string defect)
     {
         JsonNode animation = JsonNode.Parse(utf8Json: Data(file: "animation/locomotion-melee.json"))
                 ?? throw new InvalidDataException();
@@ -267,7 +267,7 @@ public sealed class CharacterPresentationTests
 
     /// <summary>Timing, contact and sound bindings come from validated definitions, including legal edits.</summary>
     [Fact]
-    public void Definitions_UseConfiguredTimingAndEvents()
+    public void Definitions_ConfiguredTracks_UseTimingAndEvents()
     {
         JsonNode animation = JsonNode.Parse(utf8Json: Data(file: "animation/locomotion-melee.json"))
                 ?? throw new InvalidDataException();
@@ -302,7 +302,7 @@ public sealed class CharacterPresentationTests
 
     /// <summary>All native body, direction, hand and stage combinations have actual independent observations.</summary>
     [Fact]
-    public void Native_ExposesCompleteMeleeMatrix()
+    public void Native_MeleeMatrix_ExposesEveryCombination()
     {
         using JsonDocument report = Native();
         JsonElement samples = report.RootElement.GetProperty(propertyName: "samples");

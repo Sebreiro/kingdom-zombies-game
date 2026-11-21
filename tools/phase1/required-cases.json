@@ -3708,7 +3708,7 @@
             "owners": [
               "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "49ad627e656638f1df8afa4927967d2e5b7b8e671ba4196e27c58a9588bd4efb"
+            "sha256": "8c4774cf71bc5a5fbd2c73e65e9ef587ec5fefa064b24e486117d10e5db21f4c"
           },
           {
             "path": "tests/phase1/ArchitecturePolicy.cs",
@@ -3732,7 +3732,7 @@
             "owners": [
               "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "be427e84f5e632415a2d74d9c4c553ef88ef1dc4958fbeae755064073bef2ba2"
+            "sha256": "2d9d250f7ceb5790cb01037b3c0df4f1cfec5ea0c8c221562482f6fa099fe79f"
           },
           {
             "path": "tests/phase1/BoundaryFixture.cs",
@@ -3740,7 +3740,7 @@
             "owners": [
               "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "38f2130e86388360872e93b0f338a83cb20549e8a12e4071ee4176b4b71f3d51"
+            "sha256": "6888faead685fde9ce3bc6c2f1bfa69e5b9b2fb553315e02f8d5e19f4fe42853"
           },
           {
             "path": "tests/phase1/BuildFixture.cs",
@@ -3756,7 +3756,7 @@
             "owners": [
               "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "47daa1800e29944b403ca595e0ac9cdee67bd7949b62f873766a85f0b27fc192"
+            "sha256": "20d734506c967c854948f013d7c72e01974b3a131e05c5c21024d4d038fc9fc3"
           },
           {
             "path": "tests/phase1/CampLayoutTests.cs",
@@ -3764,7 +3764,7 @@
             "owners": [
               "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "483c97644d030738bdd6d1fd2510e739000e819c1580829fbb2d3eb956802050"
+            "sha256": "975f13b2234201aa21f142c95e3c36e32e2e847cc05ec34740cece773bc52e47"
           },
           {
             "path": "tests/phase1/CharacterBowTests.cs",
@@ -3772,7 +3772,7 @@
             "owners": [
               "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "a60cde42fa879960acc4eb3b4c500036883c01b271c69d14ee8547a7c7dce799"
+            "sha256": "2816f7deece4eeae45fa9e07a262339d18ddb8f58c87248ac3bfcfce8ffbf6ea"
           },
           {
             "path": "tests/phase1/CharacterFitTests.cs",
@@ -3780,7 +3780,7 @@
             "owners": [
               "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "4cc71323c97aeb0d7c163818ef91f69c678893e44538b57b702650bfc70c6801"
+            "sha256": "21092f0e7408e7c0983427953dd8c25da5bf39b8f741050238720c9e009d18c3"
           },
           {
             "path": "tests/phase1/CharacterPresentationTests.cs",
@@ -3788,7 +3788,7 @@
             "owners": [
               "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "e172bd4b6ec3c9ecb0fdae5f6b71f8fdf0d68713ccfb35c7c19c7da6a6b9b678"
+            "sha256": "4ba05ad8b6237ef71977cc5d29944d6b1a5dbf54456bddd90f31ad5ebd503d8d"
           },
           {
             "path": "tests/phase1/ConfigurationTests.cs",
@@ -4060,7 +4060,7 @@
             "owners": [
               "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "71d146207c9fc07108ef05bee4ceb867288af759dfa0f6a532fa283230fc9a8f"
+            "sha256": "57aee3f131bba2058f7843c042fb633f145379a32004bf96c738f2f914586958"
           },
           {
             "path": "tests/phase1/FoundationLanAuthorityTests.cs",
@@ -4068,7 +4068,7 @@
             "owners": [
               "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "6e4d665d39d85e3ec87f60427373bdfbbc141235c3c52e2c573324276ccf74cd"
+            "sha256": "fa695ae4396ea037141181070956925a24f56402173d553243c4cfac29eee2bb"
           },
           {
             "path": "tests/phase1/FoundationLanInputTests.cs",
@@ -4076,7 +4076,7 @@
             "owners": [
               "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "f3486a9f9d73c9bd7e1fc21f832320b4f2ed2696905e3e36cc6fab7df2d86779"
+            "sha256": "e89539760b7a9b49f2eb9dbe79e6a332ed6e97e1034ca57a20f4de8c4e451a5a"
           },
           {
             "path": "tests/phase1/FoundationLanLifecycleTests.cs",
@@ -4084,7 +4084,7 @@
             "owners": [
               "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "eb4886721134138bb5c5af836b50d1cd611dd2423e8f3921357bc47293598a3e"
+            "sha256": "8e569d87bbe83bd5a2fe586f04bf2dd992998d5f046acb8d73ba01ecabf3e170"
           },
           {
             "path": "tests/phase1/FoundationLanOrderingTests.cs",
@@ -4092,7 +4092,7 @@
             "owners": [
               "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "fcc465da08be554100632860b251afa005fcc244541caeafd752081f6ca0f747"
+            "sha256": "c8fd94095ef92910fddf8e6895ec808af2430c1e5b12e67b3400710d0c2a43a1"
           },
           {
             "path": "tests/phase1/FoundationLanPermissionTests.cs",
@@ -4100,7 +4100,7 @@
             "owners": [
               "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "58bdf0c44a888b27819bf6bb705b48f37fd6898d8e85154151904bb4c7e6942c"
+            "sha256": "74170738d533e19252d0c8802606421cee928fa844010054e83c01c48a0531bf"
           },
           {
             "path": "tests/phase1/FoundationLanProtocolTests.cs",
@@ -4108,7 +4108,7 @@
             "owners": [
               "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "911e5e287487bbf4d289725ff3461668356c8686fb6aa94d07d3f642de28c247"
+            "sha256": "d952b29c559bbedbc7f5f759d0952e0f603cf19409a0de38bd0908ce75dad482"
           },
           {
             "path": "tests/phase1/FoundationLanRunnerTests.cs",
@@ -4116,7 +4116,7 @@
             "owners": [
               "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "51a9f4ce68be90d5be9bb666101cbcc2d579d0fd7bb8dac1d84695221afc5485"
+            "sha256": "2550ef472410e1c4b52861b3021f0bb6e20207c9c5a45e1422e04cb4f8b43fee"
           },
           {
             "path": "tests/phase1/FoundationLanServicesTests.cs",
@@ -4124,7 +4124,7 @@
             "owners": [
               "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "cbb74ee527c922a0a95edb77a0fe75f9ef72c660acd54ca110f526e24fd09f68"
+            "sha256": "a11fd82ec81de99b3c61de4392549d6c81ef26ed60a1c192658d53bc1ba9237c"
           },
           {
             "path": "tests/phase1/FoundationLifecycleTests.cs",
@@ -4132,7 +4132,7 @@
             "owners": [
               "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "297252db4e7e61f68429d7613b3df0557b44feb32e8947bcd6c5e2b994a85558"
+            "sha256": "ba698b4f90f5db3fccb09e250a4f8fe03f93666005ff58d16248dbeec57ae503"
           },
           {
             "path": "tests/phase1/FoundationLinkedSources.cs",
@@ -4148,7 +4148,7 @@
             "owners": [
               "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "6751f88a6e8acfcd90cd36f4a0a85548b6fe2396a2acba029aab1cd17be9bf22"
+            "sha256": "a85515da18c1eae4e647284241d4cd612e7f07fa164ea2fe9adab71006e046ae"
           },
           {
             "path": "tests/phase1/FoundationPermissionTests.cs",
@@ -4156,7 +4156,7 @@
             "owners": [
               "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "a6a2e3bd23df6845990f01cc3464c6710390340afacd1864c470d2f4b7e3583f"
+            "sha256": "92e34f74dea45ab2cea8c01b34e4ef19f35743674cbed1f3704bf693fd387350"
           },
           {
             "path": "tests/phase1/FoundationRunnerTests.cs",
@@ -4164,7 +4164,7 @@
             "owners": [
               "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "75327dcaca10f06d5a245187ae78864789b50168324be53e325855691420e46f"
+            "sha256": "f9868cd42ec241c1faa975f794a3b0a05c42130e487eafd324203f99b3648d14"
           },
           {
             "path": "tests/phase1/FoundationScenarioClock.cs",
@@ -4276,7 +4276,7 @@
             "owners": [
               "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "2c60b6973ee82b63a9e5265fccfd1ed98a6413a2f51802ae11e5ede70b75b3cd"
+            "sha256": "f681b0590c9b0877b76ef370e7e7f1f1376895dcdcf98627154a8d3503bd0a87"
           },
           {
             "path": "tests/phase1/KingdomZombies.Phase1.Tests.csproj",
@@ -4458,7 +4458,7 @@
             "owners": [
               "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "2b9aaa5829537d4b95e05c8a0dae2479abe38b259313c4915dce277eb6e63ffb"
+            "sha256": "abe0d61c2d5cb39789450e80b75d49eb39307183ba6ca72b31faca24ed488cff"
           },
           {
             "path": "tests/phase1/SnapshotProofData.cs",
@@ -4538,7 +4538,7 @@
             "owners": [
               "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "fdb259c1ae61a7f91e0fc67756c8d750e25589e9134b2d2cf93ee29048ca0470"
+            "sha256": "7531b0dcd821860d78db73aff581d41905738dd303df945567fc40d94b44e33d"
           },
           {
             "path": "tests/phase1/ThresholdTests.cs",
@@ -4586,7 +4586,7 @@
             "owners": [
               "tests/phase1/KingdomZombies.Phase1.Tests.csproj"
             ],
-            "sha256": "39bca9d1bee24d17b92163a56395d87ee89f10fe2a54f658484c62b954d6136c"
+            "sha256": "85a4ae7d0598e028fcf258a49046101dcb2eb18b37e5bbe9e5b0e2f4eab67cf9"
           },
           {
             "path": "tests/phase1/docs/README.md",
@@ -5095,6 +5095,12 @@
             "sha256": null
           },
           {
+            "path": "tools/phase4/cases/export-portability.cjs",
+            "kind": "outside-validator",
+            "owners": [],
+            "sha256": null
+          },
+          {
             "path": "tools/phase4/cases/export-profile.cjs",
             "kind": "outside-validator",
             "owners": [],
@@ -5132,6 +5138,12 @@
           },
           {
             "path": "tools/phase4/cases/provenance.cjs",
+            "kind": "outside-validator",
+            "owners": [],
+            "sha256": null
+          },
+          {
+            "path": "tools/phase4/cases/runner.cjs",
             "kind": "outside-validator",
             "owners": [],
             "sha256": null
@@ -5185,6 +5197,12 @@
             "sha256": null
           },
           {
+            "path": "tools/phase4/evidence.cjs",
+            "kind": "outside-validator",
+            "owners": [],
+            "sha256": null
+          },
+          {
             "path": "tools/phase4/expected-obligations.json",
             "kind": "outside-validator",
             "owners": [],
@@ -5209,7 +5227,25 @@
             "sha256": null
           },
           {
+            "path": "tools/phase4/handoff.json",
+            "kind": "outside-validator",
+            "owners": [],
+            "sha256": null
+          },
+          {
             "path": "tools/phase4/native-observer.cjs",
+            "kind": "outside-validator",
+            "owners": [],
+            "sha256": null
+          },
+          {
+            "path": "tools/phase4/rendered-contracts.cjs",
+            "kind": "outside-validator",
+            "owners": [],
+            "sha256": null
+          },
+          {
+            "path": "tools/phase4/rendered-process.cjs",
             "kind": "outside-validator",
             "owners": [],
             "sha256": null
@@ -5219,9 +5255,21 @@
             "kind": "outside-validator",
             "owners": [],
             "sha256": null
+          },
+          {
+            "path": "tools/phase4/reviewed-source.targets",
+            "kind": "outside-validator",
+            "owners": [],
+            "sha256": null
+          },
+          {
+            "path": "tools/phase4/scenarios.cjs",
+            "kind": "outside-validator",
+            "owners": [],
+            "sha256": null
           }
         ],
-        "sourceSetSha256": "f174f36772624ae034ad302928de3368c4d7803b412c5ba5a950606b9160f8a1",
+        "sourceSetSha256": "675fa1b7758584a39d215e22028447ce69ca7806a1355864c46b4d0ddba418fb",
         "bindings": [
           {
             "path": "docs/code/generated-callsite-adaptations.json",
@@ -8613,7 +8661,7 @@
         "catalog": "tools/phase1/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "EXEMPTIONS_EXACT",
-        "repositorySha256": "8586d43ae0203e6c755c7b36a60c4fcd23e940ffa44f5d08007299ef7f7309bf",
+        "repositorySha256": "d56a7e9bcc0f3e97aa02b35add31db0d93cf24054b950e6427443cdaf9a43ecf",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 1044000,
@@ -11856,7 +11904,7 @@
         "catalog": "tools/phase1/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "GODOT_CALLSITE_BOUNDARY_REJECTED",
-        "repositorySha256": "8586d43ae0203e6c755c7b36a60c4fcd23e940ffa44f5d08007299ef7f7309bf",
+        "repositorySha256": "d56a7e9bcc0f3e97aa02b35add31db0d93cf24054b950e6427443cdaf9a43ecf",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 612000,
@@ -16271,7 +16319,7 @@
         "catalog": "tools/phase1/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "GODOT_COMPANION_COMPILED",
-        "repositorySha256": "8586d43ae0203e6c755c7b36a60c4fcd23e940ffa44f5d08007299ef7f7309bf",
+        "repositorySha256": "d56a7e9bcc0f3e97aa02b35add31db0d93cf24054b950e6427443cdaf9a43ecf",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 516000,
@@ -16389,7 +16437,7 @@
         "catalog": "tools/phase1/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "GODOT_HANDWRITTEN_SCR0001",
-        "repositorySha256": "8586d43ae0203e6c755c7b36a60c4fcd23e940ffa44f5d08007299ef7f7309bf",
+        "repositorySha256": "d56a7e9bcc0f3e97aa02b35add31db0d93cf24054b950e6427443cdaf9a43ecf",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 516000,
@@ -16542,7 +16590,7 @@
         "catalog": "tools/phase1/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "UNREGISTERED_REAL_BUILD_SUPPRESSION",
-        "repositorySha256": "8586d43ae0203e6c755c7b36a60c4fcd23e940ffa44f5d08007299ef7f7309bf",
+        "repositorySha256": "d56a7e9bcc0f3e97aa02b35add31db0d93cf24054b950e6427443cdaf9a43ecf",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 1044000,

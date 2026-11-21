@@ -70,7 +70,7 @@ public sealed class CharacterFitTests
     [InlineData("{\"id\":\"a\",\"id\":\"b\"}", "CHARACTER_DUPLICATE_KEY")]
     [InlineData("{\"schemaVersion\":1,\"version\":1,\"id\":\"other\"}", "CHARACTER_DEFINITION_ID")]
     [InlineData("", "CHARACTER_DEFINITION_SIZE")]
-    public void Definition_RejectsAmbiguousInput(string json, string diagnostic)
+    public void Definition_AmbiguousInput_IsRejected(string json, string diagnostic)
     {
         MethodInfo method = Subject().GetMethod(name: "ReadDefinition", bindingAttr:
                 BindingFlags.NonPublic | BindingFlags.Static) ?? throw new InvalidOperationException();

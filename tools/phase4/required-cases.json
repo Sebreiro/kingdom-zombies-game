@@ -833,7 +833,7 @@
         "id": "buildings.main-art",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/main-buildings.cjs",
-        "moduleSha256": "51abc54b75241e4b3ae9c1cc40438a312abcf2a4f9549f9a7ee25b7078833094",
+        "moduleSha256": "1d1356372b6487f02db8bb348357c0bd543d642cd62b829b04551a77247960c3",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -900,7 +900,7 @@
         "id": "buildings.main-state",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/main-buildings.cjs",
-        "moduleSha256": "51abc54b75241e4b3ae9c1cc40438a312abcf2a4f9549f9a7ee25b7078833094",
+        "moduleSha256": "1d1356372b6487f02db8bb348357c0bd543d642cd62b829b04551a77247960c3",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -1220,7 +1220,7 @@
         "id": "layouts.kit",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-kit.cjs",
-        "moduleSha256": "1d428fbcd74e363af1351ec63f39403b0cee4744d7dd8ead03186387310abd76",
+        "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -1318,7 +1318,7 @@
         "id": "layouts.theme",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-kit.cjs",
-        "moduleSha256": "1d428fbcd74e363af1351ec63f39403b0cee4744d7dd8ead03186387310abd76",
+        "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -1388,7 +1388,7 @@
         "id": "layouts.identity",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-kit.cjs",
-        "moduleSha256": "1d428fbcd74e363af1351ec63f39403b0cee4744d7dd8ead03186387310abd76",
+        "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -1459,7 +1459,7 @@
         "id": "layouts.identity-integrity",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-kit.cjs",
-        "moduleSha256": "1d428fbcd74e363af1351ec63f39403b0cee4744d7dd8ead03186387310abd76",
+        "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -1573,7 +1573,7 @@
         "id": "layouts.inventory",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-inventory.cjs",
-        "moduleSha256": "2030653b9d5afbc2c6d44d89806dad7518a4a1c12d2ee127759d964a43bf3fe1",
+        "moduleSha256": "260d2dffacd8af81f204b6fd216df73a48b2e41e38d58871f0e10a7848e47dfe",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -1660,7 +1660,7 @@
         "id": "layouts.legacy-target",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-inventory.cjs",
-        "moduleSha256": "2030653b9d5afbc2c6d44d89806dad7518a4a1c12d2ee127759d964a43bf3fe1",
+        "moduleSha256": "260d2dffacd8af81f204b6fd216df73a48b2e41e38d58871f0e10a7848e47dfe",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -1731,7 +1731,7 @@
         "id": "layouts.camp",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-camp.cjs",
-        "moduleSha256": "1962ad114a6b4248675d4d04c243d329e25187ef4c968ebd3277e79c7dabf9b0",
+        "moduleSha256": "706167c71c5752e5e4cf2388cd504fbcfc7c9431b7d59a11dc179a63d8ec8e48",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -1852,7 +1852,7 @@
         "id": "layouts.map-warnings",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-camp.cjs",
-        "moduleSha256": "1962ad114a6b4248675d4d04c243d329e25187ef4c968ebd3277e79c7dabf9b0",
+        "moduleSha256": "706167c71c5752e5e4cf2388cd504fbcfc7c9431b7d59a11dc179a63d8ec8e48",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -1930,7 +1930,7 @@
         "id": "layouts.session",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-session.cjs",
-        "moduleSha256": "1c61f473cbb64362a7c6bfea8e8f2694e8a236e0d953fe6949a7b83126f8b15a",
+        "moduleSha256": "d87964bca2bfb77c38b596dce275eab60b685540ee60ade3567fa0d38bab2fbe",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -2046,7 +2046,7 @@
         "id": "layouts.endpoints",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-session.cjs",
-        "moduleSha256": "1c61f473cbb64362a7c6bfea8e8f2694e8a236e0d953fe6949a7b83126f8b15a",
+        "moduleSha256": "d87964bca2bfb77c38b596dce275eab60b685540ee60ade3567fa0d38bab2fbe",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -2656,7 +2656,7 @@
         "id": "layouts.application-icon",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-kit.cjs",
-        "moduleSha256": "1d428fbcd74e363af1351ec63f39403b0cee4744d7dd8ead03186387310abd76",
+        "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -4044,7 +4044,7 @@
         "id": "hub.source",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/hub.cjs",
-        "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
+        "moduleSha256": "0867aa891f3e94d137966f2229f9d894b6c22c4cba196c30907a8bd30e417b6c",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -4180,7 +4180,7 @@
         "id": "hub.lifecycle",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/hub.cjs",
-        "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
+        "moduleSha256": "0867aa891f3e94d137966f2229f9d894b6c22c4cba196c30907a8bd30e417b6c",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -5942,14 +5942,14 @@
           "id": "layouts.session",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-session.cjs",
-          "moduleSha256": "1c61f473cbb64362a7c6bfea8e8f2694e8a236e0d953fe6949a7b83126f8b15a",
+          "moduleSha256": "d87964bca2bfb77c38b596dce275eab60b685540ee60ade3567fa0d38bab2fbe",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.endpoints",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-session.cjs",
-          "moduleSha256": "1c61f473cbb64362a7c6bfea8e8f2694e8a236e0d953fe6949a7b83126f8b15a",
+          "moduleSha256": "d87964bca2bfb77c38b596dce275eab60b685540ee60ade3567fa0d38bab2fbe",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -5967,14 +5967,14 @@
           "id": "layouts.inventory",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-inventory.cjs",
-          "moduleSha256": "2030653b9d5afbc2c6d44d89806dad7518a4a1c12d2ee127759d964a43bf3fe1",
+          "moduleSha256": "260d2dffacd8af81f204b6fd216df73a48b2e41e38d58871f0e10a7848e47dfe",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.legacy-target",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-inventory.cjs",
-          "moduleSha256": "2030653b9d5afbc2c6d44d89806dad7518a4a1c12d2ee127759d964a43bf3fe1",
+          "moduleSha256": "260d2dffacd8af81f204b6fd216df73a48b2e41e38d58871f0e10a7848e47dfe",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -5992,14 +5992,14 @@
           "id": "layouts.session",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-session.cjs",
-          "moduleSha256": "1c61f473cbb64362a7c6bfea8e8f2694e8a236e0d953fe6949a7b83126f8b15a",
+          "moduleSha256": "d87964bca2bfb77c38b596dce275eab60b685540ee60ade3567fa0d38bab2fbe",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.endpoints",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-session.cjs",
-          "moduleSha256": "1c61f473cbb64362a7c6bfea8e8f2694e8a236e0d953fe6949a7b83126f8b15a",
+          "moduleSha256": "d87964bca2bfb77c38b596dce275eab60b685540ee60ade3567fa0d38bab2fbe",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -6017,14 +6017,14 @@
           "id": "layouts.session",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-session.cjs",
-          "moduleSha256": "1c61f473cbb64362a7c6bfea8e8f2694e8a236e0d953fe6949a7b83126f8b15a",
+          "moduleSha256": "d87964bca2bfb77c38b596dce275eab60b685540ee60ade3567fa0d38bab2fbe",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.endpoints",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-session.cjs",
-          "moduleSha256": "1c61f473cbb64362a7c6bfea8e8f2694e8a236e0d953fe6949a7b83126f8b15a",
+          "moduleSha256": "d87964bca2bfb77c38b596dce275eab60b685540ee60ade3567fa0d38bab2fbe",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -6042,14 +6042,14 @@
           "id": "layouts.camp",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-camp.cjs",
-          "moduleSha256": "1962ad114a6b4248675d4d04c243d329e25187ef4c968ebd3277e79c7dabf9b0",
+          "moduleSha256": "706167c71c5752e5e4cf2388cd504fbcfc7c9431b7d59a11dc179a63d8ec8e48",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.map-warnings",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-camp.cjs",
-          "moduleSha256": "1962ad114a6b4248675d4d04c243d329e25187ef4c968ebd3277e79c7dabf9b0",
+          "moduleSha256": "706167c71c5752e5e4cf2388cd504fbcfc7c9431b7d59a11dc179a63d8ec8e48",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -6343,7 +6343,7 @@
         "id": "hub.lifecycle",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/hub.cjs",
-        "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
+        "moduleSha256": "0867aa891f3e94d137966f2229f9d894b6c22c4cba196c30907a8bd30e417b6c",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6359,7 +6359,7 @@
         "id": "hub.lifecycle",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/hub.cjs",
-        "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
+        "moduleSha256": "0867aa891f3e94d137966f2229f9d894b6c22c4cba196c30907a8bd30e417b6c",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6375,7 +6375,7 @@
         "id": "hub.lifecycle",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/hub.cjs",
-        "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
+        "moduleSha256": "0867aa891f3e94d137966f2229f9d894b6c22c4cba196c30907a8bd30e417b6c",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6391,7 +6391,7 @@
         "id": "hub.lifecycle",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/hub.cjs",
-        "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
+        "moduleSha256": "0867aa891f3e94d137966f2229f9d894b6c22c4cba196c30907a8bd30e417b6c",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6407,7 +6407,7 @@
         "id": "hub.source",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/hub.cjs",
-        "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
+        "moduleSha256": "0867aa891f3e94d137966f2229f9d894b6c22c4cba196c30907a8bd30e417b6c",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6423,7 +6423,7 @@
         "id": "hub.source",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/hub.cjs",
-        "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
+        "moduleSha256": "0867aa891f3e94d137966f2229f9d894b6c22c4cba196c30907a8bd30e417b6c",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6439,7 +6439,7 @@
         "id": "hub.source",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/hub.cjs",
-        "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
+        "moduleSha256": "0867aa891f3e94d137966f2229f9d894b6c22c4cba196c30907a8bd30e417b6c",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6455,7 +6455,7 @@
         "id": "hub.source",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/hub.cjs",
-        "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
+        "moduleSha256": "0867aa891f3e94d137966f2229f9d894b6c22c4cba196c30907a8bd30e417b6c",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6471,7 +6471,7 @@
         "id": "hub.source",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/hub.cjs",
-        "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
+        "moduleSha256": "0867aa891f3e94d137966f2229f9d894b6c22c4cba196c30907a8bd30e417b6c",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6487,7 +6487,7 @@
         "id": "hub.source",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/hub.cjs",
-        "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
+        "moduleSha256": "0867aa891f3e94d137966f2229f9d894b6c22c4cba196c30907a8bd30e417b6c",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6503,7 +6503,7 @@
         "id": "hub.source",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/hub.cjs",
-        "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
+        "moduleSha256": "0867aa891f3e94d137966f2229f9d894b6c22c4cba196c30907a8bd30e417b6c",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6519,7 +6519,7 @@
         "id": "hub.source",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/hub.cjs",
-        "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
+        "moduleSha256": "0867aa891f3e94d137966f2229f9d894b6c22c4cba196c30907a8bd30e417b6c",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6743,7 +6743,7 @@
         "id": "layouts.inventory",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-inventory.cjs",
-        "moduleSha256": "2030653b9d5afbc2c6d44d89806dad7518a4a1c12d2ee127759d964a43bf3fe1",
+        "moduleSha256": "260d2dffacd8af81f204b6fd216df73a48b2e41e38d58871f0e10a7848e47dfe",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6759,7 +6759,7 @@
         "id": "layouts.inventory",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-inventory.cjs",
-        "moduleSha256": "2030653b9d5afbc2c6d44d89806dad7518a4a1c12d2ee127759d964a43bf3fe1",
+        "moduleSha256": "260d2dffacd8af81f204b6fd216df73a48b2e41e38d58871f0e10a7848e47dfe",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6775,7 +6775,7 @@
         "id": "layouts.inventory",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-inventory.cjs",
-        "moduleSha256": "2030653b9d5afbc2c6d44d89806dad7518a4a1c12d2ee127759d964a43bf3fe1",
+        "moduleSha256": "260d2dffacd8af81f204b6fd216df73a48b2e41e38d58871f0e10a7848e47dfe",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6791,7 +6791,7 @@
         "id": "layouts.inventory",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-inventory.cjs",
-        "moduleSha256": "2030653b9d5afbc2c6d44d89806dad7518a4a1c12d2ee127759d964a43bf3fe1",
+        "moduleSha256": "260d2dffacd8af81f204b6fd216df73a48b2e41e38d58871f0e10a7848e47dfe",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6807,7 +6807,7 @@
         "id": "layouts.inventory",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-inventory.cjs",
-        "moduleSha256": "2030653b9d5afbc2c6d44d89806dad7518a4a1c12d2ee127759d964a43bf3fe1",
+        "moduleSha256": "260d2dffacd8af81f204b6fd216df73a48b2e41e38d58871f0e10a7848e47dfe",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6823,7 +6823,7 @@
         "id": "layouts.inventory",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-inventory.cjs",
-        "moduleSha256": "2030653b9d5afbc2c6d44d89806dad7518a4a1c12d2ee127759d964a43bf3fe1",
+        "moduleSha256": "260d2dffacd8af81f204b6fd216df73a48b2e41e38d58871f0e10a7848e47dfe",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6839,7 +6839,7 @@
         "id": "layouts.inventory",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-inventory.cjs",
-        "moduleSha256": "2030653b9d5afbc2c6d44d89806dad7518a4a1c12d2ee127759d964a43bf3fe1",
+        "moduleSha256": "260d2dffacd8af81f204b6fd216df73a48b2e41e38d58871f0e10a7848e47dfe",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6855,7 +6855,7 @@
         "id": "layouts.inventory",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-inventory.cjs",
-        "moduleSha256": "2030653b9d5afbc2c6d44d89806dad7518a4a1c12d2ee127759d964a43bf3fe1",
+        "moduleSha256": "260d2dffacd8af81f204b6fd216df73a48b2e41e38d58871f0e10a7848e47dfe",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6871,7 +6871,7 @@
         "id": "layouts.endpoints",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-session.cjs",
-        "moduleSha256": "1c61f473cbb64362a7c6bfea8e8f2694e8a236e0d953fe6949a7b83126f8b15a",
+        "moduleSha256": "d87964bca2bfb77c38b596dce275eab60b685540ee60ade3567fa0d38bab2fbe",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6887,7 +6887,7 @@
         "id": "layouts.endpoints",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-session.cjs",
-        "moduleSha256": "1c61f473cbb64362a7c6bfea8e8f2694e8a236e0d953fe6949a7b83126f8b15a",
+        "moduleSha256": "d87964bca2bfb77c38b596dce275eab60b685540ee60ade3567fa0d38bab2fbe",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6903,7 +6903,7 @@
         "id": "layouts.endpoints",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-session.cjs",
-        "moduleSha256": "1c61f473cbb64362a7c6bfea8e8f2694e8a236e0d953fe6949a7b83126f8b15a",
+        "moduleSha256": "d87964bca2bfb77c38b596dce275eab60b685540ee60ade3567fa0d38bab2fbe",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6919,7 +6919,7 @@
         "id": "layouts.endpoints",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-session.cjs",
-        "moduleSha256": "1c61f473cbb64362a7c6bfea8e8f2694e8a236e0d953fe6949a7b83126f8b15a",
+        "moduleSha256": "d87964bca2bfb77c38b596dce275eab60b685540ee60ade3567fa0d38bab2fbe",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6935,7 +6935,7 @@
         "id": "layouts.endpoints",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-session.cjs",
-        "moduleSha256": "1c61f473cbb64362a7c6bfea8e8f2694e8a236e0d953fe6949a7b83126f8b15a",
+        "moduleSha256": "d87964bca2bfb77c38b596dce275eab60b685540ee60ade3567fa0d38bab2fbe",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6951,7 +6951,7 @@
         "id": "layouts.endpoints",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-session.cjs",
-        "moduleSha256": "1c61f473cbb64362a7c6bfea8e8f2694e8a236e0d953fe6949a7b83126f8b15a",
+        "moduleSha256": "d87964bca2bfb77c38b596dce275eab60b685540ee60ade3567fa0d38bab2fbe",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7351,7 +7351,7 @@
         "id": "layouts.camp",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-camp.cjs",
-        "moduleSha256": "1962ad114a6b4248675d4d04c243d329e25187ef4c968ebd3277e79c7dabf9b0",
+        "moduleSha256": "706167c71c5752e5e4cf2388cd504fbcfc7c9431b7d59a11dc179a63d8ec8e48",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7367,7 +7367,7 @@
         "id": "layouts.camp",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-camp.cjs",
-        "moduleSha256": "1962ad114a6b4248675d4d04c243d329e25187ef4c968ebd3277e79c7dabf9b0",
+        "moduleSha256": "706167c71c5752e5e4cf2388cd504fbcfc7c9431b7d59a11dc179a63d8ec8e48",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7383,7 +7383,7 @@
         "id": "layouts.camp",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-camp.cjs",
-        "moduleSha256": "1962ad114a6b4248675d4d04c243d329e25187ef4c968ebd3277e79c7dabf9b0",
+        "moduleSha256": "706167c71c5752e5e4cf2388cd504fbcfc7c9431b7d59a11dc179a63d8ec8e48",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7399,7 +7399,7 @@
         "id": "layouts.camp",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-camp.cjs",
-        "moduleSha256": "1962ad114a6b4248675d4d04c243d329e25187ef4c968ebd3277e79c7dabf9b0",
+        "moduleSha256": "706167c71c5752e5e4cf2388cd504fbcfc7c9431b7d59a11dc179a63d8ec8e48",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7415,7 +7415,7 @@
         "id": "layouts.camp",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-camp.cjs",
-        "moduleSha256": "1962ad114a6b4248675d4d04c243d329e25187ef4c968ebd3277e79c7dabf9b0",
+        "moduleSha256": "706167c71c5752e5e4cf2388cd504fbcfc7c9431b7d59a11dc179a63d8ec8e48",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7431,7 +7431,7 @@
         "id": "layouts.camp",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-camp.cjs",
-        "moduleSha256": "1962ad114a6b4248675d4d04c243d329e25187ef4c968ebd3277e79c7dabf9b0",
+        "moduleSha256": "706167c71c5752e5e4cf2388cd504fbcfc7c9431b7d59a11dc179a63d8ec8e48",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7447,7 +7447,7 @@
         "id": "layouts.camp",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-camp.cjs",
-        "moduleSha256": "1962ad114a6b4248675d4d04c243d329e25187ef4c968ebd3277e79c7dabf9b0",
+        "moduleSha256": "706167c71c5752e5e4cf2388cd504fbcfc7c9431b7d59a11dc179a63d8ec8e48",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7615,14 +7615,14 @@
           "id": "hub.source",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/hub.cjs",
-          "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
+          "moduleSha256": "0867aa891f3e94d137966f2229f9d894b6c22c4cba196c30907a8bd30e417b6c",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "hub.lifecycle",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/hub.cjs",
-          "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
+          "moduleSha256": "0867aa891f3e94d137966f2229f9d894b6c22c4cba196c30907a8bd30e417b6c",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -7799,14 +7799,14 @@
           "id": "buildings.main-art",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/main-buildings.cjs",
-          "moduleSha256": "51abc54b75241e4b3ae9c1cc40438a312abcf2a4f9549f9a7ee25b7078833094",
+          "moduleSha256": "1d1356372b6487f02db8bb348357c0bd543d642cd62b829b04551a77247960c3",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "buildings.main-state",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/main-buildings.cjs",
-          "moduleSha256": "51abc54b75241e4b3ae9c1cc40438a312abcf2a4f9549f9a7ee25b7078833094",
+          "moduleSha256": "1d1356372b6487f02db8bb348357c0bd543d642cd62b829b04551a77247960c3",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -7891,70 +7891,70 @@
           "id": "layouts.kit",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-kit.cjs",
-          "moduleSha256": "1d428fbcd74e363af1351ec63f39403b0cee4744d7dd8ead03186387310abd76",
+          "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.theme",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-kit.cjs",
-          "moduleSha256": "1d428fbcd74e363af1351ec63f39403b0cee4744d7dd8ead03186387310abd76",
+          "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.identity",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-kit.cjs",
-          "moduleSha256": "1d428fbcd74e363af1351ec63f39403b0cee4744d7dd8ead03186387310abd76",
+          "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.identity-integrity",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-kit.cjs",
-          "moduleSha256": "1d428fbcd74e363af1351ec63f39403b0cee4744d7dd8ead03186387310abd76",
+          "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.inventory",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-inventory.cjs",
-          "moduleSha256": "2030653b9d5afbc2c6d44d89806dad7518a4a1c12d2ee127759d964a43bf3fe1",
+          "moduleSha256": "260d2dffacd8af81f204b6fd216df73a48b2e41e38d58871f0e10a7848e47dfe",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.legacy-target",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-inventory.cjs",
-          "moduleSha256": "2030653b9d5afbc2c6d44d89806dad7518a4a1c12d2ee127759d964a43bf3fe1",
+          "moduleSha256": "260d2dffacd8af81f204b6fd216df73a48b2e41e38d58871f0e10a7848e47dfe",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.camp",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-camp.cjs",
-          "moduleSha256": "1962ad114a6b4248675d4d04c243d329e25187ef4c968ebd3277e79c7dabf9b0",
+          "moduleSha256": "706167c71c5752e5e4cf2388cd504fbcfc7c9431b7d59a11dc179a63d8ec8e48",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.map-warnings",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-camp.cjs",
-          "moduleSha256": "1962ad114a6b4248675d4d04c243d329e25187ef4c968ebd3277e79c7dabf9b0",
+          "moduleSha256": "706167c71c5752e5e4cf2388cd504fbcfc7c9431b7d59a11dc179a63d8ec8e48",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.session",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-session.cjs",
-          "moduleSha256": "1c61f473cbb64362a7c6bfea8e8f2694e8a236e0d953fe6949a7b83126f8b15a",
+          "moduleSha256": "d87964bca2bfb77c38b596dce275eab60b685540ee60ade3567fa0d38bab2fbe",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.endpoints",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-session.cjs",
-          "moduleSha256": "1c61f473cbb64362a7c6bfea8e8f2694e8a236e0d953fe6949a7b83126f8b15a",
+          "moduleSha256": "d87964bca2bfb77c38b596dce275eab60b685540ee60ade3567fa0d38bab2fbe",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -8047,28 +8047,28 @@
           "id": "layouts.kit",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-kit.cjs",
-          "moduleSha256": "1d428fbcd74e363af1351ec63f39403b0cee4744d7dd8ead03186387310abd76",
+          "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.theme",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-kit.cjs",
-          "moduleSha256": "1d428fbcd74e363af1351ec63f39403b0cee4744d7dd8ead03186387310abd76",
+          "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.session",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-session.cjs",
-          "moduleSha256": "1c61f473cbb64362a7c6bfea8e8f2694e8a236e0d953fe6949a7b83126f8b15a",
+          "moduleSha256": "d87964bca2bfb77c38b596dce275eab60b685540ee60ade3567fa0d38bab2fbe",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.endpoints",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-session.cjs",
-          "moduleSha256": "1c61f473cbb64362a7c6bfea8e8f2694e8a236e0d953fe6949a7b83126f8b15a",
+          "moduleSha256": "d87964bca2bfb77c38b596dce275eab60b685540ee60ade3567fa0d38bab2fbe",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -8319,14 +8319,14 @@
           "id": "layouts.inventory",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-inventory.cjs",
-          "moduleSha256": "2030653b9d5afbc2c6d44d89806dad7518a4a1c12d2ee127759d964a43bf3fe1",
+          "moduleSha256": "260d2dffacd8af81f204b6fd216df73a48b2e41e38d58871f0e10a7848e47dfe",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.legacy-target",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-inventory.cjs",
-          "moduleSha256": "2030653b9d5afbc2c6d44d89806dad7518a4a1c12d2ee127759d964a43bf3fe1",
+          "moduleSha256": "260d2dffacd8af81f204b6fd216df73a48b2e41e38d58871f0e10a7848e47dfe",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -8420,7 +8420,7 @@
           "id": "hub.source",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/hub.cjs",
-          "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
+          "moduleSha256": "0867aa891f3e94d137966f2229f9d894b6c22c4cba196c30907a8bd30e417b6c",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -8743,7 +8743,7 @@
           "id": "hub.source",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/hub.cjs",
-          "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
+          "moduleSha256": "0867aa891f3e94d137966f2229f9d894b6c22c4cba196c30907a8bd30e417b6c",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -8845,14 +8845,14 @@
           "id": "layouts.identity",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-kit.cjs",
-          "moduleSha256": "1d428fbcd74e363af1351ec63f39403b0cee4744d7dd8ead03186387310abd76",
+          "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.identity-integrity",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-kit.cjs",
-          "moduleSha256": "1d428fbcd74e363af1351ec63f39403b0cee4744d7dd8ead03186387310abd76",
+          "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -8900,14 +8900,14 @@
           "id": "layouts.session",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-session.cjs",
-          "moduleSha256": "1c61f473cbb64362a7c6bfea8e8f2694e8a236e0d953fe6949a7b83126f8b15a",
+          "moduleSha256": "d87964bca2bfb77c38b596dce275eab60b685540ee60ade3567fa0d38bab2fbe",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.endpoints",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-session.cjs",
-          "moduleSha256": "1c61f473cbb64362a7c6bfea8e8f2694e8a236e0d953fe6949a7b83126f8b15a",
+          "moduleSha256": "d87964bca2bfb77c38b596dce275eab60b685540ee60ade3567fa0d38bab2fbe",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9325,14 +9325,14 @@
           "id": "buildings.main-art",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/main-buildings.cjs",
-          "moduleSha256": "51abc54b75241e4b3ae9c1cc40438a312abcf2a4f9549f9a7ee25b7078833094",
+          "moduleSha256": "1d1356372b6487f02db8bb348357c0bd543d642cd62b829b04551a77247960c3",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "buildings.main-state",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/main-buildings.cjs",
-          "moduleSha256": "51abc54b75241e4b3ae9c1cc40438a312abcf2a4f9549f9a7ee25b7078833094",
+          "moduleSha256": "1d1356372b6487f02db8bb348357c0bd543d642cd62b829b04551a77247960c3",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9479,7 +9479,7 @@
           "id": "hub.source",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/hub.cjs",
-          "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
+          "moduleSha256": "0867aa891f3e94d137966f2229f9d894b6c22c4cba196c30907a8bd30e417b6c",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9494,7 +9494,7 @@
           "id": "hub.source",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/hub.cjs",
-          "moduleSha256": "0cbc8d76a63f15c08564c8fc841f71cc9adedd4a1b708de66dc8d48ceacb4422",
+          "moduleSha256": "0867aa891f3e94d137966f2229f9d894b6c22c4cba196c30907a8bd30e417b6c",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9531,14 +9531,14 @@
           "id": "layouts.kit",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-kit.cjs",
-          "moduleSha256": "1d428fbcd74e363af1351ec63f39403b0cee4744d7dd8ead03186387310abd76",
+          "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.theme",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-kit.cjs",
-          "moduleSha256": "1d428fbcd74e363af1351ec63f39403b0cee4744d7dd8ead03186387310abd76",
+          "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9553,14 +9553,14 @@
           "id": "layouts.kit",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-kit.cjs",
-          "moduleSha256": "1d428fbcd74e363af1351ec63f39403b0cee4744d7dd8ead03186387310abd76",
+          "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.theme",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-kit.cjs",
-          "moduleSha256": "1d428fbcd74e363af1351ec63f39403b0cee4744d7dd8ead03186387310abd76",
+          "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9874,7 +9874,7 @@
           "id": "buildings.main-state",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/main-buildings.cjs",
-          "moduleSha256": "51abc54b75241e4b3ae9c1cc40438a312abcf2a4f9549f9a7ee25b7078833094",
+          "moduleSha256": "1d1356372b6487f02db8bb348357c0bd543d642cd62b829b04551a77247960c3",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -9968,49 +9968,49 @@
           "id": "layouts.identity",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-kit.cjs",
-          "moduleSha256": "1d428fbcd74e363af1351ec63f39403b0cee4744d7dd8ead03186387310abd76",
+          "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.inventory",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-inventory.cjs",
-          "moduleSha256": "2030653b9d5afbc2c6d44d89806dad7518a4a1c12d2ee127759d964a43bf3fe1",
+          "moduleSha256": "260d2dffacd8af81f204b6fd216df73a48b2e41e38d58871f0e10a7848e47dfe",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.legacy-target",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-inventory.cjs",
-          "moduleSha256": "2030653b9d5afbc2c6d44d89806dad7518a4a1c12d2ee127759d964a43bf3fe1",
+          "moduleSha256": "260d2dffacd8af81f204b6fd216df73a48b2e41e38d58871f0e10a7848e47dfe",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.camp",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-camp.cjs",
-          "moduleSha256": "1962ad114a6b4248675d4d04c243d329e25187ef4c968ebd3277e79c7dabf9b0",
+          "moduleSha256": "706167c71c5752e5e4cf2388cd504fbcfc7c9431b7d59a11dc179a63d8ec8e48",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.map-warnings",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-camp.cjs",
-          "moduleSha256": "1962ad114a6b4248675d4d04c243d329e25187ef4c968ebd3277e79c7dabf9b0",
+          "moduleSha256": "706167c71c5752e5e4cf2388cd504fbcfc7c9431b7d59a11dc179a63d8ec8e48",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.session",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-session.cjs",
-          "moduleSha256": "1c61f473cbb64362a7c6bfea8e8f2694e8a236e0d953fe6949a7b83126f8b15a",
+          "moduleSha256": "d87964bca2bfb77c38b596dce275eab60b685540ee60ade3567fa0d38bab2fbe",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.endpoints",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-session.cjs",
-          "moduleSha256": "1c61f473cbb64362a7c6bfea8e8f2694e8a236e0d953fe6949a7b83126f8b15a",
+          "moduleSha256": "d87964bca2bfb77c38b596dce275eab60b685540ee60ade3567fa0d38bab2fbe",
           "execution": "no pass inferred from catalog metadata"
         }
       ],

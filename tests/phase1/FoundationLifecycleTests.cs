@@ -11,7 +11,7 @@ public sealed class FoundationLifecycleTests
 {
     /// <summary>Old commands cannot mutate closed authority or carry held aliases into a fresh session.</summary>
     [Fact]
-    public void ClosedAuthorityAndHeldKeysCannotCrossLifetimes()
+    public void Lifetime_ClosedAuthorityAndHeldKeys_CannotCross()
     {
         var input = new FoundationInput();
         foreach (int key in new[] { 65, 4194319, 4194309 })
