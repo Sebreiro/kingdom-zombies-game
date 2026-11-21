@@ -717,19 +717,20 @@ function inheritedSourceReceipt(root, item, receipt, catalogs) {
   if (item.family==='phase1') {
     const baseline = require('../phase1/check.cjs'), row = subject[0];
     const readProof = (parent,ref) => {
-      const actual = e.reference(root,parent+'/'+ref.path);
+      const actual = e.reference(parent,ref.path);
       e.need(actual.sha256===ref.sha256,'COMPLETION_INHERITED_HASH',item.id);
       return actual;
     };
     if (expected.callerStages) baseline.verifyCallerResult(expected,row,context);
     else {
-      const report = e.document(root,readProof(directory,row.report));
+      const report = e.document(context.directory,readProof(context.directory,row.report));
       if (expected.repositoryStages || expected.producerStages) {
         e.need(report.caseId===item.originalId && report.status==='pass' && report.monolithicExecuted===false &&
           equal(report.stages,row.stages),'COMPLETION_INHERITED_STAGES',item.id);
       } else {
         e.need(Array.isArray(row.evidence) && row.evidence.length>0,'COMPLETION_INHERITED_EVIDENCE',item.id);
-        for (const ref of row.evidence) readProof(directory+'/'+item.originalId,ref);
+        const caseDirectory = require('./content.cjs').inside(context.directory,expected.id);
+        for (const ref of row.evidence) readProof(caseDirectory,ref);
         baseline.verifyReport(report,[expected]);
       }
     }
