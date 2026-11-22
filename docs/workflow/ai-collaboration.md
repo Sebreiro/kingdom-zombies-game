@@ -16,6 +16,7 @@ The [GSD configuration](../../.planning/config.json) uses phase branching, `feat
 ## Workspace Cleanup
 
 - At the end of every task, delete its ignored outputs and remove its worktree as described in [workspace cleanup](cleanup.md). Do not wait for phase completion or merge.
+- When a phase or quick task is finished and its changes are committed and pushed, remove its worktree before reporting completion.
 - First record the results the task relies on and the steps to reproduce them. Every PR description includes a **How to reproduce** section so the creator can rerun the checks.
 
 ## Interactive Questions

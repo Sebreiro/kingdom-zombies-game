@@ -41,7 +41,8 @@ The repository [ignore rules](../../.gitignore) cover every top-level `.phaseN` 
 ## Worktrees
 
 - Create a task worktree outside the checkout, in the system temp folder, named `kz-<task-id>-<short-description>`, on the task's branch. Record its path in the continuation record.
-- At task end, once its commits are pushed and nothing uncommitted remains, remove it from another checkout with `node tools/workspace-cleanup.cjs --apply --worktrees-only --remove-worktree <path>`. Removal deletes everything ignored inside it, including caches that are not links; `--worktrees-only` leaves the other checkout's own outputs alone. The branch and pull request remain.
+- Remove the worktree as soon as its phase, quick task or other task is finished and its changes are committed and pushed, in the same session and before reporting completion. Do not leave it for a later task or for the merge. If the task stops before that, name the worktree in the continuation record; the agent that finishes the task removes it.
+- Remove it from another checkout with `node tools/workspace-cleanup.cjs --apply --worktrees-only --remove-worktree <path>`. Removal deletes everything ignored inside it, including caches that are not links; `--worktrees-only` leaves the other checkout's own outputs alone. The branch and pull request remain.
 - Remove only worktrees created for the task. A dry run lists every linked worktree; ask the creator before removing any other, because another session may be using it.
 - Delete a local task branch only after its pull request is merged or closed.
 - Do not use `git worktree remove --force` or delete a worktree folder by hand without the creator's approval. The command refuses worktrees with uncommitted changes, hidden index flags, unpushed commits, a runner lock, a nested worktree or repository, or a folder it cannot scan.

@@ -19,7 +19,7 @@ Use `$gsd-progress` to inspect the project state and identify the next workflow 
 
 At `$gsd-execute-phase N` start, apply the [phase branch and pull request rules](ai-collaboration.md#phase-branches-and-pull-requests): create or resume `feature/<task-id>-<short-description>` and open a draft PR to `dev` with the first implementation push. At phase completion, after required verification, mark the same PR ready for review. Preserve its branch and PR URL in continuation records.
 
-At the end of each plan, quick task and phase session, after its records are committed and pushed, apply the [workspace cleanup rules](cleanup.md).
+At the end of each plan, quick task and phase session, after its records are committed and pushed, apply the [workspace cleanup rules](cleanup.md). When a phase or quick task finishes and its changes are committed and pushed, remove its worktree before reporting completion.
 
 The [GSD configuration](../../.planning/config.json) sets `git.branching_strategy` to `phase`, `git.phase_branch_template` to `feature/{phase}-{slug}` and `git.base_branch` to `dev`, with default-branch commits disabled. Agents perform the PR lifecycle actions as part of execution and completion.
 
