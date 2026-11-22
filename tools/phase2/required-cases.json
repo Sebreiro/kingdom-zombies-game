@@ -40,7 +40,7 @@
         "catalog": "tools/phase2/required-cases.json",
         "method": "KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction",
         "diagnostic": "EXACT_PRODUCTION_EVENT_GUARD",
-        "repositorySha256": "7496b77943ba74eeac8b5b38488848e549dd02af9c494aae50d46d685ae96d3e",
+        "repositorySha256": "69a44bbd1315f6b0738ff0b2cdaf58ee4e802e997268e56e2e71311ab54f3a5f",
         "childMs": 45000,
         "setupMs": 60000,
         "overallMs": 3636000,
