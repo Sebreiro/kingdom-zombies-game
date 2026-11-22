@@ -1,0 +1,1072 @@
+{
+  "schemaVersion": 1,
+  "id": "ui-identity",
+  "version": 1,
+  "obligations": [
+    "UI-03",
+    "UI-04",
+    "UI-07",
+    "UI-08"
+  ],
+  "shared": [
+    "FX-09",
+    "FX-10"
+  ],
+  "sampleDataOnly": true,
+  "atlas": {
+    "path": "assets/ui/identity-symbols.png",
+    "sha256": "d6d263f08544eaa2d53e9e3e93caa5ec1d96b1a297cc8b87c195e897c9d2bc48",
+    "width": 256,
+    "height": 64,
+    "rgbaSha256": "435131d1cff8582b61c8c07f3d3c7219c1e400b8574292d4413c591b6c714194",
+    "alphaBBox": [
+      0,
+      2,
+      138,
+      29
+    ],
+    "visiblePixels": 1589
+  },
+  "regions": {
+    "title-emblem": [
+      0,
+      0,
+      32,
+      32
+    ],
+    "interaction-cursor": [
+      40,
+      0,
+      32,
+      32
+    ],
+    "keycap-frame": [
+      80,
+      0,
+      60,
+      26
+    ]
+  },
+  "desktop": {
+    "title": "KingdomZombies",
+    "titleMode": "native Label, Display font plus original title-emblem",
+    "icon": "assets/ui/kingdom-zombies.ico",
+    "sha256": "5ca0170350b621993b7ed6c8d2e501360e677371b3f04df798092e2003b01c21",
+    "frames": [
+      16,
+      24,
+      32,
+      48,
+      64,
+      128,
+      256
+    ],
+    "currentProjectIcon": "res://assets/ui/kingdom-zombies-icon.png",
+    "appliedToCurrentExport": false,
+    "applicationOwner": "04-31",
+    "visualJudgment": "pending-04-32/04-33",
+    "sourceApplication": {
+      "path": "assets/ui/kingdom-zombies-icon.png",
+      "sha256": "198b2c20db8b42c23e7a863a1ae39aeef600266911e12f5411ace6cf17fcfc3c",
+      "bytes": 3100,
+      "retainedArchive": "production/phase4/ui-identity.zip",
+      "retainedMember": "outputs/icon-256.png",
+      "projectConfigSha256": "ffd9437ea564f0dda510e738425c755b7344dcbaa60cfd078f21d36036209bb6",
+      "exportApplied": false
+    }
+  },
+  "provenance": {
+    "bundle": "production/phase4/ui-identity.zip",
+    "sha256": "718f34b2f8a3b2803b94a9bf6590faa768fb18e3a0b515d43edb5dcd0d92d315",
+    "members": [
+      {
+        "member": "donors/common.s0.7592.bin",
+        "bytes": 1204,
+        "sha256": "9499fec19f5800b1ef75d44e2dcde4ff930ddd5f60fd457182cca19527e52b64"
+      },
+      {
+        "member": "donors/common.s0.7592.json",
+        "bytes": 2998,
+        "sha256": "d3f2ed6559ae7a4fb74485f09332b10f7722bf716e6731db2cc3730824857ac5"
+      },
+      {
+        "member": "donors/common.s0.7592.png",
+        "bytes": 236,
+        "sha256": "11ab65e77d11a98aee6a3a4989fb24ead0045ae02bac877a6a70ce6b4a5a84c7"
+      },
+      {
+        "member": "donors/common.s0.7989.bin",
+        "bytes": 1032,
+        "sha256": "0e90e9e573795d54d7410afb4bf7a473bb45408ded0fa6ff53f9699500872ef1"
+      },
+      {
+        "member": "donors/common.s0.7989.json",
+        "bytes": 2996,
+        "sha256": "77c8c4c54eaa2da42ab2575e450462e5466652d5c6514d0cff2791e4cc28f16e"
+      },
+      {
+        "member": "donors/common.s0.7989.png",
+        "bytes": 231,
+        "sha256": "af678458818185c608ce0d103fd658821d7998f09070594675104251a2c73be8"
+      },
+      {
+        "member": "donors/common.texture.3.bin",
+        "bytes": 4224,
+        "sha256": "b1ce354bbfe000d829c39278541261fc561322f77103b2c1f07a6f29203e5ec7"
+      },
+      {
+        "member": "donors/common.texture.3.json",
+        "bytes": 876,
+        "sha256": "0eeaf58690d03e22e467cf7c95d931ec2cc63f769099dbf32adfe4495b0d28af"
+      },
+      {
+        "member": "donors/common.texture.3.png",
+        "bytes": 501,
+        "sha256": "a8895d666c35ecee2dda98af3b3758666340a535261ea7eea1432994e8613cff"
+      },
+      {
+        "member": "history/palette-normalization/outputs/identity-symbols.png",
+        "bytes": 1552,
+        "sha256": "dc4f5d0d06ef0df53273836fe50c2a9baa924608dd5fc66b8ee00abb1e379544"
+      },
+      {
+        "member": "history/palette-normalization/outputs/kingdom-zombies.ico",
+        "bytes": 6007,
+        "sha256": "a207a5ec77bd47522923ead0c77e4f5cf373d8f41a6ca9c1abdcda9ad542e810"
+      },
+      {
+        "member": "history/palette-normalization/recipes/identity.json",
+        "bytes": 3885,
+        "sha256": "aa9c13a102d1f543e6c84432e7caba690b5f2bb327631a14b06ceb8f7caaf1a7"
+      },
+      {
+        "member": "masters/camp-crown-original.png",
+        "bytes": 652712,
+        "sha256": "b95abdf57c45527d9307bcf4889aeeeb08c8ed589afd0efcc6cbd8ed3b856db8"
+      },
+      {
+        "member": "outputs/emblem-32.png",
+        "bytes": 1755,
+        "sha256": "11628dca35d64c08e9ee9d166df1317d5eedf52803f8f59e53c4e2ecf03eaf69"
+      },
+      {
+        "member": "outputs/icon-128.png",
+        "bytes": 2472,
+        "sha256": "bb7040b04add47fe7f6c7a05bb8de8f2d7aafc54b40889cfde99ab58e00a5352"
+      },
+      {
+        "member": "outputs/icon-16.png",
+        "bytes": 610,
+        "sha256": "daeaa35d8ae43be08ae34ab869ba64fd98f70a84b5616f3fa735d6f4504a1406"
+      },
+      {
+        "member": "outputs/icon-24.png",
+        "bytes": 1110,
+        "sha256": "cca48982baaa62593b9c773e53ed0eab721c4bcbedc2dc08a21950199fb12583"
+      },
+      {
+        "member": "outputs/icon-256.png",
+        "bytes": 3100,
+        "sha256": "198b2c20db8b42c23e7a863a1ae39aeef600266911e12f5411ace6cf17fcfc3c"
+      },
+      {
+        "member": "outputs/icon-32.png",
+        "bytes": 1755,
+        "sha256": "11628dca35d64c08e9ee9d166df1317d5eedf52803f8f59e53c4e2ecf03eaf69"
+      },
+      {
+        "member": "outputs/icon-48.png",
+        "bytes": 2017,
+        "sha256": "826e7116ce4d7813793c5ce2df270ab4f01978fb2a2850a58ff05a4d91917f1e"
+      },
+      {
+        "member": "outputs/icon-64.png",
+        "bytes": 2160,
+        "sha256": "f65341c4cc0006d0a7d3720db22b950ffc6901716b2698a8f0b0c1baec679b02"
+      },
+      {
+        "member": "outputs/identity-symbols.png",
+        "bytes": 2616,
+        "sha256": "d6d263f08544eaa2d53e9e3e93caa5ec1d96b1a297cc8b87c195e897c9d2bc48"
+      },
+      {
+        "member": "outputs/kingdom-zombies.ico",
+        "bytes": 13342,
+        "sha256": "5ca0170350b621993b7ed6c8d2e501360e677371b3f04df798092e2003b01c21"
+      },
+      {
+        "member": "prompts/camp-crown.txt",
+        "bytes": 1327,
+        "sha256": "fb41c06d3f511ee58b63b5bb63da72b3d58832aa7a81659c5d1f78f3441cd0e2"
+      },
+      {
+        "member": "recipes/identity.json",
+        "bytes": 3414,
+        "sha256": "7604c51dc6c12e12556336ea410f75449d84413f50786db9b64cb7f14dd1679d"
+      },
+      {
+        "member": "recipes/replay.py",
+        "bytes": 6192,
+        "sha256": "ee2eb50f6e4b16e01ba41c3545fce454e17bd89b9501994ac2386e183909ea9d"
+      },
+      {
+        "member": "references/ui-style.json",
+        "bytes": 335,
+        "sha256": "32983d3c66c4d9d3868ca3837bbd337765f83377d525e4642afebf0548055b24"
+      }
+    ],
+    "recipe": {
+      "schemaVersion": 1,
+      "tool": "built-in image_gen",
+      "outputIdentity": "exec-5b4739c2-e69f-411d-8074-f0b971fd7ac5.png",
+      "references": [],
+      "referenceDecision": "No image inputs. Original game crown/camp motif; D-13 simple low-resolution direction, no donor identity art. Donor cursor/keycap sources are separately retained and never used as game identity.",
+      "master": {
+        "member": "masters/camp-crown-original.png",
+        "sha256": "b95abdf57c45527d9307bcf4889aeeeb08c8ed589afd0efcc6cbd8ed3b856db8",
+        "image": {
+          "width": 1254,
+          "height": 1254,
+          "rgbaSha256": "494c755433f9382d9bdfc7f06575bbc115450341a32368d327b3ce9486e7a761",
+          "alphaBBox": [
+            0,
+            55,
+            1196,
+            1206
+          ],
+          "visiblePixels": 603098
+        }
+      },
+      "prompt": {
+        "member": "prompts/camp-crown.txt",
+        "sha256": "fb41c06d3f511ee58b63b5bb63da72b3d58832aa7a81659c5d1f78f3441cd0e2"
+      },
+      "transformations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        },
+        {
+          "op": "crop",
+          "box": [
+            121,
+            237,
+            1134,
+            1069
+          ]
+        },
+        {
+          "op": "fit-nearest",
+          "size": [
+            32,
+            32
+          ],
+          "center": true
+        },
+        {
+          "op": "preserve-sampled-rgb",
+          "alpha": "binary, transparent RGB zero"
+        },
+        {
+          "op": "ico-png-frames",
+          "sizes": [
+            16,
+            24,
+            32,
+            48,
+            64,
+            128,
+            256
+          ],
+          "resample": "nearest",
+          "planes": 1,
+          "bits": 32
+        }
+      ],
+      "mask": "Master alpha threshold at128; no hand-painted or secret mask.",
+      "sources": [
+        {
+          "id": "common.texture.3",
+          "source": {
+            "owner": "globalgamemanagers.assets",
+            "objectId": 3,
+            "type": "Texture2D",
+            "ownerSha256": "fc16aab10626c62a60d10db746c0ae3eb04adca5bff9c779f291217e83164932",
+            "rawSha256": "b1ce354bbfe000d829c39278541261fc561322f77103b2c1f07a6f29203e5ec7",
+            "rawMember": "raw/globalgamemanagers.assets/3.bin",
+            "name": "ui_cursor",
+            "stream": null
+          },
+          "member": "textures/globalgamemanagers.assets/3.png",
+          "sha256": "a8895d666c35ecee2dda98af3b3758666340a535261ea7eea1432994e8613cff"
+        },
+        {
+          "id": "common.s0.7592",
+          "source": {
+            "owner": "sharedassets0.assets",
+            "objectId": 7592,
+            "type": "Sprite",
+            "ownerSha256": "3648658d475170661517c4907e50977a4ab932441b404a681cd0ce485592f3ff",
+            "rawSha256": "9499fec19f5800b1ef75d44e2dcde4ff930ddd5f60fd457182cca19527e52b64",
+            "rawMember": "raw/sharedassets0.assets/7592.bin",
+            "name": "input_glyph_keyboard_sides_0"
+          },
+          "member": "images/sharedassets0.assets/7592.png",
+          "sha256": "11ab65e77d11a98aee6a3a4989fb24ead0045ae02bac877a6a70ce6b4a5a84c7"
+        },
+        {
+          "id": "common.s0.7989",
+          "source": {
+            "owner": "sharedassets0.assets",
+            "objectId": 7989,
+            "type": "Sprite",
+            "ownerSha256": "3648658d475170661517c4907e50977a4ab932441b404a681cd0ce485592f3ff",
+            "rawSha256": "0e90e9e573795d54d7410afb4bf7a473bb45408ded0fa6ff53f9699500872ef1",
+            "rawMember": "raw/sharedassets0.assets/7989.bin",
+            "name": "input_glyph_keyboard_sides_0"
+          },
+          "member": "images/sharedassets0.assets/7989.png",
+          "sha256": "af678458818185c608ce0d103fd658821d7998f09070594675104251a2c73be8"
+        }
+      ]
+    }
+  },
+  "acceptance": {
+    "visual": "pending-04-32/04-33",
+    "humanApproval": null,
+    "completedObligations": []
+  },
+  "theme": {
+    "path": "assets/ui/InspectionTheme.tres",
+    "sha256": "b29205230d3293caa8c3c2c74c4e63348c42a28eb1bed0c1ea51d52c60ab089a",
+    "fonts": [
+      {
+        "role": "body",
+        "path": "assets/ui/LiberationSans.ttf",
+        "id": "common.font.6004",
+        "sha256": "e5b0af421ea2bfbc1ac8d251d647268087ae82786234c57f757d1f0b90fa8b49",
+        "bytes": 350200,
+        "member": "fonts/resources.assets/6004.ttf",
+        "fallbacks": [
+          "assets/ui/Fallback.ttf"
+        ]
+      },
+      {
+        "role": "display",
+        "path": "assets/ui/PerfectDOSVGA437.ttf",
+        "id": "common.font.6003",
+        "sha256": "ab5f7798ce9d05aa09380fce2142b11690ba3216a73208954f87c6c63a035102",
+        "bytes": 81192,
+        "member": "fonts/resources.assets/6003.ttf",
+        "fallbacks": [
+          "assets/ui/Fallback.ttf"
+        ]
+      },
+      {
+        "role": "fallback",
+        "path": "assets/ui/Fallback.ttf",
+        "id": "common.font.6004",
+        "sha256": "e5b0af421ea2bfbc1ac8d251d647268087ae82786234c57f757d1f0b90fa8b49",
+        "bytes": 350200,
+        "member": "fonts/resources.assets/6004.ttf",
+        "fallbacks": []
+      }
+    ],
+    "frames": [
+      {
+        "state": "normal",
+        "id": "common.s0.7837",
+        "atlasRect": [
+          136,
+          1159,
+          62,
+          25
+        ],
+        "source": {
+          "owner": "sharedassets0.assets",
+          "objectId": 7837,
+          "type": "Sprite",
+          "ownerSha256": "3648658d475170661517c4907e50977a4ab932441b404a681cd0ce485592f3ff",
+          "rawSha256": "e43511f81f9e4c2d7e321d44ca58c79c16b7ff3fbf3dae44ef0f16c231289c11",
+          "rawMember": "raw/sharedassets0.assets/7837.bin",
+          "name": "menu_button_wood_big_normal"
+        },
+        "member": "images/sharedassets0.assets/7837.png",
+        "pngSha256": "351083b68085b592381b979f090fdad5b8acc5633299418e75e2cc3af34c483d",
+        "rgbaSha256": "a9445c495a363146bec93f29e32aeb0aed7c14ceb4f2cc9f46415bbb90898814",
+        "corners": [
+          8,
+          8,
+          8,
+          8
+        ],
+        "edgeMode": "tile",
+        "drawCenter": false
+      },
+      {
+        "state": "hover",
+        "id": "common.s0.7900",
+        "atlasRect": [
+          311,
+          1159,
+          62,
+          25
+        ],
+        "source": {
+          "owner": "sharedassets0.assets",
+          "objectId": 7900,
+          "type": "Sprite",
+          "ownerSha256": "3648658d475170661517c4907e50977a4ab932441b404a681cd0ce485592f3ff",
+          "rawSha256": "c03aae9a86edc48f71143e143a6be8fddfc7a41ec8586308cbb2851be87dc1e3",
+          "rawMember": "raw/sharedassets0.assets/7900.bin",
+          "name": "menu_button_wood_big_highlight"
+        },
+        "member": "images/sharedassets0.assets/7900.png",
+        "pngSha256": "ec47f83914db304893fc93cc885295284836669e32e319d724d4a6d372418816",
+        "rgbaSha256": "3b102374fb5545d28b92f741c78d9fc0d67150804c816dca1d469c469d8821ed",
+        "corners": [
+          8,
+          8,
+          8,
+          8
+        ],
+        "edgeMode": "tile",
+        "drawCenter": false
+      },
+      {
+        "state": "pressed",
+        "id": "common.s0.6925",
+        "atlasRect": [
+          1212,
+          1089,
+          62,
+          25
+        ],
+        "source": {
+          "owner": "sharedassets0.assets",
+          "objectId": 6925,
+          "type": "Sprite",
+          "ownerSha256": "3648658d475170661517c4907e50977a4ab932441b404a681cd0ce485592f3ff",
+          "rawSha256": "3f2307fa3c59f1cd41464dbe7b96ef876b1315dccbb4cf22103c452bbb077b99",
+          "rawMember": "raw/sharedassets0.assets/6925.bin",
+          "name": "menu_button_wood_big_pressed"
+        },
+        "member": "images/sharedassets0.assets/6925.png",
+        "pngSha256": "6f9669f59221cb076e2e93995cea39cc60f31e4d237a7f623d11bad006e07d98",
+        "rgbaSha256": "27ebd1721ea7ab41a5a01f0a270863487567bb12ac87a897dba93cc858ecf96e",
+        "corners": [
+          8,
+          8,
+          8,
+          8
+        ],
+        "edgeMode": "tile",
+        "drawCenter": false
+      },
+      {
+        "state": "disabled",
+        "id": "common.s0.8151",
+        "atlasRect": [
+          852,
+          1159,
+          28,
+          25
+        ],
+        "source": {
+          "owner": "sharedassets0.assets",
+          "objectId": 8151,
+          "type": "Sprite",
+          "ownerSha256": "3648658d475170661517c4907e50977a4ab932441b404a681cd0ce485592f3ff",
+          "rawSha256": "0b488b6e5b74846dfb1e6a9ed76ef6a88f90e96d33cea0c6da0899e61748a96d",
+          "rawMember": "raw/sharedassets0.assets/8151.bin",
+          "name": "menu_button_wood_disabled"
+        },
+        "member": "images/sharedassets0.assets/8151.png",
+        "pngSha256": "388644d45d62a238774fc9880e60fae5de263a8145579e27604614d4ac5918d0",
+        "rgbaSha256": "8ac13876041c0e109f5f385cd69b7d69b9b5697a83b181329b712b83a24173d6",
+        "corners": [
+          8,
+          8,
+          8,
+          8
+        ],
+        "edgeMode": "tile",
+        "drawCenter": false
+      }
+    ]
+  },
+  "items": [
+    {
+      "id": "IT-01",
+      "name": "Money",
+      "maximum": null,
+      "icon": "IT_01_master",
+      "texture": "assets/equipment/items-01-10.png",
+      "atlasRect": [
+        2,
+        2,
+        10,
+        10
+      ],
+      "rgbaSha256": "5e214d68b3f4798bc2d8f5a2a28b478b60356711d838863436f63d5bf24bf3f5"
+    },
+    {
+      "id": "IT-02",
+      "name": "Arrows",
+      "maximum": null,
+      "icon": "IT_02_bundle",
+      "texture": "assets/equipment/items-01-10.png",
+      "atlasRect": [
+        24,
+        2,
+        10,
+        7
+      ],
+      "rgbaSha256": "f8e062a1e0a134dd88f500cb87856915281101d6dc73f4c456f9f654afd875ad"
+    },
+    {
+      "id": "IT-03",
+      "name": "Knife",
+      "maximum": 120,
+      "icon": "IT_03_master",
+      "texture": "assets/equipment/items-01-10.png",
+      "atlasRect": [
+        36,
+        2,
+        4,
+        12
+      ],
+      "rgbaSha256": "9be0195374453879364ba57803351ec8892eb3cd63adab466fd9701d29dc8544"
+    },
+    {
+      "id": "IT-04",
+      "name": "Wooden club",
+      "maximum": 150,
+      "icon": "IT_04_master",
+      "texture": "assets/equipment/items-01-10.png",
+      "atlasRect": [
+        48,
+        2,
+        5,
+        18
+      ],
+      "rgbaSha256": "67a1f97ad710fc8a843417640b54b77578736172cd9a1c2bc6ac0acd23527c7b"
+    },
+    {
+      "id": "IT-05",
+      "name": "Machete",
+      "maximum": 180,
+      "icon": "IT_05_master",
+      "texture": "assets/equipment/items-01-10.png",
+      "atlasRect": [
+        62,
+        2,
+        5,
+        20
+      ],
+      "rgbaSha256": "f9c0f7186c753a9ce771b5e67d9822de14134a3d852731144313bdaaedeef3c9"
+    },
+    {
+      "id": "IT-06",
+      "name": "Metal bat",
+      "maximum": 220,
+      "icon": "IT_06_master",
+      "texture": "assets/equipment/items-01-10.png",
+      "atlasRect": [
+        76,
+        2,
+        4,
+        24
+      ],
+      "rgbaSha256": "231e2d65728cc635ad4ada0574b4bcc89de8508ef7a3afa79285968d30cca1e5"
+    },
+    {
+      "id": "IT-07",
+      "name": "Bow",
+      "maximum": 160,
+      "icon": "IT_07_master",
+      "texture": "assets/equipment/items-01-10.png",
+      "atlasRect": [
+        88,
+        2,
+        16,
+        18
+      ],
+      "rgbaSha256": "8a26cb666b17fac3ed783b86bd13bd41ed5d0bd8527e2bfc10eb4ff2aed4eab1"
+    },
+    {
+      "id": "IT-08",
+      "name": "Berries",
+      "maximum": null,
+      "icon": "IT_08_master",
+      "texture": "assets/equipment/items-01-10.png",
+      "atlasRect": [
+        134,
+        2,
+        6,
+        5
+      ],
+      "rgbaSha256": "991be3bf60ac1cdbab216adb6c36520bc4422e5803c49237db22dec76aebd202"
+    },
+    {
+      "id": "IT-09",
+      "name": "Fruit",
+      "maximum": null,
+      "icon": "IT_09_master",
+      "texture": "assets/equipment/items-01-10.png",
+      "atlasRect": [
+        142,
+        2,
+        6,
+        7
+      ],
+      "rgbaSha256": "284608e1b0b801a55cdd15727271471bf1a5a56f715add3728201fd2535cb4f6"
+    },
+    {
+      "id": "IT-10",
+      "name": "Meat",
+      "maximum": null,
+      "icon": "IT_10_master",
+      "texture": "assets/equipment/items-01-10.png",
+      "atlasRect": [
+        150,
+        2,
+        7,
+        5
+      ],
+      "rgbaSha256": "ceb81e63137016297387791e18a19061e2665b4cfd451e0ac46b57524faf81e9"
+    },
+    {
+      "id": "IT-11",
+      "name": "Basic shirt",
+      "maximum": null,
+      "icon": "IT_11_master",
+      "texture": "assets/equipment/items-11-24.png",
+      "atlasRect": [
+        2,
+        2,
+        14,
+        11
+      ],
+      "rgbaSha256": "de0c143f2f11422fe06ed4fdc3e2885ecc28969fd1dc191b4104505510890ceb"
+    },
+    {
+      "id": "IT-12",
+      "name": "Trousers",
+      "maximum": null,
+      "icon": "IT_12_master",
+      "texture": "assets/equipment/items-11-24.png",
+      "atlasRect": [
+        58,
+        2,
+        8,
+        13
+      ],
+      "rgbaSha256": "3380cc9611bed996a4a7b3a1a8dbd280d45e639bf1c94c3055af1d67a35bb888"
+    },
+    {
+      "id": "IT-13",
+      "name": "Coat",
+      "maximum": null,
+      "icon": "IT_13_master",
+      "texture": "assets/equipment/items-11-24.png",
+      "atlasRect": [
+        90,
+        2,
+        16,
+        18
+      ],
+      "rgbaSha256": "9dcefa017c368a1a8551cabae01e6b435ec26601d53915fbfcf1db16154870f6"
+    },
+    {
+      "id": "IT-14",
+      "name": "Cap",
+      "maximum": null,
+      "icon": "IT_14_master",
+      "texture": "assets/equipment/items-11-24.png",
+      "atlasRect": [
+        160,
+        2,
+        7,
+        4
+      ],
+      "rgbaSha256": "a9a574112f5e753c95d04e6674ccba9e82574346c9a5ecdd2ecca76d0267c1ed"
+    },
+    {
+      "id": "IT-15",
+      "name": "Face covering",
+      "maximum": null,
+      "icon": "IT_15_master",
+      "texture": "assets/equipment/items-11-24.png",
+      "atlasRect": [
+        178,
+        2,
+        5,
+        3
+      ],
+      "rgbaSha256": "8cb85275c874c8181b113c415008f0b8f5293aa7d76aab5f8b190cf2885e664a"
+    },
+    {
+      "id": "IT-16",
+      "name": "Gloves",
+      "maximum": null,
+      "icon": "IT_16_master",
+      "texture": "assets/equipment/items-11-24.png",
+      "atlasRect": [
+        192,
+        2,
+        8,
+        5
+      ],
+      "rgbaSha256": "2f435905735c4004050131337344119fe8c4a35384d19956796f654988afa578"
+    },
+    {
+      "id": "IT-17",
+      "name": "Boots",
+      "maximum": null,
+      "icon": "IT_17_master",
+      "texture": "assets/equipment/items-11-24.png",
+      "atlasRect": [
+        226,
+        2,
+        10,
+        6
+      ],
+      "rgbaSha256": "cfc0888cc7f1d52b4d30799fa0cf2a2ab4c232bbb4507e4ee74219d9e374724a"
+    },
+    {
+      "id": "IT-18",
+      "name": "Protective helmet",
+      "maximum": 100,
+      "icon": "IT_18_master",
+      "texture": "assets/equipment/items-11-24.png",
+      "atlasRect": [
+        252,
+        2,
+        7,
+        6
+      ],
+      "rgbaSha256": "42f8696019cb81731964e79f61049ea562b1edc809704949aff78e94431a8ccd"
+    },
+    {
+      "id": "IT-19",
+      "name": "Improvised body armor",
+      "maximum": 100,
+      "icon": "IT_19_master",
+      "texture": "assets/equipment/items-11-24.png",
+      "atlasRect": [
+        279,
+        2,
+        8,
+        11
+      ],
+      "rgbaSha256": "427397479e6129e11e882784e7b169feeb7f898cee4c0453ecbf7c97f7efc867"
+    },
+    {
+      "id": "IT-20",
+      "name": "Plated body armor",
+      "maximum": 200,
+      "icon": "IT_20_master",
+      "texture": "assets/equipment/items-11-24.png",
+      "atlasRect": [
+        335,
+        2,
+        10,
+        12
+      ],
+      "rgbaSha256": "17b36975bf096ff382b1c0b26697f9175b147ae7fd9d6c24c64154d76943cc46"
+    },
+    {
+      "id": "IT-21",
+      "name": "Belt with pouches",
+      "maximum": null,
+      "icon": "IT_21_master",
+      "texture": "assets/equipment/items-11-24.png",
+      "atlasRect": [
+        399,
+        2,
+        10,
+        4
+      ],
+      "rgbaSha256": "66d14da7c535c0ac38bf63842d271a54ffe9b06b4c07d29aa185c0c54ead127e"
+    },
+    {
+      "id": "IT-22",
+      "name": "Small pouch",
+      "maximum": null,
+      "icon": "IT_22_master",
+      "texture": "assets/equipment/items-11-24.png",
+      "atlasRect": [
+        433,
+        2,
+        5,
+        7
+      ],
+      "rgbaSha256": "f7ef27cefbc0f17638b89309c39d6498b7821ad2e022915388461842ed90006e"
+    },
+    {
+      "id": "IT-23",
+      "name": "Small backpack",
+      "maximum": null,
+      "icon": "IT_23_master",
+      "texture": "assets/equipment/items-11-24.png",
+      "atlasRect": [
+        447,
+        2,
+        8,
+        11
+      ],
+      "rgbaSha256": "83dd2a9bc84ca636657a3d60246f84b7efd369b6726dd6ee067ebf272cea618b"
+    },
+    {
+      "id": "IT-24",
+      "name": "Field backpack",
+      "maximum": null,
+      "icon": "IT_24_master",
+      "texture": "assets/equipment/items-11-24.png",
+      "atlasRect": [
+        481,
+        2,
+        11,
+        15
+      ],
+      "rgbaSha256": "f5554b8b3e47b098e5159a3f7222ce850dfe9a63b32b693b7e7a2914c4bda03f"
+    }
+  ],
+  "statuses": [
+    {
+      "id": "status.health",
+      "label": "Health",
+      "glyph": 0
+    },
+    {
+      "id": "status.stamina",
+      "label": "Stamina",
+      "glyph": 1
+    },
+    {
+      "id": "status.load",
+      "label": "Load",
+      "glyph": 2
+    },
+    {
+      "id": "status.money",
+      "label": "Money",
+      "glyph": 3
+    },
+    {
+      "id": "status.ammunition",
+      "label": "Ammunition",
+      "glyph": 4
+    },
+    {
+      "id": "status.condition",
+      "label": "Condition",
+      "glyph": 5
+    },
+    {
+      "id": "status.broken",
+      "label": "Broken",
+      "glyph": 6
+    },
+    {
+      "id": "status.locked",
+      "label": "Locked",
+      "glyph": 7
+    },
+    {
+      "id": "status.warning",
+      "label": "Warning",
+      "glyph": 8
+    },
+    {
+      "id": "status.error",
+      "label": "Error",
+      "glyph": 9
+    },
+    {
+      "id": "status.waiting",
+      "label": "Waiting",
+      "glyph": 10
+    },
+    {
+      "id": "status.success",
+      "label": "Success",
+      "glyph": 11
+    },
+    {
+      "id": "status.busy",
+      "label": "Busy",
+      "glyph": 12
+    },
+    {
+      "id": "status.food",
+      "label": "Food",
+      "glyph": 13
+    },
+    {
+      "id": "status.role",
+      "label": "Role",
+      "glyph": 14
+    },
+    {
+      "id": "status.activity",
+      "label": "Activity",
+      "glyph": 15
+    },
+    {
+      "id": "status.save",
+      "label": "Save",
+      "glyph": 16
+    },
+    {
+      "id": "status.connection",
+      "label": "Connection",
+      "glyph": 17
+    }
+  ],
+  "players": [
+    {
+      "id": "player-1",
+      "number": "P1",
+      "name": "Élodie",
+      "shape": "square",
+      "color": "#F0C46A",
+      "state": "Host"
+    },
+    {
+      "id": "player-2",
+      "number": "P2",
+      "name": "Jérôme",
+      "shape": "triangle",
+      "color": "#74BDE0",
+      "state": "Guest"
+    },
+    {
+      "id": "player-3",
+      "number": "P3",
+      "name": "Alex",
+      "shape": "diamond",
+      "color": "#DB91B8",
+      "state": "Controller"
+    },
+    {
+      "id": "player-4",
+      "number": "P4",
+      "name": "Alex",
+      "shape": "cross",
+      "color": "#A3CC83",
+      "state": "Spectator"
+    }
+  ],
+  "playerStates": [
+    "Host",
+    "Guest",
+    "Controller",
+    "Spectator",
+    "Offline"
+  ],
+  "bindings": [
+    {
+      "id": "move-left",
+      "label": "Move left",
+      "context": "gameplay",
+      "remapped": false,
+      "events": [
+        {
+          "kind": "key",
+          "key": "A",
+          "modifiers": []
+        },
+        {
+          "kind": "key",
+          "key": "Left",
+          "modifiers": []
+        }
+      ]
+    },
+    {
+      "id": "move-right",
+      "label": "Move right",
+      "context": "gameplay",
+      "remapped": false,
+      "events": [
+        {
+          "kind": "key",
+          "key": "D",
+          "modifiers": []
+        },
+        {
+          "kind": "key",
+          "key": "Right",
+          "modifiers": []
+        }
+      ]
+    },
+    {
+      "id": "activate",
+      "label": "Activate focused control",
+      "context": "gui",
+      "remapped": false,
+      "events": [
+        {
+          "kind": "key",
+          "key": "Enter",
+          "modifiers": []
+        },
+        {
+          "kind": "key",
+          "key": "Space",
+          "modifiers": []
+        },
+        {
+          "kind": "key",
+          "key": "Kp Enter",
+          "modifiers": []
+        }
+      ]
+    },
+    {
+      "id": "dismiss",
+      "label": "Dismiss",
+      "context": "inspection",
+      "remapped": false,
+      "events": [
+        {
+          "kind": "key",
+          "key": "Escape",
+          "modifiers": []
+        }
+      ]
+    }
+  ],
+  "bindingSources": [
+    {
+      "file": "src/godot-game/foundation/FoundationInput.cs",
+      "sha256": "caed7f7b5cd0eca46813aa7a0909f99307cf33d155407a063263cf3fca528b63"
+    },
+    {
+      "file": "src/godot-game/foundation/FoundationRoot.cs",
+      "sha256": "530adae080b9d0811c9f48af7d1c92f3006f6e2bbabf01bd8303ec328040f8f8"
+    },
+    {
+      "file": "src/godot-game/inspection/InspectionInput.cs",
+      "sha256": "05fed457e170e39e9092fb38ce4a956990e30322c8fcb89358bf0c59c8510c0c"
+    }
+  ],
+  "bindingScope": "Source-backed current foundation/inspection keys; remapping fixtures do not claim a delivered gameplay remapping system.",
+  "conditionPolicy": "One exact item canonical icon at every condition; numeric current / maximum and separate Broken glyph at zero; no condition display for null maximum.",
+  "selection": {
+    "steady": true,
+    "outlinePixels": 1,
+    "color": "#F4F2E8",
+    "marker": "diamond",
+    "crownRecoverableLoot": false
+  },
+  "nativePermissions": [],
+  "integration": {
+    "hubOwner": "04-23",
+    "exportOwner": "04-31",
+    "actualReviewOwner": "04-32/04-33"
+  }
+}

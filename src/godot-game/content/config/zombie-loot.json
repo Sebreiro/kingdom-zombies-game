@@ -1,0 +1,338 @@
+{
+  "id": "DT-13",
+  "version": 1,
+  "generation": {
+    "when": "before-spawn-never-on-death",
+    "mandatoryFirst": true,
+    "moneyItemRef": "IT-01",
+    "clothingItemRef": "IT-12",
+    "moneyStorage": "worn-trousers-pocket-grid",
+    "minimumMoney": 1,
+    "minimumWearableClothing": 1,
+    "optionalFailure": "skip-without-creation-or-mandatory-loss",
+    "guaranteedFailure": "reject-definition-with-file-field-value-reason",
+    "guaranteeOverridesGeneralRoll": true,
+    "condition": "quality-minimum-through-100-percent",
+    "capacityPolicy": "actual-slots-grids-stacks-rotation-load-and-compatible-hands",
+    "shop": false,
+    "crafting": false,
+    "continuingSources": [
+      "zombie-loot",
+      "purchased-recruit-basic-outfit"
+    ],
+    "exceptions": [
+      "initial-stash",
+      "built-in-structural-tower-equipment"
+    ]
+  },
+  "weaponPool": [
+    "fists",
+    "IT-04",
+    "IT-03",
+    "IT-05",
+    "IT-06",
+    "IT-07"
+  ],
+  "armorPool": [
+    "IT-19",
+    "IT-20"
+  ],
+  "foodPool": [
+    "IT-08",
+    "IT-09",
+    "IT-10"
+  ],
+  "qualities": [
+    {
+      "qualityId": "Q0",
+      "money": [
+        1,
+        3
+      ],
+      "weaponWeights": [
+        55,
+        25,
+        15,
+        0,
+        0,
+        5
+      ],
+      "bodyArmorPercent": 5,
+      "platedSharePercent": 0,
+      "helmetPercent": 0,
+      "backpackPercent": 10,
+      "minimumConditionPercent": 60,
+      "coatSharePercent": 0,
+      "fieldBackpackSharePercent": 0,
+      "secondMeleePercent": 0
+    },
+    {
+      "qualityId": "Q1",
+      "money": [
+        2,
+        5
+      ],
+      "weaponWeights": [
+        40,
+        25,
+        20,
+        8,
+        2,
+        5
+      ],
+      "bodyArmorPercent": 15,
+      "platedSharePercent": 10,
+      "helmetPercent": 5,
+      "backpackPercent": 15,
+      "minimumConditionPercent": 65,
+      "coatSharePercent": 10,
+      "fieldBackpackSharePercent": 0,
+      "secondMeleePercent": 0
+    },
+    {
+      "qualityId": "Q2",
+      "money": [
+        3,
+        7
+      ],
+      "weaponWeights": [
+        25,
+        20,
+        20,
+        15,
+        10,
+        10
+      ],
+      "bodyArmorPercent": 30,
+      "platedSharePercent": 30,
+      "helmetPercent": 10,
+      "backpackPercent": 20,
+      "minimumConditionPercent": 70,
+      "coatSharePercent": 25,
+      "fieldBackpackSharePercent": 25,
+      "secondMeleePercent": 5
+    },
+    {
+      "qualityId": "Q3",
+      "money": [
+        4,
+        9
+      ],
+      "weaponWeights": [
+        20,
+        15,
+        15,
+        20,
+        15,
+        15
+      ],
+      "bodyArmorPercent": 45,
+      "platedSharePercent": 60,
+      "helmetPercent": 20,
+      "backpackPercent": 25,
+      "minimumConditionPercent": 80,
+      "coatSharePercent": 40,
+      "fieldBackpackSharePercent": 50,
+      "secondMeleePercent": 10
+    },
+    {
+      "qualityId": "Q4",
+      "money": [
+        5,
+        12
+      ],
+      "weaponWeights": [
+        15,
+        10,
+        10,
+        25,
+        20,
+        20
+      ],
+      "bodyArmorPercent": 55,
+      "platedSharePercent": 80,
+      "helmetPercent": 25,
+      "backpackPercent": 30,
+      "minimumConditionPercent": 90,
+      "coatSharePercent": 50,
+      "fieldBackpackSharePercent": 75,
+      "secondMeleePercent": 15
+    }
+  ],
+  "guarantees": {
+    "archer": {
+      "weaponItemRef": "IT-07",
+      "arrowsItemRef": "IT-02",
+      "arrows": [
+        24,
+        48
+      ],
+      "arrowHandMaximum": 30,
+      "excess": "actual-trousers-reserve-stack",
+      "usable": true
+    },
+    "armored": {
+      "armorItemRefs": [
+        "IT-19",
+        "IT-20"
+      ],
+      "usable": true
+    },
+    "incidentalBow": {
+      "arrowsItemRef": "IT-02",
+      "arrows": [
+        15,
+        30
+      ],
+      "arrowHand": true
+    }
+  },
+  "optional": [
+    {
+      "rollId": "arrows",
+      "chancePercent": 35,
+      "quantity": [
+        8,
+        20
+      ],
+      "itemRefs": [
+        "IT-02"
+      ]
+    },
+    {
+      "rollId": "food",
+      "chancePercent": 25,
+      "quantity": [
+        1,
+        2
+      ],
+      "itemRefs": [
+        "IT-08",
+        "IT-09",
+        "IT-10"
+      ],
+      "weights": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "rollId": "pouch",
+      "chancePercent": 10,
+      "quantity": [
+        1,
+        1
+      ],
+      "itemRefs": [
+        "IT-22"
+      ]
+    },
+    {
+      "rollId": "spare-weapon",
+      "chancePercent": 10,
+      "quantity": [
+        1,
+        1
+      ],
+      "pool": "current-quality-non-fist-weapons"
+    },
+    {
+      "rollId": "spare-armor",
+      "chancePercent": 5,
+      "quantity": [
+        1,
+        1
+      ],
+      "pool": "current-quality-armor"
+    },
+    {
+      "rollId": "shirt-or-coat",
+      "chancePercent": 70,
+      "quantity": [
+        1,
+        1
+      ],
+      "itemRefs": [
+        "IT-11",
+        "IT-13"
+      ],
+      "selection": "quality-coat-share"
+    },
+    {
+      "rollId": "boots",
+      "chancePercent": 30,
+      "quantity": [
+        1,
+        1
+      ],
+      "itemRefs": [
+        "IT-17"
+      ]
+    },
+    {
+      "rollId": "cap",
+      "chancePercent": 10,
+      "quantity": [
+        1,
+        1
+      ],
+      "itemRefs": [
+        "IT-14"
+      ]
+    },
+    {
+      "rollId": "gloves",
+      "chancePercent": 10,
+      "quantity": [
+        1,
+        1
+      ],
+      "itemRefs": [
+        "IT-16"
+      ]
+    },
+    {
+      "rollId": "face",
+      "chancePercent": 10,
+      "quantity": [
+        1,
+        1
+      ],
+      "itemRefs": [
+        "IT-15"
+      ]
+    },
+    {
+      "rollId": "belt",
+      "chancePercent": 15,
+      "quantity": [
+        1,
+        1
+      ],
+      "itemRefs": [
+        "IT-21"
+      ]
+    }
+  ],
+  "backpack": {
+    "itemRefs": [
+      "IT-23",
+      "IT-24"
+    ],
+    "selection": "quality-backpack-chance-then-field-share"
+  },
+  "secondWeapon": {
+    "eligible": "legal-one-handed-primary-only",
+    "pool": "current-quality-one-handed-melee",
+    "bowEligible": false,
+    "slots": "distinct-logical-hands",
+    "unplaceable": "skip"
+  },
+  "bowLoadout": {
+    "bowHand": "one-logical-hand",
+    "arrowHand": "other-logical-hand",
+    "autoRefill": "actual-carried-reserves",
+    "noArrows": "common-combat-fallback-no-free-ammunition"
+  }
+}

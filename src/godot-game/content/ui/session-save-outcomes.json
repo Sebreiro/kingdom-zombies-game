@@ -1,0 +1,713 @@
+{
+  "schemaVersion": 1,
+  "id": "session-save-outcomes",
+  "sampleDataOnly": true,
+  "gameplayTransactions": false,
+  "backstops": [
+    "H21"
+  ],
+  "samples": [
+    {
+      "id": "main.normal",
+      "surface": "main",
+      "status": "ready",
+      "title": "KingdomZombies",
+      "diagnostics": []
+    },
+    {
+      "id": "solo.new",
+      "surface": "solo",
+      "status": "ready",
+      "title": "New solo run",
+      "diagnostics": [],
+      "runId": "run-forest-019",
+      "runName": "Éloïse — Northern camp",
+      "host": "Renée",
+      "address": "192.168.1.42:28961",
+      "participants": 1,
+      "capacity": 4,
+      "inProgress": false,
+      "compatibility": "Compatible content-v0.1"
+    },
+    {
+      "id": "host.new",
+      "surface": "host",
+      "status": "ready",
+      "title": "Host a LAN run",
+      "diagnostics": [],
+      "runId": "run-forest-019",
+      "runName": "Éloïse — Northern camp",
+      "host": "Renée",
+      "address": "192.168.1.42:28961",
+      "participants": 1,
+      "capacity": 4,
+      "inProgress": false,
+      "compatibility": "Compatible content-v0.1"
+    },
+    {
+      "id": "host.resume",
+      "surface": "host",
+      "status": "ready",
+      "title": "Host a LAN run",
+      "diagnostics": [],
+      "runId": "run-forest-019",
+      "runName": "Éloïse — Northern camp",
+      "host": "Renée",
+      "address": "192.168.1.42:28961",
+      "participants": 1,
+      "capacity": 4,
+      "inProgress": true,
+      "compatibility": "Compatible content-v0.1"
+    },
+    {
+      "id": "browser.empty",
+      "surface": "browser",
+      "status": "empty",
+      "title": "LAN sessions",
+      "diagnostics": [],
+      "servers": []
+    },
+    {
+      "id": "browser.discovering",
+      "surface": "browser",
+      "status": "discovering",
+      "title": "LAN sessions",
+      "diagnostics": [],
+      "servers": []
+    },
+    {
+      "id": "browser.ready",
+      "surface": "browser",
+      "status": "ready",
+      "title": "LAN sessions",
+      "diagnostics": [],
+      "servers": [
+        {
+          "runId": "run-forest-019",
+          "runName": "Éloïse — Northern camp",
+          "host": "Renée",
+          "address": "192.168.1.42:28961",
+          "participants": 1,
+          "capacity": 4,
+          "inProgress": false,
+          "compatibility": "Compatible content-v0.1",
+          "serverId": "srv-001",
+          "joinStatus": "ready"
+        }
+      ]
+    },
+    {
+      "id": "browser.mixed",
+      "surface": "browser",
+      "status": "partial",
+      "title": "LAN sessions",
+      "diagnostics": [],
+      "servers": [
+        {
+          "runId": "run-forest-019",
+          "runName": "Éloïse — Northern camp",
+          "host": "Renée",
+          "address": "192.168.1.42:28961",
+          "participants": 1,
+          "capacity": 4,
+          "inProgress": false,
+          "compatibility": "Compatible content-v0.1",
+          "serverId": "srv-001",
+          "joinStatus": "ready"
+        },
+        {
+          "runId": "run-forest-019",
+          "runName": "Éloïse — Northern camp",
+          "host": "Renée",
+          "address": "192.168.1.42:28961",
+          "participants": 4,
+          "capacity": 4,
+          "inProgress": false,
+          "compatibility": "Compatible content-v0.1",
+          "serverId": "srv-002",
+          "joinStatus": "full"
+        },
+        {
+          "runId": "run-forest-019",
+          "runName": "Éloïse — Northern camp",
+          "host": "Renée",
+          "address": "192.168.1.42:28961",
+          "participants": 1,
+          "capacity": 4,
+          "inProgress": false,
+          "compatibility": "Required content-v0.2; local content-v0.1",
+          "serverId": "srv-003",
+          "joinStatus": "incompatible"
+        },
+        {
+          "runId": "run-forest-019",
+          "runName": "Éloïse — Northern camp",
+          "host": "Renée",
+          "address": "192.168.1.99:28961",
+          "participants": 1,
+          "capacity": 4,
+          "inProgress": false,
+          "compatibility": "Compatible content-v0.1",
+          "serverId": "srv-004",
+          "joinStatus": "unreachable"
+        }
+      ]
+    },
+    {
+      "id": "manual.empty",
+      "surface": "manual",
+      "status": "empty",
+      "title": "Join host address",
+      "diagnostics": [],
+      "address": "",
+      "validation": "Enter a host address before joining."
+    },
+    {
+      "id": "manual.invalid",
+      "surface": "manual",
+      "status": "invalid",
+      "title": "Join host address",
+      "diagnostics": [],
+      "address": "192.168.1.999:abc",
+      "validation": "Invalid host address:192.168.1.999:abc; enter a host and numeric port."
+    },
+    {
+      "id": "manual.valid",
+      "surface": "manual",
+      "status": "valid",
+      "title": "Join host address",
+      "diagnostics": [],
+      "address": "192.168.1.42:28961",
+      "validation": "Valid address; connection has not started."
+    },
+    {
+      "id": "lobby.solo",
+      "surface": "lobby",
+      "status": "ready",
+      "title": "Host lobby",
+      "diagnostics": [],
+      "runId": "run-forest-019",
+      "runName": "Éloïse — Northern camp",
+      "host": "Renée",
+      "address": "192.168.1.42:28961",
+      "participants": 1,
+      "capacity": 4,
+      "inProgress": false,
+      "compatibility": "Compatible content-v0.1",
+      "players": [
+        {
+          "id": "player-1",
+          "name": "Renée · Host"
+        }
+      ]
+    },
+    {
+      "id": "lobby.full",
+      "surface": "lobby",
+      "status": "full",
+      "title": "Host lobby",
+      "diagnostics": [],
+      "runId": "run-forest-019",
+      "runName": "Éloïse — Northern camp",
+      "host": "Renée",
+      "address": "192.168.1.42:28961",
+      "participants": 4,
+      "capacity": 4,
+      "inProgress": true,
+      "compatibility": "Compatible content-v0.1",
+      "players": [
+        {
+          "id": "player-1",
+          "name": "Renée · Host"
+        },
+        {
+          "id": "player-2",
+          "name": "Zoë · Guest"
+        },
+        {
+          "id": "player-3",
+          "name": "André · Guest"
+        },
+        {
+          "id": "player-4",
+          "name": "İpek · Spectator"
+        }
+      ]
+    },
+    {
+      "id": "join.validating",
+      "surface": "join",
+      "status": "validating",
+      "title": "Joining shared world",
+      "diagnostics": [],
+      "serverId": "srv-001",
+      "runId": "run-forest-019",
+      "address": "192.168.1.42:28961",
+      "progress": 0,
+      "message": "Validating host content",
+      "detail": "Actions unavailable until ready",
+      "timeoutSeconds": 30,
+      "lossSeconds": 10
+    },
+    {
+      "id": "join.waiting",
+      "surface": "join",
+      "status": "waiting",
+      "title": "Joining shared world",
+      "diagnostics": [],
+      "serverId": "srv-001",
+      "runId": "run-forest-019",
+      "address": "192.168.1.42:28961",
+      "progress": 0,
+      "message": "Waiting for host state",
+      "detail": "Existing players continue",
+      "timeoutSeconds": 30,
+      "lossSeconds": 10
+    },
+    {
+      "id": "join.loading",
+      "surface": "join",
+      "status": "loading",
+      "title": "Joining shared world",
+      "diagnostics": [],
+      "serverId": "srv-001",
+      "runId": "run-forest-019",
+      "address": "192.168.1.42:28961",
+      "progress": 63,
+      "message": "Receiving current world state",
+      "detail": "Camp, inventories, jobs and attacks",
+      "timeoutSeconds": 30,
+      "lossSeconds": 10
+    },
+    {
+      "id": "join.ready",
+      "surface": "join",
+      "status": "ready",
+      "title": "Joining shared world",
+      "diagnostics": [],
+      "serverId": "srv-001",
+      "runId": "run-forest-019",
+      "address": "192.168.1.42:28961",
+      "progress": 100,
+      "message": "World ready",
+      "detail": "Random eligible survivor or spectate; no new supplies",
+      "timeoutSeconds": 30,
+      "lossSeconds": 10
+    },
+    {
+      "id": "join.timeout",
+      "surface": "join",
+      "status": "timeout",
+      "title": "Joining shared world",
+      "diagnostics": [],
+      "serverId": "srv-001",
+      "runId": "run-forest-019",
+      "address": "192.168.1.42:28961",
+      "progress": 63,
+      "message": "Join timed out after30seconds",
+      "detail": "Return to menu or try joining again",
+      "timeoutSeconds": 30,
+      "lossSeconds": 10
+    },
+    {
+      "id": "join.mismatch",
+      "surface": "join",
+      "status": "mismatch",
+      "title": "Joining shared world",
+      "diagnostics": [],
+      "serverId": "srv-001",
+      "runId": "run-forest-019",
+      "address": "192.168.1.42:28961",
+      "progress": 0,
+      "message": "Incompatible content",
+      "detail": "Required content-v0.2; local content-v0.1; no control granted",
+      "timeoutSeconds": 30,
+      "lossSeconds": 10
+    },
+    {
+      "id": "join.host-lost",
+      "surface": "join",
+      "status": "host-lost",
+      "title": "Joining shared world",
+      "diagnostics": [],
+      "serverId": "srv-001",
+      "runId": "run-forest-019",
+      "address": "192.168.1.42:28961",
+      "progress": 63,
+      "message": "Host connection lost after10seconds",
+      "detail": "Session ends for everyone; last successful save only; no migration",
+      "timeoutSeconds": 30,
+      "lossSeconds": 10
+    },
+    {
+      "id": "join.guest-return",
+      "surface": "join",
+      "status": "guest-return",
+      "title": "Joining shared world",
+      "diagnostics": [],
+      "serverId": "srv-001",
+      "runId": "run-forest-019",
+      "address": "192.168.1.42:28961",
+      "progress": 100,
+      "message": "Returning guest",
+      "detail": "Previous survivor if alive and unclaimed; otherwise normal succession",
+      "timeoutSeconds": 30,
+      "lossSeconds": 10
+    },
+    {
+      "id": "saves.empty",
+      "surface": "saves",
+      "status": "empty",
+      "title": "Saved runs",
+      "diagnostics": [],
+      "selectedRun": "No run selected",
+      "saves": []
+    },
+    {
+      "id": "saves.list",
+      "surface": "saves",
+      "status": "ready",
+      "title": "Saved runs",
+      "diagnostics": [],
+      "selectedRun": "run-forest-019",
+      "saves": [
+        {
+          "saveId": "save-manual-019",
+          "runId": "run-forest-019",
+          "runName": "Éloïse — Northern camp",
+          "day": 19,
+          "result": "In progress",
+          "time": "2026-11-18T00:10:00Z",
+          "kind": "Manual",
+          "older": false,
+          "compatibility": "Compatible",
+          "detail": "Current content; original save preserved"
+        },
+        {
+          "saveId": "save-auto-018",
+          "runId": "run-forest-019",
+          "runName": "Éloïse — Northern camp",
+          "day": 18,
+          "result": "In progress",
+          "time": "2026-11-17T23:00:00Z",
+          "kind": "Autosave",
+          "older": true,
+          "compatibility": "Compatible",
+          "detail": "Current content; original save preserved"
+        },
+        {
+          "saveId": "save-victory-017",
+          "runId": "run-forest-019",
+          "runName": "Éloïse — Northern camp",
+          "day": 17,
+          "result": "Victory recorded",
+          "time": "2026-11-18T00:10:00Z",
+          "kind": "Manual",
+          "older": true,
+          "compatibility": "Compatible",
+          "detail": "Current content; original save preserved"
+        },
+        {
+          "saveId": "save-defeat-020",
+          "runId": "run-forest-019",
+          "runName": "Éloïse — Northern camp",
+          "day": 20,
+          "result": "Defeat after earlier victory",
+          "time": "2026-11-18T00:10:00Z",
+          "kind": "Manual",
+          "older": true,
+          "compatibility": "Compatible",
+          "detail": "Current content; original save preserved"
+        }
+      ]
+    },
+    {
+      "id": "saves.loading",
+      "surface": "saves",
+      "status": "loading",
+      "title": "Saved runs",
+      "diagnostics": [],
+      "selectedRun": "run-forest-019",
+      "saves": [
+        {
+          "saveId": "save-loading",
+          "runId": "run-forest-019",
+          "runName": "Éloïse — Northern camp",
+          "day": 19,
+          "result": "In progress",
+          "time": "2026-11-18T00:10:00Z",
+          "kind": "Manual",
+          "older": false,
+          "compatibility": "Checking",
+          "detail": "Reading selected save; play continues"
+        }
+      ]
+    },
+    {
+      "id": "saves.saved",
+      "surface": "saves",
+      "status": "saved",
+      "title": "Saved runs",
+      "diagnostics": [],
+      "selectedRun": "run-forest-019",
+      "saves": [
+        {
+          "saveId": "save-saved",
+          "runId": "run-forest-019",
+          "runName": "Éloïse — Northern camp",
+          "day": 19,
+          "result": "In progress",
+          "time": "2026-11-18T00:10:00Z",
+          "kind": "Manual",
+          "older": false,
+          "compatibility": "Compatible",
+          "detail": "Save succeeded; coherent current state"
+        }
+      ]
+    },
+    {
+      "id": "saves.failed",
+      "surface": "saves",
+      "status": "failed",
+      "title": "Saved runs",
+      "diagnostics": [],
+      "selectedRun": "run-forest-019",
+      "saves": [
+        {
+          "saveId": "save-failed",
+          "runId": "run-forest-019",
+          "runName": "Éloïse — Northern camp",
+          "day": 19,
+          "result": "In progress",
+          "time": "2026-11-18T00:10:00Z",
+          "kind": "Manual",
+          "older": false,
+          "compatibility": "Compatible",
+          "detail": "Save failed: disk full; last valid save retained"
+        }
+      ]
+    },
+    {
+      "id": "saves.incompatible",
+      "surface": "saves",
+      "status": "incompatible",
+      "title": "Saved runs",
+      "diagnostics": [],
+      "selectedRun": "run-forest-019",
+      "saves": [
+        {
+          "saveId": "save-incompatible",
+          "runId": "run-forest-019",
+          "runName": "Éloïse — Northern camp",
+          "day": 19,
+          "result": "In progress",
+          "time": "2026-11-18T00:10:00Z",
+          "kind": "Manual",
+          "older": false,
+          "compatibility": "Incompatible content",
+          "detail": "Required map forest-v2; current forest-v1"
+        }
+      ]
+    },
+    {
+      "id": "saves.missing-definition",
+      "surface": "saves",
+      "status": "missing-definition",
+      "title": "Saved runs",
+      "diagnostics": [],
+      "selectedRun": "run-forest-019",
+      "saves": [
+        {
+          "saveId": "save-missing-definition",
+          "runId": "run-forest-019",
+          "runName": "Éloïse — Northern camp",
+          "day": 19,
+          "result": "In progress",
+          "time": "2026-11-18T00:10:00Z",
+          "kind": "Manual",
+          "older": false,
+          "compatibility": "Missing required definition",
+          "detail": "Missing definition IT-99; original save intact"
+        }
+      ]
+    },
+    {
+      "id": "saves.legacy",
+      "surface": "saves",
+      "status": "legacy",
+      "title": "Saved runs",
+      "diagnostics": [],
+      "selectedRun": "run-forest-019",
+      "saves": [
+        {
+          "saveId": "save-legacy",
+          "runId": "run-forest-019",
+          "runName": "Éloïse — Northern camp",
+          "day": 19,
+          "result": "In progress",
+          "time": "2026-11-18T00:10:00Z",
+          "kind": "Manual",
+          "older": false,
+          "compatibility": "Legacy layout",
+          "detail": "Saved positions and old bounds retained; removal permitted"
+        }
+      ]
+    },
+    {
+      "id": "exit.host",
+      "surface": "host-exit",
+      "status": "confirm",
+      "title": "End shared session",
+      "diagnostics": [],
+      "reason": "Normal host exit saves before closing."
+    },
+    {
+      "id": "exit.save-failed",
+      "surface": "host-exit",
+      "status": "save-failed",
+      "title": "End shared session",
+      "diagnostics": [],
+      "reason": "The latest save failed: disk full. Retry saving, return to play, or end the session without the latest save."
+    },
+    {
+      "id": "exit.guest",
+      "surface": "guest-leave",
+      "status": "confirm",
+      "title": "Leave session",
+      "diagnostics": [],
+      "reason": "Other players continue; your survivor stays vulnerable."
+    },
+    {
+      "id": "outcome.victory",
+      "surface": "victory",
+      "status": "victory",
+      "title": "Victory",
+      "diagnostics": [],
+      "runId": "run-forest-019",
+      "day": 17,
+      "earlierVictoryDay": 17
+    },
+    {
+      "id": "outcome.defeat",
+      "surface": "defeat",
+      "status": "defeat",
+      "title": "Defeat",
+      "diagnostics": [],
+      "runId": "run-forest-019",
+      "day": 19,
+      "earlierVictoryDay": 0
+    },
+    {
+      "id": "outcome.continuation-defeat",
+      "surface": "defeat",
+      "status": "defeat",
+      "title": "Defeat",
+      "diagnostics": [],
+      "runId": "run-forest-019",
+      "day": 20,
+      "earlierVictoryDay": 17
+    },
+    {
+      "id": "resource.text.missing",
+      "surface": "main",
+      "status": "error",
+      "title": "KingdomZombies",
+      "diagnostics": [
+        {
+          "id": "TXT-session-unknown",
+          "kind": "text",
+          "file": "content/text/échec-missing.json",
+          "field": "bindings[2].reference",
+          "value": "text.missing",
+          "reason": "Required resource not found",
+          "resourcePass": false
+        }
+      ]
+    },
+    {
+      "id": "resource.text.invalid",
+      "surface": "main",
+      "status": "error",
+      "title": "KingdomZombies",
+      "diagnostics": [
+        {
+          "id": "TXT-session-unknown",
+          "kind": "text",
+          "file": "content/text/échec-invalid.json",
+          "field": "bindings[2].reference",
+          "value": "text.invalid",
+          "reason": "Required resource has invalid domain value",
+          "resourcePass": false
+        }
+      ]
+    },
+    {
+      "id": "resource.audio.missing",
+      "surface": "main",
+      "status": "error",
+      "title": "KingdomZombies",
+      "diagnostics": [
+        {
+          "id": "AU-unknown",
+          "kind": "audio",
+          "file": "content/audio/échec-missing.json",
+          "field": "bindings[2].reference",
+          "value": "audio.missing",
+          "reason": "Required resource not found",
+          "resourcePass": false
+        }
+      ]
+    },
+    {
+      "id": "resource.audio.invalid",
+      "surface": "main",
+      "status": "error",
+      "title": "KingdomZombies",
+      "diagnostics": [
+        {
+          "id": "AU-unknown",
+          "kind": "audio",
+          "file": "content/audio/échec-invalid.json",
+          "field": "bindings[2].reference",
+          "value": "audio.invalid",
+          "reason": "Required resource has invalid domain value",
+          "resourcePass": false
+        }
+      ]
+    },
+    {
+      "id": "resource.data.missing",
+      "surface": "main",
+      "status": "error",
+      "title": "KingdomZombies",
+      "diagnostics": [
+        {
+          "id": "DT-unknown",
+          "kind": "data",
+          "file": "content/data/échec-missing.json",
+          "field": "bindings[2].reference",
+          "value": "data.missing",
+          "reason": "Required resource not found",
+          "resourcePass": false
+        }
+      ]
+    },
+    {
+      "id": "resource.data.invalid",
+      "surface": "main",
+      "status": "error",
+      "title": "KingdomZombies",
+      "diagnostics": [
+        {
+          "id": "DT-unknown",
+          "kind": "data",
+          "file": "content/data/échec-invalid.json",
+          "field": "bindings[2].reference",
+          "value": "data.invalid",
+          "reason": "Required resource has invalid domain value",
+          "resourcePass": false
+        }
+      ]
+    }
+  ]
+}

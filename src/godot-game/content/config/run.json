@@ -1,0 +1,33 @@
+{
+  "id": "DT-01",
+  "version": 1,
+  "startingSurvivors": 8,
+  "playerLimit": 4,
+  "recruitedSurvivorCap": 100,
+  "activeZombieCap": 300,
+  "livingWildlifeCap": 24,
+  "defaultMap": "EN-01",
+  "initialDay": 1,
+  "initialPhase": "dawn",
+  "initialMainTier": 1,
+  "livingPortals": 6,
+  "initialSiteState": "unbuilt",
+  "initialUncontrolledRole": "unassigned",
+  "startingOutfit": ["IT-11", "IT-12", "IT-17"],
+  "startingPersonalSupplies": "outfit-only",
+  "stashPerRunNotPerPlayer": true,
+  "recruitsReplenishStash": false,
+  "initialStash": [
+    {"item": "IT-01", "quantity": 200, "stackQuantity": 100, "stacks": 2, "condition": "not-applicable", "contents": "empty"},
+    {"item": "IT-04", "quantity": 4, "stackQuantity": 1, "stacks": 4, "condition": "full", "contents": "empty"},
+    {"item": "IT-07", "quantity": 4, "stackQuantity": 1, "stacks": 4, "condition": "full", "contents": "empty"},
+    {"item": "IT-02", "quantity": 240, "stackQuantity": 30, "stacks": 8, "condition": "not-applicable", "contents": "empty"},
+    {"item": "IT-23", "quantity": 4, "stackQuantity": 1, "stacks": 4, "condition": "not-applicable", "contents": "empty"},
+    {"item": "IT-21", "quantity": 4, "stackQuantity": 1, "stacks": 4, "condition": "not-applicable", "contents": "empty"},
+    {"item": "IT-08", "quantity": 20, "stackQuantity": 10, "stacks": 2, "condition": "not-applicable", "contents": "empty"},
+    {"item": "IT-09", "quantity": 10, "stackQuantity": 5, "stacks": 2, "condition": "not-applicable", "contents": "empty"},
+    {"item": "IT-10", "quantity": 10, "stackQuantity": 5, "stacks": 2, "condition": "not-applicable", "contents": "empty"}
+  ],
+  "succession": {"delaySeconds": 1, "selection": "random-eligible-uncontrolled-recruit", "waitingOrder": "fifo", "preserveActualState": true, "reconnectPreviousPriority": true, "crownConsumesSlot": false, "crownBecomesLoot": false},
+  "outcomes": {"victory": "all-six-portals-destroyed", "defeat": "main-destroyed-or-no-eligible-living-recruit", "simultaneousPrecedence": "defeat", "continueAfterVictory": true, "retainAwardedVictory": true, "cancelDestroyedPortalPendingSpawns": true}
+}

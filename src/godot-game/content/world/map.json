@@ -1,0 +1,6864 @@
+{
+  "schemaVersion": 1,
+  "id": "world-map",
+  "version": 1,
+  "units": "u",
+  "pixelsPerUnit": 8,
+  "edges": [
+    -320,
+    320
+  ],
+  "groundY": 0,
+  "terrain": [
+    {
+      "id": "ground",
+      "from": -320,
+      "to": 320,
+      "height": 0,
+      "collisionPolygon": [
+        [
+          -320,
+          0
+        ],
+        [
+          320,
+          0
+        ],
+        [
+          320,
+          6
+        ],
+        [
+          -320,
+          6
+        ]
+      ],
+      "navigation": [
+        [
+          -320,
+          0
+        ],
+        [
+          320,
+          0
+        ]
+      ],
+      "art": "ground",
+      "artTileWidth": 16
+    }
+  ],
+  "layers": [
+    {
+      "id": "sky",
+      "parallax": 0,
+      "z": -100
+    },
+    {
+      "id": "hills",
+      "parallax": 0.12,
+      "z": -80
+    },
+    {
+      "id": "middle-forest",
+      "parallax": 0.35,
+      "z": -60
+    },
+    {
+      "id": "near-forest",
+      "parallax": 0.7,
+      "z": -30
+    },
+    {
+      "id": "ground",
+      "parallax": 1,
+      "z": 0
+    },
+    {
+      "id": "actors",
+      "parallax": 1,
+      "z": 5
+    },
+    {
+      "id": "foreground",
+      "parallax": 1,
+      "z": 12
+    }
+  ],
+  "lighting": [
+    {
+      "id": "dawn",
+      "time": 0,
+      "sky": [
+        0.52,
+        0.57,
+        0.55,
+        1
+      ],
+      "tint": [
+        0.85,
+        0.84,
+        0.77,
+        1
+      ]
+    },
+    {
+      "id": "day",
+      "time": 0.25,
+      "sky": [
+        0.56,
+        0.65,
+        0.68,
+        1
+      ],
+      "tint": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "id": "dusk",
+      "time": 0.65,
+      "sky": [
+        0.34,
+        0.35,
+        0.43,
+        1
+      ],
+      "tint": [
+        0.74,
+        0.7,
+        0.73,
+        1
+      ]
+    },
+    {
+      "id": "night",
+      "time": 0.8,
+      "sky": [
+        0.07,
+        0.11,
+        0.19,
+        1
+      ],
+      "tint": [
+        0.48,
+        0.56,
+        0.72,
+        1
+      ]
+    },
+    {
+      "id": "next-dawn",
+      "time": 1,
+      "sky": [
+        0.52,
+        0.57,
+        0.55,
+        1
+      ],
+      "tint": [
+        0.85,
+        0.84,
+        0.77,
+        1
+      ]
+    }
+  ],
+  "firelight": {
+    "color": [
+      1,
+      0.65,
+      0.28,
+      1
+    ],
+    "energy": 0.7,
+    "radiusPixels": 70,
+    "cosmeticOnly": true
+  },
+  "portals": [
+    {
+      "id": "left.portal.1",
+      "side": "left",
+      "sourceIndex": 1,
+      "x": -100,
+      "art": [
+        "portal-back",
+        "portal-front"
+      ],
+      "blocker": {
+        "rect": [
+          -1,
+          -64,
+          2,
+          70
+        ],
+        "blocks": [
+          "survivor"
+        ],
+        "passes": [
+          "zombie"
+        ],
+        "extendsAllJumpHeights": true
+      },
+      "projectileRect": [
+        -1,
+        -9,
+        2,
+        9
+      ],
+      "interactionRadius": 3,
+      "revealRadius": 24,
+      "spawnOffset": [
+        -2,
+        0
+      ]
+    },
+    {
+      "id": "left.portal.2",
+      "side": "left",
+      "sourceIndex": 2,
+      "x": -190,
+      "art": [
+        "portal-back",
+        "portal-front"
+      ],
+      "blocker": {
+        "rect": [
+          -1,
+          -64,
+          2,
+          70
+        ],
+        "blocks": [
+          "survivor"
+        ],
+        "passes": [
+          "zombie"
+        ],
+        "extendsAllJumpHeights": true
+      },
+      "projectileRect": [
+        -1,
+        -9,
+        2,
+        9
+      ],
+      "interactionRadius": 3,
+      "revealRadius": 24,
+      "spawnOffset": [
+        -2,
+        0
+      ]
+    },
+    {
+      "id": "left.portal.3",
+      "side": "left",
+      "sourceIndex": 3,
+      "x": -280,
+      "art": [
+        "portal-back",
+        "portal-front"
+      ],
+      "blocker": {
+        "rect": [
+          -1,
+          -64,
+          2,
+          70
+        ],
+        "blocks": [
+          "survivor"
+        ],
+        "passes": [
+          "zombie"
+        ],
+        "extendsAllJumpHeights": true
+      },
+      "projectileRect": [
+        -1,
+        -9,
+        2,
+        9
+      ],
+      "interactionRadius": 3,
+      "revealRadius": 24,
+      "spawnOffset": [
+        -2,
+        0
+      ]
+    },
+    {
+      "id": "right.portal.1",
+      "side": "right",
+      "sourceIndex": 1,
+      "x": 100,
+      "art": [
+        "portal-back",
+        "portal-front"
+      ],
+      "blocker": {
+        "rect": [
+          -1,
+          -64,
+          2,
+          70
+        ],
+        "blocks": [
+          "survivor"
+        ],
+        "passes": [
+          "zombie"
+        ],
+        "extendsAllJumpHeights": true
+      },
+      "projectileRect": [
+        -1,
+        -9,
+        2,
+        9
+      ],
+      "interactionRadius": 3,
+      "revealRadius": 24,
+      "spawnOffset": [
+        2,
+        0
+      ]
+    },
+    {
+      "id": "right.portal.2",
+      "side": "right",
+      "sourceIndex": 2,
+      "x": 190,
+      "art": [
+        "portal-back",
+        "portal-front"
+      ],
+      "blocker": {
+        "rect": [
+          -1,
+          -64,
+          2,
+          70
+        ],
+        "blocks": [
+          "survivor"
+        ],
+        "passes": [
+          "zombie"
+        ],
+        "extendsAllJumpHeights": true
+      },
+      "projectileRect": [
+        -1,
+        -9,
+        2,
+        9
+      ],
+      "interactionRadius": 3,
+      "revealRadius": 24,
+      "spawnOffset": [
+        2,
+        0
+      ]
+    },
+    {
+      "id": "right.portal.3",
+      "side": "right",
+      "sourceIndex": 3,
+      "x": 280,
+      "art": [
+        "portal-back",
+        "portal-front"
+      ],
+      "blocker": {
+        "rect": [
+          -1,
+          -64,
+          2,
+          70
+        ],
+        "blocks": [
+          "survivor"
+        ],
+        "passes": [
+          "zombie"
+        ],
+        "extendsAllJumpHeights": true
+      },
+      "projectileRect": [
+        -1,
+        -9,
+        2,
+        9
+      ],
+      "interactionRadius": 3,
+      "revealRadius": 24,
+      "spawnOffset": [
+        2,
+        0
+      ]
+    }
+  ],
+  "walls": [
+    {
+      "id": "left.wall.1",
+      "side": "left",
+      "x": -25,
+      "clearing": null,
+      "requiresDestroyedPortals": [],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -2,
+        -5,
+        4,
+        5
+      ],
+      "factionBlocker": "zombie",
+      "artBoundsDoNotCollide": true
+    },
+    {
+      "id": "left.wall.2",
+      "side": "left",
+      "x": -75,
+      "clearing": "left.clearing.1",
+      "requiresDestroyedPortals": [],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -2,
+        -5,
+        4,
+        5
+      ],
+      "factionBlocker": "zombie",
+      "artBoundsDoNotCollide": true
+    },
+    {
+      "id": "left.wall.3",
+      "side": "left",
+      "x": -155,
+      "clearing": "left.clearing.2",
+      "requiresDestroyedPortals": [
+        "left.portal.1"
+      ],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -2,
+        -5,
+        4,
+        5
+      ],
+      "factionBlocker": "zombie",
+      "artBoundsDoNotCollide": true
+    },
+    {
+      "id": "left.wall.4",
+      "side": "left",
+      "x": -245,
+      "clearing": "left.clearing.3",
+      "requiresDestroyedPortals": [
+        "left.portal.1",
+        "left.portal.2"
+      ],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -2,
+        -5,
+        4,
+        5
+      ],
+      "factionBlocker": "zombie",
+      "artBoundsDoNotCollide": true
+    },
+    {
+      "id": "right.wall.1",
+      "side": "right",
+      "x": 25,
+      "clearing": null,
+      "requiresDestroyedPortals": [],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -2,
+        -5,
+        4,
+        5
+      ],
+      "factionBlocker": "zombie",
+      "artBoundsDoNotCollide": true
+    },
+    {
+      "id": "right.wall.2",
+      "side": "right",
+      "x": 75,
+      "clearing": "right.clearing.1",
+      "requiresDestroyedPortals": [],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -2,
+        -5,
+        4,
+        5
+      ],
+      "factionBlocker": "zombie",
+      "artBoundsDoNotCollide": true
+    },
+    {
+      "id": "right.wall.3",
+      "side": "right",
+      "x": 155,
+      "clearing": "right.clearing.2",
+      "requiresDestroyedPortals": [
+        "right.portal.1"
+      ],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -2,
+        -5,
+        4,
+        5
+      ],
+      "factionBlocker": "zombie",
+      "artBoundsDoNotCollide": true
+    },
+    {
+      "id": "right.wall.4",
+      "side": "right",
+      "x": 245,
+      "clearing": "right.clearing.3",
+      "requiresDestroyedPortals": [
+        "right.portal.1",
+        "right.portal.2"
+      ],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -2,
+        -5,
+        4,
+        5
+      ],
+      "factionBlocker": "zombie",
+      "artBoundsDoNotCollide": true
+    }
+  ],
+  "towers": [
+    {
+      "id": "left.tower.1",
+      "side": "left",
+      "x": -21,
+      "clearing": null,
+      "requiresDestroyedPortals": [],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -1,
+        -6,
+        2,
+        6
+      ],
+      "factionBlocker": null,
+      "artBoundsDoNotCollide": true
+    },
+    {
+      "id": "left.tower.2",
+      "side": "left",
+      "x": -71,
+      "clearing": "left.clearing.1",
+      "requiresDestroyedPortals": [],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -1,
+        -6,
+        2,
+        6
+      ],
+      "factionBlocker": null,
+      "artBoundsDoNotCollide": true
+    },
+    {
+      "id": "left.tower.3",
+      "side": "left",
+      "x": -151,
+      "clearing": "left.clearing.2",
+      "requiresDestroyedPortals": [
+        "left.portal.1"
+      ],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -1,
+        -6,
+        2,
+        6
+      ],
+      "factionBlocker": null,
+      "artBoundsDoNotCollide": true
+    },
+    {
+      "id": "left.tower.4",
+      "side": "left",
+      "x": -241,
+      "clearing": "left.clearing.3",
+      "requiresDestroyedPortals": [
+        "left.portal.1",
+        "left.portal.2"
+      ],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -1,
+        -6,
+        2,
+        6
+      ],
+      "factionBlocker": null,
+      "artBoundsDoNotCollide": true
+    },
+    {
+      "id": "right.tower.1",
+      "side": "right",
+      "x": 21,
+      "clearing": null,
+      "requiresDestroyedPortals": [],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -1,
+        -6,
+        2,
+        6
+      ],
+      "factionBlocker": null,
+      "artBoundsDoNotCollide": true
+    },
+    {
+      "id": "right.tower.2",
+      "side": "right",
+      "x": 71,
+      "clearing": "right.clearing.1",
+      "requiresDestroyedPortals": [],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -1,
+        -6,
+        2,
+        6
+      ],
+      "factionBlocker": null,
+      "artBoundsDoNotCollide": true
+    },
+    {
+      "id": "right.tower.3",
+      "side": "right",
+      "x": 151,
+      "clearing": "right.clearing.2",
+      "requiresDestroyedPortals": [
+        "right.portal.1"
+      ],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -1,
+        -6,
+        2,
+        6
+      ],
+      "factionBlocker": null,
+      "artBoundsDoNotCollide": true
+    },
+    {
+      "id": "right.tower.4",
+      "side": "right",
+      "x": 241,
+      "clearing": "right.clearing.3",
+      "requiresDestroyedPortals": [
+        "right.portal.1",
+        "right.portal.2"
+      ],
+      "interactionRadius": 3,
+      "collisionRect": [
+        -1,
+        -6,
+        2,
+        6
+      ],
+      "factionBlocker": null,
+      "artBoundsDoNotCollide": true
+    }
+  ],
+  "clearings": [
+    {
+      "id": "left.clearing.1",
+      "side": "left",
+      "x": -50,
+      "extent": 6,
+      "trees": [
+        {
+          "offset": [
+            -3,
+            0
+          ],
+          "species": "oak"
+        },
+        {
+          "offset": [
+            2,
+            0
+          ],
+          "species": "birch"
+        }
+      ],
+      "blocksWalking": false,
+      "unlocks": [
+        "left.wall.2",
+        "left.tower.2"
+      ],
+      "foodIndependent": true
+    },
+    {
+      "id": "left.clearing.2",
+      "side": "left",
+      "x": -125,
+      "extent": 6,
+      "trees": [
+        {
+          "offset": [
+            -3,
+            0
+          ],
+          "species": "oak"
+        },
+        {
+          "offset": [
+            2,
+            0
+          ],
+          "species": "birch"
+        }
+      ],
+      "blocksWalking": false,
+      "unlocks": [
+        "left.wall.3",
+        "left.tower.3"
+      ],
+      "foodIndependent": true
+    },
+    {
+      "id": "left.clearing.3",
+      "side": "left",
+      "x": -215,
+      "extent": 6,
+      "trees": [
+        {
+          "offset": [
+            -3,
+            0
+          ],
+          "species": "oak"
+        },
+        {
+          "offset": [
+            2,
+            0
+          ],
+          "species": "birch"
+        }
+      ],
+      "blocksWalking": false,
+      "unlocks": [
+        "left.wall.4",
+        "left.tower.4"
+      ],
+      "foodIndependent": true
+    },
+    {
+      "id": "right.clearing.1",
+      "side": "right",
+      "x": 50,
+      "extent": 6,
+      "trees": [
+        {
+          "offset": [
+            -3,
+            0
+          ],
+          "species": "oak"
+        },
+        {
+          "offset": [
+            2,
+            0
+          ],
+          "species": "birch"
+        }
+      ],
+      "blocksWalking": false,
+      "unlocks": [
+        "right.wall.2",
+        "right.tower.2"
+      ],
+      "foodIndependent": true
+    },
+    {
+      "id": "right.clearing.2",
+      "side": "right",
+      "x": 125,
+      "extent": 6,
+      "trees": [
+        {
+          "offset": [
+            -3,
+            0
+          ],
+          "species": "oak"
+        },
+        {
+          "offset": [
+            2,
+            0
+          ],
+          "species": "birch"
+        }
+      ],
+      "blocksWalking": false,
+      "unlocks": [
+        "right.wall.3",
+        "right.tower.3"
+      ],
+      "foodIndependent": true
+    },
+    {
+      "id": "right.clearing.3",
+      "side": "right",
+      "x": 215,
+      "extent": 6,
+      "trees": [
+        {
+          "offset": [
+            -3,
+            0
+          ],
+          "species": "oak"
+        },
+        {
+          "offset": [
+            2,
+            0
+          ],
+          "species": "birch"
+        }
+      ],
+      "blocksWalking": false,
+      "unlocks": [
+        "right.wall.4",
+        "right.tower.4"
+      ],
+      "foodIndependent": true
+    }
+  ],
+  "plants": [
+    {
+      "id": "left.berry.1",
+      "side": "left",
+      "kind": "berry",
+      "x": -10,
+      "capacity": 8,
+      "refill": "daily-dawn-once",
+      "interactionRadius": 3,
+      "clearingRemoves": false,
+      "base": "berry-base",
+      "stockLayers": [
+        "berry-stock-0",
+        "berry-stock-1",
+        "berry-stock-2",
+        "berry-stock-3"
+      ],
+      "foodUnit": "one-item-per-stock"
+    },
+    {
+      "id": "left.berry.2",
+      "side": "left",
+      "kind": "berry",
+      "x": -50,
+      "capacity": 8,
+      "refill": "daily-dawn-once",
+      "interactionRadius": 3,
+      "clearingRemoves": false,
+      "base": "berry-base",
+      "stockLayers": [
+        "berry-stock-0",
+        "berry-stock-1",
+        "berry-stock-2",
+        "berry-stock-3"
+      ],
+      "foodUnit": "one-item-per-stock"
+    },
+    {
+      "id": "left.fruit.1",
+      "side": "left",
+      "kind": "fruit",
+      "x": -16,
+      "capacity": 6,
+      "refill": "daily-dawn-once",
+      "interactionRadius": 3,
+      "clearingRemoves": false,
+      "base": "fruit-base",
+      "stockLayers": [
+        "fruit-stock",
+        "fruit-front-stock"
+      ],
+      "foodUnit": "one-item-per-stock"
+    },
+    {
+      "id": "right.berry.1",
+      "side": "right",
+      "kind": "berry",
+      "x": 10,
+      "capacity": 8,
+      "refill": "daily-dawn-once",
+      "interactionRadius": 3,
+      "clearingRemoves": false,
+      "base": "berry-base",
+      "stockLayers": [
+        "berry-stock-0",
+        "berry-stock-1",
+        "berry-stock-2",
+        "berry-stock-3"
+      ],
+      "foodUnit": "one-item-per-stock"
+    },
+    {
+      "id": "right.berry.2",
+      "side": "right",
+      "kind": "berry",
+      "x": 50,
+      "capacity": 8,
+      "refill": "daily-dawn-once",
+      "interactionRadius": 3,
+      "clearingRemoves": false,
+      "base": "berry-base",
+      "stockLayers": [
+        "berry-stock-0",
+        "berry-stock-1",
+        "berry-stock-2",
+        "berry-stock-3"
+      ],
+      "foodUnit": "one-item-per-stock"
+    },
+    {
+      "id": "right.fruit.1",
+      "side": "right",
+      "kind": "fruit",
+      "x": 16,
+      "capacity": 6,
+      "refill": "daily-dawn-once",
+      "interactionRadius": 3,
+      "clearingRemoves": false,
+      "base": "fruit-base",
+      "stockLayers": [
+        "fruit-stock",
+        "fruit-front-stock"
+      ],
+      "foodUnit": "one-item-per-stock"
+    }
+  ],
+  "wildlifeZones": [
+    {
+      "id": "left.wildlife.1",
+      "side": "left",
+      "center": -45,
+      "width": 15,
+      "dailyBatch": [
+        {
+          "id": "left.rabbit.1",
+          "kind": "rabbit",
+          "x": -42,
+          "art": "rabbit"
+        },
+        {
+          "id": "left.deer.1",
+          "kind": "deer",
+          "x": -48,
+          "art": "deer"
+        },
+        {
+          "id": "left.rabbit.1.second",
+          "kind": "rabbit",
+          "x": -45,
+          "art": "rabbit"
+        }
+      ],
+      "retainExisting": true,
+      "visibleBorder": false
+    },
+    {
+      "id": "left.wildlife.2",
+      "side": "left",
+      "center": -130,
+      "width": 15,
+      "dailyBatch": [
+        {
+          "id": "left.rabbit.2",
+          "kind": "rabbit",
+          "x": -127,
+          "art": "rabbit"
+        },
+        {
+          "id": "left.deer.2",
+          "kind": "deer",
+          "x": -133,
+          "art": "deer"
+        },
+        {
+          "id": "left.rabbit.2.second",
+          "kind": "rabbit",
+          "x": -130,
+          "art": "rabbit"
+        }
+      ],
+      "retainExisting": true,
+      "visibleBorder": false
+    },
+    {
+      "id": "left.wildlife.3",
+      "side": "left",
+      "center": -230,
+      "width": 15,
+      "dailyBatch": [
+        {
+          "id": "left.rabbit.3",
+          "kind": "rabbit",
+          "x": -227,
+          "art": "rabbit"
+        },
+        {
+          "id": "left.deer.3",
+          "kind": "deer",
+          "x": -233,
+          "art": "deer"
+        },
+        {
+          "id": "left.rabbit.3.second",
+          "kind": "rabbit",
+          "x": -230,
+          "art": "rabbit"
+        }
+      ],
+      "retainExisting": true,
+      "visibleBorder": false
+    },
+    {
+      "id": "right.wildlife.1",
+      "side": "right",
+      "center": 45,
+      "width": 15,
+      "dailyBatch": [
+        {
+          "id": "right.rabbit.1",
+          "kind": "rabbit",
+          "x": 42,
+          "art": "rabbit"
+        },
+        {
+          "id": "right.deer.1",
+          "kind": "deer",
+          "x": 48,
+          "art": "deer"
+        },
+        {
+          "id": "right.rabbit.1.second",
+          "kind": "rabbit",
+          "x": 45,
+          "art": "rabbit"
+        }
+      ],
+      "retainExisting": true,
+      "visibleBorder": false
+    },
+    {
+      "id": "right.wildlife.2",
+      "side": "right",
+      "center": 130,
+      "width": 15,
+      "dailyBatch": [
+        {
+          "id": "right.rabbit.2",
+          "kind": "rabbit",
+          "x": 127,
+          "art": "rabbit"
+        },
+        {
+          "id": "right.deer.2",
+          "kind": "deer",
+          "x": 133,
+          "art": "deer"
+        },
+        {
+          "id": "right.rabbit.2.second",
+          "kind": "rabbit",
+          "x": 130,
+          "art": "rabbit"
+        }
+      ],
+      "retainExisting": true,
+      "visibleBorder": false
+    },
+    {
+      "id": "right.wildlife.3",
+      "side": "right",
+      "center": 230,
+      "width": 15,
+      "dailyBatch": [
+        {
+          "id": "right.rabbit.3",
+          "kind": "rabbit",
+          "x": 227,
+          "art": "rabbit"
+        },
+        {
+          "id": "right.deer.3",
+          "kind": "deer",
+          "x": 233,
+          "art": "deer"
+        },
+        {
+          "id": "right.rabbit.3.second",
+          "kind": "rabbit",
+          "x": 230,
+          "art": "rabbit"
+        }
+      ],
+      "retainExisting": true,
+      "visibleBorder": false
+    }
+  ],
+  "rallies": [
+    {
+      "id": "left.rally",
+      "side": "left",
+      "borderSource": "outermost-completed-living-wall",
+      "fallbackBorder": -12,
+      "offsetInward": 5,
+      "states": [
+        "idle",
+        "ready",
+        "launching",
+        "assault-active",
+        "recalling",
+        "returning",
+        "no-target",
+        "insufficient-squad"
+      ],
+      "pole": "banner-pole",
+      "cloth": [
+        "banner-0",
+        "banner-1",
+        "banner-2",
+        "banner-3",
+        "banner-4",
+        "banner-5"
+      ],
+      "label": "LEFT",
+      "interactionRadius": 3
+    },
+    {
+      "id": "right.rally",
+      "side": "right",
+      "borderSource": "outermost-completed-living-wall",
+      "fallbackBorder": 12,
+      "offsetInward": -5,
+      "states": [
+        "idle",
+        "ready",
+        "launching",
+        "assault-active",
+        "recalling",
+        "returning",
+        "no-target",
+        "insufficient-squad"
+      ],
+      "pole": "banner-pole",
+      "cloth": [
+        "banner-0",
+        "banner-1",
+        "banner-2",
+        "banner-3",
+        "banner-4",
+        "banner-5"
+      ],
+      "label": "RIGHT",
+      "interactionRadius": 3
+    }
+  ],
+  "dressing": [
+    {
+      "id": "left.prop.0",
+      "x": -6,
+      "part": "rocks",
+      "layer": "foreground",
+      "blocksWalking": false
+    },
+    {
+      "id": "left.prop.1",
+      "x": -25,
+      "part": "grass",
+      "layer": "near-forest",
+      "blocksWalking": false
+    },
+    {
+      "id": "left.prop.2",
+      "x": -44,
+      "part": "log",
+      "layer": "near-forest",
+      "blocksWalking": false
+    },
+    {
+      "id": "left.prop.3",
+      "x": -63,
+      "part": "roots",
+      "layer": "foreground",
+      "blocksWalking": false
+    },
+    {
+      "id": "left.prop.4",
+      "x": -82,
+      "part": "stump",
+      "layer": "near-forest",
+      "blocksWalking": false
+    },
+    {
+      "id": "left.prop.5",
+      "x": -101,
+      "part": "rocks",
+      "layer": "near-forest",
+      "blocksWalking": false
+    },
+    {
+      "id": "left.prop.6",
+      "x": -120,
+      "part": "grass",
+      "layer": "foreground",
+      "blocksWalking": false
+    },
+    {
+      "id": "left.prop.7",
+      "x": -139,
+      "part": "log",
+      "layer": "near-forest",
+      "blocksWalking": false
+    },
+    {
+      "id": "left.prop.8",
+      "x": -158,
+      "part": "roots",
+      "layer": "near-forest",
+      "blocksWalking": false
+    },
+    {
+      "id": "left.prop.9",
+      "x": -177,
+      "part": "stump",
+      "layer": "foreground",
+      "blocksWalking": false
+    },
+    {
+      "id": "left.prop.10",
+      "x": -196,
+      "part": "rocks",
+      "layer": "near-forest",
+      "blocksWalking": false
+    },
+    {
+      "id": "left.prop.11",
+      "x": -215,
+      "part": "grass",
+      "layer": "near-forest",
+      "blocksWalking": false
+    },
+    {
+      "id": "left.prop.12",
+      "x": -234,
+      "part": "log",
+      "layer": "foreground",
+      "blocksWalking": false
+    },
+    {
+      "id": "left.prop.13",
+      "x": -253,
+      "part": "roots",
+      "layer": "near-forest",
+      "blocksWalking": false
+    },
+    {
+      "id": "left.prop.14",
+      "x": -272,
+      "part": "stump",
+      "layer": "near-forest",
+      "blocksWalking": false
+    },
+    {
+      "id": "left.prop.15",
+      "x": -291,
+      "part": "rocks",
+      "layer": "foreground",
+      "blocksWalking": false
+    },
+    {
+      "id": "right.prop.0",
+      "x": 6,
+      "part": "rocks",
+      "layer": "foreground",
+      "blocksWalking": false
+    },
+    {
+      "id": "right.prop.1",
+      "x": 25,
+      "part": "grass",
+      "layer": "near-forest",
+      "blocksWalking": false
+    },
+    {
+      "id": "right.prop.2",
+      "x": 44,
+      "part": "log",
+      "layer": "near-forest",
+      "blocksWalking": false
+    },
+    {
+      "id": "right.prop.3",
+      "x": 63,
+      "part": "roots",
+      "layer": "foreground",
+      "blocksWalking": false
+    },
+    {
+      "id": "right.prop.4",
+      "x": 82,
+      "part": "stump",
+      "layer": "near-forest",
+      "blocksWalking": false
+    },
+    {
+      "id": "right.prop.5",
+      "x": 101,
+      "part": "rocks",
+      "layer": "near-forest",
+      "blocksWalking": false
+    },
+    {
+      "id": "right.prop.6",
+      "x": 120,
+      "part": "grass",
+      "layer": "foreground",
+      "blocksWalking": false
+    },
+    {
+      "id": "right.prop.7",
+      "x": 139,
+      "part": "log",
+      "layer": "near-forest",
+      "blocksWalking": false
+    },
+    {
+      "id": "right.prop.8",
+      "x": 158,
+      "part": "roots",
+      "layer": "near-forest",
+      "blocksWalking": false
+    },
+    {
+      "id": "right.prop.9",
+      "x": 177,
+      "part": "stump",
+      "layer": "foreground",
+      "blocksWalking": false
+    },
+    {
+      "id": "right.prop.10",
+      "x": 196,
+      "part": "rocks",
+      "layer": "near-forest",
+      "blocksWalking": false
+    },
+    {
+      "id": "right.prop.11",
+      "x": 215,
+      "part": "grass",
+      "layer": "near-forest",
+      "blocksWalking": false
+    },
+    {
+      "id": "right.prop.12",
+      "x": 234,
+      "part": "log",
+      "layer": "foreground",
+      "blocksWalking": false
+    },
+    {
+      "id": "right.prop.13",
+      "x": 253,
+      "part": "roots",
+      "layer": "near-forest",
+      "blocksWalking": false
+    },
+    {
+      "id": "right.prop.14",
+      "x": 272,
+      "part": "stump",
+      "layer": "near-forest",
+      "blocksWalking": false
+    },
+    {
+      "id": "right.prop.15",
+      "x": 291,
+      "part": "rocks",
+      "layer": "foreground",
+      "blocksWalking": false
+    }
+  ],
+  "clearingStates": [
+    {
+      "id": "intact",
+      "stump": false,
+      "mark": false,
+      "rotation": 0,
+      "duration": 0
+    },
+    {
+      "id": "marked-paid",
+      "stump": false,
+      "mark": true,
+      "rotation": 0,
+      "duration": 0
+    },
+    {
+      "id": "chopping",
+      "stump": false,
+      "mark": true,
+      "rotation": 0,
+      "duration": 0.8
+    },
+    {
+      "id": "falling-left",
+      "stump": false,
+      "mark": false,
+      "rotation": -1.5707963267948966,
+      "duration": 0.65
+    },
+    {
+      "id": "falling-right",
+      "stump": false,
+      "mark": false,
+      "rotation": 1.5707963267948966,
+      "duration": 0.65
+    },
+    {
+      "id": "cleared-stump",
+      "stump": true,
+      "mark": false,
+      "rotation": 0,
+      "duration": 0
+    }
+  ],
+  "stockStates": [
+    {
+      "id": "full",
+      "fraction": 1
+    },
+    {
+      "id": "partial",
+      "fraction": 0.5
+    },
+    {
+      "id": "empty",
+      "fraction": 0
+    },
+    {
+      "id": "refilled",
+      "fraction": 1
+    }
+  ],
+  "reveal": {
+    "radius": 24,
+    "shared": true,
+    "preserveExplored": true,
+    "liveEnemies": false,
+    "samples": [
+      {
+        "id": "unknown-portals",
+        "explored": [
+          [
+            -24,
+            24
+          ]
+        ],
+        "players": [
+          {
+            "id": "P1",
+            "number": 1,
+            "name": "Ada",
+            "x": 0,
+            "shape": "diamond",
+            "color": [
+              0.3,
+              0.65,
+              0.95,
+              1
+            ]
+          },
+          {
+            "id": "P2",
+            "number": 2,
+            "name": "Bo",
+            "x": 0,
+            "shape": "square",
+            "color": [
+              0.9,
+              0.57,
+              0.25,
+              1
+            ]
+          },
+          {
+            "id": "P3",
+            "number": 3,
+            "name": "Cai",
+            "x": 0,
+            "shape": "triangle",
+            "color": [
+              0.55,
+              0.8,
+              0.4,
+              1
+            ]
+          },
+          {
+            "id": "P4",
+            "number": 4,
+            "name": "Dee",
+            "x": 0,
+            "shape": "circle",
+            "color": [
+              0.75,
+              0.45,
+              0.85,
+              1
+            ]
+          }
+        ],
+        "knownDefenses": [
+          "left.wall.1",
+          "right.wall.1"
+        ],
+        "destroyedPortals": [],
+        "borders": [
+          -25,
+          25
+        ]
+      },
+      {
+        "id": "shared-exploration",
+        "explored": [
+          [
+            -214,
+            124
+          ]
+        ],
+        "players": [
+          {
+            "id": "P1",
+            "number": 1,
+            "name": "Ada",
+            "x": 100,
+            "shape": "diamond",
+            "color": [
+              0.3,
+              0.65,
+              0.95,
+              1
+            ]
+          },
+          {
+            "id": "P2",
+            "number": 2,
+            "name": "Bo",
+            "x": -190,
+            "shape": "square",
+            "color": [
+              0.9,
+              0.57,
+              0.25,
+              1
+            ]
+          }
+        ],
+        "knownDefenses": [
+          "left.wall.1",
+          "right.wall.1",
+          "right.wall.2"
+        ],
+        "destroyedPortals": [
+          "left.portal.1"
+        ],
+        "borders": [
+          -25,
+          75
+        ]
+      }
+    ]
+  },
+  "rallySamples": [
+    {
+      "id": "refuge",
+      "livingWalls": [],
+      "borders": [
+        -12,
+        12
+      ],
+      "rallies": [
+        -9,
+        9
+      ]
+    },
+    {
+      "id": "expanded",
+      "livingWalls": [
+        "left.wall.2",
+        "right.wall.3"
+      ],
+      "borders": [
+        -75,
+        155
+      ],
+      "rallies": [
+        -70,
+        150
+      ]
+    },
+    {
+      "id": "wall-lost",
+      "livingWalls": [
+        "left.wall.1",
+        "right.wall.1"
+      ],
+      "borders": [
+        -25,
+        25
+      ],
+      "rallies": [
+        -20,
+        20
+      ]
+    }
+  ],
+  "interaction": {
+    "targetKinds": [
+      "character",
+      "corpse",
+      "site",
+      "plant",
+      "stash",
+      "rally"
+    ],
+    "selection": {
+      "steady": true,
+      "outlinePixels": 1,
+      "markerPixels": 3,
+      "color": [
+        0.95,
+        0.94,
+        0.85,
+        1
+      ]
+    },
+    "overlapSample": [
+      {
+        "id": "corpse.same-x",
+        "kind": "corpse",
+        "x": 0,
+        "label": "Corpse"
+      },
+      {
+        "id": "stash.same-x",
+        "kind": "stash",
+        "x": 0,
+        "label": "Stash"
+      }
+    ],
+    "selectorUsesStableId": true,
+    "panelOcclusion": "outside-clipped-world-viewport"
+  },
+  "native": {
+    "root": "AuthoredWorld",
+    "filter": "nearest",
+    "atlas": "res://assets/world/environment.png",
+    "nodes": [
+      {
+        "id": "ground_0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          -2560,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          -2432,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_2",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          -2304,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_3",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          -2176,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_4",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          -2048,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_5",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          -1920,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_6",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          -1792,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_7",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          -1664,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_8",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          -1536,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_9",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          -1408,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_10",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          -1280,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_11",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          -1152,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_12",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          -1024,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_13",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          -896,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_14",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          -768,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_15",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          -640,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_16",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          -512,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_17",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          -384,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_18",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          -256,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_19",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          -128,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_20",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          0,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_21",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          128,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_22",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          256,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_23",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          384,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_24",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          512,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_25",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          640,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_26",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          768,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_27",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          896,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_28",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          1024,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_29",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          1152,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_30",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          1280,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_31",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          1408,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_32",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          1536,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_33",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          1664,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_34",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          1792,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_35",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          1920,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_36",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          2048,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_37",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          2176,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_38",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          2304,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "ground_39",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "ground",
+        "position": [
+          2432,
+          -4
+        ],
+        "z": 0,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "hill_0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "hill",
+        "position": [
+          -2560,
+          -114
+        ],
+        "z": -80,
+        "rotation": 0,
+        "color": [
+          0.65,
+          0.7,
+          0.66,
+          1
+        ]
+      },
+      {
+        "id": "hill_1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "hill",
+        "position": [
+          -1664,
+          -114
+        ],
+        "z": -80,
+        "rotation": 0,
+        "color": [
+          0.65,
+          0.7,
+          0.66,
+          1
+        ]
+      },
+      {
+        "id": "hill_2",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "hill",
+        "position": [
+          -768,
+          -114
+        ],
+        "z": -80,
+        "rotation": 0,
+        "color": [
+          0.65,
+          0.7,
+          0.66,
+          1
+        ]
+      },
+      {
+        "id": "hill_3",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "hill",
+        "position": [
+          128,
+          -114
+        ],
+        "z": -80,
+        "rotation": 0,
+        "color": [
+          0.65,
+          0.7,
+          0.66,
+          1
+        ]
+      },
+      {
+        "id": "hill_4",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "hill",
+        "position": [
+          1024,
+          -114
+        ],
+        "z": -80,
+        "rotation": 0,
+        "color": [
+          0.65,
+          0.7,
+          0.66,
+          1
+        ]
+      },
+      {
+        "id": "hill_5",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "hill",
+        "position": [
+          1920,
+          -114
+        ],
+        "z": -80,
+        "rotation": 0,
+        "color": [
+          0.65,
+          0.7,
+          0.66,
+          1
+        ]
+      },
+      {
+        "id": "hill_6",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "hill",
+        "position": [
+          2816,
+          -114
+        ],
+        "z": -80,
+        "rotation": 0,
+        "color": [
+          0.65,
+          0.7,
+          0.66,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-birch",
+        "position": [
+          -2520,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-birch",
+        "position": [
+          -2538,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-oak",
+        "position": [
+          -2370,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-oak",
+        "position": [
+          -2388,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_2",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-birch",
+        "position": [
+          -2220,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_2",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-birch",
+        "position": [
+          -2238,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_3",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-oak",
+        "position": [
+          -2070,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_3",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-oak",
+        "position": [
+          -2088,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_4",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-birch",
+        "position": [
+          -1920,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_4",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-birch",
+        "position": [
+          -1938,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_5",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-oak",
+        "position": [
+          -1770,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_5",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-oak",
+        "position": [
+          -1788,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_6",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-birch",
+        "position": [
+          -1620,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_6",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-birch",
+        "position": [
+          -1638,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_7",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-oak",
+        "position": [
+          -1470,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_7",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-oak",
+        "position": [
+          -1488,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_8",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-birch",
+        "position": [
+          -1320,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_8",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-birch",
+        "position": [
+          -1338,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_9",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-oak",
+        "position": [
+          -1170,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_9",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-oak",
+        "position": [
+          -1188,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_10",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-birch",
+        "position": [
+          -1020,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_10",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-birch",
+        "position": [
+          -1038,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_11",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-oak",
+        "position": [
+          -870,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_11",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-oak",
+        "position": [
+          -888,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_12",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-birch",
+        "position": [
+          -720,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_12",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-birch",
+        "position": [
+          -738,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_13",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-oak",
+        "position": [
+          -570,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_13",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-oak",
+        "position": [
+          -588,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_14",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-birch",
+        "position": [
+          -420,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_14",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-birch",
+        "position": [
+          -438,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_15",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-oak",
+        "position": [
+          -270,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_15",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-oak",
+        "position": [
+          -288,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_16",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-birch",
+        "position": [
+          -120,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_16",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-birch",
+        "position": [
+          -138,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_17",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-oak",
+        "position": [
+          30,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_17",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-oak",
+        "position": [
+          12,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_18",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-birch",
+        "position": [
+          180,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_18",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-birch",
+        "position": [
+          162,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_19",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-oak",
+        "position": [
+          330,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_19",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-oak",
+        "position": [
+          312,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_20",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-birch",
+        "position": [
+          480,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_20",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-birch",
+        "position": [
+          462,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_21",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-oak",
+        "position": [
+          630,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_21",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-oak",
+        "position": [
+          612,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_22",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-birch",
+        "position": [
+          780,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_22",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-birch",
+        "position": [
+          762,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_23",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-oak",
+        "position": [
+          930,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_23",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-oak",
+        "position": [
+          912,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_24",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-birch",
+        "position": [
+          1080,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_24",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-birch",
+        "position": [
+          1062,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_25",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-oak",
+        "position": [
+          1230,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_25",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-oak",
+        "position": [
+          1212,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_26",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-birch",
+        "position": [
+          1380,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_26",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-birch",
+        "position": [
+          1362,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_27",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-oak",
+        "position": [
+          1530,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_27",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-oak",
+        "position": [
+          1512,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_28",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-birch",
+        "position": [
+          1680,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_28",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-birch",
+        "position": [
+          1662,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_29",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-oak",
+        "position": [
+          1830,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_29",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-oak",
+        "position": [
+          1812,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_30",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-birch",
+        "position": [
+          1980,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_30",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-birch",
+        "position": [
+          1962,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_31",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-oak",
+        "position": [
+          2130,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_31",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-oak",
+        "position": [
+          2112,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_32",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-birch",
+        "position": [
+          2280,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_32",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-birch",
+        "position": [
+          2262,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "middle_trunk_33",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-oak",
+        "position": [
+          2430,
+          -120
+        ],
+        "z": -60,
+        "rotation": 0,
+        "color": [
+          0.42,
+          0.49,
+          0.47,
+          1
+        ]
+      },
+      {
+        "id": "middle_leaves_33",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-oak",
+        "position": [
+          2412,
+          -160
+        ],
+        "z": -59,
+        "rotation": 0,
+        "color": [
+          0.47,
+          0.54,
+          0.49,
+          1
+        ]
+      },
+      {
+        "id": "left.clearing.1.trunk.0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-oak",
+        "position": [
+          -424,
+          -120
+        ],
+        "z": -20,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.clearing.1.leaves.0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-oak",
+        "position": [
+          -442,
+          -148
+        ],
+        "z": -19,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.clearing.1.trunk.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-birch",
+        "position": [
+          -384,
+          -106
+        ],
+        "z": -20,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.clearing.1.leaves.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-birch",
+        "position": [
+          -402,
+          -134
+        ],
+        "z": -19,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.clearing.2.trunk.0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-oak",
+        "position": [
+          -1024,
+          -120
+        ],
+        "z": -20,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.clearing.2.leaves.0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-oak",
+        "position": [
+          -1042,
+          -148
+        ],
+        "z": -19,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.clearing.2.trunk.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-birch",
+        "position": [
+          -984,
+          -106
+        ],
+        "z": -20,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.clearing.2.leaves.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-birch",
+        "position": [
+          -1002,
+          -134
+        ],
+        "z": -19,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.clearing.3.trunk.0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-oak",
+        "position": [
+          -1744,
+          -120
+        ],
+        "z": -20,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.clearing.3.leaves.0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-oak",
+        "position": [
+          -1762,
+          -148
+        ],
+        "z": -19,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.clearing.3.trunk.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-birch",
+        "position": [
+          -1704,
+          -106
+        ],
+        "z": -20,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.clearing.3.leaves.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-birch",
+        "position": [
+          -1722,
+          -134
+        ],
+        "z": -19,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.clearing.1.trunk.0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-oak",
+        "position": [
+          376,
+          -120
+        ],
+        "z": -20,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.clearing.1.leaves.0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-oak",
+        "position": [
+          358,
+          -148
+        ],
+        "z": -19,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.clearing.1.trunk.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-birch",
+        "position": [
+          416,
+          -106
+        ],
+        "z": -20,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.clearing.1.leaves.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-birch",
+        "position": [
+          398,
+          -134
+        ],
+        "z": -19,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.clearing.2.trunk.0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-oak",
+        "position": [
+          976,
+          -120
+        ],
+        "z": -20,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.clearing.2.leaves.0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-oak",
+        "position": [
+          958,
+          -148
+        ],
+        "z": -19,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.clearing.2.trunk.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-birch",
+        "position": [
+          1016,
+          -106
+        ],
+        "z": -20,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.clearing.2.leaves.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-birch",
+        "position": [
+          998,
+          -134
+        ],
+        "z": -19,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.clearing.3.trunk.0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-oak",
+        "position": [
+          1696,
+          -120
+        ],
+        "z": -20,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.clearing.3.leaves.0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-oak",
+        "position": [
+          1678,
+          -148
+        ],
+        "z": -19,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.clearing.3.trunk.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "trunk-birch",
+        "position": [
+          1736,
+          -106
+        ],
+        "z": -20,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.clearing.3.leaves.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "leaves-birch",
+        "position": [
+          1718,
+          -134
+        ],
+        "z": -19,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.berry.1.base",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "berry-base",
+        "position": [
+          -95,
+          -20
+        ],
+        "z": 2,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.berry.1.stock.0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "berry-stock-0",
+        "position": [
+          -93,
+          -18
+        ],
+        "z": 3,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.berry.1.stock.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "berry-stock-1",
+        "position": [
+          -93,
+          -18
+        ],
+        "z": 3,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.berry.1.stock.2",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "berry-stock-2",
+        "position": [
+          -93,
+          -18
+        ],
+        "z": 3,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.berry.1.stock.3",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "berry-stock-3",
+        "position": [
+          -93,
+          -18
+        ],
+        "z": 3,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.berry.2.base",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "berry-base",
+        "position": [
+          -415,
+          -20
+        ],
+        "z": 2,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.berry.2.stock.0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "berry-stock-0",
+        "position": [
+          -413,
+          -18
+        ],
+        "z": 3,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.berry.2.stock.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "berry-stock-1",
+        "position": [
+          -413,
+          -18
+        ],
+        "z": 3,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.berry.2.stock.2",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "berry-stock-2",
+        "position": [
+          -413,
+          -18
+        ],
+        "z": 3,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.berry.2.stock.3",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "berry-stock-3",
+        "position": [
+          -413,
+          -18
+        ],
+        "z": 3,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.fruit.1.base",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "fruit-base",
+        "position": [
+          -176,
+          -104
+        ],
+        "z": 2,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.fruit.1.stock.0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "fruit-stock",
+        "position": [
+          -176,
+          -84
+        ],
+        "z": 3,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.fruit.1.stock.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "fruit-front-stock",
+        "position": [
+          -176,
+          -84
+        ],
+        "z": 3,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.berry.1.base",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "berry-base",
+        "position": [
+          65,
+          -20
+        ],
+        "z": 2,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.berry.1.stock.0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "berry-stock-0",
+        "position": [
+          67,
+          -18
+        ],
+        "z": 3,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.berry.1.stock.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "berry-stock-1",
+        "position": [
+          67,
+          -18
+        ],
+        "z": 3,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.berry.1.stock.2",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "berry-stock-2",
+        "position": [
+          67,
+          -18
+        ],
+        "z": 3,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.berry.1.stock.3",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "berry-stock-3",
+        "position": [
+          67,
+          -18
+        ],
+        "z": 3,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.berry.2.base",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "berry-base",
+        "position": [
+          385,
+          -20
+        ],
+        "z": 2,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.berry.2.stock.0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "berry-stock-0",
+        "position": [
+          387,
+          -18
+        ],
+        "z": 3,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.berry.2.stock.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "berry-stock-1",
+        "position": [
+          387,
+          -18
+        ],
+        "z": 3,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.berry.2.stock.2",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "berry-stock-2",
+        "position": [
+          387,
+          -18
+        ],
+        "z": 3,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.berry.2.stock.3",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "berry-stock-3",
+        "position": [
+          387,
+          -18
+        ],
+        "z": 3,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.fruit.1.base",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "fruit-base",
+        "position": [
+          80,
+          -104
+        ],
+        "z": 2,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.fruit.1.stock.0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "fruit-stock",
+        "position": [
+          80,
+          -84
+        ],
+        "z": 3,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.fruit.1.stock.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "fruit-front-stock",
+        "position": [
+          80,
+          -84
+        ],
+        "z": 3,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.portal.1.0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "portal-back",
+        "position": [
+          -822,
+          -70
+        ],
+        "z": 1,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.portal.1.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "portal-front",
+        "position": [
+          -824,
+          -70
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.portal.2.0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "portal-back",
+        "position": [
+          -1542,
+          -70
+        ],
+        "z": 1,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.portal.2.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "portal-front",
+        "position": [
+          -1544,
+          -70
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.portal.3.0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "portal-back",
+        "position": [
+          -2262,
+          -70
+        ],
+        "z": 1,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.portal.3.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "portal-front",
+        "position": [
+          -2264,
+          -70
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.portal.1.0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "portal-back",
+        "position": [
+          778,
+          -70
+        ],
+        "z": 1,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.portal.1.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "portal-front",
+        "position": [
+          776,
+          -70
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.portal.2.0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "portal-back",
+        "position": [
+          1498,
+          -70
+        ],
+        "z": 1,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.portal.2.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "portal-front",
+        "position": [
+          1496,
+          -70
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.portal.3.0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "portal-back",
+        "position": [
+          2218,
+          -70
+        ],
+        "z": 1,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.portal.3.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "portal-front",
+        "position": [
+          2216,
+          -70
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.wall.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "tree-mark",
+        "position": [
+          -205,
+          -12
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.wall.2",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "tree-mark",
+        "position": [
+          -605,
+          -12
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.wall.3",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "tree-mark",
+        "position": [
+          -1245,
+          -12
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.wall.4",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "tree-mark",
+        "position": [
+          -1965,
+          -12
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.wall.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "tree-mark",
+        "position": [
+          195,
+          -12
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.wall.2",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "tree-mark",
+        "position": [
+          595,
+          -12
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.wall.3",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "tree-mark",
+        "position": [
+          1235,
+          -12
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.wall.4",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "tree-mark",
+        "position": [
+          1955,
+          -12
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.tower.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "tree-mark",
+        "position": [
+          -173,
+          -12
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.tower.2",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "tree-mark",
+        "position": [
+          -573,
+          -12
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.tower.3",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "tree-mark",
+        "position": [
+          -1213,
+          -12
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.tower.4",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "tree-mark",
+        "position": [
+          -1933,
+          -12
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.tower.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "tree-mark",
+        "position": [
+          163,
+          -12
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.tower.2",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "tree-mark",
+        "position": [
+          563,
+          -12
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.tower.3",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "tree-mark",
+        "position": [
+          1203,
+          -12
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.tower.4",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "tree-mark",
+        "position": [
+          1923,
+          -12
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.rabbit.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "rabbit",
+        "position": [
+          -344,
+          -16
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.rabbit.1.shadow",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "contact-shadow",
+        "position": [
+          -346,
+          -2
+        ],
+        "z": 4,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          0.3
+        ]
+      },
+      {
+        "id": "left.deer.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "deer",
+        "position": [
+          -401,
+          -31
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.deer.1.shadow",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "contact-shadow",
+        "position": [
+          -394,
+          -2
+        ],
+        "z": 4,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          0.3
+        ]
+      },
+      {
+        "id": "left.rabbit.1.second",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "rabbit",
+        "position": [
+          -368,
+          -16
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.rabbit.1.second.shadow",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "contact-shadow",
+        "position": [
+          -370,
+          -2
+        ],
+        "z": 4,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          0.3
+        ]
+      },
+      {
+        "id": "left.rabbit.2",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "rabbit",
+        "position": [
+          -1024,
+          -16
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.rabbit.2.shadow",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "contact-shadow",
+        "position": [
+          -1026,
+          -2
+        ],
+        "z": 4,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          0.3
+        ]
+      },
+      {
+        "id": "left.deer.2",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "deer",
+        "position": [
+          -1081,
+          -31
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.deer.2.shadow",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "contact-shadow",
+        "position": [
+          -1074,
+          -2
+        ],
+        "z": 4,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          0.3
+        ]
+      },
+      {
+        "id": "left.rabbit.2.second",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "rabbit",
+        "position": [
+          -1048,
+          -16
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.rabbit.2.second.shadow",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "contact-shadow",
+        "position": [
+          -1050,
+          -2
+        ],
+        "z": 4,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          0.3
+        ]
+      },
+      {
+        "id": "left.rabbit.3",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "rabbit",
+        "position": [
+          -1824,
+          -16
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.rabbit.3.shadow",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "contact-shadow",
+        "position": [
+          -1826,
+          -2
+        ],
+        "z": 4,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          0.3
+        ]
+      },
+      {
+        "id": "left.deer.3",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "deer",
+        "position": [
+          -1881,
+          -31
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.deer.3.shadow",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "contact-shadow",
+        "position": [
+          -1874,
+          -2
+        ],
+        "z": 4,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          0.3
+        ]
+      },
+      {
+        "id": "left.rabbit.3.second",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "rabbit",
+        "position": [
+          -1848,
+          -16
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.rabbit.3.second.shadow",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "contact-shadow",
+        "position": [
+          -1850,
+          -2
+        ],
+        "z": 4,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          0.3
+        ]
+      },
+      {
+        "id": "right.rabbit.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "rabbit",
+        "position": [
+          328,
+          -16
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.rabbit.1.shadow",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "contact-shadow",
+        "position": [
+          326,
+          -2
+        ],
+        "z": 4,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          0.3
+        ]
+      },
+      {
+        "id": "right.deer.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "deer",
+        "position": [
+          367,
+          -31
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.deer.1.shadow",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "contact-shadow",
+        "position": [
+          374,
+          -2
+        ],
+        "z": 4,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          0.3
+        ]
+      },
+      {
+        "id": "right.rabbit.1.second",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "rabbit",
+        "position": [
+          352,
+          -16
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.rabbit.1.second.shadow",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "contact-shadow",
+        "position": [
+          350,
+          -2
+        ],
+        "z": 4,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          0.3
+        ]
+      },
+      {
+        "id": "right.rabbit.2",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "rabbit",
+        "position": [
+          1008,
+          -16
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.rabbit.2.shadow",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "contact-shadow",
+        "position": [
+          1006,
+          -2
+        ],
+        "z": 4,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          0.3
+        ]
+      },
+      {
+        "id": "right.deer.2",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "deer",
+        "position": [
+          1047,
+          -31
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.deer.2.shadow",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "contact-shadow",
+        "position": [
+          1054,
+          -2
+        ],
+        "z": 4,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          0.3
+        ]
+      },
+      {
+        "id": "right.rabbit.2.second",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "rabbit",
+        "position": [
+          1032,
+          -16
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.rabbit.2.second.shadow",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "contact-shadow",
+        "position": [
+          1030,
+          -2
+        ],
+        "z": 4,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          0.3
+        ]
+      },
+      {
+        "id": "right.rabbit.3",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "rabbit",
+        "position": [
+          1808,
+          -16
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.rabbit.3.shadow",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "contact-shadow",
+        "position": [
+          1806,
+          -2
+        ],
+        "z": 4,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          0.3
+        ]
+      },
+      {
+        "id": "right.deer.3",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "deer",
+        "position": [
+          1847,
+          -31
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.deer.3.shadow",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "contact-shadow",
+        "position": [
+          1854,
+          -2
+        ],
+        "z": 4,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          0.3
+        ]
+      },
+      {
+        "id": "right.rabbit.3.second",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "rabbit",
+        "position": [
+          1832,
+          -16
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.rabbit.3.second.shadow",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "contact-shadow",
+        "position": [
+          1830,
+          -2
+        ],
+        "z": 4,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          0.3
+        ]
+      },
+      {
+        "id": "left.berry.1.shadow",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "contact-shadow",
+        "position": [
+          -90,
+          -2
+        ],
+        "z": 1,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          0.3
+        ]
+      },
+      {
+        "id": "left.berry.2.shadow",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "contact-shadow",
+        "position": [
+          -410,
+          -2
+        ],
+        "z": 1,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          0.3
+        ]
+      },
+      {
+        "id": "left.fruit.1.shadow",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "contact-shadow",
+        "position": [
+          -138,
+          -2
+        ],
+        "z": 1,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          0.3
+        ]
+      },
+      {
+        "id": "right.berry.1.shadow",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "contact-shadow",
+        "position": [
+          70,
+          -2
+        ],
+        "z": 1,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          0.3
+        ]
+      },
+      {
+        "id": "right.berry.2.shadow",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "contact-shadow",
+        "position": [
+          390,
+          -2
+        ],
+        "z": 1,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          0.3
+        ]
+      },
+      {
+        "id": "right.fruit.1.shadow",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "contact-shadow",
+        "position": [
+          118,
+          -2
+        ],
+        "z": 1,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          0.3
+        ]
+      },
+      {
+        "id": "left.rally.pole",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "banner-pole",
+        "position": [
+          -72,
+          -70
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.rally.cloth",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "banner-0",
+        "position": [
+          -72,
+          -68
+        ],
+        "z": 6,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.rally.pole",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "banner-pole",
+        "position": [
+          72,
+          -70
+        ],
+        "z": 5,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.rally.cloth",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "banner-0",
+        "position": [
+          72,
+          -68
+        ],
+        "z": 6,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.prop.0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "rocks",
+        "position": [
+          -62,
+          -18
+        ],
+        "z": 12,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.prop.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "grass",
+        "position": [
+          -208,
+          -32
+        ],
+        "z": -10,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.prop.2",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "log",
+        "position": [
+          -376,
+          -20
+        ],
+        "z": -10,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.prop.3",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "roots",
+        "position": [
+          -522,
+          -14
+        ],
+        "z": 12,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.prop.4",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "stump",
+        "position": [
+          -670,
+          -20
+        ],
+        "z": -10,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.prop.5",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "rocks",
+        "position": [
+          -822,
+          -18
+        ],
+        "z": -10,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.prop.6",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "grass",
+        "position": [
+          -968,
+          -32
+        ],
+        "z": 12,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.prop.7",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "log",
+        "position": [
+          -1136,
+          -20
+        ],
+        "z": -10,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.prop.8",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "roots",
+        "position": [
+          -1282,
+          -14
+        ],
+        "z": -10,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.prop.9",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "stump",
+        "position": [
+          -1430,
+          -20
+        ],
+        "z": 12,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.prop.10",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "rocks",
+        "position": [
+          -1582,
+          -18
+        ],
+        "z": -10,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.prop.11",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "grass",
+        "position": [
+          -1728,
+          -32
+        ],
+        "z": -10,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.prop.12",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "log",
+        "position": [
+          -1896,
+          -20
+        ],
+        "z": 12,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.prop.13",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "roots",
+        "position": [
+          -2042,
+          -14
+        ],
+        "z": -10,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.prop.14",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "stump",
+        "position": [
+          -2190,
+          -20
+        ],
+        "z": -10,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "left.prop.15",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "rocks",
+        "position": [
+          -2342,
+          -18
+        ],
+        "z": 12,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.prop.0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "rocks",
+        "position": [
+          34,
+          -18
+        ],
+        "z": 12,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.prop.1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "grass",
+        "position": [
+          192,
+          -32
+        ],
+        "z": -10,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.prop.2",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "log",
+        "position": [
+          328,
+          -20
+        ],
+        "z": -10,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.prop.3",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "roots",
+        "position": [
+          486,
+          -14
+        ],
+        "z": 12,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.prop.4",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "stump",
+        "position": [
+          642,
+          -20
+        ],
+        "z": -10,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.prop.5",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "rocks",
+        "position": [
+          794,
+          -18
+        ],
+        "z": -10,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.prop.6",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "grass",
+        "position": [
+          952,
+          -32
+        ],
+        "z": 12,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.prop.7",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "log",
+        "position": [
+          1088,
+          -20
+        ],
+        "z": -10,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.prop.8",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "roots",
+        "position": [
+          1246,
+          -14
+        ],
+        "z": -10,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.prop.9",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "stump",
+        "position": [
+          1402,
+          -20
+        ],
+        "z": 12,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.prop.10",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "rocks",
+        "position": [
+          1554,
+          -18
+        ],
+        "z": -10,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.prop.11",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "grass",
+        "position": [
+          1712,
+          -32
+        ],
+        "z": -10,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.prop.12",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "log",
+        "position": [
+          1848,
+          -20
+        ],
+        "z": 12,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.prop.13",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "roots",
+        "position": [
+          2006,
+          -14
+        ],
+        "z": -10,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.prop.14",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "stump",
+        "position": [
+          2162,
+          -20
+        ],
+        "z": -10,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "right.prop.15",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "rocks",
+        "position": [
+          2314,
+          -18
+        ],
+        "z": 12,
+        "rotation": 0,
+        "color": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "id": "cloud_0",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "cloud",
+        "position": [
+          -2500,
+          -220
+        ],
+        "z": -90,
+        "rotation": 0,
+        "color": [
+          0.8,
+          0.85,
+          0.85,
+          1
+        ]
+      },
+      {
+        "id": "cloud_1",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "cloud",
+        "position": [
+          -2180,
+          -230
+        ],
+        "z": -90,
+        "rotation": 0,
+        "color": [
+          0.8,
+          0.85,
+          0.85,
+          1
+        ]
+      },
+      {
+        "id": "cloud_2",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "cloud",
+        "position": [
+          -1860,
+          -240
+        ],
+        "z": -90,
+        "rotation": 0,
+        "color": [
+          0.8,
+          0.85,
+          0.85,
+          1
+        ]
+      },
+      {
+        "id": "cloud_3",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "cloud",
+        "position": [
+          -1540,
+          -220
+        ],
+        "z": -90,
+        "rotation": 0,
+        "color": [
+          0.8,
+          0.85,
+          0.85,
+          1
+        ]
+      },
+      {
+        "id": "cloud_4",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "cloud",
+        "position": [
+          -1220,
+          -230
+        ],
+        "z": -90,
+        "rotation": 0,
+        "color": [
+          0.8,
+          0.85,
+          0.85,
+          1
+        ]
+      },
+      {
+        "id": "cloud_5",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "cloud",
+        "position": [
+          -900,
+          -240
+        ],
+        "z": -90,
+        "rotation": 0,
+        "color": [
+          0.8,
+          0.85,
+          0.85,
+          1
+        ]
+      },
+      {
+        "id": "cloud_6",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "cloud",
+        "position": [
+          -580,
+          -220
+        ],
+        "z": -90,
+        "rotation": 0,
+        "color": [
+          0.8,
+          0.85,
+          0.85,
+          1
+        ]
+      },
+      {
+        "id": "cloud_7",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "cloud",
+        "position": [
+          -260,
+          -230
+        ],
+        "z": -90,
+        "rotation": 0,
+        "color": [
+          0.8,
+          0.85,
+          0.85,
+          1
+        ]
+      },
+      {
+        "id": "cloud_8",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "cloud",
+        "position": [
+          60,
+          -240
+        ],
+        "z": -90,
+        "rotation": 0,
+        "color": [
+          0.8,
+          0.85,
+          0.85,
+          1
+        ]
+      },
+      {
+        "id": "cloud_9",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "cloud",
+        "position": [
+          380,
+          -220
+        ],
+        "z": -90,
+        "rotation": 0,
+        "color": [
+          0.8,
+          0.85,
+          0.85,
+          1
+        ]
+      },
+      {
+        "id": "cloud_10",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "cloud",
+        "position": [
+          700,
+          -230
+        ],
+        "z": -90,
+        "rotation": 0,
+        "color": [
+          0.8,
+          0.85,
+          0.85,
+          1
+        ]
+      },
+      {
+        "id": "cloud_11",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "cloud",
+        "position": [
+          1020,
+          -240
+        ],
+        "z": -90,
+        "rotation": 0,
+        "color": [
+          0.8,
+          0.85,
+          0.85,
+          1
+        ]
+      },
+      {
+        "id": "cloud_12",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "cloud",
+        "position": [
+          1340,
+          -220
+        ],
+        "z": -90,
+        "rotation": 0,
+        "color": [
+          0.8,
+          0.85,
+          0.85,
+          1
+        ]
+      },
+      {
+        "id": "cloud_13",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "cloud",
+        "position": [
+          1660,
+          -230
+        ],
+        "z": -90,
+        "rotation": 0,
+        "color": [
+          0.8,
+          0.85,
+          0.85,
+          1
+        ]
+      },
+      {
+        "id": "cloud_14",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "cloud",
+        "position": [
+          1980,
+          -240
+        ],
+        "z": -90,
+        "rotation": 0,
+        "color": [
+          0.8,
+          0.85,
+          0.85,
+          1
+        ]
+      },
+      {
+        "id": "cloud_15",
+        "type": "Sprite2D",
+        "parent": ".",
+        "part": "cloud",
+        "position": [
+          2300,
+          -220
+        ],
+        "z": -90,
+        "rotation": 0,
+        "color": [
+          0.8,
+          0.85,
+          0.85,
+          1
+        ]
+      }
+    ],
+    "geometrySource": "terrain/portals/walls/towers; never sprite alpha or padded texture bounds",
+    "origin": [
+      0,
+      0
+    ]
+  }
+}

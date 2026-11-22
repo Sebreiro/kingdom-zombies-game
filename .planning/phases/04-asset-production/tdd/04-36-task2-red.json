@@ -1,0 +1,10 @@
+{
+  "targetFile": "tools/phase4/cases/integration.cjs",
+  "actual": "validate.files lacks the register",
+  "output": "TAP version 13\r\n# Subtest: independent expectations are authenticated packaged publication inputs\r\nnot ok 1 - independent expectations are authenticated packaged publication inputs\r\n  ---\r\n  duration_ms: 14.1358\r\n  type: 'test'\r\n  location: 'D:\\\\Work\\\\Games\\\\KingdomZombies\\\\tools\\\\phase4\\\\cases\\\\integration.cjs:191:3'\r\n  failureType: 'testCodeFailure'\r\n  error: 'validation must include the independent packaged register'\r\n  code: 'ERR_ASSERTION'\r\n  name: 'AssertionError'\r\n  expected: true\r\n  actual: false\r\n  operator: '=='\r\n  stack: |-\r\n    TestContext.<anonymous> (D:\\Work\\Games\\KingdomZombies\\tools\\phase4\\cases\\integration.cjs:193:12)\r\n    Test.runInAsyncScope (node:async_hooks:227:14)\r\n    Test.run (node:internal/test_runner/test:1402:25)\r\n    Test.start (node:internal/test_runner/test:1262:17)\r\n    startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17)\r\n  ...\r\n1..1\r\n# tests 1\r\n# suites 0\r\n# pass 0\r\n# fail 1\r\n# cancelled 0\r\n# skipped 0\r\n# todo 0\r\n# duration_ms 20.4981\r\n",
+  "expected": "validate.files includes exact independent packaged register",
+  "targetTest": "independent expectations are authenticated packaged publication inputs",
+  "semanticAssessment": "Target calls existing production validate and fails its package closure assertion, without fixture, load or syntax failure",
+  "command": "node --test-reporter=tap tools/phase4/cases/integration.cjs --self-test-packaged",
+  "exitCode": 1
+}

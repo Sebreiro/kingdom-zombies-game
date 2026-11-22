@@ -1,0 +1,589 @@
+{
+  "schemaVersion": 1,
+  "phase": "04",
+  "prerequisite": "04-36",
+  "status": "Planning checks passed; independent typed checker pending",
+  "scope": "Planning documents only; no source implementation or new source/headless case execution",
+  "commands": {
+    "frontmatter": "node .codex/gsd-core/bin/gsd-tools.cjs query frontmatter.validate PLAN --schema plan",
+    "structure": "node .codex/gsd-core/bin/gsd-tools.cjs query verify.plan-structure PLAN",
+    "decisions": "node .codex/gsd-core/bin/gsd-tools.cjs query check.decision-coverage-plan .planning/phases/04-asset-production .planning/phases/04-asset-production/04-CONTEXT.md",
+    "phaseIndex": "node .codex/gsd-core/bin/gsd-tools.cjs query phase-plan-index 04",
+    "diff": "git diff --check",
+    "consistency": "node .planning/phases/04-asset-production/04-INTEGRATION-PLAN-PROBE.cjs"
+  },
+  "frontmatterAndStructure": [
+    {
+      "plan": "04-01-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-02-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-03-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-04-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-05-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-06-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-07-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-08-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-09-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-10-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-11-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-12-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-13-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-14-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-15-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-16-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-17-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-18-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-19-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-20-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-21-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-22-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-23-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-24-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-25-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-26-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-27-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-28-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-29-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-30-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-31-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-32-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-33-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-34-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-35-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    },
+    {
+      "plan": "04-36-PLAN.md",
+      "schemaValid": true,
+      "missing": [],
+      "invalidValue": [],
+      "structureValid": true,
+      "errors": [],
+      "warnings": [],
+      "tasks": 2
+    }
+  ],
+  "decisionCoverage": {
+    "passed": true,
+    "skipped": false,
+    "total": 32,
+    "covered": 32,
+    "uncovered": [],
+    "message": "All trackable CONTEXT.md decisions are covered by plans."
+  },
+  "consistency": {
+    "plans": 36,
+    "tasks": 72,
+    "waves": 30,
+    "maxFilesPerPlan": 9,
+    "new36Files": 7,
+    "plan03Files": 9,
+    "backstops": 104,
+    "prohibitions": 4,
+    "threats": 108,
+    "plannedFiles": 222,
+    "coverage": {
+      "plans": 36,
+      "tasks": 72,
+      "waves": 30,
+      "obligations": 180,
+      "acceptance": 24,
+      "heldout": 34,
+      "ui": 70,
+      "decisions": 32,
+      "prohibitions": 4
+    },
+    "expectedHash": "a4d9243bda1b512b59c189a3bdc48a7cccc8171a218bbfc5ae16b00274f2fda5",
+    "protectedHashes": {
+      "tools/phase4/check.cjs": "fe8c7006c7c36ad69134fb4748df98391df55fa3fa5ec59c6191a646f9a526c1",
+      "tools/phase4/content.cjs": "0c2d179c24e867bc9142edc2aa2842bc0e93811f1e355fae54daa9039da062c2",
+      "tools/phase4/expected-obligations.json": "a4d9243bda1b512b59c189a3bdc48a7cccc8171a218bbfc5ae16b00274f2fda5",
+      "src/godot-game/content/pack-index.json": "8628345ce26689b8478cb98ae60adb924919839a1b66ea3e2dddd451e1758c8f",
+      "src/godot-game/project.godot": "f5378d9a802aee409cd71ddda626ea78be62e431ffbfbac8f8447d69082b09d0",
+      "src/godot-game/export_presets.cfg": "97bef0a40ca36b6bf564fce9195e875181ca2acfc6cd15753ecd52d90400939e",
+      "src/godot-game/inspection/Inspection.tscn": "66702efb9bf9390f6454316ce0ec5bc7808cb5f439addf0430d46abccb589739",
+      ".planning/phases/04-asset-production/04-01-SUMMARY.md": "976f38ea3bec3c998589b3d4b4deece72e34790f3fdf842a9df78cdb9d8732d0",
+      ".planning/phases/04-asset-production/04-25-SUMMARY.md": "356169c1d779868356353a02360aa86d8579fb9d927bf8e38410928aeb696eae",
+      ".planning/phases/04-asset-production/04-34-SUMMARY.md": "8afb749e4fde63bfbe50b7588963e355a752a927b9a83d590a9a01729c1365b6",
+      ".planning/phases/04-asset-production/04-35-SUMMARY.md": "cfb4ea810f6614cf8390ddaad61bb3876a3daff5cfdcef95bf0662d744a3c3c7",
+      ".planning/phases/04-asset-production/04-02-SUMMARY.md": "f9f6a0cd7ab416cb0d9a5e51af5b5173be610f249a6bba353a60bca719336ab3",
+      ".planning/phases/04-asset-production/04-PLAN-CHECK.md": "51031a523eed16d469d045cd237b83f2cf480ea3d38acccb5522f16bbcdeccdd",
+      ".planning/phases/04-asset-production/04-PLAN-CHECK-INSPECTION-PROFILE.md": "b3697ce81f134598309a378d33b1543226528ed5099809f4226d36f230eba06a"
+    },
+    "errors": []
+  },
+  "originalIdentityArraysUnchanged": {
+    "obligations": true,
+    "acceptance": true,
+    "heldout": true,
+    "ui": true,
+    "decisions": true,
+    "prohibitions": true
+  },
+  "freshPhaseIndex": {
+    "record": "04-INTEGRATION-PLAN-INDEX.json",
+    "plans": 36,
+    "tasks": 72,
+    "waves": 30,
+    "completedPlans": [
+      "04-01",
+      "04-02",
+      "04-25",
+      "04-34",
+      "04-35"
+    ],
+    "readyPlans": [
+      "04-36"
+    ],
+    "plan03": {
+      "id": "04-03",
+      "wave": 7,
+      "depends_on": [
+        "04-36"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Live inspection shell, validated loader and exact native permissions.",
+      "files_modified": [
+        "src/core/ContentPack.cs",
+        "src/godot-game/inspection/InspectionRoot.cs",
+        "src/godot-game/inspection/Inspection.tscn",
+        "tests/phase1/ContentInspectorTests.cs",
+        "tools/phase4/cases/hub.cjs",
+        "tests/phase1/EngineAccessPolicy.cs",
+        "docs/code/visibility-exemptions.json",
+        "docs/code/engine-generated-spans.json",
+        "docs/code/generated-callsite-adaptations.json"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-36"
+      ]
+    },
+    "plan36": {
+      "id": "04-36",
+      "wave": 6,
+      "depends_on": [
+        "04-02",
+        "04-25"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Close the observed implementation integration gap before paused 04-03 starts. The current runner has five literal module requires and does not load the planned hub.cjs. The current schemaVersion1 index has produced/pending shards and outputs but no expected-register reference; the complete independent source register exists only under tools/phase4. Add the smallest reusable case-registration and packaged-expectation contracts so 04-03 can implement D-25/D-28 within its existing nine-file ownership.",
+      "files_modified": [
+        "tools/phase4/check.cjs",
+        "tools/phase4/case-discovery.cjs",
+        "tools/phase4/cases/integration.cjs",
+        "tools/phase4/content.cjs",
+        "src/godot-game/content/expected-obligations.json",
+        "src/godot-game/content/pack-index.json",
+        "docs/content/production.md"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": true
+    }
+  },
+  "resolvedProbeFindings": [
+    {
+      "finding": "Initial decision gate invoked without context argument",
+      "resolution": "Correct explicit phase/context invocation passes32/32"
+    },
+    {
+      "finding": "Node-to-node child probe denied EPERM",
+      "resolution": "Direct PowerShell-invoked canonical CLI calls used; no source/analyzer/sandbox bypass"
+    },
+    {
+      "finding": "03 amendment YAML indentation",
+      "resolution": "Corrected before fresh all36 schema/structure passes"
+    },
+    {
+      "finding": "Completed02 declared native-observer file absent from previous artifact inventory",
+      "resolution": "Existing ownership/exports inventoried; no completed plan/source/proof rewritten"
+    },
+    {
+      "finding": "Persisted planning probe initially used node-e relative require paths",
+      "resolution": "Anchored local GSD module imports to repository process.cwd; actual saved probe exits0 with empty errors and sets nonzero on findings"
+    }
+  ],
+  "preservation": {
+    "sourceDiffPaths": [],
+    "completedSummaryDiffPaths": [],
+    "oldCheckerHash": "51031a523eed16d469d045cd237b83f2cf480ea3d38acccb5522f16bbcdeccdd",
+    "parentOwnedFilesUntouched": [
+      "STATE.md",
+      "04-CONTINUATION.md",
+      "04-03-CHECKPOINT.md"
+    ]
+  },
+  "limitations": "New source.case-discovery/source.packaged-expectations cases do not exist or run yet. Windows game windows/listening/judgments/final acceptance remain downstream; no Linux claim. No commit or branch/PR operation by planner.",
+  "planningInputSha256": {
+    ".planning/phases/04-asset-production/04-01-PLAN.md": "7b0493178bcd01cd2df1d62ada0142e330b1fda6fa13bf4d8183b8e8b3645308",
+    ".planning/phases/04-asset-production/04-02-PLAN.md": "c87793c08446a336c09a6538a74011fbb863fc1a943e12731b81f9cd9dd76a1b",
+    ".planning/phases/04-asset-production/04-03-PLAN.md": "24397f7ec01cc54f45109a4d75620208537552cc27d32cf6197c140c48fd854f",
+    ".planning/phases/04-asset-production/04-04-PLAN.md": "0df09dbb3b1cacfd8cca56918b1759436a5d224e7ed205356eec86324a5fe605",
+    ".planning/phases/04-asset-production/04-05-PLAN.md": "5cc76dc39fd953b4336b8016cbcf5ff01be5153f0c3d03475c72da100b243410",
+    ".planning/phases/04-asset-production/04-06-PLAN.md": "6f9d59baccb44276d2ad96283ef37c9c674e20ff99ac25256aff1245c310ab92",
+    ".planning/phases/04-asset-production/04-07-PLAN.md": "0cf206748f2b64aa4d92d3ef57192e45638bcd50e1f46309d31827c22a5ab6e3",
+    ".planning/phases/04-asset-production/04-08-PLAN.md": "19684e3247dad056095a3c7c8682226089a9f81bd173aa7d0ad78f400cabf016",
+    ".planning/phases/04-asset-production/04-09-PLAN.md": "437e6c5371d65de7dbbae54196406bbea919c25fe18e1549a2a22641a2cf2cc5",
+    ".planning/phases/04-asset-production/04-10-PLAN.md": "1830feac4297c194adc9151dd3a6dba98c78c586f890d3923fcc55d3d3976e0b",
+    ".planning/phases/04-asset-production/04-11-PLAN.md": "43f18c0b09349fa805a171b198012e4350e7f5cb2cafad9ff7bb9cd07442948b",
+    ".planning/phases/04-asset-production/04-12-PLAN.md": "d83827ba0352450e9f5e24155f110be95e410f8b7cdcd314b3fc1a5b5c6633cf",
+    ".planning/phases/04-asset-production/04-13-PLAN.md": "9f9dd23077ca7f0b82bef041f3edd1f10bcaa973eaa7ffd41feed465e0eabc16",
+    ".planning/phases/04-asset-production/04-14-PLAN.md": "c7d75dd0fee63c795d50bba8fbfe331b21bf522542a0ff493396fd2880ef5552",
+    ".planning/phases/04-asset-production/04-15-PLAN.md": "2ccb6c9685403b53193a40e2f7817f5300a82c6d8ebe8385783cfd2a8f30e159",
+    ".planning/phases/04-asset-production/04-16-PLAN.md": "b49c5a58beaac7018257d8e5f72e27eacaef761f20adf92303cee1446ac3437b",
+    ".planning/phases/04-asset-production/04-17-PLAN.md": "bf9d262f11d352619cf782f6fa6b675a18433a17d4a5f49613fba846b6bbc352",
+    ".planning/phases/04-asset-production/04-18-PLAN.md": "539454c0555f4a712ac0dc070df1397d4fe66882b4103d529b97b8c27a917acc",
+    ".planning/phases/04-asset-production/04-19-PLAN.md": "065de31f51a29732cfbb7bbd6b811dc386adf56ab55e5fa562e40e6ae4dd2a97",
+    ".planning/phases/04-asset-production/04-20-PLAN.md": "bc875f4f918bbaaaee5b982ed355307c62aafed3aca316a9f081a324f57f7736",
+    ".planning/phases/04-asset-production/04-21-PLAN.md": "ed3a9665b82729ba36df92a4ac09548f26ea0eafb8e6371238d8a647c9b4378c",
+    ".planning/phases/04-asset-production/04-22-PLAN.md": "b7dd59c38d7582504042aae0c6b9feaab07afe331dc5386b646e498a68cb64c3",
+    ".planning/phases/04-asset-production/04-23-PLAN.md": "3fc686f4b6c5f62630f5d993b933cd9f7d33a3d37354ae8497125e6183c85d09",
+    ".planning/phases/04-asset-production/04-24-PLAN.md": "768097e89af97571e15f88663262bd9c12094b678358810c3e8efdb201af06ba",
+    ".planning/phases/04-asset-production/04-25-PLAN.md": "3aabf68c51f51318dcc864e8ba4c4ed1b9bf7ca0fa729e5c6dbac7b727500f71",
+    ".planning/phases/04-asset-production/04-26-PLAN.md": "aff2ae2ef1b91aba343a46568cac34eb37fdb80a648ad9bdab1db64b1919facc",
+    ".planning/phases/04-asset-production/04-27-PLAN.md": "a79b4ce6502dcd12e90db5a8484435c47df302835a12adb18cb0147c46cb7287",
+    ".planning/phases/04-asset-production/04-28-PLAN.md": "d28381303e41cc0f4c5dcebd1e843740b808665512f083563e10d1f5c40b230e",
+    ".planning/phases/04-asset-production/04-29-PLAN.md": "43eeed218a42ca96adcc252b9a9d659acf63c84f152c3957af5d82ffaa8fa9ab",
+    ".planning/phases/04-asset-production/04-30-PLAN.md": "897c0d0eadb9a5c49d481eab97d5ded8e2c75234e0f0fbdc88b56fee826e16de",
+    ".planning/phases/04-asset-production/04-31-PLAN.md": "07260dcb076ae816b433f1c0b5060444c68c23f706beab479eb500af594eb6c2",
+    ".planning/phases/04-asset-production/04-32-PLAN.md": "4a4809d9fda02f55bd421b346691f09189c239bd53c34e14400999ab7dc0ee85",
+    ".planning/phases/04-asset-production/04-33-PLAN.md": "88599f6e3b0b2de0d17c5c84816da5217c4d29d0efb82079f157b14ac167c585",
+    ".planning/phases/04-asset-production/04-34-PLAN.md": "7ab8a1f66c14440714cfc050dea9ae3a19f1fc482f9949c8f6829aa9aa71397b",
+    ".planning/phases/04-asset-production/04-35-PLAN.md": "b54c92f7be6db02b81c386a3aeeeef253502700cc46abe8484f50971bdfccf5c",
+    ".planning/phases/04-asset-production/04-36-PLAN.md": "3a27340fb23025c4f8fb54c5117e5fb5f2516fa941e60f6a77a6ac13115ba4a6",
+    ".planning/ROADMAP.md": "75ee63e6f8109875646da9fee5cb68f359c25fa891f56ebf6addbb44e1c8cd78",
+    ".planning/phases/04-asset-production/04-CONTEXT.md": "75510927bef9b9e99ecd3cb30097391961a4b41f820e6a5c1679dd0772c293db",
+    ".planning/phases/04-asset-production/04-SPEC.md": "c3077b7b1527efbf6d13f78c87bb7cdcb99333634150b618e48f78dac2273189",
+    ".planning/phases/04-asset-production/04-UI-SPEC.md": "482e736bede216a817f74e4317ccd0c62c23a840a5f17e4ece63543f973c6483",
+    ".planning/phases/04-asset-production/04-PLAN-COVERAGE.json": "68756395065b20aedc78b089b3b731ca348524b598f35a9bceb77204f53b463f",
+    ".planning/phases/04-asset-production/04-PLAN-GRAPH.md": "31c0d19fea8ea6a5e19d934067197d24134b5c7fb1d461f50f1bf6739869bb2d",
+    ".planning/phases/04-asset-production/04-VALIDATION.md": "f6bc9bd55f6b4a8cd9322ae978aa926a4a4180d7105f2891b6f43daca06ca6e2",
+    ".planning/phases/04-asset-production/04-ARTIFACTS.md": "8cf34da2ded6cb744607fccd4ec471d4c69904e79a8f149f1104b55483c13d1d",
+    ".planning/phases/04-asset-production/04-INTEGRATION-PLAN-PROBE.cjs": "b9f1fc23c4d2f084b27683b4838a5ebc52957ab47359beca7f21194a21029b51"
+  }
+}
+

@@ -13,6 +13,8 @@ The exact baseline is [toolchain.json](../../tools/phase1/toolchain.json). The e
 | Godot .NET | 4.7.2 stable | Platform archives below; retain the entire `GodotSharp` directory |
 | C# / target | 14.0 / net10.0 | Explicit project declarations; compiler `5.9.0-1.26529.119 (2ab2854867733112c84ac12c4273d7970ac3afdf)` comes from SDK 10.0.404 |
 | Local coverage tool | 18.12.0 | [Microsoft dotnet-coverage](https://www.nuget.org/packages/dotnet-coverage/18.12.0), pinned in the repository tool manifest; collection is proved in a later plan |
+| PowerShell, x64 | 7 (`pwsh` on `PATH`; 7.6.9 verified) | [Microsoft PowerShell releases](https://github.com/PowerShell/PowerShell/releases); the Phase 4 `content.native-permissions` check runs its test discovery through `pwsh` and fails with `spawn pwsh ENOENT` without it |
+| CPython, x64 | 3.12.14 | Runs the Phase 4 media, archive and pixel scripts. [python.json](../../tools/phase4/python.json) pins the executable, `python312.dll` and Pillow 13.0.0, and every launch verifies them. Set `KZ_PHASE4_PYTHON` when the same build is installed elsewhere. UnityPy 1.23.0 loads from the donor resource folder and each script checks its version |
 
 The installed SDK is a prerequisite. [global.json](../../global.json) disables SDK roll-forward and prerelease selection. The bootstrap checks actual Node, SDK, compiler, engine and managed runtime identities instead of treating declarations as proof. Roslyn NuGet development packages have separate version numbers; they are not the SDK compiler version.
 
@@ -22,6 +24,8 @@ The installed SDK is a prerequisite. [global.json](../../global.json) disables S
 | Linux x64 | [Godot_v4.7.2-stable_mono_linux_x86_64.zip](https://github.com/godotengine/godot-builds/releases/download/4.7.2-stable/Godot_v4.7.2-stable_mono_linux_x86_64.zip) | `1855960b27ee3ef5e66e5e228cced69d55637b24334a7411162687dcd077d8f9f645348cdb8eae984bec8135d49ed855a1e3a16476786b8bce60774fd8402d13` |
 
 Both SHA-512 values come from the [official release checksum file](https://github.com/godotengine/godot-builds/releases/download/4.7.2-stable/SHA512-SUMS.txt). Windows also has pinned SHA-256 `a2a48473a7414c5f19fab690518caebb738c09ef9601f6bd2388676a7f53b3c0`. Linux archive availability is preparation; instructions and cross-builds do not count as a Linux execution result.
+
+Confirmed defects in this engine version, with the workaround each one has in this repository, are listed in [engine defects](engine-defects.md). Check that page before you upgrade the engine or change how a harness starts it.
 
 Bootstrap acquisition happens as part of the later proof commands. It checks `.phase1/cache` first, may seed that cache from the matching archive in Downloads, then downloads the exact official release if absent. Downloads and the LangProj/recovered donor directories are never required. To require official acquisition, set `PHASE1_IGNORE_DOWNLOADS=1` and `PHASE1_FORCE_DOWNLOAD=1` for that invocation. An optional `PHASE1_ARCHIVE` names a local archive cache seed; the same pinned hashes apply. Node HTTPS uses a task-local direct connection when inherited proxy settings are broken. No machine-wide proxy or NuGet configuration changes are made.
 

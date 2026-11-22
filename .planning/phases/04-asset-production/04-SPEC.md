@@ -1,5 +1,7 @@
 # Phase 4: Asset production — Specification
 
+**Current execution scope (November 21).** The [focused Windows handoff](04-HANDOFF.md) sets the required rendered selection and assigns deferred IDs to Phases 5–9. It supersedes earlier full-matrix execution instructions below.
+
 **Created:** 2026-11-14
 **Ambiguity score:** 0.016 (gate: ≤ 0.20)
 **Requirements:** 5 locked
@@ -121,7 +123,7 @@ The required roster remains one reusable survivor presentation, seven distinct z
 - [ ] **AC-16 — Visible incomplete state (ASSET-05):** Deliberately absent/invalid required resources identify the exact resource ID/path and problem, mark the pack incomplete and leave unaffected gallery entries inspectable. A fallback display cannot turn a missing required output into completed coverage.
 - [ ] **AC-17 — Focused current evidence (ASSET-05):** Documented focused Windows import/export/launch, content, visual and audio checks provide current results and required diagnostic evidence. Missing evidence is recorded as such. Linux execution, broad build matrices, full gameplay and release performance/endurance are not claimed from this inspection run.
 - [ ] **AC-18 — Bounded cosmetic carryover (ASSET-02/03):** Every remaining known issue is a reproducible minor cosmetic flaw in an exactly documented uncommon combination; all required gear/actions/critical states remain readable. The register records expected/actual results and a Phase 6/7/8 owner as specified above. A missing resource or non-cosmetic required-state failure blocks Phase 4 completion.
-- [ ] **AC-19 — Held-out edges (ASSET-01–05):** Planning carries all 34 Edge Coverage rows into non-inferable must-have checks, and Phase 4 obtains held-out evidence for them. Inputs/combinations are chosen independently of authored happy-path examples. Cases may share setup/evidence when their individual obligations remain identifiable; these are not 34 separate build runs. Any unsupported backstop remains a visible verification gap.
+- [ ] **AC-19 — Focused Windows handoff (ASSET-01–05).** Execute the Phase 4 selection in the [focused Windows handoff](04-HANDOFF.md) with real input and attributable results. Record each deferred case by original ID and owning phase.
 - [ ] **AC-20 — Inspection boundary (ASSET-03–05):** The delivered resource index and inspection entry points expose the live character controls, assembled map, UI state examples, data and audio described here. Resource inspection is clearly identified; the pack's completion record does not claim implementation of the later gameplay interactions or a complete playable campaign.
 - [ ] **AC-21 — Blood limit (ASSET-02/03, prohibition):** Hit/death presentation uses restrained blood effects and MUST NOT include dismemberment. Verify by recorded visual judgment across the relevant effect/death families.
 - [ ] **AC-22 — Honest provenance/status (ASSET-01/02, prohibition):** Production records MUST NOT present catalog entries/metadata/unfinished exports as completed assets or label generated/adapted material as unchanged donor reuse. Verify through recorded source/output and evidence-status review.

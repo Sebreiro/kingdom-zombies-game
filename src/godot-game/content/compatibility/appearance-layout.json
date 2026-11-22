@@ -1,0 +1,457 @@
+{
+  "schemaVersion": 1,
+  "id": "DT-24",
+  "version": 1,
+  "sampleDataOnly": true,
+  "gameplayTransactions": false,
+  "samples": [
+    {
+      "schemaVersion": 1,
+      "contentVersion": 1,
+      "savedContentVersion": 1,
+      "body": "CH-01",
+      "kind": "corpse",
+      "equipment": {
+        "torso": "IT-11",
+        "legs": "IT-12",
+        "left": "IT-07",
+        "right": "IT-02"
+      },
+      "selected": true,
+      "saved": {
+        "id": "saved-old",
+        "title": "saved-old",
+        "columns": 8,
+        "rows": 6,
+        "depth": 4,
+        "slot": "headwear",
+        "items": [
+          {
+            "id": "old-knife",
+            "definition": "IT-03",
+            "label": "Knife",
+            "quantity": 1,
+            "current": 120,
+            "grid": "saved-old",
+            "x": 0,
+            "y": 0,
+            "rotated": true,
+            "savedFootprint": [
+              1,
+              3
+            ]
+          },
+          {
+            "id": "old-berries",
+            "definition": "IT-08",
+            "label": "Berries",
+            "quantity": 31,
+            "current": null,
+            "grid": "saved-old",
+            "x": 3,
+            "y": 0,
+            "rotated": false,
+            "savedFootprint": [
+              1,
+              1
+            ]
+          },
+          {
+            "current": null,
+            "id": "old-bag",
+            "definition": "IT-24",
+            "label": "Field backpack",
+            "quantity": 1,
+            "grid": "saved-old",
+            "x": 4,
+            "y": 0,
+            "rotated": false,
+            "savedFootprint": [
+              3,
+              4
+            ]
+          }
+        ]
+      },
+      "currentDestination": {
+        "id": "destination-shirt",
+        "title": "destination-shirt",
+        "columns": 2,
+        "rows": 1,
+        "depth": 1,
+        "slot": "container",
+        "items": []
+      },
+      "explored": [
+        [
+          -120,
+          120
+        ]
+      ],
+      "ruins": [
+        "left.portal.1"
+      ],
+      "work": {
+        "id": "main-upgrade-2",
+        "completedTier": 1,
+        "requestedTier": 2,
+        "paid": 200,
+        "progressSeconds": 30,
+        "requiredSeconds": 90,
+        "buyer": "disconnected",
+        "worker": "replacement-builder",
+        "paymentRetained": true
+      },
+      "queues": [
+        {
+          "id": "left.regular.1",
+          "portal": "left.portal.2",
+          "remaining": 6,
+          "order": 0
+        }
+      ],
+      "loops": [
+        "ambience.day-night.forest-night",
+        "ambience.fire-wind.local-fire"
+      ],
+      "pastEvents": [
+        "death",
+        "destruction",
+        "payment",
+        "recruit",
+        "warning"
+      ],
+      "id": "compatibility.legacy"
+    },
+    {
+      "schemaVersion": 1,
+      "contentVersion": 2,
+      "savedContentVersion": 2,
+      "body": "CH-01",
+      "kind": "alive",
+      "equipment": {
+        "torso": "IT-11",
+        "legs": "IT-12",
+        "left": "IT-07",
+        "right": "IT-02"
+      },
+      "selected": true,
+      "saved": {
+        "id": "saved-old",
+        "title": "saved-old",
+        "columns": 8,
+        "rows": 6,
+        "depth": 4,
+        "slot": "headwear",
+        "items": [
+          {
+            "id": "old-knife",
+            "definition": "IT-03",
+            "label": "Knife",
+            "quantity": 1,
+            "current": 120,
+            "grid": "saved-old",
+            "x": 0,
+            "y": 0,
+            "rotated": true,
+            "savedFootprint": [
+              1,
+              3
+            ]
+          },
+          {
+            "id": "old-berries",
+            "definition": "IT-08",
+            "label": "Berries",
+            "quantity": 31,
+            "current": null,
+            "grid": "saved-old",
+            "x": 3,
+            "y": 0,
+            "rotated": false,
+            "savedFootprint": [
+              1,
+              1
+            ]
+          },
+          {
+            "current": null,
+            "id": "old-bag",
+            "definition": "IT-24",
+            "label": "Field backpack",
+            "quantity": 1,
+            "grid": "saved-old",
+            "x": 4,
+            "y": 0,
+            "rotated": false,
+            "savedFootprint": [
+              3,
+              4
+            ]
+          }
+        ]
+      },
+      "currentDestination": {
+        "id": "destination-shirt",
+        "title": "destination-shirt",
+        "columns": 2,
+        "rows": 1,
+        "depth": 1,
+        "slot": "container",
+        "items": []
+      },
+      "explored": [
+        [
+          -120,
+          120
+        ]
+      ],
+      "ruins": [
+        "left.portal.1"
+      ],
+      "work": {
+        "id": "main-upgrade-2",
+        "completedTier": 1,
+        "requestedTier": 2,
+        "paid": 200,
+        "progressSeconds": 30,
+        "requiredSeconds": 90,
+        "buyer": "disconnected",
+        "worker": "replacement-builder",
+        "paymentRetained": true
+      },
+      "queues": [
+        {
+          "id": "left.regular.1",
+          "portal": "left.portal.2",
+          "remaining": 6,
+          "order": 0
+        }
+      ],
+      "loops": [
+        "ambience.day-night.forest-day"
+      ],
+      "pastEvents": [
+        "death",
+        "destruction",
+        "payment",
+        "recruit",
+        "warning"
+      ],
+      "id": "compatibility.current"
+    },
+    {
+      "schemaVersion": 1,
+      "contentVersion": 1,
+      "savedContentVersion": 1,
+      "body": "CH-01",
+      "kind": "alive",
+      "equipment": {
+        "torso": "IT-99"
+      },
+      "selected": true,
+      "saved": {
+        "id": "saved-old",
+        "title": "saved-old",
+        "columns": 8,
+        "rows": 6,
+        "depth": 4,
+        "slot": "headwear",
+        "items": [
+          {
+            "id": "old-knife",
+            "definition": "IT-03",
+            "label": "Knife",
+            "quantity": 1,
+            "current": 120,
+            "grid": "saved-old",
+            "x": 0,
+            "y": 0,
+            "rotated": true,
+            "savedFootprint": [
+              1,
+              3
+            ]
+          },
+          {
+            "id": "old-berries",
+            "definition": "IT-08",
+            "label": "Berries",
+            "quantity": 31,
+            "current": null,
+            "grid": "saved-old",
+            "x": 3,
+            "y": 0,
+            "rotated": false,
+            "savedFootprint": [
+              1,
+              1
+            ]
+          },
+          {
+            "current": null,
+            "id": "old-bag",
+            "definition": "IT-24",
+            "label": "Field backpack",
+            "quantity": 1,
+            "grid": "saved-old",
+            "x": 4,
+            "y": 0,
+            "rotated": false,
+            "savedFootprint": [
+              3,
+              4
+            ]
+          }
+        ]
+      },
+      "currentDestination": {
+        "id": "destination-shirt",
+        "title": "destination-shirt",
+        "columns": 2,
+        "rows": 1,
+        "depth": 1,
+        "slot": "container",
+        "items": []
+      },
+      "explored": [
+        [
+          -120,
+          120
+        ]
+      ],
+      "ruins": [
+        "left.portal.1"
+      ],
+      "work": {
+        "id": "main-upgrade-2",
+        "completedTier": 1,
+        "requestedTier": 2,
+        "paid": 200,
+        "progressSeconds": 30,
+        "requiredSeconds": 90,
+        "buyer": "disconnected",
+        "worker": "replacement-builder",
+        "paymentRetained": true
+      },
+      "queues": [
+        {
+          "id": "left.regular.1",
+          "portal": "left.portal.2",
+          "remaining": 6,
+          "order": 0
+        }
+      ],
+      "loops": [
+        "ambience.day-night.forest-night",
+        "ambience.fire-wind.local-fire"
+      ],
+      "pastEvents": [
+        "death",
+        "destruction",
+        "payment",
+        "recruit",
+        "warning"
+      ],
+      "id": "compatibility.missing"
+    }
+  ],
+  "backstops": [
+    {
+      "id": "UI-TEXT-STATUS.empty",
+      "surface": "UI-TEXT-STATUS",
+      "state": "empty",
+      "expected": "Zero rows with visible recovery"
+    },
+    {
+      "id": "UI-TEXT-STATUS.loading",
+      "surface": "UI-TEXT-STATUS",
+      "state": "loading",
+      "expected": "Loading identity before current candidate publication"
+    },
+    {
+      "id": "UI-TEXT-STATUS.error",
+      "surface": "UI-TEXT-STATUS",
+      "state": "error",
+      "expected": "Exact unavailable definition and recovery without substitution"
+    },
+    {
+      "id": "UI-TEXT-STATUS.populated",
+      "surface": "UI-TEXT-STATUS",
+      "state": "populated",
+      "expected": "Actual shipped current resource values"
+    },
+    {
+      "id": "UI-TEXT-STATUS.partial",
+      "surface": "UI-TEXT-STATUS",
+      "state": "partial",
+      "expected": "Available rows stay usable beside exact missing definitions"
+    },
+    {
+      "id": "UI-TEXT-STATUS.overflow",
+      "surface": "UI-TEXT-STATUS",
+      "state": "overflow",
+      "expected": "Native vertical and horizontal scroll with full text"
+    },
+    {
+      "id": "UI-TEXT-STATUS.zero-one-many",
+      "surface": "UI-TEXT-STATUS",
+      "state": "zero-one-many",
+      "expected": "Independent zero one and many counts/plural labels"
+    },
+    {
+      "id": "UI-TEXT-STATUS.long-text",
+      "surface": "UI-TEXT-STATUS",
+      "state": "long-text",
+      "expected": "Complete multiline accented and long identity text; unsupported glyph remains diagnostic"
+    },
+    {
+      "id": "DATA-TEXT-INSPECTOR.empty",
+      "surface": "DATA-TEXT-INSPECTOR",
+      "state": "empty",
+      "expected": "Zero rows with visible recovery"
+    },
+    {
+      "id": "DATA-TEXT-INSPECTOR.loading",
+      "surface": "DATA-TEXT-INSPECTOR",
+      "state": "loading",
+      "expected": "Loading identity before current candidate publication"
+    },
+    {
+      "id": "DATA-TEXT-INSPECTOR.error",
+      "surface": "DATA-TEXT-INSPECTOR",
+      "state": "error",
+      "expected": "Exact unavailable definition and recovery without substitution"
+    },
+    {
+      "id": "DATA-TEXT-INSPECTOR.populated",
+      "surface": "DATA-TEXT-INSPECTOR",
+      "state": "populated",
+      "expected": "Actual shipped current resource values"
+    },
+    {
+      "id": "DATA-TEXT-INSPECTOR.partial",
+      "surface": "DATA-TEXT-INSPECTOR",
+      "state": "partial",
+      "expected": "Available rows stay usable beside exact missing definitions"
+    },
+    {
+      "id": "DATA-TEXT-INSPECTOR.overflow",
+      "surface": "DATA-TEXT-INSPECTOR",
+      "state": "overflow",
+      "expected": "Native vertical and horizontal scroll with full text"
+    },
+    {
+      "id": "DATA-TEXT-INSPECTOR.zero-one-many",
+      "surface": "DATA-TEXT-INSPECTOR",
+      "state": "zero-one-many",
+      "expected": "Independent zero one and many counts/plural labels"
+    },
+    {
+      "id": "DATA-TEXT-INSPECTOR.long-text",
+      "surface": "DATA-TEXT-INSPECTOR",
+      "state": "long-text",
+      "expected": "Complete multiline accented and long identity text; unsupported glyph remains diagnostic"
+    }
+  ]
+}

@@ -1,0 +1,1245 @@
+{
+  "phase": "04",
+  "plans": [
+    {
+      "id": "04-01",
+      "wave": 1,
+      "depends_on": [],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Production donor-to-inspector tracer and exact provenance.",
+      "files_modified": [
+        "tools/phase4/check.cjs",
+        "src/godot-game/assets/common/bow.png",
+        "src/godot-game/content/packs/tracer.json",
+        "src/godot-game/inspection/Inspection.tscn",
+        "production/phase4/tracer-source.json"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": true,
+      "halted": false,
+      "blocked_by": []
+    },
+    {
+      "id": "04-02",
+      "wave": 5,
+      "depends_on": [
+        "04-35"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Bounded continuation amendment (parent pre-authorized 2026-11-16): add only tools/phase4/native-observer.cjs to Task 1 and plan ownership (five task files; nine unique implementation files). A bounded loopback Node helper consumes the pinned engine read-only debugger scene-tree/object inspection protocol to observe the actual naturally started exported Inspection process. It may not mutate native properties, evaluate arbitrary expressions, rewrite production settings or add production evidence scripts. Preserve raw packets, exact process/source/package identities and negative diagnostic controls.",
+      "files_modified": [
+        "tools/phase4/native-observer.cjs",
+        "tools/phase4/check.cjs",
+        "tools/phase4/export.cjs",
+        "production/phase4/export-toolchain.json",
+        "tools/phase4/cases/export-feasibility.cjs",
+        "tools/phase4/extract-audio.py",
+        "production/phase4/audio-feasibility.json",
+        "production/phase4/listening-route.md",
+        "tools/phase4/cases/audio-feasibility.cjs"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": true,
+      "halted": false,
+      "blocked_by": []
+    },
+    {
+      "id": "04-03",
+      "wave": 7,
+      "depends_on": [
+        "04-36"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Live inspection shell, validated loader and exact native permissions.",
+      "files_modified": [
+        "src/core/ContentPack.cs",
+        "src/godot-game/inspection/InspectionRoot.cs",
+        "src/godot-game/inspection/Inspection.tscn",
+        "tests/phase1/ContentInspectorTests.cs",
+        "tools/phase4/cases/hub.cjs",
+        "tests/phase1/EngineAccessPolicy.cs",
+        "docs/code/visibility-exemptions.json",
+        "docs/code/engine-generated-spans.json",
+        "docs/code/generated-callsite-adaptations.json"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-36"
+      ]
+    },
+    {
+      "id": "04-04",
+      "wave": 9,
+      "depends_on": [
+        "04-26"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Reusable donor kit, exact animation conversion and assembled scale proof.",
+      "files_modified": [
+        "tools/phase4/extract-media.py",
+        "src/godot-game/assets/common/donor-kit.png",
+        "src/godot-game/content/packs/common.json",
+        "production/phase4/common-selected.zip",
+        "tools/phase4/cases/media.cjs",
+        "src/godot-game/assets/common/scale-pilot.png",
+        "src/godot-game/content/packs/scale-pilot.json",
+        "src/godot-game/inspection/ScaleComparison.tscn",
+        "production/phase4/scale-pilot.zip"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-26"
+      ]
+    },
+    {
+      "id": "04-05",
+      "wave": 10,
+      "depends_on": [
+        "04-04"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "All 24 item identities and reusable wearable/held masters.",
+      "files_modified": [
+        "src/godot-game/assets/equipment/items-01-10.png",
+        "src/godot-game/content/packs/items-01-10.json",
+        "production/phase4/items-01-10.zip",
+        "tools/phase4/cases/items.cjs",
+        "src/godot-game/assets/equipment/items-11-24.png",
+        "src/godot-game/content/packs/items-11-24.json",
+        "production/phase4/items-11-24.zip"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-04"
+      ]
+    },
+    {
+      "id": "04-06",
+      "wave": 11,
+      "depends_on": [
+        "04-05",
+        "04-26"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Survivor and first three zombie body fits.",
+      "files_modified": [
+        "src/godot-game/assets/characters/bodies-a.png",
+        "src/godot-game/content/packs/bodies-a.json",
+        "production/phase4/bodies-a.zip",
+        "tools/phase4/cases/bodies-a.cjs",
+        "src/godot-game/content/animation/fits-a.json",
+        "src/godot-game/inspection/CharacterPreview.cs",
+        "src/godot-game/inspection/InspectionRoot.cs",
+        "tests/phase1/CharacterFitTests.cs"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-05",
+        "04-26"
+      ]
+    },
+    {
+      "id": "04-07",
+      "wave": 12,
+      "depends_on": [
+        "04-06"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Complete armored, wide and specialist zombie silhouettes/fits.",
+      "files_modified": [
+        "src/godot-game/assets/characters/bodies-b.png",
+        "src/godot-game/content/packs/bodies-b.json",
+        "src/godot-game/content/animation/fits-b.json",
+        "production/phase4/bodies-b.zip",
+        "tools/phase4/cases/bodies-b.cjs",
+        "src/godot-game/assets/characters/bodies-c.png",
+        "src/godot-game/content/packs/bodies-c.json",
+        "src/godot-game/content/animation/fits-c.json",
+        "production/phase4/bodies-c.zip"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-06"
+      ]
+    },
+    {
+      "id": "04-08",
+      "wave": 13,
+      "depends_on": [
+        "04-07",
+        "04-06",
+        "04-18"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Concurrent locomotion, melee and coherent logical hands.",
+      "files_modified": [
+        "src/core/CharacterPresentation.cs",
+        "src/godot-game/inspection/CharacterPreview.cs",
+        "src/godot-game/content/animation/locomotion-melee.json",
+        "tests/phase1/CharacterPresentationTests.cs",
+        "tools/phase4/cases/animation.cjs"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-07",
+        "04-06",
+        "04-18"
+      ]
+    },
+    {
+      "id": "04-09",
+      "wave": 14,
+      "depends_on": [
+        "04-08",
+        "04-06",
+        "04-18"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Bow, work, food and specialist action composition.",
+      "files_modified": [
+        "src/core/CharacterPresentation.cs",
+        "src/godot-game/inspection/CharacterPreview.cs",
+        "src/godot-game/content/animation/bow.json",
+        "tests/phase1/CharacterBowTests.cs",
+        "tools/phase4/cases/bow-work.cjs",
+        "src/godot-game/content/animation/work-special.json",
+        "src/godot-game/assets/characters/work-special.png",
+        "production/phase4/work-special.zip"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-08",
+        "04-06",
+        "04-18"
+      ]
+    },
+    {
+      "id": "04-10",
+      "wave": 15,
+      "depends_on": [
+        "04-09"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Persistent corpses, wildlife, identities and real crowd resources.",
+      "files_modified": [
+        "src/core/AppearanceState.cs",
+        "src/godot-game/inspection/CorpsePreview.cs",
+        "src/godot-game/content/packs/corpses-wildlife.json",
+        "tests/phase1/AppearanceStateTests.cs",
+        "tools/phase4/cases/corpses.cjs",
+        "src/godot-game/inspection/CrowdPreview.cs",
+        "src/godot-game/content/fixtures/crowds.json",
+        "src/godot-game/content/packs/player-identities.json",
+        "src/godot-game/assets/characters/identity-wildlife.png"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-09"
+      ]
+    },
+    {
+      "id": "04-11",
+      "wave": 10,
+      "depends_on": [
+        "04-04"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Three actual main-building tiers and shared camp resources.",
+      "files_modified": [
+        "src/godot-game/assets/buildings/main-tiers.png",
+        "src/godot-game/content/packs/main-buildings.json",
+        "production/phase4/main-buildings.zip",
+        "tools/phase4/cases/main-buildings.cjs",
+        "src/godot-game/inspection/BuildingPreview.cs",
+        "src/godot-game/content/world/main-assemblies.json",
+        "src/godot-game/content/packs/camp-access.json",
+        "tests/phase1/BuildingPresentationTests.cs"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-04"
+      ]
+    },
+    {
+      "id": "04-12",
+      "wave": 16,
+      "depends_on": [
+        "04-11",
+        "04-10"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Walls, independent guards and complete defense lifecycle.",
+      "files_modified": [
+        "src/godot-game/assets/buildings/defenses.png",
+        "src/godot-game/content/packs/defenses.json",
+        "production/phase4/defenses.zip",
+        "tools/phase4/cases/defenses.cjs",
+        "src/godot-game/assets/characters/structural-guard.png",
+        "src/godot-game/content/packs/guards.json",
+        "src/godot-game/content/world/defense-assemblies.json",
+        "src/godot-game/inspection/BuildingPreview.cs"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-11",
+        "04-10"
+      ]
+    },
+    {
+      "id": "04-13",
+      "wave": 17,
+      "depends_on": [
+        "04-12",
+        "04-26",
+        "04-06"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Complete authored world, portal and environmental effect inspection.",
+      "files_modified": [
+        "src/godot-game/assets/world/environment.png",
+        "src/godot-game/content/packs/world.json",
+        "src/godot-game/content/world/map.json",
+        "production/phase4/world.zip",
+        "tools/phase4/cases/world.cjs",
+        "src/godot-game/assets/effects/effects.png",
+        "src/godot-game/content/packs/effects-portals.json",
+        "src/godot-game/content/world/portal-assemblies.json",
+        "src/godot-game/inspection/WorldPreview.cs"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-12",
+        "04-26",
+        "04-06"
+      ]
+    },
+    {
+      "id": "04-14",
+      "wave": 11,
+      "depends_on": [
+        "04-05",
+        "04-26"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Native UI kit, packaged fonts and reusable theme.",
+      "files_modified": [
+        "src/godot-game/assets/ui/LiberationSans.ttf",
+        "src/godot-game/assets/ui/PerfectDOSVGA437.ttf",
+        "src/godot-game/assets/ui/Fallback.ttf",
+        "src/godot-game/content/packs/ui-kit.json",
+        "tools/phase4/cases/ui-kit.cjs",
+        "src/godot-game/assets/ui/InspectionTheme.tres",
+        "src/godot-game/inspection/Inspection.tscn",
+        "tests/phase1/ThemeLayoutTests.cs"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-05",
+        "04-26"
+      ]
+    },
+    {
+      "id": "04-15",
+      "wave": 16,
+      "depends_on": [
+        "04-28",
+        "04-10"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Reusable inventory, legacy, stash and target layout states.",
+      "files_modified": [
+        "src/godot-game/inspection/InventoryLayouts.cs",
+        "src/godot-game/content/ui/inventory.json",
+        "src/godot-game/content/packs/ui-inventory.json",
+        "tests/phase1/InventoryLayoutTests.cs",
+        "tools/phase4/cases/ui-inventory.cjs",
+        "src/godot-game/content/ui/legacy-stash-targets.json",
+        "src/godot-game/content/packs/ui-legacy-stash.json"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-28",
+        "04-10"
+      ]
+    },
+    {
+      "id": "04-16",
+      "wave": 19,
+      "depends_on": [
+        "04-15",
+        "04-27"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "People, economy, construction, map, rally and warning layouts.",
+      "files_modified": [
+        "src/godot-game/inspection/CampLayouts.cs",
+        "src/godot-game/content/ui/camp-panels.json",
+        "src/godot-game/content/packs/ui-camp.json",
+        "tests/phase1/CampLayoutTests.cs",
+        "tools/phase4/cases/ui-camp.cjs",
+        "src/godot-game/content/ui/map-spectator-warnings.json",
+        "src/godot-game/content/packs/ui-map-warnings.json"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-15",
+        "04-27"
+      ]
+    },
+    {
+      "id": "04-17",
+      "wave": 20,
+      "depends_on": [
+        "04-16"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Session, save, outcome, settings and error layout resources.",
+      "files_modified": [
+        "src/godot-game/inspection/SessionLayouts.cs",
+        "src/godot-game/content/ui/session-save-outcomes.json",
+        "src/godot-game/content/packs/ui-session.json",
+        "tests/phase1/SessionLayoutTests.cs",
+        "tools/phase4/cases/ui-session.cjs",
+        "src/godot-game/content/ui/settings-errors.json",
+        "src/godot-game/content/packs/ui-settings.json"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-16"
+      ]
+    },
+    {
+      "id": "04-18",
+      "wave": 11,
+      "depends_on": [
+        "04-05"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Complete run, time, survivor, item, combat and inventory baseline.",
+      "files_modified": [
+        "src/godot-game/content/config/run.json",
+        "src/godot-game/content/config/time.json",
+        "src/godot-game/content/config/survivors.json",
+        "src/godot-game/content/schema/fields-foundation.json",
+        "tools/phase4/cases/data-foundation.cjs",
+        "src/godot-game/content/config/items.json",
+        "src/godot-game/content/config/combat.json",
+        "src/godot-game/content/config/inventory.json",
+        "src/godot-game/content/schema/fields-items-combat.json"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-05"
+      ]
+    },
+    {
+      "id": "04-19",
+      "wave": 19,
+      "depends_on": [
+        "04-18",
+        "04-27"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Complete economy, food, map, structure and tower baseline.",
+      "files_modified": [
+        "src/godot-game/content/config/jobs.json",
+        "src/godot-game/content/config/food-wildlife.json",
+        "src/godot-game/content/schema/fields-economy.json",
+        "tools/phase4/cases/data-camp.cjs",
+        "src/godot-game/content/config/map-sites.json",
+        "src/godot-game/content/config/structures.json",
+        "src/godot-game/content/config/towers.json",
+        "src/godot-game/content/schema/fields-world.json"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-18",
+        "04-27"
+      ]
+    },
+    {
+      "id": "04-20",
+      "wave": 21,
+      "depends_on": [
+        "04-19",
+        "04-17"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Complete zombies, progression, portals, sessions and preferences.",
+      "files_modified": [
+        "src/godot-game/content/config/zombies.json",
+        "src/godot-game/content/config/zombie-loot.json",
+        "src/godot-game/content/config/zombie-progression.json",
+        "src/godot-game/content/schema/fields-zombies.json",
+        "tools/phase4/cases/data-campaign.cjs",
+        "src/godot-game/content/config/portals-assaults.json",
+        "src/godot-game/content/config/session-save.json",
+        "src/godot-game/content/config/presentation.json",
+        "src/godot-game/content/config/local-preferences.json"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-19",
+        "04-17"
+      ]
+    },
+    {
+      "id": "04-21",
+      "wave": 22,
+      "depends_on": [
+        "04-20",
+        "04-02",
+        "04-26",
+        "04-06",
+        "04-27"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "All 30 real sound categories and complete event-bank resources.",
+      "files_modified": [
+        "src/godot-game/assets/audio/actions.wav",
+        "src/godot-game/content/packs/audio-actions.json",
+        "production/phase4/audio-actions.zip",
+        "tools/phase4/cases/audio.cjs",
+        "src/godot-game/assets/audio/interface-ambience.wav",
+        "src/godot-game/content/packs/audio-interface-ambience.json",
+        "src/godot-game/content/audio/events.json",
+        "production/phase4/audio-interface-ambience.zip"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-20",
+        "04-26",
+        "04-06",
+        "04-27"
+      ]
+    },
+    {
+      "id": "04-22",
+      "wave": 24,
+      "depends_on": [
+        "04-29",
+        "04-17",
+        "04-26",
+        "04-06",
+        "04-27"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Complete English text, compatibility and data/text inspection.",
+      "files_modified": [
+        "src/godot-game/content/text/en.json",
+        "src/godot-game/content/text/expanded.json",
+        "src/godot-game/content/packs/text-data.json",
+        "tools/phase4/cases/text-data.cjs",
+        "docs/content/fields.md",
+        "src/godot-game/content/compatibility/appearance-layout.json",
+        "src/godot-game/content/packs/compatibility.json",
+        "src/godot-game/inspection/DataTextPreview.cs",
+        "src/godot-game/inspection/InspectionRoot.cs"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-29",
+        "04-17",
+        "04-26",
+        "04-06",
+        "04-27"
+      ]
+    },
+    {
+      "id": "04-23",
+      "wave": 25,
+      "depends_on": [
+        "04-22",
+        "04-25",
+        "04-02",
+        "04-26"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Complete source census and final exact native-policy reconciliation.",
+      "files_modified": [
+        "tools/phase4/cases/census.cjs",
+        "tools/phase4/content.cjs",
+        "tests/phase1/EngineAccessPolicy.cs",
+        "tests/phase1/ContentNativePermissionTests.cs",
+        "docs/code/visibility-exemptions.json"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-22",
+        "04-26"
+      ]
+    },
+    {
+      "id": "04-24",
+      "wave": 28,
+      "depends_on": [
+        "04-31"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Independent whole-phase review and exact prelaunch selection.",
+      "files_modified": [
+        ".planning/phases/04-asset-production/04-REVIEW.json",
+        ".planning/phases/04-asset-production/04-REVIEW.md",
+        ".planning/phases/04-asset-production/04-SELECTION.json",
+        "tools/phase4/reviewed-source.targets",
+        ".planning/phases/04-asset-production/04-REVIEW-FIXES.json"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-31"
+      ]
+    },
+    {
+      "id": "04-25",
+      "wave": 2,
+      "depends_on": [
+        "04-01"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Exact census/provenance and atomic repeatable publication.",
+      "files_modified": [
+        "tools/phase4/check.cjs",
+        "tools/phase4/content.cjs",
+        "tools/phase4/expected-obligations.json",
+        "tools/phase4/cases/provenance.cjs",
+        "src/godot-game/content/pack-index.json",
+        "docs/content/production.md"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": true,
+      "halted": false,
+      "blocked_by": []
+    },
+    {
+      "id": "04-26",
+      "wave": 8,
+      "depends_on": [
+        "04-03"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Inspection input/lifetime expansion with immediate exact native permission proofs.",
+      "files_modified": [
+        "src/godot-game/inspection/InspectionInput.cs",
+        "src/godot-game/inspection/InspectionRoot.cs",
+        "src/godot-game/inspection/InspectionShell.cs",
+        "tests/phase1/ContentInspectorTests.cs",
+        "tools/phase4/cases/hub.cjs",
+        "tests/phase1/EngineAccessPolicy.cs"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-03"
+      ]
+    },
+    {
+      "id": "04-27",
+      "wave": 18,
+      "depends_on": [
+        "04-13"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "World/item navigation, replacement and held-out preview states.",
+      "files_modified": [
+        "src/godot-game/inspection/WorldPreview.cs",
+        "src/godot-game/inspection/InspectionRoot.cs",
+        "src/godot-game/content/fixtures/world-states.json",
+        "tools/phase4/cases/world.cjs",
+        "tests/phase1/WorldInspectorTests.cs"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-13"
+      ]
+    },
+    {
+      "id": "04-28",
+      "wave": 12,
+      "depends_on": [
+        "04-14"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Canonical status/input/player symbols and retained desktop identity art.",
+      "files_modified": [
+        "src/godot-game/assets/ui/identity-symbols.png",
+        "src/godot-game/assets/ui/kingdom-zombies.ico",
+        "src/godot-game/content/packs/ui-identity.json",
+        "production/phase4/ui-identity.zip",
+        "tools/phase4/cases/ui-kit.cjs"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-14"
+      ]
+    },
+    {
+      "id": "04-29",
+      "wave": 23,
+      "depends_on": [
+        "04-21"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Native audio audition, exact current-loop ownership and backstops.",
+      "files_modified": [
+        "src/godot-game/inspection/AudioPreview.cs",
+        "src/godot-game/inspection/InspectionRoot.cs",
+        "tests/phase1/AudioPresentationTests.cs",
+        "src/godot-game/content/fixtures/audio-states.json",
+        "tools/phase4/cases/audio.cjs"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-21"
+      ]
+    },
+    {
+      "id": "04-30",
+      "wave": 26,
+      "depends_on": [
+        "04-23"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Saved scenario/evidence runner and prelaunch/acceptance validation code.",
+      "files_modified": [
+        "tools/phase4/required-cases.json",
+        "tools/phase4/evidence.cjs",
+        "tools/phase4/scenarios.cjs",
+        "tools/phase4/cases/runner.cjs",
+        ".planning/phases/04-asset-production/04-SCENARIOS.md"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-23"
+      ]
+    },
+    {
+      "id": "04-31",
+      "wave": 27,
+      "depends_on": [
+        "04-30"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Complete portable Windows inspection export and clean failure/relaunch proof.",
+      "files_modified": [
+        "tools/phase4/export.cjs",
+        "src/godot-game/content/packs/delivery.json",
+        "docs/content/README.md",
+        "docs/content/windows-inspection.md",
+        "src/godot-game/docs/README.md",
+        "tools/phase4/cases/export-portability.cjs",
+        "tools/phase4/native-observer.cjs",
+        "tools/phase4/check.cjs",
+        "tools/phase4/cases/export-profile.cjs"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-30"
+      ]
+    },
+    {
+      "id": "04-32",
+      "wave": 29,
+      "depends_on": [
+        "04-24",
+        "04-31"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Actual selected native/listening run and separate named judgments.",
+      "files_modified": [
+        ".planning/phases/04-asset-production/04-RUNS.json",
+        ".planning/phases/04-asset-production/04-LISTENING.json",
+        ".planning/phases/04-asset-production/04-JUDGMENTS.json",
+        ".planning/phases/04-asset-production/04-COSMETIC-ISSUES.md",
+        "docs/content/known-issues.md"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-24",
+        "04-31"
+      ]
+    },
+    {
+      "id": "04-33",
+      "wave": 30,
+      "depends_on": [
+        "04-32"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Exact acceptance/artifact/evidence completion reconciliation.",
+      "files_modified": [
+        ".planning/phases/04-asset-production/04-COMPLETION.json",
+        ".planning/phases/04-asset-production/04-ARTIFACTS.md",
+        ".planning/phases/04-asset-production/04-VALIDATION.md",
+        ".planning/phases/04-asset-production/04-ACCEPTANCE-COVERAGE.md",
+        ".planning/phases/04-asset-production/04-SOURCE-AUDIT.md"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": false,
+      "unresolved_dependencies": [
+        "04-32"
+      ]
+    },
+    {
+      "id": "04-34",
+      "wave": 3,
+      "depends_on": [
+        "04-25"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Clear the observed SDK-generated SCR0007 obstruction to the existing ASSET-05 exporter without weakening the rule or changing the engine/framework/configuration.",
+      "files_modified": [
+        "tools/code-rules/GeneratedLayout.cs",
+        "tests/phase1/GeneratedExportLayoutTests.cs",
+        "docs/code/generated-layout-adaptations.json",
+        "tools/phase1/required-cases.json",
+        "production/phase4/export-layout-origin.json",
+        "tools/phase4/cases/export-layout.cjs",
+        "tools/phase4/check.cjs"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": true,
+      "halted": false,
+      "blocked_by": []
+    },
+    {
+      "id": "04-35",
+      "wave": 4,
+      "depends_on": [
+        "04-34"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Create the permanent tracked delivery profile selected by the parent: an asset_inspection export feature and its qualified main-scene setting, preserving ordinary Foundation startup. This supports the existing ASSET-05 exporter, not a new product requirement or content acceptance.",
+      "files_modified": [
+        "src/godot-game/project.godot",
+        "src/godot-game/export_presets.cfg",
+        "production/phase4/export-profile.json",
+        "tools/phase4/cases/export-profile.cjs",
+        "tools/phase4/check.cjs"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": true,
+      "halted": false,
+      "blocked_by": []
+    },
+    {
+      "id": "04-36",
+      "wave": 6,
+      "depends_on": [
+        "04-02",
+        "04-25"
+      ],
+      "autonomous": true,
+      "gap_closure": false,
+      "objective": "Close the observed implementation integration gap before paused 04-03 starts. The current runner has five literal module requires and does not load the planned hub.cjs. The current schemaVersion1 index has produced/pending shards and outputs but no expected-register reference; the complete independent source register exists only under tools/phase4. Add the smallest reusable case-registration and packaged-expectation contracts so 04-03 can implement D-25/D-28 within its existing nine-file ownership.",
+      "files_modified": [
+        "tools/phase4/check.cjs",
+        "tools/phase4/case-discovery.cjs",
+        "tools/phase4/cases/integration.cjs",
+        "tools/phase4/content.cjs",
+        "src/godot-game/content/expected-obligations.json",
+        "src/godot-game/content/pack-index.json",
+        "docs/content/production.md"
+      ],
+      "files_deleted": [],
+      "agent_hint": null,
+      "task_count": 2,
+      "has_summary": false,
+      "halted": false,
+      "blocked_by": [],
+      "ready": true
+    }
+  ],
+  "waves": {
+    "1": [
+      "04-01"
+    ],
+    "2": [
+      "04-25"
+    ],
+    "3": [
+      "04-34"
+    ],
+    "4": [
+      "04-35"
+    ],
+    "5": [
+      "04-02"
+    ],
+    "6": [
+      "04-36"
+    ],
+    "7": [
+      "04-03"
+    ],
+    "8": [
+      "04-26"
+    ],
+    "9": [
+      "04-04"
+    ],
+    "10": [
+      "04-05",
+      "04-11"
+    ],
+    "11": [
+      "04-06",
+      "04-14",
+      "04-18"
+    ],
+    "12": [
+      "04-07",
+      "04-28"
+    ],
+    "13": [
+      "04-08"
+    ],
+    "14": [
+      "04-09"
+    ],
+    "15": [
+      "04-10"
+    ],
+    "16": [
+      "04-12",
+      "04-15"
+    ],
+    "17": [
+      "04-13"
+    ],
+    "18": [
+      "04-27"
+    ],
+    "19": [
+      "04-16",
+      "04-19"
+    ],
+    "20": [
+      "04-17"
+    ],
+    "21": [
+      "04-20"
+    ],
+    "22": [
+      "04-21"
+    ],
+    "23": [
+      "04-29"
+    ],
+    "24": [
+      "04-22"
+    ],
+    "25": [
+      "04-23"
+    ],
+    "26": [
+      "04-30"
+    ],
+    "27": [
+      "04-31"
+    ],
+    "28": [
+      "04-24"
+    ],
+    "29": [
+      "04-32"
+    ],
+    "30": [
+      "04-33"
+    ]
+  },
+  "incomplete": [
+    "04-03",
+    "04-04",
+    "04-05",
+    "04-06",
+    "04-07",
+    "04-08",
+    "04-09",
+    "04-10",
+    "04-11",
+    "04-12",
+    "04-13",
+    "04-14",
+    "04-15",
+    "04-16",
+    "04-17",
+    "04-18",
+    "04-19",
+    "04-20",
+    "04-21",
+    "04-22",
+    "04-23",
+    "04-24",
+    "04-26",
+    "04-27",
+    "04-28",
+    "04-29",
+    "04-30",
+    "04-31",
+    "04-32",
+    "04-33",
+    "04-36"
+  ],
+  "runnable": [
+    "04-03",
+    "04-04",
+    "04-05",
+    "04-06",
+    "04-07",
+    "04-08",
+    "04-09",
+    "04-10",
+    "04-11",
+    "04-12",
+    "04-13",
+    "04-14",
+    "04-15",
+    "04-16",
+    "04-17",
+    "04-18",
+    "04-19",
+    "04-20",
+    "04-21",
+    "04-22",
+    "04-23",
+    "04-24",
+    "04-26",
+    "04-27",
+    "04-28",
+    "04-29",
+    "04-30",
+    "04-31",
+    "04-32",
+    "04-33",
+    "04-36"
+  ],
+  "ready_plans": [
+    "04-36"
+  ],
+  "has_checkpoints": false,
+  "warning": "Found 6 plan-shaped file(s) in this phase that don't match the canonical naming convention \"{padded_phase}-{NN}-PLAN.md\" (or bare \"PLAN.md\") and were skipped: \"04-PLAN-CHECK-EXPORT-PREREQUISITE.md\", \"04-PLAN-CHECK-INSPECTION-PROFILE.md\", \"04-PLAN-CHECK-INTEGRATION-PREREQUISITE.md\", \"04-PLAN-CHECK-REVISION-1.md\", \"04-PLAN-CHECK.md\", \"04-PLAN-GRAPH.md\". Rename to the canonical form (e.g. \"01-01-PLAN.md\") so the executor can detect them. See agents/gsd-planner.md write_phase_prompt step for the full contract."
+}
+

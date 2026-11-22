@@ -1,0 +1,1041 @@
+{
+  "schemaVersion": 1,
+  "id": "world",
+  "version": 1,
+  "obligations": [
+    "BL-15",
+    "EN-01",
+    "EN-02",
+    "EN-03",
+    "EN-04",
+    "EN-05",
+    "EN-06",
+    "EN-07",
+    "EN-08",
+    "EN-09",
+    "EN-10",
+    "EN-11"
+  ],
+  "logicalPixelsPerWorldPixel": 1,
+  "designUnitPixels": 8,
+  "stylePrecedence": "D-13 LOW-RESOLUTION OVERRIDES older detailed references; nearest native pixels",
+  "atlas": {
+    "path": "res://assets/world/environment.png",
+    "size": [
+      2048,
+      1024
+    ],
+    "sha256": "a1693cfad7117592b8a40bad39b9efb4a9aee74af4995efcd6be70344bf93ca2",
+    "rgbaSha256": "a28e342dae4d3e90d0d08f55c37f7e95d7598c3404359e6006cc208cbde0e22c"
+  },
+  "parts": [
+    {
+      "key": "trunk-oak",
+      "source": "common.r.10674",
+      "sourceMember": "images/resources.assets/10674.png",
+      "sourceSha256": "dc8bc8344784b617b874ecec564653519848012872bf2f6554bf52e48824c9d0",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/trunk-oak.png",
+      "sha256": "00871aa65c8762bbb6026126b4732fa10a45940fd24b3f7b77b0a5ce922a0b92",
+      "rgbaSha256": "31277528e3c4d9d2e4515df993922c69dd47ff09dfb79dc26fb69f561f146abe",
+      "size": [
+        59,
+        120
+      ],
+      "visiblePixels": 1537,
+      "atlasRect": [
+        0,
+        0,
+        59,
+        120
+      ]
+    },
+    {
+      "key": "leaves-oak",
+      "source": "common.r.9896",
+      "sourceMember": "images/resources.assets/9896.png",
+      "sourceSha256": "6ace92bc0205d30b1ec345ec98f8d3ef4b8bc8f77df7f7947d4578b9ae578b2b",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/leaves-oak.png",
+      "sha256": "f60e8fe468f07ae738a9d7a6474b38ffc86b00365ea17f17b1a2c98a8a5e505b",
+      "rgbaSha256": "4a69a52ceb36abb8f6f8f6ac3204a976757706de858d4563e95375fad851d07a",
+      "size": [
+        94,
+        65
+      ],
+      "visiblePixels": 3316,
+      "atlasRect": [
+        61,
+        0,
+        94,
+        65
+      ]
+    },
+    {
+      "key": "trunk-birch",
+      "source": "common.r.11055",
+      "sourceMember": "images/resources.assets/11055.png",
+      "sourceSha256": "779f0e7832af71581cd151b9b10fbe3db0cf01301e1273e79be51c9341c9a54d",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/trunk-birch.png",
+      "sha256": "66cf219366304999b4cd361fa998ff25b790b97c46e1f5b4315ae0e819d6eb3d",
+      "rgbaSha256": "cd9bf62e4fd7ad133fa5b2a55c5edcf6c1cb10863f723e88db119fe0eafd17b8",
+      "size": [
+        34,
+        106
+      ],
+      "visiblePixels": 865,
+      "atlasRect": [
+        157,
+        0,
+        34,
+        106
+      ]
+    },
+    {
+      "key": "leaves-birch",
+      "source": "common.r.9118",
+      "sourceMember": "images/resources.assets/9118.png",
+      "sourceSha256": "99769c9ee6d158fd8abe084053dc71f94948f02fed9bdc71c166bedc4a023646",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/leaves-birch.png",
+      "sha256": "a273c10c355483017017649534cbe133942c1422228a6d3a7d41908392475091",
+      "rgbaSha256": "dee21663109f189b9f3318b0f506c75e67fa783b4bc0f914d7e7cdb93c4b88d0",
+      "size": [
+        90,
+        83
+      ],
+      "visiblePixels": 3755,
+      "atlasRect": [
+        193,
+        0,
+        90,
+        83
+      ]
+    },
+    {
+      "key": "stump",
+      "source": "common.r.10716",
+      "sourceMember": "images/resources.assets/10716.png",
+      "sourceSha256": "165500026305eb21a35ff90b324838069502e19f85146ebe9168ce4995d6c40f",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/stump.png",
+      "sha256": "bba83aa1735748a7b6b2c6c2fcf970d39b26223f22c4867e4ce77717c4b66ef2",
+      "rgbaSha256": "66308aaaf81b8ce0d9a5126c74d0a222433617b6d3a31f667a31b12b2c88ff68",
+      "size": [
+        29,
+        20
+      ],
+      "visiblePixels": 208,
+      "atlasRect": [
+        285,
+        0,
+        29,
+        20
+      ]
+    },
+    {
+      "key": "stump-birch",
+      "source": "common.r.10719",
+      "sourceMember": "images/resources.assets/10719.png",
+      "sourceSha256": "06dcca7a407024fc24e84bf4f4db156b54a2024ca67c251d705650a577e026f2",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/stump-birch.png",
+      "sha256": "ad39783b5001b22598e3aa53d6626f0572c949e44095175129a53c8e9b64c930",
+      "rgbaSha256": "40fb7d7be8de2b3c185bb58f2fae2af16cdda3e366a6034ac1eab43d51c477c4",
+      "size": [
+        29,
+        20
+      ],
+      "visiblePixels": 207,
+      "atlasRect": [
+        316,
+        0,
+        29,
+        20
+      ]
+    },
+    {
+      "key": "hill",
+      "source": "common.r.7982",
+      "sourceMember": "images/resources.assets/7982.png",
+      "sourceSha256": "848910b59aa24412b3615b6544d054892acf914e39de04f2030c1fe0fc463f6e",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/hill.png",
+      "sha256": "8cc4b4f05b2836cc38786b3129c23ebaa070c0197629647147d289f4b9a700be",
+      "rgbaSha256": "717dead4960aadbf82c20c0801d013724f6b9e476274f3a17cc8b07a3adf920c",
+      "size": [
+        896,
+        68
+      ],
+      "visiblePixels": 41914,
+      "atlasRect": [
+        347,
+        0,
+        896,
+        68
+      ]
+    },
+    {
+      "key": "hill-middle",
+      "source": "common.r.10121",
+      "sourceMember": "images/resources.assets/10121.png",
+      "sourceSha256": "443d57fc47dcd5b988e04d454ecbd55745ec0885a5569d3a137b8c62336f479d",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/hill-middle.png",
+      "sha256": "39fabc290aa0bb0733d63d49798880807c46deea06308ffeaae9951292488aae",
+      "rgbaSha256": "915d66f8f74af407e5e8ef1c96e2e7b47245ce8d50fbf1e2bfaa80039bb337d9",
+      "size": [
+        237,
+        46
+      ],
+      "visiblePixels": 6041,
+      "atlasRect": [
+        1245,
+        0,
+        237,
+        46
+      ]
+    },
+    {
+      "key": "cliff-edge",
+      "source": "common.r.11002",
+      "sourceMember": "images/resources.assets/11002.png",
+      "sourceSha256": "eb39c465f30fda88d19dac2afe1331297ca62e07b0f4d76de1730edd1aede327",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/cliff-edge.png",
+      "sha256": "b7450c95aa7d9f93108ea899858fe265494c13ae33d1e27a51b31c59b4d19260",
+      "rgbaSha256": "854f8fd11bd8290ccdd2a3fa74ae9c3bf4e49eb300d2162c5676c10b47fc0812",
+      "size": [
+        672,
+        163
+      ],
+      "visiblePixels": 37066,
+      "atlasRect": [
+        0,
+        122,
+        672,
+        163
+      ]
+    },
+    {
+      "key": "grass",
+      "source": "common.r.11491",
+      "sourceMember": "images/resources.assets/11491.png",
+      "sourceSha256": "b3e8de96a4c237fd57a3aebf0bc6da10dcb05edf7fabba048be291b87aac7492",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/grass.png",
+      "sha256": "41c5589780d7dffa997523b15c3a443ad3a14819136d5218806b5c754185e8f8",
+      "rgbaSha256": "b59535ff55aa34897bbeddb42423620660845ca1e5861dcf9d695dc59d474fc1",
+      "size": [
+        16,
+        32
+      ],
+      "visiblePixels": 7,
+      "atlasRect": [
+        674,
+        122,
+        16,
+        32
+      ]
+    },
+    {
+      "key": "rocks",
+      "source": "common.r.8949",
+      "sourceMember": "images/resources.assets/8949.png",
+      "sourceSha256": "41096eeef491ee99bca9771f7a34f5723333761b882348f6cbade2fcd5e46c5c",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/rocks.png",
+      "sha256": "79eaddff9ef985e1bd3c6630b821a7b4435368e9fa07445ec3d19ece777724e2",
+      "rgbaSha256": "15358f282904c0ec5802c5b7907744a102ef55858a0d8aa83364512417ced29c",
+      "size": [
+        28,
+        18
+      ],
+      "visiblePixels": 250,
+      "atlasRect": [
+        692,
+        122,
+        28,
+        18
+      ]
+    },
+    {
+      "key": "cloud",
+      "source": "common.r.8604",
+      "sourceMember": "images/resources.assets/8604.png",
+      "sourceSha256": "d899294dca575b337a7d3489699e4aa35c925eac92a7206977879a49ad3b9bbf",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/cloud.png",
+      "sha256": "2a9b9a5414c4f2885d7634b89d6e7aa59c8a81a7a7f92a6a10c54e2b2d37b5e8",
+      "rgbaSha256": "cb677657b7a55e207c36b1ad07234b51db5b104259d46d484772aba22e7adc55",
+      "size": [
+        64,
+        32
+      ],
+      "visiblePixels": 682,
+      "atlasRect": [
+        722,
+        122,
+        64,
+        32
+      ]
+    },
+    {
+      "key": "moon",
+      "source": "common.r.10266",
+      "sourceMember": "images/resources.assets/10266.png",
+      "sourceSha256": "847b5ada9c27ae8b6b2e0003d75380f4e10cf10604c0563f514fa9e92a37cea7",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/moon.png",
+      "sha256": "d412a11e13c6d34c7a7ea5acd53e132604375af03f6abe2798de9c8f55b20fb1",
+      "rgbaSha256": "deb716d570927bb412364e746794817d7f8ff8d5e3648f9a271fd63dad889d9d",
+      "size": [
+        42,
+        42
+      ],
+      "visiblePixels": 1224,
+      "atlasRect": [
+        788,
+        122,
+        42,
+        42
+      ]
+    },
+    {
+      "key": "banner-pole",
+      "source": "common.r.10173",
+      "sourceMember": "images/resources.assets/10173.png",
+      "sourceSha256": "f48df6f5d59494bda7f67d57461a00fed4c1d9d80afcc87c76d876a608ef4101",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/banner-pole.png",
+      "sha256": "c514748b25420d4fee561ff1005575140a5add804be018dc7b707d887a8b522c",
+      "rgbaSha256": "aac45a3cecb1e8f82110fce3bf2044e54732be79943a1b14b7068a176caea5c5",
+      "size": [
+        26,
+        70
+      ],
+      "visiblePixels": 245,
+      "atlasRect": [
+        832,
+        122,
+        26,
+        70
+      ]
+    },
+    {
+      "key": "banner-0",
+      "source": "common.s0.18126",
+      "sourceMember": "images/sharedassets0.assets/18126.png",
+      "sourceSha256": "4f3571b1de2853bf41a3bc6901723941df52598037b66fa4119a2b1f8e96c636",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/banner-0.png",
+      "sha256": "598fd6b255a41c59c056874080b9121a07dcb1fd5e41a58f78789679cfd13bb9",
+      "rgbaSha256": "df09d9e96fa9212aaec2d9331335971d57ac45f64aae8ae4a603b377fba7b067",
+      "size": [
+        24,
+        28
+      ],
+      "visiblePixels": 117,
+      "atlasRect": [
+        860,
+        122,
+        24,
+        28
+      ]
+    },
+    {
+      "key": "banner-1",
+      "source": "common.s0.17383",
+      "sourceMember": "images/sharedassets0.assets/17383.png",
+      "sourceSha256": "aca5f2e2a133cbf873801c7073a193ecc030bdcbceb96461f8cf07db16b35101",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/banner-1.png",
+      "sha256": "ccb3a927c0ded9eee176f97ccbe4460491fc938594b789184184b1dbb7ae9154",
+      "rgbaSha256": "59516b0fdb09946de9dfbee683f092b2eb6c8f609b92a133ff49f06cf70f6b11",
+      "size": [
+        24,
+        28
+      ],
+      "visiblePixels": 122,
+      "atlasRect": [
+        886,
+        122,
+        24,
+        28
+      ]
+    },
+    {
+      "key": "banner-2",
+      "source": "common.s0.5802",
+      "sourceMember": "images/sharedassets0.assets/5802.png",
+      "sourceSha256": "cb69d83b6b988690c6e12d8038b04b1746fc7315b53758ff02bc48d6fdecad4b",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/banner-2.png",
+      "sha256": "ceb8baa31cfacd26340194212f6898e8e73353f8948702454e7a21c6d65bfdb9",
+      "rgbaSha256": "183f2035939691dd9cca244385304e553f306b3d96472d4e3c3f9ec516fe6738",
+      "size": [
+        24,
+        28
+      ],
+      "visiblePixels": 119,
+      "atlasRect": [
+        912,
+        122,
+        24,
+        28
+      ]
+    },
+    {
+      "key": "banner-3",
+      "source": "common.s0.4447",
+      "sourceMember": "images/sharedassets0.assets/4447.png",
+      "sourceSha256": "98cb086f048ed51334a0a5612d19262469246c44a010d15eaeeddc38c76d6440",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/banner-3.png",
+      "sha256": "7ab52e77acabe82cafe0a271d7cc81d5676c1d2a96548f5d61293ac559998c29",
+      "rgbaSha256": "8e63c186fc78e6862c3ca103639af3d7f434137b433650e19379b725479f136a",
+      "size": [
+        24,
+        28
+      ],
+      "visiblePixels": 114,
+      "atlasRect": [
+        938,
+        122,
+        24,
+        28
+      ]
+    },
+    {
+      "key": "banner-4",
+      "source": "common.s0.6298",
+      "sourceMember": "images/sharedassets0.assets/6298.png",
+      "sourceSha256": "b0c921b2bc0e5ff8f9d3a9895d5f14f456f900d4c4587a636e9e2568bcc4ec7f",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/banner-4.png",
+      "sha256": "e1c70c32ca12bd4e7f47ce147f72c50978e52e258e2b560b81fd5de27af83105",
+      "rgbaSha256": "3c37a37f604c004798e1ee7c1935235879c87b9aa6ffa4d7d0deca185a69e1c0",
+      "size": [
+        24,
+        28
+      ],
+      "visiblePixels": 110,
+      "atlasRect": [
+        964,
+        122,
+        24,
+        28
+      ]
+    },
+    {
+      "key": "banner-5",
+      "source": "common.s0.3167",
+      "sourceMember": "images/sharedassets0.assets/3167.png",
+      "sourceSha256": "1466d55a8afa9c4cf7f7083d4bba12497bbdc05b5dcb564a8c4180951e39743e",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/banner-5.png",
+      "sha256": "457c917a8e2e43b02c3d76b11dfc74ae0e04b0dafdba560699819717e69fa1ef",
+      "rgbaSha256": "db6a5fdc9e9cf370bd27114fa4cab45412f0a30bb27179c2329698cfa6f95676",
+      "size": [
+        24,
+        28
+      ],
+      "visiblePixels": 119,
+      "atlasRect": [
+        990,
+        122,
+        24,
+        28
+      ]
+    },
+    {
+      "key": "tree-mark",
+      "source": "common.s0.7705",
+      "sourceMember": "images/sharedassets0.assets/7705.png",
+      "sourceSha256": "1f4ae9ece547efc8cfe6e8d9d3926992a05dbdc783a7f78b348b2613662072f3",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/tree-mark.png",
+      "sha256": "4d9cee0c29c3c581b98b5a2c7e1f3e4df36d674d9b4a90dd8b584848aa4de71b",
+      "rgbaSha256": "b1fcc110538f16632d74bad2729891d61a4b48cfc9eba2d16ea3947f6ecbf9c6",
+      "size": [
+        10,
+        12
+      ],
+      "visiblePixels": 29,
+      "atlasRect": [
+        1016,
+        122,
+        10,
+        12
+      ]
+    },
+    {
+      "key": "portal-map",
+      "source": "common.s0.6949",
+      "sourceMember": "images/sharedassets0.assets/6949.png",
+      "sourceSha256": "fe20a4620bdef6f2ea329eea885ee236b1c7228b9b55db8d142ada50ade34ed0",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/portal-map.png",
+      "sha256": "95662dc4dc52ee30f9d248b74e5c61a8cd2595890e69b0aa24b6cb655001e965",
+      "rgbaSha256": "01c6aa23bd0decfea7fd2128984e45b6ea18c12b7050bada331f455f3bf67047",
+      "size": [
+        15,
+        12
+      ],
+      "visiblePixels": 123,
+      "atlasRect": [
+        1028,
+        122,
+        15,
+        12
+      ]
+    },
+    {
+      "key": "portal-map-ruin",
+      "source": "common.s0.7692",
+      "sourceMember": "images/sharedassets0.assets/7692.png",
+      "sourceSha256": "d5543cefbb08e5aaed628d8b86a98af0c556269ca164b9787a791c7af511eadf",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/portal-map-ruin.png",
+      "sha256": "bedb72233e701cb730b580bc014826a0dbbc8a9515903a00b7093acd067ab3b8",
+      "rgbaSha256": "d98f911e07499defde786f61fe029088d96b0c688a032ab4d2e21cc66e9fe6ce",
+      "size": [
+        15,
+        12
+      ],
+      "visiblePixels": 66,
+      "atlasRect": [
+        1045,
+        122,
+        15,
+        12
+      ]
+    },
+    {
+      "key": "camp-map",
+      "source": "common.s0.7907",
+      "sourceMember": "images/sharedassets0.assets/7907.png",
+      "sourceSha256": "cff1e59f7dbef11c830a833aff3e21a1de72241bf4187d3fb89ba6a433f308da",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/camp-map.png",
+      "sha256": "beab19c4f79dde2e40e3b9a0418e8285b54b8b9e46a5ec4c8f892c6025b9d9a7",
+      "rgbaSha256": "fd869afdd30f72e03589a82d67bc5be337b35c83009a20fb9d560d793902a5e0",
+      "size": [
+        13,
+        11
+      ],
+      "visiblePixels": 77,
+      "atlasRect": [
+        1062,
+        122,
+        13,
+        11
+      ]
+    },
+    {
+      "key": "pointer-map",
+      "source": "common.s0.7540",
+      "sourceMember": "images/sharedassets0.assets/7540.png",
+      "sourceSha256": "a1b1662ea64e32a89592d0372f31e85a0f1cf8fb9dea78240e5f2d7700f5d794",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/pointer-map.png",
+      "sha256": "0953e4aafc21a77f06008d8dc4c160df59f805d15c57a4b4aec0e25fbb75c728",
+      "rgbaSha256": "27ab29ee5b76a0651ea033563766d6c246cc6a30b4af39712e6d2d11f4912e9c",
+      "size": [
+        18,
+        32
+      ],
+      "visiblePixels": 253,
+      "atlasRect": [
+        1077,
+        122,
+        18,
+        32
+      ]
+    },
+    {
+      "key": "rabbit",
+      "source": "common.r.9243",
+      "sourceMember": "images/resources.assets/9243.png",
+      "sourceSha256": "580c4ebff6b1958b39fe9cc7a38152281b26e531c1c79910770a17f4575661de",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/rabbit.png",
+      "sha256": "be0e51737a014fd9d18617a92f640dbe25583b57035e00318767e8525c45d8d7",
+      "rgbaSha256": "2d92b8750ee012b32cd8295d6801e55a484921f053c5a4b630f29b7207cb5202",
+      "size": [
+        16,
+        16
+      ],
+      "visiblePixels": 84,
+      "atlasRect": [
+        1097,
+        122,
+        16,
+        16
+      ]
+    },
+    {
+      "key": "deer",
+      "source": "common.r.8557",
+      "sourceMember": "images/resources.assets/8557.png",
+      "sourceSha256": "3b0ba9d2b8ac04572b740dd0685274cb378aff088a0378d50d224e86755a51c8",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/deer.png",
+      "sha256": "3b4025e5b96f3698df1ace62cfb0c6601707c2e65bbb7a7e102eff897224024c",
+      "rgbaSha256": "ebe2ae2acdecc57432e8f6e2984020913c51a02f3a78e3a15955309bc3dbbafc",
+      "size": [
+        35,
+        31
+      ],
+      "visiblePixels": 280,
+      "atlasRect": [
+        1115,
+        122,
+        35,
+        31
+      ]
+    },
+    {
+      "key": "portal-back",
+      "source": "common.s0.7865",
+      "sourceMember": "images/sharedassets0.assets/7865.png",
+      "sourceSha256": "485a17f6df5253ce1d951f5fd41c3e93ed8c457d97087d918d68f692c58d37e8",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/portal-back.png",
+      "sha256": "f570663353cef8f0f0038360177db407fcd98a0c11b3f6658891879c75649c59",
+      "rgbaSha256": "604f35970bad99cdf83d5a84d5700ef6ae8bf0b8cf8e557b9ced4a83ad50436c",
+      "size": [
+        45,
+        70
+      ],
+      "visiblePixels": 1754,
+      "atlasRect": [
+        1152,
+        122,
+        45,
+        70
+      ]
+    },
+    {
+      "key": "portal-front",
+      "source": "common.s0.8291",
+      "sourceMember": "images/sharedassets0.assets/8291.png",
+      "sourceSha256": "db7accac7491db2a9d1aa1a1e0860bc820cabcff89012f240055cb3936655a36",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/portal-front.png",
+      "sha256": "3db09a9c791dded63626e769957e2a32f2bb0b86dc0e1f28945a1fcf3a938f54",
+      "rgbaSha256": "e1ff7f5ef6e6b370763465d4b5c58fd9f822962841d17f03eabbe3a3b0ed5785",
+      "size": [
+        49,
+        70
+      ],
+      "visiblePixels": 1595,
+      "atlasRect": [
+        1199,
+        122,
+        49,
+        70
+      ]
+    },
+    {
+      "key": "berry-base",
+      "source": "common.r.9480",
+      "sourceMember": "images/resources.assets/9480.png",
+      "sourceSha256": "97c06b7ac308fe95d29cce8a6532ce1490d742e39efb451c96d534c3fe3d0bf4",
+      "crop": [
+        0,
+        0,
+        30,
+        20
+      ],
+      "nearestSize": null,
+      "member": "parts/berry-base.png",
+      "sha256": "382535a29ecbbd91e41e609cf90a0e46cf9e8947a80f19dc5eb30af7629c38d1",
+      "rgbaSha256": "09c6434e8efeb47788bcd0d465c44a43f87d17b306167c4e6214d69c18661949",
+      "size": [
+        30,
+        20
+      ],
+      "visiblePixels": 382,
+      "atlasRect": [
+        1250,
+        122,
+        30,
+        20
+      ]
+    },
+    {
+      "key": "fruit-base",
+      "source": "common.r.11222",
+      "sourceMember": "images/resources.assets/11222.png",
+      "sourceSha256": "1a9bd54a0ec554154fbc22f69acaa660be0062d4a2a25301d97f42b929672cb7",
+      "crop": [
+        0,
+        0,
+        96,
+        104
+      ],
+      "nearestSize": null,
+      "member": "parts/fruit-base.png",
+      "sha256": "d0774d025d79c61e058d1ead48b7ca7003a6ac68dd00663f5a2d026b1ed63aec",
+      "rgbaSha256": "0653d69ffcc55d40301f88ff0e6a32cc6e4db206157d2af30273ad0c31b6044a",
+      "size": [
+        96,
+        104
+      ],
+      "visiblePixels": 3502,
+      "atlasRect": [
+        1282,
+        122,
+        96,
+        104
+      ]
+    },
+    {
+      "key": "fruit-front",
+      "source": "common.r.9468",
+      "sourceMember": "images/resources.assets/9468.png",
+      "sourceSha256": "6a191441a5a75912239d91d361122ff079451e9ddc16b396215388bc4b7a2d7c",
+      "crop": [
+        0,
+        0,
+        76,
+        11
+      ],
+      "nearestSize": null,
+      "member": "parts/fruit-front.png",
+      "sha256": "96e440ae3cae654564e8f4a33793448d332252e14271d0278175159e208aada8",
+      "rgbaSha256": "10c13275d90e34357d8b5aee9bb5155975ede5ed95735a59d3f9e572b417b793",
+      "size": [
+        76,
+        11
+      ],
+      "visiblePixels": 271,
+      "atlasRect": [
+        1380,
+        122,
+        76,
+        11
+      ]
+    },
+    {
+      "key": "fruit-stock",
+      "source": "common.r.9204",
+      "sourceMember": "images/resources.assets/9204.png",
+      "sourceSha256": "9991d77d5c1f74665189dc24a90e6a958998563c0deee74d38db264741bdfdda",
+      "crop": [
+        0,
+        0,
+        90,
+        74
+      ],
+      "nearestSize": null,
+      "member": "parts/fruit-stock.png",
+      "sha256": "26d7ac9b9a1bce7f12fc1b51f922f6204b3fafc38fde5b320a8c79b46b345997",
+      "rgbaSha256": "9b319b556d6aa3b889b0eb48edb888cd3e5168cdfe54d8878aa8cad430fc3e8e",
+      "size": [
+        90,
+        74
+      ],
+      "visiblePixels": 74,
+      "atlasRect": [
+        1458,
+        122,
+        90,
+        74
+      ]
+    },
+    {
+      "key": "fruit-front-stock",
+      "source": "common.r.8203",
+      "sourceMember": "images/resources.assets/8203.png",
+      "sourceSha256": "50a17c9529b9ca99d81dd8dc5ed8c9eb88b2b609eef5d0b533b50b160866fca7",
+      "crop": [
+        0,
+        0,
+        41,
+        8
+      ],
+      "nearestSize": null,
+      "member": "parts/fruit-front-stock.png",
+      "sha256": "c1534dddb58ac7098d2e063e239acfd359b5844cb562c1c650ef22b9edd3caf5",
+      "rgbaSha256": "3bbd7beb373b056f129a852a4f168eebb4b142ac588b45d42e56b4edffeebe5f",
+      "size": [
+        41,
+        8
+      ],
+      "visiblePixels": 30,
+      "atlasRect": [
+        1550,
+        122,
+        41,
+        8
+      ]
+    },
+    {
+      "key": "berry-stock-0",
+      "source": "common.r.10311",
+      "sourceMember": "images/resources.assets/10311.png",
+      "sourceSha256": "0338fea5c5b5156da487a8a150683bc50ec8c8728349fce9c25d9ab0135e2ac4",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/berry-stock-0.png",
+      "sha256": "f8914c74cdb69c1864135806555d805eab0088f6e115f76f270201cf76efc317",
+      "rgbaSha256": "f7e66d2015ab1325ae3c51c45d671defe7b0e1b27a021ee53508205055f82ec5",
+      "size": [
+        22,
+        16
+      ],
+      "visiblePixels": 36,
+      "atlasRect": [
+        1593,
+        122,
+        22,
+        16
+      ]
+    },
+    {
+      "key": "berry-stock-1",
+      "source": "common.r.11340",
+      "sourceMember": "images/resources.assets/11340.png",
+      "sourceSha256": "076515d9485bd54a1226a0a0fd37074fd82dd21d4200dcc30bf05ddbd1f0e6d5",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/berry-stock-1.png",
+      "sha256": "68f1464de28199c00a7b50c602120617e8f636dd3534b1a5120a09b1d06c969b",
+      "rgbaSha256": "c5f01786fa325ac57d4fe085fe78937fe2e8820ab73adf1c85a7dad43485a590",
+      "size": [
+        16,
+        10
+      ],
+      "visiblePixels": 24,
+      "atlasRect": [
+        1617,
+        122,
+        16,
+        10
+      ]
+    },
+    {
+      "key": "berry-stock-2",
+      "source": "common.r.10475",
+      "sourceMember": "images/resources.assets/10475.png",
+      "sourceSha256": "3465a3105fa1a2540107f6d9858e0bb68dd3120b715cf9b63df44e5942735787",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/berry-stock-2.png",
+      "sha256": "5acf2d5bb3a01a5df61a037a62c3eabfe3e5567a7aa838dded6478b94d18a0da",
+      "rgbaSha256": "7ecb7e68feb927de1db2f675ef059d6a005419e5f5697a1e75e10acc7482d541",
+      "size": [
+        22,
+        14
+      ],
+      "visiblePixels": 32,
+      "atlasRect": [
+        1635,
+        122,
+        22,
+        14
+      ]
+    },
+    {
+      "key": "berry-stock-3",
+      "source": "common.r.7827",
+      "sourceMember": "images/resources.assets/7827.png",
+      "sourceSha256": "6cd18c6c0fe911b1708fa8a76843552ae1330e355f72cb0c9ffc2786bc403f0c",
+      "crop": null,
+      "nearestSize": null,
+      "member": "parts/berry-stock-3.png",
+      "sha256": "2f158c9974a4a3860897908710f8c17e11d58c211b647e92d1f8074c266029ba",
+      "rgbaSha256": "6fd28687fed292a2b31cd099922889fcb500b406adb8c82fd9ac3484a8787895",
+      "size": [
+        20,
+        14
+      ],
+      "visiblePixels": 28,
+      "atlasRect": [
+        1659,
+        122,
+        20,
+        14
+      ]
+    },
+    {
+      "key": "ground",
+      "source": "generated.environment",
+      "sourceMember": "masters/environment.png",
+      "sourceSha256": "70dd1b7f6e1e7460507f8f8cfacffbc9f2abd4042ad8a95826f56477f95c0338",
+      "crop": [
+        0,
+        0,
+        640,
+        640
+      ],
+      "nearestSize": [
+        128,
+        48
+      ],
+      "member": "parts/ground.png",
+      "sha256": "2de6eca7ef0dfedf101395c13c91963b9bfb88c42c250679bb814a025e6d03ba",
+      "rgbaSha256": "f0c25ebe98ea7f69cae3abd0d82c32bc06a0c81035183a79ff82f942382dfae4",
+      "size": [
+        128,
+        48
+      ],
+      "visiblePixels": 5605,
+      "atlasRect": [
+        1681,
+        122,
+        128,
+        48
+      ]
+    },
+    {
+      "key": "log",
+      "source": "generated.environment",
+      "sourceMember": "masters/environment.png",
+      "sourceSha256": "70dd1b7f6e1e7460507f8f8cfacffbc9f2abd4042ad8a95826f56477f95c0338",
+      "crop": [
+        640,
+        0,
+        1280,
+        640
+      ],
+      "nearestSize": [
+        48,
+        20
+      ],
+      "member": "parts/log.png",
+      "sha256": "86d4a1839ea85b2a1f2f671aa74ab9dec2264b0e8ad0dc83d48ca9648bf77342",
+      "rgbaSha256": "ae5cfe1950da06bd03f9f89ba078b0ddfaab9898b0c37c1b21955f8de38620b8",
+      "size": [
+        48,
+        20
+      ],
+      "visiblePixels": 465,
+      "atlasRect": [
+        1811,
+        122,
+        48,
+        20
+      ]
+    },
+    {
+      "key": "roots",
+      "source": "generated.environment",
+      "sourceMember": "masters/environment.png",
+      "sourceSha256": "70dd1b7f6e1e7460507f8f8cfacffbc9f2abd4042ad8a95826f56477f95c0338",
+      "crop": [
+        0,
+        640,
+        640,
+        1280
+      ],
+      "nearestSize": [
+        36,
+        14
+      ],
+      "member": "parts/roots.png",
+      "sha256": "5056b4a5e3c47d186c70249f3c7b6f53a10a097e9eed0c4d6fd2ccff49facbf7",
+      "rgbaSha256": "d75dc926fd1bd3088b52080f19f730fb377d5755477697665e42853ad99001ab",
+      "size": [
+        36,
+        14
+      ],
+      "visiblePixels": 159,
+      "atlasRect": [
+        1861,
+        122,
+        36,
+        14
+      ]
+    },
+    {
+      "key": "contact-shadow",
+      "source": "generated.environment",
+      "sourceMember": "masters/environment.png",
+      "sourceSha256": "70dd1b7f6e1e7460507f8f8cfacffbc9f2abd4042ad8a95826f56477f95c0338",
+      "crop": [
+        640,
+        640,
+        1280,
+        1280
+      ],
+      "nearestSize": [
+        20,
+        4
+      ],
+      "member": "parts/contact-shadow.png",
+      "sha256": "8d0d5596a32f6be91fea6f71a64929b7af4f4106471112063a3f959c78a01896",
+      "rgbaSha256": "0017f4820b6f040fd8c51c3a2548770a3abc3ec2c1e7e83b95ca7da2b082eb2d",
+      "size": [
+        20,
+        4
+      ],
+      "visiblePixels": 56,
+      "atlasRect": [
+        1899,
+        122,
+        20,
+        4
+      ]
+    }
+  ],
+  "sourceBindings": [
+    {
+      "file": "content/packs/common.json",
+      "sha256": "96a6328ef771e2418358d5bfd9d31ee1f2b34c5c785e6985884887827c0289c5"
+    }
+  ],
+  "sources": {
+    "commonBundleSha256": "2f66618305221d32d503bba04be755ae38e606408a7c5d9d8f65a1db19d9e6d9",
+    "generated": {
+      "tool": "built-in image_gen",
+      "master": "masters/environment.png",
+      "sha256": "70dd1b7f6e1e7460507f8f8cfacffbc9f2abd4042ad8a95826f56477f95c0338",
+      "prompt": "prompts/environment.txt",
+      "promptSha256": "31b75b86a21d77b80008c602b377a0d424f4948d4a9430efaac0cd83f9690f68",
+      "reference": "references/donor-board.png",
+      "reason": "K02 cliff art has no continuous walking surface; recovered kit has no selected fallen log or exposed root composition"
+    }
+  },
+  "recipe": {
+    "member": "recipes/build-world.py",
+    "sha256": "a619c71b4980d2e801573ba42ba38b1a4cd1b4421770b1316c5e6cbf72c54204"
+  },
+  "acceptance": {
+    "visual": "pending",
+    "owner": "04-32/04-33",
+    "completedObligations": []
+  }
+}

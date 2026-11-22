@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "id": "ui-camp",
+  "version": 1,
+  "sampleDataOnly": true,
+  "gameplayTransactions": false,
+  "presenter": "KingdomZombies.Inspection.CampLayouts",
+  "entry": "Open(string id)",
+  "obligations": [
+    "UI-16",
+    "UI-17",
+    "UI-18",
+    "UI-19"
+  ],
+  "bindings": [
+    {
+      "path": "content/ui/camp-panels.json",
+      "sha256": "cd6c6da2908f6feb8987e35a325dc06ddf0db343b4f9780b36b2d625eed15230"
+    },
+    {
+      "path": "content/config/items.json",
+      "sha256": "fa9bb09bfc3a999dd21349274f5010e5a653a868d4a0d0be73a46caaef226720"
+    },
+    {
+      "path": "content/world/main-assemblies.json",
+      "sha256": "8c2a51b0398edc691d071dfb11ed0f03adb30764938cc4f07eb6cfb956a1bd24"
+    },
+    {
+      "path": "content/world/defense-assemblies.json",
+      "sha256": "6bdd2955ca227e07e93b8a718d551a127443a7cbd460085f3dc4ab7d1a4ff767"
+    },
+    {
+      "path": "content/world/map.json",
+      "sha256": "18c0e87276b35c505be1d72a78ce3c40244008da91d399555725275d3724e70f"
+    },
+    {
+      "path": "content/packs/ui-identity.json",
+      "sha256": "44c50bf13b1e0cd0ec3bbfa6434cda918fb30d172ccbb1f6273df870006c307a"
+    },
+    {
+      "path": "assets/ui/InspectionTheme.tres",
+      "sha256": "b29205230d3293caa8c3c2c74c4e63348c42a28eb1bed0c1ea51d52c60ab089a"
+    },
+    {
+      "path": "assets/ui/LiberationSans.ttf",
+      "sha256": "e5b0af421ea2bfbc1ac8d251d647268087ae82786234c57f757d1f0b90fa8b49"
+    },
+    {
+      "path": "assets/ui/PerfectDOSVGA437.ttf",
+      "sha256": "ab5f7798ce9d05aa09380fce2142b11690ba3216a73208954f87c6c63a035102"
+    },
+    {
+      "path": "assets/ui/Fallback.ttf",
+      "sha256": "e5b0af421ea2bfbc1ac8d251d647268087ae82786234c57f757d1f0b90fa8b49"
+    },
+    {
+      "path": "assets/equipment/items-01-10.png",
+      "sha256": "3d8b8e3d6aa0a2e94dc3fba8b64cc54573b62031be257db76c79fa2cac53cfe9"
+    },
+    {
+      "path": "assets/equipment/items-11-24.png",
+      "sha256": "b5dafe0a20348a9b667e9eda74c4250fdcbf2ce2fffac38ab7193b19059a4219"
+    },
+    {
+      "path": "assets/common/donor-kit.png",
+      "sha256": "bf3b0b91be9b772184f034d8e681e4a8b21210cfa5197aac2c03fc773c4b88d4"
+    }
+  ],
+  "completedObligations": [],
+  "visualReview": null
+}

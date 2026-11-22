@@ -1,0 +1,3586 @@
+{
+  "schemaVersion": 1,
+  "id": "audio-interface-ambience",
+  "version": 1,
+  "status": "production-resources-listening-pending",
+  "scope": "AU16-30 actual source/variant resources; all new variants Not auditioned; native mix and loop hearing pending04-32",
+  "bank": {
+    "path": "assets/audio/interface-ambience.wav",
+    "sha256": "e61d445d30ab28d65d163ea89fcc185484b4746f35703cb2ed088f13308ba5b9",
+    "frames": 3276941,
+    "channels": 2,
+    "rate": 44100,
+    "sampleWidth": 2
+  },
+  "sources": [
+    {
+      "id": "r3254",
+      "version": 1,
+      "role": "r3254",
+      "source": {
+        "owner": "resources.assets",
+        "type": "AudioClip",
+        "objectId": 3254,
+        "name": "coin_pickup_v3",
+        "stream": {
+          "path": "resources.resource",
+          "offset": 156001728,
+          "bytes": 132704,
+          "sha256": "3f27bcbfdab70b29a0a28ded3e2a8cf5e869951e8c4c31c17dadb66f917bc405"
+        },
+        "rawObjectSha256": "c3b6dbdbb278c9d39865e11e2e4bb8ab2b650f977d71f6928e0f4ac94323663c"
+      },
+      "preservation": {
+        "manifestSha256": "38a914a53ba9e3a618e6b97942ee3ae382ade702d6ce1f04485e583b4923d31d",
+        "originalsBefore": [
+          {
+            "path": "resources.assets",
+            "bytes": 52481896,
+            "sha256": "878915bf9ed642977abf5712bb86f804c8b59c1e8651d888816813c89bace91c"
+          },
+          {
+            "path": "resources.resource",
+            "bytes": 835645856,
+            "sha256": "0c85df55f5b01645b2bfadda5efffa52bbeb1193aeb5c294c200f83cae9892ea"
+          }
+        ],
+        "originalsAfter": [
+          {
+            "path": "resources.assets",
+            "bytes": 52481896,
+            "sha256": "878915bf9ed642977abf5712bb86f804c8b59c1e8651d888816813c89bace91c"
+          },
+          {
+            "path": "resources.resource",
+            "bytes": 835645856,
+            "sha256": "0c85df55f5b01645b2bfadda5efffa52bbeb1193aeb5c294c200f83cae9892ea"
+          }
+        ],
+        "verifiedAfter": true
+      },
+      "tools": {
+        "python": "3.12.14",
+        "pythonExeSha256": "41981a311167214a5cbffeb90998ed25568b937e7aa5b6bcadeaa1faa4a45418",
+        "UnityPy": "1.23.0",
+        "Pillow": "13.0.0",
+        "pyfmodex": "0.7.2",
+        "converterSha256": "d1d83c33b33811627d02aa74e24b20b65a8087a9cfafc9afe0d05b810d3a779d",
+        "pyfmodexEntrySha256": "dd22afcedafc4b7a4da25c5ded27c9983a58f73d55a29f65c48e8784e4656efc",
+        "fmodDllSha256": "0df48f4d0be671645776cec1d1531895135b090425201ec958b2eeccceb943e2"
+      },
+      "output": {
+        "name": "coin_pickup_v3.wav",
+        "bytes": 132344,
+        "sha256": "aa35e12e49166a1b6b936c2deaf6d9a0c459516e5d31f94d77c0bd218906bbf3",
+        "pcmSha256": "9c2c1b286b1f4b3d10d29ae9d8e9900c7af392bfcd24ce549214ae078c50ef39",
+        "pcmBytes": 132300,
+        "frames": 33075,
+        "channels": 2,
+        "rate": 44100,
+        "sampleWidth": 2,
+        "seconds": 0.75,
+        "trimFrames": [
+          0,
+          33075
+        ],
+        "loop": "not-selected-or-auditioned",
+        "gainDb": 0
+      },
+      "status": {
+        "decode": "verified",
+        "listening": "blocked-needs-capable-human",
+        "productionSelection": "candidate-only",
+        "acceptanceOwner": "04-32"
+      },
+      "sourceMember": "sources/r3254/original.wav"
+    },
+    {
+      "id": "r4864",
+      "version": 1,
+      "role": "r4864",
+      "source": {
+        "owner": "resources.assets",
+        "type": "AudioClip",
+        "objectId": 4864,
+        "name": "coin_drophitgroundv2",
+        "stream": {
+          "path": "resources.resource",
+          "offset": 597401952,
+          "bytes": 45696,
+          "sha256": "0177c56261f4d19cbc03d801f1c5b9ea3524a050a883cf763773667c8ab019e1"
+        },
+        "rawObjectSha256": "a26b79bd756c195ee2bec78766f8ee6bbf906d8be6e0e3a8ce6ae1e295bb3747"
+      },
+      "preservation": {
+        "manifestSha256": "38a914a53ba9e3a618e6b97942ee3ae382ade702d6ce1f04485e583b4923d31d",
+        "originalsBefore": [
+          {
+            "path": "resources.assets",
+            "bytes": 52481896,
+            "sha256": "878915bf9ed642977abf5712bb86f804c8b59c1e8651d888816813c89bace91c"
+          },
+          {
+            "path": "resources.resource",
+            "bytes": 835645856,
+            "sha256": "0c85df55f5b01645b2bfadda5efffa52bbeb1193aeb5c294c200f83cae9892ea"
+          }
+        ],
+        "originalsAfter": [
+          {
+            "path": "resources.assets",
+            "bytes": 52481896,
+            "sha256": "878915bf9ed642977abf5712bb86f804c8b59c1e8651d888816813c89bace91c"
+          },
+          {
+            "path": "resources.resource",
+            "bytes": 835645856,
+            "sha256": "0c85df55f5b01645b2bfadda5efffa52bbeb1193aeb5c294c200f83cae9892ea"
+          }
+        ],
+        "verifiedAfter": true
+      },
+      "tools": {
+        "python": "3.12.14",
+        "pythonExeSha256": "41981a311167214a5cbffeb90998ed25568b937e7aa5b6bcadeaa1faa4a45418",
+        "UnityPy": "1.23.0",
+        "Pillow": "13.0.0",
+        "pyfmodex": "0.7.2",
+        "converterSha256": "d1d83c33b33811627d02aa74e24b20b65a8087a9cfafc9afe0d05b810d3a779d",
+        "pyfmodexEntrySha256": "dd22afcedafc4b7a4da25c5ded27c9983a58f73d55a29f65c48e8784e4656efc",
+        "fmodDllSha256": "0df48f4d0be671645776cec1d1531895135b090425201ec958b2eeccceb943e2"
+      },
+      "output": {
+        "name": "coin_drophitgroundv2.wav",
+        "bytes": 45336,
+        "sha256": "fad59f8583d637d114f2cfee5bc56c964269084e9aacfe912c879fbe5d5ab0a8",
+        "pcmSha256": "0aecbcf76bbb32b4afcc4f9f290e0a23f7e3aee67bd02990c9c5f61157fff7b7",
+        "pcmBytes": 45292,
+        "frames": 11323,
+        "channels": 2,
+        "rate": 44100,
+        "sampleWidth": 2,
+        "seconds": 0.25675736961451245,
+        "trimFrames": [
+          0,
+          11323
+        ],
+        "loop": "not-selected-or-auditioned",
+        "gainDb": 0
+      },
+      "status": {
+        "decode": "verified",
+        "listening": "blocked-needs-capable-human",
+        "productionSelection": "candidate-only",
+        "acceptanceOwner": "04-32"
+      },
+      "sourceMember": "sources/r4864/original.wav"
+    },
+    {
+      "id": "r3195",
+      "version": 1,
+      "role": "r3195",
+      "source": {
+        "owner": "resources.assets",
+        "type": "AudioClip",
+        "objectId": 3195,
+        "name": "peasant_pickupbow",
+        "stream": {
+          "path": "resources.resource",
+          "offset": 129522336,
+          "bytes": 93280,
+          "sha256": "ecb5abe4050a32a8c6200e1ceb934c4299cf885c75968aaf278bcd3e1daf5800"
+        },
+        "rawObjectSha256": "f0775e978d8c5dea0ee5778d6d05cef645160ca0046a9bed1c78d08abd321a20"
+      },
+      "preservation": {
+        "manifestSha256": "38a914a53ba9e3a618e6b97942ee3ae382ade702d6ce1f04485e583b4923d31d",
+        "originalsBefore": [
+          {
+            "path": "resources.assets",
+            "bytes": 52481896,
+            "sha256": "878915bf9ed642977abf5712bb86f804c8b59c1e8651d888816813c89bace91c"
+          },
+          {
+            "path": "resources.resource",
+            "bytes": 835645856,
+            "sha256": "0c85df55f5b01645b2bfadda5efffa52bbeb1193aeb5c294c200f83cae9892ea"
+          }
+        ],
+        "originalsAfter": [
+          {
+            "path": "resources.assets",
+            "bytes": 52481896,
+            "sha256": "878915bf9ed642977abf5712bb86f804c8b59c1e8651d888816813c89bace91c"
+          },
+          {
+            "path": "resources.resource",
+            "bytes": 835645856,
+            "sha256": "0c85df55f5b01645b2bfadda5efffa52bbeb1193aeb5c294c200f83cae9892ea"
+          }
+        ],
+        "verifiedAfter": true
+      },
+      "tools": {
+        "python": "3.12.14",
+        "pythonExeSha256": "41981a311167214a5cbffeb90998ed25568b937e7aa5b6bcadeaa1faa4a45418",
+        "UnityPy": "1.23.0",
+        "Pillow": "13.0.0",
+        "pyfmodex": "0.7.2",
+        "converterSha256": "d1d83c33b33811627d02aa74e24b20b65a8087a9cfafc9afe0d05b810d3a779d",
+        "pyfmodexEntrySha256": "dd22afcedafc4b7a4da25c5ded27c9983a58f73d55a29f65c48e8784e4656efc",
+        "fmodDllSha256": "0df48f4d0be671645776cec1d1531895135b090425201ec958b2eeccceb943e2"
+      },
+      "output": {
+        "name": "peasant_pickupbow.wav",
+        "bytes": 92928,
+        "sha256": "a0b4d70afe71a1ac9f31dee364aac5fbbf0d12af73df9b0bb2fda6e30867b53f",
+        "pcmSha256": "9fe1c5ab3eed16d96418a277fe8b1f0b7ce77170eedc938cd65c01e96e591934",
+        "pcmBytes": 92884,
+        "frames": 23221,
+        "channels": 2,
+        "rate": 44100,
+        "sampleWidth": 2,
+        "seconds": 0.5265532879818594,
+        "trimFrames": [
+          0,
+          23221
+        ],
+        "loop": "not-selected-or-auditioned",
+        "gainDb": 0
+      },
+      "status": {
+        "decode": "verified",
+        "listening": "blocked-needs-capable-human",
+        "productionSelection": "candidate-only",
+        "acceptanceOwner": "04-32"
+      },
+      "sourceMember": "sources/r3195/original.wav"
+    },
+    {
+      "id": "r3863",
+      "version": 1,
+      "role": "r3863",
+      "source": {
+        "owner": "resources.assets",
+        "type": "AudioClip",
+        "objectId": 3863,
+        "name": "peasant_pickuphammer_v2",
+        "stream": {
+          "path": "resources.resource",
+          "offset": 362514240,
+          "bytes": 51296,
+          "sha256": "02af17050d845e8beb5b99dc04ce19a6612c2307083e39ffafd625b3724b8142"
+        },
+        "rawObjectSha256": "f1516fc12f51a20a950f566fe8858c6c719e18123f252b24de99e4a994f50b43"
+      },
+      "preservation": {
+        "manifestSha256": "38a914a53ba9e3a618e6b97942ee3ae382ade702d6ce1f04485e583b4923d31d",
+        "originalsBefore": [
+          {
+            "path": "resources.assets",
+            "bytes": 52481896,
+            "sha256": "878915bf9ed642977abf5712bb86f804c8b59c1e8651d888816813c89bace91c"
+          },
+          {
+            "path": "resources.resource",
+            "bytes": 835645856,
+            "sha256": "0c85df55f5b01645b2bfadda5efffa52bbeb1193aeb5c294c200f83cae9892ea"
+          }
+        ],
+        "originalsAfter": [
+          {
+            "path": "resources.assets",
+            "bytes": 52481896,
+            "sha256": "878915bf9ed642977abf5712bb86f804c8b59c1e8651d888816813c89bace91c"
+          },
+          {
+            "path": "resources.resource",
+            "bytes": 835645856,
+            "sha256": "0c85df55f5b01645b2bfadda5efffa52bbeb1193aeb5c294c200f83cae9892ea"
+          }
+        ],
+        "verifiedAfter": true
+      },
+      "tools": {
+        "python": "3.12.14",
+        "pythonExeSha256": "41981a311167214a5cbffeb90998ed25568b937e7aa5b6bcadeaa1faa4a45418",
+        "UnityPy": "1.23.0",
+        "Pillow": "13.0.0",
+        "pyfmodex": "0.7.2",
+        "converterSha256": "d1d83c33b33811627d02aa74e24b20b65a8087a9cfafc9afe0d05b810d3a779d",
+        "pyfmodexEntrySha256": "dd22afcedafc4b7a4da25c5ded27c9983a58f73d55a29f65c48e8784e4656efc",
+        "fmodDllSha256": "0df48f4d0be671645776cec1d1531895135b090425201ec958b2eeccceb943e2"
+      },
+      "output": {
+        "name": "peasant_pickuphammer_v2.wav",
+        "bytes": 50928,
+        "sha256": "e8ed4578c8f181d449317aa8169e77e4494e6fd5fa824068d2b1121a50aff315",
+        "pcmSha256": "404f64d9ff7fa77fbb91e908005eee3517e55b762423e1015c5bd11451f58e2a",
+        "pcmBytes": 50884,
+        "frames": 12721,
+        "channels": 2,
+        "rate": 44100,
+        "sampleWidth": 2,
+        "seconds": 0.2884580498866213,
+        "trimFrames": [
+          0,
+          12721
+        ],
+        "loop": "not-selected-or-auditioned",
+        "gainDb": 0
+      },
+      "status": {
+        "decode": "verified",
+        "listening": "blocked-needs-capable-human",
+        "productionSelection": "candidate-only",
+        "acceptanceOwner": "04-32"
+      },
+      "sourceMember": "sources/r3863/original.wav"
+    },
+    {
+      "id": "r4973",
+      "version": 1,
+      "role": "r4973",
+      "source": {
+        "owner": "resources.assets",
+        "type": "AudioClip",
+        "objectId": 4973,
+        "name": "soldiercloth_paid",
+        "stream": {
+          "path": "resources.resource",
+          "offset": 611130752,
+          "bytes": 59040,
+          "sha256": "2334b009ed32441d1c71c5b4ad8023d7def8d53dc55b923c32ccaddb443db054"
+        },
+        "rawObjectSha256": "abee3e7eb5cd1ef4b864e30fcebd77ae627e05329cd188cccaafb4569573203b"
+      },
+      "preservation": {
+        "manifestSha256": "38a914a53ba9e3a618e6b97942ee3ae382ade702d6ce1f04485e583b4923d31d",
+        "originalsBefore": [
+          {
+            "path": "resources.assets",
+            "bytes": 52481896,
+            "sha256": "878915bf9ed642977abf5712bb86f804c8b59c1e8651d888816813c89bace91c"
+          },
+          {
+            "path": "resources.resource",
+            "bytes": 835645856,
+            "sha256": "0c85df55f5b01645b2bfadda5efffa52bbeb1193aeb5c294c200f83cae9892ea"
+          }
+        ],
+        "originalsAfter": [
+          {
+            "path": "resources.assets",
+            "bytes": 52481896,
+            "sha256": "878915bf9ed642977abf5712bb86f804c8b59c1e8651d888816813c89bace91c"
+          },
+          {
+            "path": "resources.resource",
+            "bytes": 835645856,
+            "sha256": "0c85df55f5b01645b2bfadda5efffa52bbeb1193aeb5c294c200f83cae9892ea"
+          }
+        ],
+        "verifiedAfter": true
+      },
+      "tools": {
+        "python": "3.12.14",
+        "pythonExeSha256": "41981a311167214a5cbffeb90998ed25568b937e7aa5b6bcadeaa1faa4a45418",
+        "UnityPy": "1.23.0",
+        "Pillow": "13.0.0",
+        "pyfmodex": "0.7.2",
+        "converterSha256": "d1d83c33b33811627d02aa74e24b20b65a8087a9cfafc9afe0d05b810d3a779d",
+        "pyfmodexEntrySha256": "dd22afcedafc4b7a4da25c5ded27c9983a58f73d55a29f65c48e8784e4656efc",
+        "fmodDllSha256": "0df48f4d0be671645776cec1d1531895135b090425201ec958b2eeccceb943e2"
+      },
+      "output": {
+        "name": "soldiercloth_paid.wav",
+        "bytes": 262188,
+        "sha256": "6c074e69db73c926a0b6d0d02bb15e17c83d783b531dfdd17065cfe62eb289c0",
+        "pcmSha256": "61d2f6c104998d99db860663d639e36f9345a4bf938986b3162e780536ff326c",
+        "pcmBytes": 262144,
+        "frames": 65536,
+        "channels": 2,
+        "rate": 44100,
+        "sampleWidth": 2,
+        "seconds": 1.486077097505669,
+        "trimFrames": [
+          0,
+          65536
+        ],
+        "loop": "not-selected-or-auditioned",
+        "gainDb": 0
+      },
+      "status": {
+        "decode": "verified",
+        "listening": "blocked-needs-capable-human",
+        "productionSelection": "candidate-only",
+        "acceptanceOwner": "04-32"
+      },
+      "sourceMember": "sources/r4973/original.wav"
+    },
+    {
+      "id": "r3755",
+      "version": 1,
+      "role": "r3755",
+      "source": {
+        "owner": "resources.assets",
+        "type": "AudioClip",
+        "objectId": 3755,
+        "name": "chest_open",
+        "stream": {
+          "path": "resources.resource",
+          "offset": 327442112,
+          "bytes": 338944,
+          "sha256": "61abec2e0c67c7fb23f5b7b8f3585ca177919fffce8720196195df93a99a1531"
+        },
+        "rawObjectSha256": "68e124d6fb1c61df9783a79a8d94afada49aff5e3e275d71913bc379bca85add"
+      },
+      "preservation": {
+        "manifestSha256": "38a914a53ba9e3a618e6b97942ee3ae382ade702d6ce1f04485e583b4923d31d",
+        "originalsBefore": [
+          {
+            "path": "resources.assets",
+            "bytes": 52481896,
+            "sha256": "878915bf9ed642977abf5712bb86f804c8b59c1e8651d888816813c89bace91c"
+          },
+          {
+            "path": "resources.resource",
+            "bytes": 835645856,
+            "sha256": "0c85df55f5b01645b2bfadda5efffa52bbeb1193aeb5c294c200f83cae9892ea"
+          }
+        ],
+        "originalsAfter": [
+          {
+            "path": "resources.assets",
+            "bytes": 52481896,
+            "sha256": "878915bf9ed642977abf5712bb86f804c8b59c1e8651d888816813c89bace91c"
+          },
+          {
+            "path": "resources.resource",
+            "bytes": 835645856,
+            "sha256": "0c85df55f5b01645b2bfadda5efffa52bbeb1193aeb5c294c200f83cae9892ea"
+          }
+        ],
+        "verifiedAfter": true
+      },
+      "tools": {
+        "python": "3.12.14",
+        "pythonExeSha256": "41981a311167214a5cbffeb90998ed25568b937e7aa5b6bcadeaa1faa4a45418",
+        "UnityPy": "1.23.0",
+        "Pillow": "13.0.0",
+        "pyfmodex": "0.7.2",
+        "converterSha256": "d1d83c33b33811627d02aa74e24b20b65a8087a9cfafc9afe0d05b810d3a779d",
+        "pyfmodexEntrySha256": "dd22afcedafc4b7a4da25c5ded27c9983a58f73d55a29f65c48e8784e4656efc",
+        "fmodDllSha256": "0df48f4d0be671645776cec1d1531895135b090425201ec958b2eeccceb943e2"
+      },
+      "output": {
+        "name": "chest_open.wav",
+        "bytes": 338604,
+        "sha256": "ccce8f9975b78d31bb6b1a062cdf15e323adad95c3608155026849325ab16dfc",
+        "pcmSha256": "686ae7f537c5e4f27dd172a8d959df0bd87da7f219b1e9815aac7a55cb5e5a7c",
+        "pcmBytes": 338560,
+        "frames": 84640,
+        "channels": 2,
+        "rate": 44100,
+        "sampleWidth": 2,
+        "seconds": 1.9192743764172335,
+        "trimFrames": [
+          0,
+          84640
+        ],
+        "loop": "not-selected-or-auditioned",
+        "gainDb": 0
+      },
+      "status": {
+        "decode": "verified",
+        "listening": "blocked-needs-capable-human",
+        "productionSelection": "candidate-only",
+        "acceptanceOwner": "04-32"
+      },
+      "sourceMember": "sources/r3755/original.wav"
+    },
+    {
+      "id": "r5586",
+      "version": 1,
+      "role": "r5586",
+      "source": {
+        "owner": "resources.assets",
+        "type": "AudioClip",
+        "objectId": 5586,
+        "name": "horn_blown_reverb",
+        "stream": {
+          "path": "resources.resource",
+          "offset": 791372960,
+          "bytes": 199424,
+          "sha256": "8838cca1be4de2b395c3312ceb2ba9bdc2ea3082c941072af29657340b338f0f"
+        },
+        "rawObjectSha256": "3ac82dc2ccddd24367135b0f5c3c90aef5dedf30b88c101a408f4f36014174b8"
+      },
+      "preservation": {
+        "manifestSha256": "38a914a53ba9e3a618e6b97942ee3ae382ade702d6ce1f04485e583b4923d31d",
+        "originalsBefore": [
+          {
+            "path": "resources.assets",
+            "bytes": 52481896,
+            "sha256": "878915bf9ed642977abf5712bb86f804c8b59c1e8651d888816813c89bace91c"
+          },
+          {
+            "path": "resources.resource",
+            "bytes": 835645856,
+            "sha256": "0c85df55f5b01645b2bfadda5efffa52bbeb1193aeb5c294c200f83cae9892ea"
+          }
+        ],
+        "originalsAfter": [
+          {
+            "path": "resources.assets",
+            "bytes": 52481896,
+            "sha256": "878915bf9ed642977abf5712bb86f804c8b59c1e8651d888816813c89bace91c"
+          },
+          {
+            "path": "resources.resource",
+            "bytes": 835645856,
+            "sha256": "0c85df55f5b01645b2bfadda5efffa52bbeb1193aeb5c294c200f83cae9892ea"
+          }
+        ],
+        "verifiedAfter": true
+      },
+      "tools": {
+        "python": "3.12.14",
+        "pythonExeSha256": "41981a311167214a5cbffeb90998ed25568b937e7aa5b6bcadeaa1faa4a45418",
+        "UnityPy": "1.23.0",
+        "Pillow": "13.0.0",
+        "pyfmodex": "0.7.2",
+        "converterSha256": "d1d83c33b33811627d02aa74e24b20b65a8087a9cfafc9afe0d05b810d3a779d",
+        "pyfmodexEntrySha256": "dd22afcedafc4b7a4da25c5ded27c9983a58f73d55a29f65c48e8784e4656efc",
+        "fmodDllSha256": "0df48f4d0be671645776cec1d1531895135b090425201ec958b2eeccceb943e2"
+      },
+      "output": {
+        "name": "horn_blown_reverb.wav",
+        "bytes": 793844,
+        "sha256": "8d7d59cc8ba016896645c6cb826b4b4d87296664748596dcf5aab9d66bcb073c",
+        "pcmSha256": "7a66b5f88852cd0b6b56824521ef3d5c41d830f203d269326323811a719136f5",
+        "pcmBytes": 793800,
+        "frames": 198450,
+        "channels": 2,
+        "rate": 44100,
+        "sampleWidth": 2,
+        "seconds": 4.5,
+        "trimFrames": [
+          0,
+          198450
+        ],
+        "loop": "not-selected-or-auditioned",
+        "gainDb": 0
+      },
+      "status": {
+        "decode": "verified",
+        "listening": "blocked-needs-capable-human",
+        "productionSelection": "candidate-only",
+        "acceptanceOwner": "04-32"
+      },
+      "sourceMember": "sources/r5586/original.wav"
+    },
+    {
+      "id": "r3558",
+      "version": 1,
+      "role": "r3558",
+      "source": {
+        "owner": "resources.assets",
+        "type": "AudioClip",
+        "objectId": 3558,
+        "name": "env_portalnormal",
+        "stream": {
+          "path": "resources.resource",
+          "offset": 252526976,
+          "bytes": 989728,
+          "sha256": "d3536b370d9324265e42fac1c64428c92ced4fe5c1778e324db1b35bcf3c6a34"
+        },
+        "rawObjectSha256": "0f09e7f9b430d695a1bfa4fff40a2fcf5ba028c93501e8ff2d5eb4c76762824d"
+      },
+      "preservation": {
+        "manifestSha256": "38a914a53ba9e3a618e6b97942ee3ae382ade702d6ce1f04485e583b4923d31d",
+        "originalsBefore": [
+          {
+            "path": "resources.assets",
+            "bytes": 52481896,
+            "sha256": "878915bf9ed642977abf5712bb86f804c8b59c1e8651d888816813c89bace91c"
+          },
+          {
+            "path": "resources.resource",
+            "bytes": 835645856,
+            "sha256": "0c85df55f5b01645b2bfadda5efffa52bbeb1193aeb5c294c200f83cae9892ea"
+          }
+        ],
+        "originalsAfter": [
+          {
+            "path": "resources.assets",
+            "bytes": 52481896,
+            "sha256": "878915bf9ed642977abf5712bb86f804c8b59c1e8651d888816813c89bace91c"
+          },
+          {
+            "path": "resources.resource",
+            "bytes": 835645856,
+            "sha256": "0c85df55f5b01645b2bfadda5efffa52bbeb1193aeb5c294c200f83cae9892ea"
+          }
+        ],
+        "verifiedAfter": true
+      },
+      "tools": {
+        "python": "3.12.14",
+        "pythonExeSha256": "41981a311167214a5cbffeb90998ed25568b937e7aa5b6bcadeaa1faa4a45418",
+        "UnityPy": "1.23.0",
+        "Pillow": "13.0.0",
+        "pyfmodex": "0.7.2",
+        "converterSha256": "d1d83c33b33811627d02aa74e24b20b65a8087a9cfafc9afe0d05b810d3a779d",
+        "pyfmodexEntrySha256": "dd22afcedafc4b7a4da25c5ded27c9983a58f73d55a29f65c48e8784e4656efc",
+        "fmodDllSha256": "0df48f4d0be671645776cec1d1531895135b090425201ec958b2eeccceb943e2"
+      },
+      "output": {
+        "name": "env_portalnormal.wav",
+        "bytes": 3152724,
+        "sha256": "8ed8df0a59ad923ed3916ea83844609240e625276dc5e155c14a385762606be0",
+        "pcmSha256": "052113acf3e221d57d3622ef856db19034ee5b846cf04ccbe5ed53abad52dea9",
+        "pcmBytes": 3152680,
+        "frames": 788170,
+        "channels": 2,
+        "rate": 44100,
+        "sampleWidth": 2,
+        "seconds": 17.87233560090703,
+        "trimFrames": [
+          0,
+          788170
+        ],
+        "loop": "not-selected-or-auditioned",
+        "gainDb": 0
+      },
+      "status": {
+        "decode": "verified",
+        "listening": "blocked-needs-capable-human",
+        "productionSelection": "candidate-only",
+        "acceptanceOwner": "04-32"
+      },
+      "sourceMember": "sources/r3558/original.wav"
+    },
+    {
+      "id": "r2860",
+      "version": 1,
+      "role": "r2860",
+      "source": {
+        "owner": "resources.assets",
+        "type": "AudioClip",
+        "objectId": 2860,
+        "name": "sfx_ruler_heimdall_special_portal_open",
+        "stream": {
+          "path": "resources.resource",
+          "offset": 28906272,
+          "bytes": 24672,
+          "sha256": "8d7c574ad1be68d1075b8d9156d360ee0ddd1db44b96b456b5f6d9d73c514adf"
+        },
+        "rawObjectSha256": "62f05252bf365959e57928768b8aa43ddc7fb23a0404e4934acc6fd1fe3ac502"
+      },
+      "preservation": {
+        "manifestSha256": "38a914a53ba9e3a618e6b97942ee3ae382ade702d6ce1f04485e583b4923d31d",
+        "originalsBefore": [
+          {
+            "path": "resources.assets",
+            "bytes": 52481896,
+            "sha256": "878915bf9ed642977abf5712bb86f804c8b59c1e8651d888816813c89bace91c"
+          },
+          {
+            "path": "resources.resource",
+            "bytes": 835645856,
+            "sha256": "0c85df55f5b01645b2bfadda5efffa52bbeb1193aeb5c294c200f83cae9892ea"
+          }
+        ],
+        "originalsAfter": [
+          {
+            "path": "resources.assets",
+            "bytes": 52481896,
+            "sha256": "878915bf9ed642977abf5712bb86f804c8b59c1e8651d888816813c89bace91c"
+          },
+          {
+            "path": "resources.resource",
+            "bytes": 835645856,
+            "sha256": "0c85df55f5b01645b2bfadda5efffa52bbeb1193aeb5c294c200f83cae9892ea"
+          }
+        ],
+        "verifiedAfter": true
+      },
+      "tools": {
+        "python": "3.12.14",
+        "pythonExeSha256": "41981a311167214a5cbffeb90998ed25568b937e7aa5b6bcadeaa1faa4a45418",
+        "UnityPy": "1.23.0",
+        "Pillow": "13.0.0",
+        "pyfmodex": "0.7.2",
+        "converterSha256": "d1d83c33b33811627d02aa74e24b20b65a8087a9cfafc9afe0d05b810d3a779d",
+        "pyfmodexEntrySha256": "dd22afcedafc4b7a4da25c5ded27c9983a58f73d55a29f65c48e8784e4656efc",
+        "fmodDllSha256": "0df48f4d0be671645776cec1d1531895135b090425201ec958b2eeccceb943e2"
+      },
+      "output": {
+        "name": "sfx_ruler_heimdall_special_portal_open.wav",
+        "bytes": 231568,
+        "sha256": "eca5a997c9a3ad2775cf99c4b80259af9eef59830b4dc35ac8f489467d3f0761",
+        "pcmSha256": "830416734ff90ab13ec60b2564d7fcc08149bca3d7d6016f9266f84e3ecba8bf",
+        "pcmBytes": 231524,
+        "frames": 115762,
+        "channels": 1,
+        "rate": 44100,
+        "sampleWidth": 2,
+        "seconds": 2.6249886621315195,
+        "trimFrames": [
+          0,
+          115762
+        ],
+        "loop": "not-selected-or-auditioned",
+        "gainDb": 0
+      },
+      "status": {
+        "decode": "verified",
+        "listening": "blocked-needs-capable-human",
+        "productionSelection": "candidate-only",
+        "acceptanceOwner": "04-32"
+      },
+      "sourceMember": "sources/r2860/original.wav"
+    },
+    {
+      "id": "r5582",
+      "version": 1,
+      "role": "r5582",
+      "source": {
+        "owner": "resources.assets",
+        "type": "AudioClip",
+        "objectId": 5582,
+        "name": "sfx_ruler_heimdall_special_portal_close",
+        "stream": {
+          "path": "resources.resource",
+          "offset": 789694496,
+          "bytes": 9888,
+          "sha256": "8509cd48a729e588fb40961484a952fe72a9608aeb6e9743a98a76dd3619980a"
+        },
+        "rawObjectSha256": "d07dc36ff473abd7ac46a60e2575459c3b4934bea70ed9a6d9b018cd2e2827c2"
+      },
+      "preservation": {
+        "manifestSha256": "38a914a53ba9e3a618e6b97942ee3ae382ade702d6ce1f04485e583b4923d31d",
+        "originalsBefore": [
+          {
+            "path": "resources.assets",
+            "bytes": 52481896,
+            "sha256": "878915bf9ed642977abf5712bb86f804c8b59c1e8651d888816813c89bace91c"
+          },
+          {
+            "path": "resources.resource",
+            "bytes": 835645856,
+            "sha256": "0c85df55f5b01645b2bfadda5efffa52bbeb1193aeb5c294c200f83cae9892ea"
+          }
+        ],
+        "originalsAfter": [
+          {
+            "path": "resources.assets",
+            "bytes": 52481896,
+            "sha256": "878915bf9ed642977abf5712bb86f804c8b59c1e8651d888816813c89bace91c"
+          },
+          {
+            "path": "resources.resource",
+            "bytes": 835645856,
+            "sha256": "0c85df55f5b01645b2bfadda5efffa52bbeb1193aeb5c294c200f83cae9892ea"
+          }
+        ],
+        "verifiedAfter": true
+      },
+      "tools": {
+        "python": "3.12.14",
+        "pythonExeSha256": "41981a311167214a5cbffeb90998ed25568b937e7aa5b6bcadeaa1faa4a45418",
+        "UnityPy": "1.23.0",
+        "Pillow": "13.0.0",
+        "pyfmodex": "0.7.2",
+        "converterSha256": "d1d83c33b33811627d02aa74e24b20b65a8087a9cfafc9afe0d05b810d3a779d",
+        "pyfmodexEntrySha256": "dd22afcedafc4b7a4da25c5ded27c9983a58f73d55a29f65c48e8784e4656efc",
+        "fmodDllSha256": "0df48f4d0be671645776cec1d1531895135b090425201ec958b2eeccceb943e2"
+      },
+      "output": {
+        "name": "sfx_ruler_heimdall_special_portal_close.wav",
+        "bytes": 81308,
+        "sha256": "9c48678948b13758ee019283b44753b4c4f2e074bd87737da5f64b821d1d307e",
+        "pcmSha256": "ccc38f2c425c18b507ef00a9590f88dbf6a926f78924ae790568f14b3e74d2dd",
+        "pcmBytes": 81264,
+        "frames": 40632,
+        "channels": 1,
+        "rate": 44100,
+        "sampleWidth": 2,
+        "seconds": 0.9213605442176871,
+        "trimFrames": [
+          0,
+          40632
+        ],
+        "loop": "not-selected-or-auditioned",
+        "gainDb": 0
+      },
+      "status": {
+        "decode": "verified",
+        "listening": "blocked-needs-capable-human",
+        "productionSelection": "candidate-only",
+        "acceptanceOwner": "04-32"
+      },
+      "sourceMember": "sources/r5582/original.wav"
+    },
+    {
+      "id": "r4364",
+      "version": 1,
+      "role": "r4364",
+      "source": {
+        "owner": "resources.assets",
+        "type": "AudioClip",
+        "objectId": 4364,
+        "name": "finalportal_collapsev3",
+        "stream": {
+          "path": "resources.resource",
+          "offset": 485569056,
+          "bytes": 293632,
+          "sha256": "8310bada584975eb05413a773c0eb62e86533643734848a71b33cb825fc2a048"
+        },
+        "rawObjectSha256": "53c77f5e1affcf17e0f11ac437ed62717e9b533ad1e35bdcc216c9022301eff7"
+      },
+      "preservation": {
+        "manifestSha256": "38a914a53ba9e3a618e6b97942ee3ae382ade702d6ce1f04485e583b4923d31d",
+        "originalsBefore": [
+          {
+            "path": "resources.assets",
+            "bytes": 52481896,
+            "sha256": "878915bf9ed642977abf5712bb86f804c8b59c1e8651d888816813c89bace91c"
+          },
+          {
+            "path": "resources.resource",
+            "bytes": 835645856,
+            "sha256": "0c85df55f5b01645b2bfadda5efffa52bbeb1193aeb5c294c200f83cae9892ea"
+          }
+        ],
+        "originalsAfter": [
+          {
+            "path": "resources.assets",
+            "bytes": 52481896,
+            "sha256": "878915bf9ed642977abf5712bb86f804c8b59c1e8651d888816813c89bace91c"
+          },
+          {
+            "path": "resources.resource",
+            "bytes": 835645856,
+            "sha256": "0c85df55f5b01645b2bfadda5efffa52bbeb1193aeb5c294c200f83cae9892ea"
+          }
+        ],
+        "verifiedAfter": true
+      },
+      "tools": {
+        "python": "3.12.14",
+        "pythonExeSha256": "41981a311167214a5cbffeb90998ed25568b937e7aa5b6bcadeaa1faa4a45418",
+        "UnityPy": "1.23.0",
+        "Pillow": "13.0.0",
+        "pyfmodex": "0.7.2",
+        "converterSha256": "d1d83c33b33811627d02aa74e24b20b65a8087a9cfafc9afe0d05b810d3a779d",
+        "pyfmodexEntrySha256": "dd22afcedafc4b7a4da25c5ded27c9983a58f73d55a29f65c48e8784e4656efc",
+        "fmodDllSha256": "0df48f4d0be671645776cec1d1531895135b090425201ec958b2eeccceb943e2"
+      },
+      "output": {
+        "name": "finalportal_collapsev3.wav",
+        "bytes": 923328,
+        "sha256": "304dd4e428a5fcc7b251ca1d2b3c2e8224919b91c7b244494f2fac1e60f6da9f",
+        "pcmSha256": "f319e1a556be33df474ea1d53180da3ca25aefc5f111d0b7a233b870353df5ac",
+        "pcmBytes": 923284,
+        "frames": 230821,
+        "channels": 2,
+        "rate": 44100,
+        "sampleWidth": 2,
+        "seconds": 5.234036281179138,
+        "trimFrames": [
+          0,
+          230821
+        ],
+        "loop": "not-selected-or-auditioned",
+        "gainDb": 0
+      },
+      "status": {
+        "decode": "verified",
+        "listening": "blocked-needs-capable-human",
+        "productionSelection": "candidate-only",
+        "acceptanceOwner": "04-32"
+      },
+      "sourceMember": "sources/r4364/original.wav"
+    },
+    {
+      "id": "r4441",
+      "version": 1,
+      "role": "r4441",
+      "source": {
+        "owner": "resources.assets",
+        "type": "AudioClip",
+        "objectId": 4441,
+        "name": "env_homefire",
+        "stream": {
+          "path": "resources.resource",
+          "offset": 493045664,
+          "bytes": 664224,
+          "sha256": "c365abafa70d58d1de9274e1b4673699ed327cce8a507bd11835f6fad8b66f67"
+        },
+        "rawObjectSha256": "7664a27e1af487d07228837eff59003ca54af0d9e9a27263cedab28c9d0818a9"
+      },
+      "preservation": {
+        "manifestSha256": "38a914a53ba9e3a618e6b97942ee3ae382ade702d6ce1f04485e583b4923d31d",
+        "originalsBefore": [
+          {
+            "path": "resources.assets",
+            "bytes": 52481896,
+            "sha256": "878915bf9ed642977abf5712bb86f804c8b59c1e8651d888816813c89bace91c"
+          },
+          {
+            "path": "resources.resource",
+            "bytes": 835645856,
+            "sha256": "0c85df55f5b01645b2bfadda5efffa52bbeb1193aeb5c294c200f83cae9892ea"
+          }
+        ],
+        "originalsAfter": [
+          {
+            "path": "resources.assets",
+            "bytes": 52481896,
+            "sha256": "878915bf9ed642977abf5712bb86f804c8b59c1e8651d888816813c89bace91c"
+          },
+          {
+            "path": "resources.resource",
+            "bytes": 835645856,
+            "sha256": "0c85df55f5b01645b2bfadda5efffa52bbeb1193aeb5c294c200f83cae9892ea"
+          }
+        ],
+        "verifiedAfter": true
+      },
+      "tools": {
+        "python": "3.12.14",
+        "pythonExeSha256": "41981a311167214a5cbffeb90998ed25568b937e7aa5b6bcadeaa1faa4a45418",
+        "UnityPy": "1.23.0",
+        "Pillow": "13.0.0",
+        "pyfmodex": "0.7.2",
+        "converterSha256": "d1d83c33b33811627d02aa74e24b20b65a8087a9cfafc9afe0d05b810d3a779d",
+        "pyfmodexEntrySha256": "dd22afcedafc4b7a4da25c5ded27c9983a58f73d55a29f65c48e8784e4656efc",
+        "fmodDllSha256": "0df48f4d0be671645776cec1d1531895135b090425201ec958b2eeccceb943e2"
+      },
+      "output": {
+        "name": "env_homefire.wav",
+        "bytes": 2281852,
+        "sha256": "b45ffd517dd4b14fd88ff1d7e08c582a3bb46db6249f3e52bde637ce008b1fa6",
+        "pcmSha256": "10114de6f2683dd0f56100db5c60ad8ea01d8667a834b009c61898625e12bbfd",
+        "pcmBytes": 2281808,
+        "frames": 570452,
+        "channels": 2,
+        "rate": 44100,
+        "sampleWidth": 2,
+        "seconds": 12.935419501133786,
+        "trimFrames": [
+          0,
+          570452
+        ],
+        "loop": "not-selected-or-auditioned",
+        "gainDb": 0
+      },
+      "status": {
+        "decode": "verified",
+        "listening": "blocked-needs-capable-human",
+        "productionSelection": "candidate-only",
+        "acceptanceOwner": "04-32"
+      },
+      "sourceMember": "sources/r4441/original.wav"
+    },
+    {
+      "id": "s0438",
+      "version": 1,
+      "role": "s0438",
+      "source": {
+        "owner": "sharedassets0.assets",
+        "type": "AudioClip",
+        "objectId": 438,
+        "name": "menu_openv3",
+        "stream": {
+          "path": "sharedassets0.resource",
+          "offset": 6256640,
+          "bytes": 99360,
+          "sha256": "ea9f50d2cd1adb52ede21976ebaeb7f904da8f0b85b2131d80d62c1f32c139f5"
+        },
+        "rawObjectSha256": "09c1d8edfc7384db856f97c6d2447875f9c5ff675dff30e97a7705ca93a8df75"
+      },
+      "preservation": {
+        "manifestSha256": "38a914a53ba9e3a618e6b97942ee3ae382ade702d6ce1f04485e583b4923d31d",
+        "originalsBefore": [
+          {
+            "path": "sharedassets0.assets",
+            "bytes": 58725896,
+            "sha256": "3648658d475170661517c4907e50977a4ab932441b404a681cd0ce485592f3ff"
+          },
+          {
+            "path": "sharedassets0.resource",
+            "bytes": 28215703,
+            "sha256": "b5076a8d66e709ef80f4386f0de1985a4ab1742898d3f1de185ddd2fdea6d4cf"
+          }
+        ],
+        "originalsAfter": [
+          {
+            "path": "sharedassets0.assets",
+            "bytes": 58725896,
+            "sha256": "3648658d475170661517c4907e50977a4ab932441b404a681cd0ce485592f3ff"
+          },
+          {
+            "path": "sharedassets0.resource",
+            "bytes": 28215703,
+            "sha256": "b5076a8d66e709ef80f4386f0de1985a4ab1742898d3f1de185ddd2fdea6d4cf"
+          }
+        ],
+        "verifiedAfter": true
+      },
+      "tools": {
+        "python": "3.12.14",
+        "pythonExeSha256": "41981a311167214a5cbffeb90998ed25568b937e7aa5b6bcadeaa1faa4a45418",
+        "UnityPy": "1.23.0",
+        "Pillow": "13.0.0",
+        "pyfmodex": "0.7.2",
+        "converterSha256": "d1d83c33b33811627d02aa74e24b20b65a8087a9cfafc9afe0d05b810d3a779d",
+        "pyfmodexEntrySha256": "dd22afcedafc4b7a4da25c5ded27c9983a58f73d55a29f65c48e8784e4656efc",
+        "fmodDllSha256": "0df48f4d0be671645776cec1d1531895135b090425201ec958b2eeccceb943e2"
+      },
+      "output": {
+        "name": "menu_openv3.wav",
+        "bytes": 98996,
+        "sha256": "d3ecfbab8f1fb86bdbaac7ad937d00781ceec4b305ac1eb1f822bdce3609794f",
+        "pcmSha256": "d4acf18556fe442a47e1121d1a0474537723c6b633758c827e83d0949351126b",
+        "pcmBytes": 98952,
+        "frames": 24738,
+        "channels": 2,
+        "rate": 44100,
+        "sampleWidth": 2,
+        "seconds": 0.560952380952381,
+        "trimFrames": [
+          0,
+          24738
+        ],
+        "loop": "not-selected-or-auditioned",
+        "gainDb": 0
+      },
+      "status": {
+        "decode": "verified",
+        "listening": "blocked-needs-capable-human",
+        "productionSelection": "candidate-only",
+        "acceptanceOwner": "04-32"
+      },
+      "sourceMember": "sources/s0438/original.wav"
+    },
+    {
+      "id": "s0485",
+      "version": 1,
+      "role": "s0485",
+      "source": {
+        "owner": "sharedassets0.assets",
+        "type": "AudioClip",
+        "objectId": 485,
+        "name": "menu_closev2",
+        "stream": {
+          "path": "sharedassets0.resource",
+          "offset": 9406496,
+          "bytes": 115520,
+          "sha256": "bf16d976884773a21d0cfb2daaee5be0247afeca77bbfdb2f8edecc69d241575"
+        },
+        "rawObjectSha256": "b09d79ca2fcd74c8371ea1388ef4578512f18c3c2fce0ae602570fb293da9309"
+      },
+      "preservation": {
+        "manifestSha256": "38a914a53ba9e3a618e6b97942ee3ae382ade702d6ce1f04485e583b4923d31d",
+        "originalsBefore": [
+          {
+            "path": "sharedassets0.assets",
+            "bytes": 58725896,
+            "sha256": "3648658d475170661517c4907e50977a4ab932441b404a681cd0ce485592f3ff"
+          },
+          {
+            "path": "sharedassets0.resource",
+            "bytes": 28215703,
+            "sha256": "b5076a8d66e709ef80f4386f0de1985a4ab1742898d3f1de185ddd2fdea6d4cf"
+          }
+        ],
+        "originalsAfter": [
+          {
+            "path": "sharedassets0.assets",
+            "bytes": 58725896,
+            "sha256": "3648658d475170661517c4907e50977a4ab932441b404a681cd0ce485592f3ff"
+          },
+          {
+            "path": "sharedassets0.resource",
+            "bytes": 28215703,
+            "sha256": "b5076a8d66e709ef80f4386f0de1985a4ab1742898d3f1de185ddd2fdea6d4cf"
+          }
+        ],
+        "verifiedAfter": true
+      },
+      "tools": {
+        "python": "3.12.14",
+        "pythonExeSha256": "41981a311167214a5cbffeb90998ed25568b937e7aa5b6bcadeaa1faa4a45418",
+        "UnityPy": "1.23.0",
+        "Pillow": "13.0.0",
+        "pyfmodex": "0.7.2",
+        "converterSha256": "d1d83c33b33811627d02aa74e24b20b65a8087a9cfafc9afe0d05b810d3a779d",
+        "pyfmodexEntrySha256": "dd22afcedafc4b7a4da25c5ded27c9983a58f73d55a29f65c48e8784e4656efc",
+        "fmodDllSha256": "0df48f4d0be671645776cec1d1531895135b090425201ec958b2eeccceb943e2"
+      },
+      "output": {
+        "name": "menu_closev2.wav",
+        "bytes": 115164,
+        "sha256": "b660eeb9c50e94f3c35244a489540131e421f265525bb2c67a13988b026b8b30",
+        "pcmSha256": "2ab9f6e698152e7edb5f58456c1b378a44e039cee3de20deae9111e6ce119d6d",
+        "pcmBytes": 115120,
+        "frames": 28780,
+        "channels": 2,
+        "rate": 44100,
+        "sampleWidth": 2,
+        "seconds": 0.6526077097505669,
+        "trimFrames": [
+          0,
+          28780
+        ],
+        "loop": "not-selected-or-auditioned",
+        "gainDb": 0
+      },
+      "status": {
+        "decode": "verified",
+        "listening": "blocked-needs-capable-human",
+        "productionSelection": "candidate-only",
+        "acceptanceOwner": "04-32"
+      },
+      "sourceMember": "sources/s0485/original.wav"
+    },
+    {
+      "id": "s0449",
+      "version": 1,
+      "role": "s0449",
+      "source": {
+        "owner": "sharedassets0.assets",
+        "type": "AudioClip",
+        "objectId": 449,
+        "name": "ui_select",
+        "stream": {
+          "path": "sharedassets0.resource",
+          "offset": 7086144,
+          "bytes": 37376,
+          "sha256": "4100d04523f6617e34e0dcd8e357bb7264b7a95d94450d660b47a6aaf25ed832"
+        },
+        "rawObjectSha256": "79b7037cde8123d93642871a31efbbb46e2c00166d6888b6f229291fd7fceb84"
+      },
+      "preservation": {
+        "manifestSha256": "38a914a53ba9e3a618e6b97942ee3ae382ade702d6ce1f04485e583b4923d31d",
+        "originalsBefore": [
+          {
+            "path": "sharedassets0.assets",
+            "bytes": 58725896,
+            "sha256": "3648658d475170661517c4907e50977a4ab932441b404a681cd0ce485592f3ff"
+          },
+          {
+            "path": "sharedassets0.resource",
+            "bytes": 28215703,
+            "sha256": "b5076a8d66e709ef80f4386f0de1985a4ab1742898d3f1de185ddd2fdea6d4cf"
+          }
+        ],
+        "originalsAfter": [
+          {
+            "path": "sharedassets0.assets",
+            "bytes": 58725896,
+            "sha256": "3648658d475170661517c4907e50977a4ab932441b404a681cd0ce485592f3ff"
+          },
+          {
+            "path": "sharedassets0.resource",
+            "bytes": 28215703,
+            "sha256": "b5076a8d66e709ef80f4386f0de1985a4ab1742898d3f1de185ddd2fdea6d4cf"
+          }
+        ],
+        "verifiedAfter": true
+      },
+      "tools": {
+        "python": "3.12.14",
+        "pythonExeSha256": "41981a311167214a5cbffeb90998ed25568b937e7aa5b6bcadeaa1faa4a45418",
+        "UnityPy": "1.23.0",
+        "Pillow": "13.0.0",
+        "pyfmodex": "0.7.2",
+        "converterSha256": "d1d83c33b33811627d02aa74e24b20b65a8087a9cfafc9afe0d05b810d3a779d",
+        "pyfmodexEntrySha256": "dd22afcedafc4b7a4da25c5ded27c9983a58f73d55a29f65c48e8784e4656efc",
+        "fmodDllSha256": "0df48f4d0be671645776cec1d1531895135b090425201ec958b2eeccceb943e2"
+      },
+      "output": {
+        "name": "ui_select.wav",
+        "bytes": 37012,
+        "sha256": "aeda864af19181dda6a261dc0d5eb3687c6a823e3b29a7d96ca0e3bfd564eda4",
+        "pcmSha256": "480e054ca5025606565f00bc59b5709590971a6328d879ad51330975902edfcb",
+        "pcmBytes": 36968,
+        "frames": 9242,
+        "channels": 2,
+        "rate": 44100,
+        "sampleWidth": 2,
+        "seconds": 0.20956916099773243,
+        "trimFrames": [
+          0,
+          9242
+        ],
+        "loop": "not-selected-or-auditioned",
+        "gainDb": 0
+      },
+      "status": {
+        "decode": "verified",
+        "listening": "blocked-needs-capable-human",
+        "productionSelection": "candidate-only",
+        "acceptanceOwner": "04-32"
+      },
+      "sourceMember": "sources/s0449/original.wav"
+    },
+    {
+      "id": "s0507",
+      "version": 1,
+      "role": "s0507",
+      "source": {
+        "owner": "sharedassets0.assets",
+        "type": "AudioClip",
+        "objectId": 507,
+        "name": "ui_playerjoins",
+        "stream": {
+          "path": "sharedassets0.resource",
+          "offset": 15030240,
+          "bytes": 772416,
+          "sha256": "24f6c9921d6a834e17a2030368290fd8c8e0d298eab0945680cbac9d9589a903"
+        },
+        "rawObjectSha256": "208f06585533cdbef3a883853996f45370e57bc2dcd67b438a9aa465fd3ca0e8"
+      },
+      "preservation": {
+        "manifestSha256": "38a914a53ba9e3a618e6b97942ee3ae382ade702d6ce1f04485e583b4923d31d",
+        "originalsBefore": [
+          {
+            "path": "sharedassets0.assets",
+            "bytes": 58725896,
+            "sha256": "3648658d475170661517c4907e50977a4ab932441b404a681cd0ce485592f3ff"
+          },
+          {
+            "path": "sharedassets0.resource",
+            "bytes": 28215703,
+            "sha256": "b5076a8d66e709ef80f4386f0de1985a4ab1742898d3f1de185ddd2fdea6d4cf"
+          }
+        ],
+        "originalsAfter": [
+          {
+            "path": "sharedassets0.assets",
+            "bytes": 58725896,
+            "sha256": "3648658d475170661517c4907e50977a4ab932441b404a681cd0ce485592f3ff"
+          },
+          {
+            "path": "sharedassets0.resource",
+            "bytes": 28215703,
+            "sha256": "b5076a8d66e709ef80f4386f0de1985a4ab1742898d3f1de185ddd2fdea6d4cf"
+          }
+        ],
+        "verifiedAfter": true
+      },
+      "tools": {
+        "python": "3.12.14",
+        "pythonExeSha256": "41981a311167214a5cbffeb90998ed25568b937e7aa5b6bcadeaa1faa4a45418",
+        "UnityPy": "1.23.0",
+        "Pillow": "13.0.0",
+        "pyfmodex": "0.7.2",
+        "converterSha256": "d1d83c33b33811627d02aa74e24b20b65a8087a9cfafc9afe0d05b810d3a779d",
+        "pyfmodexEntrySha256": "dd22afcedafc4b7a4da25c5ded27c9983a58f73d55a29f65c48e8784e4656efc",
+        "fmodDllSha256": "0df48f4d0be671645776cec1d1531895135b090425201ec958b2eeccceb943e2"
+      },
+      "output": {
+        "name": "ui_playerjoins.wav",
+        "bytes": 771792,
+        "sha256": "8944b24d990c5c029be27a22421e14580d3464d78d1f334a6752bc2faf771fe3",
+        "pcmSha256": "542b9d637f5a4a95595d894b501162ef29106b5155e925b4f46c53313f1b7f61",
+        "pcmBytes": 771748,
+        "frames": 192937,
+        "channels": 2,
+        "rate": 44100,
+        "sampleWidth": 2,
+        "seconds": 4.3749886621315195,
+        "trimFrames": [
+          0,
+          192937
+        ],
+        "loop": "not-selected-or-auditioned",
+        "gainDb": 0
+      },
+      "status": {
+        "decode": "verified",
+        "listening": "blocked-needs-capable-human",
+        "productionSelection": "candidate-only",
+        "acceptanceOwner": "04-32"
+      },
+      "sourceMember": "sources/s0507/original.wav"
+    },
+    {
+      "id": "s0437",
+      "version": 1,
+      "role": "s0437",
+      "source": {
+        "owner": "sharedassets0.assets",
+        "type": "AudioClip",
+        "objectId": 437,
+        "name": "ui_playerleaves",
+        "stream": {
+          "path": "sharedassets0.resource",
+          "offset": 5793184,
+          "bytes": 463456,
+          "sha256": "9080aa6b8c7e21d6e3ef1a5b799fb3b3b6a8d558700e4ac02a77f8b7250ce6d9"
+        },
+        "rawObjectSha256": "bda758a49145b76aee3515d55c79a46778f41291bf47fb30c6595b3c84bf96d6"
+      },
+      "preservation": {
+        "manifestSha256": "38a914a53ba9e3a618e6b97942ee3ae382ade702d6ce1f04485e583b4923d31d",
+        "originalsBefore": [
+          {
+            "path": "sharedassets0.assets",
+            "bytes": 58725896,
+            "sha256": "3648658d475170661517c4907e50977a4ab932441b404a681cd0ce485592f3ff"
+          },
+          {
+            "path": "sharedassets0.resource",
+            "bytes": 28215703,
+            "sha256": "b5076a8d66e709ef80f4386f0de1985a4ab1742898d3f1de185ddd2fdea6d4cf"
+          }
+        ],
+        "originalsAfter": [
+          {
+            "path": "sharedassets0.assets",
+            "bytes": 58725896,
+            "sha256": "3648658d475170661517c4907e50977a4ab932441b404a681cd0ce485592f3ff"
+          },
+          {
+            "path": "sharedassets0.resource",
+            "bytes": 28215703,
+            "sha256": "b5076a8d66e709ef80f4386f0de1985a4ab1742898d3f1de185ddd2fdea6d4cf"
+          }
+        ],
+        "verifiedAfter": true
+      },
+      "tools": {
+        "python": "3.12.14",
+        "pythonExeSha256": "41981a311167214a5cbffeb90998ed25568b937e7aa5b6bcadeaa1faa4a45418",
+        "UnityPy": "1.23.0",
+        "Pillow": "13.0.0",
+        "pyfmodex": "0.7.2",
+        "converterSha256": "d1d83c33b33811627d02aa74e24b20b65a8087a9cfafc9afe0d05b810d3a779d",
+        "pyfmodexEntrySha256": "dd22afcedafc4b7a4da25c5ded27c9983a58f73d55a29f65c48e8784e4656efc",
+        "fmodDllSha256": "0df48f4d0be671645776cec1d1531895135b090425201ec958b2eeccceb943e2"
+      },
+      "output": {
+        "name": "ui_playerleaves.wav",
+        "bytes": 463092,
+        "sha256": "0e6036c1e80ff9af1161225c9d4429c4b984a67dfb75ef0d810c3462aedfdd72",
+        "pcmSha256": "0778b190bc12f28e919180aadba9d06040bdf0d21f2ef4b4fc039955235abf56",
+        "pcmBytes": 463048,
+        "frames": 115762,
+        "channels": 2,
+        "rate": 44100,
+        "sampleWidth": 2,
+        "seconds": 2.6249886621315195,
+        "trimFrames": [
+          0,
+          115762
+        ],
+        "loop": "not-selected-or-auditioned",
+        "gainDb": 0
+      },
+      "status": {
+        "decode": "verified",
+        "listening": "blocked-needs-capable-human",
+        "productionSelection": "candidate-only",
+        "acceptanceOwner": "04-32"
+      },
+      "sourceMember": "sources/s0437/original.wav"
+    },
+    {
+      "id": "s0420",
+      "version": 1,
+      "role": "s0420",
+      "source": {
+        "owner": "sharedassets0.assets",
+        "type": "AudioClip",
+        "objectId": 420,
+        "name": "menu_mouseover01",
+        "stream": {
+          "path": "sharedassets0.resource",
+          "offset": 4937504,
+          "bytes": 32544,
+          "sha256": "12f1b3f93dfc2f5920412a5305a12e28cda810750e3c1e00a946a9c88ee573f0"
+        },
+        "rawObjectSha256": "322d4f39948b28ed3c565a8028370bfaeeddbf16b8a90fdadca58e1e5a46240b"
+      },
+      "preservation": {
+        "manifestSha256": "38a914a53ba9e3a618e6b97942ee3ae382ade702d6ce1f04485e583b4923d31d",
+        "originalsBefore": [
+          {
+            "path": "sharedassets0.assets",
+            "bytes": 58725896,
+            "sha256": "3648658d475170661517c4907e50977a4ab932441b404a681cd0ce485592f3ff"
+          },
+          {
+            "path": "sharedassets0.resource",
+            "bytes": 28215703,
+            "sha256": "b5076a8d66e709ef80f4386f0de1985a4ab1742898d3f1de185ddd2fdea6d4cf"
+          }
+        ],
+        "originalsAfter": [
+          {
+            "path": "sharedassets0.assets",
+            "bytes": 58725896,
+            "sha256": "3648658d475170661517c4907e50977a4ab932441b404a681cd0ce485592f3ff"
+          },
+          {
+            "path": "sharedassets0.resource",
+            "bytes": 28215703,
+            "sha256": "b5076a8d66e709ef80f4386f0de1985a4ab1742898d3f1de185ddd2fdea6d4cf"
+          }
+        ],
+        "verifiedAfter": true
+      },
+      "tools": {
+        "python": "3.12.14",
+        "pythonExeSha256": "41981a311167214a5cbffeb90998ed25568b937e7aa5b6bcadeaa1faa4a45418",
+        "UnityPy": "1.23.0",
+        "Pillow": "13.0.0",
+        "pyfmodex": "0.7.2",
+        "converterSha256": "d1d83c33b33811627d02aa74e24b20b65a8087a9cfafc9afe0d05b810d3a779d",
+        "pyfmodexEntrySha256": "dd22afcedafc4b7a4da25c5ded27c9983a58f73d55a29f65c48e8784e4656efc",
+        "fmodDllSha256": "0df48f4d0be671645776cec1d1531895135b090425201ec958b2eeccceb943e2"
+      },
+      "output": {
+        "name": "menu_mouseover01.wav",
+        "bytes": 31936,
+        "sha256": "e92e53c0c720e4e12e9e6705e06a0f71bc0dfb4880cd87d2016a89106064d90d",
+        "pcmSha256": "4a0321bfa91251e7dea0bad196a204a4fb050dc979219fbc4392bfc1b5c2ef9d",
+        "pcmBytes": 31892,
+        "frames": 7973,
+        "channels": 2,
+        "rate": 44100,
+        "sampleWidth": 2,
+        "seconds": 0.18079365079365078,
+        "trimFrames": [
+          0,
+          7973
+        ],
+        "loop": "not-selected-or-auditioned",
+        "gainDb": 0
+      },
+      "status": {
+        "decode": "verified",
+        "listening": "blocked-needs-capable-human",
+        "productionSelection": "candidate-only",
+        "acceptanceOwner": "04-32"
+      },
+      "sourceMember": "sources/s0420/original.wav"
+    },
+    {
+      "id": "s0392",
+      "version": 1,
+      "role": "s0392",
+      "source": {
+        "owner": "sharedassets0.assets",
+        "type": "AudioClip",
+        "objectId": 392,
+        "name": "menu_mouseover02",
+        "stream": {
+          "path": "sharedassets0.resource",
+          "offset": 1205216,
+          "bytes": 33472,
+          "sha256": "e8125a38490bff05412454457291dcf0a02cf6d7498e0b23d459bb42a42de885"
+        },
+        "rawObjectSha256": "727db8c514aaf709773ff77f00aed4b1c274c1e1316534827ffcd8a94a0c69b0"
+      },
+      "preservation": {
+        "manifestSha256": "38a914a53ba9e3a618e6b97942ee3ae382ade702d6ce1f04485e583b4923d31d",
+        "originalsBefore": [
+          {
+            "path": "sharedassets0.assets",
+            "bytes": 58725896,
+            "sha256": "3648658d475170661517c4907e50977a4ab932441b404a681cd0ce485592f3ff"
+          },
+          {
+            "path": "sharedassets0.resource",
+            "bytes": 28215703,
+            "sha256": "b5076a8d66e709ef80f4386f0de1985a4ab1742898d3f1de185ddd2fdea6d4cf"
+          }
+        ],
+        "originalsAfter": [
+          {
+            "path": "sharedassets0.assets",
+            "bytes": 58725896,
+            "sha256": "3648658d475170661517c4907e50977a4ab932441b404a681cd0ce485592f3ff"
+          },
+          {
+            "path": "sharedassets0.resource",
+            "bytes": 28215703,
+            "sha256": "b5076a8d66e709ef80f4386f0de1985a4ab1742898d3f1de185ddd2fdea6d4cf"
+          }
+        ],
+        "verifiedAfter": true
+      },
+      "tools": {
+        "python": "3.12.14",
+        "pythonExeSha256": "41981a311167214a5cbffeb90998ed25568b937e7aa5b6bcadeaa1faa4a45418",
+        "UnityPy": "1.23.0",
+        "Pillow": "13.0.0",
+        "pyfmodex": "0.7.2",
+        "converterSha256": "d1d83c33b33811627d02aa74e24b20b65a8087a9cfafc9afe0d05b810d3a779d",
+        "pyfmodexEntrySha256": "dd22afcedafc4b7a4da25c5ded27c9983a58f73d55a29f65c48e8784e4656efc",
+        "fmodDllSha256": "0df48f4d0be671645776cec1d1531895135b090425201ec958b2eeccceb943e2"
+      },
+      "output": {
+        "name": "menu_mouseover02.wav",
+        "bytes": 33116,
+        "sha256": "44157eb4acb1a9ba0897b4b297352dee3d1b395ce2c5d0ea808d5a8975b46dcc",
+        "pcmSha256": "46fc8cc73bd32baafbe33894e965c065af60317b6f45b7882e9dee3e4af211e3",
+        "pcmBytes": 33072,
+        "frames": 8268,
+        "channels": 2,
+        "rate": 44100,
+        "sampleWidth": 2,
+        "seconds": 0.1874829931972789,
+        "trimFrames": [
+          0,
+          8268
+        ],
+        "loop": "not-selected-or-auditioned",
+        "gainDb": 0
+      },
+      "status": {
+        "decode": "verified",
+        "listening": "blocked-needs-capable-human",
+        "productionSelection": "candidate-only",
+        "acceptanceOwner": "04-32"
+      },
+      "sourceMember": "sources/s0392/original.wav"
+    },
+    {
+      "id": "s268",
+      "version": 1,
+      "role": "s268",
+      "source": {
+        "owner": "sharedassets2.assets",
+        "type": "AudioClip",
+        "objectId": 68,
+        "name": "ui_daycounter_new_v2",
+        "stream": {
+          "path": "sharedassets2.resource",
+          "offset": 144255136,
+          "bytes": 171296,
+          "sha256": "8c97d633c234a0ab27f607d993ab1d2653879198f8146e3a976ee24b6d33fa78"
+        },
+        "rawObjectSha256": "d44c39bf91b46d453b3c16a9575abd02e4c40e8fc2624a1af90a218a633a64a6"
+      },
+      "preservation": {
+        "manifestSha256": "38a914a53ba9e3a618e6b97942ee3ae382ade702d6ce1f04485e583b4923d31d",
+        "originalsBefore": [
+          {
+            "path": "sharedassets2.assets",
+            "bytes": 568856,
+            "sha256": "58c3a8ae2dd7deab8e80244aab7e61e1ad77a390bcae064476b7c11500195097"
+          },
+          {
+            "path": "sharedassets2.resource",
+            "bytes": 425571296,
+            "sha256": "38f34ff139b564996630278b68558469de2b2a02e6db9d42b7b39aae5da58870"
+          }
+        ],
+        "originalsAfter": [
+          {
+            "path": "sharedassets2.assets",
+            "bytes": 568856,
+            "sha256": "58c3a8ae2dd7deab8e80244aab7e61e1ad77a390bcae064476b7c11500195097"
+          },
+          {
+            "path": "sharedassets2.resource",
+            "bytes": 425571296,
+            "sha256": "38f34ff139b564996630278b68558469de2b2a02e6db9d42b7b39aae5da58870"
+          }
+        ],
+        "verifiedAfter": true
+      },
+      "tools": {
+        "python": "3.12.14",
+        "pythonExeSha256": "41981a311167214a5cbffeb90998ed25568b937e7aa5b6bcadeaa1faa4a45418",
+        "UnityPy": "1.23.0",
+        "Pillow": "13.0.0",
+        "pyfmodex": "0.7.2",
+        "converterSha256": "d1d83c33b33811627d02aa74e24b20b65a8087a9cfafc9afe0d05b810d3a779d",
+        "pyfmodexEntrySha256": "dd22afcedafc4b7a4da25c5ded27c9983a58f73d55a29f65c48e8784e4656efc",
+        "fmodDllSha256": "0df48f4d0be671645776cec1d1531895135b090425201ec958b2eeccceb943e2"
+      },
+      "output": {
+        "name": "ui_daycounter_new_v2.wav",
+        "bytes": 812924,
+        "sha256": "ccbeb8e4f5d0b54d2fb3ba76d1f4a6d978cfd475acff98f6adcb345ef26675da",
+        "pcmSha256": "de603467d136df357e4f59462c8ccfdb3231824ad0d2de6f27b0d066ffb127a2",
+        "pcmBytes": 812880,
+        "frames": 203220,
+        "channels": 2,
+        "rate": 44100,
+        "sampleWidth": 2,
+        "seconds": 4.608163265306122,
+        "trimFrames": [
+          0,
+          203220
+        ],
+        "loop": "not-selected-or-auditioned",
+        "gainDb": 0
+      },
+      "status": {
+        "decode": "verified",
+        "listening": "blocked-needs-capable-human",
+        "productionSelection": "candidate-only",
+        "acceptanceOwner": "04-32"
+      },
+      "sourceMember": "sources/s268/original.wav"
+    },
+    {
+      "id": "s2125",
+      "version": 1,
+      "role": "s2125",
+      "source": {
+        "owner": "sharedassets2.assets",
+        "type": "AudioClip",
+        "objectId": 125,
+        "name": "amb_forest_123_day01_q0046",
+        "stream": {
+          "path": "sharedassets2.resource",
+          "offset": 309225312,
+          "bytes": 5129536,
+          "sha256": "44ddeb72652e2045ba949ee1c667b8928112684350ec7a58adcb113d55c323f3"
+        },
+        "rawObjectSha256": "2b3f36379c817ad389cee5b77cfafa214cce92d972e047f83d18dfdc0d85eb35"
+      },
+      "preservation": {
+        "manifestSha256": "38a914a53ba9e3a618e6b97942ee3ae382ade702d6ce1f04485e583b4923d31d",
+        "originalsBefore": [
+          {
+            "path": "sharedassets2.assets",
+            "bytes": 568856,
+            "sha256": "58c3a8ae2dd7deab8e80244aab7e61e1ad77a390bcae064476b7c11500195097"
+          },
+          {
+            "path": "sharedassets2.resource",
+            "bytes": 425571296,
+            "sha256": "38f34ff139b564996630278b68558469de2b2a02e6db9d42b7b39aae5da58870"
+          }
+        ],
+        "originalsAfter": [
+          {
+            "path": "sharedassets2.assets",
+            "bytes": 568856,
+            "sha256": "58c3a8ae2dd7deab8e80244aab7e61e1ad77a390bcae064476b7c11500195097"
+          },
+          {
+            "path": "sharedassets2.resource",
+            "bytes": 425571296,
+            "sha256": "38f34ff139b564996630278b68558469de2b2a02e6db9d42b7b39aae5da58870"
+          }
+        ],
+        "verifiedAfter": true
+      },
+      "tools": {
+        "python": "3.12.14",
+        "pythonExeSha256": "41981a311167214a5cbffeb90998ed25568b937e7aa5b6bcadeaa1faa4a45418",
+        "UnityPy": "1.23.0",
+        "Pillow": "13.0.0",
+        "pyfmodex": "0.7.2",
+        "converterSha256": "d1d83c33b33811627d02aa74e24b20b65a8087a9cfafc9afe0d05b810d3a779d",
+        "pyfmodexEntrySha256": "dd22afcedafc4b7a4da25c5ded27c9983a58f73d55a29f65c48e8784e4656efc",
+        "fmodDllSha256": "0df48f4d0be671645776cec1d1531895135b090425201ec958b2eeccceb943e2"
+      },
+      "output": {
+        "name": "amb_forest_123_day01_q0046.wav",
+        "bytes": 16228844,
+        "sha256": "ed0df09cb076110bfbbba0315f951442688a5f3f53c10601bc16fb4c62465f7c",
+        "pcmSha256": "84c7ee563c401ff307c5d59aa273dc988d538ff11b5da5e0ebc27ee7d6a67fc4",
+        "pcmBytes": 16228800,
+        "frames": 4057200,
+        "channels": 2,
+        "rate": 44100,
+        "sampleWidth": 2,
+        "seconds": 92.0,
+        "trimFrames": [
+          0,
+          4057200
+        ],
+        "loop": "not-selected-or-auditioned",
+        "gainDb": 0
+      },
+      "status": {
+        "decode": "verified",
+        "listening": "blocked-needs-capable-human",
+        "productionSelection": "candidate-only",
+        "acceptanceOwner": "04-32"
+      },
+      "sourceMember": "sources/s2125/original.wav"
+    },
+    {
+      "id": "s2138",
+      "version": 1,
+      "role": "s2138",
+      "source": {
+        "owner": "sharedassets2.assets",
+        "type": "AudioClip",
+        "objectId": 138,
+        "name": "amb_forest_123_night01_q0064",
+        "stream": {
+          "path": "sharedassets2.resource",
+          "offset": 349018368,
+          "bytes": 4638976,
+          "sha256": "53338ad6be040bb837b8af7b915bb69bcd939e7ad6ea4068d7b07ad86014bc79"
+        },
+        "rawObjectSha256": "a588d733220dc7b9e93c090313a61944cb0e541a63f91a3342708228be35b18c"
+      },
+      "preservation": {
+        "manifestSha256": "38a914a53ba9e3a618e6b97942ee3ae382ade702d6ce1f04485e583b4923d31d",
+        "originalsBefore": [
+          {
+            "path": "sharedassets2.assets",
+            "bytes": 568856,
+            "sha256": "58c3a8ae2dd7deab8e80244aab7e61e1ad77a390bcae064476b7c11500195097"
+          },
+          {
+            "path": "sharedassets2.resource",
+            "bytes": 425571296,
+            "sha256": "38f34ff139b564996630278b68558469de2b2a02e6db9d42b7b39aae5da58870"
+          }
+        ],
+        "originalsAfter": [
+          {
+            "path": "sharedassets2.assets",
+            "bytes": 568856,
+            "sha256": "58c3a8ae2dd7deab8e80244aab7e61e1ad77a390bcae064476b7c11500195097"
+          },
+          {
+            "path": "sharedassets2.resource",
+            "bytes": 425571296,
+            "sha256": "38f34ff139b564996630278b68558469de2b2a02e6db9d42b7b39aae5da58870"
+          }
+        ],
+        "verifiedAfter": true
+      },
+      "tools": {
+        "python": "3.12.14",
+        "pythonExeSha256": "41981a311167214a5cbffeb90998ed25568b937e7aa5b6bcadeaa1faa4a45418",
+        "UnityPy": "1.23.0",
+        "Pillow": "13.0.0",
+        "pyfmodex": "0.7.2",
+        "converterSha256": "d1d83c33b33811627d02aa74e24b20b65a8087a9cfafc9afe0d05b810d3a779d",
+        "pyfmodexEntrySha256": "dd22afcedafc4b7a4da25c5ded27c9983a58f73d55a29f65c48e8784e4656efc",
+        "fmodDllSha256": "0df48f4d0be671645776cec1d1531895135b090425201ec958b2eeccceb943e2"
+      },
+      "output": {
+        "name": "amb_forest_123_night01_q0064.wav",
+        "bytes": 12946464,
+        "sha256": "b2056738f53d6edf35df40994a400432482e8bbcbf273f90bc499d508fd96b14",
+        "pcmSha256": "615755ee8f2404d7e103cb69549e462aae3926b0207dcc43a707df67a9ce677f",
+        "pcmBytes": 12946420,
+        "frames": 3236605,
+        "channels": 2,
+        "rate": 44100,
+        "sampleWidth": 2,
+        "seconds": 73.39240362811792,
+        "trimFrames": [
+          0,
+          3236605
+        ],
+        "loop": "not-selected-or-auditioned",
+        "gainDb": 0
+      },
+      "status": {
+        "decode": "verified",
+        "listening": "blocked-needs-capable-human",
+        "productionSelection": "candidate-only",
+        "acceptanceOwner": "04-32"
+      },
+      "sourceMember": "sources/s2138/original.wav"
+    },
+    {
+      "id": "s2152",
+      "version": 1,
+      "role": "s2152",
+      "source": {
+        "owner": "sharedassets2.assets",
+        "type": "AudioClip",
+        "objectId": 152,
+        "name": "amblayer_forest_123_wind01_loop_q0003",
+        "stream": {
+          "path": "sharedassets2.resource",
+          "offset": 394137472,
+          "bytes": 3334432,
+          "sha256": "c601c56159a81dcc025aeaca96a51b2be306848c534735e0eb43744730832068"
+        },
+        "rawObjectSha256": "8074112e0210026b91ae7773f6fcea957dfbe4f753273be3551047187e6421c8"
+      },
+      "preservation": {
+        "manifestSha256": "38a914a53ba9e3a618e6b97942ee3ae382ade702d6ce1f04485e583b4923d31d",
+        "originalsBefore": [
+          {
+            "path": "sharedassets2.assets",
+            "bytes": 568856,
+            "sha256": "58c3a8ae2dd7deab8e80244aab7e61e1ad77a390bcae064476b7c11500195097"
+          },
+          {
+            "path": "sharedassets2.resource",
+            "bytes": 425571296,
+            "sha256": "38f34ff139b564996630278b68558469de2b2a02e6db9d42b7b39aae5da58870"
+          }
+        ],
+        "originalsAfter": [
+          {
+            "path": "sharedassets2.assets",
+            "bytes": 568856,
+            "sha256": "58c3a8ae2dd7deab8e80244aab7e61e1ad77a390bcae064476b7c11500195097"
+          },
+          {
+            "path": "sharedassets2.resource",
+            "bytes": 425571296,
+            "sha256": "38f34ff139b564996630278b68558469de2b2a02e6db9d42b7b39aae5da58870"
+          }
+        ],
+        "verifiedAfter": true
+      },
+      "tools": {
+        "python": "3.12.14",
+        "pythonExeSha256": "41981a311167214a5cbffeb90998ed25568b937e7aa5b6bcadeaa1faa4a45418",
+        "UnityPy": "1.23.0",
+        "Pillow": "13.0.0",
+        "pyfmodex": "0.7.2",
+        "converterSha256": "d1d83c33b33811627d02aa74e24b20b65a8087a9cfafc9afe0d05b810d3a779d",
+        "pyfmodexEntrySha256": "dd22afcedafc4b7a4da25c5ded27c9983a58f73d55a29f65c48e8784e4656efc",
+        "fmodDllSha256": "0df48f4d0be671645776cec1d1531895135b090425201ec958b2eeccceb943e2"
+      },
+      "output": {
+        "name": "amblayer_forest_123_wind01_loop_q0003.wav",
+        "bytes": 10710968,
+        "sha256": "bdedd1b64396fc8d89443d95c2e6cb3aa56a6d9e724bb9352081aada3dfc37c8",
+        "pcmSha256": "dcfe7a922012c3960dbedcf4cb14c38b7c676eed616557f9959bf69a0ab368da",
+        "pcmBytes": 10710924,
+        "frames": 2677731,
+        "channels": 2,
+        "rate": 44100,
+        "sampleWidth": 2,
+        "seconds": 60.71952380952381,
+        "trimFrames": [
+          0,
+          2677731
+        ],
+        "loop": "not-selected-or-auditioned",
+        "gainDb": 0
+      },
+      "status": {
+        "decode": "verified",
+        "listening": "blocked-needs-capable-human",
+        "productionSelection": "candidate-only",
+        "acceptanceOwner": "04-32"
+      },
+      "sourceMember": "sources/s2152/original.wav"
+    }
+  ],
+  "samples": [
+    {
+      "id": "interface.r3254.full",
+      "version": 1,
+      "sourceId": "r3254",
+      "variantMember": "variants/interface.r3254.full.wav",
+      "sha256": "aa35e12e49166a1b6b936c2deaf6d9a0c459516e5d31f94d77c0bd218906bbf3",
+      "pcmSha256": "9c2c1b286b1f4b3d10d29ae9d8e9900c7af392bfcd24ce549214ae078c50ef39",
+      "frames": 33075,
+      "channels": 2,
+      "rate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 0.75,
+      "trimFrames": [
+        0,
+        33075
+      ],
+      "gainLinear": 1.0,
+      "gainDb": 0.0,
+      "regionFrames": [
+        0,
+        33075
+      ],
+      "loop": null,
+      "transform": "trim-gain",
+      "listening": {
+        "status": "Not auditioned",
+        "listener": null,
+        "verdict": null,
+        "finalOwner": "04-32"
+      },
+      "technical": {
+        "peak": 23599,
+        "rms": 2028.4511675396504,
+        "nonzeroSamples": 65981,
+        "fullScaleSamples": 0
+      }
+    },
+    {
+      "id": "interface.r4864.full",
+      "version": 1,
+      "sourceId": "r4864",
+      "variantMember": "variants/interface.r4864.full.wav",
+      "sha256": "fad59f8583d637d114f2cfee5bc56c964269084e9aacfe912c879fbe5d5ab0a8",
+      "pcmSha256": "0aecbcf76bbb32b4afcc4f9f290e0a23f7e3aee67bd02990c9c5f61157fff7b7",
+      "frames": 11323,
+      "channels": 2,
+      "rate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 0.25675736961451245,
+      "trimFrames": [
+        0,
+        11323
+      ],
+      "gainLinear": 1.0,
+      "gainDb": 0.0,
+      "regionFrames": [
+        35280,
+        46603
+      ],
+      "loop": null,
+      "transform": "trim-gain",
+      "listening": {
+        "status": "Not auditioned",
+        "listener": null,
+        "verdict": null,
+        "finalOwner": "04-32"
+      },
+      "technical": {
+        "peak": 23547,
+        "rms": 1159.9329707357408,
+        "nonzeroSamples": 21250,
+        "fullScaleSamples": 0
+      }
+    },
+    {
+      "id": "interface.r3195.full",
+      "version": 1,
+      "sourceId": "r3195",
+      "variantMember": "variants/interface.r3195.full.wav",
+      "sha256": "a0b4d70afe71a1ac9f31dee364aac5fbbf0d12af73df9b0bb2fda6e30867b53f",
+      "pcmSha256": "9fe1c5ab3eed16d96418a277fe8b1f0b7ce77170eedc938cd65c01e96e591934",
+      "frames": 23221,
+      "channels": 2,
+      "rate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 0.5265532879818594,
+      "trimFrames": [
+        0,
+        23221
+      ],
+      "gainLinear": 1.0,
+      "gainDb": 0.0,
+      "regionFrames": [
+        48808,
+        72029
+      ],
+      "loop": null,
+      "transform": "trim-gain",
+      "listening": {
+        "status": "Not auditioned",
+        "listener": null,
+        "verdict": null,
+        "finalOwner": "04-32"
+      },
+      "technical": {
+        "peak": 22660,
+        "rms": 774.2435222729197,
+        "nonzeroSamples": 36460,
+        "fullScaleSamples": 0
+      }
+    },
+    {
+      "id": "interface.r3863.full",
+      "version": 1,
+      "sourceId": "r3863",
+      "variantMember": "variants/interface.r3863.full.wav",
+      "sha256": "e8ed4578c8f181d449317aa8169e77e4494e6fd5fa824068d2b1121a50aff315",
+      "pcmSha256": "404f64d9ff7fa77fbb91e908005eee3517e55b762423e1015c5bd11451f58e2a",
+      "frames": 12721,
+      "channels": 2,
+      "rate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 0.2884580498866213,
+      "trimFrames": [
+        0,
+        12721
+      ],
+      "gainLinear": 1.0,
+      "gainDb": 0.0,
+      "regionFrames": [
+        74234,
+        86955
+      ],
+      "loop": null,
+      "transform": "trim-gain",
+      "listening": {
+        "status": "Not auditioned",
+        "listener": null,
+        "verdict": null,
+        "finalOwner": "04-32"
+      },
+      "technical": {
+        "peak": 21718,
+        "rms": 2451.2966804394305,
+        "nonzeroSamples": 16582,
+        "fullScaleSamples": 0
+      }
+    },
+    {
+      "id": "interface.r4973.full",
+      "version": 1,
+      "sourceId": "r4973",
+      "variantMember": "variants/interface.r4973.full.wav",
+      "sha256": "6c074e69db73c926a0b6d0d02bb15e17c83d783b531dfdd17065cfe62eb289c0",
+      "pcmSha256": "61d2f6c104998d99db860663d639e36f9345a4bf938986b3162e780536ff326c",
+      "frames": 65536,
+      "channels": 2,
+      "rate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 1.486077097505669,
+      "trimFrames": [
+        0,
+        65536
+      ],
+      "gainLinear": 1.0,
+      "gainDb": 0.0,
+      "regionFrames": [
+        89160,
+        154696
+      ],
+      "loop": null,
+      "transform": "trim-gain",
+      "listening": {
+        "status": "Not auditioned",
+        "listener": null,
+        "verdict": null,
+        "finalOwner": "04-32"
+      },
+      "technical": {
+        "peak": 8426,
+        "rms": 601.516496630295,
+        "nonzeroSamples": 87074,
+        "fullScaleSamples": 0
+      }
+    },
+    {
+      "id": "interface.r3755.full",
+      "version": 1,
+      "sourceId": "r3755",
+      "variantMember": "variants/interface.r3755.full.wav",
+      "sha256": "ccce8f9975b78d31bb6b1a062cdf15e323adad95c3608155026849325ab16dfc",
+      "pcmSha256": "686ae7f537c5e4f27dd172a8d959df0bd87da7f219b1e9815aac7a55cb5e5a7c",
+      "frames": 84640,
+      "channels": 2,
+      "rate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 1.9192743764172335,
+      "trimFrames": [
+        0,
+        84640
+      ],
+      "gainLinear": 1.0,
+      "gainDb": 0.0,
+      "regionFrames": [
+        156901,
+        241541
+      ],
+      "loop": null,
+      "transform": "trim-gain",
+      "listening": {
+        "status": "Not auditioned",
+        "listener": null,
+        "verdict": null,
+        "finalOwner": "04-32"
+      },
+      "technical": {
+        "peak": 22934,
+        "rms": 1207.4993700415566,
+        "nonzeroSamples": 149880,
+        "fullScaleSamples": 0
+      }
+    },
+    {
+      "id": "interface.handling.v1",
+      "version": 1,
+      "sourceId": "r3755",
+      "variantMember": "variants/interface.handling.v1.wav",
+      "sha256": "192910b90547920b3e6dd7a090d91d0376800b5f35a8c31ee5913b3d0d307752",
+      "pcmSha256": "bb06de06f8b77b2bfbf3b79c08b7036ca843c557ad7efdb0120d9892bee9e805",
+      "frames": 6615,
+      "channels": 2,
+      "rate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 0.15,
+      "trimFrames": [
+        0,
+        6615
+      ],
+      "gainLinear": 0.5,
+      "gainDb": -6.020599913279624,
+      "regionFrames": [
+        243746,
+        250361
+      ],
+      "loop": null,
+      "transform": "trim-gain",
+      "listening": {
+        "status": "Not auditioned",
+        "listener": null,
+        "verdict": null,
+        "finalOwner": "04-32"
+      },
+      "technical": {
+        "peak": 11467,
+        "rms": 1619.9346131229033,
+        "nonzeroSamples": 13083,
+        "fullScaleSamples": 0
+      }
+    },
+    {
+      "id": "interface.r5586.full",
+      "version": 1,
+      "sourceId": "r5586",
+      "variantMember": "variants/interface.r5586.full.wav",
+      "sha256": "8d7d59cc8ba016896645c6cb826b4b4d87296664748596dcf5aab9d66bcb073c",
+      "pcmSha256": "7a66b5f88852cd0b6b56824521ef3d5c41d830f203d269326323811a719136f5",
+      "frames": 198450,
+      "channels": 2,
+      "rate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 4.5,
+      "trimFrames": [
+        0,
+        198450
+      ],
+      "gainLinear": 1.0,
+      "gainDb": 0.0,
+      "regionFrames": [
+        252566,
+        451016
+      ],
+      "loop": null,
+      "transform": "trim-gain",
+      "listening": {
+        "status": "Not auditioned",
+        "listener": null,
+        "verdict": null,
+        "finalOwner": "04-32"
+      },
+      "technical": {
+        "peak": 24243,
+        "rms": 2823.2774056179483,
+        "nonzeroSamples": 380954,
+        "fullScaleSamples": 0
+      }
+    },
+    {
+      "id": "interface.r3558.loop",
+      "version": 1,
+      "sourceId": "r3558",
+      "variantMember": "variants/interface.r3558.loop.wav",
+      "sha256": "6fd6a65434e149fb8670092471ea90c3abff23ee2b1f104c57f927bf33a5c291",
+      "pcmSha256": "22c161045c7eba2b3ae9db51f73a542e2c02f7eb66593a1f4eafb75dae65c288",
+      "frames": 352800,
+      "channels": 2,
+      "rate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 8.0,
+      "trimFrames": [
+        0,
+        353312
+      ],
+      "gainLinear": 1.0,
+      "gainDb": 0.0,
+      "regionFrames": [
+        453221,
+        806021
+      ],
+      "loop": {
+        "mode": "forward",
+        "startFrame": 0,
+        "endFrame": 352800,
+        "crossfadeFrames": 512,
+        "sourceTrimFrames": [
+          0,
+          353312
+        ],
+        "method": "tail-head-overlap-add",
+        "auditorySeamVerdict": "Not auditioned"
+      },
+      "transform": "trim-overlap-add-gain",
+      "listening": {
+        "status": "Not auditioned",
+        "listener": null,
+        "verdict": null,
+        "finalOwner": "04-32"
+      },
+      "technical": {
+        "peak": 13481,
+        "rms": 2522.7349398132783,
+        "nonzeroSamples": 705370,
+        "fullScaleSamples": 0
+      }
+    },
+    {
+      "id": "interface.r2860.full",
+      "version": 1,
+      "sourceId": "r2860",
+      "variantMember": "variants/interface.r2860.full.wav",
+      "sha256": "6ad0178bf5688007d55d9438a2dd4474ed4480c8a09819a4d12f3a3e2655eba5",
+      "pcmSha256": "4a5268a206ffb5363b0562e96f63e0e11792ee27b517b68adc3610c4f587102a",
+      "frames": 115762,
+      "channels": 2,
+      "rate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 2.6249886621315195,
+      "trimFrames": [
+        0,
+        115762
+      ],
+      "gainLinear": 0.80423470890467,
+      "gainDb": -1.8923437537223524,
+      "regionFrames": [
+        808226,
+        923988
+      ],
+      "loop": null,
+      "transform": "trim-gain",
+      "listening": {
+        "status": "Not auditioned",
+        "listener": null,
+        "verdict": null,
+        "finalOwner": "04-32"
+      },
+      "technical": {
+        "peak": 24575,
+        "rms": 3020.022925266454,
+        "nonzeroSamples": 222664,
+        "fullScaleSamples": 0
+      }
+    },
+    {
+      "id": "interface.r5582.full",
+      "version": 1,
+      "sourceId": "r5582",
+      "variantMember": "variants/interface.r5582.full.wav",
+      "sha256": "7dcde40cd3bf4d02df1810fffa60e3b904be7f3479e233f35fb6317e8ad6d269",
+      "pcmSha256": "2738e8114c90436776e61222142434a841147fdcce02deb6b15fe79a9f967372",
+      "frames": 40632,
+      "channels": 2,
+      "rate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 0.9213605442176871,
+      "trimFrames": [
+        0,
+        40632
+      ],
+      "gainLinear": 0.8292279659873127,
+      "gainDb": -1.6265211921239904,
+      "regionFrames": [
+        926193,
+        966825
+      ],
+      "loop": null,
+      "transform": "trim-gain",
+      "listening": {
+        "status": "Not auditioned",
+        "listener": null,
+        "verdict": null,
+        "finalOwner": "04-32"
+      },
+      "technical": {
+        "peak": 24575,
+        "rms": 2731.502568648972,
+        "nonzeroSamples": 75118,
+        "fullScaleSamples": 0
+      }
+    },
+    {
+      "id": "interface.r4364.full",
+      "version": 1,
+      "sourceId": "r4364",
+      "variantMember": "variants/interface.r4364.full.wav",
+      "sha256": "7e2f75dc59ab8ab721e2608338be93d4b5a1e9257af34cd9a008406e727540f6",
+      "pcmSha256": "68e78664ee26ade7edc64eeefdd3711bcf8814a5b27fdc9001a42034cc6ad2de",
+      "frames": 230821,
+      "channels": 2,
+      "rate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 5.234036281179138,
+      "trimFrames": [
+        0,
+        230821
+      ],
+      "gainLinear": 0.7528874728102692,
+      "gainDb": -2.465398579291514,
+      "regionFrames": [
+        969030,
+        1199851
+      ],
+      "loop": null,
+      "transform": "trim-gain",
+      "listening": {
+        "status": "Not auditioned",
+        "listener": null,
+        "verdict": null,
+        "finalOwner": "04-32"
+      },
+      "technical": {
+        "peak": 24575,
+        "rms": 3671.0762567159145,
+        "nonzeroSamples": 459947,
+        "fullScaleSamples": 0
+      }
+    },
+    {
+      "id": "interface.r4441.loop",
+      "version": 1,
+      "sourceId": "r4441",
+      "variantMember": "variants/interface.r4441.loop.wav",
+      "sha256": "f014aaa27a4fe5d65622b5f2f42fc2d9d7651cf16852fbc79da90d442858c1b1",
+      "pcmSha256": "a453e71dcd7c3b4aa049744a88ef5290a86cbbd69d61cabcd7148b7080d87e7d",
+      "frames": 352800,
+      "channels": 2,
+      "rate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 8.0,
+      "trimFrames": [
+        0,
+        353312
+      ],
+      "gainLinear": 1.0,
+      "gainDb": 0.0,
+      "regionFrames": [
+        1202056,
+        1554856
+      ],
+      "loop": {
+        "mode": "forward",
+        "startFrame": 0,
+        "endFrame": 352800,
+        "crossfadeFrames": 512,
+        "sourceTrimFrames": [
+          0,
+          353312
+        ],
+        "method": "tail-head-overlap-add",
+        "auditorySeamVerdict": "Not auditioned"
+      },
+      "transform": "trim-overlap-add-gain",
+      "listening": {
+        "status": "Not auditioned",
+        "listener": null,
+        "verdict": null,
+        "finalOwner": "04-32"
+      },
+      "technical": {
+        "peak": 10840,
+        "rms": 618.7576591064936,
+        "nonzeroSamples": 704560,
+        "fullScaleSamples": 0
+      }
+    },
+    {
+      "id": "interface.s0438.full",
+      "version": 1,
+      "sourceId": "s0438",
+      "variantMember": "variants/interface.s0438.full.wav",
+      "sha256": "d3ecfbab8f1fb86bdbaac7ad937d00781ceec4b305ac1eb1f822bdce3609794f",
+      "pcmSha256": "d4acf18556fe442a47e1121d1a0474537723c6b633758c827e83d0949351126b",
+      "frames": 24738,
+      "channels": 2,
+      "rate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 0.560952380952381,
+      "trimFrames": [
+        0,
+        24738
+      ],
+      "gainLinear": 1.0,
+      "gainDb": 0.0,
+      "regionFrames": [
+        1557061,
+        1581799
+      ],
+      "loop": null,
+      "transform": "trim-gain",
+      "listening": {
+        "status": "Not auditioned",
+        "listener": null,
+        "verdict": null,
+        "finalOwner": "04-32"
+      },
+      "technical": {
+        "peak": 23326,
+        "rms": 2736.50261045888,
+        "nonzeroSamples": 48946,
+        "fullScaleSamples": 0
+      }
+    },
+    {
+      "id": "interface.s0485.full",
+      "version": 1,
+      "sourceId": "s0485",
+      "variantMember": "variants/interface.s0485.full.wav",
+      "sha256": "b660eeb9c50e94f3c35244a489540131e421f265525bb2c67a13988b026b8b30",
+      "pcmSha256": "2ab9f6e698152e7edb5f58456c1b378a44e039cee3de20deae9111e6ce119d6d",
+      "frames": 28780,
+      "channels": 2,
+      "rate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 0.6526077097505669,
+      "trimFrames": [
+        0,
+        28780
+      ],
+      "gainLinear": 1.0,
+      "gainDb": 0.0,
+      "regionFrames": [
+        1584004,
+        1612784
+      ],
+      "loop": null,
+      "transform": "trim-gain",
+      "listening": {
+        "status": "Not auditioned",
+        "listener": null,
+        "verdict": null,
+        "finalOwner": "04-32"
+      },
+      "technical": {
+        "peak": 16492,
+        "rms": 2006.6450638003616,
+        "nonzeroSamples": 56009,
+        "fullScaleSamples": 0
+      }
+    },
+    {
+      "id": "interface.s0485.negative",
+      "version": 1,
+      "sourceId": "s0485",
+      "variantMember": "variants/interface.s0485.negative.wav",
+      "sha256": "51af75088d03a164edbb283a47760dcfb331dae28a50b030137e20fbc7adeded",
+      "pcmSha256": "e38d55c213d292b851a404f87241b1b994f47a8022bc565d5c468896831c1ad6",
+      "frames": 15435,
+      "channels": 2,
+      "rate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 0.35,
+      "trimFrames": [
+        0,
+        6615
+      ],
+      "gainLinear": 0.7,
+      "gainDb": -3.0980391997148637,
+      "regionFrames": [
+        1614989,
+        1630424
+      ],
+      "loop": null,
+      "transform": "two-pulses-with-2205-frame-gap",
+      "listening": {
+        "status": "Not auditioned",
+        "listener": null,
+        "verdict": null,
+        "finalOwner": "04-32"
+      },
+      "technical": {
+        "peak": 9505,
+        "rms": 974.7361754810289,
+        "nonzeroSamples": 25490,
+        "fullScaleSamples": 0
+      }
+    },
+    {
+      "id": "interface.s0449.full",
+      "version": 1,
+      "sourceId": "s0449",
+      "variantMember": "variants/interface.s0449.full.wav",
+      "sha256": "aeda864af19181dda6a261dc0d5eb3687c6a823e3b29a7d96ca0e3bfd564eda4",
+      "pcmSha256": "480e054ca5025606565f00bc59b5709590971a6328d879ad51330975902edfcb",
+      "frames": 9242,
+      "channels": 2,
+      "rate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 0.20956916099773243,
+      "trimFrames": [
+        0,
+        9242
+      ],
+      "gainLinear": 1.0,
+      "gainDb": 0.0,
+      "regionFrames": [
+        1632629,
+        1641871
+      ],
+      "loop": null,
+      "transform": "trim-gain",
+      "listening": {
+        "status": "Not auditioned",
+        "listener": null,
+        "verdict": null,
+        "finalOwner": "04-32"
+      },
+      "technical": {
+        "peak": 10526,
+        "rms": 467.4522638963863,
+        "nonzeroSamples": 17439,
+        "fullScaleSamples": 0
+      }
+    },
+    {
+      "id": "interface.s0507.full",
+      "version": 1,
+      "sourceId": "s0507",
+      "variantMember": "variants/interface.s0507.full.wav",
+      "sha256": "8944b24d990c5c029be27a22421e14580d3464d78d1f334a6752bc2faf771fe3",
+      "pcmSha256": "542b9d637f5a4a95595d894b501162ef29106b5155e925b4f46c53313f1b7f61",
+      "frames": 192937,
+      "channels": 2,
+      "rate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 4.3749886621315195,
+      "trimFrames": [
+        0,
+        192937
+      ],
+      "gainLinear": 1.0,
+      "gainDb": 0.0,
+      "regionFrames": [
+        1644076,
+        1837013
+      ],
+      "loop": null,
+      "transform": "trim-gain",
+      "listening": {
+        "status": "Not auditioned",
+        "listener": null,
+        "verdict": null,
+        "finalOwner": "04-32"
+      },
+      "technical": {
+        "peak": 22880,
+        "rms": 2022.7545841073572,
+        "nonzeroSamples": 376746,
+        "fullScaleSamples": 0
+      }
+    },
+    {
+      "id": "interface.s0437.full",
+      "version": 1,
+      "sourceId": "s0437",
+      "variantMember": "variants/interface.s0437.full.wav",
+      "sha256": "8f1a37ab1202c3d7a3255e8641e029a4a93755c8509ce1b01caa71ee76cb214d",
+      "pcmSha256": "7b3804dabba41205ee21c61f21e1659fdbf808edd58b79295db8b354d37cd0bf",
+      "frames": 115762,
+      "channels": 2,
+      "rate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 2.6249886621315195,
+      "trimFrames": [
+        0,
+        115762
+      ],
+      "gainLinear": 0.9620654556843095,
+      "gainDb": -0.33590758054430453,
+      "regionFrames": [
+        1839218,
+        1954980
+      ],
+      "loop": null,
+      "transform": "trim-gain",
+      "listening": {
+        "status": "Not auditioned",
+        "listener": null,
+        "verdict": null,
+        "finalOwner": "04-32"
+      },
+      "technical": {
+        "peak": 24575,
+        "rms": 2328.357979031144,
+        "nonzeroSamples": 220613,
+        "fullScaleSamples": 0
+      }
+    },
+    {
+      "id": "interface.s0420.full",
+      "version": 1,
+      "sourceId": "s0420",
+      "variantMember": "variants/interface.s0420.full.wav",
+      "sha256": "e92e53c0c720e4e12e9e6705e06a0f71bc0dfb4880cd87d2016a89106064d90d",
+      "pcmSha256": "4a0321bfa91251e7dea0bad196a204a4fb050dc979219fbc4392bfc1b5c2ef9d",
+      "frames": 7973,
+      "channels": 2,
+      "rate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 0.18079365079365078,
+      "trimFrames": [
+        0,
+        7973
+      ],
+      "gainLinear": 1.0,
+      "gainDb": 0.0,
+      "regionFrames": [
+        1957185,
+        1965158
+      ],
+      "loop": null,
+      "transform": "trim-gain",
+      "listening": {
+        "status": "Not auditioned",
+        "listener": null,
+        "verdict": null,
+        "finalOwner": "04-32"
+      },
+      "technical": {
+        "peak": 933,
+        "rms": 72.1963667846037,
+        "nonzeroSamples": 14518,
+        "fullScaleSamples": 0
+      }
+    },
+    {
+      "id": "interface.s0392.full",
+      "version": 1,
+      "sourceId": "s0392",
+      "variantMember": "variants/interface.s0392.full.wav",
+      "sha256": "44157eb4acb1a9ba0897b4b297352dee3d1b395ce2c5d0ea808d5a8975b46dcc",
+      "pcmSha256": "46fc8cc73bd32baafbe33894e965c065af60317b6f45b7882e9dee3e4af211e3",
+      "frames": 8268,
+      "channels": 2,
+      "rate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 0.1874829931972789,
+      "trimFrames": [
+        0,
+        8268
+      ],
+      "gainLinear": 1.0,
+      "gainDb": 0.0,
+      "regionFrames": [
+        1967363,
+        1975631
+      ],
+      "loop": null,
+      "transform": "trim-gain",
+      "listening": {
+        "status": "Not auditioned",
+        "listener": null,
+        "verdict": null,
+        "finalOwner": "04-32"
+      },
+      "technical": {
+        "peak": 1210,
+        "rms": 141.52986465157173,
+        "nonzeroSamples": 15511,
+        "fullScaleSamples": 0
+      }
+    },
+    {
+      "id": "interface.s268.full",
+      "version": 1,
+      "sourceId": "s268",
+      "variantMember": "variants/interface.s268.full.wav",
+      "sha256": "ccbeb8e4f5d0b54d2fb3ba76d1f4a6d978cfd475acff98f6adcb345ef26675da",
+      "pcmSha256": "de603467d136df357e4f59462c8ccfdb3231824ad0d2de6f27b0d066ffb127a2",
+      "frames": 203220,
+      "channels": 2,
+      "rate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 4.608163265306122,
+      "trimFrames": [
+        0,
+        203220
+      ],
+      "gainLinear": 1.0,
+      "gainDb": 0.0,
+      "regionFrames": [
+        1977836,
+        2181056
+      ],
+      "loop": null,
+      "transform": "trim-gain",
+      "listening": {
+        "status": "Not auditioned",
+        "listener": null,
+        "verdict": null,
+        "finalOwner": "04-32"
+      },
+      "technical": {
+        "peak": 22794,
+        "rms": 569.7762474414062,
+        "nonzeroSamples": 311590,
+        "fullScaleSamples": 0
+      }
+    },
+    {
+      "id": "interface.s2125.loop",
+      "version": 1,
+      "sourceId": "s2125",
+      "variantMember": "variants/interface.s2125.loop.wav",
+      "sha256": "a1efb6ed2644e895241858b223e4469ff28b682ad8e9e477a364e1f3790b4fa0",
+      "pcmSha256": "77e77ed1006de8fb41c603b35a4266d1b62635b85f467f5d6886c9b6baf06119",
+      "frames": 352800,
+      "channels": 2,
+      "rate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 8.0,
+      "trimFrames": [
+        0,
+        353312
+      ],
+      "gainLinear": 1.0,
+      "gainDb": 0.0,
+      "regionFrames": [
+        2183261,
+        2536061
+      ],
+      "loop": {
+        "mode": "forward",
+        "startFrame": 0,
+        "endFrame": 352800,
+        "crossfadeFrames": 512,
+        "sourceTrimFrames": [
+          0,
+          353312
+        ],
+        "method": "tail-head-overlap-add",
+        "auditorySeamVerdict": "Not auditioned"
+      },
+      "transform": "trim-overlap-add-gain",
+      "listening": {
+        "status": "Not auditioned",
+        "listener": null,
+        "verdict": null,
+        "finalOwner": "04-32"
+      },
+      "technical": {
+        "peak": 5899,
+        "rms": 498.14302963299485,
+        "nonzeroSamples": 703079,
+        "fullScaleSamples": 0
+      }
+    },
+    {
+      "id": "interface.s2138.loop",
+      "version": 1,
+      "sourceId": "s2138",
+      "variantMember": "variants/interface.s2138.loop.wav",
+      "sha256": "89b182e145df8328f22a90158d510d048cec816b0113ea5a177ab1f38c633026",
+      "pcmSha256": "e6c3dab07369d5be655b8711c5565829439e3a5112c4d48ec7d3293ad368f3ec",
+      "frames": 352800,
+      "channels": 2,
+      "rate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 8.0,
+      "trimFrames": [
+        0,
+        353312
+      ],
+      "gainLinear": 1.0,
+      "gainDb": 0.0,
+      "regionFrames": [
+        2538266,
+        2891066
+      ],
+      "loop": {
+        "mode": "forward",
+        "startFrame": 0,
+        "endFrame": 352800,
+        "crossfadeFrames": 512,
+        "sourceTrimFrames": [
+          0,
+          353312
+        ],
+        "method": "tail-head-overlap-add",
+        "auditorySeamVerdict": "Not auditioned"
+      },
+      "transform": "trim-overlap-add-gain",
+      "listening": {
+        "status": "Not auditioned",
+        "listener": null,
+        "verdict": null,
+        "finalOwner": "04-32"
+      },
+      "technical": {
+        "peak": 1898,
+        "rms": 312.61889331951363,
+        "nonzeroSamples": 703472,
+        "fullScaleSamples": 0
+      }
+    },
+    {
+      "id": "interface.s2152.loop",
+      "version": 1,
+      "sourceId": "s2152",
+      "variantMember": "variants/interface.s2152.loop.wav",
+      "sha256": "7c93a215c5bfe7c8bea7dd7ab1be09b4289f321e8c3dc75dd48603bd1ba50cf0",
+      "pcmSha256": "e24648c2368f157960ac0ce0341968489731196b318bd5c52d4e666c7e42e5bc",
+      "frames": 352800,
+      "channels": 2,
+      "rate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 8.0,
+      "trimFrames": [
+        0,
+        353312
+      ],
+      "gainLinear": 1.0,
+      "gainDb": 0.0,
+      "regionFrames": [
+        2893271,
+        3246071
+      ],
+      "loop": {
+        "mode": "forward",
+        "startFrame": 0,
+        "endFrame": 352800,
+        "crossfadeFrames": 512,
+        "sourceTrimFrames": [
+          0,
+          353312
+        ],
+        "method": "tail-head-overlap-add",
+        "auditorySeamVerdict": "Not auditioned"
+      },
+      "transform": "trim-overlap-add-gain",
+      "listening": {
+        "status": "Not auditioned",
+        "listener": null,
+        "verdict": null,
+        "finalOwner": "04-32"
+      },
+      "technical": {
+        "peak": 9502,
+        "rms": 692.7933576391223,
+        "nonzeroSamples": 704710,
+        "fullScaleSamples": 0
+      }
+    },
+    {
+      "id": "interface.food-crunch.v1",
+      "version": 1,
+      "sourceId": "generated-food-crunch",
+      "variantMember": "variants/interface.food-crunch.v1.wav",
+      "sha256": "fc06d6709f23a46f946c6d232af68eebc2e24a5fb7fbde1335b884d4484de092",
+      "pcmSha256": "b17fa3807327365e38e53779c11e22196227a56aa29dbccd12f5df02bfcf0a9e",
+      "frames": 11025,
+      "channels": 2,
+      "rate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 0.25,
+      "trimFrames": [
+        0,
+        11025
+      ],
+      "gainLinear": 1,
+      "gainDb": 0.0,
+      "regionFrames": [
+        3248276,
+        3259301
+      ],
+      "loop": null,
+      "transform": "seed190021-four-noise-transients",
+      "listening": {
+        "status": "Not auditioned",
+        "listener": null,
+        "verdict": null,
+        "finalOwner": "04-32"
+      },
+      "technical": {
+        "peak": 4639,
+        "rms": 771.3730968295898,
+        "nonzeroSamples": 21148,
+        "fullScaleSamples": 0
+      }
+    },
+    {
+      "id": "interface.bloater-burst.v1",
+      "version": 1,
+      "sourceId": "action.2790.full",
+      "variantMember": "variants/interface.bloater-burst.v1.wav",
+      "sha256": "0114df77bf73656e5a4d44f56fcb7eba86eefadacfa4f3c2ec11d6303e98e4ac",
+      "pcmSha256": "a0e38cf9fdf453aa472dd53dc21c5e8c4fba7a6c3382a09fdfc8917d9639bea0",
+      "frames": 13230,
+      "channels": 2,
+      "rate": 44100,
+      "sampleWidth": 2,
+      "durationSeconds": 0.3,
+      "trimFrames": [
+        0,
+        13230
+      ],
+      "gainLinear": 0.65,
+      "gainDb": -3.7417328671428884,
+      "regionFrames": [
+        3261506,
+        3274736
+      ],
+      "loop": null,
+      "transform": "shared-approved-source-new-trim-not-auditioned",
+      "listening": {
+        "status": "Not auditioned",
+        "listener": null,
+        "verdict": null,
+        "finalOwner": "04-32"
+      },
+      "technical": {
+        "peak": 728,
+        "rms": 175.69803609210126,
+        "nonzeroSamples": 26260,
+        "fullScaleSamples": 0
+      }
+    }
+  ],
+  "listening": {
+    "status": "Not auditioned",
+    "listener": null,
+    "verdicts": [],
+    "acceptanceOwner": "04-32"
+  },
+  "donorGap": {
+    "category": "AU-19",
+    "authority": "specs/0.1/assets-and-resources.md section10 AU-19",
+    "evidence": "Food-use detail has no verified suitable human donor in the approved donor inventory; animal-eating recordings are not selected as human food sounds",
+    "synthesis": "Deterministic non-tonal contact/crunch texture seed190021; needs real audition",
+    "unsupportedDonorUnsuitabilityClaims": []
+  },
+  "sharedSources": [
+    {
+      "id": "action.2790.full",
+      "pack": "packs/audio-actions.json",
+      "wavSha256": "9b29b74a94784a96307282820866e3be9731670dc32e9baa2ddd3bdbcb53f4cb",
+      "use": "New cosmetic burst trim; creator approval not extended"
+    }
+  ],
+  "recipes": {
+    "decoderMember": "recipes/decode-interface.py",
+    "decoderSha256": "df674987d2c9e0d45b8da0e5b55a9342ac4b8dbcc45221763d2754907e5df88b",
+    "assemblerMember": "recipes/assemble-interface.py",
+    "assemblerSha256": "4d1b537ffe933e13c11955e9437422bddc5532a85ae5596684940ff4e2868b37"
+  },
+  "bundleMembers": [
+    {
+      "path": "recipes/assemble-interface.py",
+      "bytes": 8630,
+      "sha256": "4d1b537ffe933e13c11955e9437422bddc5532a85ae5596684940ff4e2868b37"
+    },
+    {
+      "path": "recipes/decode-interface.py",
+      "bytes": 7875,
+      "sha256": "df674987d2c9e0d45b8da0e5b55a9342ac4b8dbcc45221763d2754907e5df88b"
+    },
+    {
+      "path": "recipes/selection.json",
+      "bytes": 1598,
+      "sha256": "6eb3eb1fd588b0fb8d6f87a8360ed6bac7fcb9811f25035bfde74b6fc7a7265d"
+    },
+    {
+      "path": "review/index.html",
+      "bytes": 7384,
+      "sha256": "e276afbaf4e0a486a1f1ca414d522ac9175267d921b4ae0debd69ff937c14b6d"
+    },
+    {
+      "path": "review/questions.txt",
+      "bytes": 332,
+      "sha256": "c36e424e00a9b8abf5c11d4c0fca82967c909a287e3cdefb50f86509ddd9b9a1"
+    },
+    {
+      "path": "sources/r2860/audioclip.bin",
+      "bytes": 120,
+      "sha256": "62f05252bf365959e57928768b8aa43ddc7fb23a0404e4934acc6fd1fe3ac502"
+    },
+    {
+      "path": "sources/r2860/original.wav",
+      "bytes": 231568,
+      "sha256": "eca5a997c9a3ad2775cf99c4b80259af9eef59830b4dc35ac8f489467d3f0761"
+    },
+    {
+      "path": "sources/r2860/provenance.json",
+      "bytes": 2530,
+      "sha256": "d5f878b39ad0d177fe1741553dbdb51e09132ad0222c3866e482a567fdd4511d"
+    },
+    {
+      "path": "sources/r2860/stream.fsb",
+      "bytes": 24672,
+      "sha256": "8d7c574ad1be68d1075b8d9156d360ee0ddd1db44b96b456b5f6d9d73c514adf"
+    },
+    {
+      "path": "sources/r3195/audioclip.bin",
+      "bytes": 100,
+      "sha256": "f0775e978d8c5dea0ee5778d6d05cef645160ca0046a9bed1c78d08abd321a20"
+    },
+    {
+      "path": "sources/r3195/original.wav",
+      "bytes": 92928,
+      "sha256": "a0b4d70afe71a1ac9f31dee364aac5fbbf0d12af73df9b0bb2fda6e30867b53f"
+    },
+    {
+      "path": "sources/r3195/provenance.json",
+      "bytes": 2485,
+      "sha256": "85b1905184257e33a78966838d33fc107d1b05dfb174873508fc9cac5a534bdd"
+    },
+    {
+      "path": "sources/r3195/stream.fsb",
+      "bytes": 93280,
+      "sha256": "ecb5abe4050a32a8c6200e1ceb934c4299cf885c75968aaf278bcd3e1daf5800"
+    },
+    {
+      "path": "sources/r3254/audioclip.bin",
+      "bytes": 96,
+      "sha256": "c3b6dbdbb278c9d39865e11e2e4bb8ab2b650f977d71f6928e0f4ac94323663c"
+    },
+    {
+      "path": "sources/r3254/original.wav",
+      "bytes": 132344,
+      "sha256": "aa35e12e49166a1b6b936c2deaf6d9a0c459516e5d31f94d77c0bd218906bbf3"
+    },
+    {
+      "path": "sources/r3254/provenance.json",
+      "bytes": 2468,
+      "sha256": "5ce3a130a222581fc5cb0e47e059c04528c421593e2ae485a8d69aa8d3332d3c"
+    },
+    {
+      "path": "sources/r3254/stream.fsb",
+      "bytes": 132704,
+      "sha256": "3f27bcbfdab70b29a0a28ded3e2a8cf5e869951e8c4c31c17dadb66f917bc405"
+    },
+    {
+      "path": "sources/r3558/audioclip.bin",
+      "bytes": 96,
+      "sha256": "0f09e7f9b430d695a1bfa4fff40a2fcf5ba028c93501e8ff2d5eb4c76762824d"
+    },
+    {
+      "path": "sources/r3558/original.wav",
+      "bytes": 3152724,
+      "sha256": "8ed8df0a59ad923ed3916ea83844609240e625276dc5e155c14a385762606be0"
+    },
+    {
+      "path": "sources/r3558/provenance.json",
+      "bytes": 2489,
+      "sha256": "5946f796f263540510503b9e89b227ce6cb04f76a682f60bfcbd50420fda5737"
+    },
+    {
+      "path": "sources/r3558/stream.fsb",
+      "bytes": 989728,
+      "sha256": "d3536b370d9324265e42fac1c64428c92ced4fe5c1778e324db1b35bcf3c6a34"
+    },
+    {
+      "path": "sources/r3755/audioclip.bin",
+      "bytes": 92,
+      "sha256": "68e124d6fb1c61df9783a79a8d94afada49aff5e3e275d71913bc379bca85add"
+    },
+    {
+      "path": "sources/r3755/original.wav",
+      "bytes": 338604,
+      "sha256": "ccce8f9975b78d31bb6b1a062cdf15e323adad95c3608155026849325ab16dfc"
+    },
+    {
+      "path": "sources/r3755/provenance.json",
+      "bytes": 2474,
+      "sha256": "e8cff4335bc9c6e27652624d9f3540261d8fd18ebcfa2a8daf9bc9cbf3e0664e"
+    },
+    {
+      "path": "sources/r3755/stream.fsb",
+      "bytes": 338944,
+      "sha256": "61abec2e0c67c7fb23f5b7b8f3585ca177919fffce8720196195df93a99a1531"
+    },
+    {
+      "path": "sources/r3863/audioclip.bin",
+      "bytes": 104,
+      "sha256": "f1516fc12f51a20a950f566fe8858c6c719e18123f252b24de99e4a994f50b43"
+    },
+    {
+      "path": "sources/r3863/original.wav",
+      "bytes": 50928,
+      "sha256": "e8ed4578c8f181d449317aa8169e77e4494e6fd5fa824068d2b1121a50aff315"
+    },
+    {
+      "path": "sources/r3863/provenance.json",
+      "bytes": 2497,
+      "sha256": "85d05b9acc43ec7cb56b01ee62af0ae64c585f8efaf2c7e5419f6a4b02a1abde"
+    },
+    {
+      "path": "sources/r3863/stream.fsb",
+      "bytes": 51296,
+      "sha256": "02af17050d845e8beb5b99dc04ce19a6612c2307083e39ffafd625b3724b8142"
+    },
+    {
+      "path": "sources/r4364/audioclip.bin",
+      "bytes": 104,
+      "sha256": "53c77f5e1affcf17e0f11ac437ed62717e9b533ad1e35bdcc216c9022301eff7"
+    },
+    {
+      "path": "sources/r4364/original.wav",
+      "bytes": 923328,
+      "sha256": "304dd4e428a5fcc7b251ca1d2b3c2e8224919b91c7b244494f2fac1e60f6da9f"
+    },
+    {
+      "path": "sources/r4364/provenance.json",
+      "bytes": 2499,
+      "sha256": "d17631176b72862c1ca36b2149032f18b868bb60176ec06320b38a5929c30c62"
+    },
+    {
+      "path": "sources/r4364/stream.fsb",
+      "bytes": 293632,
+      "sha256": "8310bada584975eb05413a773c0eb62e86533643734848a71b33cb825fc2a048"
+    },
+    {
+      "path": "sources/r4441/audioclip.bin",
+      "bytes": 92,
+      "sha256": "7664a27e1af487d07228837eff59003ca54af0d9e9a27263cedab28c9d0818a9"
+    },
+    {
+      "path": "sources/r4441/original.wav",
+      "bytes": 2281852,
+      "sha256": "b45ffd517dd4b14fd88ff1d7e08c582a3bb46db6249f3e52bde637ce008b1fa6"
+    },
+    {
+      "path": "sources/r4441/provenance.json",
+      "bytes": 2482,
+      "sha256": "413091eb0b516ea8c6c809ede893970b521f6aa5c83101c7390c6e9016d559e0"
+    },
+    {
+      "path": "sources/r4441/stream.fsb",
+      "bytes": 664224,
+      "sha256": "c365abafa70d58d1de9274e1b4673699ed327cce8a507bd11835f6fad8b66f67"
+    },
+    {
+      "path": "sources/r4864/audioclip.bin",
+      "bytes": 100,
+      "sha256": "a26b79bd756c195ee2bec78766f8ee6bbf906d8be6e0e3a8ce6ae1e295bb3747"
+    },
+    {
+      "path": "sources/r4864/original.wav",
+      "bytes": 45336,
+      "sha256": "fad59f8583d637d114f2cfee5bc56c964269084e9aacfe912c879fbe5d5ab0a8"
+    },
+    {
+      "path": "sources/r4864/provenance.json",
+      "bytes": 2492,
+      "sha256": "8267b2f979894a76bdda303a4e593cd610e010e89c218dff5524c22b40ce97e2"
+    },
+    {
+      "path": "sources/r4864/stream.fsb",
+      "bytes": 45696,
+      "sha256": "0177c56261f4d19cbc03d801f1c5b9ea3524a050a883cf763773667c8ab019e1"
+    },
+    {
+      "path": "sources/r4973/audioclip.bin",
+      "bytes": 100,
+      "sha256": "abee3e7eb5cd1ef4b864e30fcebd77ae627e05329cd188cccaafb4569573203b"
+    },
+    {
+      "path": "sources/r4973/original.wav",
+      "bytes": 262188,
+      "sha256": "6c074e69db73c926a0b6d0d02bb15e17c83d783b531dfdd17065cfe62eb289c0"
+    },
+    {
+      "path": "sources/r4973/provenance.json",
+      "bytes": 2486,
+      "sha256": "7002264d82f7f033cedef882747c273aba7d4ab615fad4e893e2e638781aeb5d"
+    },
+    {
+      "path": "sources/r4973/stream.fsb",
+      "bytes": 59040,
+      "sha256": "2334b009ed32441d1c71c5b4ad8023d7def8d53dc55b923c32ccaddb443db054"
+    },
+    {
+      "path": "sources/r5582/audioclip.bin",
+      "bytes": 120,
+      "sha256": "d07dc36ff473abd7ac46a60e2575459c3b4934bea70ed9a6d9b018cd2e2827c2"
+    },
+    {
+      "path": "sources/r5582/original.wav",
+      "bytes": 81308,
+      "sha256": "9c48678948b13758ee019283b44753b4c4f2e074bd87737da5f64b821d1d307e"
+    },
+    {
+      "path": "sources/r5582/provenance.json",
+      "bytes": 2528,
+      "sha256": "f01876d9dad8c4dc4b6721a9f9f7050554a8e67b4bf3df67e4fc0be1c5fcf84a"
+    },
+    {
+      "path": "sources/r5582/stream.fsb",
+      "bytes": 9888,
+      "sha256": "8509cd48a729e588fb40961484a952fe72a9608aeb6e9743a98a76dd3619980a"
+    },
+    {
+      "path": "sources/r5586/audioclip.bin",
+      "bytes": 100,
+      "sha256": "3ac82dc2ccddd24367135b0f5c3c90aef5dedf30b88c101a408f4f36014174b8"
+    },
+    {
+      "path": "sources/r5586/original.wav",
+      "bytes": 793844,
+      "sha256": "8d7d59cc8ba016896645c6cb826b4b4d87296664748596dcf5aab9d66bcb073c"
+    },
+    {
+      "path": "sources/r5586/provenance.json",
+      "bytes": 2475,
+      "sha256": "59f071d084489c7a9df690b8ca9bab786b3cece12a0c1071baf3d4677efaf6ea"
+    },
+    {
+      "path": "sources/r5586/stream.fsb",
+      "bytes": 199424,
+      "sha256": "8838cca1be4de2b395c3312ceb2ba9bdc2ea3082c941072af29657340b338f0f"
+    },
+    {
+      "path": "sources/s0392/audioclip.bin",
+      "bytes": 100,
+      "sha256": "727db8c514aaf709773ff77f00aed4b1c274c1e1316534827ffcd8a94a0c69b0"
+    },
+    {
+      "path": "sources/s0392/original.wav",
+      "bytes": 33116,
+      "sha256": "44157eb4acb1a9ba0897b4b297352dee3d1b395ce2c5d0ea808d5a8975b46dcc"
+    },
+    {
+      "path": "sources/s0392/provenance.json",
+      "bytes": 2500,
+      "sha256": "1b5536ae4e5aa72f36a021375f0d90b6fd1da837c53789a8552506d93aef685c"
+    },
+    {
+      "path": "sources/s0392/stream.fsb",
+      "bytes": 33472,
+      "sha256": "e8125a38490bff05412454457291dcf0a02cf6d7498e0b23d459bb42a42de885"
+    },
+    {
+      "path": "sources/s0420/audioclip.bin",
+      "bytes": 100,
+      "sha256": "322d4f39948b28ed3c565a8028370bfaeeddbf16b8a90fdadca58e1e5a46240b"
+    },
+    {
+      "path": "sources/s0420/original.wav",
+      "bytes": 31936,
+      "sha256": "e92e53c0c720e4e12e9e6705e06a0f71bc0dfb4880cd87d2016a89106064d90d"
+    },
+    {
+      "path": "sources/s0420/provenance.json",
+      "bytes": 2501,
+      "sha256": "a1935bdd7dff4f4e0441280a77dc5b307a93c59f7c32182dc1b96bfed5cd1ac4"
+    },
+    {
+      "path": "sources/s0420/stream.fsb",
+      "bytes": 32544,
+      "sha256": "12f1b3f93dfc2f5920412a5305a12e28cda810750e3c1e00a946a9c88ee573f0"
+    },
+    {
+      "path": "sources/s0437/audioclip.bin",
+      "bytes": 100,
+      "sha256": "bda758a49145b76aee3515d55c79a46778f41291bf47fb30c6595b3c84bf96d6"
+    },
+    {
+      "path": "sources/s0437/original.wav",
+      "bytes": 463092,
+      "sha256": "0e6036c1e80ff9af1161225c9d4429c4b984a67dfb75ef0d810c3462aedfdd72"
+    },
+    {
+      "path": "sources/s0437/provenance.json",
+      "bytes": 2505,
+      "sha256": "cf9dff1db5a2aef8a5c978bed8148e7e39b820347d1b297f39a4b0291e0e6c00"
+    },
+    {
+      "path": "sources/s0437/stream.fsb",
+      "bytes": 463456,
+      "sha256": "9080aa6b8c7e21d6e3ef1a5b799fb3b3b6a8d558700e4ac02a77f8b7250ce6d9"
+    },
+    {
+      "path": "sources/s0438/audioclip.bin",
+      "bytes": 96,
+      "sha256": "09c1d8edfc7384db856f97c6d2447875f9c5ff675dff30e97a7705ca93a8df75"
+    },
+    {
+      "path": "sources/s0438/original.wav",
+      "bytes": 98996,
+      "sha256": "d3ecfbab8f1fb86bdbaac7ad937d00781ceec4b305ac1eb1f822bdce3609794f"
+    },
+    {
+      "path": "sources/s0438/provenance.json",
+      "bytes": 2491,
+      "sha256": "d821f9f06e5dd6aa7fd3b841ce7e993275b7c47183ccf9621511a90cf061d793"
+    },
+    {
+      "path": "sources/s0438/stream.fsb",
+      "bytes": 99360,
+      "sha256": "ea9f50d2cd1adb52ede21976ebaeb7f904da8f0b85b2131d80d62c1f32c139f5"
+    },
+    {
+      "path": "sources/s0449/audioclip.bin",
+      "bytes": 96,
+      "sha256": "79b7037cde8123d93642871a31efbbb46e2c00166d6888b6f229291fd7fceb84"
+    },
+    {
+      "path": "sources/s0449/original.wav",
+      "bytes": 37012,
+      "sha256": "aeda864af19181dda6a261dc0d5eb3687c6a823e3b29a7d96ca0e3bfd564eda4"
+    },
+    {
+      "path": "sources/s0449/provenance.json",
+      "bytes": 2487,
+      "sha256": "4542dcf3acf26b107602c3aa5223d2e6729288256874adae2f2e8f57900b024f"
+    },
+    {
+      "path": "sources/s0449/stream.fsb",
+      "bytes": 37376,
+      "sha256": "4100d04523f6617e34e0dcd8e357bb7264b7a95d94450d660b47a6aaf25ed832"
+    },
+    {
+      "path": "sources/s0485/audioclip.bin",
+      "bytes": 96,
+      "sha256": "b09d79ca2fcd74c8371ea1388ef4578512f18c3c2fce0ae602570fb293da9309"
+    },
+    {
+      "path": "sources/s0485/original.wav",
+      "bytes": 115164,
+      "sha256": "b660eeb9c50e94f3c35244a489540131e421f265525bb2c67a13988b026b8b30"
+    },
+    {
+      "path": "sources/s0485/provenance.json",
+      "bytes": 2497,
+      "sha256": "1b8282613e800433940b873ea687e71f3e84fe5cc16f454f4885e7a83e074c6f"
+    },
+    {
+      "path": "sources/s0485/stream.fsb",
+      "bytes": 115520,
+      "sha256": "bf16d976884773a21d0cfb2daaee5be0247afeca77bbfdb2f8edecc69d241575"
+    },
+    {
+      "path": "sources/s0507/audioclip.bin",
+      "bytes": 100,
+      "sha256": "208f06585533cdbef3a883853996f45370e57bc2dcd67b438a9aa465fd3ca0e8"
+    },
+    {
+      "path": "sources/s0507/original.wav",
+      "bytes": 771792,
+      "sha256": "8944b24d990c5c029be27a22421e14580d3464d78d1f334a6752bc2faf771fe3"
+    },
+    {
+      "path": "sources/s0507/provenance.json",
+      "bytes": 2504,
+      "sha256": "dcdbfc40fbbfbf4d025f026db11314c2dafd7bd218b4d2893a91665a535a212a"
+    },
+    {
+      "path": "sources/s0507/stream.fsb",
+      "bytes": 772416,
+      "sha256": "24f6c9921d6a834e17a2030368290fd8c8e0d298eab0945680cbac9d9589a903"
+    },
+    {
+      "path": "sources/s2125/audioclip.bin",
+      "bytes": 112,
+      "sha256": "2b3f36379c817ad389cee5b77cfafa214cce92d972e047f83d18dfdc0d85eb35"
+    },
+    {
+      "path": "sources/s2125/original.wav",
+      "bytes": 16228844,
+      "sha256": "ed0df09cb076110bfbbba0315f951442688a5f3f53c10601bc16fb4c62465f7c"
+    },
+    {
+      "path": "sources/s2125/provenance.json",
+      "bytes": 2520,
+      "sha256": "0a7bb0093c2f3485aa4f7ad061fb2c93377d907cba9f988fe5dabdcb000674ce"
+    },
+    {
+      "path": "sources/s2125/stream.fsb",
+      "bytes": 5129536,
+      "sha256": "44ddeb72652e2045ba949ee1c667b8928112684350ec7a58adcb113d55c323f3"
+    },
+    {
+      "path": "sources/s2138/audioclip.bin",
+      "bytes": 112,
+      "sha256": "a588d733220dc7b9e93c090313a61944cb0e541a63f91a3342708228be35b18c"
+    },
+    {
+      "path": "sources/s2138/original.wav",
+      "bytes": 12946464,
+      "sha256": "b2056738f53d6edf35df40994a400432482e8bbcbf273f90bc499d508fd96b14"
+    },
+    {
+      "path": "sources/s2138/provenance.json",
+      "bytes": 2537,
+      "sha256": "2888afe87f3020b556a3764cc14d268665a87954dd1e72cfbb31e58d7c769206"
+    },
+    {
+      "path": "sources/s2138/stream.fsb",
+      "bytes": 4638976,
+      "sha256": "53338ad6be040bb837b8af7b915bb69bcd939e7ad6ea4068d7b07ad86014bc79"
+    },
+    {
+      "path": "sources/s2152/audioclip.bin",
+      "bytes": 124,
+      "sha256": "8074112e0210026b91ae7773f6fcea957dfbe4f753273be3551047187e6421c8"
+    },
+    {
+      "path": "sources/s2152/original.wav",
+      "bytes": 10710968,
+      "sha256": "bdedd1b64396fc8d89443d95c2e6cb3aa56a6d9e724bb9352081aada3dfc37c8"
+    },
+    {
+      "path": "sources/s2152/provenance.json",
+      "bytes": 2555,
+      "sha256": "0c5e95fa868541177972a4bcf2c898a371ab6171b7dda03524dde045f36185bb"
+    },
+    {
+      "path": "sources/s2152/stream.fsb",
+      "bytes": 3334432,
+      "sha256": "c601c56159a81dcc025aeaca96a51b2be306848c534735e0eb43744730832068"
+    },
+    {
+      "path": "sources/s268/audioclip.bin",
+      "bytes": 104,
+      "sha256": "d44c39bf91b46d453b3c16a9575abd02e4c40e8fc2624a1af90a218a633a64a6"
+    },
+    {
+      "path": "sources/s268/original.wav",
+      "bytes": 812924,
+      "sha256": "ccbeb8e4f5d0b54d2fb3ba76d1f4a6d978cfd475acff98f6adcb345ef26675da"
+    },
+    {
+      "path": "sources/s268/provenance.json",
+      "bytes": 2511,
+      "sha256": "fd02a7bd8cfada33f15770787d174aed995b4fdaff05203effd3462975b63677"
+    },
+    {
+      "path": "sources/s268/stream.fsb",
+      "bytes": 171296,
+      "sha256": "8c97d633c234a0ab27f607d993ab1d2653879198f8146e3a976ee24b6d33fa78"
+    },
+    {
+      "path": "variants/interface.bloater-burst.v1.wav",
+      "bytes": 52964,
+      "sha256": "0114df77bf73656e5a4d44f56fcb7eba86eefadacfa4f3c2ec11d6303e98e4ac"
+    },
+    {
+      "path": "variants/interface.food-crunch.v1.wav",
+      "bytes": 44144,
+      "sha256": "fc06d6709f23a46f946c6d232af68eebc2e24a5fb7fbde1335b884d4484de092"
+    },
+    {
+      "path": "variants/interface.handling.v1.wav",
+      "bytes": 26504,
+      "sha256": "192910b90547920b3e6dd7a090d91d0376800b5f35a8c31ee5913b3d0d307752"
+    },
+    {
+      "path": "variants/interface.r2860.full.wav",
+      "bytes": 463092,
+      "sha256": "6ad0178bf5688007d55d9438a2dd4474ed4480c8a09819a4d12f3a3e2655eba5"
+    },
+    {
+      "path": "variants/interface.r3195.full.wav",
+      "bytes": 92928,
+      "sha256": "a0b4d70afe71a1ac9f31dee364aac5fbbf0d12af73df9b0bb2fda6e30867b53f"
+    },
+    {
+      "path": "variants/interface.r3254.full.wav",
+      "bytes": 132344,
+      "sha256": "aa35e12e49166a1b6b936c2deaf6d9a0c459516e5d31f94d77c0bd218906bbf3"
+    },
+    {
+      "path": "variants/interface.r3558.loop.wav",
+      "bytes": 1411244,
+      "sha256": "6fd6a65434e149fb8670092471ea90c3abff23ee2b1f104c57f927bf33a5c291"
+    },
+    {
+      "path": "variants/interface.r3755.full.wav",
+      "bytes": 338604,
+      "sha256": "ccce8f9975b78d31bb6b1a062cdf15e323adad95c3608155026849325ab16dfc"
+    },
+    {
+      "path": "variants/interface.r3863.full.wav",
+      "bytes": 50928,
+      "sha256": "e8ed4578c8f181d449317aa8169e77e4494e6fd5fa824068d2b1121a50aff315"
+    },
+    {
+      "path": "variants/interface.r4364.full.wav",
+      "bytes": 923328,
+      "sha256": "7e2f75dc59ab8ab721e2608338be93d4b5a1e9257af34cd9a008406e727540f6"
+    },
+    {
+      "path": "variants/interface.r4441.loop.wav",
+      "bytes": 1411244,
+      "sha256": "f014aaa27a4fe5d65622b5f2f42fc2d9d7651cf16852fbc79da90d442858c1b1"
+    },
+    {
+      "path": "variants/interface.r4864.full.wav",
+      "bytes": 45336,
+      "sha256": "fad59f8583d637d114f2cfee5bc56c964269084e9aacfe912c879fbe5d5ab0a8"
+    },
+    {
+      "path": "variants/interface.r4973.full.wav",
+      "bytes": 262188,
+      "sha256": "6c074e69db73c926a0b6d0d02bb15e17c83d783b531dfdd17065cfe62eb289c0"
+    },
+    {
+      "path": "variants/interface.r5582.full.wav",
+      "bytes": 162572,
+      "sha256": "7dcde40cd3bf4d02df1810fffa60e3b904be7f3479e233f35fb6317e8ad6d269"
+    },
+    {
+      "path": "variants/interface.r5586.full.wav",
+      "bytes": 793844,
+      "sha256": "8d7d59cc8ba016896645c6cb826b4b4d87296664748596dcf5aab9d66bcb073c"
+    },
+    {
+      "path": "variants/interface.s0392.full.wav",
+      "bytes": 33116,
+      "sha256": "44157eb4acb1a9ba0897b4b297352dee3d1b395ce2c5d0ea808d5a8975b46dcc"
+    },
+    {
+      "path": "variants/interface.s0420.full.wav",
+      "bytes": 31936,
+      "sha256": "e92e53c0c720e4e12e9e6705e06a0f71bc0dfb4880cd87d2016a89106064d90d"
+    },
+    {
+      "path": "variants/interface.s0437.full.wav",
+      "bytes": 463092,
+      "sha256": "8f1a37ab1202c3d7a3255e8641e029a4a93755c8509ce1b01caa71ee76cb214d"
+    },
+    {
+      "path": "variants/interface.s0438.full.wav",
+      "bytes": 98996,
+      "sha256": "d3ecfbab8f1fb86bdbaac7ad937d00781ceec4b305ac1eb1f822bdce3609794f"
+    },
+    {
+      "path": "variants/interface.s0449.full.wav",
+      "bytes": 37012,
+      "sha256": "aeda864af19181dda6a261dc0d5eb3687c6a823e3b29a7d96ca0e3bfd564eda4"
+    },
+    {
+      "path": "variants/interface.s0485.full.wav",
+      "bytes": 115164,
+      "sha256": "b660eeb9c50e94f3c35244a489540131e421f265525bb2c67a13988b026b8b30"
+    },
+    {
+      "path": "variants/interface.s0485.negative.wav",
+      "bytes": 61784,
+      "sha256": "51af75088d03a164edbb283a47760dcfb331dae28a50b030137e20fbc7adeded"
+    },
+    {
+      "path": "variants/interface.s0507.full.wav",
+      "bytes": 771792,
+      "sha256": "8944b24d990c5c029be27a22421e14580d3464d78d1f334a6752bc2faf771fe3"
+    },
+    {
+      "path": "variants/interface.s2125.loop.wav",
+      "bytes": 1411244,
+      "sha256": "a1efb6ed2644e895241858b223e4469ff28b682ad8e9e477a364e1f3790b4fa0"
+    },
+    {
+      "path": "variants/interface.s2138.loop.wav",
+      "bytes": 1411244,
+      "sha256": "89b182e145df8328f22a90158d510d048cec816b0113ea5a177ab1f38c633026"
+    },
+    {
+      "path": "variants/interface.s2152.loop.wav",
+      "bytes": 1411244,
+      "sha256": "7c93a215c5bfe7c8bea7dd7ab1be09b4289f321e8c3dc75dd48603bd1ba50cf0"
+    },
+    {
+      "path": "variants/interface.s268.full.wav",
+      "bytes": 812924,
+      "sha256": "ccbeb8e4f5d0b54d2fb3ba76d1f4a6d978cfd475acff98f6adcb345ef26675da"
+    }
+  ],
+  "bundleSha256": "cfa52aeac32a22fcf4898e05fa64a6225016af404ae990632ffd07fb130fb1d2"
+}

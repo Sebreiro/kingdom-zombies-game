@@ -12,7 +12,7 @@ public sealed class FoundationLanAdmissionTests
 {
     /// <summary>A repeated hello returns its reservation; refusal reasons remain distinct.</summary>
     [Fact]
-    public void PendingAdmissionIsIdempotentAndBounded()
+    public void Admission_PendingRequests_AreIdempotentAndBounded()
     {
         var port = new FoundationHarnessConnection();
         var host = new FoundationCoordinator(playerId: "host", label: "Host", connection: port);

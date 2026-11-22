@@ -1,0 +1,361 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/common/bow.png" id="1_bow"]
+[ext_resource type="Script" path="res://inspection/InspectionRoot.cs" id="2_root"]
+
+[ext_resource type="Theme" path="res://assets/ui/InspectionTheme.tres" id="3_theme"]
+
+[node name="Inspection" type="Node2D"]
+script = ExtResource("2_root")
+
+[node name="Background" type="ColorRect" parent="."]
+offset_right = 4096.0
+offset_bottom = 4096.0
+mouse_filter = 2
+color = Color(0.094, 0.145, 0.169, 1)
+
+[node name="Summary" type="VBoxContainer" parent="."]
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 1256.0
+offset_bottom = 184.0
+theme = ExtResource("3_theme")
+theme_override_constants/separation = 4
+
+[node name="Title" type="Label" parent="Summary"]
+layout_mode = 2
+theme_type_variation = &"Display"
+text = "KingdomZombies — Resource inspection"
+
+[node name="ResourceId" type="Label" parent="Summary"]
+layout_mode = 2
+text = "common.bow"
+autowrap_mode = 3
+
+[node name="ResourceName" type="Label" parent="Summary"]
+layout_mode = 2
+text = "Bow"
+autowrap_mode = 3
+
+[node name="Status" type="Label" parent="Summary"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Loading common.bow…"
+autowrap_mode = 3
+
+[node name="PackStatus" type="Label" parent="Summary"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "0/180 obligations · Pack incomplete — Loading"
+autowrap_mode = 3
+
+[node name="Shell" type="VBoxContainer" parent="."]
+offset_left = 24.0
+offset_top = 194.0
+offset_right = 1256.0
+offset_bottom = 696.0
+theme = ExtResource("3_theme")
+theme_override_constants/separation = 16
+
+[node name="Toolbar" type="HBoxContainer" parent="Shell"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Recheck" type="Button" parent="Shell/Toolbar"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "Recheck resources"
+
+[node name="Cancel" type="Button" parent="Shell/Toolbar"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "Cancel loading"
+
+[node name="Operation" type="Label" parent="Shell/Toolbar"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 16
+text = "Reading declared resources"
+autowrap_mode = 3
+
+[node name="Workspace" type="BoxContainer" parent="Shell"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="Navigation" type="VBoxContainer" parent="Shell/Workspace"]
+custom_minimum_size = Vector2(176, 0)
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Shell/Workspace/Navigation"]
+layout_mode = 2
+text = "Category"
+
+[node name="Category" type="OptionButton" parent="Shell/Workspace/Navigation"]
+custom_minimum_size = Vector2(176, 48)
+layout_mode = 2
+selected = 1
+item_count = 8
+popup/item_0/text = "Characters"
+popup/item_0/id = 0
+popup/item_1/text = "Items"
+popup/item_1/id = 1
+popup/item_2/text = "Buildings/world"
+popup/item_2/id = 2
+popup/item_3/text = "UI"
+popup/item_3/id = 3
+popup/item_4/text = "Data/text"
+popup/item_4/id = 4
+popup/item_5/text = "Audio"
+popup/item_5/id = 5
+popup/item_6/text = "Register"
+popup/item_6/id = 6
+popup/item_7/text = "Known issues"
+popup/item_7/id = 7
+
+[node name="Scope" type="Label" parent="Shell/Workspace/Navigation"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Resource inspection. Production, native, visual and listening evidence remain distinct."
+autowrap_mode = 3
+
+[node name="Browser" type="VBoxContainer" parent="Shell/Workspace"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+
+[node name="Search" type="LineEdit" parent="Shell/Workspace/Browser"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+placeholder_text = "Search ID or full name"
+
+[node name="Status" type="OptionButton" parent="Shell/Workspace/Browser"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+selected = 0
+item_count = 4
+popup/item_0/text = "All statuses"
+popup/item_0/id = 0
+popup/item_1/text = "Partial"
+popup/item_1/id = 1
+popup/item_2/text = "Incomplete"
+popup/item_2/id = 2
+popup/item_3/text = "Error"
+popup/item_3/id = 3
+
+[node name="Count" type="Label" parent="Shell/Workspace/Browser"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "0 results"
+autowrap_mode = 3
+
+[node name="Resources" type="ItemList" parent="Shell/Workspace/Browser"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 16
+text_overrun_behavior = 3
+
+[node name="Preview" type="VBoxContainer" parent="Shell/Workspace"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="Shell/Workspace/Preview"]
+layout_mode = 2
+theme_type_variation = &"Heading"
+text = "Inspect resource"
+
+[node name="Surface" type="PanelContainer" parent="Shell/Workspace/Preview"]
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Actions" type="HBoxContainer" parent="Shell/Workspace/Preview"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Details" type="Button" parent="Shell/Workspace/Preview/Actions"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "Show details"
+
+[node name="Copy" type="Button" parent="Shell/Workspace/Preview/Actions"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+text = "Copy details"
+
+[node name="Metadata" type="TextEdit" parent="Shell/Workspace/Preview"]
+visible = false
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+editable = false
+wrap_mode = 1
+
+[node name="Failures" type="TextEdit" parent="Shell/Workspace/Preview"]
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 16
+editable = false
+wrap_mode = 1
+
+[node name="Bow" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(880, 360)
+texture = ExtResource("1_bow")
+centered = false
+offset = Vector2(-6, -9)
+
+[node name="UiKit" type="PanelContainer" parent="."]
+visible = false
+offset_right = 760.0
+offset_bottom = 560.0
+texture_filter = 1
+theme = ExtResource("3_theme")
+metadata/obligations = "UI-01 UI-02"
+metadata/scale_policy = "UI canvas once; world zoom independent"
+
+[node name="Backdrop" type="ColorRect" parent="UiKit"]
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.09411765, 0.14509804, 0.16862745, 1)
+
+[node name="Scroll" type="ScrollContainer" parent="UiKit"]
+layout_mode = 2
+follow_focus = true
+
+[node name="Content" type="VBoxContainer" parent="UiKit/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 16
+
+[node name="Display" type="Label" parent="UiKit/Scroll/Content"]
+layout_mode = 2
+theme_type_variation = &"Display"
+text = "KingdomZombies"
+
+[node name="Heading" type="Label" parent="UiKit/Scroll/Content"]
+layout_mode = 2
+theme_type_variation = &"Heading"
+text = "UI-01 / UI-02 · Resource inspection"
+
+[node name="Body" type="Label" parent="UiKit/Scroll/Content"]
+layout_mode = 2
+theme_type_variation = &"Body"
+text = "Équipement — 999,999 / 1,000,000 · àéöœ Ω"
+autowrap_mode = 3
+
+[node name="Normal" type="Button" parent="UiKit/Scroll/Content"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 48)
+text = "Inspect resource"
+
+[node name="Selected" type="Button" parent="UiKit/Scroll/Content"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 48)
+theme_type_variation = &"SelectedButton"
+toggle_mode = true
+button_pressed = true
+text = "Selected · UI-01"
+
+[node name="Disabled" type="Button" parent="UiKit/Scroll/Content"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 48)
+disabled = true
+text = "Inspect resource — unavailable"
+
+[node name="DisabledReason" type="Label" parent="UiKit/Scroll/Content"]
+layout_mode = 2
+text = "Unavailable until a valid resource is selected."
+autowrap_mode = 3
+
+[node name="Tabs" type="TabBar" parent="UiKit/Scroll/Content"]
+layout_mode = 2
+tab_count = 3
+tab_0/title = "Normal"
+tab_1/title = "Selected"
+tab_2/title = "Unavailable"
+tab_2/disabled = true
+
+[node name="List" type="ItemList" parent="UiKit/Scroll/Content"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 96)
+item_count = 3
+item_0/text = "UI-01 · Shared kit"
+item_1/text = "UI-02 · Typography"
+item_2/text = "UI-01.error · Incomplete"
+
+[node name="Input" type="LineEdit" parent="UiKit/Scroll/Content"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 48)
+placeholder_text = "Copyable ID or complete resource name"
+
+[node name="Check" type="CheckBox" parent="UiKit/Scroll/Content"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 48)
+text = "Show resource details"
+
+[node name="Slider" type="HSlider" parent="UiKit/Scroll/Content"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 48)
+value = 50.0
+
+[node name="VerticalSlider" type="VSlider" parent="UiKit/Scroll/Content"]
+layout_mode = 2
+custom_minimum_size = Vector2(48, 96)
+value = 50.0
+
+[node name="Empty" type="Label" parent="UiKit/Scroll/Content"]
+layout_mode = 2
+text = "— No resources · 0 results"
+autowrap_mode = 3
+
+[node name="Loading" type="Label" parent="UiKit/Scroll/Content"]
+layout_mode = 2
+text = "… Loading resources · Waiting for validation"
+autowrap_mode = 3
+
+[node name="Error" type="Label" parent="UiKit/Scroll/Content"]
+layout_mode = 2
+text = "! Error · UI-01 · assets/ui/missing.ttf\nUnavailable resource. Recheck resources. MISSING_GLYPH U+10FFFF"
+autowrap_mode = 3
+
+[node name="LongText" type="Label" parent="UiKit/Scroll/Content"]
+layout_mode = 2
+text = "The selected equipment resource has an expanded descriptive name with accented characters Élodie and Jérôme, quantities 999,999 / 1,000,000, and a reason that wraps without reducing its font size."
+autowrap_mode = 3
+
+[node name="LongId" type="TextEdit" parent="UiKit/Scroll/Content"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 96)
+editable = false
+wrap_mode = 0
+text = "UI-01.assets/ui/very-long-resource-identity-without-spaces-ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.ttf"
+
+[node name="Tooltip" type="PanelContainer" parent="UiKit/Scroll/Content"]
+layout_mode = 2
+theme_type_variation = &"TooltipPanel"
+
+[node name="Text" type="Label" parent="UiKit/Scroll/Content/Tooltip"]
+layout_mode = 2
+autowrap_mode = 3
+text = "Tooltip · Resource inspection only. Complete identity and reason remain visible."
+
+[node name="Modal" type="PanelContainer" parent="UiKit/Scroll/Content"]
+layout_mode = 2
+theme_type_variation = &"PopupPanel"
+
+[node name="Text" type="Label" parent="UiKit/Scroll/Content/Modal"]
+layout_mode = 2
+autowrap_mode = 3
+text = "Modal · Resource inspection only. Complete identity and reason remain visible."
+
+[node name="Toast" type="PanelContainer" parent="UiKit/Scroll/Content"]
+layout_mode = 2
+theme_type_variation = &"ToastPanel"
+
+[node name="Text" type="Label" parent="UiKit/Scroll/Content/Toast"]
+layout_mode = 2
+autowrap_mode = 3
+text = "Toast · Resource inspection only. Complete identity and reason remain visible."

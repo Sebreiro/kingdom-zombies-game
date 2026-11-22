@@ -1,0 +1,10 @@
+{
+  "ecosystem": "pypi",
+  "config": {"exa_search": false, "brave_search": false, "firecrawl": false, "tavily_search": false},
+  "questions": [
+    {"text": "Godot AnimationTree AnimationNodeBlend2 filter_path advance animations independently walking upper body attacks animation process manual advance", "kind": "docs", "library": "godot", "version": "4.7.2"},
+    {"text": "Godot importing images pixel art nearest texture filter canvas stretch integer scaling fonts StyleBoxTexture", "kind": "docs", "library": "godot", "version": "4.7.2"},
+    {"text": "Godot C# export Windows self-contained export templates dotnet .NET 10 export command line include JSON non resource files", "kind": "docs", "library": "godot", "version": "4.7.2"},
+    {"text": "UnityPy Sprite image AudioClip samples Font m_FontData AnimationClip PPtr curves extract resource streams", "kind": "docs", "library": "UnityPy", "version": "1.23.0"}
+  ]
+}

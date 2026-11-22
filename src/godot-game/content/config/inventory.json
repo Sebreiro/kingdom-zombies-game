@@ -1,0 +1,97 @@
+{
+  "id": "DT-06",
+  "version": 1,
+  "stash": {
+    "pageGrid": [
+      10,
+      10
+    ],
+    "pageLimit": "unlimited",
+    "tierIndependent": true,
+    "remoteAccess": false,
+    "automaticPlacement": [
+      "combine-compatible-stacks",
+      "fitting-empty-spaces",
+      "rotate-if-allowed",
+      "create-page"
+    ]
+  },
+  "nesting": {
+    "maximumLevels": 3,
+    "rootContainerLevel": 1,
+    "cyclesAllowed": false
+  },
+  "quickSlots": {
+    "count": 4,
+    "referencesOnly": true,
+    "foodOnly": true,
+    "invalidateWhenRemovedConsumedOrLost": true,
+    "substituteSimilarStack": false
+  },
+  "ranges": {
+    "mainBuildingUnits": 4,
+    "npcUnits": 3,
+    "corpseUnits": 3,
+    "siteUnits": 3,
+    "rallyUnits": 3
+  },
+  "hauling": {
+    "returnSoftLoadFraction": 0.8,
+    "priority": [
+      "money",
+      "ammunition",
+      "usable-combat-gear",
+      "food",
+      "containers",
+      "clothing",
+      "broken-gear"
+    ],
+    "daylightExteriorOnly": true,
+    "safetyAndPrimaryDutyFirst": true,
+    "reserveBeforePickup": true,
+    "removeOnlyAfterPickup": true,
+    "returnWhenNoFit": true,
+    "leaveUnfittingItems": true,
+    "retainRole": true,
+    "towerGuardsHaul": false,
+    "cargoOnCarrierDeath": "retained-on-new-corpse"
+  },
+  "cleanup": {
+    "emptyDelaySeconds": 180,
+    "nonemptyExpires": false,
+    "addingItemCancels": true,
+    "cosmeticsDeleteLoot": false
+  },
+  "legacy": {
+    "preservePositions": true,
+    "preserveOrientation": true,
+    "preserveFootprints": true,
+    "preserveGridBounds": true,
+    "preserveContainment": true,
+    "markIncompatible": true,
+    "removalAllowed": true,
+    "invalidAdditionsAllowed": false,
+    "deeperInvalidNestingAllowed": false,
+    "destinationUsesCurrentDefinition": true,
+    "failedMoveRetainsSource": true,
+    "filledUnitExtraction": "legal-outer-placement-and-no-worse-invalid-internal-nesting",
+    "emptyAdoptsCurrentGrid": true,
+    "oversizeStackExtraction": "legal-substacks-no-truncation",
+    "illegalLoadoutCombatAllowed": false,
+    "persistThroughSaves": true,
+    "missingDefinition": "explicit-error-preserve-original-save"
+  },
+  "inspectionLayoutObligations": [
+    "UI-05",
+    "UI-06",
+    "UI-13",
+    "UI-14",
+    "UI-15"
+  ],
+  "identityPolicy": "one-owner-location-no-cycles",
+  "accessSeconds": 0,
+  "privateControlledInventories": true,
+  "dragPolicy": "preview-until-valid-commit-preserve-on-close",
+  "numberFormat": "retain-authored-precision-independent-of-display",
+  "conditionDisplay": "numeric-current-maximum-and-Broken-marker"
+}

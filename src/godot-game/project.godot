@@ -12,8 +12,9 @@ config_version=5
 
 config/name="KingdomZombies"
 run/main_scene="res://foundation/Foundation.tscn"
+run/main_scene.asset_inspection="res://inspection/Inspection.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://assets/ui/kingdom-zombies-icon.png"
 
 [display]
 

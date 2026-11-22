@@ -1,0 +1,2899 @@
+{
+  "schemaVersion": 1,
+  "id": "main-buildings",
+  "version": 1,
+  "logicalPixelsPerWorldPixel": 1,
+  "stylePrecedence": "D-13 LOW-RESOLUTION OVERRIDES older richer sprite-skill examples",
+  "commonBundleSha256": "2f66618305221d32d503bba04be755ae38e606408a7c5d9d8f65a1db19d9e6d9",
+  "pilotBundleSha256": "da26ee892775c11871c1614dd917695524cb2e102b338ad33611431d956ef753",
+  "atlas": {
+    "path": "res://assets/buildings/main-tiers.png",
+    "sha256": "9159b358520ff5731d86c1911406749d14f3bdb7e1bd5c96a29f1a1de95a788a",
+    "size": [
+      1024,
+      512
+    ],
+    "rgbaSha256": "a382dba44ed181302bef0cfb490c65643e5963261b2a4d43dc28d5f2e57353fa",
+    "alphaBBox": [
+      1,
+      1,
+      962,
+      333
+    ],
+    "alphaValues": [
+      0,
+      255
+    ]
+  },
+  "tiers": [
+    {
+      "id": "BL-01",
+      "tier": 1,
+      "material": "campfire/rough-boxes",
+      "states": {
+        "intact": "tier-1-intact",
+        "damage-light": "tier-1-damage-light",
+        "damage-heavy": "tier-1-damage-heavy",
+        "defeated": "tier-1-defeated"
+      },
+      "repairOverlay": "scaffold",
+      "upgradeOverlay": "scaffold",
+      "fragments": [
+        "wood-fragment"
+      ],
+      "bakedGuardCount": 0,
+      "sourceComposition": {
+        "facade": "boxes",
+        "position": [
+          4,
+          68
+        ],
+        "fire": [
+          63,
+          72
+        ],
+        "chest": [
+          130,
+          68
+        ],
+        "boxes": null
+      }
+    },
+    {
+      "id": "BL-02",
+      "tier": 2,
+      "material": "wood",
+      "states": {
+        "intact": "tier-2-intact",
+        "damage-light": "tier-2-damage-light",
+        "damage-heavy": "tier-2-damage-heavy",
+        "defeated": "tier-2-defeated"
+      },
+      "repairOverlay": "scaffold",
+      "upgradeOverlay": "scaffold",
+      "fragments": [
+        "wood-fragment"
+      ],
+      "bakedGuardCount": 0,
+      "sourceComposition": {
+        "facade": "wood",
+        "position": [
+          16,
+          16
+        ],
+        "fire": [
+          63,
+          72
+        ],
+        "chest": [
+          130,
+          68
+        ],
+        "boxes": [
+          2,
+          68
+        ]
+      }
+    },
+    {
+      "id": "BL-03",
+      "tier": 3,
+      "material": "metal-reinforced-wood",
+      "states": {
+        "intact": "tier-3-intact",
+        "damage-light": "tier-3-damage-light",
+        "damage-heavy": "tier-3-damage-heavy",
+        "defeated": "tier-3-defeated"
+      },
+      "repairOverlay": "scaffold",
+      "upgradeOverlay": "scaffold",
+      "fragments": [
+        "wood-fragment",
+        "metal-fragment"
+      ],
+      "bakedGuardCount": 0,
+      "sourceComposition": {
+        "facade": "metal",
+        "position": [
+          16,
+          16
+        ],
+        "fire": [
+          63,
+          72
+        ],
+        "chest": [
+          130,
+          68
+        ],
+        "boxes": [
+          2,
+          68
+        ]
+      }
+    }
+  ],
+  "parts": [
+    {
+      "key": "metal",
+      "member": "parts/metal.png",
+      "origin": "masters/metal.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        },
+        {
+          "op": "crop",
+          "box": [
+            14,
+            15,
+            1786,
+            845
+          ]
+        },
+        {
+          "op": "nearest",
+          "size": [
+            128,
+            62
+          ]
+        }
+      ],
+      "sha256": "86b1c6af6733c612429412f4fe727abf519372a7f9b8b45ada55be67e2aca31c",
+      "image": {
+        "size": [
+          128,
+          62
+        ],
+        "rgbaSha256": "ff379cc2d63fdedfaf0b65c601176cd35bd8ffb7b973e18bc1e1494d3b660ebb",
+        "alphaBBox": [
+          0,
+          0,
+          128,
+          62
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        128,
+        62
+      ],
+      "atlasRect": [
+        1,
+        1,
+        128,
+        62
+      ]
+    },
+    {
+      "key": "boxes",
+      "member": "parts/boxes.png",
+      "origin": "masters/boxes.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        },
+        {
+          "op": "crop",
+          "box": [
+            90,
+            324,
+            1403,
+            946
+          ]
+        },
+        {
+          "op": "nearest",
+          "size": [
+            28,
+            20
+          ]
+        }
+      ],
+      "sha256": "6ce61aaf190a45dec813fb331cc40c73e7b811bf53e9a8f11b00c287ed17711e",
+      "image": {
+        "size": [
+          28,
+          20
+        ],
+        "rgbaSha256": "a43218d5717188449ff2360896394e1a7ac346df91da84f2df1fdf500795b8de",
+        "alphaBBox": [
+          0,
+          1,
+          28,
+          20
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        28,
+        20
+      ],
+      "atlasRect": [
+        131,
+        1,
+        28,
+        20
+      ]
+    },
+    {
+      "key": "wood",
+      "member": "parts/wood.png",
+      "origin": "pilot/native/shelter.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "9983a6d5883802018cbac36b993b8de43e95d320c3d267eaa57a2cf615111a18",
+      "image": {
+        "size": [
+          128,
+          62
+        ],
+        "rgbaSha256": "a70af38b01f7ab95c33bdd8d075964e870d79b54a9e020bee6570a4cab6e0c84",
+        "alphaBBox": [
+          0,
+          0,
+          128,
+          62
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        128,
+        62
+      ],
+      "atlasRect": [
+        161,
+        1,
+        128,
+        62
+      ]
+    },
+    {
+      "key": "fire",
+      "member": "parts/fire.png",
+      "origin": "common/images/resources.assets/7977.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "e870c89fec34283c70fdb71fafd5bf05a6c285f80e5a6dea4ceb6c2492d8133d",
+      "image": {
+        "size": [
+          34,
+          16
+        ],
+        "rgbaSha256": "f750e9316609e1b318dc1ed74e4cfada0f423a160485be7ca1fca4aaafee5eaa",
+        "alphaBBox": [
+          2,
+          2,
+          32,
+          14
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        34,
+        16
+      ],
+      "atlasRect": [
+        291,
+        1,
+        34,
+        16
+      ]
+    },
+    {
+      "key": "chest-open",
+      "member": "parts/chest-open.png",
+      "origin": "common/images/sharedassets0.assets/8280.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "bf345e2e73e89cc36d631e72aed988d207c1371d17b804e4dd0a2fa30e638188",
+      "image": {
+        "size": [
+          23,
+          14
+        ],
+        "rgbaSha256": "444de04a8dab4572b246efe30ef15ac524cf7b189fc754c8f87a9e0c87fd668e",
+        "alphaBBox": [
+          2,
+          2,
+          21,
+          14
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        23,
+        14
+      ],
+      "atlasRect": [
+        327,
+        1,
+        23,
+        14
+      ]
+    },
+    {
+      "key": "chest-closed",
+      "member": "parts/chest-closed.png",
+      "origin": "common/images/sharedassets0.assets/7551.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "a598ca86801bd45427999ad37b5d0f6ee9de06854185b47e0aa580b438ff1b4b",
+      "image": {
+        "size": [
+          23,
+          19
+        ],
+        "rgbaSha256": "70257aa7f704d4df627f76e7fc457f0a71127cc64a60f6664d3941acdcafa29f",
+        "alphaBBox": [
+          2,
+          2,
+          21,
+          19
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        23,
+        19
+      ],
+      "atlasRect": [
+        352,
+        1,
+        23,
+        19
+      ]
+    },
+    {
+      "key": "scaffold",
+      "member": "parts/scaffold.png",
+      "origin": "common/images/resources.assets/9956.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "17115372f5b04d67147cae7e30dd22c681f70a36eadc0acd6091116e348e4e46",
+      "image": {
+        "size": [
+          32,
+          16
+        ],
+        "rgbaSha256": "81cc6a71c6af849a4c05c18b0f0d7632db6b10acfcafcffaee872fd6b1362b03",
+        "alphaBBox": [
+          1,
+          0,
+          30,
+          16
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        32,
+        16
+      ],
+      "atlasRect": [
+        377,
+        1,
+        32,
+        16
+      ]
+    },
+    {
+      "key": "tower",
+      "member": "parts/tower.png",
+      "origin": "common/images/resources.assets/8711.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "a0acbafc74f864778d4c839c1567ab39dbb6dd7bb1f7f2a25d6c108a963d61cc",
+      "image": {
+        "size": [
+          44,
+          48
+        ],
+        "rgbaSha256": "2ca26395c8eae44356ec0be2e60a08ea18a159743ee45a15c9458ca50cf5cb27",
+        "alphaBBox": [
+          2,
+          2,
+          42,
+          46
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        44,
+        48
+      ],
+      "atlasRect": [
+        411,
+        1,
+        44,
+        48
+      ]
+    },
+    {
+      "key": "ground",
+      "member": "parts/ground.png",
+      "origin": "common/images/resources.assets/10583.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "a042e23ff8f6155f6937fcf0a8f6cccfecb675989fee5dcb75f8bd52a570a08c",
+      "image": {
+        "size": [
+          97,
+          8
+        ],
+        "rgbaSha256": "6812b6c1df5fb1fb4e9289747595fd9ad59a4c840585c829000c3706ebfbb1b2",
+        "alphaBBox": [
+          2,
+          2,
+          95,
+          6
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        97,
+        8
+      ],
+      "atlasRect": [
+        457,
+        1,
+        97,
+        8
+      ]
+    },
+    {
+      "key": "wood-fragment",
+      "member": "parts/wood-fragment.png",
+      "origin": "common/images/resources.assets/8053.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "29f6698c3c893f14fb652680bfbb3138c9784af7312cdcf0fad3d1d5b695e415",
+      "image": {
+        "size": [
+          8,
+          12
+        ],
+        "rgbaSha256": "d72bfdb2db3089729724301f688b2d99613bb1f2d714d5e70f7e896d14cc2767",
+        "alphaBBox": [
+          2,
+          2,
+          8,
+          10
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        8,
+        12
+      ],
+      "atlasRect": [
+        556,
+        1,
+        8,
+        12
+      ]
+    },
+    {
+      "key": "bow",
+      "member": "parts/bow.png",
+      "origin": "common/images/sharedassets0.assets/7008.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "b7121ed9bc6c24ff3162accf37545ba498d602f2b6e3fee6b45151eac5dafe93",
+      "image": {
+        "size": [
+          16,
+          18
+        ],
+        "rgbaSha256": "8a26cb666b17fac3ed783b86bd13bd41ed5d0bd8527e2bfc10eb4ff2aed4eab1",
+        "alphaBBox": [
+          6,
+          1,
+          10,
+          17
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        16,
+        18
+      ],
+      "atlasRect": [
+        566,
+        1,
+        16,
+        18
+      ]
+    },
+    {
+      "key": "arrow",
+      "member": "parts/arrow.png",
+      "origin": "common/images/sharedassets0.assets/6885.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "2d63c98b0c2bdc1076206d49ebaaa7c278c3814d48458d4051d6906e5229b541",
+      "image": {
+        "size": [
+          8,
+          4
+        ],
+        "rgbaSha256": "93c34784a5fabf26dcb7164a068f9ce920f166214bbc00dd101d4f5cce333dad",
+        "alphaBBox": [
+          0,
+          1,
+          8,
+          2
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        8,
+        4
+      ],
+      "atlasRect": [
+        584,
+        1,
+        8,
+        4
+      ]
+    },
+    {
+      "key": "flame-0",
+      "member": "parts/flame-0.png",
+      "origin": "common/images/resources.assets/10329.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "c2bd200ffe439507814a20b521f8ff189879be776ce8305252fcf9eadfefdbd0",
+      "image": {
+        "size": [
+          10,
+          10
+        ],
+        "rgbaSha256": "17bc3860b508698bd14a35e1a1c08b1ab88ee62c411f33362332c8325cc90fec",
+        "alphaBBox": [
+          3,
+          2,
+          7,
+          9
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        10,
+        10
+      ],
+      "atlasRect": [
+        594,
+        1,
+        10,
+        10
+      ]
+    },
+    {
+      "key": "flame-1",
+      "member": "parts/flame-1.png",
+      "origin": "common/images/resources.assets/10730.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "4fc4d81bb0a0d652fdd3a8d0f49248e8f094dda84e5695573500f3694bc65568",
+      "image": {
+        "size": [
+          10,
+          10
+        ],
+        "rgbaSha256": "89864ef8a851451f4249ecae5fe55b26a3e651714d9aad8471c6426707ec46a5",
+        "alphaBBox": [
+          3,
+          2,
+          7,
+          9
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        10,
+        10
+      ],
+      "atlasRect": [
+        606,
+        1,
+        10,
+        10
+      ]
+    },
+    {
+      "key": "flame-2",
+      "member": "parts/flame-2.png",
+      "origin": "common/images/resources.assets/9938.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "3085f66a2a7ca28528643139b6c14522e044147f8e49ee23db1bece828568d75",
+      "image": {
+        "size": [
+          10,
+          10
+        ],
+        "rgbaSha256": "b1877049e713f33d9b3f93846db9b06e08dda418fa3b541cf2997357d99ec14a",
+        "alphaBBox": [
+          3,
+          2,
+          7,
+          9
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        10,
+        10
+      ],
+      "atlasRect": [
+        618,
+        1,
+        10,
+        10
+      ]
+    },
+    {
+      "key": "flame-3",
+      "member": "parts/flame-3.png",
+      "origin": "common/images/resources.assets/9761.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "6cf9b3ce11e3869a318c84af71412d084106c91b9318351839bd9c070a75bd7b",
+      "image": {
+        "size": [
+          10,
+          10
+        ],
+        "rgbaSha256": "1162456e07fb3ec48a8401e926e136a1b0ac0f53ee6cd57b8815f42b6a639ae7",
+        "alphaBBox": [
+          3,
+          2,
+          7,
+          9
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        10,
+        10
+      ],
+      "atlasRect": [
+        630,
+        1,
+        10,
+        10
+      ]
+    },
+    {
+      "key": "flame-4",
+      "member": "parts/flame-4.png",
+      "origin": "common/images/resources.assets/9531.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "c79362c1a30c19028a480ba1d7644f689d2c9e6351cf24197dbe5a2940a8926d",
+      "image": {
+        "size": [
+          10,
+          10
+        ],
+        "rgbaSha256": "0afb3d682c09f4cd3115e6e72163d6c1a72e0c45e838e5b864f4d140adf99179",
+        "alphaBBox": [
+          3,
+          2,
+          7,
+          9
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        10,
+        10
+      ],
+      "atlasRect": [
+        642,
+        1,
+        10,
+        10
+      ]
+    },
+    {
+      "key": "flame-5",
+      "member": "parts/flame-5.png",
+      "origin": "common/images/resources.assets/11144.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "7c57cca94b6f15acb52f3749fb9332016c80bd83463ea513f086e08516af346e",
+      "image": {
+        "size": [
+          10,
+          10
+        ],
+        "rgbaSha256": "928c6e08cf3913159ab89f7a815b81b931f156eeaea5fe6a277df37e72c026a0",
+        "alphaBBox": [
+          3,
+          2,
+          7,
+          9
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        10,
+        10
+      ],
+      "atlasRect": [
+        654,
+        1,
+        10,
+        10
+      ]
+    },
+    {
+      "key": "flame-6",
+      "member": "parts/flame-6.png",
+      "origin": "common/images/resources.assets/11254.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "524926362b2aac1cdc065863541c7667efdef1d21345142533c51edb39d6995f",
+      "image": {
+        "size": [
+          10,
+          10
+        ],
+        "rgbaSha256": "5cfb341bcda29f6d5f67992a3f62852a22ae23d78b0c1727871f1f18ba1cdd36",
+        "alphaBBox": [
+          3,
+          2,
+          7,
+          9
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        10,
+        10
+      ],
+      "atlasRect": [
+        666,
+        1,
+        10,
+        10
+      ]
+    },
+    {
+      "key": "flame-7",
+      "member": "parts/flame-7.png",
+      "origin": "common/images/resources.assets/10194.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "e4b59361da4b12c62422eab5420163ddc5eba5686b05c4b1cb3fa73c7eff4594",
+      "image": {
+        "size": [
+          10,
+          10
+        ],
+        "rgbaSha256": "53c5fe0b5f2909a5b0cf84016d989d5cac8a1bac228b206e31a6febb3369e286",
+        "alphaBBox": [
+          3,
+          2,
+          7,
+          9
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        10,
+        10
+      ],
+      "atlasRect": [
+        678,
+        1,
+        10,
+        10
+      ]
+    },
+    {
+      "key": "guard-shoot-0",
+      "member": "parts/guard-shoot-0.png",
+      "origin": "common/images/sharedassets0.assets/6762.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "4648ad14380cebaaf8f506d831f0b083d42f9ec5b2811e891992cc24be7ba16b",
+      "image": {
+        "size": [
+          22,
+          23
+        ],
+        "rgbaSha256": "171b9b7cce5ee169b8a60bbf0bf5aced2709870427f6d641de1183a4a187f133",
+        "alphaBBox": [
+          2,
+          2,
+          20,
+          23
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        22,
+        23
+      ],
+      "atlasRect": [
+        690,
+        1,
+        22,
+        23
+      ]
+    },
+    {
+      "key": "guard-shoot-1",
+      "member": "parts/guard-shoot-1.png",
+      "origin": "common/images/sharedassets0.assets/8351.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "d47342f160415ef54ef29d590a94f285abd4dd6a65aedd40adbf018b69054426",
+      "image": {
+        "size": [
+          20,
+          23
+        ],
+        "rgbaSha256": "109045a51ebec9f5cc19d9b39041bbf1d28ca5832c0d7e6120be360bee4a8665",
+        "alphaBBox": [
+          2,
+          2,
+          18,
+          23
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        20,
+        23
+      ],
+      "atlasRect": [
+        714,
+        1,
+        20,
+        23
+      ]
+    },
+    {
+      "key": "guard-shoot-2",
+      "member": "parts/guard-shoot-2.png",
+      "origin": "common/images/sharedassets0.assets/9078.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "24e5ad45ff716b3d81a72ff80c4dc4929812ca2bec9b745e8f853bec7515c75f",
+      "image": {
+        "size": [
+          21,
+          23
+        ],
+        "rgbaSha256": "7f08bb40185bcba6f36e064c9529a596e2f413ef8451fb5b5a2a437ef92724af",
+        "alphaBBox": [
+          2,
+          2,
+          19,
+          23
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        21,
+        23
+      ],
+      "atlasRect": [
+        736,
+        1,
+        21,
+        23
+      ]
+    },
+    {
+      "key": "guard-shoot-3",
+      "member": "parts/guard-shoot-3.png",
+      "origin": "common/images/sharedassets0.assets/9783.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "5c8173afcd509c262c1a6d547f826d958e6d12775dbb93a7b3917055435dec61",
+      "image": {
+        "size": [
+          21,
+          23
+        ],
+        "rgbaSha256": "d84bd110a1971ff1b0c327612e026f246c19cc164871113617bfb9a037d42986",
+        "alphaBBox": [
+          2,
+          2,
+          19,
+          23
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        21,
+        23
+      ],
+      "atlasRect": [
+        759,
+        1,
+        21,
+        23
+      ]
+    },
+    {
+      "key": "guard-shoot-4",
+      "member": "parts/guard-shoot-4.png",
+      "origin": "common/images/sharedassets0.assets/10471.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "8d9e11ceabeeebdc1f6bd9ba3775b05cb7d1d2d174fc3b7970e346dd067e5803",
+      "image": {
+        "size": [
+          19,
+          23
+        ],
+        "rgbaSha256": "085c232534c0e90b1ff1a97ad045f73c632e947760ebed357196f16379f3f943",
+        "alphaBBox": [
+          2,
+          2,
+          17,
+          23
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        19,
+        23
+      ],
+      "atlasRect": [
+        782,
+        1,
+        19,
+        23
+      ]
+    },
+    {
+      "key": "wood-damage-light",
+      "member": "parts/wood-damage-light.png",
+      "origin": "parts/wood.png",
+      "operations": [
+        {
+          "op": "damage",
+          "cuts": [
+            [
+              32,
+              54,
+              33,
+              59
+            ],
+            [
+              33,
+              56,
+              35,
+              58
+            ]
+          ],
+          "bends": []
+        }
+      ],
+      "sha256": "4ef3265ce51bd032e3faaf3833f042fda1b75be5224517648f2c42fa7c7d0cb9",
+      "image": {
+        "size": [
+          128,
+          62
+        ],
+        "rgbaSha256": "db0443e7e987875b301449c0d7edf57fc710533cca9f862b9b300d391b04dcf3",
+        "alphaBBox": [
+          0,
+          0,
+          128,
+          62
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        128,
+        62
+      ],
+      "atlasRect": [
+        803,
+        1,
+        128,
+        62
+      ]
+    },
+    {
+      "key": "wood-damage-heavy",
+      "member": "parts/wood-damage-heavy.png",
+      "origin": "parts/wood.png",
+      "operations": [
+        {
+          "op": "damage",
+          "cuts": [
+            [
+              32,
+              54,
+              33,
+              59
+            ],
+            [
+              33,
+              56,
+              35,
+              58
+            ],
+            [
+              96,
+              52,
+              99,
+              59
+            ],
+            [
+              34,
+              57,
+              37,
+              59
+            ]
+          ],
+          "bends": []
+        }
+      ],
+      "sha256": "98788ac01b141f369aa50a1f14b4f10e443ddae5a400a06ce696e0bf44e4af71",
+      "image": {
+        "size": [
+          128,
+          62
+        ],
+        "rgbaSha256": "1fb5d563e027676cc46ef19a6ef977df5ccc2cb2c3d4875b9d8cbd9d731caa0b",
+        "alphaBBox": [
+          0,
+          0,
+          128,
+          62
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        128,
+        62
+      ],
+      "atlasRect": [
+        1,
+        65,
+        128,
+        62
+      ]
+    },
+    {
+      "key": "wood-rubble",
+      "member": "parts/wood-rubble.png",
+      "origin": "parts/wood.png",
+      "operations": [
+        {
+          "op": "rubble",
+          "size": [
+            128,
+            16
+          ],
+          "pieces": [
+            [
+              [
+                0,
+                50,
+                20,
+                62
+              ],
+              [
+                0,
+                4
+              ]
+            ],
+            [
+              [
+                64,
+                0,
+                78,
+                8
+              ],
+              [
+                42,
+                8
+              ]
+            ],
+            [
+              [
+                104,
+                52,
+                128,
+                62
+              ],
+              [
+                104,
+                6
+              ]
+            ]
+          ]
+        }
+      ],
+      "sha256": "5ae20d4f825f5e429d30320d9f47c983ac589c1ee056a6e08e0cf5d7419347da",
+      "image": {
+        "size": [
+          128,
+          16
+        ],
+        "rgbaSha256": "4eee98c75e1c5fd11e1e1949e4de5ad65d55d6e96028354173a73e2f16369f39",
+        "alphaBBox": [
+          3,
+          4,
+          125,
+          16
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        128,
+        16
+      ],
+      "atlasRect": [
+        131,
+        65,
+        128,
+        16
+      ]
+    },
+    {
+      "key": "metal-damage-light",
+      "member": "parts/metal-damage-light.png",
+      "origin": "parts/metal.png",
+      "operations": [
+        {
+          "op": "damage",
+          "cuts": [
+            [
+              32,
+              54,
+              33,
+              59
+            ],
+            [
+              33,
+              56,
+              35,
+              58
+            ]
+          ],
+          "bends": [
+            [
+              [
+                16,
+                35,
+                21,
+                40
+              ],
+              [
+                18,
+                33
+              ]
+            ]
+          ]
+        }
+      ],
+      "sha256": "045949fb24e53eccccea5b92c79febc581d92380567c17fb5fa3846da860fbe6",
+      "image": {
+        "size": [
+          128,
+          62
+        ],
+        "rgbaSha256": "f2cdf5c7bbf37465e0aab89aa38fcac96dd68091f1db569d923a2355ecc9c073",
+        "alphaBBox": [
+          0,
+          0,
+          128,
+          62
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        128,
+        62
+      ],
+      "atlasRect": [
+        261,
+        65,
+        128,
+        62
+      ]
+    },
+    {
+      "key": "metal-damage-heavy",
+      "member": "parts/metal-damage-heavy.png",
+      "origin": "parts/metal.png",
+      "operations": [
+        {
+          "op": "damage",
+          "cuts": [
+            [
+              32,
+              54,
+              33,
+              59
+            ],
+            [
+              33,
+              56,
+              35,
+              58
+            ],
+            [
+              96,
+              52,
+              99,
+              59
+            ],
+            [
+              34,
+              57,
+              37,
+              59
+            ]
+          ],
+          "bends": [
+            [
+              [
+                16,
+                35,
+                21,
+                40
+              ],
+              [
+                18,
+                33
+              ]
+            ]
+          ]
+        }
+      ],
+      "sha256": "c49e1331d81e3da556860f8439b436b4f40b521751d319c8d99d88855664bb31",
+      "image": {
+        "size": [
+          128,
+          62
+        ],
+        "rgbaSha256": "ded2ae00f6bdb719c75d5329d6df4a7ad60cb5679ea43c6174a0136d86864ff8",
+        "alphaBBox": [
+          0,
+          0,
+          128,
+          62
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        128,
+        62
+      ],
+      "atlasRect": [
+        391,
+        65,
+        128,
+        62
+      ]
+    },
+    {
+      "key": "metal-rubble",
+      "member": "parts/metal-rubble.png",
+      "origin": "parts/metal.png",
+      "operations": [
+        {
+          "op": "rubble",
+          "size": [
+            128,
+            16
+          ],
+          "pieces": [
+            [
+              [
+                0,
+                50,
+                20,
+                62
+              ],
+              [
+                0,
+                4
+              ]
+            ],
+            [
+              [
+                64,
+                0,
+                78,
+                8
+              ],
+              [
+                42,
+                8
+              ]
+            ],
+            [
+              [
+                104,
+                52,
+                128,
+                62
+              ],
+              [
+                104,
+                6
+              ]
+            ]
+          ]
+        }
+      ],
+      "sha256": "f50293f5884bb0a17cacd1e8efb190f2ee5ac24d41dd082c35af97ccb7e7b0e6",
+      "image": {
+        "size": [
+          128,
+          16
+        ],
+        "rgbaSha256": "f939a42bd171f5f8e4245b3093e77c3793b40bfdba81892d32a1c3f464694ea5",
+        "alphaBBox": [
+          4,
+          4,
+          123,
+          16
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        128,
+        16
+      ],
+      "atlasRect": [
+        521,
+        65,
+        128,
+        16
+      ]
+    },
+    {
+      "key": "boxes-damage-light",
+      "member": "parts/boxes-damage-light.png",
+      "origin": "parts/boxes.png",
+      "operations": [
+        {
+          "op": "damage",
+          "cuts": [
+            [
+              7,
+              12,
+              8,
+              17
+            ],
+            [
+              8,
+              14,
+              10,
+              16
+            ]
+          ],
+          "bends": []
+        }
+      ],
+      "sha256": "ded169558c623a90b8ab9fd466164b7bdb9ce6a36569189a2745496e776d8e7d",
+      "image": {
+        "size": [
+          28,
+          20
+        ],
+        "rgbaSha256": "cb22d7226781e49c387fc6399ef411c0773f55fff4abe0cea85b3a6b1faa829d",
+        "alphaBBox": [
+          0,
+          1,
+          28,
+          20
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        28,
+        20
+      ],
+      "atlasRect": [
+        651,
+        65,
+        28,
+        20
+      ]
+    },
+    {
+      "key": "boxes-damage-heavy",
+      "member": "parts/boxes-damage-heavy.png",
+      "origin": "parts/boxes.png",
+      "operations": [
+        {
+          "op": "damage",
+          "cuts": [
+            [
+              7,
+              12,
+              8,
+              17
+            ],
+            [
+              8,
+              14,
+              10,
+              16
+            ],
+            [
+              21,
+              10,
+              24,
+              17
+            ],
+            [
+              9,
+              15,
+              12,
+              17
+            ]
+          ],
+          "bends": []
+        }
+      ],
+      "sha256": "390a3324e8d9b91d7db3017b60a4593c8f70771987c4039467a47e2902de9a1b",
+      "image": {
+        "size": [
+          28,
+          20
+        ],
+        "rgbaSha256": "96e5adbb94f23d9515ae4848e81aa07fa22f516b61e2c7f2ec087396248581cb",
+        "alphaBBox": [
+          0,
+          1,
+          28,
+          20
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        28,
+        20
+      ],
+      "atlasRect": [
+        681,
+        65,
+        28,
+        20
+      ]
+    },
+    {
+      "key": "boxes-rubble",
+      "member": "parts/boxes-rubble.png",
+      "origin": "parts/boxes.png",
+      "operations": [
+        {
+          "op": "rubble",
+          "size": [
+            28,
+            16
+          ],
+          "pieces": [
+            [
+              [
+                0,
+                8,
+                20,
+                20
+              ],
+              [
+                0,
+                4
+              ]
+            ],
+            [
+              [
+                14,
+                0,
+                28,
+                8
+              ],
+              [
+                9,
+                8
+              ]
+            ],
+            [
+              [
+                4,
+                10,
+                28,
+                20
+              ],
+              [
+                4,
+                6
+              ]
+            ]
+          ]
+        }
+      ],
+      "sha256": "662df38a598c6b5ac177fbd738a7f01bd1859a6265881b88446946441e4b1a63",
+      "image": {
+        "size": [
+          28,
+          16
+        ],
+        "rgbaSha256": "6b2cec563c766de09fdefde26e56d68b7727f5c39972f7e2594167ee756f8747",
+        "alphaBBox": [
+          0,
+          4,
+          28,
+          16
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        28,
+        16
+      ],
+      "atlasRect": [
+        711,
+        65,
+        28,
+        16
+      ]
+    },
+    {
+      "key": "metal-fragment",
+      "member": "parts/metal-fragment.png",
+      "origin": "parts/metal.png",
+      "operations": [
+        {
+          "op": "crop",
+          "box": [
+            16,
+            35,
+            36,
+            47
+          ]
+        }
+      ],
+      "sha256": "cfb51d75ced8f042ac039fc5e66f63b5f8631a274cc00a9f90f14993b49b78f5",
+      "image": {
+        "size": [
+          20,
+          12
+        ],
+        "rgbaSha256": "e9c4165e40fd0d532b9f9386bfcb9ab491ae8bd5cfe786d4bc69b5bc4984a1ad",
+        "alphaBBox": [
+          0,
+          0,
+          20,
+          12
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        20,
+        12
+      ],
+      "atlasRect": [
+        741,
+        65,
+        20,
+        12
+      ]
+    },
+    {
+      "key": "tier-1-intact",
+      "member": "parts/tier-1-intact.png",
+      "origin": "compositions/tier-1-intact.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "54b58cdc358f6b1e87c6bf5bc09283bd5d3eaa3887fb31868faa676c0d5c43b3",
+      "image": {
+        "size": [
+          160,
+          88
+        ],
+        "rgbaSha256": "7988373ecad97ac78bd31fed74c64f3c241538287bd6b1cd7ae954827180a59c",
+        "alphaBBox": [
+          4,
+          69,
+          151,
+          88
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        160,
+        88
+      ],
+      "atlasRect": [
+        763,
+        65,
+        160,
+        88
+      ]
+    },
+    {
+      "key": "tier-1-damage-light",
+      "member": "parts/tier-1-damage-light.png",
+      "origin": "compositions/tier-1-damage-light.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "b019c631b43b054524749999d817de19886ad539040b9da3d41781032c493017",
+      "image": {
+        "size": [
+          160,
+          88
+        ],
+        "rgbaSha256": "3735a6af0b9fe78adf7563e6009925acbe7be5e7fb73683d1871d49b80aabb17",
+        "alphaBBox": [
+          4,
+          69,
+          151,
+          88
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        160,
+        88
+      ],
+      "atlasRect": [
+        1,
+        155,
+        160,
+        88
+      ]
+    },
+    {
+      "key": "tier-1-damage-heavy",
+      "member": "parts/tier-1-damage-heavy.png",
+      "origin": "compositions/tier-1-damage-heavy.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "2818eb07ebd72e8417d4b078534b74369f9cd1828b014ceff6c22d49589e6e64",
+      "image": {
+        "size": [
+          160,
+          88
+        ],
+        "rgbaSha256": "3d489349be74ef5f999b0a22dcb9e4699458d02d7ad55a1fba17600d58ef231d",
+        "alphaBBox": [
+          4,
+          69,
+          151,
+          88
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        160,
+        88
+      ],
+      "atlasRect": [
+        163,
+        155,
+        160,
+        88
+      ]
+    },
+    {
+      "key": "tier-1-defeated",
+      "member": "parts/tier-1-defeated.png",
+      "origin": "compositions/tier-1-defeated.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "6ce18768b4702069b1a511084801ed6074056b96adbb1e15ca31b42a16298300",
+      "image": {
+        "size": [
+          160,
+          88
+        ],
+        "rgbaSha256": "ce19fba07ca07f8e0de2d1148fd45fc082ec6f850f4268996b3b6e91ca779bf3",
+        "alphaBBox": [
+          16,
+          67,
+          73,
+          88
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        160,
+        88
+      ],
+      "atlasRect": [
+        325,
+        155,
+        160,
+        88
+      ]
+    },
+    {
+      "key": "tier-2-intact",
+      "member": "parts/tier-2-intact.png",
+      "origin": "compositions/tier-2-intact.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "e35d08075853f19ad4df0972580fc1b39cd9c733ac5d0bd670edf8eb27bca144",
+      "image": {
+        "size": [
+          160,
+          88
+        ],
+        "rgbaSha256": "99ce38298f5a567845ae09cfb9640c6cb2a3407e99989e1f841d42b337c182e6",
+        "alphaBBox": [
+          2,
+          16,
+          151,
+          88
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        160,
+        88
+      ],
+      "atlasRect": [
+        487,
+        155,
+        160,
+        88
+      ]
+    },
+    {
+      "key": "tier-2-damage-light",
+      "member": "parts/tier-2-damage-light.png",
+      "origin": "compositions/tier-2-damage-light.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "c231a5494acd679314a9e2e2b5d77f4c5568303ef762a42259ad1d36db42bca2",
+      "image": {
+        "size": [
+          160,
+          88
+        ],
+        "rgbaSha256": "1deea7d2e373116735d21e64dbebbf6c6e7a82ebca2beeb56dd5bd208f8a482c",
+        "alphaBBox": [
+          2,
+          16,
+          151,
+          88
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        160,
+        88
+      ],
+      "atlasRect": [
+        649,
+        155,
+        160,
+        88
+      ]
+    },
+    {
+      "key": "tier-2-damage-heavy",
+      "member": "parts/tier-2-damage-heavy.png",
+      "origin": "compositions/tier-2-damage-heavy.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "513fc9704021cf9f4a6b16a94aa68ea21d9841f08772b8537547cb280c4ad43e",
+      "image": {
+        "size": [
+          160,
+          88
+        ],
+        "rgbaSha256": "6fb1cb478b9bd3624dd3e0c353a78186b8d1cfded788f0bd8e9abb53f7bf244e",
+        "alphaBBox": [
+          2,
+          16,
+          151,
+          88
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        160,
+        88
+      ],
+      "atlasRect": [
+        811,
+        155,
+        160,
+        88
+      ]
+    },
+    {
+      "key": "tier-2-defeated",
+      "member": "parts/tier-2-defeated.png",
+      "origin": "compositions/tier-2-defeated.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "13a9a249f4846e3a02e95bf9ad443f73164f767c4e4787eb12c4e8c4b8aeabed",
+      "image": {
+        "size": [
+          160,
+          88
+        ],
+        "rgbaSha256": "980c8510390071ce0c64fbfb852a569be439b519d856d5688d8f5f25b419a3bf",
+        "alphaBBox": [
+          19,
+          67,
+          141,
+          88
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        160,
+        88
+      ],
+      "atlasRect": [
+        1,
+        245,
+        160,
+        88
+      ]
+    },
+    {
+      "key": "tier-3-intact",
+      "member": "parts/tier-3-intact.png",
+      "origin": "compositions/tier-3-intact.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "1da847af7d035dda582c8fca7c4a6a5bcd00287af0863a0e188fff66b3f9c251",
+      "image": {
+        "size": [
+          160,
+          88
+        ],
+        "rgbaSha256": "491f8cae230df30d932cec4979a63c7bbbd50915e9b6d6974aa9e4e94852d4ce",
+        "alphaBBox": [
+          2,
+          16,
+          151,
+          88
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        160,
+        88
+      ],
+      "atlasRect": [
+        163,
+        245,
+        160,
+        88
+      ]
+    },
+    {
+      "key": "tier-3-damage-light",
+      "member": "parts/tier-3-damage-light.png",
+      "origin": "compositions/tier-3-damage-light.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "185019a38114192f8ae9823df6e1cdac2be76d5214870de27febbfd2018efd40",
+      "image": {
+        "size": [
+          160,
+          88
+        ],
+        "rgbaSha256": "47aec3303c11bfb02f92eb3d26a91a744b094032892ee081bbe90feffe60a2cc",
+        "alphaBBox": [
+          2,
+          16,
+          151,
+          88
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        160,
+        88
+      ],
+      "atlasRect": [
+        325,
+        245,
+        160,
+        88
+      ]
+    },
+    {
+      "key": "tier-3-damage-heavy",
+      "member": "parts/tier-3-damage-heavy.png",
+      "origin": "compositions/tier-3-damage-heavy.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "2c3b5c898760700e93e9a8b4c1c1ead21f701f0fa6894e56cb3f0bc84d9dbdda",
+      "image": {
+        "size": [
+          160,
+          88
+        ],
+        "rgbaSha256": "c2504945df2008042dfbc85404c58ce2de648b536b11a85a8379f56a9fb4ac63",
+        "alphaBBox": [
+          2,
+          16,
+          151,
+          88
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        160,
+        88
+      ],
+      "atlasRect": [
+        487,
+        245,
+        160,
+        88
+      ]
+    },
+    {
+      "key": "tier-3-defeated",
+      "member": "parts/tier-3-defeated.png",
+      "origin": "compositions/tier-3-defeated.png",
+      "operations": [
+        {
+          "op": "alpha-threshold",
+          "value": 128
+        }
+      ],
+      "sha256": "cb8f37a8ba02f312b5035b799ae321b81f6f1f4641c921ba9e48038ba6b85417",
+      "image": {
+        "size": [
+          160,
+          88
+        ],
+        "rgbaSha256": "fc40b49e52d4ed360d00a62bcef12fac50a8a7cc5c20b6cf09a64f5ed989b576",
+        "alphaBBox": [
+          20,
+          67,
+          139,
+          88
+        ],
+        "alphaValues": [
+          0,
+          255
+        ]
+      },
+      "density": 1,
+      "worldSize": [
+        160,
+        88
+      ],
+      "atlasRect": [
+        649,
+        245,
+        160,
+        88
+      ]
+    }
+  ],
+  "sources": {
+    "selected": "sources/selected-common.json",
+    "guardClip": "sources/guard-shoot.json",
+    "generated": [
+      {
+        "key": "metal",
+        "tool": "built-in image_gen",
+        "master": "masters/metal.png",
+        "sha256": "3820ef2bc683301e5134b5f33152d785fd96aba78f08ee9d269348d873a2cc8e",
+        "prompt": "prompts/metal.txt",
+        "promptSha256": "fe6400d69fcc5462a6833bbae009ce1d790f275f093c609d8252f7171dd441a8",
+        "original": {
+          "size": [
+            1802,
+            873
+          ],
+          "rgbaSha256": "da7723c0f43619cbbff218f2df0eac12ad66d3096e869e9ceaf51bf024b94cda",
+          "alphaBBox": [
+            0,
+            7,
+            1789,
+            873
+          ],
+          "alphaValues": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85,
+            86,
+            87,
+            88,
+            89,
+            90,
+            91,
+            92,
+            93,
+            94,
+            95,
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103,
+            104,
+            105,
+            106,
+            107,
+            108,
+            109,
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            117,
+            118,
+            119,
+            120,
+            121,
+            122,
+            123,
+            124,
+            125,
+            126,
+            127,
+            128,
+            129,
+            130,
+            131,
+            132,
+            133,
+            134,
+            135,
+            136,
+            137,
+            138,
+            139,
+            140,
+            141,
+            142,
+            143,
+            144,
+            145,
+            146,
+            147,
+            148,
+            149,
+            150,
+            151,
+            152,
+            153,
+            154,
+            155,
+            156,
+            157,
+            158,
+            159,
+            160,
+            161,
+            162,
+            163,
+            164,
+            165,
+            166,
+            167,
+            168,
+            169,
+            170,
+            171,
+            172,
+            173,
+            174,
+            175,
+            176,
+            177,
+            178,
+            179,
+            180,
+            181,
+            182,
+            183,
+            184,
+            185,
+            186,
+            187,
+            188,
+            189,
+            190,
+            191,
+            192,
+            193,
+            194,
+            195,
+            196,
+            197,
+            198,
+            199,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            209,
+            210,
+            211,
+            212,
+            213,
+            214,
+            215,
+            216,
+            217,
+            218,
+            219,
+            220,
+            221,
+            222,
+            223,
+            224,
+            225,
+            226,
+            227,
+            228,
+            229,
+            230,
+            231,
+            232,
+            233,
+            234,
+            235,
+            236,
+            237,
+            238,
+            239,
+            240,
+            241,
+            242,
+            243,
+            244,
+            245,
+            246,
+            247,
+            248,
+            249,
+            250,
+            251,
+            252,
+            253,
+            254,
+            255
+          ]
+        }
+      },
+      {
+        "key": "boxes",
+        "tool": "built-in image_gen",
+        "master": "masters/boxes.png",
+        "sha256": "8f9267d18413e1dc4b873c07e9757c116e9e058f5096490cfe086493333062e9",
+        "prompt": "prompts/boxes.txt",
+        "promptSha256": "34889f7bce1bf220c6713b5a2321b502fbf6cb9812249e08592172c0bc36854d",
+        "original": {
+          "size": [
+            1484,
+            1060
+          ],
+          "rgbaSha256": "6e6307cd54569653dd61f0fbfe46499ca36c219e838618de55ccc10ae1530173",
+          "alphaBBox": [
+            0,
+            27,
+            1464,
+            1060
+          ],
+          "alphaValues": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63,
+            64,
+            65,
+            66,
+            67,
+            68,
+            69,
+            70,
+            71,
+            72,
+            73,
+            74,
+            75,
+            76,
+            77,
+            78,
+            79,
+            80,
+            81,
+            82,
+            83,
+            84,
+            85,
+            86,
+            87,
+            88,
+            89,
+            90,
+            91,
+            92,
+            93,
+            94,
+            95,
+            96,
+            97,
+            98,
+            99,
+            100,
+            101,
+            102,
+            103,
+            104,
+            105,
+            106,
+            107,
+            108,
+            109,
+            110,
+            111,
+            112,
+            113,
+            114,
+            115,
+            116,
+            117,
+            118,
+            119,
+            120,
+            121,
+            122,
+            123,
+            124,
+            125,
+            126,
+            127,
+            128,
+            129,
+            130,
+            131,
+            132,
+            133,
+            134,
+            135,
+            136,
+            137,
+            138,
+            139,
+            140,
+            141,
+            142,
+            143,
+            144,
+            145,
+            146,
+            147,
+            148,
+            149,
+            150,
+            151,
+            152,
+            153,
+            154,
+            155,
+            156,
+            157,
+            158,
+            159,
+            160,
+            161,
+            162,
+            163,
+            164,
+            165,
+            166,
+            167,
+            168,
+            169,
+            170,
+            171,
+            172,
+            173,
+            174,
+            175,
+            176,
+            177,
+            178,
+            179,
+            180,
+            181,
+            182,
+            183,
+            184,
+            185,
+            186,
+            187,
+            188,
+            189,
+            190,
+            191,
+            192,
+            193,
+            194,
+            195,
+            196,
+            197,
+            198,
+            199,
+            200,
+            201,
+            202,
+            203,
+            204,
+            205,
+            206,
+            207,
+            208,
+            209,
+            210,
+            211,
+            212,
+            213,
+            214,
+            215,
+            216,
+            217,
+            218,
+            219,
+            220,
+            221,
+            222,
+            223,
+            224,
+            225,
+            226,
+            227,
+            228,
+            229,
+            230,
+            231,
+            232,
+            233,
+            234,
+            235,
+            236,
+            237,
+            238,
+            239,
+            240,
+            241,
+            242,
+            243,
+            244,
+            245,
+            246,
+            247,
+            248,
+            249,
+            250,
+            251,
+            252,
+            253,
+            254,
+            255
+          ]
+        }
+      }
+    ],
+    "wood": "pilot/masters/shelter.png"
+  },
+  "recipe": {
+    "member": "recipes/build-main.py",
+    "sha256": "7b62fd39d043a12c99a651fae70fc47685e870d885ab0549388d2cd595234e9a"
+  },
+  "acceptance": {
+    "visual": "pending",
+    "owner": "04-32/04-33",
+    "humanApproval": null,
+    "completedObligations": []
+  }
+}

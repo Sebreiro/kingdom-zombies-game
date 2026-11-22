@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "phase": "04",
+  "revision": 1,
+  "report": "04-PLAN-CHECK-INTEGRATION-PREREQUISITE.md",
+  "priorPlanningRecord": "04-INTEGRATION-PLANNING-CHECKS.json",
+  "sourceIdentityProjection": {
+    "excludedOwnershipKeys": [
+      "plan",
+      "task",
+      "check",
+      "owners",
+      "command"
+    ],
+    "baselineSha256": {
+      "obligations": "e8a67a3b9b9685804e3db8c5d5d2f391758a568f2e055b9218120267496871ea",
+      "acceptance": "aac9a226fe8053d42d54de6b5a5d09bf4520540f7794afe9e7f5d033bb328a9e",
+      "heldout": "8c74c8f335e127a26e6525488b4509737b37d592b6e61b8635258d54b2049fa5",
+      "ui": "dd61ffeaf10f9236b51210a63e44a5e27ba740dafec6ec8560a9883d00c5041a",
+      "decisions": "dd93009703b6cd3bfe36a61010002228d664c81fe973b791c078ff41f55c7424",
+      "prohibitions": "543e037a4c0bfbbe75d1a6c380da2b1e6f741df0def50ac92810c504660322d4"
+    },
+    "counts": {
+      "obligations": 180,
+      "acceptance": 24,
+      "heldout": 34,
+      "ui": 70,
+      "decisions": 32,
+      "prohibitions": 4
+    }
+  },
+  "expectedOwnershipChanges": [
+    {
+      "kind": "obligation",
+      "id": "DT-27",
+      "before": {
+        "plan": "04-31",
+        "task": 1
+      },
+      "after": {
+        "plan": "04-31",
+        "task": 2
+      }
+    },
+    {
+      "kind": "acceptance",
+      "ids": [
+        "AC-15",
+        "AC-16",
+        "AC-17"
+      ],
+      "change": "Add04-31 Task2 alongside existingTask1; original statements/status/final evidence unchanged"
+    }
+  ],
+  "plannedConsumers": {
+    "producer": "04-03 Task1",
+    "catalog": "04-30 Task1",
+    "adapters": "04-31 Task1",
+    "finalExportGroup": "04-31 Task2",
+    "paths": [
+      "tools/phase4/check.cjs",
+      "tools/phase4/export.cjs",
+      "tools/phase4/native-observer.cjs",
+      "tools/phase4/cases/export-profile.cjs",
+      "tools/phase4/cases/export-portability.cjs"
+    ],
+    "newCase": "export.hub-consumer",
+    "runGroup": "G0-export-hub",
+    "order": 310
+  },
+  "limits": {
+    "plans": 36,
+    "tasks": 72,
+    "waves": 30,
+    "plannedPaths": 222,
+    "plan31Files": 9,
+    "task31Files": [
+      5,
+      5
+    ],
+    "backstops": 104,
+    "prohibitions": 4,
+    "threats": 108
+  },
+  "preservation": "Production sources/completed plans/summaries/old checker reports/STATE/continuation/checkpoint/evidence remain unmodified; new production proof cases are not executed by planner."
+}
+

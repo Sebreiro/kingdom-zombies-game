@@ -27,7 +27,10 @@ internal static class EngineGeneratedSyntax
             using var sha = SHA256.Create();
             string hash = BitConverter.ToString(value: sha.ComputeHash(buffer: Encoding.UTF8.GetBytes(s: text
                     .ToString()))).Replace(oldValue: "-", newValue: "").ToLowerInvariant();
-            return StringComparer.Ordinal.Equals(x: hash, y: row.Hash);
+            if (StringComparer.Ordinal.Equals(x: hash, y: row.Hash))
+            {
+                return true;
+            }
         }
 
         return false;
@@ -695,5 +698,671 @@ internal static class EngineGeneratedSyntax
         ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
                 + "KingdomZombies.Foundation.FoundationRoot_ScriptSerialization.generated.cs",
             "191ec98af11d741f95b4830c94ec4ebdc9a501c8f39b06329e69b21bc1852256", 33, 13, 14),
+        ("SCR0006", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59", 103, 29, 22),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59", 83, 121, 186),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59", 84, 121, 365),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59", 85, 121, 189),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59", 86, 121, 187),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59", 87, 121, 186),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59", 88, 121, 361),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59", 89, 121, 371),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59", 90, 121, 369),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59", 91, 121, 363),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59", 92, 121, 363),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59", 93, 121, 187),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59", 94, 121, 184),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59", 95, 121, 187),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59", 96, 121, 184),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59", 97, 121, 189),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59", 103, 121, 9),
+        ("SCR0008", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "aa9c0782127d727a8f2614eaf12cfd786781385d92b55c84999e650a49ce4e59", 80, 98, 18),
+        ("SCR0008", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d", 52, 29, 26),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d", 140, 121, 1),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d", 143, 121, 91),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d", 144, 121, 98),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d", 145, 121, 90),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d", 146, 121, 95),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d", 147, 121, 96),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d", 148, 121, 93),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d", 149, 121, 93),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d", 150, 121, 91),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d", 151, 121, 90),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d", 55, 13, 12),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d", 59, 13, 19),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d", 63, 13, 11),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d", 67, 13, 17),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d", 71, 13, 18),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d", 75, 13, 15),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d", 79, 13, 15),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d", 83, 13, 13),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d", 87, 13, 12),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d", 97, 81, 12),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d", 101, 81, 19),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d", 105, 83, 11),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d", 109, 78, 17),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d", 113, 79, 18),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d", 117, 81, 15),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d", 121, 81, 15),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d", 125, 81, 13),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "d55732652d9284086f786ab1d62c7213979e70983d47ca7c334ba148f609889d", 129, 81, 12),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPathAttributeGenerator/"
+                + "AssemblyScriptTypes.generated.cs",
+            "621c1e81abf2b4d2384f78c56e3c865ad780b952b814bab7ca6a56b896009846", 1, 121, 215),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615", 13, 83, 12),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615", 14, 90, 19),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615", 15, 84, 11),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615", 16, 85, 17),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615", 17, 87, 18),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615", 18, 86, 15),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615", 19, 86, 15),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615", 20, 84, 13),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615", 21, 83, 12),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615", 29, 13, 12),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615", 31, 13, 19),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615", 33, 13, 11),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615", 35, 13, 17),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615", 37, 13, 18),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615", 39, 13, 15),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615", 41, 13, 15),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615", 43, 13, 13),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "41a61b43070a6ff619a475d3f9ace40a340b66c4f6b2a8f6c463d2cbd86cf615", 45, 13, 12),
+        ("SCR0006", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 113, 29, 22),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 91, 121, 186),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 92, 121, 365),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 93, 121, 189),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 94, 121, 419),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 95, 121, 598),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 96, 121, 187),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 97, 121, 186),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 98, 121, 361),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 99, 121, 371),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 100, 121, 369),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 101, 121, 363),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 102, 121, 363),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 103, 121, 187),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 104, 121, 184),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 105, 121, 187),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 106, 121, 184),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 107, 121, 189),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 113, 121, 9),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 136, 121, 54),
+        ("SCR0008", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 88, 98, 18),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 164, 121, 1),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 167, 121, 91),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 168, 121, 98),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 169, 121, 90),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 170, 121, 95),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 171, 121, 99),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 172, 121, 94),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 173, 121, 96),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 174, 121, 93),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 175, 121, 93),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 176, 121, 91),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 177, 121, 90),
+        ("SCR0008", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 60, 29, 26),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 63, 13, 12),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 67, 13, 19),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 71, 13, 11),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 75, 13, 17),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 79, 13, 21),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 83, 13, 16),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 87, 13, 18),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 91, 13, 15),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 95, 13, 15),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 99, 13, 13),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 103, 13, 12),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 113, 81, 12),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 117, 81, 19),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 121, 83, 11),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 125, 78, 17),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 129, 78, 21),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 133, 79, 16),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 137, 79, 18),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 141, 81, 15),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 145, 81, 15),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 149, 81, 13),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 153, 81, 12),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 13, 83, 12),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 14, 90, 19),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 15, 84, 11),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 16, 85, 17),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 17, 89, 21),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 18, 85, 16),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 19, 87, 18),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 20, 86, 15),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 21, 86, 15),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 22, 84, 13),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 23, 83, 12),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 31, 13, 12),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 33, 13, 19),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 35, 13, 11),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 37, 13, 17),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 39, 13, 21),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 41, 13, 16),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 43, 13, 18),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 45, 13, 15),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 47, 13, 15),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 49, 13, 13),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 51, 13, 12),
+        ("SCR0008", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 88, 98, 18),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 91, 121, 186),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 92, 121, 365),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 93, 121, 189),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 94, 121, 419),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 95, 121, 598),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 96, 121, 187),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 97, 121, 186),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 98, 121, 361),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 99, 121, 371),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 100, 121, 369),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 101, 121, 363),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 102, 121, 363),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 103, 121, 187),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 104, 121, 184),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 105, 121, 187),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 106, 121, 184),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 107, 121, 189),
+        ("SCR0006", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 113, 29, 22),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 113, 121, 9),
+        ("SCR0007", "Godot.SourceGenerators.ScriptMethodsGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptMethods.generated.cs",
+            "62b731cc194517856ced1cd294886332555f4bf224fb4863cd174f33d015b697", 136, 121, 54),
+        ("SCR0008", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 60, 29, 26),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 63, 13, 12),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 67, 13, 19),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 71, 13, 11),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 75, 13, 17),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 79, 13, 21),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 83, 13, 16),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 87, 13, 18),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 91, 13, 15),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 95, 13, 15),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 99, 13, 13),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 103, 13, 12),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 113, 81, 12),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 117, 81, 19),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 121, 83, 11),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 125, 78, 17),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 129, 78, 21),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 133, 79, 16),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 137, 79, 18),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 141, 81, 15),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 145, 81, 15),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 149, 81, 13),
+        ("SCR0011", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 153, 81, 12),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 164, 121, 1),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 167, 121, 91),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 168, 121, 98),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 169, 121, 90),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 170, 121, 95),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 171, 121, 99),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 172, 121, 94),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 173, 121, 96),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 174, 121, 93),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 175, 121, 93),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 176, 121, 91),
+        ("SCR0007", "Godot.SourceGenerators.ScriptPropertiesGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptProperties.generated.cs",
+            "c3c7164eb02e57f1d8bf9fbad0fc2c4d5ab79cbbcc1899f8cb99adaf78fc9c7b", 177, 121, 90),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 13, 83, 12),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 14, 90, 19),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 15, 84, 11),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 16, 85, 17),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 17, 89, 21),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 18, 85, 16),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 19, 87, 18),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 20, 86, 15),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 21, 86, 15),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 22, 84, 13),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 23, 83, 12),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 31, 13, 12),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 33, 13, 19),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 35, 13, 11),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 37, 13, 17),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 39, 13, 21),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 41, 13, 16),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 43, 13, 18),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 45, 13, 15),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 47, 13, 15),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 49, 13, 13),
+        ("SCR0011", "Godot.SourceGenerators.ScriptSerializationGenerator/"
+                + "KingdomZombies.Inspection.InspectionRoot_ScriptSerialization.generated.cs",
+            "def430bc84dfca85080c110acb092b543607684f0d246aa339ea85d900f8596d", 51, 13, 12),
     ];
 }

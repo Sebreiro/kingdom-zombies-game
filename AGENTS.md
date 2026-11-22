@@ -13,6 +13,7 @@ Before starting or finishing phase implementation, follow the [phase branch and 
 | C# rules, executable definitions, exemptions, and qualitative review | [Code index](docs/code/README.md) |
 | Project boundaries and architecture decisions | [Architecture index](docs/architecture/README.md) |
 | Toolchain prerequisites and isolated setup | [Development setup](docs/workflow/setup.md) |
+| Known defects in the pinned Godot engine and their workarounds | [Engine defects](docs/workflow/engine-defects.md) |
 | Selecting proofs and interpreting current evidence | [Verification](docs/workflow/verification.md) |
 | Local test selection, saved scenarios, run grouping, and the phase repair cycle | [Local testing strategy](docs/workflow/local-testing.md) |
 | Required game behavior, balance baseline, exclusions, and acceptance scenarios | [Version 0.1 specification](specs/0.1/initial-spec.md) |
