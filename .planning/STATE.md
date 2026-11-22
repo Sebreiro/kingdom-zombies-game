@@ -4,19 +4,19 @@ milestone: v0.1
 milestone_name: Complete playable LAN campaign
 current_phase: 04
 current_phase_name: Asset production
-current_plan: 24
+current_plan: 32
 status: in_progress
-stopped_at: "Plan 04-24 Task 1: the five renewed-review findings (CR-10, WR-03, WR-04, WR-05, IN-01) are repaired in e86aff3..b3f00be; the full selected source set is being rerun on the repaired revision. Phase 04 is 34/37 plans complete."
-last_updated: "2026-11-22T02:20:00.000Z"
+stopped_at: "Plan 04-24 complete at 1e0fe27: clean review of 5c637da, 776/776 pre-window results plus the judgment control, 819-case selection; prelaunch and selection gates pass. Next: Plan 04-32 rendered run, listening and judgments. Phase 04 is 35/37 plans complete."
+last_updated: "2026-11-22T21:45:00.000Z"
 last_activity: 2026-11-22
-last_activity_desc: "Qualified fee2a0e on 749/749 pre-window results plus the judgment control; the renewed independent review reported five findings."
+last_activity_desc: "Closed Plan 04-24: bound the clean 5c637da review and the declared selection; runner.prelaunch and runner.selection pass."
 progress:
   total_phases: 12
   completed_phases: 3
   total_plans: 62
-  completed_plans: 59
+  completed_plans: 60
   percent: 25
-state_head: fee2a0e
+state_head: 1e0fe27
 ---
 
 # Project State
@@ -29,19 +29,19 @@ Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUM
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
 **Phase 4 execution amendment (November 21).** Follow the [focused Windows handoff](phases/04-asset-production/04-HANDOFF.md) for the remaining plans.
 
-The strict solution build, fresh portable delivery, and focused Windows checks passed on `fee2a0e`. The user paused the remaining verification with 49 of 749 pre-window results authenticated. [Phase 4 pause handoff](phases/04-asset-production/.continue-here.md)
+Plan 04-24 is complete: the final source `5c637da` has a clean independent review, all 776 selected pre-window results pass on it, and the 819-case selection is bound. See the [04-24 summary](phases/04-asset-production/04-24-SUMMARY.md).
 
 ## Current Position
 
 Phase: 04 — Asset production
-Current Plan: 24
+Current Plan: 32
 Total Plans in Phase: 37
-Status: In progress — renewed review findings await repair
-Last activity: 2026-11-22 — Qualified `fee2a0e` on all 749 pre-window results; the renewed independent review reported five findings.
+Status: In progress — ready for the Plan 04-32 rendered run
+Last activity: 2026-11-22 — Closed Plan 04-24 with the clean `5c637da` review and the bound selection.
 
 Progress: [███░░░░░░░] 25%
 
-Milestone progress: 3 of 12 phases, 59 of 62 currently planned plans, and 14 of 135 requirements complete. Phase 4 has completed 34 of 37 plans. Asset acceptance remains pending.
+Milestone progress: 3 of 12 phases, 60 of 62 currently planned plans, and 14 of 135 requirements complete. Phase 4 has completed 35 of 37 plans. Asset acceptance remains pending.
 
 ## Performance Metrics
 
@@ -235,16 +235,16 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 
 ## Session Continuity
 
-Last session: 2026-11-22T02:20:00.000Z
-Stopped at: Plan 04-24 Task 1, after current-source qualification and the renewed independent review.
+Last session: 2026-11-22T21:45:00.000Z
+Stopped at: Plan 04-24 complete; Plan 04-32 next.
 Resume file: None
 
-Current-source evidence for `fee2a0e` (local, ignored): `.phase4/temp/04-24-fee2a0e-current-source-qualification.json` (SHA-256 `0f45a84e27cdd470084da78954d7a48df2448dad3e3bca9e403d067511773d7c`) authenticates 749/749 pre-window results and the detached judgment control. Windows Phase 1 passed 678/678, Phase 2 7/7 and Phase 3 20/20. `content.native-permissions` first failed with `spawn pwsh ENOENT` because PowerShell 7 was not on PATH, then passed 251/251 in run `54606f83-860d-4cd4-98d9-db9e6d6011ab` with the Codex runtime `pwsh` 7.6.9. The setup guide does not yet list PowerShell 7.
+Reviewed source for Plans 04-32 and 04-33: revision `5c637da23437ea09501a9b167449425a824fe1c1`, source `29578ddb…`, media `056324ea…`, tool `081ee3aa…`, review build `.phase4/runs/eb05f596-d4a0-421b-954a-ab17f2929ccd/review-build.json` (`cb7411a8…`) and portable package `.phase4/runs/b0111601-0bf8-43e3-bcb7-d12ca022f111/portable/`. The bound review, fixes and selection are committed in `1e0fe27`; `runner.prelaunch` (`43296212-…`) and `runner.selection` (`6a3ffe9a-…`) pass there. Any change under the Phase 4 source roots invalidates this binding and needs a renewed review and full batch.
 
-The renewed independent review, `.phase4/temp/04-24-fee2a0e-independent-review.md` (SHA-256 `a5beba8f483e0a6df60f8797f9cc10b6396858591d8367127adbc4262fdd1f5f`, reviewer Claude Phase 4 Independent Reviewer), is `issues_found`: CR-10 high (the `pins` impact group ignores the changed Phase 1 runner and tests, omitting 27 affected Phase 1 cases), WR-03, WR-04 and WR-05 medium, and IN-01 low (classified WARNING, so not acceptable as cosmetic). It found the original CR-01–CR-09, WR-02 and RR-01–RR-05 resolved, with WR-01's remainder carried as WR-03.
+`world.replacement` failed once at `5c637da` on an intermittent Godot .NET `Handle is not initialized` error while loading the item preview scene, then passed five reruns. The creator accepted the passing rerun on 2026-11-22. Follow-up: keep both item preview scenes in fields in `WorldPreview` and record the defect in `docs/workflow/engine-defects.md`; this needs the generated-span governance rebind.
 
-The user approved repairing all five findings. Local commits `e86aff3` (CR-10), `f4c8acd` (WR-04), `d5b533a` (WR-05), `c0dc88d` (WR-03) and `b3f00be` (IN-01) carry the repairs and their negative controls. They are not pushed. The selection now includes all 678 Phase 1 cases, so 776 pre-window results are required. The tool identity now includes the pinned Python interpreter from `tools/phase4/python.json`.
+The branch `feature/04-asset-production` has local commits that are not pushed. The creator asked on 2026-11-22 to finish Phase 4 and make PR #5 ready to merge. Marking it ready does not authorize the merge.
 
-Next action: On the repaired revision, run the strict build, `export.portability`, `prepareSource`, and the review-build composition. Then run every selected Phase 4 case, `acceptance.judgments`, Windows Phase 1, Phase 2 and Phase 3, and `content.native-permissions` with PowerShell 7 on PATH. Write the qualification receipt, extend `prepare-review.cjs` dispositions for the new finding IDs, obtain a clean renewed review, and validate `runner.prelaunch` and `runner.selection`. Coordinate live listening with the user just before the visible run.
+Next action: Plan 04-32. Author `04-RUNS.json` (schema 2: campaign, kind `initial`, physical drivers for the 18 Phase 4 rendered cases) from the headless checkpoint rehearsal, then run `node tools/phase4/check.cjs --group rendered` at 1280×720 with the creator's agreement, because it drives the desktop. The creator listens live for D-31 and D-32 during the audio case and then gives named verdicts for 93 extracted samples and loops. Record the four named judgments P1–P4 from the final run's images.
 
-Preserved future context: [Phase 4 context](phases/04-asset-production/04-CONTEXT.md) remains authoritative. Plan 04-01 has source/headless evidence only; complete resource and actual acceptance responsibilities remain with later Phase 4 plans.
+Preserved future context: [Phase 4 context](phases/04-asset-production/04-CONTEXT.md) remains authoritative.
