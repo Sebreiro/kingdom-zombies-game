@@ -204,6 +204,10 @@ function worktreeState(root, worktree, worktreePaths) {
   if (worktree.prunable || !fs.existsSync(worktree.path)) return {removable: false, prune: true, reason: 'directory missing'};
   const status = git(worktree.path, ['status', '--porcelain=v1', '--untracked-files=all', '--ignore-submodules=none']);
   if (status.trim()) return {removable: false, reason: 'uncommitted changes'};
+  // Only the repository's own .gitignore files decide what is disposable; core.excludesFile and info/exclude can hide work.
+  if (git(worktree.path, ['ls-files', '-z', '--others', '--exclude-per-directory=.gitignore']).length) {
+    return {removable: false, reason: 'untracked files hidden by Git exclude settings'};
+  }
   if (git(worktree.path, ['ls-files', '-v', '-z']).split('\0').some(line => /^[a-zS] /.test(line))) {
     return {removable: false, reason: 'files marked assume-unchanged or skip-worktree'};
   }
@@ -317,7 +321,7 @@ function execute(options, {cwd, log, error}) {
   }
   if (options.apply && worktrees.some(worktree => worktree.prune)) {
     git(root, ['worktree', 'prune']);
-    log('  pruned missing worktree records');
+    log('  ran git worktree prune for records whose folders are missing (any session\'s; locked records stay)');
   }
   failures += refused.length;
   for (const worktree of requested.filter(item => item.removable)) {
@@ -333,7 +337,8 @@ function execute(options, {cwd, log, error}) {
   }
 
   const pending = artifacts.filter(entry => entry.action === 'delete').length;
-  if (!options.apply) log(`Dry run: ${pending} output(s) would be deleted. Rerun with --apply to delete them.`);
+  if (!options.apply && lock) log(`Dry run: --apply would delete nothing while ${lock} exists; ${pending} output(s) are listed for deletion after that.`);
+  else if (!options.apply) log(`Dry run: ${pending} output(s) would be deleted. Rerun with --apply to delete them.`);
   return failures ? 1 : 0;
 }
 
