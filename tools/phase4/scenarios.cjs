@@ -191,8 +191,12 @@ function impactClosure(cases, files) {
     coverage:['src','docs/code','tests/phase1'],
     pins:['tools/phase1/toolchain.json']
   };
-  return new Map(cases.map(row => [row.id, {new:!row.family, changed:false, affected:row.family==='phase1' ?
-    shared || starts(...inheritedGroups[row.group]??[]) : Boolean(row.family && runtime)}]));
+  // Each inherited case also executes through its own coordinator, manifest and compiled test project. Phase 2 and 3
+  // coordinators load the Phase 1 runner, and Phase 3 loads Phase 2 evidence, locking and rendering modules.
+  const runners = {phase1:['tools/phase1','tests/phase1'], phase2:['tools/phase1','tools/phase2'],
+    phase3:['tools/phase1','tools/phase2','tools/phase3']};
+  return new Map(cases.map(row => [row.id, {new:!row.family, changed:false, affected:Boolean(row.family) &&
+    (shared || starts(...runners[row.family]) || (row.family === 'phase1' ? starts(...inheritedGroups[row.group]??[]) : runtime))}]));
 }
 
 function validateSelection(record, cases, catalogRef, current, expectedImpact = null) {

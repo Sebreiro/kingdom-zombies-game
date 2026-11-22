@@ -690,6 +690,23 @@ function selectionControls(context) {
     alteration('omit-new',/SELECTION_REQUIRED/,data => {data.omitted.push(data.selected.pop());});
     alteration('omit-changed',/SELECTION_REQUIRED/,data => {data.omitted[0].changed=true;});
     alteration('uncertain-impact',/SELECTION_IMPACT/,data => {data.omitted[0].uncertain=true;});
+    // An unchanged group folder does not prove a case unaffected: its own runner and test project are inputs too.
+    for (const file of ['tools/phase1/check.cjs','tests/phase1/PinEdgeTests.cs']) {
+      const runnerImpact = scenarios.impactClosure(cases,[file]);
+      assert.equal(runnerImpact.get('phase1/unaffected').affected,true,file);
+      reject('omit-pins-after-'+file,/SELECTION_IMPACT_MISMATCH/,() =>
+        scenarios.validateSelection(structuredClone(record),cases,catalog,current,runnerImpact));
+    }
+    const phase2 = {id:'phase2/core.unaffected',family:'phase2',group:'core',importance:'Normal',needsGameWindow:false,
+      runGroup:'G0',order:5,processRoles:['source']};
+    const withPhase2 = [...cases,phase2], phase2Record = structuredClone(record);
+    phase2Record.omitted.push({...structuredClone(record.omitted[0]),id:phase2.id});
+    assert.deepEqual(scenarios.validateSelection(structuredClone(phase2Record),withPhase2,catalog,current,
+      scenarios.impactClosure(withPhase2,['tools/phase3/network.cjs'])).selected.map(item => item.id),record.selected.map(item => item.id));
+    for (const file of ['tools/phase2/rendered.cjs','tools/phase1/check.cjs']) {
+      reject('omit-phase2-after-'+file,/SELECTION_IMPACT_MISMATCH/,() =>
+        scenarios.validateSelection(structuredClone(phase2Record),withPhase2,catalog,current,scenarios.impactClosure(withPhase2,[file])));
+    }
     alteration('stale-catalog',/SELECTION_SCHEMA/,data => {data.catalogSha256='b'.repeat(64);});
     alteration('stale-reviewed-source',/EVIDENCE_IDENTITY/,data => {data.source='b'.repeat(64);});
     alteration('wrong-window-size',/SELECTION_SCHEMA/,data => {data.window.width=1024;});
