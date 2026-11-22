@@ -148,6 +148,7 @@ async function qualification(context) {
   sourceHistoryControls(context.directory,reject);
   inheritedReceiptControls(context.directory,reject);
   campaignHistoryControls(context.directory,reject);
+  await interruptionControls(context.directory,reject);
   repairHistoryControls(reject);
   buildIdentityControls(context.directory,reject);
   await processIdentityControls(name => control.push(name));
@@ -313,6 +314,39 @@ function buildIdentityControls(directory,reject) {
     record('wrong-engine',observations.map(row=>({...row,executable:packageRef.path})))));
 }
 
+// A hard-terminated attempt keeps start.json without a terminal. The receipt is refused while its runner or a journaled
+// owned launch survives, then records a failed interruption that the campaign history accepts.
+async function interruptionControls(directory,reject) {
+  const e = require('../evidence.cjs'), scenarios = require('../scenarios.cjs');
+  const {current,report,item} = baseFixture();
+  const root = path.join(directory,'hard-termination'), campaign = crypto.randomUUID(), invocation = crypto.randomUUID();
+  const relative = '.phase4/acceptance/'+invocation;
+  const drivers = e.writeExclusive(root,relative+'/declared-drivers.json',{campaign});
+  const opening = {...current,schemaVersion:1,invocation,campaign,startedAt:report.startedAt,previousInvocation:null,kind:'initial',
+    selected:[item.id],drivers,reviewSha256:'a'.repeat(64),selectionSha256:'b'.repeat(64),gateRevision:'0'.repeat(40),
+    newlyAffectedCaseIds:[],runner:{pid:900,startedAt:1000}};
+  e.writeExclusive(root,relative+'/start.json',opening);
+  e.writeExclusive(root,relative+'/owned-processes.ndjson',Buffer.from([{pid:910,trackedAt:2000},{pid:910,trackedAt:2000,exitedAt:3000},
+    {pid:920,trackedAt:40000}].map(row => JSON.stringify(row)).join('\n')+'\n'));
+  e.writeExclusive(root,'.phase2/desktop.lock',{pid:900,nonce:invocation,at:report.startedAt});
+  const row = (pid, parent, created) => ({pid,parent,created});
+  const record = rows => scenarios.recordInterruption(root,invocation,null,{rows:new Map([[item.id,item]]),
+    observer:{inventory:() => ({self:999,rows}),kill:() => assert.fail('An interruption receipt never kills'),now:() => 100000}});
+  const rejectAsync = async (name, pattern, action) => {
+    await assert.rejects(action,pattern,name);
+    reject(name,pattern,() => {throw new Error(pattern.source);});
+  };
+  await rejectAsync('interruption-runner-still-alive',/RENDERED_INTERRUPTION_RUNNER_ALIVE/,() => record([row(900,1,999)]));
+  await rejectAsync('interruption-owned-launch-survives',/RENDERED_INTERRUPTION_SURVIVORS/,() => record([row(920,1,39999),row(921,920,40500)]));
+  const recorded = await record([row(900,1,50000),row(910,4,60000),row(930,910,61000),row(920,4,70000),row(940,920,3000)]);
+  assert.equal(recorded.releasedLock,true);
+  assert.equal(fs.existsSync(path.join(root,'.phase2/desktop.lock')),false);
+  const history = e.historyDocuments(root,[recorded.report],campaign);
+  assert.equal(history[0].status,'fail');
+  assert.deepEqual(history[0].outcomes.map(row => row.status),['blocked']);
+  await rejectAsync('interruption-already-terminal',/RENDERED_INTERRUPTION_TERMINAL/,() => record([]));
+}
+
 function campaignHistoryControls(directory,reject) {
   const e = require('../evidence.cjs');
   const {timeBudget} = require('../rendered-process.cjs');
@@ -336,6 +370,31 @@ function campaignHistoryControls(directory,reject) {
   assert.equal(e.historyDocuments(directory,[first,end],campaign)[1].status,'fail');
   reject('submitted-campaign-terminal-mismatch',/EVIDENCE_CAMPAIGN_REFERENCE/,() =>
     e.historyDocuments(directory,[first,{...end,sha256:'f'.repeat(64)}],campaign));
+  // A declaration that never wrote start.json launched nothing, even when its declared time was in the future.
+  e.writeExclusive(directory,'.phase4/acceptance/'+crypto.randomUUID()+'/declared-drivers.json',
+    {campaign,declaredAt:'2099-01-01T00:00:00.000Z'});
+  const head = e.git(ROOT,['rev-parse','HEAD']).trim(), parent = e.git(ROOT,['rev-parse','HEAD~1']).trim();
+  const scope = {head,reviewSha256:'a'.repeat(64),selectionSha256:'b'.repeat(64)};
+  assert.equal(e.historyDocuments(directory,[first,end],campaign,scope).length,2);
+  // A second campaign may not hide an attempt made under the same review, selection or gate lineage.
+  const attempt = (base, owner, fields = {}) => {
+    const relative = '.phase4/acceptance/'+crypto.randomUUID();
+    const drivers = e.writeExclusive(base,relative+'/declared-drivers.json',{campaign:owner});
+    const opening = {...current,...report,invocation:path.posix.basename(relative),campaign:owner,drivers,
+      reviewSha256:'c'.repeat(64),selectionSha256:'d'.repeat(64),gateRevision:'0'.repeat(40),...fields};
+    const start = e.writeExclusive(base,relative+'/start.json',opening);
+    return e.writeExclusive(base,relative+'/report.json',{...opening,start,status:'fail'});
+  };
+  const concealed = [['second-campaign-unrelated',null],['second-campaign-same-review',{reviewSha256:scope.reviewSha256}],
+    ['second-campaign-same-selection',{selectionSha256:scope.selectionSha256}],['second-campaign-ancestor-gate',{gateRevision:parent}]];
+  for (const [name,fields] of concealed) {
+    const base = path.join(directory,name);
+    const own = attempt(base,campaign,{reviewSha256:scope.reviewSha256,selectionSha256:scope.selectionSha256});
+    attempt(base,crypto.randomUUID(),fields ?? {});
+    if (!fields) assert.equal(e.historyDocuments(base,[own],campaign,scope).length,1);
+    else reject(name,/EVIDENCE_CAMPAIGN_CONCEALED/,() => e.historyDocuments(base,[own],campaign,scope));
+  }
+
   let now = 100;
   const controller = new AbortController();
   const budget = timeBudget(50,controller.signal,() => now);
@@ -1094,4 +1153,4 @@ if (require.main === module) {
 
 module.exports = {rejectsMissingCompletion,baseFixture,rejectsInvalidWave,qualification,selectionFixture,controlRunner,
   sourceHistoryControls,renderedDeclarationControls,selectionControls,pcmFixture,judgmentControls,artifactControls,
-  processIdentityControls,inheritedReceiptControls};
+  processIdentityControls,inheritedReceiptControls,campaignHistoryControls,interruptionControls};

@@ -670,24 +670,37 @@ function validateJudgments(root, listening, judgments, current, expectedAudio, e
   }
 }
 
-function campaignAttempts(root, campaign) {
+function ancestor(root, revision, head) {
+  if (!REVISION.test(revision) || !REVISION.test(head)) return false;
+  const result = spawnSync('git',['merge-base','--is-ancestor',revision,head],{cwd:root,windowsHide:true,timeout:15000});
+  need(!result.error && [0,1,128].includes(result.status),'EVIDENCE_GIT','merge-base');
+  return result.status === 0;
+}
+
+// `scope` names the gate an attempt is admitted under: {head, reviewSha256, selectionSha256}. Every started attempt that
+// shares its review or selection with the declared campaign, or whose gate is an ancestor of the current gate, belongs
+// to that campaign. A fresh campaign identifier therefore cannot conceal an earlier failed or interrupted attempt.
+function campaignAttempts(root, campaign, scope = null) {
   need(UUID.test(campaign),'EVIDENCE_CAMPAIGN');
+  need(!scope || REVISION.test(scope.head) && HEX.test(scope.reviewSha256) && HEX.test(scope.selectionSha256),'EVIDENCE_CAMPAIGN_SCOPE');
   const base = inside(root,'.phase4/acceptance');
   if (!fs.existsSync(base)) return [];
-  const attempts = [];
+  const attempts = [], foreign = [];
   for (const row of fs.readdirSync(base,{withFileTypes:true})) {
     if (!row.isDirectory() || !UUID.test(row.name)) continue;
     const directory = '.phase4/acceptance/'+row.name;
     const startPath = directory+'/start.json', reportPath = directory+'/report.json', interruptionPath = directory+'/interrupted.json';
     const exists = relative => fs.existsSync(inside(root,relative));
     if (!exists(startPath)) {
-      // A legacy run cannot be adopted by a current campaign.
-      for (const relative of [reportPath,directory+'/declared-drivers.json'])
-        if (exists(relative)) need(document(root,relative).campaign !== campaign,'EVIDENCE_CAMPAIGN_START_MISSING',row.name);
+      // A legacy run cannot be adopted by a current campaign. A declaration without start.json never launched a process.
+      if (exists(reportPath)) need(document(root,reportPath).campaign !== campaign,'EVIDENCE_CAMPAIGN_START_MISSING',row.name);
       continue;
     }
     const start = reference(root,startPath), opening = document(root,start);
-    if (opening.campaign !== campaign) continue;
+    if (opening.campaign !== campaign) {
+      foreign.push({name:row.name,opening});
+      continue;
+    }
     need(opening.schemaVersion === 1 && opening.invocation === row.name && instant(opening.startedAt) &&
       opening.drivers?.path === directory+'/declared-drivers.json','EVIDENCE_CAMPAIGN_START',row.name);
     artifact(root,opening.drivers,8*1024*1024);
@@ -701,12 +714,19 @@ function campaignAttempts(root, campaign) {
       'EVIDENCE_CAMPAIGN_REPORT',terminal.path);
     attempts.push({terminal,report});
   }
+  if (scope) {
+    const reviews = new Set([scope.reviewSha256,...attempts.map(row => row.report.reviewSha256)].filter(value => HEX.test(value)));
+    const selections = new Set([scope.selectionSha256,...attempts.map(row => row.report.selectionSha256)].filter(value => HEX.test(value)));
+    for (const {name,opening} of foreign)
+      need(!reviews.has(opening.reviewSha256) && !selections.has(opening.selectionSha256) &&
+        !ancestor(root,opening.gateRevision,scope.head),'EVIDENCE_CAMPAIGN_CONCEALED',name);
+  }
   return attempts.sort((a,b) => a.report.startedAt.localeCompare(b.report.startedAt));
 }
 
-function historyDocuments(root, refs, campaign) {
+function historyDocuments(root, refs, campaign, scope = null) {
   need(Array.isArray(refs) && refs.length > 0,'EVIDENCE_CAMPAIGN');
-  const attempts = campaignAttempts(root,campaign);
+  const attempts = campaignAttempts(root,campaign,scope);
   exact(attempts.map(row => row.terminal.path),refs.map(ref => ref.path),'immutable campaign history',true);
   const reports = attempts.map(({terminal,report},index) => {
     need(equal(terminal,refs[index]),'EVIDENCE_CAMPAIGN_REFERENCE',terminal.path);

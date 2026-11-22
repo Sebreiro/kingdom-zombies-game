@@ -636,9 +636,13 @@ function validateAttemptHistory(root,attempts) {
   return prior;
 }
 
+function campaignScope(gate) {
+  return {head:gate.head,reviewSha256:gate.review.sha256,selectionSha256:gate.selection.sha256};
+}
+
 function finalRendered(root, gate, current, refs, campaign) {
   const native = gate.selected.filter(row => row.needsGameWindow);
-  const reports = e.historyDocuments(root,refs,campaign);
+  const reports = e.historyDocuments(root,refs,campaign,campaignScope(gate));
   const final = e.freshFinal(native,reports,current);
   validateAttemptHistory(root,reports.map((report,index)=>({report,terminal:refs[index]})));
   e.need(final.reviewSha256 === gate.review.sha256 && final.selectionSha256 === gate.selection.sha256 &&
@@ -1522,7 +1526,7 @@ async function runRendered(root, registered) {
   const runInput = e.reference(root,RUNS);
   const data = e.document(root,runInput);
   const allNative = gate.selected.filter(row => row.needsGameWindow);
-  const attempts = e.campaignAttempts(root,data.campaign);
+  const attempts = e.campaignAttempts(root,data.campaign,campaignScope(gate));
   const {previous,pending}=e.repairHistory(attempts.map(row=>row.report));
   const last=validateAttemptHistory(root,attempts);
   const selection=e.document(root,gate.selection);
@@ -1542,17 +1546,21 @@ async function runRendered(root, registered) {
   const review = e.document(root,gate.review);
   const build = validateBuild(root,e.document(root,review.buildReport),e.identifySource(root,current.revision),current.tool);
   validateDriverFixtures(root,drivers,build,gate,current);
+  // Reject a future declaration before this attempt writes anything that a later attempt must reconcile.
+  e.need(e.instant(data.declaredAt) && data.declaredAt <= new Date().toISOString(),'RENDERED_DRIVER_DECLARATION_TIME');
   const driverRef = e.writeExclusive(root,relative+'/declared-drivers.json',e.artifact(root,runInput).data);
   const startedAt = new Date().toISOString(), outcomes = [];
   e.need(data.declaredAt <= startedAt,'RENDERED_DRIVER_DECLARATION_TIME');
   const opening = {...current,schemaVersion:1,invocation,campaign:data.campaign,startedAt,
     previousInvocation:previous?.invocation??null,kind:data.kind,repairReason:data.repairReason,selected:native.map(row => row.id),
     drivers:driverRef,reviewSha256:gate.review.sha256,selectionSha256:gate.selection.sha256,gateRevision:gate.head,
-    newlyAffectedCaseIds:affected};
+    newlyAffectedCaseIds:affected,runner:{pid:process.pid,startedAt:Math.floor(Date.now()-process.uptime()*1000)}};
   const start = e.writeExclusive(root,relative+'/start.json',opening);
+  owned.journal(path.join(root,relative,'owned-processes.ndjson'));
   const controller = new AbortController();
   const interrupt = name => controller.abort(new Error('RENDERED_INTERRUPTED '+name));
-  const signals = ['SIGINT','SIGTERM','SIGBREAK'].map(name => [name,() => interrupt(name)]);
+  // Closing the console delivers SIGHUP on Windows. Harder terminations leave start.json for recordInterruption.
+  const signals = ['SIGINT','SIGTERM','SIGBREAK','SIGHUP'].map(name => [name,() => interrupt(name)]);
   for (const [name,handle] of signals) process.on(name,handle);
   const blocked = (row, error) => ({id:row.id,runGroup:row.runGroup,invocation,status:'blocked',
     execution:'executed-now',expected:e.expectedOutcome(row),observed:error.message.slice(0,4096).replace(/[\r\n]/g,' ')});
@@ -1606,8 +1614,59 @@ async function runRendered(root, registered) {
       outcomes:native.map(row => blocked(row,error))});
     return {status:'fail',invocation,executed:outcomes.length,report:ref};
   } finally {
+    owned.journal(null);
     for (const [name,handle] of signals) process.removeListener(name,handle);
   }
+}
+
+// A runner that was terminated without its own terminal receipt (crash, forced kill, power loss) leaves start.json
+// alone. Record the attempt as a failed interruption only after its runner and every journaled owned process are gone.
+async function recordInterruption(root, invocation, registered, {observer:observerOptions = {}, rows:fixtureRows = null} = {}) {
+  e.need(e.UUID.test(invocation),'RENDERED_INTERRUPTION_USAGE');
+  const relative = '.phase4/acceptance/'+invocation;
+  const start = e.reference(root,relative+'/start.json'), opening = e.document(root,start);
+  e.need(opening.schemaVersion===1 && opening.invocation===invocation && e.UUID.test(opening.campaign) &&
+    e.instant(opening.startedAt) && Array.isArray(opening.selected) && Number.isSafeInteger(opening.runner?.pid) &&
+    Number.isSafeInteger(opening.runner?.startedAt),'RENDERED_INTERRUPTION_START',invocation);
+  for (const name of ['report.json','interrupted.json'])
+    e.need(!fs.existsSync(path.join(root,relative,name)),'RENDERED_INTERRUPTION_TERMINAL',name);
+  const placeholder = (pid, exited) => ({pid,exitCode:exited ? 0 : null,signalCode:null});
+  // The runner itself must be gone. Its own untracked helpers are not inferred from a parent PID that may be recycled.
+  const runner = owned.observeChildren(observerOptions);
+  runner.track(placeholder(opening.runner.pid,false),opening.runner.startedAt);
+  const runnerAlive = await runner.remaining({descendants:false});
+  e.need(runnerAlive.length===0,'RENDERED_INTERRUPTION_RUNNER_ALIVE',String(opening.runner.pid));
+  const journalPath = path.join(root,relative,'owned-processes.ndjson');
+  const launches = new Map();
+  if (fs.existsSync(journalPath)) for (const line of fs.readFileSync(journalPath,'utf8').split(/\r?\n/).filter(Boolean)) {
+    const row = JSON.parse(line);
+    e.need(Number.isSafeInteger(row.pid) && Number.isSafeInteger(row.trackedAt) &&
+      (row.exitedAt === undefined || Number.isSafeInteger(row.exitedAt)),'RENDERED_INTERRUPTION_JOURNAL');
+    const key = row.pid+' '+row.trackedAt;
+    launches.set(key,{...launches.get(key),...row});
+  }
+  const observer = owned.observeChildren(observerOptions);
+  for (const row of launches.values())
+    observer.track(placeholder(row.pid,row.exitedAt !== undefined),row.trackedAt,row.exitedAt ?? null);
+  const remainingPids = await observer.remaining();
+  e.need(remainingPids.length===0,'RENDERED_INTERRUPTION_SURVIVORS',remainingPids.join(','));
+  const lock = path.join(root,'.phase2/desktop.lock');
+  let releasedLock = false;
+  if (fs.existsSync(lock) && JSON.parse(fs.readFileSync(lock,'utf8')).nonce===invocation) {fs.unlinkSync(lock);releasedLock = true;}
+  const cleanup = e.writeExclusive(root,relative+'/interruption-cleanup.json',
+    {invocation,runner:opening.runner,launches:launches.size,remainingPids,releasedLock});
+  const rows = fixtureRows ?? new Map(selectionRows(root,loadCatalog(root,registered)).map(row => [row.id,row]));
+  const interruption = 'The runner ended without a terminal receipt; recorded afterwards once no owned process survived.';
+  const finishedAt = new Date(Math.max(Date.now(),Date.parse(opening.startedAt)+1)).toISOString();
+  const outcomes = opening.selected.map(id => {
+    const row = rows.get(id);
+    e.need(row,'RENDERED_INTERRUPTION_CASE',id);
+    return {id,runGroup:row.runGroup,invocation,status:'blocked',execution:'executed-now',expected:e.expectedOutcome(row),
+      observed:interruption};
+  });
+  const ref = e.writeExclusive(root,relative+'/interrupted.json',{...opening,start,finishedAt,interruption,status:'fail',
+    cleanup,outcomes});
+  return {status:'fail',invocation,report:ref,releasedLock};
 }
 
 async function verifyCompletion(root, relative, registered) {
@@ -1645,7 +1704,7 @@ async function verifyCompletion(root, relative, registered) {
 
 module.exports = {CATALOG, COVERAGE, SCENARIOS, GROUPS, ORDER, coverageRows, validateProcedure, validateCatalog, loadCatalog,
   selectCases, inheritedCases, selectionRows, impactClosure, validateSelection, currentReviewAdapter, prelaunch, currentIdentity, runId,
-  finalRendered, latestPhase4Sources, sourceReceipts, inheritedBinding, completionSourceReceipts, preWindowCases, verifyFixProof, coverageExpectation, validateDriver, reviewedDrivers,
+  finalRendered, latestPhase4Sources, sourceReceipts, inheritedBinding, completionSourceReceipts, recordInterruption, preWindowCases, verifyFixProof, coverageExpectation, validateDriver, reviewedDrivers,
   treePaths, savedNativeSnapshot, relaunchCase, packagedSubject, prepareSource, validateBuild, validateSourceProject,
   repairAffected, attemptDeclaration, validateAttemptHistory, verifyInheritedRendered,
   runInspectionLane,

@@ -571,12 +571,16 @@ async function main(args,writeCompletion=console.log){
   if(args.length===1&&args[0]==='--export-tracer')return exportTracer();
   caseModules??=loadCaseModules(path.join(__dirname,'cases'),registry);
   if(args.length===1&&args[0]==='--list'){console.log(JSON.stringify([...cases.values()].sort(caseOrder).map(({run,...item})=>item),null,2));return;}
-  need(args.length===2&&['--case','--group','--verify-completion'].includes(args[0]),'USAGE',
-    '--case ID[,ID...] | --group GROUP | --list | --export-tracer | --verify-completion PATH');
+  need(args.length===2&&['--case','--group','--verify-completion','--record-interruption'].includes(args[0]),'USAGE',
+    '--case ID[,ID...] | --group GROUP | --list | --export-tracer | --verify-completion PATH | --record-interruption INVOCATION');
   const scenarios=require('./scenarios.cjs');
   if(args[0]==='--verify-completion'){
     const result=await scenarios.verifyCompletion(ROOT,args[1],cases);
     writeCompletion(JSON.stringify(result,null,2));return result;
+  }
+  if(args[0]==='--record-interruption'){
+    const result=await scenarios.recordInterruption(ROOT,args[1],cases);
+    console.log(JSON.stringify(result,null,2));return result;
   }
   if(args[0]==='--group'&&args[1]==='rendered'){
     const result=await scenarios.runRendered(ROOT,cases);

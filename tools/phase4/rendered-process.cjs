@@ -111,17 +111,29 @@ function windowsKill(pids) {
   spawnSync('taskkill.exe',[...pids.flatMap(pid => ['/PID',String(pid)]),'/F'],{windowsHide:true,timeout:5000});
 }
 
+// While a rendered attempt runs, every tracked launch is appended here before it can be lost to a hard termination.
+// A later interruption receipt adopts these records to prove that no owned process survived.
+let journalFile = null;
+function journal(file) {
+  journalFile = file;
+}
+
 function observeChildren({inventory = windowsProcessInventory, kill = windowsKill, now = Date.now, settle = delay} = {}) {
   const owned = new Map();
-  function track(child) {
+  function track(child, trackedAt = now(), exitedAt = null) {
     if (!child.pid) return child;
-    const record = {child,trackedAt:now(),created:null,exitedAt:null};
-    child.once?.('exit',() => {record.exitedAt = now();});
+    const file = journalFile;
+    if (file) fs.appendFileSync(file,JSON.stringify({pid:child.pid,trackedAt})+'\n');
+    const record = {child,trackedAt,created:null,exitedAt};
+    child.once?.('exit',() => {
+      record.exitedAt = now();
+      if (file) fs.appendFileSync(file,JSON.stringify({pid:child.pid,trackedAt,exitedAt:record.exitedAt})+'\n');
+    });
     owned.set(child.pid,record);
     return child;
   }
   const running = ({child,exitedAt}) => exitedAt === null && child.exitCode === null && child.signalCode === null;
-  function identify(snapshot) {
+  function identify(snapshot, descendants) {
     const live = new Map(snapshot.rows.filter(row => Number.isFinite(row.created)).map(row => [row.pid,row]));
     const rows = new Map([...live].filter(([pid]) => pid !== snapshot.self));
     const identified = new Map();
@@ -144,17 +156,17 @@ function observeChildren({inventory = windowsProcessInventory, kill = windowsKil
       const end = Math.min(record.exitedAt ?? (running(record) ? Infinity : now()), successor);
       return created >= start - CLOCK_TOLERANCE_MS && created <= end + CLOCK_TOLERANCE_MS;
     }
-    let count;
-    do {
+    let count = descendants ? -1 : identified.size;
+    while (count !== identified.size) {
       count = identified.size;
       for (const row of rows.values())
         if (!identified.has(row.pid) && row.pid !== row.parent && createdBy(row.parent,row.created)) identified.set(row.pid,row.created);
-    } while (count !== identified.size);
+    }
     return [...identified.keys()];
   }
-  async function remaining() {
+  async function remaining({descendants = true} = {}) {
     if (!owned.size) return [];
-    return identify(await inventory());
+    return identify(await inventory(),descendants);
   }
   async function cleanup() {
     let survivors = await remaining();
@@ -199,4 +211,4 @@ async function command(owner, executable, args, options, timeout, signal) {
   });
 }
 
-module.exports = {managedMvid,timeBudget,observeChildren,command,windowsPowerShell};
+module.exports = {managedMvid,timeBudget,observeChildren,command,windowsPowerShell,journal};
