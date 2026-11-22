@@ -2,20 +2,20 @@
 gsd_state_version: "1.0"
 milestone: v0.1
 milestone_name: Complete playable LAN campaign
-current_phase: 04
-current_phase_name: Asset production
-current_plan: 32
-status: in_progress
-stopped_at: "Plan 04-24 complete at 1e0fe27: clean review of 5c637da, 776/776 pre-window results plus the judgment control, 819-case selection; prelaunch and selection gates pass. Next: Plan 04-32 rendered run, listening and judgments. Phase 04 is 35/37 plans complete."
-last_updated: "2026-11-22T21:45:00.000Z"
+current_phase: 05
+current_phase_name: CI and repeatable game testing
+current_plan: 0
+status: ready_to_plan
+stopped_at: "Phase 04 complete under the creator's closure exception (2026-11-22). Next: plan Phase 05."
+last_updated: "2026-11-22T22:30:00.000Z"
 last_activity: 2026-11-22
-last_activity_desc: "Closed Plan 04-24: bound the clean 5c637da review and the declared selection; runner.prelaunch and runner.selection pass."
+last_activity_desc: "Closed Phase 04 under the creator's closure exception; 04-32 and 04-33 waived and their rendered, judgment and listening scope reassigned to Phases 05 and 09."
 progress:
   total_phases: 12
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 62
-  completed_plans: 60
-  percent: 25
+  completed_plans: 62
+  percent: 33
 state_head: 1e0fe27
 ---
 
@@ -27,21 +27,21 @@ See: [PROJECT.md](PROJECT.md) (updated 2026-11-14).
 Scope: [REQUIREMENTS.md](REQUIREMENTS.md); implementation context: [research/SUMMARY.md](research/SUMMARY.md); delivery: [ROADMAP.md](ROADMAP.md).
 
 **Core value:** Players can build, equip, and defend a shared survivor camp through a complete solo or four-player LAN campaign, with consistent ownership of their survivors, items, and progress.
-**Phase 4 execution amendment (November 21).** Follow the [focused Windows handoff](phases/04-asset-production/04-HANDOFF.md) for the remaining plans.
+**Phase 4 closure (November 22).** Phase 4 is complete under the creator's [closure exception](phases/04-asset-production/04-CLOSURE-EXCEPTION.md). Its rendered cases, four named judgments and the engine-race follow-up move to Phase 5; named listening moves to Phase 9.
 
-Plan 04-24 is complete: the final source `5c637da` has a clean independent review, all 776 selected pre-window results pass on it, and the 819-case selection is bound. See the [04-24 summary](phases/04-asset-production/04-24-SUMMARY.md).
+Phase 4 closes on the reviewed source `5c637da`: a clean independent review and all 776 selected pre-window results. See the [04-24 summary](phases/04-asset-production/04-24-SUMMARY.md).
 
 ## Current Position
 
-Phase: 04 — Asset production
-Current Plan: 32
-Total Plans in Phase: 37
-Status: In progress — ready for the Plan 04-32 rendered run
-Last activity: 2026-11-22 — Closed Plan 04-24 with the clean `5c637da` review and the bound selection.
+Phase: 05 — CI and repeatable game testing
+Current Plan: Not planned
+Total Plans in Phase: TBD
+Status: Ready to plan
+Last activity: 2026-11-22 — Closed Phase 4 under the creator's closure exception.
 
-Progress: [███░░░░░░░] 25%
+Progress: [███░░░░░░░] 33%
 
-Milestone progress: 3 of 12 phases, 60 of 62 currently planned plans, and 14 of 135 requirements complete. Phase 4 has completed 35 of 37 plans. Asset acceptance remains pending.
+Milestone progress: 4 of 12 phases, 62 of 62 currently planned plans (two Phase 4 plans waived), and 19 of 135 requirements complete.
 
 ## Performance Metrics
 
@@ -136,6 +136,7 @@ Full project decisions are in [PROJECT.md](PROJECT.md); detailed Phase 1 impleme
 - [Phase 04]: 04-03 bounded visibility amendment appends only ContentPack and InspectionRoot to independent original15 public identities; graph-next04-26 owns future input/lifetime expansion.
 - [Phase 04]: 04-26 proves source/headless owned input/transport/lifetimes and exact32 authored signatures with fresh complete29-operation proof plus tracer; all ASSET and04-32/33 acceptance remain pending.
 - [Phase 04]: Retain exact reviewed per-case capacity: ac08 75000 and companion-negative60000 alongside existing boundary120000; positive/default45s,686 IDs and original220/18/16/26 contracts unchanged.
+- [Phase 04]: Creator closed Phase 4 on 2026-11-22 on source/headless evidence: "this phase is only about assets ... We don't need to test real clicks and so on in this phase." ASSET-01–05 complete under the [closure exception](phases/04-asset-production/04-CLOSURE-EXCEPTION.md); 04-32/04-33 waived and not executed. Phase 5 owns the 18 rendered Phase 4 IDs, 21 inherited rendered regressions, judgments P1–P4, the driver declaration and the world.replacement engine-race follow-up; Phase 9 owns the 95 listening verdicts.
 - [Phase 06]: Creator defers all stash/inventory filtering to Phase 12 (INV-14); no filtering UI or acceptance in Phases 6-11. INV-10/R12/AC-18/AC-33 retain pages, navigation and transfers without filtering. This supersedes older filtering delivery wording and older eleven-phase/134-requirement totals; current scope is 12 phases and 135 requirements.
 
 - [Phase 04]: 04-04 retains725 sprites/35 clips/2434 ZIP members and source-side density1; conversion/scale/discovery pass, final appearance/listening pending. WINDOWS29 tracks inherited current-hub tracer/index binding for04-23/31 before review.
@@ -205,8 +206,6 @@ Phase 3 has no blocking acceptance item. Its independent [UI audit](phases/03-fo
 
 ### Blockers/Concerns
 
-- [Phase04 Plan23] Actual CURRENT67 animation-native-import emits32Unicode diagnostics:66/67clean-qualified, despite67assertionPASS. Independent governance28/current-binary358 pass. Debug isSTOPPED3/3 with no fourth resume underR15. Task1GREEN/tracer/Task2/SUMMARY and downstream phases remain blocked; see [checkpoint](phases/04-asset-production/04-23-CHECKPOINT.md).
-
 - [Phase 1 follow-ups] Full Linux execution and the original graph case remain unaccepted; fourteen individual human reviews remain Pending. See the [closure register](phases/01-code-rules-and-documentation/01-CLOSURE-FOLLOWUPS.md) for actual evidence limits and timing. These are disclosed follow-ups under the creator exception, not current closure gates.
 - [Local VM] The guest is cleanly stopped and preserved. Hardware acceleration is not active in the current Windows session; a creator-chosen restart is needed before attempting the accelerated follow-up. No restart is required for this completed run.
 - [Phase 5] Measured analyzer/production coverage, advanced reconciliation and eight certification cases remain pending at the unchanged inclusive 90% line / 80% branch targets.
@@ -235,16 +234,10 @@ Phase 1 is closed under its explicit [exception](phases/01-code-rules-and-docume
 
 ## Session Continuity
 
-Last session: 2026-11-22T21:45:00.000Z
-Stopped at: Plan 04-24 complete; Plan 04-32 next.
+Last session: 2026-11-22T22:30:00.000Z
+Stopped at: Phase 4 closed under the creator's closure exception.
 Resume file: None
 
-Reviewed source for Plans 04-32 and 04-33: revision `5c637da23437ea09501a9b167449425a824fe1c1`, source `29578ddb…`, media `056324ea…`, tool `081ee3aa…`, review build `.phase4/runs/eb05f596-d4a0-421b-954a-ab17f2929ccd/review-build.json` (`cb7411a8…`) and portable package `.phase4/runs/b0111601-0bf8-43e3-bcb7-d12ca022f111/portable/`. The bound review, fixes and selection are committed in `1e0fe27`; `runner.prelaunch` (`43296212-…`) and `runner.selection` (`6a3ffe9a-…`) pass there. Any change under the Phase 4 source roots invalidates this binding and needs a renewed review and full batch.
+Phase 4 closed on the reviewed source `5c637da` (bound in `1e0fe27`, gates passing). The [closure exception](phases/04-asset-production/04-CLOSURE-EXCEPTION.md) records what was not performed and its new owners. PR #5 from `feature/04-asset-production` to `dev` is ready for review; marking it ready does not authorize the merge.
 
-`world.replacement` failed once at `5c637da` on an intermittent Godot .NET `Handle is not initialized` error while loading the item preview scene, then passed five reruns. The creator accepted the passing rerun on 2026-11-22. Follow-up: keep both item preview scenes in fields in `WorldPreview` and record the defect in `docs/workflow/engine-defects.md`; this needs the generated-span governance rebind.
-
-The branch `feature/04-asset-production` has local commits that are not pushed. The creator asked on 2026-11-22 to finish Phase 4 and make PR #5 ready to merge. Marking it ready does not authorize the merge.
-
-Next action: Plan 04-32. Author `04-RUNS.json` (schema 2: campaign, kind `initial`, physical drivers for the 18 Phase 4 rendered cases) from the headless checkpoint rehearsal, then run `node tools/phase4/check.cjs --group rendered` at 1280×720 with the creator's agreement, because it drives the desktop. The creator listens live for D-31 and D-32 during the audio case and then gives named verdicts for 93 extracted samples and loops. Record the four named judgments P1–P4 from the final run's images.
-
-Preserved future context: [Phase 4 context](phases/04-asset-production/04-CONTEXT.md) remains authoritative.
+Next action: plan Phase 5. Its [context](phases/05-ci-and-repeatable-game-testing/05-CONTEXT.md) and [specification](phases/05-ci-and-repeatable-game-testing/05-SPEC.md) exist. Phase 5 imports the open Phase 4 rendered IDs, the four judgments and the engine-race follow-up into its selection. Phase 5 work starts on its own branch from `dev` after PR #5 merges.

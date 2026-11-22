@@ -203,9 +203,9 @@ Include the rendered case IDs assigned to Phase ### Phase 4: Asset production in
 4. A developer can inspect every required UI/text/data resource and error/legacy layout, test longer strings and supported scales, and audition all required sound/ambience categories through documented event bindings.
 5. The packaged content and inspection scenes import and run without the recovered-material folder or other absolute development paths; missing references and unfitted combinations are visible failures.
 
-**Plans:** 35/37 plans executed
+**Plans:** 35/37 plans executed; 04-32 and 04-33 waived under the [closure exception](phases/04-asset-production/04-CLOSURE-EXCEPTION.md)
 
-04-31 is complete. All seven export cases passed, and the portable Windows inspection package is retained for independent review in Wave 29. Asset acceptance remains pending. [04-31 summary](phases/04-asset-production/04-31-SUMMARY.md)
+Phase 4 is complete under the creator's [closure exception](phases/04-asset-production/04-CLOSURE-EXCEPTION.md) of 2026-11-22. All 180 obligations are source-ready, the reviewed source `5c637da` has a clean independent review, and all 776 selected pre-window results pass on it ([04-24 summary](phases/04-asset-production/04-24-SUMMARY.md)). The rendered run, the four named judgments and named listening were not performed; Phase 5 owns the rendered cases and judgments and Phase 9 owns listening.
 
 Plans:
 **Wave 1**
@@ -302,10 +302,10 @@ Plans:
 - [x] 04-24-PLAN.md — Independent whole-phase review and exact prelaunch selection
 
 **Wave 30** *(blocked on Wave 29 completion)*
-- [ ] 04-32-PLAN.md — Actual selected native/listening run and separate named judgments
+- [x] 04-32-PLAN.md — Actual selected native/listening run and separate named judgments (waived, not executed)
 
 **Wave 31** *(blocked on Wave 30 completion)*
-- [ ] 04-33-PLAN.md — Exact acceptance/artifact/evidence completion reconciliation
+- [x] 04-33-PLAN.md — Exact acceptance/artifact/evidence completion reconciliation (waived, not executed)
 
 **Cross-cutting constraints:** <!-- gsd:generated -->
 - AC-02 is implemented by this slice and retains explicit source/headless versus final actual evidence ownership.
@@ -369,6 +369,8 @@ Plans:
 ### Phase 5: CI and repeatable game testing
 
 Include the rendered case IDs assigned to Phase ### Phase 5: CI and repeatable game testing in the [asset handoff](phases/04-asset-production/04-HANDOFF.md) when selecting and verifying this phase.
+
+The Phase 4 [closure exception](phases/04-asset-production/04-CLOSURE-EXCEPTION.md) also assigns this phase the 18 rendered Phase 4 IDs due at the asset handoff, the 21 affected inherited rendered regressions, the four named judgments P1–P4, the physical driver declaration and the `world.replacement` engine-race follow-up.
 
 **Goal:** Developers and AI agents can select, execute, inspect, and rerun trustworthy game checks locally and in Windows/Linux CI using stored, traceable cases.
 **Mode:** mvp
@@ -526,6 +528,8 @@ Include the rendered case IDs assigned to Phase ### Phase 8: Zombie campaign and
 
 ### Phase 9: Persistence and complete player experience
 
+The Phase 4 [closure exception](phases/04-asset-production/04-CLOSURE-EXCEPTION.md) assigns this phase the 95 named listening verdicts: 88 samples, 5 loops and the live D-31 and D-32 mixes.
+
 Include the rendered case IDs assigned to Phase ### Phase 9: Persistence and complete player experience in the [asset handoff](phases/04-asset-production/04-HANDOFF.md) when selecting and verifying this phase.
 
 **Goal:** Players can reliably save, resume, join, reconnect, and use the complete campaign with safe configuration changes, consistent exploration, and finished presentation.
@@ -608,7 +612,7 @@ Include the rendered case IDs assigned to Phase ### Phase 9: Persistence and com
 | 1. Code rules and documentation | 7 | Complete under focused closure exception |
 | 2. Playable foundation | 3 | Complete |
 | 3. Four-player LAN foundation | 4 | Complete |
-| 4. Asset production | 5 | Pending |
+| 4. Asset production | 5 | Complete under closure exception |
 | 5. CI and repeatable game testing | 10 | Pending |
 | 6. Survivors, inventory, and combat | 29 | Pending |
 | 7. Camp economy and development | 22 | Pending |
@@ -617,7 +621,7 @@ Include the rendered case IDs assigned to Phase ### Phase 9: Persistence and com
 | 10. Release validation and balancing | 6 | Pending |
 | 11. Nightly full regression testing | 1 | Pending |
 | 12. Stash and inventory filtering | 1 | Pending |
-| **Total** | **135** | **14 complete / 121 pending** |
+| **Total** | **135** | **19 complete / 116 pending** |
 
 Every approved version 0.1 ID is assigned exactly once; no unknown IDs, duplicate owners, or orphan requirements are allowed. The [requirements traceability table](REQUIREMENTS.md#traceability) is the per-ID ownership record. Its existing A-01–A-47 source crosswalk stays unchanged; Phase 5 expands it into executable/evidence cases and activation states.
 
@@ -630,7 +634,7 @@ Execution order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10 → 11
 | 1. Code rules and documentation | 18/18 | Complete    | 2026-11-14 |
 | 2. Playable foundation | 3/3 | Complete    | 2026-11-15 |
 | 3. Four-player LAN foundation | 4/4 | Complete    | 2026-11-16 |
-| 4. Asset production | 33/37 | In Progress | - |
+| 4. Asset production | 35/37, 2 waived | Complete under closure exception | 2026-11-22 |
 | 5. CI and repeatable game testing | 0/TBD | Not started | - |
 | 6. Survivors, inventory, and combat | 0/TBD | Not started | - |
 | 7. Camp economy and development | 0/TBD | Not started | - |

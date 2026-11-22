@@ -54,11 +54,11 @@ Source: Creator Phase 3 direction; spec §10.
 
 Source: Asset plan §§3–12, all CH/AN/IT/BL/EN/FX/UI/AU/DT/TXT obligations.
 
-- [ ] **ASSET-01**: Developers can trace selected recovered assets and reused logic to preserved originals, transformations, stable output IDs, versions, and evidence.
-- [ ] **ASSET-02**: Players receive content covering all 180 resource obligations, reusing suitable donors before adapting or generating missing outputs.
-- [ ] **ASSET-03**: Developers can inspect required body, equipment, hand, direction, action, corpse, building, and portal combinations in content fixtures.
-- [ ] **ASSET-04**: Developers can inspect the required UI/text/data resources and audition every required sound/ambience category with its event bindings.
-- [ ] **ASSET-05**: Players can run the packaged content without access to the creator's recovered-material folder or other absolute development paths.
+- [x] **ASSET-01**: Developers can trace selected recovered assets and reused logic to preserved originals, transformations, stable output IDs, versions, and evidence.
+- [x] **ASSET-02**: Players receive content covering all 180 resource obligations, reusing suitable donors before adapting or generating missing outputs.
+- [x] **ASSET-03**: Developers can inspect required body, equipment, hand, direction, action, corpse, building, and portal combinations in content fixtures.
+- [x] **ASSET-04**: Developers can inspect the required UI/text/data resources and audition every required sound/ambience category with its event bindings.
+- [x] **ASSET-05**: Players can run the packaged content without access to the creator's recovered-material folder or other absolute development paths.
 
 ### Local, CI, and AI-operated verification
 
@@ -382,11 +382,11 @@ All 134 version 0.1 requirements have exactly one primary owning phase in [ROADM
 | LAN-02 | Phase 3 | Complete |
 | LAN-03 | Phase 3 | Complete |
 | LAN-04 | Phase 3 | Complete |
-| ASSET-01 | Phase 4 | Pending |
-| ASSET-02 | Phase 4 | Pending |
-| ASSET-03 | Phase 4 | Pending |
-| ASSET-04 | Phase 4 | Pending |
-| ASSET-05 | Phase 4 | Pending |
+| ASSET-01 | Phase 4 | Complete under closure exception |
+| ASSET-02 | Phase 4 | Complete under closure exception |
+| ASSET-03 | Phase 4 | Complete under closure exception |
+| ASSET-04 | Phase 4 | Complete under closure exception |
+| ASSET-05 | Phase 4 | Complete under closure exception |
 | TEST-01 | Phase 5 | Pending |
 | TEST-02 | Phase 5 | Pending |
 | TEST-03 | Phase 5 | Pending |
@@ -510,7 +510,7 @@ All 134 version 0.1 requirements have exactly one primary owning phase in [ROADM
 - Unmapped: 0
 - Duplicate primary owners: 0
 - Unknown version 0.1 IDs in roadmap: 0
-- Implementation statuses: 121 Pending; 14 complete
+- Implementation statuses: 116 Pending; 19 complete
 - Source acceptance scenarios linked: 47 of 47
 - Future platform requirements: 2 (outside the current roadmap)
 
