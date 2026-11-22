@@ -7,6 +7,8 @@ const {execFileSync} = require('node:child_process');
 
 const DURABLE_PHASE1 = new Set(['cache', 'cli-home', 'dotnet-home', 'feed', 'http-cache', 'packages', 'tools']);
 const BUILD_NAMES = new Set(['bin', 'obj', '.godot']);
+const RUNNER_LOCKS = ['.phase1/check.lock', '.phase2/desktop.lock'];
+const NESTED_REASON = 'contains a Git worktree or repository';
 const USAGE = `Usage: node tools/workspace-cleanup.cjs [--apply] [--build] [--worktrees-only] [--remove-worktree <path>]...
 
 Without --apply, only reports what would be deleted.
@@ -18,7 +20,7 @@ Without --apply, only reports what would be deleted.
 class UsageError extends Error {}
 
 function git(cwd, args) {
-  return execFileSync('git', args, {cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe']});
+  return execFileSync('git', args, {cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 256 * 1024 * 1024});
 }
 
 function parseArgs(argv) {
@@ -70,29 +72,100 @@ function isWithin(parent, child) {
   return relative === '' || (!relative.startsWith('..') && !path.isAbsolute(relative));
 }
 
+function relativeSlashed(from, to) {
+  return path.relative(from, to).split(path.sep).join('/');
+}
+
+function looksLikeRepository(names) {
+  const lower = new Set(names.map(name => name.toLowerCase()));
+  return lower.has('.git') || (lower.has('head') && lower.has('objects') && lower.has('refs'));
+}
+
+/**
+ * Returns why target must be kept (a registered worktree or a repository at any depth, or a scan error), or null.
+ * Descends only into lstat-confirmed directories; ownGit skips the target's own top-level .git entry.
+ */
+function keepReason(target, worktreePaths, {ownGit = false} = {}) {
+  const nested = worktreePaths.find(worktree => isWithin(target, worktree));
+  if (nested) return samePath(nested, target) ? NESTED_REASON : `${NESTED_REASON} at ${relativeSlashed(target, path.resolve(nested))}`;
+  let stat;
+  try {
+    stat = fs.lstatSync(target);
+  } catch (failure) {
+    return `could not be scanned (${failure.code || failure.message})`;
+  }
+  if (!stat.isDirectory()) return null;
+  const stack = [target];
+  while (stack.length) {
+    const directory = stack.pop();
+    const at = directory === target ? '' : ` at ${relativeSlashed(target, directory)}`;
+    let entries;
+    try {
+      entries = fs.readdirSync(directory, {withFileTypes: true});
+    } catch (failure) {
+      return `could not be scanned (${failure.code || failure.message})${at}`;
+    }
+    if (ownGit && directory === target) entries = entries.filter(entry => entry.name.toLowerCase() !== '.git');
+    if (looksLikeRepository(entries.map(entry => entry.name))) return NESTED_REASON + at;
+    for (const entry of entries) {
+      if (entry.isFile()) continue;
+      const child = path.join(directory, entry.name);
+      let childStat;
+      try {
+        childStat = fs.lstatSync(child);
+      } catch (failure) {
+        return `could not be scanned (${failure.code || failure.message}) at ${relativeSlashed(target, child)}`;
+      }
+      if (childStat.isDirectory()) stack.push(child);
+    }
+  }
+  return null;
+}
+
+/** Returns the first fixed-path runner lock under dir (a dangling link counts), or null; unexpected errors throw. */
+function findLock(dir) {
+  for (const entry of RUNNER_LOCKS) {
+    const lock = path.join(dir, entry);
+    try {
+      fs.lstatSync(lock);
+      return lock;
+    } catch (failure) {
+      if (failure.code !== 'ENOENT' && failure.code !== 'ENOTDIR') throw failure;
+    }
+  }
+  return null;
+}
+
 /** Classifies children of one ignored output root; unsafe roots and children are kept whole. */
 function classifyRoot(root, relative, reason, durable, worktreePaths) {
-  if (!isRealDirectory(path.join(root, relative))) return [];
+  const directory = path.join(root, relative);
+  if (!isRealDirectory(directory)) return [];
   if (hasTrackedFiles(root, relative)) return [{path: relative, action: 'keep', reason: 'contains tracked files'}];
   if (!isIgnored(root, relative + '/')) return [{path: relative, action: 'keep', reason: 'not ignored by Git'}];
-  return fs.readdirSync(path.join(root, relative)).sort().map(name => {
+  const names = fs.readdirSync(directory);
+  if (worktreePaths.some(worktree => samePath(worktree, directory)) || looksLikeRepository(names)) {
+    return [{path: relative, action: 'keep', reason: NESTED_REASON}];
+  }
+  return names.sort().map(name => {
     const child = `${relative}/${name}`, absolute = path.join(root, child);
     if (durable.has(name.toLowerCase())) return {path: child, action: 'keep', reason: 'pinned toolchain cache'};
-    if (worktreePaths.some(worktree => isWithin(absolute, worktree)) || fs.existsSync(path.join(absolute, '.git'))) {
-      return {path: child, action: 'keep', reason: 'contains a Git worktree or repository'};
-    }
+    const kept = keepReason(absolute, worktreePaths);
+    if (kept) return {path: child, action: 'keep', reason: kept};
     return {path: child, action: 'delete', reason};
   });
 }
 
-function buildOutputs(root) {
+function buildOutputs(root, worktreePaths) {
   return git(root, ['ls-files', '-z', '--others', '--ignored', '--exclude-standard', '--directory'])
     .split('\0')
     .filter(entry => entry.endsWith('/'))
     .map(entry => entry.slice(0, -1))
     .filter(entry => BUILD_NAMES.has(entry.split('/').pop()) && !/^\.phase\d+(\/|$)/.test(entry))
     .sort()
-    .map(entry => ({path: entry, action: 'delete', reason: 'build output'}));
+    .map(entry => {
+      const kept = keepReason(path.join(root, entry), worktreePaths);
+      return kept ? {path: entry, action: 'keep', reason: kept} : {path: entry, action: 'delete', reason: 'build output'};
+    });
 }
 
 /** Returns keep/delete decisions for ignored outputs in the checkout at root. */
@@ -104,7 +177,7 @@ function planArtifacts(root, {build = false, worktreePaths = []} = {}) {
     entries.push(...classifyRoot(root, name, 'phase output', durable, worktreePaths));
   }
   entries.push(...classifyRoot(root, '.planning/tmp', 'workflow scratch', new Set(), worktreePaths));
-  if (build) entries.push(...buildOutputs(root));
+  if (build) entries.push(...buildOutputs(root, worktreePaths));
   return entries;
 }
 
@@ -124,14 +197,14 @@ function parseWorktrees(text) {
   });
 }
 
-function worktreeState(root, worktree) {
+function worktreeState(root, worktree, worktreePaths) {
   if (worktree.main) return {removable: false, reason: 'main checkout'};
   if (samePath(worktree.path, root)) return {removable: false, reason: 'current worktree'};
   if (worktree.locked) return {removable: false, reason: 'locked'};
   if (worktree.prunable || !fs.existsSync(worktree.path)) return {removable: false, prune: true, reason: 'directory missing'};
   const status = git(worktree.path, ['status', '--porcelain=v1', '--untracked-files=all', '--ignore-submodules=none']);
   if (status.trim()) return {removable: false, reason: 'uncommitted changes'};
-  if (git(worktree.path, ['ls-files', '-v']).split(/\r?\n/).some(line => /^[a-z]/.test(line))) {
+  if (git(worktree.path, ['ls-files', '-v', '-z']).split('\0').some(line => /^[a-zS] /.test(line))) {
     return {removable: false, reason: 'files marked assume-unchanged or skip-worktree'};
   }
   const gitDirectory = path.resolve(worktree.path, git(worktree.path, ['rev-parse', '--git-dir']).trim());
@@ -141,13 +214,19 @@ function worktreeState(root, worktree) {
   if (!git(root, ['branch', '-r', '--contains', worktree.head]).trim()) {
     return {removable: false, reason: 'commits not on any remote branch'};
   }
+  const lock = findLock(worktree.path);
+  if (lock) return {removable: false, reason: `runner lock at ${relativeSlashed(worktree.path, lock)}`};
+  const others = worktreePaths.filter(other => !samePath(other, worktree.path));
+  const nested = keepReason(worktree.path, others, {ownGit: true});
+  if (nested) return {removable: false, reason: nested};
   return {removable: true, reason: 'clean and pushed'};
 }
 
 /** Lists linked worktrees of the repository containing root with their removal state. */
 function planWorktrees(root) {
-  return parseWorktrees(git(root, ['worktree', 'list', '--porcelain']))
-    .map(worktree => ({...worktree, ...worktreeState(root, worktree)}));
+  const worktrees = parseWorktrees(git(root, ['worktree', 'list', '--porcelain']));
+  const paths = worktrees.map(worktree => worktree.path);
+  return worktrees.map(worktree => ({...worktree, ...worktreeState(root, worktree, paths)}));
 }
 
 function removeInside(root, relative) {
@@ -196,14 +275,18 @@ function execute(options, {cwd, log, error}) {
     : planArtifacts(root, {...options, worktreePaths: worktrees.map(worktree => worktree.path)});
   const requested = options.worktrees.map(value => {
     const match = worktrees.find(worktree => samePath(worktree.path, path.resolve(cwd, value)));
-    return match ?? {path: path.resolve(cwd, value), removable: false, reason: 'not a worktree of this repository'};
+    if (!match) return {path: path.resolve(cwd, value), removable: false, reason: 'not a worktree of this repository'};
+    if (!match.removable) return match;
+    // The scans above can take minutes, so a runner may have started in the worktree since it was planned.
+    const lateLock = findLock(match.path);
+    return lateLock ? {...match, removable: false, reason: `runner lock at ${relativeSlashed(match.path, lateLock)}`} : match;
   });
   let failures = 0;
 
   log(`Workspace cleanup ${options.apply ? '(apply)' : '(dry run)'}: ${root}`);
-  const lock = path.join(root, '.phase1', 'check.lock');
-  if (fs.existsSync(lock)) {
-    error(`  ${lock} exists: a checker run is active or stopped uncleanly. Inspect it; nothing is deleted while it exists.`);
+  const lock = findLock(root);
+  if (lock) {
+    error(`  ${lock} exists: a runner is active or stopped uncleanly. Inspect it; nothing is deleted while it exists.`);
     if (options.apply) return 1;
   }
   const refused = requested.filter(worktree => !worktree.removable);
