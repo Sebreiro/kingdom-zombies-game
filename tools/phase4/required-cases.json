@@ -118,7 +118,7 @@
         "id": "source.tracer",
         "status": "implemented-inline-case",
         "module": "tools/phase4/check.cjs",
-        "moduleSha256": "228f13380c0f6fab067996ef99a1eee4fe397d5611193c6a1ee76cbfa96437a9",
+        "moduleSha256": "162326a2a2679e231e17353743bf259178564856bab609d9fb2a6da5dece8c23",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -187,7 +187,7 @@
         "id": "source.tracer-failures",
         "status": "implemented-inline-case",
         "module": "tools/phase4/check.cjs",
-        "moduleSha256": "228f13380c0f6fab067996ef99a1eee4fe397d5611193c6a1ee76cbfa96437a9",
+        "moduleSha256": "162326a2a2679e231e17353743bf259178564856bab609d9fb2a6da5dece8c23",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -489,7 +489,7 @@
         "id": "audio.feasibility",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/audio-feasibility.cjs",
-        "moduleSha256": "96c5aa96440dd13bbe9cb8229748b00d960c0baa6df421afd4815d118a0b8309",
+        "moduleSha256": "be8d2583c9355bfb0393723464857d5d2faabd444acd7c19c5a29bb3585ca556",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -558,7 +558,7 @@
         "id": "media.conversion",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/media.cjs",
-        "moduleSha256": "7d881fa79cca4702d06466ad54526c59086ee62570d774c162975e63c80aec4b",
+        "moduleSha256": "4b9632aef9e6e596d163c3962f9c3946edb8853f77c4b5c064dcbd4c8e864569",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -630,7 +630,7 @@
         "id": "media.scale",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/media.cjs",
-        "moduleSha256": "7d881fa79cca4702d06466ad54526c59086ee62570d774c162975e63c80aec4b",
+        "moduleSha256": "4b9632aef9e6e596d163c3962f9c3946edb8853f77c4b5c064dcbd4c8e864569",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -701,7 +701,7 @@
         "id": "items.weapons-food",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/items.cjs",
-        "moduleSha256": "8012becde82779c06c5e445a47c43dae1577e4ca97f819930c92a991d9258646",
+        "moduleSha256": "14993f1d8850cc0485427a318082fc8484ffd8f001519d171d23f2879b3bcebe",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -771,7 +771,7 @@
         "id": "items.wearables",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/items.cjs",
-        "moduleSha256": "8012becde82779c06c5e445a47c43dae1577e4ca97f819930c92a991d9258646",
+        "moduleSha256": "14993f1d8850cc0485427a318082fc8484ffd8f001519d171d23f2879b3bcebe",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -961,7 +961,7 @@
         "id": "bodies.a-art",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/bodies-a.cjs",
-        "moduleSha256": "e270580ee1f6f29314dad7607cd6f1cd0b32cfc6fca9c81520e32f2b97e5ec83",
+        "moduleSha256": "d28ec1e36da3564da5bba415f1626e0d32b478267c4f8c0ef701738ee324d6d8",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -1028,7 +1028,7 @@
         "id": "bodies.a-fit",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/bodies-a.cjs",
-        "moduleSha256": "e270580ee1f6f29314dad7607cd6f1cd0b32cfc6fca9c81520e32f2b97e5ec83",
+        "moduleSha256": "d28ec1e36da3564da5bba415f1626e0d32b478267c4f8c0ef701738ee324d6d8",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -1093,7 +1093,7 @@
         "id": "bodies.b-wide",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/bodies-b.cjs",
-        "moduleSha256": "fb335b45dc37aab3f789e8d259962a823246deb603a65d0e9b306b37669b02ea",
+        "moduleSha256": "c35247237221a1b3bd205fcbd39e4052a25206f49d6978d0f31f0b5dd3ea8c20",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -1156,7 +1156,7 @@
         "id": "bodies.complete-fit",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/bodies-b.cjs",
-        "moduleSha256": "fb335b45dc37aab3f789e8d259962a823246deb603a65d0e9b306b37669b02ea",
+        "moduleSha256": "c35247237221a1b3bd205fcbd39e4052a25206f49d6978d0f31f0b5dd3ea8c20",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -1220,7 +1220,7 @@
         "id": "layouts.kit",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-kit.cjs",
-        "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
+        "moduleSha256": "1165418c63f858d6975d884a9ed997789f3a334d80bb61abb954df133ec9fc92",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -1318,7 +1318,7 @@
         "id": "layouts.theme",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-kit.cjs",
-        "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
+        "moduleSha256": "1165418c63f858d6975d884a9ed997789f3a334d80bb61abb954df133ec9fc92",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -1388,7 +1388,7 @@
         "id": "layouts.identity",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-kit.cjs",
-        "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
+        "moduleSha256": "1165418c63f858d6975d884a9ed997789f3a334d80bb61abb954df133ec9fc92",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -1459,7 +1459,7 @@
         "id": "layouts.identity-integrity",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-kit.cjs",
-        "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
+        "moduleSha256": "1165418c63f858d6975d884a9ed997789f3a334d80bb61abb954df133ec9fc92",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -2261,7 +2261,7 @@
         "id": "animation.bow",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/bow-work.cjs",
-        "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
+        "moduleSha256": "b5515e19027b0375f85ea95dfa2765b9b2a301f4e77391d6cae56eb19ec1e7c0",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -2328,7 +2328,7 @@
         "id": "animation.work-special",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/bow-work.cjs",
-        "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
+        "moduleSha256": "b5515e19027b0375f85ea95dfa2765b9b2a301f4e77391d6cae56eb19ec1e7c0",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -2392,7 +2392,7 @@
         "id": "appearance.corpses",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/corpses.cjs",
-        "moduleSha256": "f919c1aa92ed4035613e5bb8fe1f989fa31eafa7a25a1e0b7b60d687bb503d26",
+        "moduleSha256": "30e722b57e0d5108d2fa5824b8861702ea6adfe43a9548bb375b20ab98b48151",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -2458,7 +2458,7 @@
         "id": "appearance.crowds",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/corpses.cjs",
-        "moduleSha256": "f919c1aa92ed4035613e5bb8fe1f989fa31eafa7a25a1e0b7b60d687bb503d26",
+        "moduleSha256": "30e722b57e0d5108d2fa5824b8861702ea6adfe43a9548bb375b20ab98b48151",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -2525,7 +2525,7 @@
         "id": "audio.actions",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/audio.cjs",
-        "moduleSha256": "93d1d74e7563f79fd72020575c0c4fe8bd9ccf2b4058b3681396e9b2c6c86393",
+        "moduleSha256": "0edea455c9a85947b23865903aafeba55e4be307669ff4e1fcbafd0f270e8cd9",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -2591,7 +2591,7 @@
         "id": "audio.bank",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/audio.cjs",
-        "moduleSha256": "93d1d74e7563f79fd72020575c0c4fe8bd9ccf2b4058b3681396e9b2c6c86393",
+        "moduleSha256": "0edea455c9a85947b23865903aafeba55e4be307669ff4e1fcbafd0f270e8cd9",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -2656,7 +2656,7 @@
         "id": "layouts.application-icon",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/ui-kit.cjs",
-        "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
+        "moduleSha256": "1165418c63f858d6975d884a9ed997789f3a334d80bb61abb954df133ec9fc92",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -2723,7 +2723,7 @@
         "id": "audio.lifecycle",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/audio.cjs",
-        "moduleSha256": "93d1d74e7563f79fd72020575c0c4fe8bd9ccf2b4058b3681396e9b2c6c86393",
+        "moduleSha256": "0edea455c9a85947b23865903aafeba55e4be307669ff4e1fcbafd0f270e8cd9",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -2793,7 +2793,7 @@
         "id": "audio.heldout",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/audio.cjs",
-        "moduleSha256": "93d1d74e7563f79fd72020575c0c4fe8bd9ccf2b4058b3681396e9b2c6c86393",
+        "moduleSha256": "0edea455c9a85947b23865903aafeba55e4be307669ff4e1fcbafd0f270e8cd9",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -3780,7 +3780,7 @@
         "id": "buildings.defense-art",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/defenses.cjs",
-        "moduleSha256": "3c9d70366c38fa76fe1b60b447df1d1389a3f2ceb75bc740c4c62a536466c84e",
+        "moduleSha256": "f49b0e84b714777ba178cf188e8f5bb002ddc2d4199d6b997e5bd75e80b15d62",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -3850,7 +3850,7 @@
         "id": "buildings.defense-state",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/defenses.cjs",
-        "moduleSha256": "3c9d70366c38fa76fe1b60b447df1d1389a3f2ceb75bc740c4c62a536466c84e",
+        "moduleSha256": "f49b0e84b714777ba178cf188e8f5bb002ddc2d4199d6b997e5bd75e80b15d62",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -4369,7 +4369,7 @@
         "id": "runner.prelaunch",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/runner.cjs",
-        "moduleSha256": "f24e0ad73c9a8a0afb0a3c2f470577b18f44ab377b9ce878447ac64376f36ae8",
+        "moduleSha256": "4f7abdce6591c55bb2286075edde055648fdf4c0b5e47dc2ba72508562ace00c",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -4436,7 +4436,7 @@
         "id": "runner.selection",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/runner.cjs",
-        "moduleSha256": "f24e0ad73c9a8a0afb0a3c2f470577b18f44ab377b9ce878447ac64376f36ae8",
+        "moduleSha256": "4f7abdce6591c55bb2286075edde055648fdf4c0b5e47dc2ba72508562ace00c",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -4504,7 +4504,7 @@
         "id": "acceptance.judgments",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/runner.cjs",
-        "moduleSha256": "f24e0ad73c9a8a0afb0a3c2f470577b18f44ab377b9ce878447ac64376f36ae8",
+        "moduleSha256": "4f7abdce6591c55bb2286075edde055648fdf4c0b5e47dc2ba72508562ace00c",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -4571,7 +4571,7 @@
         "id": "acceptance.artifacts",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/runner.cjs",
-        "moduleSha256": "f24e0ad73c9a8a0afb0a3c2f470577b18f44ab377b9ce878447ac64376f36ae8",
+        "moduleSha256": "4f7abdce6591c55bb2286075edde055648fdf4c0b5e47dc2ba72508562ace00c",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -4643,7 +4643,7 @@
         "id": "runner.prelaunch-source",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/runner.cjs",
-        "moduleSha256": "f24e0ad73c9a8a0afb0a3c2f470577b18f44ab377b9ce878447ac64376f36ae8",
+        "moduleSha256": "4f7abdce6591c55bb2286075edde055648fdf4c0b5e47dc2ba72508562ace00c",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -4711,7 +4711,7 @@
         "id": "acceptance.artifacts-source",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/runner.cjs",
-        "moduleSha256": "f24e0ad73c9a8a0afb0a3c2f470577b18f44ab377b9ce878447ac64376f36ae8",
+        "moduleSha256": "4f7abdce6591c55bb2286075edde055648fdf4c0b5e47dc2ba72508562ace00c",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -5119,7 +5119,7 @@
         "id": "world.map",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/world.cjs",
-        "moduleSha256": "3ec37a6cc9b10d833d1aae1d058e86e2b11a67512c6dead3c9dad298c79b6186",
+        "moduleSha256": "f706c059f482c149c47298b46e1ecbdce4e95eebe7648d77158202983b8ccf47",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -5188,7 +5188,7 @@
         "id": "world.effects",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/world.cjs",
-        "moduleSha256": "3ec37a6cc9b10d833d1aae1d058e86e2b11a67512c6dead3c9dad298c79b6186",
+        "moduleSha256": "f706c059f482c149c47298b46e1ecbdce4e95eebe7648d77158202983b8ccf47",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -5252,7 +5252,7 @@
         "id": "world.inspector",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/world.cjs",
-        "moduleSha256": "3ec37a6cc9b10d833d1aae1d058e86e2b11a67512c6dead3c9dad298c79b6186",
+        "moduleSha256": "f706c059f482c149c47298b46e1ecbdce4e95eebe7648d77158202983b8ccf47",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -5324,7 +5324,7 @@
         "id": "world.replacement",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/world.cjs",
-        "moduleSha256": "3ec37a6cc9b10d833d1aae1d058e86e2b11a67512c6dead3c9dad298c79b6186",
+        "moduleSha256": "f706c059f482c149c47298b46e1ecbdce4e95eebe7648d77158202983b8ccf47",
         "execution": "no pass inferred from catalog metadata"
       },
       "processRoles": [
@@ -5767,14 +5767,14 @@
           "id": "animation.bow",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
+          "moduleSha256": "b5515e19027b0375f85ea95dfa2765b9b2a301f4e77391d6cae56eb19ec1e7c0",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "animation.work-special",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
+          "moduleSha256": "b5515e19027b0375f85ea95dfa2765b9b2a301f4e77391d6cae56eb19ec1e7c0",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -5792,14 +5792,14 @@
           "id": "bodies.a-art",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bodies-a.cjs",
-          "moduleSha256": "e270580ee1f6f29314dad7607cd6f1cd0b32cfc6fca9c81520e32f2b97e5ec83",
+          "moduleSha256": "d28ec1e36da3564da5bba415f1626e0d32b478267c4f8c0ef701738ee324d6d8",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "bodies.a-fit",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bodies-a.cjs",
-          "moduleSha256": "e270580ee1f6f29314dad7607cd6f1cd0b32cfc6fca9c81520e32f2b97e5ec83",
+          "moduleSha256": "d28ec1e36da3564da5bba415f1626e0d32b478267c4f8c0ef701738ee324d6d8",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -5817,14 +5817,14 @@
           "id": "animation.bow",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
+          "moduleSha256": "b5515e19027b0375f85ea95dfa2765b9b2a301f4e77391d6cae56eb19ec1e7c0",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "animation.work-special",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
+          "moduleSha256": "b5515e19027b0375f85ea95dfa2765b9b2a301f4e77391d6cae56eb19ec1e7c0",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -5867,14 +5867,14 @@
           "id": "media.conversion",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/media.cjs",
-          "moduleSha256": "7d881fa79cca4702d06466ad54526c59086ee62570d774c162975e63c80aec4b",
+          "moduleSha256": "4b9632aef9e6e596d163c3962f9c3946edb8853f77c4b5c064dcbd4c8e864569",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "media.scale",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/media.cjs",
-          "moduleSha256": "7d881fa79cca4702d06466ad54526c59086ee62570d774c162975e63c80aec4b",
+          "moduleSha256": "4b9632aef9e6e596d163c3962f9c3946edb8853f77c4b5c064dcbd4c8e864569",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -5892,14 +5892,14 @@
           "id": "appearance.corpses",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/corpses.cjs",
-          "moduleSha256": "f919c1aa92ed4035613e5bb8fe1f989fa31eafa7a25a1e0b7b60d687bb503d26",
+          "moduleSha256": "30e722b57e0d5108d2fa5824b8861702ea6adfe43a9548bb375b20ab98b48151",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "appearance.crowds",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/corpses.cjs",
-          "moduleSha256": "f919c1aa92ed4035613e5bb8fe1f989fa31eafa7a25a1e0b7b60d687bb503d26",
+          "moduleSha256": "30e722b57e0d5108d2fa5824b8861702ea6adfe43a9548bb375b20ab98b48151",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -6092,14 +6092,14 @@
           "id": "audio.lifecycle",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio.cjs",
-          "moduleSha256": "93d1d74e7563f79fd72020575c0c4fe8bd9ccf2b4058b3681396e9b2c6c86393",
+          "moduleSha256": "0edea455c9a85947b23865903aafeba55e4be307669ff4e1fcbafd0f270e8cd9",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "audio.heldout",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio.cjs",
-          "moduleSha256": "93d1d74e7563f79fd72020575c0c4fe8bd9ccf2b4058b3681396e9b2c6c86393",
+          "moduleSha256": "0edea455c9a85947b23865903aafeba55e4be307669ff4e1fcbafd0f270e8cd9",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -6117,14 +6117,14 @@
           "id": "audio.lifecycle",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio.cjs",
-          "moduleSha256": "93d1d74e7563f79fd72020575c0c4fe8bd9ccf2b4058b3681396e9b2c6c86393",
+          "moduleSha256": "0edea455c9a85947b23865903aafeba55e4be307669ff4e1fcbafd0f270e8cd9",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "audio.heldout",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio.cjs",
-          "moduleSha256": "93d1d74e7563f79fd72020575c0c4fe8bd9ccf2b4058b3681396e9b2c6c86393",
+          "moduleSha256": "0edea455c9a85947b23865903aafeba55e4be307669ff4e1fcbafd0f270e8cd9",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -6647,7 +6647,7 @@
         "id": "world.inspector",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/world.cjs",
-        "moduleSha256": "3ec37a6cc9b10d833d1aae1d058e86e2b11a67512c6dead3c9dad298c79b6186",
+        "moduleSha256": "f706c059f482c149c47298b46e1ecbdce4e95eebe7648d77158202983b8ccf47",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6663,7 +6663,7 @@
         "id": "world.inspector",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/world.cjs",
-        "moduleSha256": "3ec37a6cc9b10d833d1aae1d058e86e2b11a67512c6dead3c9dad298c79b6186",
+        "moduleSha256": "f706c059f482c149c47298b46e1ecbdce4e95eebe7648d77158202983b8ccf47",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6679,7 +6679,7 @@
         "id": "world.inspector",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/world.cjs",
-        "moduleSha256": "3ec37a6cc9b10d833d1aae1d058e86e2b11a67512c6dead3c9dad298c79b6186",
+        "moduleSha256": "f706c059f482c149c47298b46e1ecbdce4e95eebe7648d77158202983b8ccf47",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6695,7 +6695,7 @@
         "id": "world.inspector",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/world.cjs",
-        "moduleSha256": "3ec37a6cc9b10d833d1aae1d058e86e2b11a67512c6dead3c9dad298c79b6186",
+        "moduleSha256": "f706c059f482c149c47298b46e1ecbdce4e95eebe7648d77158202983b8ccf47",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6711,7 +6711,7 @@
         "id": "world.inspector",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/world.cjs",
-        "moduleSha256": "3ec37a6cc9b10d833d1aae1d058e86e2b11a67512c6dead3c9dad298c79b6186",
+        "moduleSha256": "f706c059f482c149c47298b46e1ecbdce4e95eebe7648d77158202983b8ccf47",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -6727,7 +6727,7 @@
         "id": "world.inspector",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/world.cjs",
-        "moduleSha256": "3ec37a6cc9b10d833d1aae1d058e86e2b11a67512c6dead3c9dad298c79b6186",
+        "moduleSha256": "f706c059f482c149c47298b46e1ecbdce4e95eebe7648d77158202983b8ccf47",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7223,7 +7223,7 @@
         "id": "audio.heldout",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/audio.cjs",
-        "moduleSha256": "93d1d74e7563f79fd72020575c0c4fe8bd9ccf2b4058b3681396e9b2c6c86393",
+        "moduleSha256": "0edea455c9a85947b23865903aafeba55e4be307669ff4e1fcbafd0f270e8cd9",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7239,7 +7239,7 @@
         "id": "audio.heldout",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/audio.cjs",
-        "moduleSha256": "93d1d74e7563f79fd72020575c0c4fe8bd9ccf2b4058b3681396e9b2c6c86393",
+        "moduleSha256": "0edea455c9a85947b23865903aafeba55e4be307669ff4e1fcbafd0f270e8cd9",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7255,7 +7255,7 @@
         "id": "audio.heldout",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/audio.cjs",
-        "moduleSha256": "93d1d74e7563f79fd72020575c0c4fe8bd9ccf2b4058b3681396e9b2c6c86393",
+        "moduleSha256": "0edea455c9a85947b23865903aafeba55e4be307669ff4e1fcbafd0f270e8cd9",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7271,7 +7271,7 @@
         "id": "audio.heldout",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/audio.cjs",
-        "moduleSha256": "93d1d74e7563f79fd72020575c0c4fe8bd9ccf2b4058b3681396e9b2c6c86393",
+        "moduleSha256": "0edea455c9a85947b23865903aafeba55e4be307669ff4e1fcbafd0f270e8cd9",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7287,7 +7287,7 @@
         "id": "audio.heldout",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/audio.cjs",
-        "moduleSha256": "93d1d74e7563f79fd72020575c0c4fe8bd9ccf2b4058b3681396e9b2c6c86393",
+        "moduleSha256": "0edea455c9a85947b23865903aafeba55e4be307669ff4e1fcbafd0f270e8cd9",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7303,7 +7303,7 @@
         "id": "audio.heldout",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/audio.cjs",
-        "moduleSha256": "93d1d74e7563f79fd72020575c0c4fe8bd9ccf2b4058b3681396e9b2c6c86393",
+        "moduleSha256": "0edea455c9a85947b23865903aafeba55e4be307669ff4e1fcbafd0f270e8cd9",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7319,7 +7319,7 @@
         "id": "audio.heldout",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/audio.cjs",
-        "moduleSha256": "93d1d74e7563f79fd72020575c0c4fe8bd9ccf2b4058b3681396e9b2c6c86393",
+        "moduleSha256": "0edea455c9a85947b23865903aafeba55e4be307669ff4e1fcbafd0f270e8cd9",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7335,7 +7335,7 @@
         "id": "audio.heldout",
         "status": "implemented-source-case",
         "module": "tools/phase4/cases/audio.cjs",
-        "moduleSha256": "93d1d74e7563f79fd72020575c0c4fe8bd9ccf2b4058b3681396e9b2c6c86393",
+        "moduleSha256": "0edea455c9a85947b23865903aafeba55e4be307669ff4e1fcbafd0f270e8cd9",
         "execution": "no pass inferred from catalog metadata"
       },
       "execution": "source/native fixture exists; actual32 acceptance not inferred"
@@ -7497,14 +7497,14 @@
           "id": "source.tracer",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "228f13380c0f6fab067996ef99a1eee4fe397d5611193c6a1ee76cbfa96437a9",
+          "moduleSha256": "162326a2a2679e231e17353743bf259178564856bab609d9fb2a6da5dece8c23",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "source.tracer-failures",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "228f13380c0f6fab067996ef99a1eee4fe397d5611193c6a1ee76cbfa96437a9",
+          "moduleSha256": "162326a2a2679e231e17353743bf259178564856bab609d9fb2a6da5dece8c23",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -7525,14 +7525,14 @@
           "id": "media.conversion",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/media.cjs",
-          "moduleSha256": "7d881fa79cca4702d06466ad54526c59086ee62570d774c162975e63c80aec4b",
+          "moduleSha256": "4b9632aef9e6e596d163c3962f9c3946edb8853f77c4b5c064dcbd4c8e864569",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "media.scale",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/media.cjs",
-          "moduleSha256": "7d881fa79cca4702d06466ad54526c59086ee62570d774c162975e63c80aec4b",
+          "moduleSha256": "4b9632aef9e6e596d163c3962f9c3946edb8853f77c4b5c064dcbd4c8e864569",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -7568,28 +7568,28 @@
           "id": "media.conversion",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/media.cjs",
-          "moduleSha256": "7d881fa79cca4702d06466ad54526c59086ee62570d774c162975e63c80aec4b",
+          "moduleSha256": "4b9632aef9e6e596d163c3962f9c3946edb8853f77c4b5c064dcbd4c8e864569",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "media.scale",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/media.cjs",
-          "moduleSha256": "7d881fa79cca4702d06466ad54526c59086ee62570d774c162975e63c80aec4b",
+          "moduleSha256": "4b9632aef9e6e596d163c3962f9c3946edb8853f77c4b5c064dcbd4c8e864569",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "audio.actions",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio.cjs",
-          "moduleSha256": "93d1d74e7563f79fd72020575c0c4fe8bd9ccf2b4058b3681396e9b2c6c86393",
+          "moduleSha256": "0edea455c9a85947b23865903aafeba55e4be307669ff4e1fcbafd0f270e8cd9",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "audio.bank",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio.cjs",
-          "moduleSha256": "93d1d74e7563f79fd72020575c0c4fe8bd9ccf2b4058b3681396e9b2c6c86393",
+          "moduleSha256": "0edea455c9a85947b23865903aafeba55e4be307669ff4e1fcbafd0f270e8cd9",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -7643,14 +7643,14 @@
           "id": "animation.bow",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
+          "moduleSha256": "b5515e19027b0375f85ea95dfa2765b9b2a301f4e77391d6cae56eb19ec1e7c0",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "animation.work-special",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
+          "moduleSha256": "b5515e19027b0375f85ea95dfa2765b9b2a301f4e77391d6cae56eb19ec1e7c0",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -7672,42 +7672,42 @@
           "id": "items.weapons-food",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/items.cjs",
-          "moduleSha256": "8012becde82779c06c5e445a47c43dae1577e4ca97f819930c92a991d9258646",
+          "moduleSha256": "14993f1d8850cc0485427a318082fc8484ffd8f001519d171d23f2879b3bcebe",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "items.wearables",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/items.cjs",
-          "moduleSha256": "8012becde82779c06c5e445a47c43dae1577e4ca97f819930c92a991d9258646",
+          "moduleSha256": "14993f1d8850cc0485427a318082fc8484ffd8f001519d171d23f2879b3bcebe",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "bodies.a-art",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bodies-a.cjs",
-          "moduleSha256": "e270580ee1f6f29314dad7607cd6f1cd0b32cfc6fca9c81520e32f2b97e5ec83",
+          "moduleSha256": "d28ec1e36da3564da5bba415f1626e0d32b478267c4f8c0ef701738ee324d6d8",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "bodies.a-fit",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bodies-a.cjs",
-          "moduleSha256": "e270580ee1f6f29314dad7607cd6f1cd0b32cfc6fca9c81520e32f2b97e5ec83",
+          "moduleSha256": "d28ec1e36da3564da5bba415f1626e0d32b478267c4f8c0ef701738ee324d6d8",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "bodies.b-wide",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bodies-b.cjs",
-          "moduleSha256": "fb335b45dc37aab3f789e8d259962a823246deb603a65d0e9b306b37669b02ea",
+          "moduleSha256": "c35247237221a1b3bd205fcbd39e4052a25206f49d6978d0f31f0b5dd3ea8c20",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "bodies.complete-fit",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bodies-b.cjs",
-          "moduleSha256": "fb335b45dc37aab3f789e8d259962a823246deb603a65d0e9b306b37669b02ea",
+          "moduleSha256": "c35247237221a1b3bd205fcbd39e4052a25206f49d6978d0f31f0b5dd3ea8c20",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -7742,14 +7742,14 @@
           "id": "animation.bow",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
+          "moduleSha256": "b5515e19027b0375f85ea95dfa2765b9b2a301f4e77391d6cae56eb19ec1e7c0",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "animation.work-special",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
+          "moduleSha256": "b5515e19027b0375f85ea95dfa2765b9b2a301f4e77391d6cae56eb19ec1e7c0",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -7770,14 +7770,14 @@
           "id": "appearance.corpses",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/corpses.cjs",
-          "moduleSha256": "f919c1aa92ed4035613e5bb8fe1f989fa31eafa7a25a1e0b7b60d687bb503d26",
+          "moduleSha256": "30e722b57e0d5108d2fa5824b8861702ea6adfe43a9548bb375b20ab98b48151",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "appearance.crowds",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/corpses.cjs",
-          "moduleSha256": "f919c1aa92ed4035613e5bb8fe1f989fa31eafa7a25a1e0b7b60d687bb503d26",
+          "moduleSha256": "30e722b57e0d5108d2fa5824b8861702ea6adfe43a9548bb375b20ab98b48151",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -7813,28 +7813,28 @@
           "id": "buildings.defense-art",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/defenses.cjs",
-          "moduleSha256": "3c9d70366c38fa76fe1b60b447df1d1389a3f2ceb75bc740c4c62a536466c84e",
+          "moduleSha256": "f49b0e84b714777ba178cf188e8f5bb002ddc2d4199d6b997e5bd75e80b15d62",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "buildings.defense-state",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/defenses.cjs",
-          "moduleSha256": "3c9d70366c38fa76fe1b60b447df1d1389a3f2ceb75bc740c4c62a536466c84e",
+          "moduleSha256": "f49b0e84b714777ba178cf188e8f5bb002ddc2d4199d6b997e5bd75e80b15d62",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "world.map",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/world.cjs",
-          "moduleSha256": "3ec37a6cc9b10d833d1aae1d058e86e2b11a67512c6dead3c9dad298c79b6186",
+          "moduleSha256": "f706c059f482c149c47298b46e1ecbdce4e95eebe7648d77158202983b8ccf47",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "world.effects",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/world.cjs",
-          "moduleSha256": "3ec37a6cc9b10d833d1aae1d058e86e2b11a67512c6dead3c9dad298c79b6186",
+          "moduleSha256": "f706c059f482c149c47298b46e1ecbdce4e95eebe7648d77158202983b8ccf47",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -7853,28 +7853,28 @@
           "id": "appearance.corpses",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/corpses.cjs",
-          "moduleSha256": "f919c1aa92ed4035613e5bb8fe1f989fa31eafa7a25a1e0b7b60d687bb503d26",
+          "moduleSha256": "30e722b57e0d5108d2fa5824b8861702ea6adfe43a9548bb375b20ab98b48151",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "appearance.crowds",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/corpses.cjs",
-          "moduleSha256": "f919c1aa92ed4035613e5bb8fe1f989fa31eafa7a25a1e0b7b60d687bb503d26",
+          "moduleSha256": "30e722b57e0d5108d2fa5824b8861702ea6adfe43a9548bb375b20ab98b48151",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "world.map",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/world.cjs",
-          "moduleSha256": "3ec37a6cc9b10d833d1aae1d058e86e2b11a67512c6dead3c9dad298c79b6186",
+          "moduleSha256": "f706c059f482c149c47298b46e1ecbdce4e95eebe7648d77158202983b8ccf47",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "world.effects",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/world.cjs",
-          "moduleSha256": "3ec37a6cc9b10d833d1aae1d058e86e2b11a67512c6dead3c9dad298c79b6186",
+          "moduleSha256": "f706c059f482c149c47298b46e1ecbdce4e95eebe7648d77158202983b8ccf47",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -7891,28 +7891,28 @@
           "id": "layouts.kit",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-kit.cjs",
-          "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
+          "moduleSha256": "1165418c63f858d6975d884a9ed997789f3a334d80bb61abb954df133ec9fc92",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.theme",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-kit.cjs",
-          "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
+          "moduleSha256": "1165418c63f858d6975d884a9ed997789f3a334d80bb61abb954df133ec9fc92",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.identity",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-kit.cjs",
-          "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
+          "moduleSha256": "1165418c63f858d6975d884a9ed997789f3a334d80bb61abb954df133ec9fc92",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.identity-integrity",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-kit.cjs",
-          "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
+          "moduleSha256": "1165418c63f858d6975d884a9ed997789f3a334d80bb61abb954df133ec9fc92",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -8047,14 +8047,14 @@
           "id": "layouts.kit",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-kit.cjs",
-          "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
+          "moduleSha256": "1165418c63f858d6975d884a9ed997789f3a334d80bb61abb954df133ec9fc92",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.theme",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-kit.cjs",
-          "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
+          "moduleSha256": "1165418c63f858d6975d884a9ed997789f3a334d80bb61abb954df133ec9fc92",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -8183,35 +8183,35 @@
           "id": "audio.feasibility",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio-feasibility.cjs",
-          "moduleSha256": "96c5aa96440dd13bbe9cb8229748b00d960c0baa6df421afd4815d118a0b8309",
+          "moduleSha256": "be8d2583c9355bfb0393723464857d5d2faabd444acd7c19c5a29bb3585ca556",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "audio.actions",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio.cjs",
-          "moduleSha256": "93d1d74e7563f79fd72020575c0c4fe8bd9ccf2b4058b3681396e9b2c6c86393",
+          "moduleSha256": "0edea455c9a85947b23865903aafeba55e4be307669ff4e1fcbafd0f270e8cd9",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "audio.bank",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio.cjs",
-          "moduleSha256": "93d1d74e7563f79fd72020575c0c4fe8bd9ccf2b4058b3681396e9b2c6c86393",
+          "moduleSha256": "0edea455c9a85947b23865903aafeba55e4be307669ff4e1fcbafd0f270e8cd9",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "audio.lifecycle",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio.cjs",
-          "moduleSha256": "93d1d74e7563f79fd72020575c0c4fe8bd9ccf2b4058b3681396e9b2c6c86393",
+          "moduleSha256": "0edea455c9a85947b23865903aafeba55e4be307669ff4e1fcbafd0f270e8cd9",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "audio.heldout",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio.cjs",
-          "moduleSha256": "93d1d74e7563f79fd72020575c0c4fe8bd9ccf2b4058b3681396e9b2c6c86393",
+          "moduleSha256": "0edea455c9a85947b23865903aafeba55e4be307669ff4e1fcbafd0f270e8cd9",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -8305,14 +8305,14 @@
           "id": "appearance.corpses",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/corpses.cjs",
-          "moduleSha256": "f919c1aa92ed4035613e5bb8fe1f989fa31eafa7a25a1e0b7b60d687bb503d26",
+          "moduleSha256": "30e722b57e0d5108d2fa5824b8861702ea6adfe43a9548bb375b20ab98b48151",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "appearance.crowds",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/corpses.cjs",
-          "moduleSha256": "f919c1aa92ed4035613e5bb8fe1f989fa31eafa7a25a1e0b7b60d687bb503d26",
+          "moduleSha256": "30e722b57e0d5108d2fa5824b8861702ea6adfe43a9548bb375b20ab98b48151",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -8333,14 +8333,14 @@
           "id": "audio.lifecycle",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio.cjs",
-          "moduleSha256": "93d1d74e7563f79fd72020575c0c4fe8bd9ccf2b4058b3681396e9b2c6c86393",
+          "moduleSha256": "0edea455c9a85947b23865903aafeba55e4be307669ff4e1fcbafd0f270e8cd9",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "audio.heldout",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio.cjs",
-          "moduleSha256": "93d1d74e7563f79fd72020575c0c4fe8bd9ccf2b4058b3681396e9b2c6c86393",
+          "moduleSha256": "0edea455c9a85947b23865903aafeba55e4be307669ff4e1fcbafd0f270e8cd9",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -8384,7 +8384,7 @@
           "id": "audio.feasibility",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio-feasibility.cjs",
-          "moduleSha256": "96c5aa96440dd13bbe9cb8229748b00d960c0baa6df421afd4815d118a0b8309",
+          "moduleSha256": "be8d2583c9355bfb0393723464857d5d2faabd444acd7c19c5a29bb3585ca556",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -8474,28 +8474,28 @@
           "id": "runner.prelaunch",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "f24e0ad73c9a8a0afb0a3c2f470577b18f44ab377b9ce878447ac64376f36ae8",
+          "moduleSha256": "4f7abdce6591c55bb2286075edde055648fdf4c0b5e47dc2ba72508562ace00c",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "runner.selection",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "f24e0ad73c9a8a0afb0a3c2f470577b18f44ab377b9ce878447ac64376f36ae8",
+          "moduleSha256": "4f7abdce6591c55bb2286075edde055648fdf4c0b5e47dc2ba72508562ace00c",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "acceptance.judgments",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "f24e0ad73c9a8a0afb0a3c2f470577b18f44ab377b9ce878447ac64376f36ae8",
+          "moduleSha256": "4f7abdce6591c55bb2286075edde055648fdf4c0b5e47dc2ba72508562ace00c",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "acceptance.artifacts",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "f24e0ad73c9a8a0afb0a3c2f470577b18f44ab377b9ce878447ac64376f36ae8",
+          "moduleSha256": "4f7abdce6591c55bb2286075edde055648fdf4c0b5e47dc2ba72508562ace00c",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -8516,14 +8516,14 @@
           "id": "runner.prelaunch-source",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "f24e0ad73c9a8a0afb0a3c2f470577b18f44ab377b9ce878447ac64376f36ae8",
+          "moduleSha256": "4f7abdce6591c55bb2286075edde055648fdf4c0b5e47dc2ba72508562ace00c",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "acceptance.artifacts-source",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "f24e0ad73c9a8a0afb0a3c2f470577b18f44ab377b9ce878447ac64376f36ae8",
+          "moduleSha256": "4f7abdce6591c55bb2286075edde055648fdf4c0b5e47dc2ba72508562ace00c",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -8545,28 +8545,28 @@
           "id": "bodies.a-art",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bodies-a.cjs",
-          "moduleSha256": "e270580ee1f6f29314dad7607cd6f1cd0b32cfc6fca9c81520e32f2b97e5ec83",
+          "moduleSha256": "d28ec1e36da3564da5bba415f1626e0d32b478267c4f8c0ef701738ee324d6d8",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "bodies.a-fit",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bodies-a.cjs",
-          "moduleSha256": "e270580ee1f6f29314dad7607cd6f1cd0b32cfc6fca9c81520e32f2b97e5ec83",
+          "moduleSha256": "d28ec1e36da3564da5bba415f1626e0d32b478267c4f8c0ef701738ee324d6d8",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "bodies.b-wide",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bodies-b.cjs",
-          "moduleSha256": "fb335b45dc37aab3f789e8d259962a823246deb603a65d0e9b306b37669b02ea",
+          "moduleSha256": "c35247237221a1b3bd205fcbd39e4052a25206f49d6978d0f31f0b5dd3ea8c20",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "bodies.complete-fit",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bodies-b.cjs",
-          "moduleSha256": "fb335b45dc37aab3f789e8d259962a823246deb603a65d0e9b306b37669b02ea",
+          "moduleSha256": "c35247237221a1b3bd205fcbd39e4052a25206f49d6978d0f31f0b5dd3ea8c20",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -8585,42 +8585,42 @@
           "id": "runner.prelaunch",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "f24e0ad73c9a8a0afb0a3c2f470577b18f44ab377b9ce878447ac64376f36ae8",
+          "moduleSha256": "4f7abdce6591c55bb2286075edde055648fdf4c0b5e47dc2ba72508562ace00c",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "runner.selection",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "f24e0ad73c9a8a0afb0a3c2f470577b18f44ab377b9ce878447ac64376f36ae8",
+          "moduleSha256": "4f7abdce6591c55bb2286075edde055648fdf4c0b5e47dc2ba72508562ace00c",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "acceptance.judgments",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "f24e0ad73c9a8a0afb0a3c2f470577b18f44ab377b9ce878447ac64376f36ae8",
+          "moduleSha256": "4f7abdce6591c55bb2286075edde055648fdf4c0b5e47dc2ba72508562ace00c",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "acceptance.artifacts",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "f24e0ad73c9a8a0afb0a3c2f470577b18f44ab377b9ce878447ac64376f36ae8",
+          "moduleSha256": "4f7abdce6591c55bb2286075edde055648fdf4c0b5e47dc2ba72508562ace00c",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "runner.prelaunch-source",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "f24e0ad73c9a8a0afb0a3c2f470577b18f44ab377b9ce878447ac64376f36ae8",
+          "moduleSha256": "4f7abdce6591c55bb2286075edde055648fdf4c0b5e47dc2ba72508562ace00c",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "acceptance.artifacts-source",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/runner.cjs",
-          "moduleSha256": "f24e0ad73c9a8a0afb0a3c2f470577b18f44ab377b9ce878447ac64376f36ae8",
+          "moduleSha256": "4f7abdce6591c55bb2286075edde055648fdf4c0b5e47dc2ba72508562ace00c",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -8750,14 +8750,14 @@
           "id": "world.inspector",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/world.cjs",
-          "moduleSha256": "3ec37a6cc9b10d833d1aae1d058e86e2b11a67512c6dead3c9dad298c79b6186",
+          "moduleSha256": "f706c059f482c149c47298b46e1ecbdce4e95eebe7648d77158202983b8ccf47",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "world.replacement",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/world.cjs",
-          "moduleSha256": "3ec37a6cc9b10d833d1aae1d058e86e2b11a67512c6dead3c9dad298c79b6186",
+          "moduleSha256": "f706c059f482c149c47298b46e1ecbdce4e95eebe7648d77158202983b8ccf47",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -8790,14 +8790,14 @@
           "id": "world.map",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/world.cjs",
-          "moduleSha256": "3ec37a6cc9b10d833d1aae1d058e86e2b11a67512c6dead3c9dad298c79b6186",
+          "moduleSha256": "f706c059f482c149c47298b46e1ecbdce4e95eebe7648d77158202983b8ccf47",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "world.effects",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/world.cjs",
-          "moduleSha256": "3ec37a6cc9b10d833d1aae1d058e86e2b11a67512c6dead3c9dad298c79b6186",
+          "moduleSha256": "f706c059f482c149c47298b46e1ecbdce4e95eebe7648d77158202983b8ccf47",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -8845,14 +8845,14 @@
           "id": "layouts.identity",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-kit.cjs",
-          "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
+          "moduleSha256": "1165418c63f858d6975d884a9ed997789f3a334d80bb61abb954df133ec9fc92",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.identity-integrity",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-kit.cjs",
-          "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
+          "moduleSha256": "1165418c63f858d6975d884a9ed997789f3a334d80bb61abb954df133ec9fc92",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -8872,28 +8872,28 @@
           "id": "animation.bow",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
+          "moduleSha256": "b5515e19027b0375f85ea95dfa2765b9b2a301f4e77391d6cae56eb19ec1e7c0",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "animation.work-special",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
+          "moduleSha256": "b5515e19027b0375f85ea95dfa2765b9b2a301f4e77391d6cae56eb19ec1e7c0",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "world.map",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/world.cjs",
-          "moduleSha256": "3ec37a6cc9b10d833d1aae1d058e86e2b11a67512c6dead3c9dad298c79b6186",
+          "moduleSha256": "f706c059f482c149c47298b46e1ecbdce4e95eebe7648d77158202983b8ccf47",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "world.effects",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/world.cjs",
-          "moduleSha256": "3ec37a6cc9b10d833d1aae1d058e86e2b11a67512c6dead3c9dad298c79b6186",
+          "moduleSha256": "f706c059f482c149c47298b46e1ecbdce4e95eebe7648d77158202983b8ccf47",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -8929,14 +8929,14 @@
           "id": "bodies.a-art",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bodies-a.cjs",
-          "moduleSha256": "e270580ee1f6f29314dad7607cd6f1cd0b32cfc6fca9c81520e32f2b97e5ec83",
+          "moduleSha256": "d28ec1e36da3564da5bba415f1626e0d32b478267c4f8c0ef701738ee324d6d8",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "bodies.a-fit",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bodies-a.cjs",
-          "moduleSha256": "e270580ee1f6f29314dad7607cd6f1cd0b32cfc6fca9c81520e32f2b97e5ec83",
+          "moduleSha256": "d28ec1e36da3564da5bba415f1626e0d32b478267c4f8c0ef701738ee324d6d8",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -8951,14 +8951,14 @@
           "id": "bodies.b-wide",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bodies-b.cjs",
-          "moduleSha256": "fb335b45dc37aab3f789e8d259962a823246deb603a65d0e9b306b37669b02ea",
+          "moduleSha256": "c35247237221a1b3bd205fcbd39e4052a25206f49d6978d0f31f0b5dd3ea8c20",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "bodies.complete-fit",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bodies-b.cjs",
-          "moduleSha256": "fb335b45dc37aab3f789e8d259962a823246deb603a65d0e9b306b37669b02ea",
+          "moduleSha256": "c35247237221a1b3bd205fcbd39e4052a25206f49d6978d0f31f0b5dd3ea8c20",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -8973,14 +8973,14 @@
           "id": "items.weapons-food",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/items.cjs",
-          "moduleSha256": "8012becde82779c06c5e445a47c43dae1577e4ca97f819930c92a991d9258646",
+          "moduleSha256": "14993f1d8850cc0485427a318082fc8484ffd8f001519d171d23f2879b3bcebe",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "items.wearables",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/items.cjs",
-          "moduleSha256": "8012becde82779c06c5e445a47c43dae1577e4ca97f819930c92a991d9258646",
+          "moduleSha256": "14993f1d8850cc0485427a318082fc8484ffd8f001519d171d23f2879b3bcebe",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9017,14 +9017,14 @@
           "id": "animation.bow",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
+          "moduleSha256": "b5515e19027b0375f85ea95dfa2765b9b2a301f4e77391d6cae56eb19ec1e7c0",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "animation.work-special",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
+          "moduleSha256": "b5515e19027b0375f85ea95dfa2765b9b2a301f4e77391d6cae56eb19ec1e7c0",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9039,14 +9039,14 @@
           "id": "bodies.a-art",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bodies-a.cjs",
-          "moduleSha256": "e270580ee1f6f29314dad7607cd6f1cd0b32cfc6fca9c81520e32f2b97e5ec83",
+          "moduleSha256": "d28ec1e36da3564da5bba415f1626e0d32b478267c4f8c0ef701738ee324d6d8",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "bodies.a-fit",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bodies-a.cjs",
-          "moduleSha256": "e270580ee1f6f29314dad7607cd6f1cd0b32cfc6fca9c81520e32f2b97e5ec83",
+          "moduleSha256": "d28ec1e36da3564da5bba415f1626e0d32b478267c4f8c0ef701738ee324d6d8",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9083,14 +9083,14 @@
           "id": "source.tracer",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "228f13380c0f6fab067996ef99a1eee4fe397d5611193c6a1ee76cbfa96437a9",
+          "moduleSha256": "162326a2a2679e231e17353743bf259178564856bab609d9fb2a6da5dece8c23",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "source.tracer-failures",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "228f13380c0f6fab067996ef99a1eee4fe397d5611193c6a1ee76cbfa96437a9",
+          "moduleSha256": "162326a2a2679e231e17353743bf259178564856bab609d9fb2a6da5dece8c23",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9149,14 +9149,14 @@
           "id": "items.weapons-food",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/items.cjs",
-          "moduleSha256": "8012becde82779c06c5e445a47c43dae1577e4ca97f819930c92a991d9258646",
+          "moduleSha256": "14993f1d8850cc0485427a318082fc8484ffd8f001519d171d23f2879b3bcebe",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "items.wearables",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/items.cjs",
-          "moduleSha256": "8012becde82779c06c5e445a47c43dae1577e4ca97f819930c92a991d9258646",
+          "moduleSha256": "14993f1d8850cc0485427a318082fc8484ffd8f001519d171d23f2879b3bcebe",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9171,14 +9171,14 @@
           "id": "animation.bow",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
+          "moduleSha256": "b5515e19027b0375f85ea95dfa2765b9b2a301f4e77391d6cae56eb19ec1e7c0",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "animation.work-special",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
+          "moduleSha256": "b5515e19027b0375f85ea95dfa2765b9b2a301f4e77391d6cae56eb19ec1e7c0",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9193,14 +9193,14 @@
           "id": "media.conversion",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/media.cjs",
-          "moduleSha256": "7d881fa79cca4702d06466ad54526c59086ee62570d774c162975e63c80aec4b",
+          "moduleSha256": "4b9632aef9e6e596d163c3962f9c3946edb8853f77c4b5c064dcbd4c8e864569",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "media.scale",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/media.cjs",
-          "moduleSha256": "7d881fa79cca4702d06466ad54526c59086ee62570d774c162975e63c80aec4b",
+          "moduleSha256": "4b9632aef9e6e596d163c3962f9c3946edb8853f77c4b5c064dcbd4c8e864569",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9215,14 +9215,14 @@
           "id": "media.conversion",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/media.cjs",
-          "moduleSha256": "7d881fa79cca4702d06466ad54526c59086ee62570d774c162975e63c80aec4b",
+          "moduleSha256": "4b9632aef9e6e596d163c3962f9c3946edb8853f77c4b5c064dcbd4c8e864569",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "media.scale",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/media.cjs",
-          "moduleSha256": "7d881fa79cca4702d06466ad54526c59086ee62570d774c162975e63c80aec4b",
+          "moduleSha256": "4b9632aef9e6e596d163c3962f9c3946edb8853f77c4b5c064dcbd4c8e864569",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9237,14 +9237,14 @@
           "id": "media.conversion",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/media.cjs",
-          "moduleSha256": "7d881fa79cca4702d06466ad54526c59086ee62570d774c162975e63c80aec4b",
+          "moduleSha256": "4b9632aef9e6e596d163c3962f9c3946edb8853f77c4b5c064dcbd4c8e864569",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "media.scale",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/media.cjs",
-          "moduleSha256": "7d881fa79cca4702d06466ad54526c59086ee62570d774c162975e63c80aec4b",
+          "moduleSha256": "4b9632aef9e6e596d163c3962f9c3946edb8853f77c4b5c064dcbd4c8e864569",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9259,14 +9259,14 @@
           "id": "media.conversion",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/media.cjs",
-          "moduleSha256": "7d881fa79cca4702d06466ad54526c59086ee62570d774c162975e63c80aec4b",
+          "moduleSha256": "4b9632aef9e6e596d163c3962f9c3946edb8853f77c4b5c064dcbd4c8e864569",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "media.scale",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/media.cjs",
-          "moduleSha256": "7d881fa79cca4702d06466ad54526c59086ee62570d774c162975e63c80aec4b",
+          "moduleSha256": "4b9632aef9e6e596d163c3962f9c3946edb8853f77c4b5c064dcbd4c8e864569",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9281,14 +9281,14 @@
           "id": "media.conversion",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/media.cjs",
-          "moduleSha256": "7d881fa79cca4702d06466ad54526c59086ee62570d774c162975e63c80aec4b",
+          "moduleSha256": "4b9632aef9e6e596d163c3962f9c3946edb8853f77c4b5c064dcbd4c8e864569",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "media.scale",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/media.cjs",
-          "moduleSha256": "7d881fa79cca4702d06466ad54526c59086ee62570d774c162975e63c80aec4b",
+          "moduleSha256": "4b9632aef9e6e596d163c3962f9c3946edb8853f77c4b5c064dcbd4c8e864569",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9303,14 +9303,14 @@
           "id": "media.conversion",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/media.cjs",
-          "moduleSha256": "7d881fa79cca4702d06466ad54526c59086ee62570d774c162975e63c80aec4b",
+          "moduleSha256": "4b9632aef9e6e596d163c3962f9c3946edb8853f77c4b5c064dcbd4c8e864569",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "media.scale",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/media.cjs",
-          "moduleSha256": "7d881fa79cca4702d06466ad54526c59086ee62570d774c162975e63c80aec4b",
+          "moduleSha256": "4b9632aef9e6e596d163c3962f9c3946edb8853f77c4b5c064dcbd4c8e864569",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9347,14 +9347,14 @@
           "id": "items.weapons-food",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/items.cjs",
-          "moduleSha256": "8012becde82779c06c5e445a47c43dae1577e4ca97f819930c92a991d9258646",
+          "moduleSha256": "14993f1d8850cc0485427a318082fc8484ffd8f001519d171d23f2879b3bcebe",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "items.wearables",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/items.cjs",
-          "moduleSha256": "8012becde82779c06c5e445a47c43dae1577e4ca97f819930c92a991d9258646",
+          "moduleSha256": "14993f1d8850cc0485427a318082fc8484ffd8f001519d171d23f2879b3bcebe",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9369,14 +9369,14 @@
           "id": "media.conversion",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/media.cjs",
-          "moduleSha256": "7d881fa79cca4702d06466ad54526c59086ee62570d774c162975e63c80aec4b",
+          "moduleSha256": "4b9632aef9e6e596d163c3962f9c3946edb8853f77c4b5c064dcbd4c8e864569",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "media.scale",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/media.cjs",
-          "moduleSha256": "7d881fa79cca4702d06466ad54526c59086ee62570d774c162975e63c80aec4b",
+          "moduleSha256": "4b9632aef9e6e596d163c3962f9c3946edb8853f77c4b5c064dcbd4c8e864569",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9391,14 +9391,14 @@
           "id": "media.conversion",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/media.cjs",
-          "moduleSha256": "7d881fa79cca4702d06466ad54526c59086ee62570d774c162975e63c80aec4b",
+          "moduleSha256": "4b9632aef9e6e596d163c3962f9c3946edb8853f77c4b5c064dcbd4c8e864569",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "media.scale",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/media.cjs",
-          "moduleSha256": "7d881fa79cca4702d06466ad54526c59086ee62570d774c162975e63c80aec4b",
+          "moduleSha256": "4b9632aef9e6e596d163c3962f9c3946edb8853f77c4b5c064dcbd4c8e864569",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9413,14 +9413,14 @@
           "id": "media.conversion",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/media.cjs",
-          "moduleSha256": "7d881fa79cca4702d06466ad54526c59086ee62570d774c162975e63c80aec4b",
+          "moduleSha256": "4b9632aef9e6e596d163c3962f9c3946edb8853f77c4b5c064dcbd4c8e864569",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "media.scale",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/media.cjs",
-          "moduleSha256": "7d881fa79cca4702d06466ad54526c59086ee62570d774c162975e63c80aec4b",
+          "moduleSha256": "4b9632aef9e6e596d163c3962f9c3946edb8853f77c4b5c064dcbd4c8e864569",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9435,14 +9435,14 @@
           "id": "appearance.corpses",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/corpses.cjs",
-          "moduleSha256": "f919c1aa92ed4035613e5bb8fe1f989fa31eafa7a25a1e0b7b60d687bb503d26",
+          "moduleSha256": "30e722b57e0d5108d2fa5824b8861702ea6adfe43a9548bb375b20ab98b48151",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "appearance.crowds",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/corpses.cjs",
-          "moduleSha256": "f919c1aa92ed4035613e5bb8fe1f989fa31eafa7a25a1e0b7b60d687bb503d26",
+          "moduleSha256": "30e722b57e0d5108d2fa5824b8861702ea6adfe43a9548bb375b20ab98b48151",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9457,14 +9457,14 @@
           "id": "source.tracer",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "228f13380c0f6fab067996ef99a1eee4fe397d5611193c6a1ee76cbfa96437a9",
+          "moduleSha256": "162326a2a2679e231e17353743bf259178564856bab609d9fb2a6da5dece8c23",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "source.tracer-failures",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "228f13380c0f6fab067996ef99a1eee4fe397d5611193c6a1ee76cbfa96437a9",
+          "moduleSha256": "162326a2a2679e231e17353743bf259178564856bab609d9fb2a6da5dece8c23",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9509,14 +9509,14 @@
           "id": "source.tracer",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "228f13380c0f6fab067996ef99a1eee4fe397d5611193c6a1ee76cbfa96437a9",
+          "moduleSha256": "162326a2a2679e231e17353743bf259178564856bab609d9fb2a6da5dece8c23",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "source.tracer-failures",
           "status": "implemented-inline-case",
           "module": "tools/phase4/check.cjs",
-          "moduleSha256": "228f13380c0f6fab067996ef99a1eee4fe397d5611193c6a1ee76cbfa96437a9",
+          "moduleSha256": "162326a2a2679e231e17353743bf259178564856bab609d9fb2a6da5dece8c23",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9531,14 +9531,14 @@
           "id": "layouts.kit",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-kit.cjs",
-          "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
+          "moduleSha256": "1165418c63f858d6975d884a9ed997789f3a334d80bb61abb954df133ec9fc92",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.theme",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-kit.cjs",
-          "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
+          "moduleSha256": "1165418c63f858d6975d884a9ed997789f3a334d80bb61abb954df133ec9fc92",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9553,14 +9553,14 @@
           "id": "layouts.kit",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-kit.cjs",
-          "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
+          "moduleSha256": "1165418c63f858d6975d884a9ed997789f3a334d80bb61abb954df133ec9fc92",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "layouts.theme",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-kit.cjs",
-          "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
+          "moduleSha256": "1165418c63f858d6975d884a9ed997789f3a334d80bb61abb954df133ec9fc92",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9582,7 +9582,7 @@
           "id": "audio.feasibility",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio-feasibility.cjs",
-          "moduleSha256": "96c5aa96440dd13bbe9cb8229748b00d960c0baa6df421afd4815d118a0b8309",
+          "moduleSha256": "be8d2583c9355bfb0393723464857d5d2faabd444acd7c19c5a29bb3585ca556",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9604,7 +9604,7 @@
           "id": "audio.feasibility",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio-feasibility.cjs",
-          "moduleSha256": "96c5aa96440dd13bbe9cb8229748b00d960c0baa6df421afd4815d118a0b8309",
+          "moduleSha256": "be8d2583c9355bfb0393723464857d5d2faabd444acd7c19c5a29bb3585ca556",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9709,14 +9709,14 @@
           "id": "items.weapons-food",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/items.cjs",
-          "moduleSha256": "8012becde82779c06c5e445a47c43dae1577e4ca97f819930c92a991d9258646",
+          "moduleSha256": "14993f1d8850cc0485427a318082fc8484ffd8f001519d171d23f2879b3bcebe",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "items.wearables",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/items.cjs",
-          "moduleSha256": "8012becde82779c06c5e445a47c43dae1577e4ca97f819930c92a991d9258646",
+          "moduleSha256": "14993f1d8850cc0485427a318082fc8484ffd8f001519d171d23f2879b3bcebe",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9761,14 +9761,14 @@
           "id": "bodies.a-fit",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bodies-a.cjs",
-          "moduleSha256": "e270580ee1f6f29314dad7607cd6f1cd0b32cfc6fca9c81520e32f2b97e5ec83",
+          "moduleSha256": "d28ec1e36da3564da5bba415f1626e0d32b478267c4f8c0ef701738ee324d6d8",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "bodies.complete-fit",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bodies-b.cjs",
-          "moduleSha256": "fb335b45dc37aab3f789e8d259962a823246deb603a65d0e9b306b37669b02ea",
+          "moduleSha256": "c35247237221a1b3bd205fcbd39e4052a25206f49d6978d0f31f0b5dd3ea8c20",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9805,14 +9805,14 @@
           "id": "animation.bow",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
+          "moduleSha256": "b5515e19027b0375f85ea95dfa2765b9b2a301f4e77391d6cae56eb19ec1e7c0",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "animation.work-special",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/bow-work.cjs",
-          "moduleSha256": "a841e067670eab39c95d4a04b696c75a2a6d6e99446cc38f447ae41b6a85e03d",
+          "moduleSha256": "b5515e19027b0375f85ea95dfa2765b9b2a301f4e77391d6cae56eb19ec1e7c0",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9837,14 +9837,14 @@
           "id": "appearance.corpses",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/corpses.cjs",
-          "moduleSha256": "f919c1aa92ed4035613e5bb8fe1f989fa31eafa7a25a1e0b7b60d687bb503d26",
+          "moduleSha256": "30e722b57e0d5108d2fa5824b8861702ea6adfe43a9548bb375b20ab98b48151",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "appearance.crowds",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/corpses.cjs",
-          "moduleSha256": "f919c1aa92ed4035613e5bb8fe1f989fa31eafa7a25a1e0b7b60d687bb503d26",
+          "moduleSha256": "30e722b57e0d5108d2fa5824b8861702ea6adfe43a9548bb375b20ab98b48151",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9881,7 +9881,7 @@
           "id": "buildings.defense-state",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/defenses.cjs",
-          "moduleSha256": "3c9d70366c38fa76fe1b60b447df1d1389a3f2ceb75bc740c4c62a536466c84e",
+          "moduleSha256": "f49b0e84b714777ba178cf188e8f5bb002ddc2d4199d6b997e5bd75e80b15d62",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9911,14 +9911,14 @@
           "id": "world.map",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/world.cjs",
-          "moduleSha256": "3ec37a6cc9b10d833d1aae1d058e86e2b11a67512c6dead3c9dad298c79b6186",
+          "moduleSha256": "f706c059f482c149c47298b46e1ecbdce4e95eebe7648d77158202983b8ccf47",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "world.effects",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/world.cjs",
-          "moduleSha256": "3ec37a6cc9b10d833d1aae1d058e86e2b11a67512c6dead3c9dad298c79b6186",
+          "moduleSha256": "f706c059f482c149c47298b46e1ecbdce4e95eebe7648d77158202983b8ccf47",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -9968,7 +9968,7 @@
           "id": "layouts.identity",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/ui-kit.cjs",
-          "moduleSha256": "a9343c5a4e52726de392ae65d3c6b46e959690d84a30f6f6eca672701a165e28",
+          "moduleSha256": "1165418c63f858d6975d884a9ed997789f3a334d80bb61abb954df133ec9fc92",
           "execution": "no pass inferred from catalog metadata"
         },
         {
@@ -10030,7 +10030,7 @@
           "id": "appearance.crowds",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/corpses.cjs",
-          "moduleSha256": "f919c1aa92ed4035613e5bb8fe1f989fa31eafa7a25a1e0b7b60d687bb503d26",
+          "moduleSha256": "30e722b57e0d5108d2fa5824b8861702ea6adfe43a9548bb375b20ab98b48151",
           "execution": "no pass inferred from catalog metadata"
         }
       ],
@@ -10055,14 +10055,14 @@
           "id": "audio.lifecycle",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio.cjs",
-          "moduleSha256": "93d1d74e7563f79fd72020575c0c4fe8bd9ccf2b4058b3681396e9b2c6c86393",
+          "moduleSha256": "0edea455c9a85947b23865903aafeba55e4be307669ff4e1fcbafd0f270e8cd9",
           "execution": "no pass inferred from catalog metadata"
         },
         {
           "id": "audio.heldout",
           "status": "implemented-source-case",
           "module": "tools/phase4/cases/audio.cjs",
-          "moduleSha256": "93d1d74e7563f79fd72020575c0c4fe8bd9ccf2b4058b3681396e9b2c6c86393",
+          "moduleSha256": "0edea455c9a85947b23865903aafeba55e4be307669ff4e1fcbafd0f270e8cd9",
           "execution": "no pass inferred from catalog metadata"
         },
         {
