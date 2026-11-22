@@ -1,0 +1,3023 @@
+{
+  "schemaVersion": 1,
+  "id": "defenses",
+  "version": 1,
+  "logicalPixelsPerWorldPixel": 1,
+  "stylePrecedence": "D-13 LOW-RESOLUTION OVERRIDES older richer sprite skill",
+  "atlas": {
+    "path": "res://assets/buildings/defenses.png",
+    "size": [
+      1024,
+      512
+    ],
+    "sha256": "ad4d29bac2d5683af592baa2ced8fdd0e2e14df026719f2872473a42be8235e9",
+    "rgbaSha256": "48c171781808ca55bded74e73969b187b72a29a795146bf33a08c78ea5c69ced",
+    "alphaValues": [
+      0,
+      255
+    ]
+  },
+  "tiers": [
+    {
+      "id": "BL-04",
+      "kind": "wall",
+      "tier": 1,
+      "material": "wood",
+      "states": {
+        "intact": "wall-1",
+        "damage-light": "wall-1-damage-light",
+        "damage-heavy": "wall-1-damage-heavy",
+        "destroyed": "wall-1-ruin"
+      },
+      "frame": "wall-1-frame",
+      "damagedFrame": "wall-1-frame-damaged",
+      "bakedGuardCount": 0,
+      "fragments": [
+        "wood-fragment"
+      ],
+      "footprint": [
+        32,
+        35
+      ],
+      "previousTierRuin": true
+    },
+    {
+      "id": "BL-05",
+      "kind": "wall",
+      "tier": 2,
+      "material": "reinforced-wood",
+      "states": {
+        "intact": "wall-2",
+        "damage-light": "wall-2-damage-light",
+        "damage-heavy": "wall-2-damage-heavy",
+        "destroyed": "wall-2-ruin"
+      },
+      "frame": "wall-2-frame",
+      "damagedFrame": "wall-2-frame-damaged",
+      "bakedGuardCount": 0,
+      "fragments": [
+        "wood-fragment"
+      ],
+      "footprint": [
+        32,
+        43
+      ],
+      "previousTierRuin": true
+    },
+    {
+      "id": "BL-06",
+      "kind": "wall",
+      "tier": 3,
+      "material": "metal-reinforced",
+      "states": {
+        "intact": "wall-3",
+        "damage-light": "wall-3-damage-light",
+        "damage-heavy": "wall-3-damage-heavy",
+        "destroyed": "wall-3-ruin"
+      },
+      "frame": "wall-3-frame",
+      "damagedFrame": "wall-3-frame-damaged",
+      "bakedGuardCount": 0,
+      "fragments": [
+        "metal-fragment"
+      ],
+      "footprint": [
+        48,
+        48
+      ],
+      "previousTierRuin": true
+    },
+    {
+      "id": "BL-07",
+      "kind": "tower",
+      "tier": 1,
+      "material": "wood",
+      "states": {
+        "intact": "tower-1",
+        "damage-light": "tower-1-damage-light",
+        "damage-heavy": "tower-1-damage-heavy",
+        "destroyed": "tower-1-ruin"
+      },
+      "frame": "tower-1-frame",
+      "damagedFrame": "tower-1-frame-damaged",
+      "bakedGuardCount": 0,
+      "fragments": [
+        "wood-fragment"
+      ],
+      "footprint": [
+        44,
+        48
+      ],
+      "previousTierRuin": true
+    },
+    {
+      "id": "BL-08",
+      "kind": "tower",
+      "tier": 2,
+      "material": "reinforced-wood",
+      "states": {
+        "intact": "tower-2",
+        "damage-light": "tower-2-damage-light",
+        "damage-heavy": "tower-2-damage-heavy",
+        "destroyed": "tower-2-ruin"
+      },
+      "frame": "tower-2-frame",
+      "damagedFrame": "tower-2-frame-damaged",
+      "bakedGuardCount": 0,
+      "fragments": [
+        "wood-fragment"
+      ],
+      "footprint": [
+        72,
+        64
+      ],
+      "previousTierRuin": true
+    },
+    {
+      "id": "BL-09",
+      "kind": "tower",
+      "tier": 3,
+      "material": "metal-reinforced",
+      "states": {
+        "intact": "tower-3",
+        "damage-light": "tower-3-damage-light",
+        "damage-heavy": "tower-3-damage-heavy",
+        "destroyed": "tower-3-ruin"
+      },
+      "frame": "tower-3-frame",
+      "damagedFrame": "tower-3-frame-damaged",
+      "bakedGuardCount": 0,
+      "fragments": [
+        "metal-fragment"
+      ],
+      "footprint": [
+        96,
+        80
+      ],
+      "previousTierRuin": true
+    }
+  ],
+  "parts": [
+    {
+      "key": "wood-fragment",
+      "member": "parts/wood-fragment.png",
+      "origin": "sources/common/images/resources.assets/8053.png",
+      "operations": [
+        {
+          "op": "binary-alpha",
+          "threshold": 128
+        }
+      ],
+      "sha256": "29f6698c3c893f14fb652680bfbb3138c9784af7312cdcf0fad3d1d5b695e415",
+      "worldSize": [
+        8,
+        12
+      ],
+      "density": 1,
+      "rgbaSha256": "d72bfdb2db3089729724301f688b2d99613bb1f2d714d5e70f7e896d14cc2767",
+      "visiblePixels": 24,
+      "atlasRect": [
+        1,
+        1,
+        8,
+        12
+      ]
+    },
+    {
+      "key": "metal-fragment",
+      "member": "parts/metal-fragment.png",
+      "origin": "sources/main/parts/metal-fragment.png",
+      "operations": [
+        {
+          "op": "binary-alpha",
+          "threshold": 128
+        }
+      ],
+      "sha256": "cfb51d75ced8f042ac039fc5e66f63b5f8631a274cc00a9f90f14993b49b78f5",
+      "worldSize": [
+        20,
+        12
+      ],
+      "density": 1,
+      "rgbaSha256": "e9c4165e40fd0d532b9f9386bfcb9ab491ae8bd5cfe786d4bc69b5bc4984a1ad",
+      "visiblePixels": 232,
+      "atlasRect": [
+        10,
+        1,
+        20,
+        12
+      ]
+    },
+    {
+      "key": "wall-1",
+      "member": "parts/wall-1.png",
+      "origin": "sources/common/images/resources.assets/8144.png",
+      "operations": [
+        {
+          "op": "binary-alpha",
+          "threshold": 128
+        }
+      ],
+      "sha256": "68eb053ee80e9d55aea759a07b0d91b48585bb1dbd700e52ad67b27e4e0cfab2",
+      "worldSize": [
+        32,
+        35
+      ],
+      "density": 1,
+      "rgbaSha256": "69cc384918759e3a99c66c1935ebb899bfa5cda69e6bd9a7cb8a7d1a4a8f8d82",
+      "visiblePixels": 336,
+      "atlasRect": [
+        31,
+        1,
+        32,
+        35
+      ]
+    },
+    {
+      "key": "wall-2",
+      "member": "parts/wall-2.png",
+      "origin": "sources/common/images/resources.assets/9758.png",
+      "operations": [
+        {
+          "op": "binary-alpha",
+          "threshold": 128
+        }
+      ],
+      "sha256": "41c1df135b67cb72bd7ad262635f66cc9165675c03b71b9ae6c4f99e1888c876",
+      "worldSize": [
+        32,
+        43
+      ],
+      "density": 1,
+      "rgbaSha256": "e8e971ca6c832f4400f55576a9fd7988bbe81c78999176c93959dff9053f7734",
+      "visiblePixels": 798,
+      "atlasRect": [
+        64,
+        1,
+        32,
+        43
+      ]
+    },
+    {
+      "key": "tower-1",
+      "member": "parts/tower-1.png",
+      "origin": "sources/common/images/resources.assets/8711.png",
+      "operations": [
+        {
+          "op": "binary-alpha",
+          "threshold": 128
+        }
+      ],
+      "sha256": "a0acbafc74f864778d4c839c1567ab39dbb6dd7bb1f7f2a25d6c108a963d61cc",
+      "worldSize": [
+        44,
+        48
+      ],
+      "density": 1,
+      "rgbaSha256": "2ca26395c8eae44356ec0be2e60a08ea18a159743ee45a15c9458ca50cf5cb27",
+      "visiblePixels": 562,
+      "atlasRect": [
+        97,
+        1,
+        44,
+        48
+      ]
+    },
+    {
+      "key": "wall-3",
+      "member": "parts/wall-3.png",
+      "origin": "masters/wall-3.png",
+      "operations": [
+        {
+          "op": "binary-alpha",
+          "threshold": 128
+        },
+        {
+          "op": "crop",
+          "box": [
+            80,
+            201,
+            1457,
+            904
+          ]
+        },
+        {
+          "op": "nearest",
+          "size": [
+            48,
+            48
+          ]
+        }
+      ],
+      "sha256": "e15fa7a261ca4185aca783dc94a2302df675eea0d00f7c7fe0070dd2d923541c",
+      "worldSize": [
+        48,
+        48
+      ],
+      "density": 1,
+      "rgbaSha256": "b0fddd27ad278595331791f3988a70c91156b0882d086ae5f3b7713504f4d516",
+      "visiblePixels": 2025,
+      "atlasRect": [
+        142,
+        1,
+        48,
+        48
+      ]
+    },
+    {
+      "key": "tower-2",
+      "member": "parts/tower-2.png",
+      "origin": "masters/tower-2.png",
+      "operations": [
+        {
+          "op": "binary-alpha",
+          "threshold": 128
+        },
+        {
+          "op": "crop",
+          "box": [
+            207,
+            111,
+            1123,
+            1158
+          ]
+        },
+        {
+          "op": "nearest",
+          "size": [
+            72,
+            64
+          ]
+        }
+      ],
+      "sha256": "996ef8d526f507fead40398a2fb076e3b72631fbd8f12bcaee69942367225db0",
+      "worldSize": [
+        72,
+        64
+      ],
+      "density": 1,
+      "rgbaSha256": "be44caef611e4a4f0c0f2da1f59b49ebe8041da418d6e7dcd9a5395877e03128",
+      "visiblePixels": 2714,
+      "atlasRect": [
+        191,
+        1,
+        72,
+        64
+      ]
+    },
+    {
+      "key": "tower-3",
+      "member": "parts/tower-3.png",
+      "origin": "masters/tower-3.png",
+      "operations": [
+        {
+          "op": "binary-alpha",
+          "threshold": 128
+        },
+        {
+          "op": "crop",
+          "box": [
+            73,
+            201,
+            1303,
+            1025
+          ]
+        },
+        {
+          "op": "nearest",
+          "size": [
+            96,
+            80
+          ]
+        }
+      ],
+      "sha256": "92cd6f272a1f17d6b0903f776d34eb9bb6c588136eee798dccd3a989fc1633be",
+      "worldSize": [
+        96,
+        80
+      ],
+      "density": 1,
+      "rgbaSha256": "8eb56778d9b509c539ae72d6f3bb91e67ea50175b3d512eacdb56afb9fea3db3",
+      "visiblePixels": 4498,
+      "atlasRect": [
+        264,
+        1,
+        96,
+        80
+      ]
+    },
+    {
+      "key": "wall-1-damage-light",
+      "member": "parts/wall-1-damage-light.png",
+      "origin": "parts/wall-1.png",
+      "operations": [
+        {
+          "op": "localized-damage",
+          "level": 1,
+          "diamondCuts": [
+            [
+              10,
+              17,
+              3
+            ]
+          ],
+          "fragment": "wood-fragment"
+        }
+      ],
+      "sha256": "ae3c1f489cd0dcceeede5f4270a63706d386db8369fabd086cc79e281c2e54ad",
+      "worldSize": [
+        32,
+        35
+      ],
+      "density": 1,
+      "rgbaSha256": "e266e22b2a9912dcff9e28f6ec1ee3265ee5ff9691527f1431f3e18eedd57f13",
+      "visiblePixels": 341,
+      "atlasRect": [
+        361,
+        1,
+        32,
+        35
+      ]
+    },
+    {
+      "key": "wall-1-damage-heavy",
+      "member": "parts/wall-1-damage-heavy.png",
+      "origin": "parts/wall-1.png",
+      "operations": [
+        {
+          "op": "localized-damage",
+          "level": 2,
+          "diamondCuts": [
+            [
+              10,
+              17,
+              5
+            ],
+            [
+              21,
+              23,
+              5
+            ]
+          ],
+          "fragment": "wood-fragment"
+        }
+      ],
+      "sha256": "fec96f987fffe08f2149f1aabb42391500fc46fcc7a210878f38b02ee34860c4",
+      "worldSize": [
+        32,
+        35
+      ],
+      "density": 1,
+      "rgbaSha256": "74caf12819212727479e7528ecc1f85322e57f038ac4f1361a2b391e85f8f83f",
+      "visiblePixels": 300,
+      "atlasRect": [
+        394,
+        1,
+        32,
+        35
+      ]
+    },
+    {
+      "key": "wall-1-ruin",
+      "member": "parts/wall-1-ruin.png",
+      "origin": "parts/wall-1.png",
+      "operations": [
+        {
+          "op": "matched-rubble",
+          "pieces": [
+            {
+              "box": [
+                0,
+                17,
+                10,
+                25
+              ],
+              "at": [
+                0,
+                27
+              ],
+              "transform": "flip-y"
+            },
+            {
+              "box": [
+                10,
+                11,
+                20,
+                19
+              ],
+              "at": [
+                10,
+                25
+              ],
+              "transform": "rotate90"
+            },
+            {
+              "box": [
+                21,
+                17,
+                31,
+                25
+              ],
+              "at": [
+                21,
+                27
+              ],
+              "transform": "flip-y"
+            }
+          ]
+        }
+      ],
+      "sha256": "01559c5d132818d74e02bd558dcf7f8bd242cc361f222fca33fa46449354c833",
+      "worldSize": [
+        32,
+        35
+      ],
+      "density": 1,
+      "rgbaSha256": "ca75f1a355efc4c5834882e7aee3c790a0c43550cd06e802a67553dce2253186",
+      "visiblePixels": 50,
+      "atlasRect": [
+        427,
+        1,
+        32,
+        35
+      ]
+    },
+    {
+      "key": "wall-2-damage-light",
+      "member": "parts/wall-2-damage-light.png",
+      "origin": "parts/wall-2.png",
+      "operations": [
+        {
+          "op": "localized-damage",
+          "level": 1,
+          "diamondCuts": [
+            [
+              10,
+              21,
+              3
+            ]
+          ],
+          "fragment": "wood-fragment"
+        }
+      ],
+      "sha256": "7ed503940c29a4f99f732352d918a94fb2277bb28fe45e38c40aefddd18bb621",
+      "worldSize": [
+        32,
+        43
+      ],
+      "density": 1,
+      "rgbaSha256": "1cf82de94bfa443d7f332480d675d0499fa127905e44e56653abc338b7f865c7",
+      "visiblePixels": 782,
+      "atlasRect": [
+        460,
+        1,
+        32,
+        43
+      ]
+    },
+    {
+      "key": "wall-2-damage-heavy",
+      "member": "parts/wall-2-damage-heavy.png",
+      "origin": "parts/wall-2.png",
+      "operations": [
+        {
+          "op": "localized-damage",
+          "level": 2,
+          "diamondCuts": [
+            [
+              10,
+              21,
+              5
+            ],
+            [
+              21,
+              28,
+              5
+            ]
+          ],
+          "fragment": "wood-fragment"
+        }
+      ],
+      "sha256": "136967527327c389fc326fd681740b7c0511caa3df7328fc176c078f6ca6329f",
+      "worldSize": [
+        32,
+        43
+      ],
+      "density": 1,
+      "rgbaSha256": "85ad20c936871a94227e9c36c22156c38970498c09d82a6d647af9d70b5e6ecc",
+      "visiblePixels": 689,
+      "atlasRect": [
+        493,
+        1,
+        32,
+        43
+      ]
+    },
+    {
+      "key": "wall-2-ruin",
+      "member": "parts/wall-2-ruin.png",
+      "origin": "parts/wall-2.png",
+      "operations": [
+        {
+          "op": "matched-rubble",
+          "pieces": [
+            {
+              "box": [
+                0,
+                21,
+                10,
+                31
+              ],
+              "at": [
+                0,
+                33
+              ],
+              "transform": "flip-y"
+            },
+            {
+              "box": [
+                10,
+                14,
+                20,
+                24
+              ],
+              "at": [
+                10,
+                33
+              ],
+              "transform": "rotate90"
+            },
+            {
+              "box": [
+                21,
+                21,
+                31,
+                31
+              ],
+              "at": [
+                21,
+                33
+              ],
+              "transform": "flip-y"
+            }
+          ]
+        }
+      ],
+      "sha256": "65de04b89a4f4a11ec1799b5a7987d5985c47c473bf2cd4ed6ab7381822c6af1",
+      "worldSize": [
+        32,
+        43
+      ],
+      "density": 1,
+      "rgbaSha256": "84d2ea9f9fb3ed95251db182e59f397f16bda977349d83254fd0a77b3a49ac6e",
+      "visiblePixels": 200,
+      "atlasRect": [
+        526,
+        1,
+        32,
+        43
+      ]
+    },
+    {
+      "key": "wall-3-damage-light",
+      "member": "parts/wall-3-damage-light.png",
+      "origin": "parts/wall-3.png",
+      "operations": [
+        {
+          "op": "localized-damage",
+          "level": 1,
+          "diamondCuts": [
+            [
+              16,
+              24,
+              5
+            ]
+          ],
+          "fragment": "metal-fragment"
+        }
+      ],
+      "sha256": "287c48ee305bbc20cba0ed34123b31308c8a309f39c8b945655ed5c5e9c34527",
+      "worldSize": [
+        48,
+        48
+      ],
+      "density": 1,
+      "rgbaSha256": "502bc3a7cf763e1c0a228755a12c08bd7649e8ebb0c377c5fc485eed683af737",
+      "visiblePixels": 1991,
+      "atlasRect": [
+        559,
+        1,
+        48,
+        48
+      ]
+    },
+    {
+      "key": "wall-3-damage-heavy",
+      "member": "parts/wall-3-damage-heavy.png",
+      "origin": "parts/wall-3.png",
+      "operations": [
+        {
+          "op": "localized-damage",
+          "level": 2,
+          "diamondCuts": [
+            [
+              16,
+              24,
+              8
+            ],
+            [
+              32,
+              32,
+              8
+            ]
+          ],
+          "fragment": "metal-fragment"
+        }
+      ],
+      "sha256": "623411e8f5fd6b7b7eb041e763cf5d6b0b690e5179e8c18d2a31ee3477cd8f21",
+      "worldSize": [
+        48,
+        48
+      ],
+      "density": 1,
+      "rgbaSha256": "29cf6a129b79961d3de7ca3e4ecc1ecaa6a081badbc5822983fefe750246f28f",
+      "visiblePixels": 1785,
+      "atlasRect": [
+        608,
+        1,
+        48,
+        48
+      ]
+    },
+    {
+      "key": "wall-3-ruin",
+      "member": "parts/wall-3-ruin.png",
+      "origin": "parts/wall-3.png",
+      "operations": [
+        {
+          "op": "matched-rubble",
+          "pieces": [
+            {
+              "box": [
+                0,
+                24,
+                16,
+                36
+              ],
+              "at": [
+                0,
+                36
+              ],
+              "transform": "flip-y"
+            },
+            {
+              "box": [
+                16,
+                16,
+                32,
+                28
+              ],
+              "at": [
+                16,
+                32
+              ],
+              "transform": "rotate90"
+            },
+            {
+              "box": [
+                32,
+                24,
+                48,
+                36
+              ],
+              "at": [
+                32,
+                36
+              ],
+              "transform": "flip-y"
+            }
+          ]
+        }
+      ],
+      "sha256": "2115e1ec12f1fa29b3b2dbe591ae44dd1ee40f0b8b84419082f3cf3e8d6407ab",
+      "worldSize": [
+        48,
+        48
+      ],
+      "density": 1,
+      "rgbaSha256": "a437901186ea477b0a37c507eb21958059316b3d3e0e4d4a53b96d4e175f3250",
+      "visiblePixels": 576,
+      "atlasRect": [
+        657,
+        1,
+        48,
+        48
+      ]
+    },
+    {
+      "key": "tower-1-damage-light",
+      "member": "parts/tower-1-damage-light.png",
+      "origin": "parts/tower-1.png",
+      "operations": [
+        {
+          "op": "localized-damage",
+          "level": 1,
+          "diamondCuts": [
+            [
+              14,
+              24,
+              4
+            ]
+          ],
+          "fragment": "wood-fragment"
+        }
+      ],
+      "sha256": "df1a9ad48020544b41e3200f5ce750e29f8d0b6296179ab3d46a34c69c100ab0",
+      "worldSize": [
+        44,
+        48
+      ],
+      "density": 1,
+      "rgbaSha256": "dff5419b7b5c332e09f6dda033aaeb7bafbb2d688c6fd7c3d94cf944182740b8",
+      "visiblePixels": 558,
+      "atlasRect": [
+        706,
+        1,
+        44,
+        48
+      ]
+    },
+    {
+      "key": "tower-1-damage-heavy",
+      "member": "parts/tower-1-damage-heavy.png",
+      "origin": "parts/tower-1.png",
+      "operations": [
+        {
+          "op": "localized-damage",
+          "level": 2,
+          "diamondCuts": [
+            [
+              14,
+              24,
+              7
+            ],
+            [
+              29,
+              32,
+              7
+            ]
+          ],
+          "fragment": "wood-fragment"
+        }
+      ],
+      "sha256": "14cf3082471ab1214f901b34077b2cc5fac6ba5d6df8a17646edfcdd033ffe2a",
+      "worldSize": [
+        44,
+        48
+      ],
+      "density": 1,
+      "rgbaSha256": "15d308e03ff7aad8ea3c13e9832d6cb6db50b77f59b100903ef478fbf836bd21",
+      "visiblePixels": 557,
+      "atlasRect": [
+        751,
+        1,
+        44,
+        48
+      ]
+    },
+    {
+      "key": "tower-1-ruin",
+      "member": "parts/tower-1-ruin.png",
+      "origin": "parts/tower-1.png",
+      "operations": [
+        {
+          "op": "matched-rubble",
+          "pieces": [
+            {
+              "box": [
+                0,
+                24,
+                14,
+                36
+              ],
+              "at": [
+                0,
+                36
+              ],
+              "transform": "flip-y"
+            },
+            {
+              "box": [
+                14,
+                16,
+                28,
+                28
+              ],
+              "at": [
+                14,
+                34
+              ],
+              "transform": "rotate90"
+            },
+            {
+              "box": [
+                29,
+                24,
+                43,
+                36
+              ],
+              "at": [
+                29,
+                36
+              ],
+              "transform": "flip-y"
+            }
+          ]
+        }
+      ],
+      "sha256": "96afd44e3de7ea6506ccc74ee5fb9fc6a95c369652431cb3982a1079ad5ffbeb",
+      "worldSize": [
+        44,
+        48
+      ],
+      "density": 1,
+      "rgbaSha256": "de4fa711fe75e66bb0e4856b1ddd1916ae027753a1c3d4b4981dcdb1bb6d1b0c",
+      "visiblePixels": 105,
+      "atlasRect": [
+        796,
+        1,
+        44,
+        48
+      ]
+    },
+    {
+      "key": "tower-2-damage-light",
+      "member": "parts/tower-2-damage-light.png",
+      "origin": "parts/tower-2.png",
+      "operations": [
+        {
+          "op": "localized-damage",
+          "level": 1,
+          "diamondCuts": [
+            [
+              24,
+              32,
+              7
+            ]
+          ],
+          "fragment": "wood-fragment"
+        }
+      ],
+      "sha256": "8558afc629dcee611665a89c7868363f3ac8ed9ae1137cbd7ca816a1893454d7",
+      "worldSize": [
+        72,
+        64
+      ],
+      "density": 1,
+      "rgbaSha256": "9aeeec75e8608bac097a682a91f28a81874e5f47a288aa018f98d7f753a91066",
+      "visiblePixels": 2688,
+      "atlasRect": [
+        841,
+        1,
+        72,
+        64
+      ]
+    },
+    {
+      "key": "tower-2-damage-heavy",
+      "member": "parts/tower-2-damage-heavy.png",
+      "origin": "parts/tower-2.png",
+      "operations": [
+        {
+          "op": "localized-damage",
+          "level": 2,
+          "diamondCuts": [
+            [
+              24,
+              32,
+              10
+            ],
+            [
+              48,
+              42,
+              10
+            ]
+          ],
+          "fragment": "wood-fragment"
+        }
+      ],
+      "sha256": "281eaa56ed729e41d2bc71041269a6ca55fcbc8311a9699db7dc2f386d332641",
+      "worldSize": [
+        72,
+        64
+      ],
+      "density": 1,
+      "rgbaSha256": "74e92983d4a4c497ca51c32280bdade79daa7f115e8ed49855561e1adaf2071d",
+      "visiblePixels": 2522,
+      "atlasRect": [
+        914,
+        1,
+        72,
+        64
+      ]
+    },
+    {
+      "key": "tower-2-ruin",
+      "member": "parts/tower-2-ruin.png",
+      "origin": "parts/tower-2.png",
+      "operations": [
+        {
+          "op": "matched-rubble",
+          "pieces": [
+            {
+              "box": [
+                0,
+                32,
+                24,
+                48
+              ],
+              "at": [
+                0,
+                48
+              ],
+              "transform": "flip-y"
+            },
+            {
+              "box": [
+                24,
+                21,
+                48,
+                37
+              ],
+              "at": [
+                24,
+                40
+              ],
+              "transform": "rotate90"
+            },
+            {
+              "box": [
+                48,
+                32,
+                72,
+                48
+              ],
+              "at": [
+                48,
+                48
+              ],
+              "transform": "flip-y"
+            }
+          ]
+        }
+      ],
+      "sha256": "006d9f14391df1950549589ad612965e66a4c225e3150671770bec10b15bf6b6",
+      "worldSize": [
+        72,
+        64
+      ],
+      "density": 1,
+      "rgbaSha256": "a4cdce4ba3428ba9b4296684d2258c11f56743de8b99beb24c647e3fe8e82475",
+      "visiblePixels": 674,
+      "atlasRect": [
+        1,
+        82,
+        72,
+        64
+      ]
+    },
+    {
+      "key": "tower-3-damage-light",
+      "member": "parts/tower-3-damage-light.png",
+      "origin": "parts/tower-3.png",
+      "operations": [
+        {
+          "op": "localized-damage",
+          "level": 1,
+          "diamondCuts": [
+            [
+              32,
+              40,
+              8
+            ]
+          ],
+          "fragment": "metal-fragment"
+        }
+      ],
+      "sha256": "723ac3c0de8976b09ed012f95813e780bea8c7f6c60737f69b3ae434763d8bbf",
+      "worldSize": [
+        96,
+        80
+      ],
+      "density": 1,
+      "rgbaSha256": "4624325770150601269dcd2364b4af2b94951064a1f935bbc551b6cc4ab55de1",
+      "visiblePixels": 4431,
+      "atlasRect": [
+        74,
+        82,
+        96,
+        80
+      ]
+    },
+    {
+      "key": "tower-3-damage-heavy",
+      "member": "parts/tower-3-damage-heavy.png",
+      "origin": "parts/tower-3.png",
+      "operations": [
+        {
+          "op": "localized-damage",
+          "level": 2,
+          "diamondCuts": [
+            [
+              32,
+              40,
+              13
+            ],
+            [
+              64,
+              53,
+              13
+            ]
+          ],
+          "fragment": "metal-fragment"
+        }
+      ],
+      "sha256": "83b893de4b540481ec0f5096e35099d7d39dc199b43bd4e303b3edbf81b0b982",
+      "worldSize": [
+        96,
+        80
+      ],
+      "density": 1,
+      "rgbaSha256": "34f64172eb520a44fbc998e9ef87805e059e1a0731a2c6ae0c175f557cfb9b49",
+      "visiblePixels": 4223,
+      "atlasRect": [
+        171,
+        82,
+        96,
+        80
+      ]
+    },
+    {
+      "key": "tower-3-ruin",
+      "member": "parts/tower-3-ruin.png",
+      "origin": "parts/tower-3.png",
+      "operations": [
+        {
+          "op": "matched-rubble",
+          "pieces": [
+            {
+              "box": [
+                0,
+                40,
+                32,
+                60
+              ],
+              "at": [
+                0,
+                60
+              ],
+              "transform": "flip-y"
+            },
+            {
+              "box": [
+                32,
+                26,
+                64,
+                46
+              ],
+              "at": [
+                32,
+                48
+              ],
+              "transform": "rotate90"
+            },
+            {
+              "box": [
+                64,
+                40,
+                96,
+                60
+              ],
+              "at": [
+                64,
+                60
+              ],
+              "transform": "flip-y"
+            }
+          ]
+        }
+      ],
+      "sha256": "99054d20bbaa763a1f90a454fc5a31e2eee54b942bea97cc3929a5b68c42ed28",
+      "worldSize": [
+        96,
+        80
+      ],
+      "density": 1,
+      "rgbaSha256": "d2548b21c366cfdbae033cf3a905170e30f266f3e3b08e47e90e6d538a704277",
+      "visiblePixels": 1157,
+      "atlasRect": [
+        268,
+        82,
+        96,
+        80
+      ]
+    },
+    {
+      "key": "main-1-frame",
+      "member": "parts/main-1-frame.png",
+      "origin": "sources/selected.json",
+      "operations": [
+        {
+          "op": "scaffold-tiles",
+          "placements": [
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                0,
+                56
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                0,
+                24
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                8,
+                32,
+                32
+              ],
+              "at": [
+                0,
+                0
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                32,
+                56
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                32,
+                24
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                8,
+                32,
+                32
+              ],
+              "at": [
+                32,
+                0
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                64,
+                56
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                64,
+                24
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                8,
+                32,
+                32
+              ],
+              "at": [
+                64,
+                0
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                96,
+                56
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                96,
+                24
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                8,
+                32,
+                32
+              ],
+              "at": [
+                96,
+                0
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                128,
+                56
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                128,
+                24
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                8,
+                32,
+                32
+              ],
+              "at": [
+                128,
+                0
+              ]
+            }
+          ],
+          "size": [
+            160,
+            88
+          ]
+        }
+      ],
+      "sha256": "056797c086855cc2800c662a51643e22eeb74dc8e12327ec829f493219703578",
+      "worldSize": [
+        160,
+        88
+      ],
+      "density": 1,
+      "rgbaSha256": "ef49eef09067490a2bfe7b27cd23744a83726cbca1714d135cd97b682028489f",
+      "visiblePixels": 5710,
+      "atlasRect": [
+        365,
+        82,
+        160,
+        88
+      ]
+    },
+    {
+      "key": "main-1-frame-damaged",
+      "member": "parts/main-1-frame-damaged.png",
+      "origin": "parts/main-1-frame.png",
+      "operations": [
+        {
+          "op": "localized-damage",
+          "level": 2,
+          "diamondCuts": [
+            [
+              53,
+              44,
+              14
+            ],
+            [
+              106,
+              58,
+              14
+            ]
+          ],
+          "fragment": "wood-fragment"
+        }
+      ],
+      "sha256": "7a9a4f9025f65fa5c0c8ca9a6f221651acc2c11fd405fbc6b77d4dda1e7135df",
+      "worldSize": [
+        160,
+        88
+      ],
+      "density": 1,
+      "rgbaSha256": "6be25e17034d5f53d018a1a0487ae371e1e58d1fd65d049c488c9f7047c574d5",
+      "visiblePixels": 5534,
+      "atlasRect": [
+        526,
+        82,
+        160,
+        88
+      ]
+    },
+    {
+      "key": "main-2-frame",
+      "member": "parts/main-2-frame.png",
+      "origin": "sources/selected.json",
+      "operations": [
+        {
+          "op": "scaffold-tiles",
+          "placements": [
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                0,
+                56
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                0,
+                24
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                8,
+                32,
+                32
+              ],
+              "at": [
+                0,
+                0
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                32,
+                56
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                32,
+                24
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                8,
+                32,
+                32
+              ],
+              "at": [
+                32,
+                0
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                64,
+                56
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                64,
+                24
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                8,
+                32,
+                32
+              ],
+              "at": [
+                64,
+                0
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                96,
+                56
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                96,
+                24
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                8,
+                32,
+                32
+              ],
+              "at": [
+                96,
+                0
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                128,
+                56
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                128,
+                24
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                8,
+                32,
+                32
+              ],
+              "at": [
+                128,
+                0
+              ]
+            }
+          ],
+          "size": [
+            160,
+            88
+          ]
+        }
+      ],
+      "sha256": "056797c086855cc2800c662a51643e22eeb74dc8e12327ec829f493219703578",
+      "worldSize": [
+        160,
+        88
+      ],
+      "density": 1,
+      "rgbaSha256": "ef49eef09067490a2bfe7b27cd23744a83726cbca1714d135cd97b682028489f",
+      "visiblePixels": 5710,
+      "atlasRect": [
+        687,
+        82,
+        160,
+        88
+      ]
+    },
+    {
+      "key": "main-2-frame-damaged",
+      "member": "parts/main-2-frame-damaged.png",
+      "origin": "parts/main-2-frame.png",
+      "operations": [
+        {
+          "op": "localized-damage",
+          "level": 2,
+          "diamondCuts": [
+            [
+              53,
+              44,
+              14
+            ],
+            [
+              106,
+              58,
+              14
+            ]
+          ],
+          "fragment": "wood-fragment"
+        }
+      ],
+      "sha256": "7a9a4f9025f65fa5c0c8ca9a6f221651acc2c11fd405fbc6b77d4dda1e7135df",
+      "worldSize": [
+        160,
+        88
+      ],
+      "density": 1,
+      "rgbaSha256": "6be25e17034d5f53d018a1a0487ae371e1e58d1fd65d049c488c9f7047c574d5",
+      "visiblePixels": 5534,
+      "atlasRect": [
+        848,
+        82,
+        160,
+        88
+      ]
+    },
+    {
+      "key": "main-3-frame",
+      "member": "parts/main-3-frame.png",
+      "origin": "sources/selected.json",
+      "operations": [
+        {
+          "op": "scaffold-tiles",
+          "placements": [
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                0,
+                56
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                0,
+                24
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                8,
+                32,
+                32
+              ],
+              "at": [
+                0,
+                0
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                32,
+                56
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                32,
+                24
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                8,
+                32,
+                32
+              ],
+              "at": [
+                32,
+                0
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                64,
+                56
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                64,
+                24
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                8,
+                32,
+                32
+              ],
+              "at": [
+                64,
+                0
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                96,
+                56
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                96,
+                24
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                8,
+                32,
+                32
+              ],
+              "at": [
+                96,
+                0
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                128,
+                56
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                128,
+                24
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                8,
+                32,
+                32
+              ],
+              "at": [
+                128,
+                0
+              ]
+            }
+          ],
+          "size": [
+            160,
+            88
+          ]
+        }
+      ],
+      "sha256": "056797c086855cc2800c662a51643e22eeb74dc8e12327ec829f493219703578",
+      "worldSize": [
+        160,
+        88
+      ],
+      "density": 1,
+      "rgbaSha256": "ef49eef09067490a2bfe7b27cd23744a83726cbca1714d135cd97b682028489f",
+      "visiblePixels": 5710,
+      "atlasRect": [
+        1,
+        171,
+        160,
+        88
+      ]
+    },
+    {
+      "key": "main-3-frame-damaged",
+      "member": "parts/main-3-frame-damaged.png",
+      "origin": "parts/main-3-frame.png",
+      "operations": [
+        {
+          "op": "localized-damage",
+          "level": 2,
+          "diamondCuts": [
+            [
+              53,
+              44,
+              14
+            ],
+            [
+              106,
+              58,
+              14
+            ]
+          ],
+          "fragment": "wood-fragment"
+        }
+      ],
+      "sha256": "7a9a4f9025f65fa5c0c8ca9a6f221651acc2c11fd405fbc6b77d4dda1e7135df",
+      "worldSize": [
+        160,
+        88
+      ],
+      "density": 1,
+      "rgbaSha256": "6be25e17034d5f53d018a1a0487ae371e1e58d1fd65d049c488c9f7047c574d5",
+      "visiblePixels": 5534,
+      "atlasRect": [
+        162,
+        171,
+        160,
+        88
+      ]
+    },
+    {
+      "key": "wall-1-frame",
+      "member": "parts/wall-1-frame.png",
+      "origin": "sources/selected.json",
+      "operations": [
+        {
+          "op": "scaffold-tiles",
+          "placements": [
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                0,
+                3
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                29,
+                32,
+                32
+              ],
+              "at": [
+                0,
+                0
+              ]
+            }
+          ],
+          "size": [
+            32,
+            35
+          ]
+        }
+      ],
+      "sha256": "caee2f773ca01cc9aa36577c2ec84f1380c4e0b393e6f4772b8add700d279b26",
+      "worldSize": [
+        32,
+        35
+      ],
+      "density": 1,
+      "rgbaSha256": "4d36281abb97a9a31a35bc4282eb4f6863b52adab64ee0d5c0c0c3295e3f5786",
+      "visiblePixels": 485,
+      "atlasRect": [
+        323,
+        171,
+        32,
+        35
+      ]
+    },
+    {
+      "key": "wall-1-frame-damaged",
+      "member": "parts/wall-1-frame-damaged.png",
+      "origin": "parts/wall-1-frame.png",
+      "operations": [
+        {
+          "op": "localized-damage",
+          "level": 2,
+          "diamondCuts": [
+            [
+              10,
+              17,
+              5
+            ],
+            [
+              21,
+              23,
+              5
+            ]
+          ],
+          "fragment": "wood-fragment"
+        }
+      ],
+      "sha256": "fbcb5a0b1ff860ef99bd19c390a3479731690e26b4ad1df640496c36f4a66da9",
+      "worldSize": [
+        32,
+        35
+      ],
+      "density": 1,
+      "rgbaSha256": "ce002b4c158bf547d7dfe443ed7f9dc77e2c23d272e4de4bf7fc1da76cfbf984",
+      "visiblePixels": 477,
+      "atlasRect": [
+        356,
+        171,
+        32,
+        35
+      ]
+    },
+    {
+      "key": "wall-2-frame",
+      "member": "parts/wall-2-frame.png",
+      "origin": "sources/selected.json",
+      "operations": [
+        {
+          "op": "scaffold-tiles",
+          "placements": [
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                0,
+                11
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                21,
+                32,
+                32
+              ],
+              "at": [
+                0,
+                0
+              ]
+            }
+          ],
+          "size": [
+            32,
+            43
+          ]
+        }
+      ],
+      "sha256": "f6c5e5a43dafdd5be9230be56196c2403d9ea1d99f6f19391bfef419d24da294",
+      "worldSize": [
+        32,
+        43
+      ],
+      "density": 1,
+      "rgbaSha256": "6e764529e276bd45729eb751ee60c22055fb3ac91c166ee4349856b5ba48db4d",
+      "visiblePixels": 570,
+      "atlasRect": [
+        389,
+        171,
+        32,
+        43
+      ]
+    },
+    {
+      "key": "wall-2-frame-damaged",
+      "member": "parts/wall-2-frame-damaged.png",
+      "origin": "parts/wall-2-frame.png",
+      "operations": [
+        {
+          "op": "localized-damage",
+          "level": 2,
+          "diamondCuts": [
+            [
+              10,
+              21,
+              5
+            ],
+            [
+              21,
+              28,
+              5
+            ]
+          ],
+          "fragment": "wood-fragment"
+        }
+      ],
+      "sha256": "4a969ae764610889348b2ecfce344d04f414a47149e08a13f6e622f8c1f81dd2",
+      "worldSize": [
+        32,
+        43
+      ],
+      "density": 1,
+      "rgbaSha256": "1d915266a80fb4930dcc85e059d3631ce6ac2e41fe660699591cd595c5790a57",
+      "visiblePixels": 549,
+      "atlasRect": [
+        422,
+        171,
+        32,
+        43
+      ]
+    },
+    {
+      "key": "wall-3-frame",
+      "member": "parts/wall-3-frame.png",
+      "origin": "sources/selected.json",
+      "operations": [
+        {
+          "op": "scaffold-tiles",
+          "placements": [
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                0,
+                16
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                16,
+                32,
+                32
+              ],
+              "at": [
+                0,
+                0
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                16,
+                32
+              ],
+              "at": [
+                32,
+                16
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                16,
+                16,
+                32
+              ],
+              "at": [
+                32,
+                0
+              ]
+            }
+          ],
+          "size": [
+            48,
+            48
+          ]
+        }
+      ],
+      "sha256": "b0a6111eeff72455d20a45b51eb35d3582d91daca9d6d73bc019bf4308c075c4",
+      "worldSize": [
+        48,
+        48
+      ],
+      "density": 1,
+      "rgbaSha256": "483e1fd280b943957a94a27d744e74f0e040fbd866936ca89b8b7b58395c5a80",
+      "visiblePixels": 988,
+      "atlasRect": [
+        455,
+        171,
+        48,
+        48
+      ]
+    },
+    {
+      "key": "wall-3-frame-damaged",
+      "member": "parts/wall-3-frame-damaged.png",
+      "origin": "parts/wall-3-frame.png",
+      "operations": [
+        {
+          "op": "localized-damage",
+          "level": 2,
+          "diamondCuts": [
+            [
+              16,
+              24,
+              8
+            ],
+            [
+              32,
+              32,
+              8
+            ]
+          ],
+          "fragment": "wood-fragment"
+        }
+      ],
+      "sha256": "3d6594ce75268d8e11cf47f5ac76928563ecd002480cd511b0b5c4e06a8d8605",
+      "worldSize": [
+        48,
+        48
+      ],
+      "density": 1,
+      "rgbaSha256": "ed6b44ef8d1c70969ee1f90d5b07d6840769011f6a4cb9c73290281794a44849",
+      "visiblePixels": 940,
+      "atlasRect": [
+        504,
+        171,
+        48,
+        48
+      ]
+    },
+    {
+      "key": "tower-1-frame",
+      "member": "parts/tower-1-frame.png",
+      "origin": "sources/selected.json",
+      "operations": [
+        {
+          "op": "scaffold-tiles",
+          "placements": [
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                0,
+                16
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                16,
+                32,
+                32
+              ],
+              "at": [
+                0,
+                0
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                12,
+                32
+              ],
+              "at": [
+                32,
+                16
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                16,
+                12,
+                32
+              ],
+              "at": [
+                32,
+                0
+              ]
+            }
+          ],
+          "size": [
+            44,
+            48
+          ]
+        }
+      ],
+      "sha256": "2f235d4c64ad2f9125dff8d641cdf4fd33cba6cda9ba6184ccdb4db7bea65e63",
+      "worldSize": [
+        44,
+        48
+      ],
+      "density": 1,
+      "rgbaSha256": "d0c27ee0513c8cc50c08c5858b98a639eaaa5052095c21b533784227a8d6eac3",
+      "visiblePixels": 921,
+      "atlasRect": [
+        553,
+        171,
+        44,
+        48
+      ]
+    },
+    {
+      "key": "tower-1-frame-damaged",
+      "member": "parts/tower-1-frame-damaged.png",
+      "origin": "parts/tower-1-frame.png",
+      "operations": [
+        {
+          "op": "localized-damage",
+          "level": 2,
+          "diamondCuts": [
+            [
+              14,
+              24,
+              7
+            ],
+            [
+              29,
+              32,
+              7
+            ]
+          ],
+          "fragment": "wood-fragment"
+        }
+      ],
+      "sha256": "08479643c48bf224dd8bf32abd1192aabf0372e9b2115884e025fbcf4ee63784",
+      "worldSize": [
+        44,
+        48
+      ],
+      "density": 1,
+      "rgbaSha256": "101907fea936703426103f17f888badd6dfc6a525f09eaf10fff16125514c3b0",
+      "visiblePixels": 878,
+      "atlasRect": [
+        598,
+        171,
+        44,
+        48
+      ]
+    },
+    {
+      "key": "tower-2-frame",
+      "member": "parts/tower-2-frame.png",
+      "origin": "sources/selected.json",
+      "operations": [
+        {
+          "op": "scaffold-tiles",
+          "placements": [
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                0,
+                32
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                0,
+                0
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                32,
+                32
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                32,
+                0
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                8,
+                32
+              ],
+              "at": [
+                64,
+                32
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                8,
+                32
+              ],
+              "at": [
+                64,
+                0
+              ]
+            }
+          ],
+          "size": [
+            72,
+            64
+          ]
+        }
+      ],
+      "sha256": "3c38ed2a19846e1488a19386bc35b9367bca299912cc7a9d4d7d29c4c608ac3e",
+      "worldSize": [
+        72,
+        64
+      ],
+      "density": 1,
+      "rgbaSha256": "9196f20fc4d1e683268af21e07d7c4158705ce6599050d8c2b638b339c1784cc",
+      "visiblePixels": 1944,
+      "atlasRect": [
+        643,
+        171,
+        72,
+        64
+      ]
+    },
+    {
+      "key": "tower-2-frame-damaged",
+      "member": "parts/tower-2-frame-damaged.png",
+      "origin": "parts/tower-2-frame.png",
+      "operations": [
+        {
+          "op": "localized-damage",
+          "level": 2,
+          "diamondCuts": [
+            [
+              24,
+              32,
+              10
+            ],
+            [
+              48,
+              42,
+              10
+            ]
+          ],
+          "fragment": "wood-fragment"
+        }
+      ],
+      "sha256": "abcb03707ecd528d488ea36dfb11cce5e2b8bec63ecc4d9e794ac0bb52c17d32",
+      "worldSize": [
+        72,
+        64
+      ],
+      "density": 1,
+      "rgbaSha256": "7b6e72f76a0bc5b075caa310ad4a214880d93ff3e279be9d51c1204f1f2f942d",
+      "visiblePixels": 1859,
+      "atlasRect": [
+        716,
+        171,
+        72,
+        64
+      ]
+    },
+    {
+      "key": "tower-3-frame",
+      "member": "parts/tower-3-frame.png",
+      "origin": "sources/selected.json",
+      "operations": [
+        {
+          "op": "scaffold-tiles",
+          "placements": [
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                0,
+                48
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                0,
+                16
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                16,
+                32,
+                32
+              ],
+              "at": [
+                0,
+                0
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                32,
+                48
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                32,
+                16
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                16,
+                32,
+                32
+              ],
+              "at": [
+                32,
+                0
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                64,
+                48
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                0,
+                32,
+                32
+              ],
+              "at": [
+                64,
+                16
+              ]
+            },
+            {
+              "source": "scaffolds_03",
+              "box": [
+                0,
+                16,
+                32,
+                32
+              ],
+              "at": [
+                64,
+                0
+              ]
+            }
+          ],
+          "size": [
+            96,
+            80
+          ]
+        }
+      ],
+      "sha256": "9a3ad471b9fe3e496618cead8834693e4a612aa06bcebcb5a5cf6115ea4060e4",
+      "worldSize": [
+        96,
+        80
+      ],
+      "density": 1,
+      "rgbaSha256": "ec36a707c77c95a2619e8a7eed9dc201fd34a16e09551ea85e8e695b0477e204",
+      "visiblePixels": 3204,
+      "atlasRect": [
+        789,
+        171,
+        96,
+        80
+      ]
+    },
+    {
+      "key": "tower-3-frame-damaged",
+      "member": "parts/tower-3-frame-damaged.png",
+      "origin": "parts/tower-3-frame.png",
+      "operations": [
+        {
+          "op": "localized-damage",
+          "level": 2,
+          "diamondCuts": [
+            [
+              32,
+              40,
+              13
+            ],
+            [
+              64,
+              53,
+              13
+            ]
+          ],
+          "fragment": "wood-fragment"
+        }
+      ],
+      "sha256": "1e2d199d0c5613577bc9da36540bd7d3c0958fc61efdf244667e5cbd2ef83025",
+      "worldSize": [
+        96,
+        80
+      ],
+      "density": 1,
+      "rgbaSha256": "6251bf3ba929a5a84d7fa2ec31dc90a24193d63a125fe40afdfb5ea40b8013b7",
+      "visiblePixels": 3020,
+      "atlasRect": [
+        886,
+        171,
+        96,
+        80
+      ]
+    },
+    {
+      "key": "site-wall",
+      "member": "parts/site-wall.png",
+      "origin": "sources/common/images/resources.assets/8847.png",
+      "operations": [
+        {
+          "op": "binary-alpha",
+          "threshold": 128
+        }
+      ],
+      "sha256": "6199615afe2290362511ead7fc63e2b2c95ceed8d264db741ba0c02b057ad76e",
+      "worldSize": [
+        32,
+        12
+      ],
+      "density": 1,
+      "rgbaSha256": "a71133ca34529b939fc6fc4cddc5bcfdf35faa2df537db68e2dabb81149d485a",
+      "visiblePixels": 169,
+      "atlasRect": [
+        983,
+        171,
+        32,
+        12
+      ]
+    },
+    {
+      "key": "site-tower",
+      "member": "parts/site-tower.png",
+      "origin": "sources/common/images/resources.assets/7808.png",
+      "operations": [
+        {
+          "op": "binary-alpha",
+          "threshold": 128
+        }
+      ],
+      "sha256": "64c8383f7f783355332c2ffb4c685ecc0f26a614e7949954dbb959deeba7e791",
+      "worldSize": [
+        60,
+        24
+      ],
+      "density": 1,
+      "rgbaSha256": "ab60ade32c8b721fb64fe24ce91f9accfa35581e5de2dc867a3b1b0ef8c3b6e3",
+      "visiblePixels": 827,
+      "atlasRect": [
+        1,
+        260,
+        60,
+        24
+      ]
+    }
+  ],
+  "frames": [
+    {
+      "structure": "main-1",
+      "footprint": [
+        160,
+        88
+      ],
+      "frame": "main-1-frame",
+      "damagedFrame": "main-1-frame-damaged",
+      "tileScale": 1
+    },
+    {
+      "structure": "main-2",
+      "footprint": [
+        160,
+        88
+      ],
+      "frame": "main-2-frame",
+      "damagedFrame": "main-2-frame-damaged",
+      "tileScale": 1
+    },
+    {
+      "structure": "main-3",
+      "footprint": [
+        160,
+        88
+      ],
+      "frame": "main-3-frame",
+      "damagedFrame": "main-3-frame-damaged",
+      "tileScale": 1
+    },
+    {
+      "structure": "wall-1",
+      "footprint": [
+        32,
+        35
+      ],
+      "frame": "wall-1-frame",
+      "damagedFrame": "wall-1-frame-damaged",
+      "tileScale": 1
+    },
+    {
+      "structure": "wall-2",
+      "footprint": [
+        32,
+        43
+      ],
+      "frame": "wall-2-frame",
+      "damagedFrame": "wall-2-frame-damaged",
+      "tileScale": 1
+    },
+    {
+      "structure": "wall-3",
+      "footprint": [
+        48,
+        48
+      ],
+      "frame": "wall-3-frame",
+      "damagedFrame": "wall-3-frame-damaged",
+      "tileScale": 1
+    },
+    {
+      "structure": "tower-1",
+      "footprint": [
+        44,
+        48
+      ],
+      "frame": "tower-1-frame",
+      "damagedFrame": "tower-1-frame-damaged",
+      "tileScale": 1
+    },
+    {
+      "structure": "tower-2",
+      "footprint": [
+        72,
+        64
+      ],
+      "frame": "tower-2-frame",
+      "damagedFrame": "tower-2-frame-damaged",
+      "tileScale": 1
+    },
+    {
+      "structure": "tower-3",
+      "footprint": [
+        96,
+        80
+      ],
+      "frame": "tower-3-frame",
+      "damagedFrame": "tower-3-frame-damaged",
+      "tileScale": 1
+    }
+  ],
+  "siteStates": [
+    "unbuilt",
+    "available",
+    "tree-blocked",
+    "portal-blocked",
+    "main-tier-blocked",
+    "unaffordable",
+    "new-frame",
+    "damaged-unfinished",
+    "intact",
+    "damage-light",
+    "damage-heavy",
+    "upgrade-paid",
+    "upgrade-complete",
+    "repair-paid",
+    "repair-complete",
+    "unsafe-waiting",
+    "no-worker-waiting",
+    "destroyed",
+    "rebuild-paid",
+    "rebuild-complete",
+    "restore-destroyed",
+    "restore-upgrade"
+  ],
+  "visibility": {
+    "intactAbove": 0.75,
+    "lightDamageAbove": 0.4,
+    "heavyDamageAbove": 0,
+    "newFrameMaxHealthFraction": 0.25,
+    "workOverlayMaxCoverage": 0.48,
+    "oldFunctionalTierUntilProgress": 1,
+    "rubblePreservesCompletedTier": true,
+    "noGuardLoot": true,
+    "frameTileScale": 1
+  },
+  "sources": {
+    "commonBundleSha256": "2f66618305221d32d503bba04be755ae38e606408a7c5d9d8f65a1db19d9e6d9",
+    "mainBundleSha256": "a0bde48040dea1d681f78a92910e06b4060e2b03874ca64b8023626a9934458d",
+    "generated": [
+      {
+        "key": "wall-3",
+        "tool": "built-in image_gen",
+        "master": "masters/wall-3.png",
+        "sha256": "97b30968c0aff12da827dcef19b0bd7f130cc9ad006d1b0d52bb80869c3d93de",
+        "prompt": "prompts/wall-3.txt",
+        "promptSha256": "701f1234d6c8f07e8ff88117cd577fee7ade10097ffccb55981a8a0e5f3076b7",
+        "acceptance": "source QA only, actual named appearance pending04-32"
+      },
+      {
+        "key": "tower-2",
+        "tool": "built-in image_gen",
+        "master": "masters/tower-2.png",
+        "sha256": "c71a5d9b842075822396f226f0095046fbbe97ca554882518ad086f840739f1e",
+        "prompt": "prompts/tower-2.txt",
+        "promptSha256": "b36cf229fa1f406949f7c4dbd7b2420afaf7b2a7e3daf8f8c80d778048d8afda",
+        "acceptance": "source QA only, actual named appearance pending04-32"
+      },
+      {
+        "key": "tower-3",
+        "tool": "built-in image_gen",
+        "master": "masters/tower-3.png",
+        "sha256": "df996bb6839a4b64c73f0d963ac68bfa1fbd7b1da52eb1703ffc2e1645ad3e21",
+        "prompt": "prompts/tower-3.txt",
+        "promptSha256": "0c09a3f77ff78a4ece36f46e0bfc2d93cfa4cc46588ad0bd020de80bb7981767",
+        "acceptance": "source QA only, actual named appearance pending04-32"
+      }
+    ],
+    "selectedCount": 29,
+    "references": [
+      {
+        "member": "references/building_wall.png",
+        "sha256": "8180a43e64a9c60bba4279efe5b096788df64f8f171d15a37a1732a7d39230d9",
+        "role": "visually inspected construction/style reference; D-13 override"
+      },
+      {
+        "member": "references/building_tower.png",
+        "sha256": "0e31442e1ed6537dc7824a5fe3e31252905314cd14ce8bfa0332817ee41c7f89",
+        "role": "visually inspected construction/style reference; D-13 override"
+      },
+      {
+        "member": "references/main-tiers.png",
+        "sha256": "9159b358520ff5731d86c1911406749d14f3bdb7e1bd5c96a29f1a1de95a788a",
+        "role": "visually inspected construction/style reference; D-13 override"
+      }
+    ],
+    "sourceChoice": {
+      "wall-1": "K08 wall_1 exact source pixels",
+      "wall-2": "K08 wall_2 exact source pixels",
+      "tower-1": "K09 tower_2 wooden platform, reused geometry without donor tier semantics",
+      "wall-3": "Generated actual iron reinforcement; source stone wall_3 excluded",
+      "tower-2": "Generated wider double-braced two-socket silhouette",
+      "tower-3": "Generated three-bay metal-braced three-socket silhouette",
+      "frames": "K10 open scaffolds_03 repeated at original1:1 density and clipped to nine actual canvases; no scaling or solid fill",
+      "damage": "Localized diamond splinter cuts plus source wood/metal fragments; material RGB preserved",
+      "ruins": "Three displaced matching silhouette fragments per completed tier, no stone or character loot"
+    }
+  },
+  "recipe": {
+    "member": "recipes/build-defenses.py",
+    "sha256": "2b3bce12796df33e54b5798ca022d386cbdc414e9bf678b510747928a0f96e0c"
+  },
+  "acceptance": {
+    "visual": "pending",
+    "owner": "04-32/04-33",
+    "humanApproval": null,
+    "completedObligations": []
+  }
+}

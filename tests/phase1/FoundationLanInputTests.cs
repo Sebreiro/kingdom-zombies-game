@@ -11,7 +11,7 @@ public sealed class FoundationLanInputTests
 {
     /// <summary>Menu and text keys cannot become gameplay holds when a screen opens.</summary>
     [Fact]
-    public void ScreenFocusAndLocalProjectionStayIndependent()
+    public void Input_ScreenFocusAndLocalProjection_StayIndependent()
     {
         var input = new FoundationInput();
         input.SetContext(gameplay: false);

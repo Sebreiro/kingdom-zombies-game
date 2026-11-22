@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "compatibility",
+  "version": 1,
+  "obligations": [
+    "DT-24"
+  ],
+  "sampleDataOnly": true,
+  "gameplayTransactions": false,
+  "completedObligations": [],
+  "visualReview": null,
+  "bindings": [
+    {
+      "path": "content/compatibility/appearance-layout.json",
+      "sha256": "6542abaf267bbf454715a15a8edabd4044408db627de2aecd4bf091200dd196a"
+    },
+    {
+      "path": "content/packs/text-data.json",
+      "sha256": "30383f733730dc0a5d9fdcf13c0a524c4fe42166060bd3197dc45f20d1f5c00b"
+    },
+    {
+      "path": "content/packs/corpses-wildlife.json",
+      "sha256": "67ee6b280269e3d68d72906b9b3be2d621bf4d76cd01fb90b0c9712ecf012f50"
+    },
+    {
+      "path": "content/ui/legacy-stash-targets.json",
+      "sha256": "30022521793976a185dae6b0b2140dadcc48b3a1c7b57327495444073a7cedc1"
+    },
+    {
+      "path": "content/audio/events.json",
+      "sha256": "375b8199b0b8b0ff168f6cb5894cf5139bcbdb97fc081c4bee0329bcfe948d05"
+    },
+    {
+      "path": "content/world/portal-assemblies.json",
+      "sha256": "23e2c46f92bc47c29e24b822e8ebfcd3113bbd056bec59ad1554c312efbe4de5"
+    }
+  ]
+}

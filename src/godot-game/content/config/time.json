@@ -1,0 +1,20 @@
+{
+  "id": "DT-02",
+  "version": 1,
+  "daylightSeconds": 600,
+  "nightSeconds": 300,
+  "openingWaveFreeDays": 1,
+  "escalationIntervalDays": 3,
+  "stageOriginDay": 1,
+  "stageOriginIndex": 0,
+  "stageBoundary": "dawn",
+  "firstScheduledNight": 2,
+  "regularWavesPerLivingPortalPerNight": 1,
+  "graceSuppressesProvocation": false,
+  "graceSuppressesRetaliation": false,
+  "activeGamePauses": false,
+  "dailyEventPolicy": "once-per-dawn-no-replay-on-load-or-join",
+  "dawnEvents": ["advance-day", "update-stage", "refill-plants", "introduce-wildlife", "retreat-eligible-zombies", "autosave"],
+  "transitionTiming": "at-phase-boundary",
+  "visualTransitionChangesDuration": false
+}

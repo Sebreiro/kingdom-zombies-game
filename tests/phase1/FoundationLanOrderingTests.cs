@@ -12,7 +12,7 @@ public sealed class FoundationLanOrderingTests
 {
     /// <summary>Invalid high sequences cannot suppress the next valid stop or reverse.</summary>
     [Fact]
-    public void RejectedCommandsLeaveIntentAndHighWaterUnchanged()
+    public void Submit_RejectedCommands_LeaveIntentAndHighWaterUnchanged()
     {
         foreach (bool local in new[] { true, false })
         {

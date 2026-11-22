@@ -1,0 +1,486 @@
+{
+  "id": "DT-10",
+  "version": 1,
+  "tiers": [
+    {
+      "structureId": "main-1",
+      "obligationRef": "BL-01",
+      "kind": "main",
+      "tier": 1,
+      "appearance": "Campfire and boxes",
+      "material": "campfire/rough-boxes",
+      "maximumHealth": 600,
+      "price": 0,
+      "priceKind": "starting-free",
+      "workerSeconds": 0,
+      "rebuildPrice": null,
+      "rebuildWorkerSeconds": null,
+      "fullValuation": 100,
+      "repairFee": 50,
+      "firesideCapacity": 8,
+      "requiredCompletedMainTier": 0,
+      "previousTier": null,
+      "assemblyResource": "content/world/main-assemblies.json",
+      "assemblyTierId": "tier-1",
+      "artResource": "content/packs/main-buildings.json",
+      "states": {
+        "intact": "tier-1-intact",
+        "damage-light": "tier-1-damage-light",
+        "damage-heavy": "tier-1-damage-heavy",
+        "defeated": "tier-1-defeated"
+      },
+      "frame": "not-applicable-starting-main",
+      "collision": {
+        "source": "main-assembly-no-independent-defense-shape"
+      },
+      "workAnchor": "main-at-world-origin-shared-fire-interaction-radius-4u",
+      "socketRefs": [],
+      "guardProfileRef": "none"
+    },
+    {
+      "structureId": "main-2",
+      "obligationRef": "BL-02",
+      "kind": "main",
+      "tier": 2,
+      "appearance": "Wooden shelter",
+      "material": "wood",
+      "maximumHealth": 1400,
+      "price": 200,
+      "priceKind": "incremental-upgrade",
+      "workerSeconds": 90,
+      "rebuildPrice": null,
+      "rebuildWorkerSeconds": null,
+      "fullValuation": 300,
+      "repairFee": 150,
+      "firesideCapacity": 12,
+      "requiredCompletedMainTier": 1,
+      "previousTier": "main-1",
+      "assemblyResource": "content/world/main-assemblies.json",
+      "assemblyTierId": "tier-2",
+      "artResource": "content/packs/main-buildings.json",
+      "states": {
+        "intact": "tier-2-intact",
+        "damage-light": "tier-2-damage-light",
+        "damage-heavy": "tier-2-damage-heavy",
+        "defeated": "tier-2-defeated"
+      },
+      "frame": "not-applicable-starting-main",
+      "collision": {
+        "source": "main-assembly-no-independent-defense-shape"
+      },
+      "workAnchor": "main-at-world-origin-shared-fire-interaction-radius-4u",
+      "socketRefs": [],
+      "guardProfileRef": "none"
+    },
+    {
+      "structureId": "main-3",
+      "obligationRef": "BL-03",
+      "kind": "main",
+      "tier": 3,
+      "appearance": "Metal-reinforced building with two guard towers",
+      "material": "metal-reinforced-wood",
+      "maximumHealth": 3200,
+      "price": 500,
+      "priceKind": "incremental-upgrade",
+      "workerSeconds": 150,
+      "rebuildPrice": null,
+      "rebuildWorkerSeconds": null,
+      "fullValuation": 800,
+      "repairFee": 400,
+      "firesideCapacity": 16,
+      "requiredCompletedMainTier": 2,
+      "previousTier": "main-2",
+      "assemblyResource": "content/world/main-assemblies.json",
+      "assemblyTierId": "tier-3",
+      "artResource": "content/packs/main-buildings.json",
+      "states": {
+        "intact": "tier-3-intact",
+        "damage-light": "tier-3-damage-light",
+        "damage-heavy": "tier-3-damage-heavy",
+        "defeated": "tier-3-defeated"
+      },
+      "frame": "not-applicable-starting-main",
+      "collision": {
+        "source": "main-assembly-no-independent-defense-shape"
+      },
+      "workAnchor": "main-at-world-origin-shared-fire-interaction-radius-4u",
+      "socketRefs": [
+        "guard-left",
+        "guard-right"
+      ],
+      "guardProfileRef": "main.single-guard"
+    },
+    {
+      "structureId": "wall-1",
+      "obligationRef": "BL-04",
+      "kind": "wall",
+      "tier": 1,
+      "appearance": "Wooden",
+      "material": "wood",
+      "maximumHealth": 250,
+      "price": 20,
+      "priceKind": "new-build",
+      "workerSeconds": 20,
+      "rebuildPrice": 20,
+      "rebuildWorkerSeconds": 20,
+      "fullValuation": 20,
+      "repairFee": 10,
+      "firesideCapacity": 0,
+      "requiredCompletedMainTier": 1,
+      "previousTier": null,
+      "assemblyResource": "content/world/defense-assemblies.json",
+      "assemblyTierId": "wall-1",
+      "artResource": "content/packs/defenses.json",
+      "states": {
+        "intact": "wall-1",
+        "damage-light": "wall-1-damage-light",
+        "damage-heavy": "wall-1-damage-heavy",
+        "destroyed": "wall-1-ruin"
+      },
+      "frame": "wall-1-frame",
+      "collision": {
+        "rect": [
+          12,
+          8,
+          8,
+          27
+        ],
+        "source": "independent-gameplay-shape",
+        "factionBlocker": "zombies-only"
+      },
+      "workAnchor": [
+        16,
+        33
+      ],
+      "socketRefs": [],
+      "guardProfileRef": "none"
+    },
+    {
+      "structureId": "wall-2",
+      "obligationRef": "BL-05",
+      "kind": "wall",
+      "tier": 2,
+      "appearance": "Reinforced wood",
+      "material": "reinforced-wood",
+      "maximumHealth": 900,
+      "price": 60,
+      "priceKind": "incremental-upgrade",
+      "workerSeconds": 35,
+      "rebuildPrice": 80,
+      "rebuildWorkerSeconds": 35,
+      "fullValuation": 80,
+      "repairFee": 40,
+      "firesideCapacity": 0,
+      "requiredCompletedMainTier": 2,
+      "previousTier": "wall-1",
+      "assemblyResource": "content/world/defense-assemblies.json",
+      "assemblyTierId": "wall-2",
+      "artResource": "content/packs/defenses.json",
+      "states": {
+        "intact": "wall-2",
+        "damage-light": "wall-2-damage-light",
+        "damage-heavy": "wall-2-damage-heavy",
+        "destroyed": "wall-2-ruin"
+      },
+      "frame": "wall-2-frame",
+      "collision": {
+        "rect": [
+          12,
+          8,
+          8,
+          35
+        ],
+        "source": "independent-gameplay-shape",
+        "factionBlocker": "zombies-only"
+      },
+      "workAnchor": [
+        16,
+        41
+      ],
+      "socketRefs": [],
+      "guardProfileRef": "none"
+    },
+    {
+      "structureId": "wall-3",
+      "obligationRef": "BL-06",
+      "kind": "wall",
+      "tier": 3,
+      "appearance": "Metal-reinforced",
+      "material": "metal-reinforced",
+      "maximumHealth": 2200,
+      "price": 140,
+      "priceKind": "incremental-upgrade",
+      "workerSeconds": 50,
+      "rebuildPrice": 220,
+      "rebuildWorkerSeconds": 50,
+      "fullValuation": 220,
+      "repairFee": 110,
+      "firesideCapacity": 0,
+      "requiredCompletedMainTier": 3,
+      "previousTier": "wall-2",
+      "assemblyResource": "content/world/defense-assemblies.json",
+      "assemblyTierId": "wall-3",
+      "artResource": "content/packs/defenses.json",
+      "states": {
+        "intact": "wall-3",
+        "damage-light": "wall-3-damage-light",
+        "damage-heavy": "wall-3-damage-heavy",
+        "destroyed": "wall-3-ruin"
+      },
+      "frame": "wall-3-frame",
+      "collision": {
+        "rect": [
+          20,
+          8,
+          8,
+          40
+        ],
+        "source": "independent-gameplay-shape",
+        "factionBlocker": "zombies-only"
+      },
+      "workAnchor": [
+        24,
+        46
+      ],
+      "socketRefs": [],
+      "guardProfileRef": "none"
+    },
+    {
+      "structureId": "tower-1",
+      "obligationRef": "BL-07",
+      "kind": "tower",
+      "tier": 1,
+      "appearance": "Wooden platform",
+      "material": "wood",
+      "maximumHealth": 300,
+      "price": 40,
+      "priceKind": "new-build",
+      "workerSeconds": 30,
+      "rebuildPrice": 40,
+      "rebuildWorkerSeconds": 30,
+      "fullValuation": 40,
+      "repairFee": 20,
+      "firesideCapacity": 0,
+      "requiredCompletedMainTier": 1,
+      "previousTier": null,
+      "assemblyResource": "content/world/defense-assemblies.json",
+      "assemblyTierId": "tower-1",
+      "artResource": "content/packs/defenses.json",
+      "states": {
+        "intact": "tower-1",
+        "damage-light": "tower-1-damage-light",
+        "damage-heavy": "tower-1-damage-heavy",
+        "destroyed": "tower-1-ruin"
+      },
+      "frame": "tower-1-frame",
+      "collision": {
+        "rect": [
+          18,
+          8,
+          8,
+          40
+        ],
+        "source": "independent-gameplay-shape",
+        "factionBlocker": "none"
+      },
+      "workAnchor": [
+        22,
+        46
+      ],
+      "socketRefs": [
+        "guard-0"
+      ],
+      "guardProfileRef": "tower.guard.1"
+    },
+    {
+      "structureId": "tower-2",
+      "obligationRef": "BL-08",
+      "kind": "tower",
+      "tier": 2,
+      "appearance": "Reinforced wooden watchtower",
+      "material": "reinforced-wood",
+      "maximumHealth": 800,
+      "price": 90,
+      "priceKind": "incremental-upgrade",
+      "workerSeconds": 45,
+      "rebuildPrice": 130,
+      "rebuildWorkerSeconds": 45,
+      "fullValuation": 130,
+      "repairFee": 65,
+      "firesideCapacity": 0,
+      "requiredCompletedMainTier": 2,
+      "previousTier": "tower-1",
+      "assemblyResource": "content/world/defense-assemblies.json",
+      "assemblyTierId": "tower-2",
+      "artResource": "content/packs/defenses.json",
+      "states": {
+        "intact": "tower-2",
+        "damage-light": "tower-2-damage-light",
+        "damage-heavy": "tower-2-damage-heavy",
+        "destroyed": "tower-2-ruin"
+      },
+      "frame": "tower-2-frame",
+      "collision": {
+        "rect": [
+          32,
+          8,
+          8,
+          56
+        ],
+        "source": "independent-gameplay-shape",
+        "factionBlocker": "none"
+      },
+      "workAnchor": [
+        36,
+        62
+      ],
+      "socketRefs": [
+        "guard-0",
+        "guard-1"
+      ],
+      "guardProfileRef": "tower.guard.2"
+    },
+    {
+      "structureId": "tower-3",
+      "obligationRef": "BL-09",
+      "kind": "tower",
+      "tier": 3,
+      "appearance": "Metal-reinforced watchtower",
+      "material": "metal-reinforced",
+      "maximumHealth": 1600,
+      "price": 180,
+      "priceKind": "incremental-upgrade",
+      "workerSeconds": 60,
+      "rebuildPrice": 310,
+      "rebuildWorkerSeconds": 60,
+      "fullValuation": 310,
+      "repairFee": 155,
+      "firesideCapacity": 0,
+      "requiredCompletedMainTier": 3,
+      "previousTier": "tower-2",
+      "assemblyResource": "content/world/defense-assemblies.json",
+      "assemblyTierId": "tower-3",
+      "artResource": "content/packs/defenses.json",
+      "states": {
+        "intact": "tower-3",
+        "damage-light": "tower-3-damage-light",
+        "damage-heavy": "tower-3-damage-heavy",
+        "destroyed": "tower-3-ruin"
+      },
+      "frame": "tower-3-frame",
+      "collision": {
+        "rect": [
+          44,
+          8,
+          8,
+          72
+        ],
+        "source": "independent-gameplay-shape",
+        "factionBlocker": "none"
+      },
+      "workAnchor": [
+        48,
+        78
+      ],
+      "socketRefs": [
+        "guard-0",
+        "guard-1",
+        "guard-2"
+      ],
+      "guardProfileRef": "tower.guard.3"
+    }
+  ],
+  "clearingPrices": [
+    {
+      "ordinal": 1,
+      "price": 15,
+      "workerSeconds": 30
+    },
+    {
+      "ordinal": 2,
+      "price": 25,
+      "workerSeconds": 45
+    },
+    {
+      "ordinal": 3,
+      "price": 35,
+      "workerSeconds": 60
+    }
+  ],
+  "construction": {
+    "oneOrderPerSite": true,
+    "concurrentPayment": "atomic-single-order-single-charge",
+    "newOrRebuiltBeforeComplete": "no-border-or-attacks",
+    "unfinishedHealthFraction": 0.25,
+    "unfinishedDestroyable": true,
+    "constructionRebuildCompletion": "instant-full-destination-health-in-original-price-work",
+    "upgradePending": "completed-old-tier-current-health-functions-capacity-guards",
+    "upgradeCompletion": "full-new-tier-health-in-original-price-work-including-precompletion-damage",
+    "unlockTier": "completed-main-only",
+    "incompleteMainUnlocks": false,
+    "stashCapacity": "unlimited-every-tier",
+    "upgradeDefenseDestroyed": "upgrade-lost-previous-completed-tier-remains-rebuildable",
+    "mainDestroyed": "defeat-not-reversible-by-later-completion",
+    "oldWallsRemain": true,
+    "freeRelocation": false,
+    "demolitionRefund": false,
+    "rebuild": "previous-completed-tier-directly",
+    "passiveRepair": false,
+    "workerRole": "unassigned",
+    "maximumWorkers": 3,
+    "unit": "worker-seconds",
+    "retained": [
+      "payment",
+      "actual-progress",
+      "items"
+    ],
+    "replacementWorker": "same-order-no-repurchase",
+    "buyerDeathDisconnect": "preserve-paid-order-and-progress",
+    "safetyResource": "content/config/jobs.json"
+  },
+  "repair": {
+    "priceFormula": "max(1,ceil(fraction*current-tier-full-valuation))",
+    "valuationIncludesEarlierTiers": true,
+    "startingMainValuation": 100,
+    "fraction": 0.5,
+    "minimumFee": 1,
+    "missingHealthAffectsFee": false,
+    "healthPerWorkerSecond": 10,
+    "payment": "one-explicit-purchase-to-full-health",
+    "additionalDamageCoveredUntilFull": true,
+    "automaticExtraCharges": false,
+    "fundingTakeovers": false,
+    "maintenanceSubscription": false,
+    "workers": "eligible-unassigned-safe",
+    "workerReplacement": "retain-payment-progress",
+    "buyerDeathDisconnect": "retain-order-payment-progress",
+    "completion": "close-at-full-health",
+    "laterDamage": "new-explicit-purchase",
+    "fullHealthPurchase": false,
+    "destroyedPurchase": false,
+    "destruction": "end-order-no-refund-no-revival",
+    "upgradeSimultaneous": false,
+    "mainRepair": "alive-only-no-post-defeat-repair",
+    "maximumHealthSettingChange": "retain-paid-full-health-target-no-additional-fee"
+  },
+  "settings": {
+    "futureWorkerSpeeds": "current-config",
+    "futurePrices": "current-config",
+    "purchasedWork": "retain-remaining-quantity",
+    "paidRepair": "retain-full-health-target-even-after-maximum-health-change"
+  },
+  "appearance": {
+    "construction": "rough-timber-practical-bracing-functional-reinforcement",
+    "damage": "localized-increasing-cracks-splinters-bent-reinforcement",
+    "damageRetains": [
+      "tier",
+      "material",
+      "functional-state"
+    ],
+    "artShape": "separate-from-collision-navigation-interaction-and-attack"
+  },
+  "assemblyResources": [
+    "content/world/main-assemblies.json",
+    "content/world/defense-assemblies.json"
+  ]
+}

@@ -1,0 +1,21 @@
+# Phase 04 deferred discoveries
+
+## Open native and current-producer integration from04-06
+
+WINDOWS30/31 remain open and block phase completion and independent review. Fresh frozen selection is11PASS/2FAIL: source-policycc21a87b reports166 BuildingPreview+124 CharacterPreview operations; generated-boundaryae38be89 fails the strict current producer source-path/hash lookup, not a timeout. Canonical04-06 art/fit/strict build and hub/discovery/native/visibility regressions pass. Actual operations/signatures and five-file backup remain in `.phase4/04-06-r4-policy-observation.json` and `.phase4/checkpoints/04-06-r4-boundaries/manifest.json`.
+
+The [policy integration amendment](04-POLICY-INTEGRATION-AMENDMENT.md) assigns exact final guarded native controls and authenticated final producer-cohort enrollment to04-23, consistent with the original06 contract. Preserve all original inventories/negative controls and failed evidence. No waiver, type-wide permission, test relaxation or full-selection pass is supplied. Resolve WINDOWS29/30/31 before04-24/32; record focused and fresh whole-selection results on final current source.
+
+Status: resolved for the discovery below. Coordinator direction C3 authorized the exact same-file contract correction; focused `322a7b2d-75fe-448d-8c3c-24f94d86d1f8` and the fresh complete36-case runner group `38a72a46-bb79-4dcb-9b29-1ed855479248` pass. Final entire generated/runner/native/solution/Core aggregate `e3c3135b-f5ea-4ae2-a370-ff5406403f22` passes with unchanged frozen/source inputs. The historical failure remains preserved below; no open defect from this discovery remains.
+
+- 2026-11-16 / 04-37 R3: Existing `RunnerContractTests.Select_DeclaredPhases_RetainsImplementedCases` assumes only eight Phase5 deferred IDs and all C# cases inPhase1. Current authentic catalog has686 cases:676 Phase1, eight Phase5 and two existing Phase4 export-layout cases owned by04-34. Fresh runner group `90c19e84-b54d-4ec9-922a-583045497971` passes35/36 and fails this unchanged method. No repair was made without scoped coordinator direction. This selected failure blocks04-37 completion; it is not hidden by the passing18 generated cases, native/solution builds or26 Core controls. Exact R3 aggregate and WIP backup are recorded in [the repair log](04-37-REPAIR.md).
+
+## Active inherited tracer/index binding failure discovered by04-04
+
+- **Status:** open; blocks Phase04 completion and must be repaired before final independent review/acceptance. This is not an accepted omission or permission to ship.
+- **Immutable failure:** `.phase4/runs/adb38f27-592b-4700-880c-3fa1d65d0c15/result.json`, `source.provenance`, revision `1ffe80752bd35547846999168efa79329f18d4da`, `PARTIAL_PACK_REQUIRED`.
+- **Exact diagnosis:** `content.validate` reports zero valid outputs and zero covered obligations; `common.bow` is `OUTPUT_INVALID` with `FILE_HASH_MISMATCH src/godot-game/inspection/Inspection.tscn`. The current index still describes the historical tracer scene binding.
+- **Inherited identity:** All upstream snapshot/index/tracer inputs, including `Inspection.tscn`, are unchanged across `5533fff..1ffe807`; the scoped Git diff is empty. The new standalone common/scale packs are intentionally pending in that index. No index/tracer/source repair was made by04-04.
+- **Current independent results:** `media.conversion` passes `dbb25049-0eb8-485c-bc24-91ccd1fb473c`; `media.scale` passes `4cd8c68c-c1f3-475f-af0d-5bc2c8dd86a3`; `source.case-discovery` passes `d029b2a2-f585-4831-ad91-c245d84fccab`, all on committed Task2 revision `1ffe807`.
+- **Concrete within-phase repair owners:**04-23 adopts every completed shard and current source/index outputs;04-31 reconciles the current hub tracer/export bindings. The parent will amend exact shared-artifact ownership before dispatch. Authenticate current bindings and atomically publish their metadata; retain original historical hashes/reports and never relabel old evidence. Rerun the affected selected cases after the repair.
+- **Scope amendment:** Parent authorized this exact documentation-only entry and matching SDK-managed WINDOWS deviation; the nine implementation paths are unchanged.

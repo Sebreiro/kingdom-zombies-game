@@ -14,7 +14,7 @@ public sealed class FoundationLanProtocolTests
 {
     /// <summary>Malformed content, identities, shape and bounds cannot replace the installed publication.</summary>
     [Fact]
-    public void DetachedSnapshotValidationPrecedesPublication()
+    public void Publish_DetachedSnapshot_ValidatesBeforePublication()
     {
         FoundationWireFrameTests.Check();
         var port = new FoundationHarnessConnection();

@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "id": "tracer",
+  "version": 1,
+  "status": "incomplete-phase-pack",
+  "resources": [
+    {
+      "id": "common.bow",
+      "name": "Bow",
+      "version": 1,
+      "path": "assets/common/bow.png",
+      "scene": "inspection/Inspection.tscn",
+      "sha256": "08b53699e459d71cf73f3e7be84af19d04805d5a7a488121e39a514a81701999",
+      "source": {
+        "owner": "sharedassets0.assets",
+        "type": "Sprite",
+        "objectId": 7008,
+        "name": "tools_bow",
+        "atlasId": 25376,
+        "atlasName": "objects",
+        "textureId": 178,
+        "textureName": "sactx-0-1024x1024-Uncompressed-objects-07654c7b",
+        "stream": {
+          "offset": 280718128,
+          "size": 4194304,
+          "path": "sharedassets0.assets.resS"
+        }
+      },
+      "registration": {
+        "logicalRect": {
+          "x": 0,
+          "y": 0,
+          "width": 16,
+          "height": 18
+        },
+        "pivotNormalizedBottomLeft": {
+          "x": 0.375,
+          "y": 0.5
+        },
+        "sourcePixelsPerUnit": 32,
+        "sourceOffset": {
+          "x": -2,
+          "y": 0
+        },
+        "trimOffset": {
+          "x": 0,
+          "y": 0
+        },
+        "atlasRectOffset": {
+          "x": 576,
+          "y": 526
+        },
+        "atlasTextureRect": {
+          "x": 578,
+          "y": 526,
+          "width": 16,
+          "height": 18
+        },
+        "atlasSettingsRaw": 67,
+        "alphaTextureId": 0,
+        "display": {
+          "centered": false,
+          "offsetTopLeft": [
+            -6,
+            -9
+          ],
+          "scale": [
+            1,
+            1
+          ],
+          "filter": "nearest"
+        }
+      },
+      "image": {
+        "width": 16,
+        "height": 18,
+        "mode": "RGBA",
+        "alphaBBox": [
+          6,
+          1,
+          10,
+          17
+        ],
+        "visiblePixels": 42,
+        "rgbaSha256": "88b8e7062f0eb9cfb788ef3658028ba58a6f62d408d3e39ae2e1228bfa6c8905",
+        "pngSha256": "08b53699e459d71cf73f3e7be84af19d04805d5a7a488121e39a514a81701999",
+        "pngBytes": 135
+      },
+      "route": "reused-native-pixels",
+      "validation": {
+        "source": "verified-export",
+        "headless": "run-source.tracer-for-current-evidence",
+        "visual": "pending-04-32"
+      },
+      "obligations": [
+        "IT-07"
+      ],
+      "obligationStatus": "partial-master-only"
+    }
+  ]
+}

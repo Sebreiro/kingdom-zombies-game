@@ -1,0 +1,37 @@
+[
+  {
+    "owner": "resources.assets",
+    "id": 3288,
+    "exit": 0,
+    "stdout": "[{\"name\": \"arrow_shoot.wav\", \"bytes\": 12108, \"frames\": 3016, \"rate\": 44100, \"channels\": 2, \"sampleWidth\": 2, \"seconds\": 0.06839002267573696}]\n",
+    "stderr": ""
+  },
+  {
+    "owner": "resources.assets",
+    "id": 5272,
+    "exit": 0,
+    "stdout": "[{\"name\": \"worker_hammer_wood01.wav\", \"bytes\": 57648, \"frames\": 14401, \"rate\": 44100, \"channels\": 2, \"sampleWidth\": 2, \"seconds\": 0.3265532879818594}]\n",
+    "stderr": ""
+  },
+  {
+    "owner": "resources.assets",
+    "id": 4441,
+    "exit": 0,
+    "stdout": "[{\"name\": \"env_homefire.wav\", \"bytes\": 2281852, \"frames\": 570452, \"rate\": 44100, \"channels\": 2, \"sampleWidth\": 2, \"seconds\": 12.935419501133786}]\n",
+    "stderr": ""
+  },
+  {
+    "owner": "sharedassets0.assets",
+    "id": 449,
+    "exit": 0,
+    "stdout": "[{\"name\": \"ui_select.wav\", \"bytes\": 37012, \"frames\": 9242, \"rate\": 44100, \"channels\": 2, \"sampleWidth\": 2, \"seconds\": 0.20956916099773243}]\n",
+    "stderr": ""
+  },
+  {
+    "owner": "sharedassets2.assets",
+    "id": 125,
+    "exit": 0,
+    "stdout": "[{\"name\": \"amb_forest_123_day01_q0046.wav\", \"bytes\": 16228844, \"frames\": 4057200, \"rate\": 44100, \"channels\": 2, \"sampleWidth\": 2, \"seconds\": 92.0}]\n",
+    "stderr": ""
+  }
+]

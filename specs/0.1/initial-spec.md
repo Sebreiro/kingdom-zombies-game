@@ -2,7 +2,9 @@
 
 **Status:** Scope specified, with a proposed baseline for playtesting.
 
-**Last updated:** 2026-11-13.
+**Last updated:** 2026-11-17.
+
+**Camp-work amendment, creator decisions 2026-11-17:** Civilian jobs may work outside camp in safe reachable daylight territory; role changes require the NPC back at the main building, with cargo and obsolete role equipment deposited before new duties. Valid construction, rebuild and upgrade completion restores full health at the original price and work quantity. Repairs use one fixed fee per structure/tier to restore full health, including damage taken during that active repair order, with no extra charges; the order ends at full health. These decisions supersede earlier inside-only work, damage-preserving completion and bounded/extra-charge repair wording. The numerical defaults remain configurable working balance.
 
 **Deliverable:** This single document, specs/0.1/initial-spec.md.
 
@@ -91,13 +93,13 @@ Starting survivors and purchased recruits wear a basic shirt, trousers, and boot
 - Each player controls one ordinary recruited survivor who can fight, carry items, and die.
 - A cosmetic crown identifies player control alongside normal headgear. It occupies no equipment slot and never becomes loot.
 - On death, the character's actual belongings remain on the corpse. Nothing is copied to the successor.
-- Control automatically transfers to a random living recruited survivor not controlled by another player. Equipped gear, current health/stamina, location, and carried items are preserved.
-- Without a successor, the player spectates while teammates continue. A newly available eligible survivor restores control.
+- After death, the Respawn button enables after the configured one-second baseline. Pressing it requests a random living recruited survivor not controlled by another player, respecting earlier queued requests. Equipped gear, current health/stamina, location, and carried items are preserved; time passing alone does not transfer control.
+- If no successor is available, a valid Respawn request enters the waiting queue. The player can follow living teammates while waiting, and a newly available eligible survivor automatically completes the queued request. A player who has not requested Respawn remains unassigned.
 - A character cannot be assigned to two players, including after simultaneous deaths or purchases.
 - Unbuilt tower guards, built-in tower archers, wildlife, corpses, and the option to buy a survivor are not eligible successors.
 - Succession does not create a recruit, heal someone, restore ammunition, teleport the successor, or remove that survivor's actual gear.
 
-**Proposed supporting rules:** automatic transfer takes 1 second; the camera then follows the successor. The previous NPC job is suspended during control and remembered. Waiting spectators receive available survivors in waiting order, with random selection among eligible survivors for each assignment. A reconnecting player's available previous survivor takes priority for that reconnecting player.
+**Creator amendment, 2026-11-17:** The one-second post-death timer enables Respawn; explicit confirmation is required before assignment or entry into the waiting queue. Waiting requests receive available survivors in request order, with player-slot order for equal authoritative request times and random selection among eligible survivors for each assignment. The camera moves smoothly to nearby successors and cuts directly to distant ones. Spectating follows other players' living survivors using Previous/Next and a compact teammate list; it does not offer a free camera. The previous NPC job is suspended during control and remembered. A reconnecting player's available previous survivor takes priority for that reconnecting player.
 
 ### 2.3 Victory, defeat, and continued play
 
@@ -160,7 +162,7 @@ The world never pauses during active play, including solo play, inventory manage
 - Each side's outermost completed, living wall defines that side's camp border. A tower alone does not expand the border.
 - Without a living wall on a side, the main-building refuge extends 12 u in that direction.
 - Losing an outer wall moves that border back to the next surviving inner wall, or to the refuge if none remains. Old walls remain useful.
-- A location is safe for civilian work only if it is inside the current borders and no zombie is within 12 u. Being inside a wall is insufficient when enemies have breached it.
+- Safe interior civilian work requires being inside the current borders with no zombie at or within 12 u. In daylight, every civilian job may also work outside the borders when both its route and work location are reachable, do not cross an active portal, and are clear of zombies at or within 12 u. Being inside a wall is insufficient when enemies have breached it. Exterior work permission does not grant outside-camp natural health recovery.
 - At nightfall, civilian exterior work stops. NPCs retreat toward safe interior positions and may perform safe interior tasks.
 - On detecting daytime danger, civilian workers, gatherers, hunters, and loot carriers abandon the task and flee. They fight only if escape is blocked, then resume fleeing when a route opens.
 - Warriors retain their combat role, including while hauling during otherwise idle time.
@@ -315,6 +317,8 @@ This is a 24-definition initial item set, plus unarmed attacks. Names, footprint
 
 ### 5.4 Shared stash and access
 
+**Delivery timing amendment, creator instruction 2026-11-16:** Stash and inventory filtering are deferred to Phase 12. Earlier gameplay increments, including Phase 6, provide no filtering controls. Page navigation, local access, deliberate placement, quick transfer and automatic placement remain required earlier. Name/type filtering below remains a final-scope obligation, tracked separately as INV-14; earlier complete-interface/release wording does not claim this feature before Phase 12 acceptance.
+
 The main-building stash is shared by every player and ordinary recruited NPC. It has unlimited aggregate space through new pages, independent of building tier. Delivery cannot fail because existing pages are full.
 
 **Proposed supporting rules:**
@@ -434,7 +438,7 @@ Buying is blocked at either applicable limit, without charging. Only a completed
 
 Recruitment initially grants the unassigned role without an additional job charge. Changing to a different role costs that role's configured price. Selecting the current role does nothing and costs nothing. No recurring wages are included.
 
-Only living NPC recruits can be assigned. The people menu cannot reassign another player's controlled survivor. A role change redirects the NPC to the stash when safe; obsolete role equipment is returned there, preserving contents and condition. If essential equipment is missing, display Waiting for equipment rather than creating it. The role remains assigned.
+Only living uncontrolled NPC recruits that have returned to the main-building/fireside area can be assigned through the local main-building people menu. A remote NPC cannot change role merely because the menu is open, and controlled survivors cannot be reassigned. Before beginning new duties, the NPC deposits collected cargo and returns obsolete role equipment to the stash, preserving personal equipment, applicable reserves, contents and condition. If essential equipment is missing, display Waiting for equipment rather than creating it. The role remains assigned.
 
 ### 7.2 Automatic equipment and supplies
 
@@ -462,7 +466,7 @@ Unassigned work priority is: paid main-building repair, paid outer-wall repair, 
 
 Assigned NPCs perform their primary role before optional hauling. An idle specialist may haul, but does not become a builder or repairer. Warriors defend or follow their current assault order before hauling. Nighttime safety restrictions apply to civilian work regardless of task priority.
 
-Up to three unassigned workers may contribute to one construction/repair/clearing task. Progress is measured in worker-seconds, saved continuously, and resumes after an interruption. Unavailable workers do not magically complete paid orders.
+Up to three unassigned workers may contribute to one construction/repair/clearing task. Shared paid orders are selected automatically under the configured priorities. Construction/clearing progress is measured in worker-seconds; repair progress is actual health restored. Progress is saved continuously and resumes after an interruption. Another eligible worker replaces an unavailable builder using the same paid order and retained progress, without another purchase. Unavailable workers do not magically complete paid orders.
 
 ### 7.4 Defense and rally assaults — proposed baseline
 
@@ -533,21 +537,21 @@ Tree clearing costs money and worker time, without producing a material resource
 
 - One paid work order per structure/site at a time. Concurrent player payments cannot create duplicate work or charges.
 - A new/rebuilt structure supplies no wall border or tower attacks until complete.
-- Its unfinished frame has 25% of the destination tier's health and can be destroyed; damage carries forward when construction completes.
-- During an upgrade, the completed old tier remains functional with its current health. Completion adds the increase in maximum health, preserving the absolute amount of damage already sustained.
+- Its unfinished frame has 25% of the destination tier's health and can be destroyed. Valid construction/rebuild completion restores full destination-tier health instantly, included in the original price and work quantity, without extra repair time.
+- During an upgrade, the completed old tier remains functional with its current health. Valid completion switches to the new tier at full maximum health, including repair of damage taken before completion, without extra price or repair time.
 - If an upgrading defense is destroyed, the upgrade is lost and its previous completed tier remains available for paid rebuilding.
-- Main-building upgrades follow the same damage rule, but main destruction always defeats the camp.
+- Main-building upgrades follow the same full-health completion rule, but main destruction always defeats the camp. A destruction that committed before completion cannot be reversed by finishing the old order.
 - Old walls remain when farther walls are completed. Buildings cannot be freely relocated or demolished for refunds in 0.1.
 
 ### 8.3 Repairs and rebuilding
 
-Walls and towers never receive free automatic repairs. A player pays, then unassigned workers perform the repair. Destroyed walls/towers can be rebuilt at their previous completed tier for money and work; they need not restart at tier 1.
+Outside the explicit full-health construction/rebuild/upgrade completion rule, walls and towers require a paid repair order rather than passive health recovery. A player pays once, then unassigned workers repair to full health. Destroyed walls/towers can be rebuilt at their previous completed tier for money and work; they need not restart at tier 1.
 
-**Proposed main-building policy:** it also supports paid repairs while alive, using the same rules. Its destruction cannot be repaired after defeat.
+**Main-building policy:** it also supports paid repairs while alive, using the same rules. Its destruction cannot be repaired after defeat.
 
-**Proposed baseline:** repair price is the ceiling of 50% of the tier's full build value multiplied by its missing-health fraction, with a minimum price of one. Full build value is the sum of its build/upgrade prices; main tier 1 has a repair valuation of 100. Each worker restores 10 health per second.
+**Confirmed pricing rule, configurable working values:** the repair fee is max(1, ceiling(50% of the current tier's full build valuation)), independent of missing health. Full valuation includes earlier tier investments; the starting main building contributes a valuation of 100. Main valuations at tiers 1/2/3 are 100/300/800, wall valuations 20/80/220, and tower valuations 40/130/310. Default flat repair fees are therefore main 50/150/400, walls 10/40/110, and towers 20/65/155. Each worker restores 10 health per second; the time depends on actual damage and available safe workers.
 
-A repair purchase authorizes the amount of missing health quoted at purchase. Further damage is not repaired for free beyond that purchased amount. No simultaneous upgrade/repair orders are accepted. Work obeys civilian safety rules, so workers will not stand beside attacking zombies merely to keep a wall repaired.
+One accepted fee covers the active repair order until full health, including further damage before that order finishes. There are no automatic extra charges, funding takeovers or ongoing maintenance subscriptions. The paid order and progress survive worker replacement and the purchasing player's death/disconnection; eligible unassigned workers continue when safe. The order closes at full health, and later damage requires a new explicit purchase. Full-health and destroyed targets cannot start a repair purchase. Destruction ends the order without refund or revival. No simultaneous upgrade/repair orders are accepted. Work obeys civilian safety rules, so workers will not stand beside attacking zombies merely to keep a wall repaired.
 
 ## 9. Zombies, loot, portals, and escalating attacks
 
@@ -739,7 +743,7 @@ Current host configuration applies on new-run start and on loading existing save
 - Keep the saved phase and fractional phase progress when day/night durations change. Loading is not itself a dawn event.
 - Recalculate the escalation stage from the saved day and current interval/stage table. Future generated waves use the new progression.
 - Preserve already accepted payments, already generated items, paid work completed, and pending wave commitments. Do not charge again, refund price differences automatically, or reroll an existing event.
-- Current worker speeds and future prices apply normally; already purchased work retains its remaining work quantity.
+- Current worker speeds and future purchase prices apply normally. Already purchased construction/clearing retains its remaining work quantity; an already-paid repair retains its full-health target without another fee, including after a maximum-health setting changes.
 - If a new population cap is below the saved population, keep existing characters and block further purchases/spawns as appropriate until below the cap.
 - Unknown required definitions or corrupt data produce actionable errors and keep the original save intact.
 - Compatibility checks distinguish valid balance changes from missing required content. Joining with incompatible gameplay/content must fail clearly before granting control.
@@ -815,7 +819,7 @@ Local display, audio, and key-binding preferences are player settings. They do n
 | Construction site / structure | Tier, health, requirements, price, repair quote, paid work progress, waiting/danger reason |
 | Rally point | Stationed/ready warriors, squad size/mix, next target, price, active order, recall |
 | Minimap | Explored terrain, known portals, defenses, teammates, current position |
-| Spectator | Follow/cycle living teammates, waiting status, automatic handover when eligible |
+| Spectator | Respawn button enabled after the post-death delay, queued-request status, Previous/Next and teammate selector, automatic completion of a pending request when eligible |
 | Save/load | Run name, day, result/status, save time, manual/autosave identity, compatibility/error feedback |
 | Victory / defeat | Outcome, remaining danger where applicable, continue/load/new-run/menu choices appropriate to that outcome |
 
@@ -921,9 +925,9 @@ The reference-PC performance target is separate from verifying that the game fun
 | A-01 | Start fresh solo and four-player runs | Eight total survivors in either case; one per starting player; correct basic outfits, shared stash, day 1, and six portals; no multiplied starting kit |
 | A-02 | Play through first night, then night 2 | First scheduled waves are absent; night 2 receives one wave per surviving portal; provoked spawns remain possible during grace |
 | A-03 | Advance through days 3→4, 6→7, and 9→10 | One stage change at each configured boundary; counts, equipment, and variant mix follow the separate progression file |
-| A-04 | Kill a controlled survivor while replacements exist | Corpse keeps actual belongings; exactly one random eligible survivor receives control/crown; its health, gear, and location are preserved |
-| A-05 | Have two leaders die together with only one successor | Only one receives that survivor; the other spectates; no shared control, duplicate body, or duplicated inventory |
-| A-06 | Spectate while a teammate buys a recruit | Eligible waiting player gains control under the waiting order; purchase and character creation occur only once |
+| A-04 | Kill a controlled survivor while replacements exist, then request Respawn after enablement | Corpse keeps actual belongings; only after the request does exactly one random eligible survivor receive control/crown; its health, gear, and location are preserved |
+| A-05 | Have two leaders die together with only one successor, then request Respawn after enablement | Only one request receives that survivor; the other queues and can follow teammates; no transfer before confirmation, shared control, duplicate body, or duplicated inventory |
+| A-06 | Queue a valid Respawn request and spectate while a teammate buys a recruit | Eligible requested player gains control under request order; purchase and character creation occur only once |
 | A-07 | Destroy main building; separately kill every eligible camp survivor | Each independently defeats the camp; remaining money or purchase capacity cannot prevent defeat |
 | A-08 | Destroy the final portal while zombies remain | Immediate victory; continued play preserves enemies and loot; survivors do not retreat at later dawns |
 | A-09 | Trigger victory and defeat together; separately lose camp after victory | Apply the documented simultaneous-result rule; a previously recorded victory is not erased by a later continuation loss |
@@ -935,9 +939,9 @@ The reference-PC performance target is separate from verifying that the game fun
 | A-15 | Threaten daytime civilians and block/unblock escape | They abandon work and flee, fight only if trapped, resume escape when possible, and preserve their cargo |
 | A-16 | Enter night while exterior work is underway | Civilians retreat; safe interior work can continue; assault warriors keep their combat order |
 | A-17 | Clear trees and build farther walls | Payment and worker time are required; marked sites unlock; borders advance; inner walls stay; no wood resource is produced |
-| A-18 | Upgrade main building, walls, and towers through all tiers | Correct visuals, health, prerequisites, fireside limits, and 1/2/3 standalone archers; old tier remains functional during upgrades |
+| A-18 | Upgrade main building, walls, and towers through all tiers | Correct visuals, health, prerequisites, fireside limits, and 1/2/3 standalone archers; old tier remains functional during upgrades and valid completion restores full new-tier health |
 | A-19 | Complete main tier 3 and attack its attachments | Two attached one-archer level-1 attack profiles exist; they share main health and cannot be separately destroyed |
-| A-20 | Damage, pay to repair, then destroy/rebuild a defense | No free repairs; workers restore only purchased work; destroyed defense rebuilds at its previous tier for money and work |
+| A-20 | Damage, pay to repair, then destroy/rebuild a defense | One fixed fee repairs to full health including damage during the active order; later damage after closure needs a new purchase; destroyed defense rebuilds at its previous tier and completes at full health |
 | A-21 | Destroy a tower | Built-in guards/bows disappear with the structure and leave no character corpse, inventory, transferable bow, or population change |
 | A-22 | Rotate/split/stack/equip, use quick slots, and move filled nested bags | Legal operations preserve identity, state, contents, and exact weight; illegal fit, cycles, over-depth placements, and hand combinations fail safely |
 | A-23 | Cross load thresholds and wear equipment to zero | Movement/stamina penalties apply; walking remains possible; severe load prevents sprint/jump; broken weapons/armor are unusable and cannot be repaired |
@@ -1008,7 +1012,7 @@ The creator explicitly selected the major gameplay, inventory, recruitment, mult
 - Exact item roster, pocket/container layouts, all unconfirmed numerical values, starting stash quantities, and equal starting supply across player counts.
 - Health/stamina action delays, armor calculation, dual-attack timing, melee contact limits, and non-wearing ordinary clothes/storage items.
 - Fireside counting during temporary control transitions, total population cap, role prices, equipment ranking, and worker/hauling priorities.
-- Precise safe-border rules, main-building paid repairs, construction-frame damage, upgrade health handling, no cancellation/refunds, and repair valuation.
+- Unconfirmed safe-border details, construction-frame damageability, no cancellation/refunds and repair valuation defaults. The 2026-11-17 exterior-work, full-health completion and flat-fee-to-full repair rules are confirmed creator amendments rather than unselected proposals.
 - Squad readiness/mix, one simultaneous assault per side, free recall, and return/rebalancing details.
 - Exact escalation boundary convention, stage/loot tables, portal health/defender profiles, warning/release durations, caps, and queue handling.
 - Simultaneous victory/defeat precedence, remembered roles, spectator order, and post-victory outcome recording.

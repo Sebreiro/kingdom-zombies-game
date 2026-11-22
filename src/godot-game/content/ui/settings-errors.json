@@ -1,0 +1,658 @@
+{
+  "schemaVersion": 1,
+  "id": "settings-errors",
+  "sampleDataOnly": true,
+  "supportedEndpoints": [
+    [
+      1280,
+      720,
+      80
+    ],
+    [
+      1280,
+      720,
+      100
+    ],
+    [
+      1280,
+      720,
+      150
+    ],
+    [
+      1920,
+      1080,
+      80
+    ],
+    [
+      1920,
+      1080,
+      100
+    ],
+    [
+      1920,
+      1080,
+      150
+    ]
+  ],
+  "soundLimitEvidenceOwner": "04-29",
+  "actualAppearanceOwner": "04-32",
+  "samples": [
+    {
+      "surface": "settings",
+      "title": "Active-world settings — Élodie / Jérôme / Ā",
+      "status": "ready",
+      "backstop": "none",
+      "world": "World continues",
+      "preferences": {
+        "resolution": "1280x720",
+        "scale": 100,
+        "fullscreen": false,
+        "master": 75,
+        "effects": 65,
+        "ambience": 35
+      },
+      "bindings": [
+        {
+          "action": "Move left",
+          "current": "A",
+          "default": "A",
+          "state": "bound"
+        },
+        {
+          "action": "Inspect",
+          "current": "J",
+          "default": "E",
+          "state": "bound"
+        },
+        {
+          "action": "Attack",
+          "current": "Mouse 4",
+          "default": "Left mouse",
+          "state": "bound"
+        }
+      ],
+      "placeholder": "Player {playerName}: press {binding} to inspect {itemId}; value {value}.",
+      "expanded": "Élodie, Jérôme and Ā keep their complete names. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. ",
+      "diagnostics": [],
+      "id": "settings.ready"
+    },
+    {
+      "surface": "settings",
+      "title": "Active-world settings — Élodie / Jérôme / Ā",
+      "status": "ready",
+      "backstop": "none",
+      "world": "World continues",
+      "preferences": {
+        "resolution": "1920x1080",
+        "scale": 150,
+        "fullscreen": false,
+        "master": 75,
+        "effects": 65,
+        "ambience": 35
+      },
+      "bindings": [
+        {
+          "action": "Inspect",
+          "current": "Ctrl + J",
+          "default": "E",
+          "state": "bound"
+        },
+        {
+          "action": "Attack",
+          "current": "Mouse 4",
+          "default": "Left mouse",
+          "state": "bound"
+        }
+      ],
+      "placeholder": "Player {playerName}: press {binding} to inspect {itemId}; value {value}.",
+      "expanded": "Élodie, Jérôme and Ā keep their complete names. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. ",
+      "diagnostics": [],
+      "id": "settings.remapped"
+    },
+    {
+      "surface": "settings",
+      "title": "Active-world settings — Élodie / Jérôme / Ā",
+      "status": "conflict",
+      "backstop": "none",
+      "world": "World continues",
+      "preferences": {
+        "resolution": "1280x720",
+        "scale": 100,
+        "fullscreen": false,
+        "master": 75,
+        "effects": 65,
+        "ambience": 35
+      },
+      "bindings": [
+        {
+          "action": "Inspect",
+          "current": "J",
+          "default": "E",
+          "state": "conflict"
+        },
+        {
+          "action": "Interact",
+          "current": "J",
+          "default": "F",
+          "state": "conflict"
+        },
+        {
+          "action": "Map",
+          "current": "Unbound",
+          "default": "M",
+          "state": "unbound"
+        }
+      ],
+      "placeholder": "Player {playerName}: press {binding} to inspect {itemId}; value {value}.",
+      "expanded": "Élodie, Jérôme and Ā keep their complete names. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. ",
+      "diagnostics": [],
+      "id": "settings.conflict"
+    },
+    {
+      "surface": "settings",
+      "title": "Active-world settings — Élodie / Jérôme / Ā",
+      "status": "reset",
+      "backstop": "none",
+      "world": "World continues",
+      "preferences": {
+        "resolution": "1280x720",
+        "scale": 100,
+        "fullscreen": false,
+        "master": 75,
+        "effects": 65,
+        "ambience": 35
+      },
+      "bindings": [
+        {
+          "action": "Move left",
+          "current": "A",
+          "default": "A",
+          "state": "bound"
+        },
+        {
+          "action": "Inspect",
+          "current": "E",
+          "default": "E",
+          "state": "bound"
+        },
+        {
+          "action": "Attack",
+          "current": "Left mouse",
+          "default": "Left mouse",
+          "state": "bound"
+        }
+      ],
+      "placeholder": "Player {playerName}: press {binding} to inspect {itemId}; value {value}.",
+      "expanded": "Élodie, Jérôme and Ā keep their complete names. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. ",
+      "diagnostics": [],
+      "id": "settings.reset"
+    },
+    {
+      "surface": "settings",
+      "title": "Active-world settings — Élodie / Jérôme / Ā",
+      "status": "empty",
+      "backstop": "empty",
+      "world": "World continues",
+      "preferences": {
+        "resolution": "1280x720",
+        "scale": 100,
+        "fullscreen": false,
+        "master": 75,
+        "effects": 65,
+        "ambience": 35
+      },
+      "bindings": [],
+      "placeholder": "Player {playerName}: press {binding} to inspect {itemId}; value {value}.",
+      "expanded": "Élodie, Jérôme and Ā keep their complete names. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. ",
+      "diagnostics": [],
+      "id": "forms.empty"
+    },
+    {
+      "surface": "settings",
+      "title": "Active-world settings — Élodie / Jérôme / Ā",
+      "status": "loading",
+      "backstop": "loading",
+      "world": "World continues",
+      "preferences": {
+        "resolution": "1280x720",
+        "scale": 100,
+        "fullscreen": false,
+        "master": 75,
+        "effects": 65,
+        "ambience": 35
+      },
+      "bindings": [],
+      "placeholder": "Player {playerName}: press {binding} to inspect {itemId}; value {value}.",
+      "expanded": "Élodie, Jérôme and Ā keep their complete names. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. ",
+      "diagnostics": [],
+      "id": "forms.loading"
+    },
+    {
+      "surface": "diagnostics",
+      "title": "Active-world settings — Élodie / Jérôme / Ā",
+      "status": "error",
+      "backstop": "error",
+      "world": "World continues",
+      "preferences": {
+        "resolution": "1280x720",
+        "scale": 100,
+        "fullscreen": false,
+        "master": 75,
+        "effects": 65,
+        "ambience": 35
+      },
+      "bindings": [
+        {
+          "action": "Move left",
+          "current": "A",
+          "default": "A",
+          "state": "bound"
+        },
+        {
+          "action": "Inspect",
+          "current": "J",
+          "default": "E",
+          "state": "bound"
+        },
+        {
+          "action": "Attack",
+          "current": "Mouse 4",
+          "default": "Left mouse",
+          "state": "bound"
+        }
+      ],
+      "placeholder": "Player {playerName}: press {binding} to inspect {itemId}; value {value}.",
+      "expanded": "Élodie, Jérôme and Ā keep their complete names. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. ",
+      "diagnostics": [
+        {
+          "id": "BL-missing",
+          "kind": "asset",
+          "file": "content/échecs/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/asset.json",
+          "field": "definitions[3].references[2].exactId",
+          "value": "asset.missing-or-invalid.Ā",
+          "reason": "Required asset is absent; unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_",
+          "resourcePass": false
+        },
+        {
+          "id": "IT-unknown",
+          "kind": "item",
+          "file": "content/échecs/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/item.json",
+          "field": "definitions[3].references[2].exactId",
+          "value": "item.missing-or-invalid.Ā",
+          "reason": "Item definition ID is not registered; unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_",
+          "resourcePass": false
+        },
+        {
+          "id": "TXT-unknown",
+          "kind": "text",
+          "file": "content/échecs/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/text.json",
+          "field": "definitions[3].references[2].exactId",
+          "value": "text.missing-or-invalid.Ā",
+          "reason": "Required text ID is missing; unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_",
+          "resourcePass": false
+        },
+        {
+          "id": "AU-invalid",
+          "kind": "audio",
+          "file": "content/échecs/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/audio.json",
+          "field": "definitions[3].references[2].exactId",
+          "value": "audio.missing-or-invalid.Ā",
+          "reason": "Audio reference has invalid channel metadata; unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_",
+          "resourcePass": false
+        },
+        {
+          "id": "DT-invalid",
+          "kind": "data",
+          "file": "content/échecs/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/data.json",
+          "field": "definitions[3].references[2].exactId",
+          "value": "data.missing-or-invalid.Ā",
+          "reason": "Data value is outside its domain; unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_",
+          "resourcePass": false
+        },
+        {
+          "id": "CONTENT-VERSION",
+          "kind": "compatibility",
+          "file": "content/échecs/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/compatibility.json",
+          "field": "definitions[3].references[2].exactId",
+          "value": "compatibility.missing-or-invalid.Ā",
+          "reason": "Content version is incompatible; unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_",
+          "resourcePass": false
+        },
+        {
+          "id": "LEGACY-BOUNDS",
+          "kind": "legacy",
+          "file": "content/échecs/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/legacy.json",
+          "field": "definitions[3].references[2].exactId",
+          "value": "legacy.missing-or-invalid.Ā",
+          "reason": "Saved bounds exceed current destination; unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_",
+          "resourcePass": false
+        }
+      ],
+      "id": "forms.error"
+    },
+    {
+      "surface": "settings",
+      "title": "Active-world settings — Élodie / Jérôme / Ā",
+      "status": "partial",
+      "backstop": "partial",
+      "world": "World continues",
+      "preferences": {
+        "resolution": "1280x720",
+        "scale": 100,
+        "fullscreen": false,
+        "master": 75,
+        "effects": 65,
+        "ambience": 35
+      },
+      "bindings": [
+        {
+          "action": "Move left",
+          "current": "A",
+          "default": "A",
+          "state": "bound"
+        },
+        {
+          "action": "Inspect",
+          "current": "J",
+          "default": "E",
+          "state": "bound"
+        },
+        {
+          "action": "Attack",
+          "current": "Mouse 4",
+          "default": "Left mouse",
+          "state": "bound"
+        }
+      ],
+      "placeholder": "Player {playerName}: press {binding} to inspect {itemId}; value {value}.",
+      "expanded": "Élodie, Jérôme and Ā keep their complete names. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. ",
+      "diagnostics": [
+        {
+          "id": "TXT-unknown",
+          "kind": "text",
+          "file": "content/échecs/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/text.json",
+          "field": "definitions[3].references[2].exactId",
+          "value": "text.missing-or-invalid.Ā",
+          "reason": "Required text ID is missing; unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_",
+          "resourcePass": false
+        }
+      ],
+      "id": "forms.partial"
+    },
+    {
+      "surface": "diagnostics",
+      "title": "Active-world settings — Élodie / Jérôme / Ā",
+      "status": "overflow",
+      "backstop": "overflow",
+      "world": "World continues",
+      "preferences": {
+        "resolution": "1280x720",
+        "scale": 100,
+        "fullscreen": false,
+        "master": 75,
+        "effects": 65,
+        "ambience": 35
+      },
+      "bindings": [
+        {
+          "action": "Move left",
+          "current": "A",
+          "default": "A",
+          "state": "bound"
+        },
+        {
+          "action": "Inspect",
+          "current": "J",
+          "default": "E",
+          "state": "bound"
+        },
+        {
+          "action": "Attack",
+          "current": "Mouse 4",
+          "default": "Left mouse",
+          "state": "bound"
+        }
+      ],
+      "placeholder": "Player {playerName}: press {binding} to inspect {itemId}; value {value}.",
+      "expanded": "Élodie, Jérôme and Ā keep their complete names. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. ",
+      "diagnostics": [
+        {
+          "id": "BL-missing",
+          "kind": "asset",
+          "file": "content/échecs/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/asset.json",
+          "field": "definitions[3].references[2].exactId",
+          "value": "asset.missing-or-invalid.Ā",
+          "reason": "Required asset is absent; unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_",
+          "resourcePass": false
+        },
+        {
+          "id": "IT-unknown",
+          "kind": "item",
+          "file": "content/échecs/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/item.json",
+          "field": "definitions[3].references[2].exactId",
+          "value": "item.missing-or-invalid.Ā",
+          "reason": "Item definition ID is not registered; unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_",
+          "resourcePass": false
+        },
+        {
+          "id": "TXT-unknown",
+          "kind": "text",
+          "file": "content/échecs/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/text.json",
+          "field": "definitions[3].references[2].exactId",
+          "value": "text.missing-or-invalid.Ā",
+          "reason": "Required text ID is missing; unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_",
+          "resourcePass": false
+        },
+        {
+          "id": "AU-invalid",
+          "kind": "audio",
+          "file": "content/échecs/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/audio.json",
+          "field": "definitions[3].references[2].exactId",
+          "value": "audio.missing-or-invalid.Ā",
+          "reason": "Audio reference has invalid channel metadata; unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_",
+          "resourcePass": false
+        },
+        {
+          "id": "DT-invalid",
+          "kind": "data",
+          "file": "content/échecs/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/data.json",
+          "field": "definitions[3].references[2].exactId",
+          "value": "data.missing-or-invalid.Ā",
+          "reason": "Data value is outside its domain; unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_",
+          "resourcePass": false
+        },
+        {
+          "id": "CONTENT-VERSION",
+          "kind": "compatibility",
+          "file": "content/échecs/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/compatibility.json",
+          "field": "definitions[3].references[2].exactId",
+          "value": "compatibility.missing-or-invalid.Ā",
+          "reason": "Content version is incompatible; unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_",
+          "resourcePass": false
+        },
+        {
+          "id": "LEGACY-BOUNDS",
+          "kind": "legacy",
+          "file": "content/échecs/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/legacy.json",
+          "field": "definitions[3].references[2].exactId",
+          "value": "legacy.missing-or-invalid.Ā",
+          "reason": "Saved bounds exceed current destination; unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_",
+          "resourcePass": false
+        }
+      ],
+      "id": "forms.overflow"
+    },
+    {
+      "surface": "settings",
+      "title": "Active-world settings — Élodie / Jérôme / Ā",
+      "status": "expanded",
+      "backstop": "long-text",
+      "world": "World continues",
+      "preferences": {
+        "resolution": "1280x720",
+        "scale": 100,
+        "fullscreen": false,
+        "master": 75,
+        "effects": 65,
+        "ambience": 35
+      },
+      "bindings": [
+        {
+          "action": "Move left",
+          "current": "A",
+          "default": "A",
+          "state": "bound"
+        },
+        {
+          "action": "Inspect",
+          "current": "J",
+          "default": "E",
+          "state": "bound"
+        },
+        {
+          "action": "Attack",
+          "current": "Mouse 4",
+          "default": "Left mouse",
+          "state": "bound"
+        }
+      ],
+      "placeholder": "Player {playerName}: press {binding} to inspect {itemId}; value {value}.",
+      "expanded": "Élodie / Jérôme / Ā — unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_unbroken_",
+      "diagnostics": [
+        {
+          "id": "DT-invalid",
+          "kind": "data",
+          "file": "content/échecs/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/data.json",
+          "field": "definitions[3].references[2].exactId",
+          "value": "data.missing-or-invalid.Ā",
+          "reason": "Data value is outside its domain; unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_",
+          "resourcePass": false
+        }
+      ],
+      "id": "forms.long-text"
+    },
+    {
+      "surface": "diagnostics",
+      "title": "Active-world settings — Élodie / Jérôme / Ā",
+      "status": "incomplete",
+      "backstop": "none",
+      "world": "World continues",
+      "preferences": {
+        "resolution": "1280x720",
+        "scale": 100,
+        "fullscreen": false,
+        "master": 75,
+        "effects": 65,
+        "ambience": 35
+      },
+      "bindings": [
+        {
+          "action": "Move left",
+          "current": "A",
+          "default": "A",
+          "state": "bound"
+        },
+        {
+          "action": "Inspect",
+          "current": "J",
+          "default": "E",
+          "state": "bound"
+        },
+        {
+          "action": "Attack",
+          "current": "Mouse 4",
+          "default": "Left mouse",
+          "state": "bound"
+        }
+      ],
+      "placeholder": "Player {playerName}: press {binding} to inspect {itemId}; value {value}.",
+      "expanded": "Élodie, Jérôme and Ā keep their complete names. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. ",
+      "diagnostics": [
+        {
+          "id": "BL-missing",
+          "kind": "asset",
+          "file": "content/échecs/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/asset.json",
+          "field": "definitions[3].references[2].exactId",
+          "value": "asset.missing-or-invalid.Ā",
+          "reason": "Required asset is absent; unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_",
+          "resourcePass": false
+        },
+        {
+          "id": "IT-unknown",
+          "kind": "item",
+          "file": "content/échecs/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/item.json",
+          "field": "definitions[3].references[2].exactId",
+          "value": "item.missing-or-invalid.Ā",
+          "reason": "Item definition ID is not registered; unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_",
+          "resourcePass": false
+        },
+        {
+          "id": "TXT-unknown",
+          "kind": "text",
+          "file": "content/échecs/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/text.json",
+          "field": "definitions[3].references[2].exactId",
+          "value": "text.missing-or-invalid.Ā",
+          "reason": "Required text ID is missing; unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_",
+          "resourcePass": false
+        },
+        {
+          "id": "AU-invalid",
+          "kind": "audio",
+          "file": "content/échecs/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/audio.json",
+          "field": "definitions[3].references[2].exactId",
+          "value": "audio.missing-or-invalid.Ā",
+          "reason": "Audio reference has invalid channel metadata; unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_",
+          "resourcePass": false
+        },
+        {
+          "id": "DT-invalid",
+          "kind": "data",
+          "file": "content/échecs/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/data.json",
+          "field": "definitions[3].references[2].exactId",
+          "value": "data.missing-or-invalid.Ā",
+          "reason": "Data value is outside its domain; unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_",
+          "resourcePass": false
+        },
+        {
+          "id": "CONTENT-VERSION",
+          "kind": "compatibility",
+          "file": "content/échecs/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/compatibility.json",
+          "field": "definitions[3].references[2].exactId",
+          "value": "compatibility.missing-or-invalid.Ā",
+          "reason": "Content version is incompatible; unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_",
+          "resourcePass": false
+        },
+        {
+          "id": "LEGACY-BOUNDS",
+          "kind": "legacy",
+          "file": "content/échecs/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/very-long-authored-path-segment/legacy.json",
+          "field": "definitions[3].references[2].exactId",
+          "value": "legacy.missing-or-invalid.Ā",
+          "reason": "Saved bounds exceed current destination; unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_unbroken_identity_",
+          "resourcePass": false
+        }
+      ],
+      "id": "diagnostics.complete"
+    },
+    {
+      "surface": "diagnostics",
+      "title": "Active-world settings — Élodie / Jérôme / Ā",
+      "status": "zero-results",
+      "backstop": "none",
+      "world": "World continues",
+      "preferences": {
+        "resolution": "1280x720",
+        "scale": 100,
+        "fullscreen": false,
+        "master": 75,
+        "effects": 65,
+        "ambience": 35
+      },
+      "bindings": [],
+      "placeholder": "Player {playerName}: press {binding} to inspect {itemId}; value {value}.",
+      "expanded": "Élodie, Jérôme and Ā keep their complete names. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. Longer help explains the current remapped binding without changing identifiers or shrinking fonts. ",
+      "diagnostics": [],
+      "id": "diagnostics.zero"
+    }
+  ]
+}

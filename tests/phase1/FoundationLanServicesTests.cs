@@ -14,7 +14,7 @@ public sealed class FoundationLanServicesTests
 {
     /// <summary>Manual addresses use the same bounded numeric IPv4 grammar as transport.</summary>
     [Fact]
-    public async Task DiscoveryAndManualEndpointContract()
+    public async Task Endpoints_DiscoveryAndManualQueries_FollowContract()
     {
         FoundationEndpoint.TryParse(value: "127.0.0.1:1", address: out string address, port: out int port)
                 .ShouldBeTrue();
@@ -34,7 +34,7 @@ public sealed class FoundationLanServicesTests
 
     /// <summary>Restart, equal names, writer contention and failed publication preserve exact ownership.</summary>
     [Fact]
-    public void PersistedProfilesAreAtomicAndExact()
+    public void Profiles_PersistedValues_AreAtomicAndExact()
     {
         string directory = Path.Combine(path1: ProofProtocol.Root, path2: ".phase3/profile-tests/"
                 + Guid.NewGuid().ToString(format: "N"));
@@ -64,7 +64,7 @@ public sealed class FoundationLanServicesTests
 
     /// <summary>An unavailable selected provider cannot bind cached ownership into a new coordinator.</summary>
     [Fact]
-    public void IndependentProvidersUseProductionComposition()
+    public void Providers_IndependentServices_UseProductionComposition()
     {
         var identity = new FoundationIdentityReplacement(profile: new PlayerProfile(
                 playerId: Guid.NewGuid().ToString(format: "N"), displayName: "Equal", ordinal: 1),

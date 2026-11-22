@@ -1,0 +1,3 @@
+# 04-37 bounded execution amendments
+
+- 2026-11-16, before the corrective edit: full origin invocation `b8fea0f3-101d-4c8e-981e-f343449b3660` exposed an ambiguous observation lookup for the preserved baseline/current assembly attribute, whose path/line/column coincide while decoded-text hashes differ. Rule 1 repair adds the source text fingerprint to the lookup in the already owned `tests/phase1/EngineGeneratedTests.cs`. Task 2 therefore touches five implementation files; plan ownership remains exactly nine. The original observations and frozen03 inputs remain unchanged. This is a direct defect in Task 1's new consumer, not additional product scope or permission.

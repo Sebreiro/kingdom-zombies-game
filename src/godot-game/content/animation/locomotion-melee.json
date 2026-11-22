@@ -1,0 +1,276 @@
+{
+  "schemaVersion": 1,
+  "id": "locomotion-melee",
+  "version": 1,
+  "obligations": [
+    "AN-01",
+    "AN-02",
+    "AN-03",
+    "AN-04",
+    "AN-05",
+    "AN-06"
+  ],
+  "bodies": [
+    "CH-01",
+    "CH-02",
+    "CH-03",
+    "CH-04",
+    "CH-05",
+    "CH-06",
+    "CH-07",
+    "CH-08"
+  ],
+  "generation": {
+    "tool": "Codex project-authored track composition",
+    "recipe": "Exact existing registered48x40 head/upper/lower parts and fits; reuse immutable original atlases. Compose authored lower samples beneath upper poses, use per-weapon grip angles and small pixel shoulder/flinch/transition offsets; no baked equipment or gameplay callbacks.",
+    "donorReferences": [
+      "K14",
+      "K15",
+      "K18",
+      "K19"
+    ],
+    "retainedSources": [
+      "production/phase4/common-selected.zip",
+      "production/phase4/bodies-a.zip",
+      "production/phase4/bodies-b.zip",
+      "production/phase4/bodies-c.zip"
+    ],
+    "scaleDecision": "D-13-pilot-1"
+  },
+  "timing": {
+    "unit": "seconds",
+    "meleeDurations": "fractions-of-configured-accepted-interval",
+    "source": "content/config/combat.json",
+    "dual": "maximum-of-both",
+    "contactFraction": 0.32,
+    "flinchSeconds": 0.12,
+    "weightShiftSeconds": 0.08,
+    "contactSeconds": 0.04,
+    "clock": "explicit-elapsed-only",
+    "gameplayEvents": 0
+  },
+  "registration": {
+    "canvas": [
+      48,
+      40
+    ],
+    "pivot": [
+      24,
+      38
+    ],
+    "filter": "nearest",
+    "logicalHandsNeverSwap": true,
+    "lowerIndependent": true,
+    "jumpBody": "CH-01",
+    "jumpNote": "Authored takeoff/run crouch, alternating raised stride legs at airborne heights, landing compression; all segments and equipment retain registered anchors."
+  },
+  "clips": {
+    "idle": [
+      {
+        "duration": 0.24,
+        "pose": "idle",
+        "stage": "neutral",
+        "offset": [
+          0,
+          0
+        ]
+      }
+    ],
+    "walk": [
+      {
+        "duration": 0.12,
+        "pose": "walk-near",
+        "stage": "near",
+        "offset": [
+          0,
+          0
+        ]
+      },
+      {
+        "duration": 0.12,
+        "pose": "walk-far",
+        "stage": "far",
+        "offset": [
+          0,
+          0
+        ]
+      }
+    ],
+    "faster": [
+      {
+        "duration": 0.08,
+        "pose": "run",
+        "stage": "drive",
+        "offset": [
+          0,
+          0
+        ]
+      },
+      {
+        "duration": 0.08,
+        "pose": "walk-far",
+        "stage": "return",
+        "offset": [
+          0,
+          0
+        ]
+      }
+    ],
+    "jump": [
+      {
+        "duration": 0.08,
+        "pose": "run",
+        "stage": "takeoff",
+        "offset": [
+          0,
+          0
+        ]
+      },
+      {
+        "duration": 0.16,
+        "pose": "walk-far",
+        "stage": "airborne-up",
+        "offset": [
+          0,
+          -6
+        ]
+      },
+      {
+        "duration": 0.16,
+        "pose": "walk-near",
+        "stage": "airborne-down",
+        "offset": [
+          0,
+          -3
+        ]
+      },
+      {
+        "duration": 0.1,
+        "pose": "run",
+        "stage": "landing",
+        "offset": [
+          0,
+          1
+        ]
+      }
+    ],
+    "melee": [
+      {
+        "duration": 0.32,
+        "pose": "windup",
+        "stage": "windup",
+        "offset": [
+          -1,
+          0
+        ],
+        "angles": {
+          "fists": -0.25,
+          "knife": -0.4,
+          "club": -1.15,
+          "machete": -0.8,
+          "bat": -1.3
+        }
+      },
+      {
+        "duration": 0.16,
+        "pose": "strike",
+        "stage": "contact",
+        "offset": [
+          1,
+          0
+        ],
+        "angles": {
+          "fists": 0.5,
+          "knife": 1.1,
+          "club": 1.4,
+          "machete": 1.6,
+          "bat": 1.5
+        }
+      },
+      {
+        "duration": 0.24,
+        "pose": "recover",
+        "stage": "follow-through",
+        "offset": [
+          1,
+          1
+        ],
+        "angles": {
+          "fists": 0.1,
+          "knife": 0.5,
+          "club": 1,
+          "machete": 0.8,
+          "bat": 1.1
+        }
+      },
+      {
+        "duration": 0.28,
+        "pose": "idle",
+        "stage": "settle",
+        "offset": [
+          0,
+          0
+        ],
+        "angles": {
+          "fists": 0,
+          "knife": 0,
+          "club": 0.2,
+          "machete": 0.1,
+          "bat": 0.25
+        }
+      }
+    ]
+  },
+  "bindings": [
+    {
+      "path": "src/godot-game/content/config/items.json",
+      "sha256": "fa9bb09bfc3a999dd21349274f5010e5a653a868d4a0d0be73a46caaef226720"
+    },
+    {
+      "path": "src/godot-game/content/config/combat.json",
+      "sha256": "c6610cc69731cd196490c26e381d92b7508f6487b96714bef8c4e96c2a478145"
+    },
+    {
+      "path": "src/godot-game/content/animation/fits-a.json",
+      "sha256": "66f5e551bcff45ec4832c408743ca13c0c5a19310dd0d90f002a5e21784b0a0c"
+    },
+    {
+      "path": "src/godot-game/content/packs/bodies-a.json",
+      "sha256": "71f49b2b6c7c0f87c108e2d9db025d577c319ea3bea928131464ea8d6ae86de1"
+    },
+    {
+      "path": "src/godot-game/assets/characters/bodies-a.png",
+      "sha256": "002148ddb40d3cc5a4c2695e45e3ebca765e79c06f53e0f7d120d22cdf9f5141"
+    },
+    {
+      "path": "src/godot-game/content/animation/fits-b.json",
+      "sha256": "e730aaf7a60b15677149f9c8b7587dff1247b6d676a3e826873db0ea60e3f20b"
+    },
+    {
+      "path": "src/godot-game/content/packs/bodies-b.json",
+      "sha256": "b68027421b7bf489824cb78f8a1335f25cdd80a05cbd24fc192ccda16a74dd66"
+    },
+    {
+      "path": "src/godot-game/assets/characters/bodies-b.png",
+      "sha256": "ce3b0528737039b3e88afde4ade2688ee3f611410418cf33f10e92887db056ff"
+    },
+    {
+      "path": "src/godot-game/content/animation/fits-c.json",
+      "sha256": "47b29fbafea490d2d3a5b9b6f9f5d3c90956a4c79a6994502e3ee457c3170f2d"
+    },
+    {
+      "path": "src/godot-game/content/packs/bodies-c.json",
+      "sha256": "b0320abb367f4667a304830450354c4a608edc65803b2626205ab36ab8a5680a"
+    },
+    {
+      "path": "src/godot-game/assets/characters/bodies-c.png",
+      "sha256": "cb659d3e0d09ffbda3d5098ff7dad3aff80643ea9e3de32507948124dca1531d"
+    }
+  ],
+  "acceptance": {
+    "visual": "pending",
+    "humanApproval": null,
+    "owner": "04-32/04-33",
+    "completedObligations": []
+  }
+}

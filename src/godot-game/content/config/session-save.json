@@ -1,0 +1,4384 @@
+{
+  "id": "DT-16",
+  "version": 1,
+  "session": {
+    "participantLimit": 4,
+    "includes": [
+      "host",
+      "guests",
+      "spectators"
+    ],
+    "host": "one-participating-player",
+    "startAlone": true,
+    "lateJoin": true,
+    "discovery": [
+      "lan-list",
+      "manual-address"
+    ],
+    "listing": [
+      "session-name",
+      "host",
+      "participant-count",
+      "in-progress",
+      "compatibility",
+      "join-status"
+    ],
+    "platforms": [
+      "Windows",
+      "Linux"
+    ],
+    "accountRequired": false,
+    "connectionLossSeconds": 10,
+    "joinTimeoutSeconds": 30,
+    "worldContinuesDuringJoin": true,
+    "joiningControl": "only-after-current-world-ready",
+    "joinCreatesResources": false,
+    "joinAssignment": "random-eligible-survivor-or-spectate",
+    "snapshotRollback": false,
+    "replayExistingEvents": false
+  },
+  "authority": {
+    "world": "host",
+    "management": "equal-player-permissions",
+    "saveLoadClose": "host-only",
+    "guestBalanceOverride": false,
+    "transactions": "atomic-current-shared-state-success-only-payment",
+    "failedAction": "explanation-and-corrected-shared-state",
+    "consistent": [
+      "ownership",
+      "damage",
+      "money",
+      "recruitment",
+      "roles",
+      "building-payments",
+      "succession",
+      "victory-defeat"
+    ]
+  },
+  "identity": {
+    "stableLocal": true,
+    "separateDisplayName": true,
+    "platformOnlyIdentity": false,
+    "reconnect": "same-survivor-if-alive-and-uncontrolled-else-normal-succession-spectating",
+    "stealControlled": false,
+    "resurrect": false,
+    "guestLeave": "return-npc-remembered-role-keep-belongings-remove-crown-remain-vulnerable",
+    "overflow": "retain-survivor-and-belongings-common-fireside-overflow",
+    "serviceBoundary": [
+      "discovery",
+      "hosting-joining",
+      "connections",
+      "addresses",
+      "identity"
+    ],
+    "gameplayDependsOnAddress": false,
+    "hostMigration": false,
+    "hostLoss": "inform-all-return-menu-last-successful-save",
+    "normalHostExit": "save-before-close"
+  },
+  "schema": {
+    "contentVersion": 1,
+    "saveSchemaVersion": 1,
+    "identity": "stable-content-ids-independent-of-platform-account",
+    "requiredDefinitionRefs": [
+      "content/config/run.json",
+      "content/config/time.json",
+      "content/config/survivors.json",
+      "content/config/items.json",
+      "content/config/combat.json",
+      "content/config/inventory.json",
+      "content/config/jobs.json",
+      "content/config/food-wildlife.json",
+      "content/config/map-sites.json",
+      "content/config/structures.json",
+      "content/config/towers.json",
+      "content/config/zombies.json",
+      "content/config/zombie-loot.json",
+      "content/config/zombie-progression.json",
+      "content/config/portals-assaults.json"
+    ],
+    "appearanceRefs": [
+      "content/packs/bodies-a.json",
+      "content/packs/bodies-b.json",
+      "content/packs/bodies-c.json",
+      "content/packs/items-01-10.json",
+      "content/packs/items-11-24.json"
+    ],
+    "layoutCompatibility": "saved-dimensions-placements-orientation-stacks-slots-depth-preserved-legacy-policy",
+    "missingRequired": "actionable-error-preserve-original-save",
+    "joinCompatibility": "reject-incompatible-gameplay-or-content-before-control",
+    "validBalanceChanges": "distinct-from-missing-required-content"
+  },
+  "saves": {
+    "manual": "any-active-game-time",
+    "manualRetention": "unlimited-while-storage-permits",
+    "autosaveTriggers": [
+      "dawn",
+      "normal-host-exit"
+    ],
+    "autosavesPerRun": 3,
+    "namedRuns": true,
+    "distinctRunOverwrite": false,
+    "coherentWhilePlaying": true,
+    "pause": false,
+    "heal": false,
+    "repairWear": false,
+    "refill": false,
+    "finishPaidWork": false,
+    "reroll": false,
+    "repeatEvents": false,
+    "requiredState": [
+      "run-identity",
+      "map-content-version",
+      "day-phase-fraction",
+      "victory-defeat-record",
+      "shared-exploration",
+      "characters-health-stamina-living-dead",
+      "equipment-appearances",
+      "complete-nested-inventories-quantities-durability-legacy-layouts",
+      "stash-pages",
+      "ground-loot-corpses-empty-cleanup-progress",
+      "buildings-last-completed-tiers-damage-paid-work",
+      "cleared-trees-camp-boundaries",
+      "roles-equipment-waiting-task-progress-cargo",
+      "rally-squads-recall-return",
+      "portals-warnings-spawn-counts-wave-queues",
+      "daily-event-completion-randomness",
+      "plant-stock-wildlife-daily-refill-spawn-status",
+      "stable-player-identities-previous-survivor-associations",
+      "accepted-commitments-compatibility"
+    ],
+    "failure": "preserve-last-valid-save-and-show-host-actionable-error",
+    "exitFailureChoices": [
+      "retry",
+      "return-to-play",
+      "explicit-leave-without-latest-save"
+    ],
+    "terminalStateSave": true,
+    "earlierSavesSelectable": true,
+    "crashLastMomentPromise": false
+  },
+  "hostSettings": {
+    "apply": [
+      "new-run",
+      "load-existing-save"
+    ],
+    "liveReload": false,
+    "guests": "host-effective-settings",
+    "lowerMaximum": "clamp-current-health-stamina-durability",
+    "higherMaximum": "no-heal-or-repair",
+    "inventory": "preserve-ownership-and-legacy-placement",
+    "time": "preserve-phase-and-fraction-load-is-not-dawn",
+    "progression": "recalculate-from-saved-day-current-interval-and-stages-for-future-waves",
+    "accepted": "preserve-payments-generated-items-completed-work-pending-wave-commitments-no-recharge-refund-or-reroll",
+    "futurePricesSpeeds": "current-definitions",
+    "constructionClearing": "retain-remaining-work-quantity",
+    "paidRepair": "retain-full-health-target-no-new-fee-even-if-maximum-changes",
+    "lowerPopulationCap": "keep-existing-block-further-purchases-spawns-until-below-cap"
+  },
+  "uiRefs": [
+    "content/ui/session-save-outcomes.json",
+    "content/ui/settings-errors.json"
+  ],
+  "fieldDocumentation": {
+    "id": "fields-session-save",
+    "version": 1,
+    "sourceRevision": "524b311",
+    "sourceSections": [
+      {
+        "id": "10.1",
+        "sha256": "c05df70722ae9bbc378fa1b69e68f6463a6a034d4be7bbc2b07c35e443171509",
+        "text": "### 10.1 LAN hosting and joining\n\n- One participating player hosts the run. The total limit is four connected players, including the host and any spectators.\n- Support both a LAN session list and manual host-address entry.\n- Show session name, host, participant count, whether it is in progress, and compatibility/join status.\n- A host can start alone and accept guests later. No account or external platform service is required for LAN play.\n- Windows and Linux players can share a session.\n- Late joining must provide the current time, camp, portals, NPC jobs/orders, inventories, equipment appearances, corpses, exploration, and attack state.\n- A late joiner takes a random eligible survivor or spectates. Joining never creates survivors, money, food, ammunition, or another starting kit.\n- Gameplay waits for a joining player's world state to be ready before accepting that player's actions. Existing participants continue playing.\n"
+      },
+      {
+        "id": "10.2",
+        "sha256": "271a4f8506d9f06c50df74f96b39cef59caecac92eb26ff5244a55831b2016b9",
+        "text": "### 10.2 Shared authority and simultaneous actions\n\nThe host owns one authoritative run. All participants must observe consistent outcomes for item ownership, damage, money, recruitment, job changes, building payments, succession, and victory/defeat.\n\nAll players have equal camp-management permissions. Only the host controls session-wide saving, loading, and closing. Guests cannot replace host balance settings.\n\nConcurrent actions must resolve against current shared state. Examples include two players buying the last fireside place, taking the last bow, selecting the same successor, selling food an NPC wants, and paying for the same upgrade. Exactly the successful actions take effect and pay; unsuccessful actions receive an explanation and corrected state.\n\n**Proposed baseline:** connection-loss detection after ten seconds without a response; in-progress join timeout after 30 seconds. These are configurable session values. A late-join snapshot cannot roll the world backward or cause existing participants to replay events.\n"
+      },
+      {
+        "id": "10.3",
+        "sha256": "0047ad67689d507501745c3696e74e5dd1272b8c863bc330ff5d83d7b501f0b2",
+        "text": "### 10.3 Leaving, reconnecting, and hosting loss\n\nA departing or disconnected guest's survivor returns to NPC control with all belongings and its remembered role. Its crown disappears. The character stays in the world and remains vulnerable.\n\nReconnecting restores the same survivor if alive and not controlled by someone else. Otherwise, use normal random succession/spectating. Do not steal a controlled survivor or resurrect a dead one.\n\n**Proposed supporting rule:** maintain a stable local player identity separate from display name, so reconnecting to the same saved run can recognize the player without a platform account. A remembered unassigned role follows the temporary fireside-overflow rule.\n\nHost departure or connection loss ends the session for everyone. There is no host migration. Normal host exit saves before closing; an unexpected loss can only recover from the last successful save. Other participants are informed clearly and returned to the menu.\n"
+      },
+      {
+        "id": "11.2",
+        "sha256": "e80719b6ab1b8b0c77336437dc4ecfc60bb5ec364e58b2d82e8b5ad32212fed3",
+        "text": "### 11.2 Applying changed host settings\n\nCurrent host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings.\n\n**Proposed supporting rules:**\n\n- Recalculate character/item behavior from current definitions; clamp current health, stamina, and durability if a new maximum is lower. Raising a maximum does not automatically heal or repair.\n- Preserve inventory ownership and legacy placement under section 5.6.\n- Keep the saved phase and fractional phase progress when day/night durations change. Loading is not itself a dawn event.\n- Recalculate the escalation stage from the saved day and current interval/stage table. Future generated waves use the new progression.\n- Preserve already accepted payments, already generated items, paid work completed, and pending wave commitments. Do not charge again, refund price differences automatically, or reroll an existing event.\n- Current worker speeds and future purchase prices apply normally. Already purchased construction/clearing retains its remaining work quantity; an already-paid repair retains its full-health target without another fee, including after a maximum-health setting changes.\n- If a new population cap is below the saved population, keep existing characters and block further purchases/spawns as appropriate until below the cap.\n- Unknown required definitions or corrupt data produce actionable errors and keep the original save intact.\n- Compatibility checks distinguish valid balance changes from missing required content. Joining with incompatible gameplay/content must fail clearly before granting control.\n"
+      },
+      {
+        "id": "11.1",
+        "sha256": "82ae85dfddd2236aaeacf53fdd7917215c07bc1caa1e8a1028a7d856b3fbb7c8",
+        "text": "### 11.1 Saving contract\n\nThe host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume.\n\nSaving occurs while play continues and records a coherent state. It must not heal characters, restore wear, refill inventories, complete paid work, change portals, reroll loot, or pause combat.\n\n**Required saved state:**\n\n- Run identity, map content version, day, phase progress, recorded victory/defeat, and exploration.\n- Characters, health/stamina, living/dead state, equipment, complete nested inventories, quantities, durability, and legacy layouts.\n- Stash pages, ground loot, corpses, and empty-container cleanup progress.\n- Buildings, last completed tiers, damage, paid work, cleared trees, and camp boundaries.\n- Roles, equipment waiting, task progress, cargo, rally assignments, squads, and recall/return orders.\n- Portals, warnings, spawned counts, wave queues, daily-event completion, and randomness needed to avoid rerolling existing events.\n- Plant stock, wildlife, and that day's refill/spawn status.\n- Player identities and previous-survivor associations needed for reconnection.\n- Relevant accepted commitments and compatibility information.\n\n**Proposed retention:** unlimited manual saves while storage permits, plus the latest three autosaves per run. Distinct runs cannot accidentally overwrite each other. A failed save preserves the last valid save and gives the host a clear error. A normal exit with a save error offers retry, return to play, or explicitly leave without saving the latest progress.\n\nA defeated or victorious exit may save that terminal/continued state; earlier retained saves remain selectable. A crash does not promise an impossible last-moment autosave.\n"
+      },
+      {
+        "id": "13.1",
+        "sha256": "b138b40013c3806996506db37d9b73fef56889da2dc281af75027ce0e7d8b927",
+        "text": "### 13.1 Required screens and feedback\n\n| Surface | Required information and actions |\n| --- | --- |\n| Main menu | New solo/hosted run, LAN list, manual joining, load saved run, settings, controls, exit |\n| Host/lobby | Session name/address information, participants, capacity, start/resume, join/compatibility status |\n| HUD | Health, stamina, carried money, weight state, selected/held equipment, arrow count, quick slots, day/time, warnings |\n| Main-building people menu | Buy survivor, fireside/total population limits, role counts, individual role assignment, equipment-waiting and activity status |\n| Food-sale menu | Stash food quantities, selected sale amount, unit/total price, resulting stash money |\n| Inventory | Character silhouette/slots, both hands, grids, rotation/splitting, weight, durability, containers, quick-slot assignment |\n| Shared stash | Character and stash views, page controls, filter, quick transfer, exact current shared contents |\n| Nearby NPC / corpse / loot pile | Clear owner/target, immediate contents, permitted transfers, equipped gear, distance/access feedback |\n| Construction site / structure | Tier, health, requirements, price, repair quote, paid work progress, waiting/danger reason |\n| Rally point | Stationed/ready warriors, squad size/mix, next target, price, active order, recall |\n| Minimap | Explored terrain, known portals, defenses, teammates, current position |\n| Spectator | Respawn button enabled after the post-death delay, queued-request status, Previous/Next and teammate selector, automatic completion of a pending request when eligible |\n| Save/load | Run name, day, result/status, save time, manual/autosave identity, compatibility/error feedback |\n| Victory / defeat | Outcome, remaining danger where applicable, continue/load/new-run/menu choices appropriate to that outcome |\n\n**Proposed supporting rules:** interface panels capture their mouse clicks so moving an item cannot fire a weapon or buy something behind the panel. Escape closes the current panel before opening the in-run menu. External inventory access closes when the target is no longer in range or valid. Closing a panel never drops a pending drag. Damage, approaching night, retaliation, and disconnection have visible feedback even when a panel is open.\n\nSpectators cannot buy, move items, assign jobs, or deal damage without a controlled survivor. They may follow living teammates and view shared map/status information, without revealing unexplored territory.\n"
+      },
+      {
+        "id": "10.4",
+        "sha256": "f2961d1a51ce747746951dcb3a6736bdedbdd80960960bf20af6841b4fba714b",
+        "text": "### 10.4 Replaceable multiplayer-service boundary\n\nLAN-specific discovery, hosting/joining, connection lifecycle, address handling, and player identity must be separate from gameplay rules.\n\nFuture Steam/Epic services must be able to supply discovery/invitations, identities, and connections while preserving the same camp ownership, transactions, inventories, succession, save behavior, and combat. Gameplay items and saves must not depend on a platform-specific account identifier as their only identity.\n\nVersion 0.1 must demonstrate this separation in its verification: gameplay must not directly depend on LAN addresses or a particular discovery service. This specification does not prescribe interfaces, protocols, libraries, or engine facilities. Platform matchmaking, cross-platform account linking, and platform publication are future work.\n"
+      },
+      {
+        "id": "5.6",
+        "sha256": "85c6cb8afbdbcb796eb89fb6ddedb52b66a81a2b3b367ffc7207429a76123191",
+        "text": "### 5.6 Loading inventories after configuration changes\n\n**Confirmed policy:** load saved layouts as they are and allow items to be taken out. Do not automatically move overflow to the stash, discard belongings, or refuse the entire load merely because size or nesting limits changed.\n\n**Proposed supporting rules:**\n\n- Preserve saved positions, orientation, old display footprints/grid boundaries, and existing containment where needed to make the saved layout readable. Mark incompatible locations as legacy layouts.\n- A legacy location permits removal. It does not permit additional invalid placements or deeper invalid nesting.\n- Taking an item out uses its current configured footprint and compatibility at the destination. If that destination cannot accept it, the move fails and the item stays at its old location.\n- A filled legacy container can be extracted as a unit when the outer placement is legal and does not worsen invalid internal nesting. Its internal legacy placements remain removable.\n- An emptied legacy container adopts its current configured grid and restrictions. A stack exceeding a new maximum can be reduced by extracting legal-sized stacks; nothing is silently truncated.\n- Existing incompatible hand/slot occupancy is visible and removable. An unusable combination cannot attack or supply protection until made legal.\n- Legacy layouts persist through subsequent saves until resolved.\n- Missing item definitions or unreadable save data produce an explicit error identifying the missing definition/problem and preserve the original save. The game never substitutes arbitrary items or silently destroys unknown contents.\n"
+      }
+    ],
+    "files": [
+      {
+        "path": "src/godot-game/content/config/session-save.json",
+        "fields": [
+          {
+            "id": "session-save:/",
+            "path": "",
+            "type": "object",
+            "meaning": "session-save document baseline",
+            "unit": "record",
+            "default": {
+              "id": "DT-16",
+              "version": 1,
+              "session": {
+                "participantLimit": 4,
+                "includes": [
+                  "host",
+                  "guests",
+                  "spectators"
+                ],
+                "host": "one-participating-player",
+                "startAlone": true,
+                "lateJoin": true,
+                "discovery": [
+                  "lan-list",
+                  "manual-address"
+                ],
+                "listing": [
+                  "session-name",
+                  "host",
+                  "participant-count",
+                  "in-progress",
+                  "compatibility",
+                  "join-status"
+                ],
+                "platforms": [
+                  "Windows",
+                  "Linux"
+                ],
+                "accountRequired": false,
+                "connectionLossSeconds": 10,
+                "joinTimeoutSeconds": 30,
+                "worldContinuesDuringJoin": true,
+                "joiningControl": "only-after-current-world-ready",
+                "joinCreatesResources": false,
+                "joinAssignment": "random-eligible-survivor-or-spectate",
+                "snapshotRollback": false,
+                "replayExistingEvents": false
+              },
+              "authority": {
+                "world": "host",
+                "management": "equal-player-permissions",
+                "saveLoadClose": "host-only",
+                "guestBalanceOverride": false,
+                "transactions": "atomic-current-shared-state-success-only-payment",
+                "failedAction": "explanation-and-corrected-shared-state",
+                "consistent": [
+                  "ownership",
+                  "damage",
+                  "money",
+                  "recruitment",
+                  "roles",
+                  "building-payments",
+                  "succession",
+                  "victory-defeat"
+                ]
+              },
+              "identity": {
+                "stableLocal": true,
+                "separateDisplayName": true,
+                "platformOnlyIdentity": false,
+                "reconnect": "same-survivor-if-alive-and-uncontrolled-else-normal-succession-spectating",
+                "stealControlled": false,
+                "resurrect": false,
+                "guestLeave": "return-npc-remembered-role-keep-belongings-remove-crown-remain-vulnerable",
+                "overflow": "retain-survivor-and-belongings-common-fireside-overflow",
+                "serviceBoundary": [
+                  "discovery",
+                  "hosting-joining",
+                  "connections",
+                  "addresses",
+                  "identity"
+                ],
+                "gameplayDependsOnAddress": false,
+                "hostMigration": false,
+                "hostLoss": "inform-all-return-menu-last-successful-save",
+                "normalHostExit": "save-before-close"
+              },
+              "schema": {
+                "contentVersion": 1,
+                "saveSchemaVersion": 1,
+                "identity": "stable-content-ids-independent-of-platform-account",
+                "requiredDefinitionRefs": [
+                  "content/config/run.json",
+                  "content/config/time.json",
+                  "content/config/survivors.json",
+                  "content/config/items.json",
+                  "content/config/combat.json",
+                  "content/config/inventory.json",
+                  "content/config/jobs.json",
+                  "content/config/food-wildlife.json",
+                  "content/config/map-sites.json",
+                  "content/config/structures.json",
+                  "content/config/towers.json",
+                  "content/config/zombies.json",
+                  "content/config/zombie-loot.json",
+                  "content/config/zombie-progression.json",
+                  "content/config/portals-assaults.json"
+                ],
+                "appearanceRefs": [
+                  "content/packs/bodies-a.json",
+                  "content/packs/bodies-b.json",
+                  "content/packs/bodies-c.json",
+                  "content/packs/items-01-10.json",
+                  "content/packs/items-11-24.json"
+                ],
+                "layoutCompatibility": "saved-dimensions-placements-orientation-stacks-slots-depth-preserved-legacy-policy",
+                "missingRequired": "actionable-error-preserve-original-save",
+                "joinCompatibility": "reject-incompatible-gameplay-or-content-before-control",
+                "validBalanceChanges": "distinct-from-missing-required-content"
+              },
+              "saves": {
+                "manual": "any-active-game-time",
+                "manualRetention": "unlimited-while-storage-permits",
+                "autosaveTriggers": [
+                  "dawn",
+                  "normal-host-exit"
+                ],
+                "autosavesPerRun": 3,
+                "namedRuns": true,
+                "distinctRunOverwrite": false,
+                "coherentWhilePlaying": true,
+                "pause": false,
+                "heal": false,
+                "repairWear": false,
+                "refill": false,
+                "finishPaidWork": false,
+                "reroll": false,
+                "repeatEvents": false,
+                "requiredState": [
+                  "run-identity",
+                  "map-content-version",
+                  "day-phase-fraction",
+                  "victory-defeat-record",
+                  "shared-exploration",
+                  "characters-health-stamina-living-dead",
+                  "equipment-appearances",
+                  "complete-nested-inventories-quantities-durability-legacy-layouts",
+                  "stash-pages",
+                  "ground-loot-corpses-empty-cleanup-progress",
+                  "buildings-last-completed-tiers-damage-paid-work",
+                  "cleared-trees-camp-boundaries",
+                  "roles-equipment-waiting-task-progress-cargo",
+                  "rally-squads-recall-return",
+                  "portals-warnings-spawn-counts-wave-queues",
+                  "daily-event-completion-randomness",
+                  "plant-stock-wildlife-daily-refill-spawn-status",
+                  "stable-player-identities-previous-survivor-associations",
+                  "accepted-commitments-compatibility"
+                ],
+                "failure": "preserve-last-valid-save-and-show-host-actionable-error",
+                "exitFailureChoices": [
+                  "retry",
+                  "return-to-play",
+                  "explicit-leave-without-latest-save"
+                ],
+                "terminalStateSave": true,
+                "earlierSavesSelectable": true,
+                "crashLastMomentPromise": false
+              },
+              "hostSettings": {
+                "apply": [
+                  "new-run",
+                  "load-existing-save"
+                ],
+                "liveReload": false,
+                "guests": "host-effective-settings",
+                "lowerMaximum": "clamp-current-health-stamina-durability",
+                "higherMaximum": "no-heal-or-repair",
+                "inventory": "preserve-ownership-and-legacy-placement",
+                "time": "preserve-phase-and-fraction-load-is-not-dawn",
+                "progression": "recalculate-from-saved-day-current-interval-and-stages-for-future-waves",
+                "accepted": "preserve-payments-generated-items-completed-work-pending-wave-commitments-no-recharge-refund-or-reroll",
+                "futurePricesSpeeds": "current-definitions",
+                "constructionClearing": "retain-remaining-work-quantity",
+                "paidRepair": "retain-full-health-target-no-new-fee-even-if-maximum-changes",
+                "lowerPopulationCap": "keep-existing-block-further-purchases-spawns-until-below-cap"
+              },
+              "uiRefs": [
+                "content/ui/session-save-outcomes.json",
+                "content/ui/settings-errors.json"
+              ]
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/id",
+            "path": "/id",
+            "type": "string",
+            "meaning": "session-save /id baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "DT-16",
+            "allowed": {
+              "choices": [
+                "DT-16"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/id"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/version",
+            "path": "/version",
+            "type": "number",
+            "meaning": "session-save /version baseline",
+            "unit": "count",
+            "default": 1,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/version"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session",
+            "path": "/session",
+            "type": "object",
+            "meaning": "session-save /session baseline",
+            "unit": "record",
+            "default": {
+              "participantLimit": 4,
+              "includes": [
+                "host",
+                "guests",
+                "spectators"
+              ],
+              "host": "one-participating-player",
+              "startAlone": true,
+              "lateJoin": true,
+              "discovery": [
+                "lan-list",
+                "manual-address"
+              ],
+              "listing": [
+                "session-name",
+                "host",
+                "participant-count",
+                "in-progress",
+                "compatibility",
+                "join-status"
+              ],
+              "platforms": [
+                "Windows",
+                "Linux"
+              ],
+              "accountRequired": false,
+              "connectionLossSeconds": 10,
+              "joinTimeoutSeconds": 30,
+              "worldContinuesDuringJoin": true,
+              "joiningControl": "only-after-current-world-ready",
+              "joinCreatesResources": false,
+              "joinAssignment": "random-eligible-survivor-or-spectate",
+              "snapshotRollback": false,
+              "replayExistingEvents": false
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session/participantLimit",
+            "path": "/session/participantLimit",
+            "type": "number",
+            "meaning": "session-save /session/participantLimit baseline",
+            "unit": "count",
+            "default": 4,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session/includes",
+            "path": "/session/includes",
+            "type": "array",
+            "meaning": "session-save /session/includes baseline",
+            "unit": "ordered-list",
+            "default": [
+              "host",
+              "guests",
+              "spectators"
+            ],
+            "allowed": {
+              "minItems": 3,
+              "maxItems": 3
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session/includes/0",
+            "path": "/session/includes/0",
+            "type": "string",
+            "meaning": "session-save /session/includes/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "host",
+            "allowed": {
+              "choices": [
+                "host"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session/includes/1",
+            "path": "/session/includes/1",
+            "type": "string",
+            "meaning": "session-save /session/includes/1 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "guests",
+            "allowed": {
+              "choices": [
+                "guests"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session/includes/2",
+            "path": "/session/includes/2",
+            "type": "string",
+            "meaning": "session-save /session/includes/2 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "spectators",
+            "allowed": {
+              "choices": [
+                "spectators"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session/host",
+            "path": "/session/host",
+            "type": "string",
+            "meaning": "session-save /session/host baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "one-participating-player",
+            "allowed": {
+              "choices": [
+                "one-participating-player"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session/startAlone",
+            "path": "/session/startAlone",
+            "type": "boolean",
+            "meaning": "session-save /session/startAlone baseline",
+            "unit": "boolean",
+            "default": true,
+            "allowed": {
+              "choices": [
+                true
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session/lateJoin",
+            "path": "/session/lateJoin",
+            "type": "boolean",
+            "meaning": "session-save /session/lateJoin baseline",
+            "unit": "boolean",
+            "default": true,
+            "allowed": {
+              "choices": [
+                true
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session/discovery",
+            "path": "/session/discovery",
+            "type": "array",
+            "meaning": "session-save /session/discovery baseline",
+            "unit": "ordered-list",
+            "default": [
+              "lan-list",
+              "manual-address"
+            ],
+            "allowed": {
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session/discovery/0",
+            "path": "/session/discovery/0",
+            "type": "string",
+            "meaning": "session-save /session/discovery/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "lan-list",
+            "allowed": {
+              "choices": [
+                "lan-list"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session/discovery/1",
+            "path": "/session/discovery/1",
+            "type": "string",
+            "meaning": "session-save /session/discovery/1 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "manual-address",
+            "allowed": {
+              "choices": [
+                "manual-address"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session/listing",
+            "path": "/session/listing",
+            "type": "array",
+            "meaning": "session-save /session/listing baseline",
+            "unit": "ordered-list",
+            "default": [
+              "session-name",
+              "host",
+              "participant-count",
+              "in-progress",
+              "compatibility",
+              "join-status"
+            ],
+            "allowed": {
+              "minItems": 6,
+              "maxItems": 6
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session/listing/0",
+            "path": "/session/listing/0",
+            "type": "string",
+            "meaning": "session-save /session/listing/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "session-name",
+            "allowed": {
+              "choices": [
+                "session-name"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session/listing/1",
+            "path": "/session/listing/1",
+            "type": "string",
+            "meaning": "session-save /session/listing/1 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "host",
+            "allowed": {
+              "choices": [
+                "host"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session/listing/2",
+            "path": "/session/listing/2",
+            "type": "string",
+            "meaning": "session-save /session/listing/2 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "participant-count",
+            "allowed": {
+              "choices": [
+                "participant-count"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session/listing/3",
+            "path": "/session/listing/3",
+            "type": "string",
+            "meaning": "session-save /session/listing/3 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "in-progress",
+            "allowed": {
+              "choices": [
+                "in-progress"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session/listing/4",
+            "path": "/session/listing/4",
+            "type": "string",
+            "meaning": "session-save /session/listing/4 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "compatibility",
+            "allowed": {
+              "choices": [
+                "compatibility"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session/listing/5",
+            "path": "/session/listing/5",
+            "type": "string",
+            "meaning": "session-save /session/listing/5 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "join-status",
+            "allowed": {
+              "choices": [
+                "join-status"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session/platforms",
+            "path": "/session/platforms",
+            "type": "array",
+            "meaning": "session-save /session/platforms baseline",
+            "unit": "ordered-list",
+            "default": [
+              "Windows",
+              "Linux"
+            ],
+            "allowed": {
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session/platforms/0",
+            "path": "/session/platforms/0",
+            "type": "string",
+            "meaning": "session-save /session/platforms/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "Windows",
+            "allowed": {
+              "choices": [
+                "Windows"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session/platforms/1",
+            "path": "/session/platforms/1",
+            "type": "string",
+            "meaning": "session-save /session/platforms/1 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "Linux",
+            "allowed": {
+              "choices": [
+                "Linux"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session/accountRequired",
+            "path": "/session/accountRequired",
+            "type": "boolean",
+            "meaning": "session-save /session/accountRequired baseline",
+            "unit": "boolean",
+            "default": false,
+            "allowed": {
+              "choices": [
+                false
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session/connectionLossSeconds",
+            "path": "/session/connectionLossSeconds",
+            "type": "number",
+            "meaning": "session-save /session/connectionLossSeconds baseline",
+            "unit": "seconds",
+            "default": 10,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session/joinTimeoutSeconds",
+            "path": "/session/joinTimeoutSeconds",
+            "type": "number",
+            "meaning": "session-save /session/joinTimeoutSeconds baseline",
+            "unit": "seconds",
+            "default": 30,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session/worldContinuesDuringJoin",
+            "path": "/session/worldContinuesDuringJoin",
+            "type": "boolean",
+            "meaning": "session-save /session/worldContinuesDuringJoin baseline",
+            "unit": "boolean",
+            "default": true,
+            "allowed": {
+              "choices": [
+                true
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session/joiningControl",
+            "path": "/session/joiningControl",
+            "type": "string",
+            "meaning": "session-save /session/joiningControl baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "only-after-current-world-ready",
+            "allowed": {
+              "choices": [
+                "only-after-current-world-ready"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session/joinCreatesResources",
+            "path": "/session/joinCreatesResources",
+            "type": "boolean",
+            "meaning": "session-save /session/joinCreatesResources baseline",
+            "unit": "boolean",
+            "default": false,
+            "allowed": {
+              "choices": [
+                false
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session/joinAssignment",
+            "path": "/session/joinAssignment",
+            "type": "string",
+            "meaning": "session-save /session/joinAssignment baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "random-eligible-survivor-or-spectate",
+            "allowed": {
+              "choices": [
+                "random-eligible-survivor-or-spectate"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session/snapshotRollback",
+            "path": "/session/snapshotRollback",
+            "type": "boolean",
+            "meaning": "session-save /session/snapshotRollback baseline",
+            "unit": "boolean",
+            "default": false,
+            "allowed": {
+              "choices": [
+                false
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/session/replayExistingEvents",
+            "path": "/session/replayExistingEvents",
+            "type": "boolean",
+            "meaning": "session-save /session/replayExistingEvents baseline",
+            "unit": "boolean",
+            "default": false,
+            "allowed": {
+              "choices": [
+                false
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.1",
+              "src/godot-game/content/config/session-save.json/session"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.1",
+              "evidence": "- One participating player hosts the run. The total limit is four connected players, including the host and any spectators."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/authority",
+            "path": "/authority",
+            "type": "object",
+            "meaning": "session-save /authority baseline",
+            "unit": "record",
+            "default": {
+              "world": "host",
+              "management": "equal-player-permissions",
+              "saveLoadClose": "host-only",
+              "guestBalanceOverride": false,
+              "transactions": "atomic-current-shared-state-success-only-payment",
+              "failedAction": "explanation-and-corrected-shared-state",
+              "consistent": [
+                "ownership",
+                "damage",
+                "money",
+                "recruitment",
+                "roles",
+                "building-payments",
+                "succession",
+                "victory-defeat"
+              ]
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.2",
+              "src/godot-game/content/config/session-save.json/authority"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.2",
+              "evidence": "The host owns one authoritative run. All participants must observe consistent outcomes for item ownership, damage, money, recruitment, job changes, building payments, succession, and victory/defeat."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/authority/world",
+            "path": "/authority/world",
+            "type": "string",
+            "meaning": "session-save /authority/world baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "host",
+            "allowed": {
+              "choices": [
+                "host"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.2",
+              "src/godot-game/content/config/session-save.json/authority"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.2",
+              "evidence": "The host owns one authoritative run. All participants must observe consistent outcomes for item ownership, damage, money, recruitment, job changes, building payments, succession, and victory/defeat."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/authority/management",
+            "path": "/authority/management",
+            "type": "string",
+            "meaning": "session-save /authority/management baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "equal-player-permissions",
+            "allowed": {
+              "choices": [
+                "equal-player-permissions"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.2",
+              "src/godot-game/content/config/session-save.json/authority"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.2",
+              "evidence": "The host owns one authoritative run. All participants must observe consistent outcomes for item ownership, damage, money, recruitment, job changes, building payments, succession, and victory/defeat."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/authority/saveLoadClose",
+            "path": "/authority/saveLoadClose",
+            "type": "string",
+            "meaning": "session-save /authority/saveLoadClose baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "host-only",
+            "allowed": {
+              "choices": [
+                "host-only"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.2",
+              "src/godot-game/content/config/session-save.json/authority"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.2",
+              "evidence": "The host owns one authoritative run. All participants must observe consistent outcomes for item ownership, damage, money, recruitment, job changes, building payments, succession, and victory/defeat."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/authority/guestBalanceOverride",
+            "path": "/authority/guestBalanceOverride",
+            "type": "boolean",
+            "meaning": "session-save /authority/guestBalanceOverride baseline",
+            "unit": "boolean",
+            "default": false,
+            "allowed": {
+              "choices": [
+                false
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.2",
+              "src/godot-game/content/config/session-save.json/authority"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.2",
+              "evidence": "The host owns one authoritative run. All participants must observe consistent outcomes for item ownership, damage, money, recruitment, job changes, building payments, succession, and victory/defeat."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/authority/transactions",
+            "path": "/authority/transactions",
+            "type": "string",
+            "meaning": "session-save /authority/transactions baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "atomic-current-shared-state-success-only-payment",
+            "allowed": {
+              "choices": [
+                "atomic-current-shared-state-success-only-payment"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.2",
+              "src/godot-game/content/config/session-save.json/authority"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.2",
+              "evidence": "The host owns one authoritative run. All participants must observe consistent outcomes for item ownership, damage, money, recruitment, job changes, building payments, succession, and victory/defeat."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/authority/failedAction",
+            "path": "/authority/failedAction",
+            "type": "string",
+            "meaning": "session-save /authority/failedAction baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "explanation-and-corrected-shared-state",
+            "allowed": {
+              "choices": [
+                "explanation-and-corrected-shared-state"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.2",
+              "src/godot-game/content/config/session-save.json/authority"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.2",
+              "evidence": "The host owns one authoritative run. All participants must observe consistent outcomes for item ownership, damage, money, recruitment, job changes, building payments, succession, and victory/defeat."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/authority/consistent",
+            "path": "/authority/consistent",
+            "type": "array",
+            "meaning": "session-save /authority/consistent baseline",
+            "unit": "ordered-list",
+            "default": [
+              "ownership",
+              "damage",
+              "money",
+              "recruitment",
+              "roles",
+              "building-payments",
+              "succession",
+              "victory-defeat"
+            ],
+            "allowed": {
+              "minItems": 8,
+              "maxItems": 8
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.2",
+              "src/godot-game/content/config/session-save.json/authority"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.2",
+              "evidence": "The host owns one authoritative run. All participants must observe consistent outcomes for item ownership, damage, money, recruitment, job changes, building payments, succession, and victory/defeat."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/authority/consistent/0",
+            "path": "/authority/consistent/0",
+            "type": "string",
+            "meaning": "session-save /authority/consistent/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "ownership",
+            "allowed": {
+              "choices": [
+                "ownership"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.2",
+              "src/godot-game/content/config/session-save.json/authority"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.2",
+              "evidence": "The host owns one authoritative run. All participants must observe consistent outcomes for item ownership, damage, money, recruitment, job changes, building payments, succession, and victory/defeat."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/authority/consistent/1",
+            "path": "/authority/consistent/1",
+            "type": "string",
+            "meaning": "session-save /authority/consistent/1 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "damage",
+            "allowed": {
+              "choices": [
+                "damage"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.2",
+              "src/godot-game/content/config/session-save.json/authority"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.2",
+              "evidence": "The host owns one authoritative run. All participants must observe consistent outcomes for item ownership, damage, money, recruitment, job changes, building payments, succession, and victory/defeat."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/authority/consistent/2",
+            "path": "/authority/consistent/2",
+            "type": "string",
+            "meaning": "session-save /authority/consistent/2 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "money",
+            "allowed": {
+              "choices": [
+                "money"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.2",
+              "src/godot-game/content/config/session-save.json/authority"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.2",
+              "evidence": "The host owns one authoritative run. All participants must observe consistent outcomes for item ownership, damage, money, recruitment, job changes, building payments, succession, and victory/defeat."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/authority/consistent/3",
+            "path": "/authority/consistent/3",
+            "type": "string",
+            "meaning": "session-save /authority/consistent/3 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "recruitment",
+            "allowed": {
+              "choices": [
+                "recruitment"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.2",
+              "src/godot-game/content/config/session-save.json/authority"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.2",
+              "evidence": "The host owns one authoritative run. All participants must observe consistent outcomes for item ownership, damage, money, recruitment, job changes, building payments, succession, and victory/defeat."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/authority/consistent/4",
+            "path": "/authority/consistent/4",
+            "type": "string",
+            "meaning": "session-save /authority/consistent/4 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "roles",
+            "allowed": {
+              "choices": [
+                "roles"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.2",
+              "src/godot-game/content/config/session-save.json/authority"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.2",
+              "evidence": "The host owns one authoritative run. All participants must observe consistent outcomes for item ownership, damage, money, recruitment, job changes, building payments, succession, and victory/defeat."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/authority/consistent/5",
+            "path": "/authority/consistent/5",
+            "type": "string",
+            "meaning": "session-save /authority/consistent/5 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "building-payments",
+            "allowed": {
+              "choices": [
+                "building-payments"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.2",
+              "src/godot-game/content/config/session-save.json/authority"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.2",
+              "evidence": "The host owns one authoritative run. All participants must observe consistent outcomes for item ownership, damage, money, recruitment, job changes, building payments, succession, and victory/defeat."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/authority/consistent/6",
+            "path": "/authority/consistent/6",
+            "type": "string",
+            "meaning": "session-save /authority/consistent/6 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "succession",
+            "allowed": {
+              "choices": [
+                "succession"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.2",
+              "src/godot-game/content/config/session-save.json/authority"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.2",
+              "evidence": "The host owns one authoritative run. All participants must observe consistent outcomes for item ownership, damage, money, recruitment, job changes, building payments, succession, and victory/defeat."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/authority/consistent/7",
+            "path": "/authority/consistent/7",
+            "type": "string",
+            "meaning": "session-save /authority/consistent/7 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "victory-defeat",
+            "allowed": {
+              "choices": [
+                "victory-defeat"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.2",
+              "src/godot-game/content/config/session-save.json/authority"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.2",
+              "evidence": "The host owns one authoritative run. All participants must observe consistent outcomes for item ownership, damage, money, recruitment, job changes, building payments, succession, and victory/defeat."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/identity",
+            "path": "/identity",
+            "type": "object",
+            "meaning": "session-save /identity baseline",
+            "unit": "record",
+            "default": {
+              "stableLocal": true,
+              "separateDisplayName": true,
+              "platformOnlyIdentity": false,
+              "reconnect": "same-survivor-if-alive-and-uncontrolled-else-normal-succession-spectating",
+              "stealControlled": false,
+              "resurrect": false,
+              "guestLeave": "return-npc-remembered-role-keep-belongings-remove-crown-remain-vulnerable",
+              "overflow": "retain-survivor-and-belongings-common-fireside-overflow",
+              "serviceBoundary": [
+                "discovery",
+                "hosting-joining",
+                "connections",
+                "addresses",
+                "identity"
+              ],
+              "gameplayDependsOnAddress": false,
+              "hostMigration": false,
+              "hostLoss": "inform-all-return-menu-last-successful-save",
+              "normalHostExit": "save-before-close"
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.3",
+              "src/godot-game/content/config/session-save.json/identity"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.3",
+              "evidence": "A departing or disconnected guest's survivor returns to NPC control with all belongings and its remembered role. Its crown disappears. The character stays in the world and remains vulnerable."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/identity/stableLocal",
+            "path": "/identity/stableLocal",
+            "type": "boolean",
+            "meaning": "session-save /identity/stableLocal baseline",
+            "unit": "boolean",
+            "default": true,
+            "allowed": {
+              "choices": [
+                true
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.3",
+              "src/godot-game/content/config/session-save.json/identity"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.3",
+              "evidence": "A departing or disconnected guest's survivor returns to NPC control with all belongings and its remembered role. Its crown disappears. The character stays in the world and remains vulnerable."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/identity/separateDisplayName",
+            "path": "/identity/separateDisplayName",
+            "type": "boolean",
+            "meaning": "session-save /identity/separateDisplayName baseline",
+            "unit": "boolean",
+            "default": true,
+            "allowed": {
+              "choices": [
+                true
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.3",
+              "src/godot-game/content/config/session-save.json/identity"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.3",
+              "evidence": "A departing or disconnected guest's survivor returns to NPC control with all belongings and its remembered role. Its crown disappears. The character stays in the world and remains vulnerable."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/identity/platformOnlyIdentity",
+            "path": "/identity/platformOnlyIdentity",
+            "type": "boolean",
+            "meaning": "session-save /identity/platformOnlyIdentity baseline",
+            "unit": "boolean",
+            "default": false,
+            "allowed": {
+              "choices": [
+                false
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.3",
+              "src/godot-game/content/config/session-save.json/identity"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.3",
+              "evidence": "A departing or disconnected guest's survivor returns to NPC control with all belongings and its remembered role. Its crown disappears. The character stays in the world and remains vulnerable."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/identity/reconnect",
+            "path": "/identity/reconnect",
+            "type": "string",
+            "meaning": "session-save /identity/reconnect baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "same-survivor-if-alive-and-uncontrolled-else-normal-succession-spectating",
+            "allowed": {
+              "choices": [
+                "same-survivor-if-alive-and-uncontrolled-else-normal-succession-spectating"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.3",
+              "src/godot-game/content/config/session-save.json/identity"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.3",
+              "evidence": "A departing or disconnected guest's survivor returns to NPC control with all belongings and its remembered role. Its crown disappears. The character stays in the world and remains vulnerable."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/identity/stealControlled",
+            "path": "/identity/stealControlled",
+            "type": "boolean",
+            "meaning": "session-save /identity/stealControlled baseline",
+            "unit": "boolean",
+            "default": false,
+            "allowed": {
+              "choices": [
+                false
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.3",
+              "src/godot-game/content/config/session-save.json/identity"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.3",
+              "evidence": "A departing or disconnected guest's survivor returns to NPC control with all belongings and its remembered role. Its crown disappears. The character stays in the world and remains vulnerable."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/identity/resurrect",
+            "path": "/identity/resurrect",
+            "type": "boolean",
+            "meaning": "session-save /identity/resurrect baseline",
+            "unit": "boolean",
+            "default": false,
+            "allowed": {
+              "choices": [
+                false
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.3",
+              "src/godot-game/content/config/session-save.json/identity"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.3",
+              "evidence": "A departing or disconnected guest's survivor returns to NPC control with all belongings and its remembered role. Its crown disappears. The character stays in the world and remains vulnerable."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/identity/guestLeave",
+            "path": "/identity/guestLeave",
+            "type": "string",
+            "meaning": "session-save /identity/guestLeave baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "return-npc-remembered-role-keep-belongings-remove-crown-remain-vulnerable",
+            "allowed": {
+              "choices": [
+                "return-npc-remembered-role-keep-belongings-remove-crown-remain-vulnerable"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.3",
+              "src/godot-game/content/config/session-save.json/identity"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.3",
+              "evidence": "A departing or disconnected guest's survivor returns to NPC control with all belongings and its remembered role. Its crown disappears. The character stays in the world and remains vulnerable."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/identity/overflow",
+            "path": "/identity/overflow",
+            "type": "string",
+            "meaning": "session-save /identity/overflow baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "retain-survivor-and-belongings-common-fireside-overflow",
+            "allowed": {
+              "choices": [
+                "retain-survivor-and-belongings-common-fireside-overflow"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.3",
+              "src/godot-game/content/config/session-save.json/identity"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.3",
+              "evidence": "A departing or disconnected guest's survivor returns to NPC control with all belongings and its remembered role. Its crown disappears. The character stays in the world and remains vulnerable."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/identity/serviceBoundary",
+            "path": "/identity/serviceBoundary",
+            "type": "array",
+            "meaning": "session-save /identity/serviceBoundary baseline",
+            "unit": "ordered-list",
+            "default": [
+              "discovery",
+              "hosting-joining",
+              "connections",
+              "addresses",
+              "identity"
+            ],
+            "allowed": {
+              "minItems": 5,
+              "maxItems": 5
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.3",
+              "src/godot-game/content/config/session-save.json/identity"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.3",
+              "evidence": "A departing or disconnected guest's survivor returns to NPC control with all belongings and its remembered role. Its crown disappears. The character stays in the world and remains vulnerable."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/identity/serviceBoundary/0",
+            "path": "/identity/serviceBoundary/0",
+            "type": "string",
+            "meaning": "session-save /identity/serviceBoundary/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "discovery",
+            "allowed": {
+              "choices": [
+                "discovery"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.3",
+              "src/godot-game/content/config/session-save.json/identity"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.3",
+              "evidence": "A departing or disconnected guest's survivor returns to NPC control with all belongings and its remembered role. Its crown disappears. The character stays in the world and remains vulnerable."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/identity/serviceBoundary/1",
+            "path": "/identity/serviceBoundary/1",
+            "type": "string",
+            "meaning": "session-save /identity/serviceBoundary/1 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "hosting-joining",
+            "allowed": {
+              "choices": [
+                "hosting-joining"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.3",
+              "src/godot-game/content/config/session-save.json/identity"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.3",
+              "evidence": "A departing or disconnected guest's survivor returns to NPC control with all belongings and its remembered role. Its crown disappears. The character stays in the world and remains vulnerable."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/identity/serviceBoundary/2",
+            "path": "/identity/serviceBoundary/2",
+            "type": "string",
+            "meaning": "session-save /identity/serviceBoundary/2 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "connections",
+            "allowed": {
+              "choices": [
+                "connections"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.3",
+              "src/godot-game/content/config/session-save.json/identity"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.3",
+              "evidence": "A departing or disconnected guest's survivor returns to NPC control with all belongings and its remembered role. Its crown disappears. The character stays in the world and remains vulnerable."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/identity/serviceBoundary/3",
+            "path": "/identity/serviceBoundary/3",
+            "type": "string",
+            "meaning": "session-save /identity/serviceBoundary/3 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "addresses",
+            "allowed": {
+              "choices": [
+                "addresses"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.3",
+              "src/godot-game/content/config/session-save.json/identity"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.3",
+              "evidence": "A departing or disconnected guest's survivor returns to NPC control with all belongings and its remembered role. Its crown disappears. The character stays in the world and remains vulnerable."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/identity/serviceBoundary/4",
+            "path": "/identity/serviceBoundary/4",
+            "type": "string",
+            "meaning": "session-save /identity/serviceBoundary/4 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "identity",
+            "allowed": {
+              "choices": [
+                "identity"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.3",
+              "src/godot-game/content/config/session-save.json/identity"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.3",
+              "evidence": "A departing or disconnected guest's survivor returns to NPC control with all belongings and its remembered role. Its crown disappears. The character stays in the world and remains vulnerable."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/identity/gameplayDependsOnAddress",
+            "path": "/identity/gameplayDependsOnAddress",
+            "type": "boolean",
+            "meaning": "session-save /identity/gameplayDependsOnAddress baseline",
+            "unit": "boolean",
+            "default": false,
+            "allowed": {
+              "choices": [
+                false
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.3",
+              "src/godot-game/content/config/session-save.json/identity"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.3",
+              "evidence": "A departing or disconnected guest's survivor returns to NPC control with all belongings and its remembered role. Its crown disappears. The character stays in the world and remains vulnerable."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/identity/hostMigration",
+            "path": "/identity/hostMigration",
+            "type": "boolean",
+            "meaning": "session-save /identity/hostMigration baseline",
+            "unit": "boolean",
+            "default": false,
+            "allowed": {
+              "choices": [
+                false
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.3",
+              "src/godot-game/content/config/session-save.json/identity"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.3",
+              "evidence": "A departing or disconnected guest's survivor returns to NPC control with all belongings and its remembered role. Its crown disappears. The character stays in the world and remains vulnerable."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/identity/hostLoss",
+            "path": "/identity/hostLoss",
+            "type": "string",
+            "meaning": "session-save /identity/hostLoss baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "inform-all-return-menu-last-successful-save",
+            "allowed": {
+              "choices": [
+                "inform-all-return-menu-last-successful-save"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.3",
+              "src/godot-game/content/config/session-save.json/identity"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.3",
+              "evidence": "A departing or disconnected guest's survivor returns to NPC control with all belongings and its remembered role. Its crown disappears. The character stays in the world and remains vulnerable."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/identity/normalHostExit",
+            "path": "/identity/normalHostExit",
+            "type": "string",
+            "meaning": "session-save /identity/normalHostExit baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "save-before-close",
+            "allowed": {
+              "choices": [
+                "save-before-close"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#10.3",
+              "src/godot-game/content/config/session-save.json/identity"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "10.3",
+              "evidence": "A departing or disconnected guest's survivor returns to NPC control with all belongings and its remembered role. Its crown disappears. The character stays in the world and remains vulnerable."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/schema",
+            "path": "/schema",
+            "type": "object",
+            "meaning": "session-save /schema baseline",
+            "unit": "record",
+            "default": {
+              "contentVersion": 1,
+              "saveSchemaVersion": 1,
+              "identity": "stable-content-ids-independent-of-platform-account",
+              "requiredDefinitionRefs": [
+                "content/config/run.json",
+                "content/config/time.json",
+                "content/config/survivors.json",
+                "content/config/items.json",
+                "content/config/combat.json",
+                "content/config/inventory.json",
+                "content/config/jobs.json",
+                "content/config/food-wildlife.json",
+                "content/config/map-sites.json",
+                "content/config/structures.json",
+                "content/config/towers.json",
+                "content/config/zombies.json",
+                "content/config/zombie-loot.json",
+                "content/config/zombie-progression.json",
+                "content/config/portals-assaults.json"
+              ],
+              "appearanceRefs": [
+                "content/packs/bodies-a.json",
+                "content/packs/bodies-b.json",
+                "content/packs/bodies-c.json",
+                "content/packs/items-01-10.json",
+                "content/packs/items-11-24.json"
+              ],
+              "layoutCompatibility": "saved-dimensions-placements-orientation-stacks-slots-depth-preserved-legacy-policy",
+              "missingRequired": "actionable-error-preserve-original-save",
+              "joinCompatibility": "reject-incompatible-gameplay-or-content-before-control",
+              "validBalanceChanges": "distinct-from-missing-required-content"
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/schema"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/schema/contentVersion",
+            "path": "/schema/contentVersion",
+            "type": "number",
+            "meaning": "session-save /schema/contentVersion baseline",
+            "unit": "count",
+            "default": 1,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/schema"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/schema/saveSchemaVersion",
+            "path": "/schema/saveSchemaVersion",
+            "type": "number",
+            "meaning": "session-save /schema/saveSchemaVersion baseline",
+            "unit": "count",
+            "default": 1,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/schema"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/schema/identity",
+            "path": "/schema/identity",
+            "type": "string",
+            "meaning": "session-save /schema/identity baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "stable-content-ids-independent-of-platform-account",
+            "allowed": {
+              "choices": [
+                "stable-content-ids-independent-of-platform-account"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/schema"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/schema/requiredDefinitionRefs",
+            "path": "/schema/requiredDefinitionRefs",
+            "type": "array",
+            "meaning": "session-save /schema/requiredDefinitionRefs baseline",
+            "unit": "ordered-list",
+            "default": [
+              "content/config/run.json",
+              "content/config/time.json",
+              "content/config/survivors.json",
+              "content/config/items.json",
+              "content/config/combat.json",
+              "content/config/inventory.json",
+              "content/config/jobs.json",
+              "content/config/food-wildlife.json",
+              "content/config/map-sites.json",
+              "content/config/structures.json",
+              "content/config/towers.json",
+              "content/config/zombies.json",
+              "content/config/zombie-loot.json",
+              "content/config/zombie-progression.json",
+              "content/config/portals-assaults.json"
+            ],
+            "allowed": {
+              "minItems": 15,
+              "maxItems": 15
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/schema"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/schema/requiredDefinitionRefs/0",
+            "path": "/schema/requiredDefinitionRefs/0",
+            "type": "string",
+            "meaning": "session-save /schema/requiredDefinitionRefs/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "content/config/run.json",
+            "allowed": {
+              "choices": [
+                "content/config/run.json"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/schema"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "resource"
+          },
+          {
+            "id": "session-save:/schema/requiredDefinitionRefs/1",
+            "path": "/schema/requiredDefinitionRefs/1",
+            "type": "string",
+            "meaning": "session-save /schema/requiredDefinitionRefs/1 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "content/config/time.json",
+            "allowed": {
+              "choices": [
+                "content/config/time.json"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/schema"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "resource"
+          },
+          {
+            "id": "session-save:/schema/requiredDefinitionRefs/2",
+            "path": "/schema/requiredDefinitionRefs/2",
+            "type": "string",
+            "meaning": "session-save /schema/requiredDefinitionRefs/2 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "content/config/survivors.json",
+            "allowed": {
+              "choices": [
+                "content/config/survivors.json"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/schema"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "resource"
+          },
+          {
+            "id": "session-save:/schema/requiredDefinitionRefs/3",
+            "path": "/schema/requiredDefinitionRefs/3",
+            "type": "string",
+            "meaning": "session-save /schema/requiredDefinitionRefs/3 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "content/config/items.json",
+            "allowed": {
+              "choices": [
+                "content/config/items.json"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/schema"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "resource"
+          },
+          {
+            "id": "session-save:/schema/requiredDefinitionRefs/4",
+            "path": "/schema/requiredDefinitionRefs/4",
+            "type": "string",
+            "meaning": "session-save /schema/requiredDefinitionRefs/4 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "content/config/combat.json",
+            "allowed": {
+              "choices": [
+                "content/config/combat.json"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/schema"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "resource"
+          },
+          {
+            "id": "session-save:/schema/requiredDefinitionRefs/5",
+            "path": "/schema/requiredDefinitionRefs/5",
+            "type": "string",
+            "meaning": "session-save /schema/requiredDefinitionRefs/5 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "content/config/inventory.json",
+            "allowed": {
+              "choices": [
+                "content/config/inventory.json"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/schema"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "resource"
+          },
+          {
+            "id": "session-save:/schema/requiredDefinitionRefs/6",
+            "path": "/schema/requiredDefinitionRefs/6",
+            "type": "string",
+            "meaning": "session-save /schema/requiredDefinitionRefs/6 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "content/config/jobs.json",
+            "allowed": {
+              "choices": [
+                "content/config/jobs.json"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/schema"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "resource"
+          },
+          {
+            "id": "session-save:/schema/requiredDefinitionRefs/7",
+            "path": "/schema/requiredDefinitionRefs/7",
+            "type": "string",
+            "meaning": "session-save /schema/requiredDefinitionRefs/7 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "content/config/food-wildlife.json",
+            "allowed": {
+              "choices": [
+                "content/config/food-wildlife.json"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/schema"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "resource"
+          },
+          {
+            "id": "session-save:/schema/requiredDefinitionRefs/8",
+            "path": "/schema/requiredDefinitionRefs/8",
+            "type": "string",
+            "meaning": "session-save /schema/requiredDefinitionRefs/8 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "content/config/map-sites.json",
+            "allowed": {
+              "choices": [
+                "content/config/map-sites.json"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/schema"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "resource"
+          },
+          {
+            "id": "session-save:/schema/requiredDefinitionRefs/9",
+            "path": "/schema/requiredDefinitionRefs/9",
+            "type": "string",
+            "meaning": "session-save /schema/requiredDefinitionRefs/9 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "content/config/structures.json",
+            "allowed": {
+              "choices": [
+                "content/config/structures.json"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/schema"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "resource"
+          },
+          {
+            "id": "session-save:/schema/requiredDefinitionRefs/10",
+            "path": "/schema/requiredDefinitionRefs/10",
+            "type": "string",
+            "meaning": "session-save /schema/requiredDefinitionRefs/10 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "content/config/towers.json",
+            "allowed": {
+              "choices": [
+                "content/config/towers.json"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/schema"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "resource"
+          },
+          {
+            "id": "session-save:/schema/requiredDefinitionRefs/11",
+            "path": "/schema/requiredDefinitionRefs/11",
+            "type": "string",
+            "meaning": "session-save /schema/requiredDefinitionRefs/11 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "content/config/zombies.json",
+            "allowed": {
+              "choices": [
+                "content/config/zombies.json"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/schema"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "resource"
+          },
+          {
+            "id": "session-save:/schema/requiredDefinitionRefs/12",
+            "path": "/schema/requiredDefinitionRefs/12",
+            "type": "string",
+            "meaning": "session-save /schema/requiredDefinitionRefs/12 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "content/config/zombie-loot.json",
+            "allowed": {
+              "choices": [
+                "content/config/zombie-loot.json"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/schema"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "resource"
+          },
+          {
+            "id": "session-save:/schema/requiredDefinitionRefs/13",
+            "path": "/schema/requiredDefinitionRefs/13",
+            "type": "string",
+            "meaning": "session-save /schema/requiredDefinitionRefs/13 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "content/config/zombie-progression.json",
+            "allowed": {
+              "choices": [
+                "content/config/zombie-progression.json"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/schema"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "resource"
+          },
+          {
+            "id": "session-save:/schema/requiredDefinitionRefs/14",
+            "path": "/schema/requiredDefinitionRefs/14",
+            "type": "string",
+            "meaning": "session-save /schema/requiredDefinitionRefs/14 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "content/config/portals-assaults.json",
+            "allowed": {
+              "choices": [
+                "content/config/portals-assaults.json"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/schema"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "resource"
+          },
+          {
+            "id": "session-save:/schema/appearanceRefs",
+            "path": "/schema/appearanceRefs",
+            "type": "array",
+            "meaning": "session-save /schema/appearanceRefs baseline",
+            "unit": "ordered-list",
+            "default": [
+              "content/packs/bodies-a.json",
+              "content/packs/bodies-b.json",
+              "content/packs/bodies-c.json",
+              "content/packs/items-01-10.json",
+              "content/packs/items-11-24.json"
+            ],
+            "allowed": {
+              "minItems": 5,
+              "maxItems": 5
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/schema"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/schema/appearanceRefs/0",
+            "path": "/schema/appearanceRefs/0",
+            "type": "string",
+            "meaning": "session-save /schema/appearanceRefs/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "content/packs/bodies-a.json",
+            "allowed": {
+              "choices": [
+                "content/packs/bodies-a.json"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/schema"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "resource"
+          },
+          {
+            "id": "session-save:/schema/appearanceRefs/1",
+            "path": "/schema/appearanceRefs/1",
+            "type": "string",
+            "meaning": "session-save /schema/appearanceRefs/1 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "content/packs/bodies-b.json",
+            "allowed": {
+              "choices": [
+                "content/packs/bodies-b.json"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/schema"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "resource"
+          },
+          {
+            "id": "session-save:/schema/appearanceRefs/2",
+            "path": "/schema/appearanceRefs/2",
+            "type": "string",
+            "meaning": "session-save /schema/appearanceRefs/2 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "content/packs/bodies-c.json",
+            "allowed": {
+              "choices": [
+                "content/packs/bodies-c.json"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/schema"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "resource"
+          },
+          {
+            "id": "session-save:/schema/appearanceRefs/3",
+            "path": "/schema/appearanceRefs/3",
+            "type": "string",
+            "meaning": "session-save /schema/appearanceRefs/3 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "content/packs/items-01-10.json",
+            "allowed": {
+              "choices": [
+                "content/packs/items-01-10.json"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/schema"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "resource"
+          },
+          {
+            "id": "session-save:/schema/appearanceRefs/4",
+            "path": "/schema/appearanceRefs/4",
+            "type": "string",
+            "meaning": "session-save /schema/appearanceRefs/4 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "content/packs/items-11-24.json",
+            "allowed": {
+              "choices": [
+                "content/packs/items-11-24.json"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/schema"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "resource"
+          },
+          {
+            "id": "session-save:/schema/layoutCompatibility",
+            "path": "/schema/layoutCompatibility",
+            "type": "string",
+            "meaning": "session-save /schema/layoutCompatibility baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "saved-dimensions-placements-orientation-stacks-slots-depth-preserved-legacy-policy",
+            "allowed": {
+              "choices": [
+                "saved-dimensions-placements-orientation-stacks-slots-depth-preserved-legacy-policy"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/schema"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/schema/missingRequired",
+            "path": "/schema/missingRequired",
+            "type": "string",
+            "meaning": "session-save /schema/missingRequired baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "actionable-error-preserve-original-save",
+            "allowed": {
+              "choices": [
+                "actionable-error-preserve-original-save"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/schema"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/schema/joinCompatibility",
+            "path": "/schema/joinCompatibility",
+            "type": "string",
+            "meaning": "session-save /schema/joinCompatibility baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "reject-incompatible-gameplay-or-content-before-control",
+            "allowed": {
+              "choices": [
+                "reject-incompatible-gameplay-or-content-before-control"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/schema"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/schema/validBalanceChanges",
+            "path": "/schema/validBalanceChanges",
+            "type": "string",
+            "meaning": "session-save /schema/validBalanceChanges baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "distinct-from-missing-required-content",
+            "allowed": {
+              "choices": [
+                "distinct-from-missing-required-content"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/schema"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves",
+            "path": "/saves",
+            "type": "object",
+            "meaning": "session-save /saves baseline",
+            "unit": "record",
+            "default": {
+              "manual": "any-active-game-time",
+              "manualRetention": "unlimited-while-storage-permits",
+              "autosaveTriggers": [
+                "dawn",
+                "normal-host-exit"
+              ],
+              "autosavesPerRun": 3,
+              "namedRuns": true,
+              "distinctRunOverwrite": false,
+              "coherentWhilePlaying": true,
+              "pause": false,
+              "heal": false,
+              "repairWear": false,
+              "refill": false,
+              "finishPaidWork": false,
+              "reroll": false,
+              "repeatEvents": false,
+              "requiredState": [
+                "run-identity",
+                "map-content-version",
+                "day-phase-fraction",
+                "victory-defeat-record",
+                "shared-exploration",
+                "characters-health-stamina-living-dead",
+                "equipment-appearances",
+                "complete-nested-inventories-quantities-durability-legacy-layouts",
+                "stash-pages",
+                "ground-loot-corpses-empty-cleanup-progress",
+                "buildings-last-completed-tiers-damage-paid-work",
+                "cleared-trees-camp-boundaries",
+                "roles-equipment-waiting-task-progress-cargo",
+                "rally-squads-recall-return",
+                "portals-warnings-spawn-counts-wave-queues",
+                "daily-event-completion-randomness",
+                "plant-stock-wildlife-daily-refill-spawn-status",
+                "stable-player-identities-previous-survivor-associations",
+                "accepted-commitments-compatibility"
+              ],
+              "failure": "preserve-last-valid-save-and-show-host-actionable-error",
+              "exitFailureChoices": [
+                "retry",
+                "return-to-play",
+                "explicit-leave-without-latest-save"
+              ],
+              "terminalStateSave": true,
+              "earlierSavesSelectable": true,
+              "crashLastMomentPromise": false
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/manual",
+            "path": "/saves/manual",
+            "type": "string",
+            "meaning": "session-save /saves/manual baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "any-active-game-time",
+            "allowed": {
+              "choices": [
+                "any-active-game-time"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/manualRetention",
+            "path": "/saves/manualRetention",
+            "type": "string",
+            "meaning": "session-save /saves/manualRetention baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "unlimited-while-storage-permits",
+            "allowed": {
+              "choices": [
+                "unlimited-while-storage-permits"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/autosaveTriggers",
+            "path": "/saves/autosaveTriggers",
+            "type": "array",
+            "meaning": "session-save /saves/autosaveTriggers baseline",
+            "unit": "ordered-list",
+            "default": [
+              "dawn",
+              "normal-host-exit"
+            ],
+            "allowed": {
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/autosaveTriggers/0",
+            "path": "/saves/autosaveTriggers/0",
+            "type": "string",
+            "meaning": "session-save /saves/autosaveTriggers/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "dawn",
+            "allowed": {
+              "choices": [
+                "dawn"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/autosaveTriggers/1",
+            "path": "/saves/autosaveTriggers/1",
+            "type": "string",
+            "meaning": "session-save /saves/autosaveTriggers/1 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "normal-host-exit",
+            "allowed": {
+              "choices": [
+                "normal-host-exit"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/autosavesPerRun",
+            "path": "/saves/autosavesPerRun",
+            "type": "number",
+            "meaning": "session-save /saves/autosavesPerRun baseline",
+            "unit": "count",
+            "default": 3,
+            "allowed": {
+              "minimum": 0,
+              "maximum": 1000000,
+              "integer": true
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/namedRuns",
+            "path": "/saves/namedRuns",
+            "type": "boolean",
+            "meaning": "session-save /saves/namedRuns baseline",
+            "unit": "boolean",
+            "default": true,
+            "allowed": {
+              "choices": [
+                true
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/distinctRunOverwrite",
+            "path": "/saves/distinctRunOverwrite",
+            "type": "boolean",
+            "meaning": "session-save /saves/distinctRunOverwrite baseline",
+            "unit": "boolean",
+            "default": false,
+            "allowed": {
+              "choices": [
+                false
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/coherentWhilePlaying",
+            "path": "/saves/coherentWhilePlaying",
+            "type": "boolean",
+            "meaning": "session-save /saves/coherentWhilePlaying baseline",
+            "unit": "boolean",
+            "default": true,
+            "allowed": {
+              "choices": [
+                true
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/pause",
+            "path": "/saves/pause",
+            "type": "boolean",
+            "meaning": "session-save /saves/pause baseline",
+            "unit": "boolean",
+            "default": false,
+            "allowed": {
+              "choices": [
+                false
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/heal",
+            "path": "/saves/heal",
+            "type": "boolean",
+            "meaning": "session-save /saves/heal baseline",
+            "unit": "boolean",
+            "default": false,
+            "allowed": {
+              "choices": [
+                false
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/repairWear",
+            "path": "/saves/repairWear",
+            "type": "boolean",
+            "meaning": "session-save /saves/repairWear baseline",
+            "unit": "boolean",
+            "default": false,
+            "allowed": {
+              "choices": [
+                false
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/refill",
+            "path": "/saves/refill",
+            "type": "boolean",
+            "meaning": "session-save /saves/refill baseline",
+            "unit": "boolean",
+            "default": false,
+            "allowed": {
+              "choices": [
+                false
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/finishPaidWork",
+            "path": "/saves/finishPaidWork",
+            "type": "boolean",
+            "meaning": "session-save /saves/finishPaidWork baseline",
+            "unit": "boolean",
+            "default": false,
+            "allowed": {
+              "choices": [
+                false
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/reroll",
+            "path": "/saves/reroll",
+            "type": "boolean",
+            "meaning": "session-save /saves/reroll baseline",
+            "unit": "boolean",
+            "default": false,
+            "allowed": {
+              "choices": [
+                false
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/repeatEvents",
+            "path": "/saves/repeatEvents",
+            "type": "boolean",
+            "meaning": "session-save /saves/repeatEvents baseline",
+            "unit": "boolean",
+            "default": false,
+            "allowed": {
+              "choices": [
+                false
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/requiredState",
+            "path": "/saves/requiredState",
+            "type": "array",
+            "meaning": "session-save /saves/requiredState baseline",
+            "unit": "ordered-list",
+            "default": [
+              "run-identity",
+              "map-content-version",
+              "day-phase-fraction",
+              "victory-defeat-record",
+              "shared-exploration",
+              "characters-health-stamina-living-dead",
+              "equipment-appearances",
+              "complete-nested-inventories-quantities-durability-legacy-layouts",
+              "stash-pages",
+              "ground-loot-corpses-empty-cleanup-progress",
+              "buildings-last-completed-tiers-damage-paid-work",
+              "cleared-trees-camp-boundaries",
+              "roles-equipment-waiting-task-progress-cargo",
+              "rally-squads-recall-return",
+              "portals-warnings-spawn-counts-wave-queues",
+              "daily-event-completion-randomness",
+              "plant-stock-wildlife-daily-refill-spawn-status",
+              "stable-player-identities-previous-survivor-associations",
+              "accepted-commitments-compatibility"
+            ],
+            "allowed": {
+              "minItems": 19,
+              "maxItems": 19
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/requiredState/0",
+            "path": "/saves/requiredState/0",
+            "type": "string",
+            "meaning": "session-save /saves/requiredState/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "run-identity",
+            "allowed": {
+              "choices": [
+                "run-identity"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/requiredState/1",
+            "path": "/saves/requiredState/1",
+            "type": "string",
+            "meaning": "session-save /saves/requiredState/1 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "map-content-version",
+            "allowed": {
+              "choices": [
+                "map-content-version"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/requiredState/2",
+            "path": "/saves/requiredState/2",
+            "type": "string",
+            "meaning": "session-save /saves/requiredState/2 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "day-phase-fraction",
+            "allowed": {
+              "choices": [
+                "day-phase-fraction"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/requiredState/3",
+            "path": "/saves/requiredState/3",
+            "type": "string",
+            "meaning": "session-save /saves/requiredState/3 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "victory-defeat-record",
+            "allowed": {
+              "choices": [
+                "victory-defeat-record"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/requiredState/4",
+            "path": "/saves/requiredState/4",
+            "type": "string",
+            "meaning": "session-save /saves/requiredState/4 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "shared-exploration",
+            "allowed": {
+              "choices": [
+                "shared-exploration"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/requiredState/5",
+            "path": "/saves/requiredState/5",
+            "type": "string",
+            "meaning": "session-save /saves/requiredState/5 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "characters-health-stamina-living-dead",
+            "allowed": {
+              "choices": [
+                "characters-health-stamina-living-dead"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/requiredState/6",
+            "path": "/saves/requiredState/6",
+            "type": "string",
+            "meaning": "session-save /saves/requiredState/6 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "equipment-appearances",
+            "allowed": {
+              "choices": [
+                "equipment-appearances"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/requiredState/7",
+            "path": "/saves/requiredState/7",
+            "type": "string",
+            "meaning": "session-save /saves/requiredState/7 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "complete-nested-inventories-quantities-durability-legacy-layouts",
+            "allowed": {
+              "choices": [
+                "complete-nested-inventories-quantities-durability-legacy-layouts"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/requiredState/8",
+            "path": "/saves/requiredState/8",
+            "type": "string",
+            "meaning": "session-save /saves/requiredState/8 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "stash-pages",
+            "allowed": {
+              "choices": [
+                "stash-pages"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/requiredState/9",
+            "path": "/saves/requiredState/9",
+            "type": "string",
+            "meaning": "session-save /saves/requiredState/9 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "ground-loot-corpses-empty-cleanup-progress",
+            "allowed": {
+              "choices": [
+                "ground-loot-corpses-empty-cleanup-progress"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/requiredState/10",
+            "path": "/saves/requiredState/10",
+            "type": "string",
+            "meaning": "session-save /saves/requiredState/10 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "buildings-last-completed-tiers-damage-paid-work",
+            "allowed": {
+              "choices": [
+                "buildings-last-completed-tiers-damage-paid-work"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/requiredState/11",
+            "path": "/saves/requiredState/11",
+            "type": "string",
+            "meaning": "session-save /saves/requiredState/11 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "cleared-trees-camp-boundaries",
+            "allowed": {
+              "choices": [
+                "cleared-trees-camp-boundaries"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/requiredState/12",
+            "path": "/saves/requiredState/12",
+            "type": "string",
+            "meaning": "session-save /saves/requiredState/12 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "roles-equipment-waiting-task-progress-cargo",
+            "allowed": {
+              "choices": [
+                "roles-equipment-waiting-task-progress-cargo"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/requiredState/13",
+            "path": "/saves/requiredState/13",
+            "type": "string",
+            "meaning": "session-save /saves/requiredState/13 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "rally-squads-recall-return",
+            "allowed": {
+              "choices": [
+                "rally-squads-recall-return"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/requiredState/14",
+            "path": "/saves/requiredState/14",
+            "type": "string",
+            "meaning": "session-save /saves/requiredState/14 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "portals-warnings-spawn-counts-wave-queues",
+            "allowed": {
+              "choices": [
+                "portals-warnings-spawn-counts-wave-queues"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/requiredState/15",
+            "path": "/saves/requiredState/15",
+            "type": "string",
+            "meaning": "session-save /saves/requiredState/15 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "daily-event-completion-randomness",
+            "allowed": {
+              "choices": [
+                "daily-event-completion-randomness"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/requiredState/16",
+            "path": "/saves/requiredState/16",
+            "type": "string",
+            "meaning": "session-save /saves/requiredState/16 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "plant-stock-wildlife-daily-refill-spawn-status",
+            "allowed": {
+              "choices": [
+                "plant-stock-wildlife-daily-refill-spawn-status"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/requiredState/17",
+            "path": "/saves/requiredState/17",
+            "type": "string",
+            "meaning": "session-save /saves/requiredState/17 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "stable-player-identities-previous-survivor-associations",
+            "allowed": {
+              "choices": [
+                "stable-player-identities-previous-survivor-associations"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/requiredState/18",
+            "path": "/saves/requiredState/18",
+            "type": "string",
+            "meaning": "session-save /saves/requiredState/18 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "accepted-commitments-compatibility",
+            "allowed": {
+              "choices": [
+                "accepted-commitments-compatibility"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/failure",
+            "path": "/saves/failure",
+            "type": "string",
+            "meaning": "session-save /saves/failure baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "preserve-last-valid-save-and-show-host-actionable-error",
+            "allowed": {
+              "choices": [
+                "preserve-last-valid-save-and-show-host-actionable-error"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/exitFailureChoices",
+            "path": "/saves/exitFailureChoices",
+            "type": "array",
+            "meaning": "session-save /saves/exitFailureChoices baseline",
+            "unit": "ordered-list",
+            "default": [
+              "retry",
+              "return-to-play",
+              "explicit-leave-without-latest-save"
+            ],
+            "allowed": {
+              "minItems": 3,
+              "maxItems": 3
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/exitFailureChoices/0",
+            "path": "/saves/exitFailureChoices/0",
+            "type": "string",
+            "meaning": "session-save /saves/exitFailureChoices/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "retry",
+            "allowed": {
+              "choices": [
+                "retry"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/exitFailureChoices/1",
+            "path": "/saves/exitFailureChoices/1",
+            "type": "string",
+            "meaning": "session-save /saves/exitFailureChoices/1 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "return-to-play",
+            "allowed": {
+              "choices": [
+                "return-to-play"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/exitFailureChoices/2",
+            "path": "/saves/exitFailureChoices/2",
+            "type": "string",
+            "meaning": "session-save /saves/exitFailureChoices/2 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "explicit-leave-without-latest-save",
+            "allowed": {
+              "choices": [
+                "explicit-leave-without-latest-save"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/terminalStateSave",
+            "path": "/saves/terminalStateSave",
+            "type": "boolean",
+            "meaning": "session-save /saves/terminalStateSave baseline",
+            "unit": "boolean",
+            "default": true,
+            "allowed": {
+              "choices": [
+                true
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/earlierSavesSelectable",
+            "path": "/saves/earlierSavesSelectable",
+            "type": "boolean",
+            "meaning": "session-save /saves/earlierSavesSelectable baseline",
+            "unit": "boolean",
+            "default": true,
+            "allowed": {
+              "choices": [
+                true
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/saves/crashLastMomentPromise",
+            "path": "/saves/crashLastMomentPromise",
+            "type": "boolean",
+            "meaning": "session-save /saves/crashLastMomentPromise baseline",
+            "unit": "boolean",
+            "default": false,
+            "allowed": {
+              "choices": [
+                false
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.1",
+              "src/godot-game/content/config/session-save.json/saves"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.1",
+              "evidence": "The host may save manually at any active-game time. Autosave at dawn and on normal session exit. Support multiple named saved runs and selecting a save to resume."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/hostSettings",
+            "path": "/hostSettings",
+            "type": "object",
+            "meaning": "session-save /hostSettings baseline",
+            "unit": "record",
+            "default": {
+              "apply": [
+                "new-run",
+                "load-existing-save"
+              ],
+              "liveReload": false,
+              "guests": "host-effective-settings",
+              "lowerMaximum": "clamp-current-health-stamina-durability",
+              "higherMaximum": "no-heal-or-repair",
+              "inventory": "preserve-ownership-and-legacy-placement",
+              "time": "preserve-phase-and-fraction-load-is-not-dawn",
+              "progression": "recalculate-from-saved-day-current-interval-and-stages-for-future-waves",
+              "accepted": "preserve-payments-generated-items-completed-work-pending-wave-commitments-no-recharge-refund-or-reroll",
+              "futurePricesSpeeds": "current-definitions",
+              "constructionClearing": "retain-remaining-work-quantity",
+              "paidRepair": "retain-full-health-target-no-new-fee-even-if-maximum-changes",
+              "lowerPopulationCap": "keep-existing-block-further-purchases-spawns-until-below-cap"
+            },
+            "allowed": {},
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/hostSettings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/hostSettings/apply",
+            "path": "/hostSettings/apply",
+            "type": "array",
+            "meaning": "session-save /hostSettings/apply baseline",
+            "unit": "ordered-list",
+            "default": [
+              "new-run",
+              "load-existing-save"
+            ],
+            "allowed": {
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/hostSettings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/hostSettings/apply/0",
+            "path": "/hostSettings/apply/0",
+            "type": "string",
+            "meaning": "session-save /hostSettings/apply/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "new-run",
+            "allowed": {
+              "choices": [
+                "new-run"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/hostSettings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/hostSettings/apply/1",
+            "path": "/hostSettings/apply/1",
+            "type": "string",
+            "meaning": "session-save /hostSettings/apply/1 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "load-existing-save",
+            "allowed": {
+              "choices": [
+                "load-existing-save"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/hostSettings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/hostSettings/liveReload",
+            "path": "/hostSettings/liveReload",
+            "type": "boolean",
+            "meaning": "session-save /hostSettings/liveReload baseline",
+            "unit": "boolean",
+            "default": false,
+            "allowed": {
+              "choices": [
+                false
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/hostSettings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/hostSettings/guests",
+            "path": "/hostSettings/guests",
+            "type": "string",
+            "meaning": "session-save /hostSettings/guests baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "host-effective-settings",
+            "allowed": {
+              "choices": [
+                "host-effective-settings"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/hostSettings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/hostSettings/lowerMaximum",
+            "path": "/hostSettings/lowerMaximum",
+            "type": "string",
+            "meaning": "session-save /hostSettings/lowerMaximum baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "clamp-current-health-stamina-durability",
+            "allowed": {
+              "choices": [
+                "clamp-current-health-stamina-durability"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/hostSettings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/hostSettings/higherMaximum",
+            "path": "/hostSettings/higherMaximum",
+            "type": "string",
+            "meaning": "session-save /hostSettings/higherMaximum baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "no-heal-or-repair",
+            "allowed": {
+              "choices": [
+                "no-heal-or-repair"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/hostSettings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/hostSettings/inventory",
+            "path": "/hostSettings/inventory",
+            "type": "string",
+            "meaning": "session-save /hostSettings/inventory baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "preserve-ownership-and-legacy-placement",
+            "allowed": {
+              "choices": [
+                "preserve-ownership-and-legacy-placement"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/hostSettings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/hostSettings/time",
+            "path": "/hostSettings/time",
+            "type": "string",
+            "meaning": "session-save /hostSettings/time baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "preserve-phase-and-fraction-load-is-not-dawn",
+            "allowed": {
+              "choices": [
+                "preserve-phase-and-fraction-load-is-not-dawn"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/hostSettings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/hostSettings/progression",
+            "path": "/hostSettings/progression",
+            "type": "string",
+            "meaning": "session-save /hostSettings/progression baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "recalculate-from-saved-day-current-interval-and-stages-for-future-waves",
+            "allowed": {
+              "choices": [
+                "recalculate-from-saved-day-current-interval-and-stages-for-future-waves"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/hostSettings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/hostSettings/accepted",
+            "path": "/hostSettings/accepted",
+            "type": "string",
+            "meaning": "session-save /hostSettings/accepted baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "preserve-payments-generated-items-completed-work-pending-wave-commitments-no-recharge-refund-or-reroll",
+            "allowed": {
+              "choices": [
+                "preserve-payments-generated-items-completed-work-pending-wave-commitments-no-recharge-refund-or-reroll"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/hostSettings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/hostSettings/futurePricesSpeeds",
+            "path": "/hostSettings/futurePricesSpeeds",
+            "type": "string",
+            "meaning": "session-save /hostSettings/futurePricesSpeeds baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "current-definitions",
+            "allowed": {
+              "choices": [
+                "current-definitions"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/hostSettings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/hostSettings/constructionClearing",
+            "path": "/hostSettings/constructionClearing",
+            "type": "string",
+            "meaning": "session-save /hostSettings/constructionClearing baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "retain-remaining-work-quantity",
+            "allowed": {
+              "choices": [
+                "retain-remaining-work-quantity"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/hostSettings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/hostSettings/paidRepair",
+            "path": "/hostSettings/paidRepair",
+            "type": "string",
+            "meaning": "session-save /hostSettings/paidRepair baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "retain-full-health-target-no-new-fee-even-if-maximum-changes",
+            "allowed": {
+              "choices": [
+                "retain-full-health-target-no-new-fee-even-if-maximum-changes"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/hostSettings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/hostSettings/lowerPopulationCap",
+            "path": "/hostSettings/lowerPopulationCap",
+            "type": "string",
+            "meaning": "session-save /hostSettings/lowerPopulationCap baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "keep-existing-block-further-purchases-spawns-until-below-cap",
+            "allowed": {
+              "choices": [
+                "keep-existing-block-further-purchases-spawns-until-below-cap"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#11.2",
+              "src/godot-game/content/config/session-save.json/hostSettings"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "11.2",
+              "evidence": "Current host configuration applies on new-run start and on loading existing saves. It does not live-reload during a running session. Guests use the host's effective settings."
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/uiRefs",
+            "path": "/uiRefs",
+            "type": "array",
+            "meaning": "session-save /uiRefs baseline",
+            "unit": "ordered-list",
+            "default": [
+              "content/ui/session-save-outcomes.json",
+              "content/ui/settings-errors.json"
+            ],
+            "allowed": {
+              "minItems": 2,
+              "maxItems": 2
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.1",
+              "src/godot-game/content/config/session-save.json/uiRefs"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.1",
+              "evidence": "| Surface | Required information and actions |"
+            },
+            "referenceKind": "none"
+          },
+          {
+            "id": "session-save:/uiRefs/0",
+            "path": "/uiRefs/0",
+            "type": "string",
+            "meaning": "session-save /uiRefs/0 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "content/ui/session-save-outcomes.json",
+            "allowed": {
+              "choices": [
+                "content/ui/session-save-outcomes.json"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.1",
+              "src/godot-game/content/config/session-save.json/uiRefs"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.1",
+              "evidence": "| Surface | Required information and actions |"
+            },
+            "referenceKind": "resource"
+          },
+          {
+            "id": "session-save:/uiRefs/1",
+            "path": "/uiRefs/1",
+            "type": "string",
+            "meaning": "session-save /uiRefs/1 baseline",
+            "unit": "ordinal-policy-or-identity",
+            "default": "content/ui/settings-errors.json",
+            "allowed": {
+              "choices": [
+                "content/ui/settings-errors.json"
+              ]
+            },
+            "dependencies": [
+              "specs/0.1/initial-spec.md#13.1",
+              "src/godot-game/content/config/session-save.json/uiRefs"
+            ],
+            "source": {
+              "document": "specs/0.1/initial-spec.md",
+              "section": "13.1",
+              "evidence": "| Surface | Required information and actions |"
+            },
+            "referenceKind": "resource"
+          }
+        ]
+      }
+    ],
+    "productionChoices": "Existing pinned effect/map resources and explicit authoring choices; exact palette and ambience gains are configurable, not creator-selected hues"
+  }
+}

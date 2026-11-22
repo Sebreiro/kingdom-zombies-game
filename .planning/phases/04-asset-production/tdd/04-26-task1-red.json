@@ -1,0 +1,11 @@
+{
+  "command": "node --test-reporter=tap tools/phase4/cases/hub.cjs --self-test-lifecycle",
+  "exitCode": 1,
+  "output": "TAP version 13\n# Subtest: inspection preview owns explicit transport and lifetime\nnot ok 1 - inspection preview owns explicit transport and lifetime\n  ---\n  duration_ms: 8970.3654\n  type: 'test'\n  location: 'D:\\\\Work\\\\Games\\\\KingdomZombies\\\\tools\\\\phase4\\\\cases\\\\hub.cjs:236:24'\n  failureType: 'testCodeFailure'\n  error: |-\n    preview-transport-exists: \"The current preview owns explicit play/pause, speed, step and reset Controls\"\n    \n    false !== true\n    \n  code: 'ERR_ASSERTION'\n  name: 'AssertionError'\n  expected: true\n  actual: false\n  operator: 'strictEqual'\n  stack: |-\n    TestContext.<anonymous> (D:\\Work\\Games\\KingdomZombies\\tools\\phase4\\cases\\hub.cjs:243:49)\n    process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    async Test.run (node:internal/test_runner/test:1409:7)\n    async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3)\n  ...\n1..1\n# tests 1\n# suites 0\n# pass 0\n# fail 1\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 8975.3326\n",
+  "targetTest": "inspection preview owns explicit transport and lifetime",
+  "targetFile": "tools/phase4/cases/hub.cjs",
+  "expected": "Actual compiled native preview exposes explicit owned transport and lifecycle",
+  "actual": "Native preview-transport-exists assertion returns false",
+  "semanticAssessment": "Actual compiled CSharp native scene completes all inherited25 observations; target transport existence assertion fails on native has_node, without compiler/import/fixture faults",
+  "stderr": ""
+}

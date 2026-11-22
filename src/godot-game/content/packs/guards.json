@@ -1,0 +1,446 @@
+{
+  "schemaVersion": 1,
+  "id": "guards",
+  "version": 1,
+  "obligations": [
+    "CH-09",
+    "AN-18"
+  ],
+  "atlas": {
+    "path": "res://assets/characters/structural-guard.png",
+    "size": [
+      256,
+      64
+    ],
+    "sha256": "8efd6431d869fc122acd6b341b4421aa1a0e990681715a05dc16b43adf519c56",
+    "rgbaSha256": "7ba61f9fe4bb653da862c22c2fdc5994d5cea157dda0088fc909b16a955a18e0"
+  },
+  "sourceBundle": {
+    "path": "production/phase4/main-buildings.zip",
+    "sha256": "a0bde48040dea1d681f78a92910e06b4060e2b03874ca64b8023626a9934458d",
+    "clip": "sources/guard-shoot.json",
+    "clipId": "common.clip.783",
+    "frames": [
+      {
+        "member": "parts/guard-shoot-0.png",
+        "sha256": "4648ad14380cebaaf8f506d831f0b083d42f9ec5b2811e891992cc24be7ba16b",
+        "anchor": [
+          11,
+          21
+        ],
+        "time": 0.0
+      },
+      {
+        "member": "parts/guard-shoot-1.png",
+        "sha256": "d47342f160415ef54ef29d590a94f285abd4dd6a65aedd40adbf018b69054426",
+        "anchor": [
+          10,
+          21
+        ],
+        "time": 0.125
+      },
+      {
+        "member": "parts/guard-shoot-2.png",
+        "sha256": "24e5ad45ff716b3d81a72ff80c4dc4929812ca2bec9b745e8f853bec7515c75f",
+        "anchor": [
+          10,
+          21
+        ],
+        "time": 0.25
+      },
+      {
+        "member": "parts/guard-shoot-3.png",
+        "sha256": "5c8173afcd509c262c1a6d547f826d958e6d12775dbb93a7b3917055435dec61",
+        "anchor": [
+          10,
+          21
+        ],
+        "time": 0.375
+      },
+      {
+        "member": "parts/guard-shoot-4.png",
+        "sha256": "8d9e11ceabeeebdc1f6bd9ba3775b05cb7d1d2d174fc3b7970e346dd067e5803",
+        "anchor": [
+          9,
+          21
+        ],
+        "time": 0.5
+      }
+    ],
+    "arrowMember": "parts/arrow.png",
+    "arrowSha256": "2d63c98b0c2bdc1076206d49ebaaa7c278c3814d48458d4051d6906e5229b541"
+  },
+  "parts": [
+    {
+      "key": "torso-0",
+      "atlasRect": [
+        1,
+        1,
+        22,
+        23
+      ],
+      "rgbaSha256": "274093fcf409810b2c5b7d9e75f33c1973ac5a26cd19062e50534b86311251fe",
+      "origin": "parts/guard-shoot-0.png",
+      "operations": [
+        {
+          "op": "split-arm-bow",
+          "complement": true,
+          "rows": [
+            6,
+            15
+          ],
+          "anchorX": 11,
+          "centralHalfWidth": 2,
+          "warmThreshold": 15
+        }
+      ]
+    },
+    {
+      "key": "arms-0",
+      "atlasRect": [
+        24,
+        1,
+        22,
+        23
+      ],
+      "rgbaSha256": "07178cd4b9535758763870636de635be7750144c8df64f27ee3b541a5e42c4c0",
+      "origin": "parts/guard-shoot-0.png",
+      "operations": [
+        {
+          "op": "split-arm-bow",
+          "complement": false,
+          "rows": [
+            6,
+            15
+          ],
+          "anchorX": 11,
+          "centralHalfWidth": 2,
+          "warmThreshold": 15
+        }
+      ]
+    },
+    {
+      "key": "torso-1",
+      "atlasRect": [
+        47,
+        1,
+        20,
+        23
+      ],
+      "rgbaSha256": "1c5c5d24d3a001c3e40d318187cdb1a6b400ade6ba5cd448aa719cf678347a8d",
+      "origin": "parts/guard-shoot-1.png",
+      "operations": [
+        {
+          "op": "split-arm-bow",
+          "complement": true,
+          "rows": [
+            6,
+            15
+          ],
+          "anchorX": 10,
+          "centralHalfWidth": 2,
+          "warmThreshold": 15
+        }
+      ]
+    },
+    {
+      "key": "arms-1",
+      "atlasRect": [
+        68,
+        1,
+        20,
+        23
+      ],
+      "rgbaSha256": "8477e768362dfa55a2e7b264c06bb166006bfed4747f6c2f4301861635d4e06d",
+      "origin": "parts/guard-shoot-1.png",
+      "operations": [
+        {
+          "op": "split-arm-bow",
+          "complement": false,
+          "rows": [
+            6,
+            15
+          ],
+          "anchorX": 10,
+          "centralHalfWidth": 2,
+          "warmThreshold": 15
+        }
+      ]
+    },
+    {
+      "key": "torso-2",
+      "atlasRect": [
+        89,
+        1,
+        21,
+        23
+      ],
+      "rgbaSha256": "dd6377eaa7bc6288c9ed95f130fd0c54518520228f19fa597e28c518dc1e3a5b",
+      "origin": "parts/guard-shoot-2.png",
+      "operations": [
+        {
+          "op": "split-arm-bow",
+          "complement": true,
+          "rows": [
+            6,
+            15
+          ],
+          "anchorX": 10,
+          "centralHalfWidth": 2,
+          "warmThreshold": 15
+        }
+      ]
+    },
+    {
+      "key": "arms-2",
+      "atlasRect": [
+        111,
+        1,
+        21,
+        23
+      ],
+      "rgbaSha256": "0020abfe0366427c9df4aaff21690249eb3223de665e8a1d9948d8ef43dff2f4",
+      "origin": "parts/guard-shoot-2.png",
+      "operations": [
+        {
+          "op": "split-arm-bow",
+          "complement": false,
+          "rows": [
+            6,
+            15
+          ],
+          "anchorX": 10,
+          "centralHalfWidth": 2,
+          "warmThreshold": 15
+        }
+      ]
+    },
+    {
+      "key": "torso-3",
+      "atlasRect": [
+        133,
+        1,
+        21,
+        23
+      ],
+      "rgbaSha256": "dd6377eaa7bc6288c9ed95f130fd0c54518520228f19fa597e28c518dc1e3a5b",
+      "origin": "parts/guard-shoot-3.png",
+      "operations": [
+        {
+          "op": "split-arm-bow",
+          "complement": true,
+          "rows": [
+            6,
+            15
+          ],
+          "anchorX": 10,
+          "centralHalfWidth": 2,
+          "warmThreshold": 15
+        }
+      ]
+    },
+    {
+      "key": "arms-3",
+      "atlasRect": [
+        155,
+        1,
+        21,
+        23
+      ],
+      "rgbaSha256": "9960228adcd6d57b5c8efe319452240af458926e742f659be6ad6d75a7de5b39",
+      "origin": "parts/guard-shoot-3.png",
+      "operations": [
+        {
+          "op": "split-arm-bow",
+          "complement": false,
+          "rows": [
+            6,
+            15
+          ],
+          "anchorX": 10,
+          "centralHalfWidth": 2,
+          "warmThreshold": 15
+        }
+      ]
+    },
+    {
+      "key": "torso-4",
+      "atlasRect": [
+        177,
+        1,
+        19,
+        23
+      ],
+      "rgbaSha256": "2cf0217c8b92061bd35a27768b5d355bf956e02738bb51815c54627b12f23a4f",
+      "origin": "parts/guard-shoot-4.png",
+      "operations": [
+        {
+          "op": "split-arm-bow",
+          "complement": true,
+          "rows": [
+            6,
+            15
+          ],
+          "anchorX": 9,
+          "centralHalfWidth": 2,
+          "warmThreshold": 15
+        }
+      ]
+    },
+    {
+      "key": "arms-4",
+      "atlasRect": [
+        197,
+        1,
+        19,
+        23
+      ],
+      "rgbaSha256": "16db6ebd8e8a0f7fc92706f40ffdff563998562098da5b252d835b58ef529e52",
+      "origin": "parts/guard-shoot-4.png",
+      "operations": [
+        {
+          "op": "split-arm-bow",
+          "complement": false,
+          "rows": [
+            6,
+            15
+          ],
+          "anchorX": 9,
+          "centralHalfWidth": 2,
+          "warmThreshold": 15
+        }
+      ]
+    },
+    {
+      "key": "arrow",
+      "atlasRect": [
+        217,
+        1,
+        8,
+        4
+      ],
+      "rgbaSha256": "93c34784a5fabf26dcb7164a068f9ce920f166214bbc00dd101d4f5cce333dad",
+      "origin": "parts/arrow.png",
+      "operations": []
+    }
+  ],
+  "frames": [
+    {
+      "time": 0.0,
+      "body": "torso-0",
+      "arms": "arms-0",
+      "anchor": [
+        11,
+        21
+      ],
+      "shoulder": [
+        11,
+        10
+      ]
+    },
+    {
+      "time": 0.125,
+      "body": "torso-1",
+      "arms": "arms-1",
+      "anchor": [
+        10,
+        21
+      ],
+      "shoulder": [
+        10,
+        10
+      ]
+    },
+    {
+      "time": 0.25,
+      "body": "torso-2",
+      "arms": "arms-2",
+      "anchor": [
+        10,
+        21
+      ],
+      "shoulder": [
+        10,
+        10
+      ]
+    },
+    {
+      "time": 0.375,
+      "body": "torso-3",
+      "arms": "arms-3",
+      "anchor": [
+        10,
+        21
+      ],
+      "shoulder": [
+        10,
+        10
+      ]
+    },
+    {
+      "time": 0.5,
+      "body": "torso-4",
+      "arms": "arms-4",
+      "anchor": [
+        9,
+        21
+      ],
+      "shoulder": [
+        9,
+        10
+      ]
+    }
+  ],
+  "timing": {
+    "start": 0,
+    "stop": 0.625,
+    "sampleRate": 8,
+    "interval": 1.4,
+    "release": 0.25,
+    "arrowLifetime": 0.375,
+    "arrowSpeed": 72
+  },
+  "aim": {
+    "method": "independent-facing-with-shoulder-led-continuous-bow",
+    "minimum": -1.3,
+    "maximum": 1.3,
+    "bodyRotation": 0,
+    "sourceBowInArmLayer": true,
+    "extraBow": false,
+    "releaseOffset": [
+      12,
+      0
+    ]
+  },
+  "ownership": {
+    "inventory": false,
+    "populationUse": 0,
+    "corpse": false,
+    "loot": false,
+    "bowDurability": false,
+    "ammo": "unlimited-intrinsic",
+    "targets": [
+      "zombie"
+    ],
+    "mainAttachments": {
+      "tier": 3,
+      "count": 2,
+      "profileTier": 1,
+      "healthOwner": "main",
+      "phase": [
+        0,
+        0.7
+      ]
+    }
+  },
+  "recipe": {
+    "language": "python/pillow existing pin",
+    "split": "For each exact retained K15 frame, mask rows6..15 where x<anchorX-2 OR x>anchorX+1 OR red>blue+15 into arm/bow; complement into torso. Original RGB/alpha retained. Atlas at sequential x+1,y1; no second bow. Arrow reused unchanged.",
+    "sha256": "010e07eb477e5d8be28f17b77522a4cb8129b916aff44cd57ae411eb16fb6589",
+    "code": "import pathlib,json,zipfile,io,hashlib,math\nfrom PIL import Image\nroot=pathlib.Path('D:/Work/Games/KingdomZombies');sha=lambda b:hashlib.sha256(b).hexdigest();dump=lambda o:(json.dumps(o,indent=2,allow_nan=False)+'\\n').encode()\nz=zipfile.ZipFile(root/'production/phase4/main-buildings.zip');main=json.loads((root/'src/godot-game/content/world/main-assemblies.json').read_bytes());atlas=Image.new('RGBA',(256,64));parts=[];x=1;source=[]\ndef add(key,im,origin,operations):\n global x\n atlas.alpha_composite(im,(x,1));parts.append({'key':key,'atlasRect':[x,1,im.width,im.height],'rgbaSha256':sha(im.tobytes()),'origin':origin,'operations':operations});x+=im.width+1\nfor i,f in enumerate(main['guard']['frames']):\n member='parts/guard-shoot-'+str(i)+'.png';b=z.read(member);im=Image.open(io.BytesIO(b)).convert('RGBA');anchor=f['anchor'];body=im.copy();arms=Image.new('RGBA',im.size)\n for yy in range(im.height):\n  for xx in range(im.width):\n   r,g,blue,a=im.getpixel((xx,yy))\n   if 6<=yy<=15 and (xx<anchor[0]-2 or xx>anchor[0]+1 or r>blue+15):arms.putpixel((xx,yy),(r,g,blue,a));body.putpixel((xx,yy),(0,0,0,0))\n add('torso-'+str(i),body,member,[{'op':'split-arm-bow','complement':True,'rows':[6,15],'anchorX':anchor[0],'centralHalfWidth':2,'warmThreshold':15}]);add('arms-'+str(i),arms,member,[{'op':'split-arm-bow','complement':False,'rows':[6,15],'anchorX':anchor[0],'centralHalfWidth':2,'warmThreshold':15}]);source.append({'member':member,'sha256':sha(b),'anchor':anchor,'time':f['time']})\narrow=Image.open(io.BytesIO(z.read('parts/arrow.png'))).convert('RGBA');add('arrow',arrow,'parts/arrow.png',[]);out=io.BytesIO();atlas.save(out,format='PNG',compress_level=9);png=out.getvalue();(root/'src/godot-game/assets/characters/structural-guard.png').write_bytes(png)\npack={'schemaVersion':1,'id':'guards','version':1,'obligations':['CH-09','AN-18'],'atlas':{'path':'res://assets/characters/structural-guard.png','size':[256,64],'sha256':sha(png),'rgbaSha256':sha(atlas.tobytes())},'sourceBundle':{'path':'production/phase4/main-buildings.zip','sha256':sha((root/'production/phase4/main-buildings.zip').read_bytes()),'clip':'sources/guard-shoot.json','clipId':'common.clip.783','frames':source,'arrowMember':'parts/arrow.png','arrowSha256':sha(z.read('parts/arrow.png'))},'parts':parts,'frames':[{'time':f['time'],'body':'torso-'+str(i),'arms':'arms-'+str(i),'anchor':f['anchor'],'shoulder':[f['anchor'][0],10]} for i,f in enumerate(main['guard']['frames'])],'timing':{'start':0,'stop':0.625,'sampleRate':8,'interval':1.4,'release':0.25,'arrowLifetime':0.375,'arrowSpeed':72},'aim':{'method':'independent-facing-with-shoulder-led-continuous-bow','minimum':-1.3,'maximum':1.3,'bodyRotation':0,'sourceBowInArmLayer':True,'extraBow':False,'releaseOffset':[12,0]},'ownership':{'inventory':False,'populationUse':0,'corpse':False,'loot':False,'bowDurability':False,'ammo':'unlimited-intrinsic','targets':['zombie'],'mainAttachments':{'tier':3,'count':2,'profileTier':1,'healthOwner':'main','phase':[0,0.7]}},'recipe':{'language':'python/pillow existing pin','split':'For each exact retained K15 frame, mask rows6..15 where x<anchorX-2 OR x>anchorX+1 OR red>blue+15 into arm/bow; complement into torso. Original RGB/alpha retained. Atlas at sequential x+1,y1; no second bow. Arrow reused unchanged.','sha256':sha(pathlib.Path(__file__).read_bytes())},'acceptance':{'visual':'pending04-32','humanApproval':None}}\npack['recipe']['code']=pathlib.Path(__file__).read_text(encoding='utf-8')\n(root/'src/godot-game/content/packs/guards.json').write_bytes(dump(pack))\ntiers=[]\nfor kind in ['wall','tower']:\n for tier in range(1,4):\n  w,h={'wall':[(32,35),(32,43),(48,48)],'tower':[(44,48),(72,64),(96,80)]}[kind][tier-1];sockets=[]\n  for i,(sx,sy) in enumerate(([[22,6]],[[22,21],[50,21]],[[18,25],[48,25],[78,25]])[tier-1] if kind=='tower' else []):sockets.append({'id':'guard-'+str(i),'position':[sx,sy],'phase':i*0.45,'facing':1 if i%2==0 else -1,'projectileOrigin':[12,-11]})\n  tiers.append({'id':kind+'-'+str(tier),'kind':kind,'tier':tier,'health':{'wall':[250,900,2200],'tower':[300,800,1600]}[kind][tier-1],'price':{'wall':[20,60,140],'tower':[40,90,180]}[kind][tier-1],'workSeconds':{'wall':[20,35,50],'tower':[30,45,60]}[kind][tier-1],'rebuildPrice':{'wall':[20,80,220],'tower':[40,130,310]}[kind][tier-1],'range':[20,24,28][tier-1] if kind=='tower' else 0,'arrowDamage':[14,20,26][tier-1] if kind=='tower' else 0,'sockets':sockets,'collision':{'rect':[w//2-4,8,8,h-8],'source':'independent-gameplay-shape','factionBlocker':'zombies-only' if kind=='wall' else 'none'},'workAnchor':[w//2,h-2],'sitePart':'site-'+kind})\nsamples=[]\nids=['unbuilt','available','tree-blocked','portal-blocked','main-tier-blocked','unaffordable','new-frame','damaged-unfinished','intact','damage-light','damage-heavy','upgrade-paid','upgrade-complete','repair-paid','repair-complete','unsafe-waiting','no-worker-waiting','destroyed','rebuild-paid','rebuild-complete','restore-destroyed','restore-upgrade']\nfor i,id in enumerate(ids):\n visual='damage-light' if id=='damage-light' else 'damage-heavy' if id in ['damage-heavy','repair-paid','unsafe-waiting','no-worker-waiting'] else 'destroyed' if id in ['destroyed','restore-destroyed'] else 'intact';work='build' if id in ['new-frame','damaged-unfinished'] else 'upgrade' if id in ['upgrade-paid','upgrade-complete','restore-upgrade'] else 'repair' if id in ['repair-paid','repair-complete','unsafe-waiting','no-worker-waiting'] else 'rebuild' if id in ['rebuild-paid','rebuild-complete'] else 'none'\n samples.append({'id':id,'label':id.replace('-',' '),'visual':visual,'work':work,'progress':1 if id.endswith('complete') else 0.5 if work!='none' else 0,'hpRatio':0 if visual=='destroyed' else 0.2 if id=='damaged-unfinished' else 0.35 if visual=='damage-heavy' else 0.65 if visual=='damage-light' else 1,'site':i<6,'newConstruction':id in ['new-frame','damaged-unfinished','rebuild-paid'],'defeated':visual=='destroyed','waiting':id in ['unsafe-waiting','no-worker-waiting'],'quiet':id.startswith('restore-')})\nart=json.loads((root/'src/godot-game/content/packs/defenses.json').read_bytes())\nassemblies={'schemaVersion':1,'id':'defense-assemblies','version':1,'artPack':'res://content/packs/defenses.json','guardPack':'res://content/packs/guards.json','sampleDataOnly':True,'presenter':{'type':'KingdomZombies.Inspection.BuildingPreview','method':'Attach','hubAdoptionOwner':'04-23'},'resourceBindings':{'defenses':art['atlas'],'guards':pack['atlas']},'tierDefinitions':tiers,'samples':samples,'restoration':{'replayAttack':False,'replayDestruction':False,'previousCompletedTierPermanent':True,'newGuardsOnlyAtProgressOne':True},'scenarios':[{'id':'H12-defense-boundaries','importance':'Critical','setup':'Fresh tower2; paid upgrade0.999 then1; destroy; advance300s; quiet restore tower2; rebuild0.999 then1','expected':'2 then3 guards, none at destroyed/new frames, previous tier2 remains permanent and rebuild supplies2 only at completion','runGroup':'G-defenses-reviewed','order':1,'imageCheckpoints':['old-tier-0.999','new-tier-1','ruin-after-effects','previous-tier-rebuild-complete'],'inputCheckpoint':'Use current reviewed actual selectors after whole phase review04-32','status':'actual input/appearance pending04-32'},{'id':'H14-structural-empty','importance':'Critical','setup':'Independently select tower3 empty site, destroyed, unfinished rebuild, then complete; clear preview','expected':'No structural corpse/loot/inventory/population; completed3guards retain intrinsic arrows across64cycles/facing; removal retires arrows','runGroup':'G-defenses-reviewed','order':2,'imageCheckpoints':['empty-site','destroyed-no-bodies','complete-three-independent-guards'],'inputCheckpoint':'Use current reviewed actual selectors after whole phase review04-32','status':'actual input/appearance pending04-32'}],'acceptance':{'actualInput':'pending04-32','appearance':'pending04-32','namedJudgment':'pending04-32/33','completedObligations':[]}}\n(root/'src/godot-game/content/world/defense-assemblies.json').write_bytes(dump(assemblies));print(json.dumps({'guardParts':len(parts),'atlasSize':list(atlas.size),'guardAtlasSha256':sha(png),'samples':len(samples),'tierDefinitions':len(tiers)}))\n"
+  },
+  "acceptance": {
+    "visual": "pending04-32",
+    "humanApproval": null
+  }
+}

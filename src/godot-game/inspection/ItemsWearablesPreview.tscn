@@ -1,0 +1,4868 @@
+[gd_scene load_steps=109 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/equipment/items-11-24.png" id="1_items"]
+
+[sub_resource type="AtlasTexture" id="A_IT_11_master"]
+atlas = ExtResource("1_items")
+region = Rect2(2, 2, 14, 11)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_11_torso_front"]
+atlas = ExtResource("1_items")
+region = Rect2(18, 2, 6, 11)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_11_torso_rear"]
+atlas = ExtResource("1_items")
+region = Rect2(26, 2, 6, 11)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_11_sleeve_left_front"]
+atlas = ExtResource("1_items")
+region = Rect2(34, 2, 4, 4)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_11_sleeve_left_rear"]
+atlas = ExtResource("1_items")
+region = Rect2(40, 2, 4, 4)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_11_sleeve_right_front"]
+atlas = ExtResource("1_items")
+region = Rect2(46, 2, 4, 4)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_11_sleeve_right_rear"]
+atlas = ExtResource("1_items")
+region = Rect2(52, 2, 4, 4)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_12_master"]
+atlas = ExtResource("1_items")
+region = Rect2(58, 2, 8, 13)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_12_waist"]
+atlas = ExtResource("1_items")
+region = Rect2(68, 2, 8, 4)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_12_leg_left"]
+atlas = ExtResource("1_items")
+region = Rect2(78, 2, 4, 9)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_12_leg_right"]
+atlas = ExtResource("1_items")
+region = Rect2(84, 2, 4, 9)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_13_master"]
+atlas = ExtResource("1_items")
+region = Rect2(90, 2, 16, 18)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_13_torso_front"]
+atlas = ExtResource("1_items")
+region = Rect2(108, 2, 6, 13)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_13_torso_rear"]
+atlas = ExtResource("1_items")
+region = Rect2(116, 2, 6, 13)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_13_hem"]
+atlas = ExtResource("1_items")
+region = Rect2(124, 2, 6, 5)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_13_sleeve_left_front"]
+atlas = ExtResource("1_items")
+region = Rect2(132, 2, 5, 5)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_13_sleeve_left_rear"]
+atlas = ExtResource("1_items")
+region = Rect2(139, 2, 5, 5)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_13_sleeve_right_front"]
+atlas = ExtResource("1_items")
+region = Rect2(146, 2, 5, 5)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_13_sleeve_right_rear"]
+atlas = ExtResource("1_items")
+region = Rect2(153, 2, 5, 5)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_14_master"]
+atlas = ExtResource("1_items")
+region = Rect2(160, 2, 7, 4)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_14_head"]
+atlas = ExtResource("1_items")
+region = Rect2(169, 2, 7, 4)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_15_master"]
+atlas = ExtResource("1_items")
+region = Rect2(178, 2, 5, 3)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_15_face"]
+atlas = ExtResource("1_items")
+region = Rect2(185, 2, 5, 3)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_16_master"]
+atlas = ExtResource("1_items")
+region = Rect2(192, 2, 8, 5)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_16_hand_left_front"]
+atlas = ExtResource("1_items")
+region = Rect2(202, 2, 4, 5)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_16_hand_left_rear"]
+atlas = ExtResource("1_items")
+region = Rect2(208, 2, 4, 5)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_16_hand_right_front"]
+atlas = ExtResource("1_items")
+region = Rect2(214, 2, 4, 5)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_16_hand_right_rear"]
+atlas = ExtResource("1_items")
+region = Rect2(220, 2, 4, 5)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_17_master"]
+atlas = ExtResource("1_items")
+region = Rect2(226, 2, 10, 6)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_17_foot_left"]
+atlas = ExtResource("1_items")
+region = Rect2(238, 2, 5, 6)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_17_foot_right"]
+atlas = ExtResource("1_items")
+region = Rect2(245, 2, 5, 6)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_18_master"]
+atlas = ExtResource("1_items")
+region = Rect2(252, 2, 7, 6)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_18_head"]
+atlas = ExtResource("1_items")
+region = Rect2(261, 2, 7, 6)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_18_broken"]
+atlas = ExtResource("1_items")
+region = Rect2(270, 2, 7, 6)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_19_master"]
+atlas = ExtResource("1_items")
+region = Rect2(279, 2, 8, 11)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_19_torso_front"]
+atlas = ExtResource("1_items")
+region = Rect2(289, 2, 8, 8)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_19_torso_rear"]
+atlas = ExtResource("1_items")
+region = Rect2(299, 2, 8, 8)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_19_strap_left_front"]
+atlas = ExtResource("1_items")
+region = Rect2(309, 2, 2, 5)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_19_strap_left_rear"]
+atlas = ExtResource("1_items")
+region = Rect2(313, 2, 2, 5)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_19_strap_right_front"]
+atlas = ExtResource("1_items")
+region = Rect2(317, 2, 2, 5)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_19_strap_right_rear"]
+atlas = ExtResource("1_items")
+region = Rect2(321, 2, 2, 5)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_19_broken"]
+atlas = ExtResource("1_items")
+region = Rect2(325, 2, 8, 11)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_20_master"]
+atlas = ExtResource("1_items")
+region = Rect2(335, 2, 10, 12)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_20_torso_front"]
+atlas = ExtResource("1_items")
+region = Rect2(347, 2, 10, 9)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_20_torso_rear"]
+atlas = ExtResource("1_items")
+region = Rect2(359, 2, 10, 9)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_20_strap_left_front"]
+atlas = ExtResource("1_items")
+region = Rect2(371, 2, 2, 5)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_20_strap_left_rear"]
+atlas = ExtResource("1_items")
+region = Rect2(375, 2, 2, 5)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_20_strap_right_front"]
+atlas = ExtResource("1_items")
+region = Rect2(379, 2, 2, 5)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_20_strap_right_rear"]
+atlas = ExtResource("1_items")
+region = Rect2(383, 2, 2, 5)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_20_broken"]
+atlas = ExtResource("1_items")
+region = Rect2(387, 2, 10, 12)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_21_master"]
+atlas = ExtResource("1_items")
+region = Rect2(399, 2, 10, 4)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_21_belt_front"]
+atlas = ExtResource("1_items")
+region = Rect2(411, 2, 4, 2)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_21_belt_rear"]
+atlas = ExtResource("1_items")
+region = Rect2(417, 2, 4, 2)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_21_pouch_left"]
+atlas = ExtResource("1_items")
+region = Rect2(423, 2, 3, 4)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_21_pouch_right"]
+atlas = ExtResource("1_items")
+region = Rect2(428, 2, 3, 4)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_22_master"]
+atlas = ExtResource("1_items")
+region = Rect2(433, 2, 5, 7)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_22_container_header"]
+atlas = ExtResource("1_items")
+region = Rect2(440, 2, 5, 7)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_23_master"]
+atlas = ExtResource("1_items")
+region = Rect2(447, 2, 8, 11)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_23_bag_body"]
+atlas = ExtResource("1_items")
+region = Rect2(457, 2, 6, 9)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_23_strap_left_front"]
+atlas = ExtResource("1_items")
+region = Rect2(465, 2, 2, 7)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_23_strap_left_rear"]
+atlas = ExtResource("1_items")
+region = Rect2(469, 2, 2, 7)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_23_strap_right_front"]
+atlas = ExtResource("1_items")
+region = Rect2(473, 2, 2, 7)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_23_strap_right_rear"]
+atlas = ExtResource("1_items")
+region = Rect2(477, 2, 2, 7)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_24_master"]
+atlas = ExtResource("1_items")
+region = Rect2(481, 2, 11, 15)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_24_bag_body"]
+atlas = ExtResource("1_items")
+region = Rect2(494, 2, 9, 12)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_24_pocket_left"]
+atlas = ExtResource("1_items")
+region = Rect2(505, 2, 3, 6)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_24_pocket_right"]
+atlas = ExtResource("1_items")
+region = Rect2(2, 22, 3, 6)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_24_strap_left_front"]
+atlas = ExtResource("1_items")
+region = Rect2(7, 22, 2, 7)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_24_strap_left_rear"]
+atlas = ExtResource("1_items")
+region = Rect2(11, 22, 2, 7)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_24_strap_right_front"]
+atlas = ExtResource("1_items")
+region = Rect2(15, 22, 2, 7)
+filter_clip = true
+
+[sub_resource type="AtlasTexture" id="A_IT_24_strap_right_rear"]
+atlas = ExtResource("1_items")
+region = Rect2(19, 22, 2, 7)
+filter_clip = true
+
+[sub_resource type="Animation" id="Select_IT_11"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_11:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_12:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_13:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_14:visible")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_15:visible")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_16:visible")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_17:visible")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_18:visible")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_19:visible")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_20:visible")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_21:visible")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_22:visible")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_23:visible")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_24:visible")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_18/ArtScroll/Canvas/Art/Broken:visible")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_19/ArtScroll/Canvas/Art/Broken:visible")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/16/type = "value"
+tracks/16/path = NodePath("Groups/IT_20/ArtScroll/Canvas/Art/Broken:visible")
+tracks/16/interp = 0
+tracks/16/enabled = true
+tracks/16/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="Select_IT_12"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_11:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_12:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_13:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_14:visible")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_15:visible")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_16:visible")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_17:visible")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_18:visible")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_19:visible")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_20:visible")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_21:visible")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_22:visible")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_23:visible")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_24:visible")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_18/ArtScroll/Canvas/Art/Broken:visible")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_19/ArtScroll/Canvas/Art/Broken:visible")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/16/type = "value"
+tracks/16/path = NodePath("Groups/IT_20/ArtScroll/Canvas/Art/Broken:visible")
+tracks/16/interp = 0
+tracks/16/enabled = true
+tracks/16/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="Select_IT_13"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_11:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_12:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_13:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_14:visible")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_15:visible")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_16:visible")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_17:visible")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_18:visible")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_19:visible")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_20:visible")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_21:visible")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_22:visible")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_23:visible")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_24:visible")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_18/ArtScroll/Canvas/Art/Broken:visible")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_19/ArtScroll/Canvas/Art/Broken:visible")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/16/type = "value"
+tracks/16/path = NodePath("Groups/IT_20/ArtScroll/Canvas/Art/Broken:visible")
+tracks/16/interp = 0
+tracks/16/enabled = true
+tracks/16/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="Select_IT_14"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_11:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_12:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_13:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_14:visible")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_15:visible")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_16:visible")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_17:visible")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_18:visible")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_19:visible")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_20:visible")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_21:visible")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_22:visible")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_23:visible")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_24:visible")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_18/ArtScroll/Canvas/Art/Broken:visible")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_19/ArtScroll/Canvas/Art/Broken:visible")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/16/type = "value"
+tracks/16/path = NodePath("Groups/IT_20/ArtScroll/Canvas/Art/Broken:visible")
+tracks/16/interp = 0
+tracks/16/enabled = true
+tracks/16/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="Select_IT_15"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_11:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_12:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_13:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_14:visible")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_15:visible")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_16:visible")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_17:visible")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_18:visible")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_19:visible")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_20:visible")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_21:visible")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_22:visible")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_23:visible")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_24:visible")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_18/ArtScroll/Canvas/Art/Broken:visible")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_19/ArtScroll/Canvas/Art/Broken:visible")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/16/type = "value"
+tracks/16/path = NodePath("Groups/IT_20/ArtScroll/Canvas/Art/Broken:visible")
+tracks/16/interp = 0
+tracks/16/enabled = true
+tracks/16/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="Select_IT_16"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_11:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_12:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_13:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_14:visible")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_15:visible")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_16:visible")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_17:visible")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_18:visible")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_19:visible")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_20:visible")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_21:visible")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_22:visible")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_23:visible")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_24:visible")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_18/ArtScroll/Canvas/Art/Broken:visible")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_19/ArtScroll/Canvas/Art/Broken:visible")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/16/type = "value"
+tracks/16/path = NodePath("Groups/IT_20/ArtScroll/Canvas/Art/Broken:visible")
+tracks/16/interp = 0
+tracks/16/enabled = true
+tracks/16/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="Select_IT_17"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_11:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_12:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_13:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_14:visible")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_15:visible")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_16:visible")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_17:visible")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_18:visible")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_19:visible")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_20:visible")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_21:visible")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_22:visible")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_23:visible")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_24:visible")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_18/ArtScroll/Canvas/Art/Broken:visible")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_19/ArtScroll/Canvas/Art/Broken:visible")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/16/type = "value"
+tracks/16/path = NodePath("Groups/IT_20/ArtScroll/Canvas/Art/Broken:visible")
+tracks/16/interp = 0
+tracks/16/enabled = true
+tracks/16/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="Select_IT_18"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_11:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_12:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_13:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_14:visible")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_15:visible")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_16:visible")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_17:visible")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_18:visible")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_19:visible")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_20:visible")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_21:visible")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_22:visible")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_23:visible")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_24:visible")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_18/ArtScroll/Canvas/Art/Broken:visible")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_19/ArtScroll/Canvas/Art/Broken:visible")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/16/type = "value"
+tracks/16/path = NodePath("Groups/IT_20/ArtScroll/Canvas/Art/Broken:visible")
+tracks/16/interp = 0
+tracks/16/enabled = true
+tracks/16/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="State_IT_18_Broken"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_18/ArtScroll/Canvas/Art/Broken:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_19/ArtScroll/Canvas/Art/Broken:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_20/ArtScroll/Canvas/Art/Broken:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="Select_IT_19"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_11:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_12:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_13:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_14:visible")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_15:visible")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_16:visible")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_17:visible")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_18:visible")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_19:visible")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_20:visible")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_21:visible")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_22:visible")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_23:visible")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_24:visible")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_18/ArtScroll/Canvas/Art/Broken:visible")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_19/ArtScroll/Canvas/Art/Broken:visible")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/16/type = "value"
+tracks/16/path = NodePath("Groups/IT_20/ArtScroll/Canvas/Art/Broken:visible")
+tracks/16/interp = 0
+tracks/16/enabled = true
+tracks/16/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="State_IT_19_Broken"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_18/ArtScroll/Canvas/Art/Broken:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_19/ArtScroll/Canvas/Art/Broken:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_20/ArtScroll/Canvas/Art/Broken:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="Select_IT_20"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_11:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_12:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_13:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_14:visible")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_15:visible")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_16:visible")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_17:visible")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_18:visible")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_19:visible")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_20:visible")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_21:visible")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_22:visible")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_23:visible")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_24:visible")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_18/ArtScroll/Canvas/Art/Broken:visible")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_19/ArtScroll/Canvas/Art/Broken:visible")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/16/type = "value"
+tracks/16/path = NodePath("Groups/IT_20/ArtScroll/Canvas/Art/Broken:visible")
+tracks/16/interp = 0
+tracks/16/enabled = true
+tracks/16/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="State_IT_20_Broken"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_18/ArtScroll/Canvas/Art/Broken:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_19/ArtScroll/Canvas/Art/Broken:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_20/ArtScroll/Canvas/Art/Broken:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+
+[sub_resource type="Animation" id="Select_IT_21"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_11:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_12:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_13:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_14:visible")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_15:visible")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_16:visible")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_17:visible")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_18:visible")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_19:visible")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_20:visible")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_21:visible")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_22:visible")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_23:visible")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_24:visible")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_18/ArtScroll/Canvas/Art/Broken:visible")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_19/ArtScroll/Canvas/Art/Broken:visible")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/16/type = "value"
+tracks/16/path = NodePath("Groups/IT_20/ArtScroll/Canvas/Art/Broken:visible")
+tracks/16/interp = 0
+tracks/16/enabled = true
+tracks/16/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="Select_IT_22"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_11:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_12:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_13:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_14:visible")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_15:visible")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_16:visible")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_17:visible")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_18:visible")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_19:visible")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_20:visible")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_21:visible")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_22:visible")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_23:visible")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_24:visible")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_18/ArtScroll/Canvas/Art/Broken:visible")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_19/ArtScroll/Canvas/Art/Broken:visible")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/16/type = "value"
+tracks/16/path = NodePath("Groups/IT_20/ArtScroll/Canvas/Art/Broken:visible")
+tracks/16/interp = 0
+tracks/16/enabled = true
+tracks/16/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="Select_IT_23"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_11:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_12:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_13:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_14:visible")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_15:visible")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_16:visible")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_17:visible")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_18:visible")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_19:visible")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_20:visible")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_21:visible")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_22:visible")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_23:visible")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_24:visible")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_18/ArtScroll/Canvas/Art/Broken:visible")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_19/ArtScroll/Canvas/Art/Broken:visible")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/16/type = "value"
+tracks/16/path = NodePath("Groups/IT_20/ArtScroll/Canvas/Art/Broken:visible")
+tracks/16/interp = 0
+tracks/16/enabled = true
+tracks/16/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="Select_IT_24"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_11:visible")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_12:visible")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_13:visible")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_14:visible")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_15:visible")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_16:visible")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_17:visible")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_18:visible")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_19:visible")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_20:visible")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_21:visible")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_22:visible")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_23:visible")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_24:visible")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [true]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_18/ArtScroll/Canvas/Art/Broken:visible")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_19/ArtScroll/Canvas/Art/Broken:visible")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+tracks/16/type = "value"
+tracks/16/path = NodePath("Groups/IT_20/ArtScroll/Canvas/Art/Broken:visible")
+tracks/16/interp = 0
+tracks/16/enabled = true
+tracks/16/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [false]}
+
+
+[sub_resource type="Animation" id="Zoom_1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_11/ArtScroll/Canvas/Art:scale")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_11/ArtScroll/Canvas:custom_minimum_size")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(128, 233)]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_12/ArtScroll/Canvas/Art:scale")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_12/ArtScroll/Canvas:custom_minimum_size")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(128, 153)]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_13/ArtScroll/Canvas/Art:scale")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_13/ArtScroll/Canvas:custom_minimum_size")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(128, 233)]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_14/ArtScroll/Canvas/Art:scale")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_14/ArtScroll/Canvas:custom_minimum_size")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(128, 73)]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_15/ArtScroll/Canvas/Art:scale")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_15/ArtScroll/Canvas:custom_minimum_size")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(128, 73)]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_16/ArtScroll/Canvas/Art:scale")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_16/ArtScroll/Canvas:custom_minimum_size")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(128, 153)]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_17/ArtScroll/Canvas/Art:scale")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_17/ArtScroll/Canvas:custom_minimum_size")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(128, 113)]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_18/ArtScroll/Canvas/Art:scale")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_18/ArtScroll/Canvas:custom_minimum_size")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(128, 73)]}
+
+tracks/16/type = "value"
+tracks/16/path = NodePath("Groups/IT_19/ArtScroll/Canvas/Art:scale")
+tracks/16/interp = 0
+tracks/16/enabled = true
+tracks/16/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+
+tracks/17/type = "value"
+tracks/17/path = NodePath("Groups/IT_19/ArtScroll/Canvas:custom_minimum_size")
+tracks/17/interp = 0
+tracks/17/enabled = true
+tracks/17/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(128, 233)]}
+
+tracks/18/type = "value"
+tracks/18/path = NodePath("Groups/IT_20/ArtScroll/Canvas/Art:scale")
+tracks/18/interp = 0
+tracks/18/enabled = true
+tracks/18/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+
+tracks/19/type = "value"
+tracks/19/path = NodePath("Groups/IT_20/ArtScroll/Canvas:custom_minimum_size")
+tracks/19/interp = 0
+tracks/19/enabled = true
+tracks/19/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(128, 233)]}
+
+tracks/20/type = "value"
+tracks/20/path = NodePath("Groups/IT_21/ArtScroll/Canvas/Art:scale")
+tracks/20/interp = 0
+tracks/20/enabled = true
+tracks/20/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+
+tracks/21/type = "value"
+tracks/21/path = NodePath("Groups/IT_21/ArtScroll/Canvas:custom_minimum_size")
+tracks/21/interp = 0
+tracks/21/enabled = true
+tracks/21/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(128, 153)]}
+
+tracks/22/type = "value"
+tracks/22/path = NodePath("Groups/IT_22/ArtScroll/Canvas/Art:scale")
+tracks/22/interp = 0
+tracks/22/enabled = true
+tracks/22/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+
+tracks/23/type = "value"
+tracks/23/path = NodePath("Groups/IT_22/ArtScroll/Canvas:custom_minimum_size")
+tracks/23/interp = 0
+tracks/23/enabled = true
+tracks/23/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(128, 73)]}
+
+tracks/24/type = "value"
+tracks/24/path = NodePath("Groups/IT_23/ArtScroll/Canvas/Art:scale")
+tracks/24/interp = 0
+tracks/24/enabled = true
+tracks/24/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+
+tracks/25/type = "value"
+tracks/25/path = NodePath("Groups/IT_23/ArtScroll/Canvas:custom_minimum_size")
+tracks/25/interp = 0
+tracks/25/enabled = true
+tracks/25/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(128, 193)]}
+
+tracks/26/type = "value"
+tracks/26/path = NodePath("Groups/IT_24/ArtScroll/Canvas/Art:scale")
+tracks/26/interp = 0
+tracks/26/enabled = true
+tracks/26/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(1, 1)]}
+
+tracks/27/type = "value"
+tracks/27/path = NodePath("Groups/IT_24/ArtScroll/Canvas:custom_minimum_size")
+tracks/27/interp = 0
+tracks/27/enabled = true
+tracks/27/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(128, 233)]}
+
+
+[sub_resource type="Animation" id="Zoom_2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_11/ArtScroll/Canvas/Art:scale")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_11/ArtScroll/Canvas:custom_minimum_size")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(248, 458)]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_12/ArtScroll/Canvas/Art:scale")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_12/ArtScroll/Canvas:custom_minimum_size")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(248, 298)]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_13/ArtScroll/Canvas/Art:scale")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_13/ArtScroll/Canvas:custom_minimum_size")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(248, 458)]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_14/ArtScroll/Canvas/Art:scale")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_14/ArtScroll/Canvas:custom_minimum_size")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(248, 138)]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_15/ArtScroll/Canvas/Art:scale")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_15/ArtScroll/Canvas:custom_minimum_size")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(248, 138)]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_16/ArtScroll/Canvas/Art:scale")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_16/ArtScroll/Canvas:custom_minimum_size")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(248, 298)]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_17/ArtScroll/Canvas/Art:scale")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_17/ArtScroll/Canvas:custom_minimum_size")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(248, 218)]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_18/ArtScroll/Canvas/Art:scale")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_18/ArtScroll/Canvas:custom_minimum_size")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(248, 138)]}
+
+tracks/16/type = "value"
+tracks/16/path = NodePath("Groups/IT_19/ArtScroll/Canvas/Art:scale")
+tracks/16/interp = 0
+tracks/16/enabled = true
+tracks/16/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+
+tracks/17/type = "value"
+tracks/17/path = NodePath("Groups/IT_19/ArtScroll/Canvas:custom_minimum_size")
+tracks/17/interp = 0
+tracks/17/enabled = true
+tracks/17/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(248, 458)]}
+
+tracks/18/type = "value"
+tracks/18/path = NodePath("Groups/IT_20/ArtScroll/Canvas/Art:scale")
+tracks/18/interp = 0
+tracks/18/enabled = true
+tracks/18/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+
+tracks/19/type = "value"
+tracks/19/path = NodePath("Groups/IT_20/ArtScroll/Canvas:custom_minimum_size")
+tracks/19/interp = 0
+tracks/19/enabled = true
+tracks/19/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(248, 458)]}
+
+tracks/20/type = "value"
+tracks/20/path = NodePath("Groups/IT_21/ArtScroll/Canvas/Art:scale")
+tracks/20/interp = 0
+tracks/20/enabled = true
+tracks/20/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+
+tracks/21/type = "value"
+tracks/21/path = NodePath("Groups/IT_21/ArtScroll/Canvas:custom_minimum_size")
+tracks/21/interp = 0
+tracks/21/enabled = true
+tracks/21/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(248, 298)]}
+
+tracks/22/type = "value"
+tracks/22/path = NodePath("Groups/IT_22/ArtScroll/Canvas/Art:scale")
+tracks/22/interp = 0
+tracks/22/enabled = true
+tracks/22/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+
+tracks/23/type = "value"
+tracks/23/path = NodePath("Groups/IT_22/ArtScroll/Canvas:custom_minimum_size")
+tracks/23/interp = 0
+tracks/23/enabled = true
+tracks/23/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(248, 138)]}
+
+tracks/24/type = "value"
+tracks/24/path = NodePath("Groups/IT_23/ArtScroll/Canvas/Art:scale")
+tracks/24/interp = 0
+tracks/24/enabled = true
+tracks/24/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+
+tracks/25/type = "value"
+tracks/25/path = NodePath("Groups/IT_23/ArtScroll/Canvas:custom_minimum_size")
+tracks/25/interp = 0
+tracks/25/enabled = true
+tracks/25/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(248, 378)]}
+
+tracks/26/type = "value"
+tracks/26/path = NodePath("Groups/IT_24/ArtScroll/Canvas/Art:scale")
+tracks/26/interp = 0
+tracks/26/enabled = true
+tracks/26/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(2, 2)]}
+
+tracks/27/type = "value"
+tracks/27/path = NodePath("Groups/IT_24/ArtScroll/Canvas:custom_minimum_size")
+tracks/27/interp = 0
+tracks/27/enabled = true
+tracks/27/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(248, 458)]}
+
+
+[sub_resource type="Animation" id="Zoom_4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_11/ArtScroll/Canvas/Art:scale")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_11/ArtScroll/Canvas:custom_minimum_size")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(488, 908)]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_12/ArtScroll/Canvas/Art:scale")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_12/ArtScroll/Canvas:custom_minimum_size")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(488, 588)]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_13/ArtScroll/Canvas/Art:scale")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_13/ArtScroll/Canvas:custom_minimum_size")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(488, 908)]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_14/ArtScroll/Canvas/Art:scale")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_14/ArtScroll/Canvas:custom_minimum_size")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(488, 268)]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_15/ArtScroll/Canvas/Art:scale")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_15/ArtScroll/Canvas:custom_minimum_size")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(488, 268)]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_16/ArtScroll/Canvas/Art:scale")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_16/ArtScroll/Canvas:custom_minimum_size")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(488, 588)]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_17/ArtScroll/Canvas/Art:scale")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_17/ArtScroll/Canvas:custom_minimum_size")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(488, 428)]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_18/ArtScroll/Canvas/Art:scale")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_18/ArtScroll/Canvas:custom_minimum_size")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(488, 268)]}
+
+tracks/16/type = "value"
+tracks/16/path = NodePath("Groups/IT_19/ArtScroll/Canvas/Art:scale")
+tracks/16/interp = 0
+tracks/16/enabled = true
+tracks/16/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+
+tracks/17/type = "value"
+tracks/17/path = NodePath("Groups/IT_19/ArtScroll/Canvas:custom_minimum_size")
+tracks/17/interp = 0
+tracks/17/enabled = true
+tracks/17/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(488, 908)]}
+
+tracks/18/type = "value"
+tracks/18/path = NodePath("Groups/IT_20/ArtScroll/Canvas/Art:scale")
+tracks/18/interp = 0
+tracks/18/enabled = true
+tracks/18/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+
+tracks/19/type = "value"
+tracks/19/path = NodePath("Groups/IT_20/ArtScroll/Canvas:custom_minimum_size")
+tracks/19/interp = 0
+tracks/19/enabled = true
+tracks/19/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(488, 908)]}
+
+tracks/20/type = "value"
+tracks/20/path = NodePath("Groups/IT_21/ArtScroll/Canvas/Art:scale")
+tracks/20/interp = 0
+tracks/20/enabled = true
+tracks/20/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+
+tracks/21/type = "value"
+tracks/21/path = NodePath("Groups/IT_21/ArtScroll/Canvas:custom_minimum_size")
+tracks/21/interp = 0
+tracks/21/enabled = true
+tracks/21/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(488, 588)]}
+
+tracks/22/type = "value"
+tracks/22/path = NodePath("Groups/IT_22/ArtScroll/Canvas/Art:scale")
+tracks/22/interp = 0
+tracks/22/enabled = true
+tracks/22/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+
+tracks/23/type = "value"
+tracks/23/path = NodePath("Groups/IT_22/ArtScroll/Canvas:custom_minimum_size")
+tracks/23/interp = 0
+tracks/23/enabled = true
+tracks/23/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(488, 268)]}
+
+tracks/24/type = "value"
+tracks/24/path = NodePath("Groups/IT_23/ArtScroll/Canvas/Art:scale")
+tracks/24/interp = 0
+tracks/24/enabled = true
+tracks/24/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+
+tracks/25/type = "value"
+tracks/25/path = NodePath("Groups/IT_23/ArtScroll/Canvas:custom_minimum_size")
+tracks/25/interp = 0
+tracks/25/enabled = true
+tracks/25/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(488, 748)]}
+
+tracks/26/type = "value"
+tracks/26/path = NodePath("Groups/IT_24/ArtScroll/Canvas/Art:scale")
+tracks/26/interp = 0
+tracks/26/enabled = true
+tracks/26/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(4, 4)]}
+
+tracks/27/type = "value"
+tracks/27/path = NodePath("Groups/IT_24/ArtScroll/Canvas:custom_minimum_size")
+tracks/27/interp = 0
+tracks/27/enabled = true
+tracks/27/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(488, 908)]}
+
+
+[sub_resource type="Animation" id="Zoom_8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Groups/IT_11/ArtScroll/Canvas/Art:scale")
+tracks/0/interp = 0
+tracks/0/enabled = true
+tracks/0/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+
+tracks/1/type = "value"
+tracks/1/path = NodePath("Groups/IT_11/ArtScroll/Canvas:custom_minimum_size")
+tracks/1/interp = 0
+tracks/1/enabled = true
+tracks/1/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(968, 1808)]}
+
+tracks/2/type = "value"
+tracks/2/path = NodePath("Groups/IT_12/ArtScroll/Canvas/Art:scale")
+tracks/2/interp = 0
+tracks/2/enabled = true
+tracks/2/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+
+tracks/3/type = "value"
+tracks/3/path = NodePath("Groups/IT_12/ArtScroll/Canvas:custom_minimum_size")
+tracks/3/interp = 0
+tracks/3/enabled = true
+tracks/3/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(968, 1168)]}
+
+tracks/4/type = "value"
+tracks/4/path = NodePath("Groups/IT_13/ArtScroll/Canvas/Art:scale")
+tracks/4/interp = 0
+tracks/4/enabled = true
+tracks/4/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+
+tracks/5/type = "value"
+tracks/5/path = NodePath("Groups/IT_13/ArtScroll/Canvas:custom_minimum_size")
+tracks/5/interp = 0
+tracks/5/enabled = true
+tracks/5/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(968, 1808)]}
+
+tracks/6/type = "value"
+tracks/6/path = NodePath("Groups/IT_14/ArtScroll/Canvas/Art:scale")
+tracks/6/interp = 0
+tracks/6/enabled = true
+tracks/6/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+
+tracks/7/type = "value"
+tracks/7/path = NodePath("Groups/IT_14/ArtScroll/Canvas:custom_minimum_size")
+tracks/7/interp = 0
+tracks/7/enabled = true
+tracks/7/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(968, 528)]}
+
+tracks/8/type = "value"
+tracks/8/path = NodePath("Groups/IT_15/ArtScroll/Canvas/Art:scale")
+tracks/8/interp = 0
+tracks/8/enabled = true
+tracks/8/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+
+tracks/9/type = "value"
+tracks/9/path = NodePath("Groups/IT_15/ArtScroll/Canvas:custom_minimum_size")
+tracks/9/interp = 0
+tracks/9/enabled = true
+tracks/9/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(968, 528)]}
+
+tracks/10/type = "value"
+tracks/10/path = NodePath("Groups/IT_16/ArtScroll/Canvas/Art:scale")
+tracks/10/interp = 0
+tracks/10/enabled = true
+tracks/10/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+
+tracks/11/type = "value"
+tracks/11/path = NodePath("Groups/IT_16/ArtScroll/Canvas:custom_minimum_size")
+tracks/11/interp = 0
+tracks/11/enabled = true
+tracks/11/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(968, 1168)]}
+
+tracks/12/type = "value"
+tracks/12/path = NodePath("Groups/IT_17/ArtScroll/Canvas/Art:scale")
+tracks/12/interp = 0
+tracks/12/enabled = true
+tracks/12/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+
+tracks/13/type = "value"
+tracks/13/path = NodePath("Groups/IT_17/ArtScroll/Canvas:custom_minimum_size")
+tracks/13/interp = 0
+tracks/13/enabled = true
+tracks/13/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(968, 848)]}
+
+tracks/14/type = "value"
+tracks/14/path = NodePath("Groups/IT_18/ArtScroll/Canvas/Art:scale")
+tracks/14/interp = 0
+tracks/14/enabled = true
+tracks/14/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+
+tracks/15/type = "value"
+tracks/15/path = NodePath("Groups/IT_18/ArtScroll/Canvas:custom_minimum_size")
+tracks/15/interp = 0
+tracks/15/enabled = true
+tracks/15/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(968, 528)]}
+
+tracks/16/type = "value"
+tracks/16/path = NodePath("Groups/IT_19/ArtScroll/Canvas/Art:scale")
+tracks/16/interp = 0
+tracks/16/enabled = true
+tracks/16/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+
+tracks/17/type = "value"
+tracks/17/path = NodePath("Groups/IT_19/ArtScroll/Canvas:custom_minimum_size")
+tracks/17/interp = 0
+tracks/17/enabled = true
+tracks/17/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(968, 1808)]}
+
+tracks/18/type = "value"
+tracks/18/path = NodePath("Groups/IT_20/ArtScroll/Canvas/Art:scale")
+tracks/18/interp = 0
+tracks/18/enabled = true
+tracks/18/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+
+tracks/19/type = "value"
+tracks/19/path = NodePath("Groups/IT_20/ArtScroll/Canvas:custom_minimum_size")
+tracks/19/interp = 0
+tracks/19/enabled = true
+tracks/19/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(968, 1808)]}
+
+tracks/20/type = "value"
+tracks/20/path = NodePath("Groups/IT_21/ArtScroll/Canvas/Art:scale")
+tracks/20/interp = 0
+tracks/20/enabled = true
+tracks/20/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+
+tracks/21/type = "value"
+tracks/21/path = NodePath("Groups/IT_21/ArtScroll/Canvas:custom_minimum_size")
+tracks/21/interp = 0
+tracks/21/enabled = true
+tracks/21/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(968, 1168)]}
+
+tracks/22/type = "value"
+tracks/22/path = NodePath("Groups/IT_22/ArtScroll/Canvas/Art:scale")
+tracks/22/interp = 0
+tracks/22/enabled = true
+tracks/22/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+
+tracks/23/type = "value"
+tracks/23/path = NodePath("Groups/IT_22/ArtScroll/Canvas:custom_minimum_size")
+tracks/23/interp = 0
+tracks/23/enabled = true
+tracks/23/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(968, 528)]}
+
+tracks/24/type = "value"
+tracks/24/path = NodePath("Groups/IT_23/ArtScroll/Canvas/Art:scale")
+tracks/24/interp = 0
+tracks/24/enabled = true
+tracks/24/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+
+tracks/25/type = "value"
+tracks/25/path = NodePath("Groups/IT_23/ArtScroll/Canvas:custom_minimum_size")
+tracks/25/interp = 0
+tracks/25/enabled = true
+tracks/25/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(968, 1488)]}
+
+tracks/26/type = "value"
+tracks/26/path = NodePath("Groups/IT_24/ArtScroll/Canvas/Art:scale")
+tracks/26/interp = 0
+tracks/26/enabled = true
+tracks/26/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(8, 8)]}
+
+tracks/27/type = "value"
+tracks/27/path = NodePath("Groups/IT_24/ArtScroll/Canvas:custom_minimum_size")
+tracks/27/interp = 0
+tracks/27/enabled = true
+tracks/27/keys = {"times": PackedFloat32Array(0), "transitions": PackedFloat32Array(1), "update": 1, "values": [Vector2(968, 1808)]}
+
+
+[sub_resource type="AnimationLibrary" id="Selections"]
+_data = {
+&"IT-11": SubResource("Select_IT_11"),
+&"IT-12": SubResource("Select_IT_12"),
+&"IT-13": SubResource("Select_IT_13"),
+&"IT-14": SubResource("Select_IT_14"),
+&"IT-15": SubResource("Select_IT_15"),
+&"IT-16": SubResource("Select_IT_16"),
+&"IT-17": SubResource("Select_IT_17"),
+&"IT-18": SubResource("Select_IT_18"),
+&"IT-19": SubResource("Select_IT_19"),
+&"IT-20": SubResource("Select_IT_20"),
+&"IT-21": SubResource("Select_IT_21"),
+&"IT-22": SubResource("Select_IT_22"),
+&"IT-23": SubResource("Select_IT_23"),
+&"IT-24": SubResource("Select_IT_24")
+}
+
+[sub_resource type="AnimationLibrary" id="States"]
+_data = {
+&"IT-18.Broken": SubResource("State_IT_18_Broken"),
+&"IT-19.Broken": SubResource("State_IT_19_Broken"),
+&"IT-20.Broken": SubResource("State_IT_20_Broken")
+}
+
+[sub_resource type="AnimationLibrary" id="Zooms"]
+_data = {
+&"zoom1": SubResource("Zoom_1"),
+&"zoom2": SubResource("Zoom_2"),
+&"zoom4": SubResource("Zoom_4"),
+&"zoom8": SubResource("Zoom_8")
+}
+
+[node name="ItemsWearablesPreview" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_filter = 1
+
+[node name="Title" type="Label" parent="."]
+offset_left = 12.0
+offset_top = 8.0
+text = "Items - reusable masters; resource inspection"
+
+[node name="Browse" type="ScrollContainer" parent="."]
+offset_left = 12.0
+offset_top = 44.0
+offset_right = 222.0
+offset_bottom = 470.0
+
+[node name="List" type="VBoxContainer" parent="Browse"]
+layout_mode = 2
+
+[node name="Select_IT_11" type="Button" parent="Browse/List"]
+layout_mode = 2
+text = "IT-11 Basic shirt"
+
+[node name="Select_IT_12" type="Button" parent="Browse/List"]
+layout_mode = 2
+text = "IT-12 Trousers"
+
+[node name="Select_IT_13" type="Button" parent="Browse/List"]
+layout_mode = 2
+text = "IT-13 Coat"
+
+[node name="Select_IT_14" type="Button" parent="Browse/List"]
+layout_mode = 2
+text = "IT-14 Cap"
+
+[node name="Select_IT_15" type="Button" parent="Browse/List"]
+layout_mode = 2
+text = "IT-15 Face covering"
+
+[node name="Select_IT_16" type="Button" parent="Browse/List"]
+layout_mode = 2
+text = "IT-16 Gloves"
+
+[node name="Select_IT_17" type="Button" parent="Browse/List"]
+layout_mode = 2
+text = "IT-17 Boots"
+
+[node name="Select_IT_18" type="Button" parent="Browse/List"]
+layout_mode = 2
+text = "IT-18 Protective helmet"
+
+[node name="Select_IT_19" type="Button" parent="Browse/List"]
+layout_mode = 2
+text = "IT-19 Improvised body armor"
+
+[node name="Select_IT_20" type="Button" parent="Browse/List"]
+layout_mode = 2
+text = "IT-20 Plated body armor"
+
+[node name="Select_IT_21" type="Button" parent="Browse/List"]
+layout_mode = 2
+text = "IT-21 Belt with pouches"
+
+[node name="Select_IT_22" type="Button" parent="Browse/List"]
+layout_mode = 2
+text = "IT-22 Small pouch"
+
+[node name="Select_IT_23" type="Button" parent="Browse/List"]
+layout_mode = 2
+text = "IT-23 Small backpack"
+
+[node name="Select_IT_24" type="Button" parent="Browse/List"]
+layout_mode = 2
+text = "IT-24 Field backpack"
+
+[node name="Zoom" type="HBoxContainer" parent="."]
+offset_left = 250.0
+offset_top = 55.0
+offset_right = 540.0
+offset_bottom = 87.0
+
+[node name="Zoom1" type="Button" parent="Zoom"]
+layout_mode = 2
+text = "1x"
+
+[node name="Zoom2" type="Button" parent="Zoom"]
+layout_mode = 2
+text = "2x"
+
+[node name="Zoom4" type="Button" parent="Zoom"]
+layout_mode = 2
+text = "4x"
+
+[node name="Zoom8" type="Button" parent="Zoom"]
+layout_mode = 2
+text = "8x"
+
+[node name="Modes" type="HBoxContainer" parent="."]
+offset_left = 250.0
+offset_top = 95.0
+offset_right = 770.0
+offset_bottom = 127.0
+
+[node name="Groups" type="Control" parent="."]
+offset_left = 250.0
+offset_top = 145.0
+
+[node name="IT_11" type="Control" parent="Groups"]
+visible = true
+
+[node name="Identity" type="Label" parent="Groups/IT_11"]
+text = "IT-11 | Basic shirt | Source produced; appearance review pending04-32"
+
+[node name="Use" type="Label" parent="Groups/IT_11"]
+offset_top = 25.0
+text = "Removable torso-clothing; front/rear inputs; exact body fits owned04-06/07"
+
+[node name="ArtScroll" type="ScrollContainer" parent="Groups/IT_11"]
+offset_top = 100.0
+offset_right = 680.0
+offset_bottom = 420.0
+clip_contents = true
+
+[node name="Canvas" type="Control" parent="Groups/IT_11/ArtScroll"]
+layout_mode = 2
+custom_minimum_size = Vector2(488, 908)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Art" type="Node2D" parent="Groups/IT_11/ArtScroll/Canvas"]
+scale = Vector2(4, 4)
+texture_filter = 1
+
+[node name="icon" type="Sprite2D" parent="Groups/IT_11/ArtScroll/Canvas/Art"]
+position = Vector2(20, 20)
+texture = SubResource("A_IT_11_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_0" type="Label" parent="Groups/IT_11/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 40.0
+text = "1"
+theme_override_font_sizes/font_size = 4
+
+[node name="torso_front" type="Sprite2D" parent="Groups/IT_11/ArtScroll/Canvas/Art"]
+position = Vector2(52, 20)
+texture = SubResource("A_IT_11_torso_front")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_1" type="Label" parent="Groups/IT_11/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 40.0
+text = "2"
+theme_override_font_sizes/font_size = 4
+
+[node name="torso_rear" type="Sprite2D" parent="Groups/IT_11/ArtScroll/Canvas/Art"]
+position = Vector2(84, 20)
+texture = SubResource("A_IT_11_torso_rear")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_2" type="Label" parent="Groups/IT_11/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 40.0
+text = "3"
+theme_override_font_sizes/font_size = 4
+
+[node name="sleeve_left_front" type="Sprite2D" parent="Groups/IT_11/ArtScroll/Canvas/Art"]
+position = Vector2(20, 60)
+texture = SubResource("A_IT_11_sleeve_left_front")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_3" type="Label" parent="Groups/IT_11/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 80.0
+text = "4"
+theme_override_font_sizes/font_size = 4
+
+[node name="sleeve_left_rear" type="Sprite2D" parent="Groups/IT_11/ArtScroll/Canvas/Art"]
+position = Vector2(52, 60)
+texture = SubResource("A_IT_11_sleeve_left_rear")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_4" type="Label" parent="Groups/IT_11/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 80.0
+text = "5"
+theme_override_font_sizes/font_size = 4
+
+[node name="sleeve_right_front" type="Sprite2D" parent="Groups/IT_11/ArtScroll/Canvas/Art"]
+position = Vector2(84, 60)
+texture = SubResource("A_IT_11_sleeve_right_front")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_5" type="Label" parent="Groups/IT_11/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 80.0
+text = "6"
+theme_override_font_sizes/font_size = 4
+
+[node name="sleeve_right_rear" type="Sprite2D" parent="Groups/IT_11/ArtScroll/Canvas/Art"]
+position = Vector2(20, 100)
+texture = SubResource("A_IT_11_sleeve_right_rear")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_6" type="Label" parent="Groups/IT_11/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 120.0
+text = "7"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_torso_front" type="Sprite2D" parent="Groups/IT_11/ArtScroll/Canvas/Art"]
+position = Vector2(52, 100)
+texture = SubResource("A_IT_11_torso_front")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_7" type="Label" parent="Groups/IT_11/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 120.0
+text = "8"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_torso_rear" type="Sprite2D" parent="Groups/IT_11/ArtScroll/Canvas/Art"]
+position = Vector2(84, 100)
+texture = SubResource("A_IT_11_torso_rear")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_8" type="Label" parent="Groups/IT_11/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 120.0
+text = "9"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_sleeve_left_front" type="Sprite2D" parent="Groups/IT_11/ArtScroll/Canvas/Art"]
+position = Vector2(20, 140)
+texture = SubResource("A_IT_11_sleeve_left_front")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_9" type="Label" parent="Groups/IT_11/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 160.0
+text = "10"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_sleeve_left_rear" type="Sprite2D" parent="Groups/IT_11/ArtScroll/Canvas/Art"]
+position = Vector2(52, 140)
+texture = SubResource("A_IT_11_sleeve_left_rear")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_10" type="Label" parent="Groups/IT_11/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 160.0
+text = "11"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_sleeve_right_front" type="Sprite2D" parent="Groups/IT_11/ArtScroll/Canvas/Art"]
+position = Vector2(84, 140)
+texture = SubResource("A_IT_11_sleeve_right_front")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_11" type="Label" parent="Groups/IT_11/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 160.0
+text = "12"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_sleeve_right_rear" type="Sprite2D" parent="Groups/IT_11/ArtScroll/Canvas/Art"]
+position = Vector2(20, 180)
+texture = SubResource("A_IT_11_sleeve_right_rear")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_12" type="Label" parent="Groups/IT_11/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 200.0
+text = "13"
+theme_override_font_sizes/font_size = 4
+
+[node name="Components" type="Label" parent="Groups/IT_11"]
+offset_top = 425.0
+offset_right = 680.0
+autowrap_mode = 3
+text = "Components: 1 icon; 2 torso-front; 3 torso-rear; 4 sleeve-left-front; 5 sleeve-left-rear; 6 sleeve-right-front; 7 sleeve-right-rear; 8 corpse-torso-front; 9 corpse-torso-rear; 10 corpse-sleeve-left-front; 11 corpse-sleeve-left-rear; 12 corpse-sleeve-right-front; 13 corpse-sleeve-right-rear"
+
+[node name="Storage" type="Label" parent="Groups/IT_11"]
+offset_left = 700.0
+offset_top = 100.0
+text = "Storage 2x1\n[ ] [ ]"
+
+[node name="IT_12" type="Control" parent="Groups"]
+visible = false
+
+[node name="Identity" type="Label" parent="Groups/IT_12"]
+text = "IT-12 | Trousers | Source produced; appearance review pending04-32"
+
+[node name="Use" type="Label" parent="Groups/IT_12"]
+offset_top = 25.0
+text = "Removable legs; front/rear inputs; exact body fits owned04-06/07"
+
+[node name="ArtScroll" type="ScrollContainer" parent="Groups/IT_12"]
+offset_top = 100.0
+offset_right = 680.0
+offset_bottom = 420.0
+clip_contents = true
+
+[node name="Canvas" type="Control" parent="Groups/IT_12/ArtScroll"]
+layout_mode = 2
+custom_minimum_size = Vector2(488, 588)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Art" type="Node2D" parent="Groups/IT_12/ArtScroll/Canvas"]
+scale = Vector2(4, 4)
+texture_filter = 1
+
+[node name="icon" type="Sprite2D" parent="Groups/IT_12/ArtScroll/Canvas/Art"]
+position = Vector2(20, 20)
+texture = SubResource("A_IT_12_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_0" type="Label" parent="Groups/IT_12/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 40.0
+text = "1"
+theme_override_font_sizes/font_size = 4
+
+[node name="waist" type="Sprite2D" parent="Groups/IT_12/ArtScroll/Canvas/Art"]
+position = Vector2(52, 20)
+texture = SubResource("A_IT_12_waist")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_1" type="Label" parent="Groups/IT_12/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 40.0
+text = "2"
+theme_override_font_sizes/font_size = 4
+
+[node name="leg_left" type="Sprite2D" parent="Groups/IT_12/ArtScroll/Canvas/Art"]
+position = Vector2(84, 20)
+texture = SubResource("A_IT_12_leg_left")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_2" type="Label" parent="Groups/IT_12/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 40.0
+text = "3"
+theme_override_font_sizes/font_size = 4
+
+[node name="leg_right" type="Sprite2D" parent="Groups/IT_12/ArtScroll/Canvas/Art"]
+position = Vector2(20, 60)
+texture = SubResource("A_IT_12_leg_right")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_3" type="Label" parent="Groups/IT_12/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 80.0
+text = "4"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_waist" type="Sprite2D" parent="Groups/IT_12/ArtScroll/Canvas/Art"]
+position = Vector2(52, 60)
+texture = SubResource("A_IT_12_waist")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_4" type="Label" parent="Groups/IT_12/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 80.0
+text = "5"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_leg_left" type="Sprite2D" parent="Groups/IT_12/ArtScroll/Canvas/Art"]
+position = Vector2(84, 60)
+texture = SubResource("A_IT_12_leg_left")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_5" type="Label" parent="Groups/IT_12/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 80.0
+text = "6"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_leg_right" type="Sprite2D" parent="Groups/IT_12/ArtScroll/Canvas/Art"]
+position = Vector2(20, 100)
+texture = SubResource("A_IT_12_leg_right")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_6" type="Label" parent="Groups/IT_12/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 120.0
+text = "7"
+theme_override_font_sizes/font_size = 4
+
+[node name="Components" type="Label" parent="Groups/IT_12"]
+offset_top = 425.0
+offset_right = 680.0
+autowrap_mode = 3
+text = "Components: 1 icon; 2 waist; 3 leg-left; 4 leg-right; 5 corpse-waist; 6 corpse-leg-left; 7 corpse-leg-right"
+
+[node name="Storage" type="Label" parent="Groups/IT_12"]
+offset_left = 700.0
+offset_top = 100.0
+text = "Storage 2x2\n[ ] [ ]\n[ ] [ ]"
+
+[node name="IT_13" type="Control" parent="Groups"]
+visible = false
+
+[node name="Identity" type="Label" parent="Groups/IT_13"]
+text = "IT-13 | Coat | Source produced; appearance review pending04-32"
+
+[node name="Use" type="Label" parent="Groups/IT_13"]
+offset_top = 25.0
+text = "Removable torso-clothing; front/rear inputs; exact body fits owned04-06/07"
+
+[node name="ArtScroll" type="ScrollContainer" parent="Groups/IT_13"]
+offset_top = 100.0
+offset_right = 680.0
+offset_bottom = 420.0
+clip_contents = true
+
+[node name="Canvas" type="Control" parent="Groups/IT_13/ArtScroll"]
+layout_mode = 2
+custom_minimum_size = Vector2(488, 908)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Art" type="Node2D" parent="Groups/IT_13/ArtScroll/Canvas"]
+scale = Vector2(4, 4)
+texture_filter = 1
+
+[node name="icon" type="Sprite2D" parent="Groups/IT_13/ArtScroll/Canvas/Art"]
+position = Vector2(20, 20)
+texture = SubResource("A_IT_13_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_0" type="Label" parent="Groups/IT_13/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 40.0
+text = "1"
+theme_override_font_sizes/font_size = 4
+
+[node name="torso_front" type="Sprite2D" parent="Groups/IT_13/ArtScroll/Canvas/Art"]
+position = Vector2(52, 20)
+texture = SubResource("A_IT_13_torso_front")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_1" type="Label" parent="Groups/IT_13/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 40.0
+text = "2"
+theme_override_font_sizes/font_size = 4
+
+[node name="torso_rear" type="Sprite2D" parent="Groups/IT_13/ArtScroll/Canvas/Art"]
+position = Vector2(84, 20)
+texture = SubResource("A_IT_13_torso_rear")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_2" type="Label" parent="Groups/IT_13/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 40.0
+text = "3"
+theme_override_font_sizes/font_size = 4
+
+[node name="hem" type="Sprite2D" parent="Groups/IT_13/ArtScroll/Canvas/Art"]
+position = Vector2(20, 60)
+texture = SubResource("A_IT_13_hem")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_3" type="Label" parent="Groups/IT_13/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 80.0
+text = "4"
+theme_override_font_sizes/font_size = 4
+
+[node name="sleeve_left_front" type="Sprite2D" parent="Groups/IT_13/ArtScroll/Canvas/Art"]
+position = Vector2(52, 60)
+texture = SubResource("A_IT_13_sleeve_left_front")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_4" type="Label" parent="Groups/IT_13/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 80.0
+text = "5"
+theme_override_font_sizes/font_size = 4
+
+[node name="sleeve_left_rear" type="Sprite2D" parent="Groups/IT_13/ArtScroll/Canvas/Art"]
+position = Vector2(84, 60)
+texture = SubResource("A_IT_13_sleeve_left_rear")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_5" type="Label" parent="Groups/IT_13/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 80.0
+text = "6"
+theme_override_font_sizes/font_size = 4
+
+[node name="sleeve_right_front" type="Sprite2D" parent="Groups/IT_13/ArtScroll/Canvas/Art"]
+position = Vector2(20, 100)
+texture = SubResource("A_IT_13_sleeve_right_front")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_6" type="Label" parent="Groups/IT_13/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 120.0
+text = "7"
+theme_override_font_sizes/font_size = 4
+
+[node name="sleeve_right_rear" type="Sprite2D" parent="Groups/IT_13/ArtScroll/Canvas/Art"]
+position = Vector2(52, 100)
+texture = SubResource("A_IT_13_sleeve_right_rear")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_7" type="Label" parent="Groups/IT_13/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 120.0
+text = "8"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_torso_front" type="Sprite2D" parent="Groups/IT_13/ArtScroll/Canvas/Art"]
+position = Vector2(84, 100)
+texture = SubResource("A_IT_13_torso_front")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_8" type="Label" parent="Groups/IT_13/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 120.0
+text = "9"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_torso_rear" type="Sprite2D" parent="Groups/IT_13/ArtScroll/Canvas/Art"]
+position = Vector2(20, 140)
+texture = SubResource("A_IT_13_torso_rear")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_9" type="Label" parent="Groups/IT_13/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 160.0
+text = "10"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_hem" type="Sprite2D" parent="Groups/IT_13/ArtScroll/Canvas/Art"]
+position = Vector2(52, 140)
+texture = SubResource("A_IT_13_hem")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_10" type="Label" parent="Groups/IT_13/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 160.0
+text = "11"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_sleeve_left_front" type="Sprite2D" parent="Groups/IT_13/ArtScroll/Canvas/Art"]
+position = Vector2(84, 140)
+texture = SubResource("A_IT_13_sleeve_left_front")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_11" type="Label" parent="Groups/IT_13/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 160.0
+text = "12"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_sleeve_left_rear" type="Sprite2D" parent="Groups/IT_13/ArtScroll/Canvas/Art"]
+position = Vector2(20, 180)
+texture = SubResource("A_IT_13_sleeve_left_rear")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_12" type="Label" parent="Groups/IT_13/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 200.0
+text = "13"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_sleeve_right_front" type="Sprite2D" parent="Groups/IT_13/ArtScroll/Canvas/Art"]
+position = Vector2(52, 180)
+texture = SubResource("A_IT_13_sleeve_right_front")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_13" type="Label" parent="Groups/IT_13/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 200.0
+text = "14"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_sleeve_right_rear" type="Sprite2D" parent="Groups/IT_13/ArtScroll/Canvas/Art"]
+position = Vector2(84, 180)
+texture = SubResource("A_IT_13_sleeve_right_rear")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_14" type="Label" parent="Groups/IT_13/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 200.0
+text = "15"
+theme_override_font_sizes/font_size = 4
+
+[node name="Components" type="Label" parent="Groups/IT_13"]
+offset_top = 425.0
+offset_right = 680.0
+autowrap_mode = 3
+text = "Components: 1 icon; 2 torso-front; 3 torso-rear; 4 hem; 5 sleeve-left-front; 6 sleeve-left-rear; 7 sleeve-right-front; 8 sleeve-right-rear; 9 corpse-torso-front; 10 corpse-torso-rear; 11 corpse-hem; 12 corpse-sleeve-left-front; 13 corpse-sleeve-left-rear; 14 corpse-sleeve-right-front; 15 corpse-sleeve-right-rear"
+
+[node name="Storage" type="Label" parent="Groups/IT_13"]
+offset_left = 700.0
+offset_top = 100.0
+text = "Storage 2x2\n[ ] [ ]\n[ ] [ ]"
+
+[node name="IT_14" type="Control" parent="Groups"]
+visible = false
+
+[node name="Identity" type="Label" parent="Groups/IT_14"]
+text = "IT-14 | Cap | Source produced; appearance review pending04-32"
+
+[node name="Use" type="Label" parent="Groups/IT_14"]
+offset_top = 25.0
+text = "Removable headwear; front/rear inputs; exact body fits owned04-06/07"
+
+[node name="ArtScroll" type="ScrollContainer" parent="Groups/IT_14"]
+offset_top = 100.0
+offset_right = 680.0
+offset_bottom = 420.0
+clip_contents = true
+
+[node name="Canvas" type="Control" parent="Groups/IT_14/ArtScroll"]
+layout_mode = 2
+custom_minimum_size = Vector2(488, 268)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Art" type="Node2D" parent="Groups/IT_14/ArtScroll/Canvas"]
+scale = Vector2(4, 4)
+texture_filter = 1
+
+[node name="icon" type="Sprite2D" parent="Groups/IT_14/ArtScroll/Canvas/Art"]
+position = Vector2(20, 20)
+texture = SubResource("A_IT_14_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_0" type="Label" parent="Groups/IT_14/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 40.0
+text = "1"
+theme_override_font_sizes/font_size = 4
+
+[node name="head" type="Sprite2D" parent="Groups/IT_14/ArtScroll/Canvas/Art"]
+position = Vector2(52, 20)
+texture = SubResource("A_IT_14_head")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_1" type="Label" parent="Groups/IT_14/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 40.0
+text = "2"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_head" type="Sprite2D" parent="Groups/IT_14/ArtScroll/Canvas/Art"]
+position = Vector2(84, 20)
+texture = SubResource("A_IT_14_head")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_2" type="Label" parent="Groups/IT_14/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 40.0
+text = "3"
+theme_override_font_sizes/font_size = 4
+
+[node name="Components" type="Label" parent="Groups/IT_14"]
+offset_top = 425.0
+offset_right = 680.0
+autowrap_mode = 3
+text = "Components: 1 icon; 2 head; 3 corpse-head"
+
+[node name="IT_15" type="Control" parent="Groups"]
+visible = false
+
+[node name="Identity" type="Label" parent="Groups/IT_15"]
+text = "IT-15 | Face covering | Source produced; appearance review pending04-32"
+
+[node name="Use" type="Label" parent="Groups/IT_15"]
+offset_top = 25.0
+text = "Removable face; front/rear inputs; exact body fits owned04-06/07"
+
+[node name="ArtScroll" type="ScrollContainer" parent="Groups/IT_15"]
+offset_top = 100.0
+offset_right = 680.0
+offset_bottom = 420.0
+clip_contents = true
+
+[node name="Canvas" type="Control" parent="Groups/IT_15/ArtScroll"]
+layout_mode = 2
+custom_minimum_size = Vector2(488, 268)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Art" type="Node2D" parent="Groups/IT_15/ArtScroll/Canvas"]
+scale = Vector2(4, 4)
+texture_filter = 1
+
+[node name="icon" type="Sprite2D" parent="Groups/IT_15/ArtScroll/Canvas/Art"]
+position = Vector2(20, 20)
+texture = SubResource("A_IT_15_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_0" type="Label" parent="Groups/IT_15/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 40.0
+text = "1"
+theme_override_font_sizes/font_size = 4
+
+[node name="face" type="Sprite2D" parent="Groups/IT_15/ArtScroll/Canvas/Art"]
+position = Vector2(52, 20)
+texture = SubResource("A_IT_15_face")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_1" type="Label" parent="Groups/IT_15/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 40.0
+text = "2"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_face" type="Sprite2D" parent="Groups/IT_15/ArtScroll/Canvas/Art"]
+position = Vector2(84, 20)
+texture = SubResource("A_IT_15_face")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_2" type="Label" parent="Groups/IT_15/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 40.0
+text = "3"
+theme_override_font_sizes/font_size = 4
+
+[node name="Components" type="Label" parent="Groups/IT_15"]
+offset_top = 425.0
+offset_right = 680.0
+autowrap_mode = 3
+text = "Components: 1 icon; 2 face; 3 corpse-face"
+
+[node name="IT_16" type="Control" parent="Groups"]
+visible = false
+
+[node name="Identity" type="Label" parent="Groups/IT_16"]
+text = "IT-16 | Gloves | Source produced; appearance review pending04-32"
+
+[node name="Use" type="Label" parent="Groups/IT_16"]
+offset_top = 25.0
+text = "Removable gloves; front/rear inputs; exact body fits owned04-06/07"
+
+[node name="ArtScroll" type="ScrollContainer" parent="Groups/IT_16"]
+offset_top = 100.0
+offset_right = 680.0
+offset_bottom = 420.0
+clip_contents = true
+
+[node name="Canvas" type="Control" parent="Groups/IT_16/ArtScroll"]
+layout_mode = 2
+custom_minimum_size = Vector2(488, 588)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Art" type="Node2D" parent="Groups/IT_16/ArtScroll/Canvas"]
+scale = Vector2(4, 4)
+texture_filter = 1
+
+[node name="icon" type="Sprite2D" parent="Groups/IT_16/ArtScroll/Canvas/Art"]
+position = Vector2(20, 20)
+texture = SubResource("A_IT_16_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_0" type="Label" parent="Groups/IT_16/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 40.0
+text = "1"
+theme_override_font_sizes/font_size = 4
+
+[node name="hand_left_front" type="Sprite2D" parent="Groups/IT_16/ArtScroll/Canvas/Art"]
+position = Vector2(52, 20)
+texture = SubResource("A_IT_16_hand_left_front")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_1" type="Label" parent="Groups/IT_16/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 40.0
+text = "2"
+theme_override_font_sizes/font_size = 4
+
+[node name="hand_left_rear" type="Sprite2D" parent="Groups/IT_16/ArtScroll/Canvas/Art"]
+position = Vector2(84, 20)
+texture = SubResource("A_IT_16_hand_left_rear")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_2" type="Label" parent="Groups/IT_16/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 40.0
+text = "3"
+theme_override_font_sizes/font_size = 4
+
+[node name="hand_right_front" type="Sprite2D" parent="Groups/IT_16/ArtScroll/Canvas/Art"]
+position = Vector2(20, 60)
+texture = SubResource("A_IT_16_hand_right_front")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_3" type="Label" parent="Groups/IT_16/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 80.0
+text = "4"
+theme_override_font_sizes/font_size = 4
+
+[node name="hand_right_rear" type="Sprite2D" parent="Groups/IT_16/ArtScroll/Canvas/Art"]
+position = Vector2(52, 60)
+texture = SubResource("A_IT_16_hand_right_rear")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_4" type="Label" parent="Groups/IT_16/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 80.0
+text = "5"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_hand_left_front" type="Sprite2D" parent="Groups/IT_16/ArtScroll/Canvas/Art"]
+position = Vector2(84, 60)
+texture = SubResource("A_IT_16_hand_left_front")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_5" type="Label" parent="Groups/IT_16/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 80.0
+text = "6"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_hand_left_rear" type="Sprite2D" parent="Groups/IT_16/ArtScroll/Canvas/Art"]
+position = Vector2(20, 100)
+texture = SubResource("A_IT_16_hand_left_rear")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_6" type="Label" parent="Groups/IT_16/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 120.0
+text = "7"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_hand_right_front" type="Sprite2D" parent="Groups/IT_16/ArtScroll/Canvas/Art"]
+position = Vector2(52, 100)
+texture = SubResource("A_IT_16_hand_right_front")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_7" type="Label" parent="Groups/IT_16/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 120.0
+text = "8"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_hand_right_rear" type="Sprite2D" parent="Groups/IT_16/ArtScroll/Canvas/Art"]
+position = Vector2(84, 100)
+texture = SubResource("A_IT_16_hand_right_rear")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_8" type="Label" parent="Groups/IT_16/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 120.0
+text = "9"
+theme_override_font_sizes/font_size = 4
+
+[node name="Components" type="Label" parent="Groups/IT_16"]
+offset_top = 425.0
+offset_right = 680.0
+autowrap_mode = 3
+text = "Components: 1 icon; 2 hand-left-front; 3 hand-left-rear; 4 hand-right-front; 5 hand-right-rear; 6 corpse-hand-left-front; 7 corpse-hand-left-rear; 8 corpse-hand-right-front; 9 corpse-hand-right-rear"
+
+[node name="IT_17" type="Control" parent="Groups"]
+visible = false
+
+[node name="Identity" type="Label" parent="Groups/IT_17"]
+text = "IT-17 | Boots | Source produced; appearance review pending04-32"
+
+[node name="Use" type="Label" parent="Groups/IT_17"]
+offset_top = 25.0
+text = "Removable boots; front/rear inputs; exact body fits owned04-06/07"
+
+[node name="ArtScroll" type="ScrollContainer" parent="Groups/IT_17"]
+offset_top = 100.0
+offset_right = 680.0
+offset_bottom = 420.0
+clip_contents = true
+
+[node name="Canvas" type="Control" parent="Groups/IT_17/ArtScroll"]
+layout_mode = 2
+custom_minimum_size = Vector2(488, 428)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Art" type="Node2D" parent="Groups/IT_17/ArtScroll/Canvas"]
+scale = Vector2(4, 4)
+texture_filter = 1
+
+[node name="icon" type="Sprite2D" parent="Groups/IT_17/ArtScroll/Canvas/Art"]
+position = Vector2(20, 20)
+texture = SubResource("A_IT_17_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_0" type="Label" parent="Groups/IT_17/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 40.0
+text = "1"
+theme_override_font_sizes/font_size = 4
+
+[node name="foot_left" type="Sprite2D" parent="Groups/IT_17/ArtScroll/Canvas/Art"]
+position = Vector2(52, 20)
+texture = SubResource("A_IT_17_foot_left")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_1" type="Label" parent="Groups/IT_17/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 40.0
+text = "2"
+theme_override_font_sizes/font_size = 4
+
+[node name="foot_right" type="Sprite2D" parent="Groups/IT_17/ArtScroll/Canvas/Art"]
+position = Vector2(84, 20)
+texture = SubResource("A_IT_17_foot_right")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_2" type="Label" parent="Groups/IT_17/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 40.0
+text = "3"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_foot_left" type="Sprite2D" parent="Groups/IT_17/ArtScroll/Canvas/Art"]
+position = Vector2(20, 60)
+texture = SubResource("A_IT_17_foot_left")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_3" type="Label" parent="Groups/IT_17/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 80.0
+text = "4"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_foot_right" type="Sprite2D" parent="Groups/IT_17/ArtScroll/Canvas/Art"]
+position = Vector2(52, 60)
+texture = SubResource("A_IT_17_foot_right")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_4" type="Label" parent="Groups/IT_17/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 80.0
+text = "5"
+theme_override_font_sizes/font_size = 4
+
+[node name="Components" type="Label" parent="Groups/IT_17"]
+offset_top = 425.0
+offset_right = 680.0
+autowrap_mode = 3
+text = "Components: 1 icon; 2 foot-left; 3 foot-right; 4 corpse-foot-left; 5 corpse-foot-right"
+
+[node name="IT_18" type="Control" parent="Groups"]
+visible = false
+
+[node name="Identity" type="Label" parent="Groups/IT_18"]
+text = "IT-18 | Protective helmet | Source produced; appearance review pending04-32"
+
+[node name="Use" type="Label" parent="Groups/IT_18"]
+offset_top = 25.0
+text = "Removable headwear; front/rear inputs; exact body fits owned04-06/07"
+
+[node name="ArtScroll" type="ScrollContainer" parent="Groups/IT_18"]
+offset_top = 100.0
+offset_right = 680.0
+offset_bottom = 420.0
+clip_contents = true
+
+[node name="Canvas" type="Control" parent="Groups/IT_18/ArtScroll"]
+layout_mode = 2
+custom_minimum_size = Vector2(488, 268)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Art" type="Node2D" parent="Groups/IT_18/ArtScroll/Canvas"]
+scale = Vector2(4, 4)
+texture_filter = 1
+
+[node name="icon" type="Sprite2D" parent="Groups/IT_18/ArtScroll/Canvas/Art"]
+position = Vector2(20, 20)
+texture = SubResource("A_IT_18_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_0" type="Label" parent="Groups/IT_18/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 40.0
+text = "1"
+theme_override_font_sizes/font_size = 4
+
+[node name="head" type="Sprite2D" parent="Groups/IT_18/ArtScroll/Canvas/Art"]
+position = Vector2(52, 20)
+texture = SubResource("A_IT_18_head")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_1" type="Label" parent="Groups/IT_18/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 40.0
+text = "2"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_head" type="Sprite2D" parent="Groups/IT_18/ArtScroll/Canvas/Art"]
+position = Vector2(84, 20)
+texture = SubResource("A_IT_18_head")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_2" type="Label" parent="Groups/IT_18/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 40.0
+text = "3"
+theme_override_font_sizes/font_size = 4
+
+[node name="Components" type="Label" parent="Groups/IT_18"]
+offset_top = 425.0
+offset_right = 680.0
+autowrap_mode = 3
+text = "Components: 1 icon; 2 head; 3 corpse-head"
+
+[node name="Broken" type="Sprite2D" parent="Groups/IT_18/ArtScroll/Canvas/Art"]
+visible = false
+position = Vector2(52, 20)
+texture = SubResource("A_IT_18_broken")
+centered = false
+texture_filter = 1
+
+[node name="State_Broken" type="Button" parent="Groups/IT_18"]
+offset_left = 0.0
+offset_top = 50.0
+offset_right = 132.0
+offset_bottom = 80.0
+text = "Broken example"
+
+[node name="IT_19" type="Control" parent="Groups"]
+visible = false
+
+[node name="Identity" type="Label" parent="Groups/IT_19"]
+text = "IT-19 | Improvised body armor | Source produced; appearance review pending04-32"
+
+[node name="Use" type="Label" parent="Groups/IT_19"]
+offset_top = 25.0
+text = "Removable body-armor; front/rear inputs; exact body fits owned04-06/07"
+
+[node name="ArtScroll" type="ScrollContainer" parent="Groups/IT_19"]
+offset_top = 100.0
+offset_right = 680.0
+offset_bottom = 420.0
+clip_contents = true
+
+[node name="Canvas" type="Control" parent="Groups/IT_19/ArtScroll"]
+layout_mode = 2
+custom_minimum_size = Vector2(488, 908)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Art" type="Node2D" parent="Groups/IT_19/ArtScroll/Canvas"]
+scale = Vector2(4, 4)
+texture_filter = 1
+
+[node name="icon" type="Sprite2D" parent="Groups/IT_19/ArtScroll/Canvas/Art"]
+position = Vector2(20, 20)
+texture = SubResource("A_IT_19_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_0" type="Label" parent="Groups/IT_19/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 40.0
+text = "1"
+theme_override_font_sizes/font_size = 4
+
+[node name="torso_front" type="Sprite2D" parent="Groups/IT_19/ArtScroll/Canvas/Art"]
+position = Vector2(52, 20)
+texture = SubResource("A_IT_19_torso_front")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_1" type="Label" parent="Groups/IT_19/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 40.0
+text = "2"
+theme_override_font_sizes/font_size = 4
+
+[node name="torso_rear" type="Sprite2D" parent="Groups/IT_19/ArtScroll/Canvas/Art"]
+position = Vector2(84, 20)
+texture = SubResource("A_IT_19_torso_rear")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_2" type="Label" parent="Groups/IT_19/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 40.0
+text = "3"
+theme_override_font_sizes/font_size = 4
+
+[node name="strap_left_front" type="Sprite2D" parent="Groups/IT_19/ArtScroll/Canvas/Art"]
+position = Vector2(20, 60)
+texture = SubResource("A_IT_19_strap_left_front")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_3" type="Label" parent="Groups/IT_19/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 80.0
+text = "4"
+theme_override_font_sizes/font_size = 4
+
+[node name="strap_left_rear" type="Sprite2D" parent="Groups/IT_19/ArtScroll/Canvas/Art"]
+position = Vector2(52, 60)
+texture = SubResource("A_IT_19_strap_left_rear")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_4" type="Label" parent="Groups/IT_19/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 80.0
+text = "5"
+theme_override_font_sizes/font_size = 4
+
+[node name="strap_right_front" type="Sprite2D" parent="Groups/IT_19/ArtScroll/Canvas/Art"]
+position = Vector2(84, 60)
+texture = SubResource("A_IT_19_strap_right_front")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_5" type="Label" parent="Groups/IT_19/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 80.0
+text = "6"
+theme_override_font_sizes/font_size = 4
+
+[node name="strap_right_rear" type="Sprite2D" parent="Groups/IT_19/ArtScroll/Canvas/Art"]
+position = Vector2(20, 100)
+texture = SubResource("A_IT_19_strap_right_rear")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_6" type="Label" parent="Groups/IT_19/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 120.0
+text = "7"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_torso_front" type="Sprite2D" parent="Groups/IT_19/ArtScroll/Canvas/Art"]
+position = Vector2(52, 100)
+texture = SubResource("A_IT_19_torso_front")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_7" type="Label" parent="Groups/IT_19/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 120.0
+text = "8"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_torso_rear" type="Sprite2D" parent="Groups/IT_19/ArtScroll/Canvas/Art"]
+position = Vector2(84, 100)
+texture = SubResource("A_IT_19_torso_rear")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_8" type="Label" parent="Groups/IT_19/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 120.0
+text = "9"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_strap_left_front" type="Sprite2D" parent="Groups/IT_19/ArtScroll/Canvas/Art"]
+position = Vector2(20, 140)
+texture = SubResource("A_IT_19_strap_left_front")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_9" type="Label" parent="Groups/IT_19/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 160.0
+text = "10"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_strap_left_rear" type="Sprite2D" parent="Groups/IT_19/ArtScroll/Canvas/Art"]
+position = Vector2(52, 140)
+texture = SubResource("A_IT_19_strap_left_rear")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_10" type="Label" parent="Groups/IT_19/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 160.0
+text = "11"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_strap_right_front" type="Sprite2D" parent="Groups/IT_19/ArtScroll/Canvas/Art"]
+position = Vector2(84, 140)
+texture = SubResource("A_IT_19_strap_right_front")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_11" type="Label" parent="Groups/IT_19/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 160.0
+text = "12"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_strap_right_rear" type="Sprite2D" parent="Groups/IT_19/ArtScroll/Canvas/Art"]
+position = Vector2(20, 180)
+texture = SubResource("A_IT_19_strap_right_rear")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_12" type="Label" parent="Groups/IT_19/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 200.0
+text = "13"
+theme_override_font_sizes/font_size = 4
+
+[node name="Components" type="Label" parent="Groups/IT_19"]
+offset_top = 425.0
+offset_right = 680.0
+autowrap_mode = 3
+text = "Components: 1 icon; 2 torso-front; 3 torso-rear; 4 strap-left-front; 5 strap-left-rear; 6 strap-right-front; 7 strap-right-rear; 8 corpse-torso-front; 9 corpse-torso-rear; 10 corpse-strap-left-front; 11 corpse-strap-left-rear; 12 corpse-strap-right-front; 13 corpse-strap-right-rear"
+
+[node name="Broken" type="Sprite2D" parent="Groups/IT_19/ArtScroll/Canvas/Art"]
+visible = false
+position = Vector2(52, 20)
+texture = SubResource("A_IT_19_broken")
+centered = false
+texture_filter = 1
+
+[node name="State_Broken" type="Button" parent="Groups/IT_19"]
+offset_left = 0.0
+offset_top = 50.0
+offset_right = 132.0
+offset_bottom = 80.0
+text = "Broken example"
+
+[node name="IT_20" type="Control" parent="Groups"]
+visible = false
+
+[node name="Identity" type="Label" parent="Groups/IT_20"]
+text = "IT-20 | Plated body armor | Source produced; appearance review pending04-32"
+
+[node name="Use" type="Label" parent="Groups/IT_20"]
+offset_top = 25.0
+text = "Removable body-armor; front/rear inputs; exact body fits owned04-06/07"
+
+[node name="ArtScroll" type="ScrollContainer" parent="Groups/IT_20"]
+offset_top = 100.0
+offset_right = 680.0
+offset_bottom = 420.0
+clip_contents = true
+
+[node name="Canvas" type="Control" parent="Groups/IT_20/ArtScroll"]
+layout_mode = 2
+custom_minimum_size = Vector2(488, 908)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Art" type="Node2D" parent="Groups/IT_20/ArtScroll/Canvas"]
+scale = Vector2(4, 4)
+texture_filter = 1
+
+[node name="icon" type="Sprite2D" parent="Groups/IT_20/ArtScroll/Canvas/Art"]
+position = Vector2(20, 20)
+texture = SubResource("A_IT_20_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_0" type="Label" parent="Groups/IT_20/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 40.0
+text = "1"
+theme_override_font_sizes/font_size = 4
+
+[node name="torso_front" type="Sprite2D" parent="Groups/IT_20/ArtScroll/Canvas/Art"]
+position = Vector2(52, 20)
+texture = SubResource("A_IT_20_torso_front")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_1" type="Label" parent="Groups/IT_20/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 40.0
+text = "2"
+theme_override_font_sizes/font_size = 4
+
+[node name="torso_rear" type="Sprite2D" parent="Groups/IT_20/ArtScroll/Canvas/Art"]
+position = Vector2(84, 20)
+texture = SubResource("A_IT_20_torso_rear")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_2" type="Label" parent="Groups/IT_20/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 40.0
+text = "3"
+theme_override_font_sizes/font_size = 4
+
+[node name="strap_left_front" type="Sprite2D" parent="Groups/IT_20/ArtScroll/Canvas/Art"]
+position = Vector2(20, 60)
+texture = SubResource("A_IT_20_strap_left_front")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_3" type="Label" parent="Groups/IT_20/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 80.0
+text = "4"
+theme_override_font_sizes/font_size = 4
+
+[node name="strap_left_rear" type="Sprite2D" parent="Groups/IT_20/ArtScroll/Canvas/Art"]
+position = Vector2(52, 60)
+texture = SubResource("A_IT_20_strap_left_rear")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_4" type="Label" parent="Groups/IT_20/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 80.0
+text = "5"
+theme_override_font_sizes/font_size = 4
+
+[node name="strap_right_front" type="Sprite2D" parent="Groups/IT_20/ArtScroll/Canvas/Art"]
+position = Vector2(84, 60)
+texture = SubResource("A_IT_20_strap_right_front")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_5" type="Label" parent="Groups/IT_20/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 80.0
+text = "6"
+theme_override_font_sizes/font_size = 4
+
+[node name="strap_right_rear" type="Sprite2D" parent="Groups/IT_20/ArtScroll/Canvas/Art"]
+position = Vector2(20, 100)
+texture = SubResource("A_IT_20_strap_right_rear")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_6" type="Label" parent="Groups/IT_20/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 120.0
+text = "7"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_torso_front" type="Sprite2D" parent="Groups/IT_20/ArtScroll/Canvas/Art"]
+position = Vector2(52, 100)
+texture = SubResource("A_IT_20_torso_front")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_7" type="Label" parent="Groups/IT_20/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 120.0
+text = "8"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_torso_rear" type="Sprite2D" parent="Groups/IT_20/ArtScroll/Canvas/Art"]
+position = Vector2(84, 100)
+texture = SubResource("A_IT_20_torso_rear")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_8" type="Label" parent="Groups/IT_20/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 120.0
+text = "9"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_strap_left_front" type="Sprite2D" parent="Groups/IT_20/ArtScroll/Canvas/Art"]
+position = Vector2(20, 140)
+texture = SubResource("A_IT_20_strap_left_front")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_9" type="Label" parent="Groups/IT_20/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 160.0
+text = "10"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_strap_left_rear" type="Sprite2D" parent="Groups/IT_20/ArtScroll/Canvas/Art"]
+position = Vector2(52, 140)
+texture = SubResource("A_IT_20_strap_left_rear")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_10" type="Label" parent="Groups/IT_20/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 160.0
+text = "11"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_strap_right_front" type="Sprite2D" parent="Groups/IT_20/ArtScroll/Canvas/Art"]
+position = Vector2(84, 140)
+texture = SubResource("A_IT_20_strap_right_front")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_11" type="Label" parent="Groups/IT_20/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 160.0
+text = "12"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_strap_right_rear" type="Sprite2D" parent="Groups/IT_20/ArtScroll/Canvas/Art"]
+position = Vector2(20, 180)
+texture = SubResource("A_IT_20_strap_right_rear")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_12" type="Label" parent="Groups/IT_20/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 200.0
+text = "13"
+theme_override_font_sizes/font_size = 4
+
+[node name="Components" type="Label" parent="Groups/IT_20"]
+offset_top = 425.0
+offset_right = 680.0
+autowrap_mode = 3
+text = "Components: 1 icon; 2 torso-front; 3 torso-rear; 4 strap-left-front; 5 strap-left-rear; 6 strap-right-front; 7 strap-right-rear; 8 corpse-torso-front; 9 corpse-torso-rear; 10 corpse-strap-left-front; 11 corpse-strap-left-rear; 12 corpse-strap-right-front; 13 corpse-strap-right-rear"
+
+[node name="Broken" type="Sprite2D" parent="Groups/IT_20/ArtScroll/Canvas/Art"]
+visible = false
+position = Vector2(52, 20)
+texture = SubResource("A_IT_20_broken")
+centered = false
+texture_filter = 1
+
+[node name="State_Broken" type="Button" parent="Groups/IT_20"]
+offset_left = 0.0
+offset_top = 50.0
+offset_right = 132.0
+offset_bottom = 80.0
+text = "Broken example"
+
+[node name="IT_21" type="Control" parent="Groups"]
+visible = false
+
+[node name="Identity" type="Label" parent="Groups/IT_21"]
+text = "IT-21 | Belt with pouches | Source produced; appearance review pending04-32"
+
+[node name="Use" type="Label" parent="Groups/IT_21"]
+offset_top = 25.0
+text = "Removable belt; front/rear inputs; exact body fits owned04-06/07"
+
+[node name="ArtScroll" type="ScrollContainer" parent="Groups/IT_21"]
+offset_top = 100.0
+offset_right = 680.0
+offset_bottom = 420.0
+clip_contents = true
+
+[node name="Canvas" type="Control" parent="Groups/IT_21/ArtScroll"]
+layout_mode = 2
+custom_minimum_size = Vector2(488, 588)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Art" type="Node2D" parent="Groups/IT_21/ArtScroll/Canvas"]
+scale = Vector2(4, 4)
+texture_filter = 1
+
+[node name="icon" type="Sprite2D" parent="Groups/IT_21/ArtScroll/Canvas/Art"]
+position = Vector2(20, 20)
+texture = SubResource("A_IT_21_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_0" type="Label" parent="Groups/IT_21/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 40.0
+text = "1"
+theme_override_font_sizes/font_size = 4
+
+[node name="belt_front" type="Sprite2D" parent="Groups/IT_21/ArtScroll/Canvas/Art"]
+position = Vector2(52, 20)
+texture = SubResource("A_IT_21_belt_front")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_1" type="Label" parent="Groups/IT_21/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 40.0
+text = "2"
+theme_override_font_sizes/font_size = 4
+
+[node name="belt_rear" type="Sprite2D" parent="Groups/IT_21/ArtScroll/Canvas/Art"]
+position = Vector2(84, 20)
+texture = SubResource("A_IT_21_belt_rear")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_2" type="Label" parent="Groups/IT_21/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 40.0
+text = "3"
+theme_override_font_sizes/font_size = 4
+
+[node name="pouch_left" type="Sprite2D" parent="Groups/IT_21/ArtScroll/Canvas/Art"]
+position = Vector2(20, 60)
+texture = SubResource("A_IT_21_pouch_left")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_3" type="Label" parent="Groups/IT_21/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 80.0
+text = "4"
+theme_override_font_sizes/font_size = 4
+
+[node name="pouch_right" type="Sprite2D" parent="Groups/IT_21/ArtScroll/Canvas/Art"]
+position = Vector2(52, 60)
+texture = SubResource("A_IT_21_pouch_right")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_4" type="Label" parent="Groups/IT_21/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 80.0
+text = "5"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_belt_front" type="Sprite2D" parent="Groups/IT_21/ArtScroll/Canvas/Art"]
+position = Vector2(84, 60)
+texture = SubResource("A_IT_21_belt_front")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_5" type="Label" parent="Groups/IT_21/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 80.0
+text = "6"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_belt_rear" type="Sprite2D" parent="Groups/IT_21/ArtScroll/Canvas/Art"]
+position = Vector2(20, 100)
+texture = SubResource("A_IT_21_belt_rear")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_6" type="Label" parent="Groups/IT_21/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 120.0
+text = "7"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_pouch_left" type="Sprite2D" parent="Groups/IT_21/ArtScroll/Canvas/Art"]
+position = Vector2(52, 100)
+texture = SubResource("A_IT_21_pouch_left")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_7" type="Label" parent="Groups/IT_21/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 120.0
+text = "8"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_pouch_right" type="Sprite2D" parent="Groups/IT_21/ArtScroll/Canvas/Art"]
+position = Vector2(84, 100)
+texture = SubResource("A_IT_21_pouch_right")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_8" type="Label" parent="Groups/IT_21/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 120.0
+text = "9"
+theme_override_font_sizes/font_size = 4
+
+[node name="Components" type="Label" parent="Groups/IT_21"]
+offset_top = 425.0
+offset_right = 680.0
+autowrap_mode = 3
+text = "Components: 1 icon; 2 belt-front; 3 belt-rear; 4 pouch-left; 5 pouch-right; 6 corpse-belt-front; 7 corpse-belt-rear; 8 corpse-pouch-left; 9 corpse-pouch-right"
+
+[node name="Storage" type="Label" parent="Groups/IT_21"]
+offset_left = 700.0
+offset_top = 100.0
+text = "Storage 4x2\n[ ] [ ] [ ] [ ]\n[ ] [ ] [ ] [ ]"
+
+[node name="IT_22" type="Control" parent="Groups"]
+visible = false
+
+[node name="Identity" type="Label" parent="Groups/IT_22"]
+text = "IT-22 | Small pouch | Source produced; appearance review pending04-32"
+
+[node name="Use" type="Label" parent="Groups/IT_22"]
+offset_top = 25.0
+text = "Stored container only; no worn slot"
+
+[node name="ArtScroll" type="ScrollContainer" parent="Groups/IT_22"]
+offset_top = 100.0
+offset_right = 680.0
+offset_bottom = 420.0
+clip_contents = true
+
+[node name="Canvas" type="Control" parent="Groups/IT_22/ArtScroll"]
+layout_mode = 2
+custom_minimum_size = Vector2(488, 268)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Art" type="Node2D" parent="Groups/IT_22/ArtScroll/Canvas"]
+scale = Vector2(4, 4)
+texture_filter = 1
+
+[node name="icon" type="Sprite2D" parent="Groups/IT_22/ArtScroll/Canvas/Art"]
+position = Vector2(20, 20)
+texture = SubResource("A_IT_22_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_0" type="Label" parent="Groups/IT_22/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 40.0
+text = "1"
+theme_override_font_sizes/font_size = 4
+
+[node name="container_header" type="Sprite2D" parent="Groups/IT_22/ArtScroll/Canvas/Art"]
+position = Vector2(52, 20)
+texture = SubResource("A_IT_22_container_header")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_1" type="Label" parent="Groups/IT_22/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 40.0
+text = "2"
+theme_override_font_sizes/font_size = 4
+
+[node name="Components" type="Label" parent="Groups/IT_22"]
+offset_top = 425.0
+offset_right = 680.0
+autowrap_mode = 3
+text = "Components: 1 icon; 2 container-header"
+
+[node name="Storage" type="Label" parent="Groups/IT_22"]
+offset_left = 700.0
+offset_top = 100.0
+text = "Storage 2x2\n[ ] [ ]\n[ ] [ ]"
+
+[node name="IT_23" type="Control" parent="Groups"]
+visible = false
+
+[node name="Identity" type="Label" parent="Groups/IT_23"]
+text = "IT-23 | Small backpack | Source produced; appearance review pending04-32"
+
+[node name="Use" type="Label" parent="Groups/IT_23"]
+offset_top = 25.0
+text = "Removable backpack; front/rear inputs; exact body fits owned04-06/07"
+
+[node name="ArtScroll" type="ScrollContainer" parent="Groups/IT_23"]
+offset_top = 100.0
+offset_right = 680.0
+offset_bottom = 420.0
+clip_contents = true
+
+[node name="Canvas" type="Control" parent="Groups/IT_23/ArtScroll"]
+layout_mode = 2
+custom_minimum_size = Vector2(488, 748)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Art" type="Node2D" parent="Groups/IT_23/ArtScroll/Canvas"]
+scale = Vector2(4, 4)
+texture_filter = 1
+
+[node name="icon" type="Sprite2D" parent="Groups/IT_23/ArtScroll/Canvas/Art"]
+position = Vector2(20, 20)
+texture = SubResource("A_IT_23_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_0" type="Label" parent="Groups/IT_23/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 40.0
+text = "1"
+theme_override_font_sizes/font_size = 4
+
+[node name="bag_body" type="Sprite2D" parent="Groups/IT_23/ArtScroll/Canvas/Art"]
+position = Vector2(52, 20)
+texture = SubResource("A_IT_23_bag_body")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_1" type="Label" parent="Groups/IT_23/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 40.0
+text = "2"
+theme_override_font_sizes/font_size = 4
+
+[node name="strap_left_front" type="Sprite2D" parent="Groups/IT_23/ArtScroll/Canvas/Art"]
+position = Vector2(84, 20)
+texture = SubResource("A_IT_23_strap_left_front")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_2" type="Label" parent="Groups/IT_23/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 40.0
+text = "3"
+theme_override_font_sizes/font_size = 4
+
+[node name="strap_left_rear" type="Sprite2D" parent="Groups/IT_23/ArtScroll/Canvas/Art"]
+position = Vector2(20, 60)
+texture = SubResource("A_IT_23_strap_left_rear")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_3" type="Label" parent="Groups/IT_23/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 80.0
+text = "4"
+theme_override_font_sizes/font_size = 4
+
+[node name="strap_right_front" type="Sprite2D" parent="Groups/IT_23/ArtScroll/Canvas/Art"]
+position = Vector2(52, 60)
+texture = SubResource("A_IT_23_strap_right_front")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_4" type="Label" parent="Groups/IT_23/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 80.0
+text = "5"
+theme_override_font_sizes/font_size = 4
+
+[node name="strap_right_rear" type="Sprite2D" parent="Groups/IT_23/ArtScroll/Canvas/Art"]
+position = Vector2(84, 60)
+texture = SubResource("A_IT_23_strap_right_rear")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_5" type="Label" parent="Groups/IT_23/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 80.0
+text = "6"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_bag_body" type="Sprite2D" parent="Groups/IT_23/ArtScroll/Canvas/Art"]
+position = Vector2(20, 100)
+texture = SubResource("A_IT_23_bag_body")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_6" type="Label" parent="Groups/IT_23/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 120.0
+text = "7"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_strap_left_front" type="Sprite2D" parent="Groups/IT_23/ArtScroll/Canvas/Art"]
+position = Vector2(52, 100)
+texture = SubResource("A_IT_23_strap_left_front")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_7" type="Label" parent="Groups/IT_23/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 120.0
+text = "8"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_strap_left_rear" type="Sprite2D" parent="Groups/IT_23/ArtScroll/Canvas/Art"]
+position = Vector2(84, 100)
+texture = SubResource("A_IT_23_strap_left_rear")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_8" type="Label" parent="Groups/IT_23/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 120.0
+text = "9"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_strap_right_front" type="Sprite2D" parent="Groups/IT_23/ArtScroll/Canvas/Art"]
+position = Vector2(20, 140)
+texture = SubResource("A_IT_23_strap_right_front")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_9" type="Label" parent="Groups/IT_23/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 160.0
+text = "10"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_strap_right_rear" type="Sprite2D" parent="Groups/IT_23/ArtScroll/Canvas/Art"]
+position = Vector2(52, 140)
+texture = SubResource("A_IT_23_strap_right_rear")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_10" type="Label" parent="Groups/IT_23/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 160.0
+text = "11"
+theme_override_font_sizes/font_size = 4
+
+[node name="Components" type="Label" parent="Groups/IT_23"]
+offset_top = 425.0
+offset_right = 680.0
+autowrap_mode = 3
+text = "Components: 1 icon; 2 bag-body; 3 strap-left-front; 4 strap-left-rear; 5 strap-right-front; 6 strap-right-rear; 7 corpse-bag-body; 8 corpse-strap-left-front; 9 corpse-strap-left-rear; 10 corpse-strap-right-front; 11 corpse-strap-right-rear"
+
+[node name="Storage" type="Label" parent="Groups/IT_23"]
+offset_left = 700.0
+offset_top = 100.0
+text = "Storage 4x4\n[ ] [ ] [ ] [ ]\n[ ] [ ] [ ] [ ]\n[ ] [ ] [ ] [ ]\n[ ] [ ] [ ] [ ]"
+
+[node name="IT_24" type="Control" parent="Groups"]
+visible = false
+
+[node name="Identity" type="Label" parent="Groups/IT_24"]
+text = "IT-24 | Field backpack | Source produced; appearance review pending04-32"
+
+[node name="Use" type="Label" parent="Groups/IT_24"]
+offset_top = 25.0
+text = "Removable backpack; front/rear inputs; exact body fits owned04-06/07"
+
+[node name="ArtScroll" type="ScrollContainer" parent="Groups/IT_24"]
+offset_top = 100.0
+offset_right = 680.0
+offset_bottom = 420.0
+clip_contents = true
+
+[node name="Canvas" type="Control" parent="Groups/IT_24/ArtScroll"]
+layout_mode = 2
+custom_minimum_size = Vector2(488, 908)
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Art" type="Node2D" parent="Groups/IT_24/ArtScroll/Canvas"]
+scale = Vector2(4, 4)
+texture_filter = 1
+
+[node name="icon" type="Sprite2D" parent="Groups/IT_24/ArtScroll/Canvas/Art"]
+position = Vector2(20, 20)
+texture = SubResource("A_IT_24_master")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_0" type="Label" parent="Groups/IT_24/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 40.0
+text = "1"
+theme_override_font_sizes/font_size = 4
+
+[node name="bag_body" type="Sprite2D" parent="Groups/IT_24/ArtScroll/Canvas/Art"]
+position = Vector2(52, 20)
+texture = SubResource("A_IT_24_bag_body")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_1" type="Label" parent="Groups/IT_24/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 40.0
+text = "2"
+theme_override_font_sizes/font_size = 4
+
+[node name="pocket_left" type="Sprite2D" parent="Groups/IT_24/ArtScroll/Canvas/Art"]
+position = Vector2(84, 20)
+texture = SubResource("A_IT_24_pocket_left")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_2" type="Label" parent="Groups/IT_24/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 40.0
+text = "3"
+theme_override_font_sizes/font_size = 4
+
+[node name="pocket_right" type="Sprite2D" parent="Groups/IT_24/ArtScroll/Canvas/Art"]
+position = Vector2(20, 60)
+texture = SubResource("A_IT_24_pocket_right")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_3" type="Label" parent="Groups/IT_24/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 80.0
+text = "4"
+theme_override_font_sizes/font_size = 4
+
+[node name="strap_left_front" type="Sprite2D" parent="Groups/IT_24/ArtScroll/Canvas/Art"]
+position = Vector2(52, 60)
+texture = SubResource("A_IT_24_strap_left_front")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_4" type="Label" parent="Groups/IT_24/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 80.0
+text = "5"
+theme_override_font_sizes/font_size = 4
+
+[node name="strap_left_rear" type="Sprite2D" parent="Groups/IT_24/ArtScroll/Canvas/Art"]
+position = Vector2(84, 60)
+texture = SubResource("A_IT_24_strap_left_rear")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_5" type="Label" parent="Groups/IT_24/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 80.0
+text = "6"
+theme_override_font_sizes/font_size = 4
+
+[node name="strap_right_front" type="Sprite2D" parent="Groups/IT_24/ArtScroll/Canvas/Art"]
+position = Vector2(20, 100)
+texture = SubResource("A_IT_24_strap_right_front")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_6" type="Label" parent="Groups/IT_24/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 120.0
+text = "7"
+theme_override_font_sizes/font_size = 4
+
+[node name="strap_right_rear" type="Sprite2D" parent="Groups/IT_24/ArtScroll/Canvas/Art"]
+position = Vector2(52, 100)
+texture = SubResource("A_IT_24_strap_right_rear")
+centered = false
+rotation = 0
+texture_filter = 1
+
+[node name="Caption_7" type="Label" parent="Groups/IT_24/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 120.0
+text = "8"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_bag_body" type="Sprite2D" parent="Groups/IT_24/ArtScroll/Canvas/Art"]
+position = Vector2(84, 100)
+texture = SubResource("A_IT_24_bag_body")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_8" type="Label" parent="Groups/IT_24/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 120.0
+text = "9"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_pocket_left" type="Sprite2D" parent="Groups/IT_24/ArtScroll/Canvas/Art"]
+position = Vector2(20, 140)
+texture = SubResource("A_IT_24_pocket_left")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_9" type="Label" parent="Groups/IT_24/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 160.0
+text = "10"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_pocket_right" type="Sprite2D" parent="Groups/IT_24/ArtScroll/Canvas/Art"]
+position = Vector2(52, 140)
+texture = SubResource("A_IT_24_pocket_right")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_10" type="Label" parent="Groups/IT_24/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 160.0
+text = "11"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_strap_left_front" type="Sprite2D" parent="Groups/IT_24/ArtScroll/Canvas/Art"]
+position = Vector2(84, 140)
+texture = SubResource("A_IT_24_strap_left_front")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_11" type="Label" parent="Groups/IT_24/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 160.0
+text = "12"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_strap_left_rear" type="Sprite2D" parent="Groups/IT_24/ArtScroll/Canvas/Art"]
+position = Vector2(20, 180)
+texture = SubResource("A_IT_24_strap_left_rear")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_12" type="Label" parent="Groups/IT_24/ArtScroll/Canvas/Art"]
+offset_left = 16.0
+offset_top = 200.0
+text = "13"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_strap_right_front" type="Sprite2D" parent="Groups/IT_24/ArtScroll/Canvas/Art"]
+position = Vector2(52, 180)
+texture = SubResource("A_IT_24_strap_right_front")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_13" type="Label" parent="Groups/IT_24/ArtScroll/Canvas/Art"]
+offset_left = 48.0
+offset_top = 200.0
+text = "14"
+theme_override_font_sizes/font_size = 4
+
+[node name="corpse_strap_right_rear" type="Sprite2D" parent="Groups/IT_24/ArtScroll/Canvas/Art"]
+position = Vector2(84, 180)
+texture = SubResource("A_IT_24_strap_right_rear")
+centered = false
+rotation = 1.5707963267948966
+texture_filter = 1
+
+[node name="Caption_14" type="Label" parent="Groups/IT_24/ArtScroll/Canvas/Art"]
+offset_left = 80.0
+offset_top = 200.0
+text = "15"
+theme_override_font_sizes/font_size = 4
+
+[node name="Components" type="Label" parent="Groups/IT_24"]
+offset_top = 425.0
+offset_right = 680.0
+autowrap_mode = 3
+text = "Components: 1 icon; 2 bag-body; 3 pocket-left; 4 pocket-right; 5 strap-left-front; 6 strap-left-rear; 7 strap-right-front; 8 strap-right-rear; 9 corpse-bag-body; 10 corpse-pocket-left; 11 corpse-pocket-right; 12 corpse-strap-left-front; 13 corpse-strap-left-rear; 14 corpse-strap-right-front; 15 corpse-strap-right-rear"
+
+[node name="Storage" type="Label" parent="Groups/IT_24"]
+offset_left = 700.0
+offset_top = 100.0
+text = "Storage 5x6\n[ ] [ ] [ ] [ ] [ ]\n[ ] [ ] [ ] [ ] [ ]\n[ ] [ ] [ ] [ ] [ ]\n[ ] [ ] [ ] [ ] [ ]\n[ ] [ ] [ ] [ ] [ ]\n[ ] [ ] [ ] [ ] [ ]"
+
+[node name="Selection" type="AnimationPlayer" parent="."]
+libraries = {&"": SubResource("Selections")}
+
+[node name="State" type="AnimationPlayer" parent="."]
+libraries = {&"": SubResource("States")}
+
+[node name="ZoomPlayer" type="AnimationPlayer" parent="."]
+libraries = {&"": SubResource("Zooms")}
+
+[connection signal="pressed" from="Browse/List/Select_IT_11" to="Selection" method="play" binds= [&"IT-11"]]
+
+[connection signal="pressed" from="Browse/List/Select_IT_12" to="Selection" method="play" binds= [&"IT-12"]]
+
+[connection signal="pressed" from="Browse/List/Select_IT_13" to="Selection" method="play" binds= [&"IT-13"]]
+
+[connection signal="pressed" from="Browse/List/Select_IT_14" to="Selection" method="play" binds= [&"IT-14"]]
+
+[connection signal="pressed" from="Browse/List/Select_IT_15" to="Selection" method="play" binds= [&"IT-15"]]
+
+[connection signal="pressed" from="Browse/List/Select_IT_16" to="Selection" method="play" binds= [&"IT-16"]]
+
+[connection signal="pressed" from="Browse/List/Select_IT_17" to="Selection" method="play" binds= [&"IT-17"]]
+
+[connection signal="pressed" from="Browse/List/Select_IT_18" to="Selection" method="play" binds= [&"IT-18"]]
+
+[connection signal="pressed" from="Groups/IT_18/State_Broken" to="State" method="play" binds= [&"IT-18.Broken"]]
+
+[connection signal="pressed" from="Browse/List/Select_IT_19" to="Selection" method="play" binds= [&"IT-19"]]
+
+[connection signal="pressed" from="Groups/IT_19/State_Broken" to="State" method="play" binds= [&"IT-19.Broken"]]
+
+[connection signal="pressed" from="Browse/List/Select_IT_20" to="Selection" method="play" binds= [&"IT-20"]]
+
+[connection signal="pressed" from="Groups/IT_20/State_Broken" to="State" method="play" binds= [&"IT-20.Broken"]]
+
+[connection signal="pressed" from="Browse/List/Select_IT_21" to="Selection" method="play" binds= [&"IT-21"]]
+
+[connection signal="pressed" from="Browse/List/Select_IT_22" to="Selection" method="play" binds= [&"IT-22"]]
+
+[connection signal="pressed" from="Browse/List/Select_IT_23" to="Selection" method="play" binds= [&"IT-23"]]
+
+[connection signal="pressed" from="Browse/List/Select_IT_24" to="Selection" method="play" binds= [&"IT-24"]]
+
+[connection signal="pressed" from="Zoom/Zoom1" to="ZoomPlayer" method="play" binds= [&"zoom1"]]
+
+[connection signal="pressed" from="Zoom/Zoom2" to="ZoomPlayer" method="play" binds= [&"zoom2"]]
+
+[connection signal="pressed" from="Zoom/Zoom4" to="ZoomPlayer" method="play" binds= [&"zoom4"]]
+
+[connection signal="pressed" from="Zoom/Zoom8" to="ZoomPlayer" method="play" binds= [&"zoom8"]]

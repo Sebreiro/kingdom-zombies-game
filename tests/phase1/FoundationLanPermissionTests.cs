@@ -14,7 +14,7 @@ public sealed class FoundationLanPermissionTests
 {
     /// <summary>A newly created gateway cannot impersonate the captured native-thread authority.</summary>
     [Fact]
-    public void ExactLanPermissionsRejectAdjacentMisuse()
+    public void Permissions_AdjacentLanMisuse_IsRejected()
     {
         var consumer = ConsumerCompilation.Read(root: ProofProtocol.Root, project: ProjectEvaluator.Expected[2]);
         const string Path = "src/godot-game/foundation/FoundationRoot.cs";

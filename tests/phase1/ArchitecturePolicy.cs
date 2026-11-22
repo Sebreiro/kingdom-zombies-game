@@ -19,7 +19,9 @@ internal static class ArchitecturePolicy
         JsonObject registry = JsonNode.Parse(json: File.ReadAllText(path: Path.Combine(path1: root,
                 path2: "docs/code/visibility-exemptions.json")))?.AsObject()
                 ?? throw new InvalidDataException(message: "VISIBILITY_REGISTRY: missing object");
-        string[] expected = ["src/core/ProofValue.cs|KingdomZombies.Core.ProofValue",
+        string[] expected = ["src/core/AppearanceState.cs|KingdomZombies.Core.AppearanceState",
+            "src/core/CharacterPresentation.cs|KingdomZombies.Core.CharacterPresentation",
+            "src/core/ProofValue.cs|KingdomZombies.Core.ProofValue",
             "src/multiplayer-abstractions/IProofService.cs|KingdomZombies.Multiplayer.Abstractions.IProofService",
             "src/godot-game/proofs/Phase1.cs|KingdomZombies.Proofs.Phase1",
             "src/core/FoundationMovementCommand.cs|KingdomZombies.Core.FoundationMovementCommand",
@@ -39,7 +41,9 @@ internal static class ArchitecturePolicy
             "src/multiplayer-abstractions/SessionAdvertisement.cs|"
                     + "KingdomZombies.Multiplayer.Abstractions.SessionAdvertisement",
             "src/multiplayer-abstractions/PlayerProfile.cs|"
-                    + "KingdomZombies.Multiplayer.Abstractions.PlayerProfile"];
+                    + "KingdomZombies.Multiplayer.Abstractions.PlayerProfile",
+            "src/core/ContentPack.cs|KingdomZombies.Core.ContentPack",
+            "src/godot-game/inspection/InspectionRoot.cs|KingdomZombies.Inspection.InspectionRoot"];
         JsonArray rows = registry["permissions"]?.AsArray()
                 ?? throw new InvalidDataException(message: "VISIBILITY_REGISTRY: missing permissions");
         string[] permissions = [..rows.Select(selector: row => row?["path"]?.GetValue<string>() + "|"

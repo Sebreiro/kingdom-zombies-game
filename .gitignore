@@ -6,6 +6,7 @@
 /.phase1/
 /.phase2/
 /.phase3/
+/.phase4/
 **/bin/
 **/obj/
 **/.godot/

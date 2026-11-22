@@ -1,0 +1,13 @@
+<Project>
+  <!-- Phase 4 proof builds bind the Git source root to the revision recorded in the inspected assemblies. -->
+  <PropertyGroup>
+    <_Phase4ReviewedSourceRoot>$([MSBuild]::NormalizeDirectory('$(MSBuildThisFileDirectory)', '..', '..'))</_Phase4ReviewedSourceRoot>
+  </PropertyGroup>
+  <Target Name="PinPhase4ReviewedSourceRoot" AfterTargets="InitializeSourceControlInformation" Condition="'$(SourceRevisionId)' != ''">
+    <ItemGroup>
+      <SourceRoot Update="@(SourceRoot)" Condition="'%(SourceRoot.SourceControl)' == 'git' and '%(SourceRoot.Identity)' == '$(_Phase4ReviewedSourceRoot)'">
+        <RevisionId>$(SourceRevisionId)</RevisionId>
+      </SourceRoot>
+    </ItemGroup>
+  </Target>
+</Project>

@@ -1,0 +1,5566 @@
+{
+  "schemaVersion": 1,
+  "id": "inventory-layouts",
+  "version": 1,
+  "sampleDataOnly": true,
+  "backstops": [
+    "UI-COLLECTIONS/empty",
+    "UI-COLLECTIONS/loading",
+    "UI-COLLECTIONS/error",
+    "UI-COLLECTIONS/populated",
+    "UI-COLLECTIONS/partial",
+    "UI-COLLECTIONS/overflow",
+    "UI-COLLECTIONS/zero-one-many",
+    "UI-COLLECTIONS/long-text"
+  ],
+  "samples": [
+    {
+      "id": "inventory.normal",
+      "name": "Own inventory and HUD",
+      "status": "normal",
+      "warning": "No active warning. Actual items remain unchanged by previews.",
+      "hud": {
+        "health": 76,
+        "stamina": 48,
+        "day": 3,
+        "hour": 18,
+        "phase": "Night",
+        "load": "Light",
+        "teammates": [
+          "P1 Alex square Host",
+          "P2 Alex triangle Guest",
+          "P3 Rowan diamond Controller",
+          "P4 Mira cross Offline"
+        ]
+      },
+      "slots": [
+        {
+          "id": "headwear",
+          "item": "equipped-headwear"
+        },
+        {
+          "id": "face",
+          "item": "equipped-face"
+        },
+        {
+          "id": "torso",
+          "item": "equipped-torso"
+        },
+        {
+          "id": "legs",
+          "item": "equipped-legs"
+        },
+        {
+          "id": "body-armor",
+          "item": "equipped-body-armor"
+        },
+        {
+          "id": "gloves",
+          "item": "equipped-gloves"
+        },
+        {
+          "id": "boots",
+          "item": "equipped-boots"
+        },
+        {
+          "id": "backpack",
+          "item": "equipped-backpack"
+        },
+        {
+          "id": "belt",
+          "item": "equipped-belt"
+        },
+        {
+          "id": "left-hand",
+          "item": "equipped-left-hand"
+        },
+        {
+          "id": "right-hand",
+          "item": "equipped-right-hand"
+        }
+      ],
+      "items": [
+        {
+          "id": "equipped-headwear",
+          "definition": "IT-14",
+          "label": "Cap",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-face",
+          "definition": "IT-15",
+          "label": "Face covering",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-torso",
+          "definition": "IT-11",
+          "label": "Basic shirt",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-legs",
+          "definition": "IT-12",
+          "label": "Trousers",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-body-armor",
+          "definition": "IT-19",
+          "label": "Improvised body armor",
+          "quantity": 1,
+          "current": 100,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-gloves",
+          "definition": "IT-16",
+          "label": "Gloves",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-boots",
+          "definition": "IT-17",
+          "label": "Boots",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-backpack",
+          "definition": "IT-23",
+          "label": "Small backpack",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-belt",
+          "definition": "IT-21",
+          "label": "Belt with pouches",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-left-hand",
+          "definition": "IT-07",
+          "label": "Bow",
+          "quantity": 1,
+          "current": 160,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-right-hand",
+          "definition": "IT-02",
+          "label": "Arrows",
+          "quantity": 17,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "berries-a",
+          "definition": "IT-08",
+          "label": "Berries",
+          "quantity": 4,
+          "current": null,
+          "grid": "shirt",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "berries-b",
+          "definition": "IT-08",
+          "label": "Berries",
+          "quantity": 7,
+          "current": null,
+          "grid": "shirt",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "fruit",
+          "definition": "IT-09",
+          "label": "Fruit",
+          "quantity": 3,
+          "current": null,
+          "grid": "trousers",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "meat",
+          "definition": "IT-10",
+          "label": "Meat",
+          "quantity": 2,
+          "current": null,
+          "grid": "trousers",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "money",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 63,
+          "current": null,
+          "grid": "belt",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "pouch",
+          "definition": "IT-22",
+          "label": "Small pouch",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "knife",
+          "definition": "IT-03",
+          "label": "Knife",
+          "quantity": 1,
+          "current": 120,
+          "grid": "bag",
+          "x": 1,
+          "y": 0,
+          "rotated": true
+        }
+      ],
+      "grids": [
+        {
+          "id": "shirt",
+          "title": "Shirt pocket",
+          "source": "equipped-torso",
+          "columns": 2,
+          "rows": 1,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "trousers",
+          "title": "Trouser pocket",
+          "source": "equipped-legs",
+          "columns": 2,
+          "rows": 2,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "belt",
+          "title": "Belt pouches",
+          "source": "equipped-belt",
+          "columns": 4,
+          "rows": 2,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "bag",
+          "title": "Small backpack",
+          "source": "equipped-backpack",
+          "columns": 4,
+          "rows": 4,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "nested",
+          "title": "Nested small pouch",
+          "source": "pouch",
+          "columns": 2,
+          "rows": 2,
+          "depth": 2,
+          "breadcrumbs": [
+            "Character",
+            "Small backpack"
+          ]
+        }
+      ],
+      "quick": [
+        "berries-a",
+        "berries-b",
+        "fruit",
+        "meat"
+      ],
+      "drag": {
+        "item": "knife",
+        "grid": "bag",
+        "x": 1,
+        "y": 2,
+        "rotated": true,
+        "depth": 1
+      },
+      "split": {
+        "item": "berries-b",
+        "amount": 3
+      },
+      "transfer": "Immediate transfer preview: select a valid destination. No transaction executed.",
+      "worldDrop": "World drop target: nearby ground pile ground-7. Explicit confirmation required; preview only."
+    },
+    {
+      "id": "inventory.empty",
+      "name": "Inventory — empty",
+      "status": "empty",
+      "warning": "No active warning. Actual items remain unchanged by previews.",
+      "hud": {
+        "health": 76,
+        "stamina": 48,
+        "day": 3,
+        "hour": 18,
+        "phase": "Night",
+        "load": "Light",
+        "teammates": [
+          "P1 Alex square Host",
+          "P2 Alex triangle Guest",
+          "P3 Rowan diamond Controller",
+          "P4 Mira cross Offline"
+        ]
+      },
+      "slots": [
+        {
+          "id": "headwear",
+          "item": null
+        },
+        {
+          "id": "face",
+          "item": null
+        },
+        {
+          "id": "torso",
+          "item": null
+        },
+        {
+          "id": "legs",
+          "item": null
+        },
+        {
+          "id": "body-armor",
+          "item": null
+        },
+        {
+          "id": "gloves",
+          "item": null
+        },
+        {
+          "id": "boots",
+          "item": null
+        },
+        {
+          "id": "backpack",
+          "item": null
+        },
+        {
+          "id": "belt",
+          "item": null
+        },
+        {
+          "id": "left-hand",
+          "item": null
+        },
+        {
+          "id": "right-hand",
+          "item": null
+        }
+      ],
+      "items": [],
+      "grids": [],
+      "quick": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "drag": null,
+      "split": null,
+      "transfer": "Immediate transfer preview: select a valid destination. No transaction executed.",
+      "worldDrop": "World drop target: nearby ground pile ground-7. Explicit confirmation required; preview only."
+    },
+    {
+      "id": "inventory.broken",
+      "name": "Inventory — broken",
+      "status": "broken",
+      "warning": "X Broken knife: 0 / 120; retained item, weapon attack unavailable.",
+      "hud": {
+        "health": 76,
+        "stamina": 48,
+        "day": 3,
+        "hour": 18,
+        "phase": "Night",
+        "load": "Light",
+        "teammates": [
+          "P1 Alex square Host",
+          "P2 Alex triangle Guest",
+          "P3 Rowan diamond Controller",
+          "P4 Mira cross Offline"
+        ]
+      },
+      "slots": [
+        {
+          "id": "headwear",
+          "item": "equipped-headwear"
+        },
+        {
+          "id": "face",
+          "item": "equipped-face"
+        },
+        {
+          "id": "torso",
+          "item": "equipped-torso"
+        },
+        {
+          "id": "legs",
+          "item": "equipped-legs"
+        },
+        {
+          "id": "body-armor",
+          "item": "equipped-body-armor"
+        },
+        {
+          "id": "gloves",
+          "item": "equipped-gloves"
+        },
+        {
+          "id": "boots",
+          "item": "equipped-boots"
+        },
+        {
+          "id": "backpack",
+          "item": "equipped-backpack"
+        },
+        {
+          "id": "belt",
+          "item": "equipped-belt"
+        },
+        {
+          "id": "left-hand",
+          "item": "equipped-left-hand"
+        },
+        {
+          "id": "right-hand",
+          "item": "equipped-right-hand"
+        }
+      ],
+      "items": [
+        {
+          "id": "equipped-headwear",
+          "definition": "IT-14",
+          "label": "Cap",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-face",
+          "definition": "IT-15",
+          "label": "Face covering",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-torso",
+          "definition": "IT-11",
+          "label": "Basic shirt",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-legs",
+          "definition": "IT-12",
+          "label": "Trousers",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-body-armor",
+          "definition": "IT-19",
+          "label": "Improvised body armor",
+          "quantity": 1,
+          "current": 100,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-gloves",
+          "definition": "IT-16",
+          "label": "Gloves",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-boots",
+          "definition": "IT-17",
+          "label": "Boots",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-backpack",
+          "definition": "IT-23",
+          "label": "Small backpack",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-belt",
+          "definition": "IT-21",
+          "label": "Belt with pouches",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-left-hand",
+          "definition": "IT-07",
+          "label": "Bow",
+          "quantity": 1,
+          "current": 160,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-right-hand",
+          "definition": "IT-02",
+          "label": "Arrows",
+          "quantity": 17,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "berries-a",
+          "definition": "IT-08",
+          "label": "Berries",
+          "quantity": 4,
+          "current": null,
+          "grid": "shirt",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "berries-b",
+          "definition": "IT-08",
+          "label": "Berries",
+          "quantity": 7,
+          "current": null,
+          "grid": "shirt",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "fruit",
+          "definition": "IT-09",
+          "label": "Fruit",
+          "quantity": 3,
+          "current": null,
+          "grid": "trousers",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "meat",
+          "definition": "IT-10",
+          "label": "Meat",
+          "quantity": 2,
+          "current": null,
+          "grid": "trousers",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "money",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 63,
+          "current": null,
+          "grid": "belt",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "pouch",
+          "definition": "IT-22",
+          "label": "Small pouch",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "knife",
+          "definition": "IT-03",
+          "label": "Knife",
+          "quantity": 1,
+          "current": 0,
+          "grid": "bag",
+          "x": 1,
+          "y": 0,
+          "rotated": true
+        }
+      ],
+      "grids": [
+        {
+          "id": "shirt",
+          "title": "Shirt pocket",
+          "source": "equipped-torso",
+          "columns": 2,
+          "rows": 1,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "trousers",
+          "title": "Trouser pocket",
+          "source": "equipped-legs",
+          "columns": 2,
+          "rows": 2,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "belt",
+          "title": "Belt pouches",
+          "source": "equipped-belt",
+          "columns": 4,
+          "rows": 2,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "bag",
+          "title": "Small backpack",
+          "source": "equipped-backpack",
+          "columns": 4,
+          "rows": 4,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "nested",
+          "title": "Nested small pouch",
+          "source": "pouch",
+          "columns": 2,
+          "rows": 2,
+          "depth": 2,
+          "breadcrumbs": [
+            "Character",
+            "Small backpack"
+          ]
+        }
+      ],
+      "quick": [
+        "berries-a",
+        "berries-b",
+        "fruit",
+        "meat"
+      ],
+      "drag": {
+        "item": "knife",
+        "grid": "bag",
+        "x": 1,
+        "y": 2,
+        "rotated": true,
+        "depth": 1
+      },
+      "split": {
+        "item": "berries-b",
+        "amount": 3
+      },
+      "transfer": "Immediate transfer preview: select a valid destination. No transaction executed.",
+      "worldDrop": "World drop target: nearby ground pile ground-7. Explicit confirmation required; preview only."
+    },
+    {
+      "id": "inventory.unbound",
+      "name": "Inventory — unbound",
+      "status": "unbound",
+      "warning": "No active warning. Actual items remain unchanged by previews.",
+      "hud": {
+        "health": 76,
+        "stamina": 48,
+        "day": 3,
+        "hour": 18,
+        "phase": "Night",
+        "load": "Light",
+        "teammates": [
+          "P1 Alex square Host",
+          "P2 Alex triangle Guest",
+          "P3 Rowan diamond Controller",
+          "P4 Mira cross Offline"
+        ]
+      },
+      "slots": [
+        {
+          "id": "headwear",
+          "item": "equipped-headwear"
+        },
+        {
+          "id": "face",
+          "item": "equipped-face"
+        },
+        {
+          "id": "torso",
+          "item": "equipped-torso"
+        },
+        {
+          "id": "legs",
+          "item": "equipped-legs"
+        },
+        {
+          "id": "body-armor",
+          "item": "equipped-body-armor"
+        },
+        {
+          "id": "gloves",
+          "item": "equipped-gloves"
+        },
+        {
+          "id": "boots",
+          "item": "equipped-boots"
+        },
+        {
+          "id": "backpack",
+          "item": "equipped-backpack"
+        },
+        {
+          "id": "belt",
+          "item": "equipped-belt"
+        },
+        {
+          "id": "left-hand",
+          "item": "equipped-left-hand"
+        },
+        {
+          "id": "right-hand",
+          "item": "equipped-right-hand"
+        }
+      ],
+      "items": [
+        {
+          "id": "equipped-headwear",
+          "definition": "IT-14",
+          "label": "Cap",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-face",
+          "definition": "IT-15",
+          "label": "Face covering",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-torso",
+          "definition": "IT-11",
+          "label": "Basic shirt",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-legs",
+          "definition": "IT-12",
+          "label": "Trousers",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-body-armor",
+          "definition": "IT-19",
+          "label": "Improvised body armor",
+          "quantity": 1,
+          "current": 100,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-gloves",
+          "definition": "IT-16",
+          "label": "Gloves",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-boots",
+          "definition": "IT-17",
+          "label": "Boots",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-backpack",
+          "definition": "IT-23",
+          "label": "Small backpack",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-belt",
+          "definition": "IT-21",
+          "label": "Belt with pouches",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-left-hand",
+          "definition": "IT-07",
+          "label": "Bow",
+          "quantity": 1,
+          "current": 160,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-right-hand",
+          "definition": "IT-02",
+          "label": "Arrows",
+          "quantity": 17,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "berries-a",
+          "definition": "IT-08",
+          "label": "Berries",
+          "quantity": 4,
+          "current": null,
+          "grid": "shirt",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "berries-b",
+          "definition": "IT-08",
+          "label": "Berries",
+          "quantity": 7,
+          "current": null,
+          "grid": "shirt",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "fruit",
+          "definition": "IT-09",
+          "label": "Fruit",
+          "quantity": 3,
+          "current": null,
+          "grid": "trousers",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "meat",
+          "definition": "IT-10",
+          "label": "Meat",
+          "quantity": 2,
+          "current": null,
+          "grid": "trousers",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "money",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 63,
+          "current": null,
+          "grid": "belt",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "pouch",
+          "definition": "IT-22",
+          "label": "Small pouch",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "knife",
+          "definition": "IT-03",
+          "label": "Knife",
+          "quantity": 1,
+          "current": 120,
+          "grid": "bag",
+          "x": 1,
+          "y": 0,
+          "rotated": true
+        }
+      ],
+      "grids": [
+        {
+          "id": "shirt",
+          "title": "Shirt pocket",
+          "source": "equipped-torso",
+          "columns": 2,
+          "rows": 1,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "trousers",
+          "title": "Trouser pocket",
+          "source": "equipped-legs",
+          "columns": 2,
+          "rows": 2,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "belt",
+          "title": "Belt pouches",
+          "source": "equipped-belt",
+          "columns": 4,
+          "rows": 2,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "bag",
+          "title": "Small backpack",
+          "source": "equipped-backpack",
+          "columns": 4,
+          "rows": 4,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "nested",
+          "title": "Nested small pouch",
+          "source": "pouch",
+          "columns": 2,
+          "rows": 2,
+          "depth": 2,
+          "breadcrumbs": [
+            "Character",
+            "Small backpack"
+          ]
+        }
+      ],
+      "quick": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "drag": {
+        "item": "knife",
+        "grid": "bag",
+        "x": 1,
+        "y": 2,
+        "rotated": true,
+        "depth": 1
+      },
+      "split": {
+        "item": "berries-b",
+        "amount": 3
+      },
+      "transfer": "Immediate transfer preview: select a valid destination. No transaction executed.",
+      "worldDrop": "World drop target: nearby ground pile ground-7. Explicit confirmation required; preview only."
+    },
+    {
+      "id": "inventory.reference-lost",
+      "name": "Inventory — reference-lost",
+      "status": "reference-lost",
+      "warning": "Food reference 1 lost. Another Berries stack is not substituted.",
+      "hud": {
+        "health": 76,
+        "stamina": 48,
+        "day": 3,
+        "hour": 18,
+        "phase": "Night",
+        "load": "Light",
+        "teammates": [
+          "P1 Alex square Host",
+          "P2 Alex triangle Guest",
+          "P3 Rowan diamond Controller",
+          "P4 Mira cross Offline"
+        ]
+      },
+      "slots": [
+        {
+          "id": "headwear",
+          "item": "equipped-headwear"
+        },
+        {
+          "id": "face",
+          "item": "equipped-face"
+        },
+        {
+          "id": "torso",
+          "item": "equipped-torso"
+        },
+        {
+          "id": "legs",
+          "item": "equipped-legs"
+        },
+        {
+          "id": "body-armor",
+          "item": "equipped-body-armor"
+        },
+        {
+          "id": "gloves",
+          "item": "equipped-gloves"
+        },
+        {
+          "id": "boots",
+          "item": "equipped-boots"
+        },
+        {
+          "id": "backpack",
+          "item": "equipped-backpack"
+        },
+        {
+          "id": "belt",
+          "item": "equipped-belt"
+        },
+        {
+          "id": "left-hand",
+          "item": "equipped-left-hand"
+        },
+        {
+          "id": "right-hand",
+          "item": "equipped-right-hand"
+        }
+      ],
+      "items": [
+        {
+          "id": "equipped-headwear",
+          "definition": "IT-14",
+          "label": "Cap",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-face",
+          "definition": "IT-15",
+          "label": "Face covering",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-torso",
+          "definition": "IT-11",
+          "label": "Basic shirt",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-legs",
+          "definition": "IT-12",
+          "label": "Trousers",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-body-armor",
+          "definition": "IT-19",
+          "label": "Improvised body armor",
+          "quantity": 1,
+          "current": 100,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-gloves",
+          "definition": "IT-16",
+          "label": "Gloves",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-boots",
+          "definition": "IT-17",
+          "label": "Boots",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-backpack",
+          "definition": "IT-23",
+          "label": "Small backpack",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-belt",
+          "definition": "IT-21",
+          "label": "Belt with pouches",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-left-hand",
+          "definition": "IT-07",
+          "label": "Bow",
+          "quantity": 1,
+          "current": 160,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-right-hand",
+          "definition": "IT-02",
+          "label": "Arrows",
+          "quantity": 17,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "berries-b",
+          "definition": "IT-08",
+          "label": "Berries",
+          "quantity": 7,
+          "current": null,
+          "grid": "shirt",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "fruit",
+          "definition": "IT-09",
+          "label": "Fruit",
+          "quantity": 3,
+          "current": null,
+          "grid": "trousers",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "meat",
+          "definition": "IT-10",
+          "label": "Meat",
+          "quantity": 2,
+          "current": null,
+          "grid": "trousers",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "money",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 63,
+          "current": null,
+          "grid": "belt",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "pouch",
+          "definition": "IT-22",
+          "label": "Small pouch",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "knife",
+          "definition": "IT-03",
+          "label": "Knife",
+          "quantity": 1,
+          "current": 120,
+          "grid": "bag",
+          "x": 1,
+          "y": 0,
+          "rotated": true
+        }
+      ],
+      "grids": [
+        {
+          "id": "shirt",
+          "title": "Shirt pocket",
+          "source": "equipped-torso",
+          "columns": 2,
+          "rows": 1,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "trousers",
+          "title": "Trouser pocket",
+          "source": "equipped-legs",
+          "columns": 2,
+          "rows": 2,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "belt",
+          "title": "Belt pouches",
+          "source": "equipped-belt",
+          "columns": 4,
+          "rows": 2,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "bag",
+          "title": "Small backpack",
+          "source": "equipped-backpack",
+          "columns": 4,
+          "rows": 4,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "nested",
+          "title": "Nested small pouch",
+          "source": "pouch",
+          "columns": 2,
+          "rows": 2,
+          "depth": 2,
+          "breadcrumbs": [
+            "Character",
+            "Small backpack"
+          ]
+        }
+      ],
+      "quick": [
+        "berries-a",
+        "berries-b",
+        "fruit",
+        "meat"
+      ],
+      "drag": {
+        "item": "knife",
+        "grid": "bag",
+        "x": 1,
+        "y": 2,
+        "rotated": true,
+        "depth": 1
+      },
+      "split": {
+        "item": "berries-b",
+        "amount": 3
+      },
+      "transfer": "Immediate transfer preview: select a valid destination. No transaction executed.",
+      "worldDrop": "World drop target: nearby ground pile ground-7. Explicit confirmation required; preview only."
+    },
+    {
+      "id": "inventory.full",
+      "name": "Inventory — full",
+      "status": "full",
+      "warning": "Destination full. Source stack remains in its original cell.",
+      "hud": {
+        "health": 76,
+        "stamina": 48,
+        "day": 3,
+        "hour": 18,
+        "phase": "Night",
+        "load": "Light",
+        "teammates": [
+          "P1 Alex square Host",
+          "P2 Alex triangle Guest",
+          "P3 Rowan diamond Controller",
+          "P4 Mira cross Offline"
+        ]
+      },
+      "slots": [
+        {
+          "id": "headwear",
+          "item": "equipped-headwear"
+        },
+        {
+          "id": "face",
+          "item": "equipped-face"
+        },
+        {
+          "id": "torso",
+          "item": "equipped-torso"
+        },
+        {
+          "id": "legs",
+          "item": "equipped-legs"
+        },
+        {
+          "id": "body-armor",
+          "item": "equipped-body-armor"
+        },
+        {
+          "id": "gloves",
+          "item": "equipped-gloves"
+        },
+        {
+          "id": "boots",
+          "item": "equipped-boots"
+        },
+        {
+          "id": "backpack",
+          "item": "equipped-backpack"
+        },
+        {
+          "id": "belt",
+          "item": "equipped-belt"
+        },
+        {
+          "id": "left-hand",
+          "item": "equipped-left-hand"
+        },
+        {
+          "id": "right-hand",
+          "item": "equipped-right-hand"
+        }
+      ],
+      "items": [
+        {
+          "id": "equipped-headwear",
+          "definition": "IT-14",
+          "label": "Cap",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-face",
+          "definition": "IT-15",
+          "label": "Face covering",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-torso",
+          "definition": "IT-11",
+          "label": "Basic shirt",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-legs",
+          "definition": "IT-12",
+          "label": "Trousers",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-body-armor",
+          "definition": "IT-19",
+          "label": "Improvised body armor",
+          "quantity": 1,
+          "current": 100,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-gloves",
+          "definition": "IT-16",
+          "label": "Gloves",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-boots",
+          "definition": "IT-17",
+          "label": "Boots",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-backpack",
+          "definition": "IT-23",
+          "label": "Small backpack",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-belt",
+          "definition": "IT-21",
+          "label": "Belt with pouches",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-left-hand",
+          "definition": "IT-07",
+          "label": "Bow",
+          "quantity": 1,
+          "current": 160,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-right-hand",
+          "definition": "IT-02",
+          "label": "Arrows",
+          "quantity": 17,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "berries-a",
+          "definition": "IT-08",
+          "label": "Berries",
+          "quantity": 4,
+          "current": null,
+          "grid": "shirt",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "berries-b",
+          "definition": "IT-08",
+          "label": "Berries",
+          "quantity": 7,
+          "current": null,
+          "grid": "shirt",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "fruit",
+          "definition": "IT-09",
+          "label": "Fruit",
+          "quantity": 3,
+          "current": null,
+          "grid": "trousers",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "meat",
+          "definition": "IT-10",
+          "label": "Meat",
+          "quantity": 2,
+          "current": null,
+          "grid": "trousers",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "money",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 63,
+          "current": null,
+          "grid": "belt",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "full-0-0",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "full-1-0",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "full-2-0",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 2,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "full-3-0",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 3,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "full-0-1",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 0,
+          "y": 1,
+          "rotated": false
+        },
+        {
+          "id": "full-1-1",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 1,
+          "y": 1,
+          "rotated": false
+        },
+        {
+          "id": "full-2-1",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 2,
+          "y": 1,
+          "rotated": false
+        },
+        {
+          "id": "full-3-1",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 3,
+          "y": 1,
+          "rotated": false
+        },
+        {
+          "id": "full-0-2",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 0,
+          "y": 2,
+          "rotated": false
+        },
+        {
+          "id": "full-1-2",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 1,
+          "y": 2,
+          "rotated": false
+        },
+        {
+          "id": "full-2-2",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 2,
+          "y": 2,
+          "rotated": false
+        },
+        {
+          "id": "full-3-2",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 3,
+          "y": 2,
+          "rotated": false
+        },
+        {
+          "id": "full-0-3",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 0,
+          "y": 3,
+          "rotated": false
+        },
+        {
+          "id": "full-1-3",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 1,
+          "y": 3,
+          "rotated": false
+        },
+        {
+          "id": "full-2-3",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 2,
+          "y": 3,
+          "rotated": false
+        },
+        {
+          "id": "full-3-3",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 3,
+          "y": 3,
+          "rotated": false
+        }
+      ],
+      "grids": [
+        {
+          "id": "shirt",
+          "title": "Shirt pocket",
+          "source": "equipped-torso",
+          "columns": 2,
+          "rows": 1,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "trousers",
+          "title": "Trouser pocket",
+          "source": "equipped-legs",
+          "columns": 2,
+          "rows": 2,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "belt",
+          "title": "Belt pouches",
+          "source": "equipped-belt",
+          "columns": 4,
+          "rows": 2,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "bag",
+          "title": "Small backpack",
+          "source": "equipped-backpack",
+          "columns": 4,
+          "rows": 4,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        }
+      ],
+      "quick": [
+        "berries-a",
+        "berries-b",
+        "fruit",
+        "meat"
+      ],
+      "drag": {
+        "item": "berries-a",
+        "grid": "bag",
+        "x": 0,
+        "y": 0,
+        "rotated": false,
+        "depth": 1
+      },
+      "split": {
+        "item": "berries-b",
+        "amount": 3
+      },
+      "transfer": "Immediate transfer preview: select a valid destination. No transaction executed.",
+      "worldDrop": "World drop target: nearby ground pile ground-7. Explicit confirmation required; preview only."
+    },
+    {
+      "id": "inventory.invalid-fit",
+      "name": "Inventory — invalid-fit",
+      "status": "invalid-fit",
+      "warning": "Invalid fit. Rotated footprint exceeds destination bounds.",
+      "hud": {
+        "health": 76,
+        "stamina": 48,
+        "day": 3,
+        "hour": 18,
+        "phase": "Night",
+        "load": "Light",
+        "teammates": [
+          "P1 Alex square Host",
+          "P2 Alex triangle Guest",
+          "P3 Rowan diamond Controller",
+          "P4 Mira cross Offline"
+        ]
+      },
+      "slots": [
+        {
+          "id": "headwear",
+          "item": "equipped-headwear"
+        },
+        {
+          "id": "face",
+          "item": "equipped-face"
+        },
+        {
+          "id": "torso",
+          "item": "equipped-torso"
+        },
+        {
+          "id": "legs",
+          "item": "equipped-legs"
+        },
+        {
+          "id": "body-armor",
+          "item": "equipped-body-armor"
+        },
+        {
+          "id": "gloves",
+          "item": "equipped-gloves"
+        },
+        {
+          "id": "boots",
+          "item": "equipped-boots"
+        },
+        {
+          "id": "backpack",
+          "item": "equipped-backpack"
+        },
+        {
+          "id": "belt",
+          "item": "equipped-belt"
+        },
+        {
+          "id": "left-hand",
+          "item": "equipped-left-hand"
+        },
+        {
+          "id": "right-hand",
+          "item": "equipped-right-hand"
+        }
+      ],
+      "items": [
+        {
+          "id": "equipped-headwear",
+          "definition": "IT-14",
+          "label": "Cap",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-face",
+          "definition": "IT-15",
+          "label": "Face covering",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-torso",
+          "definition": "IT-11",
+          "label": "Basic shirt",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-legs",
+          "definition": "IT-12",
+          "label": "Trousers",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-body-armor",
+          "definition": "IT-19",
+          "label": "Improvised body armor",
+          "quantity": 1,
+          "current": 100,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-gloves",
+          "definition": "IT-16",
+          "label": "Gloves",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-boots",
+          "definition": "IT-17",
+          "label": "Boots",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-backpack",
+          "definition": "IT-23",
+          "label": "Small backpack",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-belt",
+          "definition": "IT-21",
+          "label": "Belt with pouches",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-left-hand",
+          "definition": "IT-07",
+          "label": "Bow",
+          "quantity": 1,
+          "current": 160,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-right-hand",
+          "definition": "IT-02",
+          "label": "Arrows",
+          "quantity": 17,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "berries-a",
+          "definition": "IT-08",
+          "label": "Berries",
+          "quantity": 4,
+          "current": null,
+          "grid": "shirt",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "berries-b",
+          "definition": "IT-08",
+          "label": "Berries",
+          "quantity": 7,
+          "current": null,
+          "grid": "shirt",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "fruit",
+          "definition": "IT-09",
+          "label": "Fruit",
+          "quantity": 3,
+          "current": null,
+          "grid": "trousers",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "meat",
+          "definition": "IT-10",
+          "label": "Meat",
+          "quantity": 2,
+          "current": null,
+          "grid": "trousers",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "money",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 63,
+          "current": null,
+          "grid": "belt",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "pouch",
+          "definition": "IT-22",
+          "label": "Small pouch",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "knife",
+          "definition": "IT-03",
+          "label": "Knife",
+          "quantity": 1,
+          "current": 120,
+          "grid": "bag",
+          "x": 1,
+          "y": 0,
+          "rotated": true
+        }
+      ],
+      "grids": [
+        {
+          "id": "shirt",
+          "title": "Shirt pocket",
+          "source": "equipped-torso",
+          "columns": 2,
+          "rows": 1,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "trousers",
+          "title": "Trouser pocket",
+          "source": "equipped-legs",
+          "columns": 2,
+          "rows": 2,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "belt",
+          "title": "Belt pouches",
+          "source": "equipped-belt",
+          "columns": 4,
+          "rows": 2,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "bag",
+          "title": "Small backpack",
+          "source": "equipped-backpack",
+          "columns": 4,
+          "rows": 4,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "nested",
+          "title": "Nested small pouch",
+          "source": "pouch",
+          "columns": 2,
+          "rows": 2,
+          "depth": 2,
+          "breadcrumbs": [
+            "Character",
+            "Small backpack"
+          ]
+        }
+      ],
+      "quick": [
+        "berries-a",
+        "berries-b",
+        "fruit",
+        "meat"
+      ],
+      "drag": {
+        "item": "knife",
+        "grid": "bag",
+        "x": 3,
+        "y": 3,
+        "rotated": true,
+        "depth": 1
+      },
+      "split": {
+        "item": "berries-b",
+        "amount": 3
+      },
+      "transfer": "Immediate transfer preview: select a valid destination. No transaction executed.",
+      "worldDrop": "World drop target: nearby ground pile ground-7. Explicit confirmation required; preview only."
+    },
+    {
+      "id": "inventory.over-depth",
+      "name": "Inventory — over-depth",
+      "status": "over-depth",
+      "warning": "Depth 4 exceeds maximum 3. Item and contents remain at source.",
+      "hud": {
+        "health": 76,
+        "stamina": 48,
+        "day": 3,
+        "hour": 18,
+        "phase": "Night",
+        "load": "Light",
+        "teammates": [
+          "P1 Alex square Host",
+          "P2 Alex triangle Guest",
+          "P3 Rowan diamond Controller",
+          "P4 Mira cross Offline"
+        ]
+      },
+      "slots": [
+        {
+          "id": "headwear",
+          "item": "equipped-headwear"
+        },
+        {
+          "id": "face",
+          "item": "equipped-face"
+        },
+        {
+          "id": "torso",
+          "item": "equipped-torso"
+        },
+        {
+          "id": "legs",
+          "item": "equipped-legs"
+        },
+        {
+          "id": "body-armor",
+          "item": "equipped-body-armor"
+        },
+        {
+          "id": "gloves",
+          "item": "equipped-gloves"
+        },
+        {
+          "id": "boots",
+          "item": "equipped-boots"
+        },
+        {
+          "id": "backpack",
+          "item": "equipped-backpack"
+        },
+        {
+          "id": "belt",
+          "item": "equipped-belt"
+        },
+        {
+          "id": "left-hand",
+          "item": "equipped-left-hand"
+        },
+        {
+          "id": "right-hand",
+          "item": "equipped-right-hand"
+        }
+      ],
+      "items": [
+        {
+          "id": "equipped-headwear",
+          "definition": "IT-14",
+          "label": "Cap",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-face",
+          "definition": "IT-15",
+          "label": "Face covering",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-torso",
+          "definition": "IT-11",
+          "label": "Basic shirt",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-legs",
+          "definition": "IT-12",
+          "label": "Trousers",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-body-armor",
+          "definition": "IT-19",
+          "label": "Improvised body armor",
+          "quantity": 1,
+          "current": 100,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-gloves",
+          "definition": "IT-16",
+          "label": "Gloves",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-boots",
+          "definition": "IT-17",
+          "label": "Boots",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-backpack",
+          "definition": "IT-23",
+          "label": "Small backpack",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-belt",
+          "definition": "IT-21",
+          "label": "Belt with pouches",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-left-hand",
+          "definition": "IT-07",
+          "label": "Bow",
+          "quantity": 1,
+          "current": 160,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-right-hand",
+          "definition": "IT-02",
+          "label": "Arrows",
+          "quantity": 17,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "berries-a",
+          "definition": "IT-08",
+          "label": "Berries",
+          "quantity": 4,
+          "current": null,
+          "grid": "shirt",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "berries-b",
+          "definition": "IT-08",
+          "label": "Berries",
+          "quantity": 7,
+          "current": null,
+          "grid": "shirt",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "fruit",
+          "definition": "IT-09",
+          "label": "Fruit",
+          "quantity": 3,
+          "current": null,
+          "grid": "trousers",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "meat",
+          "definition": "IT-10",
+          "label": "Meat",
+          "quantity": 2,
+          "current": null,
+          "grid": "trousers",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "money",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 63,
+          "current": null,
+          "grid": "belt",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "pouch",
+          "definition": "IT-22",
+          "label": "Small pouch",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "knife",
+          "definition": "IT-03",
+          "label": "Knife",
+          "quantity": 1,
+          "current": 120,
+          "grid": "bag",
+          "x": 1,
+          "y": 0,
+          "rotated": true
+        }
+      ],
+      "grids": [
+        {
+          "id": "shirt",
+          "title": "Shirt pocket",
+          "source": "equipped-torso",
+          "columns": 2,
+          "rows": 1,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "trousers",
+          "title": "Trouser pocket",
+          "source": "equipped-legs",
+          "columns": 2,
+          "rows": 2,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "belt",
+          "title": "Belt pouches",
+          "source": "equipped-belt",
+          "columns": 4,
+          "rows": 2,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "bag",
+          "title": "Small backpack",
+          "source": "equipped-backpack",
+          "columns": 4,
+          "rows": 4,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "nested",
+          "title": "Nested small pouch",
+          "source": "pouch",
+          "columns": 2,
+          "rows": 2,
+          "depth": 2,
+          "breadcrumbs": [
+            "Character",
+            "Small backpack"
+          ]
+        }
+      ],
+      "quick": [
+        "berries-a",
+        "berries-b",
+        "fruit",
+        "meat"
+      ],
+      "drag": {
+        "item": "knife",
+        "grid": "bag",
+        "x": 1,
+        "y": 2,
+        "rotated": true,
+        "depth": 4
+      },
+      "split": {
+        "item": "berries-b",
+        "amount": 3
+      },
+      "transfer": "Immediate transfer preview: select a valid destination. No transaction executed.",
+      "worldDrop": "World drop target: nearby ground pile ground-7. Explicit confirmation required; preview only."
+    },
+    {
+      "id": "inventory.world-drop",
+      "name": "Inventory — world-drop",
+      "status": "world-drop",
+      "warning": "Explicit world drop preview. Closing or losing access preserves source.",
+      "hud": {
+        "health": 76,
+        "stamina": 48,
+        "day": 3,
+        "hour": 18,
+        "phase": "Night",
+        "load": "Light",
+        "teammates": [
+          "P1 Alex square Host",
+          "P2 Alex triangle Guest",
+          "P3 Rowan diamond Controller",
+          "P4 Mira cross Offline"
+        ]
+      },
+      "slots": [
+        {
+          "id": "headwear",
+          "item": "equipped-headwear"
+        },
+        {
+          "id": "face",
+          "item": "equipped-face"
+        },
+        {
+          "id": "torso",
+          "item": "equipped-torso"
+        },
+        {
+          "id": "legs",
+          "item": "equipped-legs"
+        },
+        {
+          "id": "body-armor",
+          "item": "equipped-body-armor"
+        },
+        {
+          "id": "gloves",
+          "item": "equipped-gloves"
+        },
+        {
+          "id": "boots",
+          "item": "equipped-boots"
+        },
+        {
+          "id": "backpack",
+          "item": "equipped-backpack"
+        },
+        {
+          "id": "belt",
+          "item": "equipped-belt"
+        },
+        {
+          "id": "left-hand",
+          "item": "equipped-left-hand"
+        },
+        {
+          "id": "right-hand",
+          "item": "equipped-right-hand"
+        }
+      ],
+      "items": [
+        {
+          "id": "equipped-headwear",
+          "definition": "IT-14",
+          "label": "Cap",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-face",
+          "definition": "IT-15",
+          "label": "Face covering",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-torso",
+          "definition": "IT-11",
+          "label": "Basic shirt",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-legs",
+          "definition": "IT-12",
+          "label": "Trousers",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-body-armor",
+          "definition": "IT-19",
+          "label": "Improvised body armor",
+          "quantity": 1,
+          "current": 100,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-gloves",
+          "definition": "IT-16",
+          "label": "Gloves",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-boots",
+          "definition": "IT-17",
+          "label": "Boots",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-backpack",
+          "definition": "IT-23",
+          "label": "Small backpack",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-belt",
+          "definition": "IT-21",
+          "label": "Belt with pouches",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-left-hand",
+          "definition": "IT-07",
+          "label": "Bow",
+          "quantity": 1,
+          "current": 160,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-right-hand",
+          "definition": "IT-02",
+          "label": "Arrows",
+          "quantity": 17,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "berries-a",
+          "definition": "IT-08",
+          "label": "Berries",
+          "quantity": 4,
+          "current": null,
+          "grid": "shirt",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "berries-b",
+          "definition": "IT-08",
+          "label": "Berries",
+          "quantity": 7,
+          "current": null,
+          "grid": "shirt",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "fruit",
+          "definition": "IT-09",
+          "label": "Fruit",
+          "quantity": 3,
+          "current": null,
+          "grid": "trousers",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "meat",
+          "definition": "IT-10",
+          "label": "Meat",
+          "quantity": 2,
+          "current": null,
+          "grid": "trousers",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "money",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 63,
+          "current": null,
+          "grid": "belt",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "pouch",
+          "definition": "IT-22",
+          "label": "Small pouch",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "knife",
+          "definition": "IT-03",
+          "label": "Knife",
+          "quantity": 1,
+          "current": 120,
+          "grid": "bag",
+          "x": 1,
+          "y": 0,
+          "rotated": true
+        }
+      ],
+      "grids": [
+        {
+          "id": "shirt",
+          "title": "Shirt pocket",
+          "source": "equipped-torso",
+          "columns": 2,
+          "rows": 1,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "trousers",
+          "title": "Trouser pocket",
+          "source": "equipped-legs",
+          "columns": 2,
+          "rows": 2,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "belt",
+          "title": "Belt pouches",
+          "source": "equipped-belt",
+          "columns": 4,
+          "rows": 2,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "bag",
+          "title": "Small backpack",
+          "source": "equipped-backpack",
+          "columns": 4,
+          "rows": 4,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "nested",
+          "title": "Nested small pouch",
+          "source": "pouch",
+          "columns": 2,
+          "rows": 2,
+          "depth": 2,
+          "breadcrumbs": [
+            "Character",
+            "Small backpack"
+          ]
+        }
+      ],
+      "quick": [
+        "berries-a",
+        "berries-b",
+        "fruit",
+        "meat"
+      ],
+      "drag": {
+        "item": "knife",
+        "grid": "bag",
+        "x": 1,
+        "y": 2,
+        "rotated": true,
+        "depth": 1
+      },
+      "split": {
+        "item": "berries-b",
+        "amount": 3
+      },
+      "transfer": "Immediate transfer preview: select a valid destination. No transaction executed.",
+      "worldDrop": "World drop target: nearby ground pile ground-7. Explicit confirmation required; preview only."
+    },
+    {
+      "id": "inventory.transfer-success",
+      "name": "Inventory — transfer-success",
+      "status": "transfer-success",
+      "warning": "No active warning. Actual items remain unchanged by previews.",
+      "hud": {
+        "health": 76,
+        "stamina": 48,
+        "day": 3,
+        "hour": 18,
+        "phase": "Night",
+        "load": "Light",
+        "teammates": [
+          "P1 Alex square Host",
+          "P2 Alex triangle Guest",
+          "P3 Rowan diamond Controller",
+          "P4 Mira cross Offline"
+        ]
+      },
+      "slots": [
+        {
+          "id": "headwear",
+          "item": "equipped-headwear"
+        },
+        {
+          "id": "face",
+          "item": "equipped-face"
+        },
+        {
+          "id": "torso",
+          "item": "equipped-torso"
+        },
+        {
+          "id": "legs",
+          "item": "equipped-legs"
+        },
+        {
+          "id": "body-armor",
+          "item": "equipped-body-armor"
+        },
+        {
+          "id": "gloves",
+          "item": "equipped-gloves"
+        },
+        {
+          "id": "boots",
+          "item": "equipped-boots"
+        },
+        {
+          "id": "backpack",
+          "item": "equipped-backpack"
+        },
+        {
+          "id": "belt",
+          "item": "equipped-belt"
+        },
+        {
+          "id": "left-hand",
+          "item": "equipped-left-hand"
+        },
+        {
+          "id": "right-hand",
+          "item": "equipped-right-hand"
+        }
+      ],
+      "items": [
+        {
+          "id": "equipped-headwear",
+          "definition": "IT-14",
+          "label": "Cap",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-face",
+          "definition": "IT-15",
+          "label": "Face covering",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-torso",
+          "definition": "IT-11",
+          "label": "Basic shirt",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-legs",
+          "definition": "IT-12",
+          "label": "Trousers",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-body-armor",
+          "definition": "IT-19",
+          "label": "Improvised body armor",
+          "quantity": 1,
+          "current": 100,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-gloves",
+          "definition": "IT-16",
+          "label": "Gloves",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-boots",
+          "definition": "IT-17",
+          "label": "Boots",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-backpack",
+          "definition": "IT-23",
+          "label": "Small backpack",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-belt",
+          "definition": "IT-21",
+          "label": "Belt with pouches",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-left-hand",
+          "definition": "IT-07",
+          "label": "Bow",
+          "quantity": 1,
+          "current": 160,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-right-hand",
+          "definition": "IT-02",
+          "label": "Arrows",
+          "quantity": 17,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "berries-a",
+          "definition": "IT-08",
+          "label": "Berries",
+          "quantity": 4,
+          "current": null,
+          "grid": "shirt",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "berries-b",
+          "definition": "IT-08",
+          "label": "Berries",
+          "quantity": 7,
+          "current": null,
+          "grid": "shirt",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "fruit",
+          "definition": "IT-09",
+          "label": "Fruit",
+          "quantity": 3,
+          "current": null,
+          "grid": "trousers",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "meat",
+          "definition": "IT-10",
+          "label": "Meat",
+          "quantity": 2,
+          "current": null,
+          "grid": "trousers",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "money",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 63,
+          "current": null,
+          "grid": "belt",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "pouch",
+          "definition": "IT-22",
+          "label": "Small pouch",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "knife",
+          "definition": "IT-03",
+          "label": "Knife",
+          "quantity": 1,
+          "current": 120,
+          "grid": "bag",
+          "x": 1,
+          "y": 0,
+          "rotated": true
+        }
+      ],
+      "grids": [
+        {
+          "id": "shirt",
+          "title": "Shirt pocket",
+          "source": "equipped-torso",
+          "columns": 2,
+          "rows": 1,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "trousers",
+          "title": "Trouser pocket",
+          "source": "equipped-legs",
+          "columns": 2,
+          "rows": 2,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "belt",
+          "title": "Belt pouches",
+          "source": "equipped-belt",
+          "columns": 4,
+          "rows": 2,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "bag",
+          "title": "Small backpack",
+          "source": "equipped-backpack",
+          "columns": 4,
+          "rows": 4,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "nested",
+          "title": "Nested small pouch",
+          "source": "pouch",
+          "columns": 2,
+          "rows": 2,
+          "depth": 2,
+          "breadcrumbs": [
+            "Character",
+            "Small backpack"
+          ]
+        }
+      ],
+      "quick": [
+        "berries-a",
+        "berries-b",
+        "fruit",
+        "meat"
+      ],
+      "drag": {
+        "item": "knife",
+        "grid": "bag",
+        "x": 1,
+        "y": 2,
+        "rotated": true,
+        "depth": 1
+      },
+      "split": {
+        "item": "berries-b",
+        "amount": 3
+      },
+      "transfer": "✓ Immediate transfer feedback sample — accepted destination bag / cell 1,2. This fixture does not transact.",
+      "worldDrop": "World drop target: nearby ground pile ground-7. Explicit confirmation required; preview only."
+    },
+    {
+      "id": "inventory.transfer-failure",
+      "name": "Inventory — transfer-failure",
+      "status": "transfer-failure",
+      "warning": "Contents changed before the action completed. Review the current items and try again.",
+      "hud": {
+        "health": 76,
+        "stamina": 48,
+        "day": 3,
+        "hour": 18,
+        "phase": "Night",
+        "load": "Light",
+        "teammates": [
+          "P1 Alex square Host",
+          "P2 Alex triangle Guest",
+          "P3 Rowan diamond Controller",
+          "P4 Mira cross Offline"
+        ]
+      },
+      "slots": [
+        {
+          "id": "headwear",
+          "item": "equipped-headwear"
+        },
+        {
+          "id": "face",
+          "item": "equipped-face"
+        },
+        {
+          "id": "torso",
+          "item": "equipped-torso"
+        },
+        {
+          "id": "legs",
+          "item": "equipped-legs"
+        },
+        {
+          "id": "body-armor",
+          "item": "equipped-body-armor"
+        },
+        {
+          "id": "gloves",
+          "item": "equipped-gloves"
+        },
+        {
+          "id": "boots",
+          "item": "equipped-boots"
+        },
+        {
+          "id": "backpack",
+          "item": "equipped-backpack"
+        },
+        {
+          "id": "belt",
+          "item": "equipped-belt"
+        },
+        {
+          "id": "left-hand",
+          "item": "equipped-left-hand"
+        },
+        {
+          "id": "right-hand",
+          "item": "equipped-right-hand"
+        }
+      ],
+      "items": [
+        {
+          "id": "equipped-headwear",
+          "definition": "IT-14",
+          "label": "Cap",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-face",
+          "definition": "IT-15",
+          "label": "Face covering",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-torso",
+          "definition": "IT-11",
+          "label": "Basic shirt",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-legs",
+          "definition": "IT-12",
+          "label": "Trousers",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-body-armor",
+          "definition": "IT-19",
+          "label": "Improvised body armor",
+          "quantity": 1,
+          "current": 100,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-gloves",
+          "definition": "IT-16",
+          "label": "Gloves",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-boots",
+          "definition": "IT-17",
+          "label": "Boots",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-backpack",
+          "definition": "IT-23",
+          "label": "Small backpack",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-belt",
+          "definition": "IT-21",
+          "label": "Belt with pouches",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-left-hand",
+          "definition": "IT-07",
+          "label": "Bow",
+          "quantity": 1,
+          "current": 160,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-right-hand",
+          "definition": "IT-02",
+          "label": "Arrows",
+          "quantity": 17,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "berries-a",
+          "definition": "IT-08",
+          "label": "Berries",
+          "quantity": 4,
+          "current": null,
+          "grid": "shirt",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "berries-b",
+          "definition": "IT-08",
+          "label": "Berries",
+          "quantity": 7,
+          "current": null,
+          "grid": "shirt",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "fruit",
+          "definition": "IT-09",
+          "label": "Fruit",
+          "quantity": 3,
+          "current": null,
+          "grid": "trousers",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "meat",
+          "definition": "IT-10",
+          "label": "Meat",
+          "quantity": 2,
+          "current": null,
+          "grid": "trousers",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "money",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 63,
+          "current": null,
+          "grid": "belt",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "pouch",
+          "definition": "IT-22",
+          "label": "Small pouch",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "knife",
+          "definition": "IT-03",
+          "label": "Knife",
+          "quantity": 1,
+          "current": 120,
+          "grid": "bag",
+          "x": 1,
+          "y": 0,
+          "rotated": true
+        }
+      ],
+      "grids": [
+        {
+          "id": "shirt",
+          "title": "Shirt pocket",
+          "source": "equipped-torso",
+          "columns": 2,
+          "rows": 1,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "trousers",
+          "title": "Trouser pocket",
+          "source": "equipped-legs",
+          "columns": 2,
+          "rows": 2,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "belt",
+          "title": "Belt pouches",
+          "source": "equipped-belt",
+          "columns": 4,
+          "rows": 2,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "bag",
+          "title": "Small backpack",
+          "source": "equipped-backpack",
+          "columns": 4,
+          "rows": 4,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "nested",
+          "title": "Nested small pouch",
+          "source": "pouch",
+          "columns": 2,
+          "rows": 2,
+          "depth": 2,
+          "breadcrumbs": [
+            "Character",
+            "Small backpack"
+          ]
+        }
+      ],
+      "quick": [
+        "berries-a",
+        "berries-b",
+        "fruit",
+        "meat"
+      ],
+      "drag": {
+        "item": "knife",
+        "grid": "bag",
+        "x": 1,
+        "y": 2,
+        "rotated": true,
+        "depth": 1
+      },
+      "split": {
+        "item": "berries-b",
+        "amount": 3
+      },
+      "transfer": "! Transfer failed: destination changed. Original item and exact quantity remain at source.",
+      "worldDrop": "World drop target: nearby ground pile ground-7. Explicit confirmation required; preview only."
+    },
+    {
+      "id": "inventory.loading",
+      "name": "Inventory — loading",
+      "status": "loading",
+      "warning": "Loading inventory sample — waiting for current data; actions unavailable.",
+      "hud": {
+        "health": 76,
+        "stamina": 48,
+        "day": 3,
+        "hour": 18,
+        "phase": "Night",
+        "load": "Light",
+        "teammates": [
+          "P1 Alex square Host",
+          "P2 Alex triangle Guest",
+          "P3 Rowan diamond Controller",
+          "P4 Mira cross Offline"
+        ]
+      },
+      "slots": [
+        {
+          "id": "headwear",
+          "item": "equipped-headwear"
+        },
+        {
+          "id": "face",
+          "item": "equipped-face"
+        },
+        {
+          "id": "torso",
+          "item": "equipped-torso"
+        },
+        {
+          "id": "legs",
+          "item": "equipped-legs"
+        },
+        {
+          "id": "body-armor",
+          "item": "equipped-body-armor"
+        },
+        {
+          "id": "gloves",
+          "item": "equipped-gloves"
+        },
+        {
+          "id": "boots",
+          "item": "equipped-boots"
+        },
+        {
+          "id": "backpack",
+          "item": "equipped-backpack"
+        },
+        {
+          "id": "belt",
+          "item": "equipped-belt"
+        },
+        {
+          "id": "left-hand",
+          "item": "equipped-left-hand"
+        },
+        {
+          "id": "right-hand",
+          "item": "equipped-right-hand"
+        }
+      ],
+      "items": [
+        {
+          "id": "equipped-headwear",
+          "definition": "IT-14",
+          "label": "Cap",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-face",
+          "definition": "IT-15",
+          "label": "Face covering",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-torso",
+          "definition": "IT-11",
+          "label": "Basic shirt",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-legs",
+          "definition": "IT-12",
+          "label": "Trousers",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-body-armor",
+          "definition": "IT-19",
+          "label": "Improvised body armor",
+          "quantity": 1,
+          "current": 100,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-gloves",
+          "definition": "IT-16",
+          "label": "Gloves",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-boots",
+          "definition": "IT-17",
+          "label": "Boots",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-backpack",
+          "definition": "IT-23",
+          "label": "Small backpack",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-belt",
+          "definition": "IT-21",
+          "label": "Belt with pouches",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-left-hand",
+          "definition": "IT-07",
+          "label": "Bow",
+          "quantity": 1,
+          "current": 160,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-right-hand",
+          "definition": "IT-02",
+          "label": "Arrows",
+          "quantity": 17,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "berries-a",
+          "definition": "IT-08",
+          "label": "Berries",
+          "quantity": 4,
+          "current": null,
+          "grid": "shirt",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "berries-b",
+          "definition": "IT-08",
+          "label": "Berries",
+          "quantity": 7,
+          "current": null,
+          "grid": "shirt",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "fruit",
+          "definition": "IT-09",
+          "label": "Fruit",
+          "quantity": 3,
+          "current": null,
+          "grid": "trousers",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "meat",
+          "definition": "IT-10",
+          "label": "Meat",
+          "quantity": 2,
+          "current": null,
+          "grid": "trousers",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "money",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 63,
+          "current": null,
+          "grid": "belt",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "pouch",
+          "definition": "IT-22",
+          "label": "Small pouch",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "knife",
+          "definition": "IT-03",
+          "label": "Knife",
+          "quantity": 1,
+          "current": 120,
+          "grid": "bag",
+          "x": 1,
+          "y": 0,
+          "rotated": true
+        }
+      ],
+      "grids": [
+        {
+          "id": "shirt",
+          "title": "Shirt pocket",
+          "source": "equipped-torso",
+          "columns": 2,
+          "rows": 1,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "trousers",
+          "title": "Trouser pocket",
+          "source": "equipped-legs",
+          "columns": 2,
+          "rows": 2,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "belt",
+          "title": "Belt pouches",
+          "source": "equipped-belt",
+          "columns": 4,
+          "rows": 2,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "bag",
+          "title": "Small backpack",
+          "source": "equipped-backpack",
+          "columns": 4,
+          "rows": 4,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "nested",
+          "title": "Nested small pouch",
+          "source": "pouch",
+          "columns": 2,
+          "rows": 2,
+          "depth": 2,
+          "breadcrumbs": [
+            "Character",
+            "Small backpack"
+          ]
+        }
+      ],
+      "quick": [
+        "berries-a",
+        "berries-b",
+        "fruit",
+        "meat"
+      ],
+      "drag": {
+        "item": "knife",
+        "grid": "bag",
+        "x": 1,
+        "y": 2,
+        "rotated": true,
+        "depth": 1
+      },
+      "split": {
+        "item": "berries-b",
+        "amount": 3
+      },
+      "transfer": "Immediate transfer preview: select a valid destination. No transaction executed.",
+      "worldDrop": "World drop target: nearby ground pile ground-7. Explicit confirmation required; preview only."
+    },
+    {
+      "id": "inventory.error",
+      "name": "Inventory — error",
+      "status": "error",
+      "warning": "! inventory.example: content/ui/inventory.json — source load failed; Recheck resources.",
+      "hud": {
+        "health": 76,
+        "stamina": 48,
+        "day": 3,
+        "hour": 18,
+        "phase": "Night",
+        "load": "Light",
+        "teammates": [
+          "P1 Alex square Host",
+          "P2 Alex triangle Guest",
+          "P3 Rowan diamond Controller",
+          "P4 Mira cross Offline"
+        ]
+      },
+      "slots": [
+        {
+          "id": "headwear",
+          "item": "equipped-headwear"
+        },
+        {
+          "id": "face",
+          "item": "equipped-face"
+        },
+        {
+          "id": "torso",
+          "item": "equipped-torso"
+        },
+        {
+          "id": "legs",
+          "item": "equipped-legs"
+        },
+        {
+          "id": "body-armor",
+          "item": "equipped-body-armor"
+        },
+        {
+          "id": "gloves",
+          "item": "equipped-gloves"
+        },
+        {
+          "id": "boots",
+          "item": "equipped-boots"
+        },
+        {
+          "id": "backpack",
+          "item": "equipped-backpack"
+        },
+        {
+          "id": "belt",
+          "item": "equipped-belt"
+        },
+        {
+          "id": "left-hand",
+          "item": "equipped-left-hand"
+        },
+        {
+          "id": "right-hand",
+          "item": "equipped-right-hand"
+        }
+      ],
+      "items": [
+        {
+          "id": "equipped-headwear",
+          "definition": "IT-14",
+          "label": "Cap",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-face",
+          "definition": "IT-15",
+          "label": "Face covering",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-torso",
+          "definition": "IT-11",
+          "label": "Basic shirt",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-legs",
+          "definition": "IT-12",
+          "label": "Trousers",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-body-armor",
+          "definition": "IT-19",
+          "label": "Improvised body armor",
+          "quantity": 1,
+          "current": 100,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-gloves",
+          "definition": "IT-16",
+          "label": "Gloves",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-boots",
+          "definition": "IT-17",
+          "label": "Boots",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-backpack",
+          "definition": "IT-23",
+          "label": "Small backpack",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-belt",
+          "definition": "IT-21",
+          "label": "Belt with pouches",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-left-hand",
+          "definition": "IT-07",
+          "label": "Bow",
+          "quantity": 1,
+          "current": 160,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-right-hand",
+          "definition": "IT-02",
+          "label": "Arrows",
+          "quantity": 17,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "berries-a",
+          "definition": "IT-08",
+          "label": "Berries",
+          "quantity": 4,
+          "current": null,
+          "grid": "shirt",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "berries-b",
+          "definition": "IT-08",
+          "label": "Berries",
+          "quantity": 7,
+          "current": null,
+          "grid": "shirt",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "fruit",
+          "definition": "IT-09",
+          "label": "Fruit",
+          "quantity": 3,
+          "current": null,
+          "grid": "trousers",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "meat",
+          "definition": "IT-10",
+          "label": "Meat",
+          "quantity": 2,
+          "current": null,
+          "grid": "trousers",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "money",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 63,
+          "current": null,
+          "grid": "belt",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "pouch",
+          "definition": "IT-22",
+          "label": "Small pouch",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "knife",
+          "definition": "IT-03",
+          "label": "Knife",
+          "quantity": 1,
+          "current": 120,
+          "grid": "bag",
+          "x": 1,
+          "y": 0,
+          "rotated": true
+        }
+      ],
+      "grids": [
+        {
+          "id": "shirt",
+          "title": "Shirt pocket",
+          "source": "equipped-torso",
+          "columns": 2,
+          "rows": 1,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "trousers",
+          "title": "Trouser pocket",
+          "source": "equipped-legs",
+          "columns": 2,
+          "rows": 2,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "belt",
+          "title": "Belt pouches",
+          "source": "equipped-belt",
+          "columns": 4,
+          "rows": 2,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "bag",
+          "title": "Small backpack",
+          "source": "equipped-backpack",
+          "columns": 4,
+          "rows": 4,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "nested",
+          "title": "Nested small pouch",
+          "source": "pouch",
+          "columns": 2,
+          "rows": 2,
+          "depth": 2,
+          "breadcrumbs": [
+            "Character",
+            "Small backpack"
+          ]
+        }
+      ],
+      "quick": [
+        "berries-a",
+        "berries-b",
+        "fruit",
+        "meat"
+      ],
+      "drag": {
+        "item": "knife",
+        "grid": "bag",
+        "x": 1,
+        "y": 2,
+        "rotated": true,
+        "depth": 1
+      },
+      "split": {
+        "item": "berries-b",
+        "amount": 3
+      },
+      "transfer": "Immediate transfer preview: select a valid destination. No transaction executed.",
+      "worldDrop": "World drop target: nearby ground pile ground-7. Explicit confirmation required; preview only."
+    },
+    {
+      "id": "inventory.partial",
+      "name": "Inventory — partial",
+      "status": "partial",
+      "warning": "Partial data: food reference 4 is unbound; remaining exact rows remain inspectable.",
+      "hud": {
+        "health": 76,
+        "stamina": 48,
+        "day": 3,
+        "hour": 18,
+        "phase": "Night",
+        "load": "Light",
+        "teammates": [
+          "P1 Alex square Host",
+          "P2 Alex triangle Guest",
+          "P3 Rowan diamond Controller",
+          "P4 Mira cross Offline"
+        ]
+      },
+      "slots": [
+        {
+          "id": "headwear",
+          "item": "equipped-headwear"
+        },
+        {
+          "id": "face",
+          "item": "equipped-face"
+        },
+        {
+          "id": "torso",
+          "item": "equipped-torso"
+        },
+        {
+          "id": "legs",
+          "item": "equipped-legs"
+        },
+        {
+          "id": "body-armor",
+          "item": "equipped-body-armor"
+        },
+        {
+          "id": "gloves",
+          "item": "equipped-gloves"
+        },
+        {
+          "id": "boots",
+          "item": "equipped-boots"
+        },
+        {
+          "id": "backpack",
+          "item": "equipped-backpack"
+        },
+        {
+          "id": "belt",
+          "item": "equipped-belt"
+        },
+        {
+          "id": "left-hand",
+          "item": "equipped-left-hand"
+        },
+        {
+          "id": "right-hand",
+          "item": "equipped-right-hand"
+        }
+      ],
+      "items": [
+        {
+          "id": "equipped-headwear",
+          "definition": "IT-14",
+          "label": "Cap",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-face",
+          "definition": "IT-15",
+          "label": "Face covering",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-torso",
+          "definition": "IT-11",
+          "label": "Basic shirt",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-legs",
+          "definition": "IT-12",
+          "label": "Trousers",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-body-armor",
+          "definition": "IT-19",
+          "label": "Improvised body armor",
+          "quantity": 1,
+          "current": 100,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-gloves",
+          "definition": "IT-16",
+          "label": "Gloves",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-boots",
+          "definition": "IT-17",
+          "label": "Boots",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-backpack",
+          "definition": "IT-23",
+          "label": "Small backpack",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-belt",
+          "definition": "IT-21",
+          "label": "Belt with pouches",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-left-hand",
+          "definition": "IT-07",
+          "label": "Bow",
+          "quantity": 1,
+          "current": 160,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-right-hand",
+          "definition": "IT-02",
+          "label": "Arrows",
+          "quantity": 17,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "berries-a",
+          "definition": "IT-08",
+          "label": "Berries",
+          "quantity": 4,
+          "current": null,
+          "grid": "shirt",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "berries-b",
+          "definition": "IT-08",
+          "label": "Berries",
+          "quantity": 7,
+          "current": null,
+          "grid": "shirt",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "fruit",
+          "definition": "IT-09",
+          "label": "Fruit",
+          "quantity": 3,
+          "current": null,
+          "grid": "trousers",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "meat",
+          "definition": "IT-10",
+          "label": "Meat",
+          "quantity": 2,
+          "current": null,
+          "grid": "trousers",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "money",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 63,
+          "current": null,
+          "grid": "belt",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "pouch",
+          "definition": "IT-22",
+          "label": "Small pouch",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "knife",
+          "definition": "IT-03",
+          "label": "Knife",
+          "quantity": 1,
+          "current": 120,
+          "grid": "bag",
+          "x": 1,
+          "y": 0,
+          "rotated": true
+        }
+      ],
+      "grids": [
+        {
+          "id": "shirt",
+          "title": "Shirt pocket",
+          "source": "equipped-torso",
+          "columns": 2,
+          "rows": 1,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "trousers",
+          "title": "Trouser pocket",
+          "source": "equipped-legs",
+          "columns": 2,
+          "rows": 2,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "belt",
+          "title": "Belt pouches",
+          "source": "equipped-belt",
+          "columns": 4,
+          "rows": 2,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "bag",
+          "title": "Small backpack",
+          "source": "equipped-backpack",
+          "columns": 4,
+          "rows": 4,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "nested",
+          "title": "Nested small pouch",
+          "source": "pouch",
+          "columns": 2,
+          "rows": 2,
+          "depth": 2,
+          "breadcrumbs": [
+            "Character",
+            "Small backpack"
+          ]
+        }
+      ],
+      "quick": [
+        "berries-a",
+        "berries-b",
+        "fruit",
+        null
+      ],
+      "drag": {
+        "item": "knife",
+        "grid": "bag",
+        "x": 1,
+        "y": 2,
+        "rotated": true,
+        "depth": 1
+      },
+      "split": {
+        "item": "berries-b",
+        "amount": 3
+      },
+      "transfer": "Immediate transfer preview: select a valid destination. No transaction executed.",
+      "worldDrop": "World drop target: nearby ground pile ground-7. Explicit confirmation required; preview only."
+    },
+    {
+      "id": "inventory.overflow",
+      "name": "Inventory — overflow",
+      "status": "overflow",
+      "warning": "Many items: scroll the inventory locally to reach the final row.",
+      "hud": {
+        "health": 76,
+        "stamina": 48,
+        "day": 3,
+        "hour": 18,
+        "phase": "Night",
+        "load": "Light",
+        "teammates": [
+          "P1 Alex square Host",
+          "P2 Alex triangle Guest",
+          "P3 Rowan diamond Controller",
+          "P4 Mira cross Offline"
+        ]
+      },
+      "slots": [
+        {
+          "id": "headwear",
+          "item": "equipped-headwear"
+        },
+        {
+          "id": "face",
+          "item": "equipped-face"
+        },
+        {
+          "id": "torso",
+          "item": "equipped-torso"
+        },
+        {
+          "id": "legs",
+          "item": "equipped-legs"
+        },
+        {
+          "id": "body-armor",
+          "item": "equipped-body-armor"
+        },
+        {
+          "id": "gloves",
+          "item": "equipped-gloves"
+        },
+        {
+          "id": "boots",
+          "item": "equipped-boots"
+        },
+        {
+          "id": "backpack",
+          "item": "equipped-backpack"
+        },
+        {
+          "id": "belt",
+          "item": "equipped-belt"
+        },
+        {
+          "id": "left-hand",
+          "item": "equipped-left-hand"
+        },
+        {
+          "id": "right-hand",
+          "item": "equipped-right-hand"
+        }
+      ],
+      "items": [
+        {
+          "id": "equipped-headwear",
+          "definition": "IT-14",
+          "label": "Cap",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-face",
+          "definition": "IT-15",
+          "label": "Face covering",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-torso",
+          "definition": "IT-11",
+          "label": "Basic shirt",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-legs",
+          "definition": "IT-12",
+          "label": "Trousers",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-body-armor",
+          "definition": "IT-19",
+          "label": "Improvised body armor",
+          "quantity": 1,
+          "current": 100,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-gloves",
+          "definition": "IT-16",
+          "label": "Gloves",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-boots",
+          "definition": "IT-17",
+          "label": "Boots",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-backpack",
+          "definition": "IT-23",
+          "label": "Small backpack",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-belt",
+          "definition": "IT-21",
+          "label": "Belt with pouches",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-left-hand",
+          "definition": "IT-07",
+          "label": "Bow",
+          "quantity": 1,
+          "current": 160,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-right-hand",
+          "definition": "IT-02",
+          "label": "Arrows",
+          "quantity": 17,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "berries-a",
+          "definition": "IT-08",
+          "label": "Berries",
+          "quantity": 4,
+          "current": null,
+          "grid": "shirt",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "berries-b",
+          "definition": "IT-08",
+          "label": "Berries",
+          "quantity": 7,
+          "current": null,
+          "grid": "shirt",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "fruit",
+          "definition": "IT-09",
+          "label": "Fruit",
+          "quantity": 3,
+          "current": null,
+          "grid": "trousers",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "meat",
+          "definition": "IT-10",
+          "label": "Meat",
+          "quantity": 2,
+          "current": null,
+          "grid": "trousers",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "money",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 63,
+          "current": null,
+          "grid": "belt",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "pouch",
+          "definition": "IT-22",
+          "label": "Small pouch",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "overflow-0-0",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 2,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "overflow-1-0",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 3,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "overflow-0-1",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 2,
+          "y": 1,
+          "rotated": false
+        },
+        {
+          "id": "overflow-1-1",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 3,
+          "y": 1,
+          "rotated": false
+        },
+        {
+          "id": "overflow-0-2",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 2,
+          "y": 2,
+          "rotated": false
+        },
+        {
+          "id": "overflow-1-2",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 3,
+          "y": 2,
+          "rotated": false
+        },
+        {
+          "id": "overflow-0-3",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 2,
+          "y": 3,
+          "rotated": false
+        },
+        {
+          "id": "overflow-1-3",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 3,
+          "y": 3,
+          "rotated": false
+        }
+      ],
+      "grids": [
+        {
+          "id": "shirt",
+          "title": "Shirt pocket",
+          "source": "equipped-torso",
+          "columns": 2,
+          "rows": 1,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "trousers",
+          "title": "Trouser pocket",
+          "source": "equipped-legs",
+          "columns": 2,
+          "rows": 2,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "belt",
+          "title": "Belt pouches",
+          "source": "equipped-belt",
+          "columns": 4,
+          "rows": 2,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "bag",
+          "title": "Small backpack",
+          "source": "equipped-backpack",
+          "columns": 4,
+          "rows": 4,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "nested",
+          "title": "Nested small pouch",
+          "source": "pouch",
+          "columns": 2,
+          "rows": 2,
+          "depth": 2,
+          "breadcrumbs": [
+            "Character",
+            "Small backpack"
+          ]
+        }
+      ],
+      "quick": [
+        "berries-a",
+        "berries-b",
+        "fruit",
+        "meat"
+      ],
+      "drag": {
+        "item": "berries-a",
+        "grid": "bag",
+        "x": 3,
+        "y": 3,
+        "rotated": false,
+        "depth": 1
+      },
+      "split": {
+        "item": "berries-b",
+        "amount": 3
+      },
+      "transfer": "Immediate transfer preview: select a valid destination. No transaction executed.",
+      "worldDrop": "World drop target: nearby ground pile ground-7. Explicit confirmation required; preview only."
+    },
+    {
+      "id": "inventory.one",
+      "name": "Inventory — one",
+      "status": "one",
+      "warning": "No active warning. Actual items remain unchanged by previews.",
+      "hud": {
+        "health": 76,
+        "stamina": 48,
+        "day": 3,
+        "hour": 18,
+        "phase": "Night",
+        "load": "Light",
+        "teammates": [
+          "P1 Alex square Host",
+          "P2 Alex triangle Guest",
+          "P3 Rowan diamond Controller",
+          "P4 Mira cross Offline"
+        ]
+      },
+      "slots": [
+        {
+          "id": "headwear",
+          "item": null
+        },
+        {
+          "id": "face",
+          "item": null
+        },
+        {
+          "id": "torso",
+          "item": "equipped-torso"
+        },
+        {
+          "id": "legs",
+          "item": null
+        },
+        {
+          "id": "body-armor",
+          "item": null
+        },
+        {
+          "id": "gloves",
+          "item": null
+        },
+        {
+          "id": "boots",
+          "item": null
+        },
+        {
+          "id": "backpack",
+          "item": null
+        },
+        {
+          "id": "belt",
+          "item": null
+        },
+        {
+          "id": "left-hand",
+          "item": null
+        },
+        {
+          "id": "right-hand",
+          "item": null
+        }
+      ],
+      "items": [
+        {
+          "id": "equipped-torso",
+          "definition": "IT-11",
+          "label": "Basic shirt",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        }
+      ],
+      "grids": [
+        {
+          "id": "shirt",
+          "title": "Shirt pocket",
+          "source": "equipped-torso",
+          "columns": 2,
+          "rows": 1,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        }
+      ],
+      "quick": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "drag": null,
+      "split": null,
+      "transfer": "Immediate transfer preview: select a valid destination. No transaction executed.",
+      "worldDrop": "World drop target: nearby ground pile ground-7. Explicit confirmation required; preview only."
+    },
+    {
+      "id": "inventory.long-text",
+      "name": "Inventory with expanded replacement text and individually identifiable identical item labels",
+      "status": "long-text",
+      "warning": "! Long expanded warning: Existing contents remain visible and retain their stable identities while the world continues. Existing contents remain visible and retain their stable identities while the world continues. Existing contents remain visible and retain their stable identities while the world continues. ",
+      "hud": {
+        "health": 76,
+        "stamina": 48,
+        "day": 3,
+        "hour": 18,
+        "phase": "Night",
+        "load": "Light",
+        "teammates": [
+          "P1 Alex square Host",
+          "P2 Alex triangle Guest",
+          "P3 Rowan diamond Controller",
+          "P4 Mira cross Offline"
+        ]
+      },
+      "slots": [
+        {
+          "id": "headwear",
+          "item": "equipped-headwear"
+        },
+        {
+          "id": "face",
+          "item": "equipped-face"
+        },
+        {
+          "id": "torso",
+          "item": "equipped-torso"
+        },
+        {
+          "id": "legs",
+          "item": "equipped-legs"
+        },
+        {
+          "id": "body-armor",
+          "item": "equipped-body-armor"
+        },
+        {
+          "id": "gloves",
+          "item": "equipped-gloves"
+        },
+        {
+          "id": "boots",
+          "item": "equipped-boots"
+        },
+        {
+          "id": "backpack",
+          "item": "equipped-backpack"
+        },
+        {
+          "id": "belt",
+          "item": "equipped-belt"
+        },
+        {
+          "id": "left-hand",
+          "item": "equipped-left-hand"
+        },
+        {
+          "id": "right-hand",
+          "item": "equipped-right-hand"
+        }
+      ],
+      "items": [
+        {
+          "id": "equipped-headwear",
+          "definition": "IT-14",
+          "label": "Cap",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-face",
+          "definition": "IT-15",
+          "label": "Face covering",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-torso",
+          "definition": "IT-11",
+          "label": "Basic shirt",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-legs",
+          "definition": "IT-12",
+          "label": "Trousers",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-body-armor",
+          "definition": "IT-19",
+          "label": "Improvised body armor",
+          "quantity": 1,
+          "current": 100,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-gloves",
+          "definition": "IT-16",
+          "label": "Gloves",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-boots",
+          "definition": "IT-17",
+          "label": "Boots",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-backpack",
+          "definition": "IT-23",
+          "label": "Small backpack",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-belt",
+          "definition": "IT-21",
+          "label": "Belt with pouches",
+          "quantity": 1,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-left-hand",
+          "definition": "IT-07",
+          "label": "Bow",
+          "quantity": 1,
+          "current": 160,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "equipped-right-hand",
+          "definition": "IT-02",
+          "label": "Arrows",
+          "quantity": 17,
+          "current": null,
+          "grid": null,
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "berries-a",
+          "definition": "IT-08",
+          "label": "Berries with a very long independently expanded replacement name that must wrap and retain the complete exact item identity",
+          "quantity": 4,
+          "current": null,
+          "grid": "shirt",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "berries-b",
+          "definition": "IT-08",
+          "label": "Berries with a very long independently expanded replacement name that must wrap and retain the complete exact item identity",
+          "quantity": 7,
+          "current": null,
+          "grid": "shirt",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "fruit",
+          "definition": "IT-09",
+          "label": "Fruit",
+          "quantity": 3,
+          "current": null,
+          "grid": "trousers",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "meat",
+          "definition": "IT-10",
+          "label": "Meat",
+          "quantity": 2,
+          "current": null,
+          "grid": "trousers",
+          "x": 1,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "money",
+          "definition": "IT-01",
+          "label": "Money",
+          "quantity": 63,
+          "current": null,
+          "grid": "belt",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "pouch",
+          "definition": "IT-22",
+          "label": "Small pouch",
+          "quantity": 1,
+          "current": null,
+          "grid": "bag",
+          "x": 0,
+          "y": 0,
+          "rotated": false
+        },
+        {
+          "id": "knife",
+          "definition": "IT-03",
+          "label": "Knife",
+          "quantity": 1,
+          "current": 120,
+          "grid": "bag",
+          "x": 1,
+          "y": 0,
+          "rotated": true
+        }
+      ],
+      "grids": [
+        {
+          "id": "shirt",
+          "title": "Shirt pocket",
+          "source": "equipped-torso",
+          "columns": 2,
+          "rows": 1,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "trousers",
+          "title": "Trouser pocket",
+          "source": "equipped-legs",
+          "columns": 2,
+          "rows": 2,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "belt",
+          "title": "Belt pouches",
+          "source": "equipped-belt",
+          "columns": 4,
+          "rows": 2,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "bag",
+          "title": "Small backpack",
+          "source": "equipped-backpack",
+          "columns": 4,
+          "rows": 4,
+          "depth": 1,
+          "breadcrumbs": [
+            "Character"
+          ]
+        },
+        {
+          "id": "nested",
+          "title": "Nested small pouch",
+          "source": "pouch",
+          "columns": 2,
+          "rows": 2,
+          "depth": 2,
+          "breadcrumbs": [
+            "Character",
+            "Small backpack"
+          ]
+        }
+      ],
+      "quick": [
+        "berries-a",
+        "berries-b",
+        "fruit",
+        "meat"
+      ],
+      "drag": {
+        "item": "knife",
+        "grid": "bag",
+        "x": 1,
+        "y": 2,
+        "rotated": true,
+        "depth": 1
+      },
+      "split": {
+        "item": "berries-b",
+        "amount": 3
+      },
+      "transfer": "Immediate transfer preview: select a valid destination. No transaction executed.",
+      "worldDrop": "World drop target: nearby ground pile ground-7. Explicit confirmation required; preview only."
+    }
+  ]
+}

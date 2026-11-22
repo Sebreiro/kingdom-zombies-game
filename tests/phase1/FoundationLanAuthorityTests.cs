@@ -14,7 +14,7 @@ public sealed class FoundationLanAuthorityTests
 {
     /// <summary>An owned intent is accepted without advancing simulation time or position.</summary>
     [Fact]
-    public void OwnedIntentIsAcceptedBeforeAnyElapsedStep()
+    public void Accept_OwnedIntent_SucceedsBeforeElapsedStep()
     {
         var session = new FoundationSession(sessionId: "s", playerId: "host", actorId: "host-actor");
         var command = new FoundationMovementCommand(sessionId: "s", playerId: "host",

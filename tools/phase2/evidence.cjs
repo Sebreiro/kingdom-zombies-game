@@ -34,11 +34,17 @@ function reconcile(selected, results, context) {
     requireTrue(result.status === 'pass', 'RESULT_NOT_PASS ' + result.id);
     for (const key of ['nonce','input','tool','platform']) requireTrue(typeof context[key] === 'string' && result[key] === context[key], 'RESULT_IDENTITY ' + key);
     if(expected.get(result.id).implementation==='csharp') {
+      if(expected.get(result.id).callerStages) {
+        requireTrue(result.id==='core.permissions','STAGED_CASE_UNKNOWN');
+        baseline.verifyCallerResult(expected.get(result.id),result,context);
+      } else {
+      requireTrue(result.execution!=='aggregated-caller-stages' && result.monolithicExecuted!==false,'UNDECLARED_STAGED_RESULT');
       requireTrue(Array.isArray(result.artifacts) && result.artifacts.length>=2 && new Set(result.artifacts.map(row=>row.path)).size===result.artifacts.length,'SUBJECT_LOG_REQUIRED');
       for(const artifact of result.artifacts) requireTrue(hash(fs.readFileSync(inside(context.directory,artifact.path)))===artifact.sha256,'ARTIFACT_HASH');
       requireTrue(result.artifacts.some(row=>row.path===result.testReport),'TEST_REPORT_REQUIRED');
       const report=read(inside(context.directory,result.testReport));
       requireTrue(report.results.summary.tests===1 && report.results.summary.passed===1 && report.results.summary.failed===0,'TEST_EXECUTION_COUNT');
+      }
     }
     const images = result.images ?? [], imageIds = new Set(), imagePaths = new Set();
     for (const image of images) {
@@ -69,7 +75,7 @@ function loadReport(root, relative, cases) {
   for (const result of summary.results) {
     requireTrue(ids.has(result.id) && !seen.has(result.id) && ['pass','fail','blocked'].includes(result.status), 'REPORT_RESULT_ID'); seen.add(result.id);
     for (const key of ['nonce','input','tool','platform']) requireTrue(result[key] === summary[key], 'REPORT_IDENTITY');
-    if (result.status === 'pass') reconcile([allowed.get(result.id)], [result], {...summary,directory:path.dirname(file)});
+    if (result.status === 'pass') reconcile([allowed.get(result.id)], [result], {...summary,root,directory:path.dirname(file)});
   }
   requireTrue(summary.status === (summary.results.every(row => row.status === 'pass') && !summary.failures.length ? 'pass' : 'fail'), 'REPORT_VERDICT');
   return { summary, path:relative, sha256:hash(fs.readFileSync(file)) };
