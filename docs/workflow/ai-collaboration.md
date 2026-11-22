@@ -13,6 +13,12 @@ This document records the creator's preferences for AI agents working on Kingdom
 
 The [GSD configuration](../../.planning/config.json) uses phase branching, `feature/{phase}-{slug}` and base branch `dev`. Agents must perform the draft/ready transitions at the lifecycle points above; branch configuration alone does not create or update a PR.
 
+## Workspace Cleanup
+
+- At the end of every task, delete its ignored outputs and remove its worktree as described in [workspace cleanup](cleanup.md). Do not wait for phase completion or merge.
+- When a phase or quick task is finished and its changes are committed and pushed, remove its worktree before reporting completion.
+- First record the results the task relies on and the steps to reproduce them. Every PR description includes a **How to reproduce** section so the creator can rerun the checks.
+
 ## Interactive Questions
 
 - Use the available interactive question controls when asking the creator for information, preferences, or decisions. Do not substitute a numbered chat list when interactive controls are available.
@@ -38,7 +44,7 @@ See [verification](verification.md) for delivered commands. The older [pre-Phase
 - Ordinary Windows/Linux PRs target about ten minutes per OS with dependencies cached. Run the strict build with analyzers, current project/code boundary checks and documentation/catalog validation. Do not launch the game or include exhaustive deliberate-defect proofs, full LAN scenarios, coverage certification or AI screenshot review in this basic selection.
 - During feature work, run checks without a real game window. At the post-review game-test stage, select all active Critical cases plus new/changed cases and affected regressions, including consumers, transitive dependencies and shared inputs. An unchanged folder alone does not establish unaffected behavior. Uncertain impact is an explicit selection blocker.
 - Reuse eligible passing evidence only when relevant inputs and the required environment still match. Account for the declared selection and explicit omissions. Reuse cannot replace the fresh final selected-set rendered pass after repairs; the complete catalog is available manually and becomes scheduled in Phase 11.
-- Keep original reports, tested revisions and invocation identities immutable. Completion reports distinguish executed-now, explicitly reused and missing/invalidated evidence. Reuse validates an earlier result; it never supplies a newly executed pass or cross-platform substitution. An unresolved later failure prevents acceptance through an older pass.
+- Keep original reports, tested revisions and invocation identities immutable until task-end [cleanup](cleanup.md); reuse in later tasks needs durable evidence. Completion reports distinguish executed-now, explicitly reused and missing/invalidated evidence. Reuse validates an earlier result; it never supplies a newly executed pass or cross-platform substitution. An unresolved later failure prevents acceptance through an older pass.
 - Before/after screenshots are checkpoints within a selected scenario on the current build, not obligatory runs of old/new builds for every edit. Keep real input, fresh-run evidence and declared appearance/readability review.
 - Phase 5 must implement and prove dependency-aware selection and reuse validation. Until then, the current Phase 1 runner still executes selected cases afresh. This policy invents no reuse command or retroactive certification. Actual full/manual workflow compatibility still needs execution evidence.
 

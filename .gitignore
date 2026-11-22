@@ -3,10 +3,7 @@
 /android/
 
 # Workspace-local pinned tools, verified feeds, CLI state, runs and mutation outputs.
-/.phase1/
-/.phase2/
-/.phase3/
-/.phase4/
+/.phase[0-9]*/
 **/bin/
 **/obj/
 **/.godot/
