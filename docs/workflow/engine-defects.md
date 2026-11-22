@@ -64,4 +64,4 @@ Run `node tools/phase4/check.cjs --self-test-editor-import` to test the policy. 
 
 - Investigation and evidence: [debug record](../../.planning/debug/phase04-import-surrogates.md).
 - Fix plan, review and verification: [quick task 261120-09v](../../.planning/quick/261120-09v-fix-intermittent-godot-editor-import-uni/261120-09v-SUMMARY.md).
-- Raw traces and logs: `.phase4/temp/animation-import-unicode/`. This folder is ignored and exists only on the machine that ran the investigation.
+- Raw traces and logs were local, in the ignored `.phase4/temp/animation-import-unicode/` folder, and are deleted by [workspace cleanup](cleanup.md). The results above and the debug record remain; the original trace cannot be replayed from the repository.
