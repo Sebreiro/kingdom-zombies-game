@@ -150,6 +150,7 @@ async function qualification(context) {
   campaignHistoryControls(context.directory,reject);
   repairHistoryControls(reject);
   buildIdentityControls(context.directory,reject);
+  await processIdentityControls(name => control.push(name));
   const desktop=desktopHelperControl(context.directory);
   const recovery=await inspectionRecoveryControls(context.directory);
   const result = {scope:'Source-only negative controls. Fixture identities supply no review or acceptance.', controls:control,desktop,recovery,
@@ -667,6 +668,41 @@ function selectionFixture() {
   return {current,catalog,cases,record};
 }
 
+async function processIdentityControls(pass) {
+  const {observeChildren} = require('../rendered-process.cjs');
+  let clock = 0, snapshot;
+  const killed = [];
+  const child = pid => {
+    const listeners = [];
+    return {pid,exitCode:null,signalCode:null,once:(event,listener) => {if (event === 'exit') listeners.push(listener);},
+      exit() {this.exitCode = 0;for (const listener of listeners) listener();}};
+  };
+  const owner = observeChildren({inventory:() => snapshot,kill:pids => {killed.push(...pids);
+    snapshot = {...snapshot,rows:snapshot.rows.filter(row => !pids.includes(row.pid))};},now:() => clock,settle:async () => {}});
+  const at = (time, action) => {clock = time;return action();};
+  const helper = at(10000,() => owner.track(child(100)));
+  at(11000,() => helper.exit());
+  const game = at(12000,() => owner.track(child(400)));
+  const query = at(13000,() => owner.track(child(600)));
+  at(13500,() => query.exit());
+  clock = 20000;
+  const row = (pid, parent, created) => ({pid,parent,created});
+  snapshot = {self:600,rows:[row(100,4,15000),row(200,100,15500),row(300,100,3000),row(500,100,10500),row(400,1,11995),
+    row(401,400,12500),row(402,401,12600),row(403,400,11000),row(600,1,19990),row(601,600,19995),row(700,1,5000)]};
+  assert.equal(game.pid,400);
+  const owned = (await owner.remaining()).sort((a,b) => a-b);
+  assert.deepEqual(owned,[400,401,402,500]);
+  const excluded = {'recycled-helper-pid':100,'descendant-of-recycled-pid':200,'stale-parent-before-launch':300,
+    'stale-parent-before-game':403,'inventory-query-recycled-pid':600,'inventory-query-descendant':601,'unrelated-process':700};
+  for (const [name,pid] of Object.entries(excluded)) {
+    assert.equal(owned.includes(pid),false,name);
+    pass('process-identity-'+name);
+  }
+  assert.deepEqual(await owner.cleanup(),[]);
+  assert.deepEqual(killed.sort((a,b) => a-b),[400,401,402,500]);
+  pass('process-identity-kills-only-identified');
+}
+
 function controlRunner(context, name, run, controls = []) {
   const e = require('../evidence.cjs');
   function reject(id, pattern, action) {assert.throws(action,pattern,id);controls.push(id);}
@@ -1039,4 +1075,5 @@ if (require.main === module) {
 }
 
 module.exports = {rejectsMissingCompletion,baseFixture,rejectsInvalidWave,qualification,selectionFixture,controlRunner,
-  sourceHistoryControls,renderedDeclarationControls,selectionControls,pcmFixture,judgmentControls,artifactControls};
+  sourceHistoryControls,renderedDeclarationControls,selectionControls,pcmFixture,judgmentControls,artifactControls,
+  processIdentityControls};

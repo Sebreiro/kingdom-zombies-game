@@ -80,48 +80,87 @@ function timeBudget(milliseconds, signal, now = () => performance.now()) {
   };
 }
 
-function observeChildren() {
+// A tracked launch is registered synchronously after spawn() returns, so its kernel creation time lies shortly
+// before registration. Creation times have timer-tick granularity; the tolerance covers that rounding only.
+const SPAWN_WINDOW_MS = 5000;
+const CLOCK_TOLERANCE_MS = 100;
+const FILETIME_UNIX_EPOCH = 116444736000000000n;
+
+function windowsProcessInventory() {
+  // Windows retains the creating PID even if its parent has already exited, and recycles PIDs. Each row therefore
+  // carries the kernel creation time, so a PID is only the tracked process while that identity still matches.
+  const command = '"self $PID"; Get-CimInstance Win32_Process | ForEach-Object { $created=if ($_.CreationDate)' +
+    ' {$_.CreationDate.ToFileTimeUtc()} else {0}; "$($_.ProcessId) $($_.ParentProcessId) $created" }';
+  const inventory = spawnSync(windowsPowerShell(),['-NoProfile','-NonInteractive','-Command',command],
+    {windowsHide:true,encoding:'utf8',timeout:5000,maxBuffer:4*1024*1024});
+  need(!inventory.error && inventory.status === 0,'RENDERED_PROCESS_INVENTORY');
+  const [first,...lines] = inventory.stdout.trim().split(/\r?\n/);
+  const self = /^self (\d+)$/.exec(first);
+  need(self,'RENDERED_PROCESS_INVENTORY_SELF');
+  return {self:Number(self[1]),rows:lines.map(row => {
+    need(/^\d+ \d+ \d+$/.test(row),'RENDERED_PROCESS_INVENTORY_ROW');
+    const [pid,parent,filetime] = row.split(' ');
+    const ticks = BigInt(filetime);
+    return {pid:Number(pid),parent:Number(parent),created:ticks > FILETIME_UNIX_EPOCH ?
+      Number((ticks - FILETIME_UNIX_EPOCH) / 10000n) : null};
+  })};
+}
+
+function windowsKill(pids) {
+  // Kill exactly the identified processes. A /T tree walk would follow stale parent IDs to unrelated processes.
+  spawnSync('taskkill.exe',[...pids.flatMap(pid => ['/PID',String(pid)]),'/F'],{windowsHide:true,timeout:5000});
+}
+
+function observeChildren({inventory = windowsProcessInventory, kill = windowsKill, now = Date.now, settle = delay} = {}) {
   const owned = new Map();
   function track(child) {
     if (!child.pid) return child;
-    owned.set(child.pid,child);
+    const record = {child,trackedAt:now(),created:null,exitedAt:null};
+    child.once?.('exit',() => {record.exitedAt = now();});
+    owned.set(child.pid,record);
     return child;
   }
-  function terminate(child) {
-    if (child.exitCode !== null || child.signalCode !== null) return;
-    spawnSync('taskkill.exe',['/PID',String(child.pid),'/T','/F'],{windowsHide:true,timeout:3000});
+  const running = ({child,exitedAt}) => exitedAt === null && child.exitCode === null && child.signalCode === null;
+  function identify(snapshot) {
+    const live = new Map(snapshot.rows.filter(row => Number.isFinite(row.created)).map(row => [row.pid,row]));
+    const rows = new Map([...live].filter(([pid]) => pid !== snapshot.self));
+    const identified = new Map();
+    for (const [pid,record] of owned) {
+      const row = rows.get(pid);
+      const matches = row && (record.created === null ?
+        row.created >= record.trackedAt - SPAWN_WINDOW_MS && row.created <= record.trackedAt + CLOCK_TOLERANCE_MS :
+        row.created === record.created);
+      if (!matches) continue;
+      record.created = row.created;
+      identified.set(pid,row.created);
+    }
+    // A descendant was created by an identified process while that process held its PID.
+    function createdBy(parent, created) {
+      if (identified.has(parent)) return created >= identified.get(parent) - CLOCK_TOLERANCE_MS;
+      const record = owned.get(parent);
+      if (!record) return false;
+      const start = record.created ?? record.trackedAt - SPAWN_WINDOW_MS;
+      const successor = live.get(parent)?.created ?? Infinity;
+      const end = Math.min(record.exitedAt ?? (running(record) ? Infinity : now()), successor);
+      return created >= start - CLOCK_TOLERANCE_MS && created <= end + CLOCK_TOLERANCE_MS;
+    }
+    let count;
+    do {
+      count = identified.size;
+      for (const row of rows.values())
+        if (!identified.has(row.pid) && row.pid !== row.parent && createdBy(row.parent,row.created)) identified.set(row.pid,row.created);
+    } while (count !== identified.size);
+    return [...identified.keys()];
   }
   async function remaining() {
     if (!owned.size) return [];
-    // Windows retains the creating PID even if its parent has already exited.
-    const command = 'Get-CimInstance Win32_Process | ForEach-Object { "$($_.ProcessId) $($_.ParentProcessId)" }';
-    const inventory = spawnSync(windowsPowerShell(),['-NoProfile','-NonInteractive','-Command',command],
-      {windowsHide:true,encoding:'utf8',timeout:5000,maxBuffer:1024*1024});
-    need(!inventory.error && inventory.status === 0,'RENDERED_PROCESS_INVENTORY');
-    const rows = inventory.stdout.trim().split(/\r?\n/).map(row => {
-      need(/^\d+ \d+$/.test(row),'RENDERED_PROCESS_INVENTORY_ROW');
-      return row.split(' ').map(Number);
-    });
-    const found = new Set(owned.keys());
-    // Ignore this query and its process tree. They are not children of an owned launch.
-    let count;
-    do {
-      count = found.size;
-      for (const [pid,parent] of rows) if (found.has(parent)) found.add(pid);
-    } while (count !== found.size);
-    return rows.filter(([pid]) => found.has(pid)).map(([pid]) => pid);
+    return identify(await inventory());
   }
   async function cleanup() {
-    for (const child of owned.values()) terminate(child);
     let survivors = await remaining();
-    if (survivors.length) {
-      for (const pid of survivors) {
-        const child = owned.get(pid);
-        // A closed root can have survived only as a recycled PID. Leave it alone.
-        if (!child || (child.exitCode === null && child.signalCode === null))
-          spawnSync('taskkill.exe',['/PID',String(pid),'/T','/F'],{windowsHide:true,timeout:3000});
-      }
-      await delay(100);
+    for (let round = 0; survivors.length && round < 3; round++) {
+      kill(survivors);
+      await settle(150);
       survivors = await remaining();
     }
     return survivors;
@@ -136,8 +175,9 @@ async function command(owner, executable, args, options, timeout, signal) {
     let stdout = '', stderr = '', failure;
     const cancel = () => {
       failure ??= signal?.reason ?? new Error('RENDERED_HELPER_DEADLINE');
+      // The helper is still running, so its PID is its own. The owner's cleanup collects identified descendants.
       if (child.pid && child.exitCode === null && child.signalCode === null)
-        spawnSync('taskkill.exe',['/PID',String(child.pid),'/T','/F'],{windowsHide:true,timeout:3000});
+        spawnSync('taskkill.exe',['/PID',String(child.pid),'/F'],{windowsHide:true,timeout:3000});
     };
     const timer = setTimeout(cancel,timeout);
     signal?.addEventListener('abort',cancel,{once:true});
