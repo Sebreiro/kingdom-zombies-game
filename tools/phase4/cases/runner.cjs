@@ -340,14 +340,23 @@ async function interruptionControls(directory,reject) {
     {pid:920,trackedAt:40000}].map(row => JSON.stringify(row)).join('\n')+'\n'));
   e.writeExclusive(root,'.phase2/desktop.lock',{pid:900,nonce:invocation,at:report.startedAt});
   const row = (pid, parent, created) => ({pid,parent,created});
-  const record = rows => scenarios.recordInterruption(root,invocation,null,{rows:new Map([[item.id,item]]),
+  const record = (rows, cases = new Map([[item.id,item]])) => scenarios.recordInterruption(root,invocation,{rows:cases,
     observer:{inventory:() => ({self:999,rows}),kill:() => assert.fail('An interruption receipt never kills'),now:() => 100000}});
   const rejectAsync = async (name, pattern, action) => {
     await assert.rejects(action,pattern,name);
     reject(name,pattern,() => {throw new Error(pattern.source);});
   };
+  // A refusal changes nothing: the lock stays with the attempt and no receipt is written, so the call can be retried.
+  const untouched = () => {
+    assert.equal(fs.existsSync(path.join(root,'.phase2/desktop.lock')),true);
+    assert.deepEqual(fs.readdirSync(path.join(root,relative)).sort(),['declared-drivers.json','owned-processes.ndjson','start.json']);
+  };
+  await rejectAsync('interruption-unresolved-case',/RENDERED_INTERRUPTION_CASE/,() => record([row(900,1,50000)],new Map()));
+  untouched();
   await rejectAsync('interruption-runner-still-alive',/RENDERED_INTERRUPTION_RUNNER_ALIVE/,() => record([row(900,1,999)]));
+  untouched();
   await rejectAsync('interruption-owned-launch-survives',/RENDERED_INTERRUPTION_SURVIVORS/,() => record([row(920,1,39999),row(921,920,40500)]));
+  untouched();
   const recorded = await record([row(900,1,50000),row(910,4,60000),row(930,910,61000),row(920,4,70000),row(940,920,3000)]);
   assert.equal(recorded.releasedLock,true);
   assert.equal(fs.existsSync(path.join(root,'.phase2/desktop.lock')),false);
@@ -530,11 +539,10 @@ function inheritedReceiptControls(directory,reject) {
   e.writeExclusive(root,'tools/phase3/required-cases.json',{cases:[]});
   const selected = scenarios.inheritedCases(root), called = [];
   const phase1Verifier = baseline.verifyCallerResult, phase2Verifier = phase2.reconcile;
-  const binding = scenarios.inheritedBinding, bindingInput = binding.input, bindingTool = binding.tool;
-  // The fixture revision has no commit, so the committed-input and toolchain recomputations are substituted.
-  let committedInput = '6'.repeat(64), currentTool = '7'.repeat(64);
+  const binding = scenarios.inheritedBinding, bindingInput = binding.input;
+  // The fixture revision has no commit, so the committed-input recomputation is substituted.
+  let committedInput = '6'.repeat(64);
   binding.input = (_root,_family,result) => {assert.equal(result.revision,current.revision);return committedInput;};
-  binding.tool = () => currentTool;
   try {
     baseline.verifyCallerResult = (item,_result,context) => {
       assert.deepEqual(item,originals.get('phase1'));
@@ -548,17 +556,18 @@ function inheritedReceiptControls(directory,reject) {
     };
     assert.deepEqual([...scenarios.sourceReceipts(root,selected,refs,current)],refs.map(row=>row.id));
     assert.deepEqual(called,['phase1','phase2']);
-    // Same revision name, but the tested files or toolchain differ from that revision's committed bytes.
+    // Same revision name, but the tested files differ from that revision's committed bytes.
     committedInput = '8'.repeat(64);
     reject('inherited-receipt-uncommitted-input',/COMPLETION_INHERITED_INPUT/,() => scenarios.sourceReceipts(root,selected,refs,current));
     committedInput = '6'.repeat(64);
-    currentTool = '9'.repeat(64);
-    reject('inherited-receipt-different-tool',/COMPLETION_INHERITED_TOOL/,() => scenarios.sourceReceipts(root,selected,refs,current));
+    // A later rebuild restamps the shared test assembly with a newer HEAD. That must not invalidate the receipt.
+    assert.equal(Object.hasOwn(binding,'tool'),false);
+    called.length = 0;
+    assert.deepEqual([...scenarios.sourceReceipts(root,selected,refs,current)],refs.map(row=>row.id));
   } finally {
     baseline.verifyCallerResult = phase1Verifier;
     phase2.reconcile = phase2Verifier;
     binding.input = bindingInput;
-    binding.tool = bindingTool;
   }
   // The committed recomputation reproduces the inherited runners' working-tree snapshot for clean tracked inputs.
   const head = e.git(ROOT,['rev-parse','HEAD']).trim(), sample = ['AGENTS.md','tools/phase1/toolchain.json','tools/phase2'];

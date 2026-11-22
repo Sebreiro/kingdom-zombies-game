@@ -713,9 +713,12 @@ function phase4SourceReceipt(root, item, receipt, current) {
 }
 
 // Inherited runners fingerprint their working tree but never refuse uncommitted changes. A receipt is therefore bound to
-// the committed bytes of its recorded revision and to the toolchain its family records, recomputed here independently.
+// the committed bytes of its recorded revision, recomputed here independently. Its recorded tool digest is not compared
+// with the current machine: it hashes the shared test assembly, which every build stamps with the HEAD commit, so a
+// rebuild after any later commit changes it without saying anything about the receipt's own run. The Phase 1 runner
+// enforces the pinned Node, SDK and compiler itself, and the current Phase 4 tool identity pins Node and the SDK.
 const inheritedBinding = {
-  inputs:new Map(), tools:new Map(),
+  inputs:new Map(),
   input(root, family, result, catalogs) {
     const key = result.revision + '\0' + family + '\0' + JSON.stringify(result.selected);
     if (!this.inputs.has(key)) {
@@ -730,35 +733,8 @@ const inheritedBinding = {
       this.inputs.set(key,e.committedSnapshot(root,result.revision,inputs));
     }
     return this.inputs.get(key);
-  },
-  tool(root, family) {
-    if (!this.tools.has(family)) this.tools.set(family,family === 'phase1' ? phase1ToolIdentity(root) :
-      require('../phase2/check.cjs').toolIdentity(root));
-    return this.tools.get(family);
   }
 };
-
-// Mirrors the Phase 1 coordinator's recorded tool digest for the pinned SDK, compiler, test assembly and lock file.
-function phase1ToolIdentity(root) {
-  const {spawnSync} = require('node:child_process');
-  const pins = e.document(root,'tools/phase1/toolchain.json'), manifest = e.document(root,'tools/phase1/required-cases.json');
-  const env = require('../phase2/check.cjs').environment(root);
-  const run = args => {
-    const result = spawnSync('dotnet',args,{cwd:root,env,encoding:'utf8',windowsHide:true,timeout:60000});
-    e.need(!result.error && result.status === 0,'COMPLETION_INHERITED_TOOL','dotnet '+args.join(' '));
-    return result.stdout + result.stderr;
-  };
-  const fileHash = file => crypto.createHash('sha256').update(fs.readFileSync(path.join(root,file))).digest('hex');
-  const sdk = run(['--version']).trim();
-  const location = run(['--list-sdks']).split(/\r?\n/).find(line => line.startsWith(pins.sdk + ' ['));
-  e.need(sdk === pins.sdk && location,'COMPLETION_INHERITED_TOOL','sdk');
-  const compiler = path.join(location.slice(location.indexOf('[') + 1, -1), pins.sdk, 'Roslyn/bincore/csc.dll');
-  const csc = run([compiler,'-version']).trim();
-  return crypto.createHash('sha256').update(JSON.stringify({node:process.versions.node,
-    nodeHash:crypto.createHash('sha256').update(fs.readFileSync(process.execPath)).digest('hex'),sdk,compiler:csc,
-    compilerHash:crypto.createHash('sha256').update(fs.readFileSync(compiler)).digest('hex'),assembly:fileHash(manifest.assembly),
-    lock:manifest.project ? fileHash('tests/phase1/packages.lock.json') : null})).digest('hex');
-}
 
 function inheritedSourceReceipt(root, item, receipt, catalogs) {
   const result = e.document(root,receipt.result);
@@ -771,7 +747,7 @@ function inheritedSourceReceipt(root, item, receipt, catalogs) {
   const expected = inheritedDeclaration(root,item,catalogs);
   e.need(e.HEX.test(result.input) && result.input===inheritedBinding.input(root,item.family,result,catalogs),
     'COMPLETION_INHERITED_INPUT',item.id);
-  e.need(e.HEX.test(result.tool) && result.tool===inheritedBinding.tool(root,item.family),'COMPLETION_INHERITED_TOOL',item.id);
+  e.need(e.HEX.test(result.tool),'COMPLETION_INHERITED_SUBJECT',item.id);
   const context = {...result,root,directory:path.join(root,directory)};
   if (item.family==='phase1') {
     const baseline = require('../phase1/check.cjs'), row = subject[0];
@@ -1619,9 +1595,30 @@ async function runRendered(root, registered) {
   }
 }
 
+// The interrupted attempt's outcome rows come from its own committed selection and the catalogs at its gate revision,
+// not from the current catalog, which can be mid-repair.
+function attemptRows(root, opening) {
+  const {selection} = savedAttempt(root,opening);
+  const phase4 = new Map(JSON.parse(e.git(root,['show',opening.gateRevision+':'+CATALOG])).renderedCases.map(row => [row.id,row]));
+  const families = new Map();
+  return new Map(nativeSelection(selection).map(row => {
+    let declared;
+    if (row.family) {
+      if (!families.has(row.family))
+        families.set(row.family,new Map(inheritedCatalog(root,row.family,opening.gateRevision).map(item => [item.id,item])));
+      const original = row.id.slice(row.family.length + 1), item = families.get(row.family).get(original);
+      declared = item && {...item,originalId:original};
+    } else declared = phase4.get(row.id);
+    e.need(declared,'RENDERED_INTERRUPTION_CASE',row.id);
+    return [row.id,{...declared,id:row.id,runGroup:row.runGroup}];
+  }));
+}
+
 // A runner that was terminated without its own terminal receipt (crash, forced kill, power loss) leaves start.json
 // alone. Record the attempt as a failed interruption only after its runner and every journaled owned process are gone.
-async function recordInterruption(root, invocation, registered, {observer:observerOptions = {}, rows:fixtureRows = null} = {}) {
+// Every check and every outcome row is resolved before the lock is released or anything is written, and the single
+// interrupted.json write carries the cleanup record, so a refused or failed attempt can simply be retried.
+async function recordInterruption(root, invocation, {observer:observerOptions = {}, rows:fixtureRows = null} = {}) {
   e.need(e.UUID.test(invocation),'RENDERED_INTERRUPTION_USAGE');
   const relative = '.phase4/acceptance/'+invocation;
   const start = e.reference(root,relative+'/start.json'), opening = e.document(root,start);
@@ -1630,6 +1627,14 @@ async function recordInterruption(root, invocation, registered, {observer:observ
     Number.isSafeInteger(opening.runner?.startedAt),'RENDERED_INTERRUPTION_START',invocation);
   for (const name of ['report.json','interrupted.json'])
     e.need(!fs.existsSync(path.join(root,relative,name)),'RENDERED_INTERRUPTION_TERMINAL',name);
+  const rows = fixtureRows ?? attemptRows(root,opening);
+  const interruption = 'The runner ended without a terminal receipt; recorded afterwards once no owned process survived.';
+  const outcomes = opening.selected.map(id => {
+    const row = rows.get(id);
+    e.need(row,'RENDERED_INTERRUPTION_CASE',id);
+    return {id,runGroup:row.runGroup,invocation,status:'blocked',execution:'executed-now',expected:e.expectedOutcome(row),
+      observed:interruption};
+  });
   const placeholder = (pid, exited) => ({pid,exitCode:exited ? 0 : null,signalCode:null});
   // The runner itself must be gone. Its own untracked helpers are not inferred from a parent PID that may be recycled.
   const runner = owned.observeChildren(observerOptions);
@@ -1651,22 +1656,13 @@ async function recordInterruption(root, invocation, registered, {observer:observ
   const remainingPids = await observer.remaining();
   e.need(remainingPids.length===0,'RENDERED_INTERRUPTION_SURVIVORS',remainingPids.join(','));
   const lock = path.join(root,'.phase2/desktop.lock');
-  let releasedLock = false;
-  if (fs.existsSync(lock) && JSON.parse(fs.readFileSync(lock,'utf8')).nonce===invocation) {fs.unlinkSync(lock);releasedLock = true;}
-  const cleanup = e.writeExclusive(root,relative+'/interruption-cleanup.json',
-    {invocation,runner:opening.runner,launches:launches.size,remainingPids,releasedLock});
-  const rows = fixtureRows ?? new Map(selectionRows(root,loadCatalog(root,registered)).map(row => [row.id,row]));
-  const interruption = 'The runner ended without a terminal receipt; recorded afterwards once no owned process survived.';
+  const ownsLock = fs.existsSync(lock) && JSON.parse(fs.readFileSync(lock,'utf8')).nonce===invocation;
   const finishedAt = new Date(Math.max(Date.now(),Date.parse(opening.startedAt)+1)).toISOString();
-  const outcomes = opening.selected.map(id => {
-    const row = rows.get(id);
-    e.need(row,'RENDERED_INTERRUPTION_CASE',id);
-    return {id,runGroup:row.runGroup,invocation,status:'blocked',execution:'executed-now',expected:e.expectedOutcome(row),
-      observed:interruption};
-  });
+  const cleanup = {runner:opening.runner,launches:launches.size,remainingPids,releasedLock:ownsLock};
+  if (ownsLock) fs.unlinkSync(lock);
   const ref = e.writeExclusive(root,relative+'/interrupted.json',{...opening,start,finishedAt,interruption,status:'fail',
     cleanup,outcomes});
-  return {status:'fail',invocation,report:ref,releasedLock};
+  return {status:'fail',invocation,report:ref,releasedLock:ownsLock};
 }
 
 async function verifyCompletion(root, relative, registered) {

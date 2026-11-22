@@ -580,7 +580,7 @@ async function main(args,writeCompletion=console.log){
     writeCompletion(JSON.stringify(result,null,2));return result;
   }
   if(args[0]==='--record-interruption'){
-    const result=await scenarios.recordInterruption(ROOT,args[1],cases);
+    const result=await scenarios.recordInterruption(ROOT,args[1]);
     console.log(JSON.stringify(result,null,2));return result;
   }
   if(args[0]==='--group'&&args[1]==='rendered'){
