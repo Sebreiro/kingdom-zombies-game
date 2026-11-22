@@ -453,13 +453,19 @@ function inheritedReceiptControls(directory,reject) {
     const result = {id:item.id,status:'pass'};
     const prefix = family==='phase1'?'.phase1/runs/':'.phase2/runs/win32-x64/';
     const ref = e.writeExclusive(root,prefix+nonce+'/summary.json',{
-      nonce,platform,revision:current.revision,startedAt:1,status:'pass',selected:[item.id],results:[result]
+      nonce,platform,revision:current.revision,startedAt:1,status:'pass',selected:[item.id],results:[result],
+      input:'6'.repeat(64),tool:'7'.repeat(64)
     });
     refs.push({id:family+'/'+item.id,result:ref});
   }
   e.writeExclusive(root,'tools/phase3/required-cases.json',{cases:[]});
   const selected = scenarios.inheritedCases(root), called = [];
   const phase1Verifier = baseline.verifyCallerResult, phase2Verifier = phase2.reconcile;
+  const binding = scenarios.inheritedBinding, bindingInput = binding.input, bindingTool = binding.tool;
+  // The fixture revision has no commit, so the committed-input and toolchain recomputations are substituted.
+  let committedInput = '6'.repeat(64), currentTool = '7'.repeat(64);
+  binding.input = (_root,_family,result) => {assert.equal(result.revision,current.revision);return committedInput;};
+  binding.tool = () => currentTool;
   try {
     baseline.verifyCallerResult = (item,_result,context) => {
       assert.deepEqual(item,originals.get('phase1'));
@@ -473,10 +479,22 @@ function inheritedReceiptControls(directory,reject) {
     };
     assert.deepEqual([...scenarios.sourceReceipts(root,selected,refs,current)],refs.map(row=>row.id));
     assert.deepEqual(called,['phase1','phase2']);
+    // Same revision name, but the tested files or toolchain differ from that revision's committed bytes.
+    committedInput = '8'.repeat(64);
+    reject('inherited-receipt-uncommitted-input',/COMPLETION_INHERITED_INPUT/,() => scenarios.sourceReceipts(root,selected,refs,current));
+    committedInput = '6'.repeat(64);
+    currentTool = '9'.repeat(64);
+    reject('inherited-receipt-different-tool',/COMPLETION_INHERITED_TOOL/,() => scenarios.sourceReceipts(root,selected,refs,current));
   } finally {
     baseline.verifyCallerResult = phase1Verifier;
     phase2.reconcile = phase2Verifier;
+    binding.input = bindingInput;
+    binding.tool = bindingTool;
   }
+  // The committed recomputation reproduces the inherited runners' working-tree snapshot for clean tracked inputs.
+  const head = e.git(ROOT,['rev-parse','HEAD']).trim(), sample = ['AGENTS.md','tools/phase1/toolchain.json','tools/phase2'];
+  assert.equal(e.committedSnapshot(ROOT,head,sample),baseline.snapshot(ROOT,{inputs:sample}).sha256);
+  reject('committed-input-missing',/EVIDENCE_INPUT_MISSING/,() => e.committedSnapshot(ROOT,head,['tools/phase4/missing-input']));
 
   const original = phase2.catalog(ROOT).cases.find(row=>row.implementation==='native');
   const item = {id:'phase2/'+original.id,family:'phase2',runGroup:'G3-solo'};
@@ -1076,4 +1094,4 @@ if (require.main === module) {
 
 module.exports = {rejectsMissingCompletion,baseFixture,rejectsInvalidWave,qualification,selectionFixture,controlRunner,
   sourceHistoryControls,renderedDeclarationControls,selectionControls,pcmFixture,judgmentControls,artifactControls,
-  processIdentityControls};
+  processIdentityControls,inheritedReceiptControls};

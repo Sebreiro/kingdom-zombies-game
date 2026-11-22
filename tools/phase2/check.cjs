@@ -84,20 +84,15 @@ async function main(root,args) {
   const directory=inside(root,'.phase2/runs/'+platform+'/'+nonce);
   fs.mkdirSync(directory,{recursive:true});
   const started=Date.now(),results=[],failures=[];
-  const manifest={inputs:['src','tests/phase1','tools/phase2','tools/phase1/toolchain.json','Directory.Build.props','Directory.Build.targets','Directory.Packages.props','.editorconfig','BannedSymbols.txt','BannedSymbols.Pure.txt','docs/code']};
-  if(selection.selected.some(row=>row.callerStages))manifest.inputs.push('tools/phase1/check.cjs','tools/phase1/required-cases.json','tools/phase1/bootstrap.cjs');
-  const env={...process.env,DOTNET_CLI_HOME:path.join(root,'.phase1/cli-home'),NUGET_PACKAGES:path.join(root,'.phase1/packages'),NUGET_HTTP_CACHE_PATH:path.join(root,'.phase1/http-cache'),TEMP:path.join(root,'.phase1/temp'),TMP:path.join(root,'.phase1/temp')};
+  const manifest=inputManifest(selection.selected);
+  const env=environment(root);
   const context={root,directory,nonce,platform,input:null,tool:null,env};
   let unlock;
   try {
     const snapshot=baseline.snapshot(root,manifest);context.input=snapshot.sha256;
     fs.writeFileSync(path.join(directory,'inputs.json'),JSON.stringify(snapshot,null,2));
     // Pure checks need no native executable, display, VM or renderer probe.
-    const version=spawnSync('dotnet',['--version'],{cwd:root,env,encoding:'utf8',windowsHide:true,timeout:12000});
-    requireTrue(version.status===0,'DOTNET_MISSING');
-    context.tool=hash(JSON.stringify({node:process.version,dotnet:version.stdout.trim(),
-      pins:hash(fs.readFileSync(path.join(root,'tools/phase1/toolchain.json'))),
-      testBinary:hash(fs.readFileSync(path.join(root,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll')))}));
+    context.tool=toolIdentity(root,env);
     for(const item of selection.selected.filter(row=>row.implementation==='csharp')) {
       console.log('Checking '+item.id);
       try {const result=await csharp(context,item);reconcile([item],[result],context);results.push(result);}
@@ -138,5 +133,21 @@ async function main(root,args) {
   for(const failure of failures)console.error(failure.message);
   if(status!=='pass')process.exitCode=1;return summary;
 }
-module.exports={main,select,reconcile,acquireLock};
+// The input scope and tool identity are recorded in every summary; later consumers recompute them from these definitions.
+function inputManifest(selected){
+  const inputs=['src','tests/phase1','tools/phase2','tools/phase1/toolchain.json','Directory.Build.props','Directory.Build.targets','Directory.Packages.props','.editorconfig','BannedSymbols.txt','BannedSymbols.Pure.txt','docs/code'];
+  if(selected.some(row=>row.callerStages))inputs.push('tools/phase1/check.cjs','tools/phase1/required-cases.json','tools/phase1/bootstrap.cjs');
+  return {inputs};
+}
+function environment(root){
+  return {...process.env,DOTNET_CLI_HOME:path.join(root,'.phase1/cli-home'),NUGET_PACKAGES:path.join(root,'.phase1/packages'),NUGET_HTTP_CACHE_PATH:path.join(root,'.phase1/http-cache'),TEMP:path.join(root,'.phase1/temp'),TMP:path.join(root,'.phase1/temp')};
+}
+function toolIdentity(root,env=environment(root)){
+  const version=spawnSync('dotnet',['--version'],{cwd:root,env,encoding:'utf8',windowsHide:true,timeout:12000});
+  requireTrue(version.status===0,'DOTNET_MISSING');
+  return hash(JSON.stringify({node:process.version,dotnet:version.stdout.trim(),
+    pins:hash(fs.readFileSync(path.join(root,'tools/phase1/toolchain.json'))),
+    testBinary:hash(fs.readFileSync(path.join(root,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll')))}));
+}
+module.exports={main,select,reconcile,acquireLock,inputManifest,environment,toolIdentity};
 if(require.main===module)main(path.resolve(__dirname,'../..'),process.argv.slice(2)).catch(error=>{console.error(error.stack);process.exitCode=1;});

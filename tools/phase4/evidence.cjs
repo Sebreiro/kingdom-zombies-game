@@ -135,6 +135,38 @@ function identifySource(root, revision = git(root, ['rev-parse', 'HEAD']).trim()
   return {revision, source:hash(JSON.stringify(files)), media:hash(JSON.stringify(media)), files};
 }
 
+// Reproduces the inherited runners' snapshot() fingerprint from a revision's committed blobs instead of the working
+// tree: sorted path/SHA-256 rows of every file below the declared inputs, skipping bin, obj and .godot directories.
+function committedSnapshot(root, revision, inputs) {
+  need(REVISION.test(revision) && Array.isArray(inputs) && inputs.length > 0 && inputs.every(named), 'EVIDENCE_INPUT_MANIFEST');
+  const listed = git(root, ['ls-tree', '-r', '-z', revision, '--', ...inputs], 'utf8').split('\0').filter(Boolean).map(line => {
+    const match = /^(100644|100755) blob ([a-f0-9]{40})\t(.+)$/u.exec(line);
+    need(match, 'EVIDENCE_SOURCE_MODE', line);
+    return {oid:match[2], path:match[3]};
+  }).filter(row => !row.path.split('/').some(part => ['bin', 'obj', '.godot'].includes(part)));
+  for (const input of inputs) need(listed.some(row => row.path === input || row.path.startsWith(input + '/')), 'EVIDENCE_INPUT_MISSING', input);
+  const rows = [];
+  for (let start = 0; start < listed.length; start += 64) {
+    const chunk = listed.slice(start, start + 64);
+    const batch = spawnSync('git', ['cat-file', '--batch'], {cwd:root, input:chunk.map(row => row.oid).join('\n') + '\n',
+      windowsHide:true, timeout:60000, maxBuffer:2 ** 31 - 1});
+    need(!batch.error && batch.status === 0, 'EVIDENCE_GIT', 'cat-file ' + (batch.error?.message ?? String(batch.stderr).trim()));
+    let at = 0;
+    for (const row of chunk) {
+      const end = batch.stdout.indexOf(10, at);
+      const [oid, type, size] = batch.stdout.toString('utf8', at, end).split(' ');
+      need(oid === row.oid && type === 'blob' && /^\d+$/.test(size), 'EVIDENCE_INPUT_BLOB', row.path);
+      const data = batch.stdout.subarray(end + 1, end + 1 + Number(size));
+      rows.push({path:row.path, sha256:hash(data)});
+      at = end + 1 + Number(size) + 1;
+    }
+    need(at === batch.stdout.length, 'EVIDENCE_INPUT_BLOB', 'trailing output');
+  }
+  rows.sort((a, b) => a.path.localeCompare(b.path, 'en'));
+  need(rows.length > 0 && new Set(rows.map(row => row.path)).size === rows.length, 'EVIDENCE_INPUT_MANIFEST', 'empty or overlapping');
+  return hash(JSON.stringify(rows));
+}
+
 function identifyTool(root) {
   const platform = process.platform + '-' + process.arch;
   const pinFile = 'tools/phase1/toolchain.json';
@@ -857,7 +889,8 @@ function freshFinal(selected, reports, expected) {
 }
 
 module.exports = {PHASE, REVIEW, REVIEW_REPORT, ORIGINAL_REVIEW, SELECTION, FIXES, TARGETS, PHASE_BASE, LISTENING, JUDGMENTS, COMPLETION, IDENTITY, REVISION, HEX, UUID, need, named, instant, exact,
-  read, reference, artifact, document, writeExclusive, git, committedRef, sameCommittedSource, identifySource, identifyTool, identity,
+  read, reference, artifact, document, writeExclusive, git, committedRef, sameCommittedSource, identifySource, committedSnapshot,
+  identifyTool, identity,
   textArtifact, reviewReport, validateReview, validateProcess, validateRenderedOutcome, validateNamed, listeningExpectations, judgmentExpectations,
   audioAuthority, audioPlayback, writeAuditionMedia, listeningSubjects,
   validateJudgments, validateJudgmentImages, campaignAttempts, historyDocuments, validateCoverage, changedFiles, guardedHostTuples, validateNativeHostProof, inventoryExpectation, validateArtifactInventory,

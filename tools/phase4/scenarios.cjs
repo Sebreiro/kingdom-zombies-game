@@ -708,6 +708,54 @@ function phase4SourceReceipt(root, item, receipt, current) {
   return {result,invocation};
 }
 
+// Inherited runners fingerprint their working tree but never refuse uncommitted changes. A receipt is therefore bound to
+// the committed bytes of its recorded revision and to the toolchain its family records, recomputed here independently.
+const inheritedBinding = {
+  inputs:new Map(), tools:new Map(),
+  input(root, family, result, catalogs) {
+    const key = result.revision + '\0' + family + '\0' + JSON.stringify(result.selected);
+    if (!this.inputs.has(key)) {
+      let inputs;
+      if (family === 'phase1') inputs = JSON.parse(e.git(root,['show',result.revision+':tools/phase1/required-cases.json'])).inputs;
+      else if (family === 'phase2') inputs = require('../phase2/check.cjs').inputManifest(result.selected.map(id => {
+        const row = catalogs.get('phase2')?.get(id);
+        e.need(row,'COMPLETION_INHERITED_SUBJECT','phase2/'+id);
+        return row;
+      })).inputs;
+      else inputs = require('../phase3/check.cjs').inputManifest().inputs;
+      this.inputs.set(key,e.committedSnapshot(root,result.revision,inputs));
+    }
+    return this.inputs.get(key);
+  },
+  tool(root, family) {
+    if (!this.tools.has(family)) this.tools.set(family,family === 'phase1' ? phase1ToolIdentity(root) :
+      require('../phase2/check.cjs').toolIdentity(root));
+    return this.tools.get(family);
+  }
+};
+
+// Mirrors the Phase 1 coordinator's recorded tool digest for the pinned SDK, compiler, test assembly and lock file.
+function phase1ToolIdentity(root) {
+  const {spawnSync} = require('node:child_process');
+  const pins = e.document(root,'tools/phase1/toolchain.json'), manifest = e.document(root,'tools/phase1/required-cases.json');
+  const env = require('../phase2/check.cjs').environment(root);
+  const run = args => {
+    const result = spawnSync('dotnet',args,{cwd:root,env,encoding:'utf8',windowsHide:true,timeout:60000});
+    e.need(!result.error && result.status === 0,'COMPLETION_INHERITED_TOOL','dotnet '+args.join(' '));
+    return result.stdout + result.stderr;
+  };
+  const fileHash = file => crypto.createHash('sha256').update(fs.readFileSync(path.join(root,file))).digest('hex');
+  const sdk = run(['--version']).trim();
+  const location = run(['--list-sdks']).split(/\r?\n/).find(line => line.startsWith(pins.sdk + ' ['));
+  e.need(sdk === pins.sdk && location,'COMPLETION_INHERITED_TOOL','sdk');
+  const compiler = path.join(location.slice(location.indexOf('[') + 1, -1), pins.sdk, 'Roslyn/bincore/csc.dll');
+  const csc = run([compiler,'-version']).trim();
+  return crypto.createHash('sha256').update(JSON.stringify({node:process.versions.node,
+    nodeHash:crypto.createHash('sha256').update(fs.readFileSync(process.execPath)).digest('hex'),sdk,compiler:csc,
+    compilerHash:crypto.createHash('sha256').update(fs.readFileSync(compiler)).digest('hex'),assembly:fileHash(manifest.assembly),
+    lock:manifest.project ? fileHash('tests/phase1/packages.lock.json') : null})).digest('hex');
+}
+
 function inheritedSourceReceipt(root, item, receipt, catalogs) {
   const result = e.document(root,receipt.result);
   const directory = path.posix.dirname(receipt.result.path);
@@ -715,8 +763,11 @@ function inheritedSourceReceipt(root, item, receipt, catalogs) {
   const subject = result.results?.filter(row => row.id===item.originalId);
   e.need(result.status==='pass' && e.UUID.test(result.nonce) && result.platform===inheritedWindowsPlatform(item.family) &&
     receipt.result.path===familyPath+result.nonce+'/summary.json' && result.selected?.includes(item.originalId) &&
-    subject?.length===1 && subject[0].status==='pass','COMPLETION_INHERITED_SUBJECT',item.id);
+    subject?.length===1 && subject[0].status==='pass' && e.REVISION.test(result.revision),'COMPLETION_INHERITED_SUBJECT',item.id);
   const expected = inheritedDeclaration(root,item,catalogs);
+  e.need(e.HEX.test(result.input) && result.input===inheritedBinding.input(root,item.family,result,catalogs),
+    'COMPLETION_INHERITED_INPUT',item.id);
+  e.need(e.HEX.test(result.tool) && result.tool===inheritedBinding.tool(root,item.family),'COMPLETION_INHERITED_TOOL',item.id);
   const context = {...result,root,directory:path.join(root,directory)};
   if (item.family==='phase1') {
     const baseline = require('../phase1/check.cjs'), row = subject[0];
@@ -1594,7 +1645,7 @@ async function verifyCompletion(root, relative, registered) {
 
 module.exports = {CATALOG, COVERAGE, SCENARIOS, GROUPS, ORDER, coverageRows, validateProcedure, validateCatalog, loadCatalog,
   selectCases, inheritedCases, selectionRows, impactClosure, validateSelection, currentReviewAdapter, prelaunch, currentIdentity, runId,
-  finalRendered, latestPhase4Sources, sourceReceipts, completionSourceReceipts, preWindowCases, verifyFixProof, coverageExpectation, validateDriver, reviewedDrivers,
+  finalRendered, latestPhase4Sources, sourceReceipts, inheritedBinding, completionSourceReceipts, preWindowCases, verifyFixProof, coverageExpectation, validateDriver, reviewedDrivers,
   treePaths, savedNativeSnapshot, relaunchCase, packagedSubject, prepareSource, validateBuild, validateSourceProject,
   repairAffected, attemptDeclaration, validateAttemptHistory, verifyInheritedRendered,
   runInspectionLane,
