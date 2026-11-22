@@ -178,7 +178,9 @@ function identifyTool(root) {
   const sdk = spawnSync('dotnet', ['--version'], {cwd:root, encoding:'utf8', windowsHide:true, timeout:10000});
   need(!sdk.error && sdk.status === 0 && sdk.stdout.trim() === pins.sdk, 'EVIDENCE_SDK');
   const node = hash(fs.readFileSync(process.execPath));
-  const tool = {platform, node, nodeVersion:process.version, godot:engine, sdk:pins.sdk, pins:reference(root, pinFile)};
+  const python = require('./python.cjs').verifyPython();
+  const tool = {platform, node, nodeVersion:process.version, godot:engine, sdk:pins.sdk, pins:reference(root, pinFile),
+    python:{...python, pins:reference(root, 'tools/phase4/python.json')}};
   return {tool:hash(JSON.stringify(tool)), tools:tool};
 }
 

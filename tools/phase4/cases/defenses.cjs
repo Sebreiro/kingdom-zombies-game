@@ -1,7 +1,7 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),equal=require('node:util').isDeepStrictEqual;
 const runner=require('../check.cjs'),{ROOT,inside,bytes,document,write,hash,need}=require('../content.cjs');
-const PYTHON='C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe';
+const {PYTHON}=require('../python.cjs');
 const ART_FILES=['src/godot-game/assets/buildings/defenses.png','src/godot-game/content/packs/defenses.json','production/phase4/defenses.zip','tools/phase4/cases/defenses.cjs'];
 const ART_INPUTS=[...ART_FILES,'production/phase4/common-selected.zip','production/phase4/main-buildings.zip','src/godot-game/content/packs/common.json','src/godot-game/content/packs/main-buildings.json'];
 function fingerprint(files){return files.map(file=>({file,sha256:hash(bytes(ROOT,file))}));}

@@ -1,7 +1,7 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),equal=require('node:util').isDeepStrictEqual;
 const runner=require('../check.cjs'),{ROOT,inside,bytes,document,write,hash,need}=require('../content.cjs');
-const PYTHON='C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe';
+const {PYTHON}=require('../python.cjs');
 function prior(){return require('./bodies-a.cjs');}
 const profiles={b:['CH-04','CH-05','CH-08'],c:['CH-06','CH-07']};
 const poses=['idle','walk-near','walk-far','run','windup','strike','recover','aim','hit','collapse-a','collapse-b','corpse','sit','gather','eat','carry'];

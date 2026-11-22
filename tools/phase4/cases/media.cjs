@@ -1,7 +1,7 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),equal=require('node:util').isDeepStrictEqual;
 const runner=require('../check.cjs'),{ROOT,need,inside,bytes,document,write,hash}=require('../content.cjs');
-const PYTHON='C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe';
+const {PYTHON}=require('../python.cjs');
 const EXTRACT='tools/phase4/extract-media.py',COMMON='src/godot-game/content/packs/common.json';
 const ATLAS='src/godot-game/assets/common/donor-kit.png',BUNDLE='production/phase4/common-selected.zip';
 const FILES=[EXTRACT,COMMON,ATLAS,BUNDLE,'tools/phase4/cases/media.cjs'];

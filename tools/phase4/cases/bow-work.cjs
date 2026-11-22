@@ -210,7 +210,7 @@ print(json.dumps({'frames':rows,'fullCommonRgba':True}))`;
 async function run(context){
  const before=fingerprint();write(context.directory,'bow-inputs.json',before);
  write(context.directory,'bow-source.json',source());
- const pixels=await runner.command(context,'bow-source-pixels','C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe',['-c',SOURCE_PIXELS,ROOT]);write(context.directory,'bow-source-pixels.json',JSON.parse(pixels.stdout));
+ const pixels=await runner.command(context,'bow-source-pixels',require('../python.cjs').PYTHON,['-c',SOURCE_PIXELS,ROOT]);write(context.directory,'bow-source-pixels.json',JSON.parse(pixels.stdout));
  const build=await runner.command(context,'bow-strict-build','dotnet',['build',inside(ROOT,'KingdomZombies.slnx'),'--no-restore','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'],{env:bodies.isolated()});need(/0 Warning\(s\)[\s\S]*0 Error\(s\)/.test(build.stdout),'BOW_CLEAN_BUILD');
  const observation=await animation.native(context,harness());
  const compiled=inside(context.directory,'compiled');fs.mkdirSync(compiled);
@@ -333,7 +333,7 @@ print(json.dumps({'members':len(data),'components':len(pack['components']),'acti
 `;
 async function workRun(context){
  const before=workFiles().map(file=>({file,sha256:hash(bytes(ROOT,file,67108864))}));write(context.directory,'work-inputs.json',before);
- const source=await runner.command(context,'work-source','C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe',['-c',WORK_SOURCE,ROOT]);write(context.directory,'work-source.json',JSON.parse(source.stdout));
+ const source=await runner.command(context,'work-source',require('../python.cjs').PYTHON,['-c',WORK_SOURCE,ROOT]);write(context.directory,'work-source.json',JSON.parse(source.stdout));
  const build=await runner.command(context,'work-strict-build','dotnet',['build',inside(ROOT,'KingdomZombies.slnx'),'--no-restore','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'],{env:bodies.isolated()});need(/0 Warning\(s\)[\s\S]*0 Error\(s\)/.test(build.stdout),'WORK_CLEAN_BUILD');
  const result=await animation.native(context,workHarness());need(result.workSamples.length===240,'WORK_MATRIX_COUNT');need(result.workControls.length===40&&result.workControls.every(c=>c.pass),'WORK_CONTROLS');need(result.workResets.length===7&&result.workResetControls.length===71&&result.workResetControls.every(c=>c.pass),'WORK_RESET_CONTROLS');need(equal(before,workFiles().map(file=>({file,sha256:hash(bytes(ROOT,file,67108864))}))),'WORK_INPUT_CHANGED');return result;
 }

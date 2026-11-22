@@ -13,6 +13,8 @@ The exact baseline is [toolchain.json](../../tools/phase1/toolchain.json). The e
 | Godot .NET | 4.7.2 stable | Platform archives below; retain the entire `GodotSharp` directory |
 | C# / target | 14.0 / net10.0 | Explicit project declarations; compiler `5.9.0-1.26529.119 (2ab2854867733112c84ac12c4273d7970ac3afdf)` comes from SDK 10.0.404 |
 | Local coverage tool | 18.12.0 | [Microsoft dotnet-coverage](https://www.nuget.org/packages/dotnet-coverage/18.12.0), pinned in the repository tool manifest; collection is proved in a later plan |
+| PowerShell, x64 | 7 (`pwsh` on `PATH`; 7.6.9 verified) | [Microsoft PowerShell releases](https://github.com/PowerShell/PowerShell/releases); the Phase 4 `content.native-permissions` check runs its test discovery through `pwsh` and fails with `spawn pwsh ENOENT` without it |
+| CPython, x64 | 3.12.14 | Runs the Phase 4 media, archive and pixel scripts. [python.json](../../tools/phase4/python.json) pins the executable, `python312.dll` and Pillow 13.0.0, and every launch verifies them. Set `KZ_PHASE4_PYTHON` when the same build is installed elsewhere. UnityPy 1.23.0 loads from the donor resource folder and each script checks its version |
 
 The installed SDK is a prerequisite. [global.json](../../global.json) disables SDK roll-forward and prerelease selection. The bootstrap checks actual Node, SDK, compiler, engine and managed runtime identities instead of treating declarations as proof. Roslyn NuGet development packages have separate version numbers; they are not the SDK compiler version.
 

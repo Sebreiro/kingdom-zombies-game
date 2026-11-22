@@ -5,7 +5,7 @@ const runner={command:(...args)=>require('./check.cjs').command(...args),
 const content=require('./content.cjs');
 const {ROOT,need,inside,bytes,parse,document,write,hash}=content;
 const {isDeepStrictEqual:equal}=require('node:util');
-const PYTHON='C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe';
+const {PYTHON}=require('./python.cjs');
 const PIN='production/phase4/export-toolchain.json';
 const GAME='src/godot-game/',PCK='KingdomZombies.pck',PACKAGE_LIMIT=67108864;
 const MISSING_ITEM='content/packs/items-11-24.json',NEARBY_ITEM='content/packs/items-11-24-copy.json';

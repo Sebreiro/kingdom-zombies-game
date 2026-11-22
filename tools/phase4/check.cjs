@@ -4,7 +4,7 @@ const {spawn,spawnSync}=require('node:child_process');
 const {TextDecoder,isDeepStrictEqual:equal}=require('node:util');
 const {createCaseRegistry,loadCaseModules}=require('./case-discovery.cjs');
 const ROOT='D:/Work/Games/KingdomZombies';
-const PYTHON='C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe';
+const {PYTHON,verifyPython,isPython}=require('./python.cjs');
 const DONOR='D:/Work/Games/KindomCrown/recovered/resources';
 const ID='common.bow';
 const FILES={media:'src/godot-game/assets/common/bow.png',pack:'src/godot-game/content/packs/tracer.json',
@@ -192,6 +192,7 @@ function editorImportPolicy(base,cwd,name,args){
 }
 async function command(context,name,executable,args,{timeout=60000,interruptMarker,env,cwd}={}){
   need(Number.isInteger(timeout)&&timeout>0&&timeout<=60000,'COMMAND_TIMEOUT_RANGE',name);
+  if(isPython(executable))verifyPython(executable);
   const childCwd=cwd??context.directory,base=path.resolve(context.directory),resolved=path.resolve(childCwd);
   need(resolved===base||resolved.startsWith(base+path.sep),'COMMAND_CWD_OWNERSHIP',name);
   if(resolved!==base)inside(base,path.relative(base,resolved).replaceAll(path.sep,'/'));

@@ -152,6 +152,16 @@ async function qualification(context) {
   repairHistoryControls(reject);
   buildIdentityControls(context.directory,reject);
   await processIdentityControls(name => control.push(name));
+  const pythonPin = require('../python.cjs');
+  pythonPin.verifyPython();
+  const substitutes = path.join(context.directory,'python-controls');
+  fs.mkdirSync(path.join(substitutes,'approved-executable'),{recursive:true});
+  fs.writeFileSync(path.join(substitutes,'python.exe'),'unknown interpreter bytes',{flag:'wx'});
+  reject('unpinned-python-executable',/PYTHON_PIN executable/,() => pythonPin.verifyPython(path.join(substitutes,'python.exe')));
+  fs.copyFileSync(pythonPin.PYTHON,path.join(substitutes,'approved-executable','python.exe'),fs.constants.COPYFILE_EXCL);
+  fs.writeFileSync(path.join(substitutes,'approved-executable',pythonPin.PIN.runtimeLibrary),'wrong runtime',{flag:'wx'});
+  reject('unpinned-python-runtime-library',/PYTHON_PIN runtime library/,() =>
+    pythonPin.verifyPython(path.join(substitutes,'approved-executable','python.exe')));
   const desktop=desktopHelperControl(context.directory);
   const recovery=await inspectionRecoveryControls(context.directory);
   const result = {scope:'Source-only negative controls. Fixture identities supply no review or acceptance.', controls:control,desktop,recovery,

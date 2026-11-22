@@ -1,7 +1,7 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),equal=require('node:util').isDeepStrictEqual;
 const runner=require('../check.cjs'),{ROOT,need,inside,bytes,document,write,hash}=require('../content.cjs');
-const PYTHON='C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe';
+const {PYTHON}=require('../python.cjs');
 const FILE='production/phase4/audio-feasibility.json';
 const HISTORICAL_FIXTURE_SHA='d7d5c4e53410b1e5f9aa9c0e5d4119b9e53d08e13b6768586e7d55abcc39cae0';
 const HISTORICAL_REPLAY={

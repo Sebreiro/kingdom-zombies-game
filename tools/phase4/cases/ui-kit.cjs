@@ -1,7 +1,7 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),equal=require('node:util').isDeepStrictEqual;
 const runner=require('../check.cjs'),{ROOT,inside,bytes,document,write,hash,need}=require('../content.cjs');
-const PYTHON='C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe';
+const {PYTHON}=require('../python.cjs');
 const PACK='src/godot-game/content/packs/ui-kit.json';
 const FONT_FILES=['LiberationSans.ttf','PerfectDOSVGA437.ttf','Fallback.ttf'].map(x=>'src/godot-game/assets/ui/'+x);
 const KIT_FILES=[...FONT_FILES,PACK,'src/godot-game/assets/common/donor-kit.png','src/godot-game/content/packs/common.json','production/phase4/common-selected.zip','tools/phase4/cases/ui-kit.cjs'];

@@ -1,7 +1,7 @@
 'use strict';
 const fs=require('node:fs'),equal=require('node:util').isDeepStrictEqual;
 const runner=require('../check.cjs'),{ROOT,need,inside,bytes,document,write,hash}=require('../content.cjs');
-const PYTHON='C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe';
+const {PYTHON}=require('../python.cjs');
 function engine(){
   const pins=document(ROOT,'tools/phase1/toolchain.json'),pin=pins.archives['win32-x64'];
   need(process.platform==='win32'&&process.arch==='x64'&&process.version==='v'+pins.node,'ITEM_PLATFORM_PIN');

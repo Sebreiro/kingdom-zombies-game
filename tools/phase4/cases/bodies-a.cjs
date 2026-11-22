@@ -1,7 +1,7 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),equal=require('node:util').isDeepStrictEqual;
 const runner=require('../check.cjs'),{ROOT,inside,bytes,document,write,hash,need}=require('../content.cjs');
-const PYTHON='C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe';
+const {PYTHON}=require('../python.cjs');
 function engine(){return require('./items.cjs').engine();}
 const ART_FILES=['src/godot-game/assets/characters/bodies-a.png','src/godot-game/content/packs/bodies-a.json','production/phase4/bodies-a.zip','tools/phase4/cases/bodies-a.cjs'];
 function fingerprint(files){return files.map(file=>({file,sha256:hash(bytes(ROOT,file,67108864))}));}

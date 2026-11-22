@@ -1,7 +1,7 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),equal=require('node:util').isDeepStrictEqual;
 const runner=require('../check.cjs'),{ROOT,inside,bytes,document,write,hash,need}=require('../content.cjs');
-const PYTHON='C:/Users/User/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe';
+const {PYTHON}=require('../python.cjs');
 const MAP_FILES=['src/godot-game/assets/world/environment.png','src/godot-game/content/packs/world.json','src/godot-game/content/world/map.json','production/phase4/world.zip','tools/phase4/cases/world.cjs'];
 const MAP_INPUTS=[...MAP_FILES,'production/phase4/common-selected.zip','src/godot-game/content/packs/common.json','tools/phase4/extract-media.py','src/godot-game/content/config/food-wildlife.json'];
 function fingerprint(files){return files.map(file=>({file,sha256:hash(bytes(ROOT,file))}));}
