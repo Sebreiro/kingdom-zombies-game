@@ -77,4 +77,4 @@ Run `node src/godot-game/tools/asset-pipeline/check.cjs --self-test-editor-impor
 
 **Verification.** Run `node src/godot-game/tools/asset-pipeline/check.cjs --case world.replacement` with the pinned Windows toolchain. The existing case exercises rapid replacement, error and recovery through the native hub and requires clean stderr. Keep the workaround until engine source or a targeted trace establishes safe wrapper reuse. A passing rerun alone cannot resolve the intermittent failure.
 
-The original invocation and the five reruns are recorded in the [Phase 4 review summary](../../.planning/phases/04-asset-production/04-24-SUMMARY.md#test-results) and the [closure exception](../../.planning/phases/04-asset-production/04-CLOSURE-EXCEPTION.md#known-issue-carried-forward).
+The original invocation and the five reruns are recorded in the [Phase 4 review summary](../../.planning/phases/04-asset-production/04-24-SUMMARY.md) and the [closure exception](../../.planning/phases/04-asset-production/04-CLOSURE-EXCEPTION.md).
