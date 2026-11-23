@@ -10,7 +10,7 @@ const FOLDERS = [
   ['production/phase4', WORKSPACE + 'production/assets'],
 ];
 const GAME = WORKSPACE + 'game/';
-const GAME_ENTRY = /^(?:(?:assets|content|inspection|foundation|proofs|docs)(?:\/|$)|(?:project\.godot|export_presets\.cfg|KingdomZombies\.csproj|override\.cfg)$)/;
+const GAME_ENTRY = /^(?:(?:assets|content|inspection|foundation|proofs|docs)(?:\/|$)|(?:project\.godot|export_presets\.cfg|KingdomZombies\.csproj|override\.cfg|icon\.svg|icon\.svg\.import|\.editorconfig|packages\.lock\.json|GeneratedCallSiteAdapters\.cs|GeneratedReportAdapter\.cs)$)/;
 
 function within(rel, folder) {
   return rel === folder || rel.startsWith(folder + '/');

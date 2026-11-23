@@ -70,7 +70,8 @@ internal static class AssetPipelinePaths
     private static readonly string[] _gameFolders = ["assets", "content", "inspection", "foundation", "proofs", "docs"];
 
     private static readonly string[] _gameFiles = ["project.godot", "export_presets.cfg", "KingdomZombies.csproj",
-        "override.cfg"];
+        "override.cfg", "icon.svg", "icon.svg.import", ".editorconfig", "packages.lock.json",
+        "GeneratedCallSiteAdapters.cs", "GeneratedReportAdapter.cs"];
 
     private static readonly (string Historical, string Current)[] _historical =
     [
