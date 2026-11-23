@@ -80,7 +80,7 @@ public sealed class BuildingPresentationTests
     private static Type Subject()
     {
         string path = Path.Combine(path1: ProofProtocol.Root,
-                path2: "src/godot-game/.godot/mono/temp/bin/Debug/KingdomZombies.dll");
+                path2: "src/godot-game/game/.godot/mono/temp/bin/Debug/KingdomZombies.dll");
         var assembly = Assembly.Load(rawAssembly: File.ReadAllBytes(path: path));
         return assembly.GetType(name: "KingdomZombies.Inspection.BuildingPreview", throwOnError: true)
                 ?? throw new InvalidOperationException();

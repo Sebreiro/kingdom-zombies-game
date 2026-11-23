@@ -1,9 +1,9 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const {spawnSync}=require('node:child_process');
-const runner=require('../check.cjs'),content=require('../content.cjs');
+const runner=require('../check.cjs'),content=require('../content.cjs'),{physical}=require('../layout.cjs');
 const {ROOT,need,write,bytes,hash}=content;
-const SCRIPT=path.join(ROOT,'tools/phase4/check.cjs');
+const SCRIPT=path.join(ROOT,'src/godot-game/tools/asset-pipeline/check.cjs');
 const PACKAGED='src/godot-game/content/expected-obligations.json';
 const EXPECTED_SHA256='a4d9243bda1b512b59c189a3bdc48a7cccc8171a218bbfc5ae16b00274f2fda5';
 const ORIGINAL=[['source.tracer','G0',1],['source.tracer-failures','G0',2],['source.provenance','G0',3],
@@ -107,13 +107,13 @@ async function packaged(context){
   function reject(name,edit){const copy=subject(name);edit(copy);let caught;
     try{content.validate(copy.root,copy.index,copy.register);}catch(error){caught=error;}
     const outcome={name,subjectStatus:caught?'fail':'pass',diagnostic:caught?.message??null,
-      indexSha256:hash(Buffer.from(JSON.stringify(copy.index))),registerSha256:fs.existsSync(path.join(copy.root,PACKAGED))?
-        hash(fs.readFileSync(path.join(copy.root,PACKAGED))):null};
+      indexSha256:hash(Buffer.from(JSON.stringify(copy.index))),registerSha256:fs.existsSync(path.join(copy.root,physical(PACKAGED)))?
+        hash(fs.readFileSync(path.join(copy.root,physical(PACKAGED)))):null};
     write(context.directory,name+'.json',outcome);
     need(caught?.message.startsWith('EXPECTED_PACKAGE_INVALID '+PACKAGED+' '),'EXPECTATION_CONTROL',name+' '+caught?.message);
     controls.push(outcome);
   }
-  const replace=(copy,value,refresh=true)=>{fs.writeFileSync(path.join(copy.root,PACKAGED),value);
+  const replace=(copy,value,refresh=true)=>{fs.writeFileSync(path.join(copy.root,physical(PACKAGED)),value);
     if(refresh)copy.index.expectedObligations={path:PACKAGED,bytes:value.length,sha256:hash(value)};};
   for(const [name,edit]of [
     ['missing-reference',x=>{delete x.index.expectedObligations;}],
@@ -122,12 +122,12 @@ async function packaged(context){
     ['reference-case',x=>{x.index.expectedObligations.path=PACKAGED.replace('expected','Expected');}],
     ['reference-alias',x=>{x.index.expectedObligations.path='src/godot-game/content/./expected-obligations.json';}],
     ['reference-escape',x=>{x.index.expectedObligations.path='../expected-obligations.json';}],
-    ['reference-absolute',x=>{x.index.expectedObligations.path=path.join(ROOT,PACKAGED);}],
+    ['reference-absolute',x=>{x.index.expectedObligations.path=path.join(ROOT,physical(PACKAGED));}],
     ['reference-bytes',x=>{x.index.expectedObligations.bytes++;}],
     ['reference-hash',x=>{x.index.expectedObligations.sha256='0'.repeat(64);}],
     ['reference-missing-hash',x=>{delete x.index.expectedObligations.sha256;}],
     ['reference-negative-size',x=>{x.index.expectedObligations.bytes=-1;}],
-    ['missing-register',x=>{fs.unlinkSync(path.join(x.root,PACKAGED));}],
+    ['missing-register',x=>{fs.unlinkSync(path.join(x.root,physical(PACKAGED)));}],
     ['truncated-register',x=>replace(x,source.subarray(0,100))],
     ['unrefreshed-tamper',x=>replace(x,Buffer.concat([source,Buffer.from(' ')]),false)],
     ['invalid-utf8',x=>replace(x,Buffer.from([0xff]))],
@@ -143,20 +143,20 @@ async function packaged(context){
     ['reordered-rows',x=>{x.obligations.reverse();}],['output-derived',x=>{x.obligations=x.obligations.slice(0,1);}]
   ])reject(name,copy=>{const register=JSON.parse(source);edit(register);replace(copy,Buffer.from(JSON.stringify(register,null,2)+'\n'));copy.index.outputs=[];});
   reject('caller-register',copy=>{copy.register=content.expected();copy.register.obligations.pop();});
-  const linked=subject('reparse-register'),file=path.join(linked.root,PACKAGED),target=path.join(context.directory,'external-register');
+  const linked=subject('reparse-register'),file=path.join(linked.root,physical(PACKAGED)),target=path.join(context.directory,'external-register');
   fs.writeFileSync(target,source);fs.unlinkSync(file);fs.linkSync(target,file);
   try{let caught;try{content.validate(linked.root,linked.index);}catch(error){caught=error;}
     need(caught?.message.startsWith('EXPECTED_PACKAGE_INVALID '+PACKAGED+' '),'EXPECTATION_ALIAS_CONTROL');
     controls.push({name:'hardlink-register',subjectStatus:'fail',diagnostic:caught.message});}finally{fs.unlinkSync(file);}
-  const reparse=subject('reparse-parent'),parent=path.join(reparse.root,'src/godot-game/content'),held=path.join(reparse.root,'retained-content');
+  const reparse=subject('reparse-parent'),parent=path.join(reparse.root,physical('src/godot-game/content')),held=path.join(reparse.root,'retained-content');
   fs.renameSync(parent,held);fs.symlinkSync(held,parent,process.platform==='win32'?'junction':'dir');
   try{let caught;try{content.validate(reparse.root,reparse.index);}catch(error){caught=error;}
     need(caught?.message.startsWith('EXPECTED_PACKAGE_INVALID '+PACKAGED+' ')&&caught.message.includes('PATH_REPARSE'),'EXPECTATION_REPARSE_CONTROL');
     controls.push({name:'reparse-parent',subjectStatus:'fail',diagnostic:caught.message});}finally{fs.unlinkSync(parent);}
-  const missingMedia=subject('missing-media');fs.unlinkSync(path.join(missingMedia.root,index.outputs[0].path));
+  const missingMedia=subject('missing-media');fs.unlinkSync(path.join(missingMedia.root,physical(index.outputs[0].path)));
   const missingProof=content.validate(missingMedia.root,missingMedia.index);partial(missingProof);
   need(missingProof.valid.length===0&&missingProof.diagnostics.some(x=>x.code==='OUTPUT_INVALID'),'MISSING_MEDIA_NOT_REPORTED');
-  const shared=require('./provenance.cjs').sharedSubject(context);fs.unlinkSync(path.join(shared.root,shared.index.outputs[0].production.path));
+  const shared=require('./provenance.cjs').sharedSubject(context);fs.unlinkSync(path.join(shared.root,physical(shared.index.outputs[0].production.path)));
   const independent=content.validate(shared.root,shared.index);partial(independent);
   need(independent.valid.length===1&&independent.valid[0].id==='heldout.second-bow','INDEPENDENT_VALID_OUTPUT_HIDDEN');
   const publicationRoot=path.join(context.directory,'publication');
@@ -164,8 +164,8 @@ async function packaged(context){
   const imported=content.readPublished(publicationRoot),generation=path.join(publicationRoot,imported.pointer.generation);
   partial(imported.result);assert.deepEqual(imported.index.expectedObligations,index.expectedObligations);
   assert.deepEqual(imported.index.shards,index.shards);assert.deepEqual(imported.index.outputs,index.outputs);
-  need(bytes(generation,PACKAGED).equals(source)&&!fs.existsSync(path.join(generation,content.EXPECTED)),'PUBLISHED_EXPECTATIONS_NOT_PORTABLE');
-  const generationRegister=path.join(generation,PACKAGED);fs.writeFileSync(generationRegister,Buffer.concat([source,Buffer.from(' ')]));
+  need(bytes(generation,PACKAGED).equals(source)&&!fs.existsSync(path.join(generation,physical(content.EXPECTED))),'PUBLISHED_EXPECTATIONS_NOT_PORTABLE');
+  const generationRegister=path.join(generation,physical(PACKAGED));fs.writeFileSync(generationRegister,Buffer.concat([source,Buffer.from(' ')]));
   let publishedFailure;try{content.readPublished(publicationRoot);}catch(error){publishedFailure=error;}
   need(publishedFailure?.message.startsWith('EXPECTED_PACKAGE_INVALID '+PACKAGED+' '),'PUBLISHED_EXPECTATIONS_TAMPER_ACCEPTED');
   write(context.directory,'published-tamper.json',{subjectStatus:'fail',diagnostic:publishedFailure.message});
@@ -181,8 +181,8 @@ async function packaged(context){
   const actual=content.normalizeCurrent(ROOT),currentRoot=path.join(context.directory,'current-publication'),current=await content.publish({sourceRoot:ROOT,index:actual,publicationRoot:currentRoot,invocation:context.nonce+'-current-register'}),currentRead=content.readPublished(currentRoot),currentGeneration=path.join(currentRoot,currentRead.pointer.generation);
   need(current.sourceComplete&&current.accepted===0&&currentRead.result.sourceReady.length===180&&!current.complete,'CURRENT_EXPECTATIONS_SOURCE_READINESS');
   assert.deepEqual(currentRead.result.sourceReady,content.expected().obligations.map(x=>x.id).sort());
-  need(bytes(currentGeneration,PACKAGED).equals(source)&&!fs.existsSync(path.join(currentGeneration,content.EXPECTED)),'CURRENT_EXPECTATIONS_PORTABLE');
-  const currentRegister=path.join(currentGeneration,PACKAGED);fs.writeFileSync(currentRegister,Buffer.concat([source,Buffer.from(' ')]));let actualFailure;try{content.readPublished(currentRoot);}catch(error){actualFailure=error;}
+  need(bytes(currentGeneration,PACKAGED).equals(source)&&!fs.existsSync(path.join(currentGeneration,physical(content.EXPECTED))),'CURRENT_EXPECTATIONS_PORTABLE');
+  const currentRegister=path.join(currentGeneration,physical(PACKAGED));fs.writeFileSync(currentRegister,Buffer.concat([source,Buffer.from(' ')]));let actualFailure;try{content.readPublished(currentRoot);}catch(error){actualFailure=error;}
   need(actualFailure?.message.startsWith('EXPECTED_PACKAGE_INVALID '+PACKAGED+' '),'CURRENT_EXPECTATIONS_TAMPER_ACCEPTED');fs.writeFileSync(currentRegister,source);
   const currentRestored=content.readPublished(currentRoot);need(currentRestored.result.sourceComplete&&currentRestored.result.valid.length===180,'CURRENT_EXPECTATIONS_RESTORED');
   write(context.directory,'current-portable-expectations.json',{current,portablePackageSha256:hash(source),sourceOnlyRegisterAbsent:true,tamperRejected:actualFailure.message,restoredSourceIds:currentRestored.result.sourceReady,runtimePaths:actual.files.filter(x=>x.role==='runtime').length,accepted:0});

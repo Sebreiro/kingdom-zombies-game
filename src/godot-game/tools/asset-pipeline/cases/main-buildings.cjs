@@ -6,9 +6,9 @@ const ART_FILES=['src/godot-game/assets/buildings/main-tiers.png','src/godot-gam
 function fingerprint(files){return files.map(file=>({file,sha256:hash(bytes(ROOT,file,67108864))}));}
 const VERIFY=String.raw`import sys,pathlib,json,zipfile,io,hashlib,copy,importlib.util
 sys.dont_write_bytecode=True
-root=pathlib.Path(sys.argv[1]);spec=importlib.util.spec_from_file_location('media',root/'tools/phase4/extract-media.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);Image=m.image_module()
-data=m.read_archive(root/'production/phase4/main-buildings.zip');pack=m.loads(data['main-buildings.json']);atlas=Image.open(io.BytesIO(data['main-tiers.png'])).convert('RGBA')
-m.need(data['main-buildings.json']==(root/'src/godot-game/content/packs/main-buildings.json').read_bytes(),'BUILDING_PACK_BYTES');m.need(data['main-tiers.png']==(root/'src/godot-game/assets/buildings/main-tiers.png').read_bytes(),'BUILDING_ATLAS_BYTES')
+root=pathlib.Path(sys.argv[1]);spec=importlib.util.spec_from_file_location('media',root/'src/godot-game/tools/asset-pipeline/extract-media.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);Image=m.image_module()
+data=m.read_archive(root/'src/godot-game/production/assets/main-buildings.zip');pack=m.loads(data['main-buildings.json']);atlas=Image.open(io.BytesIO(data['main-tiers.png'])).convert('RGBA')
+m.need(data['main-buildings.json']==(root/'src/godot-game/game/content/packs/main-buildings.json').read_bytes(),'BUILDING_PACK_BYTES');m.need(data['main-tiers.png']==(root/'src/godot-game/game/assets/buildings/main-tiers.png').read_bytes(),'BUILDING_ATLAS_BYTES')
 inventory=m.loads(data['members.json']);m.need(len(inventory)+1==len(data) and len({x['path'] for x in inventory})==len(inventory),'BUILDING_INVENTORY')
 for row in inventory:m.need(row['path'] in data and row['bytes']==len(data[row['path']]) and row['sha256']==m.sha(data[row['path']]),'BUILDING_MEMBER_HASH')
 def binary(im):
@@ -33,7 +33,7 @@ def verify(p,d):
  m.need(p['id']=='main-buildings' and p['schemaVersion']==1 and p['version']==1,'BUILDING_ID')
  m.need(p['logicalPixelsPerWorldPixel']==1 and 'D-13 LOW-RESOLUTION OVERRIDES' in p['stylePrecedence'],'BUILDING_STYLE')
  m.need(p['acceptance']=={'visual':'pending','owner':'04-32/04-33','humanApproval':None,'completedObligations':[]},'BUILDING_ACCEPTANCE')
- m.need(p['commonBundleSha256']==m.digest(root/'production/phase4/common-selected.zip') and p['pilotBundleSha256']==m.digest(root/'production/phase4/scale-pilot.zip'),'BUILDING_LINEAGE')
+ m.need(p['commonBundleSha256']==m.digest(root/'src/godot-game/production/assets/common-selected.zip') and p['pilotBundleSha256']==m.digest(root/'src/godot-game/production/assets/scale-pilot.zip'),'BUILDING_LINEAGE')
  m.need(p['atlas']['sha256']==m.sha(d['main-tiers.png']) and p['atlas']['size']==list(atlas.size),'BUILDING_ATLAS')
  m.need([x['tier'] for x in p['tiers']]==[1,2,3] and [x['id'] for x in p['tiers']]==['BL-01','BL-02','BL-03'],'BUILDING_TIERS')
  m.need([x['material'] for x in p['tiers']]==['campfire/rough-boxes','wood','metal-reinforced-wood'],'BUILDING_MATERIALS')
@@ -98,7 +98,7 @@ runner.registerCase('buildings.main-art',{group:'buildings',title:'Three actual 
  actions:['Authenticate exact bundle/member/project bytes','Reproduce47 actual material/lifecycle/guard inputs from retained selected/generated art','Independently reconstruct three main silhouettes and12 lifecycle compositions','Reject12 independent semantic faults'],
  expected:'Three exact materials, no baked guards, binary alpha, localized increasing damage, reusable repair/upgrade/ruin inputs and12 rejected controls',reset:'Fresh owned immutable source invocation; no real game window',
  evidence:['inputs.json','buildings-art.command.json','negative-controls.json','result.json']},art);
-const STATE_FILES=[...ART_FILES,'src/godot-game/inspection/BuildingPreview.cs','src/godot-game/content/world/main-assemblies.json','src/godot-game/content/packs/camp-access.json','tests/phase1/BuildingPresentationTests.cs'];
+const STATE_FILES=[...ART_FILES,'src/godot-game/inspection/BuildingPreview.cs','src/godot-game/content/world/main-assemblies.json','src/godot-game/content/packs/camp-access.json','src/godot-game/tests/verification/BuildingPresentationTests.cs'];
 function validateState(a,s,p){
  need(a.schemaVersion===1&&a.id==='main-assemblies'&&a.sampleDataOnly===true&&s.id==='camp-access','BUILDING_STATE_ID');
  need(equal(a.tierDefinitions.map(x=>x.repairPrice),[50,150,400]),'BUILDING_FIXED_REPAIR_FEES');
@@ -207,7 +207,7 @@ public sealed partial class BuildingHarness : Node
 `;
 function isolated(){const base=path.join(ROOT,'.phase1');return {...process.env,DOTNET_CLI_HOME:path.join(base,'cli-home'),NUGET_PACKAGES:path.join(base,'packages'),NUGET_HTTP_CACHE_PATH:path.join(base,'http-cache'),TEMP:path.join(base,'temp'),TMP:path.join(base,'temp'),PHASE1_ROOT:ROOT};}
 async function compiled(context){
- const assembly=inside(ROOT,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll');
+ const assembly=inside(ROOT,'src/godot-game/tests/verification/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll');
  const discovery=await runner.command(context,'buildings-discovery','dotnet',[assembly,'--list-tests','--filter-class','*BuildingPresentationTests','--no-ansi'],{env:isolated()});
  const names=[...discovery.stdout.matchAll(/BuildingPresentationTests\.([A-Za-z0-9_]+)/g)].map(x=>x[1]);
  const expected={Pending_Upgrade_RetainsCompletedTier:1,Work_UpgradeProgress_ProjectsCapacityAndGuardsTogether:8,Work_InvalidState_IsRejected:7,Definition_ValidAndAmbiguousInputs_DetachesAndRejects:1};
@@ -219,20 +219,20 @@ async function compiled(context){
 }
 async function nativeState(context){
  const project=inside(context.directory,'native-building');fs.mkdirSync(project);write(project,'Directory.Build.props',Buffer.from('<Project />'));write(project,'Directory.Build.targets',Buffer.from('<Project />'));
- const original=inside(ROOT,'src/godot-game/.godot/mono/temp/bin/Debug');fs.cpSync(original,inside(project,'subjects'),{recursive:true});
+ const original=inside(ROOT,'src/godot-game/game/.godot/mono/temp/bin/Debug');fs.cpSync(original,inside(project,'subjects'),{recursive:true});
  const closure=fs.readdirSync(original).filter(x=>fs.statSync(path.join(original,x)).isFile()).map(file=>({file,sha256:hash(fs.readFileSync(path.join(original,file)))}));write(context.directory,'production-assemblies.json',closure);
  const proj='<Project Sdk="Godot.NET.Sdk/4.7.2"><PropertyGroup><TargetFramework>net10.0</TargetFramework><AssemblyName>MainBuildingProof</AssemblyName><Nullable>enable</Nullable><EnableDynamicLoading>true</EnableDynamicLoading></PropertyGroup></Project>';
  write(project,'MainBuildingProof.csproj',Buffer.from(proj));write(project,'BuildingHarness.cs',Buffer.from(HARNESS));
  write(project,'project.godot',Buffer.from('config_version=5\n[application]\nconfig/name="MainBuildingProof"\n[dotnet]\nproject/assembly_name="MainBuildingProof"\n[display]\nwindow/size/viewport_width=1280\nwindow/size/viewport_height=720\n[rendering]\nrenderer/rendering_method="gl_compatibility"\n'));
- for(const file of STATE_FILES.filter(x=>x.startsWith('src/godot-game/')&&!x.endsWith('.cs')))write(project,file.replace('src/godot-game/',''),bytes(ROOT,file));
+ for(const file of STATE_FILES.filter(x=>require('../layout.cjs').physical(x).startsWith('src/godot-game/game/')&&!x.endsWith('.cs')))write(project,file.replace('src/godot-game/',''),bytes(ROOT,file));
  write(project,'probe.gd',Buffer.from('extends SceneTree\nfunc _initialize():\n var proof=load("res://BuildingHarness.cs").new()\n root.add_child(proof)\n'));
  const harnessBuild=await runner.command(context,'buildings-harness-build','dotnet',['build',inside(project,'MainBuildingProof.csproj'),'--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-p:RestoreIgnoreFailedSources=true','-v:q'],{env:isolated()});
  need(/0 Warning\(s\)[\s\S]*0 Error\(s\)/.test(harnessBuild.stdout),'BUILDING_HARNESS_CLEAN_BUILD');
- const tool=engine(),pin=document(ROOT,'tools/phase1/toolchain.json').archives['win32-x64'];
+ const tool=engine(),pin=document(ROOT,'src/godot-game/tools/verification/toolchain.json').archives['win32-x64'];
  const archive=inside(ROOT,'.phase1/cache/'+pin.file),name=pin.executable.replace('_console.exe','.exe');
  need(fs.statSync(archive).size<=268435456&&hash(fs.readFileSync(archive))===pin.sha256,'BUILDING_ARCHIVE_PIN');
  const authentication=await runner.command(context,'buildings-native-tool-origin','powershell.exe',['-NoProfile','-NonInteractive','-Command',
-  "Add-Type -AssemblyName System.IO.Compression.FileSystem; $zip=[IO.Compression.ZipFile]::OpenRead('D:/Work/Games/KingdomZombies/.phase1/cache/Godot_v4.7.2-stable_mono_win64.zip'); try { $entry=$zip.Entries | Where-Object { $_.FullName -ceq 'Godot_v4.7.2-stable_mono_win64/Godot_v4.7.2-stable_mono_win64.exe' }; if(@($entry).Count -ne 1 -or $entry.Length -le 0 -or $entry.Length -gt 268435456){throw 'ARCHIVE_ENTRY'}; $stream=$entry.Open(); try { $sha=[Security.Cryptography.SHA256]::Create(); [BitConverter]::ToString($sha.ComputeHash($stream)).Replace('-','').ToLowerInvariant() } finally { $stream.Dispose() } } finally { $zip.Dispose() }"]);
+  "Add-Type -AssemblyName System.IO.Compression.FileSystem; $zip=[IO.Compression.ZipFile]::OpenRead('"+inside(ROOT,'.phase1/cache/Godot_v4.7.2-stable_mono_win64.zip').replaceAll("'","''")+"'); try { $entry=$zip.Entries | Where-Object { $_.FullName -ceq 'Godot_v4.7.2-stable_mono_win64/Godot_v4.7.2-stable_mono_win64.exe' }; if(@($entry).Count -ne 1 -or $entry.Length -le 0 -or $entry.Length -gt 268435456){throw 'ARCHIVE_ENTRY'}; $stream=$entry.Open(); try { $sha=[Security.Cryptography.SHA256]::Create(); [BitConverter]::ToString($sha.ComputeHash($stream)).Replace('-','').ToLowerInvariant() } finally { $stream.Dispose() } } finally { $zip.Dispose() }"]);
  const executable=path.join(path.dirname(tool.executable),name),nativeHash=hash(fs.readFileSync(executable));need(/^[a-f0-9]{64}$/.test(authentication.stdout.trim())&&nativeHash===authentication.stdout.trim(),'BUILDING_NATIVE_ENTRY_PIN');
  write(context.directory,'engine.json',{...tool,consoleExecutable:tool.executable,executable,sha256:nativeHash,archiveSha256:pin.sha256,archiveEntry:pin.directory+'/'+name});
  const version=await runner.command(context,'buildings-engine-version',executable,['--headless','--version']);need(version.stdout.trim()===tool.version,'BUILDING_ENGINE_VERSION');
@@ -247,7 +247,7 @@ async function state(context){
  const before=fingerprint(STATE_FILES);write(context.directory,'inputs.json',before);
  const assembly=document(ROOT,'src/godot-game/content/world/main-assemblies.json'),access=document(ROOT,'src/godot-game/content/packs/camp-access.json'),pack=document(ROOT,'src/godot-game/content/packs/main-buildings.json');
  const controls=stateControls(assembly,access,pack);write(context.directory,'negative-controls.json',controls);
- await runner.command(context,'buildings-strict-build','dotnet',['build',inside(ROOT,'KingdomZombies.slnx'),'--no-restore','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'],{env:isolated()});
+ await runner.command(context,'buildings-strict-build','dotnet',['build',inside(ROOT,'src/godot-game/KingdomZombies.slnx'),'--no-restore','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'],{env:isolated()});
  const tests=await compiled(context),native=await nativeState(context);need(equal(before,fingerprint(STATE_FILES)),'BUILDING_SOURCE_CHANGED');return {samples:12,layouts:[8,12,16],expectedRejected:controls.length,compiled:tests,native,scope:'Actual compiled source and native headless behavior only; current hub adoption04-23 and rendered04-32/33 acceptance remain pending'};
 }
 runner.registerCase('buildings.main-state',{group:'buildings',title:'Actual guarded main lifecycle, shared access, capacity and independent one-guard attachments',importance:'Critical',rationale:'Premature upgrade functions, independent attachment ownership or replayed defeat corrupt required building presentation',needsGameWindow:false,runGroup:'G0',order:25,

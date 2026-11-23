@@ -9,7 +9,7 @@ const DURABLE_PHASE1 = new Set(['cache', 'cli-home', 'dotnet-home', 'feed', 'htt
 const BUILD_NAMES = new Set(['bin', 'obj', '.godot']);
 const RUNNER_LOCKS = ['.phase1/check.lock', '.phase2/desktop.lock'];
 const NESTED_REASON = 'contains a Git worktree or repository';
-const USAGE = `Usage: node tools/workspace-cleanup.cjs [--apply] [--build] [--worktrees-only] [--remove-worktree <path>]...
+const USAGE = `Usage: node src/godot-game/tools/workspace-cleanup.cjs [--apply] [--build] [--worktrees-only] [--remove-worktree <path>]...
 
 Without --apply, only reports what would be deleted.
   --apply                   Delete the listed task outputs and prune missing worktrees.

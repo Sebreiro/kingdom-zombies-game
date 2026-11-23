@@ -7,9 +7,9 @@ const ART_INPUTS=[...ART_FILES,'production/phase4/common-selected.zip','producti
 function fingerprint(files){return files.map(file=>({file,sha256:hash(bytes(ROOT,file))}));}
 const VERIFY=String.raw`import sys,pathlib,json,io,hashlib,copy,importlib.util
 sys.dont_write_bytecode=True
-root=pathlib.Path(sys.argv[1]);spec=importlib.util.spec_from_file_location('media',root/'tools/phase4/extract-media.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);Image=m.image_module()
-d=m.read_archive(root/'production/phase4/defenses.zip');p=m.loads(d['defenses.json']);atlas=Image.open(io.BytesIO(d['defenses.png'])).convert('RGBA')
-m.need(d['defenses.json']==(root/'src/godot-game/content/packs/defenses.json').read_bytes(),'DEFENSE_PACK_BYTES');m.need(d['defenses.png']==(root/'src/godot-game/assets/buildings/defenses.png').read_bytes(),'DEFENSE_ATLAS_BYTES')
+root=pathlib.Path(sys.argv[1]);spec=importlib.util.spec_from_file_location('media',root/'src/godot-game/tools/asset-pipeline/extract-media.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);Image=m.image_module()
+d=m.read_archive(root/'src/godot-game/production/assets/defenses.zip');p=m.loads(d['defenses.json']);atlas=Image.open(io.BytesIO(d['defenses.png'])).convert('RGBA')
+m.need(d['defenses.json']==(root/'src/godot-game/game/content/packs/defenses.json').read_bytes(),'DEFENSE_PACK_BYTES');m.need(d['defenses.png']==(root/'src/godot-game/game/assets/buildings/defenses.png').read_bytes(),'DEFENSE_ATLAS_BYTES')
 inventory=m.loads(d['members.json']);m.need(len(inventory)+1==len(d) and len({r['path'] for r in inventory})==len(inventory),'DEFENSE_INVENTORY')
 for r in inventory:m.need(r['path'] in d and r['bytes']==len(d[r['path']]) and r['sha256']==m.sha(d[r['path']]),'DEFENSE_MEMBER_HASH')
 def verify(p,d):
@@ -41,7 +41,7 @@ def verify(p,d):
   coverage=sum(bool(a) for a in a.getchannel('A').tobytes())/(a.width*a.height);m.need(coverage<=p['visibility']['workOverlayMaxCoverage']<=0.48,'DEFENSE_OVERLAY_READABILITY')
  m.need(p['siteStates']==['unbuilt','available','tree-blocked','portal-blocked','main-tier-blocked','unaffordable','new-frame','damaged-unfinished','intact','damage-light','damage-heavy','upgrade-paid','upgrade-complete','repair-paid','repair-complete','unsafe-waiting','no-worker-waiting','destroyed','rebuild-paid','rebuild-complete','restore-destroyed','restore-upgrade'],'DEFENSE_SITE_STATES')
  m.need(p['visibility']=={'intactAbove':0.75,'lightDamageAbove':0.4,'heavyDamageAbove':0,'newFrameMaxHealthFraction':0.25,'workOverlayMaxCoverage':0.48,'oldFunctionalTierUntilProgress':1,'rubblePreservesCompletedTier':True,'noGuardLoot':True,'frameTileScale':1},'DEFENSE_VISIBILITY')
- m.need(p['sources']['commonBundleSha256']==m.digest(root/'production/phase4/common-selected.zip') and p['sources']['mainBundleSha256']==m.digest(root/'production/phase4/main-buildings.zip'),'DEFENSE_LINEAGE')
+ m.need(p['sources']['commonBundleSha256']==m.digest(root/'src/godot-game/production/assets/common-selected.zip') and p['sources']['mainBundleSha256']==m.digest(root/'src/godot-game/production/assets/main-buildings.zip'),'DEFENSE_LINEAGE')
  m.need(len(p['sources']['generated'])==3,'DEFENSE_GENERATED_COUNT')
  for r in p['sources']['generated']:
   m.need(r['tool']=='built-in image_gen' and r['master'] in d and r['sha256']==m.sha(d[r['master']]) and r['promptSha256']==m.sha(d[r['prompt']]),'DEFENSE_MASTER')
@@ -133,16 +133,16 @@ function isolated(){const base=path.join(ROOT,'.phase1');return {...process.env,
 async function nativeState(context){
  const project=inside(context.directory,'native-defense');fs.mkdirSync(project);
  write(project,'Directory.Build.props',Buffer.from('<Project />'));write(project,'Directory.Build.targets',Buffer.from('<Project />'));
- const original=inside(ROOT,'src/godot-game/.godot/mono/temp/bin/Debug');fs.cpSync(original,inside(project,'subjects'),{recursive:true});
+ const original=inside(ROOT,'src/godot-game/game/.godot/mono/temp/bin/Debug');fs.cpSync(original,inside(project,'subjects'),{recursive:true});
  const closure=fs.readdirSync(original).filter(file=>fs.statSync(path.join(original,file)).isFile()).map(file=>({file,sha256:hash(fs.readFileSync(path.join(original,file)))}));write(context.directory,'production-assemblies.json',closure);
  write(project,'DefenseProof.csproj',Buffer.from('<Project Sdk="Godot.NET.Sdk/4.7.2"><PropertyGroup><TargetFramework>net10.0</TargetFramework><AssemblyName>DefenseProof</AssemblyName><Nullable>enable</Nullable><EnableDynamicLoading>true</EnableDynamicLoading><TreatWarningsAsErrors>true</TreatWarningsAsErrors></PropertyGroup></Project>'));
  write(project,'DefenseHarness.cs',Buffer.from(HARNESS));write(project,'controls.json',NEGATIVES);
  write(project,'project.godot',Buffer.from('config_version=5\n[application]\nconfig/name="DefenseProof"\n[dotnet]\nproject/assembly_name="DefenseProof"\n[display]\nwindow/size/viewport_width=1280\nwindow/size/viewport_height=720\n[rendering]\nrenderer/rendering_method="gl_compatibility"\n'));
- for(const file of [...ART_FILES,...STATE_OWN].filter(file=>file.startsWith('src/godot-game/')&&!file.endsWith('.cs')))write(project,file.replace('src/godot-game/',''),bytes(ROOT,file));
+ for(const file of [...ART_FILES,...STATE_OWN].filter(file=>require('../layout.cjs').physical(file).startsWith('src/godot-game/game/')&&!file.endsWith('.cs')))write(project,file.replace('src/godot-game/',''),bytes(ROOT,file));
  write(project,'probe.gd',Buffer.from('extends SceneTree\nfunc _initialize():\n var proof=load("res://DefenseHarness.cs").new()\n root.add_child(proof)\n'));
  const build=await runner.command(context,'defenses-harness-build','dotnet',['build',inside(project,'DefenseProof.csproj'),'--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-p:RestoreIgnoreFailedSources=true','-v:q'],{env:isolated()});
  need(/0 Warning\(s\)[\s\S]*0 Error\(s\)/.test(build.stdout),'DEFENSE_HARNESS_CLEAN');
- const tool=require('./items.cjs').engine(),pin=document(ROOT,'tools/phase1/toolchain.json').archives['win32-x64'];
+ const tool=require('./items.cjs').engine(),pin=document(ROOT,'src/godot-game/tools/verification/toolchain.json').archives['win32-x64'];
  const archive=inside(ROOT,'.phase1/cache/'+pin.file);need(fs.statSync(archive).size<=268435456&&hash(fs.readFileSync(archive))===pin.sha256,'DEFENSE_ARCHIVE_PIN');
  const executable=path.join(path.dirname(tool.executable),pin.executable.replace('_console.exe','.exe')),entry=pin.directory+'/'+path.basename(executable);
  const auth=await runner.command(context,'defenses-engine-auth',PYTHON,['-B','-c','import sys,zipfile,hashlib; z=zipfile.ZipFile(sys.argv[1]); n=sys.argv[2]; rows=[r for r in z.infolist() if r.filename==n]; assert len(rows)==1 and 0<rows[0].file_size<=268435456; print(hashlib.sha256(z.read(n)).hexdigest())',archive,entry]);
@@ -164,7 +164,7 @@ async function nativeState(context){
 async function state(context){
  const before=fingerprint(stateFiles());write(context.directory,'inputs.json',before);write(context.directory,'verify-guards.py',Buffer.from(GUARD_VERIFY));
  const source=await runner.command(context,'defenses-guard-source',PYTHON,['-B',inside(context.directory,'verify-guards.py'),ROOT]);const guardSource=JSON.parse(source.stdout);
- const build=await runner.command(context,'defenses-strict-build','dotnet',['build',inside(ROOT,'KingdomZombies.slnx'),'--no-restore','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'],{env:isolated()});
+ const build=await runner.command(context,'defenses-strict-build','dotnet',['build',inside(ROOT,'src/godot-game/KingdomZombies.slnx'),'--no-restore','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'],{env:isolated()});
  need(/0 Warning\(s\)[\s\S]*0 Error\(s\)/.test(build.stdout),'DEFENSE_PRODUCTION_CLEAN');
  const native=await nativeState(context);need(equal(before,fingerprint(stateFiles())),'DEFENSE_SOURCE_CHANGED');
  return {guardSource,native,scope:'Actual production/native headless defense contract only; main original regression remains buildings.main-state; whole-phase reviewed actual input/appearance pending04-32/33'};
@@ -648,7 +648,7 @@ public sealed partial class DefenseHarness : Node
 `;
 const GUARD_VERIFY=String.raw`import sys,pathlib,json,zipfile,io,hashlib
 from PIL import Image
-root=pathlib.Path(sys.argv[1]);p=json.loads((root/'src/godot-game/content/packs/guards.json').read_bytes());b=(root/'src/godot-game/assets/characters/structural-guard.png').read_bytes();sha=lambda b:hashlib.sha256(b).hexdigest()
+root=pathlib.Path(sys.argv[1]);p=json.loads((root/'src/godot-game/game/content/packs/guards.json').read_bytes());b=(root/'src/godot-game/game/assets/characters/structural-guard.png').read_bytes();sha=lambda b:hashlib.sha256(b).hexdigest()
 assert p['id']=='guards' and p['atlas']['sha256']==sha(b),'GUARD_ATLAS'
 atlas=Image.open(io.BytesIO(b)).convert('RGBA');assert list(atlas.size)==[256,64] and p['atlas']['rgbaSha256']==sha(atlas.tobytes()),'GUARD_PIXELS'
 assert set(atlas.getchannel('A').tobytes())<={0,255},'GUARD_ALPHA'
@@ -670,7 +670,7 @@ with zipfile.ZipFile(root/p['sourceBundle']['path']) as z:
 assert p['timing']=={'start':0,'stop':0.625,'sampleRate':8,'interval':1.4,'release':0.25,'arrowLifetime':0.375,'arrowSpeed':72},'GUARD_TIMING'
 assert sha(p['recipe']['code'].encode())==p['recipe']['sha256'],'GUARD_RECIPE'
 assert p['ownership']['mainAttachments']=={'tier':3,'count':2,'profileTier':1,'healthOwner':'main','phase':[0,0.7]},'GUARD_MAIN_TWO'
-a=json.loads((root/'src/godot-game/content/world/defense-assemblies.json').read_bytes())
+a=json.loads((root/'src/godot-game/game/content/world/defense-assemblies.json').read_bytes())
 assert [(r['id'],len(r['sockets'])) for r in a['tierDefinitions']]==[('wall-1',0),('wall-2',0),('wall-3',0),('tower-1',1),('tower-2',2),('tower-3',3)],'DEFENSE_GUARDS'
 assert [r['id'] for r in a['scenarios']]==['H12-defense-boundaries','H14-structural-empty'] and all(r['status']=='actual input/appearance pending04-32' for r in a['scenarios']),'DEFENSE_ACTUAL_PENDING'
 print(json.dumps({'parts':11,'splitFrames':5,'reconstructedFrames':5,'arrowReused':True,'samples':len(a['samples']),'heldOut':['H12-defense-boundaries','H14-structural-empty']}))

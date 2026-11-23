@@ -526,8 +526,9 @@ public sealed class RunnerContractTests
 
     private static void VerifyCapacityDeclarations()
     {
-        string script = "const c=require('./tools/phase1/check.cjs'),a=require('node:assert/strict');"
-                + "const m=require('./tools/phase1/required-cases.json'),row=m.cases[0];"
+        string script = "const c=require('./src/godot-game/tools/verification/"
+                + "check.cjs'),a=require('node:assert/strict');"
+                + "const m=require('./src/godot-game/tools/verification/required-cases.json'),row=m.cases[0];"
                 + "a.deepEqual(m.cases.filter(r=>Object.hasOwn(r,'childTimeoutMs'))"
                 + ".map(r=>[r.id,r.childTimeoutMs]).sort(),[['R-67.positive',60000],['ac-08.complete',75000],"
                 + "['engine.generated-boundary',120000],['rules.godot-companion-negative',60000]]);"
@@ -586,7 +587,7 @@ public sealed class RunnerContractTests
 
     private static void SetCaseCapacity(RunnerProcessFixture fixture, int? capacity)
     {
-        string path = Path.Combine(path1: fixture.Root, path2: "tools/phase1/required-cases.json");
+        string path = Path.Combine(path1: fixture.Root, path2: "src/godot-game/tools/verification/required-cases.json");
         JsonObject manifest = RegisterValidator.Parse(bytes: File.ReadAllBytes(path: path));
         JsonObject row = manifest["cases"]?.AsArray()[0]?.AsObject()
                 ?? throw new InvalidDataException(message: "CASE_CAPACITY_ROW_REQUIRED");

@@ -172,26 +172,26 @@ public sealed class AppearanceStateTests
         {
             var options = new CSharpParseOptions(languageVersion: LanguageVersion.CSharp14);
             Compile(source: Identity);
-            ArchitecturePolicy.Visibility(root: temporary, source: Identity, path: "src/core/AppearanceState.cs",
-                    options: options).ShouldBeEmpty();
-            ArchitecturePolicy.Visibility(root: temporary, source: Identity, path: "src/core/appearanceState.cs",
-                    options: options).Count.ShouldBe(expected: 1);
+            ArchitecturePolicy.Visibility(root: temporary, source: Identity,
+                    path: "src/godot-game/core/AppearanceState.cs", options: options).ShouldBeEmpty();
+            ArchitecturePolicy.Visibility(root: temporary, source: Identity,
+                    path: "src/godot-game/core/appearanceState.cs", options: options).Count.ShouldBe(expected: 1);
             const string Adjacent = Identity + " public sealed class Adjacent { }";
             Compile(source: Adjacent);
-            ArchitecturePolicy.Visibility(root: temporary, source: Adjacent, path: "src/core/AppearanceState.cs",
-                    options: options).Count.ShouldBe(expected: 1);
+            ArchitecturePolicy.Visibility(root: temporary, source: Adjacent,
+                    path: "src/godot-game/core/AppearanceState.cs", options: options).Count.ShouldBe(expected: 1);
             JsonObject expanded = (JsonNode.Parse(json: registry) ?? throw new InvalidDataException()).AsObject();
             JsonArray rows = (expanded["permissions"] ?? throw new InvalidDataException()).AsArray();
             rows.Count.ShouldBe(expected: 19);
             rows.Add(item: new JsonObject
             {
-                ["path"] = "src/core/AppearanceState.cs",
+                ["path"] = "src/godot-game/core/AppearanceState.cs",
                 ["type"] = "KingdomZombies.Core.Adjacent",
                 ["reason"] = "unapproved adjacent identity"
             });
             File.WriteAllText(path: file, contents: expanded.ToJsonString());
-            ArchitecturePolicy.Visibility(root: temporary, source: Adjacent, path: "src/core/AppearanceState.cs",
-                    options: options).Single().ShouldBe(
+            ArchitecturePolicy.Visibility(root: temporary, source: Adjacent,
+                    path: "src/godot-game/core/AppearanceState.cs", options: options).Single().ShouldBe(
                             expected: "R-34: invalid or expanded exact visibility registry");
         }
         finally
@@ -208,7 +208,7 @@ public sealed class AppearanceStateTests
     private static AppearanceState Actual()
     {
         return new AppearanceState(definition: File.ReadAllBytes(path: Path.Combine(path1: ProofProtocol.Root,
-                path2: "src/godot-game/content/packs/corpses-wildlife.json")));
+                path2: "src/godot-game/game/content/packs/corpses-wildlife.json")));
     }
 
     private static JsonElement Gear(string? backpack = null)

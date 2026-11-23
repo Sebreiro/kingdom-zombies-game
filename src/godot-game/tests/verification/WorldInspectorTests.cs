@@ -145,7 +145,7 @@ public sealed class WorldInspectorTests
     private static Type Subject()
     {
         var assembly = Assembly.Load(rawAssembly: File.ReadAllBytes(path: Path.Combine(path1: ProofProtocol.Root,
-                path2: "src/godot-game/.godot/mono/temp/bin/Debug/KingdomZombies.dll")));
+                path2: "src/godot-game/game/.godot/mono/temp/bin/Debug/KingdomZombies.dll")));
         return assembly.GetType(name: "KingdomZombies.Inspection.WorldPreview", throwOnError: true)
                 ?? throw new InvalidOperationException();
     }

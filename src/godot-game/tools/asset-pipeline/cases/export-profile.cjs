@@ -20,8 +20,8 @@ const PRESET_OPTIONS={platform:'Windows Desktop',export_filter:'all_resources',
   'custom_template/debug':'@WINDOWS_DEBUG_TEMPLATE@','custom_template/release':'@WINDOWS_RELEASE_TEMPLATE@',
   'binary_format/architecture':'x86_64','binary_format/embed_pck':false,'dotnet/include_scripts_content':false,
   'dotnet/include_debug_symbols':true,'dotnet/embed_build_outputs':false};
-const PROJECT_FILES=['src/core/KingdomZombies.Core.csproj','src/multiplayer-abstractions/KingdomZombies.Multiplayer.Abstractions.csproj',
-  'src/godot-game/KingdomZombies.csproj','tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj','tests/phase1/KingdomZombies.Phase1.Tests.csproj'];
+const PROJECT_FILES=['src/godot-game/core/KingdomZombies.Core.csproj','src/godot-game/multiplayer-abstractions/KingdomZombies.Multiplayer.Abstractions.csproj',
+  'src/godot-game/KingdomZombies.csproj','src/godot-game/tools/code-rules/Sebreiro.CodeRules.Analyzers.csproj','src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj'];
 function need(value,code,detail){if(!value)throw new Error(code+' '+detail);}
 function read(root,file){const target=runner.inside(root,file);need(fs.existsSync(target),'PROFILE_RESOURCE_MISSING',file);
   const limit=file===THEME?THEME_LIMIT:RESOURCE_LIMIT,fd=fs.openSync(target,'r');
@@ -95,29 +95,30 @@ function validate(root){
   for(const relative of profile.resources){need(typeof relative==='string'&&relative.startsWith('src/godot-game/'),
     'PROFILE_RESOURCE_PATH',PROFILE+' '+relative);read(root,relative);}
   sceneClosure(root,profile.resources);
-  const graph=read(root,'tools/phase1/projects.json');need(runner.hash(graph)===profile.sourceContract.projectGraphSha256,'PROFILE_GRAPH','tools/phase1/projects.json');
+  const graph=read(root,'src/godot-game/tools/verification/projects.json');need(runner.hash(graph)===profile.sourceContract.projectGraphSha256,'PROFILE_GRAPH','src/godot-game/tools/verification/projects.json');
   return profile;
 }
-function snapshot(root){const profile=validate(root);return Object.fromEntries([PROFILE,PROJECT,PRESET,'tools/phase1/projects.json',
-  'tools/phase1/toolchain.json','tools/phase4/check.cjs','tools/phase4/cases/export-profile.cjs',...PROJECT_FILES,
+function snapshot(root){const profile=validate(root);return Object.fromEntries([PROFILE,PROJECT,PRESET,'src/godot-game/tools/verification/projects.json',
+  'src/godot-game/tools/verification/toolchain.json','tools/phase4/check.cjs','tools/phase4/cases/export-profile.cjs',...PROJECT_FILES,
   'src/godot-game/content/expected-obligations.json',
   ...Object.keys(sceneClosure(root,profile.resources))].map(file=>[file,runner.hash(read(root,file))]));}
 function productionSources(){
-  const files=['Directory.Build.props','Directory.Build.targets','Directory.Packages.props','global.json',
-    'BannedSymbols.txt','.editorconfig',...PROJECT_FILES];
+  const files=['src/godot-game/Directory.Build.props','src/godot-game/Directory.Build.targets',
+    'src/godot-game/Directory.Packages.props','src/godot-game/global.json','src/godot-game/build/BannedSymbols.txt','.editorconfig',
+    ...PROJECT_FILES];
   function walk(directory){for(const entry of fs.readdirSync(runner.inside(ROOT,directory),{withFileTypes:true})){
     const file=directory+'/'+entry.name;
     if(entry.isDirectory()&&!['bin','obj','.godot'].includes(entry.name))walk(file);
     else if(entry.isFile()&&/\.cs$/.test(entry.name))files.push(file);
   }}
-  for(const directory of ['src/core','src/multiplayer-abstractions','src/godot-game','tools/code-rules'])walk(directory);
+  for(const directory of ['src/godot-game/core','src/godot-game/multiplayer-abstractions','src/godot-game/game','src/godot-game/tools/code-rules'])walk(directory);
   return Object.fromEntries([...new Set(files)].sort().map(file=>[file,runner.hash(read(ROOT,file))]));
 }
 function buildEnvironment(context){const base=path.join(ROOT,'.phase1');return {...runner.environment(context.directory),
   DOTNET_CLI_HOME:path.join(base,'cli-home'),NUGET_PACKAGES:path.join(base,'packages'),
   NUGET_HTTP_CACHE_PATH:path.join(base,'http-cache'),TEMP:path.join(base,'temp'),TMP:path.join(base,'temp'),PHASE1_ROOT:ROOT};}
 function copyRuntime(project){
-  const relative='src/godot-game/.godot/mono/temp/bin/Debug',source=runner.inside(ROOT,relative),files=fs.readdirSync(source).sort();
+  const relative='src/godot-game/game/.godot/mono/temp/bin/Debug',source=runner.inside(ROOT,relative),files=fs.readdirSync(source).sort();
   need(files.length>0&&files.length<=32,'PROFILE_ASSEMBLY_COUNT',relative);const closure=[];let total=0;
   for(const file of files){const from=runner.inside(source,file),stat=fs.statSync(from);
     need(stat.isFile()&&stat.size>0&&stat.size<=16777216,'PROFILE_ASSEMBLY_SIZE',relative+'/'+file);
@@ -182,8 +183,8 @@ func inspect():
     quit(0)
 `;}
 async function observe(root,context,name='profile',expected={qualified:INSPECTION,inspection:INSPECTION,active:false,actual:FOUNDATION}){
-  const pins=runner.document(ROOT,'tools/phase1/toolchain.json'),pin=pins.archives['win32-x64'];
-  need(process.platform==='win32'&&process.arch==='x64'&&process.version==='v'+pins.node,'PROFILE_PLATFORM','tools/phase1/toolchain.json');
+  const pins=runner.document(ROOT,'src/godot-game/tools/verification/toolchain.json'),pin=pins.archives['win32-x64'];
+  need(process.platform==='win32'&&process.arch==='x64'&&process.version==='v'+pins.node,'PROFILE_PLATFORM','src/godot-game/tools/verification/toolchain.json');
   const relative='.phase1/tools/'+pin.directory+'/'+pin.executable,console=runner.inside(ROOT,relative);
   need(runner.hash(fs.readFileSync(console))===pin.executableSha256,'PROFILE_ENGINE_HASH',relative);
   const archive=runner.inside(ROOT,'.phase1/cache/'+pin.file),nativeName=pin.executable.replace('_console.exe','.exe');
@@ -443,13 +444,13 @@ runner.registerCase('export.profile-boundaries',{...definition,title:'Independen
 function selfTest(){
   const {test}=require('node:test'),assert=require('node:assert/strict');
   test('inspection export feature selects its own entry while ordinary Foundation stays literal',()=>{
-    const project=fs.readFileSync(path.join(ROOT,'src/godot-game/project.godot'),'utf8');
-    const preset=fs.readFileSync(path.join(ROOT,'src/godot-game/export_presets.cfg'),'utf8');
+    const project=fs.readFileSync(path.join(ROOT,'src/godot-game/game/project.godot'),'utf8');
+    const preset=fs.readFileSync(path.join(ROOT,'src/godot-game/game/export_presets.cfg'),'utf8');
     assert.match(project,/^run\/main_scene="res:\/\/foundation\/Foundation\.tscn"$/m);
     assert.match(project,/^run\/main_scene\.asset_inspection="res:\/\/inspection\/Inspection\.tscn"$/m,
       'the permanent feature-qualified inspection entry is absent');
     assert.match(preset,/^custom_features="asset_inspection"$/m);
-    assert.ok(fs.existsSync(path.join(ROOT,'production/phase4/export-profile.json')));
+    assert.ok(fs.existsSync(path.join(ROOT,'src/godot-game/production/assets/export-profile.json')));
   });
 }
 function helperSelfTest(){

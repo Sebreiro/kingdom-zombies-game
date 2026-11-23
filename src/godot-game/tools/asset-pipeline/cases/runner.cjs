@@ -36,7 +36,7 @@ function baseFixture() {
   const reportText = ['---',`reviewer: ${review.reviewedBy}`,`reviewed: ${reviewedAt}`,`revision: ${current.revision}`,
     `source: ${current.source}`,`media: ${current.media}`,`tool: ${current.tool}`,'findings:','  critical: 1','  warning: 0',
     '  info: 0','  total: 1','status: issues_found','---','','### CR-01 — Fixture finding','',
-    '**Severity:** high  ','**File:** `tools/phase2/rendered.cjs:10-12`',''].join('\n');
+    '**Severity:** high  ','**File:** `src/godot-game/tools/gameplay-checks/rendered.cjs:10-12`',''].join('\n');
   const originalReport = {text:reportText,sha256:crypto.createHash('sha256').update(reportText).digest('hex')};
   const fixes = {schemaVersion:1, reviewReport:review.report.sha256, originalReport:originalReport.sha256,
     findings:[{id:'CR-01',status:'resolved',reason:'Fixture fix proof',proof:{id:'test-proof'}}]};
@@ -72,7 +72,7 @@ async function qualification(context) {
   const absent = path.join(context.directory,'missing-actual-review');
   fs.mkdirSync(absent);
   reject('missing-actual-review',/EVIDENCE_PATH_MISSING .*04-REVIEW\.json/,() => scenarios.currentIdentity(absent));
-  const resourceControl = spawnSync(process.execPath,['tools/phase2/runner-fixture.cjs','resource-roles'],
+  const resourceControl = spawnSync(process.execPath,['src/godot-game/tools/gameplay-checks/runner-fixture.cjs','resource-roles'],
     {cwd:ROOT,encoding:'utf8',windowsHide:true,timeout:15000});
   assert.ifError(resourceControl.error);
   assert.equal(resourceControl.status,0,resourceControl.stderr);
@@ -114,7 +114,7 @@ async function qualification(context) {
   const currentRevision=e.git(ROOT,['rev-parse','HEAD']).trim();
   const wrongCommit=e.git(ROOT,['rev-parse','5597c6d']).trim();
   const actualCommit=e.git(ROOT,['rev-parse','ef9e58c']).trim();
-  const finding={id:'CR-01',paths:['tools/phase2/rendered.cjs']};
+  const finding={id:'CR-01',paths:['src/godot-game/tools/gameplay-checks/rendered.cjs']};
   reject('unrelated-fix-commit',/REVIEW_PROOF_COMMIT/,() => scenarios.verifyFixProof(ROOT,catalog,{revision:currentRevision},finding,
     {commit:wrongCommit,cases:[{id:'runner.prelaunch-source'}]}));
   reject('unrelated-passing-case',/REVIEW_PROOF_CASE/,() => scenarios.verifyFixProof(ROOT,catalog,{revision:currentRevision},finding,
@@ -264,7 +264,7 @@ function desktopHelperControl(directory) {
   assert.ifError(inert.error);
   assert.equal(inert.status,0,inert.stderr);
   assert.equal(inert.stdout.trim(),'KZ_HELPER_OK');
-  const probe=invoke(['-NoProfile','-NonInteractive','-ExecutionPolicy','Bypass','-File',path.join(ROOT,'tools/phase2/windows-input.ps1'),
+  const probe=invoke(['-NoProfile','-NonInteractive','-ExecutionPolicy','Bypass','-File',path.join(ROOT,'src/godot-game/tools/gameplay-checks/windows-input.ps1'),
     '-OwnedPid','0','-Action','probe','-X','0','-Y','0','-Key','0']);
   assert.ifError(probe.error);
   assert.equal(probe.status,1,probe.stdout);
@@ -483,7 +483,7 @@ function sourceHistoryControls(directory, reject) {
   }
   const old = invocation(current.revision,report.startedAt,'pass');
   const admitted = new Map([[item.id,old]]);
-  e.writeExclusive(root,'tools/phase1/toolchain.json',{node:'24.22.1'});
+  e.writeExclusive(root,'src/godot-game/tools/verification/toolchain.json',{node:'24.22.1'});
   const priorRef = e.reference(root,'.phase4/runs/'+old.nonce+'/result.json');
   const latest = () => scenarios.latestPhase4Sources(root,admitted,current.revision,same).get(item.id);
   invocation(other,'2026-11-20T12:00:00.000Z','fail');
@@ -516,7 +516,7 @@ function sourceHistoryControls(directory, reject) {
 
 function inheritedReceiptControls(directory,reject) {
   const e = require('../evidence.cjs'), scenarios = require('../scenarios.cjs');
-  const baseline = require('../../phase1/check.cjs'), phase2 = require('../../phase2/evidence.cjs');
+  const baseline = require('../../verification/check.cjs'), phase2 = require('../../gameplay-checks/evidence.cjs');
   const {current} = baseFixture();
   const root = path.join(directory,'inherited-receipts');
   fs.mkdirSync(root);
@@ -536,7 +536,7 @@ function inheritedReceiptControls(directory,reject) {
     });
     refs.push({id:family+'/'+item.id,result:ref});
   }
-  e.writeExclusive(root,'tools/phase3/required-cases.json',{cases:[]});
+  e.writeExclusive(root,'src/godot-game/tools/lan-checks/required-cases.json',{cases:[]});
   const selected = scenarios.inheritedCases(root), called = [];
   const phase1Verifier = baseline.verifyCallerResult, phase2Verifier = phase2.reconcile;
   const binding = scenarios.inheritedBinding, bindingInput = binding.input;
@@ -570,7 +570,7 @@ function inheritedReceiptControls(directory,reject) {
     binding.input = bindingInput;
   }
   // The committed recomputation reproduces the inherited runners' working-tree snapshot for clean tracked inputs.
-  const head = e.git(ROOT,['rev-parse','HEAD']).trim(), sample = ['AGENTS.md','tools/phase1/toolchain.json','tools/phase2'];
+  const head = e.git(ROOT,['rev-parse','HEAD']).trim(), sample = ['AGENTS.md','src/godot-game/tools/verification/toolchain.json','src/godot-game/tools/gameplay-checks'];
   assert.equal(e.committedSnapshot(ROOT,head,sample),baseline.snapshot(ROOT,{inputs:sample}).sha256);
   reject('committed-input-missing',/EVIDENCE_INPUT_MISSING/,() => e.committedSnapshot(ROOT,head,['tools/phase4/missing-input']));
 
@@ -598,7 +598,7 @@ function renderedDeclarationControls(directory,reject) {
   fs.mkdirSync(root);
   const put = (name,value) => e.writeExclusive(root,name,value);
   const fake = put('test-executable.bin',Buffer.from('Detached parser fixture'));
-  const image = put('test.png',require('../../phase3/runner-fixture.cjs').png());
+  const image = put('test.png',require('../../lan-checks/runner-fixture.cjs').png());
   const time=milliseconds=>new Date(Date.parse(report.startedAt)+milliseconds).toISOString();
   function snapshot(prefix,checks,at,before=false) {
     const paths=new Map([['/root',{id:1,name:'root'}]]);
@@ -823,7 +823,7 @@ function selectionControls(context) {
     alteration('omit-changed',/SELECTION_REQUIRED/,data => {data.omitted[0].changed=true;});
     alteration('uncertain-impact',/SELECTION_IMPACT/,data => {data.omitted[0].uncertain=true;});
     // An unchanged group folder does not prove a case unaffected: its own runner and test project are inputs too.
-    for (const file of ['tools/phase1/check.cjs','tests/phase1/PinEdgeTests.cs']) {
+    for (const file of ['src/godot-game/tools/verification/check.cjs','src/godot-game/tests/verification/PinEdgeTests.cs']) {
       const runnerImpact = scenarios.impactClosure(cases,[file]);
       assert.equal(runnerImpact.get('phase1/unaffected').affected,true,file);
       reject('omit-pins-after-'+file,/SELECTION_IMPACT_MISMATCH/,() =>
@@ -834,8 +834,8 @@ function selectionControls(context) {
     const withPhase2 = [...cases,phase2], phase2Record = structuredClone(record);
     phase2Record.omitted.push({...structuredClone(record.omitted[0]),id:phase2.id});
     assert.deepEqual(scenarios.validateSelection(structuredClone(phase2Record),withPhase2,catalog,current,
-      scenarios.impactClosure(withPhase2,['tools/phase3/network.cjs'])).selected.map(item => item.id),record.selected.map(item => item.id));
-    for (const file of ['tools/phase2/rendered.cjs','tools/phase1/check.cjs']) {
+      scenarios.impactClosure(withPhase2,['src/godot-game/tools/lan-checks/network.cjs'])).selected.map(item => item.id),record.selected.map(item => item.id));
+    for (const file of ['src/godot-game/tools/gameplay-checks/rendered.cjs','src/godot-game/tools/verification/check.cjs']) {
       reject('omit-phase2-after-'+file,/SELECTION_IMPACT_MISMATCH/,() =>
         scenarios.validateSelection(structuredClone(phase2Record),withPhase2,catalog,current,scenarios.impactClosure(withPhase2,[file])));
     }
@@ -1039,7 +1039,7 @@ async function completionReceiptControls(context) {
   const {current} = baseFixture();
   const root = path.join(context.directory,'completion-history');
   fs.mkdirSync(root);
-  e.writeExclusive(root,'tools/phase1/toolchain.json',{node:'24.22.1'});
+  e.writeExclusive(root,'src/godot-game/tools/verification/toolchain.json',{node:'24.22.1'});
   const qualification = {id:'acceptance.artifacts-source'}, prerequisite = {id:'source.publication'}, closure = {id:'acceptance.artifacts'};
   function invoke(item, minute, status) {
     const startedAt = `2026-11-20T11:${minute}:00.000Z`, nonce = crypto.randomUUID();

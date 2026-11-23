@@ -55,7 +55,7 @@ public sealed class CharacterFitTests
     {
         Type subject = Subject();
         using var fits = JsonDocument.Parse(utf8Json: File.ReadAllBytes(path: Path.Combine(path1: ProofProtocol.Root,
-                path2: "src/godot-game/content/animation/fits-a.json")));
+                path2: "src/godot-game/game/content/animation/fits-a.json")));
         MethodInfo method = subject.GetMethod(name: "FitItem", bindingAttr:
                 BindingFlags.NonPublic | BindingFlags.Static)
                 ?? throw new InvalidOperationException();
@@ -89,7 +89,7 @@ public sealed class CharacterFitTests
     private static Type Subject()
     {
         var assembly = Assembly.Load(rawAssembly: File.ReadAllBytes(path: Path.Combine(path1: ProofProtocol.Root,
-                path2: "src/godot-game/.godot/mono/temp/bin/Debug/KingdomZombies.dll")));
+                path2: "src/godot-game/game/.godot/mono/temp/bin/Debug/KingdomZombies.dll")));
         return assembly.GetType(name: "KingdomZombies.Inspection.CharacterPreview", throwOnError: true)
                 ?? throw new InvalidOperationException();
     }

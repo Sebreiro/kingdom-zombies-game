@@ -469,7 +469,7 @@ public sealed class ExemptionTests
         _repositoryStage = stageId;
         RepositoryProgress(status: "start", detail: "Before actual responsibility assertions");
         using var manifest = JsonDocument.Parse(json: File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root,
-                path2: "tools/phase1/required-cases.json")));
+                path2: "src/godot-game/tools/verification/required-cases.json")));
         JsonElement owner = manifest.RootElement.GetProperty(propertyName: "cases").EnumerateArray().Single(
                 predicate: item => StringComparer.Ordinal.Equals(x: item.GetProperty(propertyName: "id")
                         .GetString(), y: "ac-08.complete"));
@@ -649,7 +649,7 @@ public sealed class ExemptionTests
 
     private static string? _repositoryStage;
     private static string _repositoryCase = "ac-08.complete";
-    private static string _repositoryCatalog = "tools/phase1/required-cases.json";
+    private static string _repositoryCatalog = "src/godot-game/tools/verification/required-cases.json";
     private static string _repositoryPermissionStage = "repository-auth";
     private static readonly JsonSerializerOptions _callerJson = new()
     {
@@ -843,8 +843,8 @@ public sealed class ExemptionTests
         {
             "R-50.positive" or "rules.exemptions" or "rules.godot-companion-positive"
                     or "rules.godot-companion-negative"
-                    or "rules.godot-callsite-boundary" => "tools/phase1/required-cases.json",
-            "core.permissions" => "tools/phase2/required-cases.json",
+                    or "rules.godot-callsite-boundary" => "src/godot-game/tools/verification/required-cases.json",
+            "core.permissions" => "src/godot-game/tools/gameplay-checks/required-cases.json",
             _ => throw new InvalidDataException(message: "CALLER_UNKNOWN"),
         };
         _repositoryCatalog.ShouldBe(expected: expected);
@@ -861,7 +861,7 @@ public sealed class ExemptionTests
     private static JsonElement CallerRepository()
     {
         using var document = JsonDocument.Parse(json: File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root,
-                path2: "tools/phase1/required-cases.json")));
+                path2: "src/godot-game/tools/verification/required-cases.json")));
         return document.RootElement.GetProperty(propertyName: "cases").EnumerateArray().Single(predicate: row =>
                 StringComparer.Ordinal.Equals(x: row.GetProperty(propertyName: "id").GetString(),
                         y: "ac-08.complete")).GetProperty(propertyName: "repositoryStages").Clone();
@@ -905,7 +905,7 @@ public sealed class ExemptionTests
     private static object CallerProducer(JsonElement stage)
     {
         using var document = JsonDocument.Parse(json: File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root,
-                path2: "tools/phase1/required-cases.json")));
+                path2: "src/godot-game/tools/verification/required-cases.json")));
         string id = stage.GetProperty(propertyName: "sourceCaseId").GetString() ?? throw new InvalidDataException();
         string sourceStage = stage.GetProperty(propertyName: "sourceStageId").GetString()
                 ?? throw new InvalidDataException(message: "CALLER_SOURCE_STAGE");

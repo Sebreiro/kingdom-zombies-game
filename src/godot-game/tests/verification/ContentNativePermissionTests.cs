@@ -73,7 +73,7 @@ public sealed class ContentNativePermissionTests
     public void Repair_ActualDefensePrice_IsIndependentOfDamage(bool tower, int tier, double health, int fee)
     {
         string file = Path.Combine(path1: ProofProtocol.Root,
-                path2: "src/godot-game/.godot/mono/temp/bin/Debug/KingdomZombies.dll");
+                path2: "src/godot-game/game/.godot/mono/temp/bin/Debug/KingdomZombies.dll");
         Type type = Assembly.Load(rawAssembly: File.ReadAllBytes(path: file)).GetType(
                 name: "KingdomZombies.Inspection.BuildingPreview", throwOnError: true)
                 ?? throw new InvalidOperationException();
@@ -601,761 +601,761 @@ public sealed class ContentNativePermissionTests
     /// <summary>Actual final native hosts require captured first guards and exact ownership.</summary>
     [Theory]
     [InlineData(
-            "src/godot-game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|A"
+            "src/godot-game/game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|A"
                     + "dmit(string,JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|A"
+            "src/godot-game/game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|A"
                     + "pplyVolume(AudioStreamPlayer,JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|B"
+            "src/godot-game/game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|B"
                     + "uild()")]
     [InlineData(
-            "src/godot-game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|B"
+            "src/godot-game/game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|B"
                     + "utton(string,Action)")]
     [InlineData(
-            "src/godot-game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|C"
+            "src/godot-game/game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|C"
                     + "lose()")]
     [InlineData(
-            "src/godot-game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|C"
+            "src/godot-game/game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|C"
                     + "urrentMuted()")]
     [InlineData(
-            "src/godot-game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|L"
+            "src/godot-game/game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|L"
                     + "imits()")]
     [InlineData(
-            "src/godot-game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|O"
+            "src/godot-game/game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|O"
                     + "pen(InspectionShell?,MainThreadGateway,Func<string, byte[]?>,string)")]
     [InlineData(
-            "src/godot-game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|P"
+            "src/godot-game/game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|P"
                     + "lay()")]
     [InlineData(
-            "src/godot-game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|R"
+            "src/godot-game/game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|R"
                     + "econcileLimits()")]
     [InlineData(
-            "src/godot-game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|R"
+            "src/godot-game/game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|R"
                     + "efresh()")]
     [InlineData(
-            "src/godot-game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|R"
+            "src/godot-game/game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|R"
                     + "emove(long)")]
     [InlineData(
-            "src/godot-game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|S"
+            "src/godot-game/game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|S"
                     + "tart(string,string,JsonElement,bool,bool)")]
     [InlineData(
-            "src/godot-game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|T"
+            "src/godot-game/game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|T"
                     + "ick(double)")]
     [InlineData(
-            "src/godot-game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|V"
+            "src/godot-game/game/inspection/AudioPreview.cs|KingdomZombies.Inspection.AudioPreview|V"
                     + "olume(string,double)")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|AddAccess(Node2D,int,JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|AddDefenseGeometry(Node2D,JsonElement,bool)")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|AddDefenseGuards(Node2D,JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|AddDefenseSprite(Node,string,string,bool)")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|AddGuards(Node2D,JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|AddSeatMark(Node)")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|AddSelector(Node,string,IEnumerable<string>)")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|AddSprite(Node,string,string,Vector2)")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|AddSurface()")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|AimGuard(int,float,float,bool)")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|Animate()")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|AnimateDefense()")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|Attach()")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|AttachDefense()")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|Detach()")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|LightSelected(long)")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|Position(JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|Project()")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|ProjectDefense()")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|ProjectDefenseMetadata(int,bool,bool,bool)")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|ProjectGuardPose(Node2D,int,float,int)")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|ResetDefense()")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|Restore(int,int,double,bool)")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|RestoreDefense(int,int,double,bool)")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|SelectDefenseSample(int)")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|SelectSample(int)")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|SetDefenseTexture(Sprite2D,string,bool)")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|SetTexture(Sprite2D,string)")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|ShowDefenseStatus(int,JsonElement,JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|ShowStatus(int,JsonElement,JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
+            "src/godot-game/game/inspection/BuildingPreview.cs|KingdomZombies.Inspection.BuildingPre"
                     + "view|ZoomSelected(long)")]
     [InlineData(
-            "src/godot-game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Add"
+            "src/godot-game/game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Add"
                     + "Action(Node,string,string,string,bool)")]
     [InlineData(
-            "src/godot-game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Add"
+            "src/godot-game/game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Add"
                     + "Icon(Node,string)")]
     [InlineData(
-            "src/godot-game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Add"
+            "src/godot-game/game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Add"
                     + "Label(Node,string,string,string)")]
     [InlineData(
-            "src/godot-game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Att"
+            "src/godot-game/game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Att"
                     + "ach(JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Cle"
+            "src/godot-game/game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Cle"
                     + "ar()")]
     [InlineData(
-            "src/godot-game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Cyc"
+            "src/godot-game/game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Cyc"
                     + "le(JsonElement,int,long)")]
     [InlineData(
-            "src/godot-game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Map"
+            "src/godot-game/game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Map"
                     + "Controls(JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Map"
+            "src/godot-game/game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Map"
                     + "Markers(JsonElement,VBoxContainer)")]
     [InlineData(
-            "src/godot-game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Map"
+            "src/godot-game/game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Map"
                     + "Point(Control,JsonElement,string)")]
     [InlineData(
-            "src/godot-game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Map"
+            "src/godot-game/game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Map"
                     + "Selected(long,long)")]
     [InlineData(
-            "src/godot-game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Map"
+            "src/godot-game/game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Map"
                     + "Terrain(JsonElement,VBoxContainer)")]
     [InlineData(
-            "src/godot-game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Map"
+            "src/godot-game/game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Map"
                     + "View(JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Mod"
+            "src/godot-game/game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Mod"
                     + "al(int,int)")]
     [InlineData(
-            "src/godot-game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Not"
+            "src/godot-game/game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Not"
                     + "ifications(JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Peo"
+            "src/godot-game/game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Peo"
                     + "ple(JsonElement,VBoxContainer)")]
     [InlineData(
-            "src/godot-game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Pro"
+            "src/godot-game/game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Pro"
                     + "ject(byte[],long)")]
     [InlineData(
-            "src/godot-game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Ral"
+            "src/godot-game/game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Ral"
                     + "ly(JsonElement,VBoxContainer)")]
     [InlineData(
-            "src/godot-game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Sal"
+            "src/godot-game/game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Sal"
                     + "e(JsonElement,VBoxContainer)")]
     [InlineData(
-            "src/godot-game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Sit"
+            "src/godot-game/game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Sit"
                     + "e(JsonElement,VBoxContainer)")]
     [InlineData(
-            "src/godot-game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Spe"
+            "src/godot-game/game/inspection/CampLayouts.cs|KingdomZombies.Inspection.CampLayouts|Spe"
                     + "ctator(JsonElement,VBoxContainer)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|AddBody(Node2D,JsonElement,int,JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|AddBowArms(Node2D,JsonElement,int)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|AddFittedSprite(Node2D,JsonElement,JsonElement,string,int,Vector2,Vector2,f"
                     + "loat,JsonElement,JsonElement,string)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|AddGuard(Node2D,int)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|AddSelector(Node,string,string,IEnumerable<string>)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|AddSpentArrow(Node2D,JsonElement,int)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|AnimationControls(Node)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|Attach()")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|BowPose(JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|CancelWork()")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|CloseComposition()")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|Contact(Node2D,JsonElement,int)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|Detach()")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|FitGeometry(JsonElement,JsonElement,JsonElement,string,string,JsonElement,V"
                     + "ector2)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|Frame()")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|GuardArms(Node2D,Image,JsonElement,Vector2,int)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|GuardArrow(Node2D,Vector2,int,float)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|GuardLayer(Node2D,string,Image,Vector2,int,float,Vector2)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|GuardLower(Node2D,JsonElement,int,int)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|ObligationChoice(string,string)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|OpenAttached(InspectionShell?,MainThreadGateway,Func<string, byte[]?>,strin"
                     + "g)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|OpenComposition(Node2D,MainThreadGateway,Func<string, byte[]?>,string)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|Play()")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|Point(JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|Project()")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|ProjectBurst(Node2D,int)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|ProjectGear(Node2D,JsonElement,JsonElement,JsonElement,int,string)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|ProjectSpit(Node2D,JsonElement,int)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|ProjectWork(Node2D,JsonElement,JsonElement,int)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|ReconcileHands()")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|Reset()")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|RestoreComposition(string,string,int,JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|RetireArt()")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|SegmentOffset(bool)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|SelectObligation(string)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|Selected(string)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|Texture(JsonElement,JsonElement,string)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|TryOpenAttached(InspectionShell?,MainThreadGateway,Func<string, byte[]?>,st"
                     + "ring,Node2D)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|UpdateAim(bool)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|WorkPayload(Node2D,JsonElement,int)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|WorkPose(JsonElement,JsonElement,JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|WorkSprite(Node2D,string,string,Vector2,int,float)")]
     [InlineData(
-            "src/godot-game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
+            "src/godot-game/game/inspection/CharacterPreview.cs|KingdomZombies.Inspection.CharacterP"
                     + "review|WorkTool(Node2D,JsonElement,int)")]
     [InlineData(
-            "src/godot-game/inspection/CorpsePreview.cs|KingdomZombies.Inspection.CorpsePreview"
+            "src/godot-game/game/inspection/CorpsePreview.cs|KingdomZombies.Inspection.CorpsePreview"
                     + "|Close()")]
     [InlineData(
-            "src/godot-game/inspection/CorpsePreview.cs|KingdomZombies.Inspection.CorpsePreview"
+            "src/godot-game/game/inspection/CorpsePreview.cs|KingdomZombies.Inspection.CorpsePreview"
                     + "|CommonSprite(Node2D,string,string,Vector2)")]
     [InlineData(
-            "src/godot-game/inspection/CorpsePreview.cs|KingdomZombies.Inspection.CorpsePreview"
+            "src/godot-game/game/inspection/CorpsePreview.cs|KingdomZombies.Inspection.CorpsePreview"
                     + "|Outline(Node2D)")]
     [InlineData(
-            "src/godot-game/inspection/CorpsePreview.cs|KingdomZombies.Inspection.CorpsePreview"
+            "src/godot-game/game/inspection/CorpsePreview.cs|KingdomZombies.Inspection.CorpsePreview"
                     + "|Pile(Node2D,JsonElement,bool)")]
     [InlineData(
-            "src/godot-game/inspection/CorpsePreview.cs|KingdomZombies.Inspection.CorpsePreview"
+            "src/godot-game/game/inspection/CorpsePreview.cs|KingdomZombies.Inspection.CorpsePreview"
                     + "|Project()")]
     [InlineData(
-            "src/godot-game/inspection/CorpsePreview.cs|KingdomZombies.Inspection.CorpsePreview"
+            "src/godot-game/game/inspection/CorpsePreview.cs|KingdomZombies.Inspection.CorpsePreview"
                     + "|Retire()")]
     [InlineData(
-            "src/godot-game/inspection/CorpsePreview.cs|KingdomZombies.Inspection.CorpsePreview"
+            "src/godot-game/game/inspection/CorpsePreview.cs|KingdomZombies.Inspection.CorpsePreview"
                     + "|Sprite(Node2D,JsonElement,JsonElement,string,Vector2)")]
     [InlineData(
-            "src/godot-game/inspection/CorpsePreview.cs|KingdomZombies.Inspection.CorpsePreview"
+            "src/godot-game/game/inspection/CorpsePreview.cs|KingdomZombies.Inspection.CorpsePreview"
                     + "|Wildlife(Node2D,string,JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/CrowdPreview.cs|KingdomZombies.Inspection.CrowdPreview|A"
+            "src/godot-game/game/inspection/CrowdPreview.cs|KingdomZombies.Inspection.CrowdPreview|A"
                     + "ttach()")]
     [InlineData(
-            "src/godot-game/inspection/CrowdPreview.cs|KingdomZombies.Inspection.CrowdPreview|C"
+            "src/godot-game/game/inspection/CrowdPreview.cs|KingdomZombies.Inspection.CrowdPreview|C"
                     + "lose()")]
     [InlineData(
-            "src/godot-game/inspection/CrowdPreview.cs|KingdomZombies.Inspection.CrowdPreview|I"
+            "src/godot-game/game/inspection/CrowdPreview.cs|KingdomZombies.Inspection.CrowdPreview|I"
                     + "dentity(string)")]
     [InlineData(
-            "src/godot-game/inspection/CrowdPreview.cs|KingdomZombies.Inspection.CrowdPreview|P"
+            "src/godot-game/game/inspection/CrowdPreview.cs|KingdomZombies.Inspection.CrowdPreview|P"
                     + "ublish()")]
     [InlineData(
-            "src/godot-game/inspection/CrowdPreview.cs|KingdomZombies.Inspection.CrowdPreview|R"
+            "src/godot-game/game/inspection/CrowdPreview.cs|KingdomZombies.Inspection.CrowdPreview|R"
                     + "etireWildlife(Node2D)")]
     [InlineData(
-            "src/godot-game/inspection/CrowdPreview.cs|KingdomZombies.Inspection.CrowdPreview|S"
+            "src/godot-game/game/inspection/CrowdPreview.cs|KingdomZombies.Inspection.CrowdPreview|S"
                     + "etNight(bool)")]
     [InlineData(
-            "src/godot-game/inspection/CrowdPreview.cs|KingdomZombies.Inspection.CrowdPreview|T"
+            "src/godot-game/game/inspection/CrowdPreview.cs|KingdomZombies.Inspection.CrowdPreview|T"
                     + "exture(string)")]
     [InlineData(
-            "src/godot-game/inspection/CrowdPreview.cs|KingdomZombies.Inspection.CrowdPreview|W"
+            "src/godot-game/game/inspection/CrowdPreview.cs|KingdomZombies.Inspection.CrowdPreview|W"
                     + "ildlife(string,string,double,int,bool)")]
     [InlineData(
-            "src/godot-game/inspection/CrowdPreview.cs|KingdomZombies.Inspection.CrowdPreview|W"
+            "src/godot-game/game/inspection/CrowdPreview.cs|KingdomZombies.Inspection.CrowdPreview|W"
                     + "ildlifeOutline(Node2D,Sprite2D)")]
     [InlineData(
-            "src/godot-game/inspection/DataTextPreview.cs|KingdomZombies.Inspection.DataTextPre"
+            "src/godot-game/game/inspection/DataTextPreview.cs|KingdomZombies.Inspection.DataTextPre"
                     + "view|Build()")]
     [InlineData(
-            "src/godot-game/inspection/DataTextPreview.cs|KingdomZombies.Inspection.DataTextPre"
+            "src/godot-game/game/inspection/DataTextPreview.cs|KingdomZombies.Inspection.DataTextPre"
                     + "view|Close()")]
     [InlineData(
-            "src/godot-game/inspection/DataTextPreview.cs|KingdomZombies.Inspection.DataTextPre"
+            "src/godot-game/game/inspection/DataTextPreview.cs|KingdomZombies.Inspection.DataTextPre"
                     + "view|Geometry(JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/DataTextPreview.cs|KingdomZombies.Inspection.DataTextPre"
+            "src/godot-game/game/inspection/DataTextPreview.cs|KingdomZombies.Inspection.DataTextPre"
                     + "view|Grid(Node,JsonElement,string)")]
     [InlineData(
-            "src/godot-game/inspection/DataTextPreview.cs|KingdomZombies.Inspection.DataTextPre"
+            "src/godot-game/game/inspection/DataTextPreview.cs|KingdomZombies.Inspection.DataTextPre"
                     + "view|Open(InspectionShell?,MainThreadGateway,Func<string, byte[]?>,string,Node2D)")]
     [InlineData(
-            "src/godot-game/inspection/DataTextPreview.cs|KingdomZombies.Inspection.DataTextPre"
+            "src/godot-game/game/inspection/DataTextPreview.cs|KingdomZombies.Inspection.DataTextPre"
                     + "view|Project()")]
     [InlineData(
-            "src/godot-game/inspection/DataTextPreview.cs|KingdomZombies.Inspection.DataTextPre"
+            "src/godot-game/game/inspection/DataTextPreview.cs|KingdomZombies.Inspection.DataTextPre"
                     + "view|ProjectLibrary()")]
     [InlineData(
-            "src/godot-game/inspection/DataTextPreview.cs|KingdomZombies.Inspection.DataTextPre"
+            "src/godot-game/game/inspection/DataTextPreview.cs|KingdomZombies.Inspection.DataTextPre"
                     + "view|Restore()")]
     [InlineData(
-            "src/godot-game/inspection/DataTextPreview.cs|KingdomZombies.Inspection.DataTextPre"
+            "src/godot-game/game/inspection/DataTextPreview.cs|KingdomZombies.Inspection.DataTextPre"
                     + "view|RestoreBuilding(JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/DataTextPreview.cs|KingdomZombies.Inspection.DataTextPre"
+            "src/godot-game/game/inspection/DataTextPreview.cs|KingdomZombies.Inspection.DataTextPre"
                     + "view|RestoreOwners(JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/DataTextPreview.cs|KingdomZombies.Inspection.DataTextPre"
+            "src/godot-game/game/inspection/DataTextPreview.cs|KingdomZombies.Inspection.DataTextPre"
                     + "view|Selector(Node,string,string[],int,ItemSelectedEventHandler)")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
                     + "ourceView|AddState(string)")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
                     + "ourceView|Build()")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
                     + "ourceView|BuildCorpse()")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
                     + "ourceView|BuildCrowd()")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
                     + "ourceView|BuildIdentityGallery()")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
                     + "ourceView|BuildUi()")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
                     + "ourceView|Changed(long)")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
                     + "ourceView|Close()")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
                     + "ourceView|FilterCrowd()")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
                     + "ourceView|FilterWorld()")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
                     + "ourceView|Open(InspectionShell?,MainThreadGateway,Func<string, byte[]?>,string)")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
                     + "ourceView|ProjectTypography(Node)")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
                     + "ourceView|ProjectUiSymbol(Node,string)")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
                     + "ourceView|ProjectZones()")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
                     + "ourceView|RequireActive()")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
                     + "ourceView|SelectCorpse()")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
                     + "ourceView|SelectCrowd()")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
                     + "ourceView|SelectState()")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
                     + "ourceView|SelectUi()")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
                     + "ourceView|SelectUiGallery()")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
                     + "ourceView|Step()")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
                     + "ourceView|Tick(double)")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
                     + "ourceView|UiItems()")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
                     + "ourceView|UiTabs()")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit.Res"
                     + "ourceView|UiWidget(string)")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit|Add"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit|Add"
                     + "Label(Node,string,string)")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit|Cle"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit|Cle"
                     + "ar()")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit|Pro"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit|Pro"
                     + "jectBinding(JsonElement,JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit|Pro"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit|Pro"
                     + "jectCondition(JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit|Pro"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit|Pro"
                     + "jectPlayer(JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit|Req"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit|Req"
                     + "uireActive()")]
     [InlineData(
-            "src/godot-game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit|Row"
+            "src/godot-game/game/inspection/IdentityKit.cs|KingdomZombies.Inspection.IdentityKit|Row"
                     + "(string,string,string)")]
     [InlineData(
-            "src/godot-game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
+            "src/godot-game/game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
                     + "ayouts|AddCells(Control,int,int)")]
     [InlineData(
-            "src/godot-game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
+            "src/godot-game/game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
                     + "ayouts|AddIcon(Node,JsonElement,bool)")]
     [InlineData(
-            "src/godot-game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
+            "src/godot-game/game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
                     + "ayouts|AddLabel(Node,string,string)")]
     [InlineData(
-            "src/godot-game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
+            "src/godot-game/game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
                     + "ayouts|AddPlaced(Control,JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
+            "src/godot-game/game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
                     + "ayouts|Attach(JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
+            "src/godot-game/game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
                     + "ayouts|Clear()")]
     [InlineData(
-            "src/godot-game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
+            "src/godot-game/game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
                     + "ayouts|Project(byte[],long)")]
     [InlineData(
-            "src/godot-game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
+            "src/godot-game/game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
                     + "ayouts|ProjectActions(JsonElement,Node)")]
     [InlineData(
-            "src/godot-game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
+            "src/godot-game/game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
                     + "ayouts|ProjectGrids(JsonElement,Node)")]
     [InlineData(
-            "src/godot-game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
+            "src/godot-game/game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
                     + "ayouts|ProjectHistoric(Node,JsonElement,string,bool)")]
     [InlineData(
-            "src/godot-game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
+            "src/godot-game/game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
                     + "ayouts|ProjectHistoricItem(Control,JsonElement,bool)")]
     [InlineData(
-            "src/godot-game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
+            "src/godot-game/game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
                     + "ayouts|ProjectInventory(JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
+            "src/godot-game/game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
                     + "ayouts|ProjectLegacy(JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
+            "src/godot-game/game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
                     + "ayouts|ProjectSlots(JsonElement,Node)")]
     [InlineData(
-            "src/godot-game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
+            "src/godot-game/game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
                     + "ayouts|ProjectStash(JsonElement,Node)")]
     [InlineData(
-            "src/godot-game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
+            "src/godot-game/game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
                     + "ayouts|ProjectTargetRegion(Control,JsonElement,string)")]
     [InlineData(
-            "src/godot-game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
+            "src/godot-game/game/inspection/InventoryLayouts.cs|KingdomZombies.Inspection.InventoryL"
                     + "ayouts|ProjectTargets(JsonElement,Node)")]
     [InlineData(
-            "src/godot-game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
+            "src/godot-game/game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
                     + "ts|Action(Node,string,string,bool)")]
     [InlineData(
-            "src/godot-game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
+            "src/godot-game/game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
                     + "ts|ApplySelectors(HBoxContainer,long,long)")]
     [InlineData(
-            "src/godot-game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
+            "src/godot-game/game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
                     + "ts|Attach(JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
+            "src/godot-game/game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
                     + "ts|Bindings(JsonElement,VBoxContainer)")]
     [InlineData(
-            "src/godot-game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
+            "src/godot-game/game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
                     + "ts|Browser(JsonElement,VBoxContainer)")]
     [InlineData(
-            "src/godot-game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
+            "src/godot-game/game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
                     + "ts|Clear()")]
     [InlineData(
-            "src/godot-game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
+            "src/godot-game/game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
                     + "ts|Diagnostics(JsonElement,VBoxContainer)")]
     [InlineData(
-            "src/godot-game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
+            "src/godot-game/game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
                     + "ts|Endpoint(int,int,int,bool)")]
     [InlineData(
-            "src/godot-game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
+            "src/godot-game/game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
                     + "ts|Exit(JsonElement,VBoxContainer,bool)")]
     [InlineData(
-            "src/godot-game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
+            "src/godot-game/game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
                     + "ts|FinishConfirmation(long,bool)")]
     [InlineData(
-            "src/godot-game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
+            "src/godot-game/game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
                     + "ts|Join(JsonElement,VBoxContainer)")]
     [InlineData(
-            "src/godot-game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
+            "src/godot-game/game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
                     + "ts|Label(Node,string,string)")]
     [InlineData(
-            "src/godot-game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
+            "src/godot-game/game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
                     + "ts|Lobby(JsonElement,VBoxContainer)")]
     [InlineData(
-            "src/godot-game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
+            "src/godot-game/game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
                     + "ts|Main(VBoxContainer)")]
     [InlineData(
-            "src/godot-game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
+            "src/godot-game/game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
                     + "ts|Manual(JsonElement,VBoxContainer)")]
     [InlineData(
-            "src/godot-game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
+            "src/godot-game/game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
                     + "ts|ProjectSettings(JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
+            "src/godot-game/game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
                     + "ts|RequestConfirmation(long)")]
     [InlineData(
-            "src/godot-game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
+            "src/godot-game/game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
                     + "ts|RequireActive(long)")]
     [InlineData(
-            "src/godot-game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
+            "src/godot-game/game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
                     + "ts|Saves(JsonElement,VBoxContainer)")]
     [InlineData(
-            "src/godot-game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
+            "src/godot-game/game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
                     + "ts|Selector(Node,string,string[])")]
     [InlineData(
-            "src/godot-game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
+            "src/godot-game/game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
                     + "ts|SettingsFields(JsonElement,VBoxContainer)")]
     [InlineData(
-            "src/godot-game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
+            "src/godot-game/game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
                     + "ts|Setup(JsonElement,VBoxContainer,bool)")]
     [InlineData(
-            "src/godot-game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
+            "src/godot-game/game/inspection/SessionLayouts.cs|KingdomZombies.Inspection.SessionLayou"
                     + "ts|WireSelectors(HBoxContainer,JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|A"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|A"
                     + "ddCollision(string,float,float,float,float,uint)")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|A"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|A"
                     + "ddInspectorChoice(Node,string,IEnumerable<string>)")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|A"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|A"
                     + "pplyInspectorLight()")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|A"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|A"
                     + "ttach()")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|A"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|A"
                     + "ttachInspector()")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|C"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|C"
                     + "loseInspector()")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|F"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|F"
                     + "ilterLibraryWorld(string)")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|I"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|I"
                     + "nspectorArt()")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|L"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|L"
                     + "ightInspector(long)")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
                     + "opulateInspectorStates()")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
                     + "roject()")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
                     + "rojectAnimation(JsonElement,Sprite2D,double,string)")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
                     + "rojectClearingMarkers()")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
                     + "rojectEffect(EffectState)")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
                     + "rojectGeometry(string)")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
                     + "rojectInspector()")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
                     + "rojectInspectorBuilding()")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
                     + "rojectInspectorItem()")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
                     + "rojectInterior(string,float,bool)")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
                     + "rojectLibrarySites(Node2D)")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
                     + "rojectLoops(JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
                     + "rojectMap(JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
                     + "rojectMapState(Sprite2D,string,JsonElement,JsonElement,double)")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
                     + "rojectMinimap(JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
                     + "rojectParticles(EffectState,JsonElement,double)")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
                     + "rojectPortalClip(JsonElement,string,float)")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
                     + "rojectPortals(string)")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
                     + "rojectRuin(JsonElement,float)")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|P"
                     + "rojectWarning(EffectState,JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|R"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|R"
                     + "eadColor(JsonElement)")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|R"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|R"
                     + "equireActive()")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|R"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|R"
                     + "esetInspectorItem()")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|R"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|R"
                     + "estoreInspectorChoices()")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|R"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|R"
                     + "etire()")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|R"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|R"
                     + "etireInspector()")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|S"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|S"
                     + "electLibraryBuilding(string)")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|S"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|S"
                     + "howInspector()")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|S"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|S"
                     + "prite(string,bool,string)")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|S"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|S"
                     + "tateInspector(long)")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|T"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|T"
                     + "exture(string,bool)")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|T"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|T"
                     + "ransformInspector(float,float)")]
     [InlineData(
-            "src/godot-game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|T"
+            "src/godot-game/game/inspection/WorldPreview.cs|KingdomZombies.Inspection.WorldPreview|T"
                     + "ransformInspectorArt()")]
     public void Check_PresenterNative_RequiresExactGuardedMember(string tuple)
     {
@@ -1404,7 +1404,7 @@ public sealed class ContentNativePermissionTests
                     source: source, body: body, changed: changed)).ShouldNotBeEmpty(customMessage: changed);
         }
 
-        SyntaxTree wrong = consumer.Parse(source: positive, path: "src/godot-game/inspection/Adjacent.cs");
+        SyntaxTree wrong = consumer.Parse(source: positive, path: "src/godot-game/game/inspection/Adjacent.cs");
         CSharpCompilation moved = basis.ReplaceSyntaxTree(oldTree: original, newTree: wrong);
         ConsumerCompilation.RequireValid(compilation: moved);
         EngineAccessPolicy.CheckTree(tree: wrong, compilation: moved).ShouldNotBeEmpty();
@@ -1727,7 +1727,8 @@ public sealed class ContentNativePermissionTests
         foreach (string path in paths)
         {
             byte[] original = path.StartsWith(value: "tools/", comparisonType: StringComparison.Ordinal)
-                    ? File.ReadAllBytes(path: Path.Combine(path1: ProofProtocol.Root, path2: path))
+                    ? File.ReadAllBytes(path: Path.Combine(path1: ProofProtocol.Root,
+                            path2: AssetPipelinePaths.Physical(path: path)))
                     : Read(path: path) ?? throw new InvalidOperationException();
             documents.Add(key: path, value: JsonNode.Parse(utf8Json: original)?.AsObject()
                     ?? throw new InvalidOperationException());
@@ -2159,7 +2160,7 @@ public sealed class ContentNativePermissionTests
 
     private static byte[]? Read(string path)
     {
-        string file = Path.Combine(path1: ProofProtocol.Root, path2: "src/godot-game/" + path);
+        string file = Path.Combine(path1: ProofProtocol.Root, path2: "src/godot-game/game/" + path);
         return File.Exists(path: file) ? File.ReadAllBytes(path: file) : null;
     }
 }

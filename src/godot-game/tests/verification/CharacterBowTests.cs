@@ -387,7 +387,7 @@ public sealed class CharacterBowTests
     {
         string root = Environment.GetEnvironmentVariable(variable: "PHASE1_ROOT")
                 ?? throw new InvalidOperationException(message: "PHASE1_ROOT_REQUIRED");
-        string content = Path.Combine(path1: root, path2: "src/godot-game/content");
+        string content = Path.Combine(path1: root, path2: "src/godot-game/game/content");
         byte[] animation = File.ReadAllBytes(path: Path.Combine(path1: content,
                 path2: "animation/locomotion-melee.json"));
         byte[] items = File.ReadAllBytes(path: Path.Combine(path1: content, path2: "config/items.json"));

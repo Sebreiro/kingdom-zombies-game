@@ -178,23 +178,24 @@ function selectionRows(root, catalog) {
 
 function impactClosure(cases, files) {
   const starts = (...prefixes) => files.some(file => prefixes.some(prefix => file === prefix || file.startsWith(prefix+'/')));
-  const shared = starts('Directory.Build.props','Directory.Build.targets','Directory.Packages.props','global.json','NuGet.config');
-  const runtime = shared || starts('src','tools/code-rules','tests/phase1');
+  const shared = starts('src/godot-game/Directory.Build.props','src/godot-game/Directory.Build.targets',
+    'src/godot-game/Directory.Packages.props','src/godot-game/global.json','src/godot-game/NuGet.config');
+  const runtime = shared || starts('src','src/godot-game/tools/code-rules','src/godot-game/tests/verification');
   const inheritedGroups = {
-    engine:['src/godot-game','docs/code','tools/code-rules','tests/phase1'],
-    graph:['src','docs/architecture','docs/code','tests/phase1','tools/phase1/projects.json'],
-    rules:['src','docs/code','tools/code-rules','tests/phase1'],
-    register:['docs/code','tools/code-rules','tests/phase1'],
-    state:['src/core','src/godot-game','tests/phase1'],
+    engine:['src/godot-game/game','docs/code','src/godot-game/tools/code-rules','src/godot-game/tests/verification'],
+    graph:['src','docs/architecture','docs/code','src/godot-game/tests/verification','src/godot-game/tools/verification/projects.json'],
+    rules:['src','docs/code','src/godot-game/tools/code-rules','src/godot-game/tests/verification'],
+    register:['docs/code','src/godot-game/tools/code-rules','src/godot-game/tests/verification'],
+    state:['src/godot-game/core','src/godot-game/game','src/godot-game/tests/verification'],
     docs:['docs','specs','src','tools','tests','AGENTS.md'],
-    runner:['tools/phase1','tests/phase1'],
-    coverage:['src','docs/code','tests/phase1'],
-    pins:['tools/phase1/toolchain.json']
+    runner:['src/godot-game/tools/verification','src/godot-game/tests/verification'],
+    coverage:['src','docs/code','src/godot-game/tests/verification'],
+    pins:['src/godot-game/tools/verification/toolchain.json']
   };
   // Each inherited case also executes through its own coordinator, manifest and compiled test project. Phase 2 and 3
   // coordinators load the Phase 1 runner, and Phase 3 loads Phase 2 evidence, locking and rendering modules.
-  const runners = {phase1:['tools/phase1','tests/phase1'], phase2:['tools/phase1','tools/phase2'],
-    phase3:['tools/phase1','tools/phase2','tools/phase3']};
+  const runners = {phase1:['src/godot-game/tools/verification','src/godot-game/tests/verification'], phase2:['src/godot-game/tools/verification','src/godot-game/tools/gameplay-checks'],
+    phase3:['src/godot-game/tools/verification','src/godot-game/tools/gameplay-checks','src/godot-game/tools/lan-checks']};
   return new Map(cases.map(row => [row.id, {new:!row.family, changed:false, affected:Boolean(row.family) &&
     (shared || starts(...runners[row.family]) || (row.family === 'phase1' ? starts(...inheritedGroups[row.group]??[]) : runtime))}]));
 }
@@ -249,11 +250,11 @@ function currentReviewAdapter(root, revision, targetRef) {
     !targets.includes(HISTORICAL_TARGET) && !targets.includes('Phase3Reviewed'), 'REVIEW_TARGET_HISTORICAL');
   return {
     env:{...process.env, SourceRevisionId:revision, CustomAfterMicrosoftCommonTargets:path.join(root, e.TARGETS)},
-    solo:require('../phase2/rendered.cjs').rendered,
-    lan:require('../phase3/scenarios.cjs').run,
-    physical:require('../phase2/rendered.cjs').ownedInput,
-    decodePng:require('../phase2/rendered.cjs').decodePng,
-    readDraws:require('../phase3/rendered.cjs').draws
+    solo:require('../gameplay-checks/rendered.cjs').rendered,
+    lan:require('../lan-checks/scenarios.cjs').run,
+    physical:require('../gameplay-checks/rendered.cjs').ownedInput,
+    decodePng:require('../gameplay-checks/rendered.cjs').decodePng,
+    readDraws:require('../lan-checks/rendered.cjs').draws
   };
 }
 
@@ -332,10 +333,10 @@ const DOTNET='C:/Program Files/dotnet/dotnet.exe';
 async function prepareSource(root,revision) {
   const source=e.identifySource(root,revision),tool=e.identifyTool(root);
   const nonce=crypto.randomUUID(), ownership='.phase4/runs/'+nonce+'/', directory=path.resolve(root,ownership);
-  const copy=ownership+'source/', relative=copy+'src/godot-game', project=path.resolve(root,relative);
+  const copy=ownership+'source/', relative=copy+'src/godot-game/game', project=path.resolve(root,relative);
   const {command,environment}=require('./check.cjs');
   const context={directory,nonce,revision,caseId:'rendered-source-preparation'};
-  const pin=e.document(root,'tools/phase1/toolchain.json');
+  const pin=e.document(root,'src/godot-game/tools/verification/toolchain.json');
   const win=pin.archives['win32-x64'];
   const engine=e.reference(root,'.phase1/tools/'+win.directory+'/'+win.executable.replace('_console.exe','.exe'),256*1024*1024);
   e.need(engine.sha256===NATIVE_ENGINE_HASH,'RENDERED_EXECUTABLE');
@@ -375,7 +376,7 @@ async function prepareSource(root,revision) {
 function validateBuild(root,build,source,tool) {
   e.need(build.schemaVersion === 2 && build.status === 'pass' && build.revision === source.revision &&
     build.source === source.source && build.media === source.media && build.tool === tool,'REVIEW_BUILD');
-  const pin = e.document(root,'tools/phase1/toolchain.json').archives['win32-x64'];
+  const pin = e.document(root,'src/godot-game/tools/verification/toolchain.json').archives['win32-x64'];
   e.need(build.engine?.path === '.phase1/tools/'+pin.directory+'/'+pin.executable.replace('_console.exe','.exe') &&
     build.engine.sha256 === NATIVE_ENGINE_HASH,'RENDERED_EXECUTABLE');
   e.artifact(root,build.engine);
@@ -427,7 +428,7 @@ function validateSourceProject(root,build,source) {
   const imported=execution(prepared.import,'rendered-source-import');
   const compiled=execution(prepared.build,'rendered-source-build');
   const sdk=execution(prepared.sdk,'rendered-source-sdk');
-  const pin=e.document(root,'tools/phase1/toolchain.json');
+  const pin=e.document(root,'src/godot-game/tools/verification/toolchain.json');
   const expectedFeed=pin.godotPackages.map(pkg=>({path:copy+'.phase1/feed/'+pkg.id+'.'+pkg.version+'.nupkg',sha256:pkg.sha256}));
   e.need(Array.isArray(prepared.godotFeed)&&equal(prepared.godotFeed.map(({path,sha256})=>({path,sha256})),expectedFeed),
     'RENDERED_SOURCE_GODOT_FEED');
@@ -602,7 +603,7 @@ function verifyInheritedRendered(root, report, outcome, item, build, catalogs) {
     bindings.input===report.source && bindings.tool===report.tool && bindings.platform==='win32-x64',
     'COMPLETION_INHERITED_BINDINGS',item.id);
   const context = {...bindings,root,directory:path.resolve(root,owned)};
-  const verifier = item.family==='phase2'?require('../phase2/evidence.cjs'):require('../phase3/evidence.cjs');
+  const verifier = item.family==='phase2'?require('../gameplay-checks/evidence.cjs'):require('../lan-checks/evidence.cjs');
   verifier.reconcile([original],[result],context);
   validateInheritedRuntime(root,build,item.family,result,runtime);
 }
@@ -696,12 +697,12 @@ function phase4SourceReceipt(root, item, receipt, current) {
     'COMPLETION_SOURCE_SUBJECT',item.id);
   const invocation = e.document(root,directory+'invocation.json');
   e.need(invocation.nonce===result.nonce && invocation.caseId===item.id && invocation.revision===result.revision &&
-    invocation.platform==='win32' && invocation.node==='v'+e.document(root,'tools/phase1/toolchain.json').node &&
+    invocation.platform==='win32' && invocation.node==='v'+e.document(root,'src/godot-game/tools/verification/toolchain.json').node &&
     invocation.scope==='source/headless; zero game windows' &&
     e.instant(result.startedAt) && invocation.startedAt===result.startedAt && e.instant(result.finishedAt) && result.finishedAt>=result.startedAt,
     'COMPLETION_SOURCE_INVOCATION',item.id);
   const binding = item.sourceBinding;
-  if (binding?.module.startsWith('tools/phase4/cases/')) {
+  if (binding?.module.startsWith('src/godot-game/tools/asset-pipeline/cases/')) {
     const modules = invocation.caseModules?.filter(row => row.caseIds.includes(item.id));
     e.need(modules?.length===1 && modules[0].name===path.basename(binding.module) && modules[0].sha256===binding.moduleSha256,
       'COMPLETION_SOURCE_MODULE',item.id);
@@ -717,19 +718,24 @@ function phase4SourceReceipt(root, item, receipt, current) {
 // with the current machine: it hashes the shared test assembly, which every build stamps with the HEAD commit, so a
 // rebuild after any later commit changes it without saying anything about the receipt's own run. The Phase 1 runner
 // enforces the pinned Node, SDK and compiler itself, and the current Phase 4 tool identity pins Node and the SDK.
+// Revisions before the repository-layout move keep the Phase 1 catalog at its original path.
+function phase1Catalog(root, revision) {
+  const current = 'src/godot-game/tools/verification/required-cases.json';
+  return e.git(root,['ls-tree','--name-only',revision,'--',current]).trim() === current ? current : 'tools/phase1/required-cases.json';
+}
 const inheritedBinding = {
   inputs:new Map(),
   input(root, family, result, catalogs) {
     const key = result.revision + '\0' + family + '\0' + JSON.stringify(result.selected);
     if (!this.inputs.has(key)) {
       let inputs;
-      if (family === 'phase1') inputs = JSON.parse(e.git(root,['show',result.revision+':tools/phase1/required-cases.json'])).inputs;
-      else if (family === 'phase2') inputs = require('../phase2/check.cjs').inputManifest(result.selected.map(id => {
+      if (family === 'phase1') inputs = JSON.parse(e.git(root,['show',result.revision+':'+phase1Catalog(root,result.revision)])).inputs;
+      else if (family === 'phase2') inputs = require('../gameplay-checks/check.cjs').inputManifest(result.selected.map(id => {
         const row = catalogs.get('phase2')?.get(id);
         e.need(row,'COMPLETION_INHERITED_SUBJECT','phase2/'+id);
         return row;
       })).inputs;
-      else inputs = require('../phase3/check.cjs').inputManifest().inputs;
+      else inputs = require('../lan-checks/check.cjs').inputManifest().inputs;
       this.inputs.set(key,e.committedSnapshot(root,result.revision,inputs));
     }
     return this.inputs.get(key);
@@ -750,7 +756,7 @@ function inheritedSourceReceipt(root, item, receipt, catalogs) {
   e.need(e.HEX.test(result.tool),'COMPLETION_INHERITED_SUBJECT',item.id);
   const context = {...result,root,directory:path.join(root,directory)};
   if (item.family==='phase1') {
-    const baseline = require('../phase1/check.cjs'), row = subject[0];
+    const baseline = require('../verification/check.cjs'), row = subject[0];
     const readProof = (parent,ref) => {
       const actual = e.reference(parent,ref.path);
       e.need(actual.sha256===ref.sha256,'COMPLETION_INHERITED_HASH',item.id);
@@ -769,8 +775,8 @@ function inheritedSourceReceipt(root, item, receipt, catalogs) {
         baseline.verifyReport(report,[expected]);
       }
     }
-  } else if (item.family==='phase2') require('../phase2/evidence.cjs').reconcile([expected],subject,context);
-  else require('../phase3/evidence.cjs').reconcile([expected],subject,context);
+  } else if (item.family==='phase2') require('../gameplay-checks/evidence.cjs').reconcile([expected],subject,context);
+  else require('../lan-checks/evidence.cjs').reconcile([expected],subject,context);
   return result;
 }
 
@@ -1101,7 +1107,7 @@ async function verifiedCleanup(owner) {
 }
 
 async function inspectionSession(root, relative, group, build, adapter, budget, signal, subject = null) {
-  const phase2 = require('../phase2/rendered.cjs');
+  const phase2 = require('../gameplay-checks/rendered.cjs');
   const owner = owned.observeChildren();
   const role = group === 'G1-hub' ? 'inspection-hub' : 'packaged-inspection';
   const target = role === 'inspection-hub' ? build.engine : subject.executable;
@@ -1140,7 +1146,7 @@ async function inspectionSession(root, relative, group, build, adapter, budget, 
   const input = adapter.physical(async (action,x,y,key) => {
     e.need(pid && !terminal && !error, 'RENDERED_PROCESS_LOST', role);
     const result = await owned.command(owner,powerShell,['-NoProfile','-NonInteractive','-ExecutionPolicy','Bypass','-File',
-      path.join(root,'tools/phase2/windows-input.ps1'),'-OwnedPid',String(pid),'-Action',action,'-X',String(x),'-Y',String(y),'-Key',String(key)],
+      path.join(root,'src/godot-game/tools/gameplay-checks/windows-input.ps1'),'-OwnedPid',String(pid),'-Action',action,'-X',String(x),'-Y',String(y),'-Key',String(key)],
       {cwd:root,env},closing?3000:budget(12000),closing?undefined:signal);
     acknowledgement = JSON.parse(result.stdout.trim());
     e.need(acknowledgement.pid === pid && acknowledgement.focused && acknowledgement.action === action &&
@@ -1478,8 +1484,8 @@ async function runInherited(root, relative, group, items, build, adapter, identi
     let status = result?.status ?? 'blocked', observed = result?.message ?? 'Inherited original case executed on current Phase 4 build';
     const runtime=[];
     if (status === 'pass') try {
-      if (solo) require('../phase2/evidence.cjs').reconcile([original[index]],[result],context);
-      else require('../phase3/evidence.cjs').reconcile([original[index]],[result],context);
+      if (solo) require('../gameplay-checks/evidence.cjs').reconcile([original[index]],[result],context);
+      else require('../lan-checks/evidence.cjs').reconcile([original[index]],[result],context);
       for (const pid of solo?[result.pid]:result.ownedProcesses.map(row=>row.pid)) {
         const subject=launches.get(pid);
         e.need(subject,'RENDERED_INHERITED_RUNTIME_OWNER',String(pid));
@@ -1547,7 +1553,7 @@ async function runRendered(root, registered) {
     let unlock, lockRetained=false;
     try {
       controller.signal.throwIfAborted();
-      unlock = require('../phase2/check.cjs').acquireLock(root,invocation);
+      unlock = require('../gameplay-checks/check.cjs').acquireLock(root,invocation);
       const result = group.id.startsWith('G3') ? await runInherited(root,relative,group,items,build,gate.adapter,current,invocation,controller.signal) :
         await runInspection(root,relative,group,items,drivers,build,gate.adapter,invocation,controller.signal);
       outcomes.push(...result);

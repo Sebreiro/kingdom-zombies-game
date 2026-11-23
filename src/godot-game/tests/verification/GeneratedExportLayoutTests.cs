@@ -167,7 +167,7 @@ public sealed class GeneratedExportLayoutTests
     private static DiagnosticAnalyzer Analyzer()
     {
         var assembly = Assembly.Load(rawAssembly: File.ReadAllBytes(path: Local(
-                path: "tools/code-rules/bin/Debug/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll")));
+                path: "src/godot-game/tools/code-rules/bin/Debug/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll")));
         Type type = assembly.GetType(name: "Sebreiro.CodeRules.Analyzers.LineLengthAnalyzer")
                 ?? throw new InvalidOperationException(message: "Missing real line analyzer");
         return Activator.CreateInstance(type: type) as DiagnosticAnalyzer

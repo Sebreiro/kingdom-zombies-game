@@ -181,9 +181,9 @@ public sealed class CharacterPresentationTests
 
     /// <summary>The exact compiler-valid public identity never authorizes adjacent types.</summary>
     [Theory]
-    [InlineData("src/core/CharacterPresentation.cs", "CharacterPresentation", true)]
-    [InlineData("src/core/Neighbor.cs", "CharacterPresentation", false)]
-    [InlineData("src/core/CharacterPresentation.cs", "CharacterPresentationNeighbor", false)]
+    [InlineData("src/godot-game/core/CharacterPresentation.cs", "CharacterPresentation", true)]
+    [InlineData("src/godot-game/core/Neighbor.cs", "CharacterPresentation", false)]
+    [InlineData("src/godot-game/core/CharacterPresentation.cs", "CharacterPresentationNeighbor", false)]
     public void PublicBoundary_ExpectedDeclaration_PreservesExactIdentity(string path, string type, bool allowed)
     {
         string source = "namespace KingdomZombies.Core; public sealed class " + type + " {}";
@@ -214,14 +214,14 @@ public sealed class CharacterPresentationTests
                 path2: "docs/code/visibility-exemptions.json"))) ?? throw new InvalidDataException();
         (registry["permissions"] ?? throw new InvalidDataException()).AsArray().Add(item: new JsonObject
         {
-            ["path"] = "src/core/Neighbor.cs",
+            ["path"] = "src/godot-game/core/Neighbor.cs",
             ["type"] = "KingdomZombies.Core.Neighbor",
             ["reason"] = "Not authorized"
         });
         File.WriteAllText(path: Path.Combine(path1: directory, path2: "docs/code/visibility-exemptions.json"),
                 contents: registry.ToJsonString());
         ArchitecturePolicy.Visibility(root: directory, source: "namespace KingdomZombies.Core;"
-                + " public sealed class Neighbor {}", path: "src/core/Neighbor.cs",
+                + " public sealed class Neighbor {}", path: "src/godot-game/core/Neighbor.cs",
                 options: new CSharpParseOptions(languageVersion: LanguageVersion.CSharp14))
                 .Any(predicate: value => StringComparer.Ordinal.Equals(x: value,
                         y: "R-34: invalid or expanded exact visibility registry")).ShouldBeTrue();
@@ -317,7 +317,7 @@ public sealed class CharacterPresentationTests
 
     private static byte[] Data(string file)
     {
-        return File.ReadAllBytes(path: Path.Combine(path1: Root(), path2: "src/godot-game/content", path3: file));
+        return File.ReadAllBytes(path: Path.Combine(path1: Root(), path2: "src/godot-game/game/content", path3: file));
     }
 
     private static string Root()
@@ -328,7 +328,7 @@ public sealed class CharacterPresentationTests
 
     private static CharacterPresentation Create()
     {
-        string game = Path.Combine(path1: Root(), path2: "src/godot-game/content");
+        string game = Path.Combine(path1: Root(), path2: "src/godot-game/game/content");
         return new CharacterPresentation(animation: File.ReadAllBytes(path: Path.Combine(path1: game,
                 path2: "animation/locomotion-melee.json")), items: File.ReadAllBytes(path: Path.Combine(path1: game,
                         path2: "config/items.json")), combat: File.ReadAllBytes(path: Path.Combine(path1: game,

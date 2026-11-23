@@ -84,7 +84,7 @@ async function extract(context,executable=PYTHON){
   const results=[];
   for(const id of IDS){
     const destination=inside(context.directory,id);
-    const child=await runner.command(context,id,executable,['-B',inside(ROOT,'tools/phase4/extract-audio.py'),'--child',id,destination],{timeout:40000});
+    const child=await runner.command(context,id,executable,['-B',inside(ROOT,'src/godot-game/tools/asset-pipeline/run-extractor.py'),'extract-audio.py','--child',id,destination],{timeout:40000});
     const complete=JSON.parse(child.stdout),sample=document(destination,'sample.json');
     need(complete.complete&&complete.id===id&&complete.frames===sample.output.frames&&complete.sha256===sample.output.sha256,'AUDIO_CHILD_INCOMPLETE',id);
     need(hash(bytes(destination,sample.output.name))===sample.output.sha256,'AUDIO_OUTPUT_HASH',id);

@@ -202,7 +202,7 @@ public sealed class AudioPresentationTests
     private static JsonElement Pack(string file)
     {
         using var document = JsonDocument.Parse(utf8Json: File.ReadAllBytes(path: Path.Combine(
-                path1: ProofProtocol.Root, path2: "src/godot-game/content/packs/" + file + ".json")));
+                path1: ProofProtocol.Root, path2: "src/godot-game/game/content/packs/" + file + ".json")));
         return document.RootElement.Clone();
     }
 
@@ -216,7 +216,7 @@ public sealed class AudioPresentationTests
     private static Type Subject()
     {
         var assembly = Assembly.Load(rawAssembly: File.ReadAllBytes(path: Path.Combine(path1: ProofProtocol.Root,
-                path2: "src/godot-game/.godot/mono/temp/bin/Debug/KingdomZombies.dll")));
+                path2: "src/godot-game/game/.godot/mono/temp/bin/Debug/KingdomZombies.dll")));
         return assembly.GetType(name: "KingdomZombies.Inspection.AudioPreview", throwOnError: true)
                 ?? throw new InvalidOperationException();
     }

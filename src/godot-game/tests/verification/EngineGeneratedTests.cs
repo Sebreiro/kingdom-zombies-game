@@ -151,7 +151,7 @@ public sealed class EngineGeneratedTests
         _producerStage = stageId;
         ProducerProgress(status: "start", detail: "Before manifest or subject assertions");
         using var manifest = JsonDocument.Parse(json: File.ReadAllText(path: Local(
-                path: "tools/phase1/required-cases.json")));
+                path: "src/godot-game/tools/verification/required-cases.json")));
         JsonElement owner = manifest.RootElement.GetProperty(propertyName: "cases").EnumerateArray().Single(
                 predicate: item => item.TryGetProperty(propertyName: "producerStages", value: out JsonElement plan)
                         && plan.GetProperty(propertyName: "stages").EnumerateArray().Any(predicate: stage =>
@@ -256,10 +256,13 @@ public sealed class EngineGeneratedTests
         Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
     };
     private static readonly Dictionary<string, string> _producerRoots = new(comparer: StringComparer.Ordinal);
-    private static readonly string[] _producerRecipePaths = ["Directory.Build.props", "Directory.Build.targets",
-        "Directory.Xunit.targets", "Directory.Packages.props", ".editorconfig", "global.json", "NuGet.config",
-        "BannedSymbols.txt", "BannedSymbols.Tests.txt", "BannedSymbols.Pure.txt", "tools/phase1/toolchain.json",
-        "tests/phase1/BuildFixture.cs", "src/godot-game/.editorconfig"];
+    private static readonly string[] _producerRecipePaths = ["src/godot-game/Directory.Build.props",
+        "src/godot-game/Directory.Build.targets", "src/godot-game/build/Directory.Xunit.targets",
+        "src/godot-game/Directory.Packages.props", ".editorconfig", "src/godot-game/global.json",
+        "src/godot-game/NuGet.config", "src/godot-game/build/BannedSymbols.txt",
+        "src/godot-game/build/BannedSymbols.Tests.txt", "src/godot-game/build/BannedSymbols.Pure.txt",
+        "src/godot-game/tools/verification/toolchain.json", "src/godot-game/tests/verification/BuildFixture.cs",
+        "src/godot-game/game/.editorconfig"];
 
     private static string ProducerRoot(JsonElement inventory, JsonElement registry, string? liveRoot = null)
     {
@@ -272,18 +275,20 @@ public sealed class EngineGeneratedTests
         }
 
         JsonElement[] inputs = [.. inventory.GetProperty(propertyName: "sourceInputs").EnumerateArray()];
-        string[] actual = [..Directory.EnumerateFiles(path: SafePath(root: selected, path: "src/godot-game"),
+        string[] actual = [..Directory.EnumerateFiles(path: SafePath(root: selected, path: "src/godot-game/game"),
                 searchPattern: "*.cs",
                 searchOption: SearchOption.AllDirectories).Select(selector: path => Path.GetRelativePath(
                         relativeTo: selected, path: path).Replace(oldChar: '\\', newChar: '/'))
                 .Where(predicate: path => !path.Split(separator: '/').Any(predicate: part => part is ".godot"
                         or "bin" or "obj") && !IsAdapter(path: path))];
-        string[] expected = [..inputs.Select(selector: input => Text(row: input, name: "path"))
-                .Where(predicate: path => path.EndsWith(value: ".cs", comparisonType: StringComparison.Ordinal))];
+        string[] expected = [..inputs.Select(selector: input => AssetPipelinePaths.Current(path: Text(row: input,
+                name: "path"))).Where(predicate: path => path.EndsWith(value: ".cs",
+                        comparisonType: StringComparison.Ordinal))];
         if (actual.Order(comparer: StringComparer.Ordinal).SequenceEqual(second: expected.Order(
                 comparer: StringComparer.Ordinal), comparer: StringComparer.Ordinal) && inputs.All(predicate: input =>
                         StringComparer.Ordinal.Equals(x: Hash(bytes: File.ReadAllBytes(path: SafePath(root: selected,
-                                path: Text(row: input, name: "path")))), y: Text(row: input, name: "sha256"))))
+                                path: AssetPipelinePaths.Current(path: Text(row: input, name: "path"))))),
+                                y: Text(row: input, name: "sha256"))))
         {
             _producerRoots[key] = selected;
             return selected;
@@ -615,7 +620,7 @@ public sealed class EngineGeneratedTests
 
         kind.ShouldBe(expected: "changed");
         File.AppendAllText(path: SafePath(root: fixture.DirectoryPath,
-                path: "src/godot-game/inspection/InspectionRoot.cs"), contents: "\n// changed producer bytes\n");
+                path: "src/godot-game/game/inspection/InspectionRoot.cs"), contents: "\n// changed producer bytes\n");
         _producerRoots.Remove(key: fixture.DirectoryPath + ProducerKey(inventory: inventory));
         string historicalRoot = ProducerRoot(inventory: inventory, registry: registry,
                 liveRoot: fixture.DirectoryPath);
@@ -628,9 +633,9 @@ public sealed class EngineGeneratedTests
     private static BuildFixture ReproductionFixture()
     {
         var fixture = new BuildFixture(game: true);
-        File.Delete(path: SafePath(root: fixture.DirectoryPath, path: "src/godot-game/Subject.cs"));
-        foreach (string relative in new[] { "tests/phase1/ContentInspectorTests.cs", "tools/phase4/cases/hub.cjs",
-                "src/godot-game/inspection/Inspection.tscn" })
+        File.Delete(path: SafePath(root: fixture.DirectoryPath, path: "src/godot-game/game/Subject.cs"));
+        foreach (string relative in new[] { "src/godot-game/tests/verification/ContentInspectorTests.cs",
+                "src/godot-game/tools/asset-pipeline/cases/hub.cjs", "src/godot-game/game/inspection/Inspection.tscn" })
         {
             string path = SafePath(root: fixture.DirectoryPath, path: relative);
             Directory.CreateDirectory(path: Path.GetDirectoryName(path: path)
@@ -650,7 +655,8 @@ public sealed class EngineGeneratedTests
     {
         foreach (JsonElement surface in inventory.GetProperty(propertyName: "surfaces").EnumerateArray())
         {
-            Hash(bytes: File.ReadAllBytes(path: SafePath(root: root, path: Text(row: surface, name: "path"))))
+            Hash(bytes: File.ReadAllBytes(path: SafePath(root: root, path: AssetPipelinePaths.Current(
+                    path: Text(row: surface, name: "path")))))
                     .ShouldBe(expected: Text(row: surface, name: "sha256"));
         }
     }
@@ -712,7 +718,8 @@ public sealed class EngineGeneratedTests
         string project = Path.Combine(path1: fixture.DirectoryPath, path2: ConfigurationTests.Projects[2]);
         foreach (JsonElement input in inventory.GetProperty(propertyName: "sourceInputs").EnumerateArray())
         {
-            string path = SafePath(root: fixture.DirectoryPath, path: Text(row: input, name: "path"));
+            string path = SafePath(root: fixture.DirectoryPath, path: AssetPipelinePaths.Current(
+                    path: Text(row: input, name: "path")));
             Directory.CreateDirectory(path: Path.GetDirectoryName(path: path)
                     ?? throw new InvalidDataException(message: "PRODUCER_INPUT_DIRECTORY"));
             File.WriteAllBytes(path: path, bytes: InputBytes(input: input, registry: registry));
@@ -720,7 +727,7 @@ public sealed class EngineGeneratedTests
 
         string source = File.ReadAllText(path: project);
         string includes = string.Join(separator: "", values: expected.Select(selector: path =>
-                "<Compile Include=\"" + path["src/godot-game/".Length..] + "\"/>"));
+                "<Compile Include=\"" + path["src/godot-game/game/".Length..] + "\"/>"));
         File.WriteAllText(path: project, contents: source.Replace(oldValue: "</Project>",
                 newValue: "<ItemGroup><Compile Remove=\"**/*.cs\"/>" + includes
                         + "<Compile Include=\"GeneratedCallSiteAdapters.cs;GeneratedReportAdapter.cs\"/>"
@@ -737,7 +744,8 @@ public sealed class EngineGeneratedTests
 
     private static bool IsAdapter(string path)
     {
-        return path is "src/godot-game/GeneratedCallSiteAdapters.cs" or "src/godot-game/GeneratedReportAdapter.cs";
+        return path is "src/godot-game/game/GeneratedCallSiteAdapters.cs"
+                or "src/godot-game/game/GeneratedReportAdapter.cs";
     }
 
     private static byte[] InputBytes(JsonElement input, JsonElement registry)
@@ -778,8 +786,8 @@ public sealed class EngineGeneratedTests
             }
             else
             {
-                Hash(bytes: File.ReadAllBytes(path: Local(path: Text(row: input, name: "path")))).ShouldBe(
-                        expected: Text(row: input, name: "sha256"));
+                Hash(bytes: File.ReadAllBytes(path: Local(path: AssetPipelinePaths.Current(
+                        path: Text(row: input, name: "path"))))).ShouldBe(expected: Text(row: input, name: "sha256"));
             }
         }
 
@@ -799,8 +807,8 @@ public sealed class EngineGeneratedTests
         Text(row: row, name: "package").ShouldBe(expected: Text(row: inventory, name: "package"));
         Text(row: row, name: "packageSha256").ShouldBe(expected: Text(row: inventory, name: "packageSha256"));
         JsonElement surface = inventory.GetProperty(propertyName: "surfaces").EnumerateArray().Single(
-                predicate: item => StringComparer.Ordinal.Equals(x: Text(row: item, name: "path"),
-                        y: Text(row: row, name: "surface")));
+                predicate: item => StringComparer.Ordinal.Equals(x: AssetPipelinePaths.Current(
+                        path: Text(row: item, name: "path")), y: Text(row: row, name: "surface")));
         Text(row: row, name: "sha256").ShouldBe(expected: Text(row: surface, name: "sha256"));
         if (row.TryGetProperty(propertyName: "textSha256", value: out JsonElement textHash))
         {
@@ -846,7 +854,7 @@ public sealed class EngineGeneratedTests
                             y: Text(row: file, name: "path")));
             Text(row: surface, name: "sha256").ShouldBe(expected: Text(row: file, name: "sha256"));
             Text(row: surface, name: "textSha256").ShouldBe(expected: Text(row: file, name: "textSha256"));
-            string path = SafePath(root: root, path: Text(row: file, name: "path"));
+            string path = SafePath(root: root, path: AssetPipelinePaths.Current(path: Text(row: file, name: "path")));
             Hash(bytes: File.ReadAllBytes(path: path)).ShouldBe(expected: Text(row: file, name: "sha256"));
             Hash(bytes: Encoding.UTF8.GetBytes(s: File.ReadAllText(path: path))).ShouldBe(
                     expected: Text(row: file, name: "textSha256"));
@@ -1119,9 +1127,9 @@ public sealed class EngineGeneratedTests
     {
         JsonElement inventory = CurrentProducer(registry: registry);
         var fixture = new BuildFixture(game: true);
-        File.Delete(path: SafePath(root: fixture.DirectoryPath, path: "src/godot-game/Subject.cs"));
-        foreach (string relative in new[] { "tests/phase1/ContentInspectorTests.cs", "tools/phase4/cases/hub.cjs",
-                "src/godot-game/inspection/Inspection.tscn" })
+        File.Delete(path: SafePath(root: fixture.DirectoryPath, path: "src/godot-game/game/Subject.cs"));
+        foreach (string relative in new[] { "src/godot-game/tests/verification/ContentInspectorTests.cs",
+                "src/godot-game/tools/asset-pipeline/cases/hub.cjs", "src/godot-game/game/inspection/Inspection.tscn" })
         {
             string path = SafePath(root: fixture.DirectoryPath, path: relative);
             Directory.CreateDirectory(path: Path.GetDirectoryName(path: path)
@@ -1137,13 +1145,14 @@ public sealed class EngineGeneratedTests
         VerifyCurrentCoverage(inventory: inventory, observations: inventory.GetProperty(propertyName: "observations"),
                 registry: registry, root: current);
         File.AppendAllText(path: SafePath(root: fixture.DirectoryPath,
-                path: "src/godot-game/inspection/InspectionRoot.cs"), contents: "\n// changed producer bytes\n");
+                path: "src/godot-game/game/inspection/InspectionRoot.cs"), contents: "\n// changed producer bytes\n");
         _producerRoots.Remove(key: fixture.DirectoryPath + ProducerKey(inventory: inventory));
         string historical = ProducerRoot(inventory: inventory, registry: registry, liveRoot: fixture.DirectoryPath);
         StringComparer.Ordinal.Equals(x: historical, y: fixture.DirectoryPath).ShouldBe(expected: false);
         foreach (JsonElement surface in inventory.GetProperty(propertyName: "surfaces").EnumerateArray())
         {
-            Hash(bytes: File.ReadAllBytes(path: SafePath(root: historical, path: Text(row: surface, name: "path"))))
+            Hash(bytes: File.ReadAllBytes(path: SafePath(root: historical, path: AssetPipelinePaths.Current(
+                    path: Text(row: surface, name: "path")))))
                     .ShouldBe(expected: Text(row: surface, name: "sha256"));
         }
 
@@ -1155,7 +1164,8 @@ public sealed class EngineGeneratedTests
         string originalRoot = ProducerRoot(inventory: original, registry: registry);
         foreach (JsonElement surface in original.GetProperty(propertyName: "surfaces").EnumerateArray())
         {
-            Hash(bytes: File.ReadAllBytes(path: SafePath(root: originalRoot, path: Text(row: surface, name: "path"))))
+            Hash(bytes: File.ReadAllBytes(path: SafePath(root: originalRoot, path: AssetPipelinePaths.Current(
+                    path: Text(row: surface, name: "path")))))
                     .ShouldBe(expected: Text(row: surface, name: "sha256"));
         }
 
@@ -1165,7 +1175,7 @@ public sealed class EngineGeneratedTests
 
     private static JsonElement CurrentProducer(JsonElement registry)
     {
-        string[] actual = [..Directory.EnumerateFiles(path: Local(path: "src/godot-game"), searchPattern: "*.cs",
+        string[] actual = [..Directory.EnumerateFiles(path: Local(path: "src/godot-game/game"), searchPattern: "*.cs",
                 searchOption: SearchOption.AllDirectories).Select(selector: path => Path.GetRelativePath(
                         relativeTo: ProofProtocol.Root, path: path).Replace(oldChar: '\\', newChar: '/'))
                 .Where(predicate: path => !path.Split(separator: '/').Any(predicate: part => part is "bin" or "obj"
@@ -1176,7 +1186,7 @@ public sealed class EngineGeneratedTests
         VerifyProducer(inventory: selected, registry: registry);
         foreach (JsonElement surface in selected.GetProperty(propertyName: "surfaces").EnumerateArray())
         {
-            string path = Local(path: Text(row: surface, name: "path"));
+            string path = Local(path: AssetPipelinePaths.Current(path: Text(row: surface, name: "path")));
             Hash(bytes: File.ReadAllBytes(path: path)).ShouldBe(expected: Text(row: surface, name: "sha256"));
             Hash(bytes: Encoding.UTF8.GetBytes(s: File.ReadAllText(path: path))).ShouldBe(
                     expected: Text(row: surface, name: "textSha256"));
@@ -1188,12 +1198,13 @@ public sealed class EngineGeneratedTests
     private static bool MatchesInputs(JsonElement inventory, string[] actual)
     {
         JsonElement[] inputs = [.. inventory.GetProperty(propertyName: "sourceInputs").EnumerateArray()];
-        string[] expected = [.. inputs.Select(selector: input => Text(row: input, name: "path")).Where(
-                predicate: path => path.EndsWith(value: ".cs", comparisonType: StringComparison.Ordinal))
-                .Order(comparer: StringComparer.Ordinal)];
+        string[] expected = [.. inputs.Select(selector: input => AssetPipelinePaths.Current(
+                path: Text(row: input, name: "path"))).Where(predicate: path => path.EndsWith(value: ".cs",
+                        comparisonType: StringComparison.Ordinal)).Order(comparer: StringComparer.Ordinal)];
         return expected.SequenceEqual(second: actual, comparer: StringComparer.Ordinal)
                 && inputs.All(predicate: input => StringComparer.Ordinal.Equals(x: Hash(bytes: File.ReadAllBytes(
-                        path: Local(path: Text(row: input, name: "path")))), y: Text(row: input, name: "sha256")));
+                        path: Local(path: AssetPipelinePaths.Current(path: Text(row: input, name: "path"))))),
+                        y: Text(row: input, name: "sha256")));
     }
 
     private static void VerifyBakedRows(JsonElement[] rows)

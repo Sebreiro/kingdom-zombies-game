@@ -2,7 +2,7 @@
 const fs=require('node:fs'),equal=require('node:util').isDeepStrictEqual;
 const runner=require('../check.cjs'),{ROOT,inside,bytes,document,write,hash,need}=require('../content.cjs');
 const animation=require('./animation.cjs'),bodies=require('./bodies-a.cjs');
-function files(){return [...animation.files(),'tools/phase4/cases/bodies-a.cjs','tools/phase4/extract-media.py','tools/phase4/cases/bow-work.cjs','tests/phase1/CharacterBowTests.cs'];}
+function files(){return [...animation.files(),'tools/phase4/cases/bodies-a.cjs','tools/phase4/extract-media.py','tools/phase4/cases/bow-work.cjs','src/godot-game/tests/verification/CharacterBowTests.cs'];}
 function fingerprint(){return files().map(file=>({file,sha256:hash(bytes(ROOT,file))}));}
 const BOW_METHOD=String.raw`
  private object _bow=null!;
@@ -200,8 +200,8 @@ function source(){
 }
 const SOURCE_PIXELS=String.raw`import pathlib,sys,json,hashlib,importlib.util
 sys.dont_write_bytecode=True
-root=pathlib.Path(sys.argv[1]);spec=importlib.util.spec_from_file_location('media',root/'tools/phase4/extract-media.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);Image=m.image_module()
-bow=json.loads((root/'src/godot-game/content/animation/bow.json').read_bytes());common=json.loads((root/'src/godot-game/content/packs/common.json').read_bytes());atlas=Image.open(root/'src/godot-game/assets/common/donor-kit.png').convert('RGBA')
+root=pathlib.Path(sys.argv[1]);spec=importlib.util.spec_from_file_location('media',root/'src/godot-game/tools/asset-pipeline/extract-media.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);Image=m.image_module()
+bow=json.loads((root/'src/godot-game/game/content/animation/bow.json').read_bytes());common=json.loads((root/'src/godot-game/game/content/packs/common.json').read_bytes());atlas=Image.open(root/'src/godot-game/game/assets/common/donor-kit.png').convert('RGBA')
 assert hashlib.sha256(atlas.tobytes()).hexdigest()==common['atlas']['rgbaSha256'],'BOW_FULL_COMMON_RGBA'
 rows=[]
 for frame in bow['guard']['frames']+[f for c in bow['guard']['locomotion'] for f in c['frames']]:
@@ -211,10 +211,10 @@ async function run(context){
  const before=fingerprint();write(context.directory,'bow-inputs.json',before);
  write(context.directory,'bow-source.json',source());
  const pixels=await runner.command(context,'bow-source-pixels',require('../python.cjs').PYTHON,['-c',SOURCE_PIXELS,ROOT]);write(context.directory,'bow-source-pixels.json',JSON.parse(pixels.stdout));
- const build=await runner.command(context,'bow-strict-build','dotnet',['build',inside(ROOT,'KingdomZombies.slnx'),'--no-restore','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'],{env:bodies.isolated()});need(/0 Warning\(s\)[\s\S]*0 Error\(s\)/.test(build.stdout),'BOW_CLEAN_BUILD');
+ const build=await runner.command(context,'bow-strict-build','dotnet',['build',inside(ROOT,'src/godot-game/KingdomZombies.slnx'),'--no-restore','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'],{env:bodies.isolated()});need(/0 Warning\(s\)[\s\S]*0 Error\(s\)/.test(build.stdout),'BOW_CLEAN_BUILD');
  const observation=await animation.native(context,harness());
  const compiled=inside(context.directory,'compiled');fs.mkdirSync(compiled);
- await runner.command(context,'bow-compiled','dotnet',[inside(ROOT,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll'),'--filter-class','*CharacterBowTests','--report-xunit-junit','--report-xunit-junit-filename','tests.xml','--report-xunit-ctrf','--report-xunit-ctrf-filename','tests.json','--results-directory',compiled,'--no-ansi','--progress','off','--parallel','none','--timeout','45s'],{env:{...bodies.isolated(),BOW_NATIVE_REPORT:inside(context.directory,'animation-observation.json')}});
+ await runner.command(context,'bow-compiled','dotnet',[inside(ROOT,'src/godot-game/tests/verification/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll'),'--filter-class','*CharacterBowTests','--report-xunit-junit','--report-xunit-junit-filename','tests.xml','--report-xunit-ctrf','--report-xunit-ctrf-filename','tests.json','--results-directory',compiled,'--no-ansi','--progress','off','--parallel','none','--timeout','45s'],{env:{...bodies.isolated(),BOW_NATIVE_REPORT:inside(context.directory,'animation-observation.json')}});
  need(equal(before,fingerprint()),'BOW_INPUT_CHANGED');return observation;
 }
 runner.registerCase('animation.bow',{group:'characters',title:'Actual walking bow aim, ammunition and fallback',importance:'Critical',rationale:'Invented ammunition or wrong logical hands breaks required combat presentation',needsGameWindow:false,runGroup:'G0',order:52,requirements:['ASSET-02','ASSET-03'],acceptance:['AC-04','AC-06','AC-24'],setup:'Actual production preview and exact current bodies, equipment and configuration in authenticated owned headless engine',actions:['Equip actual usable bow and opposite arrow hand','Observe real live action selectors and composed output','Run 64 consecutive structural cycles in both facings with empty inventory, zero arrows and Broken ordinary condition','Reject duplicate and stale releases, then revoke structural authority through ordinary zero-ammo, non-bow and detach','Execute compiled finite-stack, legacy six-argument and explicit intrinsic behavior assertions'],expected:'Finite ordinary ammunition and explicit unlimited structural ammunition preserve configured 1.2-second timing, real source arrows, logical hands and generation-bound releases without loot or gameplay events',reset:'Detach owned preview and close owned headless process; no actual game window',evidence:['bow-inputs.json','animation-assemblies.json','animation-observation.json','compiled/tests.xml','result.json']},run);
@@ -308,10 +308,10 @@ function workFiles(){return [...files(),'src/godot-game/content/animation/work-s
 function workHarness(){return animation.HARNESS.replace(' public override async void _Ready()',WORK_METHOD+' public override async void _Ready()').replace('await Matrix(root,preview);','Work(root,preview);await Matrix(root,preview);').replace('restoredBindingAccepted=_restoredBindingAccepted};','restoredBindingAccepted=_restoredBindingAccepted,workSamples=_workSamples,workControls=_workControls,workResetControls=_workResetControls,workResets=_workResets};');}
 const WORK_SOURCE=String.raw`import pathlib,sys,io,json,hashlib,importlib.util
 sys.dont_write_bytecode=True
-root=pathlib.Path(sys.argv[1]);spec=importlib.util.spec_from_file_location('media',root/'tools/phase4/extract-media.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);Image=m.image_module()
+root=pathlib.Path(sys.argv[1]);spec=importlib.util.spec_from_file_location('media',root/'src/godot-game/tools/asset-pipeline/extract-media.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);Image=m.image_module()
 sha=lambda b:hashlib.sha256(b).hexdigest()
-data=m.read_archive(root/'production/phase4/work-special.zip');pack=m.loads(data['work-special.json']);atlas=Image.open(io.BytesIO(data['work-special.png'])).convert('RGBA')
-assert data['work-special.json']==(root/'src/godot-game/content/animation/work-special.json').read_bytes() and data['work-special.png']==(root/'src/godot-game/assets/characters/work-special.png').read_bytes()
+data=m.read_archive(root/'src/godot-game/production/assets/work-special.zip');pack=m.loads(data['work-special.json']);atlas=Image.open(io.BytesIO(data['work-special.png'])).convert('RGBA')
+assert data['work-special.json']==(root/'src/godot-game/game/content/animation/work-special.json').read_bytes() and data['work-special.png']==(root/'src/godot-game/game/assets/characters/work-special.png').read_bytes()
 members=m.loads(data['members.json']);assert len(members)+1==len(data)
 for r in members:assert len(data[r['path']])==r['bytes'] and sha(data[r['path']])==r['sha256']
 assert sha(data['generated/work-effects-master.png'])==pack['provenance']['masterSha256'] and sha(data['prompts/work-effects.txt'])==pack['provenance']['promptSha256']
@@ -326,7 +326,7 @@ for family,body in [('a','CH-01'),('b','CH-08'),('c','CH-06')]:
  assert data[f'retained/bodies-{family}/masters/{body}.png'] and data[f'retained/bodies-{family}/prompts/{body}.txt']
 assert [c['id'] for c in pack['actions']]==['Sit','Stand','Gather','Put away','Build','Hammer','Repair','Chop','Pickup','Carry','Deliver','Stash','Equip','Eat','Spit','Burst']
 assert pack['obligations']==[f'AN-{i:02}' for i in range(10,17)]
-combat=json.loads((root/'src/godot-game/content/config/combat.json').read_bytes());spit=next(p for p in combat['projectiles'] if p['projectileId']=='spit')
+combat=json.loads((root/'src/godot-game/game/content/config/combat.json').read_bytes());spit=next(p for p in combat['projectiles'] if p['projectileId']=='spit')
 for k,v in spit.items():assert pack['spit'][k]==v
 assert pack['spit']['intervalSeconds']==next(a['intervalSeconds'] for a in combat['attacks'] if a['attackId']=='spitter.spit')
 print(json.dumps({'members':len(data),'components':len(pack['components']),'actions':len(pack['actions']),'sourceBodyMasters':3,'sourceClips':['common.clip.1245','common.clip.915','common.clip.823'],'atlasRgba':sha(atlas.tobytes()),'generatedMasterAlpha':[0,255],'rgbRetained':True}))
@@ -334,7 +334,7 @@ print(json.dumps({'members':len(data),'components':len(pack['components']),'acti
 async function workRun(context){
  const before=workFiles().map(file=>({file,sha256:hash(bytes(ROOT,file,67108864))}));write(context.directory,'work-inputs.json',before);
  const source=await runner.command(context,'work-source',require('../python.cjs').PYTHON,['-c',WORK_SOURCE,ROOT]);write(context.directory,'work-source.json',JSON.parse(source.stdout));
- const build=await runner.command(context,'work-strict-build','dotnet',['build',inside(ROOT,'KingdomZombies.slnx'),'--no-restore','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'],{env:bodies.isolated()});need(/0 Warning\(s\)[\s\S]*0 Error\(s\)/.test(build.stdout),'WORK_CLEAN_BUILD');
+ const build=await runner.command(context,'work-strict-build','dotnet',['build',inside(ROOT,'src/godot-game/KingdomZombies.slnx'),'--no-restore','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'],{env:bodies.isolated()});need(/0 Warning\(s\)[\s\S]*0 Error\(s\)/.test(build.stdout),'WORK_CLEAN_BUILD');
  const result=await animation.native(context,workHarness());need(result.workSamples.length===240,'WORK_MATRIX_COUNT');need(result.workControls.length===40&&result.workControls.every(c=>c.pass),'WORK_CONTROLS');need(result.workResets.length===7&&result.workResetControls.length===71&&result.workResetControls.every(c=>c.pass),'WORK_RESET_CONTROLS');need(equal(before,workFiles().map(file=>({file,sha256:hash(bytes(ROOT,file,67108864))}))),'WORK_INPUT_CHANGED');return result;
 }
 runner.registerCase('animation.work-special',{group:'characters',title:'Actual restrained work, food, mouth spit and cosmetic bloater actions',importance:'High',rationale:'Missing role/specialist actions or invented inventory/hazards misrepresent required game mechanics',needsGameWindow:false,runGroup:'G0',order:53,requirements:['ASSET-02','ASSET-03'],acceptance:['AC-04','AC-06','AC-24'],setup:'Actual production preview with current fitted sources, retained generated effects, exact DT05 projectile configuration and authenticated owning Core/game assemblies',actions:['Select16 applicable work/special actions with live facing, logical tool hand and real fitted bags/clothing','Sample authored boundaries with silent restoration and explicit transient events','Change actual transfer fixture and verify real food artwork without free capacity','Release mouth spit through covering, stop at first contact and expire lifetime','Expire cosmetic stain while keeping equipped corpse','Interrupt to live locomotion and reject malformed actual work definitions'],expected:'240 independent native pose/source/grip outcomes plus distinct boundary/negative controls; original704 melee/five controls remain intact; clean authenticated exit',reset:'Clear work and ordinary gear through live selectors; detach owned preview; no actual game window',evidence:['work-inputs.json','work-source.json','animation-assemblies.json','animation-observation.json','result.json']},workRun);

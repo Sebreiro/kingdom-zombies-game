@@ -30,7 +30,7 @@ public sealed class SessionLayoutTests
     [Fact]
     public void Bind_CurrentTheme_IsAccepted()
     {
-        string project = Path.Combine(path1: ProofProtocol.Root, path2: "src/godot-game");
+        string project = Path.Combine(path1: ProofProtocol.Root, path2: "src/godot-game/game");
         using var pack = JsonDocument.Parse(utf8Json: File.ReadAllBytes(path: Path.Combine(path1: project,
                 path2: "content/packs/ui-session.json")));
         byte[][] inputs = [..pack.RootElement.GetProperty(propertyName: "bindings").EnumerateArray()
@@ -77,7 +77,7 @@ public sealed class SessionLayoutTests
     private static object? Call(string name, object[] arguments)
     {
         var assembly = Assembly.Load(rawAssembly: File.ReadAllBytes(path: Path.Combine(path1: ProofProtocol.Root,
-                path2: "src/godot-game/.godot/mono/temp/bin/Debug/KingdomZombies.dll")));
+                path2: "src/godot-game/game/.godot/mono/temp/bin/Debug/KingdomZombies.dll")));
         Type subject = assembly.GetType(name: "KingdomZombies.Inspection.SessionLayouts", throwOnError: true)
                 ?? throw new InvalidOperationException();
         MethodInfo method = subject.GetMethod(name: name, bindingAttr: BindingFlags.NonPublic | BindingFlags.Static)

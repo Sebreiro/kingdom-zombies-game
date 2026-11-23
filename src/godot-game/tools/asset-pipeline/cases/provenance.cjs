@@ -200,7 +200,7 @@ async function publicationRecoveryRace(context,{sourceRoot,publicationRoot,scrip
   }finally{await Promise.all(launched);}
 }
 async function publication(context){
-  const before=snapshot(),legacy=subject(context,'legacy-baseline'),index=legacy.index,sourceRoot=legacy.root,publicationRoot=path.join(context.directory,'publication'),script=path.join(ROOT,'tools/phase4/content.cjs');
+  const before=snapshot(),legacy=subject(context,'legacy-baseline'),index=legacy.index,sourceRoot=legacy.root,publicationRoot=path.join(context.directory,'publication'),script=path.join(ROOT,'src/godot-game/tools/asset-pipeline/content.cjs');
   write(context.directory,'inputs.json',before);const baseline=publish({sourceRoot,index,publicationRoot,invocation:context.nonce+'-baseline'});
   const observations=[];let observedCompetitor=false;
   for(const step of ['locked','staged','validated','before-commit']){
@@ -275,7 +275,7 @@ async function currentPublication(context){
   write(context.directory,'current-publication-positive.json',baseline);
   for(const step of ['locked','staged','validated','before-commit']){
     const invocation=context.nonce+'-current-'+step,name='current-interrupted-'+step;let caught;
-    try{await runner.command(context,name,process.execPath,[path.join(ROOT,'tools/phase4/content.cjs'),'--publish-worker',sourceRoot,publicationRoot,invocation,step],{interruptMarker:'PUBLICATION_PAUSED '+invocation+' '+step});}catch(error){caught=error;}
+    try{await runner.command(context,name,process.execPath,[path.join(ROOT,'src/godot-game/tools/asset-pipeline/content.cjs'),'--publish-worker',sourceRoot,publicationRoot,invocation,step],{interruptMarker:'PUBLICATION_PAUSED '+invocation+' '+step});}catch(error){caught=error;}
     const command=document(context.directory,name+'.command.json');need(caught?.message.includes('LOADER_INTERRUPTED')&&command.reason==='LOADER_INTERRUPTED'&&command.streamsClosed&&!command.cleanupError,'CURRENT_PUBLICATION_INTERRUPTION',step);
     need(hash(bytes(publicationRoot,'current.json'))===pointer&&readPublished(publicationRoot).result.valid.length===180,'CURRENT_PUBLICATION_VISIBLE_SIBLINGS',step);
     const recovered=content.recoverPublication({publicationRoot,invocation});need(!recovered.published,'CURRENT_INTERRUPTED_NOT_PUBLISHED');controls.push({id:name,pointerUnchanged:true,validSiblings:180,recovered});

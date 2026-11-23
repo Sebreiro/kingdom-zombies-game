@@ -277,7 +277,7 @@ function verifyRepositoryExecution(item, observations, context) {
 }
 
 function callerRepository(root) {
-  const manifest = read(inside(root, 'tools/phase1/required-cases.json'));
+  const manifest = read(inside(root, 'src/godot-game/tools/verification/required-cases.json'));
   const owner = manifest.cases.find(row => row.id === 'ac-08.complete');
   if (!owner) reject('CALLER_REPOSITORY_REQUIRED', 'ac-08.complete');
   return repositoryPlan(owner, root);
@@ -286,7 +286,7 @@ function callerExpected(item, root) {
   const repository = callerRepository(root), stage = (prefix, key, action, extra = {}) => ({ id: prefix + '-' + key, action, ...extra });
   const sources = prefix => repository.stages.filter(row => ['repository-auth', 'repository-shape', 'repository-sources'].includes(row.action))
     .map(row => stage(prefix, row.id, 'repository', { sourceStageId: row.id }));
-  const authority = read(inside(root, 'tools/phase1/required-cases.json')).callerAuthority;
+  const authority = read(inside(root, 'src/godot-game/tools/verification/required-cases.json')).callerAuthority;
   if (authority?.registry !== 'docs/code/generated-callsite-adaptations.json'
       || fileHash(inside(root, authority.registry)) !== authority.sha256 || !Array.isArray(authority.collisionRowIds)
       || !authority.collisionRowIds.length || new Set(authority.collisionRowIds).size !== authority.collisionRowIds.length) reject('CALLER_COLLISION_AUTHORITY', item.id);
@@ -303,7 +303,7 @@ function callerExpected(item, root) {
       ...repository.cohorts.map((row, index) => stage('companion-negative', 'calls-' + index, 'companion-negative', { cohort: row.id, rowIds: row.rowIds }))];
     case 'rules.godot-callsite-boundary': return godot('godot');
     case 'core.permissions': {
-      const manifest = read(inside(root, 'tools/phase1/required-cases.json'));
+      const manifest = read(inside(root, 'src/godot-game/tools/verification/required-cases.json'));
       const aliases = { 'boundary-warm-spans-missing-observations': 'warm-spans-missing-observations',
         'boundary-warm-calls-missing-observations': 'warm-calls-missing-observations' };
       const producers = ['engine.generated-origin', 'engine.generated-boundary'].flatMap(id => {
@@ -329,7 +329,7 @@ function callerPlan(item, root) {
   const identity = identities[item.id], spec = item.callerStages;
   if (!identity || item.test !== identity[0] || spec?.diagnostic !== identity[1]
       || spec.method !== 'KingdomZombies.Phase1.Tests.ExemptionTests.Check_CallerStage_RequiresCompleteOriginalConjunction'
-      || spec.catalog !== (item.id === 'core.permissions' ? 'tools/phase2/required-cases.json' : 'tools/phase1/required-cases.json')
+      || spec.catalog !== (item.id === 'core.permissions' ? 'src/godot-game/tools/gameplay-checks/required-cases.json' : 'src/godot-game/tools/verification/required-cases.json')
       || spec.childMs !== 45000 || spec.setupMs !== 60000 || !Array.isArray(spec.stages) || !spec.stages.length
       || spec.overallMs !== 180000 + spec.stages.length * 48000
       || spec.repositorySha256 !== digest(JSON.stringify(callerRepository(root)))) reject('CALLER_PLAN', item.id);
@@ -344,7 +344,7 @@ function callerBindings(item, root, assembly) {
     .sort().map(name => ({ path: path.relative(root, path.join(directory, name)).replaceAll('\\', '/'), sha256: fileHash(path.join(directory, name)) }));
   const spec = callerPlan(item, root);
   return { catalog: spec.catalog, catalogSha256: fileHash(inside(root, spec.catalog)), planSha256: digest(JSON.stringify(spec)),
-    runnerSha256: fileHash(inside(root, 'tools/phase1/check.cjs')), phase1CatalogSha256: fileHash(inside(root, 'tools/phase1/required-cases.json')), binaries };
+    runnerSha256: fileHash(inside(root, 'src/godot-game/tools/verification/check.cjs')), phase1CatalogSha256: fileHash(inside(root, 'src/godot-game/tools/verification/required-cases.json')), binaries };
 }
 function callerAction(stage, repository) {
   return stage.action === 'repository' ? repository.stages.find(row => row.id === stage.sourceStageId)?.action : stage.action;
@@ -408,7 +408,7 @@ function verifyCallerResult(item, result, context) {
   if (Object.keys(union).some(key => !unionFields.includes(key)) || union.aggregatedExecution !== true
       || result.report?.path !== prefix + 'producer-union.json'
       || result.report.sha256 !== fileHash(inside(context.directory, result.report.path))) reject('CALLER_UNION_REFERENCE', item.id);
-  const assembly = inside(context.root, 'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll');
+  const assembly = inside(context.root, 'src/godot-game/tests/verification/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll');
   if (JSON.stringify(union.bindings) !== JSON.stringify(callerBindings(item, context.root, assembly))
       || JSON.stringify(selection.plan) !== JSON.stringify(spec) || selection.caseId !== item.id || selection.monolithicExecuted !== false
       || union.execution !== 'aggregated-caller-stages' || union.monolithicExecuted !== false || union.caseId !== item.id || union.status !== 'pass'
@@ -464,7 +464,7 @@ function callerEvidenceControls(item, result, context) {
     else if (kind === 'failed') changed.stages[0].status = 'fail';
     else if (kind === 'stale') changed.input = 'old';
     else if (kind === 'wrongcase') changed.id = 'core.other';
-    else if (kind === 'wrongcatalog') changed.callerCatalog = 'tools/phase3/required-cases.json';
+    else if (kind === 'wrongcatalog') changed.callerCatalog = 'src/godot-game/tools/lan-checks/required-cases.json';
     else if (kind === 'context') changed.nonce = 'foreign';
     else if (kind === 'artifact') changed.artifacts[0].sha256 = '0'.repeat(64);
     else changed.artifacts = changed.artifacts.filter(row => !row.path.endsWith('/permission-keys.json') && !row.path.endsWith('/producer-union.json'));

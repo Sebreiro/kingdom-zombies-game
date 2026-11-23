@@ -13,7 +13,7 @@ public sealed class ThemeLayoutTests
     public void Scene_PackagedTheme_IsApplied()
     {
         string scene = File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root,
-                path2: "src/godot-game/inspection/Inspection.tscn"));
+                path2: "src/godot-game/game/inspection/Inspection.tscn"));
         scene.ShouldContain(expected: "path=\"res://assets/ui/InspectionTheme.tres\"");
         scene.ShouldContain(expected: "theme = ExtResource(\"3_theme\")");
     }
@@ -45,7 +45,7 @@ public sealed class ThemeLayoutTests
         scales[1].GetDouble().ShouldBe(expected: 1.0);
         scales[2].GetDouble().ShouldBe(expected: 1.5);
         string scene = File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root,
-                path2: "src/godot-game/inspection/Inspection.tscn"));
+                path2: "src/godot-game/game/inspection/Inspection.tscn"));
         scene.ShouldContain(expected: "metadata/scale_policy = \"UI canvas once; world zoom independent\"");
         scene.ShouldContain(expected: "offset = Vector2(-6, -9)");
     }
@@ -53,6 +53,6 @@ public sealed class ThemeLayoutTests
     private static JsonDocument ReadPack()
     {
         return JsonDocument.Parse(utf8Json: File.ReadAllBytes(path: Path.Combine(path1: ProofProtocol.Root,
-                path2: "src/godot-game/content/packs/ui-kit.json")));
+                path2: "src/godot-game/game/content/packs/ui-kit.json")));
     }
 }

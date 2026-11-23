@@ -31,7 +31,7 @@ public sealed class ContentInspectorTests
         CSharpCompilation compilation = consumer.Create();
         ConsumerCompilation.RequireValid(compilation: compilation);
         var assembly = Assembly.Load(rawAssembly: File.ReadAllBytes(path: Path.Combine(path1: ProofProtocol.Root,
-                path2: "tools/code-rules/bin/Debug/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll")));
+                path2: "src/godot-game/tools/code-rules/bin/Debug/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll")));
         ImmutableArray<DiagnosticAnalyzer> analyzers = [.. assembly.GetTypes().Where(predicate: type =>
                 !type.IsAbstract && typeof(DiagnosticAnalyzer).IsAssignableFrom(c: type)).Select(selector: type =>
                         (DiagnosticAnalyzer)(Activator.CreateInstance(type: type)
@@ -106,7 +106,7 @@ public sealed class ContentInspectorTests
     public void Authorize_InternalInspection_RequiresExactInvocation(string type, string signatures)
     {
         var consumer = ConsumerCompilation.Read(root: ProofProtocol.Root, project: ProjectEvaluator.Expected[2]);
-        string path = "src/godot-game/inspection/" + type + ".cs";
+        string path = "src/godot-game/game/inspection/" + type + ".cs";
         string source = File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: path));
         EngineAccessPolicy.Check(source: source, path: path, consumer: consumer).ShouldBeEmpty();
         EngineAccessPolicy.InspectionTuples.Where(predicate: tuple => tuple.StartsWith(value: path + "|",
@@ -116,7 +116,7 @@ public sealed class ContentInspectorTests
         CSharpCompilation compilation = consumer.Create(source: source, path: path);
         SyntaxTree actual = compilation.SyntaxTrees.Single(predicate: candidate => StringComparer.Ordinal.Equals(
                 x: candidate.FilePath, y: path));
-        SyntaxTree wrongPath = actual.WithFilePath(path: "src/godot-game/inspection/Adjacent" + type + ".cs");
+        SyntaxTree wrongPath = actual.WithFilePath(path: "src/godot-game/game/inspection/Adjacent" + type + ".cs");
         CSharpCompilation wrong = compilation.ReplaceSyntaxTree(oldTree: actual, newTree: wrongPath);
         ConsumerCompilation.RequireValid(compilation: wrong);
         EngineAccessPolicy.CheckTree(tree: wrongPath, compilation: wrong).ShouldNotBeEmpty();
@@ -137,7 +137,7 @@ public sealed class ContentInspectorTests
     {
         foreach ((string path, string type, int project) in new[]
         {
-            ("src/core/ContentPack.cs", "ContentPack", 0),
+            ("src/godot-game/core/ContentPack.cs", "ContentPack", 0),
             (InspectionPath, "InspectionRoot", 2),
         })
         {
@@ -794,13 +794,13 @@ public sealed class ContentInspectorTests
                     "cGVuZGluZyIKCltub2RlIG5hbWU9IlBhY2tTdGF0dXMiIHR5cGU9IkxhYmVsIiBwYXJlbnQ9IlN1bW1hcnkiXQpsYXlvdXRf" +
                     "bW9kZSA9IDIKdGV4dCA9ICJQYWNrIGluY29tcGxldGUg4oCUIHRyYWNlciBtYXN0ZXIgb25seSIK";
 
-    private const string InspectionPath = "src/godot-game/inspection/InspectionRoot.cs";
+    private const string InspectionPath = "src/godot-game/game/inspection/InspectionRoot.cs";
     private const string Native = "Godot.GD.Print(what: [1]);";
 
     private static void CheckMember(string type, int index)
     {
         var consumer = ConsumerCompilation.Read(root: ProofProtocol.Root, project: ProjectEvaluator.Expected[2]);
-        string path = "src/godot-game/inspection/" + type + ".cs";
+        string path = "src/godot-game/game/inspection/" + type + ".cs";
         string source = File.ReadAllText(path: Path.Combine(path1: ProofProtocol.Root, path2: path));
         SyntaxTree tree = consumer.Parse(source: source, path: path);
         TypeDeclarationSyntax owner = InspectionDeclaration(tree: tree, owner: type);
@@ -913,7 +913,7 @@ public sealed class ContentInspectorTests
         CSharpCompilation compilation = consumer.Create(source: source, path: InspectionPath);
         SyntaxTree tree = compilation.SyntaxTrees.Single(predicate: candidate => StringComparer.Ordinal.Equals(
                 x: candidate.FilePath, y: InspectionPath));
-        SyntaxTree wrongPath = tree.WithFilePath(path: "src/godot-game/inspection/AdjacentInspection.cs");
+        SyntaxTree wrongPath = tree.WithFilePath(path: "src/godot-game/game/inspection/AdjacentInspection.cs");
         CSharpCompilation wrong = compilation.ReplaceSyntaxTree(oldTree: tree, newTree: wrongPath);
         ConsumerCompilation.RequireValid(compilation: wrong);
         EngineAccessPolicy.CheckTree(tree: wrongPath, compilation: wrong).ShouldNotBeEmpty();
@@ -966,7 +966,7 @@ public sealed class ContentInspectorTests
             return Convert.FromBase64String(s: LegacyScene);
         }
 
-        string file = Path.Combine(path1: ProofProtocol.Root, path2: "src/godot-game/" + path);
+        string file = Path.Combine(path1: ProofProtocol.Root, path2: "src/godot-game/game/" + path);
         return File.Exists(path: file) ? File.ReadAllBytes(path: file) : null;
     }
 

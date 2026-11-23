@@ -4,10 +4,16 @@ const runner=require('../check.cjs');
 const {ROOT,need,inside,bytes,document,write,hash}=require('../content.cjs');
 const DOTNET='C:/Program Files/dotnet/dotnet.exe';
 const REGISTRY='docs/code/generated-layout-adaptations.json',ORIGIN='production/phase4/export-layout-origin.json';
+// Captured origin rows name the pre-relocation project folders; their live owner, path and suffix use the current ones.
+const OWNERS={'src/core':'src/godot-game/core','src/godot-game':'src/godot-game/game',
+  'src/multiplayer-abstractions':'src/godot-game/multiplayer-abstractions'};
+function currentSource(row){const owner=OWNERS[row.owner];need(owner&&row.path.startsWith(row.owner+'/')&&row.suffix==='/'+row.path,'EXPORT_SOURCE_OWNER',row.id);
+  const relocated=owner+row.path.slice(row.owner.length);return {...row,owner,path:relocated,suffix:'/'+relocated};}
 function snapshot(){
-  return Object.fromEntries([REGISTRY,ORIGIN,'tools/code-rules/GeneratedLayout.cs','tools/phase4/check.cjs',
-    'tools/phase4/cases/export-layout.cjs','tools/phase1/toolchain.json','Directory.Build.props','Directory.Build.targets',
-    'tools/phase1/required-cases.json','tests/phase1/GeneratedExportLayoutTests.cs']
+  return Object.fromEntries([REGISTRY,ORIGIN,'src/godot-game/tools/code-rules/GeneratedLayout.cs','tools/phase4/check.cjs',
+    'tools/phase4/cases/export-layout.cjs','src/godot-game/tools/verification/toolchain.json','src/godot-game/Directory.Build.props',
+    'src/godot-game/Directory.Build.targets',
+    'src/godot-game/tools/verification/required-cases.json','src/godot-game/tests/verification/GeneratedExportLayoutTests.cs']
     .map(file=>[file,hash(bytes(ROOT,file))]));
 }
 function sourceFile(root,relative){
@@ -56,10 +62,10 @@ function dependencies(directory){
 }
 async function compile(context){
   const initial=snapshot();write(context.directory,'inputs.json',initial);
-  const tools=document(ROOT,'tools/phase1/toolchain.json'),record=document(ROOT,ORIGIN),registry=document(ROOT,REGISTRY);
+  const tools=document(ROOT,'src/godot-game/tools/verification/toolchain.json'),record=document(ROOT,ORIGIN),registry=document(ROOT,REGISTRY);
   need(process.platform==='win32'&&process.arch==='x64'&&process.version==='v'+tools.node,'EXPORT_LAYOUT_PLATFORM');
   need(registry.sources.length===4&&registry.members.length===7&&registry.exportSources.length===6&&
-    JSON.stringify(record.exportSources)===JSON.stringify(registry.exportSources),'EXPORT_SOURCE_REGISTRY');
+    JSON.stringify(record.exportSources.map(currentSource))===JSON.stringify(registry.exportSources),'EXPORT_SOURCE_REGISTRY');
   const sdk=await runner.command(context,'sdk-version',DOTNET,['--version']);need(sdk.stdout.trim()===tools.sdk,'SDK_PIN');
   need(record.producer.path==='C:/Program Files/dotnet/sdk/10.0.404/Microsoft.Common.CurrentVersion.targets'&&
     record.producer.sdk===tools.sdk&&record.producer.symbol==='GenerateTargetFrameworkMonikerAttribute','EXPORT_PRODUCER_IDENTITY');
@@ -68,8 +74,8 @@ async function compile(context){
     '428d17faaf0737fba66feb5063f9a8c0d06a2ece7c42e6cca4a8a65220f80fbe','EXPORT_PRODUCER_HASH');
   write(context.directory,'producer.targets',producer);
   const retained=registry.exportSources.map(row=>authenticate(row,ROOT,row.surface));write(context.directory,'retained-sources.json',retained);
-  const tracked=await runner.command(context,'tracked-inputs','git',['-C',ROOT,'ls-files','--','src','tools/code-rules',
-    'Directory.*','BannedSymbols*','.editorconfig','global.json','NuGet.config','KingdomZombies.slnx']);
+  const tracked=await runner.command(context,'tracked-inputs','git',['-C',ROOT,'ls-files','--',
+    ...require('../export.cjs').EXPORT_PATHSPEC]);
   const results=[];
   for(const configuration of ['ExportDebug','ExportRelease']){
     const source=inside(context.directory,configuration+'/source');fs.mkdirSync(source,{recursive:true});
@@ -77,8 +83,7 @@ async function compile(context){
       const data=bytes(ROOT,name);inputs[name]=hash(data);write(source,name,data);
     }
     write(context.directory,configuration+'/project-inputs.json',inputs);
-    const nuget=inside(source,'NuGet.config');fs.writeFileSync(nuget,fs.readFileSync(nuget,'utf8')
-      .replace('value=".phase1/feed"','value="'+ROOT+'/.phase1/feed"'));
+    fs.writeFileSync(inside(source,'src/godot-game/NuGet.config'),require('../export.cjs').feedConfig(ROOT));
     const project=inside(source,'src/godot-game/KingdomZombies.csproj'),publish=inside(context.directory,configuration+'/publish');
     const flags=['-p:NuGetAudit=false','-p:UseSharedCompilation=false','-nodeReuse:false',
       '-p:NuGetPackageRoot='+ROOT+'/.phase1/packages/','-p:RestorePackagesPath='+ROOT+'/.phase1/packages'];
@@ -93,7 +98,7 @@ async function compile(context){
       published.stdout.includes('/warnaserror+'),'EXPORT_COMPILER_ANALYZERS_REQUIRED',configuration);
     const observed=registry.exportSources.filter(row=>row.configuration===configuration).map(row=>authenticate(row,source,row.path));
     need(observed.length===3,'EXPORT_SOURCE_COUNT');
-    const analyzer=inside(source,'tools/code-rules/bin/'+configuration+'/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll');
+    const analyzer=inside(source,'src/godot-game/tools/code-rules/bin/'+configuration+'/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll');
     const closure=dependencies(publish);
     const result={configuration,status:'pass',policy:evaluated,sources:observed,analyzerSha256:hash(fs.readFileSync(analyzer)),
       command:configuration+'-publish.command.json',closure};

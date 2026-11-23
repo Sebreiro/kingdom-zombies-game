@@ -227,10 +227,10 @@ async function command(context,name,executable,args,{timeout=60000,interruptMark
   return record;
 }
 function fingerprint(root){
-  const paths=[...Object.values(FILES),'tools/phase4/check.cjs','tools/phase1/toolchain.json','src/godot-game/project.godot','src/godot-game/content/pack-index.json','src/godot-game/content/expected-obligations.json','src/core/ContentPack.cs'];
-  for(const directory of ['src/godot-game/inspection','src/godot-game/foundation','src/godot-game/.godot/mono/temp/bin/Debug'])for(const file of fs.readdirSync(inside(root,directory)))if(fs.statSync(inside(root,directory+'/'+file)).isFile()&&(file.endsWith('.cs')||directory.endsWith('/Debug')))paths.push(directory+'/'+file);
+  const paths=[...Object.values(FILES),'tools/phase4/check.cjs','src/godot-game/tools/verification/toolchain.json','src/godot-game/project.godot','src/godot-game/content/pack-index.json','src/godot-game/content/expected-obligations.json','src/godot-game/core/ContentPack.cs'];
+  for(const directory of ['src/godot-game/inspection','src/godot-game/foundation','src/godot-game/game/.godot/mono/temp/bin/Debug'])for(const file of fs.readdirSync(inside(root,directory)))if(fs.statSync(inside(root,directory+'/'+file)).isFile()&&(file.endsWith('.cs')||directory.endsWith('/Debug')))paths.push(directory+'/'+file);
   return Object.fromEntries([...new Set(paths)].sort().map(file=>[file,hash(bytes(root,file,
-    file.startsWith('src/godot-game/.godot/mono/temp/bin/Debug/')?16777216:1048576))]));
+    file.startsWith('src/godot-game/game/.godot/mono/temp/bin/Debug/')?16777216:1048576))]));
 }
 function createRun(caseId){
   const nonce=crypto.randomUUID(),directory=inside(ROOT,'.phase4/runs/'+nonce);fs.mkdirSync(directory,{recursive:true});
@@ -251,7 +251,7 @@ function createRun(caseId){
   return context;
 }
 function engine(){
-  const pins=document(ROOT,'tools/phase1/toolchain.json');need(process.platform==='win32'&&process.arch==='x64','PINNED_PLATFORM_REQUIRED');
+  const pins=document(ROOT,'src/godot-game/tools/verification/toolchain.json');need(process.platform==='win32'&&process.arch==='x64','PINNED_PLATFORM_REQUIRED');
   need(process.version==='v'+pins.node,'NODE_PIN');
   const pin=pins.archives['win32-x64'],relative='.phase1/tools/'+pin.directory+'/'+pin.executable;
   const executable=inside(ROOT,relative);need(hash(bytes(ROOT,relative,268435456))===pin.executableSha256,'ENGINE_HASH',relative);
@@ -428,14 +428,14 @@ async function tracerAssemblies(context){
 async function runTracer(root,context,{interrupt=false,compiled}={}){
   compiled??=await tracerAssemblies(context);
   const initial=fingerprint(root);save(context.directory,'inputs.json',initial);
-  const {source}=validate(root),tool=engine(),pin=document(ROOT,'tools/phase1/toolchain.json').archives['win32-x64'];
+  const {source}=validate(root),tool=engine(),pin=document(ROOT,'src/godot-game/tools/verification/toolchain.json').archives['win32-x64'];
   const executable=path.join(path.dirname(tool.executable),pin.executable.replace('_console.exe','.exe')),archive=inside(ROOT,'.phase1/cache/'+pin.file),entry=pin.directory+'/'+path.basename(executable);
   need(hash(fs.readFileSync(archive))===pin.sha256,'ENGINE_ARCHIVE_HASH');
   const auth=await command(context,'engine-auth',PYTHON,['-B','-c','import sys,zipfile,hashlib; z=zipfile.ZipFile(sys.argv[1]); r=[x for x in z.infolist() if x.filename==sys.argv[2]]; assert len(r)==1 and 0<r[0].file_size<=268435456; print(hashlib.sha256(z.read(r[0])).hexdigest())',archive,entry]);
   need(hash(fs.readFileSync(executable))===auth.stdout.trim(),'ENGINE_NATIVE_ENTRY_HASH');tool.executable=executable;tool.sha256=auth.stdout.trim();save(context.directory,'engine.json',{...tool,archiveSha256:pin.sha256,entry});
   const version=await command(context,'engine-version',tool.executable,['--headless','--version']);need(version.stdout.trim()===tool.version,'ENGINE_VERSION');
   const project=inside(context.directory,'project');fs.mkdirSync(project);
-  for(const file of ['project.godot','inspection','foundation','content','assets','.godot/mono/temp/bin/Debug'])fs.cpSync(inside(root,'src/godot-game/'+file),inside(project,file),{recursive:true});
+  for(const file of ['project.godot','inspection','foundation','content','assets','.godot/mono/temp/bin/Debug'])fs.cpSync(inside(root,'src/godot-game/game/'+file),inside(project,file),{recursive:true});
   save(project,'probe.gd',probeScript(context.nonce,source.image,interrupt));
   const imported=await command(context,'native-import',tool.executable,['--headless','--path',project,'--editor','--import','--quit']);
   need(imported.stderr.trim()===''&&!/Unicode parsing error|ERROR:|SCRIPT ERROR:|FATAL|WARNING:|leaked/i.test(imported.stdout+imported.stderr),'NATIVE_IMPORT_ERROR',FILES.scene);
@@ -486,8 +486,8 @@ async function originalIdentities(){
 }
 function copySubject(directory){
   const root=inside(directory,'subject');fs.mkdirSync(root);
-  for(const file of ['project.godot','inspection','foundation','content','assets','.godot/mono/temp/bin/Debug'])fs.cpSync(inside(ROOT,'src/godot-game/'+file),inside(root,'src/godot-game/'+file),{recursive:true});
-  for(const file of ['production/phase4/tracer-source.json','tools/phase4/check.cjs','tools/phase1/toolchain.json','src/core/ContentPack.cs'])save(root,file,bytes(ROOT,file));
+  for(const file of ['project.godot','inspection','foundation','content','assets','.godot/mono/temp/bin/Debug'])fs.cpSync(inside(ROOT,'src/godot-game/game/'+file),inside(root,'src/godot-game/game/'+file),{recursive:true});
+  for(const file of ['production/phase4/tracer-source.json','tools/phase4/check.cjs','src/godot-game/tools/verification/toolchain.json','src/godot-game/core/ContentPack.cs'])save(root,file,bytes(ROOT,file));
   return root;
 }
 async function tracerFailures(context){

@@ -85,10 +85,10 @@ function validate(profile){
 function verifier(){return String.raw`import pathlib,sys,io,json,copy,importlib.util
 sys.dont_write_bytecode=True
 root=pathlib.Path(sys.argv[1]);profile=sys.argv[2]
-spec=importlib.util.spec_from_file_location('media',root/'tools/phase4/extract-media.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);Image=m.image_module()
+spec=importlib.util.spec_from_file_location('media',root/'src/godot-game/tools/asset-pipeline/extract-media.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);Image=m.image_module()
 data=m.read_archive(root/('production/phase4/bodies-'+profile+'.zip'));pack=m.loads(data['bodies-'+profile+'.json']);atlas=Image.open(io.BytesIO(data['bodies-'+profile+'.png'])).convert('RGBA')
 `+prior().VERIFY.slice(prior().VERIFY.indexOf('replay_cache='),prior().VERIFY.indexOf("poses=['idle'"))+String.raw`
-for name,path in [('bodies-'+profile+'.png','assets/characters/'),('bodies-'+profile+'.json','content/packs/'),('fits-'+profile+'.json','content/animation/')]:m.need((root/'src/godot-game'/path/name).read_bytes()==data[name],'BODY_PUBLICATION')
+for name,path in [('bodies-'+profile+'.png','assets/characters/'),('bodies-'+profile+'.json','content/packs/'),('fits-'+profile+'.json','content/animation/')]:m.need((root/'src/godot-game/game'/path/name).read_bytes()==data[name],'BODY_PUBLICATION')
 inventory=m.loads(data['members.json']);m.need(len(inventory)+1==len(data) and len({x['path'] for x in inventory})==len(inventory),'BODY_INVENTORY')
 for row in inventory:m.need(row['path'] in data and row['sha256']==m.sha(data[row['path']]) and row['bytes']==len(data[row['path']]),'BODY_MEMBER_HASH')
 m.need(pack['atlas']['sha256']==m.sha(data['bodies-'+profile+'.png']) and list(atlas.size)==pack['atlas']['size'],'BODY_ATLAS')
@@ -121,9 +121,9 @@ print(json.dumps({'bodies':len(pack['bodies']),'poses':len(pack['bodies'])*16,'p
 `;}
 async function art(context,profile){validate(profile);const name='verify-bodies-'+profile+'.py',script=inside(context.directory,name);write(context.directory,name,Buffer.from(verifier()));const result=await runner.command(context,'body-source-'+profile,PYTHON,[script,ROOT,profile]);return JSON.parse(result.stdout);}
 async function authenticate(context){
- const tool=require('./items.cjs').engine(),pin=document(ROOT,'tools/phase1/toolchain.json').archives['win32-x64'];
+ const tool=require('./items.cjs').engine(),pin=document(ROOT,'src/godot-game/tools/verification/toolchain.json').archives['win32-x64'];
  const archive=inside(ROOT,'.phase1/cache/'+pin.file);need(fs.statSync(archive).size<=268435456&&hash(fs.readFileSync(archive))===pin.sha256,'BODY_ARCHIVE_PIN');
- const result=await runner.command(context,'body-native-origin','powershell.exe',['-NoProfile','-NonInteractive','-Command',"Add-Type -AssemblyName System.IO.Compression.FileSystem; $zip=[IO.Compression.ZipFile]::OpenRead('D:/Work/Games/KingdomZombies/.phase1/cache/Godot_v4.7.2-stable_mono_win64.zip'); try { $entry=$zip.Entries | Where-Object { $_.FullName -ceq 'Godot_v4.7.2-stable_mono_win64/Godot_v4.7.2-stable_mono_win64.exe' }; if(@($entry).Count -ne 1){throw 'ARCHIVE_ENTRY'}; $stream=$entry.Open(); try { $sha=[Security.Cryptography.SHA256]::Create(); [BitConverter]::ToString($sha.ComputeHash($stream)).Replace('-','').ToLowerInvariant() } finally { $stream.Dispose() } } finally { $zip.Dispose() }"]);
+ const result=await runner.command(context,'body-native-origin','powershell.exe',['-NoProfile','-NonInteractive','-Command',"Add-Type -AssemblyName System.IO.Compression.FileSystem; $zip=[IO.Compression.ZipFile]::OpenRead('"+inside(ROOT,'.phase1/cache/Godot_v4.7.2-stable_mono_win64.zip').replaceAll("'","''")+"'); try { $entry=$zip.Entries | Where-Object { $_.FullName -ceq 'Godot_v4.7.2-stable_mono_win64/Godot_v4.7.2-stable_mono_win64.exe' }; if(@($entry).Count -ne 1){throw 'ARCHIVE_ENTRY'}; $stream=$entry.Open(); try { $sha=[Security.Cryptography.SHA256]::Create(); [BitConverter]::ToString($sha.ComputeHash($stream)).Replace('-','').ToLowerInvariant() } finally { $stream.Dispose() } } finally { $zip.Dispose() }"]);
  const executable=path.join(path.dirname(tool.executable),pin.executable.replace('_console.exe','.exe'));need(hash(fs.readFileSync(executable))===result.stdout.trim()&&!executable.endsWith('_console.exe'),'BODY_NONCONSOLE_PIN');return executable;
 }
 function harness(ids){
@@ -150,11 +150,11 @@ const GEOMETRY=String.raw`
 `;
 async function native(context,ids,selected){
  const project=inside(context.directory,'body-matrix');fs.mkdirSync(project);write(project,'Directory.Build.props',Buffer.from('<Project />'));write(project,'Directory.Build.targets',Buffer.from('<Project />'));
- const original=inside(ROOT,'src/godot-game/.godot/mono/temp/bin/Debug');fs.cpSync(original,inside(project,'subjects'),{recursive:true});
+ const original=inside(ROOT,'src/godot-game/game/.godot/mono/temp/bin/Debug');fs.cpSync(original,inside(project,'subjects'),{recursive:true});
  const closure=fs.readdirSync(original).filter(x=>fs.statSync(path.join(original,x)).isFile()).map(file=>({file,sha256:hash(fs.readFileSync(path.join(original,file)))}));write(context.directory,'body-production-assemblies.json',closure);
  write(project,'CharacterProof.csproj',Buffer.from('<Project Sdk="Godot.NET.Sdk/4.7.2"><PropertyGroup><TargetFramework>net10.0</TargetFramework><AssemblyName>CharacterProof</AssemblyName><Nullable>enable</Nullable><TreatWarningsAsErrors>true</TreatWarningsAsErrors><EnableDynamicLoading>true</EnableDynamicLoading></PropertyGroup></Project>'));
  write(project,'CharacterHarness.cs',Buffer.from(harness(ids)));write(project,'project.godot',Buffer.from('config_version=5\n[application]\nconfig/name="BodyProof"\n[dotnet]\nproject/assembly_name="CharacterProof"\n[display]\nwindow/size/viewport_width=1280\nwindow/size/viewport_height=720\n[rendering]\nrenderer/rendering_method="gl_compatibility"\n'));
- for(const file of selected.filter(x=>x.startsWith('src/godot-game/')&&!x.endsWith('.cs')&&!x.endsWith('.tscn')))write(project,file.replace('src/godot-game/',''),bytes(ROOT,file));
+ for(const file of selected.filter(x=>require('../layout.cjs').physical(x).startsWith('src/godot-game/game/')&&!x.endsWith('.cs')&&!x.endsWith('.tscn')))write(project,file.replace('src/godot-game/',''),bytes(ROOT,file));
  write(project,'probe.gd',Buffer.from('extends SceneTree\nfunc _initialize():\n var proof=load("res://CharacterHarness.cs").new()\n root.add_child(proof)\n'));
  const build=await runner.command(context,'body-harness-build','dotnet',['build',inside(project,'CharacterProof.csproj'),'--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-p:RestoreIgnoreFailedSources=true','-v:q'],{env:prior().isolated()});need(/0 Warning\(s\)[\s\S]*0 Error\(s\)/.test(build.stdout),'BODY_HARNESS_CLEAN_BUILD');
  const executable=await authenticate(context),env={...prior().isolated(),CHARACTER_PROOF_NONCE:context.nonce};
@@ -171,7 +171,7 @@ async function run(context,complete){
  const selected=[...new Set([...prior().FIT_FILES,'tools/phase4/cases/bodies-b.cjs',...owned('b'),...(includeC?owned('c'):[])])],before=fingerprint(selected);write(context.directory,'body-inputs.json',before);
  const source=[await art(context,'b')];if(complete)source.push(await art(context,'c'));
  const itemIds=['items-01-10','items-11-24'].flatMap(p=>document(ROOT,'src/godot-game/content/packs/'+p+'.json').items.map(x=>x.id)).sort();need(equal(itemIds,Array.from({length:24},(_,i)=>'IT-'+String(i+1).padStart(2,'0'))),'FIT_ALL_24_ACTUAL_MASTERS');
- const build=await runner.command(context,'body-strict-build','dotnet',['build',inside(ROOT,'KingdomZombies.slnx'),'--no-restore','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'],{env:prior().isolated()});need(/0 Warning\(s\)[\s\S]*0 Error\(s\)/.test(build.stdout),'BODY_PRODUCTION_CLEAN_BUILD');
+ const build=await runner.command(context,'body-strict-build','dotnet',['build',inside(ROOT,'src/godot-game/KingdomZombies.slnx'),'--no-restore','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'],{env:prior().isolated()});need(/0 Warning\(s\)[\s\S]*0 Error\(s\)/.test(build.stdout),'BODY_PRODUCTION_CLEAN_BUILD');
  const ids=includeC?Array.from({length:8},(_,i)=>'CH-0'+(i+1)):['CH-01','CH-02','CH-03','CH-04','CH-05','CH-08'];const matrix=await native(context,ids,selected);
  need(equal(before,fingerprint(selected)),'BODY_INPUT_CHANGED');return {source,matrix,scope:'Source/headless actual DLL composition; final physical appearance/input and acceptance pending04-32/33'};
 }

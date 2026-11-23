@@ -3,7 +3,7 @@ const fs=require('node:fs'),path=require('node:path'),assert=require('node:asser
 const {spawnSync}=require('node:child_process');
 const runner=require('../check.cjs');
 const ROOT=path.resolve(__dirname,'../../../../..');
-const assembly=path.join(ROOT,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll');
+const assembly=path.join(ROOT,'src/godot-game/tests/verification/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll');
 function env(){const base=path.join(ROOT,'.phase1');return {...process.env,DOTNET_CLI_HOME:path.join(base,'cli-home'),
   NUGET_PACKAGES:path.join(base,'packages'),NUGET_HTTP_CACHE_PATH:path.join(base,'http-cache'),
   TEMP:path.join(base,'temp'),TMP:path.join(base,'temp'),PHASE1_ROOT:ROOT,DOTNET_NOLOGO:'1'};}
@@ -433,9 +433,9 @@ async function native(context,lifecycle=false){
   const themeInputs=Object.fromEntries(['src/godot-game/assets/ui/InspectionTheme.tres',
     'src/godot-game/assets/ui/LiberationSans.ttf','src/godot-game/assets/ui/PerfectDOSVGA437.ttf',
     'src/godot-game/assets/ui/Fallback.ttf','src/godot-game/assets/common/donor-kit.png']
-    .map(file=>[file,runner.hash(fs.readFileSync(path.join(ROOT,file)))]));
+    .map(file=>[file,runner.hash(fs.readFileSync(runner.inside(ROOT,file)))]));
   fs.writeFileSync(path.join(context.directory,'theme-inputs.json'),JSON.stringify(themeInputs,null,2));
-  const game=path.join(ROOT,'src/godot-game'),project=path.join(context.directory,'native-project');
+  const game=path.join(ROOT,'src/godot-game/game'),project=path.join(context.directory,'native-project');
   fs.mkdirSync(project,{recursive:true});
   const build=await runner.command(context,'native-build','dotnet',['build',path.join(game,'KingdomZombies.csproj'),
     '--no-restore','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'],{env:env()});
@@ -453,7 +453,7 @@ async function native(context,lifecycle=false){
     .map(x=>[x,runner.hash(fs.readFileSync(path.join(game,binaries,x)))]));
   fs.writeFileSync(path.join(context.directory,'native-assemblies.json'),JSON.stringify(closure,null,2));
   fs.writeFileSync(path.join(project,'probe.gd'),lifecycle?DRIVER.replace('    var result = {',LIFECYCLE+'    var result = {'):DRIVER);
-  const pins=JSON.parse(fs.readFileSync(path.join(ROOT,'tools/phase1/toolchain.json'),'utf8'));
+  const pins=JSON.parse(fs.readFileSync(path.join(ROOT,'src/godot-game/tools/verification/toolchain.json'),'utf8'));
   const pin=pins.archives[process.platform+'-'+process.arch];
   const console=path.join(ROOT,'.phase1/tools',pin.directory,pin.executable);
   assert.equal(runner.hash(fs.readFileSync(console)),pin.executableSha256,'GODOT_CONSOLE_PIN');
@@ -462,7 +462,7 @@ async function native(context,lifecycle=false){
   const archive=path.join(ROOT,'.phase1/cache',pin.file),name=pin.executable.replace('_console.exe','.exe');
   assert.equal(runner.hash(fs.readFileSync(archive)),pin.sha256,'GODOT_ARCHIVE_PIN');
   const authentication=await runner.command(context,'native-tool-origin','powershell.exe',['-NoProfile','-NonInteractive','-Command',
-    "Add-Type -AssemblyName System.IO.Compression.FileSystem; $zip=[IO.Compression.ZipFile]::OpenRead('D:/Work/Games/KingdomZombies/.phase1/cache/Godot_v4.7.2-stable_mono_win64.zip'); try { $entry=$zip.Entries | Where-Object { $_.Name -ceq 'Godot_v4.7.2-stable_mono_win64.exe' }; if(@($entry).Count -ne 1){throw 'ARCHIVE_ENTRY'}; $stream=$entry.Open(); try { $sha=[Security.Cryptography.SHA256]::Create(); [BitConverter]::ToString($sha.ComputeHash($stream)).Replace('-','').ToLowerInvariant() } finally { $stream.Dispose() } } finally { $zip.Dispose() }"]);
+    "Add-Type -AssemblyName System.IO.Compression.FileSystem; $zip=[IO.Compression.ZipFile]::OpenRead('"+runner.inside(ROOT,'.phase1/cache/Godot_v4.7.2-stable_mono_win64.zip').replaceAll("'","''")+"'); try { $entry=$zip.Entries | Where-Object { $_.Name -ceq 'Godot_v4.7.2-stable_mono_win64.exe' }; if(@($entry).Count -ne 1){throw 'ARCHIVE_ENTRY'}; $stream=$entry.Open(); try { $sha=[Security.Cryptography.SHA256]::Create(); [BitConverter]::ToString($sha.ComputeHash($stream)).Replace('-','').ToLowerInvariant() } finally { $stream.Dispose() } } finally { $zip.Dispose() }"]);
   const executable=path.join(path.dirname(console),name);
   assert.equal(runner.hash(fs.readFileSync(executable)),authentication.stdout.trim(),'GODOT_NATIVE_ENTRY_PIN');
   const isolated={...env(),...runner.environment(context.directory),NUGET_PACKAGES:path.join(ROOT,'.phase1/packages')};
@@ -494,7 +494,7 @@ async function native(context,lifecycle=false){
   }
   fs.writeFileSync(path.join(context.directory,'native-observation.json'),JSON.stringify(result,null,2));
   for(const [file,digest]of Object.entries(themeInputs)){
-    assert.equal(runner.hash(fs.readFileSync(path.join(ROOT,file))),digest,'HUB_THEME_SOURCE_CHANGED');
+    assert.equal(runner.hash(fs.readFileSync(runner.inside(ROOT,file))),digest,'HUB_THEME_SOURCE_CHANGED');
     assert.equal(runner.hash(fs.readFileSync(path.join(project,file.replace('src/godot-game/','')))),digest,
       'HUB_THEME_SUBJECT_CHANGED');
   }
@@ -510,11 +510,11 @@ runner.registerCase('hub.source',{group:'hub',title:'Independent portable regist
   reset:'Owned isolated resources; restore every mutated file and destroy the scene; no game window',
   evidence:['compiled.command.json','inputs.json','native-build.command.json','native-assemblies.json','native-hub.command.json','native-observation.json','result.json']},async context=>{
     const result=compiled(context.directory);
-    const inputs=Object.fromEntries(['src/core/ContentPack.cs','src/godot-game/inspection/InspectionRoot.cs',
+    const inputs=Object.fromEntries(['src/godot-game/core/ContentPack.cs','src/godot-game/inspection/InspectionRoot.cs',
       'src/godot-game/inspection/Inspection.tscn','src/godot-game/content/pack-index.json',
       'src/godot-game/content/expected-obligations.json','src/godot-game/content/packs/tracer.json',
-      'src/godot-game/assets/common/bow.png','tests/phase1/ContentInspectorTests.cs',
-      'tools/phase4/cases/hub.cjs'].map(file=>[file,runner.hash(fs.readFileSync(path.join(ROOT,file)))]));
+      'src/godot-game/assets/common/bow.png','src/godot-game/tests/verification/ContentInspectorTests.cs',
+      'tools/phase4/cases/hub.cjs'].map(file=>[file,runner.hash(fs.readFileSync(runner.inside(ROOT,file)))]));
     fs.writeFileSync(path.join(context.directory,'inputs.json'),JSON.stringify(inputs,null,2));
     const observed=await native(context);
     return {compiled:true,discovered:result.discovered,native:observed.outcomes.length,pid:observed.pid,

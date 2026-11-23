@@ -713,25 +713,25 @@ $discovery | ConvertTo-Json -Depth 12 -EscapeHandling EscapeNonAscii
 `;
 
 async function proveCompiledNativePermissions(context){
- const path=require('node:path'),phase1=require('../../phase1/check.cjs');
- const manifest=content.document(ROOT,'tools/phase1/required-cases.json');
- const pins=content.document(ROOT,'tools/phase1/toolchain.json');
- const sourceInputs=()=>phase1.snapshot(ROOT,{inputs:[...manifest.inputs,'tools/phase4','KingdomZombies.slnx']});
+ const path=require('node:path'),phase1=require('../../verification/check.cjs');
+ const manifest=content.document(ROOT,'src/godot-game/tools/verification/required-cases.json');
+ const pins=content.document(ROOT,'src/godot-game/tools/verification/toolchain.json');
+ const sourceInputs=()=>phase1.snapshot(ROOT,{inputs:[...manifest.inputs]});
  const source=sourceInputs();
  need(process.versions.node===pins.node,'NATIVE_PERMISSIONS_NODE_PIN');
  const dotnet='C:/Program Files/dotnet/dotnet.exe',env=require('./defenses.cjs').isolated();
  const version=await runner.command(context,'native-permissions-sdk',dotnet,['--version'],{env});
  need(version.stdout.trim()===pins.sdk&&version.stderr==='','NATIVE_PERMISSIONS_SDK_PIN');
  const build=await runner.command(context,'native-permissions-strict-build',dotnet,
-  ['build',inside(ROOT,'KingdomZombies.slnx'),'--no-restore','--disable-build-servers','-p:UseSharedCompilation=false',
+  ['build',inside(ROOT,'src/godot-game/KingdomZombies.slnx'),'--no-restore','--disable-build-servers','-p:UseSharedCompilation=false',
    '-nodeReuse:false','-p:NuGetAudit=false','-v:q'],{env});
  need(/0 Warning\(s\)[\s\S]*0 Error\(s\)/.test(build.stdout)&&build.stderr==='','NATIVE_PERMISSIONS_STRICT_BUILD');
- const bin='tests/phase1/bin/Debug/net10.0',assembly=inside(ROOT,`${bin}/KingdomZombies.Phase1.Tests.dll`);
+ const bin='src/godot-game/tests/verification/bin/Debug/net10.0',assembly=inside(ROOT,`${bin}/KingdomZombies.Phase1.Tests.dll`);
  const xunit=inside(ROOT,`${bin}/xunit.v3.common.dll`);
  const pinnedBinaries=[...fs.readdirSync(inside(ROOT,bin),{withFileTypes:true}).filter(row=>row.isFile())
-  .map(row=>inside(ROOT,`${bin}/${row.name}`)),inside(ROOT,'src/core/bin/Debug/net10.0/KingdomZombies.Core.dll'),
-  inside(ROOT,'src/godot-game/.godot/mono/temp/bin/Debug/KingdomZombies.dll'),
-  inside(ROOT,'tools/code-rules/bin/Debug/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll'),dotnet];
+  .map(row=>inside(ROOT,`${bin}/${row.name}`)),inside(ROOT,'src/godot-game/core/bin/Debug/net10.0/KingdomZombies.Core.dll'),
+  inside(ROOT,'src/godot-game/game/.godot/mono/temp/bin/Debug/KingdomZombies.dll'),
+  inside(ROOT,'src/godot-game/tools/code-rules/bin/Debug/netstandard2.0/Sebreiro.CodeRules.Analyzers.dll'),dotnet];
  const ref=file=>({file,sha256:hash(fs.readFileSync(file))});
  const binaryInputs=pinnedBinaries.map(ref);
  write(context.directory,'native-permissions-inputs.json',{source,binaryInputs,sdk:pins.sdk});

@@ -2,7 +2,8 @@
 const fs=require('node:fs'),path=require('node:path'),equal=require('node:util').isDeepStrictEqual;
 const runner=require('../check.cjs'),{ROOT,need,inside,bytes,document,write,hash}=require('../content.cjs');
 const {PYTHON}=require('../python.cjs');
-const EXTRACT='tools/phase4/extract-media.py',COMMON='src/godot-game/content/packs/common.json';
+// The pinned extractor runs through the live entry point, which binds it to this checkout's root.
+const EXTRACT='tools/phase4/extract-media.py',RUN_EXTRACTOR='src/godot-game/tools/asset-pipeline/run-extractor.py',COMMON='src/godot-game/content/packs/common.json';
 const ATLAS='src/godot-game/assets/common/donor-kit.png',BUNDLE='production/phase4/common-selected.zip';
 const FILES=[EXTRACT,COMMON,ATLAS,BUNDLE,'tools/phase4/cases/media.cjs'];
 function inputs(files){return Object.fromEntries(files.map(file=>[file,hash(bytes(ROOT,file))]));}
@@ -21,7 +22,7 @@ function validateCommon(pack){
   return pack;
 }
 function engine(){
-  const pins=document(ROOT,'tools/phase1/toolchain.json'),pin=pins.archives['win32-x64'];
+  const pins=document(ROOT,'src/godot-game/tools/verification/toolchain.json'),pin=pins.archives['win32-x64'];
   need(process.platform==='win32'&&process.arch==='x64'&&process.version==='v'+pins.node,'MEDIA_PLATFORM_PIN');
   const executable=inside(ROOT,'.phase1/tools/'+pin.directory+'/'+pin.executable),stat=fs.statSync(executable);
   need(stat.isFile()&&stat.size>0&&stat.size<=268435456,'MEDIA_ENGINE_FILE');
@@ -102,9 +103,9 @@ async function nativeConversion(context){
 async function conversion(context){
   const initial=inputs(FILES);write(context.directory,'inputs.json',initial);
   const pack=validateCommon(document(ROOT,COMMON));
-  const verified=await runner.command(context,'portable-common',PYTHON,['-B',inside(ROOT,EXTRACT),'--verify-common',
+  const verified=await runner.command(context,'portable-common',PYTHON,['-B',inside(ROOT,RUN_EXTRACTOR),'extract-media.py','--verify-common',
     inside(ROOT,BUNDLE),inside(ROOT,COMMON),inside(ROOT,ATLAS)],{timeout:60000});
-  const controls=await runner.command(context,'conversion-controls',PYTHON,['-B',inside(ROOT,EXTRACT),'--conversion-controls',
+  const controls=await runner.command(context,'conversion-controls',PYTHON,['-B',inside(ROOT,RUN_EXTRACTOR),'extract-media.py','--conversion-controls',
     inside(ROOT,BUNDLE),inside(context.directory,'controls')],{timeout:60000});
   const actual=JSON.parse(verified.stdout),negative=JSON.parse(controls.stdout);
   need(actual.portable&&actual.sprites===pack.resources.filter(x=>x.atlasRect).length&&negative.expectedRejected===13,'MEDIA_COMMON_PROOF');

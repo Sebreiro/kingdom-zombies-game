@@ -281,9 +281,9 @@ function validate(pack,bank){
   return {categories:15,candidates:40,variants:44,frames:format.frames,seconds:format.frames/44100,clippedOutputSamples:0,listening:pack.listening,approval:pack.approval};
 }
 const ZIP_CHECK=String.raw`import array, hashlib, io, json, pathlib, sys, wave, zipfile
-root=pathlib.Path(sys.argv[1]); pack=json.loads((root/'src/godot-game/content/packs/audio-actions.json').read_text())
+root=pathlib.Path(sys.argv[1]); pack=json.loads((root/'src/godot-game/game/content/packs/audio-actions.json').read_text())
 sha=lambda b:hashlib.sha256(b).hexdigest()
-with zipfile.ZipFile(root/'production/phase4/audio-actions.zip') as z:
+with zipfile.ZipFile(root/'src/godot-game/production/assets/audio-actions.zip') as z:
     expected={x['path']:x for x in pack['bundleMembers']}
     assert len(z.infolist())==len(expected)+1 and len(set(z.namelist()))==len(z.namelist()),'AUDIO_ZIP_COUNT'
     assert set(z.namelist())==set(expected)|{'production/manifest.json'},'AUDIO_ZIP_MEMBERS'
@@ -750,8 +750,8 @@ function validateInterface(pack,bank,events){
   return {categories:30,sources:23,newVariants:27,loopCount:loops,events:events.events.length,routes:events.events.reduce((n,e)=>n+e.routes.length,0),listening:'New variants Not auditioned; final04-32 pending'};
 }
 const INTERFACE_ZIP_CHECK=String.raw`import array,hashlib,io,json,math,pathlib,random,sys,wave,zipfile
-root=pathlib.Path(sys.argv[1]);pack=json.loads((root/'src/godot-game/content/packs/audio-interface-ambience.json').read_text());sha=lambda b:hashlib.sha256(b).hexdigest()
-with zipfile.ZipFile(root/'production/phase4/audio-interface-ambience.zip') as z:
+root=pathlib.Path(sys.argv[1]);pack=json.loads((root/'src/godot-game/game/content/packs/audio-interface-ambience.json').read_text());sha=lambda b:hashlib.sha256(b).hexdigest()
+with zipfile.ZipFile(root/'src/godot-game/production/assets/audio-interface-ambience.zip') as z:
     expected={x['path']:x for x in pack['bundleMembers']}
     assert len(z.infolist())==len(expected)+1 and set(z.namelist())==set(expected)|{'production/manifest.json'},'INTERFACE_ZIP_MEMBERS'
     assert sum(i.file_size for i in z.infolist())<=128*1024*1024,'INTERFACE_ZIP_TOTAL'
@@ -777,7 +777,7 @@ with zipfile.ZipFile(root/'production/phase4/audio-interface-ambience.zip') as z
                 v=round(max(-1,min(1,high*envelope*0.15))*16384);out.extend([v,v])
         else:
             if s['sourceId']=='action.2790.full':
-                with zipfile.ZipFile(root/'production/phase4/audio-actions.zip') as actions:
+                with zipfile.ZipFile(root/'src/godot-game/production/assets/audio-actions.zip') as actions:
                     a=json.loads(actions.read('production/manifest.json'));source=next(v for v in a['samples'] if v['id']==s['sourceId'])
                     original=actions.read(source['variantMember'])
             else:
@@ -1385,7 +1385,7 @@ function audioPreviewFiles(){
  }}
  walk('src/godot-game/foundation');
  return [...new Set([...require('./world.cjs').inspectorFiles(),...foundation,'src/godot-game/icon.svg',
-  'src/godot-game/inspection/AudioPreview.cs','tests/phase1/AudioPresentationTests.cs',AUDIO_FIXTURE,
+  'src/godot-game/inspection/AudioPreview.cs','src/godot-game/tests/verification/AudioPresentationTests.cs',AUDIO_FIXTURE,
   'tools/phase4/cases/audio.cjs'])];
 }
 const AUDIO_HUB_DRIVER=String.raw`extends SceneTree
@@ -1552,7 +1552,7 @@ async function audioHub(context,sourceInputs,heldout=false){
  write(context.directory,'audio-hub-production-assemblies.json',closure);
  write(project,'audio-hub-probe.gd',Buffer.from(AUDIO_HUB_DRIVER.replace(' # AUDIO_HELDOUT_HUB',heldout?AUDIO_HELDOUT_HUB:'')));
  const engine=document(context.directory,'inventory-engine.json');
- const pin=document(ROOT,'tools/phase1/toolchain.json').archives['win32-x64'];
+ const pin=document(ROOT,'src/godot-game/tools/verification/toolchain.json').archives['win32-x64'];
  need(hash(fs.readFileSync(inside(ROOT,'.phase1/cache/'+pin.file)))===pin.sha256
   &&engine.archiveSha256===pin.sha256&&hash(fs.readFileSync(engine.executable))===engine.sha256,'AUDIO_HUB_ENGINE_AUTH');
  write(context.directory,'audio-hub-engine.json',engine);
@@ -1620,14 +1620,14 @@ async function lifecycle(context,heldout=false){
  const files=audioPreviewFiles(),before=Object.fromEntries(files.map(file=>[file,hash(bytes(ROOT,file))]));
  write(context.directory,'audio-inputs.json',before);
  const env=require('./defenses.cjs').isolated();
- const build=await runner.command(context,'audio-strict-build','dotnet',['build',inside(ROOT,'KingdomZombies.slnx'),
+ const build=await runner.command(context,'audio-strict-build','dotnet',['build',inside(ROOT,'src/godot-game/KingdomZombies.slnx'),
   '--no-restore','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'],{env});
  need(/0 Warning\(s\)[\s\S]*0 Error\(s\)/.test(build.stdout),'AUDIO_STRICT_BUILD');
  const compiled=inside(context.directory,'audio-compiled');fs.mkdirSync(compiled);
- await runner.command(context,'audio-compiled','dotnet',[inside(ROOT,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll'),
+ await runner.command(context,'audio-compiled','dotnet',[inside(ROOT,'src/godot-game/tests/verification/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll'),
   '--filter-class','*AudioPresentationTests','--report-xunit-junit','--report-xunit-junit-filename','tests.xml',
   '--results-directory',compiled,'--no-ansi','--progress','off','--parallel','none','--timeout','45s'],{env});
- const paths=files.filter(file=>file.startsWith('src/godot-game/')&&!file.endsWith('.cs')
+ const paths=files.filter(file=>require('../layout.cjs').physical(file).startsWith('src/godot-game/game/')&&!file.endsWith('.cs')
   &&file!=='src/godot-game/project.godot'&&file!==AUDIO_FIXTURE).map(file=>file.slice(15));
  // Keep the original hub predicates and their final order in a separately qualified actual-project process.
  const source=heldout?AUDIO_HARNESS.replace('        await Hub();','        await Heldout();')

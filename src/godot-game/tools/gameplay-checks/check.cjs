@@ -33,10 +33,10 @@ async function csharp(context,item) {
     requireTrue(item.id==='core.permissions','STAGED_CASE_UNKNOWN');
     baseline.callerPlan(item,context.root);
     const directory=inside(context.directory,item.id);fs.mkdirSync(directory);
-    const child={...context,directory,children:new Set(),commands:[]},assembly=inside(context.root,'tests/phase1/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll');
+    const child={...context,directory,children:new Set(),commands:[]},assembly=inside(context.root,'src/godot-game/tests/verification/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll');
     const beforeBinary=hash(fs.readFileSync(assembly));
     try {
-      const build=await baseline.command('dotnet',['build','tests/phase1/KingdomZombies.Phase1.Tests.csproj','--no-restore','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'],child,'caller-setup-build',60000);
+      const build=await baseline.command('dotnet',['build','src/godot-game/tests/verification/KingdomZombies.Phase1.Tests.csproj','--no-restore','--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false','-v:q'],child,'caller-setup-build',60000);
       requireTrue(build.code===0,'STAGED_BUILD_FAILED');
       requireTrue(hash(fs.readFileSync(assembly))===beforeBinary,'STAGED_BINARY_CHANGED');
       return await baseline.runProducerStages(item,child,'dotnet',assembly);

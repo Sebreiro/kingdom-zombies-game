@@ -82,7 +82,7 @@ public sealed class InventoryLayoutTests
     private static object? Call(string name, object[] arguments)
     {
         var assembly = Assembly.Load(rawAssembly: File.ReadAllBytes(path: Path.Combine(path1: ProofProtocol.Root,
-                path2: "src/godot-game/.godot/mono/temp/bin/Debug/KingdomZombies.dll")));
+                path2: "src/godot-game/game/.godot/mono/temp/bin/Debug/KingdomZombies.dll")));
         Type subject = assembly.GetType(name: "KingdomZombies.Inspection.InventoryLayouts", throwOnError: true)
                 ?? throw new InvalidOperationException();
         MethodInfo method = subject.GetMethod(name: name, bindingAttr: BindingFlags.NonPublic | BindingFlags.Static)

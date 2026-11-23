@@ -3,7 +3,7 @@ const fs=require('node:fs'),equal=require('node:util').isDeepStrictEqual;
 const runner=require('../check.cjs'),{ROOT,need,inside,bytes,document,write,hash}=require('../content.cjs');
 const {PYTHON}=require('../python.cjs');
 function engine(){
-  const pins=document(ROOT,'tools/phase1/toolchain.json'),pin=pins.archives['win32-x64'];
+  const pins=document(ROOT,'src/godot-game/tools/verification/toolchain.json'),pin=pins.archives['win32-x64'];
   need(process.platform==='win32'&&process.arch==='x64'&&process.version==='v'+pins.node,'ITEM_PLATFORM_PIN');
   const executable=inside(ROOT,'.phase1/tools/'+pin.directory+'/'+pin.executable),stat=fs.statSync(executable);
   need(stat.isFile()&&stat.size>0&&stat.size<=268435456&&hash(fs.readFileSync(executable))===pin.executableSha256,'ITEM_ENGINE_IDENTITY');
@@ -12,12 +12,12 @@ function engine(){
 const VERIFY=String.raw`import pathlib,sys,json,io,copy,importlib.util,math
 sys.dont_write_bytecode=True
 root=pathlib.Path(sys.argv[1]);kind=sys.argv[2];artifact_root=pathlib.Path(sys.argv[3]) if len(sys.argv)>3 else root
-spec=importlib.util.spec_from_file_location('media',root/'tools/phase4/extract-media.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);Image=m.image_module()
-members=m.read_archive(artifact_root/'production/phase4'/ (kind+'.zip'));pack=m.loads(members[kind+'.json']);atlas=Image.open(io.BytesIO(members[kind+'.png'])).convert('RGBA')
-m.need((artifact_root/'src/godot-game/content/packs'/(kind+'.json')).read_bytes()==members[kind+'.json'],'ITEM_PACK_BYTES')
-m.need((artifact_root/'src/godot-game/assets/equipment'/(kind+'.png')).read_bytes()==members[kind+'.png'],'ITEM_ATLAS_BYTES')
+spec=importlib.util.spec_from_file_location('media',root/'src/godot-game/tools/asset-pipeline/extract-media.py');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);Image=m.image_module()
+members=m.read_archive(artifact_root/'src/godot-game/production/assets'/ (kind+'.zip'));pack=m.loads(members[kind+'.json']);atlas=Image.open(io.BytesIO(members[kind+'.png'])).convert('RGBA')
+m.need((artifact_root/'src/godot-game/game/content/packs'/(kind+'.json')).read_bytes()==members[kind+'.json'],'ITEM_PACK_BYTES')
+m.need((artifact_root/'src/godot-game/game/assets/equipment'/(kind+'.png')).read_bytes()==members[kind+'.png'],'ITEM_ATLAS_BYTES')
 scene_name=pathlib.PurePosixPath(pack['preview']['scene']).name
-m.need((artifact_root/'src/godot-game/inspection'/scene_name).read_bytes()==members[scene_name],'ITEM_SCENE_BYTES')
+m.need((artifact_root/'src/godot-game/game/inspection'/scene_name).read_bytes()==members[scene_name],'ITEM_SCENE_BYTES')
 inventory=m.loads(members['members.json']);m.need(len(inventory)+1==len(members) and len({x['path'] for x in inventory})==len(inventory),'ITEM_MEMBERS')
 for row in inventory:m.need(row['path'] in members and row['bytes']==len(members[row['path']]) and row['sha256']==m.sha(members[row['path']]),'ITEM_MEMBER_HASH')
 if kind=='items-01-10':
@@ -30,7 +30,7 @@ names=['Money','Arrows','Knife','Wooden club','Machete','Metal bat','Bow','Berri
 foot=[[1,1],[1,2],[1,2],[1,3],[1,3],[1,4],[2,4],[1,1],[1,1],[1,2]]
 wearables=kind=='items-11-24'
 if wearables:
- prior=m.loads((root/'src/godot-game/content/packs/items-01-10.json').read_bytes());m.need([x['id'] for x in prior['items']]+[x['id'] for x in pack['items']]==['IT-%02d'%x for x in range(1,25)],'ITEM_FULL_ROSTER')
+ prior=m.loads((root/'src/godot-game/game/content/packs/items-01-10.json').read_bytes());m.need([x['id'] for x in prior['items']]+[x['id'] for x in pack['items']]==['IT-%02d'%x for x in range(1,25)],'ITEM_FULL_ROSTER')
 wear_names=['Basic shirt','Trousers','Coat','Cap','Face covering','Gloves','Boots','Protective helmet','Improvised body armor','Plated body armor','Belt with pouches','Small pouch','Small backpack','Field backpack']
 wear_foot=[[2,2],[2,2],[2,3],[2,1],[1,1],[1,1],[1,2],[2,2],[2,3],[3,3],[2,1],[1,2],[2,3],[3,4]]
 storage={11:[2,1],12:[2,2],13:[2,2],21:[4,2],22:[2,2],23:[4,4],24:[5,6]}
@@ -71,7 +71,7 @@ def verify(p,data):
  m.need(p['schemaVersion']==1 and p['id']==kind and p['version']==1,'ITEM_IDENTITY')
  m.need(p['logicalPixelsPerWorldPixel']==1 and 'D-13' in p['stylePrecedence'] and 'OVERRIDES' in p['stylePrecedence'],'ITEM_STYLE_SCALE')
  m.need(p['acceptance']=={'visual':'pending','humanApproval':None,'owner':'04-32/04-33','completedObligations':[]},'ITEM_FALSE_ACCEPTANCE')
- m.need(p['commonBundleSha256']==m.digest(root/'production/phase4/common-selected.zip'),'ITEM_COMMON_SOURCE')
+ m.need(p['commonBundleSha256']==m.digest(root/'src/godot-game/production/assets/common-selected.zip'),'ITEM_COMMON_SOURCE')
  m.need(p['recipe']['sha256']==m.sha(data['recipes/build-items.py']),'ITEM_RECIPE')
  expected_ids=range(11,25) if wearables else range(1,11)
  m.need([x['id'] for x in p['items']]==['IT-%02d'%i for i in expected_ids] and [x['name'] for x in p['items']]==(wear_names if wearables else names),'ITEM_ROSTER')
@@ -182,7 +182,7 @@ for name,expected in faults:
  m.need(failure==expected,'ITEM_NEGATIVE_'+name+'_'+str(failure));out.append({'name':name,'diagnostic':failure,'expectedRejectionObserved':True})
 result['controls']=out;result['expectedRejected']=len(out);print(json.dumps(result))
 `;
-function files(kind,scene){return ['tools/phase4/cases/items.cjs','tools/phase4/extract-media.py','production/phase4/common-selected.zip','tools/phase1/toolchain.json',
+function files(kind,scene){return ['tools/phase4/cases/items.cjs','tools/phase4/extract-media.py','production/phase4/common-selected.zip','src/godot-game/tools/verification/toolchain.json',
   'src/godot-game/assets/equipment/'+kind+'.png','src/godot-game/content/packs/'+kind+'.json','production/phase4/'+kind+'.zip',
   'src/godot-game/inspection/'+scene,...(kind==='items-11-24'?['src/godot-game/content/packs/items-01-10.json','src/godot-game/assets/equipment/items-01-10.png','production/phase4/items-01-10.zip']:[])];}
 function fingerprint(paths){return Object.fromEntries(paths.map(file=>[file,hash(bytes(ROOT,file))]));}
@@ -340,7 +340,7 @@ func inspect():
 async function native(context,kind,scene){
   const project=inside(context.directory,'native-items');fs.mkdirSync(project);
   write(project,'project.godot',Buffer.from('config_version=5\n[application]\nconfig/name="Item source proof"\n[display]\nwindow/size/viewport_width=1280\nwindow/size/viewport_height=720\n[rendering]\nrenderer/rendering_method="gl_compatibility"\n'));
-  for(const file of files(kind,scene).filter(x=>x.startsWith('src/godot-game/')))write(project,file.replace('src/godot-game/',''),bytes(ROOT,file));
+  for(const file of files(kind,scene).filter(x=>require('../layout.cjs').physical(x).startsWith('src/godot-game/game/')))write(project,file.replace('src/godot-game/',''),bytes(ROOT,file));
   write(project,'probe.gd',Buffer.from(probe(context.nonce,kind,scene)));const tool=engine();write(context.directory,'engine.json',tool);
   const version=await runner.command(context,'items-engine-version',tool.executable,['--headless','--version']);need(version.stdout.trim()===tool.version,'ITEM_ENGINE_VERSION');
   const imported=await runner.command(context,'items-native-import',tool.executable,['--headless','--path',project,'--editor','--import']);need(!/ERROR:|SCRIPT ERROR:|Failed to load|Error importing/.test(imported.stdout+imported.stderr),'ITEM_NATIVE_IMPORT');

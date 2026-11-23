@@ -89,7 +89,7 @@ func verify_items():
 `;
 }
 async function fixtureEngine(context){
-  const pin=document(ROOT,'tools/phase1/toolchain.json').archives['win32-x64'];
+  const pin=document(ROOT,'src/godot-game/tools/verification/toolchain.json').archives['win32-x64'];
   const name=pin.executable.replace('_console.exe','.exe'),entry=pin.directory+'/'+name;
   const archive=inside(ROOT,'.phase1/cache/'+pin.file);
   need(await tool.digest(archive)===pin.sha256,'PORTABLE_FIXTURE_ENGINE_ARCHIVE');

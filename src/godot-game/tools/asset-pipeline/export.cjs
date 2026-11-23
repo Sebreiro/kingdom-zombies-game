@@ -8,8 +8,17 @@ const {isDeepStrictEqual:equal}=require('node:util');
 const {PYTHON}=require('./python.cjs');
 const PIN='production/phase4/export-toolchain.json';
 const GAME='src/godot-game/',PCK='KingdomZombies.pck',PACKAGE_LIMIT=67108864;
+const EXPORT_PATHSPEC=['src/godot-game/game','src/godot-game/core','src/godot-game/multiplayer-abstractions',
+  'src/godot-game/tools/code-rules','src/godot-game/build','src/godot-game/Directory.*','src/godot-game/global.json',
+  'src/godot-game/NuGet.config','src/godot-game/KingdomZombies.slnx','src/godot-game/.config','.editorconfig'];
 const MISSING_ITEM='content/packs/items-11-24.json',NEARBY_ITEM='content/packs/items-11-24-copy.json';
 const RENDERED_FIXTURES=Object.freeze({'heldout.H27':NEARBY_ITEM,'heldout.H28':null});
+// The copied workspace feed must point at this checkout's verified feed; a missing source entry fails closed.
+function feedConfig(root){
+  const original=bytes(root,'src/godot-game/NuGet.config').toString('utf8');
+  const rewritten=original.replace('value="../../.phase1/feed"','value="'+root+'/.phase1/feed"');
+  need(rewritten!==original,'NUGET_FEED_REWRITE');return rewritten;
+}
 async function digest(file,algorithm='sha256'){
   const value=crypto.createHash(algorithm);for await(const part of fs.createReadStream(file))value.update(part);return value.digest('hex');
 }
@@ -17,9 +26,9 @@ function snapshot(){
   return Object.fromEntries([PIN,'tools/phase4/export.cjs','tools/phase4/check.cjs','tools/phase4/cases/export-feasibility.cjs',
     'src/godot-game/export_presets.cfg','src/godot-game/project.godot','src/godot-game/KingdomZombies.csproj',
     'src/godot-game/content/pack-index.json','src/godot-game/content/packs/tracer.json',
-    'src/godot-game/inspection/Inspection.tscn','src/godot-game/assets/common/bow.png','tools/phase1/projects.json',
-    'tools/phase4/cases/export-layout.cjs','tools/code-rules/GeneratedLayout.cs','docs/code/generated-layout-adaptations.json',
-    'production/phase4/export-layout-origin.json','tools/phase1/toolchain.json','tools/phase4/native-observer.cjs',
+    'src/godot-game/inspection/Inspection.tscn','src/godot-game/assets/common/bow.png','src/godot-game/tools/verification/projects.json',
+    'tools/phase4/cases/export-layout.cjs','src/godot-game/tools/code-rules/GeneratedLayout.cs','docs/code/generated-layout-adaptations.json',
+    'production/phase4/export-layout-origin.json','src/godot-game/tools/verification/toolchain.json','tools/phase4/native-observer.cjs',
     'production/phase4/export-profile.json','tools/phase4/cases/export-profile.cjs',
     'tools/phase4/cases/export-portability.cjs','tools/phase4/content.cjs',content.EXPECTED,content.PACKAGED_EXPECTED]
     .map(file=>[file,hash(bytes(ROOT,file))]));
@@ -482,14 +491,14 @@ async function negatives(context,output,closure,pin,engine,selected,contract){
 async function buildPackage(context){
   const initial=snapshot();write(context.directory,'inputs.json',initial);
   const contract=sourceContract();require('./cases/export-profile.cjs').validate(ROOT);
-  const pin=document(ROOT,PIN),tools=document(ROOT,'tools/phase1/toolchain.json');
+  const pin=document(ROOT,PIN),tools=document(ROOT,'src/godot-game/tools/verification/toolchain.json');
   need(process.platform==='win32'&&process.arch==='x64'&&process.version==='v'+tools.node,'PLATFORM_PIN');
   const engine=inside(ROOT,'.phase1/tools/'+tools.archives['win32-x64'].directory+'/'+tools.archives['win32-x64'].executable);
   need(await digest(engine)===tools.archives['win32-x64'].executableSha256,'ENGINE_HASH');
   const selected=await templates(context,pin);
   const version=await runner.command(context,'engine-version',engine,['--headless','--version']);need(version.stdout.trim()===tools.engineFullVersion,'ENGINE_VERSION');
   const sdk=await runner.command(context,'sdk-version','C:/Program Files/dotnet/dotnet.exe',['--version']);need(sdk.stdout.trim()===tools.sdk,'SDK_PIN');
-  const inputs=await runner.command(context,'tracked-inputs','git',['-C',ROOT,'ls-files','--','src','tools/code-rules','Directory.*','BannedSymbols*','.editorconfig','global.json','NuGet.config','KingdomZombies.slnx']);
+  const inputs=await runner.command(context,'tracked-inputs','git',['-C',ROOT,'ls-files','--',...EXPORT_PATHSPEC]);
   const source=inside(context.directory,'source');fs.mkdirSync(source);
   const inputHashes={};
   for(const name of inputs.stdout.trim().split(/\r?\n/)){
@@ -498,14 +507,14 @@ async function buildPackage(context){
   // New uncommitted task artifacts are copied explicitly before the first task commit.
   if(!fs.existsSync(inside(source,'src/godot-game/export_presets.cfg')))write(source,'src/godot-game/export_presets.cfg',bytes(ROOT,'src/godot-game/export_presets.cfg'));
   write(context.directory,'project-inputs.json',inputHashes);
-  const project=inside(source,'src/godot-game'),presetFile=inside(project,'export_presets.cfg');
+  const project=inside(source,'src/godot-game/game'),presetFile=inside(project,'export_presets.cfg');
   let preset=fs.readFileSync(presetFile,'utf8');
   for(const mode of ['debug','release'])preset=preset.replace('@WINDOWS_'+mode.toUpperCase()+'_TEMPLATE@',inside(selected.directory,'windows_'+mode+'_x86_64.exe').replaceAll('\\','/'));
   fs.writeFileSync(presetFile,preset);
   // Godot's C# exporter requires a solution beside the project. This generated authoring-only wrapper preserves project references.
   write(project,'KingdomZombies.sln',Buffer.from('Microsoft Visual Studio Solution File, Format Version 12.00\nProject("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KingdomZombies", "KingdomZombies.csproj", "{78E97099-6384-493C-9F15-58D8332E0958}"\nEndProject\nGlobal\nEndGlobal\n'));
   // Source checkout copy uses the authenticated local feed and existing cache; no global installation/configuration.
-  fs.writeFileSync(inside(source,'NuGet.config'),bytes(ROOT,'NuGet.config').toString('utf8').replace('value=".phase1/feed"','value="'+ROOT+'/.phase1/feed"'));
+  fs.writeFileSync(inside(source,'src/godot-game/NuGet.config'),feedConfig(ROOT));
   const output=inside(context.directory,'export');fs.mkdirSync(output);
   // Publish explicitly to expose all self-contained/runtime failures before native export.
   const publish=inside(context.directory,'publish');
@@ -551,7 +560,7 @@ async function exportTracer(context){
   return {scope:'source/headless Windows tracer only',runtime:pin.runtime,framework:pin.framework,files:closure.rows.length,
     genuineTemplate:true,nativeInspection:executed,packagedResources:resources,portableCompletion:true,acceptance:'pending-04-32/04-33'};
 }
-module.exports={digest,snapshot,templates,cleanEnvironment,runtimeEnvironment,cleanCommand,inventory,dependencies,pack,packBytes,
+module.exports={EXPORT_PATHSPEC,feedConfig,digest,snapshot,templates,cleanEnvironment,runtimeEnvironment,cleanCommand,inventory,dependencies,pack,packBytes,
   RENDERED_FIXTURES,renderedFixture,verifyRenderedFixture,packaged,probe,packagedProbe,mountPackage,portable,hostTrace,validatePortableReceipt,
   validatePortableEnvironment,cloneOutput,missingCoreClr,
   negatives,exportTracer,buildPackage,verifyInputs,sourceContract};

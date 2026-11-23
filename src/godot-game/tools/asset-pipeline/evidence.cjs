@@ -13,7 +13,7 @@ const REVIEW_REPORT = PHASE + '04-REVIEW.md';
 const ORIGINAL_REVIEW = 'e9a1bc4ff9d66f3c79aaf4d572e7f2a78db73be2';
 const SELECTION = PHASE + '04-SELECTION.json';
 const FIXES = PHASE + '04-REVIEW-FIXES.json';
-const TARGETS = 'tools/phase4/reviewed-source.targets';
+const TARGETS = 'src/godot-game/tools/asset-pipeline/reviewed-source.targets';
 const PHASE_BASE = '5428da86b6dc753d43472ea8460acb997d7e15dd';
 const LISTENING = PHASE + '04-LISTENING.json';
 const JUDGMENTS = PHASE + '04-JUDGMENTS.json';
@@ -23,11 +23,8 @@ const HEX = /^[a-f0-9]{64}$/;
 const REVISION = /^[a-f0-9]{40}$/;
 const UUID = /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/;
 const MAX_BYTES = 256 * 1024 * 1024;
-const SOURCE_ROOTS = ['src', 'tools/phase1', 'tools/phase2', 'tools/phase3', 'tools/phase4',
-  'tools/code-rules', 'tests', 'docs', 'specs', 'production', 'AGENTS.md', 'KingdomZombies.slnx',
-  'global.json', 'NuGet.config', 'Directory.Build.props', 'Directory.Build.targets', 'Directory.Xunit.targets',
-  'Directory.Packages.props', 'BannedSymbols.txt', 'BannedSymbols.Pure.txt', 'BannedSymbols.Tests.txt',
-  '.editorconfig', '.gitattributes', PHASE + '04-SCENARIOS.md'];
+// Former root tools, tests, production bundles and build configuration now all live under `src`.
+const SOURCE_ROOTS = ['src', 'docs', 'specs', 'AGENTS.md', '.editorconfig', '.gitattributes', PHASE + '04-SCENARIOS.md'];
 
 function need(ok, code, detail = '') {
   if (!ok) throw new Error(code + (detail ? ' ' + detail : ''));
@@ -130,7 +127,7 @@ function identifySource(root, revision = git(root, ['rev-parse', 'HEAD']).trim()
     const {data, ...ref} = record;
     return ref;
   });
-  const media = files.filter(row => /^(src\/godot-game\/(assets|content)\/|production\/phase4\/)/.test(row.path));
+  const media = files.filter(row => /^(src\/godot-game\/game\/(assets|content)\/|src\/godot-game\/production\/assets\/)/.test(row.path));
   need(media.length > 0, 'EVIDENCE_MEDIA_EMPTY');
   return {revision, source:hash(JSON.stringify(files)), media:hash(JSON.stringify(media)), files};
 }
@@ -169,7 +166,7 @@ function committedSnapshot(root, revision, inputs) {
 
 function identifyTool(root) {
   const platform = process.platform + '-' + process.arch;
-  const pinFile = 'tools/phase1/toolchain.json';
+  const pinFile = 'src/godot-game/tools/verification/toolchain.json';
   const pins = document(root, pinFile);
   need(platform === 'win32-x64' && process.version === 'v' + pins.node, 'EVIDENCE_ENVIRONMENT');
   const archive = pins.archives[platform];
@@ -353,7 +350,7 @@ function validateRenderedOutcome(root, row, report, driver, build = null) {
         input.method === 'physical-keyboard' && input.key === step.key),'EVIDENCE_NATIVE_INPUT',row.id);
     const image = artifact(root, item.image, 16 * 1024 * 1024);
     need(draw.imageSha256 === image.sha256 && image.path.endsWith('.png'), 'EVIDENCE_DRAW_PNG', row.id);
-    require('../phase2/rendered.cjs').decodePng(inside(root, image.path), 1280, 720);
+    require('../gameplay-checks/rendered.cjs').decodePng(inside(root, image.path), 1280, 720);
     need(draw.frameSource==='composited-client-between-native-observations' && input.acknowledgement?.pid===draw.pid &&
       input.acknowledgement.focused===true && input.acknowledgement.width===1280 && input.acknowledgement.height===720 &&
       input.acknowledgement.action===input.action && (input.action!=='tap'||input.acknowledgement.key===input.key) &&
@@ -757,7 +754,7 @@ function changedFiles(root, revision) {
 }
 
 function guardedHostTuples(root) {
-  const policy = read(root,'tests/phase1/EngineAccessPolicy.cs').data.toString('utf8');
+  const policy = read(root,'src/godot-game/tests/verification/EngineAccessPolicy.cs').data.toString('utf8');
   const start = policy.indexOf('private static readonly HashSet<string> _presenters');
   const end = policy.indexOf('};',start);
   need(start >= 0 && end > start,'EVIDENCE_NATIVE_HOST_POLICY');
@@ -770,7 +767,7 @@ function guardedHostTuples(root) {
     if (token === ',' && value) {tuples.push(value);value = '';}
   }
   if (value) tuples.push(value);
-  const test = read(root,'tests/phase1/ContentNativePermissionTests.cs').data.toString('utf8');
+  const test = read(root,'src/godot-game/tests/verification/ContentNativePermissionTests.cs').data.toString('utf8');
   const first = test.indexOf('Actual final native hosts require captured first guards');
   const last = test.indexOf('public void Check_PresenterNative_RequiresExactGuardedMember(');
   need(first >= 0 && last > first && tuples.length === 251,'EVIDENCE_NATIVE_HOST_EXTENT');
