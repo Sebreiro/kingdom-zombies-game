@@ -144,6 +144,14 @@ cleanup() { rm -f "$part"; rm -rf "$staging"; rm -f "$lock"; }
 trap cleanup EXIT
 trap 'exit 1' HUP INT TERM
 
+# Another run may have installed Node while this one waited before the lock: check again, and never nest a copy.
+if [ -d "$install" ]; then
+  assert_install
+  say "Node $version ($target) was installed by another run; nothing downloaded."
+  path_line
+  exit 0
+fi
+
 if [ -f "$archive" ]; then
   assert_archive "$archive"
   say 'Using the verified archive in the shared downloads.'
@@ -168,6 +176,7 @@ fi
 mkdir "$staging"
 tar -xJf "$archive" -C "$staging"
 [ -f "$staging/$directory$bin/$exe" ] || fail NODE_ARCHIVE_LAYOUT "the archive does not contain $directory$bin/$exe"
+[ ! -e "$install" ] || fail NODE_INSTALL_RACE "$install appeared while this run held the toolchain lock; inspect it"
 mv "$staging/$directory" "$install"
 assert_install
 say "Installed Node $version ($target) into the shared tools."

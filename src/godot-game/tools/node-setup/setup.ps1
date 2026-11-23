@@ -135,36 +135,45 @@ try {
   $record = [System.Text.Encoding]::UTF8.GetBytes((@{ nonce = $nonce; pid = $PID; at = (Get-Date).ToUniversalTime().ToString('o') } | ConvertTo-Json -Compress))
   $lock.Write($record, 0, $record.Length); $lock.Flush()
 
-  if (Test-Path -LiteralPath $archive -PathType Leaf) {
-    Assert-Archive $archive
-    Say "Using the verified archive in the shared downloads."
+  # Another run may have installed Node while this one waited before the lock: check again, and never nest a copy.
+  if (Test-Path -LiteralPath $install -PathType Container) {
+    Assert-Install
+    Say "Node $version was installed by another run; nothing downloaded."
   } else {
-    if ($archiveArgument) {
-      $source = [System.IO.Path]::GetFullPath($archiveArgument)
-      if (-not (Test-Path -LiteralPath $source -PathType Leaf)) { Fail 'NODE_ARCHIVE_MISSING' "--archive $source does not exist" }
-      Say "Seeding the shared downloads from $source."
-      Copy-Item -LiteralPath $source -Destination $part
+    if (Test-Path -LiteralPath $archive -PathType Leaf) {
+      Assert-Archive $archive
+      Say "Using the verified archive in the shared downloads."
     } else {
-      [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
-      Say "Downloading $($pin.url)."
-      $progress = $ProgressPreference
-      $ProgressPreference = 'SilentlyContinue'
-      try { Invoke-WebRequest -UseBasicParsing -Uri $pin.url -OutFile $part } finally { $ProgressPreference = $progress }
+      if ($archiveArgument) {
+        $source = [System.IO.Path]::GetFullPath($archiveArgument)
+        if (-not (Test-Path -LiteralPath $source -PathType Leaf)) { Fail 'NODE_ARCHIVE_MISSING' "--archive $source does not exist" }
+        Say "Seeding the shared downloads from $source."
+        Copy-Item -LiteralPath $source -Destination $part
+      } else {
+        [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
+        Say "Downloading $($pin.url)."
+        $progress = $ProgressPreference
+        $ProgressPreference = 'SilentlyContinue'
+        try { Invoke-WebRequest -UseBasicParsing -Uri $pin.url -OutFile $part } finally { $ProgressPreference = $progress }
+      }
+      Assert-Archive $part
+      Move-Item -LiteralPath $part -Destination $archive
     }
-    Assert-Archive $part
-    Move-Item -LiteralPath $part -Destination $archive
-  }
 
-  Add-Type -AssemblyName System.IO.Compression.FileSystem
-  New-Item -ItemType Directory -Path $staging | Out-Null
-  [System.IO.Compression.ZipFile]::ExtractToDirectory($archive, $staging)
-  $extracted = Join-Path $staging $pin.directory
-  if (-not (Test-Path -LiteralPath (Join-Path $extracted $pin.executable) -PathType Leaf)) {
-    Fail 'NODE_ARCHIVE_LAYOUT' "the archive does not contain $($pin.directory)/$($pin.executable)"
+    Add-Type -AssemblyName System.IO.Compression.FileSystem
+    New-Item -ItemType Directory -Path $staging | Out-Null
+    [System.IO.Compression.ZipFile]::ExtractToDirectory($archive, $staging)
+    $extracted = Join-Path $staging $pin.directory
+    if (-not (Test-Path -LiteralPath (Join-Path $extracted $pin.executable) -PathType Leaf)) {
+      Fail 'NODE_ARCHIVE_LAYOUT' "the archive does not contain $($pin.directory)/$($pin.executable)"
+    }
+    if (Test-Path -LiteralPath $install) {
+      Fail 'NODE_INSTALL_RACE' "$install appeared while this run held the toolchain lock; inspect it"
+    }
+    Move-Item -LiteralPath $extracted -Destination $install
+    Assert-Install
+    Say "Installed Node $version into the shared tools."
   }
-  Move-Item -LiteralPath $extracted -Destination $install
-  Assert-Install
-  Say "Installed Node $version into the shared tools."
 } finally {
   if (Test-Path -LiteralPath $part) { Remove-Item -LiteralPath $part -Force }
   if (Test-Path -LiteralPath $staging) { Remove-Item -LiteralPath $staging -Recurse -Force }

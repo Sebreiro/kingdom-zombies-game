@@ -467,3 +467,62 @@ test('both setup scripts refuse to write a shared root that Git does not ignore'
   assert.equal(result.exit, 0, result.stderr);
   assert.ok(fs.statSync(path.join(main, '.local/tools/node', `node-v${pins.node}-linux-x64`, 'bin', 'node')).isFile());
 });
+
+// A second setup finishes installing while this run is between its install check and the toolchain lock. A git shim
+// first on PATH stands in for that run: when the ignore check calls git check-ignore, it creates the install, then
+// runs the real git. After the lock each script must see the install, extract nothing and nest no copy.
+function raceEnvironment(base, install, extra = {}) {
+  const shim = path.join(base, 'shim');
+  fs.mkdirSync(shim, {recursive: true});
+  const env = Object.fromEntries(Object.entries(process.env).filter(([key]) => key.toLowerCase() !== 'path'));
+  return {shim, env: {...env, ...extra, KZ_SHARED_LOCAL: '', KZ_RACE_INSTALL: install,
+    PATH: shim + path.delimiter + process.env[Object.keys(process.env).find(key => key.toLowerCase() === 'path')]}};
+}
+
+test('setup.sh rechecks the install after taking the toolchain lock and nests no second copy', t => {
+  const base = scratch(t, 'kz-node-setup-'), archive = fakeArchive(base, pins.node);
+  const main = pinnedRepository(base, archive, sha(archive)), shared = path.join(main, '.local');
+  const install = path.join(shared, 'tools/node', `node-v${pins.node}-linux-x64`);
+  const {shim, env} = raceEnvironment(base, install.split(path.sep).join('/'),
+    {KZ_REAL_GIT: sh(['-c', 'command -v git']).stdout.trim()});
+  fs.writeFileSync(path.join(shim, 'git'), '#!/bin/sh\nif [ "$3" = check-ignore ] && [ ! -d "$KZ_RACE_INSTALL" ]; then\n'
+    + '  mkdir -p "$KZ_RACE_INSTALL/bin" && : > "$KZ_RACE_INSTALL/bin/node"\nfi\nexec "$KZ_REAL_GIT" "$@"\n', {mode: 0o755});
+  const result = spawnSync('sh', [path.join(main, 'src/godot-game/tools/node-setup/setup.sh'), '--platform', 'linux-x64',
+    '--archive', archive], {cwd: base, encoding: 'utf8', windowsHide: true, env: {...env, MSYS_NO_PATHCONV: '1'}});
+  assert.equal(result.status, 0, result.stderr);
+  assert.match(result.stderr, /was installed by another run; nothing downloaded/);
+  assert.deepEqual(fs.readdirSync(install), ['bin'], 'no nested copy of the archive folder');
+  assert.deepEqual(fs.readdirSync(path.join(shared, 'tools/node')), [path.basename(install)], 'no staging sibling remains');
+  assert.deepEqual(fs.readdirSync(path.join(shared, 'downloads/node')), [], 'nothing was copied or downloaded');
+  assert.deepEqual(fs.readdirSync(path.join(shared, 'locks')), [], 'the lock is released');
+});
+
+test('setup.ps1 rechecks the install after taking the toolchain lock and nests no second copy',
+  {skip: !WINDOWS && 'Windows PowerShell setup'}, t => {
+    const base = scratch(t, 'kz-node-setup-'), directory = `node-v${pins.node}-win-x64`;
+    fs.mkdirSync(path.join(base, 'zip', directory), {recursive: true});
+    fs.writeFileSync(path.join(base, 'zip', directory, 'node.exe'), 'fake executable that is never extracted');
+    const archive = path.join(base, directory + '.zip');
+    const packed = spawnSync('powershell.exe', ['-NoProfile', '-Command', 'Add-Type -AssemblyName System.IO.Compression.FileSystem; '
+      + `[IO.Compression.ZipFile]::CreateFromDirectory('${path.join(base, 'zip')}', '${archive}', 'NoCompression', $false)`],
+    {encoding: 'utf8', windowsHide: true});
+    assert.equal(packed.status, 0, packed.stderr);
+    const text = fs.readFileSync(MANIFEST, 'utf8').replace(pins.nodeArchives['win32-x64'].sha256, sha(archive));
+    const main = repository(base, text), shared = path.join(main, '.local');
+    const install = path.join(shared, 'tools', 'node', directory);
+    const realGit = spawnSync('where.exe', ['git'], {encoding: 'utf8', windowsHide: true}).stdout.split(/\r?\n/)[0].trim();
+    const {shim, env} = raceEnvironment(base, install, {KZ_REAL_GIT: realGit, KZ_RACE_NODE: process.execPath});
+    fs.writeFileSync(path.join(shim, 'git.cmd'), ['@echo off', 'if not "%3"=="check-ignore" goto run',
+      'if exist "%KZ_RACE_INSTALL%\\node.exe" goto run', 'mkdir "%KZ_RACE_INSTALL%"',
+      'copy /y "%KZ_RACE_NODE%" "%KZ_RACE_INSTALL%\\node.exe" >nul', ':run', '"%KZ_REAL_GIT%" %*', 'exit /b %ERRORLEVEL%', '']
+      .join('\r\n'));
+    const result = spawnSync('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File',
+      path.join(main, 'src/godot-game/tools/node-setup/setup.ps1'), '--archive', archive],
+    {cwd: base, encoding: 'utf8', windowsHide: true, env});
+    assert.equal(result.status, 0, result.stderr);
+    assert.match(result.stderr, /was installed by another run; nothing downloaded/);
+    assert.deepEqual(fs.readdirSync(install), ['node.exe'], 'no nested copy of the archive folder');
+    assert.deepEqual(fs.readdirSync(path.join(shared, 'tools/node')), [directory], 'no staging sibling remains');
+    assert.deepEqual(fs.readdirSync(path.join(shared, 'downloads/node')), [], 'nothing was copied or downloaded');
+    assert.deepEqual(fs.readdirSync(path.join(shared, 'locks')), [], 'the lock is released');
+  });

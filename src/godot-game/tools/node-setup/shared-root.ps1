@@ -44,8 +44,11 @@ function Get-KzIgnoreProblem([string]$shared) {
   $previous = $ErrorActionPreference
   $ErrorActionPreference = 'Continue'
   try {
-    $top = [string](& git -C $existing rev-parse --show-toplevel 2>$null | Select-Object -First 1)
-    if ($LASTEXITCODE -ne 0 -or -not $top) { return $null }
+    # Capture first: piping a native command into Select-Object -First can stop it early and lose its exit code.
+    $output = & git -C $existing rev-parse --show-toplevel 2>$null
+    if ($LASTEXITCODE -ne 0) { return $null }
+    $top = [string]($output | Select-Object -First 1)
+    if (-not $top) { return $null }
     & git -C $top check-ignore -q -- "$shared/" 2>$null
     if ($LASTEXITCODE -eq 0) { return $null }
   } finally { $ErrorActionPreference = $previous }
