@@ -3,15 +3,18 @@
 // the delivery fixture catalog, then the pack index. It regenerates the bindings from current bytes; it is not a
 // replay of a one-shot binding utility.
 //   node src/godot-game/tools/verification/asset-bindings.cjs [--check]
-//   node src/godot-game/tools/verification/asset-bindings.cjs --write
+//   node src/godot-game/tools/verification/asset-bindings.cjs --write   (refuses a tree with other uncommitted changes)
 const fs = require('node:fs');
 const path = require('node:path');
 const zlib = require('node:zlib');
 const crypto = require('node:crypto');
+const {spawnSync} = require('node:child_process');
 
 const ROOT = path.resolve(__dirname, '../../../..');
 const PIPELINE = 'src/godot-game/tools/asset-pipeline/';
 const CATALOG = PIPELINE + 'required-cases.json';
+const CASCADE = [CATALOG, 'src/godot-game/game/content/packs/delivery.json', 'src/godot-game/game/content/pack-index.json'];
+const EXCLUDED_ROOTS = ['.claude/', '.codex/', '.agents/', '.planning/'];
 const PROJECT_GRAPH = 'src/godot-game/tools/verification/projects.json';
 const EXPORT_PROFILE = 'src/godot-game/production/assets/export-profile.json';
 const EXPORT_PROFILE_CASE = PIPELINE + 'cases/export-profile.cjs';
@@ -126,8 +129,37 @@ function check(root = ROOT) {
   return {modules, valid, problems};
 }
 
-/** Rewrites stale module hashes, then the delivery fixture catalog, then the pack index, and checks the result. */
+/** Returns the status lines that make --write unsafe: anything but the three cascade files and the excluded roots. */
+function dirtyEntries(lines) {
+  return lines.filter(line => line.trim()).filter(line => {
+    const files = line.slice(3).split(' -> ');
+    return !files.every(file => CASCADE.includes(file) || EXCLUDED_ROOTS.some(prefix => file.startsWith(prefix)));
+  });
+}
+
+/** Refuses a dirty tree, as ac08-bindings.cjs does, so --write rebinds only committed module bytes. */
+function refuseDirty(lines) {
+  const dirty = dirtyEntries(lines);
+  if (dirty.length) {
+    throw new AssetBindingError('ASSET_DIRTY_TREE', 'commit or discard these changes first: ' + dirty.slice(0, 8).join(' | '));
+  }
+}
+
+function status(root) {
+  const result = spawnSync('git', ['status', '--porcelain=v1', '--untracked-files=all'],
+    {cwd: root, encoding: 'utf8', windowsHide: true});
+  if (result.error || result.status !== 0) {
+    throw new AssetBindingError('ASSET_GIT', 'git status failed: ' + (result.error ? result.error.message : result.stderr));
+  }
+  return result.stdout.split('\n');
+}
+
+/**
+ * Rewrites stale module hashes, then the delivery fixture catalog, then the pack index, and checks the result. Commit
+ * the module edits first: a tree with any change but the three cascade files is refused.
+ */
 function write(root = ROOT) {
+  refuseDirty(status(root));
   const {content, textData} = pipeline(root);
   const read = fileReader(root), written = [];
   const catalog = JSON.parse(readText(path.join(root, CATALOG)));
@@ -163,7 +195,7 @@ function main(argv) {
 }
 
 module.exports = {
-  CATALOG, PIPELINE, VALID_OUTPUTS, AssetBindingError, sha256, serialize, gzipPayload, moduleRows, moduleDiffs,
+  CATALOG, CASCADE, PIPELINE, VALID_OUTPUTS, AssetBindingError, dirtyEntries, refuseDirty, sha256, serialize, gzipPayload, moduleRows, moduleDiffs,
   fixtureCatalogFor, fixtureDiffs, check, write
 };
 

@@ -97,6 +97,21 @@ test('ac-08 --write refuses a dirty tree, but not the two catalogs or the exclud
   assert.throws(() => ac08.refuseDirty(['R  docs/a.md -> ' + ac08.CATALOG]), error => error.code === 'AC08_DIRTY_TREE');
 });
 
+test('asset-bindings --write refuses a dirty tree, but not the three cascade files or the excluded roots', t => {
+  assert.deepEqual(assets.dirtyEntries([...assets.CASCADE.map(file => ' M ' + file), '?? .planning/quick/x/', '?? .claude/x',
+    ' M .codex/hooks.json', '?? .agents/a', '']), []);
+  assert.deepEqual(assets.dirtyEntries([' M src/godot-game/tools/asset-pipeline/export.cjs']),
+    [' M src/godot-game/tools/asset-pipeline/export.cjs']);
+  assert.throws(() => assets.refuseDirty(['?? src/godot-game/tools/asset-pipeline/new.cjs']), error => error.code === 'ASSET_DIRTY_TREE');
+  assert.throws(() => assets.refuseDirty(['R  docs/a.md -> ' + assets.CATALOG]), error => error.code === 'ASSET_DIRTY_TREE');
+  // write() refuses before it reads or rewrites anything.
+  const repository = fs.mkdtempSync(path.join(os.tmpdir(), 'kz-asset-bindings-'));
+  t.after(() => fs.rmSync(repository, {recursive: true, force: true, maxRetries: 3}));
+  git(repository, 'init', '-q', '-b', 'main');
+  write(repository, 'src/godot-game/tools/asset-pipeline/case.cjs', 'edited\n');
+  assert.throws(() => assets.write(repository), error => error.code === 'ASSET_DIRTY_TREE' && error.message.includes('case.cjs'));
+});
+
 test('asset cascade check passes on the current tree', () => {
   const result = assets.check(ROOT);
   assert.deepEqual(result.problems, []);
