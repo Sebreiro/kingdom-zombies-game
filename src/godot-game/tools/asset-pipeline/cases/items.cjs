@@ -1,11 +1,11 @@
 'use strict';
 const fs=require('node:fs'),equal=require('node:util').isDeepStrictEqual;
-const runner=require('../check.cjs'),{ROOT,need,inside,bytes,document,write,hash}=require('../content.cjs');
+const runner=require('../check.cjs'),{ROOT,need,inside,bytes,document,write,hash,sharedFile}=require('../content.cjs');
 const {PYTHON}=require('../python.cjs');
 function engine(){
   const pins=document(ROOT,'src/godot-game/tools/verification/toolchain.json'),pin=pins.archives['win32-x64'];
   need(process.platform==='win32'&&process.arch==='x64'&&process.version==='v'+pins.node,'ITEM_PLATFORM_PIN');
-  const executable=inside(ROOT,'.phase1/tools/'+pin.directory+'/'+pin.executable),stat=fs.statSync(executable);
+  const executable=sharedFile('tools',pin.directory,pin.executable),stat=fs.statSync(executable);
   need(stat.isFile()&&stat.size>0&&stat.size<=268435456&&hash(fs.readFileSync(executable))===pin.executableSha256,'ITEM_ENGINE_IDENTITY');
   return {executable,version:pins.engineFullVersion,sha256:pin.executableSha256};
 }

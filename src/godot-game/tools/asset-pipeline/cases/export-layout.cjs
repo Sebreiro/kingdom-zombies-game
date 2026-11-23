@@ -1,7 +1,7 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path');
 const runner=require('../check.cjs');
-const {ROOT,need,inside,bytes,document,write,hash}=require('../content.cjs');
+const {ROOT,need,inside,bytes,document,write,hash,sharedFile,legacyLocal}=require('../content.cjs');
 const DOTNET='C:/Program Files/dotnet/dotnet.exe';
 const REGISTRY='docs/code/generated-layout-adaptations.json',ORIGIN='production/phase4/export-layout-origin.json';
 // Captured origin rows name the pre-relocation project folders; their live owner, path and suffix use the current ones.
@@ -73,7 +73,7 @@ async function compile(context){
   need(hash(producer)===record.producer.sha256&&hash(producer)===
     '428d17faaf0737fba66feb5063f9a8c0d06a2ece7c42e6cca4a8a65220f80fbe','EXPORT_PRODUCER_HASH');
   write(context.directory,'producer.targets',producer);
-  const retained=registry.exportSources.map(row=>authenticate(row,ROOT,row.surface));write(context.directory,'retained-sources.json',retained);
+  const retained=registry.exportSources.map(row=>authenticate(row,ROOT,legacyLocal(row.surface)));write(context.directory,'retained-sources.json',retained);
   const tracked=await runner.command(context,'tracked-inputs','git',['-C',ROOT,'ls-files','--',
     ...require('../export.cjs').EXPORT_PATHSPEC]);
   const results=[];
@@ -86,7 +86,7 @@ async function compile(context){
     fs.writeFileSync(inside(source,'src/godot-game/NuGet.config'),require('../export.cjs').feedConfig(ROOT));
     const project=inside(source,'src/godot-game/KingdomZombies.csproj'),publish=inside(context.directory,configuration+'/publish');
     const flags=['-p:NuGetAudit=false','-p:UseSharedCompilation=false','-nodeReuse:false',
-      '-p:NuGetPackageRoot='+ROOT+'/.phase1/packages/','-p:RestorePackagesPath='+ROOT+'/.phase1/packages'];
+      '-p:NuGetPackageRoot='+sharedFile('packages')+'/','-p:RestorePackagesPath='+sharedFile('packages')];
     const effective=await runner.command(context,configuration+'-policy',DOTNET,['msbuild',project,'-nologo',
       '-p:Configuration='+configuration,'-p:RuntimeIdentifier=win-x64','-p:SelfContained=true',...flags,
       '-getProperty:Configuration,TargetFramework,RuntimeIdentifier,SelfContained,RunAnalyzers,RunAnalyzersDuringBuild,EnableNETAnalyzers,TreatWarningsAsErrors,MSBuildTreatWarningsAsErrors,CodeAnalysisTreatWarningsAsErrors,NoWarn,WarningsNotAsErrors',

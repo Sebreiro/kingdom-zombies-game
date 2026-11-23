@@ -1,12 +1,10 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const {spawnSync}=require('node:child_process');
-const runner=require('../check.cjs');
+const runner=require('../check.cjs'),content=require('../content.cjs'),workspace=require('../../workspace-paths.cjs');
 const ROOT=path.resolve(__dirname,'../../../../..');
 const assembly=path.join(ROOT,'src/godot-game/tests/verification/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll');
-function env(){const base=path.join(ROOT,'.phase1');return {...process.env,DOTNET_CLI_HOME:path.join(base,'cli-home'),
-  NUGET_PACKAGES:path.join(base,'packages'),NUGET_HTTP_CACHE_PATH:path.join(base,'http-cache'),
-  TEMP:path.join(base,'temp'),TMP:path.join(base,'temp'),PHASE1_ROOT:ROOT,DOTNET_NOLOGO:'1'};}
+function env(){return {...workspace.isolationEnv(ROOT),PHASE1_ROOT:ROOT,DOTNET_NOLOGO:'1'};}
 const COMPILED_SUBJECTS=[
   ['Observe_Inspection_RecordsActualGeneratedDiagnostics',1],
   ['Authorize_Inspection_RequiresExactInvocationTuples',1],
@@ -455,17 +453,17 @@ async function native(context,lifecycle=false){
   fs.writeFileSync(path.join(project,'probe.gd'),lifecycle?DRIVER.replace('    var result = {',LIFECYCLE+'    var result = {'):DRIVER);
   const pins=JSON.parse(fs.readFileSync(path.join(ROOT,'src/godot-game/tools/verification/toolchain.json'),'utf8'));
   const pin=pins.archives[process.platform+'-'+process.arch];
-  const console=path.join(ROOT,'.phase1/tools',pin.directory,pin.executable);
+  const console=content.sharedFile('tools',pin.directory,pin.executable);
   assert.equal(runner.hash(fs.readFileSync(console)),pin.executableSha256,'GODOT_CONSOLE_PIN');
   // Run the actual engine rather than its Windows console wrapper, authenticating the companion
   // directly against its entry in the already pinned installed distribution archive.
-  const archive=path.join(ROOT,'.phase1/cache',pin.file),name=pin.executable.replace('_console.exe','.exe');
+  const archive=content.sharedFile('downloads',pin.file),name=pin.executable.replace('_console.exe','.exe');
   assert.equal(runner.hash(fs.readFileSync(archive)),pin.sha256,'GODOT_ARCHIVE_PIN');
   const authentication=await runner.command(context,'native-tool-origin','powershell.exe',['-NoProfile','-NonInteractive','-Command',
-    "Add-Type -AssemblyName System.IO.Compression.FileSystem; $zip=[IO.Compression.ZipFile]::OpenRead('"+runner.inside(ROOT,'.phase1/cache/Godot_v4.7.2-stable_mono_win64.zip').replaceAll("'","''")+"'); try { $entry=$zip.Entries | Where-Object { $_.Name -ceq 'Godot_v4.7.2-stable_mono_win64.exe' }; if(@($entry).Count -ne 1){throw 'ARCHIVE_ENTRY'}; $stream=$entry.Open(); try { $sha=[Security.Cryptography.SHA256]::Create(); [BitConverter]::ToString($sha.ComputeHash($stream)).Replace('-','').ToLowerInvariant() } finally { $stream.Dispose() } } finally { $zip.Dispose() }"]);
+    "Add-Type -AssemblyName System.IO.Compression.FileSystem; $zip=[IO.Compression.ZipFile]::OpenRead('"+content.sharedFile('downloads','Godot_v4.7.2-stable_mono_win64.zip').replaceAll("'","''")+"'); try { $entry=$zip.Entries | Where-Object { $_.Name -ceq 'Godot_v4.7.2-stable_mono_win64.exe' }; if(@($entry).Count -ne 1){throw 'ARCHIVE_ENTRY'}; $stream=$entry.Open(); try { $sha=[Security.Cryptography.SHA256]::Create(); [BitConverter]::ToString($sha.ComputeHash($stream)).Replace('-','').ToLowerInvariant() } finally { $stream.Dispose() } } finally { $zip.Dispose() }"]);
   const executable=path.join(path.dirname(console),name);
   assert.equal(runner.hash(fs.readFileSync(executable)),authentication.stdout.trim(),'GODOT_NATIVE_ENTRY_PIN');
-  const isolated={...env(),...runner.environment(context.directory),NUGET_PACKAGES:path.join(ROOT,'.phase1/packages')};
+  const isolated={...env(),...runner.environment(context.directory),NUGET_PACKAGES:content.sharedFile('packages')};
   const imported=await runner.command(context,'native-import',executable,['--headless','--path',project,'--editor','--import','--quit'],{env:isolated});
   assert.equal(imported.stderr.trim(),'','HUB_IMPORT_STDERR');assert.doesNotMatch(imported.stdout+imported.stderr,/ERROR:|SCRIPT ERROR:|WARNING:|FATAL|leaked/i);
   const run=await runner.command(context,'native-hub',executable,['--headless','--path',project,'--script','res://probe.gd','--quit-after','800'],{env:isolated});
@@ -552,7 +550,7 @@ runner.registerCase('hub.lifecycle',{group:'hub',title:'Inspection input, transp
   });
 if(require.main===module&&process.argv.includes('--self-test-lifecycle')){
   require('node:test').test('inspection preview owns explicit transport and lifetime',async()=>{
-    const directory=path.join(ROOT,'.phase4/lifecycle-red',require('node:crypto').randomUUID());
+    const directory=path.join(ROOT,content.tempPath('lifecycle-red',require('node:crypto').randomUUID()));
     fs.mkdirSync(directory,{recursive:true});
     try{await native({directory},true);}catch(error){
       if(!error.message.includes('CHILD_FAILED common.bow native-hub {"code":1}'))throw error;
@@ -563,7 +561,7 @@ if(require.main===module&&process.argv.includes('--self-test-lifecycle')){
 }
 if(require.main===module&&process.argv.includes('--self-test')){
   require('node:test').test('valid bow survives incomplete independent register',()=>{
-    const directory=path.join(ROOT,'.phase4/compiled-proof',require('node:crypto').randomUUID());
+    const directory=path.join(ROOT,content.tempPath('compiled-proof',require('node:crypto').randomUUID()));
     fs.mkdirSync(directory,{recursive:true});compiled(directory);
   });
 }

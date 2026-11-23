@@ -2,6 +2,7 @@
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),dgram=require('node:dgram');
 const {spawn}=require('node:child_process');
 const {acquireLock}=require('../gameplay-checks/check.cjs');
+const workspace=require('../workspace-paths.cjs');
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 function requireTrue(value,message){if(!value)throw new Error(message);}
 async function allocatePort(){
@@ -18,8 +19,8 @@ function launch(context,role,port,retainedRoot=null){
   const directory=path.join(context.directory,role);fs.mkdirSync(directory);
   const pins=JSON.parse(fs.readFileSync(path.join(context.root,'src/godot-game/tools/verification/toolchain.json'),'utf8'));
   const archive=pins.archives[context.platform];requireTrue(archive,'ENGINE_PLATFORM');
-  const consoleEngine=path.join(context.root,'.phase1/tools',archive.directory,archive.executable);
-  requireTrue(fs.existsSync(consoleEngine),'ENGINE_MISSING');
+  const consoleEngine=workspace.locations(context.root).tools('godot',archive.directory,archive.executable);
+  requireTrue(fs.existsSync(consoleEngine),'ENGINE_MISSING');requireTrue(workspace.insideShared(consoleEngine,context.root),'ENGINE_OUTSIDE_SHARED');
   const digest=crypto.createHash('sha256').update(fs.readFileSync(consoleEngine)).digest('hex');
   if(archive.executableSha256)requireTrue(digest===archive.executableSha256,'ENGINE_HASH');
   const engine=process.platform==='win32'?consoleEngine.replace('_console.exe','.exe'):consoleEngine;

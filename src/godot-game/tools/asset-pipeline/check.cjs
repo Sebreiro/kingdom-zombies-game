@@ -4,6 +4,7 @@ const {spawn,spawnSync}=require('node:child_process');
 const {TextDecoder,isDeepStrictEqual:equal}=require('node:util');
 const {createCaseRegistry,loadCaseModules}=require('./case-discovery.cjs');
 const {physical}=require('./layout.cjs');
+const content=require('./content.cjs');
 const ROOT=path.resolve(__dirname,'../../../..');
 const {PYTHON,verifyPython,isPython}=require('./python.cjs');
 const DONOR='D:/Work/Games/KindomCrown/recovered/resources';
@@ -233,7 +234,7 @@ function fingerprint(root){
     file.startsWith('src/godot-game/game/.godot/mono/temp/bin/Debug/')?16777216:1048576))]));
 }
 function createRun(caseId){
-  const nonce=crypto.randomUUID(),directory=inside(ROOT,'.phase4/runs/'+nonce);fs.mkdirSync(directory,{recursive:true});
+  const nonce=crypto.randomUUID(),directory=inside(ROOT,content.runsPath(nonce));fs.mkdirSync(directory,{recursive:true});
   const revision=spawnSync('git',['rev-parse','HEAD'],{cwd:ROOT,windowsHide:true,encoding:'utf8',timeout:5000});
   if(revision.status!==0){save(directory,'setup-failure.json',{caseId,nonce,status:'fail',code:'REVISION_UNAVAILABLE',error:revision.error?.message,stderr:revision.stderr});
     need(false,'REVISION_UNAVAILABLE',revision.error?.message??revision.stderr);}
@@ -253,8 +254,8 @@ function createRun(caseId){
 function engine(){
   const pins=document(ROOT,'src/godot-game/tools/verification/toolchain.json');need(process.platform==='win32'&&process.arch==='x64','PINNED_PLATFORM_REQUIRED');
   need(process.version==='v'+pins.node,'NODE_PIN');
-  const pin=pins.archives['win32-x64'],relative='.phase1/tools/'+pin.directory+'/'+pin.executable;
-  const executable=inside(ROOT,relative);need(hash(bytes(ROOT,relative,268435456))===pin.executableSha256,'ENGINE_HASH',relative);
+  const pin=pins.archives['win32-x64'],executable=content.sharedFile('tools',pin.directory,pin.executable);
+  need(hash(content.sharedBytes(executable,268435456))===pin.executableSha256,'ENGINE_HASH',executable);
   return {executable,version:pins.engineFullVersion,sha256:pin.executableSha256};
 }
 function validate(root){
@@ -429,7 +430,7 @@ async function runTracer(root,context,{interrupt=false,compiled}={}){
   compiled??=await tracerAssemblies(context);
   const initial=fingerprint(root);save(context.directory,'inputs.json',initial);
   const {source}=validate(root),tool=engine(),pin=document(ROOT,'src/godot-game/tools/verification/toolchain.json').archives['win32-x64'];
-  const executable=path.join(path.dirname(tool.executable),pin.executable.replace('_console.exe','.exe')),archive=inside(ROOT,'.phase1/cache/'+pin.file),entry=pin.directory+'/'+path.basename(executable);
+  const executable=path.join(path.dirname(tool.executable),pin.executable.replace('_console.exe','.exe')),archive=content.sharedFile('downloads',pin.file),entry=pin.directory+'/'+path.basename(executable);
   need(hash(fs.readFileSync(archive))===pin.sha256,'ENGINE_ARCHIVE_HASH');
   const auth=await command(context,'engine-auth',PYTHON,['-B','-c','import sys,zipfile,hashlib; z=zipfile.ZipFile(sys.argv[1]); r=[x for x in z.infolist() if x.filename==sys.argv[2]]; assert len(r)==1 and 0<r[0].file_size<=268435456; print(hashlib.sha256(z.read(r[0])).hexdigest())',archive,entry]);
   need(hash(fs.readFileSync(executable))===auth.stdout.trim(),'ENGINE_NATIVE_ENTRY_HASH');tool.executable=executable;tool.sha256=auth.stdout.trim();save(context.directory,'engine.json',{...tool,archiveSha256:pin.sha256,entry});
@@ -450,7 +451,28 @@ async function runTracer(root,context,{interrupt=false,compiled}={}){
   return {id:ID,mediaSha256:source.image.pngSha256,rgbaSha256:source.image.rgbaSha256,
     sceneSha256:initial[FILES.scene],engineSha256:tool.sha256,nativeCompletion:true,visiblePixels:source.image.visiblePixels};
 }
+// A pinned recipe that asserts the original checkout's folder keeps its bytes, so it cannot run in the relocated
+// tree. Refuse before launch, naming the folder from the recipe bytes and the renewal owner.
+function capturedRoot(recipe,target,id){
+  const asserted=[...recipe.matchAll(/is_relative_to\(pathlib\.Path\('([^']+)'\)\.resolve\(\)\)/g)].map(match=>match[1]);
+  need(asserted.length>0&&new Set(asserted).size===1,'CAPTURED_ROOT_UNKNOWN',id);
+  const base=path.resolve(asserted[0]),relative=path.relative(base,path.resolve(target));
+  need(relative&&!relative.startsWith('..')&&!path.isAbsolute(relative),'CAPTURED_ROOT_REQUIRED',id+': the pinned recipe asserts the '+
+    'original checkout folder '+asserted[0]+'; Phase 5 makes the Phase 4 checks it runs work in the relocated tree '+
+    '(05-CONTEXT D-46)');
+}
+// The pinned extractors keep their bytes and accept outputs only below one folder of the checkout that runs them.
+function extractorRoot(script,target,id){
+  const source=bytes(ROOT,'src/godot-game/tools/asset-pipeline/'+script,4*1024*1024).toString('utf8');
+  const folders=[...new Set([...source.matchAll(/ROOT \/ '([^'\/]+)'/g)].map(match=>match[1]))];
+  need(folders.length===1,'CAPTURED_ROOT_UNKNOWN',id);
+  const relative=path.relative(path.join(ROOT,folders[0]),path.resolve(target));
+  need(relative&&!relative.startsWith('..')&&!path.isAbsolute(relative),'CAPTURED_ROOT_REQUIRED',id+': the pinned '+
+    script+' accepts outputs only below the checkout folder '+folders[0]+'; Phase 5 makes the Phase 4 checks it runs '+
+    'work in the relocated tree (05-CONTEXT D-46)');
+}
 async function exportTracer(){
+  capturedRoot(RECIPE,inside(ROOT,content.runsPath()),'authoring.export-tracer');
   const context=createRun('authoring.export-tracer'),staging=inside(context.directory,'staging');fs.mkdirSync(staging);
   try{
     save(context.directory,'export.py',RECIPE);
@@ -617,7 +639,7 @@ function editorImportSelfTest(){
   const FALSE_COMMENT=BASE+'\n[editor]\n\nimport/use_multiple_threads=false ; one import thread\n',FALSE_OVERRIDE=BASE+'\n[editor]\n\nimport/use_multiple_threads.windows=false\n';
   const CRLF=BASE.replaceAll('\n','\r\n'),NO_FINAL=BASE.slice(0,-1);
   const importArgs=project=>['--headless','--path',project,'--editor','--import','--quit'];
-  const scratch=body=>async()=>{const dir=path.join(ROOT,'.phase4/tdd/editor-import',crypto.randomUUID());fs.mkdirSync(dir,{recursive:true});
+  const scratch=body=>async()=>{const dir=path.join(ROOT,content.tempPath('tdd','editor-import',crypto.randomUUID()));fs.mkdirSync(dir,{recursive:true});
     try{await body(dir);}finally{fs.rmSync(dir,{recursive:true,force:true,maxRetries:3});}};
   const setup=(dir,scenario,text)=>{const run=path.join(dir,scenario,'run'),project=path.join(run,'project'),file=path.join(project,'project.godot');
     fs.mkdirSync(project,{recursive:true});if(text!==undefined)fs.writeFileSync(file,text);return {scenario:path.join(dir,scenario),run,project,file};};
@@ -663,6 +685,6 @@ function editorImportSelfTest(){
       const {run,project,file}=setup(dir,scenario,text),record=await start(run,'import-'+scenario,importArgs(project));
       assert.deepEqual(seen(record),Buffer.from(expected),scenario);assert.deepEqual(disk(file),Buffer.from(expected),scenario);}}));
 }
-module.exports={main,registerCase,cases,runTracer,validate,hash,inside,document,command,environment};
+module.exports={main,registerCase,cases,runTracer,validate,hash,inside,document,command,environment,capturedRoot,extractorRoot};
 if(require.main===module){const argv=process.argv.slice(2);if(argv.length===1&&argv[0]==='--self-test-editor-import')editorImportSelfTest();
   else main(argv).catch(error=>{console.error(error.stack);process.exitCode=1;});}

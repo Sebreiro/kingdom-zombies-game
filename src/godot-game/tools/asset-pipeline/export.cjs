@@ -4,6 +4,7 @@ const runner={command:(...args)=>require('./check.cjs').command(...args),
   environment:(...args)=>require('./check.cjs').environment(...args),validate:(...args)=>require('./check.cjs').validate(...args)};
 const content=require('./content.cjs');
 const {ROOT,need,inside,bytes,parse,document,write,hash}=content;
+const workspace=require('../workspace-paths.cjs');
 const {isDeepStrictEqual:equal}=require('node:util');
 const {PYTHON}=require('./python.cjs');
 const PIN='production/phase4/export-toolchain.json';
@@ -16,7 +17,7 @@ const RENDERED_FIXTURES=Object.freeze({'heldout.H27':NEARBY_ITEM,'heldout.H28':n
 // The copied workspace feed must point at this checkout's verified feed; a missing source entry fails closed.
 function feedConfig(root){
   const original=bytes(root,'src/godot-game/NuGet.config').toString('utf8');
-  const rewritten=original.replace('value="../../.phase1/feed"','value="'+root+'/.phase1/feed"');
+  const rewritten=original.replace('value="../../.local/nuget/feed"','value="'+workspace.locations(root).nuget.feed+'"');
   need(rewritten!==original,'NUGET_FEED_REWRITE');return rewritten;
 }
 async function digest(file,algorithm='sha256'){
@@ -36,10 +37,11 @@ function snapshot(){
 async function templates(context,pin){
   need(pin.engine==='4.7.2.stable.mono'&&Array.isArray(pin.templates)&&pin.templates.join(',')===
     'windows_debug_x86_64.exe,windows_debug_x86_64_console.exe,windows_release_x86_64.exe,windows_release_x86_64_console.exe','TEMPLATE_SELECTION');
-  const archive=inside(ROOT,pin.archive.path),stat=fs.statSync(archive);
+  // The pinned template identities name the original download folder; they resolve through the workspace map.
+  const archive=content.legacyShared(pin.archive.path),stat=fs.statSync(archive);
   need(stat.isFile()&&stat.size===pin.archive.bytes,'TEMPLATE_SIZE');
   need(await digest(archive,'sha512')===pin.archive.sha512,'TEMPLATE_SHA512');
-  const sums=bytes(ROOT,pin.archive.checksums).toString('utf8');
+  const sums=content.sharedBytes(content.legacyShared(pin.archive.checksums),32*1024*1024).toString('utf8');
   need(sums.split(/\r?\n/).some(line=>line.trim()===pin.archive.sha512+'  '+path.basename(archive)),'OFFICIAL_CHECKSUM');
   const directory=inside(context.directory,'templates');fs.mkdirSync(directory);
   const code=`import hashlib,json,pathlib,sys,zipfile\na=pathlib.Path(sys.argv[1]); out=pathlib.Path(sys.argv[2]); names=json.loads(sys.argv[3]); rows=[]\nwith zipfile.ZipFile(a) as z:\n assert z.read('templates/version.txt').decode().strip()=='4.7.2.stable.mono', 'TEMPLATE_VERSION'\n for name in names:\n  i=z.getinfo('templates/'+name)\n  assert 0<i.file_size<200000000 and not i.is_dir(), 'TEMPLATE_ENTRY'\n  b=z.read(i); (out/name).write_bytes(b); rows.append({'name':name,'bytes':len(b),'sha256':hashlib.sha256(b).hexdigest()})\nprint(json.dumps(rows))`;
@@ -233,7 +235,7 @@ function packaged(directory,contract=sourceContract()){
   const authority=files.get('content/expected-obligations.json');
   need(authority?.sha256===contract.index.expectedObligations.sha256&&authority.data.equals(bytes(ROOT,content.EXPECTED)),
     'PACKAGED_EXPECTED_AUTHORITY');
-  need([...files.keys()].every(name=>!/(^|\/)(?:override\.cfg|packages\.lock\.json|production|\.phase1|\.phase4)(?:$|\/)/i.test(name)),
+  need([...files.keys()].every(name=>!/(^|\/)(?:override\.cfg|packages\.lock\.json|production|\.phase1|\.phase4|\.local\/(?:nuget|tools|downloads))(?:$|\/)/i.test(name)),
     'PACKAGED_AUTHORING_MEMBER');
   const links=new Map();
   for(const [name,entry] of files)if(name.endsWith('.import')||name.endsWith('.remap')){
@@ -373,7 +375,8 @@ function hostTrace(context,name,directory){
   const native=[...trace.matchAll(/native_search_paths: '([^']*)'/g)].flatMap(x=>x[1].split(';').filter(Boolean));
   const base=path.resolve(directory).toLowerCase()+path.sep;
   need(assembly.length>0&&native.length>0&&[...assembly,...native].every(x=>path.resolve(x).toLowerCase().startsWith(base)),'HOST_EXTERNAL_RESOLUTION');
-  need(!/KindomCrown|[\\/]sdk[\\/]|[\\/]\.phase1[\\/]/i.test(trace),'HOST_AUTHORING_RESOLUTION');
+  need(!/KindomCrown|[\\/]sdk[\\/]|[\\/]\.phase1[\\/]|[\\/]\.local[\\/](?:nuget|tools|downloads)[\\/]/i.test(trace),
+    'HOST_AUTHORING_RESOLUTION');
   return {assemblyPaths:[...new Set(assembly)],nativeSearchPaths:[...new Set(native)],
     registeredInstallationProbe:trace.includes('Found registered install location'),sharedStoreDiscovery:trace.includes('Shared store (global)'),
     limit:'Installed SDK/registry exists; resolved local dependencies do not claim a machine without those installations'};
@@ -493,7 +496,7 @@ async function buildPackage(context){
   const contract=sourceContract();require('./cases/export-profile.cjs').validate(ROOT);
   const pin=document(ROOT,PIN),tools=document(ROOT,'src/godot-game/tools/verification/toolchain.json');
   need(process.platform==='win32'&&process.arch==='x64'&&process.version==='v'+tools.node,'PLATFORM_PIN');
-  const engine=inside(ROOT,'.phase1/tools/'+tools.archives['win32-x64'].directory+'/'+tools.archives['win32-x64'].executable);
+  const engine=content.sharedFile('tools',tools.archives['win32-x64'].directory,tools.archives['win32-x64'].executable);
   need(await digest(engine)===tools.archives['win32-x64'].executableSha256,'ENGINE_HASH');
   const selected=await templates(context,pin);
   const version=await runner.command(context,'engine-version',engine,['--headless','--version']);need(version.stdout.trim()===tools.engineFullVersion,'ENGINE_VERSION');
@@ -521,10 +524,11 @@ async function buildPackage(context){
   await runner.command(context,'managed-publish','C:/Program Files/dotnet/dotnet.exe',[
     'publish',inside(project,'KingdomZombies.csproj'),'-c','ExportDebug','-r','win-x64','--self-contained','true','-o',publish,
     '--disable-build-servers','-p:UseSharedCompilation=false','-nodeReuse:false','-p:NuGetAudit=false',
-    '-p:RestoreLockedMode=false','-p:NuGetPackageRoot='+ROOT+'/.phase1/packages/',
-    '-p:RestorePackagesPath='+ROOT+'/.phase1/packages','-v:minimal'],{timeout:60000});
+    '-p:RestoreLockedMode=false','-p:NuGetPackageRoot='+content.sharedFile('packages')+'/',
+    '-p:RestorePackagesPath='+content.sharedFile('packages'),'-v:minimal'],{timeout:60000});
   dependencies(publish,pin);
-  const authoring={...runner.environment(context.directory),NUGET_PACKAGES:inside(ROOT,'.phase1/packages'),
+  const authoring={...runner.environment(context.directory),NUGET_PACKAGES:content.sharedFile('packages'),
+    KZ_SHARED_LOCAL:workspace.locations().shared,
     DOTNET_CLI_TELEMETRY_OPTOUT:'1',DOTNET_GENERATE_ASPNET_CERTIFICATE:'false',DOTNET_NOLOGO:'1',
     MSBUILDDISABLENODEREUSE:'1',DOTNET_CLI_USE_MSBUILD_SERVER:'0'};
   const imported=await runner.command(context,'export-import',engine,['--headless','--path',project,'--editor','--import'],{env:authoring});

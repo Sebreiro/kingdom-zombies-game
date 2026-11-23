@@ -1,9 +1,12 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict');
 const fs=require('node:fs');
+// Controls live in this checkout's temp folder; a temporary shared root keeps them off the real one.
+const workspace=require('../workspace-paths.cjs'),controls=workspace.locations().temp('lan-checks');
+fs.mkdirSync(controls,{recursive:true});process.env.KZ_SHARED_LOCAL=fs.mkdtempSync(require('node:path').join(controls,'shared-'));
 test('parallel PNG validation keeps observations responsive and preserves exact validation and hashes',async()=>{
   const path=require('node:path'),crypto=require('node:crypto'),parallel=require('./png-worker.cjs');
-  const directory=fs.mkdtempSync(path.resolve(__dirname,'../../../../.phase3/png-worker-control-'));
+  const directory=fs.mkdtempSync(path.join(controls,'png-worker-control-'));
   const file=path.join(directory,'actual.png'),broken=path.join(directory,'broken.png');
   fs.writeFileSync(file,require('./runner-fixture.cjs').png());
   const bytes=fs.readFileSync(file),expected={...require('./png.cjs').validate(file),sha256:crypto.createHash('sha256').update(bytes).digest('hex')};
@@ -60,7 +63,7 @@ test('reversal requires later leftward drawn motion while still ahead of an olde
 });
 test('draw stream polling retains partial Unicode and refuses truncation',()=>{
   const path=require('node:path'),crypto=require('node:crypto'),{lines}=require('./rendered.cjs');
-  const directory=path.resolve(__dirname,'../../../../.phase3/controls',crypto.randomUUID());fs.mkdirSync(directory,{recursive:true});
+  const directory=path.join(controls,'controls',crypto.randomUUID());fs.mkdirSync(directory,{recursive:true});
   const file=path.join(directory,'draws.ndjson'),row=Buffer.from(JSON.stringify({frame:1,label:'雪'})+'\n');
   const split=row.indexOf(Buffer.from('雪'))+1;fs.writeFileSync(file,row.subarray(0,split));assert.deepEqual(lines(file),[]);
   fs.appendFileSync(file,row.subarray(split));assert.deepEqual(lines(file),[{frame:1,label:'雪'}]);
@@ -74,7 +77,7 @@ test('the full reconciler binds every stopped scalar to current release, authori
 
 test('capture waits for atomic JSON publication and brackets the complete PNG read',async()=>{
   const path=require('node:path'),crypto=require('node:crypto'),r=require('./rendered.cjs');
-  const directory=path.resolve(__dirname,'../../../../.phase3/controls',crypto.randomUUID());fs.mkdirSync(directory,{recursive:true});
+  const directory=path.join(controls,'controls',crypto.randomUUID());fs.mkdirSync(directory,{recursive:true});
   const context={directory,nonce:'atomic-control'},peer={directory,pid:123,role:'control',exit:null};
   const pending=r.capture(context,peer,'atomic');
   const request=JSON.parse(fs.readFileSync(path.join(directory,'draw.request'),'utf8')),file=path.join(directory,request.checkpoint+'.json');

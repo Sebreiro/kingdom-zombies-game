@@ -10,8 +10,14 @@ const assert=require('node:assert/strict');
 const e=require('./evidence.cjs');
 const {command,runScenarios,closeSession,ownedInput,validateResources}=require('./rendered.cjs');
 const {acquireLock,select}=require('./check.cjs');
+const workspace=require('../workspace-paths.cjs');
 const delay=milliseconds=>new Promise(resolve=>setTimeout(resolve,milliseconds));
 function rejects(action,pattern){assert.throws(action,pattern);}
+async function sharedRoot(directory,body){
+  const previous=process.env.KZ_SHARED_LOCAL;process.env.KZ_SHARED_LOCAL=directory;
+  try{return await body();}
+  finally{if(previous===undefined)delete process.env.KZ_SHARED_LOCAL;else process.env.KZ_SHARED_LOCAL=previous;}
+}
 function png() {
   function chunk(type,bytes){const head=Buffer.alloc(8),tail=Buffer.alloc(4);head.writeUInt32BE(bytes.length);head.write(type,4);return Buffer.concat([head,bytes,tail]);}
   const header=Buffer.alloc(13);header.writeUInt32BE(1280);header.writeUInt32BE(720,4);header[8]=8;header[9]=2;
@@ -20,7 +26,8 @@ function png() {
   return Buffer.concat([Buffer.from([137,80,78,71,13,10,26,10]),chunk('IHDR',header),chunk('IDAT',zlib.deflateSync(raw)),chunk('IEND',Buffer.alloc(0))]);
 }
 async function run(mode) {
-  const root=path.resolve(__dirname,'../../../..'),directory=path.join(root,'.phase2/controls',crypto.randomUUID());
+  const root=path.resolve(__dirname,'../../../..');
+  const directory=workspace.locations(root).temp('gameplay-checks','controls',crypto.randomUUID());
   fs.mkdirSync(directory,{recursive:true});
   if(mode==='resource-roles') {
     const current=validateResources({root,directory});
@@ -188,12 +195,15 @@ async function run(mode) {
     rejects(()=>e.aggregate(root,[reference,reference],selected),/REPORT_DUPLICATE/);
     assert.equal(e.hash(fs.readFileSync(firstFile)),reference.sha256,'baseline mutated');
     const lockRoot=path.join(directory,'lock-root');fs.mkdirSync(lockRoot);
-    const unlock=acquireLock(lockRoot,context.nonce);
-    try {
-      const modulePath=path.join(root,'src/godot-game/tools/gameplay-checks/check.cjs');
-      await assert.rejects(command(process.execPath,['-e','require(process.argv[1]).acquireLock(process.argv[2],"competitor")',modulePath,lockRoot]),/DESKTOP_LOCKED/);
-    } finally {unlock();}
-    const release=acquireLock(lockRoot,crypto.randomUUID());release();
+    // The desktop lock lives in the shared root; a temporary shared root keeps this control and its child off the real one.
+    await sharedRoot(path.join(lockRoot,'shared'),async()=>{
+      const unlock=acquireLock(lockRoot,context.nonce);
+      try {
+        const modulePath=path.join(root,'src/godot-game/tools/gameplay-checks/check.cjs');
+        await assert.rejects(command(process.execPath,['-e','require(process.argv[1]).acquireLock(process.argv[2],"competitor")',modulePath,lockRoot]),/DESKTOP_LOCKED/);
+      } finally {unlock();}
+      const release=acquireLock(lockRoot,crypto.randomUUID());release();
+    });
     await run('scenario-diagnostics');
     await run('owned-input');
     await run('session-cleanup');

@@ -1,8 +1,10 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto'),test=require('node:test'),assert=require('node:assert/strict');
 const scenarios=require('./scenarios.cjs'),delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+const workspace=require('../workspace-paths.cjs'),controls=workspace.locations().temp('lan-checks');
+fs.mkdirSync(controls,{recursive:true});process.env.KZ_SHARED_LOCAL=fs.mkdtempSync(path.join(controls,'shared-'));
 function fixture(){
-  const directory=path.resolve(__dirname,'../../../../.phase3/controls',crypto.randomUUID());fs.mkdirSync(directory,{recursive:true});
+  const directory=path.join(controls,'controls',crypto.randomUUID());fs.mkdirSync(directory,{recursive:true});
   let foreground=null;const trace=[],pending=[];
   const values=[1,2].map(pid=>{
     const local=path.join(directory,String(pid));fs.mkdirSync(local);

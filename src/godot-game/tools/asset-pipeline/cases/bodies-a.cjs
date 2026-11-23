@@ -1,6 +1,7 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),equal=require('node:util').isDeepStrictEqual;
-const runner=require('../check.cjs'),{ROOT,inside,bytes,document,write,hash,need}=require('../content.cjs');
+const runner=require('../check.cjs'),{ROOT,inside,bytes,document,write,hash,need,sharedFile}=require('../content.cjs');
+const workspace=require('../../workspace-paths.cjs');
 const {PYTHON}=require('../python.cjs');
 function engine(){return require('./items.cjs').engine();}
 const ART_FILES=['src/godot-game/assets/characters/bodies-a.png','src/godot-game/content/packs/bodies-a.json','production/phase4/bodies-a.zip','tools/phase4/cases/bodies-a.cjs'];
@@ -108,7 +109,7 @@ async function art(context){
 runner.registerCase('bodies.a-art',{group:'characters',title:'Three source-reproducible neutral bodies and authored registered pose/component masters',importance:'Critical',rationale:'Missing or baked body poses prevent reusable character/equipment coverage',needsGameWindow:false,runGroup:'G0',order:26,requirements:['ASSET-01','ASSET-02','ASSET-03'],acceptance:['AC-05','AC-18'],setup:'Retained built-in generated originals, exact K14/K18/source head references, complete production atlas and strict bounded ZIP inventory',actions:['Reproduce193 parts from exact retained originals and masks/crops/nearest transforms','Assert all48 neutral poses, disjoint reusable component coverage and three distinct alpha silhouettes','Reject nine source/pose/baked/density/component/acceptance/transform faults'],expected:'Three actual neutral body families with true alpha and exact source identity; final appearance judgement remains04-32/33',reset:'Fresh immutable source-side invocation; no game window',evidence:['inputs.json','bodies-art.command.json','art-observation.json','result.json']},art);
 module.exports={ART_FILES,VERIFY,fingerprint,art};
 
-function isolated(){const base=path.join(ROOT,'.phase1');return {...process.env,DOTNET_CLI_HOME:path.join(base,'cli-home'),NUGET_PACKAGES:path.join(base,'packages'),NUGET_HTTP_CACHE_PATH:path.join(base,'http-cache'),TEMP:path.join(base,'temp'),TMP:path.join(base,'temp'),PHASE1_ROOT:ROOT};}
+function isolated(){return {...workspace.isolationEnv(ROOT),PHASE1_ROOT:ROOT};}
 const DRIVER=String.raw`extends SceneTree
 var hub: Node
 func choose(control: OptionButton, value: String) -> bool:
@@ -162,9 +163,9 @@ async function nativeFit(context){
  for(const item of ['project.godot','foundation','inspection','content','assets','.godot/mono/temp/bin/Debug'])fs.cpSync(path.join(game,item),path.join(project,item),{recursive:true});
  write(project,'probe.gd',Buffer.from(DRIVER));
  const tool=engine(),pin=document(ROOT,'src/godot-game/tools/verification/toolchain.json').archives['win32-x64'];
- const archive=inside(ROOT,'.phase1/cache/'+pin.file);need(fs.statSync(archive).size<=268435456&&hash(fs.readFileSync(archive))===pin.sha256,'CHARACTER_ARCHIVE_PIN');
+ const archive=sharedFile('downloads',pin.file);need(fs.statSync(archive).size<=268435456&&hash(fs.readFileSync(archive))===pin.sha256,'CHARACTER_ARCHIVE_PIN');
  const authentication=await runner.command(context,'character-native-tool-origin','powershell.exe',['-NoProfile','-NonInteractive','-Command',
-  "Add-Type -AssemblyName System.IO.Compression.FileSystem; $zip=[IO.Compression.ZipFile]::OpenRead('"+inside(ROOT,'.phase1/cache/Godot_v4.7.2-stable_mono_win64.zip').replaceAll("'","''")+"'); try { $entry=$zip.Entries | Where-Object { $_.FullName -ceq 'Godot_v4.7.2-stable_mono_win64/Godot_v4.7.2-stable_mono_win64.exe' }; if(@($entry).Count -ne 1){throw 'ARCHIVE_ENTRY'}; $stream=$entry.Open(); try { $sha=[Security.Cryptography.SHA256]::Create(); [BitConverter]::ToString($sha.ComputeHash($stream)).Replace('-','').ToLowerInvariant() } finally { $stream.Dispose() } } finally { $zip.Dispose() }"]);
+  "Add-Type -AssemblyName System.IO.Compression.FileSystem; $zip=[IO.Compression.ZipFile]::OpenRead('"+sharedFile('downloads','Godot_v4.7.2-stable_mono_win64.zip').replaceAll("'","''")+"'); try { $entry=$zip.Entries | Where-Object { $_.FullName -ceq 'Godot_v4.7.2-stable_mono_win64/Godot_v4.7.2-stable_mono_win64.exe' }; if(@($entry).Count -ne 1){throw 'ARCHIVE_ENTRY'}; $stream=$entry.Open(); try { $sha=[Security.Cryptography.SHA256]::Create(); [BitConverter]::ToString($sha.ComputeHash($stream)).Replace('-','').ToLowerInvariant() } finally { $stream.Dispose() } } finally { $zip.Dispose() }"]);
  const executable=path.join(path.dirname(tool.executable),pin.executable.replace('_console.exe','.exe'));
  need(hash(fs.readFileSync(executable))===authentication.stdout.trim(),'CHARACTER_NATIVE_PIN');
  const env={...isolated(),...runner.environment(context.directory),CHARACTER_PROOF_NONCE:context.nonce};

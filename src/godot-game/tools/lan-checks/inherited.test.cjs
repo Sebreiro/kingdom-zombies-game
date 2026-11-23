@@ -1,9 +1,11 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
-const e=require('./evidence.cjs'),inherited=require('./inherited.cjs');
+const e=require('./evidence.cjs'),inherited=require('./inherited.cjs'),workspace=require('../workspace-paths.cjs');
+// Control roots live in this checkout's temp folder; a temporary shared root keeps them off the real one.
+const controls=workspace.locations().temp('lan-checks');fs.mkdirSync(controls,{recursive:true});
+process.env.KZ_SHARED_LOCAL=fs.mkdtempSync(path.join(controls,'shared-'));
 function fixture(mode){
-  fs.mkdirSync(path.resolve(__dirname,'../../../../.phase3'),{recursive:true});
-  const root=fs.mkdtempSync(path.resolve(__dirname,'../../../../.phase3/inherited-control-'));
+  const root=fs.mkdtempSync(path.join(controls,'inherited-control-'));
   const write=(file,value)=>{fs.mkdirSync(path.dirname(path.join(root,file)),{recursive:true});fs.writeFileSync(path.join(root,file),typeof value==='string'?value:JSON.stringify(value));};
   const phase1=[{id:'ordinary.failure',group:'rules'},{id:'ordinary.success',group:'rules'},{id:'engine.source-policy',group:'engine'}];
   const phase2=[{id:'core.control',group:'core'},{id:'runner.control',group:'runner'},{id:'rendered.control',group:'rendered'}];
@@ -12,7 +14,7 @@ function fixture(mode){
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const family=({verification:'phase1','gameplay-checks':'phase2'})[path.basename(__dirname)],catalog=require('./required-cases.json').cases,args=process.argv.slice(2);
 const selected=catalog.filter(row=>args[0]==='--group'?row.group===args[1]:row.id===args[1]).map(row=>row.id);
-const mode=process.env.CONTROL_MODE;const directory='.'+family+'/runs/'+family+'-'+args[1];
+const mode=process.env.CONTROL_MODE;const directory='.local/runs/'+path.basename(__dirname)+'/'+family+'-'+args[1];
 fs.mkdirSync(directory,{recursive:true});fs.appendFileSync('children.log',family+'/'+args.join(' ')+'\\n');
 let status='pass',results=selected.map(id=>({id,status:'pass'})),failures=[];
 if(mode==='setup'&&family==='phase2'&&args[1]==='core'){status='fail';results=selected.map(id=>({id,status:'blocked',message:'CONTROL_PREREQUISITE_MISSING'}));}
@@ -31,7 +33,7 @@ console.log(status.toUpperCase()+' '+directory+'/summary.json');process.exitCode
   write('src/godot-game/tests/verification/bin/Debug/net10.0/KingdomZombies.Phase1.Tests.dll','CONTROL_IDENTITY_ONLY_NEVER_EXECUTED');
   write('src/godot-game/tools/verification/toolchain.json','CONTROL_TOOL_IDENTITY_ONLY');
   fs.mkdirSync(path.join(root,'src/godot-game/tools/lan-checks'),{recursive:true});
-  const directory=path.join(root,'.phase3/run');fs.mkdirSync(directory,{recursive:true});
+  const directory=workspace.locations(root).runs('lan-checks','run');fs.mkdirSync(directory,{recursive:true});
   return {root,context:{root,directory,env:{...process.env,CONTROL_MODE:mode}},selection:{selected:{phase1:phase1.map(row=>row.id),phase2:phase2.map(row=>row.id)}}};
 }
 test('real inherited assertion failure retains immutable failed report and later independent successes',async()=>{
@@ -66,7 +68,7 @@ test('actual outer coordinator preserves inherited references and fails after an
     assert.equal(summary.results[0].status,'pass');assert.equal(summary.inherited.status,'fail');
     assert.equal(summary.inherited.phase1.length,3);assert.equal(summary.inherited.phase2.length,3);
     for(const reference of summary.inherited.phase1){e.artifact({directory:f.root},reference);e.artifact({directory:f.root},reference.process);}
-    const file=path.join(f.root,'.phase3/runs',summary.platform,summary.nonce,'summary.json');
+    const file=workspace.locations(f.root).runs('lan-checks',summary.platform,summary.nonce,'summary.json');
     assert.deepEqual(e.read(file).inherited,JSON.parse(JSON.stringify(summary.inherited)));
   }finally{catalog.prelaunch=originalGate;scenarios.run=originalNative;process.exitCode=originalExit;}
 });

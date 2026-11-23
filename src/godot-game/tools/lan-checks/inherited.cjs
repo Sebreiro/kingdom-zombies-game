@@ -33,7 +33,7 @@ async function execute(context,command,index){
   const logs={stdout:save('.stdout.log',record.stdout??''),stderr:save('.stderr.log',record.stderr??'')};
   const outcome={...command,executed:true,startedAt,finishedAt,process:processReference,logs,status:'blocked',reason:error?.message,caseOutcomes:command.selected.map(id=>({id,status:'blocked',message:'INHERITED_REPORT_UNAVAILABLE'}))};
   try{
-    const matches=[...(record.stdout??'').matchAll(/(\.phase[12][\\/]runs[\\/][^\s;)\]]+[\\/]summary\.json)/g)];
+    const matches=[...(record.stdout??'').matchAll(/(\.local[\\/]runs[\\/](?:verification|gameplay-checks)[\\/][^\s;)\]]+[\\/]summary\.json)/g)];
     e.requireTrue(matches.length>0,'INHERITED_REPORT_NOT_FOUND');const relative=matches.at(-1)[1].replaceAll('\\','/');
     const reportFile=e.inside(context.root,relative),summary=e.read(reportFile);
     outcome.report={path:relative,sha256:e.hash(fs.readFileSync(reportFile)),process:processReference,startedAt,finishedAt};

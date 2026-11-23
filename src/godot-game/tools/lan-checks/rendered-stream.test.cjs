@@ -1,8 +1,10 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const {lines}=require('./rendered.cjs');
+const workspace=require('../workspace-paths.cjs'),controls=workspace.locations().temp('lan-checks');
+fs.mkdirSync(controls,{recursive:true});process.env.KZ_SHARED_LOCAL=fs.mkdtempSync(path.join(controls,'shared-'));
 test('large legitimate draw backlog remains bounded, current and UTF8-complete; truncation and oversized records reject',()=>{
-  const directory=fs.mkdtempSync(path.resolve(__dirname,'../../../../.phase3/stream-control-')),file=path.join(directory,'draws.ndjson');
+  const directory=fs.mkdtempSync(path.join(controls,'stream-control-')),file=path.join(directory,'draws.ndjson');
   const descriptor=fs.openSync(file,'wx'),name='雪🌙'.repeat(180);
   try{for(let frame=1;frame<=18000;frame++)fs.writeSync(descriptor,JSON.stringify({frame,name})+'\n');}finally{fs.closeSync(descriptor);}
   assert.ok(fs.statSync(file).size>16*1024*1024);
