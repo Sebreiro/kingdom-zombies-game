@@ -56,7 +56,7 @@ function legacyTree(root) {
   write(root, '.phase1/packages/fixture.package/1.0.0/fixture.package.1.0.0.nupkg', PACKAGE);
   write(root, '.phase1/http-cache/v3/index.json', '{}');
   write(root, '.phase1/cli-home/.dotnet/state', 'x');
-  fs.mkdirSync(path.join(root, '.phase1', 'dotnet-home'));
+  write(root, '.phase1/dotnet-home/.dotnet/10.0.404.dotnetFirstUseSentinel', '');
   fs.mkdirSync(path.join(root, '.phase2'));
 }
 
@@ -233,6 +233,8 @@ test('the migration refuses a linked, tracked, unignored or repository-holding s
   const nested = repository(t);
   fs.mkdirSync(path.join(nested.root, '.phase1', 'tools', 'linux-prep', '.git'));
   assert.match(invoke(nested.root).out, /^refuse: \.phase1\/tools\/linux-prep contains a Git worktree or repository/m);
+  write(nested.root, '.phase1/dotnet-home/notes.txt', 'data');
+  assert.match(invoke(nested.root).out, /^refuse: \.phase1\/dotnet-home is not empty: it holds data/m);
 });
 
 test('an existing target must verify against its pin; an existing cache target makes the legacy copy a duplicate', t => {

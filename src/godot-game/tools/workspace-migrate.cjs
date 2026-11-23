@@ -128,7 +128,7 @@ function rowsFor(main, toolchain, exportToolchain) {
   rows.push({legacy: '.phase1/http-cache', action: 'move', kind: 'directory', cache: true});
   rows.push({legacy: '.phase1/cli-home', action: 'delete', note: 'per-checkout CLI home, recreated by the runners'});
   rows.push({legacy: '.phase1/cache/game.packages.lock.json', action: 'delete', note: 'stray file'});
-  rows.push({legacy: '.phase1/dotnet-home', action: 'delete', empty: true, note: 'empty'});
+  rows.push({legacy: '.phase1/dotnet-home', action: 'delete', empty: true, note: 'empty: only zero-byte first-run sentinels'});
   return rows.map(row => ({...row, source: path.join(main, ...row.legacy.split('/')),
     target: row.action === 'move' ? legacyTarget(main, row.legacy) : null}));
 }
@@ -144,7 +144,7 @@ function unsafeSource(main, row, worktreePaths) {
     const kept = cleanup.keepReason(row.source, worktreePaths);
     if (kept) return kept;
   }
-  if (row.empty && fs.readdirSync(row.source).length) return 'is not empty';
+  if (row.empty && size(row.source) > 0) return 'is not empty: it holds data';
   return null;
 }
 
