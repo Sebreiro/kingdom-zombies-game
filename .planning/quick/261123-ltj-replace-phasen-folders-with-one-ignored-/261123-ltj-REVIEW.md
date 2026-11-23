@@ -375,10 +375,10 @@ If B instead reached the lock while A held it, B would fail with `TOOLCHAIN_LOCK
 **Issue:** `HOST` does not match:
 
 - `/home/<user>/…`, `/mnt/<drive>/…` and `/Users/<name>` (macOS case);
-- UNC `\\server\share`;
+- UNC shares (two backslashes, a server name, a backslash, a share name);
 - drive paths whose next character is not a letter (`<drive>:/_x`, `<drive>:\1`).
 
-A new line with such a path passes. Note that `docs/workflow/platform-proof.md:27` already holds `/home/phase1/…` lines.
+A new line with such a path passes. Note that `docs/workflow/platform-proof.md:27` already holds lines under the Linux VM user's home folder.
 
 **Fix:** Add alternatives such as `/home/[^/\s]+/`, `\\\\[^\\\s]+\\`, `/mnt/[a-z]/` and `[A-Za-z]:[/\\][^\s]`.
 
