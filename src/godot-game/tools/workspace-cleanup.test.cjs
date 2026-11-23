@@ -4,7 +4,7 @@ const os = require('node:os');
 const path = require('node:path');
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const {execFileSync} = require('node:child_process');
+const {execFileSync, spawn} = require('node:child_process');
 const cleanup = require('./workspace-cleanup.cjs');
 
 // Every fixture repository resolves its own shared root from its Git common dir, never an inherited override.
@@ -365,6 +365,108 @@ test('cleanup keeps every output reached through a link and never deletes throug
   assert.equal(local.code, 0, local.err);
   assert.match(local.out, /keep\s+\.local\s+\(\.local is a link\)/);
   assert.ok(fs.existsSync(path.join(outside, 'local/runs/r.txt')), 'a linked .local keeps its target');
+});
+
+/** Starts a process whose working directory is folder, as a build server's is; the returned function stops it. */
+function hold(t, folder) {
+  const child = spawn(process.execPath, ['-e', 'setInterval(() => {}, 1000)'], {cwd: folder, stdio: 'ignore', windowsHide: true});
+  const exited = new Promise(resolve => child.once('exit', resolve));
+  const release = () => { child.kill(); return exited; };
+  // A failed assertion must not leave the process holding the fixture or keeping the test run alive.
+  child.unref();
+  process.once('exit', () => child.kill());
+  t.after(release);
+  return release;
+}
+
+test('a worktree in use keeps its record and folder until the process stops', async t => {
+  if (process.platform !== 'win32') {
+    t.skip('only Windows refuses to delete or move a folder another process works in');
+    return;
+  }
+  const context = repository(t);
+  const listed = target => git(context.root, 'worktree', 'list', '--porcelain').includes(target.split(path.sep).join('/'));
+  const outputs = addWorktree(context, 'busy-output');
+  git(outputs, 'push', '-q', 'origin', 'feature/busy-output');
+  write(outputs, '.local/temp/held/x.txt');
+  let release = hold(t, path.join(outputs, '.local', 'temp', 'held'));
+  const held = invoke(context.root, '--apply', '--worktrees-only', '--remove-worktree', outputs);
+  assert.equal(held.code, 1);
+  assert.match(held.err, /failed\s+.*busy-output \(could not delete \.local .*dotnet build-server shutdown/);
+  assert.ok(listed(outputs), 'the worktree record stays');
+  assert.ok(exists(outputs, '.git') && exists(outputs, 'README.md'), 'Git has not touched the folder');
+  await release();
+  assert.equal(invoke(context.root, '--apply', '--worktrees-only', '--remove-worktree', outputs).code, 0);
+  assert.ok(!fs.existsSync(outputs) && !listed(outputs));
+
+  const tracked = addWorktree(context, 'busy-source');
+  write(tracked, 'src/a.txt');
+  git(tracked, 'add', 'src/a.txt');
+  git(tracked, 'commit', '-q', '-m', 'source');
+  git(tracked, 'push', '-q', 'origin', 'feature/busy-source');
+  release = hold(t, path.join(tracked, 'src'));
+  const moved = invoke(context.root, '--apply', '--worktrees-only', '--remove-worktree', tracked);
+  assert.equal(moved.code, 1);
+  assert.match(moved.err, /failed\s+.*busy-source \(the folder cannot be moved/);
+  assert.ok(listed(tracked) && exists(tracked, '.git') && exists(tracked, 'src/a.txt'), 'record and folder stay together');
+  await release();
+  assert.equal(invoke(context.root, '--apply', '--worktrees-only', '--remove-worktree', tracked).code, 0);
+  assert.ok(!fs.existsSync(tracked) && !listed(tracked));
+});
+
+test('an orphaned task folder is removed only when every remaining file is pushed or ignored', t => {
+  const context = repository(t);
+  const home = path.join(context.base, 'worktrees', 'repo');
+  git(context.root, 'config', 'worktrees.root', path.join(context.base, 'worktrees'));
+  const target = path.join(home, 'kz-orphan');
+  git(context.root, 'worktree', 'add', '-q', '-b', 'feature/orphan', target);
+  write(target, 'src/a.txt', 'pushed\n');
+  git(target, 'add', 'src/a.txt');
+  git(target, 'commit', '-q', '-m', 'work');
+  git(target, 'push', '-q', 'origin', 'feature/orphan');
+  write(target, '.local/temp/VBCSCompiler/held.dll');
+  const shared = path.join(context.base, 'shared-tools');
+  write(shared, 'node.exe');
+  let linked = true;
+  try {
+    fs.symlinkSync(shared, path.join(target, '.local', 'tools'), 'junction');
+  } catch {
+    linked = false;
+  }
+  // What a failed `git worktree remove` leaves: no record, no .git file, some tracked files already deleted.
+  fs.rmSync(path.join(target, '.git'));
+  fs.rmSync(path.join(target, '.gitignore'));
+  git(context.root, 'worktree', 'prune');
+
+  const dry = invoke(context.root);
+  assert.equal(dry.code, 0, dry.err);
+  assert.match(dry.out, /orphan\s+.*kz-orphan\s+\(no worktree record; remove with --remove-orphan\)/);
+  const refused = (argument, pattern) => {
+    const result = invoke(context.root, '--apply', '--worktrees-only', '--remove-orphan', argument);
+    assert.equal(result.code, 1, argument);
+    assert.match(result.err, pattern);
+    assert.match(result.err, /nothing was deleted/);
+    assert.ok(exists(target, 'src/a.txt'), 'a refused orphan stays');
+  };
+  write(target, 'src/a.txt', 'changed\n');
+  refused(target, /refused\s+.*kz-orphan \(1 file\(s\) match no remote branch, such as src\/a\.txt\)/);
+  write(target, 'src/a.txt', 'pushed\n');
+  write(target, 'notes.txt', 'unpushed work');
+  refused(target, /refused\s+.*kz-orphan \(1 file\(s\) match no remote branch, such as notes\.txt\)/);
+  fs.rmSync(path.join(target, 'notes.txt'));
+  git(target, 'init', '-q', 'nested');
+  refused(target, /refused\s+.*kz-orphan \(contains a Git worktree or repository at nested\)/);
+  fs.rmSync(path.join(target, 'nested'), {recursive: true, force: true});
+  fs.mkdirSync(path.join(context.base, 'elsewhere'));
+  refused(path.join(context.base, 'elsewhere'), /not a task worktree folder in /);
+  const registered = addWorktree(context, 'registered');
+  refused(registered, /a registered worktree; use --remove-worktree/);
+
+  const result = invoke(context.root, '--apply', '--worktrees-only', '--remove-orphan', target);
+  assert.equal(result.code, 0, result.err);
+  assert.match(result.out, /removed orphan\s+.*kz-orphan \(matches origin\/feature\/orphan\)/);
+  assert.ok(!fs.existsSync(target));
+  if (linked) assert.ok(exists(shared, 'node.exe'), 'a junction inside the orphan is unlinked, never followed');
 });
 
 test('the migration reuses the exported safety helpers', () => {
